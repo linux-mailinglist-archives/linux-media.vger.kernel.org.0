@@ -2,128 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E96C1681882
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 19:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C3516818B8
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 19:22:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235392AbjA3SR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 13:17:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49978 "EHLO
+        id S237882AbjA3SWv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 13:22:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235932AbjA3SRz (ORCPT
+        with ESMTP id S237961AbjA3SWk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 13:17:55 -0500
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A192D7E;
-        Mon, 30 Jan 2023 10:17:51 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id E75265C0117;
-        Mon, 30 Jan 2023 13:17:50 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 30 Jan 2023 13:17:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1675102670; x=1675189070; bh=9OsIGbEQni
-        7gAWb33xW9zSfxbjrh3qiBjY82YoAPGIw=; b=iK3sQxbt48tiOwi9M0ZGgAvI69
-        XmHFuxQ0CdzWdwgdT9OtFPyI4v5YVLHuUXI5XrFDOi70e1tNRQSB4WTneJhHEJO2
-        ewTx7JIzDfXyy99nJ3TQp1nBWcOwSJFhUAtsJ09tDrBU+//2gx/Gj4vdwkcplUAo
-        N3QssiK6W0dC3O87ciOh5Hf/7DTyVstTonI7qm3LvDv5ThovDttFdKHLNYPDLCnO
-        GNOTliEAX/C4WgsncZ3IgWmyYchzoulAKzjB/9xcIEFMlNF6f2IdVmTdRumD4Wmr
-        ARvbDpMBjsy2xxRVDZDLf45MEdO2SnMEimc2NV2vECugSHbb0PPWNnohCv2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1675102670; x=1675189070; bh=9OsIGbEQni7gAWb33xW9zSfxbjrh
-        3qiBjY82YoAPGIw=; b=nyOwxgilRxk1rTnVZtlwK6hdaxqgQBnWNbjfugG/bYjz
-        jHEGlf4a0uc1qXKjXLWveuXzhcAM5I6yZi2D6gjjHQBWmV8o+0CtsXzwiNYpu8gG
-        xFzJYfxLr/RGQxOzA1AZIdOrvCfXa82YFOHrXQ+WcEw4XS8zs1lyr0xAZl0O0Wqs
-        3wk1fS3FoquxVHA78AO4huBaxADbi/7+3Z9ZSzUuJh1s5ZaTTiScaHxTd4BMsTjC
-        gTWEpZ2AO66xYNcm/CpDjgH3jBlXqK1axocdx3yEy7QgarsNm2+eXZskHCIA9zXY
-        ucwUe5dOoWItZS/5Bq+Ni9RzRx2Ooo5XuG6AvrAxGw==
-X-ME-Sender: <xms:zgnYY97ltbgApZy_ZHNvu3VjhiiqUOLFPPFuXzDwGzcoQ6x0JMu7Nw>
-    <xme:zgnYY65vlsZrnBQrFYbLnlp4v3_wv0bmO4lXJey0V4lx6PWEuCDyFoWUCUmaD2twA
-    hft0gfspxdisumKTdA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefvddguddufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:zgnYY0c5LIZ_5AJ_VN0h6LCuzgC8XKoYdl3qn4YE5FIjqPFHCC6mcQ>
-    <xmx:zgnYY2KZoYBKPA5wCJLCzSkRr3xwhoDf57_hNfjm5AqJAoQ2gI1BbA>
-    <xmx:zgnYYxIfOJOw8znJXFiI52vtPk_8hq-vnBfavOTkQgVpdtzT2pYviw>
-    <xmx:zgnYY59-AGYy5PK12xUk65VnNIudNIW6Tmczs_Sf103KP51iYCc3sg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 9A14CB60086; Mon, 30 Jan 2023 13:17:50 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-106-gfe3ab13a96-fm-20230124.001-gfe3ab13a
-Mime-Version: 1.0
-Message-Id: <14e7d2ba-1a24-42a1-b19e-842e0fd8286e@app.fastmail.com>
-In-Reply-To: <Y9f7/q3aS5nlY7nJ@smile.fi.intel.com>
-References: <20230130131003.668888-1-arnd@kernel.org>
- <Y9f7/q3aS5nlY7nJ@smile.fi.intel.com>
-Date:   Mon, 30 Jan 2023 19:17:32 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
-        "Arnd Bergmann" <arnd@kernel.org>
-Cc:     "Patrice Chotard" <patrice.chotard@foss.st.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        "Hugues Fruchet" <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 30 Jan 2023 13:22:40 -0500
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A93845BD2;
+        Mon, 30 Jan 2023 10:22:17 -0800 (PST)
+Received: by mail-ej1-f52.google.com with SMTP id mc11so11880244ejb.10;
+        Mon, 30 Jan 2023 10:22:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=22MJfPAxydUVdhl0ZP7DuAbHPwrfeEL/jbNsu/UleHc=;
+        b=BNB247ex98qLVfEF96GsiYkcbqtF3kOY9cTqolsTETyN8xv3JZdGbi2Wf3Q99ETER7
+         eTCNr2FC/9NePXNxndqRUfWWU3hWS1J0l0rv8/AHLVVRfyLgTXVZI/IIin5CbtWyOf0s
+         TErJuNetfBGvQ+6VtOmbbvvdaDvUEKQWslYiVkqpcuYXN4nStmRyiCM/pn91xmgM6vTC
+         kgU5LsH6COOX4IP5iZsG3pRR/Vg/QKkuURwTXqiA2jOyhse4izHnZ9q0fGdz9A7sIbP0
+         3AmbDUVmoVkY9uKJgKFYlwa6kIoirbK+Ubr49VpZyR8tfZfVA34JLKDPI0UagqKkXTZA
+         oR+A==
+X-Gm-Message-State: AO0yUKXeH2aNCj3DZ8n2aw+zlbY/EYQYXGVasngvsOhWopOohdBRSz0v
+        rnBLDGvdBwrrz4o4IUUpw4EDHDPxd0BEBeLd07A=
+X-Google-Smtp-Source: AK7set8yj9YPjpPvtIK810pfltfuDgOWCxWxxK5PxhAfmu1n2553bTDrRWEYh+Z4ZvV6fl62SSHaEjURsWkdwck2Wjg=
+X-Received: by 2002:a17:906:95d7:b0:88a:30dc:5730 with SMTP id
+ n23-20020a17090695d700b0088a30dc5730mr874290ejy.25.1675102883477; Mon, 30 Jan
+ 2023 10:21:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20230125224101.401285-1-sakari.ailus@linux.intel.com> <20230125224101.401285-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230125224101.401285-2-sakari.ailus@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 30 Jan 2023 19:21:12 +0100
+Message-ID: <CAJZ5v0g_KhDHRSOu_0tCtJPy9W1vMcXUF=qxc_6YJ=ADRNUv0g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] ACPI: property: Parse data node string references
+ in properties
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
+        heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 30, 2023, at 18:18, Andy Shevchenko wrote:
-> On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
-
->> +		ret = PTR_ERR_OR_ZERO(tsin->rst_gpio);
->>  		if (ret && ret != -EBUSY) {
->> -			dev_err(dev, "Can't request tsin%d reset gpio\n"
->> -				, fei->channel_data[index]->tsin_id);
->> +			dev_err_probe(dev, ret,
->> +				      "reset gpio for tsin%d not valid\n",
->> +				      tsin->tsin_id);
->>  			goto err_node_put;
->>  		}
->>  
->>  		if (!ret) {
+On Wed, Jan 25, 2023 at 11:41 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Can be 
+> Add support for parsing property references using strings, besides
+> reference objects that were previously supported. This allows also
+> referencing data nodes which was not possible with reference objects.
 >
-> 	if (IS_ERR() && PTR_ERR() != -EBUSY) {
-> 		ret = dev_err_probe(dev, PTR_ERR(), ...);
-> 		...
-> 	}
+> Also add pr_fmt() macro to prefix printouts.
 >
-> 	if (!IS_ERR())
+> While at it, update copyright.
 >
-> (Up to you)
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-I prefer the version that only has one PTR_ERR(), but
-either way is fine with me.
+While there is some design documentation in the last patch, at least
+some pieces of it should go into the changelog of this patch IMO.
 
-> But -EBUSY check seems strange to me. What was the motivation behind?
-> (As far as I can read the code the possibility to get this if and only
->  if we have requested GPIO too early at initcall level. Would it be
->  ever a possibility to get it in real life?)
-
-I noticed this part as being odd as well, no idea why the
-code is like this. I just left the logic unchanged here.
-
-      Arnd
+Also the spec-related information from the cover letter would be
+useful here, because cover letters don't go into the git record.
