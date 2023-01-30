@@ -2,64 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CCCC681FBF
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 00:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8274D681FD2
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 00:45:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbjA3Xfg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 18:35:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
+        id S229736AbjA3Xpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 18:45:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjA3Xfb (ORCPT
+        with ESMTP id S229460AbjA3Xpc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 18:35:31 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27763A9
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 15:35:29 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id p141so16083074ybg.12
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 15:35:29 -0800 (PST)
+        Mon, 30 Jan 2023 18:45:32 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A5A92B610
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 15:45:31 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id cr11so7337684pfb.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 15:45:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=op0VSI0Qhd4DgxXYIP2eK1se5ailuV2V++dezzM8xfE=;
-        b=mqu4GX7vraMXfaTeJRv6DS5V4pfM28ExdRiNlIEK5l9Nil5EYTnYeL+GG1CjJngp9Q
-         W9ZdDia/7jdAFM/0HIvZ1HNX+XZkDkGCOvePNS+aCQYY5D5R+r7crrZrz0Che/xAlFCa
-         RcVoXLNILsAoFrFqXkw225pu0utaiqkIqyN0zwtKtBWgqy48Sw+/AcT7Sm8KLUyHvVp1
-         kUN0mHK4st2ILyoilLzy2sDSDBbBNyys6VIfT29yRZYq/T2n/zXzCn+lIGQEyi2d+pPh
-         hS0+RUw1SPnTJpUHxfItZBm/cFnJIOJUfJbzO90iA1CghT31Hf4JSBpvi8mvze5P28iz
-         zD7A==
+        bh=w2V4Uag+7LpQ7csSTGo095grGeQFTu+WFr0tRRczN10=;
+        b=lV9OP3oZlpMsz3W3VyxABhfMUhbIQgrqcyqpDn/4gLIFctOZsLPDQCYKtBMh6WGJoJ
+         xcUQh/SuIxqGePFpHmddlJ19jY4rea9VFBQRmIbZ56NY52mF/E28zQS+wlID/TmSnK4Q
+         dMZKDp4+Imn2ohUmomw7YuTLLJ4KMK4/8WvopzIodUKPnZ65eqTWAJErOGRfqvRFm9NL
+         tr1FI+hiCeyh/4byaguMPkHFLuJM+F4trVBBrMzECc9IoIDnbFJMWse9PVloGQcT5T8L
+         MozMhsW26BNkAoLGW7cDumSsMeZuwJY5zmD2ylHc9N666aW9eUDS/F6wjrx3iQBq16Xz
+         6A5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=op0VSI0Qhd4DgxXYIP2eK1se5ailuV2V++dezzM8xfE=;
-        b=vF5DPVfl8VIIEjA2Ogss3KX0o/qHr1fhvqTs84e91SeKJBzNNMW57rWhiAWG6IDNyt
-         DSnwhwGNHBdwt17kiLg69uQHLUsc8eunHZZVoxnbp8/2JHaE02K+8crQcTkHAoSJjFhb
-         8qzTmf7+QFPOP8P9mpTVhmwwqxNXr4X1E1LBJk5st6+z7u3o5iYsZgm8AmMnrGa1hw/i
-         uCRivrG6LKI/uOVutWxXBDV4dElA/fxhdMr/6YBU5JqYHHbasPd4ZmS9cdjIRtWFzHFi
-         Y6IyvrLXbZ9vW5aLb2MXKuYMz7Avrqu2u3WqxrYTkkm1bc/U7vsBnuXH/Y7pS6TCnXqg
-         9uzA==
-X-Gm-Message-State: AFqh2kopKXLxExd975UDKQ7zuslT7wS+T1IRpo5TSRlb2mqC02DJW71B
-        dMICi17LXxlhBPFxeb/HemG7II90uRqUcnPsEvMmSYzLmOncMg==
-X-Google-Smtp-Source: AMrXdXvbVZsYR5p3dOesoz/Q2DhchP1QgnGuFIp/wPmxqZi2mcWc6FhC2NbMT4pI1jpDRqsmFF3mV6eRVq14i0zRKBk=
-X-Received: by 2002:a25:9291:0:b0:7c9:4b7e:79b3 with SMTP id
- y17-20020a259291000000b007c94b7e79b3mr6515038ybl.535.1675121728412; Mon, 30
- Jan 2023 15:35:28 -0800 (PST)
+        bh=w2V4Uag+7LpQ7csSTGo095grGeQFTu+WFr0tRRczN10=;
+        b=K93XEnBl4fs0DT6YOqTVZ5Ic8Xt36j5S4Y/KSJL1CfLDRwINrFVftAvUaCgS1EjQ2U
+         tJxcc4M6s9iWAQVLr9vsvZDVZ3yvjHOfX1s1RClX937sP4K/NeBTksfP8saknrSNG9Ml
+         KOd+/nryS4WEiqEKcI6DNdtsnDn7UxdltFu+yq1tNQGlnboiIAu7A9zJ3yMYJp6PzqSA
+         eyw53+6/VDqXFuXqZYzPc87SarQwAet0CPLcUmLgW+6A2juyY4PxEadxqaPRF63Qvydi
+         HMZUYnoBSxuvPMEU7drtMVsx1j0icXGczPPerQRjB5u7Vv82UsJ1yAVSvdZuSobflw+p
+         B1Ng==
+X-Gm-Message-State: AFqh2kqniOUSnA9gMlefL4nWaPYOHF3eL43t2tKKyykAI2KKnSyAoyxW
+        CiKTRhfoT88kmsoZ13H/aFoBo8uf5vg/PVlj69E=
+X-Google-Smtp-Source: AMrXdXt7GY113HABdO2dbFp78UfWUXow6BOtPoOb/s0unzyZ0ps7KaB5baOJeYXgxhlZMTn7/3pJMCvsXH5cDCUlXpk=
+X-Received: by 2002:a63:f048:0:b0:4cf:3b5f:d64d with SMTP id
+ s8-20020a63f048000000b004cf3b5fd64dmr5386105pgj.53.1675122330614; Mon, 30 Jan
+ 2023 15:45:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl> <20230126150657.367921-13-hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230126150657.367921-13-hverkuil-cisco@xs4all.nl>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 30 Jan 2023 23:35:02 +0000
-Message-ID: <CA+V-a8u6LqrsCH9v11R-VJw7VJp1kWMa9nOe5QFovzXhP_Sm9A@mail.gmail.com>
-Subject: Re: [PATCH 12/17] media: ti: davinci: vpbe_display.c: return 0
- instead of 'ret'.
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
+References: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 30 Jan 2023 17:45:19 -0600
+Message-ID: <CAHCN7xL8DhXOtMk=F+RZto-mNOhApm25vvTvzk-yzyvPK37NqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] media: nxp: imx7-media-csi: Move to subdev active state
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
+        linux-imx@nxp.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,40 +70,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Sat, Jan 28, 2023 at 8:34 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hello,
+>
+> This small series moves the imx7-mipi-csi driver to use the subdev
+> active state. Patches 1/8 to 7/8 are small preparatory cleanups, with
+> the main change in 8/8.
+>
+> Compared to v1, I've now successfully tested the series on an i.MX8MM.
+> The issues reported by Adam have been resolved by adding patch 7/8 and
+> fixing a problem in 8/8.
+>
+> Laurent Pinchart (8):
+>   media: imx: imx7-media-csi: Drop imx7_csi.cc field
+>   media: imx: imx7-media-csi: Simplify imx7_csi_video_init_format()
+>   media: imx: imx7-media-csi: Drop unneeded check when starting
+>     streaming
+>   media: imx: imx7-media-csi: Drop unneeded src_sd check
+>   media: imx: imx7-media-csi: Drop unneeded pad checks
+>   media: imx: imx7-media-csi: Cleanup errors in
+>     imx7_csi_async_register()
+>   media: imx: imx7-media-csi: Zero format struct before calling
+>     .get_fmt()
+>   media: imx: imx7-media-csi: Use V4L2 subdev active state
+>
 
-Thank you for the patch.
+Thanks for the V2!  It works nicely along with the CSIS updates you
+posted before.
 
-On Thu, Jan 26, 2023 at 3:07 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> Since 'ret' is known to be 0, just return '0'. This fixes a smatch warning:
->
-> vpbe_display.c:1152 vpbe_display_open() warn: missing error code? 'err'
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-> ---
->  drivers/media/platform/ti/davinci/vpbe_display.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+For the series,
 
-Cheers,
-Prabhakar
+Tested-by: Adam Ford <aford173@gmail.com> #imx8mm-beacon-kit
 
-> diff --git a/drivers/media/platform/ti/davinci/vpbe_display.c b/drivers/media/platform/ti/davinci/vpbe_display.c
-> index 9ea70817538e..ea2d0795d1e2 100644
-> --- a/drivers/media/platform/ti/davinci/vpbe_display.c
-> +++ b/drivers/media/platform/ti/davinci/vpbe_display.c
-> @@ -1149,7 +1149,7 @@ static int vpbe_display_open(struct file *file)
+>  drivers/media/platform/nxp/imx7-media-csi.c | 235 ++++++--------------
+>  1 file changed, 70 insertions(+), 165 deletions(-)
 >
->         /* leaving if layer is already initialized */
->         if (!v4l2_fh_is_singular_file(file))
-> -               return err;
-> +               return 0;
->
->         if (!layer->usrs) {
->                 if (mutex_lock_interruptible(&layer->opslock))
 > --
-> 2.39.0
+> Regards,
+>
+> Laurent Pinchart
 >
