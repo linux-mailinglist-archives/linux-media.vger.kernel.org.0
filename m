@@ -2,118 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB326815C1
-	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 16:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BF96681602
+	for <lists+linux-media@lfdr.de>; Mon, 30 Jan 2023 17:10:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237555AbjA3P7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 10:59:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38384 "EHLO
+        id S236837AbjA3QKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 11:10:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237769AbjA3P7I (ORCPT
+        with ESMTP id S236741AbjA3QKi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 10:59:08 -0500
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D153F286;
-        Mon, 30 Jan 2023 07:58:42 -0800 (PST)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1631b928691so15508195fac.11;
-        Mon, 30 Jan 2023 07:58:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=92ylG2q5d+cXOP0ReRMncsJUB/Zg6KaFUynLvEqS9XA=;
-        b=GxqCXAFdNRUNfkOQ6x2LF0tuNWhroSu/zjFqsNQjWTfB7uoICx1Huxu2kyHFVGCzfD
-         Vgjpp9k42+7TYt3ObUd4D5Eh1s9dYFSu7ZhImvmRRulVUMPyt9IbnYXP1taHn5boku6V
-         65YzkgWshH6c/JmumSj5dG8Gd3KiKJvFOoUvbOUGFYElEq/fjsasDIb/Y/q3YPGIvYvd
-         mqnQE+L7752S19qSbbAQk16sBwA1lx2nQIkTuw2fiakOKnXL/zm/nGb2Oo4UNcEfX9Tv
-         In28WgzpGC0D8YQjolmPiK5coLurlEeUuhS+t2/lxCFg7v043iW/flXdtMPfvAqt/Mpj
-         Fnmw==
-X-Gm-Message-State: AFqh2koGI7zxAaoy6+d8wTvKkhqmoQ/vU/rStQ+osiC92jRW2alYb0dp
-        zzjUghaYyo1YeNBqUq36Ug==
-X-Google-Smtp-Source: AMrXdXt0IHRcFx9GapnPz7re2QJTCPhvFjUUyqmVAx1CEICu0Q4iLGY8886mGxNbCmnlazAHZIoeJw==
-X-Received: by 2002:a05:687c:209:b0:15f:2e5:96ae with SMTP id ax9-20020a05687c020900b0015f02e596aemr19945434oac.27.1675094321901;
-        Mon, 30 Jan 2023 07:58:41 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id e8-20020a9d5608000000b0066b9a6bf3bcsm5526341oti.12.2023.01.30.07.58.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 07:58:41 -0800 (PST)
-Received: (nullmailer pid 2722384 invoked by uid 1000);
-        Mon, 30 Jan 2023 15:58:40 -0000
-Date:   Mon, 30 Jan 2023 09:58:40 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        chiranjeevi.rapolu@intel.com, luca@z3ntu.xyz,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v6.1] media: dt-bindings: Add OV5670
-Message-ID: <20230130155840.GA2706990-robh@kernel.org>
-References: <20230126165909.121302-2-jacopo.mondi@ideasonboard.com>
- <20230128112736.8000-1-jacopo.mondi@ideasonboard.com>
- <b4794490-b059-373a-dec0-58fcd2344f6f@linaro.org>
- <20230129121132.uamuvywdsuah5ivn@uno.localdomain>
+        Mon, 30 Jan 2023 11:10:38 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E6529435;
+        Mon, 30 Jan 2023 08:10:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675095036; x=1706631036;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YtXPq6j9wEoizKEGCfjWmjtNFGa8QS16bW3Fx/cJNBs=;
+  b=ICSI1SdP1wAmaN2Zcw1e4ZTlWpolXhXnjzGGazXBk5Zy9TAm6NcDZC7H
+   +Xaek+JnJrKjuyBgPozmoLZ+Vr2291lI9/wnpocM65ywBPrhitg2gkJuO
+   jyO0dMtKYdy0Bc7AX0w3yDb0BOZB4+jLZSkKJlaDo2S6a0fXeEYWDrX5D
+   +To7ot4LsJNtoJMdw7bENXr90Gqny5BgCmhUPT7oiyL2sIJLOvWFrw060
+   SZO8ota+92WtVE4BUS9Vd31BftjHjOP47xMhOZZZEFEOvxIVU1RMLML1M
+   /EZzEwOOy4Beqlo9t8zOoi/roL1PzZIUqR0E91xoLJ+NSE52Q8241uKei
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="307942467"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
+   d="scan'208";a="307942467"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 08:08:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="641597727"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; 
+   d="scan'208";a="641597727"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 30 Jan 2023 08:08:13 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pMWhT-0003jU-1O;
+        Mon, 30 Jan 2023 16:08:07 +0000
+Date:   Tue, 31 Jan 2023 00:07:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v6 3/5] media: verisilicon: Do not set ctx->bit_depth in
+ hantro_try_ctrl()
+Message-ID: <202301302359.3230lcVf-lkp@intel.com>
+References: <20230130135802.744743-4-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230129121132.uamuvywdsuah5ivn@uno.localdomain>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230130135802.744743-4-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 29, 2023 at 01:11:32PM +0100, Jacopo Mondi wrote:
-> On Sun, Jan 29, 2023 at 12:40:03PM +0100, Krzysztof Kozlowski wrote:
-> > On 28/01/2023 12:27, Jacopo Mondi wrote:
-> > > Add the bindings documentation for Omnivision OV5670 image sensor.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > > v6->6.1
-> > > - Use additionalProperties: false for endpoint properties from
-> > >   video-interfaces.yaml
-> > > - List 'remote-endpoint' among the accepted endpoint properties
-> > >   now that we use additionalProperties: false
-> >
-> > b4 diff '20230128112736.8000-1-jacopo.mondi@ideasonboard.com'
-> > Could not create fake-am range for lower series v1
-> >
-> > Can you send patches in a way it does not break out workflows? Why
-> > making our review process more difficult?
-> 
-> Because it's a nit on a 10 patches series with no other changes
-> requested ?
+Hi Benjamin,
 
-So? Think of patch series as an 'email transport' for your git branches. 
-If you rebase your branch, that's a whole new branch to send.
+I love your patch! Perhaps something to improve:
 
-> What is difficult exactly ?
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/streams linus/master v6.2-rc6 next-20230130]
+[cannot apply to pza/reset/next pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-In addition to 'b4 diff', if a maintainer is applying this series, for a 
-v7 they just do:
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-verisilicon-Do-not-set-context-src-dst-formats-in-reset-functions/20230130-220204
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230130135802.744743-4-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v6 3/5] media: verisilicon: Do not set ctx->bit_depth in hantro_try_ctrl()
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230130/202301302359.3230lcVf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/aecd2de6feaeb163aa78d82f1172b0020b64b174
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Gaignard/media-verisilicon-Do-not-set-context-src-dst-formats-in-reset-functions/20230130-220204
+        git checkout aecd2de6feaeb163aa78d82f1172b0020b64b174
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/platform/verisilicon/
 
-b4 shazam msgid-of-v7
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-For v6.1, they do:
+All warnings (new ones prefixed by >>):
 
-b4 shazam msgid-of-v6
-git rebase -i ...
-<stop on patch 1>
-git reset --hard HEAD^
-b4 shazam msgid-of-v6.1
-git rebase --continue
+   drivers/media/platform/verisilicon/hantro_drv.c: In function 'hantro_try_ctrl':
+>> drivers/media/platform/verisilicon/hantro_drv.c:254:28: warning: variable 'ctx' set but not used [-Wunused-but-set-variable]
+     254 |         struct hantro_ctx *ctx;
+         |                            ^~~
 
-Which one makes the maintainer's life easier?
 
-If it's a CI job trying to apply and test this, there's no way it's 
-going to do the second case.
+vim +/ctx +254 drivers/media/platform/verisilicon/hantro_drv.c
 
-Rob
+775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia       2018-12-05  251  
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  252  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  253  {
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29 @254  	struct hantro_ctx *ctx;
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  255  
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  256  	ctx = container_of(ctrl->handler,
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  257  			   struct hantro_ctx, ctrl_handler);
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  258  
+46a309d2751787 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-11-26  259  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  260  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  261  
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  262  		if (sps->chroma_format_idc > 1)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  263  			/* Only 4:0:0 and 4:2:0 are supported */
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  264  			return -EINVAL;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  265  		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  266  			/* Luma and chroma bit depth mismatch */
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  267  			return -EINVAL;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  268  		if (sps->bit_depth_luma_minus8 != 0)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  269  			/* Only 8-bit is supported */
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  270  			return -EINVAL;
+b92de2f91821ce drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2022-07-08  271  	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+8968cfc282955c drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2021-06-03  272  		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+8968cfc282955c drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2021-06-03  273  
+d040a24b5aaede drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  274  		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
+d040a24b5aaede drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  275  			/* Only 8-bit and 10-bit are supported */
+df9ec2fc8e70e0 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2022-07-18  276  			return -EINVAL;
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  277  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  278  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  279  
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  280  		/* We only support profile 0 */
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  281  		if (dec_params->profile != 0)
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  282  			return -EINVAL;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  283  	}
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  284  	return 0;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  285  }
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  286  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
