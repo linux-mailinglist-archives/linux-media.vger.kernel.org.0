@@ -2,114 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2907C682909
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 10:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3EB0682A4D
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 11:18:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231157AbjAaJjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Jan 2023 04:39:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37128 "EHLO
+        id S230430AbjAaKS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Jan 2023 05:18:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjAaJjF (ORCPT
+        with ESMTP id S230154AbjAaKSa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Jan 2023 04:39:05 -0500
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B0A3AE
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 01:39:04 -0800 (PST)
-Date:   Tue, 31 Jan 2023 09:38:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail; t=1675157942; x=1675417142;
-        bh=KlGCAXBfuCeFG1nmtUQ7+OyVp5igprJ278meQway26c=;
-        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-        b=ZdnVqJUdmP9pqrvKZqA/O2gWuTNn0WZV3kayz6WerkGQdvYxpboeFhbVG6+XfdvOJ
-         RxDASnwi+EIP7wBIxQ3LkXxaDHUxSUOKd/OiUktvzpnwXdghbI2RJ7cjO5+32sQUkQ
-         XvhBcUQId05AqNFN3vG0ednsYKFn3GFYJ2St4014IIegtMqgKJptKh9j0ZCFyUxs5D
-         uG5meYRv8/cIDV4k3VmAP6AgnsCfYUoF8ap34GC3XScmI3sQOuKrTRsxhp7pLU4V84
-         YyEnDe0k9DE5xyBdPmWtQzBU84ttel33l4sIHD+akMpD20Q1Ro0ipsCOYJNfLRxK6N
-         x9Zlm+eaO5Gug==
-To:     linux-media@vger.kernel.org
-From:   Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2] edid-decode: print human-readable CTA infoframe types
-Message-ID: <20230131093827.88551-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+        Tue, 31 Jan 2023 05:18:30 -0500
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4BC23864A
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 02:18:23 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 10322ECC1A;
+        Tue, 31 Jan 2023 02:17:53 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id eXqVw_-UT7WW; Tue, 31 Jan 2023 02:17:52 -0800 (PST)
+Message-ID: <3c10605acf31dd10f4e41d3c1ce881fcc40e32ef.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1675160272; bh=XWb62awJdupDiYnvT4Xky3M0D+Ds+FOER09pPTksz2M=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Cgbn+hgq2AeLkAcWiUWZBR7/wzWju4pOnm4seFRgVhY5C26WjjBNxP4r3KgIdfkyH
+         F3bmEx/XBOEiIeE1NQvOZ52OoikW2yHfGjxW05PnxPsTzpcM/YMDECWLAvXSRvQvCl
+         NiJEip4bCtq5fIsq8Y+iMIG57JOb3fLnhDkQtSlD9VrpjE/wov1TeXpCazTDYVpMNU
+         sTREkffMvlE3MP1ASOi47QCETLxzYrHapQ7dGV8h/JIi7O9xLNpBa5+yk6jREILYqo
+         PA7Klwvxlu7uL9AnJ7dBuI9bd25sZ1HzFJMyn36GfPFPQKtF5ykXP/EqRGo8p9SF4s
+         K406zfWXHu8rQ==
+Subject: Re: [PATCH v2 0/8] media: nxp: imx7-media-csi: Move to subdev
+ active state
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Adam Ford <aford173@gmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
+        linux-imx@nxp.com
+Date:   Tue, 31 Jan 2023 11:17:46 +0100
+In-Reply-To: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
+References: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In addition to the raw type value, also print the human-readable
-infoframe type.
+Am Sonntag, dem 29.01.2023 um 04:34 +0200 schrieb Laurent Pinchart:
+> Hello,
+> 
+> This small series moves the imx7-mipi-csi driver to use the subdev
+> active state. Patches 1/8 to 7/8 are small preparatory cleanups, with
+> the main change in 8/8.
+> 
+> Compared to v1, I've now successfully tested the series on an
+> i.MX8MM.
+> The issues reported by Adam have been resolved by adding patch 7/8
+> and
+> fixing a problem in 8/8.
+> 
+> Laurent Pinchart (8):
+>   media: imx: imx7-media-csi: Drop imx7_csi.cc field
+>   media: imx: imx7-media-csi: Simplify imx7_csi_video_init_format()
+>   media: imx: imx7-media-csi: Drop unneeded check when starting
+>     streaming
+>   media: imx: imx7-media-csi: Drop unneeded src_sd check
+>   media: imx: imx7-media-csi: Drop unneeded pad checks
+>   media: imx: imx7-media-csi: Cleanup errors in
+>     imx7_csi_async_register()
+>   media: imx: imx7-media-csi: Zero format struct before calling
+>     .get_fmt()
+>   media: imx: imx7-media-csi: Use V4L2 subdev active state
+> 
+>  drivers/media/platform/nxp/imx7-media-csi.c | 235 ++++++------------
+> --
+>  1 file changed, 70 insertions(+), 165 deletions(-)
+> 
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
+hi Laurent, what tree did you base this on? onto v6.2-rc6 I have a
+change missing: in imx7_csi_video_validate_fmt(), before calling
+v4l2_subdev_call_state_active(), there's fmt_src.pad and fmt_src.which
+assigned. I don't have that.
 
-v2: keep printing raw code.
-
- parse-cta-block.cpp | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/parse-cta-block.cpp b/parse-cta-block.cpp
-index 02730a9eafb1..7eb4c51ad833 100644
---- a/parse-cta-block.cpp
-+++ b/parse-cta-block.cpp
-@@ -2203,6 +2203,17 @@ static void cta_hdr_dyn_metadata_block(const unsigne=
-d char *x, unsigned length)
- =09}
- }
-=20
-+static const char *infoframe_types[] =3D {
-+=09NULL,
-+=09"Vendor-Specific",
-+=09"Auxiliary Video Information",
-+=09"Source Product Description",
-+=09"Audio",
-+=09"MPEG Source",
-+=09"NTSC VBI",
-+=09"Dynamic Range and Mastering",
-+};
-+
- static void cta_ifdb(const unsigned char *x, unsigned length)
- {
- =09unsigned len_hdr =3D x[0] >> 5;
-@@ -2218,16 +2229,23 @@ static void cta_ifdb(const unsigned char *x, unsign=
-ed length)
- =09x +=3D len_hdr + 2;
- =09while (length > 0) {
- =09=09int payload_len =3D x[0] >> 5;
-+=09=09unsigned char type =3D x[0] & 0x1f;
-+
-+=09=09const char *name =3D NULL;
-+=09=09if (type < ARRAY_SIZE(infoframe_types))
-+=09=09=09name =3D infoframe_types[type];
-+=09=09if (!name)
-+=09=09=09name =3D "Unknown";
-+=09=09printf("    %s InfoFrame (%u)", name, type);
-=20
--=09=09if ((x[0] & 0x1f) =3D=3D 1 && length >=3D 4) {
-+=09=09if (type =3D=3D 1 && length >=3D 4) {
- =09=09=09unsigned oui =3D (x[3] << 16) | (x[2] << 8) | x[1];
-=20
--=09=09=09printf("    InfoFrame Type Code %u, OUI %s\n",
--=09=09=09       x[0] & 0x1f, ouitohex(oui).c_str());
-+=09=09=09printf(", OUI %s\n", ouitohex(oui).c_str());
- =09=09=09x +=3D 4;
- =09=09=09length -=3D 4;
- =09=09} else {
--=09=09=09printf("    InfoFrame Type Code %u\n", x[0] & 0x1f);
-+=09=09=09printf("\n");
- =09=09=09x++;
- =09=09=09length--;
- =09=09}
-
-base-commit: e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
---=20
-2.39.1
+thanks
+                            martin
 
 
