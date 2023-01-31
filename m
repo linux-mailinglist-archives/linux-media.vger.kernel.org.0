@@ -2,113 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8274D681FD2
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 00:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10990682259
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 03:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbjA3Xpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Jan 2023 18:45:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59614 "EHLO
+        id S230030AbjAaCrF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Jan 2023 21:47:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjA3Xpc (ORCPT
+        with ESMTP id S229542AbjAaCrE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Jan 2023 18:45:32 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A5A92B610
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 15:45:31 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id cr11so7337684pfb.1
-        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 15:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=w2V4Uag+7LpQ7csSTGo095grGeQFTu+WFr0tRRczN10=;
-        b=lV9OP3oZlpMsz3W3VyxABhfMUhbIQgrqcyqpDn/4gLIFctOZsLPDQCYKtBMh6WGJoJ
-         xcUQh/SuIxqGePFpHmddlJ19jY4rea9VFBQRmIbZ56NY52mF/E28zQS+wlID/TmSnK4Q
-         dMZKDp4+Imn2ohUmomw7YuTLLJ4KMK4/8WvopzIodUKPnZ65eqTWAJErOGRfqvRFm9NL
-         tr1FI+hiCeyh/4byaguMPkHFLuJM+F4trVBBrMzECc9IoIDnbFJMWse9PVloGQcT5T8L
-         MozMhsW26BNkAoLGW7cDumSsMeZuwJY5zmD2ylHc9N666aW9eUDS/F6wjrx3iQBq16Xz
-         6A5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w2V4Uag+7LpQ7csSTGo095grGeQFTu+WFr0tRRczN10=;
-        b=K93XEnBl4fs0DT6YOqTVZ5Ic8Xt36j5S4Y/KSJL1CfLDRwINrFVftAvUaCgS1EjQ2U
-         tJxcc4M6s9iWAQVLr9vsvZDVZ3yvjHOfX1s1RClX937sP4K/NeBTksfP8saknrSNG9Ml
-         KOd+/nryS4WEiqEKcI6DNdtsnDn7UxdltFu+yq1tNQGlnboiIAu7A9zJ3yMYJp6PzqSA
-         eyw53+6/VDqXFuXqZYzPc87SarQwAet0CPLcUmLgW+6A2juyY4PxEadxqaPRF63Qvydi
-         HMZUYnoBSxuvPMEU7drtMVsx1j0icXGczPPerQRjB5u7Vv82UsJ1yAVSvdZuSobflw+p
-         B1Ng==
-X-Gm-Message-State: AFqh2kqniOUSnA9gMlefL4nWaPYOHF3eL43t2tKKyykAI2KKnSyAoyxW
-        CiKTRhfoT88kmsoZ13H/aFoBo8uf5vg/PVlj69E=
-X-Google-Smtp-Source: AMrXdXt7GY113HABdO2dbFp78UfWUXow6BOtPoOb/s0unzyZ0ps7KaB5baOJeYXgxhlZMTn7/3pJMCvsXH5cDCUlXpk=
-X-Received: by 2002:a63:f048:0:b0:4cf:3b5f:d64d with SMTP id
- s8-20020a63f048000000b004cf3b5fd64dmr5386105pgj.53.1675122330614; Mon, 30 Jan
- 2023 15:45:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230129023429.22467-1-laurent.pinchart@ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 30 Jan 2023 17:45:19 -0600
-Message-ID: <CAHCN7xL8DhXOtMk=F+RZto-mNOhApm25vvTvzk-yzyvPK37NqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] media: nxp: imx7-media-csi: Move to subdev active state
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 30 Jan 2023 21:47:04 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A22183526E
+        for <linux-media@vger.kernel.org>; Mon, 30 Jan 2023 18:47:02 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3BDED61362
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 02:47:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8C8C433D2
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 02:47:01 +0000 (UTC)
+Date:   Tue, 31 Jan 2023 03:46:58 +0100
+Message-ID: <b75a8b9180f6181be3e41487bd4ff24a.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jan 28, 2023 at 8:34 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello,
->
-> This small series moves the imx7-mipi-csi driver to use the subdev
-> active state. Patches 1/8 to 7/8 are small preparatory cleanups, with
-> the main change in 8/8.
->
-> Compared to v1, I've now successfully tested the series on an i.MX8MM.
-> The issues reported by Adam have been resolved by adding patch 7/8 and
-> fixing a problem in 8/8.
->
-> Laurent Pinchart (8):
->   media: imx: imx7-media-csi: Drop imx7_csi.cc field
->   media: imx: imx7-media-csi: Simplify imx7_csi_video_init_format()
->   media: imx: imx7-media-csi: Drop unneeded check when starting
->     streaming
->   media: imx: imx7-media-csi: Drop unneeded src_sd check
->   media: imx: imx7-media-csi: Drop unneeded pad checks
->   media: imx: imx7-media-csi: Cleanup errors in
->     imx7_csi_async_register()
->   media: imx: imx7-media-csi: Zero format struct before calling
->     .get_fmt()
->   media: imx: imx7-media-csi: Use V4L2 subdev active state
->
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thanks for the V2!  It works nicely along with the CSIS updates you
-posted before.
+Results of the daily build of media_tree:
 
-For the series,
+date:			Tue Jan 31 03:00:09 CET 2023
+media-tree git hash:	7120d6bfd6d0b26b49958f429701996f2d3e2c2a
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	575e0a9f5916c38724c95909d40d56b71de875b9
+edid-decode git hash:	e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8227-g70ee7aa1-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1aec0a671803cde629548a2e34c252cce5b4799
+host hardware:		x86_64
+host os:		6.0.0-6-amd64
 
-Tested-by: Adam Ford <aford173@gmail.com> #imx8mm-beacon-kit
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-x86_64: OK
+linux-git-i686: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+virtme-32: ERRORS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
->  drivers/media/platform/nxp/imx7-media-csi.c | 235 ++++++--------------
->  1 file changed, 70 insertions(+), 165 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
