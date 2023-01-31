@@ -2,41 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E77A68283C
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 10:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B1A68286A
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 10:14:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232471AbjAaJHd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Jan 2023 04:07:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57080 "EHLO
+        id S232599AbjAaJOJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Jan 2023 04:14:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232370AbjAaJHB (ORCPT
+        with ESMTP id S232532AbjAaJNl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Jan 2023 04:07:01 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400831E2A8
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 01:03:03 -0800 (PST)
+        Tue, 31 Jan 2023 04:13:41 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1125D4AA74;
+        Tue, 31 Jan 2023 01:11:31 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 09747B81A77
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 09:03:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A6B3C4339B;
-        Tue, 31 Jan 2023 09:02:58 +0000 (UTC)
-Message-ID: <936514b3-8cff-2707-e4c4-92d795ec2a84@xs4all.nl>
-Date:   Tue, 31 Jan 2023 10:02:57 +0100
+        by sin.source.kernel.org (Postfix) with ESMTPS id 45722CE1C5C;
+        Tue, 31 Jan 2023 09:10:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF2BC433D2;
+        Tue, 31 Jan 2023 09:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1675156248;
+        bh=iQ1Xydi1GvEvZNrYB1OdH3nAEKk7nKI4XluwpZQns+s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Sid16eamf7gs4IwwoHZC7q2+vEJtUJh1LYFWlfoRq+9pXJ0J21KIw4rFun+zC/bkb
+         y8QhZv3QWQVeyCsld2iGKhMu+lMtE2tl19JvM817z83O/D4q4TjjKizvIzWu5aVa01
+         LCSyV+jltrS5r9p1Tp6h4MpR4zKfldylfZZGNDkQ=
+Date:   Tue, 31 Jan 2023 10:10:40 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Song Liu <song@kernel.org>, linux-raid@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/9] Documentation: driver-api: correct spelling
+Message-ID: <Y9jbEDPHbBb1hbsZ@kroah.com>
+References: <20230129231053.20863-1-rdunlap@infradead.org>
+ <20230129231053.20863-3-rdunlap@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] edid-decode: print human-readable CTA infoframe types
-Content-Language: en-US
-To:     Simon Ser <contact@emersion.fr>, linux-media@vger.kernel.org
-References: <20230130172224.65193-1-contact@emersion.fr>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230130172224.65193-1-contact@emersion.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230129231053.20863-3-rdunlap@infradead.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,77 +59,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/01/2023 18:22, Simon Ser wrote:
-> Instead of printing the code, print the human-readable infoframe
-> type. This is more informative.
+On Sun, Jan 29, 2023 at 03:10:46PM -0800, Randy Dunlap wrote:
+> Correct spelling problems for Documentation/driver-api/ as reported
+> by codespell.
 > 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Vishal Verma <vishal.l.verma@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: nvdimm@lists.linux.dev
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: dmaengine@vger.kernel.org
+> Cc: Song Liu <song@kernel.org>
+> Cc: linux-raid@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
 > ---
->  parse-cta-block.cpp | 27 +++++++++++++++++++++++----
->  1 file changed, 23 insertions(+), 4 deletions(-)
-> 
-> diff --git a/parse-cta-block.cpp b/parse-cta-block.cpp
-> index 02730a9eafb1..3a6be3972e50 100644
-> --- a/parse-cta-block.cpp
-> +++ b/parse-cta-block.cpp
-> @@ -2203,6 +2203,17 @@ static void cta_hdr_dyn_metadata_block(const unsigned char *x, unsigned length)
->  	}
->  }
->  
-> +static const char *infoframe_types[] = {
-> +	NULL,
-> +	"Vendor-Specific",
-> +	"Auxiliary Video Information",
-> +	"Source Product Description",
-> +	"Audio",
-> +	"MPEG Source",
-> +	"NTSC VBI",
-> +	"Dynamic Range and Mastering",
-> +};
-> +
->  static void cta_ifdb(const unsigned char *x, unsigned length)
->  {
->  	unsigned len_hdr = x[0] >> 5;
-> @@ -2218,16 +2229,24 @@ static void cta_ifdb(const unsigned char *x, unsigned length)
->  	x += len_hdr + 2;
->  	while (length > 0) {
->  		int payload_len = x[0] >> 5;
-> +		unsigned char type = x[0] & 0x1f;
-> +
-> +		const char *name = NULL;
-> +		if (type < ARRAY_SIZE(infoframe_types))
-> +			name = infoframe_types[type];
-> +		if (name)
-> +			printf("    %s InfoFrame", name);
 
-Can you show the type as well? E.g.: "    %s InfoFrame (%u)", name, type
-
-It can be useful to have the code too.
-
-If you can post a v2 with that change, then I'll take it.
-
-Regards,
-
-	Hans
-
-> +		else
-> +			printf("    Unknown InfoFrame (%u)", type);
->  
-> -		if ((x[0] & 0x1f) == 1 && length >= 4) {
-> +		if (type == 1 && length >= 4) {
->  			unsigned oui = (x[3] << 16) | (x[2] << 8) | x[1];
->  
-> -			printf("    InfoFrame Type Code %u, OUI %s\n",
-> -			       x[0] & 0x1f, ouitohex(oui).c_str());
-> +			printf(", OUI %s\n", ouitohex(oui).c_str());
->  			x += 4;
->  			length -= 4;
->  		} else {
-> -			printf("    InfoFrame Type Code %u\n", x[0] & 0x1f);
-> +			printf("\n");
->  			x++;
->  			length--;
->  		}
-> 
-> base-commit: e052f5f9fdf74ca11aa1a8edfa62eff8d0aa3d0d
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
