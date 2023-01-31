@@ -2,91 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2746368264B
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 09:24:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69AE6682666
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 09:32:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230360AbjAaIYt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Jan 2023 03:24:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40036 "EHLO
+        id S230514AbjAaIc4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Jan 2023 03:32:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230444AbjAaIYr (ORCPT
+        with ESMTP id S230519AbjAaIcy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Jan 2023 03:24:47 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B047F3B0D4;
-        Tue, 31 Jan 2023 00:24:44 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C81F61440;
-        Tue, 31 Jan 2023 08:24:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB9BC433EF;
-        Tue, 31 Jan 2023 08:24:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675153483;
-        bh=GNZBWTzNzOGrP0Nz1ONrZ4ukSsG986yq+VvcIMTLpSo=;
-        h=Date:From:To:Cc:Subject:From;
-        b=LhPnPluqsiD8VkGuQT1EU5bM5BM0AJhYJSo122ohp7+5qsOMDrClfkVxeZ0EsH/qm
-         NCjYphQd9o64AkG8jbPxUOG7YzGmJKIIkE+ZyYyHGIxM68ZW3IUhzl5w2/bKf6KDuM
-         /CL0Cf/8aj+wtF0B2ktXZfXk5egcpXupb8ITky0GEdASn8xdx6BfJXIptZsJPZ2+FD
-         WORR04jiWRcI8PoBQP44VzAddysKwEiEmtnzS1WgQ713g7QtoYzq2pAOpjDD6gtYCe
-         qZAcHbtGVTcbR7kU/4nSoSO4CvJxlQ5LT2Y6GjQNYG87F8csbfjm1ZXKnYWgAXI8KL
-         JcJubIQGRwtfQ==
-Date:   Tue, 31 Jan 2023 09:24:39 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v6.2-rc7] media fixes
-Message-ID: <20230131092439.1abf31d0@coco.lan>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+        Tue, 31 Jan 2023 03:32:54 -0500
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0444EC6
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 00:32:53 -0800 (PST)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id DD95B8364D; Tue, 31 Jan 2023 08:31:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1675153971; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=Rk9YsfIAXmdeiE58UaozPyXLoVlWsCniwUuLLXoD7xJf8gDjbA8Uw1tNBZYscPFLb
+         s6xyq8Aq2hnTtlillpcXM2NTbUz/xPtGndYkf4IjQqOX//TLAyrdJlV7tRmJH2xMeY
+         dzJ10nuSZAdk5YYFP8Nfpioc2cNsWVehDzBFERfIeVtLvc/THFYH1IjxnJP6XEQqfd
+         vnlXFh4sMbx+QMFMc/koGFXfGHRvRhYu2VJbT92zOL2fABt7hQtIEN5W5TVtawwZCW
+         qfZyGAA19nljDsxotpim6W5uajzjBHW63Gao6/yM2f57PE6tcGfqOgb7ro2tR36BKC
+         Ya9x+2f+pMZEQ==
+Received: by mail.lokoho.com for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 08:30:34 GMT
+Message-ID: <20230131074501-0.1.3q.w0t4.0.mi55rv845a@lokoho.com>
+Date:   Tue, 31 Jan 2023 08:30:34 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-media@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+Dzie=C5=84 dobry,
 
-Please pull from:
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.2-3
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-For a couple of v4l2 core fixes:
-  - fix a regression on strings control support;
-  - fix a regression for some drivers that depend on an odd streaming behavior.
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Regards,
-Mauro
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-The following changes since commit 2241ab53cbb5cdb08a6b2d4688feb13971058f65:
 
-  Linux 6.2-rc5 (2023-01-21 16:27:01 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.2-3
-
-for you to fetch changes up to 89c08aef8f8dcb5fc98ad8db7ca92c9dab1f26b0:
-
-  media: videobuf2: set q->streaming later (2023-01-24 16:34:06 +0100)
-
-----------------------------------------------------------------
-media fixes for v6.2-rc7
-
-----------------------------------------------------------------
-Hans Verkuil (2):
-      media: v4l2-ctrls-api.c: move ctrl->is_new = 1 to the correct line
-      media: videobuf2: set q->streaming later
-
- drivers/media/common/videobuf2/videobuf2-core.c | 5 ++---
- drivers/media/v4l2-core/v4l2-ctrls-api.c        | 2 +-
- 2 files changed, 3 insertions(+), 4 deletions(-)
-
+Pozdrawiam
+Adam Charachuta
