@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5225468365F
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 20:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 544C668365E
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 20:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231264AbjAaTVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Jan 2023 14:21:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37118 "EHLO
+        id S231454AbjAaTVU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Jan 2023 14:21:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229985AbjAaTVG (ORCPT
+        with ESMTP id S230519AbjAaTVK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Jan 2023 14:21:06 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A44599AF
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 11:20:58 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id q10so15219661wrm.4
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 11:20:58 -0800 (PST)
+        Tue, 31 Jan 2023 14:21:10 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4D459E59
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 11:21:01 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so5888021wms.1
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 11:21:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W5McuJ2hRZrWx+uYtLO8QBzTJ9fuESjuMdU73e0TzLA=;
-        b=s6sgjx2jimyUaoKyGGZXhTNlC4TcrIfwNDF1wpvcBNLh1IaOYAAhsK7LXT45TB3R0D
-         eyAk523tRxkVx3w00erIRhkjhUWGsa5RM56UzC1wfsy7OE9LsUgNRVFYd45gBPTd3b1S
-         /LSBZpR0DotPJTNPQk+YTmzEmlN2qFy90/W3d439E4SG1W7yv4rpqBjhbGm6ntu+HWWZ
-         KKnMA3d6+02Zqk65duVThhkCtDGsBPYaTJOKWoTsORO7iMKpHbWdIe5zRz4CbZJ5I88Q
-         b7MVKxJabV28zZr637rrFvA+7Ib69QZwfIszLGq2lQ9EtjummTCbIboypRtfJPBehTPn
-         AVGw==
+        bh=WH2m6BhNR1uDXlk7bsxUU9DHWcuEsawDHjnKOH5ul0Q=;
+        b=pzyU8Gc+Cr1YndkNKnbwJBp7PInVg9cNURZvI+svHboxz6aOAUih7YT1xIQlCnWIYJ
+         9HJg5347CqK787gl8UjVrjh4hTFgMXYw95nE1wO36eF05pYoxCHKPaTIxN8bfJiqKJm5
+         9F/Ejbg4Q5GbcCrx73vqXr2hDY/K9ELH0j9cveb8F19qfOAkXbwNv7UNmVosLuhMmo6U
+         3fjjssQv2JwaoL0FJevzQ8WW2IrXy1+YUU6pIdV9K6p5TXwpEtaObogqTh23AF53kqEc
+         94hILru1e+RaZDPxmWMo1clo0XWnXlWPQ5ib/L5li8AkTsBHhvM6UiePeK3Vtw4p6Xlx
+         yx6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W5McuJ2hRZrWx+uYtLO8QBzTJ9fuESjuMdU73e0TzLA=;
-        b=AoPCJwSXqtM7gL9Bc1KU5MCj7f+F8ON3ImOew7Mt4HwrMs4prbVuInH5wj+zRoyCSi
-         pMtiLxuoKWE/ys8oCh2yMOY0w/IzHuxSOqiFpqNWCyOKjSQTgniA7PtmnfhooWKJyyLJ
-         IlI3cGIe+ouolMIFCB3nmG81piluDuh+oidlgyX3d/BPKRLNQE6UUe+Knc831cKO5XYA
-         aDe0z1I6Eub26f6zB5XZiqYCwFrjx0FKHWDzyHnOmieYMpCez3oDfAn3sleHPOlgo9v3
-         b8QCoYpTo2h2Lmnwd3zW2Hx2kSgdI1WheqxzGTj2ln6P59mbAKNFiEkQRP/sga7+Lv69
-         RtLw==
-X-Gm-Message-State: AO0yUKUpP1iHb91RBhydRkZKPRVXbg89i4d3VOF40WgmYuyCxaJK1la3
-        p8Gjnksqbd7oqdC8T+3Rz7lQ86n1jOP5BFWS
-X-Google-Smtp-Source: AK7set/JPjn9n9VoNB2/5M4o5xd5uwP8v8rDeJDJvAFuOglgmYRV1aGJXAaZNaQv9qJKRIMAcWawCA==
-X-Received: by 2002:adf:c754:0:b0:2ba:dce5:ee28 with SMTP id b20-20020adfc754000000b002badce5ee28mr164864wrh.18.1675192858175;
-        Tue, 31 Jan 2023 11:20:58 -0800 (PST)
+        bh=WH2m6BhNR1uDXlk7bsxUU9DHWcuEsawDHjnKOH5ul0Q=;
+        b=YfHjzdj84Gzlfyx3tnm12NNYiaDoKEIRue66OBs84K59ccrxhwevDiaVqzaxWON1CF
+         Xv0sl8yJSaASKtsx032U+oG0//3+WP9Nr8AVfKcVl0bd4vVbskwExZBKgsWnch3Nn0OT
+         l6lXUxvtFkSNcXpmoHgA9wR1J1/ygM6yT+Gp/4TJ3Xx39qOcaLJjntz9Dxf8pNUSROVE
+         gvnXuEixyx2vAI2cFF7IEhgRbS3rcpQERcSwXhkTB3f2R3XuOY2gdakRn7y7jqP/NJxO
+         DFjy3ZadqETsQzm6rOwwIGsKoJqP6soGE1mH4u5ZAEdR+beDt8g93TV6q/uUdvQy9fy0
+         Z7cA==
+X-Gm-Message-State: AO0yUKViDFBupH9DLS/PZrjMPqAJwjKrHeJk07gNpgX5rP0EqyloFaeN
+        tLo2CQbB88PcT5X6oV2thdbogsZ6AZ8IhZJF
+X-Google-Smtp-Source: AK7set9q5zpQFp5aZC9veoh9czoaoB24cRbCPPmlXpJGCnH8ur6+I4XwGFTbHLY0TSmLDaHLnh7rXA==
+X-Received: by 2002:a05:600c:705:b0:3cf:85f7:bbc4 with SMTP id i5-20020a05600c070500b003cf85f7bbc4mr720561wmn.2.1675192859715;
+        Tue, 31 Jan 2023 11:20:59 -0800 (PST)
 Received: from dave-Ubuntu2204.. (194.15.169.217.in-addr.arpa. [217.169.15.194])
-        by smtp.googlemail.com with ESMTPSA id x9-20020a05600c21c900b003dc434b39c7sm3527512wmj.0.2023.01.31.11.20.56
+        by smtp.googlemail.com with ESMTPSA id x9-20020a05600c21c900b003dc434b39c7sm3527512wmj.0.2023.01.31.11.20.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 11:20:57 -0800 (PST)
+        Tue, 31 Jan 2023 11:20:58 -0800 (PST)
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
 To:     Manivannan Sadhasivam <mani@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 06/11] media: i2c: imx290: Use CSI timings as per datasheet
-Date:   Tue, 31 Jan 2023 19:20:11 +0000
-Message-Id: <20230131192016.3476937-7-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 07/11] media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
+Date:   Tue, 31 Jan 2023 19:20:12 +0000
+Message-Id: <20230131192016.3476937-8-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com>
 References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com>
@@ -73,190 +73,130 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit "98e0500eadb7 media: i2c: imx290: Add configurable link frequency
-and pixel rate" added support for the increased link frequencies
-on 2 data lanes, but didn't update the CSI timing registers in
-accordance with the datasheet.
+The driver exposed V4L2_CID_HBLANK as a read only control to allow
+for exposure calculations and determination of the frame rate.
 
-Use the specified settings.
+Convert to a read/write control so that the frame rate can be
+controlled.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/imx290.c | 126 +++++++++++++++++++++++++++++++------
- 1 file changed, 106 insertions(+), 20 deletions(-)
+ drivers/media/i2c/imx290.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 6bcfa535872f..9ddd6382b127 100644
+index 9ddd6382b127..9006be6e5e7c 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -174,6 +174,18 @@ struct imx290_mode {
- 	u32 data_size;
- };
+@@ -47,6 +47,7 @@
+ #define IMX290_GAIN					IMX290_REG_8BIT(0x3014)
+ #define IMX290_VMAX					IMX290_REG_24BIT(0x3018)
+ #define IMX290_HMAX					IMX290_REG_16BIT(0x301c)
++#define IMX290_HMAX_MAX					0xffff
+ #define IMX290_SHS1					IMX290_REG_24BIT(0x3020)
+ #define IMX290_WINWV_OB					IMX290_REG_8BIT(0x303a)
+ #define IMX290_WINPV					IMX290_REG_16BIT(0x303c)
+@@ -167,7 +168,7 @@ struct imx290_regval {
+ struct imx290_mode {
+ 	u32 width;
+ 	u32 height;
+-	u32 hmax;
++	u32 hmax_min;
+ 	u8 link_freq_index;
  
-+struct imx290_csi_cfg {
-+	u16 repitition;
-+	u16 tclkpost;
-+	u16 thszero;
-+	u16 thsprepare;
-+	u16 tclktrail;
-+	u16 thstrail;
-+	u16 tclkzero;
-+	u16 tclkprepare;
-+	u16 tlpx;
-+};
-+
- struct imx290 {
- 	struct device *dev;
- 	struct clk *xclk;
-@@ -273,16 +285,6 @@ static const struct imx290_regval imx290_1080p_settings[] = {
- 	{ IMX290_INCKSEL4, 0x01 },
- 	{ IMX290_INCKSEL5, 0x1a },
- 	{ IMX290_INCKSEL6, 0x1a },
--	/* data rate settings */
--	{ IMX290_REPETITION, 0x10 },
--	{ IMX290_TCLKPOST, 87 },
--	{ IMX290_THSZERO, 55 },
--	{ IMX290_THSPREPARE, 31 },
--	{ IMX290_TCLKTRAIL, 31 },
--	{ IMX290_THSTRAIL, 31 },
--	{ IMX290_TCLKZERO, 119 },
--	{ IMX290_TCLKPREPARE, 31 },
--	{ IMX290_TLPX, 23 },
- };
+ 	const struct imx290_regval *data;
+@@ -410,7 +411,7 @@ static const struct imx290_mode imx290_modes_2lanes[] = {
+ 	{
+ 		.width = 1920,
+ 		.height = 1080,
+-		.hmax = 2200,
++		.hmax_min = 2200,
+ 		.link_freq_index = FREQ_INDEX_1080P,
+ 		.data = imx290_1080p_settings,
+ 		.data_size = ARRAY_SIZE(imx290_1080p_settings),
+@@ -418,7 +419,7 @@ static const struct imx290_mode imx290_modes_2lanes[] = {
+ 	{
+ 		.width = 1280,
+ 		.height = 720,
+-		.hmax = 3300,
++		.hmax_min = 3300,
+ 		.link_freq_index = FREQ_INDEX_720P,
+ 		.data = imx290_720p_settings,
+ 		.data_size = ARRAY_SIZE(imx290_720p_settings),
+@@ -429,7 +430,7 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+ 	{
+ 		.width = 1920,
+ 		.height = 1080,
+-		.hmax = 2200,
++		.hmax_min = 2200,
+ 		.link_freq_index = FREQ_INDEX_1080P,
+ 		.data = imx290_1080p_settings,
+ 		.data_size = ARRAY_SIZE(imx290_1080p_settings),
+@@ -437,7 +438,7 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+ 	{
+ 		.width = 1280,
+ 		.height = 720,
+-		.hmax = 3300,
++		.hmax_min = 3300,
+ 		.link_freq_index = FREQ_INDEX_720P,
+ 		.data = imx290_720p_settings,
+ 		.data_size = ARRAY_SIZE(imx290_720p_settings),
+@@ -686,6 +687,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		}
+ 		break;
  
- static const struct imx290_regval imx290_720p_settings[] = {
-@@ -298,16 +300,6 @@ static const struct imx290_regval imx290_720p_settings[] = {
- 	{ IMX290_INCKSEL4, 0x01 },
- 	{ IMX290_INCKSEL5, 0x1a },
- 	{ IMX290_INCKSEL6, 0x1a },
--	/* data rate settings */
--	{ IMX290_REPETITION, 0x10 },
--	{ IMX290_TCLKPOST, 79 },
--	{ IMX290_THSZERO, 47 },
--	{ IMX290_THSPREPARE, 23 },
--	{ IMX290_TCLKTRAIL, 23 },
--	{ IMX290_THSTRAIL, 23 },
--	{ IMX290_TCLKZERO, 87 },
--	{ IMX290_TCLKPREPARE, 23 },
--	{ IMX290_TLPX, 23 },
- };
++	case V4L2_CID_HBLANK:
++		ret = imx290_write(imx290, IMX290_HMAX,
++				   ctrl->val + imx290->current_mode->width,
++				   NULL);
++		break;
++
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -716,12 +723,14 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+ 			       const struct v4l2_mbus_framefmt *format,
+ 			       const struct imx290_mode *mode)
+ {
+-	unsigned int hblank = mode->hmax - mode->width;
++	unsigned int hblank_min = mode->hmax_min - mode->width;
++	unsigned int hblank_max = IMX290_HMAX_MAX - mode->width;
+ 	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
  
- static const struct imx290_regval imx290_10bit_settings[] = {
-@@ -328,6 +320,58 @@ static const struct imx290_regval imx290_12bit_settings[] = {
- 	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
- };
+ 	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
  
-+static const struct imx290_csi_cfg imx290_csi_222_75mhz = {
-+	/* 222.25MHz or 445.5Mbit/s per lane */
-+	.repitition = 0x10,
-+	.tclkpost = 87,
-+	.thszero = 55,
-+	.thsprepare = 31,
-+	.tclktrail = 31,
-+	.thstrail = 31,
-+	.tclkzero = 119,
-+	.tclkprepare = 31,
-+	.tlpx = 23,
-+};
-+
-+static const struct imx290_csi_cfg imx290_csi_445_5mhz = {
-+	/* 445.5MHz or 891Mbit/s per lane */
-+	.repitition = 0x00,
-+	.tclkpost = 119,
-+	.thszero = 103,
-+	.thsprepare = 71,
-+	.tclktrail = 55,
-+	.thstrail = 63,
-+	.tclkzero = 255,
-+	.tclkprepare = 63,
-+	.tlpx = 55,
-+};
-+
-+static const struct imx290_csi_cfg imx290_csi_148_5mhz = {
-+	/* 148.5MHz or 297Mbit/s per lane */
-+	.repitition = 0x10,
-+	.tclkpost = 79,
-+	.thszero = 47,
-+	.thsprepare = 23,
-+	.tclktrail = 23,
-+	.thstrail = 23,
-+	.tclkzero = 87,
-+	.tclkprepare = 23,
-+	.tlpx = 23,
-+};
-+
-+static const struct imx290_csi_cfg imx290_csi_297mhz = {
-+	/* 297MHz or 594Mbit/s per lane */
-+	.repitition = 0x00,
-+	.tclkpost = 103,
-+	.thszero = 87,
-+	.thsprepare = 47,
-+	.tclktrail = 39,
-+	.thstrail = 47,
-+	.tclkzero = 191,
-+	.tclkprepare = 47,
-+	.tlpx = 39,
-+};
-+
- /* supported link frequencies */
- #define FREQ_INDEX_1080P	0
- #define FREQ_INDEX_720P		1
-@@ -536,6 +580,42 @@ static int imx290_set_black_level(struct imx290 *imx290,
- 			    black_level >> (16 - bpp), err);
+-	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
++	__v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max, 1,
++				 hblank_min);
+ 	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
  }
  
-+static int imx290_set_csi_config(struct imx290 *imx290)
-+{
-+	const s64 *link_freqs = imx290_link_freqs_ptr(imx290);
-+	const struct imx290_csi_cfg *csi_cfg;
-+	int ret = 0;
-+
-+	switch (link_freqs[imx290->current_mode->link_freq_index]) {
-+	case 445500000:
-+		csi_cfg = &imx290_csi_445_5mhz;
-+		break;
-+	case 297000000:
-+		csi_cfg = &imx290_csi_297mhz;
-+		break;
-+	case 222750000:
-+		csi_cfg = &imx290_csi_222_75mhz;
-+		break;
-+	case 148500000:
-+		csi_cfg = &imx290_csi_148_5mhz;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	imx290_write(imx290, IMX290_REPETITION, csi_cfg->repitition, &ret);
-+	imx290_write(imx290, IMX290_TCLKPOST, csi_cfg->tclkpost, &ret);
-+	imx290_write(imx290, IMX290_THSZERO, csi_cfg->thszero, &ret);
-+	imx290_write(imx290, IMX290_THSPREPARE, csi_cfg->thsprepare, &ret);
-+	imx290_write(imx290, IMX290_TCLKTRAIL, csi_cfg->tclktrail, &ret);
-+	imx290_write(imx290, IMX290_THSTRAIL, csi_cfg->thstrail, &ret);
-+	imx290_write(imx290, IMX290_TCLKZERO, csi_cfg->tclkzero, &ret);
-+	imx290_write(imx290, IMX290_TCLKPREPARE, csi_cfg->tclkprepare, &ret);
-+	imx290_write(imx290, IMX290_TLPX, csi_cfg->tlpx, &ret);
-+
-+	return ret;
-+}
-+
- static int imx290_setup_format(struct imx290 *imx290,
- 			       const struct v4l2_mbus_framefmt *format)
- {
-@@ -748,6 +828,12 @@ static int imx290_start_streaming(struct imx290 *imx290,
+@@ -778,10 +787,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+ 				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
+ 				     0, 0, imx290_test_pattern_menu);
+ 
++	/*
++	 * Actual range will be set from imx290_ctrl_update later in the probe.
++	 */
+ 	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+ 					   V4L2_CID_HBLANK, 1, 1, 1, 1);
+-	if (imx290->hblank)
+-		imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+ 	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+ 					   V4L2_CID_VBLANK, 1, 1, 1, 1);
+@@ -850,11 +860,6 @@ static int imx290_start_streaming(struct imx290 *imx290,
  		return ret;
  	}
  
-+	ret = imx290_set_csi_config(imx290);
-+	if (ret < 0) {
-+		dev_err(imx290->dev, "Could not set csi cfg\n");
-+		return ret;
-+	}
-+
- 	/* Apply the register values related to current frame format */
- 	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
- 	ret = imx290_setup_format(imx290, format);
+-	ret = imx290_write(imx290, IMX290_HMAX, imx290->current_mode->hmax,
+-			   NULL);
+-	if (ret)
+-		return ret;
+-
+ 	/* Apply customized values from user */
+ 	ret = __v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+ 	if (ret) {
 -- 
 2.34.1
 
