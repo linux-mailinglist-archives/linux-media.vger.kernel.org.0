@@ -2,130 +2,329 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF131682BEF
-	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 12:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55BEC682C04
+	for <lists+linux-media@lfdr.de>; Tue, 31 Jan 2023 12:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231859AbjAaLy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Jan 2023 06:54:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
+        id S231890AbjAaL5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Jan 2023 06:57:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbjAaLy6 (ORCPT
+        with ESMTP id S231185AbjAaL5D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Jan 2023 06:54:58 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 034E016AE4;
-        Tue, 31 Jan 2023 03:54:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675166095; x=1706702095;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ou7PMp5acdV7RgjsgZCydhFDy8bgWAyFGa1btEiHIfo=;
-  b=S2ep36UCTqiGLbOtyAwSU8E3FuovUUwpoKq0cULFJ8SryjeyWUJWLr8K
-   YD/h5f3eDQ5wuRrJFf+bTS7YP2Ryhe91hn7F2JEPkQc74vz3DNS8IxozV
-   kROPJqnrrOl/N6Dn8et8aemURGcTYvLLJxNwvDyxJC5Maf/sWSjs6u7+N
-   mNDOIRH0uuHZPGIaLxKRJLMA5zR7O2/8DJd8sDGaq7asq+RcgGgCQXmA1
-   IdHEXrKuZokNflwuv3T/Ex2tuIfOYAuq3FtYZNwovNqO6WcMq4xlKbkHx
-   kJmehnJUt3RBaCoUqeiFZHm67fQCbf9GOCVBIB79g+k1Nu/3gqrudY2jR
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="414035235"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="414035235"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 03:54:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="641951844"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="641951844"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 31 Jan 2023 03:54:52 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pMpDv-0004PO-16;
-        Tue, 31 Jan 2023 11:54:51 +0000
-Date:   Tue, 31 Jan 2023 19:54:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c:648:5:
- warning: stack frame size (1072) exceeds limit (1024) in
- 'saa7146_enable_overlay'
-Message-ID: <202301311905.1FjIpgOK-lkp@intel.com>
+        Tue, 31 Jan 2023 06:57:03 -0500
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131CF4CE59
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 03:56:59 -0800 (PST)
+Received: by mail-ot1-x333.google.com with SMTP id n25-20020a9d7119000000b0068bd8c1e836so1131121otj.3
+        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 03:56:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uD6oK65t6jXXcWfZrvpRpdrNskxqShxAuqpD0uHN5U4=;
+        b=CghLv7Tu61rvA4eeDPHt5DbSyC/+9UooxEd8oPKmT43MZHk0rBppfVz2PR+lng68ML
+         68YlflrVu1XgHIX5anEo7incbqRpAalDsRvoBUSMnGjWoqG5UEEpeIoDlG7rKr1E4Q/H
+         RW/2d+LXEj4Zd8MU6AC8xkl6aKk4VnkNDDHr3aFmMfh2ALh36NywKj8BSdCDOVz/SBkI
+         GndKHI61FqxTF9vpMTtoJtNhb7pmSTQpITUHC+LGQVrFGLzQXDPq0hLgPECdqoO5pmCC
+         Kyv2Gr9FKnFOaqKdojnPMJGNzLftJ4MwWOyCa6IkIOyGplG/AYZaXzSUwdo6cz1k5Kjm
+         3ViQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uD6oK65t6jXXcWfZrvpRpdrNskxqShxAuqpD0uHN5U4=;
+        b=dvtqFQj9bQEGJjMz1eLBAeLZy0e6OLGua48qXDxkyjXBO+2/PVqZqO6gkgO3bqh+7p
+         tgVfSwykAg3AJKpf5I3gkoo2iqdVDjofr5z+LAWKGCdj1arWrUPIdN9sa8hihNYFkvSw
+         WKEsF9dxQZM+qTxCr5dDUSKDekyBzBrAAaX9+oIEa877hQcI2FdOW1MlsceKKzLj5DgJ
+         ffmL3997/mlt4dUtfp8SpHd1ruO4TINiaX0qo29bocLrQC2mRoinYD7KohqXWUqUTmUu
+         Vpno3EbveDuzt0Q8RGnCo+C8rKSIgLorteUk5HDMnB8YA6X32H/3+NJSfWZUD1n/sXDh
+         YNIg==
+X-Gm-Message-State: AO0yUKXjMwoISV5aQqQ8yXsmWrbU1N9cdzVUN4eOtclB1BISEh1Wpi46
+        nNM3BXPOV2C0sZiZDiqVLugs5A==
+X-Google-Smtp-Source: AK7set/LEWxhDzV+atwOMYN4ZCyMjKMP4Vk1bwGCEL+B62LezD044elD3w/8seDqhRIyNkoIDkR35g==
+X-Received: by 2002:a9d:590e:0:b0:68b:c889:b0d9 with SMTP id t14-20020a9d590e000000b0068bc889b0d9mr1659171oth.3.1675166218288;
+        Tue, 31 Jan 2023 03:56:58 -0800 (PST)
+Received: from [192.168.10.175] ([190.106.125.239])
+        by smtp.gmail.com with ESMTPSA id bi7-20020a056830378700b0068bb73bd95esm4697777otb.58.2023.01.31.03.56.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Jan 2023 03:56:57 -0800 (PST)
+Date:   Tue, 31 Jan 2023 08:56:45 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Subject: Re: [PATCH v6 4/5] media: verisilicon: Do not change context bit
+ depth before validating the format
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.co.uk, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Message-Id: <LIMCPR.RP375QDMFOPN2@vanguardiasur.com.ar>
+In-Reply-To: <20230130135802.744743-5-benjamin.gaignard@collabora.com>
+References: <20230130135802.744743-1-benjamin.gaignard@collabora.com>
+        <20230130135802.744743-5-benjamin.gaignard@collabora.com>
+X-Mailer: geary/43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii; format=flowed
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Benjamin,
 
-First bad commit (maybe != root cause):
+On Mon, Jan 30 2023 at 02:58:01 PM +0100, Benjamin Gaignard 
+<benjamin.gaignard@collabora.com> wrote:
+> It is needed to check if the proposed pixels format is valid before
+> updating context bit depth and other internal states.
+> Stop using ctx->bit_depth to check format depth match and return
+> result to the caller.
+> 
+> Fixes: dc39473d0340 ("media: hantro: imx8m: Enable 10bit decoding")
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  .../platform/verisilicon/hantro_postproc.c    |  2 +-
+>  .../media/platform/verisilicon/hantro_v4l2.c  | 45 
+> ++++++++++---------
+>  .../media/platform/verisilicon/hantro_v4l2.h  |  3 +-
+>  3 files changed, 26 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c 
+> b/drivers/media/platform/verisilicon/hantro_postproc.c
+> index 09d8cf942689..6437423ccf3a 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -197,7 +197,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+>  	unsigned int i, buf_size;
+> 
+>  	/* this should always pick native format */
+> -	fmt = hantro_get_default_fmt(ctx, false);
+> +	fmt = hantro_get_default_fmt(ctx, false, ctx->bit_depth);
+>  	if (!fmt)
+>  		return -EINVAL;
+>  	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c 
+> b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index e60151a8a401..6c5f4351b257 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -28,6 +28,8 @@
+>  #include "hantro_hw.h"
+>  #include "hantro_v4l2.h"
+> 
+> +#define  HANTRO_DEFAULT_BIT_DEPTH 0
+> +
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   22b8077d0fcec86c6ed0e0fce9f7e7e5a4c2d56a
-commit: e33fdb5a02490059e2f48ced2c038c8a46c6476d media: saa7146: deprecate hexium_gemini/orion, mxb and ttpci
-date:   5 months ago
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230131/202301311905.1FjIpgOK-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e33fdb5a02490059e2f48ced2c038c8a46c6476d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e33fdb5a02490059e2f48ced2c038c8a46c6476d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx5/core/steering/ drivers/staging/media/deprecated/saa7146/common/
+The default bit_depth should be 8,
+since 0 is not a valid value.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+>  static int hantro_set_fmt_out(struct hantro_ctx *ctx,
+>  			      struct v4l2_pix_format_mplane *pix_mp);
+>  static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
+> @@ -76,17 +78,16 @@ int hantro_get_format_depth(u32 fourcc)
+>  }
+> 
+>  static bool
+> -hantro_check_depth_match(const struct hantro_ctx *ctx,
+> -			 const struct hantro_fmt *fmt)
+> +hantro_check_depth_match(const struct hantro_fmt *fmt, int bit_depth)
+>  {
+> -	int fmt_depth, ctx_depth = 8;
+> +	int fmt_depth, depth = 8;
+> 
+>  	if (!fmt->match_depth && !fmt->postprocessed)
+>  		return true;
+> 
+>  	/* 0 means default depth, which is 8 */
+> -	if (ctx->bit_depth)
+> -		ctx_depth = ctx->bit_depth;
 
-All warnings (new ones prefixed by >>):
+This should be removed, since now bit_depth will always
+be 8 or 10.
 
->> drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c:648:5: warning: stack frame size (1072) exceeds limit (1024) in 'saa7146_enable_overlay' [-Wframe-larger-than]
-   int saa7146_enable_overlay(struct saa7146_fh *fh)
-       ^
-   257/1072 (23.97%) spills, 815/1072 (76.03%) variables
-   1 warning generated.
+> +	if (bit_depth)
+> +		depth = bit_depth;
+> 
+
+Ditto.
+
+>  	fmt_depth = hantro_get_format_depth(fmt->fourcc);
+> 
+> @@ -95,9 +96,9 @@ hantro_check_depth_match(const struct hantro_ctx 
+> *ctx,
+>  	 * It may be possible to relax that on some HW.
+>  	 */
+>  	if (!fmt->match_depth)
+> -		return fmt_depth <= ctx_depth;
+> +		return fmt_depth <= depth;
+> 
+> -	return fmt_depth == ctx_depth;
+> +	return fmt_depth == depth;
+>  }
+> 
+>  static const struct hantro_fmt *
+> @@ -119,7 +120,7 @@ hantro_find_format(const struct hantro_ctx *ctx, 
+> u32 fourcc)
+>  }
+> 
+>  const struct hantro_fmt *
+> -hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+> +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream, 
+> int bit_depth)
+>  {
+>  	const struct hantro_fmt *formats;
+>  	unsigned int i, num_fmts;
+> @@ -128,7 +129,7 @@ hantro_get_default_fmt(const struct hantro_ctx 
+> *ctx, bool bitstream)
+>  	for (i = 0; i < num_fmts; i++) {
+>  		if (bitstream == (formats[i].codec_mode !=
+>  				  HANTRO_MODE_NONE) &&
+> -		    hantro_check_depth_match(ctx, &formats[i]))
+> +		    hantro_check_depth_match(&formats[i], bit_depth))
+>  			return &formats[i];
+>  	}
+>  	return NULL;
+> @@ -203,7 +204,7 @@ static int vidioc_enum_fmt(struct file *file, 
+> void *priv,
+> 
+>  		if (skip_mode_none == mode_none)
+>  			continue;
+> -		if (!hantro_check_depth_match(ctx, fmt))
+> +		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
+>  			continue;
+>  		if (j == f->index) {
+>  			f->pixelformat = fmt->fourcc;
+> @@ -223,7 +224,7 @@ static int vidioc_enum_fmt(struct file *file, 
+> void *priv,
+>  	for (i = 0; i < num_fmts; i++) {
+>  		fmt = &formats[i];
+> 
+> -		if (!hantro_check_depth_match(ctx, fmt))
+> +		if (!hantro_check_depth_match(fmt, ctx->bit_depth))
+>  			continue;
+>  		if (j == f->index) {
+>  			f->pixelformat = fmt->fourcc;
+> @@ -291,7 +292,7 @@ static int hantro_try_fmt(const struct hantro_ctx 
+> *ctx,
+> 
+>  	fmt = hantro_find_format(ctx, pix_mp->pixelformat);
+>  	if (!fmt) {
+> -		fmt = hantro_get_default_fmt(ctx, coded);
+> +		fmt = hantro_get_default_fmt(ctx, coded, HANTRO_DEFAULT_BIT_DEPTH);
+>  		pix_mp->pixelformat = fmt->fourcc;
+>  	}
+> 
+> @@ -379,7 +380,7 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+>  	const struct hantro_fmt *vpu_fmt;
+>  	struct v4l2_pix_format_mplane fmt;
+> 
+> -	vpu_fmt = hantro_get_default_fmt(ctx, true);
+> +	vpu_fmt = hantro_get_default_fmt(ctx, true, 
+> HANTRO_DEFAULT_BIT_DEPTH);
+>  	if (!vpu_fmt)
+>  		return;
+> 
+> @@ -392,15 +393,15 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+>  		hantro_set_fmt_out(ctx, &fmt);
+>  }
+> 
+> -static void
+> -hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+> +int
+> +hantro_reset_raw_fmt(struct hantro_ctx *ctx, int bit_depth)
+
+Given hantro_reset_raw_fmt sets the state, I suspect it will be better
+to store ctx->bit_depth here.
+
+This will also take care of the bit_depth initialization,
+at open() time, which is done with hantro_reset_fmts().
+
+In fact, if you want this to be extra robust replace
+the integer bit_depth with an enum type, and so we will
+guarantee only valid values, 8 or 10 are ever used.
+
+Thanks!
+Ezequiel
+
+>  {
+>  	const struct hantro_fmt *raw_vpu_fmt;
+>  	struct v4l2_pix_format_mplane raw_fmt, *encoded_fmt;
+> 
+> -	raw_vpu_fmt = hantro_get_default_fmt(ctx, false);
+> +	raw_vpu_fmt = hantro_get_default_fmt(ctx, false, bit_depth);
+>  	if (!raw_vpu_fmt)
+> -		return;
+> +		return -EINVAL;
+> 
+>  	if (ctx->is_encoder)
+>  		encoded_fmt = &ctx->dst_fmt;
+> @@ -411,15 +412,15 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+>  	raw_fmt.width = encoded_fmt->width;
+>  	raw_fmt.height = encoded_fmt->height;
+>  	if (ctx->is_encoder)
+> -		hantro_set_fmt_out(ctx, &raw_fmt);
+> +		return hantro_set_fmt_out(ctx, &raw_fmt);
+>  	else
+> -		hantro_set_fmt_cap(ctx, &raw_fmt);
+> +		return hantro_set_fmt_cap(ctx, &raw_fmt);
+>  }
+> 
+>  void hantro_reset_fmts(struct hantro_ctx *ctx)
+>  {
+>  	hantro_reset_encoded_fmt(ctx);
+> -	hantro_reset_raw_fmt(ctx);
+> +	hantro_reset_raw_fmt(ctx, HANTRO_DEFAULT_BIT_DEPTH);
+>  }
+> 
+>  static void
+> @@ -519,7 +520,7 @@ static int hantro_set_fmt_out(struct hantro_ctx 
+> *ctx,
+>  	 * changes to the raw format.
+>  	 */
+>  	if (!ctx->is_encoder)
+> -		hantro_reset_raw_fmt(ctx);
+> +		hantro_reset_raw_fmt(ctx, 
+> hantro_get_format_depth(pix_mp->pixelformat));
+> 
+>  	/* Colorimetry information are always propagated. */
+>  	ctx->dst_fmt.colorspace = pix_mp->colorspace;
+> @@ -582,7 +583,7 @@ static int hantro_set_fmt_cap(struct hantro_ctx 
+> *ctx,
+>  	 * changes to the raw format.
+>  	 */
+>  	if (ctx->is_encoder)
+> -		hantro_reset_raw_fmt(ctx);
+> +		hantro_reset_raw_fmt(ctx, HANTRO_DEFAULT_BIT_DEPTH);
+> 
+>  	/* Colorimetry information are always propagated. */
+>  	ctx->src_fmt.colorspace = pix_mp->colorspace;
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.h 
+> b/drivers/media/platform/verisilicon/hantro_v4l2.h
+> index 64f6f57e9d7a..9ea2fef57dcd 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.h
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.h
+> @@ -21,9 +21,10 @@
+>  extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
+>  extern const struct vb2_ops hantro_queue_ops;
+> 
+> +int hantro_reset_raw_fmt(struct hantro_ctx *ctx, int bit_depth);
+>  void hantro_reset_fmts(struct hantro_ctx *ctx);
+>  int hantro_get_format_depth(u32 fourcc);
+>  const struct hantro_fmt *
+> -hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream);
+> +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream, 
+> int bit_depth);
+> 
+>  #endif /* HANTRO_V4L2_H_ */
+> --
+> 2.34.1
+> 
 
 
-vim +/saa7146_enable_overlay +648 drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c
-
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  647  
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16 @648  int saa7146_enable_overlay(struct saa7146_fh *fh)
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  649  {
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  650  	struct saa7146_dev *dev = fh->dev;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  651  	struct saa7146_vv *vv = dev->vv_data;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  652  
-5da545ad08a3c6 drivers/media/common/saa7146_hlp.c Hans Verkuil   2012-05-01  653  	saa7146_set_window(dev, vv->ov.win.w.width, vv->ov.win.w.height, vv->ov.win.field);
-5da545ad08a3c6 drivers/media/common/saa7146_hlp.c Hans Verkuil   2012-05-01  654  	saa7146_set_position(dev, vv->ov.win.w.left, vv->ov.win.w.top, vv->ov.win.w.height, vv->ov.win.field, vv->ov_fmt->pixelformat);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  655  	saa7146_set_output_format(dev, vv->ov_fmt->trans);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  656  	saa7146_set_clipping_rect(fh);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  657  
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  658  	/* enable video dma1 */
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  659  	saa7146_write(dev, MC1, (MASK_06 | MASK_22));
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  660  	return 0;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  661  }
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  662  
-
-:::::: The code at line 648 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
