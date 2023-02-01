@@ -2,145 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBDE3686318
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 10:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01A01686452
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 11:34:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231661AbjBAJqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 04:46:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
+        id S230154AbjBAKeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 05:34:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231709AbjBAJqC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 04:46:02 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4C73589;
-        Wed,  1 Feb 2023 01:46:01 -0800 (PST)
-Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 765BB505;
-        Wed,  1 Feb 2023 10:45:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675244759;
-        bh=ae5B3Tp2ry8b8G71s40ax+Ovn2zEm/amT6bkxrEQuxE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=foPZ/2HPjQSpoOqncY+pjjiigYN5eqgZ3CcVr/AHeSvrOVPPTbWYMDjX7G++JMu4L
-         MB73dAt6eexFHleB/XQDlRNL0csmsQRoYpbmgpKxTVyKOKs1N24OFJzLIuLWpZ+re2
-         xf9PLAxj3R38ar43TcZbh8wQrgcWZ1/H6oc/rybM=
-Date:   Wed, 1 Feb 2023 11:45:57 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     yuji2.ishikawa@toshiba.co.jp
-Cc:     krzysztof.kozlowski@linaro.org, hverkuil@xs4all.nl,
-        mchehab@kernel.org, nobuhiro1.iwamatsu@toshiba.co.jp,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        rafael.j.wysocki@intel.com, broonie@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 1/6] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface bindings
-Message-ID: <Y9o01ctDujKRXw2J@pendragon.ideasonboard.com>
-References: <20230111022433.25950-1-yuji2.ishikawa@toshiba.co.jp>
- <20230111022433.25950-2-yuji2.ishikawa@toshiba.co.jp>
- <Y8a+Hk2jFOjbkIvZ@pendragon.ideasonboard.com>
- <d1bb1148-e273-f5bb-bccc-ceca82bb6836@linaro.org>
- <Y8bFjhHkbNAKQK3t@pendragon.ideasonboard.com>
- <c2740d66-b51f-efc2-6583-a69bde950c68@linaro.org>
- <Y82NtJCtr+CZgS9k@pendragon.ideasonboard.com>
- <TYAPR01MB6201BCC60149D17F59AD870E92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+        with ESMTP id S229451AbjBAKeD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 05:34:03 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E03AE16AEA;
+        Wed,  1 Feb 2023 02:34:01 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 96D7933BC2;
+        Wed,  1 Feb 2023 10:34:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1675247640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PGJdFzf4ps4BDGCIGezmvQsHjQ3rJq4fZ/rhG9iRHLI=;
+        b=QHOgv0BoI7QTsY8gbItAWekqvWnwkktFUVwGBCKiRt31PpleO2wUKw18xMih0/rAUadQTJ
+        bZotIvT87sDJJEmli37D5uqNh6GkThs4e3jqNDlURqdCQvtXzKGdeBuNtgtfrurUFQJ03D
+        OwZR4bYOh7rRrThTwpK3PF9c5+H21aU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1675247640;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PGJdFzf4ps4BDGCIGezmvQsHjQ3rJq4fZ/rhG9iRHLI=;
+        b=PycLh9UGVZMwRgJEIEWW1hJgeZlOJYzV7Ip2KRaGzgxwr9BTeMRG/HMgn4gI592cl+lkOM
+        PMzhouZaaKgcFVBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6CB3113A10;
+        Wed,  1 Feb 2023 10:34:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id /fmLGRhA2mPpAwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Wed, 01 Feb 2023 10:34:00 +0000
+Message-ID: <5633a014-c9dd-6b35-41a8-fcf3cd4aef53@suse.de>
+Date:   Wed, 1 Feb 2023 11:34:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TYAPR01MB6201BCC60149D17F59AD870E92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] dma-buf: actually set signaling bit for private sub
+ fences
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Danilo Krummrich <dakr@redhat.com>, Arvind.Yadav@amd.com,
+        sumit.semwal@linaro.org, gustavo@padovan.org
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org
+References: <20230126002844.339593-1-dakr@redhat.com>
+ <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
+ <5caf64b6-0e3c-4c24-4fe8-9ed2caf43822@redhat.com>
+ <081122e1-ecfe-9441-fb91-e1887f148529@amd.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <081122e1-ecfe-9441-fb91-e1887f148529@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HvdzHt700mu082Ws00MCzqE8"
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 30, 2023 at 09:06:25AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
-> On Monday, January 23, 2023 4:26 AM, Laurent Pinchart wrote:
-> > On Tue, Jan 17, 2023 at 06:01:27PM +0100, Krzysztof Kozlowski wrote:
-> > > On 17/01/2023 16:58, Laurent Pinchart wrote:
-> > > > On Tue, Jan 17, 2023 at 04:42:51PM +0100, Krzysztof Kozlowski wrote:
-> > > >> On 17/01/2023 16:26, Laurent Pinchart wrote:
-> > > >>>
-> > > >>>> +
-> > > >>>> +          clock-lanes:
-> > > >>>> +            description: VIIF supports 1 clock line
-> > > >>>
-> > > >>> s/line/lane/
-> 
-> Sorry for a late reply.
-> I'll fix the description.
-> 
-> > > >>>
-> > > >>>> +            const: 0
-> > > >>>
-> > > >>> I would also add
-> > > >>>
-> > > >>>           clock-noncontinuous: true
-> > > >>>           link-frequencies: true
-> > > >>>
-> > > >>> to indicate that the above two properties are used by this device.
-> > > >>
-> > > >> No, these are coming from other schema and there is never need to
-> > > >> mention some property to indicate it is more used than other case.
-> > > >> None of the bindings are created such way, so this should not be exception.
-> > > >
-> > > > There are some bindings that do so, but that may not be a good
-> > > > enough reason, as there's a chance I wrote those myself :-)
-> > > >
-> > > > I would have sworn that at some point in the past the schema
-> > > > wouldn't have validated the example with this omitted. I'm not sure
-> > > > if something changed or if I got this wrong.
-> > >
-> > > You probably think about case when using additionalProperties:false,
-> > > where one has to explicitly list all valid properties. But not for
-> > > unevaluatedProperties:false.
-> > 
-> > Possibly, yes.
-> > 
-> > > > video-interfaces.yaml defines lots of properties applicable to
-> > > > endpoints. For a given device, those properties should be required
-> > >
-> > > required:
-> > >  - foo
-> > >
-> > > > (easy, that's defined in the bindings), optional,
-> > >
-> > > by default (with unevaluatedProperties:false) or explicitly mention
-> > > "foo: true (with additionalProperties:false)
-> > >
-> > > >  or forbidden. How do
-> > >
-> > > foo: false (with unevaluatedProperties:false) or by default (with
-> > > additionalProperties:false)
-> > 
-> > I think we should default to the latter. video-interfaces.yaml contains lots of
-> > properties endpoint properties, most bindings will use less than half of them, so
-> > having to explicitly list all the ones that are not used with "foo: false" would be
-> > quite inconvenient. Furthermore, I expect more properties to be added to
-> > video-interfaces.yaml over time, and those shouldn't be accepted by default in
-> > existing bindings.
-> > 
-> 
-> I caught up with this discussion after some exercise on JSON schema validator.
-> I'll remove "unevaluatedProperties: false" at the "endpoint" and add "aditionalProperties: false" instead.
-> Furthermore, I'll explicitly declare required properties (required: ["foo"]) and optional properties (properties: {foo: true}) for Visconti.
-> Is this correct understanding?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HvdzHt700mu082Ws00MCzqE8
+Content-Type: multipart/mixed; boundary="------------xKda4rKqIiM4e5wJoyqcqcsQ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>, Arvind.Yadav@amd.com,
+ sumit.semwal@linaro.org, gustavo@padovan.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+Message-ID: <5633a014-c9dd-6b35-41a8-fcf3cd4aef53@suse.de>
+Subject: Re: [PATCH] dma-buf: actually set signaling bit for private sub
+ fences
+References: <20230126002844.339593-1-dakr@redhat.com>
+ <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
+ <5caf64b6-0e3c-4c24-4fe8-9ed2caf43822@redhat.com>
+ <081122e1-ecfe-9441-fb91-e1887f148529@amd.com>
+In-Reply-To: <081122e1-ecfe-9441-fb91-e1887f148529@amd.com>
 
-Looks very good to me !
+--------------xKda4rKqIiM4e5wJoyqcqcsQ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Are these changes also applied to "port", which is the parent node of
-> the "endpoint" ?
+DQoNCkFtIDI3LjAxLjIzIHVtIDA4OjQ5IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoNCj4g
+QW0gMjYuMDEuMjMgdW0gMjM6MjUgc2NocmllYiBEYW5pbG8gS3J1bW1yaWNoOg0KPj4gT24g
+MS8yNi8yMyAwNzo1OCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToNCj4+PiBBbSAyNi4wMS4y
+MyB1bSAwMToyOCBzY2hyaWViIERhbmlsbyBLcnVtbXJpY2g6DQo+Pj4+IEluIGRtYV9mZW5j
+ZV9hbGxvY2F0ZV9wcml2YXRlX3N0dWIoKSBzZXQgdGhlIHNpZ25hbGluZyBiaXQgb2YgdGhl
+IG5ld2x5DQo+Pj4+IGFsbG9jYXRlZCBwcml2YXRlIHN0dWIgZmVuY2UgcmF0aGVyIHRoYW4g
+dGhlIHNpZ25hbGluZyBiaXQgb2YgdGhlDQo+Pj4+IHNoYXJlZCBkbWFfZmVuY2Vfc3R1Yi4N
+Cj4+Pj4NCj4+Pj4gRml4ZXM6IGM4NWQwMGQ0ZmQ4YiAoImRtYS1idWY6IHNldCBzaWduYWxp
+bmcgYml0IGZvciB0aGUgc3R1YiBmZW5jZSIpDQo+Pj4+IFNpZ25lZC1vZmYtYnk6IERhbmls
+byBLcnVtbXJpY2ggPGRha3JAcmVkaGF0LmNvbT4NCj4+Pg0KPj4+IEdvb2QgY2F0Y2gsIFJl
+dmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+DQo+Pj4NCj4+PiBTaG91bGQgSSBwdXNoIGl0IHVwc3RyZWFtIGFzIHdlbGwgb3IgZG8geW91
+IGhhdmUgY29tbWl0IGFjY2Vzcz8NCj4+DQo+PiBUaGFua3MsIEkgY2FuIHB1c2ggaXQgdG8g
+ZHJtLW1pc2MtbmV4dC4NCj4gDQo+IFRoaXMgaXMgY2xlYXJseSBhIGJ1ZyBmaXggc28gYmV0
+dGVyIHB1c2ggdGhpcyB0byBkcm0tbWlzYy1maXhlcyBhbmQgDQo+IG1heWJlIGV2ZW4gYWRk
+IGEgQ0M6c3RhYmxlIHRhZy4NCg0KSSBoYXZlIGNoZXJyeS1waWNrZWQgdGhlIHBhdGNoIGlu
+dG8gZHJtLW1pc2MtbmV4dC1maXhlcy4NCg0KPiANCj4gQ2hyaXN0aWFuLg0KPiANCj4+DQo+
+Pj4NCj4+Pj4gLS0tDQo+Pj4+IMKgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYyB8IDIg
+Ky0NCj4+Pj4gwqAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pDQo+Pj4+DQo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
+LmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMNCj4+Pj4gaW5kZXggNDA2YjRlMjZm
+NTM4Li4wZGUwNDgyY2QzNmUgMTAwNjQ0DQo+Pj4+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9k
+bWEtZmVuY2UuYw0KPj4+PiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMNCj4+
+Pj4gQEAgLTE2Nyw3ICsxNjcsNyBAQCBzdHJ1Y3QgZG1hX2ZlbmNlIA0KPj4+PiAqZG1hX2Zl
+bmNlX2FsbG9jYXRlX3ByaXZhdGVfc3R1Yih2b2lkKQ0KPj4+PiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAwLCAwKTsNCj4+Pj4gwqDCoMKgwqDCoCBzZXRfYml0KERNQV9G
+RU5DRV9GTEFHX0VOQUJMRV9TSUdOQUxfQklULA0KPj4+PiAtwqDCoMKgwqDCoMKgwqAgJmRt
+YV9mZW5jZV9zdHViLmZsYWdzKTsNCj4+Pj4gK8KgwqDCoMKgwqDCoMKgICZmZW5jZS0+Zmxh
+Z3MpOw0KPj4+PiDCoMKgwqDCoMKgIGRtYV9mZW5jZV9zaWduYWwoZmVuY2UpOw0KPj4+DQo+
+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
+LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
+ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-That shouldn't be needed, as the "port" node should only have "endpoint"
-children and no other properties (except for reg, and possibly
-#address-cells and #size-cells of course).
+--------------xKda4rKqIiM4e5wJoyqcqcsQ--
 
-> > > > we differentiate between the latter two cases ?
+--------------HvdzHt700mu082Ws00MCzqE8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Laurent Pinchart
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPaQBgFAwAAAAAACgkQlh/E3EQov+BM
+JA/+O15Wvl+lS9etL0WABcExyBnaxUtCk63izXw0lDWFfn3KJOTM9rsH+H1n7ok8hF+c74bOFW8Q
+87nnPDHEaOQARUYO8EZCy4BYptIMpumjTuARKa2QRfOyKmys3+sReV4mvSr4SBr2otx9RvdlnEC1
+yj5i31VqAuPSsjxVncCg1RfFuogARsAD3CWr69TeLXztVyLouwyKWke2veRmMVaMTReNEN1/7Hs6
+rkcTQ3thzKMdH71P4eaXimxHGhIyFemie6jrKTl9BhO54f3uIRYqMxXF0QF5eNWJVO7R4B9Sxoio
+UjddGKVpYHXiVsWCWtXWyXVN9wRQSpKx9v916//3BU4Pgs5yNBLDTXGg0OrgKcYs5psPzuRsC5H3
+rAqJXMfMGISfC0NQpN7TpmA1qGkl5aFGDhtLftETnYS9yv++ESYesi5WtyU2Z3FVw+L1ZGAlZ135
+yUqUrrdT5uvWL/3dp6fR7OzTaK4zWnVEBKApVI6LqfpNNtt0CLNYumc+7PmVggrQxgTD4uhusI63
+YnvwHQvROE8KQHnvgnWSLEwcr5NW26gzxEMb/6fLgAzjXU0/siQ9Gbhxmi0Wb9/vF6OgePYbIrtf
+XAFFizb1D4nCviXhfOhBcldzdbvcCm6qaDqpABd3ElhHaPa8X4Lkey3uZsRF2z6sThawMTwJdN5H
+z6E=
+=yjOE
+-----END PGP SIGNATURE-----
+
+--------------HvdzHt700mu082Ws00MCzqE8--
