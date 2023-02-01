@@ -2,103 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0EEF6869D2
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 16:16:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58004686A35
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 16:26:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232802AbjBAPQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 10:16:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54768 "EHLO
+        id S231766AbjBAP0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 10:26:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232007AbjBAPQI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 10:16:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1513E40F1;
-        Wed,  1 Feb 2023 07:16:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 32F1E617E5;
-        Wed,  1 Feb 2023 15:16:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DF4C433D2;
-        Wed,  1 Feb 2023 15:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675264559;
-        bh=LRcOg2q+eDGVIXXY2nwx4erwH77a/aRq28NUs5IDyCc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KU4ZzAZCfEIFr0jm610wDLcfNDu1BT7alWBq4lCdAi8jxLcmCiG+N3M8pD98e92bq
-         jEveutD/LRtarHkLSi1VT+wkWbr0FiUwuP11kxiQ/FQ/0dLJS9f7wk4WIsY81RNwsT
-         zE2rXqGv+swsJ+x2navfQqq5XD8GmEgv0vJSNVcB+mloglAaqXwO0rFQl2XUbT1nWE
-         N9OHyols6boAqmJ12PCA7BF6t1yvrYW7Nw9tEb0eKdvPWGnJ5Rqf1wv3Ng4NK3ygNW
-         owxjCxS1tCFcCwRtOSIJKriVsuXGINVmjP3mb2jgXizk7d2Q0jSrHyCO8vF9Om7Gjt
-         MSXjxi7+9AcEg==
-Date:   Wed, 1 Feb 2023 15:15:35 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc:     miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org,
-        sanju.mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org,
-        kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com,
-        sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com,
-        han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, narmstrong@baylibre.com,
-        khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com,
-        linus.walleij@linaro.org, daniel@zonque.org,
-        haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-        agross@kernel.org, bjorn.andersson@linaro.org, heiko@sntech.de,
-        krzysztof.kozlowski@linaro.org, andi@etezian.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-        wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-        masahisa.kojima@linaro.org, jaswinder.singh@linaro.org,
-        rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org,
-        kvalo@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-        skomatineni@nvidia.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, j.neuschaefer@gmx.net,
-        vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org,
-        elder@kernel.org, gregkh@linuxfoundation.org, git@amd.com,
-        linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        claudiu.beznea@microchip.com,
-        bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        venture@google.com, yuenn@google.com, benjaminfair@google.com,
-        yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org,
-        alim.akhtar@samsung.com, ldewangan@nvidia.com,
-        michal.simek@amd.com, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
-        libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-mtd@lists.infradead.org, lars@metafoo.de,
-        Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-        michael@walle.cc, palmer@dabbelt.com,
-        linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
-        linux-staging@lists.linux.dev, amitrkcian2002@gmail.com
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Message-ID: <Y9qCF7DS+FQo1RYp@sirena.org.uk>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+        with ESMTP id S230000AbjBAP0L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 10:26:11 -0500
+X-Greylist: delayed 307 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 01 Feb 2023 07:26:08 PST
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7820FFE
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 07:26:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+        t=1675265164; bh=JbvNotdOU7p6oSSY/wjXE38FTHKgLlyjD2VKbeih6FI=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=nAK/dLmGeiaDsSNW0K5oIHfcrrjOjYkoJ4LKLGxjURcC47HnzklSfN2CWcUWzEU9R
+         aL4tsjNtFLN3vKNuH5TkfvQ0ivIyYuj+bKNLvShHl5jTV4LkxFbxE1xgJh7l+L4gUR
+         DXmpFliACW3yFAde2U8BjBUY8fyYWvrI3JNuM0bU8X/rLU9qKdkxeBm8ngz8cpVnrV
+         ugVVjafhEGVw3QqiI/LPW4JJ87mvIvkuvNlAoMKenjnrQPcGgTvqGZfXi39Ee2Z8D/
+         HXyL3dFYEcs/mujXdBpihRwFMapMQlQb6yMj2VFlf33tYUkh4uvlMeOU097v9y1eMr
+         fYVQp9yN15nbg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.1.40] ([89.12.34.136]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N2BHw-1odZMF1mkI-013U3W; Wed, 01
+ Feb 2023 16:20:57 +0100
+Message-ID: <e7ee8b9f-eb4b-de7a-7cf8-fb385b2cdec2@web.de>
+Date:   Wed, 1 Feb 2023 16:20:45 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="RnOekfr0Q/w96KQx"
-Content-Disposition: inline
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-X-Cookie: Oh no, not again.
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Future of the SAA7146 drivers
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Stefan Herdler <herdler@nurfuerspam.de>,
+        linux-media@vger.kernel.org
+Cc:     Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>
+References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+ <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
+ <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
+ <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
+ <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
+ <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+Content-Language: en-US
+From:   Soeren Moch <smoch@web.de>
+In-Reply-To: <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:0da9N2hlGbayA9PPPnGyZa+pTupvId229nf1HfWVp8I16bec6YJ
+ 54IuzjQBwOECrc7Qhm3M4qxUt3KdPlFoqm5liEQqLz4/is0ixMw7Ft/12uCwghWw0s27KMO
+ OI9h+oRJo0vnms5WZkOjFCdkD0GSXekqDq3XXM284a92KOySzVQTYzfLEgNukzHhBsl7xd2
+ iHD8pN0H65qGJbVfUNxtg==
+UI-OutboundReport: notjunk:1;M01:P0:WTC3Q4M1GqA=;4cDFRvoItINWSAY0vtFADZyAzEj
+ 1k/vgxFsfSEVmx42kKOfk4SJkBcQdH5SDjbtl7DD7WHzWhFYOvisIszh60hpfZ528AYpowABH
+ N70Mse9oXfuZiUuZWcSm4JgjEkuKZLcqbg1E5piN5lwOuynfEfRbIG+ON5h4abwQ/w/WKFE/T
+ 0gFSuQ+mNBwG65KzeozuWBGT3WWrepkhIEJbKxkvdKc3ixsWZNoQeq5rtPKXCIOaJetltIjeV
+ 4gc0X/eztZXLm4EW/DxADIXbO50A9cnNQZLmjmCh44pQCDHzawnV4yH+0xHVRlQ349uMNMFXM
+ XKAoWG/Up5XGDfKw5ZPRHDMTckoCkdP+plfkMj+BTVhxSzO/aKhhfGReA6/u0DeyseDtqU8DX
+ cEG9K6eqzkbmSsMRgKuDbMmIHfnWhafE5EtQEc2pR2id7E00rPdxdmITr6RlySMjl3BsorsL5
+ ezE+MPJPjERGLlJO2ZXUZN1WlOSgASR7n1LgKOWVNHwVD2ir7LVMsVsh+EfCkjXFlVinJ/Axy
+ yppm/epzP6vTZvzEeLVrQofP8CpowIQwq+q/sN9yLBvZ5+kmir7z/kUyWs4rinxWn4DPxyHvI
+ PvDgeSDk2C9s/KtW3OTJsV1eEjKB4cOqW3LhDCuXXnENrP15Skvm/Jsam5t06c5vPZ0aD7tM3
+ /T/wreuFI3SCJeRLv4MmQ8zHwjx490/3klhFRd181NIKPgPs09C1/qeKaszzFnpCmb2zFM3wS
+ bg1MtMUSat3OqUWbRkmpEKvPwEy8UO/6uJdX7u431A27rWB1pB187OCZ+uJIrtijP3kRdYYu6
+ eGrfNANG7lHYQGgEjpEwpGDlys9BzUJ7qmcQzi59RoE9NYSFPKTC0VzQmrIK0VSJ64tRonDJq
+ cr9Zv+PRCPgEFaw5sR1CQsoVCUETElQz6elYQ+ZB0Bagl3Auk0WoriY1XpS6sjsWYWunhUaTC
+ jOEF5Q==
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -106,37 +81,66 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---RnOekfr0Q/w96KQx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Fri, Jan 20, 2023 at 12:23:31AM +0530, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+On 01.02.23 14:51, Hans Verkuil wrote:
+> Hi S=C3=B6ren,
+>
+> On 01/02/2023 12:35, Soeren Moch wrote:
+>
+> <snip>
+>
+>>>>> Obviously, if someone wants to do the vb2 conversion, then that woul=
+d be
+>>>>> perfect. I was looking at removing analog video support, and that do=
+esn't
+>>>>> look as easy as I thought it would be.
+>>>>>
+>> I only own full-featured (Nexus) cards, modified to also support a mode
+>> of operation like budget cards. In full-featured cards there is a
+>> possibility to re-read the decoded video output signal back, which coul=
+d
+>> be similar to how analog cards work. But I never had access to
+>> analog/hybrid saa7146 cards, so I'm not sure I can test this mode. I
+>> also don't know anybody with such card who could help testing.
+>> I personally do not care much about analog card support in the driver,
+>> but will at least check which part of analog functionality is used in
+>> full-featured cards. Maybe the support for analog/hybrid cards and some
+>> test coverage comes for free with full support for full-featured cards.
+> It's the analog video streaming that uses vb2, so being able to test tha=
+t
+> is critical.
+>
+> So I decided to do this differently:
+>
+> 1) I'll revert the move of saa7146 to staging, it will go back to
+>     mainline. av7110 stays in staging for now (that might change, I
+>     just don't want to make more changes than strictly necessary).
+Hm, you wrote earlier, all this staging is about vb2 conversion.
+There is no videobuf in av7110. Why this part needs to stay in staging?
 
-This doesn't apply against current code, please check and resend.
+How can I help here?
+>
+> 2) I will do the vb2 conversion. I have the analog video hardware,
+>     so I can test this.
+Great! Thanks for this!
 
---RnOekfr0Q/w96KQx
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Soeren
+>
+> I didn't want to spend time on that originally, but since these drivers
+> are still in use, it is probably best if I bite the bullet and just do i=
+t.
+>
+> I'm now almost done with the vb2 conversion of cx18, and it was about
+> 2 days work, which isn't that bad. I'll try to get this saa7146 vb2
+> conversion done this month.
+>
+> The PR reverting this has just been posted:
+>
+> https://patchwork.linuxtv.org/project/linux-media/patch/5902a4f2-da31-81=
+6c-f3cf-020340dbaddf@xs4all.nl/
+>
+> Regards,
+>
+> 	Hans
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmPaghYACgkQJNaLcl1U
-h9Cmcgf7BtQa6jVrXNU71IJVO9/XKJzR22YYvwnRLJqC4Pd6uUnIG4DAhyw1qQyf
-fucGeAY9Y8jlqFuw1RM+0pFy53EabmhZAQjypGnDXk/YJ0fTV2VJuT7bSfXC+JJe
-0Qs8nYPpVfn9TmLvBxiPjnsghneRyWbx+V7MzflSFTsVl/fM5ypTH92qZ3S6rTDh
-ExXE6oTe7hNyto8+VoMfi0qvdqTKMyPciO0DnOeUsbPG3FpAiNiHN1lD5yhI6QEM
-jA8R67+KRGUoFZsozgB5N3NN8BH9FWq5Hrl/ToTuWP1AT9C8prAEa2uwlU3YVDmA
-SztMxe2B+kl+AF4gZ5yyL6EOiMGk6g==
-=zhKL
------END PGP SIGNATURE-----
-
---RnOekfr0Q/w96KQx--
