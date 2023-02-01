@@ -2,473 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BE0B685EF9
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 06:34:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A69685F57
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 07:03:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230138AbjBAFeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 00:34:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57648 "EHLO
+        id S231300AbjBAGDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 01:03:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbjBAFeN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 00:34:13 -0500
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8482C3608D
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 21:34:10 -0800 (PST)
-Received: by mail-vs1-xe2f.google.com with SMTP id i188so18429770vsi.8
-        for <linux-media@vger.kernel.org>; Tue, 31 Jan 2023 21:34:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ekhLKUWZkf2mPPk6EvYEH+Yg2GrOJtmbhmTzkV8B7w0=;
-        b=pkjel1inRIowraUvEvDzU961i0/PYti6DHVL5yGJX7oZaWfBIqjBhPojKSHOfujN7n
-         UKNjhgldQkehIMcyrVTm5HgD57omMtm2Tk0zlPmlC8zTvDVjJxBmdHL7in0XizVa+1zK
-         iDoCm8UwrK0/JHENCnnARfSygXqzf50WV/+CYzc3mxGX1XL1pWQrLEGFS8hxLq0IMoJD
-         bLve0/Lwo4C84/Ke2uflIfjz/OdD9884L6g2VBFCtIJbg8c+pGyUEXn1EbD9rShpBm48
-         oFyh2amEZJ6fbLYcyMZugEaYVXN0TQucHv5Vkmjv3lBrasg2F5dbEhDMtHxGZkblO0NP
-         N7xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ekhLKUWZkf2mPPk6EvYEH+Yg2GrOJtmbhmTzkV8B7w0=;
-        b=nxb8v0DzVAkLvncE/LtLVxTWS8tDxYhvob4odFJQPjxPSUVvJRs2IcWMbXyMZc3Ill
-         PjCpRsVnLnJFiwFzmsKo55GgiwFca3SFPEDTWYoQORZV397DBPdp82b1qu4s5d9SLOaI
-         LsEd29GrYgG9Jg03nmsk+LRnBCl6/onyr5uS3ZkWRUtylqgjaOH8x2C3iT3Zu1Qf/xdv
-         iO61Q/Roq3Qr3eA8Dc7ogmdrudB2B78W3A1GrYsigRjxGmndvfb2G4QR6nW6ZNO2CDkf
-         s+goCUE73y+eWX2jV6n0ql+/oMTmFr9wZU2jxfVxUDjzycKqRmR6gGpU/VhJfWS+GTQJ
-         XuNQ==
-X-Gm-Message-State: AO0yUKWsw6D7X7+VFzhmTlYCeEfTPXWl58QHdVKR7aAXNWkJn0FZ09Lc
-        Q82Rfyn+rWgymaZ77FGuwEa6rouTXiYuYY9UI7F+/w==
-X-Google-Smtp-Source: AK7set/ZFcRr6tjf6hR4enSGOYHwqZl7gtA+HMTfvneHvoyW+9ENP1EzZ6qRZVXlcB/X7unOOpSkqSeCcBSKqoIqSbg=
-X-Received: by 2002:a67:ebc1:0:b0:3d0:d172:3a02 with SMTP id
- y1-20020a67ebc1000000b003d0d1723a02mr242392vso.41.1675229649442; Tue, 31 Jan
- 2023 21:34:09 -0800 (PST)
+        with ESMTP id S229761AbjBAGDW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 01:03:22 -0500
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2062.outbound.protection.outlook.com [40.107.249.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2551438B73;
+        Tue, 31 Jan 2023 22:03:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G+JnFFYkqc1sNOovT8Q1zcekx9BuurqHcnw3hv8eGXuto0iXZ9jX4wcFwIpVsiCNi4n2k+RaD2iFY8zb7/Tz4IlEiV8O35+vPZQXVZjJ9svUmVzRMP+lHoUZig9N+YYjXLGFkY4mDxISMJ+pUX2roHnOVZvgoP6X0u8lhR4JY712SZoo25tILljC1oTAgswCSLwfj/nc+mW6WBR+80rCmsmHOpiAFaJwA02Je9MUtqRYH/i9sXiC6tQJvtM2J2064cSRPxK/XyzpUcWxWz53FLu4Z44iTbAhWeDofLI8saRL+lOyqQ5686NoRdYrmjFXoFLp1QiOLVmVX7uwny3slw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bvdvpM5dE7xZYJvDkp/k2QjR0vZ4lDiCkOJNMP1oh/k=;
+ b=Exi8LjAoRni4wXE/HwxZmBdeIl8GcO2XdAW+Mn3mbi+eBI1bxJeRf5aHAXiEY+e0MTrbakn4Yu7spBl/fDBPKNRaaHaeyraZ5HAqECv06HjLOLhYglZVJjvl+NEAJ13Jzd65zvwYcYEBSvv7U09iOHNPnmxBNv7df73RAsO25jlKm/xi3T1kXjK4hxdDGN1n2ZmheexnzUPKgObFPooBqWlvZytFErTv0EJoeEK4NYhceHZvnpZ5zNJAQH2HaZcqB+IGiQaAMaJev550Imukrc6ZWDSqL2kLcpl79SxZ70IeXvWeLEA5DF/bWglJm6bk/d84fcPdcQZSq3tWMYPavw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bvdvpM5dE7xZYJvDkp/k2QjR0vZ4lDiCkOJNMP1oh/k=;
+ b=eu7ys2PHgJhFDpNBHUB8EliOeJuJAZTXdm3PPlnoEae4Fdx3XhT4RuzLVgHwY8r79XncOCw9ow3NasvoqKqjwawulbYQRlD8qsJZhPDT2e/5YG6eBWXYkfrPy5TgjoxopTlBvC+6Seo5UzkA/HfeI4PQUZT1vvyNAxrhu6hRHPg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DB9PR04MB8429.eurprd04.prod.outlook.com (2603:10a6:10:242::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
+ 2023 06:03:17 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::3a82:42b3:f1ed:5c3d]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::3a82:42b3:f1ed:5c3d%7]) with mapi id 15.20.6043.036; Wed, 1 Feb 2023
+ 06:03:17 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, mirela.rabulea@oss.nxp.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 00/10] media: imx-jpeg: Add support for 12 bit extended jpeg
+Date:   Wed,  1 Feb 2023 14:02:22 +0800
+Message-Id: <cover.1675230665.git.ming.qian@nxp.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0012.apcprd02.prod.outlook.com
+ (2603:1096:4:194::7) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-References: <20220812143055.12938-1-olivier.masse@nxp.com> <20220812143055.12938-2-olivier.masse@nxp.com>
- <30534fadb8172088eddef46ae71d87c167cbf32e.camel@nxp.com>
-In-Reply-To: <30534fadb8172088eddef46ae71d87c167cbf32e.camel@nxp.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 1 Feb 2023 11:03:58 +0530
-Message-ID: <CAFA6WYOMCswgHHxsgc9Hgi7rmTPaZDqce=BixvYoFTfL0bTFDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] tee: new ioctl to a register tee_shm from a dmabuf
- file descriptor
-To:     Olivier Masse <olivier.masse@nxp.com>
-Cc:     "fredgc@google.com" <fredgc@google.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "afd@ti.com" <afd@ti.com>,
-        "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
-        "jens.wiklander@linaro.org" <jens.wiklander@linaro.org>,
-        "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "etienne.carriere@linaro.org" <etienne.carriere@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        =?UTF-8?Q?Cl=C3=A9ment_Faure?= <clement.faure@nxp.com>,
-        Cyrille Fleury <cyrille.fleury@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|DB9PR04MB8429:EE_
+X-MS-Office365-Filtering-Correlation-Id: f056cf38-5094-49ed-bb66-08db041a0305
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JUWuf8keXgWGfClq1KvqFAG2cSANtCr1Xy12NGRs54IB7Y7g9yrqB+rqcmmaH1kPTHnmwjMlhPVRUYhqGhZaZCzGXVhme3BYcKG++T5lSDfDXl5X50ZZiMjsAPcvlPYXzKPd0UWinGuozc2Kju8ctpwRlUBn78o8i6ZkzpoZ7kao+7ykIt35JhOKjPALk2p1zaHAMPxZHVNpjCiE1du0LaFoJcnP91+5TqSmRI8rlqftQWAXPTFiBogcXymX3BmMndUpbBG/OBQHqCp+0bpFCe8ZycdacZD6rbrTKEzzUIs1y+NeOJ0aceTnSZ3qsWEQatdbEZpNsG7u5ZJpXGOgcfMHlnKVK2XJf6/jwal3SVc+bAr2X0u+XqXzZNNbKVQzGDZXYmKjpzNUmMTaSe4YguPbVKQy/euNi/px85AzGO9GiTr0LaQV80a96v9pMMNmwT0xi+SYTZE0nUMa+xwbPkf/DEy5HTulRAw7pdTtGNNjSfgqljR7JES6392usyxQHr231C7F7KqbuCSUy/TcEmvncTyBvglvy2jNLPpYre3W8maZ/EJZK54H6El9y9d+L5BKjRlG9QQz+npSC3lJDiYiFDHo898zmrsqvEh6VjZ36NgWnbd/A14UZJFDSP6ryUOhM6eUEks8RovieCDT3KqORA9qlgNUgq0F+36BDmT42Uhi3R9aafO5j1omyzoXnQcpfyDWX8lc7uT721WP0A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(39860400002)(136003)(346002)(396003)(376002)(451199018)(38100700002)(52116002)(2616005)(38350700002)(36756003)(7416002)(8936002)(86362001)(5660300002)(44832011)(316002)(41300700001)(2906002)(83380400001)(6506007)(6512007)(8676002)(4326008)(186003)(26005)(478600001)(66476007)(66556008)(6666004)(6486002)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WFQSJbOlq3ja8WunFBDEGaHhpXuy3Fgm0HCkMVx/aFFsyEfffu0dY0A1iH4d?=
+ =?us-ascii?Q?rBqbld9/Dl7yuIyqlH5wwpWbDFWutzyC6yKz2TJwMtHoYZ8pdCwLbhFIcvof?=
+ =?us-ascii?Q?h0Eb0BdpRRqYH28km/VONr3L/qXKm4nAGmLA8x6fei/ax2JQbDzvvOlcryg3?=
+ =?us-ascii?Q?E881HIbwg713GnZDLWwlVAmxY49voaMK6tRrBTdVWdk4dNvw4TFKOC9cMWeo?=
+ =?us-ascii?Q?1ZDvaOz62jxQHM8SN2c/Xyw3KQYqsyTwfES5gPhaJM3UEYL2JnC3Lt0S6RAb?=
+ =?us-ascii?Q?AKZiXeMMtiRFLe9wcFDZCRguYKj+r/q7G/FgFIZO56gaf/SULIf+wwuiEe0c?=
+ =?us-ascii?Q?IJiuAegIRQ8ZWm37y6JOVwAzYnM+J7AmZ2uwL7YJxy9qZ5zUCH33/qux+CWF?=
+ =?us-ascii?Q?JnqLpXJryiYszxKEcq/Xfv4KCT9Qo4R94wA+Kexu/Zh1F+93zUh841u2JkSS?=
+ =?us-ascii?Q?Mgi5l9cOgfyI45Zutpm6EeuoT8cMe9TcHfYP9z7QlFPAGZXEJDyn42B85b7o?=
+ =?us-ascii?Q?L1NLf6EMlQTWXEMqY+1CNfw7fqn0cRWrzZ9QSsRO09UwWZBzQDHtZbsDNd4G?=
+ =?us-ascii?Q?/SfFIX579j53xOQNIOgLWItwLYuBlNgWw608gzp4GI+ssKZ2rbSMLh4kqesS?=
+ =?us-ascii?Q?cTRAkVqBCvv6lqrvaHg9VJUsMUbIaPv/xzQssWtlBbZkgBcc34LJYGq3VSCD?=
+ =?us-ascii?Q?AAXI10IH4xcNrTy0WuxpAQhba2qwPVMSyLYx9tfhglqr8DMSxPzYiszVNvdd?=
+ =?us-ascii?Q?R+DByNZ7pE8uE3MdcFq/SOBjbkuBaTUNp1jVHae/keTBZIWPgJZ6XL/F0yxN?=
+ =?us-ascii?Q?EDvVxU/nWD4Hu4tD8BXh/0FCu6ipYH5DZ2oK8Y45Od5VSkCCwmoMZ9Uu1mKx?=
+ =?us-ascii?Q?B+e2MQf6DGJ3LIKfaM1a/ytQDsCvPd7er9nhX3El0LxR3lECCTCm6k0dG9vc?=
+ =?us-ascii?Q?KEp2PkICj2t0rt/sgtAf1D/fNvEs+Dj09b+QPp5ZRLi5cOMairV0fTCbINAA?=
+ =?us-ascii?Q?lbeo8fSsMTFjJwEcNCnJs+xaR0WcAIs6vKIbdvKLSXZySVc7MHVhiuZ0KboG?=
+ =?us-ascii?Q?ZSdZIqHYoG6Ch/RB8VnPA1HuMjufcTvRFuEjcsZ+8tDgBTKab64adk0Yqjw6?=
+ =?us-ascii?Q?K5jkCVDK46mkGpPsiF85rK+4XBiMYDqdqKsn1gmQQvK9P2Ei1aJ/GwMuMt68?=
+ =?us-ascii?Q?+9d9jGImwT43rZ9ic4ncksGSnmviLS7bj4exi0PnUsV/DQt4nqz3eWzuOdj6?=
+ =?us-ascii?Q?S4AdoJBwS5/eS31HFd3lfc+63wjyFw6fZbq/jk9DvHTIdRRMwPq4kYiJHkq3?=
+ =?us-ascii?Q?inMN++Lw6fYN+bb0+F7/2LUTk/DvFgKpD8xIAG4KCJCfyQ3NGg4cBBznCHr7?=
+ =?us-ascii?Q?s9xhZ3BtkggaVoS3RiiIItXLrQc3hyEkoHHUPI90n78vC6Ij01LeBEV40FV6?=
+ =?us-ascii?Q?n8cV3Yx9uzinFdL5/86TsPadLzLqlGmddmROhzzaCVJOI4/EAC9cPANjtk2P?=
+ =?us-ascii?Q?8w6G6fsRgkyc+m7E7J3FrbfgqO1ZtBCelWZjamHjlkXvdXh41SUIgF8hGMDS?=
+ =?us-ascii?Q?V5CbMiScHD82m9cdLpZnEek7ohBo++Tj0OdQGinS?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f056cf38-5094-49ed-bb66-08db041a0305
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 06:03:17.5831
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MrYksgRGvA3rXfjEBvAphMBuxuVmUAmFm4ZutanIRZMaRxW/Q5g3PWRiMJfNpxi/w5Q2uGG9PZb7o9RuMM4ncw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8429
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Olivier,
+the imx8 jpeg codec support ISO/IEC 10918-1 Standard Baseline and
+Extended Sequential DCT modes.
+it can support 8-bit and 12-bit per color samples.
+Currently we only enable the 8-bit jpeg,
+and we can enable the 12-bit extended jpeg
+with the new defined 12 bit pixel format.
 
-On Fri, 27 Jan 2023 at 16:24, Olivier Masse <olivier.masse@nxp.com> wrote:
->
-> Hi Joakim,
-> Hi Etienne,
->
-> Let me bring back this pull request for OPTEE Linux driver.
->
-> Last feedback was from Christian K=C3=B6nig and Sumit Garg.
-> From Christian:
-> > Just two comments:
-> >
-> > 1. Dmitry is working on a change which renames some functions and
-> > makes
-> > it mandatory to call them with the dma_resv lock held.
-> >
-> > Depending on how you want to upstream this change you will certainly
-> > run
-> > into conflicts with that.
->
-> Is there any update on these changes ?
->
-> >
-> > 2. Would it be possible to do this dynamically? In other words does
-> > the
-> > tee driver has a concept of buffers moving around?
->
-> We do not support dynamic secure memory heap.
->
-> From Sumit:
-> > What limits you to extend this feature to non-contiguous memory
-> > buffers? I believe that should be possible with OP-TEE dynamic shared
-> > memory which gives you the granularity to register a list of pages.
->
-> Our solution use a fixed protected reserved memory region and do not
-> rely on a dynamic protection managed in secure.
->
-> The scope of this implementation rely on a static memory region handled
-> by a specific DMA Heap type.
->
+v2
+- correct the new 12-bit format naming according to Hans's comments
 
-AFAIR, the last review for v2 is here [1]. So we need to have this
-secure DMA heap upstream in order for ioctl added by this patch to be
-usable.
+Ming Qian (10):
+  media: Add P012 and P012M video format
+  media: Add Y012 video format
+  media: Add YUYV_12 video format
+  media: Add YUV24_12 video format
+  media: Add BGR24_12 video format
+  media: Add ABGR32_12 video format
+  media: imx-jpeg: Refine the function mxc_jpeg_find_format
+  media: imx-jpeg: Clear slot next desc ptr if config error
+  media: imx-jpeg: Decoder add support for 12bit jpeg
+  media: imx-jpeg: Encoder add support for 12bit jpeg
 
-[1] https://lists.trustedfirmware.org/archives/list/op-tee@lists.trustedfir=
-mware.org/message/M3WLO7RNG22OR4744BY6XNG2GLIYMNHN/
+ .../media/v4l/pixfmt-packed-yuv.rst           |  70 ++++
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    |  44 +++
+ .../media/v4l/pixfmt-yuv-luma.rst             |  11 +
+ .../media/v4l/pixfmt-yuv-planar.rst           |  94 +++++
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c |  19 +-
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h |   5 +-
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 326 ++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-common.c         |   6 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   7 +
+ include/uapi/linux/videodev2.h                |   9 +
+ 10 files changed, 565 insertions(+), 26 deletions(-)
 
--Sumit
+-- 
+2.38.1
 
-> Best regards,
-> Olivier MASSE
->
->
-> On ven., 2022-08-12 at 16:30 +0200, Olivier Masse wrote:
-> > From: Etienne Carriere <etienne.carriere@linaro.org>
-> >
-> > This change allows userland to create a tee_shm object that refers
-> > to a dmabuf reference.
-> >
-> > Userland provides a dmabuf file descriptor as buffer reference.
-> > The created tee_shm object exported as a brand new dmabuf reference
-> > used to provide a clean fd to userland. Userland shall closed this
-> > new
-> > fd to release the tee_shm object resources. The initial dmabuf
-> > resources
-> > are tracked independently through original dmabuf file descriptor.
-> >
-> > Once the buffer is registered and until it is released, TEE driver
-> > keeps a refcount on the registered dmabuf structure.
-> >
-> > This change only support dmabuf references that relates to physically
-> > contiguous memory buffers.
-> >
-> > New tee_shm flag to identify tee_shm objects built from a registered
-> > dmabuf: TEE_SHM_EXT_DMA_BUF. Such tee_shm structures are flagged with
-> > TEE_SHM_EXT_DMA_BUF.
-> >
-> > Co-Developed-by: Etienne Carriere <etienne.carriere@linaro.org>
-> > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > From: https://github.com/linaro-swg/linux.git
-> > (cherry picked from commit 41e21e5c405530590dc2dd10b2a8dbe64589840f)
-> > ---
-> >  drivers/tee/tee_core.c   | 38 +++++++++++++++
-> >  drivers/tee/tee_shm.c    | 99
-> > +++++++++++++++++++++++++++++++++++++++-
-> >  include/linux/tee_drv.h  | 11 +++++
-> >  include/uapi/linux/tee.h | 29 ++++++++++++
-> >  4 files changed, 175 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > index 8aa1a4836b92..7c45cbf85eb9 100644
-> > --- a/drivers/tee/tee_core.c
-> > +++ b/drivers/tee/tee_core.c
-> > @@ -355,6 +355,42 @@ tee_ioctl_shm_register(struct tee_context *ctx,
-> >       return ret;
-> >  }
-> >
-> > +static int tee_ioctl_shm_register_fd(struct tee_context *ctx,
-> > +                                  struct
-> > tee_ioctl_shm_register_fd_data __user *udata)
-> > +{
-> > +     struct tee_ioctl_shm_register_fd_data data;
-> > +     struct tee_shm *shm;
-> > +     long ret;
-> > +
-> > +     if (copy_from_user(&data, udata, sizeof(data)))
-> > +             return -EFAULT;
-> > +
-> > +     /* Currently no input flags are supported */
-> > +     if (data.flags)
-> > +             return -EINVAL;
-> > +
-> > +     shm =3D tee_shm_register_fd(ctx, data.fd);
-> > +     if (IS_ERR(shm))
-> > +             return -EINVAL;
-> > +
-> > +     data.id =3D shm->id;
-> > +     data.flags =3D shm->flags;
-> > +     data.size =3D shm->size;
-> > +
-> > +     if (copy_to_user(udata, &data, sizeof(data)))
-> > +             ret =3D -EFAULT;
-> > +     else
-> > +             ret =3D tee_shm_get_fd(shm);
-> > +
-> > +     /*
-> > +      * When user space closes the file descriptor the shared memory
-> > +      * should be freed or if tee_shm_get_fd() failed then it will
-> > +      * be freed immediately.
-> > +      */
-> > +     tee_shm_put(shm);
-> > +     return ret;
-> > +}
-> > +
-> >  static int params_from_user(struct tee_context *ctx, struct
-> > tee_param *params,
-> >                           size_t num_params,
-> >                           struct tee_ioctl_param __user *uparams)
-> > @@ -829,6 +865,8 @@ static long tee_ioctl(struct file *filp, unsigned
-> > int cmd, unsigned long arg)
-> >               return tee_ioctl_shm_alloc(ctx, uarg);
-> >       case TEE_IOC_SHM_REGISTER:
-> >               return tee_ioctl_shm_register(ctx, uarg);
-> > +     case TEE_IOC_SHM_REGISTER_FD:
-> > +             return tee_ioctl_shm_register_fd(ctx, uarg);
-> >       case TEE_IOC_OPEN_SESSION:
-> >               return tee_ioctl_open_session(ctx, uarg);
-> >       case TEE_IOC_INVOKE:
-> > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> > index 836872467dc6..55a3fbbb022e 100644
-> > --- a/drivers/tee/tee_shm.c
-> > +++ b/drivers/tee/tee_shm.c
-> > @@ -4,6 +4,7 @@
-> >   */
-> >  #include <linux/anon_inodes.h>
-> >  #include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/mm.h>
-> >  #include <linux/sched.h>
-> > @@ -12,6 +13,14 @@
-> >  #include <linux/uio.h>
-> >  #include "tee_private.h"
-> >
-> > +/* extra references appended to shm object for registered shared
-> > memory */
-> > +struct tee_shm_dmabuf_ref {
-> > +     struct tee_shm shm;
-> > +     struct dma_buf *dmabuf;
-> > +     struct dma_buf_attachment *attach;
-> > +     struct sg_table *sgt;
-> > +};
-> > +
-> >  static void shm_put_kernel_pages(struct page **pages, size_t
-> > page_count)
-> >  {
-> >       size_t n;
-> > @@ -71,7 +80,16 @@ static void release_registered_pages(struct
-> > tee_shm *shm)
-> >
-> >  static void tee_shm_release(struct tee_device *teedev, struct
-> > tee_shm *shm)
-> >  {
-> > -     if (shm->flags & TEE_SHM_POOL) {
-> > +     if (shm->flags & TEE_SHM_EXT_DMA_BUF) {
-> > +             struct tee_shm_dmabuf_ref *ref;
-> > +
-> > +             ref =3D container_of(shm, struct tee_shm_dmabuf_ref,
-> > shm);
-> > +             dma_buf_unmap_attachment(ref->attach, ref->sgt,
-> > +                                      DMA_BIDIRECTIONAL);
-> > +
-> > +             dma_buf_detach(ref->dmabuf, ref->attach);
-> > +             dma_buf_put(ref->dmabuf);
-> > +     } else if (shm->flags & TEE_SHM_POOL) {
-> >               teedev->pool->ops->free(teedev->pool, shm);
-> >       } else if (shm->flags & TEE_SHM_DYNAMIC) {
-> >               int rc =3D teedev->desc->ops->shm_unregister(shm->ctx,
-> > shm);
-> > @@ -195,7 +213,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct
-> > tee_context *ctx, size_t size)
-> >   * tee_client_invoke_func(). The memory allocated is later freed
-> > with a
-> >   * call to tee_shm_free().
-> >   *
-> > - * @returns a pointer to 'struct tee_shm'
-> > + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on
-> > failure
-> >   */
-> >  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx,
-> > size_t size)
-> >  {
-> > @@ -229,6 +247,83 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct
-> > tee_context *ctx, size_t size)
-> >  }
-> >  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
-> >
-> > +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
-> > +{
-> > +     struct tee_shm_dmabuf_ref *ref;
-> > +     int rc;
-> > +
-> > +     if (!tee_device_get(ctx->teedev))
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     teedev_ctx_get(ctx);
-> > +
-> > +     ref =3D kzalloc(sizeof(*ref), GFP_KERNEL);
-> > +     if (!ref) {
-> > +             rc =3D -ENOMEM;
-> > +             goto err_put_tee;
-> > +     }
-> > +
-> > +     refcount_set(&ref->shm.refcount, 1);
-> > +     ref->shm.ctx =3D ctx;
-> > +     ref->shm.id =3D -1;
-> > +
-> > +     ref->dmabuf =3D dma_buf_get(fd);
-> > +     if (IS_ERR(ref->dmabuf)) {
-> > +             rc =3D PTR_ERR(ref->dmabuf);
-> > +             goto err_put_dmabuf;
-> > +     }
-> > +
-> > +     ref->attach =3D dma_buf_attach(ref->dmabuf, &ref->shm.ctx-
-> > >teedev->dev);
-> > +     if (IS_ERR(ref->attach)) {
-> > +             rc =3D PTR_ERR(ref->attach);
-> > +             goto err_detach;
-> > +     }
-> > +
-> > +     ref->sgt =3D dma_buf_map_attachment(ref->attach,
-> > DMA_BIDIRECTIONAL);
-> > +     if (IS_ERR(ref->sgt)) {
-> > +             rc =3D PTR_ERR(ref->sgt);
-> > +             goto err_unmap_attachement;
-> > +     }
-> > +
-> > +     if (sg_nents(ref->sgt->sgl) !=3D 1) {
-> > +             rc =3D PTR_ERR(ref->sgt->sgl);
-> > +             goto err_unmap_attachement;
-> > +     }
-> > +
-> > +     ref->shm.paddr =3D sg_dma_address(ref->sgt->sgl);
-> > +     ref->shm.size =3D sg_dma_len(ref->sgt->sgl);
-> > +     ref->shm.flags =3D TEE_SHM_EXT_DMA_BUF;
-> > +
-> > +     mutex_lock(&ref->shm.ctx->teedev->mutex);
-> > +     ref->shm.id =3D idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
-> > +                             1, 0, GFP_KERNEL);
-> > +     mutex_unlock(&ref->shm.ctx->teedev->mutex);
-> > +     if (ref->shm.id < 0) {
-> > +             rc =3D ref->shm.id;
-> > +             goto err_idr_remove;
-> > +     }
-> > +
-> > +     return &ref->shm;
-> > +
-> > +err_idr_remove:
-> > +     mutex_lock(&ctx->teedev->mutex);
-> > +     idr_remove(&ctx->teedev->idr, ref->shm.id);
-> > +     mutex_unlock(&ctx->teedev->mutex);
-> > +err_unmap_attachement:
-> > +     dma_buf_unmap_attachment(ref->attach, ref->sgt,
-> > DMA_BIDIRECTIONAL);
-> > +err_detach:
-> > +     dma_buf_detach(ref->dmabuf, ref->attach);
-> > +err_put_dmabuf:
-> > +     dma_buf_put(ref->dmabuf);
-> > +     kfree(ref);
-> > +err_put_tee:
-> > +     teedev_ctx_put(ctx);
-> > +     tee_device_put(ctx->teedev);
-> > +
-> > +     return ERR_PTR(rc);
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
-> > +
-> >  static struct tee_shm *
-> >  register_shm_helper(struct tee_context *ctx, unsigned long addr,
-> >                   size_t length, u32 flags, int id)
-> > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> > index 911cad324acc..40ddd5376c2d 100644
-> > --- a/include/linux/tee_drv.h
-> > +++ b/include/linux/tee_drv.h
-> > @@ -25,6 +25,7 @@
-> >  #define TEE_SHM_USER_MAPPED  BIT(1)  /* Memory mapped in user space
-> > */
-> >  #define TEE_SHM_POOL         BIT(2)  /* Memory allocated from pool
-> > */
-> >  #define TEE_SHM_PRIV         BIT(3)  /* Memory private to TEE driver
-> > */
-> > +#define TEE_SHM_EXT_DMA_BUF     BIT(4)  /* Memory with dma-buf
-> > handle */
-> >
-> >  struct device;
-> >  struct tee_device;
-> > @@ -276,6 +277,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct
-> > tee_context *ctx, size_t size);
-> >  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
-> >                                           void *addr, size_t length);
-> >
-> > +/**
-> > + * tee_shm_register_fd() - Register shared memory from file
-> > descriptor
-> > + *
-> > + * @ctx:     Context that allocates the shared memory
-> > + * @fd:              Shared memory file descriptor reference
-> > + *
-> > + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on
-> > failure
-> > + */
-> > +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int
-> > fd);
-> > +
-> >  /**
-> >   * tee_shm_is_dynamic() - Check if shared memory object is of the
-> > dynamic kind
-> >   * @shm:     Shared memory handle
-> > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> > index 25a6c534beb1..baf3cd7cfdac 100644
-> > --- a/include/uapi/linux/tee.h
-> > +++ b/include/uapi/linux/tee.h
-> > @@ -121,6 +121,35 @@ struct tee_ioctl_shm_alloc_data {
-> >  #define TEE_IOC_SHM_ALLOC    _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1,
-> > \
-> >                                    struct tee_ioctl_shm_alloc_data)
-> >
-> > +/**
-> > + * struct tee_ioctl_shm_register_fd_data - Shared memory registering
-> > argument
-> > + * @fd:              [in] File descriptor identifying the shared
-> > memory
-> > + * @size:    [out] Size of shared memory to allocate
-> > + * @flags:   [in] Flags to/from allocation.
-> > + * @id:              [out] Identifier of the shared memory
-> > + *
-> > + * The flags field should currently be zero as input. Updated by the
-> > call
-> > + * with actual flags as defined by TEE_IOCTL_SHM_* above.
-> > + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD
-> > below.
-> > + */
-> > +struct tee_ioctl_shm_register_fd_data {
-> > +     __s64 fd;
-> > +     __u64 size;
-> > +     __u32 flags;
-> > +     __s32 id;
-> > +} __attribute__ ((aligned (8)));
-> > +
-> > +/**
-> > + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file
-> > descriptor
-> > + *
-> > + * Returns a file descriptor on success or < 0 on failure
-> > + *
-> > + * The returned file descriptor refers to the shared memory object
-> > in kernel
-> > + * land. The shared memory is freed when the descriptor is closed.
-> > + */
-> > +#define TEE_IOC_SHM_REGISTER_FD      _IOWR(TEE_IOC_MAGIC,
-> > TEE_IOC_BASE + 8, \
-> > +                                  struct
-> > tee_ioctl_shm_register_fd_data)
-> > +
-> >  /**
-> >   * struct tee_ioctl_buf_data - Variable sized buffer
-> >   * @buf_ptr: [in] A __user pointer to a buffer
