@@ -2,116 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 650B4686CDB
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 18:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3108686D5D
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 18:47:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231712AbjBAR2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 12:28:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51920 "EHLO
+        id S230226AbjBARro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 12:47:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbjBAR2v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 12:28:51 -0500
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C38B26E404;
-        Wed,  1 Feb 2023 09:28:49 -0800 (PST)
-Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 244A7CD0C5;
-        Wed,  1 Feb 2023 17:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1675272528; bh=ShnukInl/T2zAyoGUTvSOdRcvHdOIiJCrWNwIwsvJdg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=tX6CQoEps9L2w7uKKHMhbqU0l8RIU9T1J0qLM8vadp2tN+EwU5zK27TlCp9MOsWr1
-         AfV2714aHlXMjxDBuJLooXm3ZCBx1/sAqJ2Okttzlo3WsEf1STy6o/D2QGqesap/vq
-         hG+EhQauV8335lZWDmjiRmPAFtecr3cYsUxALbHc=
-From:   Luca Weiss <luca@z3ntu.xyz>
+        with ESMTP id S230138AbjBARrm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 12:47:42 -0500
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1C971677;
+        Wed,  1 Feb 2023 09:47:41 -0800 (PST)
+Received: by mail-oi1-f179.google.com with SMTP id r9so16372294oig.12;
+        Wed, 01 Feb 2023 09:47:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V23HrrQKl0Cy9s84FfPuJe6OSp4CMIQkMKvIgxymkvE=;
+        b=jXG1h7OacGW5v4talQgqaLMLVhHXuc/0jcuO8Xyo01Upsu/mp0zDkqd8DU+R+1mHtE
+         9j+cHGP/v8HMOsZSp0ihGa2w9RMfbBNuOq8M1WET3QBKJ5017jUWkilzqSHYSq+/68EU
+         udlpLEkX/Ow5Kf4f5IKsOIc0w6A5zVVE/bOLUux7THJACTyHAmL2nNLkmp230/orfQRy
+         MriuseJMahSnNJmV0NCraw0h9h68dQ8D1fRzvjm+Qiyfcsumo3Qw1oXNFNshwGcURrge
+         Q1qF07k5ftrES61MH1FZ+vSNVe7R1ID+elXRz0jXGUIkEO7NMMuWzLwyWxWdGSAjPT4w
+         tbEA==
+X-Gm-Message-State: AO0yUKVcMHFbS1mrqnEo77J5fys0QfK3/6DQtrm1S11YiNOq76mlwZgk
+        wVy2ARt5PhT/vZcd/mYfTw==
+X-Google-Smtp-Source: AK7set/5ypdFEG0oCaJlt0OCW/78F6uIuyFlfMPmcnv9Tv0FU7A8sFxNxVsQnOwPx9B3iBNdcP1++A==
+X-Received: by 2002:a05:6808:b07:b0:364:9fbc:f197 with SMTP id s7-20020a0568080b0700b003649fbcf197mr1588161oij.35.1675273660685;
+        Wed, 01 Feb 2023 09:47:40 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id u10-20020a54438a000000b003780e80fad6sm4882381oiv.49.2023.02.01.09.47.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 09:47:40 -0800 (PST)
+Received: (nullmailer pid 4065855 invoked by uid 1000);
+        Wed, 01 Feb 2023 17:47:39 -0000
+Date:   Wed, 1 Feb 2023 11:47:39 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] media: i2c: ov2685: Make reset gpio optional
-Date:   Wed, 01 Feb 2023 18:28:47 +0100
-Message-ID: <4481296.cEBGB3zze1@z3ntu.xyz>
-In-Reply-To: <CAPY8ntDvviyCox5_WpmOcgMgHuok9LcF1NSgRkfcHFcSgGVuSw@mail.gmail.com>
-References: <20230129-ov2685-improvements-v2-0-210400f2b63e@z3ntu.xyz>
- <20230129-ov2685-improvements-v2-1-210400f2b63e@z3ntu.xyz>
- <CAPY8ntDvviyCox5_WpmOcgMgHuok9LcF1NSgRkfcHFcSgGVuSw@mail.gmail.com>
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add mono version to
+ IMX290 bindings
+Message-ID: <167527365915.4065205.16958079619924053127.robh@kernel.org>
+References: <20230131190700.3476796-1-dave.stevenson@raspberrypi.com>
+ <20230131190700.3476796-2-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131190700.3476796-2-dave.stevenson@raspberrypi.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mittwoch, 1. Februar 2023 18:24:10 CET Dave Stevenson wrote:
-> Hi Luca
-> 
-> On Wed, 1 Feb 2023 at 17:07, Luca Weiss <luca@z3ntu.xyz> wrote:
-> > In some setups XSHUTDOWN is connected to DOVDD when it's unused,
-> > therefore treat the reset gpio as optional.
-> 
-> The binding doc [1] says that reset-gpios is a required property.
-> Making it optional should therefore have a patch for the binding
-> first, and then a patch updating the driver.
-> Unfortunately my understanding is that means converting it to YAML as
-> well due to the txt docs being frozen.
 
-I already have the docs converted somewhere, I will send that separately. Hope 
-that's okay.
-
-Regards
-Luca
-
+On Tue, 31 Jan 2023 19:06:59 +0000, Dave Stevenson wrote:
+> The IMX290 module is available as either monochrome or colour and
+> the variant is not detectable at runtime.
 > 
-> I know the pain - I was doing exactly the same thing for ov7251 earlier
-> today. I haven't run the dt schema checks or had them reviewed yet, but
-> "media: dt-bindings: Convert ov7251.txt to YAML" and "media:
-> dt-bindings: ov7251: Make enable-gpio optional" on [2] may be of help
-> to you.
+> Add a new compatible string for the monochrome version.
 > 
->   Dave
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  .../devicetree/bindings/media/i2c/sony,imx290.yaml        | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> [1]
-> https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bind
-> ings/media/i2c/ov2685.txt#L10 [2]
-> https://github.com/6by9/linux/commits/rpi-6.2.y-ov7251
-> 
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > ---
-> > 
-> >  drivers/media/i2c/ov2685.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-> > index a3b524f15d89..a422f4c8a2eb 100644
-> > --- a/drivers/media/i2c/ov2685.c
-> > +++ b/drivers/media/i2c/ov2685.c
-> > @@ -734,7 +734,7 @@ static int ov2685_probe(struct i2c_client *client,
-> > 
-> >         if (clk_get_rate(ov2685->xvclk) != OV2685_XVCLK_FREQ)
-> >         
-> >                 dev_warn(dev, "xvclk mismatched, modes are based on
-> >                 24MHz\n");
-> > 
-> > -       ov2685->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > +       ov2685->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> > GPIOD_OUT_LOW);> 
-> >         if (IS_ERR(ov2685->reset_gpio)) {
-> >         
-> >                 dev_err(dev, "Failed to get reset-gpios\n");
-> >                 return -EINVAL;
-> > 
-> > --
-> > 2.39.1
 
-
-
+Acked-by: Rob Herring <robh@kernel.org>
 
