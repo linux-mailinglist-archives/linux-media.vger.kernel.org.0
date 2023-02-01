@@ -2,49 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54250686301
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 10:42:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBDE3686318
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 10:46:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232098AbjBAJmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 04:42:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58074 "EHLO
+        id S231661AbjBAJqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 04:46:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231857AbjBAJmJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 04:42:09 -0500
+        with ESMTP id S231709AbjBAJqC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 04:46:02 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5AD5EF97;
-        Wed,  1 Feb 2023 01:42:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4C73589;
+        Wed,  1 Feb 2023 01:46:01 -0800 (PST)
 Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE489505;
-        Wed,  1 Feb 2023 10:41:58 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 765BB505;
+        Wed,  1 Feb 2023 10:45:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675244519;
-        bh=M/MHomcjcCn4XroQOgrgcI0/sd/srmSceu6sHey7G88=;
+        s=mail; t=1675244759;
+        bh=ae5B3Tp2ry8b8G71s40ax+Ovn2zEm/amT6bkxrEQuxE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vX2idoyciOfF83kYW0eDhlnWZ95i6rLwtbR2jFBD2aF1ObxigX3CgeKA7hP8MULcM
-         bowZRQR0sVj67tV5d4wwQD/6bDrCh405oCbvs1nZouh2EzM4LoU1ozX2eUqttq4Cvn
-         ZcaRXrIUTI4Qp1o8BEIquikpmp/layzlO4sA16g8=
-Date:   Wed, 1 Feb 2023 11:41:56 +0200
+        b=foPZ/2HPjQSpoOqncY+pjjiigYN5eqgZ3CcVr/AHeSvrOVPPTbWYMDjX7G++JMu4L
+         MB73dAt6eexFHleB/XQDlRNL0csmsQRoYpbmgpKxTVyKOKs1N24OFJzLIuLWpZ+re2
+         xf9PLAxj3R38ar43TcZbh8wQrgcWZ1/H6oc/rybM=
+Date:   Wed, 1 Feb 2023 11:45:57 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     yuji2.ishikawa@toshiba.co.jp
-Cc:     sakari.ailus@iki.fi, hverkuil@xs4all.nl, mchehab@kernel.org,
-        nobuhiro1.iwamatsu@toshiba.co.jp, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, rafael.j.wysocki@intel.com,
-        broonie@kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/6] media: platform: visconti: Add Toshiba Visconti
- Video Input Interface driver
-Message-ID: <Y9oz5MDMmopBq5h9@pendragon.ideasonboard.com>
+Cc:     krzysztof.kozlowski@linaro.org, hverkuil@xs4all.nl,
+        mchehab@kernel.org, nobuhiro1.iwamatsu@toshiba.co.jp,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        rafael.j.wysocki@intel.com, broonie@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 1/6] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface bindings
+Message-ID: <Y9o01ctDujKRXw2J@pendragon.ideasonboard.com>
 References: <20230111022433.25950-1-yuji2.ishikawa@toshiba.co.jp>
- <20230111022433.25950-3-yuji2.ishikawa@toshiba.co.jp>
- <Y8cjqoztUTIL61dP@valkosipuli.retiisi.eu>
- <TYAPR01MB62010040B750701D253C47CB92D19@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+ <20230111022433.25950-2-yuji2.ishikawa@toshiba.co.jp>
+ <Y8a+Hk2jFOjbkIvZ@pendragon.ideasonboard.com>
+ <d1bb1148-e273-f5bb-bccc-ceca82bb6836@linaro.org>
+ <Y8bFjhHkbNAKQK3t@pendragon.ideasonboard.com>
+ <c2740d66-b51f-efc2-6583-a69bde950c68@linaro.org>
+ <Y82NtJCtr+CZgS9k@pendragon.ideasonboard.com>
+ <TYAPR01MB6201BCC60149D17F59AD870E92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYAPR01MB62010040B750701D253C47CB92D19@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB6201BCC60149D17F59AD870E92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -54,124 +57,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Ishikawa-san,
-
-On Wed, Feb 01, 2023 at 02:02:43AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
-> Hello Sakari,
+On Mon, Jan 30, 2023 at 09:06:25AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
+> On Monday, January 23, 2023 4:26 AM, Laurent Pinchart wrote:
+> > On Tue, Jan 17, 2023 at 06:01:27PM +0100, Krzysztof Kozlowski wrote:
+> > > On 17/01/2023 16:58, Laurent Pinchart wrote:
+> > > > On Tue, Jan 17, 2023 at 04:42:51PM +0100, Krzysztof Kozlowski wrote:
+> > > >> On 17/01/2023 16:26, Laurent Pinchart wrote:
+> > > >>>
+> > > >>>> +
+> > > >>>> +          clock-lanes:
+> > > >>>> +            description: VIIF supports 1 clock line
+> > > >>>
+> > > >>> s/line/lane/
 > 
-> Sorry for sending the reply again. 
-> My mail agent posted the previous one with HTML format.
+> Sorry for a late reply.
+> I'll fix the description.
 > 
-> Thank you for reviewing and your comments.
-> 
-> > -----Original Message-----
-> > From: Sakari Ailus sakari.ailus@iki.fi
-> > Sent: Wednesday, January 18, 2023 7:40 AM
-> > To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
-> > yuji2.ishikawa@toshiba.co.jp
-> > Cc: Hans Verkuil hverkuil@xs4all.nl; Laurent Pinchart
-> > laurent.pinchart@ideasonboard.com; Mauro Carvalho Chehab
-> > mchehab@kernel.org; iwamatsu nobuhiro(岩松 信洋 □ＳＷＣ◯ＡＣＴ)
-> > nobuhiro1.iwamatsu@toshiba.co.jp; Rob Herring robh+dt@kernel.org;
-> > Krzysztof Kozlowski krzysztof.kozlowski+dt@linaro.org; Rafael J . Wysocki
-> > rafael.j.wysocki@intel.com; Mark Brown broonie@kernel.org;
-> > linux-media@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-> > linux-kernel@vger.kernel.org; devicetree@vger.kernel.org
-> > Subject: Re: [PATCH v5 2/6] media: platform: visconti: Add Toshiba Visconti
-> > Video Input Interface driver
-
-[snip]
-
-> > > diff --git a/drivers/media/platform/visconti/hwd_viif_reg.h b/drivers/media/platform/visconti/hwd_viif_reg.h
-> > > new file mode 100644
-> > > index 00000000000..b7f43c5fe95
-> > > --- /dev/null
-> > > +++ b/drivers/media/platform/visconti/hwd_viif_reg.h
-> > > @@ -0,0 +1,2802 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause */
-> > > +/* Toshiba Visconti Video Capture Support
-> > > + *
-> > > + * (C) Copyright 2022 TOSHIBA CORPORATION
-> > > + * (C) Copyright 2022 Toshiba Electronic Devices & Storage Corporation
-> > > + */
-> > > +
-> > > +#ifndef HWD_VIIF_REG_H
-> > > +#define HWD_VIIF_REG_H
-> > > +
-> > > +/**
-> > > + * struct hwd_viif_csi2host_reg - Registers for VIIF CSI2HOST control
-> > > + */
-> > > +struct hwd_viif_csi2host_reg {
-> > > +    u32 RESERVED_A_1;
-> > > +    u32 CSI2RX_NLANES;
-> > > +    u32 CSI2RX_RESETN;
-> > > +    u32 CSI2RX_INT_ST_MAIN;
-> > > +    u32 CSI2RX_DATA_IDS_1;
-> > > +    u32 CSI2RX_DATA_IDS_2;
-> > > +    u32 RESERVED_B_1[10];
-> > > +    u32 CSI2RX_PHY_SHUTDOWNZ;
-> > > +    u32 CSI2RX_PHY_RSTZ;
-> > > +    u32 CSI2RX_PHY_RX;
-> > > +    u32 CSI2RX_PHY_STOPSTATE;
-> > > +    u32 CSI2RX_PHY_TESTCTRL0;
-> > > +    u32 CSI2RX_PHY_TESTCTRL1;
-> > > +    u32 RESERVED_B_2[34];
-> > > +    u32 CSI2RX_INT_ST_PHY_FATAL;
-> > > +    u32 CSI2RX_INT_MSK_PHY_FATAL;
-> > > +    u32 CSI2RX_INT_FORCE_PHY_FATAL;
-> > > +    u32 RESERVED_B_3[1];
-> > > +    u32 CSI2RX_INT_ST_PKT_FATAL;
-> > > +    u32 CSI2RX_INT_MSK_PKT_FATAL;
-> > > +    u32 CSI2RX_INT_FORCE_PKT_FATAL;
-> > > +    u32 RESERVED_B_4[1];
-> > > +    u32 CSI2RX_INT_ST_FRAME_FATAL;
-> > > +    u32 CSI2RX_INT_MSK_FRAME_FATAL;
-> > > +    u32 CSI2RX_INT_FORCE_FRAME_FATAL;
-> > > +    u32 RESERVED_B_5[1];
-> > > +    u32 CSI2RX_INT_ST_PHY;
-> > > +    u32 CSI2RX_INT_MSK_PHY;
-> > > +    u32 CSI2RX_INT_FORCE_PHY;
-> > > +    u32 RESERVED_B_6[1];
-> > > +    u32 CSI2RX_INT_ST_PKT;
-> > > +    u32 CSI2RX_INT_MSK_PKT;
-> > > +    u32 CSI2RX_INT_FORCE_PKT;
-> > > +    u32 RESERVED_B_7[1];
-> > > +    u32 CSI2RX_INT_ST_LINE;
-> > > +    u32 CSI2RX_INT_MSK_LINE;
-> > > +    u32 CSI2RX_INT_FORCE_LINE;
-> > > +    u32 RESERVED_B_8[113];
-> > > +    u32 RESERVED_A_2;
-> > > +    u32 RESERVED_A_3;
-> > > +    u32 RESERVED_A_4;
-> > > +    u32 RESERVED_A_5;
-> > > +    u32 RESERVED_A_6;
-> > > +    u32 RESERVED_B_9[58];
-> > > +    u32 RESERVED_A_7;
+> > > >>>
+> > > >>>> +            const: 0
+> > > >>>
+> > > >>> I would also add
+> > > >>>
+> > > >>>           clock-noncontinuous: true
+> > > >>>           link-frequencies: true
+> > > >>>
+> > > >>> to indicate that the above two properties are used by this device.
+> > > >>
+> > > >> No, these are coming from other schema and there is never need to
+> > > >> mention some property to indicate it is more used than other case.
+> > > >> None of the bindings are created such way, so this should not be exception.
+> > > >
+> > > > There are some bindings that do so, but that may not be a good
+> > > > enough reason, as there's a chance I wrote those myself :-)
+> > > >
+> > > > I would have sworn that at some point in the past the schema
+> > > > wouldn't have validated the example with this omitted. I'm not sure
+> > > > if something changed or if I got this wrong.
+> > >
+> > > You probably think about case when using additionalProperties:false,
+> > > where one has to explicitly list all valid properties. But not for
+> > > unevaluatedProperties:false.
 > > 
-> > These should be lower case, they're struct members.
+> > Possibly, yes.
 > > 
-> > This way of defining a hardware register interface is highly
-> > unconventional. I'm not saying no to it, not now at least, but something
-> > should be done to make this more robust against accidental changes: adding
-> > a field in the middle changes the address of anything that comes after it,
-> > and it's really difficult to say from the code alone that the address of a
-> > given register is what it's intended to be. Maybe pahole would still help?
-> > But some documentation would be needed in that case.
+> > > > video-interfaces.yaml defines lots of properties applicable to
+> > > > endpoints. For a given device, those properties should be required
+> > >
+> > > required:
+> > >  - foo
+> > >
+> > > > (easy, that's defined in the bindings), optional,
+> > >
+> > > by default (with unevaluatedProperties:false) or explicitly mention
+> > > "foo: true (with additionalProperties:false)
+> > >
+> > > >  or forbidden. How do
+> > >
+> > > foo: false (with unevaluatedProperties:false) or by default (with
+> > > additionalProperties:false)
 > > 
-> > I wonder what others think.
+> > I think we should default to the latter. video-interfaces.yaml contains lots of
+> > properties endpoint properties, most bindings will use less than half of them, so
+> > having to explicitly list all the ones that are not used with "foo: false" would be
+> > quite inconvenient. Furthermore, I expect more properties to be added to
+> > video-interfaces.yaml over time, and those shouldn't be accepted by default in
+> > existing bindings.
+> > 
 > 
-> I understand the risk.
-> I'll remove these struct-style definition and introduce macro style definition.
-> I've hesitated this migration simply because it seemed difficult to complete without any defects 
-> especially on calculating the offset of each member.
-> I try find a series of operations that will complete the migration safely.
+> I caught up with this discussion after some exercise on JSON schema validator.
+> I'll remove "unevaluatedProperties: false" at the "endpoint" and add "aditionalProperties: false" instead.
+> Furthermore, I'll explicitly declare required properties (required: ["foo"]) and optional properties (properties: {foo: true}) for Visconti.
+> Is this correct understanding?
 
-I agree with you about the migration risk. Maybe a script that parses
-the header file and generates macros would take less time to implement
-than doing it manually, and would be safer ?
+Looks very good to me !
 
-> > > +};
-> > > +
+> Are these changes also applied to "port", which is the parent node of
+> the "endpoint" ?
+
+That shouldn't be needed, as the "port" node should only have "endpoint"
+children and no other properties (except for reg, and possibly
+#address-cells and #size-cells of course).
+
+> > > > we differentiate between the latter two cases ?
 
 -- 
 Regards,
