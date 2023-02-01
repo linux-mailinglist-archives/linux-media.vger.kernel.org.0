@@ -2,56 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D58168670F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 14:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF69686754
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 14:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231717AbjBANiA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 08:38:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
+        id S231552AbjBANqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 08:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232146AbjBANh6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 08:37:58 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D206B4C30
-        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 05:37:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675258677; x=1706794677;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bFdAIaapF941UYw29GrlkPfvaL21wXGz1ySMam2CZG8=;
-  b=KeY/EJW8oNWdG2/HIgwYo2tUQhcUXPxTBfigOpWuwOdqvI6/Tw/+xWfx
-   /Cor/zoaSZJtf643la05OyPVzuCl9qSYk2GAl0zP4gbUIQxv1frzYnIZc
-   59XpEdLC6GXbCapZyVVAiahcWumlKz7qwiqP0kf2/UJrAEI7spi9oS5+S
-   vilfqQ4NRrXEaaO6JluN2HuWn/1+I+Klj00e/aJZ82R9fEaHvDTHfpgov
-   qahpax+0VyvsP/hk4jQ5wGnA4FIxVvzSQ/1d/oV4qRovgD5JV97asP7OV
-   oKtVJTWpis+AHCYiRzgeCzPsKTH1EGnGRkU/do5s5xNwezDYduwKZsJJC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="355476583"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="355476583"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:37:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="642416107"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="642416107"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:37:55 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 36F5D11FAD0;
-        Wed,  1 Feb 2023 15:37:52 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        with ESMTP id S231144AbjBANqP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 08:46:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F98B4E51D
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 05:46:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 28E6F617A0
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:46:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 203B1C433EF
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:46:11 +0000 (UTC)
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     bingbu.cao@intel.com
-Subject: [PATCH 1/1] media: ipu3-cio2: Fix PM runtime usage_count in driver unbind
-Date:   Wed,  1 Feb 2023 15:37:51 +0200
-Message-Id: <20230201133751.305474-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH 0/2] Move saa7146 back to mainline
+Date:   Wed,  1 Feb 2023 14:46:08 +0100
+Message-Id: <20230201134610.873393-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,28 +38,223 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Get the PM runtime usage_count and forbid PM runtime at driver unbind. The
-opposite is being done in probe() already.
+This reverts the two patches that moved saa7146/av7110 to the
+staging/media/deprecated directory.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 3 +++
- 1 file changed, 3 insertions(+)
+It turns out that these drivers are still in use, so this
+restores the old situation.
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index 390bd5ea3472..3b76a9d0383a 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -1843,6 +1843,9 @@ static void cio2_pci_remove(struct pci_dev *pci_dev)
- 	v4l2_device_unregister(&cio2->v4l2_dev);
- 	media_device_cleanup(&cio2->media_dev);
- 	mutex_destroy(&cio2->lock);
-+
-+	pm_runtime_forbid(&pci_dev->dev);
-+	pm_runtime_get_noresume(&pci_dev->dev);
- }
- 
- static int __maybe_unused cio2_runtime_suspend(struct device *dev)
+I will try to convert saa7146 to vb2 this month.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (2):
+  Revert "media: av7110: move to staging/media/deprecated/saa7146"
+  Revert "media: saa7146: deprecate hexium_gemini/orion, mxb and ttpci"
+
+ MAINTAINERS                                   |  4 +++-
+ drivers/media/common/Kconfig                  |  1 +
+ drivers/media/common/Makefile                 |  2 +-
+ .../common => media/common/saa7146}/Kconfig   |  0
+ .../common => media/common/saa7146}/Makefile  |  0
+ .../common/saa7146}/saa7146_core.c            |  2 +-
+ .../common/saa7146}/saa7146_fops.c            |  2 +-
+ .../common/saa7146}/saa7146_hlp.c             |  2 +-
+ .../common/saa7146}/saa7146_i2c.c             |  2 +-
+ .../common/saa7146}/saa7146_vbi.c             |  2 +-
+ .../common/saa7146}/saa7146_video.c           |  2 +-
+ drivers/media/pci/Kconfig                     |  2 ++
+ drivers/media/pci/Makefile                    |  4 +++-
+ .../saa7146 => media/pci}/saa7146/Kconfig     | 15 +++-----------
+ .../saa7146 => media/pci}/saa7146/Makefile    |  0
+ .../pci}/saa7146/hexium_gemini.c              |  2 +-
+ .../pci}/saa7146/hexium_orion.c               |  2 +-
+ .../saa7146 => media/pci}/saa7146/mxb.c       |  2 +-
+ .../saa7146 => media/pci}/ttpci/Kconfig       | 17 ++++------------
+ .../saa7146 => media/pci}/ttpci/Makefile      |  0
+ .../saa7146 => media/pci}/ttpci/budget-av.c   |  2 +-
+ .../saa7146 => media/pci}/ttpci/budget-ci.c   |  0
+ .../saa7146 => media/pci}/ttpci/budget-core.c |  0
+ .../saa7146 => media/pci}/ttpci/budget.c      |  0
+ .../saa7146 => media/pci}/ttpci/budget.h      |  2 +-
+ drivers/staging/media/Kconfig                 |  3 ++-
+ drivers/staging/media/Makefile                |  2 +-
+ .../{deprecated/saa7146 => }/av7110/Kconfig   | 20 ++++---------------
+ .../{deprecated/saa7146 => }/av7110/Makefile  |  3 +--
+ drivers/staging/media/av7110/TODO             |  3 +++
+ .../av7110/audio-bilingual-channel-select.rst |  0
+ .../av7110/audio-channel-select.rst           |  0
+ .../av7110/audio-clear-buffer.rst             |  0
+ .../saa7146 => }/av7110/audio-continue.rst    |  0
+ .../saa7146 => }/av7110/audio-fclose.rst      |  0
+ .../saa7146 => }/av7110/audio-fopen.rst       |  0
+ .../saa7146 => }/av7110/audio-fwrite.rst      |  0
+ .../av7110/audio-get-capabilities.rst         |  0
+ .../saa7146 => }/av7110/audio-get-status.rst  |  0
+ .../saa7146 => }/av7110/audio-pause.rst       |  0
+ .../saa7146 => }/av7110/audio-play.rst        |  0
+ .../av7110/audio-select-source.rst            |  0
+ .../saa7146 => }/av7110/audio-set-av-sync.rst |  0
+ .../av7110/audio-set-bypass-mode.rst          |  0
+ .../saa7146 => }/av7110/audio-set-id.rst      |  0
+ .../saa7146 => }/av7110/audio-set-mixer.rst   |  0
+ .../saa7146 => }/av7110/audio-set-mute.rst    |  0
+ .../av7110/audio-set-streamtype.rst           |  0
+ .../saa7146 => }/av7110/audio-stop.rst        |  0
+ .../{deprecated/saa7146 => }/av7110/audio.rst |  0
+ .../saa7146 => }/av7110/audio_data_types.rst  |  0
+ .../av7110/audio_function_calls.rst           |  0
+ .../{deprecated/saa7146 => }/av7110/av7110.c  |  0
+ .../{deprecated/saa7146 => }/av7110/av7110.h  |  2 +-
+ .../saa7146 => }/av7110/av7110_av.c           |  0
+ .../saa7146 => }/av7110/av7110_av.h           |  0
+ .../saa7146 => }/av7110/av7110_ca.c           |  0
+ .../saa7146 => }/av7110/av7110_ca.h           |  0
+ .../saa7146 => }/av7110/av7110_hw.c           |  0
+ .../saa7146 => }/av7110/av7110_hw.h           |  0
+ .../saa7146 => }/av7110/av7110_ipack.c        |  0
+ .../saa7146 => }/av7110/av7110_ipack.h        |  0
+ .../saa7146 => }/av7110/av7110_ir.c           |  0
+ .../saa7146 => }/av7110/av7110_v4l.c          |  0
+ .../saa7146 => }/av7110/budget-patch.c        |  0
+ .../saa7146 => }/av7110/dvb_filter.c          |  0
+ .../saa7146 => }/av7110/dvb_filter.h          |  0
+ .../{deprecated/saa7146 => }/av7110/sp8870.c  |  0
+ .../{deprecated/saa7146 => }/av7110/sp8870.h  |  0
+ .../av7110/video-clear-buffer.rst             |  0
+ .../saa7146 => }/av7110/video-command.rst     |  0
+ .../saa7146 => }/av7110/video-continue.rst    |  0
+ .../av7110/video-fast-forward.rst             |  0
+ .../saa7146 => }/av7110/video-fclose.rst      |  0
+ .../saa7146 => }/av7110/video-fopen.rst       |  0
+ .../saa7146 => }/av7110/video-freeze.rst      |  0
+ .../saa7146 => }/av7110/video-fwrite.rst      |  0
+ .../av7110/video-get-capabilities.rst         |  0
+ .../saa7146 => }/av7110/video-get-event.rst   |  0
+ .../av7110/video-get-frame-count.rst          |  0
+ .../saa7146 => }/av7110/video-get-pts.rst     |  0
+ .../saa7146 => }/av7110/video-get-size.rst    |  0
+ .../saa7146 => }/av7110/video-get-status.rst  |  0
+ .../saa7146 => }/av7110/video-play.rst        |  0
+ .../av7110/video-select-source.rst            |  0
+ .../saa7146 => }/av7110/video-set-blank.rst   |  0
+ .../av7110/video-set-display-format.rst       |  0
+ .../saa7146 => }/av7110/video-set-format.rst  |  0
+ .../av7110/video-set-streamtype.rst           |  0
+ .../saa7146 => }/av7110/video-slowmotion.rst  |  0
+ .../av7110/video-stillpicture.rst             |  0
+ .../saa7146 => }/av7110/video-stop.rst        |  0
+ .../saa7146 => }/av7110/video-try-command.rst |  0
+ .../{deprecated/saa7146 => }/av7110/video.rst |  0
+ .../av7110/video_function_calls.rst           |  0
+ .../saa7146 => }/av7110/video_types.rst       |  0
+ .../staging/media/deprecated/saa7146/Kconfig  |  5 -----
+ .../staging/media/deprecated/saa7146/Makefile |  2 --
+ .../media/deprecated/saa7146/av7110/TODO      |  9 ---------
+ .../media/deprecated/saa7146/saa7146/TODO     |  7 -------
+ .../media/deprecated/saa7146/ttpci/TODO       |  7 -------
+ .../media/drv-intf}/saa7146.h                 |  0
+ .../media/drv-intf}/saa7146_vv.h              |  2 +-
+ 103 files changed, 41 insertions(+), 91 deletions(-)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/Kconfig (100%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/Makefile (100%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/saa7146_core.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/saa7146_fops.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/saa7146_hlp.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/saa7146_i2c.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/saa7146_vbi.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146/common => media/common/saa7146}/saa7146_video.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/saa7146/Kconfig (67%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/saa7146/Makefile (100%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/saa7146/hexium_gemini.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/saa7146/hexium_orion.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/saa7146/mxb.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/Kconfig (83%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/Makefile (100%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/budget-av.c (99%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/budget-ci.c (100%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/budget-core.c (100%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/budget.c (100%)
+ rename drivers/{staging/media/deprecated/saa7146 => media/pci}/ttpci/budget.h (98%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/Kconfig (82%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/Makefile (78%)
+ create mode 100644 drivers/staging/media/av7110/TODO
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-bilingual-channel-select.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-channel-select.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-clear-buffer.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-continue.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-fclose.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-fopen.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-fwrite.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-get-capabilities.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-get-status.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-pause.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-play.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-select-source.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-set-av-sync.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-set-bypass-mode.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-set-id.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-set-mixer.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-set-mute.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-set-streamtype.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio-stop.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio_data_types.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/audio_function_calls.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110.h (99%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_av.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_av.h (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_ca.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_ca.h (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_hw.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_hw.h (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_ipack.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_ipack.h (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_ir.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/av7110_v4l.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/budget-patch.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/dvb_filter.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/dvb_filter.h (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/sp8870.c (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/sp8870.h (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-clear-buffer.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-command.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-continue.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-fast-forward.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-fclose.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-fopen.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-freeze.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-fwrite.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-get-capabilities.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-get-event.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-get-frame-count.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-get-pts.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-get-size.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-get-status.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-play.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-select-source.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-set-blank.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-set-display-format.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-set-format.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-set-streamtype.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-slowmotion.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-stillpicture.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-stop.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video-try-command.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video_function_calls.rst (100%)
+ rename drivers/staging/media/{deprecated/saa7146 => }/av7110/video_types.rst (100%)
+ delete mode 100644 drivers/staging/media/deprecated/saa7146/Kconfig
+ delete mode 100644 drivers/staging/media/deprecated/saa7146/Makefile
+ delete mode 100644 drivers/staging/media/deprecated/saa7146/av7110/TODO
+ delete mode 100644 drivers/staging/media/deprecated/saa7146/saa7146/TODO
+ delete mode 100644 drivers/staging/media/deprecated/saa7146/ttpci/TODO
+ rename {drivers/staging/media/deprecated/saa7146/common => include/media/drv-intf}/saa7146.h (100%)
+ rename {drivers/staging/media/deprecated/saa7146/common => include/media/drv-intf}/saa7146_vv.h (99%)
+
 -- 
-2.30.2
+2.39.0
 
