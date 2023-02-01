@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0D63687092
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 22:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1846687093
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 22:45:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbjBAVpy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 16:45:54 -0500
+        id S230462AbjBAVpz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 16:45:55 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbjBAVpv (ORCPT
+        with ESMTP id S230432AbjBAVpv (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 16:45:51 -0500
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8CA66FAE
-        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:45:46 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7B4677B1
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675287947; x=1706823947;
+  t=1675287949; x=1706823949;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qRPSCOKHkvRc/COhkncP3OkmK5KQZ1gTt6vbocLSYkk=;
-  b=GoFEZKXY9aUvDlP9o/7BR+Em7w2KTa/ED1C/KlXLgtzEME/jCByJdFSq
-   GjT50+bEzWbOoCR4/GDXQSCmH4tn2BPIcbcExOAn/nUJtoATNP7DoekVT
-   7l/ElkJ96Ce/7TpY3HqfFxZcug5bRAO8d3+h5mVGcW7LKjkLwmHysnUnY
-   TNlP9vkIUtIchYlZye3B8uLvO6qX9nvyKtAiVK8gmF/cmCod3or0upHPz
-   BpSc81JFBbfXfKq1KW/FKHM0Acs5Gz+0mvkVjd+DzydnOhlrBlRnJsL2/
-   SndwkE0LanGP4M2Ne9pvJMFNF1bCWPJdh7tyHdho/unyYbFsgmT6ziOeu
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330415625"
+  bh=QWK7YEarN+YlvW1WGbMgZtp1wGCUvLK3q1yiKO1PcpU=;
+  b=eFpG3ftz47Wn1qhn9YPSj9jESDDyHWLkU/zv3ze148OE/LQikj2VcFMs
+   81PieAVwUxKiFpQDdPOx2vXVn2uWiQux+nxbvX8dUtIHsuXhkanm880Mv
+   RnDRsRwK9EjGYfXgyhX0dwRPjwpUqY0ziZvmVg3/dd7ogiWFyibePqt2U
+   73+FEc5C1U8Ad/SXBpmuYcQ3LobewtsFD4Xri1Jrb08fnLa3zQn5QvNFS
+   uzaQtnyqg5Oz42SrsEDIkvfhOG+/Pk8EPVsDvRUr5EjyrjlEX2KpgjijE
+   iHtWDm2CzBjQpoDMey89Mdw1bPeKeFrsm9FQNcd7cSLmxcH743VuyoHbQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330415629"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="330415625"
+   d="scan'208";a="330415629"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:45 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="695527298"
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="695527301"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="695527298"
+   d="scan'208";a="695527301"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:44 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:45 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 2D72D1227F2;
-        Wed,  1 Feb 2023 23:45:41 +0200 (EET)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 5964E120339;
+        Wed,  1 Feb 2023 23:45:42 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH 06/26] Revert "[media] media-device: dynamically allocate struct media_devnode"
-Date:   Wed,  1 Feb 2023 23:45:15 +0200
-Message-Id: <20230201214535.347075-7-sakari.ailus@linux.intel.com>
+Subject: [PATCH 07/26] media: uvcvideo: Refactor teardown of uvc on USB disconnect
+Date:   Wed,  1 Feb 2023 23:45:16 +0200
+Message-Id: <20230201214535.347075-8-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
 References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
@@ -60,288 +60,184 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This reverts commit a087ce704b80 ("[media] media-device: dynamically
-allocate struct media_devnode"). The commit was part of an original
-patchset to avoid crashes when an unregistering device is in use.
+From: Daniel Axtens <dja@axtens.net>
 
+Currently, disconnecting a USB webcam while it is in use prints out a
+number of warnings, such as:
+
+WARNING: CPU: 2 PID: 3118 at /build/linux-ezBi1T/linux-4.8.0/fs/sysfs/group.c:237 sysfs_remove_group+0x8b/0x90
+sysfs group ffffffffa7cd0780 not found for kobject 'event13'
+
+This has been noticed before. [0]
+
+This is because of the order in which things are torn down.
+
+If there are no streams active during a USB disconnect:
+
+ - uvc_disconnect() is invoked via device_del() through the bus
+   notifier mechanism.
+
+ - this calls uvc_unregister_video().
+
+ - uvc_unregister_video() unregisters the video device for each
+   stream,
+
+ - because there are no streams open, it calls uvc_delete()
+
+ - uvc_delete() calls uvc_status_cleanup(), which cleans up the status
+   input device.
+
+ - uvc_delete() calls media_device_unregister(), which cleans up the
+   media device
+
+ - uvc_delete(), uvc_unregister_video() and uvc_disconnect() all
+   return, and we end up back in device_del().
+
+ - device_del() then cleans up the sysfs folder for the camera with
+   dpm_sysfs_remove(). Because uvc_status_cleanup() and
+   media_device_unregister() have already been called, this all works
+   nicely.
+
+If, on the other hand, there *are* streams active during a USB disconnect:
+
+ - uvc_disconnect() is invoked
+
+ - this calls uvc_unregister_video()
+
+ - uvc_unregister_video() unregisters the video device for each
+   stream,
+
+ - uvc_unregister_video() and uvc_disconnect() return, and we end up
+   back in device_del().
+
+ - device_del() then cleans up the sysfs folder for the camera with
+   dpm_sysfs_remove(). Because the status input device and the media
+   device are children of the USB device, this also deletes their
+   sysfs folders.
+
+ - Sometime later, the final stream is closed, invoking uvc_release().
+
+ - uvc_release() calls uvc_delete()
+
+ - uvc_delete() calls uvc_status_cleanup(), which cleans up the status
+   input device. Because the sysfs directory has already been removed,
+   this causes a WARNing.
+
+ - uvc_delete() calls media_device_unregister(), which cleans up the
+   media device. Because the sysfs directory has already been removed,
+   this causes another WARNing.
+
+To fix this, we need to make sure the devices are always unregistered
+before the end of uvc_disconnect(). To this, move the unregistration
+into the disconnect path:
+
+ - split uvc_status_cleanup() into two parts, one on disconnect that
+   unregisters and one on delete that frees.
+
+ - move v4l2_device_unregister() and media_device_unregister() into
+   the disconnect path.
+
+[0]: https://lkml.org/lkml/2016/12/8/657
+
+[Renamed uvc_input_cleanup() to uvc_input_unregister()]
+
+Signed-off-by: Daniel Axtens <dja@axtens.net>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+[Sakari Ailus: Rebase on patch Revert "[media] media-device: dynamically allocate struct media_devnode"]
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/mc/mc-device.c                | 44 +++++++--------------
- drivers/media/mc/mc-devnode.c               |  7 +---
- drivers/media/usb/au0828/au0828-core.c      |  4 +-
- drivers/media/usb/uvc/uvc_driver.c          |  2 +-
- drivers/staging/media/sunxi/cedrus/cedrus.c |  2 +-
- include/media/media-device.h                |  5 ++-
- include/media/media-devnode.h               | 15 +------
- 7 files changed, 25 insertions(+), 54 deletions(-)
+ drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++----
+ drivers/media/usb/uvc/uvc_status.c | 12 ++++++++----
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 3 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index b6640e2c8a4c..5c2e65717c19 100644
---- a/drivers/media/mc/mc-device.c
-+++ b/drivers/media/mc/mc-device.c
-@@ -439,7 +439,7 @@ static long media_device_ioctl(struct file *filp, unsigned int cmd,
- 			       unsigned long __arg)
- {
- 	struct media_devnode *devnode = media_devnode_data(filp);
--	struct media_device *dev = devnode->media_dev;
-+	struct media_device *dev = to_media_device(devnode);
- 	const struct media_ioctl_info *info;
- 	void __user *arg = (void __user *)__arg;
- 	char __karg[256], *karg = __karg;
-@@ -523,7 +523,7 @@ static long media_device_compat_ioctl(struct file *filp, unsigned int cmd,
- 				      unsigned long arg)
- {
- 	struct media_devnode *devnode = media_devnode_data(filp);
--	struct media_device *dev = devnode->media_dev;
-+	struct media_device *dev = to_media_device(devnode);
- 	long ret;
- 
- 	switch (cmd) {
-@@ -559,8 +559,7 @@ static const struct media_file_operations media_device_fops = {
- static ssize_t model_show(struct device *cd,
- 			  struct device_attribute *attr, char *buf)
- {
--	struct media_devnode *devnode = to_media_devnode(cd);
--	struct media_device *mdev = devnode->media_dev;
-+	struct media_device *mdev = to_media_device(to_media_devnode(cd));
- 
- 	return sprintf(buf, "%.*s\n", (int)sizeof(mdev->model), mdev->model);
- }
-@@ -718,34 +717,23 @@ EXPORT_SYMBOL_GPL(media_device_cleanup);
- int __must_check __media_device_register(struct media_device *mdev,
- 					 struct module *owner)
- {
--	struct media_devnode *devnode;
- 	int ret;
- 
--	devnode = kzalloc(sizeof(*devnode), GFP_KERNEL);
--	if (!devnode)
--		return -ENOMEM;
--
- 	/* Register the device node. */
--	mdev->devnode = devnode;
--	devnode->fops = &media_device_fops;
--	devnode->parent = mdev->dev;
--	devnode->release = media_device_release;
-+	mdev->devnode.fops = &media_device_fops;
-+	mdev->devnode.parent = mdev->dev;
-+	mdev->devnode.release = media_device_release;
- 
- 	/* Set version 0 to indicate user-space that the graph is static */
- 	mdev->topology_version = 0;
- 
--	ret = media_devnode_register(mdev, devnode, owner);
--	if (ret < 0) {
--		mdev->devnode = NULL;
--		kfree(devnode);
-+	ret = media_devnode_register(&mdev->devnode, owner);
-+	if (ret < 0)
- 		return ret;
--	}
- 
--	ret = device_create_file(&devnode->dev, &dev_attr_model);
-+	ret = device_create_file(&mdev->devnode.dev, &dev_attr_model);
- 	if (ret < 0) {
--		mdev->devnode = NULL;
--		media_devnode_unregister(devnode);
--		kfree(devnode);
-+		media_devnode_unregister(&mdev->devnode);
- 		return ret;
- 	}
- 
-@@ -796,7 +784,7 @@ void media_device_unregister(struct media_device *mdev)
- 	mutex_lock(&mdev->graph_mutex);
- 
- 	/* Check if mdev was ever registered at all */
--	if (!media_devnode_is_registered(mdev->devnode)) {
-+	if (!media_devnode_is_registered(&mdev->devnode)) {
- 		mutex_unlock(&mdev->graph_mutex);
- 		return;
- 	}
-@@ -823,13 +811,9 @@ void media_device_unregister(struct media_device *mdev)
- 
- 	mutex_unlock(&mdev->graph_mutex);
- 
--	dev_dbg(mdev->dev, "Media device unregistered\n");
--
--	/* Check if mdev devnode was registered */
--	if (media_devnode_is_registered(mdev->devnode)) {
--		device_remove_file(&mdev->devnode->dev, &dev_attr_model);
--		media_devnode_unregister(mdev->devnode);
--	}
-+	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
-+	dev_dbg(mdev->dev, "Media device unregistering\n");
-+	media_devnode_unregister(&mdev->devnode);
- }
- EXPORT_SYMBOL_GPL(media_device_unregister);
- 
-diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-index fabcd646679b..ce93ab9be676 100644
---- a/drivers/media/mc/mc-devnode.c
-+++ b/drivers/media/mc/mc-devnode.c
-@@ -32,7 +32,6 @@
- #include <linux/uaccess.h>
- 
- #include <media/media-devnode.h>
--#include <media/media-device.h>
- 
- #define MEDIA_NUM_DEVICES	256
- #define MEDIA_NAME		"media"
-@@ -63,8 +62,6 @@ static void media_devnode_release(struct device *cd)
- 	/* Release media_devnode and perform other cleanups as needed. */
- 	if (devnode->release)
- 		devnode->release(devnode);
--
--	kfree(devnode);
- }
- 
- static struct bus_type media_bus_type = {
-@@ -210,8 +207,7 @@ static const struct file_operations media_devnode_fops = {
- 	.llseek = no_llseek,
- };
- 
--int __must_check media_devnode_register(struct media_device *mdev,
--					struct media_devnode *devnode,
-+int __must_check media_devnode_register(struct media_devnode *devnode,
- 					struct module *owner)
- {
- 	int minor;
-@@ -230,7 +226,6 @@ int __must_check media_devnode_register(struct media_device *mdev,
- 	mutex_unlock(&media_devnode_lock);
- 
- 	devnode->minor = minor;
--	devnode->media_dev = mdev;
- 
- 	/* Part 2: Initialize the media and character devices */
- 	cdev_init(&devnode->cdev, &media_devnode_fops);
-diff --git a/drivers/media/usb/au0828/au0828-core.c b/drivers/media/usb/au0828/au0828-core.c
-index 877e85a451cb..0876b267568d 100644
---- a/drivers/media/usb/au0828/au0828-core.c
-+++ b/drivers/media/usb/au0828/au0828-core.c
-@@ -128,7 +128,7 @@ static void au0828_unregister_media_device(struct au0828_dev *dev)
- 	struct media_device *mdev = dev->media_dev;
- 	struct media_entity_notify *notify, *nextp;
- 
--	if (!mdev || !media_devnode_is_registered(mdev->devnode))
-+	if (!mdev || !media_devnode_is_registered(&mdev->devnode))
- 		return;
- 
- 	/* Remove au0828 entity_notify callbacks */
-@@ -566,7 +566,7 @@ static int au0828_media_device_register(struct au0828_dev *dev,
- 	if (!dev->media_dev)
- 		return 0;
- 
--	if (!media_devnode_is_registered(dev->media_dev->devnode)) {
-+	if (!media_devnode_is_registered(&dev->media_dev->devnode)) {
- 
- 		/* register media device */
- 		ret = media_device_register(dev->media_dev);
 diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index d414b2221dae..e13b9e012e05 100644
+index e13b9e012e05..5beefbb25fcc 100644
 --- a/drivers/media/usb/uvc/uvc_driver.c
 +++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1837,7 +1837,7 @@ static void uvc_delete(struct kref *kref)
- 	if (dev->vdev.dev)
- 		v4l2_device_unregister(&dev->vdev);
+@@ -1834,11 +1834,7 @@ static void uvc_delete(struct kref *kref)
+ 	usb_put_intf(dev->intf);
+ 	usb_put_dev(dev->udev);
+ 
+-	if (dev->vdev.dev)
+-		v4l2_device_unregister(&dev->vdev);
  #ifdef CONFIG_MEDIA_CONTROLLER
--	if (media_devnode_is_registered(dev->mdev.devnode))
-+	if (media_devnode_is_registered(&dev->mdev.devnode))
- 		media_device_unregister(&dev->mdev);
+-	if (media_devnode_is_registered(&dev->mdev.devnode))
+-		media_device_unregister(&dev->mdev);
  	media_device_cleanup(&dev->mdev);
  #endif
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index a43d5ff66716..41d3c84becfe 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -547,7 +547,7 @@ static int cedrus_remove(struct platform_device *pdev)
- {
- 	struct cedrus_dev *dev = platform_get_drvdata(pdev);
  
--	if (media_devnode_is_registered(dev->mdev.devnode)) {
-+	if (media_devnode_is_registered(&dev->mdev.devnode)) {
- 		media_device_unregister(&dev->mdev);
- 		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
- 		media_device_cleanup(&dev->mdev);
-diff --git a/include/media/media-device.h b/include/media/media-device.h
-index 86716ee7cc6c..a33820075aa4 100644
---- a/include/media/media-device.h
-+++ b/include/media/media-device.h
-@@ -145,7 +145,7 @@ struct media_device_ops {
- struct media_device {
- 	/* dev->driver_data points to this struct. */
- 	struct device *dev;
--	struct media_devnode *devnode;
-+	struct media_devnode devnode;
+@@ -1895,6 +1891,15 @@ static void uvc_unregister_video(struct uvc_device *dev)
  
- 	char model[32];
- 	char driver_name[32];
-@@ -191,6 +191,9 @@ struct usb_device;
- #define MEDIA_DEV_NOTIFY_PRE_LINK_CH	0
- #define MEDIA_DEV_NOTIFY_POST_LINK_CH	1
- 
-+/* media_devnode to media_device */
-+#define to_media_device(node) container_of(node, struct media_device, devnode)
+ 		uvc_debugfs_cleanup_stream(stream);
+ 	}
 +
- /**
-  * media_device_init() - Initializes a media device element
-  *
-diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-index 46f0d3ae44d1..1117d1dfd6bf 100644
---- a/include/media/media-devnode.h
-+++ b/include/media/media-devnode.h
-@@ -21,8 +21,6 @@
- #include <linux/device.h>
- #include <linux/cdev.h>
- 
--struct media_device;
--
- /*
-  * Flag to mark the media_devnode struct as registered. Drivers must not touch
-  * this flag directly, it will be set and cleared by media_devnode_register and
-@@ -73,8 +71,6 @@ struct media_file_operations {
-  * before registering the node.
-  */
- struct media_devnode {
--	struct media_device *media_dev;
--
- 	/* device ops */
- 	const struct media_file_operations *fops;
- 
-@@ -97,8 +93,7 @@ struct media_devnode {
- /**
-  * media_devnode_register - register a media device node
-  *
-- * @mdev: struct media_device we want to register a device node
-- * @devnode: media device node structure we want to register
-+ * @devnode: struct media_devnode we want to register a device node
-  * @owner: should be filled with %THIS_MODULE
-  *
-  * The registration code assigns minor numbers and registers the new device node
-@@ -111,8 +106,7 @@ struct media_devnode {
-  * the media_devnode structure is *not* called, so the caller is responsible for
-  * freeing any data.
-  */
--int __must_check media_devnode_register(struct media_device *mdev,
--					struct media_devnode *devnode,
-+int __must_check media_devnode_register(struct media_devnode *devnode,
- 					struct module *owner);
- 
- /**
-@@ -142,14 +136,9 @@ static inline struct media_devnode *media_devnode_data(struct file *filp)
-  *	false otherwise.
-  *
-  * @devnode: pointer to struct &media_devnode.
-- *
-- * Note: If mdev is NULL, it also returns false.
-  */
- static inline int media_devnode_is_registered(struct media_devnode *devnode)
- {
--	if (!devnode)
--		return false;
--
- 	return test_bit(MEDIA_FLAG_REGISTERED, &devnode->flags);
++	uvc_status_unregister(dev);
++
++	if (dev->vdev.dev)
++		v4l2_device_unregister(&dev->vdev);
++#ifdef CONFIG_MEDIA_CONTROLLER
++	if (media_devnode_is_registered(&dev->mdev.devnode))
++		media_device_unregister(&dev->mdev);
++#endif
  }
  
+ int uvc_register_video_device(struct uvc_device *dev,
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 015be0886801..a78a88c710e2 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -73,7 +73,7 @@ static int uvc_input_init(struct uvc_device *dev)
+ 	return ret;
+ }
+ 
+-static void uvc_input_cleanup(struct uvc_device *dev)
++static void uvc_input_unregister(struct uvc_device *dev)
+ {
+ 	if (dev->input)
+ 		input_unregister_device(dev->input);
+@@ -90,7 +90,7 @@ static void uvc_input_report_key(struct uvc_device *dev, unsigned int code,
+ 
+ #else
+ #define uvc_input_init(dev)
+-#define uvc_input_cleanup(dev)
++#define uvc_input_unregister(dev)
+ #define uvc_input_report_key(dev, code, value)
+ #endif /* CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV */
+ 
+@@ -290,12 +290,16 @@ int uvc_status_init(struct uvc_device *dev)
+ 	return 0;
+ }
+ 
+-void uvc_status_cleanup(struct uvc_device *dev)
++void uvc_status_unregister(struct uvc_device *dev)
+ {
+ 	usb_kill_urb(dev->int_urb);
++	uvc_input_unregister(dev);
++}
++
++void uvc_status_cleanup(struct uvc_device *dev)
++{
+ 	usb_free_urb(dev->int_urb);
+ 	kfree(dev->status);
+-	uvc_input_cleanup(dev);
+ }
+ 
+ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 80de6f8395c8..9a596c8d894a 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -742,6 +742,7 @@ int uvc_register_video_device(struct uvc_device *dev,
+ 
+ /* Status */
+ int uvc_status_init(struct uvc_device *dev);
++void uvc_status_unregister(struct uvc_device *dev);
+ void uvc_status_cleanup(struct uvc_device *dev);
+ int uvc_status_start(struct uvc_device *dev, gfp_t flags);
+ void uvc_status_stop(struct uvc_device *dev);
 -- 
 2.30.2
 
