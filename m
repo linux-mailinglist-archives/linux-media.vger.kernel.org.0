@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E4068709F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 22:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCEC768709E
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 22:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbjBAVqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S231305AbjBAVqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 1 Feb 2023 16:46:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32936 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230246AbjBAVqG (ORCPT
+        with ESMTP id S231224AbjBAVqG (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 16:46:06 -0500
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6EA6812D
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E62568126
         for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:46:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1675287964; x=1706823964;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=iOLvgbUxkhp7ltXZAraG0q1tCmQNTIu8Zaqv8LJXzKw=;
-  b=J80EibEp9XHWYFOvB9J+QLTW+v0UTsIQuAx4a0U123ZQ6Cbt+bOwFshd
-   eKjc4OJmluhCG46UJB2CJuEkJ4SoSAUUedcBELIQFYGg5QshHdTCB5Jq/
-   2LCTd3H0Pzx12eQ27lBnzefJgmRF73JOdnRs2+795SaQ+xMnRRM5pM074
-   I8ukkDzQFNG7l7jaWnMJBnACViKBX4ZtQgJETyFBq8NxRkQiJEcKuaAnZ
-   zBJLSKRRmXb4V2kM6UX//mpbZpNdxBY4s6SgR0iRznrB6AWFLZkcx5Qsg
-   9dvHN/V14pvPdF3Mfmz4sw9FPdaHh3exxO1SEr+PwVQj5684aUqLoYlyU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330415671"
+  bh=C7ojklwdsw9pyjTRpLRjwb/ybwVkxHASBuJm5fS+J7Y=;
+  b=iuL6okoDCnhBNNhpqne4n5tQMfYZLSFL8Vxn9JDmsuRyyJh2Mw3ItSl7
+   VkfWsaqVRBeKS6gKmw6eCkjxZ4XAAdUCaViXMbR3W+kd09PbUsW0iaaIz
+   5lfCmwuJXlTaM6bkgITmLHwqZ8fMcZQuauPBFc6GbV4LFImSMKO9Nt48D
+   Oi5S8oFeqhkunQmQTTMJs8FU6Q9axe7iA23hJjRDXPWGNDyg9aHazAL+P
+   WwMczKXax1HbDnCZIWbTicK5kbQPb1cbfJ12UuNoUeD4Zgmr6COe2pCjC
+   Wyqhdxp8qhe6uimw9xbhpIokod18PV2jt/Ym7rathpEf9dmloW7RwM81q
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330415675"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="330415671"
+   d="scan'208";a="330415675"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:54 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="695527320"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="695527321"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="695527320"
+   d="scan'208";a="695527321"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:52 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:53 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 0B9781227A1;
-        Wed,  1 Feb 2023 23:45:49 +0200 (EET)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id D14A2120339;
+        Wed,  1 Feb 2023 23:45:50 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH 18/26] omap3isp: Don't use devm_request_irq()
-Date:   Wed,  1 Feb 2023 23:45:27 +0200
-Message-Id: <20230201214535.347075-19-sakari.ailus@linux.intel.com>
+Subject: [PATCH 19/26] media: Add nop implementations of media_device_{init,cleanup}
+Date:   Wed,  1 Feb 2023 23:45:28 +0200
+Message-Id: <20230201214535.347075-20-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
 References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
@@ -60,55 +60,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use request_irq() instead of devm_request_irq(), as a handler set using
-devm_request_irq() may still be called once the driver's remove() callback
-has been called.
+To support compliation with Media controller disabled, drivers were
+required to conditionally call media_device_init and media_device_cleanup.
+Add nop implementations of both so drivers don't need to care (or at least
+care less).
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/ti/omap3isp/isp.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ include/media/media-device.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-index 9665f1eb345e..904a2c2141f9 100644
---- a/drivers/media/platform/ti/omap3isp/isp.c
-+++ b/drivers/media/platform/ti/omap3isp/isp.c
-@@ -2024,6 +2024,7 @@ static int isp_remove(struct platform_device *pdev)
- 	__omap3isp_get(isp, false);
- 	isp_detach_iommu(isp);
- 	__omap3isp_put(isp, false);
-+	free_irq(isp->irq_num, isp);
- 
- 	/* May release isp immediately */
- 	media_device_put(&isp->media_dev);
-@@ -2419,8 +2420,7 @@ static int isp_probe(struct platform_device *pdev)
- 	}
- 	isp->irq_num = ret;
- 
--	if (devm_request_irq(isp->dev, isp->irq_num, isp_isr, IRQF_SHARED,
--			     "OMAP3 ISP", isp)) {
-+	if (request_irq(isp->irq_num, isp_isr, IRQF_SHARED, "OMAP3 ISP", isp)) {
- 		dev_err(isp->dev, "Unable to request IRQ\n");
- 		ret = -EINVAL;
- 		goto error_iommu;
-@@ -2429,7 +2429,7 @@ static int isp_probe(struct platform_device *pdev)
- 	/* Entities */
- 	ret = isp_initialize_modules(isp);
- 	if (ret < 0)
--		goto error_iommu;
-+		goto error_irq;
- 
- 	ret = isp_register_entities(isp);
- 	if (ret < 0)
-@@ -2454,6 +2454,8 @@ static int isp_probe(struct platform_device *pdev)
- 	isp_unregister_entities(isp);
- error_modules:
- 	isp_cleanup_modules(isp);
-+error_irq:
-+	free_irq(isp->irq_num, isp);
- error_iommu:
- 	isp_detach_iommu(isp);
- error_isp:
+diff --git a/include/media/media-device.h b/include/media/media-device.h
+index 7e8bca6756ba..780440bbb39d 100644
+--- a/include/media/media-device.h
++++ b/include/media/media-device.h
+@@ -460,6 +460,11 @@ void __media_device_usb_init(struct media_device *mdev,
+ #else
+ #define media_device_get(mdev) do { } while (0)
+ #define media_device_put(mdev) do { } while (0)
++
++static inline void media_device_init(struct media_device *mdev)
++{
++}
++
+ static inline int media_device_register(struct media_device *mdev)
+ {
+ 	return 0;
+@@ -467,6 +472,11 @@ static inline int media_device_register(struct media_device *mdev)
+ static inline void media_device_unregister(struct media_device *mdev)
+ {
+ }
++
++static inline void media_device_cleanup(struct media_device *mdev)
++{
++}
++
+ static inline int media_device_register_entity(struct media_device *mdev,
+ 						struct media_entity *entity)
+ {
 -- 
 2.30.2
 
