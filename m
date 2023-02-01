@@ -2,114 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A53B56870A6
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 22:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F10F66870B8
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 22:51:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbjBAVqU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 16:46:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33188 "EHLO
+        id S229955AbjBAVvr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 16:51:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231479AbjBAVqR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 16:46:17 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D46E68AC5
-        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675287974; x=1706823974;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Lqsi/rnDTFrzfU792UxAlQWXSue9htTmfWVjdK5fprM=;
-  b=UOAvqopeRDq/HxwyfNcaoCMdev04SP3ISSq+b17Ggr8+ydQDILU01cql
-   ypjRy6vt2D2EKxr6ZOM+hPoLUgibNRQods5HOPdkohCifqRuloi6mHsuz
-   2ouU0WiV5BMh7nuFQJ7Az3XozPv3CJPWns3JNcV+ka101vV8HoG/DqFqX
-   SVjDBudXgSZ/EorSCOqntMSIupLU829ATah3geqLzhcMyDNUjcyXwSt4n
-   TMkikOY3b09qC5dw2RPrYkHm0aNYImhAtwODOsXXGHYog+ucdXav8HTNm
-   AxWc/lqVOWBRs5eeCiFHW6RDpauxpu8dSAY2NaXuk9GVa+wxsSOLGtGwn
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330415709"
-X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="330415709"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:59 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="695527337"
-X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="695527337"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 13:45:58 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 07B7A12276E;
-        Wed,  1 Feb 2023 23:45:55 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH 26/26] media: Document how Media device resources are released
-Date:   Wed,  1 Feb 2023 23:45:35 +0200
-Message-Id: <20230201214535.347075-27-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
-References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S229666AbjBAVvr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 16:51:47 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3D1FCA34
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:51:44 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so3702748pjq.0
+        for <linux-media@vger.kernel.org>; Wed, 01 Feb 2023 13:51:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iELTTpHrNUb+JricGSJn8kLDfAAkqtXCLUID0VLM/z0=;
+        b=hir3ygrnBt+Y+ubvGSva2AKa7JGAd/wGBIy+EKw5ITCYTkpbhk5IwPF4k6j9nqCivQ
+         Q9zOYJlIhrjyYStRPdoNSypyA2KYPtHjbqxTe9/ZvYGrH3/sG9XYejOk32UEmCPoKRHJ
+         nBop2Ixz8F6veytyrWBNNmLduDxDCepbLogWY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iELTTpHrNUb+JricGSJn8kLDfAAkqtXCLUID0VLM/z0=;
+        b=cTcHz9/upC7IDU7OCatxQHuT3E51k2H04U+f8wLbiC0TPCOyd6xlXDGGscdCwNHkdG
+         BUmu5fAdNxBGwrT8CCvca8C3QH4rK6ytCygWADLWp77BTZ1PC8OtbvzMKAtevfLjkvI+
+         pcsXWr9InX2yzMT3PM4GChbuxnXjeGNKbVf6ejM5gEUDHmMtwb2j8NqYRhL2UdbtIZaf
+         TkGBtY/1c5zbA+yukPF6xjani5mhErSHZwo1wYzk0vVLzzbaGOYISdGS0rO/4FfPaIWU
+         OLA2ftFVHTritOZ33x5LS7+YmBlE+qhs6Hn1Pgq8tLGMPo4C49uIIQiT+9HHwc3BPM3/
+         XVKQ==
+X-Gm-Message-State: AO0yUKXIXDkvcBVuB4LRVPoszamkhhjW6+fWyplHGlCOo3j4+U+XKwjl
+        2N41XdPaBDDSHP96RfM2NtHHrA==
+X-Google-Smtp-Source: AK7set8OjfnQJtTKin2tn2nShRLgRmyo2QeVEfQgVAkU5nppSH4MCrMVE6+QJq/2zZnKGjT8edMNVg==
+X-Received: by 2002:a17:903:24f:b0:196:25b1:a032 with SMTP id j15-20020a170903024f00b0019625b1a032mr4779123plh.59.1675288304375;
+        Wed, 01 Feb 2023 13:51:44 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:d7d8:a2cc:9aa8:1806])
+        by smtp.gmail.com with ESMTPSA id m8-20020a170902768800b00194d2f14ef0sm12260176pll.23.2023.02.01.13.51.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 13:51:43 -0800 (PST)
+Date:   Wed, 1 Feb 2023 13:51:41 -0800
+From:   Brian Norris <briannorris@chromium.org>
+To:     Daniel Almeida <daniel.almeida@collabora.com>
+Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH v4] media: Add AV1 uAPI
+Message-ID: <Y9re7dRqzjEeNsxj@google.com>
+References: <20230103154832.6982-1-daniel.almeida@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230103154832.6982-1-daniel.almeida@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document that after unregistering, Media device memory resources are
-released by the release() callback rather than by calling
-media_device_cleanup().
+Hi Daniel,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- Documentation/driver-api/media/mc-core.rst | 12 ++++++++++--
- include/media/media-device.h               |  6 ++++--
- 2 files changed, 14 insertions(+), 4 deletions(-)
+A single drive-by note:
 
-diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-index 400b8ca29367..b5bebef40e56 100644
---- a/Documentation/driver-api/media/mc-core.rst
-+++ b/Documentation/driver-api/media/mc-core.rst
-@@ -46,8 +46,16 @@ Drivers initialise media device instances by calling
- :c:func:`media_device_init()`. After initialising a media device instance, it is
- registered by calling :c:func:`__media_device_register()` via the macro
- ``media_device_register()`` and unregistered by calling
--:c:func:`media_device_unregister()`. An initialised media device must be
--eventually cleaned up by calling :c:func:`media_device_cleanup()`.
-+:c:func:`media_device_unregister()`. The resources of an unregistered media
-+device will be released by the ``release()`` callback of :c:type:`media_device`
-+ops, which will be called when the last user of the media device has released it
-+calling :c:func:`media_device_put()`.
-+
-+The ``release()`` callback is the way all the resources of the media device are
-+released once :c:func:`media_device_init()` has been called. This is also
-+relevant during device driver's probe function as the ``release()`` callback
-+will also have to be able to safely release the resources related to a partially
-+initialised media device.
+On Tue, Jan 03, 2023 at 12:48:32PM -0300, Daniel Almeida wrote:
+> This patch adds the  AOMedia Video 1 (AV1) kernel uAPI.
+> 
+> This design is based on currently available AV1 API implementations and
+> aims to support the development of AV1 stateless video codecs
+> on Linux.
+
+...
+
+> Changes from v2:
+...
+> - Rename v4l2_ctrl_av1_frame_header to v4l2_ctrl_av1_frame
+...
+> +#define V4L2_AV1_FRAME_FLAG_SHOW_FRAME			 0x00000001
+> +#define V4L2_AV1_FRAME_FLAG_SHOWABLE_FRAME		 0x00000002
+> +#define V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE	 0x00000004
+> +#define V4L2_AV1_FRAME_FLAG_DISABLE_CDF_UPDATE		 0x00000008
+> +#define V4L2_AV1_FRAME_FLAG_ALLOW_SCREEN_CONTENT_TOOLS	 0x00000010
+> +#define V4L2_AV1_FRAME_FLAG_FORCE_INTEGER_MV		 0x00000020
+> +#define V4L2_AV1_FRAME_FLAG_ALLOW_INTRABC		 0x00000040
+> +#define V4L2_AV1_FRAME_FLAG_USE_SUPERRES		 0x00000080
+> +#define V4L2_AV1_FRAME_FLAG_ALLOW_HIGH_PRECISION_MV	 0x00000100
+> +#define V4L2_AV1_FRAME_FLAG_IS_MOTION_MODE_SWITCHABLE	 0x00000200
+> +#define V4L2_AV1_FRAME_FLAG_USE_REF_FRAME_MVS		 0x00000400
+> +#define V4L2_AV1_FRAME_FLAG_DISABLE_FRAME_END_UPDATE_CDF 0x00000800
+> +#define V4L2_AV1_FRAME_FLAG_UNIFORM_TILE_SPACING	 0x00001000
+> +#define V4L2_AV1_FRAME_FLAG_ALLOW_WARPED_MOTION		 0x00002000
+> +#define V4L2_AV1_FRAME_FLAG_REFERENCE_SELECT		 0x00004000
+> +#define V4L2_AV1_FRAME_FLAG_REDUCED_TX_SET		 0x00008000
+> +#define V4L2_AV1_FRAME_FLAG_SKIP_MODE_ALLOWED		 0x00010000
+> +#define V4L2_AV1_FRAME_FLAG_SKIP_MODE_PRESENT		 0x00020000
+> +#define V4L2_AV1_FRAME_FLAG_FRAME_SIZE_OVERRIDE		 0x00040000
+> +#define V4L2_AV1_FRAME_FLAG_BUFFER_REMOVAL_TIME_PRESENT	 0x00080000
+> +#define V4L2_AV1_FRAME_FLAG_FRAME_REFS_SHORT_SIGNALING	 0x00100000
+> +
+> +#define V4L2_CID_STATELESS_AV1_FRAME (V4L2_CID_CODEC_STATELESS_BASE + 502)
+> +/**
+> + * struct v4l2_ctrl_av1_frame - Represents an AV1 Frame Header OBU.
+...
+> + * @flags: see V4L2_AV1_FRAME_HEADER_FLAG_{}
  
- Note that it is not allowed to unregister a media device instance that was not
- previously registered, or clean up a media device instance that was not
-diff --git a/include/media/media-device.h b/include/media/media-device.h
-index e363b4f3b01d..ca9a4d7272c0 100644
---- a/include/media/media-device.h
-+++ b/include/media/media-device.h
-@@ -257,8 +257,10 @@ void media_device_init(struct media_device *mdev);
-  *
-  * @mdev:	pointer to struct &media_device
-  *
-- * This function that will destroy the graph_mutex that is
-- * initialized in media_device_init().
-+ * This function that will destroy the graph_mutex that is initialized in
-+ * media_device_init(). Note that *only* drivers that do not manage releasing
-+ * the memory of th media device itself call this function. This function is
-+ * thus effectively DEPRECATED.
-  */
- void media_device_cleanup(struct media_device *mdev);
- 
--- 
-2.30.2
+V4L2_AV1_FRAME_HEADER_FLAG_{} no longer exist after the rename. I think
+you're looking for V4L2_AV1_FRAME_FLAG_{}.
 
+Brian
