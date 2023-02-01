@@ -2,84 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3108686D5D
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 18:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA5E5686E23
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 19:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbjBARro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 12:47:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40724 "EHLO
+        id S232161AbjBAShZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 13:37:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbjBARrm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 12:47:42 -0500
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F1C971677;
-        Wed,  1 Feb 2023 09:47:41 -0800 (PST)
-Received: by mail-oi1-f179.google.com with SMTP id r9so16372294oig.12;
-        Wed, 01 Feb 2023 09:47:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V23HrrQKl0Cy9s84FfPuJe6OSp4CMIQkMKvIgxymkvE=;
-        b=jXG1h7OacGW5v4talQgqaLMLVhHXuc/0jcuO8Xyo01Upsu/mp0zDkqd8DU+R+1mHtE
-         9j+cHGP/v8HMOsZSp0ihGa2w9RMfbBNuOq8M1WET3QBKJ5017jUWkilzqSHYSq+/68EU
-         udlpLEkX/Ow5Kf4f5IKsOIc0w6A5zVVE/bOLUux7THJACTyHAmL2nNLkmp230/orfQRy
-         MriuseJMahSnNJmV0NCraw0h9h68dQ8D1fRzvjm+Qiyfcsumo3Qw1oXNFNshwGcURrge
-         Q1qF07k5ftrES61MH1FZ+vSNVe7R1ID+elXRz0jXGUIkEO7NMMuWzLwyWxWdGSAjPT4w
-         tbEA==
-X-Gm-Message-State: AO0yUKVcMHFbS1mrqnEo77J5fys0QfK3/6DQtrm1S11YiNOq76mlwZgk
-        wVy2ARt5PhT/vZcd/mYfTw==
-X-Google-Smtp-Source: AK7set/5ypdFEG0oCaJlt0OCW/78F6uIuyFlfMPmcnv9Tv0FU7A8sFxNxVsQnOwPx9B3iBNdcP1++A==
-X-Received: by 2002:a05:6808:b07:b0:364:9fbc:f197 with SMTP id s7-20020a0568080b0700b003649fbcf197mr1588161oij.35.1675273660685;
-        Wed, 01 Feb 2023 09:47:40 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id u10-20020a54438a000000b003780e80fad6sm4882381oiv.49.2023.02.01.09.47.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 09:47:40 -0800 (PST)
-Received: (nullmailer pid 4065855 invoked by uid 1000);
-        Wed, 01 Feb 2023 17:47:39 -0000
-Date:   Wed, 1 Feb 2023 11:47:39 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        with ESMTP id S232116AbjBAShV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 13:37:21 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44CD98002D;
+        Wed,  1 Feb 2023 10:36:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675276610; x=1706812610;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=umPhYtaceRh5nbUWddx0fc4HpDBTCRW26sj4OwQAnBU=;
+  b=keiXSnY3ikfotcLxcVxbY03a9jvbG+/ffL/mErUf5ykktXyjiZx6Idjh
+   T7jIkuEAwWwDiuWU8PJXDUXsskWvOfwVrDJQbjw4EwWc+mNQ2x+2kIBfc
+   JHmEQdN595jd8J3dR5O90ybMqi8m1sGYLt8+DB1jRhkcFgQHuBO0mkDld
+   YlTdS6ZGTjtiPCm2Ls4wqvebDPob3Ulwa7WJQ5sKJZN7g80bD4m91UeHq
+   3HWwYOrpL/ORDwvcmR8sqzc8n79yFNO5Io6kMHUidX5y6vDm+8XYdB1LT
+   1Fu0x5BGPGg6+On366742yxvW5m5KhjbrI2AsQlxsBuEhlcqTqukgePgW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="307893951"
+X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
+   d="scan'208";a="307893951"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 10:36:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="658422727"
+X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
+   d="scan'208";a="658422727"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 01 Feb 2023 10:35:58 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pNHxb-000pbA-31;
+        Wed, 01 Feb 2023 20:35:55 +0200
+Date:   Wed, 1 Feb 2023 20:35:55 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Arnd Bergmann <arnd@kernel.org>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add mono version to
- IMX290 bindings
-Message-ID: <167527365915.4065205.16958079619924053127.robh@kernel.org>
-References: <20230131190700.3476796-1-dave.stevenson@raspberrypi.com>
- <20230131190700.3476796-2-dave.stevenson@raspberrypi.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
+Message-ID: <Y9qxCyB9Tw7ehFJs@smile.fi.intel.com>
+References: <20230130131003.668888-1-arnd@kernel.org>
+ <CAKdAkRQt15PNbwzDv0sciE5xfQ8LT76cyPepzmMdNsAYg1P1vA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230131190700.3476796-2-dave.stevenson@raspberrypi.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <CAKdAkRQt15PNbwzDv0sciE5xfQ8LT76cyPepzmMdNsAYg1P1vA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Jan 31, 2023 at 07:29:37PM -0800, Dmitry Torokhov wrote:
+> On Mon, Jan 30, 2023 at 5:31 AM Arnd Bergmann <arnd@kernel.org> wrote:
 
-On Tue, 31 Jan 2023 19:06:59 +0000, Dave Stevenson wrote:
-> The IMX290 module is available as either monochrome or colour and
-> the variant is not detectable at runtime.
-> 
-> Add a new compatible string for the monochrome version.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  .../devicetree/bindings/media/i2c/sony,imx290.yaml        | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
+...
 
-Acked-by: Rob Herring <robh@kernel.org>
+> > +               tsin->rst_gpio = devm_fwnode_gpiod_get_index(dev,
+> > +                                                            of_node_to_fwnode(child),
+
+Actually, please use of_fwnode_handle() and not IRQ framework custom grown
+duplicate.
+
+> > +                                                            "reset-gpios",
+> 
+> Wrong name.
+> 
+> > +                                                            0, GPIOD_OUT_LOW,
+> > +                                                            "NIM reset");
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
