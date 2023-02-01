@@ -2,139 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B425E6866FA
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 14:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D58168670F
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 14:38:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbjBANcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 08:32:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54820 "EHLO
+        id S231717AbjBANiA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 08:38:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231600AbjBANbm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 08:31:42 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD5C26600B;
-        Wed,  1 Feb 2023 05:31:17 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id k4so45954083eje.1;
-        Wed, 01 Feb 2023 05:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fh/jcCyht4qGjsnUTpbm2j8fXqThpPLNwYUK1bpzTdc=;
-        b=icO8OmZrMuzx2KUGJitcRn+N7c++c8nMwL7J/+uUCoy75ghJFTU1136MCuiwxS/TFC
-         C/hHvbhVm+fnmOifO1pqmOq1Esb2zn6gecY7gUrt7/0pphg61bIJH8fQHUIkSvGpad31
-         GbhAMTnQbeuLqMzYkKR/lNdSnUewl1nvJmbgnuMvfRFrUu7fR/RuJPJUXSUyJJP3ejLw
-         qQEOvCUQq2WcRP3CMC0vd04XXdGYsbVER/ZWet7F6jWjQITv57khxVZsaKf71tGUCc+l
-         MDFRqdtLnpPvA4Swec1l9lqBtxUKDBFLlQQ6IMgvvu8t5b6aPd+Beev6O5ACmhiSwuiR
-         yApg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fh/jcCyht4qGjsnUTpbm2j8fXqThpPLNwYUK1bpzTdc=;
-        b=CEZNqD/Y7j0Ve2qyk0IRARubRpLRDPSOFz71eGJ1GNlbOtZ/6TpjsKJIEM8eAMyt5m
-         mjRnaO1NMx3TR3mZy3UjX8Ma0gpv9jQ8q1Oa+VzL3mPmktVk4tlZDEzSWB2ZF/kmggHf
-         vF8m0hgy/rwX/nmvWPcvidQ0pvdd+lFa8M780toHZqLFYdBJLgcZPXI6bbGUvLeRXWLB
-         +s6X68OzVoX6wo2WcuWoy7Zg7cC8VxOMqtyoBgAlC4e54hlKpjazkQH3PFFRPeLl3uRM
-         Gq9NOFvExveU4u/oaMLtnCti6V263LCmcdWh/paW/7vT1WvwmNpDYrXpI0CGCJdbCsYz
-         Qp6w==
-X-Gm-Message-State: AO0yUKWTSoJHyiGC+2EL8X57QU/Q8ufcwEKvadKKfARsqmbJd4BjXbXh
-        6NHCH9EqdkX0hZQRz2Myun8=
-X-Google-Smtp-Source: AK7set/hM+ldTkI4tpY6x/QiTZ3kTYlEaoDvxKXKcg7/izE/dAtN2ZLYKSnTe9ofRB5utphli8gPHQ==
-X-Received: by 2002:a17:907:7e83:b0:878:6387:5d4f with SMTP id qb3-20020a1709077e8300b0087863875d4fmr1994602ejc.64.1675258266605;
-        Wed, 01 Feb 2023 05:31:06 -0800 (PST)
-Received: from [192.168.2.177] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id o2-20020a1709064f8200b0088a2aebb146sm3944348eju.52.2023.02.01.05.31.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Feb 2023 05:31:06 -0800 (PST)
-Message-ID: <f4d3e1b4-d4b2-9124-0d32-29182b155927@gmail.com>
-Date:   Wed, 1 Feb 2023 14:31:04 +0100
+        with ESMTP id S232146AbjBANh6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 08:37:58 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D206B4C30
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 05:37:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675258677; x=1706794677;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bFdAIaapF941UYw29GrlkPfvaL21wXGz1ySMam2CZG8=;
+  b=KeY/EJW8oNWdG2/HIgwYo2tUQhcUXPxTBfigOpWuwOdqvI6/Tw/+xWfx
+   /Cor/zoaSZJtf643la05OyPVzuCl9qSYk2GAl0zP4gbUIQxv1frzYnIZc
+   59XpEdLC6GXbCapZyVVAiahcWumlKz7qwiqP0kf2/UJrAEI7spi9oS5+S
+   vilfqQ4NRrXEaaO6JluN2HuWn/1+I+Klj00e/aJZ82R9fEaHvDTHfpgov
+   qahpax+0VyvsP/hk4jQ5wGnA4FIxVvzSQ/1d/oV4qRovgD5JV97asP7OV
+   oKtVJTWpis+AHCYiRzgeCzPsKTH1EGnGRkU/do5s5xNwezDYduwKZsJJC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="355476583"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="355476583"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:37:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="642416107"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="642416107"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 05:37:55 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 36F5D11FAD0;
+        Wed,  1 Feb 2023 15:37:52 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     bingbu.cao@intel.com
+Subject: [PATCH 1/1] media: ipu3-cio2: Fix PM runtime usage_count in driver unbind
+Date:   Wed,  1 Feb 2023 15:37:51 +0200
+Message-Id: <20230201133751.305474-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v3 1/2] media: dt-bindings: mediatek: Rename child node
- names for decoder
-Content-Language: en-US
-To:     Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20220929131309.18337-1-allen-kh.cheng@mediatek.com>
- <20220929131309.18337-2-allen-kh.cheng@mediatek.com>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220929131309.18337-2-allen-kh.cheng@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Get the PM runtime usage_count and forbid PM runtime at driver unbind. The
+opposite is being done in probe() already.
 
-It seems this patch got overseen in your queue.
-Can you please check if there is still something that blocks it from getting merged?
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Regards,
-Matthias
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+index 390bd5ea3472..3b76a9d0383a 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+@@ -1843,6 +1843,9 @@ static void cio2_pci_remove(struct pci_dev *pci_dev)
+ 	v4l2_device_unregister(&cio2->v4l2_dev);
+ 	media_device_cleanup(&cio2->media_dev);
+ 	mutex_destroy(&cio2->lock);
++
++	pm_runtime_forbid(&pci_dev->dev);
++	pm_runtime_get_noresume(&pci_dev->dev);
+ }
+ 
+ static int __maybe_unused cio2_runtime_suspend(struct device *dev)
+-- 
+2.30.2
 
-On 29/09/2022 15:13, Allen-KH Cheng wrote:
-> In order to make the names of the child nodes more generic, we rename
-> "vcodec" to "video-codec" for decoder in patternProperties and example.
-> 
-> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-> ---
->   .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> index c4f20acdc1f8..67fde48f991c 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> @@ -91,7 +91,7 @@ properties:
->   
->   # Required child node:
->   patternProperties:
-> -  '^vcodec-lat@[0-9a-f]+$':
-> +  '^video-codec-lat@[0-9a-f]+$':
->       type: object
->   
->       properties:
-> @@ -145,7 +145,7 @@ patternProperties:
->   
->       additionalProperties: false
->   
-> -  '^vcodec-core@[0-9a-f]+$':
-> +  '^video-codec-core@[0-9a-f]+$':
->       type: object
->   
->       properties:
-> @@ -241,7 +241,7 @@ examples:
->               #size-cells = <2>;
->               ranges = <0 0 0 0x16000000 0 0x40000>;
->               reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
-> -            vcodec-lat@10000 {
-> +            video-codec-lat@10000 {
->                   compatible = "mediatek,mtk-vcodec-lat";
->                   reg = <0 0x10000 0 0x800>;
->                   interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
-> @@ -264,7 +264,7 @@ examples:
->                   power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
->               };
->   
-> -            vcodec-core@25000 {
-> +            video-codec-core@25000 {
->                   compatible = "mediatek,mtk-vcodec-core";
->                   reg = <0 0x25000 0 0x1000>;
->                   interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
