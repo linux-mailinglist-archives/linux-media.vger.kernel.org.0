@@ -2,100 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65D7968678B
-	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 14:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F4EF6867EE
+	for <lists+linux-media@lfdr.de>; Wed,  1 Feb 2023 15:05:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbjBANwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 08:52:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44690 "EHLO
+        id S230261AbjBAOFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 09:05:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232520AbjBANwS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 08:52:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDB7F66EE5
-        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 05:52:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1266EB82168
-        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 13:52:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B047FC433D2;
-        Wed,  1 Feb 2023 13:51:58 +0000 (UTC)
-Message-ID: <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
-Date:   Wed, 1 Feb 2023 14:51:57 +0100
+        with ESMTP id S230437AbjBAOEu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 09:04:50 -0500
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194FD133
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 06:04:48 -0800 (PST)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 311A0s9Z027462;
+        Wed, 1 Feb 2023 15:04:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=Zp0eNblbeNBnf+Ynnw3yRSIsEYIRQlqVLBm+JjLWGLE=;
+ b=MO8FrS55qaVhKANrs0adQo+uWQjEzgDGVaK/24OE9PqnW6wFIlF0L456t9CNOwZ2HNy7
+ pBrF0vdrWoUhQJ+SACUN2pz+Lek37g5pcuh5/XD7tp7U/LP5XkGQilbM8WJpVTzNPyBk
+ /MISu0kV+nS2m/zRDgN+TOBWLoTmmFnu81W4vGUiB3um6Et3ahxhirVGni4+teEEzzEt
+ 0QfyHvm3f9AXiqI891CRZeLoyTI0ZNmkFOK/m6pmcbjUIjNQ5hz4V0dD7aXs9FfpZW4l
+ qFhGoqE1mUIeQYaComscPLD2D9vDqodaNjjcRky9lCcMbqco6wOPQEtZ/x/N0YEbfES0 MA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3nfny51dtm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 01 Feb 2023 15:04:32 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 571F610002A;
+        Wed,  1 Feb 2023 15:04:30 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4438321ED57;
+        Wed,  1 Feb 2023 15:04:30 +0100 (CET)
+Received: from localhost (10.252.0.107) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Wed, 1 Feb
+ 2023 15:04:30 +0100
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <sylvain.petinot@foss.st.com>, <mchehab@kernel.org>,
+        <sakari.ailus@iki.fi>, <laurent.pinchart@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: [PATCH 0/4] media: i2c: st-vgxy61: Power up sequence fixes
+Date:   Wed, 1 Feb 2023 15:04:13 +0100
+Message-ID: <20230201140417.89195-1-benjamin.mugnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: Future of the SAA7146 drivers
-Content-Language: en-US
-To:     Soeren Moch <smoch@web.de>,
-        Stefan Herdler <herdler@nurfuerspam.de>,
-        linux-media@vger.kernel.org
-Cc:     Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
- <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.252.0.107]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sören,
+Hi,
 
-On 01/02/2023 12:35, Soeren Moch wrote:
+This series contains fixes for some issues I ran into, mostly related to
+power up, plus a small cleanup patch for a hardcoded value while at it.
 
-<snip>
+Thanks,
+Benjamin
 
->>>> Obviously, if someone wants to do the vb2 conversion, then that would be
->>>> perfect. I was looking at removing analog video support, and that doesn't
->>>> look as easy as I thought it would be.
->>>>
-> I only own full-featured (Nexus) cards, modified to also support a mode
-> of operation like budget cards. In full-featured cards there is a
-> possibility to re-read the decoded video output signal back, which could
-> be similar to how analog cards work. But I never had access to
-> analog/hybrid saa7146 cards, so I'm not sure I can test this mode. I
-> also don't know anybody with such card who could help testing.
-> I personally do not care much about analog card support in the driver,
-> but will at least check which part of analog functionality is used in
-> full-featured cards. Maybe the support for analog/hybrid cards and some
-> test coverage comes for free with full support for full-featured cards.
+Benjamin Mugnier (4):
+  media: i2c: st-vgxy61: Remove duplicate default mode set on probe
+  media: i2c: st-vgxy61: Move 'detect' call to 'power_on'
+  media: i2c: st-vgxy61: Fix control flow error on probe
+  media: i2c: st-vgxy61: Use VGXY61_NB_POLARITIES instead of hardcoded
+    value in tx_from_ep
 
-It's the analog video streaming that uses vb2, so being able to test that
-is critical.
+ drivers/media/i2c/st-vgxy61.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-So I decided to do this differently:
+-- 
+2.25.1
 
-1) I'll revert the move of saa7146 to staging, it will go back to
-   mainline. av7110 stays in staging for now (that might change, I
-   just don't want to make more changes than strictly necessary).
-
-2) I will do the vb2 conversion. I have the analog video hardware,
-   so I can test this.
-
-I didn't want to spend time on that originally, but since these drivers
-are still in use, it is probably best if I bite the bullet and just do it.
-
-I'm now almost done with the vb2 conversion of cx18, and it was about
-2 days work, which isn't that bad. I'll try to get this saa7146 vb2
-conversion done this month.
-
-The PR reverting this has just been posted:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/5902a4f2-da31-816c-f3cf-020340dbaddf@xs4all.nl/
-
-Regards,
-
-	Hans
