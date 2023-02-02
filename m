@@ -2,69 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48B84688942
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 22:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 148F9688983
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 23:04:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232630AbjBBVwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 16:52:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52016 "EHLO
+        id S233007AbjBBWEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Feb 2023 17:04:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbjBBVv6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 16:51:58 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052B910C6;
-        Thu,  2 Feb 2023 13:51:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675374717; x=1706910717;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TpaqqMkhZ4cpZKxODCg9/NjjGOHDmYf9F5jCwNIn3Og=;
-  b=HJUXqZ+uQ6LoSEzXgAbBd5cG5mLaElHPJCwoQiOKmLs7xPJmdA6TlECv
-   yuzn8iIGNRFLlo9eaxJd3bq/pEWipWG+uGKjJtHYeKSdmoDKralNBFYnI
-   yM+TmLAdj6JHHqYdntjSI5artKt8lQlxJQZ9GUT9/G33uPdLXd5qRyERq
-   ttJYLByJgoNCQCyktrYtzlJwBurhHYpcWdgsek7jgFJW4HsCdXpSN5RIJ
-   GOnnyCRZhmXRKyp1xr4hj9IjijQSu+bOSySkLAd1LtDtLRoA2UkDN3yU6
-   L/XndmFWb7uGDvdRi+qW/Q3GaDIOEw1WKw6zl/eSd/aafMw3KfkSdEkim
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316574609"
-X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
-   d="scan'208";a="316574609"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 13:51:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="729044313"
-X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
-   d="scan'208";a="729044313"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Feb 2023 13:51:52 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pNhUl-0006tY-2s;
-        Thu, 02 Feb 2023 21:51:51 +0000
-Date:   Fri, 3 Feb 2023 05:51:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v6 3/5] media: verisilicon: Do not set ctx->bit_depth in
- hantro_try_ctrl()
-Message-ID: <202302030526.YN9Piae4-lkp@intel.com>
-References: <20230130135802.744743-4-benjamin.gaignard@collabora.com>
+        with ESMTP id S232530AbjBBWDu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 17:03:50 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DEEEC77
+        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 14:03:27 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15663505;
+        Thu,  2 Feb 2023 23:03:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675375405;
+        bh=4AjA/W08hy3c7EGG2Z6zyPRKjQa/Wq4Xp2MtWzobxpc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rkMR0GlBGJ9lJHFAyD9CzVrU2F+nxicLPtLTmjwp0DtPqOhV7EGRXTl8i9A2PvhIP
+         lLYi607Oql0R6KG+K1eYwO8I70yMm3DVkSy7Os0BJohnkmZYllN5bGiA9Zx5erfAhz
+         YmKuvwmGgmwBoLar5hkEIwaYYeWWjIQNN1W3xJxk=
+Date:   Fri, 3 Feb 2023 00:03:23 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 10/11] media: i2c: imx290: Add support for 74.25MHz
+ external clock
+Message-ID: <Y9wzK0X3witiumpu@pendragon.ideasonboard.com>
+References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com>
+ <20230131192016.3476937-11-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230130135802.744743-4-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+In-Reply-To: <20230131192016.3476937-11-dave.stevenson@raspberrypi.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,87 +48,308 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Dave,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on sailus-media-tree/streams linus/master pza/reset/next]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, Jan 31, 2023 at 07:20:15PM +0000, Dave Stevenson wrote:
+> The sensor supports either a 37.125 or 74.25MHz external, but
+> the driver only supported 37.125MHz.
+> 
+> Add the relevant register configuration for either clock
+> frequency option.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  drivers/media/i2c/imx290.c | 120 +++++++++++++++++++++++++++++++------
+>  1 file changed, 103 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 5202ef3cc3e6..7f6746f74040 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -102,6 +102,7 @@
+>  #define IMX290_TCLKPREPARE				IMX290_REG_16BIT(0x3452)
+>  #define IMX290_TLPX					IMX290_REG_16BIT(0x3454)
+>  #define IMX290_X_OUT_SIZE				IMX290_REG_16BIT(0x3472)
+> +#define IMX290_INCKSEL7					IMX290_REG_8BIT(0x3480)
+>  
+>  #define IMX290_PGCTRL_REGEN				BIT(0)
+>  #define IMX290_PGCTRL_THRU				BIT(1)
+> @@ -159,11 +160,27 @@
+>  
+>  #define IMX290_NUM_SUPPLIES				3
+>  
+> +#define CLK_37_125	0
+> +#define CLK_74_25	1
+> +#define NUM_CLK		2
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-verisilicon-Do-not-set-context-src-dst-formats-in-reset-functions/20230130-220204
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230130135802.744743-4-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v6 3/5] media: verisilicon: Do not set ctx->bit_depth in hantro_try_ctrl()
-config: arm64-randconfig-r005-20230202 (https://download.01.org/0day-ci/archive/20230203/202302030526.YN9Piae4-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/aecd2de6feaeb163aa78d82f1172b0020b64b174
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-verisilicon-Do-not-set-context-src-dst-formats-in-reset-functions/20230130-220204
-        git checkout aecd2de6feaeb163aa78d82f1172b0020b64b174
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/platform/verisilicon/
+Please add an IMX290 prefer to avoid future namespace clashes.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+> +
+>  struct imx290_regval {
+>  	u32 reg;
+>  	u32 val;
+>  };
+>  
+> +/*
+> + * Clock configuration for registers INCKSEL1 to INCKSEL6.
+> + */
+> +struct imx290_clk_cfg {
+> +	u8 incksel1;
+> +	u8 incksel2;
+> +	u8 incksel3;
+> +	u8 incksel4;
+> +	u8 incksel5;
+> +	u8 incksel6;
+> +};
+> +
+>  struct imx290_mode {
+>  	u32 width;
+>  	u32 height;
+> @@ -173,6 +190,8 @@ struct imx290_mode {
+>  
+>  	const struct imx290_regval *data;
+>  	u32 data_size;
+> +
+> +	const struct imx290_clk_cfg *clk_cfg;
+>  };
+>  
+>  struct imx290_csi_cfg {
+> @@ -191,6 +210,7 @@ struct imx290 {
+>  	struct device *dev;
+>  	struct clk *xclk;
+>  	struct regmap *regmap;
+> +	u32 xclk_freq;
+>  	u8 nlanes;
+>  	u8 mono;
+>  
+> @@ -219,7 +239,6 @@ static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+>   */
+>  
+>  static const struct imx290_regval imx290_global_init_settings[] = {
+> -	{ IMX290_EXTCK_FREQ, 0x2520 },
+>  	{ IMX290_WINWV_OB, 12 },
+>  	{ IMX290_WINPH, 0 },
+>  	{ IMX290_WINPV, 0 },
+> @@ -269,7 +288,16 @@ static const struct imx290_regval imx290_global_init_settings[] = {
+>  	{ IMX290_REG_8BIT(0x33b0), 0x50 },
+>  	{ IMX290_REG_8BIT(0x33b2), 0x1a },
+>  	{ IMX290_REG_8BIT(0x33b3), 0x04 },
+> -	{ IMX290_REG_8BIT(0x3480), 0x49 },
 
-All warnings (new ones prefixed by >>):
+One less unnamed register, only 42 to go :-D
 
->> drivers/media/platform/verisilicon/hantro_drv.c:254:21: warning: variable 'ctx' set but not used [-Wunused-but-set-variable]
-           struct hantro_ctx *ctx;
-                              ^
-   1 warning generated.
+> +};
+> +
+> +static const struct imx290_regval imx290_37_125mhz_clock[] = {
+> +	{ IMX290_EXTCK_FREQ, 0x2520 },
+> +	{ IMX290_INCKSEL7, 0x49 },
+> +};
+> +
+> +static const struct imx290_regval imx290_74_25mhz_clock[] = {
+> +	{ IMX290_EXTCK_FREQ, 0x4a40 },
+> +	{ IMX290_INCKSEL7, 0x92 },
+>  };
 
+Those two arrays are not used, which I assume is not normal :-) A rebase
+problem maybe ?
 
-vim +/ctx +254 drivers/media/platform/verisilicon/hantro_drv.c
+How about moving the INCKSEL7 value to the imx290_clk_cfg structure for
+consistency ?
 
-775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia       2018-12-05  251  
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  252  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  253  {
-4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29 @254  	struct hantro_ctx *ctx;
-4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  255  
-4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  256  	ctx = container_of(ctrl->handler,
-4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  257  			   struct hantro_ctx, ctrl_handler);
-4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  258  
-46a309d2751787 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-11-26  259  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  260  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  261  
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  262  		if (sps->chroma_format_idc > 1)
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  263  			/* Only 4:0:0 and 4:2:0 are supported */
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  264  			return -EINVAL;
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  265  		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  266  			/* Luma and chroma bit depth mismatch */
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  267  			return -EINVAL;
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  268  		if (sps->bit_depth_luma_minus8 != 0)
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  269  			/* Only 8-bit is supported */
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  270  			return -EINVAL;
-b92de2f91821ce drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2022-07-08  271  	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
-8968cfc282955c drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2021-06-03  272  		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-8968cfc282955c drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2021-06-03  273  
-d040a24b5aaede drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  274  		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
-d040a24b5aaede drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  275  			/* Only 8-bit and 10-bit are supported */
-df9ec2fc8e70e0 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2022-07-18  276  			return -EINVAL;
-e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  277  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
-e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  278  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
-e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  279  
-e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  280  		/* We only support profile 0 */
-e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  281  		if (dec_params->profile != 0)
-e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  282  			return -EINVAL;
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  283  	}
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  284  	return 0;
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  285  }
-d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  286  
+>  
+>  static const struct imx290_regval imx290_1080p_settings[] = {
+> @@ -279,12 +307,6 @@ static const struct imx290_regval imx290_1080p_settings[] = {
+>  	{ IMX290_OPB_SIZE_V, 10 },
+>  	{ IMX290_X_OUT_SIZE, 1920 },
+>  	{ IMX290_Y_OUT_SIZE, 1080 },
+> -	{ IMX290_INCKSEL1, 0x18 },
+> -	{ IMX290_INCKSEL2, 0x03 },
+> -	{ IMX290_INCKSEL3, 0x20 },
+> -	{ IMX290_INCKSEL4, 0x01 },
+> -	{ IMX290_INCKSEL5, 0x1a },
+> -	{ IMX290_INCKSEL6, 0x1a },
+>  };
+>  
+>  static const struct imx290_regval imx290_720p_settings[] = {
+> @@ -294,12 +316,6 @@ static const struct imx290_regval imx290_720p_settings[] = {
+>  	{ IMX290_OPB_SIZE_V, 4 },
+>  	{ IMX290_X_OUT_SIZE, 1280 },
+>  	{ IMX290_Y_OUT_SIZE, 720 },
+> -	{ IMX290_INCKSEL1, 0x20 },
+> -	{ IMX290_INCKSEL2, 0x00 },
+> -	{ IMX290_INCKSEL3, 0x20 },
+> -	{ IMX290_INCKSEL4, 0x01 },
+> -	{ IMX290_INCKSEL5, 0x1a },
+> -	{ IMX290_INCKSEL6, 0x1a },
+>  };
+>  
+>  static const struct imx290_regval imx290_10bit_settings[] = {
+> @@ -405,6 +421,48 @@ static inline int imx290_link_freqs_num(const struct imx290 *imx290)
+>  		return ARRAY_SIZE(imx290_link_freq_4lanes);
+>  }
+>  
+> +static const struct imx290_clk_cfg imx290_1080p_clock_config[NUM_CLK] = {
+> +	[CLK_37_125] = {
+> +		/* 37.125MHz clock config */
+> +		.incksel1 = 0x18,
+> +		.incksel2 = 0x03,
+> +		.incksel3 = 0x20,
+> +		.incksel4 = 0x01,
+> +		.incksel5 = 0x1a,
+> +		.incksel6 = 0x1a,
+> +	},
+
+As the incksel[0-6] fields are only used in one place, to write all 6 of
+them to the device, you could also drop the imx290_clk_cfg structure and
+turn this into a imx290_regval array. Entirely up to you.
+
+> +	[CLK_74_25] = {
+> +		/* 74.25MHz clock config */
+> +		.incksel1 = 0x0c,
+> +		.incksel2 = 0x03,
+> +		.incksel3 = 0x10,
+> +		.incksel4 = 0x01,
+> +		.incksel5 = 0x1b,
+> +		.incksel6 = 0x1b,
+> +	},
+> +};
+> +
+> +static const struct imx290_clk_cfg imx290_720p_clock_config[NUM_CLK] = {
+> +	[CLK_37_125] = {
+> +		/* 37.125MHz clock config */
+> +		.incksel1 = 0x20,
+> +		.incksel2 = 0x00,
+> +		.incksel3 = 0x20,
+> +		.incksel4 = 0x01,
+> +		.incksel5 = 0x1a,
+> +		.incksel6 = 0x1a,
+> +	},
+> +	[CLK_74_25] = {
+> +		/* 74.25MHz clock config */
+> +		.incksel1 = 0x10,
+> +		.incksel2 = 0x00,
+> +		.incksel3 = 0x10,
+> +		.incksel4 = 0x01,
+> +		.incksel5 = 0x1b,
+> +		.incksel6 = 0x1b,
+> +	},
+> +};
+> +
+>  /* Mode configs */
+>  static const struct imx290_mode imx290_modes_2lanes[] = {
+>  	{
+> @@ -415,6 +473,7 @@ static const struct imx290_mode imx290_modes_2lanes[] = {
+>  		.link_freq_index = FREQ_INDEX_1080P,
+>  		.data = imx290_1080p_settings,
+>  		.data_size = ARRAY_SIZE(imx290_1080p_settings),
+> +		.clk_cfg = imx290_1080p_clock_config,
+>  	},
+>  	{
+>  		.width = 1280,
+> @@ -424,6 +483,7 @@ static const struct imx290_mode imx290_modes_2lanes[] = {
+>  		.link_freq_index = FREQ_INDEX_720P,
+>  		.data = imx290_720p_settings,
+>  		.data_size = ARRAY_SIZE(imx290_720p_settings),
+> +		.clk_cfg = imx290_720p_clock_config,
+>  	},
+>  };
+>  
+> @@ -436,6 +496,7 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+>  		.link_freq_index = FREQ_INDEX_1080P,
+>  		.data = imx290_1080p_settings,
+>  		.data_size = ARRAY_SIZE(imx290_1080p_settings),
+> +		.clk_cfg = imx290_1080p_clock_config,
+>  	},
+>  	{
+>  		.width = 1280,
+> @@ -445,6 +506,7 @@ static const struct imx290_mode imx290_modes_4lanes[] = {
+>  		.link_freq_index = FREQ_INDEX_720P,
+>  		.data = imx290_720p_settings,
+>  		.data_size = ARRAY_SIZE(imx290_720p_settings),
+> +		.clk_cfg = imx290_720p_clock_config,
+>  	},
+>  };
+>  
+> @@ -563,6 +625,23 @@ static int imx290_set_register_array(struct imx290 *imx290,
+>  	return 0;
+>  }
+>  
+> +static int imx290_set_clock(struct imx290 *imx290)
+> +{
+> +	int clk_idx = (imx290->xclk_freq == 37125000) ? 0 : 1;
+> +	const struct imx290_mode *mode = imx290->current_mode;
+> +	const struct imx290_clk_cfg *clk_cfg = &mode->clk_cfg[clk_idx];
+> +	int ret = 0;
+
+How about turning the clock freq macros into an enum:
+
+enum imx290_clk_freq {
+	IMX290_CLK_37_125 = 0,
+	IMX290_CLK_74_25 = 1,
+};
+
+and replacing in struct imx290
+
+-	u32 xclk_freq;
++	enum imx290_clk_freq xclk_freq;
+
+? Then you could could simply write
+
+	const struct imx290_clk_cfg *clk_cfg = &mode->clk_cfg[imx290->xclk_freq];
+
+(you could also name the field xclk_freq_idx if desired). Up to you, if
+you find that messier you can ignore the comment.
+
+> +
+> +	imx290_write(imx290, IMX290_INCKSEL1, clk_cfg->incksel1, &ret);
+> +	imx290_write(imx290, IMX290_INCKSEL2, clk_cfg->incksel2, &ret);
+> +	imx290_write(imx290, IMX290_INCKSEL3, clk_cfg->incksel3, &ret);
+> +	imx290_write(imx290, IMX290_INCKSEL4, clk_cfg->incksel4, &ret);
+> +	imx290_write(imx290, IMX290_INCKSEL5, clk_cfg->incksel5, &ret);
+> +	imx290_write(imx290, IMX290_INCKSEL6, clk_cfg->incksel6, &ret);
+> +
+> +	return ret;
+> +}
+> +
+>  static int imx290_set_data_lanes(struct imx290 *imx290)
+>  {
+>  	int ret = 0;
+> @@ -863,6 +942,13 @@ static int imx290_start_streaming(struct imx290 *imx290,
+>  		return ret;
+>  	}
+>  
+> +	/* Set clock parameters based on mode and xclk */
+> +	ret = imx290_set_clock(imx290);
+> +	if (ret < 0) {
+> +		dev_err(imx290->dev, "Could not set clocks\n");
+> +		return ret;
+> +	}
+> +
+>  	/* Set data lane count */
+>  	ret = imx290_set_data_lanes(imx290);
+>  	if (ret < 0) {
+> @@ -1259,14 +1345,14 @@ static int imx290_init_clk(struct imx290 *imx290)
+>  	int ret;
+>  
+>  	ret = fwnode_property_read_u32(dev_fwnode(imx290->dev),
+> -				       "clock-frequency", &xclk_freq);
+> +				       "clock-frequency", &imx290->xclk_freq);
+>  	if (ret) {
+>  		dev_err(imx290->dev, "Could not get xclk frequency\n");
+>  		return ret;
+>  	}
+>  
+> -	/* external clock must be 37.125 MHz */
+> -	if (xclk_freq != 37125000) {
+> +	/* external clock must be 37.125 MHz or 74.25MHz */
+> +	if (imx290->xclk_freq != 37125000 && imx290->xclk_freq != 74250000) {
+>  		dev_err(imx290->dev, "External clock frequency %u is not supported\n",
+>  			xclk_freq);
+>  		return -EINVAL;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards,
+
+Laurent Pinchart
