@@ -2,101 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FDD68891A
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 22:40:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48B84688942
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 22:52:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbjBBVkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 16:40:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43516 "EHLO
+        id S232630AbjBBVwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Feb 2023 16:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231679AbjBBVkm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 16:40:42 -0500
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 880BB6DFFD;
-        Thu,  2 Feb 2023 13:40:40 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 888C332007F1;
-        Thu,  2 Feb 2023 16:40:37 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 02 Feb 2023 16:40:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1675374037; x=1675460437; bh=DDfcc2rjMs
-        Ww3IOfSJ0qffIQzoNY80OiBacRdlNiNBA=; b=CA3qgblvftrjd7Hb+PjMXQSRzj
-        qcYfPwrpe1Yf7VdgtCRxiEx45dvjoFxhgvmMYIN5VmqrwAFKIQ0UIo+tzRSyDXbH
-        Z/2WqFK/EOPzHIEuGdQTFR9fpyw1QYq81aWHtwY7Xy4yXccMxrgTv0EHz8sgnSbv
-        0Xavifu2v/rFQ6yhqAjU/Ovl8UGVwWXL2I4V8ngUDC+XP3rs5QHe+oUFScUAmevd
-        zE75nMU2Zaj+v2S+J5gscvNNsCrJ46/tfqpagMWsP5dygpU9+eE7/QWsACuTkpvD
-        kX0d36ZNQtMPGFiyp64px13qWoLTiVkAhvu4mwpj9vXfrczKqKwz31CGVJZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1675374037; x=1675460437; bh=DDfcc2rjMsWw3IOfSJ0qffIQzoNY
-        80OiBacRdlNiNBA=; b=RaLgUlsUYok9usfx+FS2csyDJUWssZAOwtvyKmdZ8ojv
-        VfJbR/4QGcusVEDtmA1E0aSWqMRCgsPfl1GeiIDiPt6pha09/XCAzxXrdxoU5VOD
-        6dtDQ+tGLto2j+wvCB8ZrnnbsOKsiY7yZxBS06QorH1iIWXJZWPs6sX+t1siIIaq
-        f1470xC3zq4joiC7i8lr+5jfPCaRzbB/mOqr2nnROObFJGlIgiDUFpMfl5paHPA+
-        CSEEaq3Snax4vlBeN7q0M9j5OHwopmUBfD/Ut9huCV7FuDSUdkIon1Sh2ew7gXLY
-        EDf4iRiipRjhdr1hYhn1z0/M/JfN052H3DuoJLH+dQ==
-X-ME-Sender: <xms:1C3cY0qx2CHlrVbDilb06LTgB9k2aZnrslDODgFj0SNoE8Lz24jsGA>
-    <xme:1C3cY6oUuvwcV1RGH7dl7r4n--ghdYh_pPcPcGp5Z3g5mTblLBDzp6jPjgq8sYHwV
-    QcVmYU4FchtBKYRgQs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefkedgudeglecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeu
-    feehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:1C3cY5Pg4znUAZoo5GcHVZXtu89zXiNMFMwZrp81MraR_RS2FTqcyw>
-    <xmx:1C3cY74cMihizykFkvFl-HAjqs6ZoKQxEpdS5mZp8s35xG1nrCBOUw>
-    <xmx:1C3cYz61lKJBb785tbiR6CEoVlWRZZLTfUnYgInLNqtQLtm9Z_1tCg>
-    <xmx:1S3cY5RRGTxTrayOZJDYkAf4Q-jdQxN4GOyp3jYh_Sa8dJ6-GM2rsA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 4B30AB60450; Thu,  2 Feb 2023 16:40:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
-Mime-Version: 1.0
-Message-Id: <a648eee8-62a3-4a92-b2bd-1e0d8d2fa6a3@app.fastmail.com>
-In-Reply-To: <2b11d9f4-f32b-7214-3181-a49a8d190f0a@redhat.com>
-References: <20230202210312.544277-1-arnd@kernel.org>
- <2b11d9f4-f32b-7214-3181-a49a8d190f0a@redhat.com>
-Date:   Thu, 02 Feb 2023 22:40:17 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Hans de Goede" <hdegoede@redhat.com>,
-        "Arnd Bergmann" <arnd@kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Cc:     "Sakari Ailus" <sakari.ailus@linux.intel.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: add I2C dependency
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230003AbjBBVv6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 16:51:58 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052B910C6;
+        Thu,  2 Feb 2023 13:51:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675374717; x=1706910717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TpaqqMkhZ4cpZKxODCg9/NjjGOHDmYf9F5jCwNIn3Og=;
+  b=HJUXqZ+uQ6LoSEzXgAbBd5cG5mLaElHPJCwoQiOKmLs7xPJmdA6TlECv
+   yuzn8iIGNRFLlo9eaxJd3bq/pEWipWG+uGKjJtHYeKSdmoDKralNBFYnI
+   yM+TmLAdj6JHHqYdntjSI5artKt8lQlxJQZ9GUT9/G33uPdLXd5qRyERq
+   ttJYLByJgoNCQCyktrYtzlJwBurhHYpcWdgsek7jgFJW4HsCdXpSN5RIJ
+   GOnnyCRZhmXRKyp1xr4hj9IjijQSu+bOSySkLAd1LtDtLRoA2UkDN3yU6
+   L/XndmFWb7uGDvdRi+qW/Q3GaDIOEw1WKw6zl/eSd/aafMw3KfkSdEkim
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316574609"
+X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
+   d="scan'208";a="316574609"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 13:51:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="729044313"
+X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; 
+   d="scan'208";a="729044313"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 02 Feb 2023 13:51:52 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pNhUl-0006tY-2s;
+        Thu, 02 Feb 2023 21:51:51 +0000
+Date:   Fri, 3 Feb 2023 05:51:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v6 3/5] media: verisilicon: Do not set ctx->bit_depth in
+ hantro_try_ctrl()
+Message-ID: <202302030526.YN9Piae4-lkp@intel.com>
+References: <20230130135802.744743-4-benjamin.gaignard@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230130135802.744743-4-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 2, 2023, at 22:34, Hans de Goede wrote:
-> On 2/2/23 22:02, Arnd Bergmann wrote:
->
-> Actually the i2c_get_adapter() call is gone in the atomisp pull-req
-> which I send to Mauro for 6.3, it is removed by this patch.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp-6.3-1&id=4f205ce7a915ffa4ae0fb24f48714604d39baa29
->
-> So adding the I2C dependency is no longer necessary.
+Hi Benjamin,
 
-Ok, nice timing then, I must have done thousands of randconfig builds
-with atomisp enabled without ever hitting it until today ;-)
+I love your patch! Perhaps something to improve:
 
-     Arnd
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/streams linus/master pza/reset/next]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-verisilicon-Do-not-set-context-src-dst-formats-in-reset-functions/20230130-220204
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230130135802.744743-4-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v6 3/5] media: verisilicon: Do not set ctx->bit_depth in hantro_try_ctrl()
+config: arm64-randconfig-r005-20230202 (https://download.01.org/0day-ci/archive/20230203/202302030526.YN9Piae4-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/aecd2de6feaeb163aa78d82f1172b0020b64b174
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Gaignard/media-verisilicon-Do-not-set-context-src-dst-formats-in-reset-functions/20230130-220204
+        git checkout aecd2de6feaeb163aa78d82f1172b0020b64b174
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/platform/verisilicon/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/verisilicon/hantro_drv.c:254:21: warning: variable 'ctx' set but not used [-Wunused-but-set-variable]
+           struct hantro_ctx *ctx;
+                              ^
+   1 warning generated.
+
+
+vim +/ctx +254 drivers/media/platform/verisilicon/hantro_drv.c
+
+775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia       2018-12-05  251  
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  252  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  253  {
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29 @254  	struct hantro_ctx *ctx;
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  255  
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  256  	ctx = container_of(ctrl->handler,
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  257  			   struct hantro_ctx, ctrl_handler);
+4bec03301ecd81 drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  258  
+46a309d2751787 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-11-26  259  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  260  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  261  
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  262  		if (sps->chroma_format_idc > 1)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  263  			/* Only 4:0:0 and 4:2:0 are supported */
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  264  			return -EINVAL;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  265  		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  266  			/* Luma and chroma bit depth mismatch */
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  267  			return -EINVAL;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  268  		if (sps->bit_depth_luma_minus8 != 0)
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  269  			/* Only 8-bit is supported */
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  270  			return -EINVAL;
+b92de2f91821ce drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2022-07-08  271  	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+8968cfc282955c drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2021-06-03  272  		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+8968cfc282955c drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard     2021-06-03  273  
+d040a24b5aaede drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  274  		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
+d040a24b5aaede drivers/media/platform/verisilicon/hantro_drv.c       Benjamin Gaignard     2022-08-29  275  			/* Only 8-bit and 10-bit are supported */
+df9ec2fc8e70e0 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2022-07-18  276  			return -EINVAL;
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  277  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  278  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  279  
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  280  		/* We only support profile 0 */
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  281  		if (dec_params->profile != 0)
+e2da465455ce48 drivers/staging/media/hantro/hantro_drv.c             Andrzej Pietrasiewicz 2021-11-16  282  			return -EINVAL;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  283  	}
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  284  	return 0;
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  285  }
+d70cca73234420 drivers/staging/media/hantro/hantro_drv.c             Ezequiel Garcia       2020-07-09  286  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
