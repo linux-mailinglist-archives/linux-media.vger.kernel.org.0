@@ -2,151 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FAEE6888F3
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 22:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 718C5688914
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 22:35:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbjBBV0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 16:26:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37766 "EHLO
+        id S232563AbjBBVfg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Feb 2023 16:35:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230432AbjBBV0N (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 16:26:13 -0500
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F209073056
-        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 13:26:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
-        s=s31663417; t=1675373166;
-        bh=mkbaBTwqT19WcJzevld9bN+d6un5qusMdbEc4Apt+CI=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=O7mlQPBjM8xEgKE4ILoIIt/Zm0lhzMThczAfyEQpGk+AKFoT0GnkM1spZJMj3xMsA
-         Ch9JZ2bhWjOifkEhr6W1dvvs3xpRGFb8dhNHegdzuPVZJzqqHgVHyy0l+iToY3LNLq
-         t6mGIs4TJqyDB7nIb2bn2H8neaBVlKo20sYOJgcfOzmKmAxacRQiGK637hTG+qdfND
-         e/NNWSGHS9/Oo1PAZEhMR6de3MVjOC4tZwHA7amSQev8NVgclz7JxRpdPvzXU5wATH
-         I89oq+zqnPZH4xf/EfxOdZIZTm2xK1MBfZ//bAUSUNozWTac1Z+veMv/JswwiQDnYW
-         dAgzRz5nAYkgw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([91.132.221.242]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MlNtF-1ouN4l31Rt-00lmJm; Thu, 02
- Feb 2023 22:26:06 +0100
-Message-ID: <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
-Date:   Thu, 2 Feb 2023 22:26:06 +0100
+        with ESMTP id S229575AbjBBVfe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 16:35:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71F19834B2
+        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 13:34:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1675373684;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eW5nnN/Ib32jdUWa/RWBvIQi/iNU6+BNj/uI00opUo8=;
+        b=iNzAgqEC+CthukqPeys76v/w3b8ew9ljibVJnA+f40NYqmym/yqtpxRCXJFKL5u5u6cXyE
+        73PowdQ2O8Z9cTWaawEKwNS8QIgxeChjGvM1V32N/uoaYm/am5wflyzm+fMEh/CEbFBgyX
+        +ZQo5Pum1T3qc9OkuTYwthfY58Rs3Bs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-627-KC2x311FNMKweKX980V1xA-1; Thu, 02 Feb 2023 16:34:43 -0500
+X-MC-Unique: KC2x311FNMKweKX980V1xA-1
+Received: by mail-ej1-f71.google.com with SMTP id d14-20020a170906c20e00b00889f989d8deso2355837ejz.15
+        for <linux-media@vger.kernel.org>; Thu, 02 Feb 2023 13:34:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eW5nnN/Ib32jdUWa/RWBvIQi/iNU6+BNj/uI00opUo8=;
+        b=TgWRVgOgXZOZEgPL2Miz3O6BuBznKDL6GBIvVcE33TQuLbzQRBILL6yyIWTb/WSMEp
+         oJ0FOnJybqy0TLcB77KqVnrwsti/zAQ/Z45mt9oME3aG5PQTEY2tFn7ZbPO0td+y2Mix
+         ewR6Pl129xzZi+fniAOZhIvD5vidDldJknuL+lx7r7DyYHt8PRonjDdO0/qNgZ/je5iJ
+         q885qkG2giMvwFhB7bPiGQXY0yb2OeqDFgm5uJOh1VSwrcXzer6ZVidYzLi8ylf3Gy5D
+         tQGhVjEq5GU8dlYoWRfuR3oqfIZSkjc/JZuWs922T9yyseAbAnKHhG7uV3FJ/aSl1Rd+
+         UV8w==
+X-Gm-Message-State: AO0yUKU5mhV4m3nCx02CZy4qjLYFXw0nZayJv4xVIddQNwOalI1zC9iJ
+        mO5AzxR15kY1tI17PyFlanFtkD8DuvNs7NoDA66QEwZcO6rd73vciwWdZb0OUJH1aUpw7VEfq1h
+        WC16ddaiWv1eBB2ZyXE1zLnA=
+X-Received: by 2002:a17:907:7211:b0:88d:ba89:184f with SMTP id dr17-20020a170907721100b0088dba89184fmr3931591ejc.32.1675373682498;
+        Thu, 02 Feb 2023 13:34:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set/MueIrH2ulLtKu+jzCEAXRz6gYQ9ydSfs2I9fl85KH/t4CrjinYYkdksZb8pqi5m1jIbJsvw==
+X-Received: by 2002:a17:907:7211:b0:88d:ba89:184f with SMTP id dr17-20020a170907721100b0088dba89184fmr3931584ejc.32.1675373682314;
+        Thu, 02 Feb 2023 13:34:42 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id z25-20020a1709064e1900b0088550a1ce6esm324922eju.222.2023.02.02.13.34.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Feb 2023 13:34:41 -0800 (PST)
+Message-ID: <2b11d9f4-f32b-7214-3181-a49a8d190f0a@redhat.com>
+Date:   Thu, 2 Feb 2023 22:34:41 +0100
 MIME-Version: 1.0
-Subject: Re: Future of the SAA7146 drivers
-To:     Soeren Moch <smoch@web.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
- <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
-Content-Language: de-DE, en-US
-From:   Stefan Herdler <herdler@nurfuerspam.de>
-In-Reply-To: <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:210W0B1NEl60LNlm2m9GL6cURaxIjgaQhBLHJDXnTDWzg83pX9m
- AFVLmOyGnIeksVwBre+QcaV7POYEdB+o1oUOepFeGnjoRuaSaPQF5KNfyocspihv/VgU+GU
- IUeurKdzfPryoffU5455ldQmOKLOWqcWHxJhmZfjKUHdRwywFa4awGT98IQBDG8Ga9IzVaq
- FaIU9laFA1FIzrGJ68TXA==
-UI-OutboundReport: notjunk:1;M01:P0:IFGHwDTVB7w=;NNlNzaPuPKDl092JvaoFKwVVolX
- /H2qo1OrakjX164oYwmluL+yhpAeu09YoH3aqMJLZQ0bd3ffqDD+nOpdAB2MP7AowOYtGXTcZ
- qD3MzguX8mSww/AtzQtpa4yzVl8bq+R2A+paG195mFN7az+0/CIrimkvoFqEjcfdOo13lSEmY
- 8MB/HmkBFF/4yPSSrfcVkVWLdlBrKfRTGUkmTnCSPBJfIsirI98YEUHTN+5p7X5Z3WuGZavWT
- VQQ0/zD4BBmixHiqcvl0cZoqMRKQUwPNBLFcLkIZKsDpQM5loL38xG9KNlmpK3/YRvOrN+xSC
- PoybXXNsSisveCNpP1s+kHpF/9KWJ07UsY4ksp7ziHqaKD38lRmhZIEuTppbLaEc0xUDIDGyc
- 4lLUDJkHgTE0Rc40wdSPldGFrWYRydNJd+QS5knv0JSk4jvDHZ+pcCsvrK1dWgPUlw9G7jIGF
- bNioYm2eiorjk6Wuk39z9AdKZQn63LkfReJT9a6E2b5wDVEDXF3PVKsXBXCz1cpNi7JUztftd
- LqS0TBrevWaobRWvE2GeXpmDPPDeU+NeXwVZKywX9Axj6cVjCf6RYejl8GeQvRnZq9KeeNw6y
- 5HGrWm2K0xBT7gXEPl1GBKFXDTOIToMTLnVWF8CA5KN/TtNSZYvg9tkdyBihR28ZhU+5PT6QN
- ngmSHlTIB1LKW2VONz0c1R+qPhvmuZPEnuaFiV/5pwwvWsM8JpvejlyYC+bn+7YyjYwhyYYfr
- iVZ2mKYq5lkF+ex/sl4RQBZubdQYyIoL8tVyStn935elQHoPLIBlIhpxKPWN+G8auI37ZcIRf
- SaAZCaZDzq2zhtfQFnQcP0hDn22JbgAusQ0Wr+XNe8IhRyPyAh9nLFK4WFBfCPIID50KXVJJF
- fA+8mqqV+3rAiPc06IwKeYatRVg1bB3Y56LCzLT7W+JEcC9OnhaQQBtpD3NQ9Mx4W/E70wl/W
- D31P/PMLZfD9QDQj82HGIMJRTZM=
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] media: atomisp: add I2C dependency
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20230202210312.544277-1-arnd@kernel.org>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230202210312.544277-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, S=C3=B6ren,
+Hi Arnd,
 
-On 02/02/23 10:43, Soeren Moch wrote:
-> Hi Stefan, Hans,
->
-> On 02.02.23 00:12, Stefan Herdler wrote:
->> Hi Hans, S=C3=B6ren,
->>
->> On 01/02/23, 10:15 Hans Verkuil wrote:
->>
->> [...]
->>>
->>> Once it is converted to vb2 the driver can stay.
->>>
->>> Note that the driver might need a bit more work: we use the
->>> v4l2-compliance
->>> utility to test V4L2 API compliance of a driver, and after the vb2
->>> conversion the driver should pass this test. So the compliance test
->>> might
->>> find some other things that do not work as they should, and it would b=
-e
->>> really good to clean that up as well. Usually the things it finds are
->>> pretty
->>> easy to fix.
->>>
->> For the records, as long I remember it:
->> The "Buget Patch" driver is superfluous and can be removed.
->> This driver is for an experimental hardware-mod which never really
->> worked. No such hardware was ever produced.
->> I was really surprised to see it.
-> I own such card, as I wrote earlier. The budget patch works great and is
-> necessary for such cards. Please keep it.
->
-I think you confused it with is successor "fullTSmod" which works great
-indeed.
+On 2/2/23 22:02, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Without CONFIG_I2C, atomisp fails to build because of a missing
+> function declaration:
+> 
+> drivers/staging/media/atomisp/pci/atomisp_v4l2.c: In function 'atomisp_subdev_probe':
+> drivers/staging/media/atomisp/pci/atomisp_v4l2.c:960:21: error: implicit declaration of function 'i2c_get_adapter'; did you mean 'i2c_get_adapdata'? [-Werror=implicit-function-declaration]
+>   960 |                     i2c_get_adapter(subdevs->v4l2_subdev.i2c_adapter_id);
+>       |                     ^~~~~~~~~~~~~~~
+>       |                     i2c_get_adapdata
+> 
+> Ideally the driver should just move away from calling i2c_get_adapter
+> as explained in a comment near the call. For now, just use a Kconfig
+> dependency. Apparently configurations with I2C disabled are rare in
+> practice as well as in randconfig builds because a lot of other
+> drivers 'select' the subsystem.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-The support for the "fullTSmod" is implemented in the "dvb-ttpci" kernel
-module.
-The "Buget Patch" driver is an separate kernel module.
+Actually the i2c_get_adapter() call is gone in the atomisp pull-req
+which I send to Mauro for 6.3, it is removed by this patch.
 
- From Kkonfig:
-config DVB_BUDGET_PATCH
-	[...]
-	  Support for Budget Patch (full TS) modification on
-	  SAA7146+AV7110 based cards (DVB-S cards). This
-	  driver doesn't use onboard MPEG2 decoder. The
-	  card is driven in Budget-only mode. Card is
-	  required to have loaded firmware to tune properly.
-	  Firmware can be loaded by insertion and removal of
-	  standard AV7110 driver prior to loading this
-	  driver.
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp-6.3-1&id=4f205ce7a915ffa4ae0fb24f48714604d39baa29
 
-I my self own and operate a card with "fullTSmod" too. An I did some
-mods for others.
-I never loaded the "Buget Patch" driver.
-And the kernel module it isn't loaded on my VDR. I checked it right now
-again.
-
-I removed the "budget-patch.ko" and everything kept working like usual.
-Ill keep an eye on it.
+So adding the I2C dependency is no longer necessary.
 
 Regards,
-Stefan
+
+Hans
 
 
 
 
-> Regards,
-> Soeren
-[...]
+
+
+> ---
+>  drivers/staging/media/atomisp/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
+> index c9bff98e5309..8b0de0b5b4a3 100644
+> --- a/drivers/staging/media/atomisp/Kconfig
+> +++ b/drivers/staging/media/atomisp/Kconfig
+> @@ -13,6 +13,7 @@ config VIDEO_ATOMISP
+>  	tristate "Intel Atom Image Signal Processor Driver"
+>  	depends on VIDEO_DEV && INTEL_ATOMISP
+>  	depends on PMIC_OPREGION
+> +	depends on I2C
+>  	select IOSF_MBI
+>  	select VIDEOBUF2_VMALLOC
+>  	select VIDEO_V4L2_SUBDEV_API
+
