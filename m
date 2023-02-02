@@ -2,100 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A38E46879C1
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 11:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7986879CA
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 11:09:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbjBBKFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 05:05:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46046 "EHLO
+        id S231790AbjBBKJa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Feb 2023 05:09:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232000AbjBBKFg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 05:05:36 -0500
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 571366EADA
-        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 02:05:21 -0800 (PST)
-Received: by mail-vs1-xe33.google.com with SMTP id y8so1311863vsq.0
-        for <linux-media@vger.kernel.org>; Thu, 02 Feb 2023 02:05:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qA7knTKLmb+qg+o0UYoySGHb50e29fbJpq5K73jMEzM=;
-        b=WqiOUp2RESg02IFvzE7NFmJSZcVtpquU4y1Q05pQvz7dMu3jSe3lG1txdq7otjW5b4
-         mHboK/c9NcnHQ1L27CjBhM1OgzxJDL2Z7kLJL5R3+asUjxPbJjAbNFYvlEJWFxYqxHoF
-         nbeUdWg87CRSnrOQwdbqXyEnbVZ/Ke/mOo0CetO/gxX971bahkRrTfd1LRNx503JXYwy
-         yE4nd1kRBHoSs1pgEZqbOjRl5nR8DHqsQWpgjRb8KUp5yhZfOAUj07zmBYMaDqD6nWkW
-         BMCxFiWRXKbeiSH8sbxNW4pJgA/U52IKE5pUD0ffduFJRvcYlNEDpCWzzi++vUIPuEm5
-         QPpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qA7knTKLmb+qg+o0UYoySGHb50e29fbJpq5K73jMEzM=;
-        b=OBY2lK0DTpO5Uc2v0ErfipkBbiTA5FR295OlOtUhUwGFCK5bJmqqDUPnHoo1/fSb+S
-         r2bynvofXfiv3kMSIGyXWPIs2Br7GxxEccxNOZQIlz8WqjmjlKWDdOlEFb/YrhMP1DVF
-         esm3MnmbO14shAP4ZbitjndjKC72QdvyaK+1lfnLPws4zIc6SIn7lC+wnv6kInx4Z2ob
-         oiUJp0qOdNDxk5OAkSmi77AxLBIUXU6zugneO88V3eO8kh5zvViyzJxOVlW1+OaclJfa
-         TFXSBmNhldeTqygc8nywLJdJw8xBVj7cZxeK7GLHEcRHxNWEkT7kD+h2R+VrWdfGbRpr
-         GA4w==
-X-Gm-Message-State: AO0yUKX6cM1rDqkEW/T0ebVj/0ljqk6Nd1GjsUx44aSup7EinXMhJAqn
-        VDj2DTQrnZpArIZnxRtyhTCOuBESsBvIx4/mPjg=
-X-Google-Smtp-Source: AK7set96R2FBm5uY3X/pS2iFYTr0ptScPeF82stztKlvCBQMqEKM4/VBtpB86kdW3vCjxHe0omDdVp3YTcspn3hURLM=
-X-Received: by 2002:a67:ae06:0:b0:3f2:c6b6:993b with SMTP id
- x6-20020a67ae06000000b003f2c6b6993bmr975016vse.84.1675332320296; Thu, 02 Feb
- 2023 02:05:20 -0800 (PST)
+        with ESMTP id S232002AbjBBKJ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 05:09:26 -0500
+X-Greylist: delayed 136 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 02 Feb 2023 02:09:23 PST
+Received: from mxd-2-a73.seznam.cz (mxd-2-a73.seznam.cz [IPv6:2a02:598:64:8a00::1000:a73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C6D86E85
+        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 02:09:23 -0800 (PST)
+Received: from email.seznam.cz
+        by smtpc-mxd-68566d4878-kvdfc
+        (smtpc-mxd-68566d4878-kvdfc [2a02:598:64:8a00::1000:a73])
+        id 6ad55984ca0be2ce6a3567ef;
+        Thu, 02 Feb 2023 11:09:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cz;
+        s=szn20221014; t=1675332562;
+        bh=2HtJIEdDTUc0jD6+r5V0EN7uPQpPgWuCljoInRvP5pM=;
+        h=Received:Message-ID:Date:MIME-Version:User-Agent:To:From:Subject:
+         Content-Type:Content-Transfer-Encoding:X-Antivirus:
+         X-Antivirus-Status;
+        b=Uy6lbvVKLz99hFG2VMHOPzcNGkEW7m9lh8IXImhuAYSGj0dCKwAovZctmf3V1HTcU
+         8FktS7Oi8HQ4aeKzqCqSS/CXltfDS9S9oSHmexV8Ez53Towpn+hlAD0l+THVtAzhge
+         gstjo1OoEwz6TR8vC7u5wZB7tAXP7sD5Crv5DnGFLTDts6mfMSfKA7eAuPD7hF5k9Z
+         Mwy79S70FM1QxCdPilwXuPlm1+hCQnZN+royQZ3VD+H8Vgyw09iCUCx2cxNNBAa87B
+         ENKOwgt0R0IiBmRtyQU36aExukF4kjTIQZAAIoTIoeHi59+ezEX3MbQlQa3OQNY9p2
+         NAxgcOpL9CxfA==
+Received: from [192.168.20.101]
+        (78-157-178-145-static.silesnet.cz [78.157.178.145])
+        by smtpd-relay-8644fbf87-f96fh (smtpd/2.0.3) with ESMTPA
+        id f7075be0-564a-4633-b7e7-ecddcd597160;
+        Thu, 02 Feb 2023 11:06:55 +0100
+Message-ID: <54c56099-501d-eb96-69d7-1237c9dd82a2@email.cz>
+Date:   Thu, 2 Feb 2023 11:06:54 +0100
 MIME-Version: 1.0
-Reply-To: bshambdh1@gmail.com
-Sender: lizzypaul160@gmail.com
-Received: by 2002:a59:dc5a:0:b0:381:f9a7:d07 with HTTP; Thu, 2 Feb 2023
- 02:05:19 -0800 (PST)
-From:   Sakimoto Mayumi <bshambdh11@gmail.com>
-Date:   Thu, 2 Feb 2023 13:05:19 +0300
-X-Google-Sender-Auth: q25mliL8F3cX9OwgBNgwuWxKZW8
-Message-ID: <CADeAodOBmL1j85RJyOkjwReha3bpNd+gifApkxoUEA16xW5STw@mail.gmail.com>
-Subject: Mrs, Mayumi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5267]
-        * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:e33 listed in]
-        [list.dnswl.org]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [bshambdh1[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [bshambdh11[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [lizzypaul160[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+To:     linux-media@vger.kernel.org
+From:   =?UTF-8?Q?Martin_Jank=c5=af?= <mjanku@email.cz>
+Subject: DVB-T2 USB Sony cxd2858, 0572:2886
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Antivirus: Avast (VPS 230131-14, 31.1.2023), Outbound message
+X-Antivirus-Status: Clean
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good day,
+Hi,
 
-Hope you're having a great weekend, I need to entrust you with a
-humanitarian project. Please reply to me as soon as possible.
+I'm trying to connect a Mygica T230 DVB-T/T2/C USB stick with Sony 
+CXD2858, idVendor 0572, idProduct 2886 to my Ubuntu server 20.04 with 
+5.4.0 kernel, but with no success. May I ask for a hint or help?
+
+Thank you, Martin
