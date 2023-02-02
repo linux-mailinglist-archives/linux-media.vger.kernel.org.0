@@ -2,246 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD4996879D7
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 11:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A026687ACE
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 11:49:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232632AbjBBKLB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 05:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48426 "EHLO
+        id S232217AbjBBKtX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Feb 2023 05:49:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232576AbjBBKK4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 05:10:56 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B00E288F35
-        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 02:10:54 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id m199so1530534ybm.4
-        for <linux-media@vger.kernel.org>; Thu, 02 Feb 2023 02:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fIr6opegPYfpGWKNlATi3aulrpwL9ZZFwjdVeIsGg20=;
-        b=NIhoncgdsLnAr7fLeP22RntrW5UuVkPsVZUIag071PSTqztaYTAYp1IOOQJaYJ1m9s
-         SfTv3VPsrOOlwypaPvpob3JYUWfzCESKKMtXxapPEYGr1QYbSNs3lV5BrH/Vq+BTaUQg
-         CjHi2kIkioQSpUc2bD5JWP1ersrxhxuH5lyyTwogjKdv5oaKDB3NAt/KnkUksXZw48nL
-         KpfGESNoQHQwBi8SLAaIhNQgdA4XrPB1fUDe2C8R55SALsZ/0CAmo2hZMeQyP4Cry2T7
-         HEICtNTPJCtJvi8JSrjRp+hyjF5wREoEXsDy9FIzJL7rSYAmstamzuGnKzu1zIbFmCK4
-         2xAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fIr6opegPYfpGWKNlATi3aulrpwL9ZZFwjdVeIsGg20=;
-        b=4GuS14m1NaoO6ibwkcHYKDNacUd6au85xtSiOhLmCJWvIk3Fn6mo6Ipe4zU5Uq5+cH
-         ig3kuVrtO9d3qcCJCCJljggY8lonxWMLqoPE8GgTBTZdvIOVmKC0Jfey1aGjMEpX7FKI
-         r7GkYRz8z1k59htzLEY9f2jVYazbyxvUnVn0F7TtBNfY28l+tEpuk9cYpYCxxMBZXTyZ
-         4Oiz3/Nxr4pr8ZDTZvmyBQhKKBTIRFHzx4QHYZYl05wjHFLLu5Shyc22ERz4W6p+vKvW
-         7UF8tKMzBS8OBjLuNxGiReQViND3x/Y0kZq4OSPHV0f917ZgDXT/xjxqrKAplBCZYD1t
-         PVkQ==
-X-Gm-Message-State: AO0yUKWKxsVK1raqs+XLBqIQUVfczWGYFRmtvX3JJSTfPpe8DdumZu58
-        1hn/Qhoz2Ft5nuSVH9PvZrzyFQDf7yDyM1C+E/toNg==
-X-Google-Smtp-Source: AK7set8OAHlZDQN+AkaE+B1uLRGDzAJWAAoIau5RgOokIKEP9uytufptVUjIEheTX4tybvgMJGNNdQFwLK7ApmxAr4Q=
-X-Received: by 2002:a25:bf90:0:b0:6e0:c7d3:f026 with SMTP id
- l16-20020a25bf90000000b006e0c7d3f026mr692420ybk.275.1675332653827; Thu, 02
- Feb 2023 02:10:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20221115121237.28361-2-quic_vboma@quicinc.com>
- <20230202064712.5804-1-quic_vboma@quicinc.com> <20230202064712.5804-2-quic_vboma@quicinc.com>
-In-Reply-To: <20230202064712.5804-2-quic_vboma@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Thu, 2 Feb 2023 12:10:42 +0200
-Message-ID: <CAA8EJpqp7D3kBwPNNtdWHPdp=N+VZ_7dZEB7+O7nMxT44ZJ-5w@mail.gmail.com>
-Subject: Re: [PATCH V2 1/1] venus: Enable sufficient sequence change support
- for sc7180 and fix for Decoder STOP command issue.
-To:     quic_vboma@quicinc.com
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        with ESMTP id S232820AbjBBKtJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 05:49:09 -0500
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on20623.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaf::623])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 673F07C711;
+        Thu,  2 Feb 2023 02:48:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hd0NmV9qowgEdJPuf1CbAoppsd5ze5sh4nGa8IUHui1HfvEiQvZ4ss9mUdav0XpAh7elQ5FZ25rtY6M/VHhz9OPeoo9NekDOh5qHNXHCbYyNdUKbWkfYECEsdkDppu/mAwVDrXLT03MtWgy9tDeGfOTmWK1Xtdv7v4VzFvtZl1ubExYzxdt1i3V/4lWwdZSjp/Hli/JUFOEFgMWpuS8BBcBhUmQvInFjaG/14yqIWApL6gwbVqc8exe6FBXCZ7r2ki629KtKjDGuwVe16S9QI4a9AlZAN9cqf+JoyL/umWn66gOWSo6MlHgIznSXb3ZAnBbyd+uI4xqxMKNfRTv8Hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iWwit33bqjXqSZrqWj7LtxcXi9st6ebbG/kfQ7qVqUs=;
+ b=oagUPSntZIlMnfHuhypfPML7epB+MjhOFxt3+8zpGqZbQiEhK9DgJh7ullMpaHg/e57+lZ4vVOXuY2yKTpUUyMFgSruhPxQhzD3+iF0UL1ssCIryiAt574m2Rg3boaMKmW44aMJMsfPG2j3wWmyBh5QzJ1pcvzEba58Kp0ZAflaKEb01eZ9q/CojqQHHp4eysRO1RAcMOkhrXDtw5TMSLO86QBm1XWRT2I7rhsvthm1cI7Cq7SnrmyyvaBoT/4BKoAkaEUE6k5JPqP4BGW4+SWHGmhbF9x8Mr7pOtRaqGd+TAWT6auBbYyNGnZ4inDGxu+Hvr0p/IkLmtx5Tnp41Iw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iWwit33bqjXqSZrqWj7LtxcXi9st6ebbG/kfQ7qVqUs=;
+ b=Q0FaJbZ/vJSco5xFn+YBM5fARaGVPv+hJ0dLy0QmdqfCOFu6iug8vSNFsz0HlfRLbMQ7lMQhqs7O9ZmX6JAexY7PaXUWn5e/zWIj8+So1g+JxJyjVjqQyxxCeshKC0TmyRmOjqsLHwk/X3VkNa5NUt/72OpE64vNP/x/CjFvKbw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by DBBPR08MB6297.eurprd08.prod.outlook.com (2603:10a6:10:20b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Thu, 2 Feb
+ 2023 10:47:24 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::4718:6092:e763:4219]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::4718:6092:e763:4219%2]) with mapi id 15.20.6064.025; Thu, 2 Feb 2023
+ 10:47:23 +0000
+Message-ID: <8d605b82-3367-e555-90e8-64015d5a8db4@wolfvision.net>
+Date:   Thu, 2 Feb 2023 11:47:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 2/2] media: i2c: add imx415 cmos image sensor driver
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <20230124060107.3922237-1-michael.riesch@wolfvision.net>
+ <20230124060107.3922237-3-michael.riesch@wolfvision.net>
+ <Y9EKqwfDSsF31dLZ@kekkonen.localdomain>
+ <395807d3-e242-5779-5c6d-06d750357b8c@wolfvision.net>
+ <Y9t72at49U97brb/@kekkonen.localdomain>
+From:   Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <Y9t72at49U97brb/@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR2P278CA0003.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:50::6) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DBBPR08MB6297:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3120f67e-c913-471d-53f9-08db050ade20
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2byYN9U8suTB/MZaPJITPwFDU9M2GDFFMn9ThrYFlyApqBmNHWjODmsNUGNyCEfQY3D3YSOtXXt6F5hP0PpLJGT2lifyM5K43T5xh0logLT9GJrNaEFwsej+tOI0HbzYQdN1hNMy03MZ3bCWt16g5SQvZoZjjxVNFOGWzI5LioBx38HQLDqEVtaTHsUFNKCb82GwU2kBbb6Cos6X+0aOxuLiA5DNA9t5cBiXwcESkCv5BLka/KCBs+2PbOZts5RSiqCzNSEpvXEOhQ5tmk56rMioazVNBo5h8EXXrSVR17FmyG1WBsOkS3qa8ueU2EoNqx1pHrRnBhGIRXONi2dqUCGBOHjoLKnCq6letUDcznjV6U91pqO7Py48L92C1fwP7c09R7zNLuwz5mmgIG6BcGj6kXb6b+pxyi556m4/x/idKC6kP7xbe9Q1CdliB8iASqXZpRWOgT64i0bZ1zNSfhGi/Y1CMzSyNTmfVrz9bI40EL2/xU7fbX59KIC7FnK2U0pwi5PtQAnPfwROp7npfLLF0Fxjl5cmBOqosx5QnuqlcO/DOpuzoYByjZ0JMATiIZU/3S3/NBaWbncAlsCPs23ofqwP5gkQukIKeVNxxFQoxu/wHhXCRWZIbKz1xloTbMV/i3vPwxwEcC3AsGMcGiJDcxUJBhx7rC1NoeWA9+go06zduVzt/Amrs3IbeSFohks8f3JVbNvTVbJgLJNmbpda86gz8tJvCj8xke8JmAM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(39850400004)(346002)(136003)(376002)(366004)(451199018)(31686004)(2906002)(31696002)(8936002)(6916009)(478600001)(8676002)(38100700002)(4326008)(36756003)(44832011)(5660300002)(6486002)(186003)(2616005)(6512007)(52116002)(86362001)(53546011)(7416002)(6506007)(83380400001)(66476007)(66556008)(41300700001)(66946007)(316002)(54906003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?czNYeExZRDBOK0pJMm15a28zMW92Mnl4UFU5aUdLZTV5aktFeDJEaXVhSm4r?=
+ =?utf-8?B?aVp6WDBHYitaSDc2R2FlbWVxSWUyeERTS3dYb1RnTVk1enBzc2dxcVJQWnZi?=
+ =?utf-8?B?N1g3OUlJQWgwZkUyclU2QitiaXhNVEVkRTBaQ0ZCblhWaTlvdlBUS2dXaHVj?=
+ =?utf-8?B?MnEzc2J6djFyYlQ0Kzl4ak4zcEpoMUE5YlNaOUxQV3picUxrS3lMSTNZN1NB?=
+ =?utf-8?B?UFI5Y2YvSm9FaTUrNWpMVHNtd3A5bmxwbDBXbVlBbWdtYmdYMWZYMmxITktp?=
+ =?utf-8?B?dENuVWJoNWY4cDhsb0dnbXBlL0NVdEhsWHJKQlBNM2FCYmZ2TDRrOFg5YUNz?=
+ =?utf-8?B?ek5GZUtSNWlHRm1YdTRLaGJrWUtWcVZ1Snh6c05hVjhTeUdSSzBRQmZKRllS?=
+ =?utf-8?B?NGRvY0NYbFdRZkpRbjNKdEVzVTB5OFI1enVCQ2R2VVVpNEhGZVFqZ1ZTQW1X?=
+ =?utf-8?B?QzZXWk5DeEVrdXdrU000clBGcFVDOUJDWEE3b0dJRE5DbHdRTVB4U3N1Vld4?=
+ =?utf-8?B?a0FQdHZ5ZHhyQWkvRVAzWlJXMmlndzRYbGpoSHlxQUkrLzNaTmQyVExjcHkx?=
+ =?utf-8?B?cW1GMzJsQzFZSURjTFRsNVVKWThFQm1XRmd1dFViTDZFMXM4YzFwbGh0czZw?=
+ =?utf-8?B?bUFwZDY1cmpCenYycWRhZVVxRzhwK2RxZDdidzVoN2xqQTdKbG1UTjdnZE1H?=
+ =?utf-8?B?dkl3bGw5b2QrVmJUOG4xWDdaaUJZY1JVbzh4L09lZGpuc0ZKT1owclIrZk1E?=
+ =?utf-8?B?NS9Talg1bTZyWndnZFZlU05LeHF0c1JOMFJQSFZlUHRSY0xBY2owUHBHYXVI?=
+ =?utf-8?B?d1RYdXJEdFYrNEhWT29wV3pPZ001Q0F5emJwdm5kdVhKUUtpaFR0MzNHYUNh?=
+ =?utf-8?B?bEJCMHZNcXduSDBJOGJQWFRmNkQ2dnY5c2xPZW9hYlM1bnJCZkF4WUc4cUpi?=
+ =?utf-8?B?R3ZMUmFMdEpYd1RMMW1jT0JPd0JtcFhxaXdhZ014ckdEUm55RkgvcXEzTDNO?=
+ =?utf-8?B?Vis0VEJJeWdRMVU5ZkgrUzlJazRMdnBHaHF1N0ZoN0E5MWtONldoWlVRang0?=
+ =?utf-8?B?NjZlSitTUWZVamowMFFZOVgxV0tRenJ0VWF0Y0NZOWFtVTB0dktUdE1MWGIv?=
+ =?utf-8?B?VlF6eUUxdUpFUXRNYUlJWEZtcnIwQ29xK2NiSkJZMk1EMENvWjh2aXBXNVJ5?=
+ =?utf-8?B?OGJrTU1sV1A2eGE1S2E2eXM3TDUwOVA2TERCc0xXbUxMdXJyd1ZkU1FWaXN4?=
+ =?utf-8?B?SGIwQjBmTVVlbjQ0OWRHZG9FeGFrN1RMeFdkTzNRck5zcnhRZTY3NU9ab1Yz?=
+ =?utf-8?B?MTJ3QkJoWVNsTUZobVNQNUZkbCtLL3JuZVhBOERjRnFrbFhxUnR2WWViYncv?=
+ =?utf-8?B?VHYxMjl6QTBSODRUU05qNTJndUFUbTRjNW45K2FJMlRBelZXTjJ0TkE5cFhO?=
+ =?utf-8?B?OC9VSExrVTVpN3Z4dng2cVJKem1jQUxRY0RuY0NqNEN0Mm43NVhtMStmZ3lR?=
+ =?utf-8?B?NG11Y0hiQUhuNVNmdGtWMEN6cEl2ejJ1cjZhajh2V1NYSmZjbVVsWFFIRnNH?=
+ =?utf-8?B?dnZ4Q0RxcFVHUmtqc3ptL01FdlVCSk1nQjFVUEYyRHdTMXFSTnNvT2t1Z0RZ?=
+ =?utf-8?B?M0k3c0QyVy9uWnlBdDNTSmwrM2hyZTJqTkdBMW0vUDFIb0UvVmlMUE5TbDh3?=
+ =?utf-8?B?SHVHbStZcWUwMXFjUlg0c0labndFaEJiaTF2UHRoWGlBWGFxdjB0cmRyR2FD?=
+ =?utf-8?B?V0EwcmF5T2RoeXQra3JseDU3RlFpaHF6ci9Ec2x4QW1KVDlhWEFCL3FDMXFG?=
+ =?utf-8?B?SlRPdGpNcGVlYVk4dDFIV3pqSlZyZDFPeGxsdmMyZUhMQjE1RDc3R1lnNE1L?=
+ =?utf-8?B?TTRPZ3U1QitNVWRUWHhsK096RDYzVDIzSjVFaGI0QndlNGVVczNaT1VCWGFT?=
+ =?utf-8?B?Z3NFSkh6TktJMlQ3MVdaK29HS05yVG84OEdyeWt5Q1YvVnZRQXpKUlNzZ2ZJ?=
+ =?utf-8?B?VjJTQS9lYi82U05NOUtiZmFRc1ZKMHZ6NlhuSU02SnFwQ1VnY2pDSER5RWVz?=
+ =?utf-8?B?RjcrYVFhVGNuZkxGMzVZUG5hdGI3ZkNncmZDT1FwOWNCMFhTalROQ3hpdE9C?=
+ =?utf-8?B?VXluRjlycjU3cFduVEdpVXd5VzdldVJPckdjVWtydzJxUmVNTHV4Rkg3S2xz?=
+ =?utf-8?B?VWR1Z0JEZjVRMVpaNjNHVytPTFM4Sm5xalNEdDl6bW9YMHFINXRrVk5EaWdl?=
+ =?utf-8?Q?qf0W1U4lup2QEVekuIX0oDQ3egvZD/qY4fsTLZiXhM=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3120f67e-c913-471d-53f9-08db050ade20
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 10:47:23.8791
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I/dzH04K1b/9/UkN9j3r16hxHxr+Y9pec9M6B70sGWoSPjAAxXkBCxpUbgZq2E+A52Ih70Yed2RoPqeVQ1f3e2xd521yGh6NtEze1j4W6r8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6297
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2 Feb 2023 at 08:47, <quic_vboma@quicinc.com> wrote:
->
-> From: Viswanath Boma <quic_vboma@quicinc.com>
->
-> For VP9 bitstreams, there could be a change in resolution at interframe,
-> for driver to get notified of such resolution change,
-> enable the property in video firmware.
-> Also, EOS handling is now made same in video firmware across all V6 SOCs,
-> hence above a certain firmware version, the driver handling is
-> made generic for all V6s
->
-> Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> Tested-by: Nathan Hebert <nhebert@chromium.org>
-> ---
->  drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
->  drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
->  drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
->  drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
->  drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
->  5 files changed, 41 insertions(+), 3 deletions(-)
+Hi Sakari,
 
-Several generic comments:
-- Please move your work on top of the recent kernels. 5.15 was
-released half of the year ago. I'm not going to mention 5.4 age.
-- Please split your patch into smaller logical patches.
+We tried to gather more precise information from the IMX415 data sheet
+and support package, but these documents are super secret and equally
+super vague.
 
->
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 32551c2602a9..8f94d795cc2b 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -202,6 +202,11 @@ struct venus_core {
->         unsigned int core0_usage_count;
->         unsigned int core1_usage_count;
->         struct dentry *root;
-> +       struct venus_img_version {
-> +               u32 major;
-> +               u32 minor;
-> +               u32 rev;
-> +       } venus_ver;
->  };
->
->  struct vdec_controls {
-> @@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->         return NULL;
->  }
->
-> +static inline int
-> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +       return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
-> +               vminor && (core)->venus_ver.rev >= vrev);
+On 2/2/23 10:01, Sakari Ailus wrote:
+> [...]
+>>>> +static int imx415_stream_on(struct imx415 *sensor)
+>>>> +{
+>>>> +	int ret;
+>>>> +
+>>>> +	ret = imx415_write(sensor, IMX415_MODE, IMX415_MODE_OPERATING);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	/* wait at least 24 ms for internal regulator stabilization */
+>>>> +	msleep(30);
+>>>
+>>> This is a very, very long time to wait for a regulator. Most probably
+>>> either the time is too long or we're waiting for something else.
+>>
+>> I just realized that both msleep calls are after setting the mode to
+>> operating, i.e., after getting the sensor out of standby. The other
+>> instance of this code (see below) documents that clearly, but this
+>> "regulator stabilization" comment here is seems wrong indeed.
 
-Please make the indentation logical here (and below).
-Also is 5.6.1 (e.g.) newer than 5.4.51? Or 5.4.1 newer than 4.2.0?
+The data sheet mentions "Some time is required for sensor internal
+circuit stabilization..." and "...after internal regulator stabilization
+24 ms or more." Well, there you go -- we need to wait some time or more
+for whatever reason :-)
 
-> +}
-> +
-> +static inline int
-> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +       return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
-> +               vminor && (core)->venus_ver.rev <= vrev);
-> +}
->  #endif
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 930b743f225e..e2539b58340f 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
->                 pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
->                 break;
->         }
-> +       case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
->         case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
->                 struct hfi_enable *in = pdata;
->                 struct hfi_enable *en = prop_data;
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index d2d6719a2ba4..20516b4361d3 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -469,6 +469,8 @@
->  #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH                 0x1003007
->  #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT                     0x1003009
->  #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE                   0x100300a
-> +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
-> +                                                               0x0100300b
->
->  /*
->   * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> index df96db3761a7..07ac0fcd2852 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->  }
->
->  static void
-> -sys_get_prop_image_version(struct device *dev,
-> +sys_get_prop_image_version(struct venus_core *core,
->                            struct hfi_msg_sys_property_info_pkt *pkt)
->  {
-> +       struct device *dev = core->dev;
->         u8 *smem_tbl_ptr;
->         u8 *img_ver;
->         int req_bytes;
-> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->                 return;
->
->         img_ver = pkt->data;
-> +       if (IS_V4(core))
-> +               sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
-> +                      &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
-> +       else if (IS_V6(core))
-> +               sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
-> +                      &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>>
+>>>> +
+>>>> +	return imx415_write(sensor, IMX415_XMSTA, IMX415_XMSTA_START);
+>>>> +}
+>>>> [...]>> +static int imx415_subdev_init(struct imx415 *sensor)
+>>>> +{
+>>>> +	struct i2c_client *client = to_i2c_client(sensor->dev);
+>>>> +	int ret;
+>>>> +
+>>>> +	v4l2_i2c_subdev_init(&sensor->subdev, client, &imx415_subdev_ops);
+>>>> +
+>>>> +	ret = imx415_ctrls_init(sensor);
+>>>> +	if (ret < 0)
+>>>> +		return ret;
+>>>> +
+>>>> +	sensor->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>>>
+>>> Add V4L2_SUBDEV_FL_HAS_EVENTS.
+>>
+>> Just for my understanding: why is this required/a good idea?
+>>
+>>>> [...]
+>>>> +static int imx415_identify_model(struct imx415 *sensor)
+>>>> +{
+>>>> +	int model, ret;
+>>>> +
+>>>> +	/*
+>>>> +	 * While most registers can be read when the sensor is in standby, this
+>>>> +	 * is not the case of the sensor info register :-(
+>>>> +	 */
+>>>> +	ret = imx415_write(sensor, IMX415_MODE, IMX415_MODE_OPERATING);
+>>>> +	if (ret < 0)
+>>>> +		return dev_err_probe(sensor->dev, ret,
+>>>> +				     "failed to get sensor out of standby\n");
+>>>> +
+>>>> +	/*
+>>>> +	 * According to the datasheet we have to wait at least 63 us after
+>>>> +	 * leaving standby mode. But this doesn't work even after 30 ms.
+>>>> +	 * So probably this should be 63 ms and therefore we wait for 80 ms.
+>>>> +	 */
+>>>> +	msleep(80);
+>>>
+>>> Wow.
+>>
+>> This is the other occurrence of this long sleep. We could refactor this
+>> code into a imx415_wakeup() method if desired. Otherwise, we need to
+>> align the sleep period and the explanation at least.
+> 
+> I'm ok with the code, it's just a very, very long delay.
 
-What about older (V1/V3) cores?
+It is, and it is far from obvious how this delay comes about. The data
+sheet does not specify this register at all, it is described somewhere
+in the support package (as the comment above states a delay of 63
+microseconds is mentioned).
 
->
->         dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
->
-> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->
->         switch (pkt->property) {
->         case HFI_PROPERTY_SYS_IMAGE_VERSION:
-> -               sys_get_prop_image_version(dev, pkt);
-> +               sys_get_prop_image_version(core, pkt);
->                 break;
->         default:
->                 dev_dbg(dev, VDBGL "unknown property data\n");
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4ceaba37e2e5..36c88858ea9d 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
->
->                 fdata.buffer_type = HFI_BUFFER_INPUT;
->                 fdata.flags |= HFI_BUFFERFLAG_EOS;
-> -               if (IS_V6(inst->core))
-> +               if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
->                         fdata.device_addr = 0;
->                 else
->                         fdata.device_addr = 0xdeadb000;
-> @@ -671,6 +671,16 @@ static int vdec_set_properties(struct venus_inst *inst)
->                         return ret;
->         }
->
-> +       /* Enabling sufficient sequence change support for VP9 */
-> +       if (of_device_is_compatible(inst->core->dev->of_node, "qcom,sc7180-venus")) {
+Our tests indicated that the delay
+ a) read out the sensor info
+ b) turn on the stream
+can be different. Therefore, it might make sense to use different
+msleep() calls as done in the v2 of our series.
 
-Do newer chips support this property? Do you intend to list all of them here?
+We'll try to get an updated data sheet to sort this issue out, but for
+the time being can we get v3 into mainline?
 
-> +               if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
-> +                       ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
-> +                       ret = hfi_session_set_property(inst, ptype, &en);
-> +                       if (ret)
-> +                               return ret;
-> +               }
-> +       }
-> +
->         ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
->         conceal = ctr->conceal_color & 0xffff;
->         conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
-
-
-
--- 
-With best wishes
-Dmitry
+Best regards,
+Michael
