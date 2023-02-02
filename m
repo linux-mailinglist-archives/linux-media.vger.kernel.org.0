@@ -2,361 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EAF8687C17
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 12:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F47687DB6
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 13:45:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbjBBLUg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 06:20:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50174 "EHLO
+        id S232050AbjBBMpD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Feb 2023 07:45:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbjBBLUf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 06:20:35 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E37549426
-        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 03:20:31 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id cq16-20020a17090af99000b0022c9791ac39so5231004pjb.4
-        for <linux-media@vger.kernel.org>; Thu, 02 Feb 2023 03:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qX7BIqDIO3YtfBIW1WPQ0fxLJ7P/Bld9aGg46QQJtnI=;
-        b=b1RQYSVZF3w22gH8sjOU/U99i9Goo5oG2f1cNWUUSRXHqcxQw0oifeiOnT7ulQPCq1
-         LOJKLGrfIqtwS1Eu8gBEdc0T9e+w3e0E5UbVlQqiC69zDYt3qF9c8FkcVYm00cRWNOMP
-         JbBdBBPFq1GVeGCWy9hjyQ6picxGMXsfLDKO2TfvEUd0QWBYXmrtetzgAQXitXMnEsVy
-         M5yhx8559ZXuBWuBivM47bgvu9Z8KWOOPYlqWx611nAaiWSNAFvnQx9Bchif25hLWxwT
-         ka35HEBxXkA5NCPygA4EPtIXXjNwwvjU40q0+N0zMRMVfIiJ/ygH8BPNrhlpLzmUBgdM
-         6lRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qX7BIqDIO3YtfBIW1WPQ0fxLJ7P/Bld9aGg46QQJtnI=;
-        b=LWl87Jm9ZrAV4UMSsxbfh7eKLrcPHLcqHrcQgP6wEbbgcehtQpMa/2Vgnzw6dyZnaT
-         sxEP+/pf0Cm7DH8R2iBjX6KSLkViA1CFFEtijcutQf3Ok1jMSSyk0ySFzHtnr0MzOqGM
-         dARBuuM9gG48oQCBRG4Pg2h340bMx6pwT/6SfppC/HlzyRqcIYecycyiNX1dOKgOEyyF
-         qT55uH4IFJS/YNA/TOUyeNsg4k6C2yao5Wkv07eiIMEMw1+fBmBf/f0n4sEACuxWkfol
-         uvY9JWYHdjxzLEUetxX2eQiUQR6NzOwYAkQhMeVX+YQS2jp0IJ8LgBk0WNCEANt/orwI
-         A9IQ==
-X-Gm-Message-State: AO0yUKV+2Y3vR8QROtlhCIj82UTqHhksopRGMVZeivory1CZMfMxc+Ce
-        8kNWv5c8ndTDg3MBf1ekBL1Kp8JGwiVmWRY7VNZuyA==
-X-Google-Smtp-Source: AK7set9RPFs6i3Gy+61OXLVfI2IdFXGg0m1yLDb1kvGB2Tk6CjvyzgRwtErD+j8CWBS2rtgwkXAlCmjUxcXhC7iBR0k=
-X-Received: by 2002:a17:902:d506:b0:196:cca:a0b4 with SMTP id
- b6-20020a170902d50600b001960ccaa0b4mr1469934plg.20.1675336831028; Thu, 02 Feb
- 2023 03:20:31 -0800 (PST)
+        with ESMTP id S232125AbjBBMov (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 07:44:51 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDA388DAC2
+        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 04:44:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675341869; x=1706877869;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=9FE8930bf2SGtc5ZerfHvTG9dOUiiSZYYc8oaLrERd8=;
+  b=FoUzqXOniUfyTjtHaaW2KyowsI4E92gJR5JZ22rgOqsgbI9fVN7yw5t9
+   eztDxGW7M8h6Jg5MRvyCOg4C9Be94qpS356moDZXpgePN3nZaLMzqGzuh
+   0bn9FASvR0Cwy7TwHonTODpzcgbU+UzM4Y4v5XVXGhj0qVxiiZt1my7uU
+   N0IYoMzro6ifUn/TWNOGYC7XDMTQqejPfX2gK4YYwMDmazIviny98IGaO
+   /ckM/4Mu9fORy4LNH22AkHyYs2QG+zzk5KaECXKC0ekKyI31Zc4LWGtaY
+   PjJ9XY5Y8LcqV6MYPkvCzeTSNk9VUcOQqFv07o0TXbYoxKRx2QU0SMAqs
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="330564726"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
+   d="scan'208";a="330564726"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 04:44:01 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="910747289"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
+   d="scan'208";a="910747289"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 04:44:00 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id A4B8112033B
+        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 14:43:57 +0200 (EET)
+Date:   Thu, 2 Feb 2023 14:43:57 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.3 v3] Lots of camera sensor and some MC material
+Message-ID: <Y9uwDX9UI344Ojgm@kekkonen.localdomain>
 MIME-Version: 1.0
-References: <20230131190700.3476796-1-dave.stevenson@raspberrypi.com>
- <20230131190700.3476796-3-dave.stevenson@raspberrypi.com> <5647238.DvuYhMxLoT@steina-w>
- <Y9sAhVSanMmHGHmX@pendragon.ideasonboard.com>
-In-Reply-To: <Y9sAhVSanMmHGHmX@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 2 Feb 2023 11:20:14 +0000
-Message-ID: <CAPY8ntDYum7b5KYMry3oR6N8sdiwU=FOsyL3NVeFMQObET=SyQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: i2c: imx290: Add support for the mono sensor variant.
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Mauro,
 
-On Thu, 2 Feb 2023 at 00:15, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Feb 01, 2023 at 08:03:36AM +0100, Alexander Stein wrote:
-> > Am Dienstag, 31. Januar 2023, 20:07:00 CET schrieb Dave Stevenson:
-> > > The IMX290 module is available as either mono or colour (Bayer).
-> > >
-> > > Update the driver so that it can advertise the correct mono
-> > > formats instead of the colour ones.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > ---
-> > >  drivers/media/i2c/imx290.c | 47 ++++++++++++++++++++++++--------------
-> > >  1 file changed, 30 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index 49d6c8bdec41..a370f1102334 100644
-> > > --- a/drivers/media/i2c/imx290.c
-> > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -13,6 +13,7 @@
-> > >  #include <linux/gpio/consumer.h>
-> > >  #include <linux/i2c.h>
-> > >  #include <linux/module.h>
-> > > +#include <linux/of_device.h>
-> > >  #include <linux/pm_runtime.h>
-> > >  #include <linux/regmap.h>
-> > >  #include <linux/regulator/consumer.h>
-> > > @@ -177,6 +178,7 @@ struct imx290 {
-> > >     struct clk *xclk;
-> > >     struct regmap *regmap;
-> > >     u8 nlanes;
-> > > +   u8 mono;
-> > >
-> > >     struct v4l2_subdev sd;
-> > >     struct media_pad pad;
-> > > @@ -414,7 +416,8 @@ static inline int imx290_modes_num(const struct imx290 *imx290) }
-> > >
-> > >  struct imx290_format_info {
-> > > -   u32 code;
-> > > +   /* Array of codes. [0] is for colour, [1] is for mono. */
-> > > +   u32 code[2];
-> >
-> > Please use a define for that.
-> >
-> > >     u8 bpp;
-> > >     const struct imx290_regval *regs;
-> > >     unsigned int num_regs;
-> > > @@ -422,26 +425,27 @@ struct imx290_format_info {
-> > >
-> > >  static const struct imx290_format_info imx290_formats[] = {
-> > >     {
-> > > -           .code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> > > +           .code = { MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_Y10_1X10 },
-> > >             .bpp = 10,
-> > >             .regs = imx290_10bit_settings,
-> > >             .num_regs = ARRAY_SIZE(imx290_10bit_settings),
-> > >     }, {
-> > > -           .code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> > > +           .code = { MEDIA_BUS_FMT_SRGGB12_1X12, MEDIA_BUS_FMT_Y12_1X12 },
-> > >             .bpp = 12,
-> > >             .regs = imx290_12bit_settings,
-> > >             .num_regs = ARRAY_SIZE(imx290_12bit_settings),
-> > >     }
-> > >  };
-> > >
-> > > -static const struct imx290_format_info *imx290_format_info(u32 code)
-> > > +static const struct imx290_format_info *
-> > > +imx290_format_info(const struct imx290 *imx290, u32 code)
-> > >  {
-> > >     unsigned int i;
-> > >
-> > >     for (i = 0; i < ARRAY_SIZE(imx290_formats); ++i) {
-> > >             const struct imx290_format_info *info = &imx290_formats[i];
-> > >
-> > > -           if (info->code == code)
-> > > +           if (info->code[imx290->mono] == code)
-> > >                     return info;
-> > >     }
-> > >
-> > > @@ -536,7 +540,7 @@ static int imx290_set_black_level(struct imx290 *imx290,
-> > > const struct v4l2_mbus_framefmt *format,
-> > >                               unsigned int black_level, int *err)
-> > >  {
-> > > -   unsigned int bpp = imx290_format_info(format->code)->bpp;
-> > > +   unsigned int bpp = imx290_format_info(imx290, format->code)->bpp;
-> > >
-> > >     return imx290_write(imx290, IMX290_BLKLEVEL,
-> > >                         black_level >> (16 - bpp), err);
-> > > @@ -548,7 +552,7 @@ static int imx290_setup_format(struct imx290 *imx290,
-> > >     const struct imx290_format_info *info;
-> > >     int ret;
-> > >
-> > > -   info = imx290_format_info(format->code);
-> > > +   info = imx290_format_info(imx290, format->code);
-> > >
-> > >     ret = imx290_set_register_array(imx290, info->regs, info->num_regs);
-> > >     if (ret < 0) {
-> > > @@ -844,10 +848,12 @@ static int imx290_enum_mbus_code(struct v4l2_subdev
-> > > *sd, struct v4l2_subdev_state *sd_state,
-> > >                              struct v4l2_subdev_mbus_code_enum *code)
-> > >  {
-> > > +   const struct imx290 *imx290 = to_imx290(sd);
-> > > +
-> > >     if (code->index >= ARRAY_SIZE(imx290_formats))
-> > >             return -EINVAL;
-> > >
-> > > -   code->code = imx290_formats[code->index].code;
-> > > +   code->code = imx290_formats[code->index].code[imx290->mono];
-> > >
-> > >     return 0;
-> > >  }
-> > > @@ -859,7 +865,7 @@ static int imx290_enum_frame_size(struct v4l2_subdev
-> > > *sd, const struct imx290 *imx290 = to_imx290(sd);
-> > >     const struct imx290_mode *imx290_modes = imx290_modes_ptr(imx290);
-> > >
-> > > -   if (!imx290_format_info(fse->code))
-> > > +   if (!imx290_format_info(imx290, fse->code))
-> > >             return -EINVAL;
-> > >
-> > >     if (fse->index >= imx290_modes_num(imx290))
-> > > @@ -888,8 +894,8 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
-> > >     fmt->format.width = mode->width;
-> > >     fmt->format.height = mode->height;
-> > >
-> > > -   if (!imx290_format_info(fmt->format.code))
-> > > -           fmt->format.code = imx290_formats[0].code;
-> > > +   if (!imx290_format_info(imx290, fmt->format.code))
-> > > +           fmt->format.code = imx290_formats[0].code[imx290->mono];
-> > >
-> > >     fmt->format.field = V4L2_FIELD_NONE;
-> > >
-> > > @@ -1177,16 +1183,29 @@ static s64 imx290_check_link_freqs(const struct
-> > > imx290 *imx290, return 0;
-> > >  }
-> > >
-> > > +static const struct of_device_id imx290_of_match[] = {
-> > > +   { .compatible = "sony,imx290" },
-> > > +   { .compatible = "sony,imx290-mono", .data = (void *)1 },
-> >
-> > Would you mind using a model specific struct? I have a patch on my stack
-> > adding support for imx327. There are some imx327 specific writes to registers
-> > during initialization. I do not mind adding this struct later though.
->
-> If not a structure already, at least an enum
->
-> enum imx290_model {
->         IMX290_MODEL_COLOUR,
->         IMX290_MODEL_MONO,
-> };
->
-> > > +   { /* sentinel */ }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, imx290_of_match);
-> > > +
-> > >  static int imx290_parse_dt(struct imx290 *imx290)
-> > >  {
-> > > +   struct i2c_client *client = to_i2c_client(imx290->dev);
-> > >     /* Only CSI2 is supported for now: */
-> > >     struct v4l2_fwnode_endpoint ep = {
-> > >             .bus_type = V4L2_MBUS_CSI2_DPHY
-> > >     };
-> > > +   const struct of_device_id *match;
-> > >     struct fwnode_handle *endpoint;
-> > >     int ret;
-> > >     s64 fq;
-> > >
-> > > +   match = i2c_of_match_device(imx290_of_match, client);
-> > > +   if (match)
-> > > +           imx290->mono = match->data ? 1 : 0;
-> > > +
->
-> You can simplify this to
->
->         imx290->mono = (enum imx290_model)of_device_get_match_data(imx290->dev);
->
-> which may then be best placed in the probe function.
->
-> I'd be tempted to rename the imx290 mono field to model as the above
-> looks weird, but if Alexander needs a structure anyway, we may also just
-> do it right away:
->
-> enum imx290_model {
->         IMX290_MODEL_COLOUR,
->         IMX290_MODEL_MONO,
-> };
->
-> struct imx290_model_info {
->         bool mono;
-> };
+Here's a large number of MC and camera sensor driver patches for 6.3.  In
+particular this includes media graph traversal improvements, new drivers for
+ov8858 and imx296, also lots of improvements and fixes for imx290 and DT
+bindings to YAML conversion for ak7375.
 
-To my mind this gets confusing as to whether imx290_model is the
-mono/colour switch reference for finding a code in imx290_formats, or
-differentiating between imx290llr (mono), imx290lqr (colour),
-imx327xyz, etc as different models of the sensor. (Having the IMX290
-prefix because it is in the imx290 driver will get even more confusing
-when you get IMX290_MODEL_IMX327_COLOUR).
+Please pull.
 
-Alexander was asking for a define to set the size of code in struct
-imx290_format_info. As you also point out above, switching to using an
-enum makes more sense, and then you can add a _MAX to get the array
-size.
+since v2:
 
-enum imx290_colour_variant {
-        IMX290_VARIANT_COLOUR,
-        IMX290_VARIANT_MONO,
-        IMX290_VARIANT_MAX
-};
+- Add more patches.
 
-enum imx290_model {
-        IMX290_MODEL_IMX290LLR,
-        IMX290_MODEL_IMX290LQR,
-/*
-        IMX290_MODEL_IMX327LQR,
-        IMX290_MODEL_IMX462LQR,
-        IMX290_MODEL_IMX462LLR,
-        etc,
-*/
-};
+since v1:
 
-static const struct imx290_model_info imx290_models[] = {
-        [IMX290_MODEL_IMX290LQR]= {
-                .colour_variant = IMX290_VARIANT_COLOUR,
-        },
-        [IMX290_MODEL_IMX290LLR] = {
-                .colour_variant = IMX290_VARIANT_MONO,
-        },
-};
+- Drop
+  <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20221217143113.3219104-1-linmq006@gmail.com/>
+  which is already merged.
 
-Thoughts?
-Otherwise I will drop back to the simplest option - I'm afraid I
-haven't got masses of time to be messing about revising patches at
-present.
 
-  Dave
+The following changes since commit 7120d6bfd6d0b26b49958f429701996f2d3e2c2a:
 
->
-> static const struct imx290_model_info imx290_models[] = {
->         [IMX290_MODEL_COLOUR] = {
->                 .mono = false,
->         },
->         [IMX290_MODEL_MONO] = {
->                 .mono = true,
->         },
-> };
->
-> static const struct of_device_id imx290_of_match[] = {
->         {
->                 .compatible = "sony,imx290",
->                 .data = &imx290_models[IMX290_MODEL_COLOUR],
->         },
->         {
->                 .compatible = "sony,imx290-mono",
->                 .data = &imx290_models[IMX290_MODEL_MONO],
->         },
->         { /* sentinel */ },
-> };
->
-> ...
->
->         imx290->model = of_device_get_match_data(imx290->dev);
->
-> and use imx290->model->mono instead of imx290->mono through the code.
->
-> I'm OK if you don't want this additional complexity yet, but the code is
-> here already and will be needed soon :-)
->
-> > >     endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(imx290->dev), NULL);
-> > >     if (!endpoint) {
-> > >             dev_err(imx290->dev, "Endpoint node not found\n");
-> > > @@ -1351,12 +1370,6 @@ static void imx290_remove(struct i2c_client *client)
-> > >     pm_runtime_set_suspended(imx290->dev);
-> > >  }
-> > >
-> > > -static const struct of_device_id imx290_of_match[] = {
-> > > -   { .compatible = "sony,imx290" },
-> > > -   { /* sentinel */ }
-> > > -};
-> > > -MODULE_DEVICE_TABLE(of, imx290_of_match);
-> > > -
-> > >  static struct i2c_driver imx290_i2c_driver = {
-> > >     .probe_new  = imx290_probe,
-> > >     .remove = imx290_remove,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+  media: tm6000: remove deprecated driver (2023-01-22 09:57:19 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.3-1.2-signed
+
+for you to fetch changes up to e193805fd1f06a86fb3320d6cbc5223e619383b6:
+
+  media: i2c: add imx415 cmos image sensor driver (2023-02-02 14:20:43 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 6.3
+
+----------------------------------------------------------------
+Adam Ford (2):
+      media: i2c: imx219: Split common registers from mode tables
+      media: i2c: imx219: Support four-lane operation
+
+Alexander Stein (2):
+      media: i2c: ov9282: remove unused and unset i2c_client member
+      media: i2c: ov9282: Switch to use dev_err_probe helper
+
+Andrey Skvortsov (1):
+      media: ov5640: Update last busy timestamp to reset autosuspend timer
+
+Andy Shevchenko (1):
+      media: i2c: st-vgxy61: Use asm intead of asm-generic
+
+Gerald Loacker (1):
+      media: i2c: add imx415 cmos image sensor driver
+
+Guoniu.zhou (1):
+      media: ov5640: set correct default format for CSI-2 mode
+
+Jacopo Mondi (9):
+      dt-bindings: media: Add OmniVision OV8858
+      media: dt-bindings: Add OV5670
+      media: i2c: ov5670: Allow probing with OF
+      media: i2c: ov5670: Use common clock framework
+      media: i2c: ov5670: Probe regulators
+      media: i2c: ov5670: Probe GPIOs
+      media: i2c: ov5670: Add runtime_pm operations
+      media: i2c: ov5670: Implement init_cfg
+      media: i2c: ov5670: Handle RO controls in set_ctrl
+
+Jai Luthra (3):
+      media: ov5640: Fix soft reset sequence and timings
+      media: ov5640: Handle delays when no reset_gpio set
+      media: i2c: imx219: Fix binning for RAW8 capture
+
+Jean-Michel Hautbois (1):
+      media: i2c: ov5670: Add .get_selection() support
+
+Laurent Pinchart (25):
+      media: i2c: imx290: Group functions in sections
+      media: i2c: imx290: Factor out subdev init and cleanup to functions
+      media: i2c: imx290: Factor out control update code to a function
+      media: i2c: imx290: Access link_freq_index directly
+      media: i2c: imx290: Pass format and mode to imx290_calc_pixel_rate()
+      media: i2c: imx290: Compute pixel rate and blanking in one place
+      media: i2c: imx290: Factor out black level setting to a function
+      media: i2c: imx290: Factor out DT parsing to separate function
+      media: i2c: imx290: Use dev_err_probe()
+      media: i2c: imx290: Factor out clock initialization to separate function
+      media: i2c: imx290: Use V4L2 subdev active state
+      media: i2c: imx290: Rename, extend and expand usage of imx290_pixfmt
+      media: i2c: imx290: Use runtime PM autosuspend
+      media: i2c: imx290: Initialize runtime PM before subdev
+      media: i2c: imx290: Configure data lanes at start time
+      media: i2c: imx290: Simplify imx290_set_data_lanes()
+      media: i2c: imx290: Handle error from imx290_set_data_lanes()
+      media: mc: entity: Add pad iterator for media_pipeline
+      media: mc: entity: Add entity iterator for media_pipeline
+      media: ti: omap3isp: Use media_pipeline_for_each_entity()
+      media: ti: omap4iss: Use media_pipeline_for_each_entity()
+      media: xilinx: dma: Use media_pipeline_for_each_pad()
+      media: mc: Get media_device directly from pad
+      media: mc: entity: Fix minor issues in comments and documentation
+      media: i2c: IMX296 camera sensor driver
+
+Manivannan Sadhasivam (1):
+      dt-bindings: media: i2c: Add IMX296 CMOS sensor binding
+
+Marco Felsch (3):
+      media: i2c: tc358746: fix missing return assignment
+      media: i2c: tc358746: fix ignoring read error in g_register callback
+      media: i2c: tc358746: fix possible endianness issue
+
+Michael Riesch (1):
+      dt-bindings: media: i2c: add imx415 cmos image sensor
+
+Nicholas Roth (1):
+      media: i2c: Add driver for OmniVision OV8858
+
+Oleg Verych (1):
+      media: sun4i-csi: Use CSI_INT_STA_REG name, fix typo in a comment
+
+Paul Elder (1):
+      media: ov5640: Fix analogue gain control
+
+Quentin Schulz (4):
+      media: dt-bindings: ov5675: document YAML binding
+      media: ov5675: add device-tree support and support runtime PM
+      media: i2c: ov5675: parse and register V4L2 device tree properties
+      media: i2c: ov5675: add .get_selection support
+
+Sakari Ailus (1):
+      media: ipu3-cio2: Fix PM runtime usage_count in driver unbind
+
+Shang XiaoJing (3):
+      media: max9286: Fix memleak in max9286_v4l2_register()
+      media: ov2740: Fix memleak in ov2740_init_controls()
+      media: ov5675: Fix memleak in ov5675_init_controls()
+
+Yassine Oudjana (3):
+      media: dt-bindings: ak7375: Convert to DT schema
+      media: dt-bindings: ak7375: Add supplies
+      media: i2c: ak7375: Add regulator management
+
+Yuan Can (1):
+      media: i2c: ov772x: Fix memleak in ov772x_probe()
+
+ .../devicetree/bindings/media/i2c/ak7375.txt       |    8 -
+ .../bindings/media/i2c/asahi-kasei,ak7375.yaml     |   52 +
+ .../devicetree/bindings/media/i2c/ovti,ov5670.yaml |   93 +
+ .../devicetree/bindings/media/i2c/ovti,ov5675.yaml |  122 ++
+ .../devicetree/bindings/media/i2c/ovti,ov8858.yaml |  106 ++
+ .../devicetree/bindings/media/i2c/sony,imx296.yaml |  106 ++
+ .../devicetree/bindings/media/i2c/sony,imx415.yaml |  122 ++
+ Documentation/driver-api/media/mc-core.rst         |   10 +-
+ MAINTAINERS                                        |   30 +-
+ drivers/media/i2c/Kconfig                          |   40 +
+ drivers/media/i2c/Makefile                         |    3 +
+ drivers/media/i2c/ak7375.c                         |   38 +
+ drivers/media/i2c/imx219.c                         |  311 ++-
+ drivers/media/i2c/imx290.c                         | 1059 ++++++-----
+ drivers/media/i2c/imx296.c                         | 1172 ++++++++++++
+ drivers/media/i2c/imx415.c                         | 1300 +++++++++++++
+ drivers/media/i2c/max9286.c                        |    1 +
+ drivers/media/i2c/ov2740.c                         |    4 +-
+ drivers/media/i2c/ov5640.c                         |   86 +-
+ drivers/media/i2c/ov5670.c                         |  312 ++-
+ drivers/media/i2c/ov5675.c                         |  198 +-
+ drivers/media/i2c/ov772x.c                         |    3 +-
+ drivers/media/i2c/ov8858.c                         | 2008 ++++++++++++++++++++
+ drivers/media/i2c/ov9282.c                         |    9 +-
+ drivers/media/i2c/st-vgxy61.c                      |    4 +-
+ drivers/media/i2c/tc358746.c                       |    9 +-
+ drivers/media/mc/mc-entity.c                       |   69 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |    3 +
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c |    4 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c      |   20 +-
+ drivers/media/platform/xilinx/xilinx-dma.c         |   28 +-
+ drivers/staging/media/omap4iss/iss_video.c         |   66 +-
+ include/media/media-entity.h                       |   98 +
+ 33 files changed, 6641 insertions(+), 853 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ak7375.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+ create mode 100644 drivers/media/i2c/imx296.c
+ create mode 100644 drivers/media/i2c/imx415.c
+ create mode 100644 drivers/media/i2c/ov8858.c
+
+-- 
+Kind regards,
+
+Sakari Ailus
