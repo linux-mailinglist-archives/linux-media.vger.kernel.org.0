@@ -2,43 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FE8B687244
-	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 01:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11289687250
+	for <lists+linux-media@lfdr.de>; Thu,  2 Feb 2023 01:29:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjBBAWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Feb 2023 19:22:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
+        id S229548AbjBBA3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Feb 2023 19:29:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjBBAWB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 19:22:01 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C3AD6D5E1
-        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 16:22:00 -0800 (PST)
+        with ESMTP id S229479AbjBBA3T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Feb 2023 19:29:19 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E703070D56
+        for <linux-media@vger.kernel.org>; Wed,  1 Feb 2023 16:29:17 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1EE4505;
-        Thu,  2 Feb 2023 01:21:58 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D40C0505;
+        Thu,  2 Feb 2023 01:29:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675297319;
-        bh=5W8SpRaqrbDg4fNLJcM902WU9mkcGYaJzdAHieIAwns=;
+        s=mail; t=1675297756;
+        bh=EldTkTcae7uU4LqkOQ6CaAce0BJOl20WlxMR4G/ExOc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WfNglC+OlclKH7V5K/j1xmf3E+iu4VJcL76ZH9GnYa8TXUmrzTjoRI3lNMR3FgAHZ
-         IhbYJ8Wkb3P+g54K26SNgI6yst/zjZumlQJfCB1/BDDGGc86Uhhn0wtoEO8G1UGc7a
-         eNmf9ZHM2I6uO/pdkrMdNtLv/i1cXDpGaejMXHd4=
-Date:   Thu, 2 Feb 2023 02:21:56 +0200
+        b=gaxWa++EKDQ+XvUFRCPbw9+f84biV7nVuRiiM0BxnvPpwuR3Pwry+j4f3Bn9wVDRD
+         fc2qTKIw5+0t/9fQ7u5j7DPuJcd9I621Chzd1fB7Scm94Tnb6d1un8vGR2e+HEAvkR
+         TkV5fUcVOFeI3fZsesmYHo+eBBlWB04eHzNUi5lM=
+Date:   Thu, 2 Feb 2023 02:29:13 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 01/11] media: i2c: imx290: Match kernel coding style on
- whitespace
-Message-ID: <Y9sCJPSemXIFCwy+@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 02/11] media: i2c: imx290: Set the colorspace fields in
+ the format
+Message-ID: <Y9sD2cxTDIjA0jrm@pendragon.ideasonboard.com>
 References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com>
- <20230131192016.3476937-2-dave.stevenson@raspberrypi.com>
+ <20230131192016.3476937-3-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230131192016.3476937-2-dave.stevenson@raspberrypi.com>
+In-Reply-To: <20230131192016.3476937-3-dave.stevenson@raspberrypi.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -52,67 +52,41 @@ Hi Dave,
 
 Thank you for the patch.
 
-On Tue, Jan 31, 2023 at 07:20:06PM +0000, Dave Stevenson wrote:
-> Fix up a couple of coding style issues regarding missing blank
-> lines after declarations, double blank lines, and incorrect
-> indentation.
+On Tue, Jan 31, 2023 at 07:20:07PM +0000, Dave Stevenson wrote:
+> The colorspace fields were left untouched in imx290_set_fmt
+> which lead to a v4l2-compliance failure.
 > 
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/media/i2c/imx290.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  drivers/media/i2c/imx290.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
 > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index a370f1102334..88c7201510a2 100644
+> index 88c7201510a2..bf96fd914303 100644
 > --- a/drivers/media/i2c/imx290.c
 > +++ b/drivers/media/i2c/imx290.c
-> @@ -106,7 +106,6 @@
+> @@ -897,6 +897,14 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+>  		fmt->format.code = imx290_formats[0].code[imx290->mono];
 >  
->  #define IMX290_VMAX_DEFAULT				1125
->  
-> -
->  /*
->   * The IMX290 pixel array is organized as follows:
->   *
-> @@ -335,6 +334,7 @@ static const s64 imx290_link_freq_2lanes[] = {
->  	[FREQ_INDEX_1080P] = 445500000,
->  	[FREQ_INDEX_720P] = 297000000,
->  };
-> +
->  static const s64 imx290_link_freq_4lanes[] = {
->  	[FREQ_INDEX_1080P] = 222750000,
->  	[FREQ_INDEX_720P] = 148500000,
-> @@ -465,7 +465,7 @@ static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *val
->  			      data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
->  	if (ret < 0) {
->  		dev_err(imx290->dev, "%u-bit read from 0x%04x failed: %d\n",
-> -			 ((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
-> +			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
->  			 addr & IMX290_REG_ADDR_MASK, ret);
->  		return ret;
->  	}
-> @@ -486,7 +486,7 @@ static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
->  			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
->  	if (ret < 0) {
->  		dev_err(imx290->dev, "%u-bit write to 0x%04x failed: %d\n",
-> -			 ((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
-> +			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
->  			 addr & IMX290_REG_ADDR_MASK, ret);
->  		if (err)
->  			*err = ret;
-> @@ -752,8 +752,7 @@ static int imx290_start_streaming(struct imx290 *imx290,
->  
->  	/* Set init register settings */
->  	ret = imx290_set_register_array(imx290, imx290_global_init_settings,
-> -					ARRAY_SIZE(
-> -						imx290_global_init_settings));
-> +					ARRAY_SIZE(imx290_global_init_settings));
->  	if (ret < 0) {
->  		dev_err(imx290->dev, "Could not set init registers\n");
->  		return ret;
+>  	fmt->format.field = V4L2_FIELD_NONE;
+> +	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+> +	fmt->format.ycbcr_enc =
+> +		V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->format.colorspace);
+> +	fmt->format.quantization =
+> +		V4L2_MAP_QUANTIZATION_DEFAULT(true, fmt->format.colorspace,
+> +					      fmt->format.ycbcr_enc);
+> +	fmt->format.xfer_func =
+> +		V4L2_MAP_XFER_FUNC_DEFAULT(fmt->format.colorspace);
+
+Given that all of these are hardcoded, I think it would be more readable
+to write
+
+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
+	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
+	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
+
+>  	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
 
 -- 
 Regards,
