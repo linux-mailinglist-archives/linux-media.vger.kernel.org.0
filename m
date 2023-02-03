@@ -2,235 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3456890A9
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 08:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0A966890C2
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 08:26:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232463AbjBCHU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 02:20:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43332 "EHLO
+        id S232316AbjBCHZX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 02:25:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232297AbjBCHUx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 02:20:53 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB9C719A4
-        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 23:20:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1675408817; x=1706944817;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JX2JZ5XmwgI15QiJ8VXvfLMZ/Y4ubIDjs9ROlX9pD8I=;
-  b=J/MzsMYFtW0r8eSw6Nk+KLV+ETS6G8IHj3+FVYFZD8yAV2sVbxj/B3yo
-   UeXWNG4VoHAaNc+u3ie2GuuW5N01BnPCtNRLcGi0c2/shyMoUM0bdiPXG
-   /mlJ1ceOrYnj+gqhWJJ1A9d9ZnsnaXmR+7TVSmdOf3siKP8Y1U8giYmMa
-   cG1sDlspszixpJN0sNwmlizprbKIDSbClBL4bqLDBtUxSD9Bfu0IXoIFc
-   DB1JPcJz52BmC5p1eKoJn/kxm8PMtNH2CZnfqKJGSuzuSYod9tZ7JWXFh
-   rae7a/ZF0pQUJATgaQpyT7SIyszOninCS0EZO/aXGlzYp43OdKFAIQu6s
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
-   d="scan'208";a="28844384"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 03 Feb 2023 08:19:49 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 03 Feb 2023 08:19:49 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 03 Feb 2023 08:19:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1675408789; x=1706944789;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=JX2JZ5XmwgI15QiJ8VXvfLMZ/Y4ubIDjs9ROlX9pD8I=;
-  b=j3He25BM7ghNzombvswUR3sc4GnMLgMKSaA8cMxtLd+2dvLl62AlSFvd
-   /K1dSi7QAv9fGgNEcpOcdMYvKa3c1Xc8oRdoOm9oHea+A4Y4fvh+r0EaY
-   Zbdq9xkhK6siarpiO2/jhMKu39Euq63NgYdOcs0ju+Tvfgs/IkIDAjob1
-   BRPySVpeEb2DO7GzMINe7O0onl2szLttl0ix1Zn2z1Huy/6h7W86NRC/D
-   Yv2IjH044q0adxJLYf9PQd6j3GmHzpEGqWzeYXa+mYyGLS+9c9OEcuWAz
-   BsVeP/VEoFeBAx+QIzDhMmmnQ+G0TYdhsP5O8yc2HD7OylW0nW2gzGzFJ
-   w==;
-X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
-   d="scan'208";a="28844382"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 03 Feb 2023 08:19:49 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        with ESMTP id S232056AbjBCHZV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 02:25:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0ABA8C1E8;
+        Thu,  2 Feb 2023 23:25:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C2FDD280056;
-        Fri,  3 Feb 2023 08:19:48 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B4BE61DB8;
+        Fri,  3 Feb 2023 07:25:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B9EAC433D2;
+        Fri,  3 Feb 2023 07:25:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1675409118;
+        bh=w/73Uc/n5KxsufzX5CddSnsJWhi8Tl5rHcWOUj980gE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KvD8eTpjLOtWB+UEaur78gdbkDk2uNg4iTyG7EduGBBQeFYYfDMJR0zI5M46iGXgI
+         B/g60xlZj15BQnrefnVhdWcwV0eYwBhVI1fWaHKJRFJ022Eb8m0gihPo6B9goL/ROM
+         S4BKuWCyK0zSKt6MO3m0b0jgs8LUO3Xke14ThSpk=
+Date:   Fri, 3 Feb 2023 08:25:15 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 07/11] media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
-Date:   Fri, 03 Feb 2023 08:19:45 +0100
-Message-ID: <8218660.NyiUUSuA9g@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230131192016.3476937-8-dave.stevenson@raspberrypi.com>
-References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com> <20230131192016.3476937-8-dave.stevenson@raspberrypi.com>
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-sh@vger.kernel.org
+Subject: Re: [PATCH 02/22] usb: remove the dead USB_OHCI_SH option
+Message-ID: <Y9y221RalpLWJE0S@kroah.com>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <20230113062339.1909087-3-hch@lst.de>
+ <Y8EEbCP6PRMzWP5y@kroah.com>
+ <20230203071542.GC24833@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230203071542.GC24833@lst.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+On Fri, Feb 03, 2023 at 08:15:42AM +0100, Christoph Hellwig wrote:
+> On Fri, Jan 13, 2023 at 08:12:44AM +0100, Greg Kroah-Hartman wrote:
+> > Do you want all of these to go through a single tree, or can they go
+> > through the different driver subsystem trees?
+> 
+> Looks like the big removal isn't going in for this merge winodw,
+> so can you queue this patch up after all Greg?
 
-thanks for the patch.
+Sure, I'll go apply it right now, thanks.
 
-Am Dienstag, 31. Januar 2023, 20:20:12 CET schrieb Dave Stevenson:
-> The driver exposed V4L2_CID_HBLANK as a read only control to allow
-> for exposure calculations and determination of the frame rate.
-> 
-> Convert to a read/write control so that the frame rate can be
-> controlled.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/media/i2c/imx290.c | 33 +++++++++++++++++++--------------
->  1 file changed, 19 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 9ddd6382b127..9006be6e5e7c 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -47,6 +47,7 @@
->  #define IMX290_GAIN					
-IMX290_REG_8BIT(0x3014)
->  #define IMX290_VMAX					
-IMX290_REG_24BIT(0x3018)
->  #define IMX290_HMAX					
-IMX290_REG_16BIT(0x301c)
-> +#define IMX290_HMAX_MAX					0xffff
->  #define IMX290_SHS1					
-IMX290_REG_24BIT(0x3020)
->  #define IMX290_WINWV_OB					
-IMX290_REG_8BIT(0x303a)
->  #define IMX290_WINPV					
-IMX290_REG_16BIT(0x303c)
-> @@ -167,7 +168,7 @@ struct imx290_regval {
->  struct imx290_mode {
->  	u32 width;
->  	u32 height;
-> -	u32 hmax;
-> +	u32 hmax_min;
->  	u8 link_freq_index;
-> 
->  	const struct imx290_regval *data;
-> @@ -410,7 +411,7 @@ static const struct imx290_mode imx290_modes_2lanes[] =
-> { {
->  		.width = 1920,
->  		.height = 1080,
-> -		.hmax = 2200,
-> +		.hmax_min = 2200,
->  		.link_freq_index = FREQ_INDEX_1080P,
->  		.data = imx290_1080p_settings,
->  		.data_size = ARRAY_SIZE(imx290_1080p_settings),
-> @@ -418,7 +419,7 @@ static const struct imx290_mode imx290_modes_2lanes[] =
-> { {
->  		.width = 1280,
->  		.height = 720,
-> -		.hmax = 3300,
-> +		.hmax_min = 3300,
->  		.link_freq_index = FREQ_INDEX_720P,
->  		.data = imx290_720p_settings,
->  		.data_size = ARRAY_SIZE(imx290_720p_settings),
-> @@ -429,7 +430,7 @@ static const struct imx290_mode imx290_modes_4lanes[] =
-> { {
->  		.width = 1920,
->  		.height = 1080,
-> -		.hmax = 2200,
-> +		.hmax_min = 2200,
->  		.link_freq_index = FREQ_INDEX_1080P,
->  		.data = imx290_1080p_settings,
->  		.data_size = ARRAY_SIZE(imx290_1080p_settings),
-> @@ -437,7 +438,7 @@ static const struct imx290_mode imx290_modes_4lanes[] =
-> { {
->  		.width = 1280,
->  		.height = 720,
-> -		.hmax = 3300,
-> +		.hmax_min = 3300,
->  		.link_freq_index = FREQ_INDEX_720P,
->  		.data = imx290_720p_settings,
->  		.data_size = ARRAY_SIZE(imx290_720p_settings),
-> @@ -686,6 +687,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
-
-You will need to remove V4L2_CID_HBLANK on the immediately return check at the 
-beginning of the function. Otherwise this setting will never reach the device.
-
-Best regards
-Alexander
-
->  		}
->  		break;
-> 
-> +	case V4L2_CID_HBLANK:
-> +		ret = imx290_write(imx290, IMX290_HMAX,
-> +				   ctrl->val + imx290->current_mode-
->width,
-> +				   NULL);
-> +		break;
-> +
->  	default:
->  		ret = -EINVAL;
->  		break;
-> @@ -716,12 +723,14 @@ static void imx290_ctrl_update(struct imx290 *imx290,
->  			       const struct v4l2_mbus_framefmt *format,
->  			       const struct imx290_mode *mode)
->  {
-> -	unsigned int hblank = mode->hmax - mode->width;
-> +	unsigned int hblank_min = mode->hmax_min - mode->width;
-> +	unsigned int hblank_max = IMX290_HMAX_MAX - mode->width;
->  	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
-> 
->  	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
-> 
-> -	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
-> +	__v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max, 1,
-> +				 hblank_min);
->  	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
->  }
-> 
-> @@ -778,10 +787,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
->  				     
-ARRAY_SIZE(imx290_test_pattern_menu) - 1,
->  				     0, 0, imx290_test_pattern_menu);
-> 
-> +	/*
-> +	 * Actual range will be set from imx290_ctrl_update later in the 
-probe.
-> +	 */
->  	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
->  					   V4L2_CID_HBLANK, 1, 1, 1, 
-1);
-> -	if (imx290->hblank)
-> -		imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> 
->  	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
->  					   V4L2_CID_VBLANK, 1, 1, 1, 
-1);
-> @@ -850,11 +860,6 @@ static int imx290_start_streaming(struct imx290
-> *imx290, return ret;
->  	}
-> 
-> -	ret = imx290_write(imx290, IMX290_HMAX, imx290->current_mode->hmax,
-> -			   NULL);
-> -	if (ret)
-> -		return ret;
-> -
->  	/* Apply customized values from user */
->  	ret = __v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
->  	if (ret) {
-
-
-
-
+greg k-h
