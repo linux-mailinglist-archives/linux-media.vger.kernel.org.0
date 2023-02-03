@@ -2,169 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 289506892BC
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 09:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B95C6892C7
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 09:55:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232123AbjBCIvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 03:51:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49488 "EHLO
+        id S230317AbjBCIyw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 03:54:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232100AbjBCIvJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 03:51:09 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2006B036
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 00:51:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S232346AbjBCIyv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 03:54:51 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB542CC70
+        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 00:54:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1675414489; x=1706950489;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HJ5nToB38NOPi54vj+UKu4114FZFFyazFWHuwYY85Y8=;
+  b=YaQfdG3DeB3IouuMPBjnOw1UQwlgGudDS4xEzFBqAXm4dUnQF4yskFPk
+   ZKncuziEB+Zon67P5IyjgWvSHyPg5tZuUwLYHpL3wAQTjsVJfevTyMZAQ
+   ow+tgxoK2T0RnLUKaYxc7G+jE5i4FLnZz626LtCI+4PnLaXNGIHV0ckVX
+   GvnGApsbHyGuf65iazRfbSpuGyk8LWh+IxanhTzaXXq3bkMU1NuDv0YWu
+   69p1oBsahtGOgRa/r/dR80Ex8OLDetCiUj4mxeF6NwKjpnRZwt4xduwPo
+   h6/Qdg7zT+fl0BypwiRXKsexPyQxzdIT7ksI4AydUGcFPv6yEEc4zaWE+
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
+   d="scan'208";a="28848310"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 03 Feb 2023 09:54:47 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 03 Feb 2023 09:54:47 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 03 Feb 2023 09:54:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1675414487; x=1706950487;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HJ5nToB38NOPi54vj+UKu4114FZFFyazFWHuwYY85Y8=;
+  b=oee2Qo2MuEHwDHIwjJoPLbDye9fGguORrjjqU4Yqz+XE8DFE8x1xWk2V
+   88LLWMdmTjEPnazxTxcEJp3tj+EPkQnhrgRr8SEjkK3p/UIc41ERFM/yF
+   GCrFcvVof1FhBuxcN2qu4LqkurCbSZLRQhG5CBxaehIgDomz8a/jX2+8v
+   STCBbhf0tEi0yxBvQnskGqQaksdNMTWIOraXEpAIUsb28ocim9BQ4GcEg
+   H/kI5JOBN7UCintvI0AsJ4neUgj7uFGoh9HyLFSqcK+4FTA43tJpnKYPr
+   q8h5MMw6k4zsdMhacy6Q0JCUF5aekKtHzBW+HnkSrS1NUTciqUvySSbPK
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
+   d="scan'208";a="28848308"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 03 Feb 2023 09:54:46 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E93CCB82614
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 08:51:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 577D7C433D2;
-        Fri,  3 Feb 2023 08:51:01 +0000 (UTC)
-Message-ID: <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
-Date:   Fri, 3 Feb 2023 09:50:59 +0100
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id B7689280056;
+        Fri,  3 Feb 2023 09:54:46 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 03/11] media: i2c: imx290: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+Date:   Fri, 03 Feb 2023 09:54:46 +0100
+Message-ID: <38083473.10thIPus4b@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230131192016.3476937-4-dave.stevenson@raspberrypi.com>
+References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com> <20230131192016.3476937-4-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: Future of the SAA7146 drivers
-Content-Language: en-US
-To:     Stefan Herdler <herdler@nurfuerspam.de>,
-        linux-media@vger.kernel.org
-Cc:     Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
- <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
- <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
- <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/02/2023 01:58, Stefan Herdler wrote:
-> Hi Hans,
+Hi Dave,
+
+thanks for the patch.
+
+Am Dienstag, 31. Januar 2023, 20:20:08 CET schrieb Dave Stevenson:
+> Any V4L2 subdevice that implements controls and declares
+> V4L2_SUBDEV_FL_HAS_DEVNODE should also declare V4L2_SUBDEV_FL_HAS_EVENTS
+> and implement subscribe_event and unsubscribe_event hooks.
 > 
-> It's me again, sorry.
+> This driver didn't and would therefore fail v4l2-compliance
+> testing.
 > 
-> Sören wrote to me that he dislikes the idea of driver specific
-> headerfile and will refuse to maintain the driver if there is any change.
+> Add the relevant hooks.
 > 
-> I can't tell more, I'm just the messenger, sorry.
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-No problem, I think we'll just leave it as-is.
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-The reality is that 1) there are very few developers with in-depth DVB
-knowledge in the media subsystem, and 2) they don't have time.
-
-Also, the DVB drivers that are in the kernel seem to be doing fine:
-bug reports are rare. This videobuf issue is the first in years that
-cropped up and this too is really only analog video as well, it's just
-that it affects DVB boards as well since the same driver is used.
-
-The av7110 has always been an unusual card and some API decisions were
-made in the past that do not fit well into our current ideas how this
-should work. But frankly, I personally have no interest in getting
-involved in that 'fight'.
-
-BTW, I looked at your av7110api.diff patch and that is a good first step.
-I do thing that the existing video.h/audio.h/osd.h should be replaced
-with versions that just include av7110.h, with a big fat notice that
-these APIs are now av7110 specific (as they have almost always been in
-practice).
-
-Regards,
-
-	Hans
-
+> ---
+>  drivers/media/i2c/imx290.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> Regards,
-> Stefan
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index bf96fd914303..12946ca9d8d2 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -20,6 +20,7 @@
+>  #include <media/media-entity.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
 > 
+> @@ -977,6 +978,11 @@ static int imx290_entity_init_cfg(struct v4l2_subdev
+> *subdev, return 0;
+>  }
 > 
+> +static const struct v4l2_subdev_core_ops imx290_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+>  static const struct v4l2_subdev_video_ops imx290_video_ops = {
+>  	.s_stream = imx290_set_stream,
+>  };
+> @@ -991,6 +997,7 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops =
+> { };
 > 
-> On 02.02.23 22:26, Stefan Herdler wrote:> Hi Hans, Sören,
->>
->> On 02/02/23 10:43, Soeren Moch wrote:
->>> Hi Stefan, Hans,
->>>
->>> On 02.02.23 00:12, Stefan Herdler wrote:
->>>> Hi Hans, Sören,
->>>>
->>>> On 01/02/23, 10:15 Hans Verkuil wrote:
->>>>
->>>> [...]
->>>>>
->>>>> Once it is converted to vb2 the driver can stay.
->>>>>
->>>>> Note that the driver might need a bit more work: we use the
->>>>> v4l2-compliance
->>>>> utility to test V4L2 API compliance of a driver, and after the vb2
->>>>> conversion the driver should pass this test. So the compliance test
->>>>> might
->>>>> find some other things that do not work as they should, and it would be
->>>>> really good to clean that up as well. Usually the things it finds are
->>>>> pretty
->>>>> easy to fix.
->>>>>
->>>> For the records, as long I remember it:
->>>> The "Buget Patch" driver is superfluous and can be removed.
->>>> This driver is for an experimental hardware-mod which never really
->>>> worked. No such hardware was ever produced.
->>>> I was really surprised to see it.
->>> I own such card, as I wrote earlier. The budget patch works great and is
->>> necessary for such cards. Please keep it.
->>>
->> I think you confused it with is successor "fullTSmod" which works great
->> indeed.
->>
->> The support for the "fullTSmod" is implemented in the "dvb-ttpci" kernel
->> module.
->> The "Buget Patch" driver is an separate kernel module.
->>
->>  From Kkonfig:
->> config DVB_BUDGET_PATCH
->>      [...]
->>        Support for Budget Patch (full TS) modification on
->>        SAA7146+AV7110 based cards (DVB-S cards). This
->>        driver doesn't use onboard MPEG2 decoder. The
->>        card is driven in Budget-only mode. Card is
->>        required to have loaded firmware to tune properly.
->>        Firmware can be loaded by insertion and removal of
->>        standard AV7110 driver prior to loading this
->>        driver.
->>
->> I my self own and operate a card with "fullTSmod" too. An I did some
->> mods for others.
->> I never loaded the "Buget Patch" driver.
->> And the kernel module it isn't loaded on my VDR. I checked it right now
->> again.
->>
->> I removed the "budget-patch.ko" and everything kept working like usual.
->> Ill keep an eye on it.
->>
->> Regards,
->> Stefan
->>
->>
->>
->>
->>> Regards,
->>> Soeren
->> [...]
+>  static const struct v4l2_subdev_ops imx290_subdev_ops = {
+> +	.core = &imx290_core_ops,
+>  	.video = &imx290_video_ops,
+>  	.pad = &imx290_pad_ops,
+>  };
+> @@ -1009,7 +1016,8 @@ static int imx290_subdev_init(struct imx290 *imx290)
+>  	imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+> 
+>  	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
+> -	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +			    V4L2_SUBDEV_FL_HAS_EVENTS;
+>  	imx290->sd.dev = imx290->dev;
+>  	imx290->sd.entity.ops = &imx290_subdev_entity_ops;
+>  	imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+
+
+
 
