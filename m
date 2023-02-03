@@ -2,38 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 191FE689338
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 10:14:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A58B689363
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 10:20:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231545AbjBCJOB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 04:14:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35554 "EHLO
+        id S232749AbjBCJRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 04:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231905AbjBCJOA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 04:14:00 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AEDE8E49E
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 01:13:59 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1E94890
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 10:13:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675415638;
-        bh=mmVbIJaS7EvvSL7zJ1wEe65azNSsUv8DFvnPPIL8WHo=;
-        h=Date:From:To:Subject:From;
-        b=c8BGqTHAhOVc/satPvW2gX7yOiIuDMy+niPoCFMwhw6Tqtb26f4+teVQteCdMzLmM
-         Kt5bP75qaSpACZHOy9bgC4qdlA1VSw/8kHzU6TbKOAbGdQHnDW788CXFRj0XDsNwPK
-         J+etEPqeHALS2j0GJ65sgeThWH76s9PEk8opnKFI=
-Date:   Fri, 3 Feb 2023 11:13:55 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.3] imx-mipi-csis driver cleanups
-Message-ID: <Y9zQU7L1/ZPFBBnc@pendragon.ideasonboard.com>
+        with ESMTP id S232645AbjBCJQ4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 04:16:56 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F5992EDF;
+        Fri,  3 Feb 2023 01:16:36 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:d413:5f9c:fc3a:208d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C4DE56602F05;
+        Fri,  3 Feb 2023 09:16:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1675415795;
+        bh=70T3rbgAAMoLX4kBMmbGMTvfjgN+XQOZtyjf09bNSQg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ofiYwoR7njdAKceVw0QEINOh71BASDNuuKRHDasRjjoZ8MeSFxlfAt/q2kRhXRSyx
+         8ctwAyrUFXH7cVQRI17sht8AVCW1wjMW4WcYweLxqm+cWxZnVfPTT0avMkSpVV17UI
+         abFy+JV1C0qU0NMnrlz4VIg+XePD+hqNylgaX5sjACtAdeYKoXTXsUKhJ2EPsFkhB/
+         c9oNGEYdXIPPBGO6jzAC6jcdJvSYpZ2tWPqIoV2UGlj6so6KlUKDUMojhn3DqWwcS3
+         nXCza5KSp5pHph997ypFG1/HYxz4wsQY4/Azh7tFTFXWyE/0O29wbqNmkERNdfRiTl
+         75v9qXL19nvYg==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v8 0/6] media: verisilicon: HEVC: fix 10bits handling
+Date:   Fri,  3 Feb 2023 10:16:16 +0100
+Message-Id: <20230203091622.127279-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,34 +55,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+When decoding a 10bits bitstreams HEVC driver should only expose 10bits pixel formats.
+To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
+and to only change driver internal state in case of success.
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+Fluster score for HEVC (140/147) doesn't change after this series.
+Fluster score for VP9 is 146/303.
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+version 8:
+- Correct patch 4.
+- Add a patch for VP9.
 
-are available in the Git repository at:
+version 7:
+- Remove unused ctx variable in hantro_try_ctrl().
+- Change HANTRO_DEFAULT_BIT_DEPTH value to 8.
+- Simplify hantro_check_depth_match logic.
+- Keep ctx->bit_depth as integer value because it is use
+  to compute buffers size for hevc.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git media-imx-csis-next-20230203
+version 6:
+- Split the patches in multiple sub-patches.
+- Rework hantro_reset_encoded_fmt() usage.
 
-for you to fetch changes up to 16d586dc21663eb72bd799b8f2c9d925075f1877:
+version 5:
+- Add Nicolas's review tags
+- Add Fixes tags
 
-  media: imx-mipi-csis: Implement .init_cfg() using .set_fmt() (2023-02-03 11:10:34 +0200)
+version 4:
+- Split the change in 2 patches.
+- Change hantro_check_depth_match() prototype to avoid using
+  ctx->bit_depth
+- Return the result of hantro_reset_raw_fmt() to the caller.
+- Only set ctx->bit_depth when hantro_reset_raw_fmt() returns is ok.
 
-----------------------------------------------------------------
-imx-mipi-csis driver cleanups
+Benjamin Gaignard (6):
+  media: verisilicon: Do not set context src/dst formats in reset
+    functions
+  media: verisilicon: Do not use ctx fields as format storage when
+    resetting
+  media: verisilicon: Do not set ctx->bit_depth in hantro_try_ctrl()
+  media: verisilicon: Do not change context bit depth before validating
+    the format
+  media: verisilicon: HEVC: Only propose 10 bits compatible pixels
+    formats
+  media: verisilicon: VP9: Only propose 10 bits compatible pixels
+    formats
 
-----------------------------------------------------------------
-Laurent Pinchart (5):
-      media: imx-mipi-csis: Rename error labels with 'err_' prefix
-      media: imx-mipi-csis: Don't take lock in runtime PM handlers
-      media: imx-mipi-csis: Pass format explicitly to internal functions
-      media: imx-mipi-csis: Use V4L2 subdev active state
-      media: imx-mipi-csis: Implement .init_cfg() using .set_fmt()
-
- drivers/media/platform/nxp/imx-mipi-csis.c | 249 ++++++++++++-----------------
+ .../media/platform/verisilicon/hantro_drv.c   | 49 +++++++---
+ .../platform/verisilicon/hantro_postproc.c    |  2 +-
+ .../media/platform/verisilicon/hantro_v4l2.c  | 90 +++++++++----------
+ .../media/platform/verisilicon/hantro_v4l2.h  |  3 +-
+ .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
+ 5 files changed, 86 insertions(+), 60 deletions(-)
 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
