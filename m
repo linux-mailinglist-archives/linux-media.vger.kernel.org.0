@@ -2,322 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E63ED688E90
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 05:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E62A4688F0D
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 06:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231510AbjBCEZE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Feb 2023 23:25:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49070 "EHLO
+        id S231821AbjBCFlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 00:41:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231277AbjBCEZA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Feb 2023 23:25:00 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94A9F212A5;
-        Thu,  2 Feb 2023 20:24:58 -0800 (PST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3134K4Kc025094;
-        Fri, 3 Feb 2023 04:24:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=/gMgFlIl6BuKJqUhB2wVVDUf9m7UxZYeyt7WxXBViHE=;
- b=nr57lf/6JGaQQ18IU2QPQvgL9PgxdKrp5xtLcDv2IbzjclDG13x/3M8KNdk/tC5rcC5r
- Zjy4xMzkMLlDcnISAiOGlIsmbfV9QXQE6EgipiJZLGbsoz4AZ0XX4lYLkoEpUnatMUMy
- ESO1woAchys+wwhbMUNRuxsIDpKWG5vsvmztU8aY0Vy9oaViVO+tdm5SI0MbRhPlmkxl
- 5ikY6hEOi1W+rb2OLjMhDh0Gdc/4+9KC/HA49WqnProq3gxdoB19v17mj9fIrR5RX2gJ
- m+aCeFoucvUiUdOF5UJNLeW71M6BFBwSbHM649JdECKDdwSg29ZZnvi3kb79f0ufh/GK CQ== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngncv0kx5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 03 Feb 2023 04:24:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AcHQ1+ViJmLyhJaBIquLxc111+kK2GxG47WAolJ6DzQqtIGBQuVsfK9MXdeY1b8Viq/vPCEZU++kxGEKc22vyZIBaxzK0CkiTPeilNl9bZJ43Tmotu1dk6Fu2Of9C64E6vtGN9Ohs8Vt/yQeOd6lOqLToVmrT6JWuOzLJUuw0hmGRWkYah6rbosWB1rnTbAgrisbCq1KkwZ3Pnsoj/PnOM/iruLeqWg+pdOIoxzNV+E2tlbkVNgTcXtIpKpmTvmqHAr3y3SXaNscpqvGBbo/wpcsuY/70HZuH+cTrJE6q0iX3BnjrcecTpQWgA+ou7/Zms5b+gJy+Ebp/nuCYp3K9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/gMgFlIl6BuKJqUhB2wVVDUf9m7UxZYeyt7WxXBViHE=;
- b=JtJ5d5OsVIpHlrWjQMCAShUKT5+s7gtjE8fsEBgbcclcGI3KDbxo63OyiN3LHZ3P7gqAUwrOc2ovNpi01qfXlMBbOdtL7JFk49pkrHOg8e5b+Y3T+71kBwrvKqjBkQHxjMjHfeUkz4TxooFB+8sQbtiHuEA1DMKmpUlAxdSShkXHDsLALuVqgISSaSSBKJeuPK9S567lsdLZ0XaPMG05yTbdkwpgtDxIytSiaGm9cq9ITN049ALwWoYjkyRkN5xN0fsqhcTylSCCHPQa7SvJX6N5FC7uJ6obSnyMlxU1VsZr+7M5og629HsIQdNEYpgmmQ5nr5uovaKARusGg8RTqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from SJ0PR02MB8848.namprd02.prod.outlook.com (2603:10b6:a03:3dc::5)
- by CH0PR02MB8258.namprd02.prod.outlook.com (2603:10b6:610:f8::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.24; Fri, 3 Feb
- 2023 04:24:49 +0000
-Received: from SJ0PR02MB8848.namprd02.prod.outlook.com
- ([fe80::ffbd:1ccc:d4af:3ef2]) by SJ0PR02MB8848.namprd02.prod.outlook.com
- ([fe80::ffbd:1ccc:d4af:3ef2%3]) with mapi id 15.20.6043.038; Fri, 3 Feb 2023
- 04:24:49 +0000
-From:   "Viswanath Boma (Temp)" <vboma@qti.qualcomm.com>
-To:     "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-        "Viswanath Boma (Temp) (QUIC)" <quic_vboma@quicinc.com>
-CC:     "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        with ESMTP id S230070AbjBCFlq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 00:41:46 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F67687D18
+        for <linux-media@vger.kernel.org>; Thu,  2 Feb 2023 21:41:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675402904; x=1706938904;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LwoQ3JU/YcIaHQA4YvXt3MxFZBoKweQElkqhyQksEdc=;
+  b=Jz5ibDEie7qA7Pr5DwR55EncxgSHZx0OYonQCXFj8JUUaC5U+FY112PH
+   NEd59eMmpn24fqf5bvzzVvtyqHOrFC09SuHXTmROQBwgbyuWf7JEq6Fcs
+   YwVl4ffMexlr/Kdj2nxWwLO2q3uAPbJcLnIpt2EKty76eqHm6/3UnXvyK
+   P2MLEp2+J9tYJATVFmihIqFcIvicsi+JUHKhS9FkE+28kmmeKWC+HJ0f4
+   h750fE7DIOiBA7dyiyTLkALIXWTOVAQ5uIMGaa5vB8rOTwMDDPiXjy+Q7
+   Mo6Zl4qNrPm7Q6YgjIl1yx3fAsQvuzcptxnVI3q40u958iD+kzAqfkhdF
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="312317509"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
+   d="scan'208";a="312317509"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 21:41:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="615589145"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
+   d="scan'208";a="615589145"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 02 Feb 2023 21:41:40 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pNopP-0000A5-1x;
+        Fri, 03 Feb 2023 05:41:39 +0000
+Date:   Fri, 3 Feb 2023 13:41:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     oe-kbuild-all@lists.linux.dev, Michal Simek <monstr@monstr.eu>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>
-Subject: RE: [PATCH V2 1/1] venus: Enable sufficient sequence change support
- for sc7180 and fix for Decoder STOP command issue.
-Thread-Topic: [PATCH V2 1/1] venus: Enable sufficient sequence change support
- for sc7180 and fix for Decoder STOP command issue.
-Thread-Index: AQHZNtI+9nZHHNIULE+EinJJluoBL667b5IAgAEtupA=
-Date:   Fri, 3 Feb 2023 04:24:49 +0000
-Message-ID: <SJ0PR02MB8848889A6832306A56E42BBA85D79@SJ0PR02MB8848.namprd02.prod.outlook.com>
-References: <20221115121237.28361-2-quic_vboma@quicinc.com>
- <20230202064712.5804-1-quic_vboma@quicinc.com>
- <20230202064712.5804-2-quic_vboma@quicinc.com>
- <CAA8EJpqp7D3kBwPNNtdWHPdp=N+VZ_7dZEB7+O7nMxT44ZJ-5w@mail.gmail.com>
-In-Reply-To: <CAA8EJpqp7D3kBwPNNtdWHPdp=N+VZ_7dZEB7+O7nMxT44ZJ-5w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR02MB8848:EE_|CH0PR02MB8258:EE_
-x-ms-office365-filtering-correlation-id: 457cb10b-be4f-4cbf-d43c-08db059e96b5
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: os+aG4dl7shw+/u/9xVhTNjQo+u3wGB9dAorZkWdi9BbDYugVC0XB2xG9la8hyAdjl7WMXoZCsdyt/hR/5ptuWc8Tg7YeMom8EQ9z8STGF2wenA2iAMBkl8P4r+Hv65If9CePpAlZVdDnOLKe+njgahHvA8GCUOFoUvC9sF5uKfYalnnjgI0hbYPGbNp7C8K5m4P1GX8quCDZRMG7QUhKq9FhkQ10AHgBc5S8FTEdekDO/+/N1OWzeT6ulc/rvq4lbOCB/d7b2XAdm5/nip82fdU5lEYzm7QHDtY0KAQxPeMt5Wyi+sxWKYLrS4PBEUMMFhFvbTEXfFBkhm05rvNj+CUHuVDstDFcTk83ZcTkw6QZB5wl2YHWjRcADvwTBbwF7QzTawGwKP0hGe3UxzbMMQhUd2QCec4z7MFgPoIrOG21mH6H5G4I60rQmAPEuEDRPmThd2qLrgLp84iwjHPiqbdqxwI9dZyUrJF0ScSUdGrSldhBV2zKTq/qbhLnwb6SOTo6G/C0kT+gNrxo23tlsVPix6hBfJTFjfCp/K7vy5tx/Eomn9SqG2UZkAqg7cJCeMjCQmwCrjXtjcyux932P4g+uhdCxRadHz54O5IAncUEniL5/LDOrQejwrJH5yxQZnivQC5WccKk0E1Fa7WU+SKY5WataPYHH26+44J91+d6MLnjjayTwYteZosd5nXXIkRH/mayE+zHMjM0XgOIg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR02MB8848.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(451199018)(478600001)(54906003)(33656002)(53546011)(55016003)(110136005)(5660300002)(52536014)(6506007)(2906002)(9686003)(186003)(26005)(38070700005)(38100700002)(122000001)(316002)(86362001)(76116006)(66946007)(4326008)(66446008)(66556008)(66476007)(64756008)(7696005)(83380400001)(41300700001)(107886003)(8676002)(71200400001)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NmhySENGZktPTXNEU0tYVXNYNWMvZ3BzR3E2a0JyWjczZ0dyRTZRZjZZZVVB?=
- =?utf-8?B?T1RjQ0xNZ01pUFBGNlY3YjFwTUlZazV4c0RMdzhQS2NLQWZoYXljUkFrVnBT?=
- =?utf-8?B?bTF2cVF2Smx6SXNjVkpXaEJPRUFmVEhMcUlkVFcvTC8vb3FST09GYkM5UXhD?=
- =?utf-8?B?bUVERmJBU0h0bjNUWWttNGszL2hINk1SR1M2RjFaVm50SDNOeVhkdGJGdzhJ?=
- =?utf-8?B?b05uRmdYNlUxSDhnSTJweCszRlNOUDNyMUM4QmxhWTlpSHUybytuZTI2ZWpG?=
- =?utf-8?B?WVpRSU9zK0lFcjIvSkY1UEF4OTA1YXpRTDJ2K0Q0elhoNHp2N3RrZEJvdkM5?=
- =?utf-8?B?Z2ZiZy9JQ3pYdFBzaUNIakl5QjA0QXZaMmVuQ1lhRXFJOHFoa2VCeWtuaEdH?=
- =?utf-8?B?MytYbnhpUUhXeUFxMmRveVlqL2JRMVFBcUZPcXM5Qnl3OFZlajdFWGJVRGw3?=
- =?utf-8?B?cnhCSmlibFJHK29Nb0k3UHlJRldlWHhkTHh5NVZsRlpPTEQ3UnFtN1FSbk1B?=
- =?utf-8?B?cWdNMUY3TUN6dGNKL0hlazViejdwZC8yN3o0azBPN04vSVBLR1pYU25mM21j?=
- =?utf-8?B?eWlaMm05V3cxWk9LaWs3aC90a0toMVZHRFk1eisrMWFIbzJOUkNpZ0dpMnNq?=
- =?utf-8?B?VWprdWx1QnJhOGJXRW8vUGlqYlhoR3JWVDJzeEtzNW1jR3E1Sko2WWtLK2JI?=
- =?utf-8?B?TE5JQ0lKZnB5eTJJZVBOUWwwb296SjIzQ2drenNtblRWVTlyNzFuZUlzK1d6?=
- =?utf-8?B?dGNkc0V3dXJGRHYvdjVWa2xNcVBnVUJuQUEzSlZ2RmFwcUduU2NhMEJrbDYw?=
- =?utf-8?B?dElnOFNEc1NPUGd2WVBESUJDQjkwQzNTMGh1WlRsRnlqRzlKcmdlMlp2T1ZU?=
- =?utf-8?B?U0Z5OFM1NjhTdjl1elVwTW5waWx3M01DOWdmdkZld0JTOEd3dTRYdzNoZERm?=
- =?utf-8?B?MzNMZVd1TkhMMWNsaEo3TjVXQTY0Q20wUThuSWU5cll1WkNZeDdxendZOUhJ?=
- =?utf-8?B?bDF2b1Nac0JTdzNGYUxkZ1ZWamp5alVGVUtOK2phb2ZFRXhkOE1vcGhBYUFX?=
- =?utf-8?B?M2RMVDdDUlJoQ3hwVFYvNk4yQTF5NTRnZlB0cWdkbnQ1M3lpZHN2Mkd5cm42?=
- =?utf-8?B?c3RGVXNpU1g2YTVOVUhKb2F4eVJpdHdLWXNwbjdZVFJPUmJ4VjVkZkg4R2kv?=
- =?utf-8?B?M1J6MWo3QTY2TUNLa3dmTWg1QjZWL2VBWjhXQzNqQVVyV3pVWU1wMGtOKzVj?=
- =?utf-8?B?NUlVcW9pNjZyTm1PeWlLNEdkTmgrbzJ5RUVzU0ZoN3BrNWdCRFc3Y2VSajZN?=
- =?utf-8?B?WHBTYXlGL0VWSEkrT3pBaVB2bkdFcVdFd2FEcG9pS09zMHpLTTYremlBbWVV?=
- =?utf-8?B?THpkNEVtVUFPQ0tVSUJ2THlFcTVCN0hBeG1XODE2TnJWelR1RUVUNk9sVVpv?=
- =?utf-8?B?dG8vNGRUaTN1dmJmNmxRcWNBYnI5M25UcHQzcGtPUk9taGRiaW5NWmljejYv?=
- =?utf-8?B?cG5TNkdrbXFFZ3VpWWVyS2U1MFdHbTB3Z3I1ZzlvR05Eb24yblhBTTNFaTY3?=
- =?utf-8?B?TjV0VTFnMm92SnRVL0FhRXcyQUl1Z1FtbFRUTTVFZGRHOHc1ejdmemhsazdI?=
- =?utf-8?B?TVd1eUpubVJOMVhpK1Z4bHZmZHZ1aGsxSVZ1T3VscE8wdEtrdEZVVGJOU3Rt?=
- =?utf-8?B?TGZwOG9FZ3M0blM3bFBidy9TV3RIam5RcWFNR2FaeEZaZHhYQmZFaEFGTzZZ?=
- =?utf-8?B?cDV2MlFjMGFDTmlWSTM0Uld0Y0xmYndhbTZLdzBUMStQdVZCRnltSDhWbXk2?=
- =?utf-8?B?a1dreGZzdCttNVhxWVFXOE8rNTd5V0FPcnUvcUhRaHBkSDE0QzRqdXhFQ1BF?=
- =?utf-8?B?eHpKc1YxdFNGQkNNc2tOeVFFZ2tHUTVsbXh2WHg1SnJhaHhtQ0JEcFQyWGFn?=
- =?utf-8?B?RytKZC9yZzJIWlhVYmJ6bnlTZjZ3aVNXZkR3ZVlNUWxsOC9vbVBMNnh2c2Zv?=
- =?utf-8?B?dHJVU2lWQnFtQ082K3R1VkpSM0praFc4WFRPbDBOTmVOa2M1MnRoKzF2bEJZ?=
- =?utf-8?B?Tk9tK0Zxd2tURVZ1TEVvTHFpdHUvWThHV09NK0J2akZLUWNhYlNDSkJJVEZK?=
- =?utf-8?Q?cGcmnFlu0pNyEBoqugr9ozm8R?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        linux-media@vger.kernel.org
+Subject: [pinchartl-media:muxed/2023.1/xilinx/api-updates 69/88]
+ drivers/media/platform/xilinx/xilinx-axis-switch.c:328:24: error:
+ initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *,
+ enum v4l2_subdev_format_whence,  struct v4l2_subdev_krouting *)' from
+ incompatible pointer type 'int (*)(struct ...
+Message-ID: <202302031345.B3ntLEjh-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 4AJAGUy/LXYne2Yd53pICpisbWhF8CdVm9zpKRduU3HBZdiTDwFC5Urh9TV9O24fmroccT+xJNc3T3KhGopLExlzjCfH9jcu3U9Ww59NUjKeifcuhTYOmRq6JWf7fBqV2PwhndkoxTHYLhmM5QjfKidL/WqlVNL/7TwCm0R3xpCs0eCxZLsl6QfiOOM/LnjFCQR2QW5sN2pn2sxcTrgDoxDgWKUFWhM0m1ZM0a8vcDkmklugPN2ZpI+9rxSeRiKge9I7lN59Et9nP2LfooF5/LJu9Di8roSAFuObVyhbqWFqazXTsDWs+fealK0JyrlKaPukSo4Jz//8a4eesz6BymVdK+poyF7dv3a9m+LHyXqHUuajGxlS+qZs8sgS/ZrUPcunP/FRHn7oxdRHHZot6s1yb+HlcWLY8Us5DKxkYKnr0s25JM1AUJLe0HB/qcjb7Jh2PyrMu539hfUHlMkjy6ImEiNhOly/uWxB0yGKiqPJ0e3kGfRsTyE4SW7vUf1Eet8ibSoj9sfpkX+GY6Is2IJJ1w/CbKx3Cu+hMt+bG49/AHzhLfjpu7K/eE2dYOIaX+5UeU62HX/iA8su5dbYimRGxrSVeHKN4AGUGYvfTHGiMKRda0FlQdnDYAM3+S+VxWEKTFcu6erbc4YTLUtRWr3WxaWV2bUoVTNPySHNmNwgKq0sTO0DknxOM16Y9ysKAaMrSWwz0MLtEvDcCBXJ5+CQM7qonYOMa2LjIiyY0jAye3bFjLC2Gjiv+x9wQ/tdDc3Heetiis0a1WwaVyab18GsPus0FBoUG1Ltu8MmhGb95Sw/7WzsI5xY114hDJv2AyWgGp981no5UmqX195JfQ==
-X-OriginatorOrg: qti.qualcomm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB8848.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 457cb10b-be4f-4cbf-d43c-08db059e96b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2023 04:24:49.4370
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X/hoCqPXOtWUG5Zxmr9oQSX0XNAae/MEalDjuXojRcF5sBAf761R0S93mBlta3781tH5rSkZeuow998AQqSB4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB8258
-X-Proofpoint-ORIG-GUID: 9GYwXYB2JTJPZDZzXgzjvHR1l2xKuNOu
-X-Proofpoint-GUID: 9GYwXYB2JTJPZDZzXgzjvHR1l2xKuNOu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_02,2023-02-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 suspectscore=0 spamscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 mlxscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030039
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DQpXaWxsIGVuc3VyZSBtb3JlIG9uIFYzIHBhdGNoIGlmIGFueSBjb21tZW50cyBmcm9tIFN0YW4v
-VmlrYXNoIC4NClRoYW5rcywNCnZpc3dhbmF0aA0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-CkZyb206IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz4gDQpT
-ZW50OiBUaHVyc2RheSwgRmVicnVhcnkgMiwgMjAyMyAzOjQxIFBNDQpUbzogVmlzd2FuYXRoIEJv
-bWEgKFRlbXApIChRVUlDKSA8cXVpY192Ym9tYUBxdWljaW5jLmNvbT4NCkNjOiBzdGFuaW1pci52
-YXJiYW5vdkBsaW5hcm8ub3JnOyBWaWthc2ggR2Fyb2RpYSAoUVVJQykgPHF1aWNfdmdhcm9kaWFA
-cXVpY2luYy5jb20+OyBBbmR5IEdyb3NzIDxhZ3Jvc3NAa2VybmVsLm9yZz47IGJqb3JuLmFuZGVy
-c3NvbkBsaW5hcm8ub3JnOyBLb25yYWQgRHliY2lvIDxrb25yYWQuZHliY2lvQGxpbmFyby5vcmc+
-OyBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAa2VybmVsLm9yZz47IGxpbnV4LW1lZGlh
-QHZnZXIua2VybmVsLm9yZzsgbGludXgtYXJtLW1zbUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtl
-cm5lbEB2Z2VyLmtlcm5lbC5vcmc7IFZpa2FzaCBHYXJvZGlhIDx2Z2Fyb2RpYUBxdGkucXVhbGNv
-bW0uY29tPg0KU3ViamVjdDogUmU6IFtQQVRDSCBWMiAxLzFdIHZlbnVzOiBFbmFibGUgc3VmZmlj
-aWVudCBzZXF1ZW5jZSBjaGFuZ2Ugc3VwcG9ydCBmb3Igc2M3MTgwIGFuZCBmaXggZm9yIERlY29k
-ZXIgU1RPUCBjb21tYW5kIGlzc3VlLg0KDQpXQVJOSU5HOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQg
-ZnJvbSBvdXRzaWRlIG9mIFF1YWxjb21tLiBQbGVhc2UgYmUgd2FyeSBvZiBhbnkgbGlua3Mgb3Ig
-YXR0YWNobWVudHMsIGFuZCBkbyBub3QgZW5hYmxlIG1hY3Jvcy4NCg0KT24gVGh1LCAyIEZlYiAy
-MDIzIGF0IDA4OjQ3LCA8cXVpY192Ym9tYUBxdWljaW5jLmNvbT4gd3JvdGU6DQo+DQo+IEZyb206
-IFZpc3dhbmF0aCBCb21hIDxxdWljX3Zib21hQHF1aWNpbmMuY29tPg0KPg0KPiBGb3IgVlA5IGJp
-dHN0cmVhbXMsIHRoZXJlIGNvdWxkIGJlIGEgY2hhbmdlIGluIHJlc29sdXRpb24gYXQgDQo+IGlu
-dGVyZnJhbWUsIGZvciBkcml2ZXIgdG8gZ2V0IG5vdGlmaWVkIG9mIHN1Y2ggcmVzb2x1dGlvbiBj
-aGFuZ2UsIA0KPiBlbmFibGUgdGhlIHByb3BlcnR5IGluIHZpZGVvIGZpcm13YXJlLg0KPiBBbHNv
-LCBFT1MgaGFuZGxpbmcgaXMgbm93IG1hZGUgc2FtZSBpbiB2aWRlbyBmaXJtd2FyZSBhY3Jvc3Mg
-YWxsIFY2IA0KPiBTT0NzLCBoZW5jZSBhYm92ZSBhIGNlcnRhaW4gZmlybXdhcmUgdmVyc2lvbiwg
-dGhlIGRyaXZlciBoYW5kbGluZyBpcyANCj4gbWFkZSBnZW5lcmljIGZvciBhbGwgVjZzDQo+DQo+
-IFNpZ25lZC1vZmYtYnk6IFZpa2FzaCBHYXJvZGlhIDx2Z2Fyb2RpYUBxdGkucXVhbGNvbW0uY29t
-Pg0KPiBTaWduZWQtb2ZmLWJ5OiBWaXN3YW5hdGggQm9tYSA8cXVpY192Ym9tYUBxdWljaW5jLmNv
-bT4NCj4gVGVzdGVkLWJ5OiBOYXRoYW4gSGViZXJ0IDxuaGViZXJ0QGNocm9taXVtLm9yZz4NCj4g
-LS0tDQo+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvY29yZS5oICAgICAgIHwg
-MTggKysrKysrKysrKysrKysrKysrDQo+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVu
-dXMvaGZpX2NtZHMuYyAgIHwgIDEgKw0KPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9xY29tL3Zl
-bnVzL2hmaV9oZWxwZXIuaCB8ICAyICsrDQo+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20v
-dmVudXMvaGZpX21zZ3MuYyAgIHwgMTEgKysrKysrKysrLS0NCj4gIGRyaXZlcnMvbWVkaWEvcGxh
-dGZvcm0vcWNvbS92ZW51cy92ZGVjLmMgICAgICAgfCAxMiArKysrKysrKysrKy0NCj4gIDUgZmls
-ZXMgY2hhbmdlZCwgNDEgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCg0KU2V2ZXJhbCBn
-ZW5lcmljIGNvbW1lbnRzOg0KLSBQbGVhc2UgbW92ZSB5b3VyIHdvcmsgb24gdG9wIG9mIHRoZSBy
-ZWNlbnQga2VybmVscy4gNS4xNSB3YXMgcmVsZWFzZWQgaGFsZiBvZiB0aGUgeWVhciBhZ28uIEkn
-bSBub3QgZ29pbmcgdG8gbWVudGlvbiA1LjQgYWdlLg0KLSBQbGVhc2Ugc3BsaXQgeW91ciBwYXRj
-aCBpbnRvIHNtYWxsZXIgbG9naWNhbCBwYXRjaGVzLg0KW3Zib21hXQ0KPj4gQXMgcGVyIHRoZSBj
-dXJyZW50IGNsaWVudCBlbnZpcm9ubWVudCB3b3JraW5nIG9uIDUuMTUga2VybmVsIGFuZCB0aGUg
-c2FtZSBjaGFuZ2VzIHdlcmUgYWxzbyBlbnN1cmVkIG9uIDUuNCAuDQo+PiBDdXJyZW50IGNoYW5n
-ZXMgcmVsYXRlZCBicmluZ2luZyB1cCB0aGUgdXRpbGl0eSBmdW5jdGlvbnMgdG8gZml4IGNvdXBs
-ZSBvZiBidWdzIG9uIGxhdGVzdCBmaXJtd2FyZSB2ZXJzaW9ucy4NCj4+IEluIGZ1dHVyZSAsIEFz
-IHN1Z2dnZXN0ZWQgd2lsbCBzcGxpdCB0aGUgY2hhbmdlcyBpZiB0aGV5IGNhbiBiZSBpc29sYXRl
-ZCBhcyBzbWFsbGVyIG1lYW5pbmdmdWwgcGFydCAuDQo+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvY29yZS5oIA0KPiBiL2RyaXZlcnMvbWVkaWEvcGxh
-dGZvcm0vcWNvbS92ZW51cy9jb3JlLmgNCj4gaW5kZXggMzI1NTFjMjYwMmE5Li44Zjk0ZDc5NWNj
-MmIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcWNvbS92ZW51cy9jb3Jl
-LmgNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9xY29tL3ZlbnVzL2NvcmUuaA0KPiBA
-QCAtMjAyLDYgKzIwMiwxMSBAQCBzdHJ1Y3QgdmVudXNfY29yZSB7DQo+ICAgICAgICAgdW5zaWdu
-ZWQgaW50IGNvcmUwX3VzYWdlX2NvdW50Ow0KPiAgICAgICAgIHVuc2lnbmVkIGludCBjb3JlMV91
-c2FnZV9jb3VudDsNCj4gICAgICAgICBzdHJ1Y3QgZGVudHJ5ICpyb290Ow0KPiArICAgICAgIHN0
-cnVjdCB2ZW51c19pbWdfdmVyc2lvbiB7DQo+ICsgICAgICAgICAgICAgICB1MzIgbWFqb3I7DQo+
-ICsgICAgICAgICAgICAgICB1MzIgbWlub3I7DQo+ICsgICAgICAgICAgICAgICB1MzIgcmV2Ow0K
-PiArICAgICAgIH0gdmVudXNfdmVyOw0KPiAgfTsNCj4NCj4gIHN0cnVjdCB2ZGVjX2NvbnRyb2xz
-IHsNCj4gQEAgLTUwMCw0ICs1MDUsMTcgQEAgdmVudXNfY2Fwc19ieV9jb2RlYyhzdHJ1Y3QgdmVu
-dXNfY29yZSAqY29yZSwgdTMyIGNvZGVjLCB1MzIgZG9tYWluKQ0KPiAgICAgICAgIHJldHVybiBO
-VUxMOw0KPiAgfQ0KPg0KPiArc3RhdGljIGlubGluZSBpbnQNCj4gK2lzX2Z3X3Jldl9vcl9uZXdl
-cihzdHJ1Y3QgdmVudXNfY29yZSAqY29yZSwgdTMyIHZtYWpvciwgdTMyIHZtaW5vciwgDQo+ICt1
-MzIgdnJldikgew0KPiArICAgICAgIHJldHVybiAoKGNvcmUpLT52ZW51c192ZXIubWFqb3IgPT0g
-dm1ham9yICYmIChjb3JlKS0+dmVudXNfdmVyLm1pbm9yID09DQo+ICsgICAgICAgICAgICAgICB2
-bWlub3IgJiYgKGNvcmUpLT52ZW51c192ZXIucmV2ID49IHZyZXYpOw0KDQpQbGVhc2UgbWFrZSB0
-aGUgaW5kZW50YXRpb24gbG9naWNhbCBoZXJlIChhbmQgYmVsb3cpLg0KQWxzbyBpcyA1LjYuMSAo
-ZS5nLikgbmV3ZXIgdGhhbiA1LjQuNTE/IE9yIDUuNC4xIG5ld2VyIHRoYW4gNC4yLjA/DQpbdmJv
-bWFdDQo+PiBFeHBlY3RlZCBvbmUgbW9yZSBpbmRlbnQgdG8gcmlnaHQgPyB3aWxsIGVuc3VyZSAu
-DQo+PiBUaGVzZSB2ZXJzaW9ucyBjaGVjayByZWxhdGVkIHRvIG1ham9yL21pbm9yIHZlcnNpb25z
-IG9mIHRoZSBGaXJtd2FyZSByZWxlYXNlcyB0byBhZGRyZXNzIHRoZSBtZW50aW9uZWQgaXNzdWVz
-IGFuZCBhbHNvIGlmIGFueSByb2xlIGJhY2sgcHJlc2VydmVzIHRoZSBvbGRlciBiZWhhdmlvci4N
-Cg0KPiArfQ0KPiArDQo+ICtzdGF0aWMgaW5saW5lIGludA0KPiAraXNfZndfcmV2X29yX29sZGVy
-KHN0cnVjdCB2ZW51c19jb3JlICpjb3JlLCB1MzIgdm1ham9yLCB1MzIgdm1pbm9yLCANCj4gK3Uz
-MiB2cmV2KSB7DQo+ICsgICAgICAgcmV0dXJuICgoY29yZSktPnZlbnVzX3Zlci5tYWpvciA9PSB2
-bWFqb3IgJiYgKGNvcmUpLT52ZW51c192ZXIubWlub3IgPT0NCj4gKyAgICAgICAgICAgICAgIHZt
-aW5vciAmJiAoY29yZSktPnZlbnVzX3Zlci5yZXYgPD0gdnJldik7IH0NCj4gICNlbmRpZg0KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9xY29tL3ZlbnVzL2hmaV9jbWRzLmMg
-DQo+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9xY29tL3ZlbnVzL2hmaV9jbWRzLmMNCj4gaW5k
-ZXggOTMwYjc0M2YyMjVlLi5lMjUzOWI1ODM0MGYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbWVk
-aWEvcGxhdGZvcm0vcWNvbS92ZW51cy9oZmlfY21kcy5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEv
-cGxhdGZvcm0vcWNvbS92ZW51cy9oZmlfY21kcy5jDQo+IEBAIC01MjEsNiArNTIxLDcgQEAgc3Rh
-dGljIGludCBwa3Rfc2Vzc2lvbl9zZXRfcHJvcGVydHlfMXgoc3RydWN0IGhmaV9zZXNzaW9uX3Nl
-dF9wcm9wZXJ0eV9wa3QgKnBrdCwNCj4gICAgICAgICAgICAgICAgIHBrdC0+c2hkci5oZHIuc2l6
-ZSArPSBzaXplb2YodTMyKSArIHNpemVvZigqZW4pOw0KPiAgICAgICAgICAgICAgICAgYnJlYWs7
-DQo+ICAgICAgICAgfQ0KPiArICAgICAgIGNhc2UgSEZJX1BST1BFUlRZX1BBUkFNX1ZERUNfRU5B
-QkxFX1NVRkZJQ0lFTlRfU0VRQ0hBTkdFX0VWRU5UOg0KPiAgICAgICAgIGNhc2UgSEZJX1BST1BF
-UlRZX0NPTkZJR19WREVDX1BPU1RfTE9PUF9ERUJMT0NLRVI6IHsNCj4gICAgICAgICAgICAgICAg
-IHN0cnVjdCBoZmlfZW5hYmxlICppbiA9IHBkYXRhOw0KPiAgICAgICAgICAgICAgICAgc3RydWN0
-IGhmaV9lbmFibGUgKmVuID0gcHJvcF9kYXRhOyBkaWZmIC0tZ2l0IA0KPiBhL2RyaXZlcnMvbWVk
-aWEvcGxhdGZvcm0vcWNvbS92ZW51cy9oZmlfaGVscGVyLmggDQo+IGIvZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9xY29tL3ZlbnVzL2hmaV9oZWxwZXIuaA0KPiBpbmRleCBkMmQ2NzE5YTJiYTQuLjIw
-NTE2YjQzNjFkMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9xY29tL3Zl
-bnVzL2hmaV9oZWxwZXIuaA0KPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVu
-dXMvaGZpX2hlbHBlci5oDQo+IEBAIC00NjksNiArNDY5LDggQEANCj4gICNkZWZpbmUgSEZJX1BS
-T1BFUlRZX1BBUkFNX1ZERUNfUElYRUxfQklUREVQVEggICAgICAgICAgICAgICAgIDB4MTAwMzAw
-Nw0KPiAgI2RlZmluZSBIRklfUFJPUEVSVFlfUEFSQU1fVkRFQ19QSUNfU1RSVUNUICAgICAgICAg
-ICAgICAgICAgICAgMHgxMDAzMDA5DQo+ICAjZGVmaW5lIEhGSV9QUk9QRVJUWV9QQVJBTV9WREVD
-X0NPTE9VUl9TUEFDRSAgICAgICAgICAgICAgICAgICAweDEwMDMwMGENCj4gKyNkZWZpbmUgSEZJ
-X1BST1BFUlRZX1BBUkFNX1ZERUNfRU5BQkxFX1NVRkZJQ0lFTlRfU0VRQ0hBTkdFX0VWRU5UIFwN
-Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIA0KPiArMHgwMTAwMzAwYg0KPg0KPiAgLyoNCj4gICAqIEhGSV9QUk9QRVJUWV9D
-T05GSUdfVkRFQ19DT01NT05fU1RBUlQNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
-dGZvcm0vcWNvbS92ZW51cy9oZmlfbXNncy5jIA0KPiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-cWNvbS92ZW51cy9oZmlfbXNncy5jDQo+IGluZGV4IGRmOTZkYjM3NjFhNy4uMDdhYzBmY2QyODUy
-IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvaGZpX21z
-Z3MuYw0KPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvaGZpX21zZ3Mu
-Yw0KPiBAQCAtMjQ4LDkgKzI0OCwxMCBAQCBzdGF0aWMgdm9pZCBoZmlfc3lzX2luaXRfZG9uZShz
-dHJ1Y3QgdmVudXNfY29yZSANCj4gKmNvcmUsIHN0cnVjdCB2ZW51c19pbnN0ICppbnN0LCAgfQ0K
-Pg0KPiAgc3RhdGljIHZvaWQNCj4gLXN5c19nZXRfcHJvcF9pbWFnZV92ZXJzaW9uKHN0cnVjdCBk
-ZXZpY2UgKmRldiwNCj4gK3N5c19nZXRfcHJvcF9pbWFnZV92ZXJzaW9uKHN0cnVjdCB2ZW51c19j
-b3JlICpjb3JlLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgaGZpX21zZ19z
-eXNfcHJvcGVydHlfaW5mb19wa3QgKnBrdCkgIA0KPiB7DQo+ICsgICAgICAgc3RydWN0IGRldmlj
-ZSAqZGV2ID0gY29yZS0+ZGV2Ow0KPiAgICAgICAgIHU4ICpzbWVtX3RibF9wdHI7DQo+ICAgICAg
-ICAgdTggKmltZ192ZXI7DQo+ICAgICAgICAgaW50IHJlcV9ieXRlczsNCj4gQEAgLTI2Myw2ICsy
-NjQsMTIgQEAgc3lzX2dldF9wcm9wX2ltYWdlX3ZlcnNpb24oc3RydWN0IGRldmljZSAqZGV2LA0K
-PiAgICAgICAgICAgICAgICAgcmV0dXJuOw0KPg0KPiAgICAgICAgIGltZ192ZXIgPSBwa3QtPmRh
-dGE7DQo+ICsgICAgICAgaWYgKElTX1Y0KGNvcmUpKQ0KPiArICAgICAgICAgICAgICAgc3NjYW5m
-KGltZ192ZXIsICIxNDpWSURFTy5WRS4ldS4ldS0ldS1QUk9EIiwNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAmY29yZS0+dmVudXNfdmVyLm1ham9yLCAmY29yZS0+dmVudXNfdmVyLm1pbm9yLCAm
-Y29yZS0+dmVudXNfdmVyLnJldik7DQo+ICsgICAgICAgZWxzZSBpZiAoSVNfVjYoY29yZSkpDQo+
-ICsgICAgICAgICAgICAgICBzc2NhbmYoaW1nX3ZlciwgIjE0OlZJREVPLlZQVS4ldS4ldS0ldS1Q
-Uk9EIiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAmY29yZS0+dmVudXNfdmVyLm1ham9yLCAm
-Y29yZS0+dmVudXNfdmVyLm1pbm9yLCANCj4gKyAmY29yZS0+dmVudXNfdmVyLnJldik7DQoNCldo
-YXQgYWJvdXQgb2xkZXIgKFYxL1YzKSBjb3Jlcz8NClt2Ym9tYV0NCj4+IE9sZGVyIGNvcmVzIG5v
-dCBoYXZpbmcgdGhlc2UgaXNzdWVzICwgaGVuY2UgYXMgcmVxdWlyZWQgIFY0IGFuZCBWNiB3ZXJl
-IGhhbmRsZWQgYXMgcGVyIEN1cnJlbnQgY2xpZW50IGlzc3Vlcy4NCg0KPg0KPiAgICAgICAgIGRl
-dl9kYmcoZGV2LCBWREJHTCAiRi9XIHZlcnNpb246ICVzXG4iLCBpbWdfdmVyKTsNCj4NCj4gQEAg
-LTI4Niw3ICsyOTMsNyBAQCBzdGF0aWMgdm9pZCBoZmlfc3lzX3Byb3BlcnR5X2luZm8oc3RydWN0
-IA0KPiB2ZW51c19jb3JlICpjb3JlLA0KPg0KPiAgICAgICAgIHN3aXRjaCAocGt0LT5wcm9wZXJ0
-eSkgew0KPiAgICAgICAgIGNhc2UgSEZJX1BST1BFUlRZX1NZU19JTUFHRV9WRVJTSU9OOg0KPiAt
-ICAgICAgICAgICAgICAgc3lzX2dldF9wcm9wX2ltYWdlX3ZlcnNpb24oZGV2LCBwa3QpOw0KPiAr
-ICAgICAgICAgICAgICAgc3lzX2dldF9wcm9wX2ltYWdlX3ZlcnNpb24oY29yZSwgcGt0KTsNCj4g
-ICAgICAgICAgICAgICAgIGJyZWFrOw0KPiAgICAgICAgIGRlZmF1bHQ6DQo+ICAgICAgICAgICAg
-ICAgICBkZXZfZGJnKGRldiwgVkRCR0wgInVua25vd24gcHJvcGVydHkgZGF0YVxuIik7IGRpZmYg
-DQo+IC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9xY29tL3ZlbnVzL3ZkZWMuYyANCj4g
-Yi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Fjb20vdmVudXMvdmRlYy5jDQo+IGluZGV4IDRjZWFi
-YTM3ZTJlNS4uMzZjODg4NThlYTlkIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRm
-b3JtL3Fjb20vdmVudXMvdmRlYy5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcWNv
-bS92ZW51cy92ZGVjLmMNCj4gQEAgLTU0NSw3ICs1NDUsNyBAQCB2ZGVjX2RlY29kZXJfY21kKHN0
-cnVjdCBmaWxlICpmaWxlLCB2b2lkICpmaCwgDQo+IHN0cnVjdCB2NGwyX2RlY29kZXJfY21kICpj
-bWQpDQo+DQo+ICAgICAgICAgICAgICAgICBmZGF0YS5idWZmZXJfdHlwZSA9IEhGSV9CVUZGRVJf
-SU5QVVQ7DQo+ICAgICAgICAgICAgICAgICBmZGF0YS5mbGFncyB8PSBIRklfQlVGRkVSRkxBR19F
-T1M7DQo+IC0gICAgICAgICAgICAgICBpZiAoSVNfVjYoaW5zdC0+Y29yZSkpDQo+ICsgICAgICAg
-ICAgICAgICBpZiAoSVNfVjYoaW5zdC0+Y29yZSkgJiYgDQo+ICsgaXNfZndfcmV2X29yX29sZGVy
-KGluc3QtPmNvcmUsIDEsIDAsIDg3KSkNCj4gICAgICAgICAgICAgICAgICAgICAgICAgZmRhdGEu
-ZGV2aWNlX2FkZHIgPSAwOw0KPiAgICAgICAgICAgICAgICAgZWxzZQ0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgICBmZGF0YS5kZXZpY2VfYWRkciA9IDB4ZGVhZGIwMDA7IEBAIC02NzEsNiANCj4g
-KzY3MSwxNiBAQCBzdGF0aWMgaW50IHZkZWNfc2V0X3Byb3BlcnRpZXMoc3RydWN0IHZlbnVzX2lu
-c3QgKmluc3QpDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ICAgICAg
-ICAgfQ0KPg0KPiArICAgICAgIC8qIEVuYWJsaW5nIHN1ZmZpY2llbnQgc2VxdWVuY2UgY2hhbmdl
-IHN1cHBvcnQgZm9yIFZQOSAqLw0KPiArICAgICAgIGlmIChvZl9kZXZpY2VfaXNfY29tcGF0aWJs
-ZShpbnN0LT5jb3JlLT5kZXYtPm9mX25vZGUsIA0KPiArICJxY29tLHNjNzE4MC12ZW51cyIpKSB7
-DQoNCkRvIG5ld2VyIGNoaXBzIHN1cHBvcnQgdGhpcyBwcm9wZXJ0eT8gRG8geW91IGludGVuZCB0
-byBsaXN0IGFsbCBvZiB0aGVtIGhlcmU/DQpbdmJvbWFdDQo+PiBCYXNpbmcgb24gY2FwYWJpbGl0
-eSBvZiB0aGUgdmFsaWQgY2hpcHNldCB2cyBmaXJtd2FyZSBzdXBwb3J0ICxjdXJyZW50IGNoYW5n
-ZXMgd2VyZSBhZGRlZCAuIA0KDQo+ICsgICAgICAgICAgICAgICBpZiAoaXNfZndfcmV2X29yX25l
-d2VyKGluc3QtPmNvcmUsIDUsIDQsIDUxKSkgew0KPiArICAgICAgICAgICAgICAgICAgICAgICBw
-dHlwZSA9IEhGSV9QUk9QRVJUWV9QQVJBTV9WREVDX0VOQUJMRV9TVUZGSUNJRU5UX1NFUUNIQU5H
-RV9FVkVOVDsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gaGZpX3Nlc3Npb25fc2V0
-X3Byb3BlcnR5KGluc3QsIHB0eXBlLCAmZW4pOw0KPiArICAgICAgICAgICAgICAgICAgICAgICBp
-ZiAocmV0KQ0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+
-ICsgICAgICAgICAgICAgICB9DQo+ICsgICAgICAgfQ0KPiArDQo+ICAgICAgICAgcHR5cGUgPSBI
-RklfUFJPUEVSVFlfUEFSQU1fVkRFQ19DT05DRUFMX0NPTE9SOw0KPiAgICAgICAgIGNvbmNlYWwg
-PSBjdHItPmNvbmNlYWxfY29sb3IgJiAweGZmZmY7DQo+ICAgICAgICAgY29uY2VhbCB8PSAoKGN0
-ci0+Y29uY2VhbF9jb2xvciA+PiAxNikgJiAweGZmZmYpIDw8IDEwOw0KDQoNCg0KLS0NCldpdGgg
-YmVzdCB3aXNoZXMNCkRtaXRyeQ0K
+tree:   git://linuxtv.org/pinchartl/media.git muxed/2023.1/xilinx/api-updates
+head:   4d84aca55464a5384ebfc09558bbc965f6eb5218
+commit: e81e65cfc035a650709f6df9f5a7bcf73f3ad4e8 [69/88] media: subdev: Add [GS]_ROUTING subdev ioctls and operations
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230203/202302031345.B3ntLEjh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
+        git fetch --no-tags pinchartl-media muxed/2023.1/xilinx/api-updates
+        git checkout e81e65cfc035a650709f6df9f5a7bcf73f3ad4e8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+Note: the pinchartl-media/muxed/2023.1/xilinx/api-updates HEAD 4d84aca55464a5384ebfc09558bbc965f6eb5218 builds fine.
+      It only hurts bisectability.
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/xilinx/xilinx-axis-switch.c: In function 'xvsw_get_routing':
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:266:30: error: subscripted value is neither array nor pointer nor vector
+     266 |                 route->routes[i].sink = xvsw->routing[i];
+         |                              ^
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:267:30: error: subscripted value is neither array nor pointer nor vector
+     267 |                 route->routes[i].source = i;
+         |                              ^
+   drivers/media/platform/xilinx/xilinx-axis-switch.c: In function 'xvsw_set_routing':
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:299:44: error: subscripted value is neither array nor pointer nor vector
+     299 |                 xvsw->routing[route->routes[i].source - xvsw->xvip.num_sinks] =
+         |                                            ^
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:300:38: error: subscripted value is neither array nor pointer nor vector
+     300 |                         route->routes[i].sink;
+         |                                      ^
+   drivers/media/platform/xilinx/xilinx-axis-switch.c: At top level:
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'get_routing'; did you mean 'set_routing'?
+     327 |         .get_routing = xvsw_get_routing,
+         |          ^~~~~~~~~~~
+         |          set_routing
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     327 |         .get_routing = xvsw_get_routing,
+         |                        ^~~~~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: note: (near initialization for 'xvsw_pad_ops')
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: error: initialization of 'int (*)(struct v4l2_subdev *, unsigned int,  struct v4l2_mbus_frame_desc *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:327:24: note: (near initialization for 'xvsw_pad_ops.get_frame_desc')
+>> drivers/media/platform/xilinx/xilinx-axis-switch.c:328:24: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, enum v4l2_subdev_format_whence,  struct v4l2_subdev_krouting *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
+     328 |         .set_routing = xvsw_set_routing,
+         |                        ^~~~~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:328:24: note: (near initialization for 'xvsw_pad_ops.set_routing')
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:10: error: 'const struct media_entity_operations' has no member named 'has_route'
+     371 |         .has_route = xvsw_has_route,
+         |          ^~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:22: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     371 |         .has_route = xvsw_has_route,
+         |                      ^~~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-axis-switch.c:371:22: note: (near initialization for 'xvsw_media_ops')
+   cc1: some warnings being treated as errors
+--
+   drivers/media/platform/xilinx/xilinx-switch.c: In function 'xsw_get_routing':
+   drivers/media/platform/xilinx/xilinx-switch.c:197:30: error: subscripted value is neither array nor pointer nor vector
+     197 |                 route->routes[i].sink = xsw->routing[i];
+         |                              ^
+   drivers/media/platform/xilinx/xilinx-switch.c:198:30: error: subscripted value is neither array nor pointer nor vector
+     198 |                 route->routes[i].source = i;
+         |                              ^
+   drivers/media/platform/xilinx/xilinx-switch.c: In function 'xsw_set_routing':
+   drivers/media/platform/xilinx/xilinx-switch.c:226:43: error: subscripted value is neither array nor pointer nor vector
+     226 |                 xsw->routing[route->routes[i].source - xsw->xvip.num_sinks] =
+         |                                           ^
+   drivers/media/platform/xilinx/xilinx-switch.c:227:38: error: subscripted value is neither array nor pointer nor vector
+     227 |                         route->routes[i].sink;
+         |                                      ^
+   drivers/media/platform/xilinx/xilinx-switch.c: At top level:
+   drivers/media/platform/xilinx/xilinx-switch.c:292:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'get_routing'; did you mean 'set_routing'?
+     292 |         .get_routing = xsw_get_routing,
+         |          ^~~~~~~~~~~
+         |          set_routing
+   drivers/media/platform/xilinx/xilinx-switch.c:292:24: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     292 |         .get_routing = xsw_get_routing,
+         |                        ^~~~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-switch.c:292:24: note: (near initialization for 'xsw_pad_ops')
+   drivers/media/platform/xilinx/xilinx-switch.c:292:24: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
+   drivers/media/platform/xilinx/xilinx-switch.c:292:24: note: (near initialization for 'xsw_pad_ops.init_cfg')
+>> drivers/media/platform/xilinx/xilinx-switch.c:293:24: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, enum v4l2_subdev_format_whence,  struct v4l2_subdev_krouting *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_routing *)' [-Werror=incompatible-pointer-types]
+     293 |         .set_routing = xsw_set_routing,
+         |                        ^~~~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-switch.c:293:24: note: (near initialization for 'xsw_pad_ops.set_routing')
+   drivers/media/platform/xilinx/xilinx-switch.c:331:10: error: 'const struct media_entity_operations' has no member named 'has_route'
+     331 |         .has_route = xsw_has_route,
+         |          ^~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-switch.c:331:22: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
+     331 |         .has_route = xsw_has_route,
+         |                      ^~~~~~~~~~~~~
+   drivers/media/platform/xilinx/xilinx-switch.c:331:22: note: (near initialization for 'xsw_media_ops')
+   cc1: some warnings being treated as errors
+
+
+vim +328 drivers/media/platform/xilinx/xilinx-axis-switch.c
+
+789f326f453f86 Vishal Sagar     2018-08-14  320  
+de3ac58d7da3da Laurent Pinchart 2021-12-13  321  static const struct v4l2_subdev_pad_ops xvsw_pad_ops = {
+789f326f453f86 Vishal Sagar     2018-08-14  322  	.enum_mbus_code = xvip_enum_mbus_code,
+789f326f453f86 Vishal Sagar     2018-08-14  323  	.enum_frame_size = xvip_enum_frame_size,
+789f326f453f86 Vishal Sagar     2018-08-14  324  	.get_fmt = xvsw_get_format,
+789f326f453f86 Vishal Sagar     2018-08-14  325  	.set_fmt = xvsw_set_format,
+30c10fbc00e0e7 Laurent Pinchart 2022-01-04  326  	.link_validate = xvip_link_validate,
+789f326f453f86 Vishal Sagar     2018-08-14  327  	.get_routing = xvsw_get_routing,
+789f326f453f86 Vishal Sagar     2018-08-14 @328  	.set_routing = xvsw_set_routing,
+30c10fbc00e0e7 Laurent Pinchart 2022-01-04  329  	.get_mbus_config = xvip_get_mbus_config,
+789f326f453f86 Vishal Sagar     2018-08-14  330  };
+789f326f453f86 Vishal Sagar     2018-08-14  331  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: 789f326f453f8641e69a8684c7349580213067f8 v4l: xilinx: Driver support for Xilinx AXI4-Stream Switch
+
+:::::: TO: Vishal Sagar <vishal.sagar@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@amd.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
