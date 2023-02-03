@@ -2,195 +2,312 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D62168925F
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 09:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A3068927B
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 09:40:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232291AbjBCIdf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 03:33:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41322 "EHLO
+        id S232391AbjBCIjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 03:39:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231705AbjBCIdd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 03:33:33 -0500
+        with ESMTP id S230180AbjBCIjs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 03:39:48 -0500
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8366826599
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 00:33:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F6268AC8
+        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 00:39:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1675413210; x=1706949210;
+  t=1675413586; x=1706949586;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tC3lyp4cHlj4MOEj0JEbPE67o36+nFYZnJl2CPTb/uY=;
-  b=hoqkNzTW7j8h19DzFoWXY8sU9oOXe9IY+W3ApH4ltsZn+L8fBtdYUhcH
-   YOmBADuMHIB8aVddOO8dNNtr72aDpSzYIUG38V+dYodMBJ9Jby+YtYKSY
-   xukNmKNcGOBFRlHEg6cyaCKU9PCGcyUsXU1pXJQHNs0AP0HzopZB7SCbi
-   oirCtKWKJNwXmSSMZk+qbQl84m97LSn9PcYDvZSTFHo4tjRtt9E99vTzC
-   B5hz0gNG9B15Enu72GKDVBuy+0HerEh8euxPKnRSjggaPJIMoCtCGhIlo
-   CzRD7aSDk/O3boW1ET6nuzCbZnbjALvkHG6P1fz7OKe2d8TLsKd7xxnNY
-   w==;
+  bh=imIDuyPUhDoLuIPs1Hgw9A5ODqz5TbpcdTbcfCXRcQc=;
+  b=PH8/KNboEXH0J66lkGetz+CrhsVA9DIBytaIxkyeIL55Xq2tK8Flh1Tx
+   DN9UK66/tQ/AQhuG0qqzFcB5bAcBBvzC1o17uQj6pbWvL1pfGWTB5ao9B
+   oa5erBmLicvKbXxAXR3vzSFjl2cyMfpXi/5HY12ZGY+fn6FWicE7qJeHP
+   UIeZxWGmkmQ17qgA06/1WlDJRHjC7SjPYRM4HCg+NOXG3FnpKntsxBnDh
+   I2uzRoh3idPnP3hOrBYO3tRfMeG+1iKma0Olf/GJvsXxYQ25wwXbjf3JJ
+   ksfcpK9lC6jmk1rUOD01Z1whoH8dIBw5fGSO0L73td9gt6PLmN3jwkknC
+   A==;
 X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
-   d="scan'208";a="28847679"
+   d="scan'208";a="28847846"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 03 Feb 2023 09:33:28 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 03 Feb 2023 09:39:44 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 03 Feb 2023 09:33:28 +0100
+  Fri, 03 Feb 2023 09:39:44 +0100
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 03 Feb 2023 09:33:28 +0100
+        by tq-pgp-pr1.tq-net.de on Fri, 03 Feb 2023 09:39:44 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1675413208; x=1706949208;
+  t=1675413584; x=1706949584;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tC3lyp4cHlj4MOEj0JEbPE67o36+nFYZnJl2CPTb/uY=;
-  b=goY6G8hN345pMRxkBYXAI8okSFfY3qDVQl6L3sw7iPydgZwUA/uciUOi
-   XA1qLAx6R22S4/Lay09povL5WkDkzA520LfiKketsOLmPDqyB3zUUVNJ5
-   mCPFZFAQTRCzTjX7MkVxyyjFW0dtHlaYjCj+rEXDMe5rqCyUR8XID0a1p
-   xXQefF6b7fIb3f1AKJkYf9mNA3kO5BfD2WaY6RjMpHhXmz6FT5GRm0yYl
-   V1Xv8fL5F3NrojHLWch12l6fo2AfheCm6WY1Kv+G3jpvtiGXTP9RwHGpf
-   BB18h4G6YietwVrAYTvMhiNA5Bdo+emAEH82Xk7/mtSOFTSpam1yfD/T3
-   Q==;
+  bh=imIDuyPUhDoLuIPs1Hgw9A5ODqz5TbpcdTbcfCXRcQc=;
+  b=WSDonefT0dwFn2lpsPO+PQQNnpth1q1yCD2h6+qSzKSwideuvJs8aR8T
+   IM+VR2mjJxHvScya1DoHQNKTiQqkyIt7VVQyhKISZ/8G8JYPkx0ouPcnp
+   DuW7E7DHwoDC4Pcz9AS2V4pPXgefKAzq3qeB/UU7OHQHHO+jMEVOh6lb3
+   vrJwUiOnBmcUXUR4+21eBVkoRUdhOWkpXke5oAOaR4rtlRxjPIhWa/jWj
+   DbgxfqNrxq3LMgGYE7RvwHvB1ZML21U8wOnGJpgd2YjOfhctLnaKKwtI1
+   h7I4PASqqPOW+n2nax/5j0QP2YMqtAcWwbLxFm/sR9j0vWJLokSCtY/Fi
+   w==;
 X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
-   d="scan'208";a="28847678"
+   d="scan'208";a="28847845"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 03 Feb 2023 09:33:28 +0100
+  by mx1.tq-group.com with ESMTP; 03 Feb 2023 09:39:43 +0100
 Received: from steina-w.localnet (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8FAD1280056;
-        Fri,  3 Feb 2023 09:33:28 +0100 (CET)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AAB76280056;
+        Fri,  3 Feb 2023 09:39:43 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 11/11] media: i2c: imx290: Add support for H & V Flips
-Date:   Fri, 03 Feb 2023 09:33:28 +0100
-Message-ID: <4876259.0VBMTVartN@steina-w>
+Subject: Re: [PATCH 07/11] media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
+Date:   Fri, 03 Feb 2023 09:39:43 +0100
+Message-ID: <2595382.k3LOHGUjKi@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <CAPY8ntAVgwLiQme_=Cf8_KzMQGvx1XevLqMVzLxo-DxxKZB+Tw@mail.gmail.com>
-References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com> <2548223.Lt9SDvczpP@steina-w> <CAPY8ntAVgwLiQme_=Cf8_KzMQGvx1XevLqMVzLxo-DxxKZB+Tw@mail.gmail.com>
+In-Reply-To: <CAPY8ntD=L1Mj7yyBfuX0JtTeiL2pTiZ9nd0QCbCC6zDv96EDZg@mail.gmail.com>
+References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com> <8218660.NyiUUSuA9g@steina-w> <CAPY8ntD=L1Mj7yyBfuX0JtTeiL2pTiZ9nd0QCbCC6zDv96EDZg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, 3. Februar 2023, 08:57:37 CET schrieb Dave Stevenson:
+Hi Dave,
+
+Am Freitag, 3. Februar 2023, 09:05:44 CET schrieb Dave Stevenson:
 > Hi Alexander
 > 
-> On Fri, 3 Feb 2023 at 07:35, Alexander Stein
+> On Fri, 3 Feb 2023 at 07:19, Alexander Stein
 > 
 > <alexander.stein@ew.tq-group.com> wrote:
 > > Hi Dave,
 > > 
 > > thanks for the patch.
 > > 
-> > Am Dienstag, 31. Januar 2023, 20:20:16 CET schrieb Dave Stevenson:
-> > > The sensor supports H & V flips, so add the relevant hooks for
-> > > V4L2_CID_HFLIP and V4L2_CID_VFLIP to configure them.
+> > Am Dienstag, 31. Januar 2023, 20:20:12 CET schrieb Dave Stevenson:
+> > > The driver exposed V4L2_CID_HBLANK as a read only control to allow
+> > > for exposure calculations and determination of the frame rate.
 > > > 
-> > > Note that the Bayer order is maintained as the readout area
-> > > shifts by 1 pixel in the appropriate direction (note the
-> > > comment about the top margin being 8 pixels whilst the bottom
-> > > margin is 9). The V4L2_SEL_TGT_CROP region is therefore
-> > > adjusted appropriately.
+> > > Convert to a read/write control so that the frame rate can be
+> > > controlled.
 > > > 
 > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > > > ---
 > > > 
-> > >  drivers/media/i2c/imx290.c | 37 ++++++++++++++++++++++++++++++++++---
-> > >  1 file changed, 34 insertions(+), 3 deletions(-)
+> > >  drivers/media/i2c/imx290.c | 33 +++++++++++++++++++--------------
+> > >  1 file changed, 19 insertions(+), 14 deletions(-)
 > > > 
 > > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index 7f6746f74040..d2b7534f2c51 100644
+> > > index 9ddd6382b127..9006be6e5e7c 100644
 > > > --- a/drivers/media/i2c/imx290.c
 > > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -227,6 +227,8 @@ struct imx290 {
+> > > @@ -47,6 +47,7 @@
 > > > 
-> > >       struct v4l2_ctrl *hblank;
-> > >       struct v4l2_ctrl *vblank;
-> > >       struct v4l2_ctrl *exposure;
+> > >  #define IMX290_GAIN
+> > 
+> > IMX290_REG_8BIT(0x3014)
+> > 
+> > >  #define IMX290_VMAX
+> > 
+> > IMX290_REG_24BIT(0x3018)
+> > 
+> > >  #define IMX290_HMAX
+> > 
+> > IMX290_REG_16BIT(0x301c)
+> > 
+> > > +#define IMX290_HMAX_MAX                                      0xffff
 > > > 
-> > > +     struct v4l2_ctrl *hflip;
-> > > +     struct v4l2_ctrl *vflip;
+> > >  #define IMX290_SHS1
+> > 
+> > IMX290_REG_24BIT(0x3020)
+> > 
+> > >  #define IMX290_WINWV_OB
+> > 
+> > IMX290_REG_8BIT(0x303a)
+> > 
+> > >  #define IMX290_WINPV
+> > 
+> > IMX290_REG_16BIT(0x303c)
+> > 
+> > > @@ -167,7 +168,7 @@ struct imx290_regval {
 > > > 
-> > >  };
+> > >  struct imx290_mode {
 > > >  
-> > >  static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+> > >       u32 width;
+> > >       u32 height;
 > > > 
-> > > @@ -801,6 +803,24 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > -     u32 hmax;
+> > > +     u32 hmax_min;
 > > > 
-> > >                                  NULL);
-> > >               
+> > >       u8 link_freq_index;
+> > >       
+> > >       const struct imx290_regval *data;
+> > > 
+> > > @@ -410,7 +411,7 @@ static const struct imx290_mode
+> > > imx290_modes_2lanes[] =
+> > > { {
+> > > 
+> > >               .width = 1920,
+> > >               .height = 1080,
+> > > 
+> > > -             .hmax = 2200,
+> > > +             .hmax_min = 2200,
+> > > 
+> > >               .link_freq_index = FREQ_INDEX_1080P,
+> > >               .data = imx290_1080p_settings,
+> > >               .data_size = ARRAY_SIZE(imx290_1080p_settings),
+> > > 
+> > > @@ -418,7 +419,7 @@ static const struct imx290_mode
+> > > imx290_modes_2lanes[] =
+> > > { {
+> > > 
+> > >               .width = 1280,
+> > >               .height = 720,
+> > > 
+> > > -             .hmax = 3300,
+> > > +             .hmax_min = 3300,
+> > > 
+> > >               .link_freq_index = FREQ_INDEX_720P,
+> > >               .data = imx290_720p_settings,
+> > >               .data_size = ARRAY_SIZE(imx290_720p_settings),
+> > > 
+> > > @@ -429,7 +430,7 @@ static const struct imx290_mode
+> > > imx290_modes_4lanes[] =
+> > > { {
+> > > 
+> > >               .width = 1920,
+> > >               .height = 1080,
+> > > 
+> > > -             .hmax = 2200,
+> > > +             .hmax_min = 2200,
+> > > 
+> > >               .link_freq_index = FREQ_INDEX_1080P,
+> > >               .data = imx290_1080p_settings,
+> > >               .data_size = ARRAY_SIZE(imx290_1080p_settings),
+> > > 
+> > > @@ -437,7 +438,7 @@ static const struct imx290_mode
+> > > imx290_modes_4lanes[] =
+> > > { {
+> > > 
+> > >               .width = 1280,
+> > >               .height = 720,
+> > > 
+> > > -             .hmax = 3300,
+> > > +             .hmax_min = 3300,
+> > > 
+> > >               .link_freq_index = FREQ_INDEX_720P,
+> > >               .data = imx290_720p_settings,
+> > >               .data_size = ARRAY_SIZE(imx290_720p_settings),
+> > > 
+> > > @@ -686,6 +687,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> > 
+> > You will need to remove V4L2_CID_HBLANK on the immediately return check at
+> > the beginning of the function. Otherwise this setting will never reach
+> > the device.
+> What tree are you adding these patches to? I'm basing it on Sakari's
+> tree at [1] - he's issued a pull for it, so that should be in 6.3.
+
+Thanks for pointing this out. I'm based on linux-next as I need other patches 
+for platform support. I've had Laurent's patches included, but only v2 :( my 
+bad. With v3 included instead this seems to work.
+
+> The only immediate return check at the start of imx290_set_ctrl is
+> if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+>    return 0;
+> 
+> The controls are no longer READ_ONLY, therefore they don't return early.
+> There is no case for V4L2_CID_HBLANK.
+> 
+> Does this also account for the difference you're reporting with
+> V4L2_CID_VBLANK?
+
+Yes, things look good so far. Thanks
+
+Best regards,
+Alexander
+
+> [1]
+> https://git.linuxtv.org/sailus/media_tree.git/tree/drivers/media/i2c/imx290
+> .c#n567
+> > Best regards
+> > Alexander
+> > 
+> > >               }
 > > >               break;
 > > > 
-> > > +     case V4L2_CID_HFLIP:
-> > > +     case V4L2_CID_VFLIP:
-> > > +     {
-> > > +             u32 reg;
-> > > +
-> > > +             /* WINMODE is in bits [6:4], so need to read-modify-write
-> > 
-> > */
-> > 
-> > > +             ret = imx290_read(imx290, IMX290_CTRL_07, &reg);
-> > > +             if (ret)
-> > > +                     break;
-> > > +             reg &= ~(IMX290_HREVERSE | IMX290_VREVERSE);
-> > > +             if (imx290->hflip->val)
-> > > +                     reg |= IMX290_HREVERSE;
-> > > +             if (imx290->vflip->val)
-> > > +                     reg |= IMX290_VREVERSE;
-> > > +             ret = imx290_write(imx290, IMX290_CTRL_07, reg, NULL);
+> > > +     case V4L2_CID_HBLANK:
+> > > +             ret = imx290_write(imx290, IMX290_HMAX,
+> > > +                                ctrl->val + imx290->current_mode-
+> > >
+> > >width,
+> > >
+> > > +                                NULL);
 > > > +             break;
-> > > +     }
-> > 
-> > Given the grab while streaming is on, it can't be changed while streaming.
-> > But then again the pm_runtime check above will prevent setting the
-> > registers while streaming is off.
-> 
-> But __v4l2_ctrl_handler_setup is called from imx290_start_streaming
-> after pm_runtime_resume_and_get, and so will programme the hardware.
-
-That's right. I just noticed libcamera (libcamersrc in a gst-pipeline 
-actrually) resets flipping to default when starting... so this behaviour is 
-understandable, although somewhat unexpected.
-
-> Writing the flips from the set_ctrl even if they have been grabbed due
-> to changing the Bayer order is the normal approach with many other
-> drivers. See imx319, imx219, imx335, imx415, and probably others.
-
-What I meant is that it's not possible to change flipping from userspace while 
-being grabbed.
-
 > > > +
 > > > 
 > > >       default:
 > > >               ret = -EINVAL;
 > > >               break;
 > > > 
-> > > @@ -853,7 +873,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > > @@ -716,12 +723,14 @@ static void imx290_ctrl_update(struct imx290
+> > > *imx290,
 > > > 
-> > >       if (ret < 0)
+> > >                              const struct v4l2_mbus_framefmt *format,
+> > >                              const struct imx290_mode *mode)
+> > >  
+> > >  {
+> > > 
+> > > -     unsigned int hblank = mode->hmax - mode->width;
+> > > +     unsigned int hblank_min = mode->hmax_min - mode->width;
+> > > +     unsigned int hblank_max = IMX290_HMAX_MAX - mode->width;
+> > > 
+> > >       unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
 > > >       
-> > >               return ret;
+> > >       __v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
 > > > 
-> > > -     v4l2_ctrl_handler_init(&imx290->ctrls, 9);
-> > > +     v4l2_ctrl_handler_init(&imx290->ctrls, 11);
+> > > -     __v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1,
+> > > hblank);
+> > > +     __v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max,
+> > > 1,
+> > > +                              hblank_min);
 > > > 
-> > >       /*
+> > >       __v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1,
+> > >       vblank);
+> > >  
+> > >  }
+> > > 
+> > > @@ -778,10 +787,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > 
+> > ARRAY_SIZE(imx290_test_pattern_menu) - 1,
+> > 
+> > >                                    0, 0, imx290_test_pattern_menu);
+> > > 
+> > > +     /*
+> > > +      * Actual range will be set from imx290_ctrl_update later in the
+> > 
+> > probe.
+> > 
+> > > +      */
+> > > 
+> > >       imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls,
+> > >       &imx290_ctrl_ops,
 > > >       
-> > >        * The sensor has an analog gain and a digital gain, both
-> > >        controlled
-> > > 
-> > > @@ -909,6 +929,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > >                                          V4L2_CID_HBLANK, 1, 1, 1,
+> > 
+> > 1);
+> > 
+> > > -     if (imx290->hblank)
+> > > -             imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
 > > > 
 > > >       imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls,
 > > >       &imx290_ctrl_ops,
@@ -199,106 +316,21 @@ being grabbed.
 > > 
 > > 1);
 > > 
-> > > +     imx290->hflip = v4l2_ctrl_new_std(&imx290->ctrls,
-> > > &imx290_ctrl_ops,
-> > > +                                       V4L2_CID_HFLIP, 0, 1, 1,
-> > 
-> > 0);
-> > 
-> > > +     imx290->vflip = v4l2_ctrl_new_std(&imx290->ctrls,
-> > > &imx290_ctrl_ops,
-> > > +                                       V4L2_CID_VFLIP, 0, 1, 1,
-> > 
-> > 0);
-> > 
-> > > +
-> > > 
-> > >       v4l2_ctrl_new_fwnode_properties(&imx290->ctrls, &imx290_ctrl_ops,
-> > >       
-> > >                                       &props);
-> > > 
-> > > @@ -1030,6 +1055,9 @@ static int imx290_set_stream(struct v4l2_subdev
-> > > *sd,
-> > > int enable) pm_runtime_put_autosuspend(imx290->dev);
+> > > @@ -850,11 +860,6 @@ static int imx290_start_streaming(struct imx290
+> > > *imx290, return ret;
 > > > 
 > > >       }
 > > > 
-> > > +     /* vflip and hflip cannot change during streaming */
-> > > +     __v4l2_ctrl_grab(imx290->vflip, enable);
-> > > +     __v4l2_ctrl_grab(imx290->hflip, enable);
-> > 
-> > Why is this grab necessary? While trying to remove these lines, I can flip
-> > the image while streaming.
-> 
-> IMX290 Datasheet section "Normal and inverted operation":
-> "One invalid frame is generated when reading immediately after the
-> readout direction is changed in order to switch the normal operation
-> and inversion of frames."
-> 
-> There is no synchronisation between CSI2 receiver and the subdev, so
-> no way to signal that corrupt frame.
-> Is it permitted for sources to knowingly deliver corrupt frames? My
-> understanding is not.
-
-I see. I was not aware of this, maybe due to this there should be a comment 
-why changing flips during stream should not be done. Current comment is 
-totally misleading.
-
-Best regards
-Alexande
-
->   Dave
-> 
-> > Best regards,
-> > Alexander
-> > 
-> > >  unlock:
-> > >       v4l2_subdev_unlock_state(state);
-> > >       return ret;
+> > > -     ret = imx290_write(imx290, IMX290_HMAX,
+> > > imx290->current_mode->hmax,
+> > > -                        NULL);
+> > > -     if (ret)
+> > > -             return ret;
+> > > -
 > > > 
-> > > @@ -1115,6 +1143,7 @@ static int imx290_get_selection(struct v4l2_subdev
-> > > *sd, struct v4l2_subdev_state *sd_state,
-> > > 
-> > >                               struct v4l2_subdev_selection *sel)
-> > >  
-> > >  {
-> > > 
-> > > +     struct imx290 *imx290 = to_imx290(sd);
-> > > 
-> > >       struct v4l2_mbus_framefmt *format;
-> > >       
-> > >       switch (sel->target) {
-> > > 
-> > > @@ -1122,9 +1151,11 @@ static int imx290_get_selection(struct
-> > > v4l2_subdev
-> > > *sd, format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> > > 
-> > >               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
-> > > 
-> > > -                        + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT -
-> > 
-> > format->height) / 2;
-> > 
-> > > +                        + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT -
-> > 
-> > format->height) / 2
-> > 
-> > > +                        + imx290->vflip->val;
-> > > 
-> > >               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT
-> > > 
-> > > -                         + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH -
-> > 
-> > format->width) / 2;
-> > 
-> > > +                         + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH -
-> > 
-> > format->width) / 2
-> > 
-> > > +                         + imx290->hflip->val;
-> > > 
-> > >               sel->r.width = format->width;
-> > >               sel->r.height = format->height;
+> > >       /* Apply customized values from user */
+> > >       ret = __v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+> > >       if (ret) {
 
 
 
