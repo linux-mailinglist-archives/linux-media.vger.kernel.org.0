@@ -2,125 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD4C68A501
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 22:56:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1F7068A6CD
+	for <lists+linux-media@lfdr.de>; Sat,  4 Feb 2023 00:11:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233817AbjBCV4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 16:56:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51244 "EHLO
+        id S232987AbjBCXLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 18:11:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233071AbjBCV4O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 16:56:14 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2D1779CAE;
-        Fri,  3 Feb 2023 13:56:12 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 313KTSjW025071;
-        Fri, 3 Feb 2023 21:55:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=zXDLHevRmbNSieNjjZ1itBUbVMHRS4dQ8ncRciz05CU=;
- b=FnAt2NZyHNV925FRMJKX5HNFpbtGl80xJ5Simzd4dnspOfwMwmJY3Kq/mxJkJYucCcM5
- ZrhNIHiMbmasCmA+UdX35t4SvXC3y//w9S0LXF8zViotoGYqj3OS4TMFPlxLKVWRm2Sb
- S74EUPFZJEbnmYukTsRs75yWT0n1UEAzFeqdEtOGZ0CAjUAusSbb7RlU/C5+zYoWzf+3
- UZBV7FdzQl84NnWUgpDVWIhzXwFgYB3XpHwpHwkrNj+5OcIFqU34wjW5EeP/Ev207PNW
- vV42m8XCBn1squCKUoXdorylZE2Y3lNSWd2RsmFrF00WR+bdSkVYJNCrKSo/35wP8dFA QA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngw4p9thc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 03 Feb 2023 21:55:35 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 313LtYE4001279
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 3 Feb 2023 21:55:34 GMT
-Received: from quicinc.com (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 3 Feb 2023
- 13:55:33 -0800
-Date:   Fri, 3 Feb 2023 13:55:32 -0800
-From:   Guru Das Srinagesh <quic_gurus@quicinc.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-CC:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
-        Rob Clark <robdclark@gmail.com>,
-        "Abhinav Kumar" <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia" <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alex Elder <elder@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <freedreno@lists.freedesktop.org>, <iommu@lists.linux.dev>,
-        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <ath10k@lists.infradead.org>,
-        <linux-wireless@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>
-Subject: Re: [PATCH] firmware: qcom_scm: Move qcom_scm.h to
- include/linux/firmware/qcom/
-Message-ID: <20230203215532.GA10258@quicinc.com>
-References: <20230203210956.3580811-1-quic_eberman@quicinc.com>
+        with ESMTP id S232056AbjBCXLM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 18:11:12 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C5C7BE73;
+        Fri,  3 Feb 2023 15:11:10 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id k4so19530233eje.1;
+        Fri, 03 Feb 2023 15:11:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=S4kT4lUgvezB9PVw7db1Dvk1buBeLiCC8+GU/OROilk=;
+        b=a70hqnijk1JW+BcyT5BmUGve0dzrG+/RmhwfUBqZnw0RxWEe1FpGeD9/pLE2GKwybo
+         ypgHQXXZHUfq4x4W58bnfPU/l2Z1YEDOWA8lC1qihyo7QWHAo15dKD/UcBFW4/n6SRAR
+         Xob2r54DMgRLxQEKeXNgiPZ1tNHArv/OPkwAu1O5YJefeb9AxeL8ow51RNJc8ATM3AKN
+         0z+tF9yDFkx6uSHHPhaMNxoscjF/FwhNGw3FaVaEb1XEOHk8j1ornAppfGjBPU2ceUP8
+         +iWt2UURkb5Cov50jPsgME6KWihBlfxjcSoPDJB369lEEelgfdE+64SKHalA6i0o6pv5
+         1/Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S4kT4lUgvezB9PVw7db1Dvk1buBeLiCC8+GU/OROilk=;
+        b=yelRN6a2HXQd6uwuE7t++SMdQsaahlAxjf2kuVd0dcqNNb2ySfPaowXfjuvKkjSuH5
+         QE6dKAmUbFJwAwkBVH5zusswVTDrWLwXJOG83ewBtUOOfhUrl7Pn0YdS9QVdb5KXXKD3
+         T3u6L7nGDhWB2o7gOAGH7/pXBk7JoEk77yzVHZ82OIODaFXa/kAjSlu72nzMKTaiX6HI
+         GQr7AhNai3hoa5jN58QosCuOvDR5XOD899v0EVlviYEWQgf76OHpgUH+d/uJnZraHu2/
+         2U2RII2l2SShu2MSFir5NE8F+3NPF8h7GwvDtoVVQbOnrjL9GQWWB4a49K8JvwNDAJ5H
+         W9mQ==
+X-Gm-Message-State: AO0yUKXZRXlhz4lSRDQrNMCooMY4XBsUSZ5iup5xgPTkuNQDp8m5yOzW
+        Eozz5qfYov99qRmMa0fjJ0hZnp2ZLk9VNkhzKg4=
+X-Google-Smtp-Source: AK7set/oe2Xl6fQyM1SDHpSLzd6OFhgado9BSZqsGTsaWjZmZWneEWHlWtsW6WKvP3YjD+GbwQqu4VQahfZMbcYiPd0=
+X-Received: by 2002:a17:906:3957:b0:870:5fc6:210c with SMTP id
+ g23-20020a170906395700b008705fc6210cmr3313204eje.257.1675465868661; Fri, 03
+ Feb 2023 15:11:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230203210956.3580811-1-quic_eberman@quicinc.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: IakSQGYsVJaEfb-gAExeEyYclWwLMuK5
-X-Proofpoint-ORIG-GUID: IakSQGYsVJaEfb-gAExeEyYclWwLMuK5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_19,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 impostorscore=0 spamscore=0 suspectscore=0 adultscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030197
+References: <20230130131003.668888-1-arnd@kernel.org> <Y9f7/q3aS5nlY7nJ@smile.fi.intel.com>
+ <14e7d2ba-1a24-42a1-b19e-842e0fd8286e@app.fastmail.com>
+In-Reply-To: <14e7d2ba-1a24-42a1-b19e-842e0fd8286e@app.fastmail.com>
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Fri, 3 Feb 2023 15:10:55 -0800
+Message-ID: <CAKdAkRRA7XATxHBALDf8Pd2SWQX_OPAYgCQmtJi5H1so_EJ7VA@mail.gmail.com>
+Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Feb 03 2023 13:09, Elliot Berman wrote:
-> Move include/linux/qcom_scm.h to include/linux/firmware/qcom/qcom_scm.h.
-> This removes 1 of a few remaining Qualcomm-specific headers into a more
-> approciate subdirectory under include/.
-> 
-> Suggested-by: Bjorn Andersson <andersson@kernel.org>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+On Mon, Jan 30, 2023 at 10:19 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Mon, Jan 30, 2023, at 18:18, Andy Shevchenko wrote:
+> > On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
+>
+> >> +            ret = PTR_ERR_OR_ZERO(tsin->rst_gpio);
+> >>              if (ret && ret != -EBUSY) {
+> >> -                    dev_err(dev, "Can't request tsin%d reset gpio\n"
+> >> -                            , fei->channel_data[index]->tsin_id);
+> >> +                    dev_err_probe(dev, ret,
+> >> +                                  "reset gpio for tsin%d not valid\n",
+> >> +                                  tsin->tsin_id);
+> >>                      goto err_node_put;
+> >>              }
+> >>
+> >>              if (!ret) {
+> >
+> > Can be
+> >
+> >       if (IS_ERR() && PTR_ERR() != -EBUSY) {
+> >               ret = dev_err_probe(dev, PTR_ERR(), ...);
+> >               ...
+> >       }
+> >
+> >       if (!IS_ERR())
+> >
+> > (Up to you)
+>
+> I prefer the version that only has one PTR_ERR(), but
+> either way is fine with me.
+>
+> > But -EBUSY check seems strange to me. What was the motivation behind?
+> > (As far as I can read the code the possibility to get this if and only
+> >  if we have requested GPIO too early at initcall level. Would it be
+> >  ever a possibility to get it in real life?)
+>
+> I noticed this part as being odd as well, no idea why the
+> code is like this. I just left the logic unchanged here.
 
-Reviewed-by: Guru Das Srinagesh <quic_gurus@quicinc.com>
+It could be they were trying to account for the possibility of the
+reset line being shared between several blocks, and so the first one
+to initialize would grab it and reset all chips, and the followers
+would be skipping the reset logic.
+
+-- 
+Dmitry
