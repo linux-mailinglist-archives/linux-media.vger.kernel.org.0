@@ -2,157 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A0686892AA
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 09:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 289506892BC
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 09:52:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231827AbjBCIu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 03:50:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49412 "EHLO
+        id S232123AbjBCIvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 03:51:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231233AbjBCIuZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 03:50:25 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8845522DD9
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 00:50:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1675414223; x=1706950223;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yAfwucLQPvpz2qEtvVQZOLc6Bfqp+VffOrmhkxD/xeY=;
-  b=nnR5X7vOrx/3p5Cqvz6l22hNMXPPoJNvHbtEI1D7mn9ZukI5R0/BVFnz
-   7MefoOAQj70r/zpSzm0O2bg9cwURTTXUWZ61sebo1BmEE2YHUB18KAyRm
-   Ehp4gY7tNO5lkVeSscIUoE2P7P6/SUQL+iMbGjq+ny5sj3KCd713qwlHk
-   sd02GS7vVzXuAfIMOQ890vV0egCQ0OZNucn4UzPeUkFuFJ/rNoDzt57uL
-   akAs6zAjjMISfOJycY4XGxtYvk8qOWLq2oFjdCHGrpj8oZ2RYE6+ewyCF
-   qZURinIUwr4T4bHGnGhwt6QXu3MK7Y1tNrnONLH0yBDHT3yB66Q2ujYXi
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
-   d="scan'208";a="28848131"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 03 Feb 2023 09:50:21 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 03 Feb 2023 09:50:21 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 03 Feb 2023 09:50:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1675414221; x=1706950221;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yAfwucLQPvpz2qEtvVQZOLc6Bfqp+VffOrmhkxD/xeY=;
-  b=SkTmIkte1LwPBcONyLIhftkEFMfJLEv92oY1vS/RBXWfdv+JrK5XQdR2
-   73ScsPGmlI7JWisZvhhUAXieoerG4r+Tl4LxPNiTwyE3FNFesdcij5Jcc
-   qH7GL7oN4SXzhp+T6ISxI791rLubiauBCs6hGR5bTvCVXh3ZgsXluIBx9
-   n8IoQkdojqgii401pRUcTjXpR0IydGiMnljDSaz8RuRMeN2/1a4V7k/S0
-   Hpt9hTELf4vhne+urqFgylfX6avtl4R6Y8KUHOcuhALkYoVjblaD3/tub
-   BfZB0HwF2y0S/wiiI7/KYaFWNQ15QBSz1sKRNWmxdGLtt4pG+IBO5uW/K
-   A==;
-X-IronPort-AV: E=Sophos;i="5.97,269,1669071600"; 
-   d="scan'208";a="28848130"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 03 Feb 2023 09:50:21 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        with ESMTP id S232100AbjBCIvJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 03:51:09 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2006B036
+        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 00:51:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6E6DD280056;
-        Fri,  3 Feb 2023 09:50:21 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 05/11] media: i2c: imx290: Support 60fps in 2 lane operation
-Date:   Fri, 03 Feb 2023 09:50:21 +0100
-Message-ID: <6474652.G0QQBjFxQf@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230131192016.3476937-6-dave.stevenson@raspberrypi.com>
-References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com> <20230131192016.3476937-6-dave.stevenson@raspberrypi.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id E93CCB82614
+        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 08:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 577D7C433D2;
+        Fri,  3 Feb 2023 08:51:01 +0000 (UTC)
+Message-ID: <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
+Date:   Fri, 3 Feb 2023 09:50:59 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: Future of the SAA7146 drivers
+Content-Language: en-US
+To:     Stefan Herdler <herdler@nurfuerspam.de>,
+        linux-media@vger.kernel.org
+Cc:     Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>,
+        Soeren Moch <smoch@web.de>
+References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+ <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
+ <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
+ <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
+ <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
+ <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+ <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
+ <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
+ <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
+ <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+On 03/02/2023 01:58, Stefan Herdler wrote:
+> Hi Hans,
+> 
+> It's me again, sorry.
+> 
+> Sören wrote to me that he dislikes the idea of driver specific
+> headerfile and will refuse to maintain the driver if there is any change.
+> 
+> I can't tell more, I'm just the messenger, sorry.
 
-thanks for the patch.
+No problem, I think we'll just leave it as-is.
 
-Am Dienstag, 31. Januar 2023, 20:20:10 CET schrieb Dave Stevenson:
-> Commit "97589ad61c73 media: i2c: imx290: Add support for 2 data lanes"
-> added support for running in two lane mode (instead of 4), but
-> without changing the link frequency that resulted in a max of 30fps.
-> 
-> Commit "98e0500eadb7 media: i2c: imx290: Add configurable link frequency
-> and pixel rate" then doubled the link frequency when in 2 lane mode,
-> but didn't undo the correction for running at only 30fps, just extending
-> horizontal blanking instead.
-> 
-> Remove the 30fps limit on 2 lane by correcting the register config
-> in accordance with the datasheet for 60fps operation over 2 lanes.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/media/i2c/imx290.c | 17 +++--------------
->  1 file changed, 3 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index bd8729aed43c..6bcfa535872f 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -366,7 +366,7 @@ static const struct imx290_mode imx290_modes_2lanes[] =
-> { {
->  		.width = 1920,
->  		.height = 1080,
-> -		.hmax = 4400,
-> +		.hmax = 2200,
->  		.link_freq_index = FREQ_INDEX_1080P,
->  		.data = imx290_1080p_settings,
->  		.data_size = ARRAY_SIZE(imx290_1080p_settings),
-> @@ -374,7 +374,7 @@ static const struct imx290_mode imx290_modes_2lanes[] =
-> { {
->  		.width = 1280,
->  		.height = 720,
-> -		.hmax = 6600,
-> +		.hmax = 3300,
->  		.link_freq_index = FREQ_INDEX_720P,
->  		.data = imx290_720p_settings,
->  		.data_size = ARRAY_SIZE(imx290_720p_settings),
-> @@ -518,21 +518,10 @@ static int imx290_set_register_array(struct imx290
-> *imx290, static int imx290_set_data_lanes(struct imx290 *imx290)
->  {
->  	int ret = 0;
-> -	u32 frsel;
-> -
-> -	switch (imx290->nlanes) {
-> -	case 2:
-> -	default:
-> -		frsel = 0x02;
-> -		break;
-> -	case 4:
-> -		frsel = 0x01;
-> -		break;
-> -	}
-> 
->  	imx290_write(imx290, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
->  	imx290_write(imx290, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, 
-&ret);
-> -	imx290_write(imx290, IMX290_FR_FDG_SEL, frsel, &ret);
-> +	imx290_write(imx290, IMX290_FR_FDG_SEL, 0x01, &ret);
-> 
->  	return ret;
->  }
+The reality is that 1) there are very few developers with in-depth DVB
+knowledge in the media subsystem, and 2) they don't have time.
 
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Also, the DVB drivers that are in the kernel seem to be doing fine:
+bug reports are rare. This videobuf issue is the first in years that
+cropped up and this too is really only analog video as well, it's just
+that it affects DVB boards as well since the same driver is used.
 
+The av7110 has always been an unusual card and some API decisions were
+made in the past that do not fit well into our current ideas how this
+should work. But frankly, I personally have no interest in getting
+involved in that 'fight'.
 
+BTW, I looked at your av7110api.diff patch and that is a good first step.
+I do thing that the existing video.h/audio.h/osd.h should be replaced
+with versions that just include av7110.h, with a big fat notice that
+these APIs are now av7110 specific (as they have almost always been in
+practice).
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> Stefan
+> 
+> 
+> 
+> On 02.02.23 22:26, Stefan Herdler wrote:> Hi Hans, Sören,
+>>
+>> On 02/02/23 10:43, Soeren Moch wrote:
+>>> Hi Stefan, Hans,
+>>>
+>>> On 02.02.23 00:12, Stefan Herdler wrote:
+>>>> Hi Hans, Sören,
+>>>>
+>>>> On 01/02/23, 10:15 Hans Verkuil wrote:
+>>>>
+>>>> [...]
+>>>>>
+>>>>> Once it is converted to vb2 the driver can stay.
+>>>>>
+>>>>> Note that the driver might need a bit more work: we use the
+>>>>> v4l2-compliance
+>>>>> utility to test V4L2 API compliance of a driver, and after the vb2
+>>>>> conversion the driver should pass this test. So the compliance test
+>>>>> might
+>>>>> find some other things that do not work as they should, and it would be
+>>>>> really good to clean that up as well. Usually the things it finds are
+>>>>> pretty
+>>>>> easy to fix.
+>>>>>
+>>>> For the records, as long I remember it:
+>>>> The "Buget Patch" driver is superfluous and can be removed.
+>>>> This driver is for an experimental hardware-mod which never really
+>>>> worked. No such hardware was ever produced.
+>>>> I was really surprised to see it.
+>>> I own such card, as I wrote earlier. The budget patch works great and is
+>>> necessary for such cards. Please keep it.
+>>>
+>> I think you confused it with is successor "fullTSmod" which works great
+>> indeed.
+>>
+>> The support for the "fullTSmod" is implemented in the "dvb-ttpci" kernel
+>> module.
+>> The "Buget Patch" driver is an separate kernel module.
+>>
+>>  From Kkonfig:
+>> config DVB_BUDGET_PATCH
+>>      [...]
+>>        Support for Budget Patch (full TS) modification on
+>>        SAA7146+AV7110 based cards (DVB-S cards). This
+>>        driver doesn't use onboard MPEG2 decoder. The
+>>        card is driven in Budget-only mode. Card is
+>>        required to have loaded firmware to tune properly.
+>>        Firmware can be loaded by insertion and removal of
+>>        standard AV7110 driver prior to loading this
+>>        driver.
+>>
+>> I my self own and operate a card with "fullTSmod" too. An I did some
+>> mods for others.
+>> I never loaded the "Buget Patch" driver.
+>> And the kernel module it isn't loaded on my VDR. I checked it right now
+>> again.
+>>
+>> I removed the "budget-patch.ko" and everything kept working like usual.
+>> Ill keep an eye on it.
+>>
+>> Regards,
+>> Stefan
+>>
+>>
+>>
+>>
+>>> Regards,
+>>> Soeren
+>> [...]
 
