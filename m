@@ -2,169 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7B0268A6D2
-	for <lists+linux-media@lfdr.de>; Sat,  4 Feb 2023 00:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92D8168A6EC
+	for <lists+linux-media@lfdr.de>; Sat,  4 Feb 2023 00:31:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232119AbjBCXNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 18:13:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
+        id S232312AbjBCXbo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 18:31:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbjBCXNy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 18:13:54 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 240708D634;
-        Fri,  3 Feb 2023 15:13:53 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id n2so4816195pfo.3;
-        Fri, 03 Feb 2023 15:13:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KHbHNdg7pHAZm+iH1umTf2t8yLyMxQ4O1NYUoM8SKQ4=;
-        b=GH1GgjQZNFEmvuBmSymoXZd3w+dMuweEQssS5Sv0HcRz1X3P4GV6YymXJheadYKSSB
-         5/bhs3nVBE7BnbD0iGQ9VX+MDfp1oLJldRwcISktoB9IJfM3Xf/dZk4nDLhFAtdLyjZ8
-         IEPYimOB9brCQJ5fclnP74q+AnER8hOsOHpSRa6D//iM9HA917XbAVXQc8qN0lhcyi2x
-         +doKrQHfVAzgMmaEdbvZmHqQJO0cDBqI1fU+gpMAaanzseDHR2N//dl2A3+8P3PbZ1R+
-         +wOUgZENewKDlU21i0cubU7YKCCfgUJsp/rgH6mjHsgdu0d4qiz+8on6LHEj5zj2C54y
-         USHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KHbHNdg7pHAZm+iH1umTf2t8yLyMxQ4O1NYUoM8SKQ4=;
-        b=AavPbVU+ZzwqmG/3wOOniiQ0rsoSvbjc5ICsRGj6GsKDKl4+0bCm3UtccaitkDc5TK
-         BNgPwg7CDNGOgzcQnV0U3OpVE8U0j6eCl+ptMCQYD2GXHnPacHL68JEQs2N1siSM/nxh
-         SxKxmUTCura6hbPJAarHx/EUu4rQj8ekajD8yKL7cz1DBtJSt5AlbijIbztqDSd1D4Yz
-         gliJ/GLlaO4NEfdV72Ghh+7VI4JFkVS+hmPM9CgUbb1+dXup50X+hEW7y7NIgYnHTKmt
-         p04XahYXfxwAIdvUp/9TlGd4LPJKw3RTpETWG/TQiqCl6zfvxmFTuisLpDHzzwYMksQD
-         TiSQ==
-X-Gm-Message-State: AO0yUKVGSUJBqzcd4zubHmVCuZftouvgACzqmapiGGw8m6SRk7nuIiyt
-        o8rGLmyVCCijRxjYNEaNvok=
-X-Google-Smtp-Source: AK7set/vkmoUxiQSouNiHnlki72tZjyhwr744ylOZKXLzwrJGtL6LgNiXFtHiBarLCY0WTauLkNiyQ==
-X-Received: by 2002:a05:6a00:330d:b0:587:8d47:acdd with SMTP id cq13-20020a056a00330d00b005878d47acddmr11019138pfb.34.1675466032436;
-        Fri, 03 Feb 2023 15:13:52 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:6e90:bb76:2b36:4df2])
-        by smtp.gmail.com with ESMTPSA id m26-20020aa78a1a000000b0056b4c5dde61sm2441207pfa.98.2023.02.03.15.13.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 15:13:51 -0800 (PST)
-Date:   Fri, 3 Feb 2023 15:13:48 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Patrice Chotard <patrice.chotard@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Liang He <windhl@126.com>, Wan Jiabing <wanjiabing@vivo.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: c8sectpfe: switch to using gpiod API
-Message-ID: <Y92VLGLQJZ/UDRx1@google.com>
+        with ESMTP id S229626AbjBCXbg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 18:31:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACAEA42A0;
+        Fri,  3 Feb 2023 15:31:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 01D436203E;
+        Fri,  3 Feb 2023 23:31:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C98DC433D2;
+        Fri,  3 Feb 2023 23:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675467094;
+        bh=SEQiN1FXnyRmTAzODDJiAbEbmAR87JugLAgVlHlTLHo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qRZw/n2dwl7bKxjh1eW7SudjQchV6bYN7Ikq6OtCcDTYgQqL5YWggBuxXtSsfa23d
+         791buxLOr+jVu6VtcCjp2TbL5BrqeLskaOK6/AaFcyRsRmU/Q7Hi0El/7MmriRS5ir
+         RJkeQexSO5H+RJ1HYk62meA7HbXFHaietuBZGMsgteOdZvuknmSS76FHuBIhivUhYO
+         iGRPucy7IByscMpMGKqREQJ9qtB1QAk0l0gYz35zbmfvDQ8+b2ipcHpA2Vtvks/0CL
+         f6CPlvfGbwFahL0mfJfftmHeaS2GrV4P8Jzq/E7gm2aJ0UATTjW1cX+wjiOFCqcE8L
+         VkWEm9K+ZSFNA==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     mchehab@kernel.org
+Cc:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        hverkuil@xs4all.nl, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH] media: drop unnecessary networking includes
+Date:   Fri,  3 Feb 2023 15:31:29 -0800
+Message-Id: <20230203233129.3413367-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This switches the driver from using legacy gpio API and to the newer
-gpiod API. Since ordinary gpiod APIs operate on logical and not
-electrical levels, handling of the reset GPIO is adjusted accordingly.
+dvb_net.h includes a bunch of core networking headers which increases
+the number of objects rebuilt when we touch them. They are unnecessary
+for the header itself and only one driver has an indirect dependency.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+tveeprom.h includes if_packet to gain access to ETH_ALEN. This
+is a bit of an overkill because if_packet.h pulls in skbuff.h.
+The definition of ETH_ALEN is in the uAPI header, which is
+very rarely touched, so switch to including that.
+
+This results in roughly 250 fewer objects built when skbuff.h
+is touched (6028 -> 5788).
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- .../st/sti/c8sectpfe/c8sectpfe-core.c         | 31 ++++++++-----------
- .../st/sti/c8sectpfe/c8sectpfe-core.h         |  4 ++-
- 2 files changed, 16 insertions(+), 19 deletions(-)
+CC: mchehab@kernel.org
+CC: hverkuil@xs4all.nl
+CC: gregkh@linuxfoundation.org
+CC: linux-media@vger.kernel.org
+CC: linux-staging@lists.linux.dev
+---
+ drivers/media/usb/dvb-usb/pctv452e.c                       | 2 ++
+ drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c | 1 +
+ include/media/dvb_net.h                                    | 6 ++----
+ include/media/tveeprom.h                                   | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-index c38b62d4f1ae..dd8141e0828d 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-@@ -16,8 +16,10 @@
- #include <linux/dma-mapping.h>
- #include <linux/dvb/dmx.h>
- #include <linux/dvb/frontend.h>
-+#include <linux/err.h>
- #include <linux/errno.h>
- #include <linux/firmware.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-@@ -812,30 +814,23 @@ static int c8sectpfe_probe(struct platform_device *pdev)
- 		}
- 		of_node_put(i2c_bus);
+diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
+index f0794c68c622..da42c989e071 100644
+--- a/drivers/media/usb/dvb-usb/pctv452e.c
++++ b/drivers/media/usb/dvb-usb/pctv452e.c
+@@ -26,6 +26,8 @@
+ #include <media/dvb_ca_en50221.h>
+ #include "ttpci-eeprom.h"
  
--		tsin->rst_gpio = of_get_named_gpio(child, "reset-gpios", 0);
--
--		ret = gpio_is_valid(tsin->rst_gpio);
--		if (!ret) {
--			dev_err(dev,
--				"reset gpio for tsin%d not valid (gpio=%d)\n",
--				tsin->tsin_id, tsin->rst_gpio);
--			ret = -EINVAL;
--			goto err_node_put;
--		}
--
--		ret = devm_gpio_request_one(dev, tsin->rst_gpio,
--					GPIOF_OUT_INIT_LOW, "NIM reset");
-+		/* Acquire reset GPIO and activate it */
-+		tsin->rst_gpio = devm_fwnode_gpiod_get(dev,
-+						       of_fwnode_handle(child),
-+						       "reset", GPIOD_OUT_HIGH,
-+						       "NIM reset");
-+		ret = PTR_ERR_OR_ZERO(tsin->rst_gpio);
- 		if (ret && ret != -EBUSY) {
--			dev_err(dev, "Can't request tsin%d reset gpio\n"
--				, fei->channel_data[index]->tsin_id);
-+			dev_err(dev, "Can't request tsin%d reset gpio\n",
-+				fei->channel_data[index]->tsin_id);
- 			goto err_node_put;
- 		}
- 
- 		if (!ret) {
--			/* toggle reset lines */
--			gpio_direction_output(tsin->rst_gpio, 0);
-+			/* wait for the chip to reset */
- 			usleep_range(3500, 5000);
--			gpio_direction_output(tsin->rst_gpio, 1);
-+			/* release the reset line */
-+			gpiod_set_value_cansleep(tsin->rst_gpio, 0);
- 			usleep_range(3000, 5000);
- 		}
- 
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
-index c9d6021904cd..bf377cc82225 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
-@@ -16,6 +16,8 @@
- 
- #define C8SECTPFE_MAX_TSIN_CHAN 8
- 
-+struct gpio_desc;
++#include <linux/etherdevice.h>
 +
- struct channel_info {
+ static int debug;
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off debugging (default:off).");
+diff --git a/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c b/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
+index 0c61a2dec221..3cc762100498 100644
+--- a/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
++++ b/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
+@@ -31,6 +31,7 @@
+ #include "dvb-pll.h"
+ #include "../common/saa7146_vv.h"
+ #include <linux/module.h>
++#include <linux/etherdevice.h>
+ #include <linux/errno.h>
+ #include <linux/slab.h>
+ #include <linux/interrupt.h>
+diff --git a/include/media/dvb_net.h b/include/media/dvb_net.h
+index 5e31d37f25fa..9980b1dd750b 100644
+--- a/include/media/dvb_net.h
++++ b/include/media/dvb_net.h
+@@ -19,13 +19,11 @@
+ #define _DVB_NET_H_
  
- 	int tsin_id;
-@@ -25,7 +27,7 @@ struct channel_info {
- 	int i2c;
- 	int dvb_card;
+ #include <linux/module.h>
+-#include <linux/netdevice.h>
+-#include <linux/inetdevice.h>
+-#include <linux/etherdevice.h>
+-#include <linux/skbuff.h>
  
--	int rst_gpio;
-+	struct gpio_desc *rst_gpio;
+ #include <media/dvbdev.h>
  
- 	struct i2c_adapter  *i2c_adapter;
- 	struct i2c_adapter  *tuner_i2c;
++struct net_device;
++
+ #define DVB_NET_DEVICES_MAX 10
+ 
+ #ifdef CONFIG_DVB_NET
+diff --git a/include/media/tveeprom.h b/include/media/tveeprom.h
+index b56eaee82aa5..f37c9b15ffdb 100644
+--- a/include/media/tveeprom.h
++++ b/include/media/tveeprom.h
+@@ -5,7 +5,7 @@
+  *	      eeproms.
+  */
+ 
+-#include <linux/if_ether.h>
++#include <uapi/linux/if_ether.h>
+ 
+ /**
+  * enum tveeprom_audio_processor - Specifies the type of audio processor
 -- 
-2.39.1.519.gcb327c4b5f-goog
+2.39.1
 
-
--- 
-Dmitry
