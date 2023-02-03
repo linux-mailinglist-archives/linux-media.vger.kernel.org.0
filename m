@@ -2,65 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAD1B6895B2
-	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 11:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4342689696
+	for <lists+linux-media@lfdr.de>; Fri,  3 Feb 2023 11:32:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233348AbjBCKWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 05:22:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
+        id S233524AbjBCKZ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 05:25:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232233AbjBCKWL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 05:22:11 -0500
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAE669EE1D
-        for <linux-media@vger.kernel.org>; Fri,  3 Feb 2023 02:21:48 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id e9so4870634vsj.3
-        for <linux-media@vger.kernel.org>; Fri, 03 Feb 2023 02:21:48 -0800 (PST)
+        with ESMTP id S233471AbjBCKZV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 05:25:21 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43A928C1D6;
+        Fri,  3 Feb 2023 02:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l6huWjUE3NDovZXOleLEs81k5GTDVATg2ily9v3AQr8=;
-        b=V/ZrJO7MbMl8hS28vdyd+KtrOqQWLjcliFviBuzxvvjdg9eqCw4Rm+iu3mTnBSXaJ7
-         C6/v2OifP1Nhdduy152jmxFVkCVEawApMB4xaGYddYqkxARvTKaZN5UAFuhy82r1B5Mx
-         jE4smaMT7ohRaTyM6js7CXoLeviYky5d5MLrpcRw68KJ1YhmPRCBglJIppojWj6qNGFk
-         fJ4h6l2hYiZ+T9hpZby6OMf4p5u6Xi1LcoOh1PftI4FyMzpttOU5rfuFbJU3pAFGsn+w
-         uSIS0m7ACgROl0HQosiemeXCQb7YBpTEy8vz2QpTus8485A96w3XDkk5qxCIFUCVABWi
-         Fbdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l6huWjUE3NDovZXOleLEs81k5GTDVATg2ily9v3AQr8=;
-        b=Q1W8XB8HBQ144hLsUZKOfnrpEXSJ2HcrdHF7T7a0AThntQphSAuCRri3yvFhP3VSTa
-         jpyiz/8kFt7dlCqeKfZ82h/lifFEGv7dYYv2D9lN4MnUXhHu3bLmQyWHVHCeCnQS+DbQ
-         vG6PIJ4/oJz59Ov53xJMCd4+QWvge3/+mIciAn6ua65WX6WPqivDv4iYcFMZMSK8+r4U
-         xflSuFIvmHRQVnEENQzZmwGKdcui0JzTExBSVbWrKRXOTnOODStgMTX511HqbqdIzS5P
-         2qhOqC9RZUlYbraxZzYauTKJf59z3GeqlPIvHE7US/ifRG02pYeJIvl2GIWw7up3wZpf
-         coIw==
-X-Gm-Message-State: AO0yUKXqg/Rh2Rnr+/x13TMrR/Ub00Q+LlbfQbqF8cgsFlkIkoWQSM0K
-        eRoq2uc5G7LD9s+xFUv/ZswINP3bEYzbdz6Rh4yfqUMKTE8TE+0i
-X-Google-Smtp-Source: AK7set9RWVCYqrI0jmoKa03/7pXDKFr9YMSM8Pdfc/03ALy96JsJdZgCtP7RiHIRnDgCBcRJsjkF9Z2kIgTQHdGJpJw=
-X-Received: by 2002:a05:6102:3005:b0:3eb:2024:bda9 with SMTP id
- s5-20020a056102300500b003eb2024bda9mr1633126vsa.45.1675419706257; Fri, 03 Feb
- 2023 02:21:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20230131192016.3476937-1-dave.stevenson@raspberrypi.com>
- <20230131192016.3476937-12-dave.stevenson@raspberrypi.com> <Y9w02OHdYDniISTB@pendragon.ideasonboard.com>
-In-Reply-To: <Y9w02OHdYDniISTB@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 3 Feb 2023 10:21:28 +0000
-Message-ID: <CAPY8ntCLDZK-zhxzMVUDdD63MGx+Kwt6hVF8bfZVJ60nHiBWOg@mail.gmail.com>
-Subject: Re: [PATCH 11/11] media: i2c: imx290: Add support for H & V Flips
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1675419896; x=1706955896;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=R+eLmORD+0rW/2s7vE0AZji0mukDMbdK7TGsIj7PzWQ=;
+  b=E17wm3dg71nAqZCDZMAmlBc1diAr6wG3XlTdl5SpraioHY/zZVTdJ19E
+   m5Osg8oMw88rQdMcyPC2V0U4Px5lOALnMvZ23ybi4Y8D2Na9su2phEB5U
+   BeIVgAG4Zyadmbp/DSZ/v0BKUCkJO35QefhW26BgHTCzLurTir6NBYKHC
+   GT8w8G54Gi7ZB3RD8/Ynqo+IpdO20JD8ubizdthCfCZrclXI5khVIUlh4
+   RSTNEX3ppwQmctgsYiY9ZTmip5BEM+Uf5gkBryRlf+MVfAH2Spjrwk+XM
+   F9Bn8v4HR3t3t011QE7+ImbklKJLKqMD1Za8hlfTjTFYBpoqsAy4Fnrms
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,270,1669071600"; 
+   d="scan'208";a="28851849"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 03 Feb 2023 11:24:46 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 03 Feb 2023 11:24:46 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 03 Feb 2023 11:24:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1675419886; x=1706955886;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=R+eLmORD+0rW/2s7vE0AZji0mukDMbdK7TGsIj7PzWQ=;
+  b=ZYATnYUlCUxa6nz5xHsm6VgZsEx+9fqN3doMFUoewmAQ4iHb4u6wDtsL
+   ga6zCeBlWcD3/iWPKOpVQ1XLFw+jRAYLfdhKpd5UTilTeVpK2Nqa+kZ7q
+   yhP4C0w4CIPaVhrXuwQ9T3WwT2/+d9CrQj6iAioSQ39p78vnlXrnU3WSF
+   02jNb0Cdk23vorIiUB41qFN3ghBR9zVfj65OXonTpHe74eBdxfRjkahaO
+   IJ57bIGYcbc6QI6HIIwZydK5KhWsWCw02xJnn/iAShm82MKph9j93ZK0G
+   yh8iQ6cQWzh4UwfJTW75JemEg/L4CKGzmBEkDxBoYcFoN6Y3979NH/y8U
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,270,1669071600"; 
+   d="scan'208";a="28851848"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 03 Feb 2023 11:24:46 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AC7BC280056;
+        Fri,  3 Feb 2023 11:24:45 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Manivannan Sadhasivam <mani@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD autolearn=ham
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 0/2] media: i2c: imx290: imx327 support
+Date:   Fri,  3 Feb 2023 11:24:37 +0100
+Message-Id: <20230203102439.237527-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,180 +86,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi,
 
-On Thu, 2 Feb 2023 at 22:10, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Dave,
->
-> Thank you for the patch.
->
-> On Tue, Jan 31, 2023 at 07:20:16PM +0000, Dave Stevenson wrote:
-> > The sensor supports H & V flips, so add the relevant hooks for
-> > V4L2_CID_HFLIP and V4L2_CID_VFLIP to configure them.
-> >
-> > Note that the Bayer order is maintained as the readout area
-> > shifts by 1 pixel in the appropriate direction (note the
-> > comment about the top margin being 8 pixels whilst the bottom
-> > margin is 9).
->
-> That's why ! Now it makes sense to me.
->
-> > The V4L2_SEL_TGT_CROP region is therefore
-> > adjusted appropriately.
->
-> I'm not sure I like when sensors try to be clever... Out of curiosity,
-> do you know if this automatic shift of the crop rectangle can be
-> disabled ?
+this series adds support imx327 to existing imx290 driver. The differences
+in specs is that imx327 lacks support for 8 lanes LVDS (LVDS not used in
+driver anyway) and 120 FPS (currently only 60 FPS supported).
+Although just magic numbers, imx327 has a specific set of init register to
+be written.
+This series is based on [1] and [2] which adds imx290-mono support.
 
-Not as far as I'm aware.
-Most of the OnSemi sensors I've looked at also preserve the Bayer
-order on flips, and the datasheets say they're doing the same thing of
-shifting by one pixel. I did query if it could be disabled, and they
-said no.
+Best regards,
+Alexander
 
-I have a suspicion that the situation here is actually worse, but
-haven't had a chance to test experimentally.
-The datasheet settings for all-pixel mode gives [X|Y]_OUT_SIZE as
-1948x1097, but the driver sets them to 1920x1080 (1308x729 for the
-1280x720 mode). Which pixels get dropped due to that reduction. My
-expectation is that it'll be the right side and bottom edge, not a
-centre crop as is currently assumed by the driver in get_selection. If
-you flip that, then it'll be the top and left edges that get cropped
-off.
-If this is the case, then we'll have to switch to using window
-cropping mode to request the desired crop. Some people may be happy
-with this as it'll give them the information required to configure
-VGA@129fps and CIF@205fps modes as mentioned in the datasheet. For now
-I'm burying my head in the sand.
+[1] https://lore.kernel.org/linux-media/20230131190700.3476796-2-dave.stevenson@raspberrypi.com/
+[2] https://lore.kernel.org/linux-media/20230131192016.3476937-3-dave.stevenson@raspberrypi.com/
 
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  drivers/media/i2c/imx290.c | 37 ++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 34 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index 7f6746f74040..d2b7534f2c51 100644
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -227,6 +227,8 @@ struct imx290 {
-> >       struct v4l2_ctrl *hblank;
-> >       struct v4l2_ctrl *vblank;
-> >       struct v4l2_ctrl *exposure;
-> > +     struct v4l2_ctrl *hflip;
-> > +     struct v4l2_ctrl *vflip;
-> >  };
-> >
-> >  static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
-> > @@ -801,6 +803,24 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
-> >                                  NULL);
-> >               break;
-> >
-> > +     case V4L2_CID_HFLIP:
-> > +     case V4L2_CID_VFLIP:
-> > +     {
-> > +             u32 reg;
-> > +
-> > +             /* WINMODE is in bits [6:4], so need to read-modify-write */
->
-> You could also cache the value of the register in struct imx290 to avoid
-> the read.
+Alexander Stein (2):
+  media: dt-bindings: media: i2c: Add imx327 version to IMX327 bindings
+  media: i2c: imx290: Add support for imx327 variant
 
-We're already using regmap, so cache it there instead of locally?
+ .../bindings/media/i2c/sony,imx290.yaml       |  1 +
+ drivers/media/i2c/imx290.c                    | 88 ++++++++++++++++---
+ 2 files changed, 78 insertions(+), 11 deletions(-)
 
-Or alternatively move it out of the mode register array and into the
-struct imx290_mode, then we can use imx290->current_mode->reg_ctrl_07
-here. There's no need to set it from imx290_start_streaming as that
-calls __v4l2_ctrl_handler_setup which will come through here. That
-seems cleanest to me.
+-- 
+2.34.1
 
-> > +             ret = imx290_read(imx290, IMX290_CTRL_07, &reg);
-> > +             if (ret)
-> > +                     break;
-> > +             reg &= ~(IMX290_HREVERSE | IMX290_VREVERSE);
-> > +             if (imx290->hflip->val)
-> > +                     reg |= IMX290_HREVERSE;
-> > +             if (imx290->vflip->val)
-> > +                     reg |= IMX290_VREVERSE;
-> > +             ret = imx290_write(imx290, IMX290_CTRL_07, reg, NULL);
-> > +             break;
->
-> As you always write those two controls together, they should be put in a
-> cluster to have a single call to imx290_set_ctrl() when both are set in
-> the same VIDIOC_S_EXT_CTRLS call.
-
-Ah ctrl clusters - another can of worms :-)
-
- Dave
-
-> > +     }
-> > +
-> >       default:
-> >               ret = -EINVAL;
-> >               break;
-> > @@ -853,7 +873,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
-> >       if (ret < 0)
-> >               return ret;
-> >
-> > -     v4l2_ctrl_handler_init(&imx290->ctrls, 9);
-> > +     v4l2_ctrl_handler_init(&imx290->ctrls, 11);
-> >
-> >       /*
-> >        * The sensor has an analog gain and a digital gain, both controlled
-> > @@ -909,6 +929,11 @@ static int imx290_ctrl_init(struct imx290 *imx290)
-> >       imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> >                                          V4L2_CID_VBLANK, 1, 1, 1, 1);
-> >
-> > +     imx290->hflip = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> > +                                       V4L2_CID_HFLIP, 0, 1, 1, 0);
-> > +     imx290->vflip = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> > +                                       V4L2_CID_VFLIP, 0, 1, 1, 0);
-> > +
-> >       v4l2_ctrl_new_fwnode_properties(&imx290->ctrls, &imx290_ctrl_ops,
-> >                                       &props);
-> >
-> > @@ -1030,6 +1055,9 @@ static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
-> >               pm_runtime_put_autosuspend(imx290->dev);
-> >       }
-> >
-> > +     /* vflip and hflip cannot change during streaming */
-> > +     __v4l2_ctrl_grab(imx290->vflip, enable);
-> > +     __v4l2_ctrl_grab(imx290->hflip, enable);
->
-> A blank line would be nice.
->
-> >  unlock:
-> >       v4l2_subdev_unlock_state(state);
-> >       return ret;
-> > @@ -1115,6 +1143,7 @@ static int imx290_get_selection(struct v4l2_subdev *sd,
-> >                               struct v4l2_subdev_state *sd_state,
-> >                               struct v4l2_subdev_selection *sel)
-> >  {
-> > +     struct imx290 *imx290 = to_imx290(sd);
-> >       struct v4l2_mbus_framefmt *format;
-> >
-> >       switch (sel->target) {
-> > @@ -1122,9 +1151,11 @@ static int imx290_get_selection(struct v4l2_subdev *sd,
-> >               format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
-> >
->
-> A comment to explain here why the crop rectangle is adjusted would be
-> nice.
->
-> >               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
-> > -                        + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2;
-> > +                        + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2
-> > +                        + imx290->vflip->val;
-> >               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT
-> > -                         + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH - format->width) / 2;
-> > +                         + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH - format->width) / 2
-> > +                         + imx290->hflip->val;
-> >               sel->r.width = format->width;
-> >               sel->r.height = format->height;
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
