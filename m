@@ -2,90 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B5B568AC49
-	for <lists+linux-media@lfdr.de>; Sat,  4 Feb 2023 21:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8B568AD87
+	for <lists+linux-media@lfdr.de>; Sun,  5 Feb 2023 00:55:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232523AbjBDUjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Feb 2023 15:39:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55362 "EHLO
+        id S231386AbjBDXzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Feb 2023 18:55:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231654AbjBDUjU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Feb 2023 15:39:20 -0500
-X-Greylist: delayed 546 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 04 Feb 2023 12:39:19 PST
-Received: from mr85p00im-zteg06021901.me.com (mr85p00im-zteg06021901.me.com [17.58.23.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FAC6222EB
-        for <linux-media@vger.kernel.org>; Sat,  4 Feb 2023 12:39:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
-        t=1675542613; bh=wdmroSnk2VRzxsnC/4QQ06ZZXjkhU/5Tb87n4HWe2pE=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version;
-        b=wQhqV4pIgexziHbg3XW/PmP8qVUeu4uc9JxffwW1lMjgHnQ6ypKJbmbPvMnhM+4th
-         EiGOCmKt+YKR2VxC9pYLbU9PMcp80qv1EVdZlfHWjfDbdtm7GiMa9uDftDrBkynjeB
-         Y5DD4UjOxnhoVrwqfpvgiJIfK9HFKA7nBVwINx3zQZ1ZKmFysPKPOS/k9CsjmUSoHE
-         anBYVzUetYwN1vhlwRsL8VkQHQFQMJAezpBTG5jAJQ20ZxBkSotoa+IZOiUTffRZ1t
-         96Ifvq8kNNgj/5pDzT1ACS67VLZyTrkDedU+qwIS/puUk39ze2X5TOIf1ElSdenz17
-         8PvQO0o2w60+g==
-Received: from localhost (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-        by mr85p00im-zteg06021901.me.com (Postfix) with ESMTPSA id E25E3740A0B;
-        Sat,  4 Feb 2023 20:30:12 +0000 (UTC)
-From:   Alain Volmat <avolmat@me.com>
-To:     Patrice Chotard <patrice.chotard@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Alain Volmat <avolmat@me.com>, kernel test robot <lkp@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: sti: c8sectpfe: drop of_match_ptr() to avoid unused variables
-Date:   Sat,  4 Feb 2023 21:29:40 +0100
-Message-Id: <20230204202941.139974-1-avolmat@me.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229877AbjBDXzc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Feb 2023 18:55:32 -0500
+X-Greylist: delayed 1405 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 04 Feb 2023 15:55:29 PST
+Received: from mail.peterfykh.hu (mail.peterfykh.hu [84.206.67.96])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F73B2411B
+        for <linux-media@vger.kernel.org>; Sat,  4 Feb 2023 15:55:29 -0800 (PST)
+Received: from mail.peterfykh.hu (localhost [127.0.0.1])
+        by mail.peterfykh.hu (Postfix) with ESMTP id 220EEC8B;
+        Sun,  5 Feb 2023 00:23:19 +0100 (CET)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: -y6n3fMLjC9oNm25ppWtRkpNx3LCANb_
-X-Proofpoint-ORIG-GUID: -y6n3fMLjC9oNm25ppWtRkpNx3LCANb_
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxlogscore=958 bulkscore=0 clxscore=1011 spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2302040184
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Date:   Sun, 05 Feb 2023 00:23:19 +0100
+From:   Charles <elek.istvan@peterfykh.hu>
+To:     undisclosed-recipients:;
+Subject: =?UTF-8?Q?=C2=A1Felicidades!?=
+Reply-To: Charlesjackson@bahnhof.se
+Mail-Reply-To: Charlesjackson@bahnhof.se
+Message-ID: <8a3d9e08acb58d522bec1141edca5043@peterfykh.hu>
+X-Sender: elek.istvan@peterfykh.hu
+User-Agent: Roundcube Webmail/1.2.3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peterfykh.hu; s=mail; t=1675553005; bh=xjU8QW/VhXzqM4i0O0CrmiZ9OCFcqFUNs+HvDv6LiZc=; h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Reply-To:Message-ID; b=Dp/r2WIcQtfMuKJ1DEM8cRbOTwftRVsmd2WMgt0Spsu0+Y64YkiXBgY4D4NnuYEoC3jgf9EMzGrzGKsgbCr/nSU3PqQXs55pEKpkSy4x6dVqeNzb89U33YrZ7smJ0i0vA+dxE2fv307KCqraGpOumYEZ4fMzOS149dEGSKQ+GFE=
+X-Spam-Status: No, score=3.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,LOTS_OF_MONEY,SPF_HELO_NONE,
+        SPF_PASS,UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When CONFIG_OF is not set, "of_match_ptr(<match_table>)" compiles to NULL,
-which leaves <match_table> unused, leading to warning such as:
+Estimado señor/ma,
 
-drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
-warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
 
-Drop the of_match_ptr usage to avoid such warning.
+Soy el Sr. Charles W. Jackson Jr., el mega ganador de $344.6 Millones en 
+el
+Mega Millions Jackpot, estoy donando a 5 personas al azar si obtienes
+este correo electrónico, entonces su correo electrónico fue seleccionado 
+después de una bola giratoria. me he esparcido
+la mayor parte de mi riqueza en una serie de organizaciones benéficas y 
+organizaciones. Tengo
+decidió voluntariamente donarle la suma de $ 3 millones de dólares como 
+uno de
+el seleccionado 5. Para verificar mis ganancias a través de la página de 
+YouTube a continuación.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Alain Volmat <avolmat@me.com>
----
- drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-index c38b62d4f1ae..67d4db0abd8a 100644
---- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-+++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-@@ -1175,7 +1175,7 @@ MODULE_DEVICE_TABLE(of, c8sectpfe_match);
- static struct platform_driver c8sectpfe_driver = {
- 	.driver = {
- 		.name = "c8sectpfe",
--		.of_match_table = of_match_ptr(c8sectpfe_match),
-+		.of_match_table = c8sectpfe_match,
- 	},
- 	.probe	= c8sectpfe_probe,
- 	.remove	= c8sectpfe_remove,
--- 
-2.34.1
+MÍRAME AQUÍ: https://www.youtube.com/watch?v=0MUR8QEIMQI
 
+
+ESTE ES TU CÓDIGO DE DONACIÓN: DON201992
+
+
+Responda con el CÓDIGO DE DONACIÓN a mi correo electrónico privado: 
+charlesjacksonj1@gmail.com
+
+
+Espero hacerte feliz a ti y a tu familia.
+
+
+Saludos,
+Sr. Charles W. Jackson Jr.
