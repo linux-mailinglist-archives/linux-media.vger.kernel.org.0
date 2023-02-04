@@ -2,139 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D8168A6EC
-	for <lists+linux-media@lfdr.de>; Sat,  4 Feb 2023 00:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73AAE68A7B5
+	for <lists+linux-media@lfdr.de>; Sat,  4 Feb 2023 02:56:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232312AbjBCXbo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Feb 2023 18:31:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46584 "EHLO
+        id S233070AbjBDB4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Feb 2023 20:56:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbjBCXbg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 18:31:36 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACAEA42A0;
-        Fri,  3 Feb 2023 15:31:35 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 01D436203E;
-        Fri,  3 Feb 2023 23:31:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C98DC433D2;
-        Fri,  3 Feb 2023 23:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675467094;
-        bh=SEQiN1FXnyRmTAzODDJiAbEbmAR87JugLAgVlHlTLHo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qRZw/n2dwl7bKxjh1eW7SudjQchV6bYN7Ikq6OtCcDTYgQqL5YWggBuxXtSsfa23d
-         791buxLOr+jVu6VtcCjp2TbL5BrqeLskaOK6/AaFcyRsRmU/Q7Hi0El/7MmriRS5ir
-         RJkeQexSO5H+RJ1HYk62meA7HbXFHaietuBZGMsgteOdZvuknmSS76FHuBIhivUhYO
-         iGRPucy7IByscMpMGKqREQJ9qtB1QAk0l0gYz35zbmfvDQ8+b2ipcHpA2Vtvks/0CL
-         f6CPlvfGbwFahL0mfJfftmHeaS2GrV4P8Jzq/E7gm2aJ0UATTjW1cX+wjiOFCqcE8L
-         VkWEm9K+ZSFNA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     mchehab@kernel.org
-Cc:     netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        hverkuil@xs4all.nl, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH] media: drop unnecessary networking includes
-Date:   Fri,  3 Feb 2023 15:31:29 -0800
-Message-Id: <20230203233129.3413367-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S229657AbjBDB4k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Feb 2023 20:56:40 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89180113C8;
+        Fri,  3 Feb 2023 17:56:39 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so5944888pjp.0;
+        Fri, 03 Feb 2023 17:56:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KAWQVltchINdESu1keirl+Juwz9kMSkbmqmPLABnVbo=;
+        b=QTuOo3d0ewbioZYf6mnFIAlDpeSCJHTbUuksJIgSc6sVTD/qzHLKCQAj5xBdOM2bmO
+         Soo707EBxlJBabfYQwsYxXbrjFzpIxEqeVQPd5sLdmlTvcuBcIi9QE4l1HwQAO+k7bjc
+         boc2GIDowt/ri8sHZRd0uJXZN4qE9R6FUeZwvG0VTWCr229rh3THEWu+0uVg20392Win
+         Im6B9qUX8zWdMoD2w4ivMDJqXf3614CjuknmLhcVurQCzn6AcCFrHDStbLJ3ET1rRjhf
+         XcFEzstYVHWA7dbx2kCTawoGgAjJ3HyKzMNuZ7/wCCcox6ptbGOjmB6fXVCFhq9AoXr/
+         TsrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KAWQVltchINdESu1keirl+Juwz9kMSkbmqmPLABnVbo=;
+        b=sfTF80694XOut3g1MEbJCX+qXWAXYeb462CUFwnqg6WO0Th19h/8/nshqavg52Cv8g
+         4H+DJpqGw7oMrVhX8BFwoVa/9Yhs8jmINVJEOTehdkLdDKrRLXth6s8eTx8wt0KDICPS
+         39y2uqurAsjgqZbiO3Zg/NRsjS/3QuuMd6eAUMcqzLOqfpvq4GA2iBnpUJHDD+OaSzFm
+         5YKGfd7HRBdrdtn+4oclh4iitq9wFU5EPbi3CCWjBuSyF7WB0DUTCyScH1J3uTT5/eEk
+         7PVtViBwbi12CBX+X3Jg4we6eGOT/QwObcXK4lPHER0KT5bS7eJ9LhS95zAW+CG01IA4
+         Okyg==
+X-Gm-Message-State: AO0yUKWYgJ+lM+QG+2J5Bbukgg1YLL76cbt4TDIA9eO9uGbWlcX24Eo/
+        grZpngQ2B1wjale7Ulepeq0=
+X-Google-Smtp-Source: AK7set8sBWWRuULWZIPZU3d4F7wNKydipPZKkOR5r2H8zeah5I958RN7LP7qBe8E0SYh9UqoNtYrQA==
+X-Received: by 2002:a17:902:c944:b0:196:4652:7cff with SMTP id i4-20020a170902c94400b0019646527cffmr13150025pla.11.1675475798893;
+        Fri, 03 Feb 2023 17:56:38 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-73.three.co.id. [180.214.232.73])
+        by smtp.gmail.com with ESMTPSA id je10-20020a170903264a00b00189e1522982sm2265553plb.168.2023.02.03.17.56.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Feb 2023 17:56:38 -0800 (PST)
+Message-ID: <6a5592a8-10f9-9c08-0a4b-fcf49d8acc1f@gmail.com>
+Date:   Sat, 4 Feb 2023 08:56:30 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix elapsed_ns kernel-doc error
+Content-Language: en-US
+To:     Lucas Stach <l.stach@pengutronix.de>,
+        Intel Graphics Development List 
+        <intel-gfx@lists.freedesktop.org>,
+        DRI Development List <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matt Roper <matthew.d.roper@intel.com>,
+        Gustavo Sousa <gustavo.sousa@intel.com>,
+        Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
+        Matt Atwood <matthew.s.atwood@intel.com>,
+        =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
+        Srinivasan Shanmugam <srinivasan.s@intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20230203100215.31852-1-bagasdotme@gmail.com>
+ <20230203100215.31852-3-bagasdotme@gmail.com>
+ <99c4db33a1966bd1979817277facb4a42ba2333f.camel@pengutronix.de>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <99c4db33a1966bd1979817277facb4a42ba2333f.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dvb_net.h includes a bunch of core networking headers which increases
-the number of objects rebuilt when we touch them. They are unnecessary
-for the header itself and only one driver has an indirect dependency.
+On 2/3/23 18:27, Lucas Stach wrote:
+> Thanks, I've added this to the etnaviv tree.
+> 
+> Since the commit is only in -next and not a non-rebase tree yet, I
+> might be tempted to squash the fix into the offending commit. What
+> would be the right way to credit you for the fix in that case?
+> 
 
-tveeprom.h includes if_packet to gain access to ETH_ALEN. This
-is a bit of an overkill because if_packet.h pulls in skbuff.h.
-The definition of ETH_ALEN is in the uAPI header, which is
-very rarely touched, so switch to including that.
+On SoB area, you can add:
 
-This results in roughly 250 fewer objects built when skbuff.h
-is touched (6028 -> 5788).
+[Bagas: Append missing colon to @elapsed_ns]
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: mchehab@kernel.org
-CC: hverkuil@xs4all.nl
-CC: gregkh@linuxfoundation.org
-CC: linux-media@vger.kernel.org
-CC: linux-staging@lists.linux.dev
----
- drivers/media/usb/dvb-usb/pctv452e.c                       | 2 ++
- drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c | 1 +
- include/media/dvb_net.h                                    | 6 ++----
- include/media/tveeprom.h                                   | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
+Thanks.
 
-diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
-index f0794c68c622..da42c989e071 100644
---- a/drivers/media/usb/dvb-usb/pctv452e.c
-+++ b/drivers/media/usb/dvb-usb/pctv452e.c
-@@ -26,6 +26,8 @@
- #include <media/dvb_ca_en50221.h>
- #include "ttpci-eeprom.h"
- 
-+#include <linux/etherdevice.h>
-+
- static int debug;
- module_param(debug, int, 0644);
- MODULE_PARM_DESC(debug, "Turn on/off debugging (default:off).");
-diff --git a/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c b/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
-index 0c61a2dec221..3cc762100498 100644
---- a/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
-+++ b/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
-@@ -31,6 +31,7 @@
- #include "dvb-pll.h"
- #include "../common/saa7146_vv.h"
- #include <linux/module.h>
-+#include <linux/etherdevice.h>
- #include <linux/errno.h>
- #include <linux/slab.h>
- #include <linux/interrupt.h>
-diff --git a/include/media/dvb_net.h b/include/media/dvb_net.h
-index 5e31d37f25fa..9980b1dd750b 100644
---- a/include/media/dvb_net.h
-+++ b/include/media/dvb_net.h
-@@ -19,13 +19,11 @@
- #define _DVB_NET_H_
- 
- #include <linux/module.h>
--#include <linux/netdevice.h>
--#include <linux/inetdevice.h>
--#include <linux/etherdevice.h>
--#include <linux/skbuff.h>
- 
- #include <media/dvbdev.h>
- 
-+struct net_device;
-+
- #define DVB_NET_DEVICES_MAX 10
- 
- #ifdef CONFIG_DVB_NET
-diff --git a/include/media/tveeprom.h b/include/media/tveeprom.h
-index b56eaee82aa5..f37c9b15ffdb 100644
---- a/include/media/tveeprom.h
-+++ b/include/media/tveeprom.h
-@@ -5,7 +5,7 @@
-  *	      eeproms.
-  */
- 
--#include <linux/if_ether.h>
-+#include <uapi/linux/if_ether.h>
- 
- /**
-  * enum tveeprom_audio_processor - Specifies the type of audio processor
 -- 
-2.39.1
+An old man doll... just what I always wanted! - Clara
 
