@@ -2,181 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4121A68BAA9
-	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 11:45:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F15F468BC50
+	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 13:07:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjBFKpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Feb 2023 05:45:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48136 "EHLO
+        id S230072AbjBFMHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Feb 2023 07:07:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbjBFKpl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 05:45:41 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145F361B0;
-        Mon,  6 Feb 2023 02:45:40 -0800 (PST)
-Received: from pendragon.ideasonboard.com (unknown [109.136.43.56])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81F8D7FE;
-        Mon,  6 Feb 2023 11:45:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675680338;
-        bh=FGFNJRib2QlX+H+LoX0S7Qjo8ZGpyaK+yzxOUDQ53hg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A1UlZlfFNSgKw6ovRZS7G90vDmIIm648NHdzjQj9eewZM5YgNFmEdKJqmUBr9jJV1
-         7a77nZYHXum1E+najsQEfXYeiwGn763SybES/3YUtip5EFfWbmcRVYYtQMP/5PtQVK
-         hKkTTw+Ve86HsyUQ3VsoXYehqSAeXBUUtnymgvGc=
-Date:   Mon, 6 Feb 2023 12:45:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org,
-        Andrii Kyselov <ays@melexis.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
- camera sensor binding
-Message-ID: <Y+DaUaGqxXQLQq3i@pendragon.ideasonboard.com>
-References: <cover.1657786765.git.vkh@melexis.com>
- <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
- <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
- <c87132c4-5801-2f1f-8ef9-3997474cf7a5@linaro.org>
- <Ys/zvH3ICr4zpTLH@pendragon.ideasonboard.com>
- <7e362d83-36c2-00ed-6525-37197ee8e5d7@linaro.org>
- <Ys/6O2H/eDEWYHei@pendragon.ideasonboard.com>
- <20a88191-0c4e-710f-e6ab-4087e5980533@linaro.org>
- <Ys/+KaNltkZZmRE4@pendragon.ideasonboard.com>
- <85cb8f2d-5d8b-ffa9-9f53-0e8bc1233e69@linaro.org>
+        with ESMTP id S230058AbjBFMHS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 07:07:18 -0500
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED5C12F1D;
+        Mon,  6 Feb 2023 04:07:15 -0800 (PST)
+X-UUID: c922d038a61611ed945fc101203acc17-20230206
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=DimnXih34BB0ZAqnseU6Ac647p2BGjjyOcF2FMmE3cc=;
+        b=cY4I6scHpN1X3LHkku21TawjWRRhfBIzwmq2DMtZ3iKwXvXa9GBhsWVagBDrXDVxwXWgDwUxVltFZqP8G3Sxb0FpI7gSmfNGNXOpuYxwicGJ/D6K/rTYx9/R15CmUZRtftEwU3Hkwm665kwE6s5oJhuV/fMnK332LipgRE4dyAU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.19,REQID:86d8153d-508a-469a-a3ce-27c0672f5cc4,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:90
+X-CID-INFO: VERSION:1.1.19,REQID:86d8153d-508a-469a-a3ce-27c0672f5cc4,IP:0,URL
+        :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
+        N:quarantine,TS:90
+X-CID-META: VersionHash:885ddb2,CLOUDID:251c9df7-ff42-4fb0-b929-626456a83c14,B
+        ulkID:2302062007126680ITER,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-UUID: c922d038a61611ed945fc101203acc17-20230206
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1933444514; Mon, 06 Feb 2023 20:07:11 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 6 Feb 2023 20:07:09 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Mon, 6 Feb 2023 20:07:08 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH 0/6] media: mediatek: vcodec: Add debugfs file for decode and encode
+Date:   Mon, 6 Feb 2023 20:07:02 +0800
+Message-ID: <20230206120708.19631-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <85cb8f2d-5d8b-ffa9-9f53-0e8bc1233e69@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Need to change kernel driver to open decode and encode debug log at current period,
+it's very unreasonable. Adding debugfs common interface to support decode and encode,
+using echo command to control debug log level and getting useful information for each
+instance.
 
-Very late reply, this had fallen through the cracks.
+patch 1 add debugfs common interface.
+patch 2~4 support decode.
+patch 5~6 support encode
+---
+Yunfei Dong (6):
+  media: mediatek: vcodec: Add debugfs interface to get debug
+    information
+  media: mediatek: vcodec: Add debug params to control different log
+    level
+  media: mediatek: vcodec: Add a debugfs file to get different useful
+    information
+  media: mediatek: vcodec: Get get each instance format type
+  media: mediatek: vcodec: Change dbgfs interface to support encode
+  media: mediatek: vcodec: Add encode to support dbgfs
 
-On Thu, Jul 14, 2022 at 01:56:13PM +0200, Krzysztof Kozlowski wrote:
-> On 14/07/2022 13:29, Laurent Pinchart wrote:
-> > On Thu, Jul 14, 2022 at 01:23:41PM +0200, Krzysztof Kozlowski wrote:
-> >> On 14/07/2022 13:12, Laurent Pinchart wrote:
-> >>>>>>> One option would be to support the following three compatible values:
-> >>>>>>>
-> >>>>>>> 	compatible = "melexis,mlx75026", "melexis,mlx7502x";
-> >>>>>>> 	compatible = "melexis,mlx75027", "melexis,mlx7502x";
-> >>>>>>> 	compatible = "melexis,mlx7502x";
-> >>>>>>>
-> >>>>>>> The last one only would trigger autodetection. I'm still not sure how to
-> >>>>>>> document that properly in bindings though.
-> >>>>>>
-> >>>>>> I missed that part of binding.
-> >>>>>>
-> >>>>>> Wildcards are not allowed in compatible, so mlx7502x has to go.
-> >>>>>
-> >>>>> Really ? We've had fallback generic compatible strings since the
-> >>>>> beginning.
-> >>>>
-> >>>> Fallback generic compatibles are allowed. Wildcards not. Wildcards were
-> >>>> actually never explicitly allowed, they just slipped in to many
-> >>>> bindings... We have several discussions on this on mailing list, so no
-> >>>> real point to repeat the arguments.
-> >>>>
-> >>>> There is a difference between generic fallback. If the device follows
-> >>>> clear specification and version, e.g. "foo-bar-v4", you can use it for
-> >>>> generic compatible. This is more common in SoC components. Requirement -
-> >>>> there is a clear mapping between versions and SoCs.
-> >>>
-> >>> I'm not sure to see a clear difference between the two concepts.
-> >>
-> >> The clear difference is that you have a versioned and re-usable hardware
-> >> block plus clear mapping which version goes to which SoC. Version
-> >> numbers usually start with 1, not with 75025. 75025 is a model name.
-> > 
-> > How about Documentation/devicetree/bindings/serial/renesas,scif.yaml for
-> > instance, where the version number isn't known and the SoC name is used
-> > instead ? Is that acceptable ?
-> 
-> This is the second case I mentioned - family of devices where the family
-> fallback is not allowed to be alone. You cannot use just "renesas,scif"
-> in DTS.
-
-OK. Does this mean you are fine with
-
-	compatible = "melexis,mlx75026", "melexis,mlx7502x";
-	compatible = "melexis,mlx75027", "melexis,mlx7502x";
-
-where "melexis,mlx7502x" is considered to be the family fallback, but
-not
-
-	compatible = "melexis,mlx7502x";
-
-alone ?
-
-> > How should we deal with devices that have different models, where the
-> > model is irrelevant to the kernel driver, but relevant to userspace ?
-> > Imagine, for instance, a light sensor with 10 models than only differ by
-> > the filter they use to tune the sensitivity to different light spectrums
-> > ? They are all "compatible" from a software point of view, would the
-> > driver need to list all 10 compatible strings ?
-> 
-> I don't understand that example, I mean, what's the problem here? If
-> they are all compatible, you can use only one comaptible, e.g.
-> melexis,mlx75026.
-> 
-> If you ever need to differentiate it for user-space, you add specific
-> compatible for the model and you have:
-> 
-> melexis,mlx75027, melexis,mlx75026
-> 
-> If user-space needs dedicated compatibles - add them, no one here argues
-> to not to use specific compatibles.
-
-OK.
-
-> >>> For cameras, we often deal with complex pipelines with multiple external
-> >>> devices and multiple IP cores, with drivers that need to communicate
-> >>> with each other to initialize the complete camera system. For instance,
-> >>> each camera-related component in the system registers itself in a media
-> >>> graph that can be queried from userspace and exposes information about
-> >>> all devices, including their model. There's no power up of any device
-> >>> when this query is being performed from userspace. It could possibly be
-> >>> changed (and maybe it should, for reasons unrelated to this discussion),
-> >>> but we're looking at pretty much a complete redesign of V4L2 and MC
-> >>> then.
-> >>
-> >> Is then autodetection a real use case since you have to power up the
-> >> sensor each time system boots and this violates privacy? Several I2C
-> >> sensors do not care about this and they always do it on power up, so
-> >> aren't we solving here something unimportant?
-> > 
-> > In a laptop or tablet with a camera sensor, you likely don't want
-> > autodetection. In an industrial device, you don't care, and having the
-> > ability to auto-detect the exact sensor model when booting saves cost in
-> > the production chain as a single image can work across different models.
-> 
-> We talk about the case here, not generic. Do you want to have
-> autodetection possible here or not?
-
-I'd like to support auto-detection, but not make it mandatory. Assuming
-a family of chips supported by one driver with hardware that makes
-auto-detection possible, I have use cases where I specifically don't
-want auto-detection as it would have undesirable side effects at probe
-time, and other use cases where I want auto-detection as it lowers the
-costs in the production chain. I thus need to be able to specify, in DT,
-whether to use auto-detection or not, and when not using auto-detection,
-specify the exact chip model.
+ .../media/platform/mediatek/vcodec/Makefile   |   6 +
+ .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 157 ++++++++++++++++++
+ .../mediatek/vcodec/mtk_vcodec_dbgfs.h        |  48 ++++++
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   4 +
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |   2 +
+ .../mediatek/vcodec/mtk_vcodec_util.c         |   8 +
+ .../mediatek/vcodec/mtk_vcodec_util.h         |  25 ++-
+ 8 files changed, 251 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
 
 -- 
-Regards,
+2.18.0
 
-Laurent Pinchart
