@@ -2,109 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0BAD68BC5C
-	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 13:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AFAC68BDE6
+	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 14:20:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230135AbjBFMH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Feb 2023 07:07:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42310 "EHLO
+        id S230417AbjBFNTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Feb 2023 08:19:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjBFMHY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 07:07:24 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D4D922032;
-        Mon,  6 Feb 2023 04:07:22 -0800 (PST)
-X-UUID: ccd61168a61611ed945fc101203acc17-20230206
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=PAR9ceNc//mA5cmLDkfFT7PplGN2wFwq9Wd/wjFC8pg=;
-        b=jTR6uO4TijWOnQZzNfft1sn5fiNMJ3pS67gWViZxa/LoNiLUWkhBoCQ08KKMrQu/ArVqoPbtO8jz2PBdDNVoVjT3uMwdvoFSsksPA+RttsyTR/GYtiOtkxg2QQ9crvQ+fL8HsjbrpRVjdVfdLhN8nXzaPe3OAscFhpKYLCXimvo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.19,REQID:dd6cfc3e-8934-42df-a483-f7a908e45722,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-5
-X-CID-META: VersionHash:885ddb2,CLOUDID:871c9df7-ff42-4fb0-b929-626456a83c14,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-UUID: ccd61168a61611ed945fc101203acc17-20230206
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 761754773; Mon, 06 Feb 2023 20:07:17 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 6 Feb 2023 20:07:16 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Mon, 6 Feb 2023 20:07:15 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH 6/6] media: mediatek: vcodec: Add encode to support dbgfs
-Date:   Mon, 6 Feb 2023 20:07:08 +0800
-Message-ID: <20230206120708.19631-7-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230206120708.19631-1-yunfei.dong@mediatek.com>
-References: <20230206120708.19631-1-yunfei.dong@mediatek.com>
+        with ESMTP id S230331AbjBFNS4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 08:18:56 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC01A7D8B;
+        Mon,  6 Feb 2023 05:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1675689473; x=1707225473;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3T2sh+1/gXnBbq51CiWyI7Py4emLBRAdMYK9kSDZRyE=;
+  b=mRZuf42kZqPweLJDojz6PZo0f6D3uLECobABkJ8Br67+AXKzVHAJ6yEw
+   SPqsOAPwHpxal/CrFeHdcDCHgWCHLac/z7zERizY1Q7B7KyG25py8xPGZ
+   gnkOC95N2B4MKqblaW5tmy2r9HxzxGDPzW/dEvpuCLQ1RAhe+JcxwWW+B
+   UGFcfsp2Ltw9DcS/GFZZl68rHa2sVyj6E9eHSvbcKmfWXMzjBTmACMwIy
+   KeMXzd2bHuiDeiad3RoqHE/GxfVTDOe4FJVW+Yz/3WPXWKN/gTh4glw/t
+   Af8UWewryVs1tDM17TKXEyVRcKOQEAj188eREMU3xdDw2uPgjNxwcnFBf
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,276,1669071600"; 
+   d="scan'208";a="28891873"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 06 Feb 2023 14:17:41 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 06 Feb 2023 14:17:41 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 06 Feb 2023 14:17:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1675689461; x=1707225461;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3T2sh+1/gXnBbq51CiWyI7Py4emLBRAdMYK9kSDZRyE=;
+  b=GO7x70pjP11Bt3nhGPHsM+VufRq/kwjICllhjiV677ta/fF3IRa6N8bX
+   WxGAT7kw2TSWqt/+8O0NIeg6h7PMysJzerdPjYISeXFysc4mF51pzOO5f
+   5LEw2iXJHny7iWED0DvrzabLCW6pBvtSu/Tyyp/OlbzRVRNym4p1JBzJg
+   nH5/fdTpq/FBpt6ScnYgOQMJRjHyGDKwS815dAeBotLs5fabGXlG4gi0g
+   /zaY3Kxi7PB3Az+bqhPaBBmLCUgMSOTjhryZw4OC/d5DubU9BHNLfICnX
+   sickdwdk+eQLrECDZOGu+f2XXP3p3JXtPbQM6ad3cT6nb72OGy58g29x7
+   A==;
+X-IronPort-AV: E=Sophos;i="5.97,276,1669071600"; 
+   d="scan'208";a="28891866"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 06 Feb 2023 14:17:40 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 353AB280074;
+        Mon,  6 Feb 2023 14:17:40 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v2 0/2] media: i2c: imx290: imx327 support
+Date:   Mon,  6 Feb 2023 14:17:29 +0100
+Message-Id: <20230206131731.548795-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add encode to support dbgfs.
+Hi,
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+this is the next version for supporting imx327 sensor.
+Changes in v2:
+* Switched compatible to sony,imx327lqr
+* Rebased on top of Dave's updated series
+* Split some register writes into common and device specific lists
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-index 9095186d5495..94703c66da74 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-@@ -353,6 +353,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		goto err_enc_reg;
- 	}
- 
-+	mtk_vcodec_dbgfs_init(dev, false);
- 	mtk_v4l2_debug(0, "encoder %d registered as /dev/video%d",
- 		       dev->venc_pdata->core_id, vfd_enc->num);
- 
-@@ -463,6 +464,7 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
- 	if (dev->vfd_enc)
- 		video_unregister_device(dev->vfd_enc);
- 
-+	mtk_vcodec_dbgfs_deinit(dev);
- 	v4l2_device_unregister(&dev->v4l2_dev);
- 	pm_runtime_disable(dev->pm.dev);
- 	mtk_vcodec_fw_release(dev->fw_handler);
+[1] https://lore.kernel.org/linux-media/20230203191644.947643-1-dave.stevenson@raspberrypi.com/
+[2] https://lore.kernel.org/linux-media/20230203191811.947697-1-dave.stevenson@raspberrypi.com/
+
+Alexander Stein (2):
+  media: dt-bindings: media: i2c: Add imx327 version to IMX327 bindings
+  media: i2c: imx290: Add support for imx327 variant
+
+ .../bindings/media/i2c/sony,imx290.yaml       |  1 +
+ drivers/media/i2c/imx290.c                    | 58 ++++++++++++++++++-
+ 2 files changed, 56 insertions(+), 3 deletions(-)
+
 -- 
-2.18.0
+2.34.1
 
