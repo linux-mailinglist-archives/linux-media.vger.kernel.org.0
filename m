@@ -2,109 +2,281 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB5768B910
-	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 10:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6A268BA7F
+	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 11:39:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbjBFJxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Feb 2023 04:53:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47866 "EHLO
+        id S229650AbjBFKjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Feb 2023 05:39:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbjBFJx0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 04:53:26 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FCB1F5D8
-        for <linux-media@vger.kernel.org>; Mon,  6 Feb 2023 01:53:13 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id a2so9505450wrd.6
-        for <linux-media@vger.kernel.org>; Mon, 06 Feb 2023 01:53:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=melexis.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OALBcHyiOKdLr54uUWDTNKeHxszaZfIesV0P4fl0wK8=;
-        b=VIFYf3oxH9pTHspvdDZhugsxik7L0cScUnO3y/bJrX111E+tvEd/bwRXLtxbelM/bh
-         q+9BpHIfbeeitjehJAweYsC3/GnxCIx/7LM3f1Vv2L7y7AVx4TU8yV0gjestCrwgyLiX
-         Ke0ccVLwzbkqdMwkF+yGL6GhYLZ0d4cTzGoRsvN8dV11fBX2IeYmZeXhUhCiOrIjHQsv
-         9UZxUBxMhNFZYC+kAHx+gL8wfi13ldMSAQPn+NJCNP5jwsKThlyfOtp8WUhnI9ilmEoB
-         OEWh2PlIpLk9ASmH7Uap3he7Q5Q+hT2vC8NksWKgb6IBnVkqHuOjWuCedym3rGNeFqgk
-         d2VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OALBcHyiOKdLr54uUWDTNKeHxszaZfIesV0P4fl0wK8=;
-        b=4px9qgNNdFR8UMMPelZdkoY5KzUdKzqTf+qdnUHIVPJSpIP0TLHwhTY7oggiav1+zV
-         11f+giuT2+PQGoheX6zpwkz5WP1vsWiHVwAvDkGCg5tqZADA7PfD4R0PXctUd7hvKADy
-         Z6BIJR0gixxnX3t2G5AdkGnhJ9ePl+J6j8hDMjwPfWjDuiFyy+viJhVj5qaymkCl4nO/
-         fyf96uPWm/YhwIVfSXXoEkzoXdUDKCmx0qg5U5013dPeWFeB2/hncxCU6I0eHWyHpdrR
-         RwHWJm/TSEpdKyp8GDPnhGFgLokC8fktgint5UTZp66DNzhZ+ropu/8D8mrxTSZJF0U5
-         c0nQ==
-X-Gm-Message-State: AO0yUKUSyV4U7syiKvH/cz7iXZF7L1CK+472NzsPiPrU9P648c8BtBPE
-        g+sJPHemY4qskOmNZRSAWNrsOA==
-X-Google-Smtp-Source: AK7set/wudvAKqMKIier8OI6uZN6H/gUsSGBWlNJVOF5lc5ZYm6g0ZPJNhJKwJDDf5QLpiPevUG3bg==
-X-Received: by 2002:adf:f006:0:b0:2bf:b199:c7ef with SMTP id j6-20020adff006000000b002bfb199c7efmr16179901wro.12.1675677191879;
-        Mon, 06 Feb 2023 01:53:11 -0800 (PST)
-Received: from melexis.com ([91.192.181.19])
-        by smtp.gmail.com with ESMTPSA id e12-20020a5d500c000000b002c3ea9655easm1533201wrt.108.2023.02.06.01.53.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 01:53:11 -0800 (PST)
-Date:   Mon, 6 Feb 2023 11:53:09 +0200
-From:   Volodymyr Kharuk <vkh@melexis.com>
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andrii Kyselov <ays@melexis.com>, linux-media@vger.kernel.org,
+        with ESMTP id S231223AbjBFKip (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 05:38:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6ACDBFA;
+        Mon,  6 Feb 2023 02:38:02 -0800 (PST)
+Received: from pendragon.ideasonboard.com (unknown [109.136.43.56])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD23B4DA;
+        Mon,  6 Feb 2023 11:36:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675679805;
+        bh=9s/ln2Fbj6UQOSq3Eb3fv0asoO3SHMlB2wOoqR2Nsvo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Zxy35lIxkK72PXZgb5VthfC4il/NVk24+8GU5DJwVyQhiwHa2asWlrIn14te4207C
+         bxA4Lkq0MTl/eP/7spC7dec2eS8IDIiR9RHTNzSJ9jgEsqkoDAf5Lb2Gk0abWsvJb3
+         BrUUdN8dOKYmXTT0RIsv+8gqR3m6inJifKhkTSt8=
+Date:   Mon, 6 Feb 2023 12:36:44 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Volodymyr Kharuk <vkh@melexis.com>
+Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v4 0/8] media: i2c: mlx7502x ToF camera support
-Message-ID: <Y+DOBR0vLJHgONM1@melexis.com>
-References: <cover.1669978791.git.vkh@melexis.com>
- <Y9DvUDQb84nz3qVc@melexis.com>
- <Y9EW2jqRa47UZezR@kekkonen.localdomain>
- <Y9E+hJ604i/ss/xR@melexis.com>
- <f71e9386-8a6e-a546-fa26-5abe55e3eeff@foss.st.com>
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
+ camera sensor binding
+Message-ID: <Y+DYPGcl2CW2tRjS@pendragon.ideasonboard.com>
+References: <cover.1657786765.git.vkh@melexis.com>
+ <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
+ <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
+ <20220715153243.GA18207@vkh-ThinkPad-T490>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f71e9386-8a6e-a546-fa26-5abe55e3eeff@foss.st.com>
+In-Reply-To: <20220715153243.GA18207@vkh-ThinkPad-T490>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Volodymyr,
 
-> By the way, was the mailing list dropped from cc by mistake ?
-No, I just wanted to send a remind about the patch to Sakari and Laurent.
-Now it looks that this thread became more technical, so I am adding cc again.
+I've just realized your previous e-mail felt through the cracks. Sorry
+about that. Please see below for comments.
 
-> >> I took a glance already and the driver seems reasonably good but I'm
-> >> concerned of the interface. How generic is it? I can't say to be an expert
-> >> on these devices and we don't have any other ToF cameras yet. Is the
-> >> precision (8 bits) of the control values enough?
-> > Fairly, that it is an interesting question.
-> > The frequency modulation defines the maximum range of object detection.
-> > 1 MHz precision is what we need usually, as the maximum range is from
-> > 1.5m(100Mhz) till 150(1MHz) meters then.
-> > Usually, user applications use 60-80MHz(max range is 1.8 - 2.5meters).
-> > Also, it is possible to have smaller step then 1 MHz, but it is not that practical.
-> > I am ok switch to Hz and use u32. In that case we will not be limited for generic case.
+On Fri, Jul 15, 2022 at 06:32:43PM +0300, Volodymyr Kharuk wrote:
+> On Thu, Jul 14, 2022 at 01:06:35PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jul 14, 2022 at 11:34:47AM +0300, Volodymyr Kharuk wrote:
+> > > Add device tree binding of the mlx7502x and update MAINTAINERS
+> > > 
+> > > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
+> > > ---
+> > >  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 146 ++++++++++++++++++
+> > >  MAINTAINERS                                   |   1 +
+> > >  2 files changed, 147 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> > > new file mode 100644
+> > > index 000000000000..4ac91f7a26b6
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> > > @@ -0,0 +1,146 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/melexis,mlx7502x.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Melexis ToF 7502x MIPI CSI-2 Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Volodymyr Kharuk <vkh@melexis.com>
+> > > +
+> > > +description: |-
+> > > +  Melexis ToF 7502x sensors has a CSI-2 output. It supports 2 and 4 lanes,
+> > > +  and mipi speeds are 300, 600, 704, 800, 904, 960Mbs. Supported format is RAW12.
+> > > +  Sensor 75026 is QVGA, while 75027 is VGA sensor.
+> > > +  If you use compatible = "melexis,mlx7502x", then autodetect will be called.
 > > 
-> > Benjamin, what precision is better for frequency modulation in your case?
-> 
-> Good catch, we do require Hz precision for some frequencies we use.
-> In other systems we use floats expressed as Mhz for this. As Linux only
-> supports integers, switching it to u32 and express it as Hz is a good idea.
-Ok, then I'll redo in next version.
+> > I'd move this last line as a description of the compatible property, but
+> > I'm also not sure this should be mentioned in the DT bindings, as it's a
+> > driver implementation detail. I'm actually not sure we should support it
+> > with three different compatible values as proposed, as without this
+> > documentation users will have a hard time figuring out what compatible
+> > value to pick.
+> > 
+> > One option would be to support the following three compatible values:
+> > 
+> > 	compatible = "melexis,mlx75026", "melexis,mlx7502x";
+> > 	compatible = "melexis,mlx75027", "melexis,mlx7502x";
+> > 	compatible = "melexis,mlx7502x";
+> > 
+> > The last one only would trigger autodetection. I'm still not sure how to
+> > document that properly in bindings though.
+> > 
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - melexis,mlx7502x
+> > > +          - melexis,mlx75026
+> > > +          - melexis,mlx75027
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  assigned-clocks: true
+> > > +  assigned-clock-parents: true
+> > > +  assigned-clock-rates: true
+> > > +
+> > > +  clocks:
+> > > +    description: Clock frequency 8MHz
+> > > +    maxItems: 1
+> > > +
+> > > +  vdda-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as analog power supply(2.7V).
+> > > +
+> > > +  vddif-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as interface power supply(1.8V).
+> > > +
+> > > +  vddd-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as digital power supply(1.2V).
+> > > +
+> > > +  vdmix-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as mixed driver power supply(1.2V).
+> > > +
+> > > +  reset-gpios:
+> > > +    maxItems: 1
+> > > +    description: Reset Sensor GPIO Control (active low)
+> > > +
+> > > +  melexis,trig-gpios:
+> > > +    maxItems: 1
+> > > +    description:
+> > > +      Hardware Trigger GPIO Control (active low)
+> > > +      When the hardware trigger mode is enabled, this GPIO is used to generate
+> > > +      a low level impulse for about 100us. The impulse triggers a new
+> > > +      measurement cycle.
+> > > +
+> > > +  melexis,leden-gpios:
+> > > +    maxItems: 1
+> > > +    description:
+> > > +      Led driver enable GPIO Control (active high)
+> > > +      This GPIO notifies the illumination driver when it is safe to use led
+> > > +      signals from the sensor.
+> > 
+> > As far as I understand this isn't an input of the sensor, but a signal
+> > that is driven by the driver and controls the separate illuminator. It
+> > shouldn't be specified in this binding, as it's not a property of the
+> > sensor. You should instead have a DT node for the illumination driver.
+>
+> Yes, you are right. There are illuminators, which are not ready to accept
+> the signal from the sensor, if pin levels are not right. So I need to
+> notify illuminator somehow.  Can the illumination driver be as a V4L2
+> subdevice? Then I can notify the illuminator via s_stream. In another
+> case it can damage the illuminator. What do you think?
+
+It can be a separate subdev, yes. There are flash-related controls in
+V4L2, maybe some of them would cover your use cases ? We have a few
+flash drivers in upstream that you can look at for inspiration, for
+instance drivers/media/i2c/lm3560.c or drivers/media/i2c/adp1653.c.
+
+> > > +  port:
+> > > +    description: MIPI CSI-2 transmitter port
+> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: /schemas/media/video-interfaces.yaml#
+> > > +        unevaluatedProperties: false
+> > > +
+> > > +        properties:
+> > > +          data-lanes:
+> > > +            oneOf:
+> > > +              - items:
+> > > +                  - const: 1
+> > > +                  - const: 2
+> > > +              - items:
+> > > +                  - const: 1
+> > > +                  - const: 2
+> > > +                  - const: 3
+> > > +                  - const: 4
+> > > +
+> > > +          clock-noncontinuous: true
+> > > +          link-frequencies: true
+> > > +
+> > > +        required:
+> > > +          - data-lanes
+> > > +          - link-frequencies
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - port
+> > 
+> > Let's make the supplies mandatory too, as the chip can't operate without
+> > them.
+>
+> Ok
+>
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    i2c {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        mlx7502x: camera@57 {
+> > > +            compatible = "melexis,mlx7502x";
+> > > +            reg = <0x57>;
+> > > +            clocks = <&mlx7502x_clk>;
+> > > +
+> > > +            assigned-clocks = <&mlx7502x_clk>;
+> > > +            assigned-clock-parents = <&mlx7502x_clk_parent>;
+> > > +            assigned-clock-rates = <8000000>;
+> > > +
+> > > +            vddd-supply = <&mlx_7502x_reg>;
+> > > +
+> > > +            reset-gpios = <&gpio_exp 6 GPIO_ACTIVE_HIGH>;
+> > > +            melexis,trig-gpios = <&gpio_exp 2 GPIO_ACTIVE_HIGH>;
+> > > +            melexis,leden-gpios = <&gpio_exp 7 GPIO_ACTIVE_HIGH>;
+> > > +
+> > > +            port {
+> > > +                mlx7502x_out_mipi_csi2: endpoint {
+> > > +                    remote-endpoint = <&mipi_csi2_from_mlx7502x>;
+> > > +                    data-lanes = <1 2 3 4>;
+> > > +                    link-frequencies = /bits/ 64 < 960000000
+> > > +                                                   904000000
+> > > +                                                   800000000
+> > > +                                                   704000000
+> > > +                                                   600000000
+> > > +                                                   300000000 >;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 1a68d888ee14..b00a726bb3db 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -12678,6 +12678,7 @@ M:	Volodymyr Kharuk <vkh@melexis.com>
+> > >  L:	linux-media@vger.kernel.org
+> > >  S:	Supported
+> > >  W:	http://www.melexis.com
+> > > +F:	Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
+> > >  F:	include/uapi/linux/mlx7502x.h
+> > >  
+> > >  MELFAS MIP4 TOUCHSCREEN DRIVER
 
 -- 
---
-BR,
-Volodymyr Kharuk
+Regards,
 
+Laurent Pinchart
