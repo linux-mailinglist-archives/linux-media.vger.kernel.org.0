@@ -2,32 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A6A268BA7F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 11:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4121A68BAA9
+	for <lists+linux-media@lfdr.de>; Mon,  6 Feb 2023 11:45:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbjBFKjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Feb 2023 05:39:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34454 "EHLO
+        id S229699AbjBFKpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Feb 2023 05:45:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231223AbjBFKip (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 05:38:45 -0500
+        with ESMTP id S229576AbjBFKpl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Feb 2023 05:45:41 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6ACDBFA;
-        Mon,  6 Feb 2023 02:38:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145F361B0;
+        Mon,  6 Feb 2023 02:45:40 -0800 (PST)
 Received: from pendragon.ideasonboard.com (unknown [109.136.43.56])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD23B4DA;
-        Mon,  6 Feb 2023 11:36:45 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81F8D7FE;
+        Mon,  6 Feb 2023 11:45:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675679805;
-        bh=9s/ln2Fbj6UQOSq3Eb3fv0asoO3SHMlB2wOoqR2Nsvo=;
+        s=mail; t=1675680338;
+        bh=FGFNJRib2QlX+H+LoX0S7Qjo8ZGpyaK+yzxOUDQ53hg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zxy35lIxkK72PXZgb5VthfC4il/NVk24+8GU5DJwVyQhiwHa2asWlrIn14te4207C
-         bxA4Lkq0MTl/eP/7spC7dec2eS8IDIiR9RHTNzSJ9jgEsqkoDAf5Lb2Gk0abWsvJb3
-         BrUUdN8dOKYmXTT0RIsv+8gqR3m6inJifKhkTSt8=
-Date:   Mon, 6 Feb 2023 12:36:44 +0200
+        b=A1UlZlfFNSgKw6ovRZS7G90vDmIIm648NHdzjQj9eewZM5YgNFmEdKJqmUBr9jJV1
+         7a77nZYHXum1E+najsQEfXYeiwGn763SybES/3YUtip5EFfWbmcRVYYtQMP/5PtQVK
+         hKkTTw+Ve86HsyUQ3VsoXYehqSAeXBUUtnymgvGc=
+Date:   Mon, 6 Feb 2023 12:45:37 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Volodymyr Kharuk <vkh@melexis.com>
-Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Volodymyr Kharuk <vkh@melexis.com>, linux-media@vger.kernel.org,
+        Andrii Kyselov <ays@melexis.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -37,15 +38,21 @@ Cc:     linux-media@vger.kernel.org, Andrii Kyselov <ays@melexis.com>,
         devicetree@vger.kernel.org
 Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: i2c: Add mlx7502x
  camera sensor binding
-Message-ID: <Y+DYPGcl2CW2tRjS@pendragon.ideasonboard.com>
+Message-ID: <Y+DaUaGqxXQLQq3i@pendragon.ideasonboard.com>
 References: <cover.1657786765.git.vkh@melexis.com>
  <712c1acff963238e685cbd5c4a1b91f0ec7f9061.1657786765.git.vkh@melexis.com>
  <Ys/qq4hIQ25KXB2/@pendragon.ideasonboard.com>
- <20220715153243.GA18207@vkh-ThinkPad-T490>
+ <c87132c4-5801-2f1f-8ef9-3997474cf7a5@linaro.org>
+ <Ys/zvH3ICr4zpTLH@pendragon.ideasonboard.com>
+ <7e362d83-36c2-00ed-6525-37197ee8e5d7@linaro.org>
+ <Ys/6O2H/eDEWYHei@pendragon.ideasonboard.com>
+ <20a88191-0c4e-710f-e6ab-4087e5980533@linaro.org>
+ <Ys/+KaNltkZZmRE4@pendragon.ideasonboard.com>
+ <85cb8f2d-5d8b-ffa9-9f53-0e8bc1233e69@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220715153243.GA18207@vkh-ThinkPad-T490>
+In-Reply-To: <85cb8f2d-5d8b-ffa9-9f53-0e8bc1233e69@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -55,226 +62,119 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Volodymyr,
+Hi Krzysztof,
 
-I've just realized your previous e-mail felt through the cracks. Sorry
-about that. Please see below for comments.
+Very late reply, this had fallen through the cracks.
 
-On Fri, Jul 15, 2022 at 06:32:43PM +0300, Volodymyr Kharuk wrote:
-> On Thu, Jul 14, 2022 at 01:06:35PM +0300, Laurent Pinchart wrote:
-> > On Thu, Jul 14, 2022 at 11:34:47AM +0300, Volodymyr Kharuk wrote:
-> > > Add device tree binding of the mlx7502x and update MAINTAINERS
-> > > 
-> > > Signed-off-by: Volodymyr Kharuk <vkh@melexis.com>
-> > > ---
-> > >  .../bindings/media/i2c/melexis,mlx7502x.yaml  | 146 ++++++++++++++++++
-> > >  MAINTAINERS                                   |   1 +
-> > >  2 files changed, 147 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > > new file mode 100644
-> > > index 000000000000..4ac91f7a26b6
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > > @@ -0,0 +1,146 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/melexis,mlx7502x.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Melexis ToF 7502x MIPI CSI-2 Sensor
-> > > +
-> > > +maintainers:
-> > > +  - Volodymyr Kharuk <vkh@melexis.com>
-> > > +
-> > > +description: |-
-> > > +  Melexis ToF 7502x sensors has a CSI-2 output. It supports 2 and 4 lanes,
-> > > +  and mipi speeds are 300, 600, 704, 800, 904, 960Mbs. Supported format is RAW12.
-> > > +  Sensor 75026 is QVGA, while 75027 is VGA sensor.
-> > > +  If you use compatible = "melexis,mlx7502x", then autodetect will be called.
+On Thu, Jul 14, 2022 at 01:56:13PM +0200, Krzysztof Kozlowski wrote:
+> On 14/07/2022 13:29, Laurent Pinchart wrote:
+> > On Thu, Jul 14, 2022 at 01:23:41PM +0200, Krzysztof Kozlowski wrote:
+> >> On 14/07/2022 13:12, Laurent Pinchart wrote:
+> >>>>>>> One option would be to support the following three compatible values:
+> >>>>>>>
+> >>>>>>> 	compatible = "melexis,mlx75026", "melexis,mlx7502x";
+> >>>>>>> 	compatible = "melexis,mlx75027", "melexis,mlx7502x";
+> >>>>>>> 	compatible = "melexis,mlx7502x";
+> >>>>>>>
+> >>>>>>> The last one only would trigger autodetection. I'm still not sure how to
+> >>>>>>> document that properly in bindings though.
+> >>>>>>
+> >>>>>> I missed that part of binding.
+> >>>>>>
+> >>>>>> Wildcards are not allowed in compatible, so mlx7502x has to go.
+> >>>>>
+> >>>>> Really ? We've had fallback generic compatible strings since the
+> >>>>> beginning.
+> >>>>
+> >>>> Fallback generic compatibles are allowed. Wildcards not. Wildcards were
+> >>>> actually never explicitly allowed, they just slipped in to many
+> >>>> bindings... We have several discussions on this on mailing list, so no
+> >>>> real point to repeat the arguments.
+> >>>>
+> >>>> There is a difference between generic fallback. If the device follows
+> >>>> clear specification and version, e.g. "foo-bar-v4", you can use it for
+> >>>> generic compatible. This is more common in SoC components. Requirement -
+> >>>> there is a clear mapping between versions and SoCs.
+> >>>
+> >>> I'm not sure to see a clear difference between the two concepts.
+> >>
+> >> The clear difference is that you have a versioned and re-usable hardware
+> >> block plus clear mapping which version goes to which SoC. Version
+> >> numbers usually start with 1, not with 75025. 75025 is a model name.
 > > 
-> > I'd move this last line as a description of the compatible property, but
-> > I'm also not sure this should be mentioned in the DT bindings, as it's a
-> > driver implementation detail. I'm actually not sure we should support it
-> > with three different compatible values as proposed, as without this
-> > documentation users will have a hard time figuring out what compatible
-> > value to pick.
-> > 
-> > One option would be to support the following three compatible values:
-> > 
-> > 	compatible = "melexis,mlx75026", "melexis,mlx7502x";
-> > 	compatible = "melexis,mlx75027", "melexis,mlx7502x";
-> > 	compatible = "melexis,mlx7502x";
-> > 
-> > The last one only would trigger autodetection. I'm still not sure how to
-> > document that properly in bindings though.
-> > 
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          - melexis,mlx7502x
-> > > +          - melexis,mlx75026
-> > > +          - melexis,mlx75027
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  assigned-clocks: true
-> > > +  assigned-clock-parents: true
-> > > +  assigned-clock-rates: true
-> > > +
-> > > +  clocks:
-> > > +    description: Clock frequency 8MHz
-> > > +    maxItems: 1
-> > > +
-> > > +  vdda-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as analog power supply(2.7V).
-> > > +
-> > > +  vddif-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as interface power supply(1.8V).
-> > > +
-> > > +  vddd-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as digital power supply(1.2V).
-> > > +
-> > > +  vdmix-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as mixed driver power supply(1.2V).
-> > > +
-> > > +  reset-gpios:
-> > > +    maxItems: 1
-> > > +    description: Reset Sensor GPIO Control (active low)
-> > > +
-> > > +  melexis,trig-gpios:
-> > > +    maxItems: 1
-> > > +    description:
-> > > +      Hardware Trigger GPIO Control (active low)
-> > > +      When the hardware trigger mode is enabled, this GPIO is used to generate
-> > > +      a low level impulse for about 100us. The impulse triggers a new
-> > > +      measurement cycle.
-> > > +
-> > > +  melexis,leden-gpios:
-> > > +    maxItems: 1
-> > > +    description:
-> > > +      Led driver enable GPIO Control (active high)
-> > > +      This GPIO notifies the illumination driver when it is safe to use led
-> > > +      signals from the sensor.
-> > 
-> > As far as I understand this isn't an input of the sensor, but a signal
-> > that is driven by the driver and controls the separate illuminator. It
-> > shouldn't be specified in this binding, as it's not a property of the
-> > sensor. You should instead have a DT node for the illumination driver.
->
-> Yes, you are right. There are illuminators, which are not ready to accept
-> the signal from the sensor, if pin levels are not right. So I need to
-> notify illuminator somehow.  Can the illumination driver be as a V4L2
-> subdevice? Then I can notify the illuminator via s_stream. In another
-> case it can damage the illuminator. What do you think?
+> > How about Documentation/devicetree/bindings/serial/renesas,scif.yaml for
+> > instance, where the version number isn't known and the SoC name is used
+> > instead ? Is that acceptable ?
+> 
+> This is the second case I mentioned - family of devices where the family
+> fallback is not allowed to be alone. You cannot use just "renesas,scif"
+> in DTS.
 
-It can be a separate subdev, yes. There are flash-related controls in
-V4L2, maybe some of them would cover your use cases ? We have a few
-flash drivers in upstream that you can look at for inspiration, for
-instance drivers/media/i2c/lm3560.c or drivers/media/i2c/adp1653.c.
+OK. Does this mean you are fine with
 
-> > > +  port:
-> > > +    description: MIPI CSI-2 transmitter port
-> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        $ref: /schemas/media/video-interfaces.yaml#
-> > > +        unevaluatedProperties: false
-> > > +
-> > > +        properties:
-> > > +          data-lanes:
-> > > +            oneOf:
-> > > +              - items:
-> > > +                  - const: 1
-> > > +                  - const: 2
-> > > +              - items:
-> > > +                  - const: 1
-> > > +                  - const: 2
-> > > +                  - const: 3
-> > > +                  - const: 4
-> > > +
-> > > +          clock-noncontinuous: true
-> > > +          link-frequencies: true
-> > > +
-> > > +        required:
-> > > +          - data-lanes
-> > > +          - link-frequencies
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - port
+	compatible = "melexis,mlx75026", "melexis,mlx7502x";
+	compatible = "melexis,mlx75027", "melexis,mlx7502x";
+
+where "melexis,mlx7502x" is considered to be the family fallback, but
+not
+
+	compatible = "melexis,mlx7502x";
+
+alone ?
+
+> > How should we deal with devices that have different models, where the
+> > model is irrelevant to the kernel driver, but relevant to userspace ?
+> > Imagine, for instance, a light sensor with 10 models than only differ by
+> > the filter they use to tune the sensitivity to different light spectrums
+> > ? They are all "compatible" from a software point of view, would the
+> > driver need to list all 10 compatible strings ?
+> 
+> I don't understand that example, I mean, what's the problem here? If
+> they are all compatible, you can use only one comaptible, e.g.
+> melexis,mlx75026.
+> 
+> If you ever need to differentiate it for user-space, you add specific
+> compatible for the model and you have:
+> 
+> melexis,mlx75027, melexis,mlx75026
+> 
+> If user-space needs dedicated compatibles - add them, no one here argues
+> to not to use specific compatibles.
+
+OK.
+
+> >>> For cameras, we often deal with complex pipelines with multiple external
+> >>> devices and multiple IP cores, with drivers that need to communicate
+> >>> with each other to initialize the complete camera system. For instance,
+> >>> each camera-related component in the system registers itself in a media
+> >>> graph that can be queried from userspace and exposes information about
+> >>> all devices, including their model. There's no power up of any device
+> >>> when this query is being performed from userspace. It could possibly be
+> >>> changed (and maybe it should, for reasons unrelated to this discussion),
+> >>> but we're looking at pretty much a complete redesign of V4L2 and MC
+> >>> then.
+> >>
+> >> Is then autodetection a real use case since you have to power up the
+> >> sensor each time system boots and this violates privacy? Several I2C
+> >> sensors do not care about this and they always do it on power up, so
+> >> aren't we solving here something unimportant?
 > > 
-> > Let's make the supplies mandatory too, as the chip can't operate without
-> > them.
->
-> Ok
->
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        mlx7502x: camera@57 {
-> > > +            compatible = "melexis,mlx7502x";
-> > > +            reg = <0x57>;
-> > > +            clocks = <&mlx7502x_clk>;
-> > > +
-> > > +            assigned-clocks = <&mlx7502x_clk>;
-> > > +            assigned-clock-parents = <&mlx7502x_clk_parent>;
-> > > +            assigned-clock-rates = <8000000>;
-> > > +
-> > > +            vddd-supply = <&mlx_7502x_reg>;
-> > > +
-> > > +            reset-gpios = <&gpio_exp 6 GPIO_ACTIVE_HIGH>;
-> > > +            melexis,trig-gpios = <&gpio_exp 2 GPIO_ACTIVE_HIGH>;
-> > > +            melexis,leden-gpios = <&gpio_exp 7 GPIO_ACTIVE_HIGH>;
-> > > +
-> > > +            port {
-> > > +                mlx7502x_out_mipi_csi2: endpoint {
-> > > +                    remote-endpoint = <&mipi_csi2_from_mlx7502x>;
-> > > +                    data-lanes = <1 2 3 4>;
-> > > +                    link-frequencies = /bits/ 64 < 960000000
-> > > +                                                   904000000
-> > > +                                                   800000000
-> > > +                                                   704000000
-> > > +                                                   600000000
-> > > +                                                   300000000 >;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 1a68d888ee14..b00a726bb3db 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -12678,6 +12678,7 @@ M:	Volodymyr Kharuk <vkh@melexis.com>
-> > >  L:	linux-media@vger.kernel.org
-> > >  S:	Supported
-> > >  W:	http://www.melexis.com
-> > > +F:	Documentation/devicetree/bindings/media/i2c/melexis,mlx7502x.yaml
-> > >  F:	include/uapi/linux/mlx7502x.h
-> > >  
-> > >  MELFAS MIP4 TOUCHSCREEN DRIVER
+> > In a laptop or tablet with a camera sensor, you likely don't want
+> > autodetection. In an industrial device, you don't care, and having the
+> > ability to auto-detect the exact sensor model when booting saves cost in
+> > the production chain as a single image can work across different models.
+> 
+> We talk about the case here, not generic. Do you want to have
+> autodetection possible here or not?
+
+I'd like to support auto-detection, but not make it mandatory. Assuming
+a family of chips supported by one driver with hardware that makes
+auto-detection possible, I have use cases where I specifically don't
+want auto-detection as it would have undesirable side effects at probe
+time, and other use cases where I want auto-detection as it lowers the
+costs in the production chain. I thus need to be able to specify, in DT,
+whether to use auto-detection or not, and when not using auto-detection,
+specify the exact chip model.
 
 -- 
 Regards,
