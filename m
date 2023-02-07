@@ -2,313 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BAB768DA45
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 15:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2190368DAD1
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 15:29:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232014AbjBGOPJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 09:15:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55912 "EHLO
+        id S232651AbjBGO3b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 09:29:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232343AbjBGOO5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 09:14:57 -0500
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFA96A51;
-        Tue,  7 Feb 2023 06:14:55 -0800 (PST)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 317ArBxI023356;
-        Tue, 7 Feb 2023 15:12:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=bRPLjENYLm4EkeQxpcXBxnDMwaCRtrrOyJyCcEKFKwM=;
- b=v+r2Y+dW5qpe2evs4+p2Rph0HUeYJkhrIakAtRF4fJW7pf/iMoA2BrjUcXOgAS4O+JMl
- IXKV7Hp74w1KJP0PvEekg8P/i3SR3P0AwBgPlA+9ojsAnk0s7LDy3CWyXOWlKcwqqPfu
- wPE7CdTQ6u+DTonaxS8J7QYwU2uD3eROQ4b0UVJqA3TaS3QYgy35kLMkIT8d6Z2toWJ5
- tMeMMxNPT8PXIpemJJgIQyZVYQ9Vv2xTMUAyQ8CNlfu2WPa6wKy9p9vIs1O/gAb/LlqC
- 1+7jKtxsEn7AYZrcWlego6inAn0ozOi+IQs8ea9RiHb5iRVStFIyQmQyADvaliPIL6nK lw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3nhfk72dkh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 15:12:28 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 763D6100034;
-        Tue,  7 Feb 2023 15:12:27 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 48EEA21B516;
-        Tue,  7 Feb 2023 15:12:27 +0100 (CET)
-Received: from [10.201.20.249] (10.201.20.249) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 7 Feb
- 2023 15:12:24 +0100
-Message-ID: <d6c659d8-2e5c-cb60-d950-685c4ba319e2@foss.st.com>
-Date:   Tue, 7 Feb 2023 15:12:23 +0100
+        with ESMTP id S232154AbjBGO33 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 09:29:29 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693F3190;
+        Tue,  7 Feb 2023 06:29:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675780168; x=1707316168;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=slc0KZtNoZ1bsJm/e5gBRrLuxfQ5uLgrlphY9y9ttTg=;
+  b=lpiMw+Bj0CmC8rQDkHxuRJRcqbqGh5mJ1leqs4iGwudehS+pojE39vvU
+   6ccy9coHWxN94L3+2Y4tRFFTOScYKWknUgvwm7t8LM2YbtQx2gd2qqQeQ
+   z+/ePK5laZ7hfRnru1ZbEYlq5ko8KlFQoSnq3XpHWyqfwaVPoJAR6gmIh
+   bRIW5cOl7/0k6e4G5SM0YdkQw0EQaz9MXmaT0tMISgBCQVt3xIXqLc/Nj
+   OwahdjmUl6Tf+gi+7pmOlu0SHgVrAJ7iNg1NoScMS06EhxUx3G4RxOAh9
+   6WsVz1p7c9WYZnMSHQ39ynhAZF1AfcL5Rxrkj3ooUBue/uvog+2hqDPcn
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="329537327"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="329537327"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 06:29:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="790811308"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="790811308"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga004.jf.intel.com with ESMTP; 07 Feb 2023 06:29:22 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 95C3D1C5; Tue,  7 Feb 2023 16:30:00 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v3 00/12] gpiolib cleanups
+Date:   Tue,  7 Feb 2023 16:29:40 +0200
+Message-Id: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 4/6] bus: stm32_sys_bus: add support for STM32MP15 and
- STM32MP13 system bus
-Content-Language: en-US
-To:     Jonathan Cameron <jic23@kernel.org>
-CC:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <linux-crypto@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Loic PALLARDY <loic.pallardy@st.com>
-References: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
- <20230127164040.1047583-5-gatien.chevallier@foss.st.com>
- <20230128161217.0e79436e@jic23-huawei>
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <20230128161217.0e79436e@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.20.249]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_05,2023-02-06_03,2022-06-22_01
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonathan,
+These are some older patches Arnd did last year, rebased to
+linux-next-20230207. On top there are Andy's patches regarding
+similar topic.
 
-On 1/28/23 17:12, Jonathan Cameron wrote:
-> On Fri, 27 Jan 2023 17:40:38 +0100
-> Gatien Chevallier <gatien.chevallier@foss.st.com> wrote:
-> 
->> This driver is checking the access rights of the different
->> peripherals connected to the system bus. If access is denied,
->> the associated device tree node is skipped so the platform bus
->> does not probe it.
->>
->> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
->> Signed-off-by: Loic PALLARDY <loic.pallardy@st.com>
-> 
-> Hi Gatien,
-> 
-> A few comments inline,
-> 
-> Thanks,
-> 
-> Jonathan
-> 
->> diff --git a/drivers/bus/stm32_sys_bus.c b/drivers/bus/stm32_sys_bus.c
->> new file mode 100644
->> index 000000000000..c12926466bae
->> --- /dev/null
->> +++ b/drivers/bus/stm32_sys_bus.c
->> @@ -0,0 +1,168 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
->> + */
->> +
->> +#include <linux/bitfield.h>
->> +#include <linux/bits.h>
->> +#include <linux/device.h>
->> +#include <linux/err.h>
->> +#include <linux/io.h>
->> +#include <linux/init.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/of_platform.h>
->> +#include <linux/platform_device.h>
->> +
->> +/* ETZPC peripheral as firewall bus */
->> +/* ETZPC registers */
->> +#define ETZPC_DECPROT			0x10
->> +
->> +/* ETZPC miscellaneous */
->> +#define ETZPC_PROT_MASK			GENMASK(1, 0)
->> +#define ETZPC_PROT_A7NS			0x3
->> +#define ETZPC_DECPROT_SHIFT		1
-> 
-> This define makes the code harder to read.  What we care about is
-> the number of bits in the register divided by number of entries.
-> (which is 2) hence the shift by 1. See below for more on this.
-> 
-> 
->> +
->> +#define IDS_PER_DECPROT_REGS		16
-> 
->> +#define STM32MP15_ETZPC_ENTRIES		96
->> +#define STM32MP13_ETZPC_ENTRIES		64
-> 
-> These defines just make the code harder to check.
-> They aren't magic numbers, but rather just telling us how many
-> entries there are, so I would just put them in the structures directly.
-> Their use make it clear what they are without needing to give them a name.
-> 
+The main goal is to remove some of the legacy bits of the gpiolib
+interfaces, where the corner cases are easily avoided or replaced
+with gpio descriptor based interfaces.
 
-Honestly, I'd rather read the hardware configuration registers to get 
-this information instead of differentiating MP13/15. Would you agree on 
-that?
+Changes in v3:
+- reworked touchscreen patch in accordance with Dmitry's comments
+- rebased on the latest Linux Next
+- added on top Andy's series
 
-> 
->> +struct stm32_sys_bus_match_data {
-> 
-> Comment on naming of this below.
-> 
->> +	unsigned int max_entries;
->> +};
->> +
-> 
-> +static int stm32_etzpc_get_access(struct sys_bus_data *pdata, struct device_node *np)
-> +{
-> +	int err;
-> +	u32 offset, reg_offset, sec_val, id;
-> +
-> +	err = stm32_sys_bus_get_periph_id(pdata, np, &id);
-> +	if (err)
-> +		return err;
-> +
-> +	/* Check access configuration, 16 peripherals per register */
-> +	reg_offset = ETZPC_DECPROT + 0x4 * (id / IDS_PER_DECPROT_REGS);
-> +	offset = (id % IDS_PER_DECPROT_REGS) << ETZPC_DECPROT_SHIFT;
-> 
-> Use of defines in here is actively unhelpful when it comes to review. I would suggest letting
-> the maths be self explanatory (even if it's more code).
-> 
-> 	offset = (id % IDS_PER_DECPROT_REGS) * (sizeof(u32) * BITS_PER_BYTE / IDS_PER_DECPROT_REGS);
-> 
-> Or if you prefer have a define of
-> 
-> #define DECPROT_BITS_PER_ID (sizeof(u32) * BITS_PER_BYTE / IDS_PER_DECPROT_REGS)
-> 
-> and
-> 	offset = (id % IDS_PER_DECPROT_REGS) * DECPROT_BITS_PER_ID;
-> 
+Changes in v2:
+- dropped patch 8 after Andy's identical patch was merged
+- rebase on latest gpio tree
+- leave unused gpio_cansleep() in place for now
+- address feedback from Andy Shevchenko
 
-Ok I'll rework this for better understanding. Your suggestion seems fine
+Andy Shevchenko (5):
+  gpio: aggregator: Add missing header(s)
+  gpiolib: Drop unused forward declaration from driver.h
+  gpiolib: Deduplicate forward declarations in consumer.h
+  gpiolib: Group forward declarations in consumer.h
+  gpiolib: Clean up headers
 
-> +
-> +	/* Verify peripheral is non-secure and attributed to cortex A7 */
-> +	sec_val = (readl(pdata->sys_bus_base + reg_offset) >> offset) & ETZPC_PROT_MASK;
-> +	if (sec_val != ETZPC_PROT_A7NS) {
-> +		dev_dbg(pdata->dev, "Invalid bus configuration: reg_offset %#x, value %d\n",
-> +			reg_offset, sec_val);
-> +		return -EACCES;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> ...
-> 
->> +static int stm32_sys_bus_probe(struct platform_device *pdev)
->> +{
->> +	struct sys_bus_data *pdata;
->> +	void __iomem *mmio;
->> +	struct device_node *np = pdev->dev.of_node;
-> 
-> I'd be consistent. You use dev_of_node() accessor elsewhere, so should
-> use it here as well >> +
->> +	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
->> +	if (!pdata)
->> +		return -ENOMEM;
->> +
->> +	mmio = devm_platform_ioremap_resource(pdev, 0);
->> +	if (IS_ERR(mmio))
->> +		return PTR_ERR(mmio);
->> +
->> +	pdata->sys_bus_base = mmio;
->> +	pdata->pconf = of_device_get_match_data(&pdev->dev);
->> +	pdata->dev = &pdev->dev;
->> +
->> +	platform_set_drvdata(pdev, pdata);
-> 
-> Does this get used? I can't immediately spot where but maybe I just
-> missed it.
-> 
+Arnd Bergmann (7):
+  gpiolib: remove empty asm/gpio.h files
+  gpiolib: coldfire: remove custom asm/gpio.h
+  gpiolib: remove asm-generic/gpio.h
+  gpiolib: remove gpio_set_debounce
+  gpiolib: remove legacy gpio_export
+  gpiolib: split linux/gpio/driver.h out of linux/gpio.h
+  gpiolib: split of_mm_gpio_chip out of linux/of_gpio.h
 
-Not for now :)
+ Documentation/admin-guide/gpio/sysfs.rst      |   2 +-
+ Documentation/driver-api/gpio/legacy.rst      |  23 ---
+ .../zh_CN/driver-api/gpio/legacy.rst          |  20 ---
+ Documentation/translations/zh_TW/gpio.txt     |  19 ---
+ MAINTAINERS                                   |   1 -
+ arch/arm/Kconfig                              |   1 -
+ arch/arm/include/asm/gpio.h                   |  21 ---
+ arch/arm/mach-omap1/irq.c                     |   1 +
+ arch/arm/mach-omap2/pdata-quirks.c            |   9 +-
+ arch/arm/mach-orion5x/board-rd88f5182.c       |   1 +
+ arch/arm/mach-s3c/s3c64xx.c                   |   1 +
+ arch/arm/mach-sa1100/assabet.c                |   1 +
+ arch/arm/plat-orion/gpio.c                    |   1 +
+ arch/m68k/Kconfig.cpu                         |   1 -
+ arch/m68k/include/asm/gpio.h                  |  95 -----------
+ arch/m68k/include/asm/mcfgpio.h               |   2 +-
+ arch/powerpc/platforms/44x/Kconfig            |   1 +
+ arch/powerpc/platforms/4xx/gpio.c             |   2 +-
+ arch/powerpc/platforms/8xx/Kconfig            |   1 +
+ arch/powerpc/platforms/8xx/cpm1.c             |   2 +-
+ arch/powerpc/platforms/Kconfig                |   2 +
+ arch/powerpc/sysdev/cpm_common.c              |   2 +-
+ arch/sh/Kconfig                               |   1 -
+ arch/sh/boards/board-magicpanelr2.c           |   1 +
+ arch/sh/boards/mach-ap325rxa/setup.c          |   7 +-
+ arch/sh/include/asm/gpio.h                    |  45 ------
+ drivers/gpio/Kconfig                          |  19 ++-
+ drivers/gpio/TODO                             |  15 +-
+ drivers/gpio/gpio-aggregator.c                |   9 +-
+ drivers/gpio/gpio-altera.c                    |   2 +-
+ drivers/gpio/gpio-davinci.c                   |   2 -
+ drivers/gpio/gpio-mm-lantiq.c                 |   2 +-
+ drivers/gpio/gpio-mpc5200.c                   |   2 +-
+ drivers/gpio/gpiolib-acpi.c                   |  10 +-
+ drivers/gpio/gpiolib-acpi.h                   |   1 -
+ drivers/gpio/gpiolib-of.c                     |   9 +-
+ drivers/gpio/gpiolib-of.h                     |   1 -
+ drivers/gpio/gpiolib-swnode.c                 |   5 +-
+ drivers/gpio/gpiolib-sysfs.c                  |  25 ++-
+ drivers/gpio/gpiolib.c                        |   9 +-
+ drivers/input/touchscreen/ads7846.c           |  24 +--
+ drivers/media/pci/sta2x11/sta2x11_vip.c       |  10 +-
+ drivers/net/ieee802154/ca8210.c               |   3 +-
+ .../broadcom/brcm80211/brcmsmac/led.c         |   1 +
+ drivers/pinctrl/core.c                        |   1 -
+ drivers/soc/fsl/qe/gpio.c                     |   2 +-
+ include/asm-generic/gpio.h                    | 147 ------------------
+ include/linux/gpio.h                          | 100 +++++++-----
+ include/linux/gpio/consumer.h                 |  24 +--
+ include/linux/gpio/driver.h                   |  31 +++-
+ .../legacy-of-mm-gpiochip.h}                  |  33 +---
+ include/linux/mfd/ucb1x00.h                   |   1 +
+ include/linux/of_gpio.h                       |  21 ---
+ 53 files changed, 223 insertions(+), 549 deletions(-)
+ delete mode 100644 arch/arm/include/asm/gpio.h
+ delete mode 100644 arch/m68k/include/asm/gpio.h
+ delete mode 100644 arch/sh/include/asm/gpio.h
+ delete mode 100644 include/asm-generic/gpio.h
+ copy include/linux/{of_gpio.h => gpio/legacy-of-mm-gpiochip.h} (50%)
 
->> +
->> +	stm32_sys_bus_populate(pdata);
->> +
->> +	/* Populate all available nodes */
->> +	return of_platform_populate(np, NULL, NULL, &pdev->dev);
-> 
-> As np only used here, I'd not bother with the local variable in this function.
-> 
+-- 
+2.39.1
 
-Agreed
-
->> +}
->> +
->> +static const struct stm32_sys_bus_match_data stm32mp15_sys_bus_data = {
-> 
-> Naming a structure after where it comes from is a little unusual and
-> confusion when a given call gets it from somewhere else.
-> 
-> I'd expect it to be named after what sort of thing it contains.
-> stm32_sys_bus_info or something like that.
-> 
-
-Then, this shall be removed thanks to the read to hardware registers.
-
->> +	.max_entries = STM32MP15_ETZPC_ENTRIES,
->> +};
->> +
->> +static const struct stm32_sys_bus_match_data stm32mp13_sys_bus_data = {
->> +	.max_entries = STM32MP13_ETZPC_ENTRIES,
->> +};
->> +
->> +static const struct of_device_id stm32_sys_bus_of_match[] = {
->> +	{ .compatible = "st,stm32mp15-sys-bus", .data = &stm32mp15_sys_bus_data },
->> +	{ .compatible = "st,stm32mp13-sys-bus", .data = &stm32mp13_sys_bus_data },
-> 
-> Alphabetical order usually preferred when there isn't a strong reason for
-> another choice.
-> 
-
-I second that
-
->> +	{}
->> +};
->> +MODULE_DEVICE_TABLE(of, stm32_sys_bus_of_match);
->> +
->> +static struct platform_driver stm32_sys_bus_driver = {
->> +	.probe  = stm32_sys_bus_probe,
->> +	.driver = {
->> +		.name = "stm32-sys-bus",
->> +		.of_match_table = stm32_sys_bus_of_match,
->> +	},
->> +};
->> +
->> +static int __init stm32_sys_bus_init(void)
->> +{
->> +	return platform_driver_register(&stm32_sys_bus_driver);
->> +}
->> +arch_initcall(stm32_sys_bus_init);
->> +
-> 
-> Unwanted trailing blank line.
-> 
-
-Good spot, thanks
-
-> 
-
-Best regards,
-Gatien
