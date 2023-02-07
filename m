@@ -2,141 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E975A68D95F
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 14:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 371A568DA06
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 15:01:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232101AbjBGNcR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 08:32:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49822 "EHLO
+        id S232047AbjBGOBu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 09:01:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbjBGNcP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 08:32:15 -0500
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2208B126EB;
-        Tue,  7 Feb 2023 05:32:12 -0800 (PST)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 317ArI1e008460;
-        Tue, 7 Feb 2023 14:31:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=DvaNpdrSgE+lHP2IkmzvxSLVAaIdRRvLf0BwPPBEci4=;
- b=aQaSbkCpRXS5PTBvs/7A4rURHj3O8ll9TldW/dJbYL96OW9dyidgNbpqQ2IMwlJcHYfV
- PCVnikmHA0+/GU/YHrkk37G8Rh1vwsakP87ID7Au4i9IPIaHZeIDNhs3YvOTq1WTSruH
- P/8HpNo2WO25T81982igFgAtil5zgYjG1s7tQEMU059ZhJ/Ri0m3Ps7/HUr6/6js0yXH
- 74wlbwkqH4zm93ascw8YJ8mG5y0V5j0ZKxb4kjWICzncOKYOnHM36Ik5nhtQdo8YyV1/
- CkELeSEYnoaCyUnTE4l4Y2LIuOvGfr53WsS7P8Z1L0NcrxY6EwxnjvkuyxgzkO+gacI9 kw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3nhdcfk48x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Feb 2023 14:31:34 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B91DA10002A;
-        Tue,  7 Feb 2023 14:31:21 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F17372194F5;
-        Tue,  7 Feb 2023 14:31:20 +0100 (CET)
-Received: from [10.201.20.249] (10.201.20.249) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 7 Feb
- 2023 14:31:19 +0100
-Message-ID: <d283ef50-7807-b928-83a5-63ef4565f9e4@foss.st.com>
-Date:   Tue, 7 Feb 2023 14:31:18 +0100
+        with ESMTP id S232070AbjBGOBp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 09:01:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874BC38B49;
+        Tue,  7 Feb 2023 06:01:14 -0800 (PST)
+Received: from pendragon.ideasonboard.com (unknown [109.136.43.56])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11CAE4AF;
+        Tue,  7 Feb 2023 15:00:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675778425;
+        bh=1bEF62j61D42H7Or6cXC5K8Gd8dMOPMBMtNRJsPbNp4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LYFQBN5vHgu7wnIy+F5NKaFDcYe/u99a8ACQzR1gQzYIimf6bH/4QDAXz8Yp1Cqzu
+         NmVBmGq4KeCcpTR0Hv6yF+40ooComuT51425C1Sv3bZgm77dAkKoid+RfnM7bq/gRu
+         /hOx04yv6IVwew36QBVJRuTFO5eQ9qcdCQZ8w2Vg=
+Date:   Tue, 7 Feb 2023 16:00:23 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: renesas: vsp1: Add underrun debug print
+Message-ID: <Y+JZd2whadJ/37k2@pendragon.ideasonboard.com>
+References: <20230207124440.123910-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 3/6] dt-bindings: bus: add STM32 System Bus
-To:     Jonathan Cameron <jic23@kernel.org>
-CC:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <linux-crypto@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Loic PALLARDY <loic.pallardy@st.com>
-References: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
- <20230127164040.1047583-4-gatien.chevallier@foss.st.com>
- <20230128154827.4f23534e@jic23-huawei>
-Content-Language: en-US
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <20230128154827.4f23534e@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.20.249]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-07_05,2023-02-06_03,2022-06-22_01
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230207124440.123910-1-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jonathan,
+Hi Tomi,
 
-On 1/28/23 16:48, Jonathan Cameron wrote:
-> On Fri, 27 Jan 2023 17:40:37 +0100
-> Gatien Chevallier <gatien.chevallier@foss.st.com> wrote:
-> 
->> Document STM32 System Bus. This bus is intended to control firewall
->> access for the peripherals connected to it.
->>
->> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
->> Signed-off-by: Loic PALLARDY <loic.pallardy@st.com>
-> Trivial comment on formatting.
-> 
->> +
->> +examples:
->> +  - |
->> +    // In this example, the rng1 device refers to etzpc as its domain controller.
->> +    // Same goes for fmc.
->> +    // Access rights are verified before creating devices.
->> +
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/clock/stm32mp1-clks.h>
->> +    #include <dt-bindings/reset/stm32mp1-resets.h>
->> +
->> +    etzpc: bus@5c007000 {
->> +        compatible = "st,stm32mp15-sys-bus";
->> +        reg = <0x5c007000 0x400>;
->> +        #address-cells = <1>;
->> +        #size-cells = <1>;
->> +        ranges;
->> +        feature-domain-controller;
->> +        #feature-domain-cells = <1>;
->> +
->> +        rng1: rng@54003000 {
-> 
-> Odd mixture of 4 spacing and 2 spacing in this example.
-> I'd suggest one or the other (slight preference for 4 space indents).
-> 
+Thank you for the patch.
 
-Thank you for spotting this, I'll change to 4 space indents
-
+On Tue, Feb 07, 2023 at 02:44:40PM +0200, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
->> +          compatible = "st,stm32-rng";
->> +          reg = <0x54003000 0x400>;
->> +          clocks = <&rcc RNG1_K>;
->> +          resets = <&rcc RNG1_R>;
->> +          feature-domains = <&etzpc 7>;
->> +          status = "disabled";
->> +        };
+> Print underrun interrupts with ratelimited print.
+> 
+> Note that we don't enable the underrun interrupt. If we have underruns,
+> we don't want to get flooded with interrupts about them. It's enough to
+> see that an underrun happened at the end of a frame.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 8 +++++++-
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h | 2 ++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 5710152d6511..b24437b5b945 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -45,7 +45,8 @@
+>  
+>  static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  {
+> -	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
+> +	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE |
+> +		   VI6_WPF_IRQ_STA_UND;
+>  	struct vsp1_device *vsp1 = data;
+>  	irqreturn_t ret = IRQ_NONE;
+>  	unsigned int i;
+> @@ -60,6 +61,11 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+>  		status = vsp1_read(vsp1, VI6_WPF_IRQ_STA(i));
+>  		vsp1_write(vsp1, VI6_WPF_IRQ_STA(i), ~status & mask);
+>  
+> +		if (status & VI6_WPF_IRQ_STA_UND) {
+> +			dev_warn_ratelimited(vsp1->dev,
+> +					     "Underrun occurred at WPF%u\n", i);
+> +		}
 
-Best regards,
-Gatien
+You could drop the braces.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +
+>  		if (status & VI6_WPF_IRQ_STA_DFE) {
+>  			vsp1_pipeline_frame_end(wpf->entity.pipe);
+>  			ret = IRQ_HANDLED;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> index d94343ae57a1..7eca82e0ba7e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -32,10 +32,12 @@
+>  #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+>  
+>  #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
+> +#define VI6_WPF_IRQ_ENB_UNDE		BIT(16)
+>  #define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+>  #define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+>  
+>  #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
+> +#define VI6_WPF_IRQ_STA_UND		BIT(16)
+>  #define VI6_WPF_IRQ_STA_DFE		BIT(1)
+>  #define VI6_WPF_IRQ_STA_FRE		BIT(0)
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
