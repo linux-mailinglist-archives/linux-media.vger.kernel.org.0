@@ -2,156 +2,282 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31D5B68DF4A
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 18:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F53F68DFD1
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 19:21:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232207AbjBGRuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 12:50:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51938 "EHLO
+        id S232467AbjBGSVS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 13:21:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232185AbjBGRuW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 12:50:22 -0500
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF7E1BC3
-        for <linux-media@vger.kernel.org>; Tue,  7 Feb 2023 09:50:21 -0800 (PST)
-Received: by mail-io1-xd36.google.com with SMTP id 65so5962787iou.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Feb 2023 09:50:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CBzkf3FCD8x/y9eVd1GA5EoRd79pK0BFSSnyzHt0mXw=;
-        b=JbWrCre30UL5YyUvJbrQQKDFP1RIID+kILrl7992LyEkzGYIQ4mC6GsR56nnuyFhlf
-         ziKrvWd9u3x2wmNenO54ZokDex9/awcXfwu4l/Uda0kqC8uGb5+rTDsn0VRD/eTcCzZO
-         3R2aKlmNS0e0oHxkaVcf+Yj34GNcF56XwQuxU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CBzkf3FCD8x/y9eVd1GA5EoRd79pK0BFSSnyzHt0mXw=;
-        b=llpY8BzMeW2Kmf+HnuBpioG2JHnsAu84Ka7N9cSLpluS6JATdagWIY7GZ8W7kDqHDZ
-         eoTGwP8ziS6mYq64UCZi9yYxLaeyKVDLEWJzSdkVWAKqSvORv5PxPdCbZl6c2kDo+6xx
-         hCXJLXnBAnRSWc8kCAT5T291PoBpvi83ej1n4x1ttKZYaCZJ9tBxy/kPZtiuuXXM9tnO
-         s8rUlqx5HfULHD5KIEPvH4KbjVvCi6hgVBWo2ty9UYDCPOqMbYH4OWwP1k1pkJ3JuElt
-         tMDEKiWHWQQnbBlKw1DuuLFu8xzjJQkgF5lZm/+dWSgW3lA0smKCAMhpP3OI9hTs7Zuh
-         qTCA==
-X-Gm-Message-State: AO0yUKWyO/C+RAolNwFBLuqCybc9k1km7+T87uF5xyklDWcqWUndEKKi
-        8vzib8viHVa0k7umOaogMp82nA==
-X-Google-Smtp-Source: AK7set9TA/3RgJK3yUToPWGVriuqQo8s0O7oNuC5X8TOPoTi1ehjK4em9NIq+bjGtSmKozxSMqTYjQ==
-X-Received: by 2002:a5e:8914:0:b0:734:e4df:cd04 with SMTP id k20-20020a5e8914000000b00734e4dfcd04mr2436285ioj.12.1675792220580;
-        Tue, 07 Feb 2023 09:50:20 -0800 (PST)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id q3-20020a6bf203000000b00716eb44b97esm4084698ioh.27.2023.02.07.09.50.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 09:50:20 -0800 (PST)
-Date:   Tue, 7 Feb 2023 17:50:19 +0000
-From:   "mka@chromium.org" <mka@chromium.org>
-To:     Vikash Garodia <vgarodia@qti.qualcomm.com>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Albert Esteve <aesteve@redhat.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fritz Koenig <frkoenig@google.com>,
-        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-Message-ID: <Y+KPW18o/Da+N8UI@google.com>
-References: <20230207102254.1446461-1-javierm@redhat.com>
- <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+        with ESMTP id S231896AbjBGSU5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 13:20:57 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BB0C410AE;
+        Tue,  7 Feb 2023 10:20:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675794007; x=1707330007;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zwoDr1wPKNYQiCl8mRwM1UPgx4ddKwyU+8/uwG8BezI=;
+  b=UcDuonBkv8EMLYUs6paDAXWYjJIaQ3ecMZozEMh9RcMM4JQKUFwkXxnx
+   8jbdhFDEB4oLOY1xjUOphn9a2BFfbsDKktH+dnOywfzljt5B+DUjYcJf2
+   gn+NagYQeE6kgrGolVJVnlyMaK78rx0UT/4phKjmYdsmXPnD7vUb5WBnV
+   f/n4LcNIuNi4nU9rJhyMsDpNpeqv4JwDEtsAEscXangnzG/17htO/nnXJ
+   YKxxUpr2a94DxyTOMbj5r44NAKWjk23iegl6B9obV4v4RLTu0knzmnZhT
+   jUiZI6AJTnOWO9KshM3rBGhmJRHFqOq10NOYFp08fs4UWAobi94mceTu4
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="391983044"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="391983044"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 10:18:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="730547125"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="730547125"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 07 Feb 2023 10:18:26 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pPSXx-0003li-1E;
+        Tue, 07 Feb 2023 18:18:25 +0000
+Date:   Wed, 08 Feb 2023 02:18:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        alsa-devel@alsa-project.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 49a8133221c71b935f36a7c340c0271c2a9ee2db
+Message-ID: <63e295f0.u1bD0VjqG0iQsm1w%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vikash,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 49a8133221c71b935f36a7c340c0271c2a9ee2db  Add linux-next specific files for 20230207
 
-On Tue, Feb 07, 2023 at 04:40:24PM +0000, Vikash Garodia wrote:
-> Hi Javier and Matthias,
-> Can we try the attached patch if that fixes the suspend issue for sc7180 and sc7280 ?
+Error/Warning reports:
 
-On my side the patch fixes the issue for sc7280, but not sc7180.
+https://lore.kernel.org/oe-kbuild-all/202301230743.Xnut0Zvc-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301300743.bp7Dpazv-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301301801.y5O08tQx-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202301310939.TAgCOEZb-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302011836.kA3BxqdY-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302061911.C7xvHX9v-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302062224.ByzeTXh1-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302072055.odjDVd5V-lkp@intel.com
 
-> > -----Original Message-----
-> > From: Javier Martinez Canillas <javierm@redhat.com>
-> > Sent: Tuesday, February 7, 2023 3:53 PM
-> > To: linux-kernel@vger.kernel.org
-> > Cc: Albert Esteve <aesteve@redhat.com>; stanimir.varbanov@linaro.org;
-> > Matthias Kaehlcke <mka@chromium.org>; Enric Balletbo i Serra
-> > <eballetb@redhat.com>; Javier Martinez Canillas <javierm@redhat.com>; Andy
-> > Gross <agross@kernel.org>; Bjorn Andersson <andersson@kernel.org>; Konrad
-> > Dybcio <konrad.dybcio@linaro.org>; Mauro Carvalho Chehab
-> > <mchehab@kernel.org>; Stanimir Varbanov
-> > <stanimir.k.varbanov@gmail.com>; Vikash Garodia (QUIC)
-> > <quic_vgarodia@quicinc.com>; linux-arm-msm@vger.kernel.org; linux-
-> > media@vger.kernel.org
-> > Subject: [PATCH] Revert "venus: firmware: Correct non-pix start and end
-> > addresses"
-> > 
-> > WARNING: This email originated from outside of Qualcomm. Please be wary of
-> > any links or attachments, and do not enable macros.
-> > 
-> > This reverts commit a837e5161cfffbb3242cc0eb574f8bf65fd32640, which
-> > broke probing of the venus driver, at least on the SC7180 SoC HP X2
-> > Chromebook:
-> > 
-> >   [   11.455782] qcom-venus aa00000.video-codec: Adding to iommu group 11
-> >   [   11.506980] qcom-venus aa00000.video-codec: non legacy binding
-> >   [   12.143432] qcom-venus aa00000.video-codec: failed to reset venus core
-> >   [   12.156440] qcom-venus: probe of aa00000.video-codec failed with error -
-> > 110
-> > 
-> > Matthias Kaehlcke also reported that the same change caused a regression in
-> > SC7180 and sc7280, that prevents AOSS from entering sleep mode during
-> > system suspend. So let's revert this commit for now to fix both issues.
-> > 
-> > Fixes: a837e5161cff ("venus: firmware: Correct non-pix start and end
-> > addresses")
-> > Reported-by: Matthias Kaehlcke <mka@chromium.org>
-> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > ---
-> > 
-> >  drivers/media/platform/qcom/venus/firmware.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/qcom/venus/firmware.c
-> > b/drivers/media/platform/qcom/venus/firmware.c
-> > index 142d4c74017c..d59ecf776715 100644
-> > --- a/drivers/media/platform/qcom/venus/firmware.c
-> > +++ b/drivers/media/platform/qcom/venus/firmware.c
-> > @@ -38,8 +38,8 @@ static void venus_reset_cpu(struct venus_core *core)
-> >         writel(fw_size, wrapper_base + WRAPPER_FW_END_ADDR);
-> >         writel(0, wrapper_base + WRAPPER_CPA_START_ADDR);
-> >         writel(fw_size, wrapper_base + WRAPPER_CPA_END_ADDR);
-> > -       writel(0, wrapper_base + WRAPPER_NONPIX_START_ADDR);
-> > -       writel(0, wrapper_base + WRAPPER_NONPIX_END_ADDR);
-> > +       writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
-> > +       writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
-> > 
-> >         if (IS_V6(core)) {
-> >                 /* Bring XTSS out of reset */
-> > --
-> > 2.39.1
-> 
-> Thanks,
-> Vikash
+Error/Warning: (recently discovered and may have been fixed)
 
+Documentation/riscv/uabi.rst:24: WARNING: Enumerated list ends without a blank line; unexpected unindent.
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+FAILED: load BTF from vmlinux: No data available
+arch/arm64/kvm/arm.c:2207: warning: expecting prototype for Initialize Hyp(). Prototype was for kvm_arm_init() instead
+drivers/clk/qcom/gcc-sa8775p.c:313:32: warning: unused variable 'gcc_parent_map_10' [-Wunused-const-variable]
+drivers/clk/qcom/gcc-sa8775p.c:318:37: warning: unused variable 'gcc_parent_data_10' [-Wunused-const-variable]
+drivers/clk/qcom/gcc-sa8775p.c:333:32: warning: unused variable 'gcc_parent_map_12' [-Wunused-const-variable]
+drivers/clk/qcom/gcc-sa8775p.c:338:37: warning: unused variable 'gcc_parent_data_12' [-Wunused-const-variable]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.h:62:10: fatal error: mod_info_packet.h: No such file or directory
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hubbub.c:1011:6: warning: no previous prototype for 'hubbub31_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubbub.c:948:6: warning: no previous prototype for 'hubbub32_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubp.c:158:6: warning: no previous prototype for 'hubp32_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:62:18: warning: variable 'cursor_bpp' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1295:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:279:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1585:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+ftrace-ops.c:(.init.text+0x2c3): undefined reference to `__udivdi3'
+libbpf: failed to find '.BTF' ELF section in vmlinux
 
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/media/i2c/max9286.c:802 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
+drivers/thermal/qcom/tsens-v0_1.c:106:40: sparse: sparse: symbol 'tsens_9607_nvmem' was not declared. Should it be static?
+drivers/thermal/qcom/tsens-v0_1.c:26:40: sparse: sparse: symbol 'tsens_8916_nvmem' was not declared. Should it be static?
+drivers/thermal/qcom/tsens-v0_1.c:42:40: sparse: sparse: symbol 'tsens_8939_nvmem' was not declared. Should it be static?
+drivers/thermal/qcom/tsens-v0_1.c:62:40: sparse: sparse: symbol 'tsens_8974_nvmem' was not declared. Should it be static?
+drivers/thermal/qcom/tsens-v0_1.c:84:40: sparse: sparse: symbol 'tsens_8974_backup_nvmem' was not declared. Should it be static?
+drivers/thermal/qcom/tsens-v1.c:24:40: sparse: sparse: symbol 'tsens_qcs404_nvmem' was not declared. Should it be static?
+drivers/thermal/qcom/tsens-v1.c:45:40: sparse: sparse: symbol 'tsens_8976_nvmem' was not declared. Should it be static?
+drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
+sound/firewire/amdtp-stream.c:1187 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
+|-- arm64-randconfig-c023-20230205
+|   `-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
+|-- arm64-randconfig-s042-20230205
+|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
+|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8916_nvmem-was-not-declared.-Should-it-be-static
+|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8939_nvmem-was-not-declared.-Should-it-be-static
+|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_backup_nvmem-was-not-declared.-Should-it-be-static
+|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_nvmem-was-not-declared.-Should-it-be-static
+clang_recent_errors
+`-- riscv-randconfig-r003-20230204
+    |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_data_10
+    |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_data_12
+    |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_map_10
+    `-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_map_12
+
+elapsed time: 726m
+
+configs tested: 87
+configs skipped: 3
+
+gcc tested configs:
+x86_64                            allnoconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+i386                                defconfig
+um                           x86_64_defconfig
+powerpc                           allnoconfig
+x86_64                              defconfig
+arc                                 defconfig
+s390                             allmodconfig
+i386                 randconfig-a011-20230206
+sh                               allmodconfig
+i386                             allyesconfig
+x86_64               randconfig-a014-20230206
+x86_64                               rhel-8.3
+alpha                               defconfig
+ia64                             allmodconfig
+mips                             allyesconfig
+x86_64                           rhel-8.3-bpf
+m68k                             allyesconfig
+x86_64                           rhel-8.3-syz
+m68k                             allmodconfig
+x86_64                         rhel-8.3-kunit
+arc                              allyesconfig
+x86_64               randconfig-a013-20230206
+powerpc                          allmodconfig
+x86_64                           rhel-8.3-kvm
+i386                 randconfig-a014-20230206
+x86_64               randconfig-a011-20230206
+i386                 randconfig-a012-20230206
+i386                 randconfig-a016-20230206
+alpha                            allyesconfig
+sh                          rsk7203_defconfig
+arm                                 defconfig
+s390                                defconfig
+x86_64               randconfig-a015-20230206
+s390                             allyesconfig
+m68k                          amiga_defconfig
+x86_64               randconfig-a012-20230206
+x86_64                           allyesconfig
+i386                 randconfig-a013-20230206
+xtensa                           alldefconfig
+i386                 randconfig-a015-20230206
+x86_64               randconfig-a016-20230206
+s390                 randconfig-r044-20230206
+arc                  randconfig-r043-20230205
+arm64                            allyesconfig
+arm                  randconfig-r046-20230205
+arc                  randconfig-r043-20230206
+arm                              allyesconfig
+riscv                randconfig-r042-20230206
+arm                            mps2_defconfig
+arm                           h3600_defconfig
+m68k                       bvme6000_defconfig
+sh                            hp6xx_defconfig
+powerpc                      tqm8xx_defconfig
+sh                        sh7785lcr_defconfig
+sh                          urquell_defconfig
+arm                         nhk8815_defconfig
+powerpc                     rainier_defconfig
+arm                         axm55xx_defconfig
+powerpc                       maple_defconfig
+sh                           se7705_defconfig
+i386                          randconfig-c001
+
+clang tested configs:
+x86_64                          rhel-8.3-rust
+x86_64               randconfig-a001-20230206
+x86_64               randconfig-a005-20230206
+x86_64               randconfig-a002-20230206
+x86_64               randconfig-a004-20230206
+x86_64               randconfig-a003-20230206
+hexagon              randconfig-r041-20230205
+x86_64               randconfig-a006-20230206
+arm                         mv78xx0_defconfig
+riscv                randconfig-r042-20230205
+hexagon              randconfig-r045-20230206
+i386                 randconfig-a005-20230206
+hexagon              randconfig-r041-20230206
+i386                 randconfig-a004-20230206
+i386                 randconfig-a003-20230206
+i386                 randconfig-a001-20230206
+i386                 randconfig-a002-20230206
+arm                  randconfig-r046-20230206
+s390                 randconfig-r044-20230205
+hexagon              randconfig-r045-20230205
+i386                 randconfig-a006-20230206
+powerpc                 mpc8315_rdb_defconfig
+x86_64                        randconfig-k001
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
