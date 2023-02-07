@@ -2,176 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9997668E380
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 23:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 628B268E3B7
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 23:55:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjBGWjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 17:39:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
+        id S230080AbjBGWzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 17:55:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbjBGWjT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 17:39:19 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC0C1D91F
-        for <linux-media@vger.kernel.org>; Tue,  7 Feb 2023 14:39:17 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id w24so6250746iow.13
-        for <linux-media@vger.kernel.org>; Tue, 07 Feb 2023 14:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IBeKLhexhVuIlFyB10k/azAK7S7zX+ZcRczDxkPJDDI=;
-        b=HoJWERAQKDdMQjEcI2tlSxHyq4MUC7bkjaa9YykcTtOhNR8KornBl0aG3dpK2DcUdZ
-         +zuf5gpJorE/rhCBxZxgl0AIx5Y8Hm9f6Jt+kdQaeWTy30uySZRF3K8Q6u1ARZByomxQ
-         2Ux1wllwCRSglzxZGad4a/VuxwZv/0VEmQOJI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IBeKLhexhVuIlFyB10k/azAK7S7zX+ZcRczDxkPJDDI=;
-        b=is6f4+5bG31I0y4laUtv8rjYkFABggpTQ3h2mdiorM2L3vZ2zt5VnRDaFop2JJHaln
-         hZe4MgBFexRglJmJDlvPbS49MOxuUB5LjGrAzlLwKjwZ0PLeKWfAuMYS33Y1x+daAhQ0
-         hsjubKlUJ9WVHzKQW9sE8nMl0wj/hGFGi+TmA7ovTFr+lKOCCMdlN1wQHHyvepfKx0+H
-         hWKSgsRAq2Q5U4RJnFn6wnK+kvLnuelQ+JQvkplrEHlgvkqh2zmTJj40ZGYMm4QeYOEZ
-         mvnBrZOr7HwiKs5BHAVpja1C30G+m3gJuQi8QkTqqqe2QcSizCoeporh/MwYUZ81ZOTL
-         5j5Q==
-X-Gm-Message-State: AO0yUKV6sUbdsSOXorivhCW2hA8mbAH2y0l3VGNCNKe4WqovraXG3gMk
-        4dE6S0c3XzIAPXoGvBmMDOlm3g==
-X-Google-Smtp-Source: AK7set/SnFWn789GkuEuf3XipiBmjDHv1H0+VJXst89oJGDc1dt8OHqJdibXPTZNzRwRbcC56P4Zow==
-X-Received: by 2002:a6b:1585:0:b0:721:90c5:7d0e with SMTP id 127-20020a6b1585000000b0072190c57d0emr3928577iov.9.1675809557082;
-        Tue, 07 Feb 2023 14:39:17 -0800 (PST)
-Received: from localhost (30.23.70.34.bc.googleusercontent.com. [34.70.23.30])
-        by smtp.gmail.com with UTF8SMTPSA id c7-20020a5e8f07000000b00713d437afe8sm4208866iok.26.2023.02.07.14.39.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 14:39:16 -0800 (PST)
-Date:   Tue, 7 Feb 2023 22:39:16 +0000
-From:   "mka@chromium.org" <mka@chromium.org>
-To:     Vikash Garodia <vgarodia@qti.qualcomm.com>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Albert Esteve <aesteve@redhat.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fritz Koenig <frkoenig@google.com>,
-        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-Message-ID: <Y+LTFL+ncIJS38Sk@google.com>
-References: <20230207102254.1446461-1-javierm@redhat.com>
- <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <Y+KPW18o/Da+N8UI@google.com>
+        with ESMTP id S229953AbjBGWzR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 17:55:17 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB0A22A03;
+        Tue,  7 Feb 2023 14:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675810516; x=1707346516;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lx4c26ErU5S2ynIOqkxO2qwwwvS3CfD4nsakwC60WCg=;
+  b=mu/z6cTOCDPgZUilvM9Bq/eoEj50tNojFCJ0N7nV16QZB5UUngGgSU+s
+   Qb2/LCTJdRCxQTNdv3zZ4FlCuCz2maW9IN1guwZ8n3P8mzGeWhv5RkvE6
+   3gipDzwaJwcZYz1a2EFaOM19ReHHV6lO/yeNK7A5kUW/wuElFsy19rUcQ
+   s4pO1X+rdn1WY3XATtEP1jgLoEEGuMDad0hOYdY/x8GFrfGX6sKIZLQyL
+   bdYgkHS/U3uDXhhVBmWqnCg5+vaczexRyWzh47Pl5UU+U5QLSjqfgG0C+
+   KIkO6wss5lYdBgK/rjTCUjrlI2mU5bqOoPsmo8eizABH9EvR6miSoFm67
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="309298586"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="309298586"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 14:55:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="755794715"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="755794715"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2023 14:55:09 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pPWri-003on0-0X;
+        Wed, 08 Feb 2023 00:55:06 +0200
+Date:   Wed, 8 Feb 2023 00:55:05 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of
+ linux/gpio.h
+Message-ID: <Y+LWyc4rqCVq5hEi@smile.fi.intel.com>
+References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
+ <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
+ <CACRpkdaPgjDijPjCdinWy5_Rd8g3idv-8K=YPTv5iTfJKFuJfw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y+KPW18o/Da+N8UI@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CACRpkdaPgjDijPjCdinWy5_Rd8g3idv-8K=YPTv5iTfJKFuJfw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 07, 2023 at 05:50:19PM +0000, mka@chromium.org wrote:
-> Hi Vikash,
+On Tue, Feb 07, 2023 at 03:55:23PM +0100, Linus Walleij wrote:
+> On Tue, Feb 7, 2023 at 3:29 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
 > 
-> On Tue, Feb 07, 2023 at 04:40:24PM +0000, Vikash Garodia wrote:
-> > Hi Javier and Matthias,
-> > Can we try the attached patch if that fixes the suspend issue for sc7180 and sc7280 ?
-> 
-> On my side the patch fixes the issue for sc7280, but not sc7180.
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > Almost all gpio drivers include linux/gpio/driver.h, and other
+> > files should not rely on includes from this header.
+> >
+> > Remove the indirect include from here and include the correct
+> > headers directly from where they are used.
 
-Some more info for sc7180:
+...
 
-[   10.313055] qcom-venus aa00000.video-codec: failed to reset venus core
-[   10.331454] qcom-venus: probe of aa00000.video-codec failed with error -110
+> Make sure you push this to the kernel.org build servers (zeroday builds),
 
-So venus didn't probe successfully. As a result sync_state() of its rpmhpd and
-interconnects isn't called and they keep running at max speed, which prevents
-the Always-On subsystem from suspending:
+Of course, that is the purpose of publishing this before the release (so we
+will have some TODO list that eventually this can be applied for v6.4-rc1).
 
-[   30.171148] qcom-rpmhpd 18200000.rsc:power-controller: Consumer 'aa00000.video-codec' did not probe (successfully)
-[   30.682950] qnoc-sc7180 9680000.interconnect: Consumer 'aa00000.video-codec' did not probe (successfully)
-[   30.701843] qnoc-sc7180 1740000.interconnect: Consumer 'aa00000.video-codec' did not probe (successfully)
-[   30.720168] qnoc-sc7180 1638000.interconnect: Consumer 'aa00000.video-codec' did not probe (successfully)
-[   30.738478] qnoc-sc7180 1500000.interconnect: Consumer 'aa00000.video-codec' did not probe (successfully)
+> I think this patch needs to hit some more files, in my tests with a similar
+> patch at least these:
 
-(these debug logs are not upstream)
+Right. I forgot to also incorporate your stuff into this series.
+Do you have anything that I can take as is?
 
-> > > -----Original Message-----
-> > > From: Javier Martinez Canillas <javierm@redhat.com>
-> > > Sent: Tuesday, February 7, 2023 3:53 PM
-> > > To: linux-kernel@vger.kernel.org
-> > > Cc: Albert Esteve <aesteve@redhat.com>; stanimir.varbanov@linaro.org;
-> > > Matthias Kaehlcke <mka@chromium.org>; Enric Balletbo i Serra
-> > > <eballetb@redhat.com>; Javier Martinez Canillas <javierm@redhat.com>; Andy
-> > > Gross <agross@kernel.org>; Bjorn Andersson <andersson@kernel.org>; Konrad
-> > > Dybcio <konrad.dybcio@linaro.org>; Mauro Carvalho Chehab
-> > > <mchehab@kernel.org>; Stanimir Varbanov
-> > > <stanimir.k.varbanov@gmail.com>; Vikash Garodia (QUIC)
-> > > <quic_vgarodia@quicinc.com>; linux-arm-msm@vger.kernel.org; linux-
-> > > media@vger.kernel.org
-> > > Subject: [PATCH] Revert "venus: firmware: Correct non-pix start and end
-> > > addresses"
-> > > 
-> > > WARNING: This email originated from outside of Qualcomm. Please be wary of
-> > > any links or attachments, and do not enable macros.
-> > > 
-> > > This reverts commit a837e5161cfffbb3242cc0eb574f8bf65fd32640, which
-> > > broke probing of the venus driver, at least on the SC7180 SoC HP X2
-> > > Chromebook:
-> > > 
-> > >   [   11.455782] qcom-venus aa00000.video-codec: Adding to iommu group 11
-> > >   [   11.506980] qcom-venus aa00000.video-codec: non legacy binding
-> > >   [   12.143432] qcom-venus aa00000.video-codec: failed to reset venus core
-> > >   [   12.156440] qcom-venus: probe of aa00000.video-codec failed with error -
-> > > 110
-> > > 
-> > > Matthias Kaehlcke also reported that the same change caused a regression in
-> > > SC7180 and sc7280, that prevents AOSS from entering sleep mode during
-> > > system suspend. So let's revert this commit for now to fix both issues.
-> > > 
-> > > Fixes: a837e5161cff ("venus: firmware: Correct non-pix start and end
-> > > addresses")
-> > > Reported-by: Matthias Kaehlcke <mka@chromium.org>
-> > > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > > ---
-> > > 
-> > >  drivers/media/platform/qcom/venus/firmware.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/qcom/venus/firmware.c
-> > > b/drivers/media/platform/qcom/venus/firmware.c
-> > > index 142d4c74017c..d59ecf776715 100644
-> > > --- a/drivers/media/platform/qcom/venus/firmware.c
-> > > +++ b/drivers/media/platform/qcom/venus/firmware.c
-> > > @@ -38,8 +38,8 @@ static void venus_reset_cpu(struct venus_core *core)
-> > >         writel(fw_size, wrapper_base + WRAPPER_FW_END_ADDR);
-> > >         writel(0, wrapper_base + WRAPPER_CPA_START_ADDR);
-> > >         writel(fw_size, wrapper_base + WRAPPER_CPA_END_ADDR);
-> > > -       writel(0, wrapper_base + WRAPPER_NONPIX_START_ADDR);
-> > > -       writel(0, wrapper_base + WRAPPER_NONPIX_END_ADDR);
-> > > +       writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
-> > > +       writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
-> > > 
-> > >         if (IS_V6(core)) {
-> > >                 /* Bring XTSS out of reset */
-> > > --
-> > > 2.39.1
-> > 
-> > Thanks,
-> > Vikash
-> 
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
