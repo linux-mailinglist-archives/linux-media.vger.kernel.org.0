@@ -2,138 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0C6868E04F
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 19:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2222368E130
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 20:30:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbjBGSnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 13:43:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
+        id S231645AbjBGT3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 14:29:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbjBGSnx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 13:43:53 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06221E1D5;
-        Tue,  7 Feb 2023 10:43:51 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 856E1B81AB2;
-        Tue,  7 Feb 2023 18:43:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D06C433D2;
-        Tue,  7 Feb 2023 18:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675795429;
-        bh=z46LV0K67pYt+9sG+8XPfphcBy3wjoS4vl+j+OOVUvk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=icQIS6QVs3SIYrh/ewyBWxOXyRdTzSi5iQLtHvNEjG7lvYhQ+DvHhk+3KEs5qU2sU
-         TMTqOav5kG8GY5JR22dKb78qqMAt/Bg2JYkWEyM+MGuclGw0hQvMcVEtbzsmiJlItD
-         IEGaquWuCLNILvUo5685guZahlOFm7IGWB2GaIQ6/vE/h0SUH8mRyEHQMupAISjrjW
-         fnVVq+bZn0SaHzKt6ZHA6LtwE38N/APEa35C82I5WgacjEtf/+fE+N1kuSQDae5KOg
-         NbPJHolFeXjK9+XKnt9280QC9hb68ZWPxwLnKvG03l5612lhbMN4Z8sBFUzc9BZ9vj
-         q3xPIHrd6PLJg==
-Date:   Tue, 7 Feb 2023 10:43:45 -0800
-From:   Lee Jones <lee@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
+        with ESMTP id S231258AbjBGT3j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 14:29:39 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674CC3E098
+        for <linux-media@vger.kernel.org>; Tue,  7 Feb 2023 11:29:19 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id r2so14636463wrv.7
+        for <linux-media@vger.kernel.org>; Tue, 07 Feb 2023 11:29:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hO5H0Nap/rA7n7JTyZf5zLflpWg3VbovGW4CVXHbCK4=;
+        b=pi4BF1tbHVMh6DjSFOMxLSqBN7I485NtNf0wtShJCIWnuaPJ1f+bgaEDoNbCtkr81P
+         f398/d5NXSkauPmUCVmc+LrJEKlAtIQaqZ1NlWqxiFzloxtTDDy+JvF23rABn9SPckmX
+         xdnzhKBvnzygCFIbPXg+gaaVni3QrF1kpeRhNvaHHYaXv5i+CHjin9TSk5kWBDmjjx1M
+         rLYmEM5m6Ypk46Mpx/si2EX6QHrzjaYIPSVzwBQIyrD3mgKANQx6RgAmpTBy0y6d7W7m
+         hWFRLQgH4iFYKmxYtYEnxBgzEkbSMB5SlQ3IEkb6BVzdp3ZCEuF29ttomF4LHFyP4kRu
+         DWrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hO5H0Nap/rA7n7JTyZf5zLflpWg3VbovGW4CVXHbCK4=;
+        b=nuOsAy1Zut4Z+EQXCnghILxBaWOv2iDa4C44PNul+HJ8x+H6/3HAj6TWSNiwGXQDD4
+         QT+Kx1QG+pqrV38k5aZ5pbZub8RL+yjZiQgzheY+ntwZjoARaQNQKEanciCRWNxk0kKx
+         iFt5/V/D3fsYSMh484m3qBDJ+eZTR4vBvVUaeqjme/VNGPq2rgCFnACsRUxb/zj9WC3q
+         lWqDAonOcEe6Ed9gA0lXudwE4O2NMOC6sEXu3XCtE00JDPKWQ1UwBdciM0F9VA63j1U3
+         vE3/9FQP8p0EDN5ikny6lDqGlcH2IAZh5ejqSRDNev9E7rshGpjnLsHfIzh7X45uRga4
+         dK9w==
+X-Gm-Message-State: AO0yUKWtas8l/B1B7mYtM0joGUdNQIe4Hpwaw5/8SaAv5F1MXO/0crSG
+        fWj4jKKQkAM6xT8KQYeWX8CInw==
+X-Google-Smtp-Source: AK7set/G1foflXy9cnv/SVtLj/1btjN14gR0xivM/JvDx2dXNtmiHGcQQSiLDGKmOFsiTQVsmg1BoA==
+X-Received: by 2002:a5d:6941:0:b0:2bf:cfbd:44be with SMTP id r1-20020a5d6941000000b002bfcfbd44bemr3491040wrw.69.1675798157787;
+        Tue, 07 Feb 2023 11:29:17 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id bd16-20020a05600c1f1000b003db0ee277b2sm19858623wmb.5.2023.02.07.11.29.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 11:29:17 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v3 06/12] gpiolib: split linux/gpio/driver.h out of
- linux/gpio.h
-Message-ID: <Y+Kb4Ql+I7/Abm48@google.com>
-References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
- <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] media: samsung: exynos4-is: drop simple-bus from compatibles
+Date:   Tue,  7 Feb 2023 20:29:13 +0100
+Message-Id: <20230207192914.549309-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230207142952.51844-7-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 07 Feb 2023, Andy Shevchenko wrote:
+The FIMC camera node wrapper is not a bus, so using simple-bus fallback
+compatible just to instantiate its children nodes was never correct.
+Driver should explicitly populate all its children devices.
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Almost all gpio drivers include linux/gpio/driver.h, and other
-> files should not rely on includes from this header.
-> 
-> Remove the indirect include from here and include the correct
-> headers directly from where they are used.
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  arch/arm/mach-omap1/irq.c                              | 1 +
->  arch/arm/mach-orion5x/board-rd88f5182.c                | 1 +
->  arch/arm/mach-s3c/s3c64xx.c                            | 1 +
->  arch/arm/mach-sa1100/assabet.c                         | 1 +
->  arch/arm/plat-orion/gpio.c                             | 1 +
->  drivers/net/wireless/broadcom/brcm80211/brcmsmac/led.c | 1 +
->  include/linux/gpio.h                                   | 2 --
->  include/linux/mfd/ucb1x00.h                            | 1 +
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/media/platform/samsung/exynos4-is/media-dev.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Acked-by: Lee Jones <lee@kernel.org>
-
->  8 files changed, 7 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.c b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+index 98a60f01129d..70c4ca7844d3 100644
+--- a/drivers/media/platform/samsung/exynos4-is/media-dev.c
++++ b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+@@ -1440,6 +1440,10 @@ static int fimc_md_probe(struct platform_device *pdev)
+ 	if (!fmd)
+ 		return -ENOMEM;
+ 
++	ret = devm_of_platform_populate(dev);
++	if (ret < 0)
++		return -ENOMEM;
++
+ 	spin_lock_init(&fmd->slock);
+ 	INIT_LIST_HEAD(&fmd->pipelines);
+ 	fmd->pdev = pdev;
 -- 
-Lee Jones [李琼斯]
+2.34.1
+
