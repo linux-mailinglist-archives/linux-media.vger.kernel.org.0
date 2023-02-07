@@ -2,109 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B0F668E1BC
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 21:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F91968E212
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 21:43:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230204AbjBGUP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 15:15:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57370 "EHLO
+        id S229563AbjBGUnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 15:43:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbjBGUP0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 15:15:26 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137103A58D
-        for <linux-media@vger.kernel.org>; Tue,  7 Feb 2023 12:15:25 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso14044020wms.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Feb 2023 12:15:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cdinGgVazI5fUgZBgObY9YOTAF5gu6cqTGjYkW5HU9c=;
-        b=tkPGpovGMEec0DDGESsbPR6aJLfnHktdEbfldpxzQqYpHdt/1Tu42rxfwAcpDF93qQ
-         crEJ0DcNWGY2+z3oQJzXCZeVlUZ01jVAildSAMimonAgEqXobj440SE9w340FTDTRj3W
-         +Ro/yeZw6f1murs6frpkTVBJRQxdI90dxw2CAl69pl9V14kDcoE5SJBhQe9O5+nvshnA
-         XZQxtHeU3djbkPBA5sMxqeQ/pg+ZWvAEn66/soaf0Dun4Ss5KhhGADotpAVYssKRbRjb
-         Uyy8O87oh1eUULJ+azD7Rj2mVQk6Q8RXCSTW3gOINHQaXxEvGcHv1fzWAdcH+ycjEdQu
-         C1sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cdinGgVazI5fUgZBgObY9YOTAF5gu6cqTGjYkW5HU9c=;
-        b=zFBB/fF9GSrUwJgiEn6FPOnAjurqSQ4drsDpmaIS4DUWWArsrBzyk5D0qklWEXqIAV
-         wfnyWiaoSzWtcy8oKT+pxpuhbipwA5GXetKk6Y6k/8juBJZf4Ok7ZxQEZf/gmFPuYH7T
-         XAYlhmUXicLBcjs14iSG3QgeMftAug5fC7+34shAAEfLlTEvrJjIRDTCtRs9gQGaIK8T
-         TQArE5Q29u1qJdUO/aKDTOIY4YUGIuxOPaGoUtgPbC7hKvPly1jQcF5tj4RUNyWWTWkh
-         Hxy+GMV6d1dP399MYDQyp53BGawpSKKZhgKAraDSefvWLxi3IQbCOANhh9n55CEWeQta
-         sEqQ==
-X-Gm-Message-State: AO0yUKW1Nrf3KdE6zKdWk4axHqW3AdArlLK/dzHjDodywW9iOlhXnozh
-        iYnftVyDNcUUmXaU+aZV4Eh/fA==
-X-Google-Smtp-Source: AK7set/5h8OvHzwHdZa8t7WRpHyDlCmAbwfSNzSfFZWUQj5pO3yjNS+ImIIb15Q2AmvMbBLoFt9JVw==
-X-Received: by 2002:a05:600c:331e:b0:3dc:5823:d6c0 with SMTP id q30-20020a05600c331e00b003dc5823d6c0mr4222460wmp.6.1675800923588;
-        Tue, 07 Feb 2023 12:15:23 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id o37-20020a05600c512500b003c6bbe910fdsm21958398wms.9.2023.02.07.12.15.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 12:15:23 -0800 (PST)
-Message-ID: <6461a06b-55fa-e41a-0cf0-5a587ed2c389@linaro.org>
-Date:   Tue, 7 Feb 2023 21:15:21 +0100
+        with ESMTP id S229500AbjBGUng (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 15:43:36 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8576E98;
+        Tue,  7 Feb 2023 12:43:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675802615; x=1707338615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LGMTUCV6l/iT3A7JdzQEA4khN4yhKfcPeFoiLiMB1Xw=;
+  b=SsJ+CdcAXC2Jx6GaSbXC9IMUWKKKCEMhW9gskKaedjl1EEPKY306uQvA
+   Y7DaLWM40GaR/hLEPh+pBdwdJlSdDi3ssSiSYUbbqiPL8T1AHYUL4jqqJ
+   WWJeJXLO2IyvWhUk44H/FTahhmu2a/2mrYXlsXcM7HDUo5NMBfF9oPS+/
+   oUDtV5phisaOxmNascvwTAv7z7KqJPw2jEqJCHtfFLb3gXzqeRTaNtPgA
+   86aH/pmlYS5toz3Zvzaf102P2lQfmLetTawYCLhx5HXx4JhPNuKjcwWEb
+   h2LHoYb2j0USeAnOBKm2ldfeBeCQi3bZJJzHnxRhL/pcQyOZjk1i7W4FV
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="330913843"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="330913843"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 12:43:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="644589173"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="644589173"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 07 Feb 2023 12:43:32 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pPUoN-0003sY-2I;
+        Tue, 07 Feb 2023 20:43:31 +0000
+Date:   Wed, 8 Feb 2023 04:42:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lizhi Hou <lizhi.hou@amd.com>,
+        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
+Subject: Re: [PATCH RESEND v5 1/1] Added Digiteq Automotive MGB4 driver
+Message-ID: <202302080423.3mOPztPU-lkp@intel.com>
+References: <20230207150119.5542-2-tumic@gpxsee.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] media: samsung: exynos4-is: drop simple-bus from
- compatibles
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-References: <20230207192914.549309-1-krzysztof.kozlowski@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230207192914.549309-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230207150119.5542-2-tumic@gpxsee.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/02/2023 20:29, Krzysztof Kozlowski wrote:
-> The FIMC camera node wrapper is not a bus, so using simple-bus fallback
-> compatible just to instantiate its children nodes was never correct.
-> Driver should explicitly populate all its children devices.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/media/platform/samsung/exynos4-is/media-dev.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.c b/drivers/media/platform/samsung/exynos4-is/media-dev.c
-> index 98a60f01129d..70c4ca7844d3 100644
-> --- a/drivers/media/platform/samsung/exynos4-is/media-dev.c
-> +++ b/drivers/media/platform/samsung/exynos4-is/media-dev.c
-> @@ -1440,6 +1440,10 @@ static int fimc_md_probe(struct platform_device *pdev)
->  	if (!fmd)
->  		return -ENOMEM;
->  
-> +	ret = devm_of_platform_populate(dev);
-> +	if (ret < 0)
-> +		return -ENOMEM;
-> +
+Hi,
 
-This cannot be devm-like, because on errors unpopulating devices breaks
-links and IOMMU. I will make it of_platform_populate() instead.
+Thank you for the patch! Yet something to improve:
 
-Best regards,
-Krzysztof
+[auto build test ERROR on sailus-media-tree/streams]
+[also build test ERROR on linus/master v6.2-rc7]
+[cannot apply to media-tree/master next-20230207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/tumic-gpxsee-org/Added-Digiteq-Automotive-MGB4-driver/20230207-210120
+base:   git://linuxtv.org/sailus/media_tree.git streams
+patch link:    https://lore.kernel.org/r/20230207150119.5542-2-tumic%40gpxsee.org
+patch subject: [PATCH RESEND v5 1/1] Added Digiteq Automotive MGB4 driver
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230208/202302080423.3mOPztPU-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ece664ba09047f289e8573fc17738d5eb29c265a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review tumic-gpxsee-org/Added-Digiteq-Automotive-MGB4-driver/20230207-210120
+        git checkout ece664ba09047f289e8573fc17738d5eb29c265a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/pci/mgb4/mgb4_trigger.c:19:10: fatal error: linux/dma/amd_xdma.h: No such file or directory
+      19 | #include <linux/dma/amd_xdma.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> drivers/media/pci/mgb4/mgb4_core.c:29:10: fatal error: linux/dma/amd_xdma.h: No such file or directory
+      29 | #include <linux/dma/amd_xdma.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> drivers/media/pci/mgb4/mgb4_vin.c:24:10: fatal error: linux/dma/amd_xdma.h: No such file or directory
+      24 | #include <linux/dma/amd_xdma.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> drivers/media/pci/mgb4/mgb4_vout.c:17:10: fatal error: linux/dma/amd_xdma.h: No such file or directory
+      17 | #include <linux/dma/amd_xdma.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +19 drivers/media/pci/mgb4/mgb4_trigger.c
+
+  > 19	#include <linux/dma/amd_xdma.h>
+    20	#include "mgb4_core.h"
+    21	#include "mgb4_trigger.h"
+    22	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
