@@ -2,164 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5E4A68E2FF
-	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 22:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA90068E33D
+	for <lists+linux-media@lfdr.de>; Tue,  7 Feb 2023 23:07:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbjBGVcM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 16:32:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S229740AbjBGWHS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Feb 2023 17:07:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjBGVcK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 16:32:10 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8351A8694;
-        Tue,  7 Feb 2023 13:32:08 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id m2so17115731plg.4;
-        Tue, 07 Feb 2023 13:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
-        b=GuPF+8GjCJo3Bv/FSUkP7V624DONZsgKRAdIrvRl2YyIiW7XhBxcLRwW8Dbo0WHo4/
-         gWeBXiyd23u0JU/wn+dRPdA5GR3Arl6vuCtBwP4eLMHcMJntKln0jv/gQTivZoVGNy+L
-         x1nk4o6lG7MxEj41ozS4hZTUa5kSmxJlczPFlhIY0Bev07KN3nsbYPWxgw04YqgRHXgM
-         H1SJ9hnQNC6ymPwNiVfY2mJd0IFIMBAoGPlSP60M4+yIi6PNbW/2sgS38IoIq7PcwoUg
-         h8Z1h5rI9akxItHMnNGQXqodMNTJCgkbn2Kl7ltL4NcRryTi+Ef6iT52cHPCW2iMqAVh
-         7OFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cTC6wNmhItyMEElEpGFXa8WJ3XfORro4b70rdsps6o0=;
-        b=YUj/rYH2IZfkY1oREg+uLs3mPpYUymlQyuGCq99MgKV2d97Q4XhULIfB5qbOnH7BrA
-         Z2wylqkCdkVt0tiDsPazZ2KrE1Si/vqCkCJHWnv8q08saanxco1QNHclYN/Q1AMNbOa7
-         g01e/QwqRi7ptaxXyTbtHBJFA9jL7fa5MSnhzGUVqSBsAyJWXG3YHdQRsWKNRYS4U+Hy
-         /pVoKk+MoByTIV8W0re1T117qCcNLuh3votTgckDS0ErxIPIiKa0HsW5j1XgksM6HudK
-         f0H1pUSMeytIxqwgomS837izpigKBjytTqJb3g0D+QooI3n9/XtmLqnKNqBZSF3mGCvR
-         El+A==
-X-Gm-Message-State: AO0yUKXnN2hBrHZlgkvGluZL+ngGJbKH3KGz80fmmawzMDu+KoZBklof
-        ojBQ1HxnkA2AbQmTyXjwlzk=
-X-Google-Smtp-Source: AK7set8S733/lSzocO4PhiGH97JuaxlIu1uyBJfIu/+7WmPOF35HnmMyyKLJccnN1cXH8ZQnKFrByA==
-X-Received: by 2002:a17:903:244f:b0:199:30a6:3756 with SMTP id l15-20020a170903244f00b0019930a63756mr3394795pls.18.1675805527758;
-        Tue, 07 Feb 2023 13:32:07 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c930:81ab:3aec:b9cb])
-        by smtp.gmail.com with ESMTPSA id k5-20020a170902760500b00192d3e7eb8fsm9333284pll.252.2023.02.07.13.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 13:32:06 -0800 (PST)
-Date:   Tue, 7 Feb 2023 13:32:01 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        with ESMTP id S229732AbjBGWHQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 17:07:16 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C31E4226;
+        Tue,  7 Feb 2023 14:07:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675807630; x=1707343630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZY6Ki7VN2EVVLpc44J2WKNXk7yMANdJzThAVNunvAuc=;
+  b=PuMGcqPM+UP7wVe3NHGH6xmvamGYvMRrftd9r89HnQZIYorGg2gN6EYa
+   21XZDYCoX0rZrMcbiNgmDWTXsPDdT7saUwj7gERojh0IhwUPiXT4ccbEr
+   drNBRh2d8TNhQ8Ipo1mXkeC+VaODqk14+zhcoOUO3eJ+ysmKjBiHO+6KZ
+   kS30LO8jmZpSY06CB8wIXs7TXtbCaqK5io/0/3IpiHJizFkwavjXurfwS
+   yWGkpDH5XaOG1RLl/lHHPYrW3Kvq+ynme5htWkyrBt5KDWkyR8s7qq+Wx
+   p/H24XbIUShlhO27rYYchd2qmiZdm6imwFl2QSHhXb647fW+b9Cn5DfYq
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="392037719"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="392037719"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 14:06:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10614"; a="755785563"
+X-IronPort-AV: E=Sophos;i="5.97,279,1669104000"; 
+   d="scan'208";a="755785563"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Feb 2023 14:06:51 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1pPW6z-003nyL-37;
+        Wed, 08 Feb 2023 00:06:49 +0200
+Date:   Wed, 8 Feb 2023 00:06:49 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kees Cook <keescook@chromium.org>, ionut_n2001@yahoo.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v3 04/12] gpiolib: remove gpio_set_debounce
-Message-ID: <Y+LDUTfKgHEJHNXB@google.com>
-References: <20230207142952.51844-1-andriy.shevchenko@linux.intel.com>
- <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Silence memcpy() run-time false
+ positive warnings
+Message-ID: <Y+LLeYF7CtLjeLbt@smile.fi.intel.com>
+References: <20230106061659.never.817-kees@kernel.org>
+ <CANiDSCtTz4mpTz4RHBzNXL=yBvXNXHBZQ-HYMFegLytoScW4eA@mail.gmail.com>
+ <202301061217.816FC0313D@keescook>
+ <Y7jODnbUqCwfwwHI@pendragon.ideasonboard.com>
+ <CANiDSCvB8vRp43A1J4BpNZveCvG66XbDmnkKZykbWSFCLX1XUQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230207142952.51844-5-andriy.shevchenko@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CANiDSCvB8vRp43A1J4BpNZveCvG66XbDmnkKZykbWSFCLX1XUQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 07, 2023 at 04:29:44PM +0200, Andy Shevchenko wrote:
-> @@ -1010,14 +1009,21 @@ static int ads7846_setup_pendown(struct spi_device *spi,
->  		}
->  
->  		ts->gpio_pendown = pdata->gpio_pendown;
-> -
-> -		if (pdata->gpio_pendown_debounce)
-> -			gpio_set_debounce(pdata->gpio_pendown,
-> -					  pdata->gpio_pendown_debounce);
+On Mon, Jan 09, 2023 at 11:46:00AM +0100, Ricardo Ribalda wrote:
+> Hi Laurent
+> 
+> I was thinking about something on the line of the attached patch,
+> 
+> uvc_frame_header->data could also be replaced with a union.
+> 
+> Warning, not tested ;)
 
-Can we please change only this to:
+...
 
-			gpiod_set_debounce(gpio_to_desc(pdata->gpio_pendown),
-					   pdata->gpio_pendown_debounce);
+> +struct uvc_frame_header {
+> +	u8 length;
+> +	u8 flags;
+> +	u8 data[];
+> +} __packed;
 
-and not change anything else (i.e. drop the changes below)?
+__packed! (See below)
 
->  	} else {
-> -		dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
-> -		return -EINVAL;
-> +		struct gpio_desc *desc;
-> +
-> +		desc = devm_gpiod_get(&spi->dev, "pendown", GPIOD_IN);
-> +		if (IS_ERR(desc)) {
-> +			dev_err(&spi->dev, "no get_pendown_state nor gpio_pendown?\n");
-> +			return PTR_ERR(desc);
-> +		}
-> +		gpiod_set_consumer_name(desc, "ads7846_pendown");
-> +
-> +		ts->gpio_pendown = desc_to_gpio(desc);
->  	}
-> +	if (pdata->gpio_pendown_debounce)
-> +		gpiod_set_debounce(gpio_to_desc(ts->gpio_pendown),
-> +				   pdata->gpio_pendown_debounce);
->  
->  	return 0;
+...
 
-Thanks.
+> +		pts = (u32 *) header->data;
+
+Ai-ai-ai.
+Here is just a yellow flag...
+
+...
+
+>  	uvc_dbg(stream->dev, FRAME,
+>  		"%s(): t-sys %lluns, SOF %u, len %u, flags 0x%x, PTS %u, STC %u frame SOF %u\n",
+>  		__func__, ktime_to_ns(time), meta->sof, meta->length,
+>  		meta->flags,
+> +		has_pts ? *pts : 0,
+
+...and here is a red flag. What you need to have is
+
+	void *pts;
+	u32 pts_val;
+
+	pts_val = get_unaligned_be32(); // or le32
+
+	...use pts_val...
+
+> +		has_scr ? scr->scr : 0,
+> +		has_scr ? scr->frame_sof & 0x7ff : 0);
+
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
