@@ -2,196 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94A5768E760
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 06:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E80C668E7AB
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 06:37:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbjBHFLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 00:11:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
+        id S230150AbjBHFhV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 00:37:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbjBHFK4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 00:10:56 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8CE4391C;
-        Tue,  7 Feb 2023 21:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1675833023; x=1707369023;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=eabWP+1R4FUNDlpnbyktz4c0HZQQVdVpImW1iNk14sM=;
-  b=vRWKWmq0A+i9GRJtMOhf/eexebDpNh4R7+fn7yBx9uxLBHYCHmGgDIAg
-   ZIpI8AkJNF9BcV6ISclWmLz+Lx3/+iO7qE/mp/eQr0amIeON7SYvYvi/U
-   /8mb2B+ueMG0NOMqxBkO2A+cJFnl/0s7ZphUx0NU97aQng8z54K+t/maD
-   xY+zAOA6guV4s6fTOfOCKGih1KeNvXwwzNTGtMC3p3I4PyTiH07x+/vfn
-   93mnGSUMNczaUxiMqOKAvr5jFBUWARwfJLrDHAz93MheUXHD+s8S+OyvO
-   rT45EvJ80cg4k6SWwbJCUU00z0hMDoEmXnuRYTNPPmGrPmyQke+4RzK6C
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.97,280,1669100400"; 
-   d="scan'208";a="195866299"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Feb 2023 22:10:22 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 7 Feb 2023 22:09:58 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.16 via Frontend Transport; Tue, 7 Feb 2023 22:09:54 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <shawnguo@kernel.org>,
-        <s.hauer@pengutronix.de>
-CC:     <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
+        with ESMTP id S229984AbjBHFhL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 00:37:11 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 596098A4F;
+        Tue,  7 Feb 2023 21:36:58 -0800 (PST)
+X-UUID: 991216d0a77211eda06fc9ecc4dadd91-20230208
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=X3cBszW/NxbtABNnIy79YxFnHPtmZaYNwTC7ihSL/WU=;
+        b=rpWyBQqTOG6hLXSVFRs0rYMmHaAm9xONxK2jeV4Yp+WdKNjb8gyMMhHV32CTc7dcvVbCbfUJy8ji9mdrsxb0r6VJxESzKo2tmi5XfgvZTOxyYG3iKPqAezwhNMVb2Iv0xA+OAxs8cQuCnRnjHUZCAMgXcjHUt6oenREYx62l/BI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.19,REQID:06012837-cbf9-4a0b-8ffc-2a5c0a495f49,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:885ddb2,CLOUDID:520b3e8e-8530-4eff-9f77-222cf6e2895b,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-UUID: 991216d0a77211eda06fc9ecc4dadd91-20230208
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <yong.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 68293331; Wed, 08 Feb 2023 13:36:55 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 8 Feb 2023 13:36:54 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Wed, 8 Feb 2023 13:36:53 +0800
+From:   Yong Wu <yong.wu@mediatek.com>
+To:     Joerg Roedel <joro@8bytes.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, <nfraprado@collabora.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <shravan.chippa@microchip.com>, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH v11 5/5] media: i2c: imx334: update pixel and link frequency
-Date:   Wed, 8 Feb 2023 10:39:15 +0530
-Message-ID: <20230208050915.1958183-6-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230208050915.1958183-1-shravan.chippa@microchip.com>
-References: <20230208050915.1958183-1-shravan.chippa@microchip.com>
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <mingyuan.ma@mediatek.com>, <yf.wang@mediatek.com>,
+        <libo.kang@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
+        <chengci.xu@mediatek.com>, <youlin.pei@mediatek.com>,
+        <anan.sun@mediatek.com>
+Subject: [PATCH v2 00/10] Adjust the dma-ranges for MTK IOMMU
+Date:   Wed, 8 Feb 2023 13:36:33 +0800
+Message-ID: <20230208053643.28249-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+After commit f1ad5338a4d5 ("of: Fix "dma-ranges" handling for bus
+controllers"), the dma-ranges is not allowed for dts leaf node.
+but we still would like to separate the different masters into
+different iova regions. Thus we adjust the internal flow, separate
+the 16GB iova range by the master HW larbid/portid and add the
+dma-ranges property in the parent "soc" node. This also could avoid
+the users forget/abuse the iova regions.
 
-Update pixel_rate and link frequency for 1920x1080@30
-while changing mode.
+The commit f1ad5338a4d5 did affect the mt8195 venc, But it is not
+a fatal issue, it could also work well at 0-4GB iova. thus I don't
+add "Fixes:" tag.
 
-Add dummy ctrl cases for pixel_rate and link frequency
-to avoid error while changing the modes dynamically.
+In this series, I add functions for mt8192/mt8195/mt8186, mt8188 will
+be in its special patchset. and the previous mt8173/mt8183...support
+0-4GB only, no need this function.
 
-Add support to handle multiple link frequencies.
+Change note:
+v2:
+   a) Base on next-20230206 since mt8195 jpeg node was applied which
+      affect this patchset.
+   b) Reword the commit message [1/10][2/10] to explain effect.
 
-Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
- drivers/media/i2c/imx334.c | 41 ++++++++++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 11 deletions(-)
+v1: https://lore.kernel.org/linux-mediatek/20230113060133.9394-1-yong.wu@mediatek.com/
+   Base on v6.2-rc3.
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 309c706114d2..4c99d5b7bb8d 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -49,7 +49,8 @@
- #define IMX334_INCLK_RATE	24000000
- 
- /* CSI2 HW configuration */
--#define IMX334_LINK_FREQ	891000000
-+#define IMX334_LINK_FREQ_891M	891000000
-+#define IMX334_LINK_FREQ_445M	445500000
- #define IMX334_NUM_DATA_LANES	4
- 
- #define IMX334_REG_MIN		0x00
-@@ -139,12 +140,14 @@ struct imx334 {
- 	u32 vblank;
- 	const struct imx334_mode *cur_mode;
- 	struct mutex mutex;
-+	unsigned long menu_skip_mask;
- 	u32 cur_code;
- 	bool streaming;
- };
- 
- static const s64 link_freq[] = {
--	IMX334_LINK_FREQ,
-+	IMX334_LINK_FREQ_891M,
-+	IMX334_LINK_FREQ_445M,
- };
- 
- /* Sensor mode registers for 1920x1080@30fps */
-@@ -468,7 +471,7 @@ static const struct imx334_mode supported_modes[] = {
- 		.vblank_min = 45,
- 		.vblank_max = 132840,
- 		.pclk = 297000000,
--		.link_freq_idx = 0,
-+		.link_freq_idx = 1,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
- 			.regs = mode_1920x1080_regs,
-@@ -598,6 +601,11 @@ static int imx334_update_controls(struct imx334 *imx334,
- 	if (ret)
- 		return ret;
- 
-+	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-+				       mode->pclk, 1, mode->pclk);
-+	if (ret)
-+		return ret;
-+
- 	ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode->hblank,
- 				       mode->hblank, 1, mode->hblank);
- 	if (ret)
-@@ -698,6 +706,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
- 		pm_runtime_put(imx334->dev);
- 
- 		break;
-+	case V4L2_CID_PIXEL_RATE:
-+	case V4L2_CID_LINK_FREQ:
- 	case V4L2_CID_HBLANK:
- 		ret = 0;
- 		break;
-@@ -1046,8 +1056,8 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
- 	};
- 	struct fwnode_handle *ep;
- 	unsigned long rate;
-+	unsigned int i, j;
- 	int ret;
--	int i;
- 
- 	if (!fwnode)
- 		return -ENXIO;
-@@ -1097,11 +1107,20 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
- 		goto done_endpoint_free;
- 	}
- 
--	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
--		if (bus_cfg.link_frequencies[i] == IMX334_LINK_FREQ)
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-+		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-+			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-+				set_bit(j, &imx334->menu_skip_mask);
-+				break;
-+			}
-+		}
-+
-+		if (j == ARRAY_SIZE(link_freq)) {
-+			ret = dev_err_probe(imx334->dev, -EINVAL,
-+					    "no supported link freq found\n");
- 			goto done_endpoint_free;
--
--	ret = -EINVAL;
-+		}
-+	}
- 
- done_endpoint_free:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-@@ -1232,10 +1251,10 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	imx334->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
- 							&imx334_ctrl_ops,
- 							V4L2_CID_LINK_FREQ,
--							ARRAY_SIZE(link_freq) -
--							1,
--							mode->link_freq_idx,
-+							__fls(imx334->menu_skip_mask),
-+							__ffs(imx334->menu_skip_mask),
- 							link_freq);
-+
- 	if (imx334->link_freq_ctrl)
- 		imx334->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
+Yong Wu (10):
+  dt-bindings: media: mediatek,vcodec: Remove dma-ranges property
+  dt-bindings: media: mediatek,jpeg: Remove dma-ranges property
+  iommu/mediatek: Get regionid from larb/port id
+  iommu/mediatek: mt8195: Add larb_region_msk
+  iommu/mediatek: mt8186: add larb_region_msk
+  iommu/mediatek: mt8192: add larb_region_msk
+  iommu/mediatek: Add a gap for the iova regions
+  arm64: dts: mt8195: Add dma-ranges for the parent "soc" node
+  arm64: dts: mt8195: Remove the unnecessary dma-ranges
+  arm64: dts: mt8186: Add dma-ranges for the parent "soc" node
+
+ .../media/mediatek,mt8195-jpegdec.yaml        |  7 --
+ .../media/mediatek,mt8195-jpegenc.yaml        |  7 --
+ .../media/mediatek,vcodec-decoder.yaml        |  5 -
+ .../media/mediatek,vcodec-encoder.yaml        |  5 -
+ .../media/mediatek,vcodec-subdev-decoder.yaml |  7 --
+ .../bindings/media/mediatek-jpeg-encoder.yaml |  5 -
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi      |  1 +
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      |  4 +-
+ drivers/iommu/mtk_iommu.c                     | 95 ++++++++++++++-----
+ 9 files changed, 72 insertions(+), 64 deletions(-)
+
 -- 
-2.34.1
+2.18.0
+
 
