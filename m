@@ -2,68 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D1D768E676
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 04:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C4AC68E74E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 06:09:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbjBHDJn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Feb 2023 22:09:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37980 "EHLO
+        id S230134AbjBHFJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 00:09:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjBHDJn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Feb 2023 22:09:43 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4F642DF2;
-        Tue,  7 Feb 2023 19:09:41 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id m2-20020a17090a414200b00231173c006fso114603pjg.5;
-        Tue, 07 Feb 2023 19:09:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5pcJABX9SBwG6pPS5DjwAnhlxkRIEfiApGxt/FynRJo=;
-        b=NQLpdQzqtkNTjlZnAFmYvECW4shVtkzs5rj3imtn0QvzxQel6HfaPydDaee0kB/SEW
-         mI/OwbgEDfO9g7fWKbxu0++f4LMV7ejQJHxTSe4DKDvqs3rlmB4H8s4vCwaqGSltLUBg
-         vBQpTv9/0++wMFLUao/vWKMOTps4LYZ79oe3fpIc24iRu0DD1j3vdZgdaZ49BvUPlhhe
-         k3wHIk1N9tDD5jEA+j0vRtil3na65bGmYF0SiBuUKh46uRMSMcdkEAApZzKGwlJBkgBm
-         SVStwnM9zJxx66cZMRHnOmWXXFF09oDj+O3CjthVRoRoE4+6toaNQToWmci92CoX2vrd
-         TO5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5pcJABX9SBwG6pPS5DjwAnhlxkRIEfiApGxt/FynRJo=;
-        b=Ln4j8btsn3cOHBuO43KE1wmHW+sdeoL5QTHrl5Q8gsTRdajwEK0WzIaKWwnD56N97c
-         +mx1/4YNm/1z9QKTVxUj3GyJ6wCe+f/JddsfUjCnCRnVuwHa/goa3IsvRBmOi6Y/qS9C
-         xAmydMbB1EjPsNgcM7QQWwLlWdtFMGWayfj6H+NaS7qnyBgicXd04IzzUHS37ZBiXfc4
-         mqfr+HprKS3/P7M5S3JhKUZWt0feMY7vSC35fxdAxPVVYkbQMJBjiTwPQaErJoxlWbqG
-         xaJGSIYBpynEJSqtEpqsUfgqTBmVPwXns07ni0UUEFcVmkIZ8z3KltjS13MLr3M0XAso
-         DW5Q==
-X-Gm-Message-State: AO0yUKWqoFJjw87DJj+iHgeITU/qeu8ujmtQjf8pmcUZpHjaKWD/7U5z
-        aXFhzX012noe3GgilD5/PXo=
-X-Google-Smtp-Source: AK7set/6vxOwf+TUnnqTkeSQhzEi+9JnVJPT8aBmwW/pb0McArGoBFe2U81frQbkTQ2cUYp7VcSc4g==
-X-Received: by 2002:a17:902:f549:b0:199:3f82:ef49 with SMTP id h9-20020a170902f54900b001993f82ef49mr2121757plf.49.1675825780630;
-        Tue, 07 Feb 2023 19:09:40 -0800 (PST)
-Received: from localhost.localdomain (arc.lsta.media.kyoto-u.ac.jp. [130.54.10.65])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902c38d00b00189e7cb8b89sm9675043plg.127.2023.02.07.19.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 19:09:40 -0800 (PST)
-From:   Taichi Nishimura <awkrail01@gmail.com>
-To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
-        Taichi Nishimura <awkrail01@gmail.com>
-Subject: [PATCH] Fix drm documentation warning
-Date:   Wed,  8 Feb 2023 12:09:28 +0900
-Message-Id: <20230208030928.760176-1-awkrail01@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229796AbjBHFJ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 00:09:28 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB581F4A9;
+        Tue,  7 Feb 2023 21:09:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1675832966; x=1707368966;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pp00KZGBDdw9ixDnmEBi+um8p4jUsSLszCBdrQrQV2A=;
+  b=nET2KW76K6hb+vxI/2TJct091YqtK984ssFgdE15DmbkXaTYmOB0UtWt
+   Ql30CQVBlkZsPK+/XFc6magsGi5OmIwPhLiMR4P/lyivroFZC82JvmKSU
+   hsIoOQwKlFcdN+8TkOH92fkVUUdo9OZ5YOtw/nrOtsNvWk9pLE14UVwzO
+   gaZjqK6vP9jkMbd1CDkNAhg7S+pqY3/ryNM9b6dWvT7narjT63GJltil0
+   H4uYVFpEBjc94bxsz9+kfBdBZqUkx1jJgAhhVGVpoScLT6oXqOOYPR3MK
+   H/Yuw0s/MoSUXASFJYo/vN/CyA6qyMBGDiLlK3FDxKfdRg8QeHDnXcqgl
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.97,280,1669100400"; 
+   d="scan'208";a="136078366"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Feb 2023 22:09:24 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 7 Feb 2023 22:09:24 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.16 via Frontend Transport; Tue, 7 Feb 2023 22:09:19 -0700
+From:   shravan kumar <shravan.chippa@microchip.com>
+To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
+        <mchehab@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>
+CC:     <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <shravan.chippa@microchip.com>, Jacopo Mondi <jacopo@jmondi.org>,
+        "Sakari Ailus" <sakari.ailus@iki.fi>
+Subject: [PATCH v11 0/5] media: i2c: imx334: support lower bandwidth mode
+Date:   Wed, 8 Feb 2023 10:39:10 +0530
+Message-ID: <20230208050915.1958183-1-shravan.chippa@microchip.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,37 +66,103 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry to re-send this patch again.
-I forgot to attach description.
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-When running make htmldocs, I found that drm_accel_node
-does not exist. The documents do not have any links to
-acceleration nodes, so I removed them.
+Hi
 
-This patch is an extra credit for documentation task
-in the Linux kernel Bug Fixing Spring unpaid 2023.
+This patch series is for imx334 sensor driver support for lower bandwidth
 
-Best,
-Taichi
+Some platforms may not be capable of supporting the bandwidth
+required for 12 bit or 3840x2160@60 resolutions.
 
-Signed-off-by: Taichi Nishimura <awkrail01@gmail.com>
----
- include/drm/drm_file.h | 2 --
- 1 file changed, 2 deletions(-)
+Add support for dynamically selecting 10 bit and 1920x1080@30
+resolutions while leaving the existing configuration as default
 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 0d1f853092ab..cffccf6b94de 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -407,8 +407,6 @@ static inline bool drm_is_render_client(const struct drm_file *file_priv)
-  *
-  * Returns true if this is an open file of the compute acceleration node, i.e.
-  * &drm_file.minor of @file_priv is a accel minor.
-- *
-- * See also the :ref:`section on accel nodes <drm_accel_node>`.
-  */
- static inline bool drm_is_accel_client(const struct drm_file *file_priv)
- {
+V10 -> V11
+Changed veriable type int to unsigned int
+Updated CC list
+
+V10 -> V10
+PATCH RESEND with updated CC list
+
+V9 -> V10
+Added new dt-binding patch
+added support for handling multiple link-frequncy
+minor changes on coding style
+
+V8 -> V9
+-Updated all array values with samall later to get unifamity
+in mode array values
+-corrected hblank_min, hbalank, pix_clk for 1920x1080@30 updated 
+according to link frequency
+-corrected mutex use for imx334_get_format_code function 
+-corrected the fmt->format.code value assinment
+-in function imx334_get_format_code variable "i" value comparision
+corrected
+
+V7 -> V8
+-patch drop "mimx334-odify-link-frequency" as per the commnets
+linkfrquncy will be half of the line bandwidth
+
+-changed 1920x1080@30 mode link frequency from (891000000Mbps) 
+to (445500000Mbps). linkfrquncy will be half of the line bandwidth
+
+V6 -> V7
+Reloved: kernel test robot warning
+"drivers/media/i2c/imx334.c:767:15: warning: unused variable 'i' "
+
+V5 -> V6
+-Drop the dt-binding patch
+-Optimize the code to avoid duplicating the lines
+-Added proper mutex while imx334_mbus_codes array
+-Modified Function __v4l2_ctrl_modify_range arguments as per the review
+commants
+-Added hblank dummy set ctrl
+-Removed Redundant comment
+-corrected code alignment 
+-All commit msgs are re-written
+
+V4 -> V5
+-Added 5 more patchs as per the review comments witch has below updates
+-Updated 1782000000Mbps link frequency for 3840x2160@60 as per the mode
+values
+-Updated 1782000000Mbps link frequency in dt-bindings also
+-Updated 3840x2160@60 mode array with default(reset) values
+
+-Updated hblank __v4l2_ctrl_s_ctrl() to __v4l2_ctrl_modify_range()
+Suggested-by: Jacopo Mondi <jacopo@jmondi.org>
+
+-Current mode update only when we try to set V4L2_SUBDEV_FORMAT_ACTIVE
+-Added link frequency (891000000Mbps) and pixel rate (74250000) to
+1920x1080@30 mode
+Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
+
+-Updated commit message
+
+V3 -> V4
+- Make the 12 bit and 3840x2160 as default
+- Set bus code SRGGB12 if set format fails
+
+V2 -> V3
+- Fixed the warning reported by kernel test robot
+
+V1 -> V2
+- Addressed the review comment given by Jacopo Mondi,
+  Which has bug in imx334_enum_frame_size() loop function,
+- Renamed array codes[] to imx334_mbus_codes[]
+
+Shravan Chippa (5):
+  media: i2c: imx334: replace __v4l2_ctrl_s_ctrl to
+    __v4l2_ctrl_modify_range
+  media: i2c: imx334: add missing reset values for mode 3840x2160_regs[]
+  media: i2c: imx334: support lower bandwidth mode
+  dt-bindings: media: i2c: imx334 add new link_freq
+  media: i2c: imx334: update pixel and link frequency
+
+ .../bindings/media/i2c/sony,imx334.yaml       |   2 +-
+ drivers/media/i2c/imx334.c                    | 361 ++++++++++++++++--
+ 2 files changed, 324 insertions(+), 39 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
