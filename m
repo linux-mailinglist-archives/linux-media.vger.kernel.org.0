@@ -2,50 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A5D68F241
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 16:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8B7668F253
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 16:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbjBHPmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 10:42:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33302 "EHLO
+        id S230433AbjBHPrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 10:47:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231336AbjBHPmC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 10:42:02 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B26A27A
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 07:41:49 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2D50E79;
-        Wed,  8 Feb 2023 16:41:47 +0100 (CET)
+        with ESMTP id S229724AbjBHPra (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 10:47:30 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0231EBED
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 07:47:29 -0800 (PST)
+Received: from ideasonboard.com (host-79-35-57-126.retail.telecomitalia.it [79.35.57.126])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F407EE79;
+        Wed,  8 Feb 2023 16:47:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675870908;
-        bh=i51ERP0xrqN7mXHtKDcAXZg79/tk6kkoX8flGdEGcMA=;
+        s=mail; t=1675871248;
+        bh=GtanM+p9OhmXEqLKbuKpSWsTnzUPsQjGD32S3bPMgOw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NHFhLeYgXA6hgyLBE8zZQor8DODz1awmM797PLJEeG7HMlZ2QvfXo5T8BVH8rvU1M
-         qZPuKlpx11IOkArD49JKDbrl9/mpJB2icHZPJqzIIm5NUo3UwZNfeENXqicGcnPDCi
-         YIDLTg/TVNuN/Nkrimcce1vBfSqlisADRkcckfz0=
-Date:   Wed, 8 Feb 2023 17:41:46 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
+        b=gseP2Sp24CUGzPxOzrFICLG25uSgMN24xUBTXospq45WPLr3FDzPMKNSGWA1s2Csj
+         hRTbAiqZ6uHbXEfbf3PTv8mhVF0AhEmztZMHssOgOxHZdFj6hDlC96/lpDZ8LcrORS
+         B1+3Qf6TwKbjbZVl4hTEH9OBmwKfsHnI5YnMEo20=
+Date:   Wed, 8 Feb 2023 16:47:25 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Dan Carpenter <error27@gmail.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [bug report] media: i2c: ov5670: Use common clock framework
+Message-ID: <20230208154725.vjqm2vvp5tq6cfjx@uno.localdomain>
+References: <Y+Oln/uxPVwKVwFX@kili>
+ <20230208142340.pmg337xngo2qv7jk@uno.localdomain>
+ <Y+O5dKQAXD+GqpbZ@kadam>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
+In-Reply-To: <Y+O5dKQAXD+GqpbZ@kadam>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -55,38 +47,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
-> > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> 
-> ...
-> 
-> > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > > versions of these register access helpers, so that this code duplication
-> > > can be removed.
+Hi Dan
+
+On Wed, Feb 08, 2023 at 06:02:12PM +0300, Dan Carpenter wrote:
+> On Wed, Feb 08, 2023 at 03:23:40PM +0100, Jacopo Mondi wrote:
+> > >     2663         ov5670->xvclk = devm_clk_get(&client->dev, NULL);
+> > >     2664         if (!IS_ERR_OR_NULL(ov5670->xvclk))
+> > >                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > Imagine CONFIG_HAVE_CLK is not enabled so now devm_clk_get() returns
+> > > NULL.
+> > >
+> > >     2665                 input_clk = clk_get_rate(ov5670->xvclk);
+> > >     2666         else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
+> > >     2667                 device_property_read_u32(&client->dev, "clock-frequency",
+> > >     2668                                          &input_clk);
+> > >     2669         else
+> > > --> 2670                 return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
+> > >     2671                                      "error getting clock\n");
+> > >
+> > > A NULL is zero and zero is success.
+> > >
 > >
-> > Any reason to hand-roll those instead of using regmap ? Also, may I
-> > suggest to have a look at drivers/media/i2c/imx290.c
-> 
-> While this is a bit error prone example, a patch is on its way, ...
+> > Ouch! Quite a subtle bug!
+> >
+> > > That means this code returns success without doing anything.  Perhaps
+> > > the right thing is to use use Kconfig to ensure that this cannot be
+> > > build without CONFIG_HAVE_CLK.  The other solution is to write the
+> > > driver with a bunch of NULL checks so that it still runs without a clk.
+> > >
+> > > The IS_ERR_OR_NULL() check should be changed to if (IS_ERR()).
+> >
+> > >From a very quick lookup at how that symbol is used it seems it is
+> > selected both by COMMON_CLOCK and HAVE_LEGACY_CLOCK, however I'm not
+> > sure I know enough to consider safe depending on that symbol.
+> >
+> > When it comes to sensor-driver specific issues, I see CCS (the
+> > reference i2c camera sensor driver) depending on it, so I guess it's
+> > fine (Sakari in cc), but no other sensor driver does that (actually no
+> > driver in drivers/linux/media/ does that, not just i2c sensors!)
+> >
+> > When it comes to adding NULL checks, the common clock frameworks
+> > already protects against that, turning the usual
+> > clock_prepare_enable() and clock_disable_unprepare() calls into nop,
+> > so if we can't depend on CONFIG_HAVE_CLK I guess we can get away
+> > with some ugly:
+> >
+> > #if defined(CONFIG_HAVE_CLK)
+> >         ov5670->xvclk = devm_clk_get(&client->dev, NULL);
+> > #else
+> >         ov5670->xvclk = ERR_PTR(-ENOENT);
+> > #endif
+> >          if (!IS_ERR_OR_NULL(ov5670->xvclk))
+>                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>
+> The static checker would still complain that we're passing NULL to
+> PTR_ERR() because of the IS_ERR_OR_NULL() check.  It should just be
+> IS_ERR().
+>
+> I wouldn't be surprised if the Kconfig ensures that a NULL return is
+> impossible in the original code.  However in the proposed code, then
+> it's definitely impossible.
+>
 
-The two cleanups are nice, but they're cleanup, not error fixes :-)
+So let's please the machine overlords and silence the static analyzer
+false positives :)
 
-> > for an example of
-> > how registers of different sizes can be handled in a less error-prone
-> > way, using single read/write functions that adapt to the size
-> > automatically ?
-> 
-> ...with regmap fields I believe you can avoid even that and use proper
-> regmap accessors directly.
 
-I haven't looked at regmap fields so I don't know if they're the right
-tool for the job. If we can use the regmap API as-is without any
-wrapper, even better. Otherwise, new regmap helpers and/or I2C helpers
-may also be an option. This is a very common use case, not limited to OV
-camera sensors, or even camera sensors in general.
+> >                  input_clk = clk_get_rate(ov5670->xvclk);
+> >          else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
+> >                  device_property_read_u32(&client->dev, "clock-frequency",
+> >                                           &input_clk);
+> >          else
+> >                  return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
+> >                                       "error getting clock\n");
+> >
+> > Not super nice though :/
+>
+> Why not just add the NULL path to the check for -ENOENT?
+>
+> 	ov5670->xvclk = devm_clk_get(&client->dev, NULL);
+> 	if (!IS_ERR_OR_NULL(ov5670->xvclk))
+> 		input_clk = clk_get_rate(ov5670->xvclk);
+> 	else if (!ov5670->xvclk ||  PTR_ERR(ov5670->xvclk) == -ENOENT)
+> 		device_property_read_u32(&client->dev, "clock-frequency",
+> 					 &input_clk);
+> 	else
+> 		return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
+> 				     "error getting clock\n");
+>
 
--- 
-Regards,
+That's defintely better.
 
-Laurent Pinchart
+I can send a patch right away
+
+Thanks!
+
+> regards,
+> dan carpenter
+>
