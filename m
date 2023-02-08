@@ -2,195 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E06968EC31
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 10:53:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F37FE68EC4E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 11:04:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230364AbjBHJxH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 04:53:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42544 "EHLO
+        id S230511AbjBHKE0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 05:04:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjBHJwi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 04:52:38 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D403C2BF
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 01:52:35 -0800 (PST)
-Received: from pendragon.ideasonboard.com (233.56-78-194.adsl-static.isp.belgacom.be [194.78.56.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76122496;
-        Wed,  8 Feb 2023 10:52:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675849953;
-        bh=WveqdO5eNIVUmUK6G4qv4Ws7cmir9rPCQX2NNIXVURg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AkxnV/BlHKVq07aki7CX/oD7UOAMEXet08VkpJJEevExrSJlCl9p/1D3FmdjImKe2
-         BRKy3o+5WexRlVGEgX35oV0gVdNc0IuRZ7/QeaOJVQkKhzkonNdwY+HMMhhK8dWobS
-         oez2xkvgo0xVH2DJiqm43I2HHPaWxO/0IqsepE/M=
-Date:   Wed, 8 Feb 2023 11:52:31 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
+        with ESMTP id S229539AbjBHKEC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 05:04:02 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F025D35BB
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 02:04:00 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id u21so19698288edv.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Feb 2023 02:04:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=b+MKsAgNDECJNr7eMNpaLeacOaefQQKTyy5x3zYKwJc=;
+        b=L5/YqM2y4zXvNIHu8hHVmDZHKwSASI9vFWwQM0eJTMhL1WAAP6ppPH6EMEQ9E8HJur
+         6v7MRZ3Gu0aHxW3UB81WjirBFpSZKe3CxKWaoSSTRJP5eK5za9Na4uEa4mBTDVPGw83U
+         LjprxgObBiZoHfJ2LHtNnBbwCbV9sclsQNKSucwMOMhOhtL5Xc+1mZzDUgk7CClA1v/5
+         KnPn0Ug88rWl1W/mfJYV5ttYq/FGTrGhf/t6uiXM+MzF1uB7pGTIFIWXrZB8ls4g9k3q
+         zQ3Ul3DPo7+kAlvzAyTxevtPfa1pDiT8GtHLsXdVbNNi2crNLuZgn47Q19hDxTt9mbcg
+         x0OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b+MKsAgNDECJNr7eMNpaLeacOaefQQKTyy5x3zYKwJc=;
+        b=38/hgOPJHuUXt24TS0q0FIhN8FfowDHkGXsckIejwu+AUvPTVnbAKyx5DP3saFnHgk
+         yCCZWshQGA29aXA7JmgR59kUa8b7wHU+9S4PEpNa1dcMfMbb6WSNIkGFefVbOS57lUkW
+         NyGnJskDyxEALdqhOotT8askcqCd2QNUbR5HhZiieuwywlJI1kZ9b6Nh+4lUqsUtKAgV
+         UVrkwnNm+dLQPD80ttJDyQ41snd9XRx/fEwyPOJWXASJ4hYZxSSUvelJkEnEcbKQLVa2
+         tfcKjbZOQlvL+6SI2cNtYvfWFO/pNZVqjoCOdchEZTow33wDXRrsJvvWNvZoKFg8JVcr
+         C36Q==
+X-Gm-Message-State: AO0yUKWtXJ3EUG9p/W8/hz5OjOsc7QgqrPhtv/pTrXZa4ooaZX2d3R/T
+        rlONFPaNtjEX+2ZFH3wXdxdUfv3Am8yvd07VESc=
+X-Google-Smtp-Source: AK7set8UVI3GFjjZ9+gVal+0sRv8IrpfJOpwhuo8tSLoaO04fElwyDBtqDiB8DKCXs9a0oiE1Rux8A==
+X-Received: by 2002:a50:99c5:0:b0:4aa:b63f:a0e with SMTP id n5-20020a5099c5000000b004aab63f0a0emr7361416edb.17.1675850639600;
+        Wed, 08 Feb 2023 02:03:59 -0800 (PST)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id k10-20020aa7c04a000000b0049e09105705sm7546541edo.62.2023.02.08.02.03.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 02:03:59 -0800 (PST)
+Date:   Wed, 8 Feb 2023 11:03:58 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     ye.xingchen@zte.com.cn
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: =?iso-8859-1?Q?platform?=
+ =?iso-8859-1?Q?=3A_renesas=3A_use=A0devm=5Fplatform=5Fget=5Fand=5Fioremap?=
+ =?iso-8859-1?B?X3Jlc291cmNlKCk=?=
+Message-ID: <Y+NzjmNHaZFA5dxf@oden.dyn.berto.se>
+References: <202302081659401393135@zte.com.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230123125205.622152-29-hdegoede@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202302081659401393135@zte.com.cn>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Ye,
 
-Thank you for the patch.
+Thanks for your work.
 
-On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
-> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
-> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
+On 2023-02-08 16:59:40 +0800, ye.xingchen@zte.com.cn wrote:
+> From: Ye Xingchen <ye.xingchen@zte.com.cn>
 > 
-> as well as various "atomisp" sensor drivers in drivers/staging, *all*
-> use register access helpers with the following function prototypes:
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
 > 
-> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
->                     unsigned int len, u32 *val);
-> 
-> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
->                      unsigned int len, u32 val);
-> 
-> To read/write registers on Omnivision OVxxxx image sensors wich expect
-> a 16 bit register address in big-endian format and which have 1-3 byte
-> wide registers, in big-endian format (for the higher width registers).
-> 
-> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> versions of these register access helpers, so that this code duplication
-> can be removed.
+> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
 
-Any reason to hand-roll those instead of using regmap ? Also, may I
-suggest to have a look at drivers/media/i2c/imx290.c for an example of
-how registers of different sizes can be handled in a less error-prone
-way, using single read/write functions that adapt to the size
-automatically ?
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  include/media/ovxxxx_16bit_addr_reg_helpers.h | 93 +++++++++++++++++++
->  1 file changed, 93 insertions(+)
->  create mode 100644 include/media/ovxxxx_16bit_addr_reg_helpers.h
+>  drivers/media/platform/renesas/rcar-isp.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/include/media/ovxxxx_16bit_addr_reg_helpers.h b/include/media/ovxxxx_16bit_addr_reg_helpers.h
-> new file mode 100644
-> index 000000000000..e2ffee3d797a
-> --- /dev/null
-> +++ b/include/media/ovxxxx_16bit_addr_reg_helpers.h
-> @@ -0,0 +1,93 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * I2C register access helpers for Omnivision OVxxxx image sensors which expect
-> + * a 16 bit register address in big-endian format and which have 1-3 byte
-> + * wide registers, in big-endian format (for the higher width registers).
-> + *
-> + * Based on the register helpers from drivers/media/i2c/ov2680.c which is:
-> + * Copyright (C) 2018 Linaro Ltd
-> + */
-> +#ifndef __OVXXXX_16BIT_ADDR_REG_HELPERS_H
-> +#define __OVXXXX_16BIT_ADDR_REG_HELPERS_H
-> +
-> +#include <asm/unaligned.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/i2c.h>
-> +
-> +static inline int ovxxxx_read_reg(struct i2c_client *client, u16 reg,
-> +				  unsigned int len, u32 *val)
-> +{
-> +	struct i2c_msg msgs[2];
-> +	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
-> +	u8 data_buf[4] = { 0, };
-> +	int ret;
-> +
-> +	if (len > 4)
-> +		return -EINVAL;
-> +
-> +	msgs[0].addr = client->addr;
-> +	msgs[0].flags = 0;
-> +	msgs[0].len = ARRAY_SIZE(addr_buf);
-> +	msgs[0].buf = addr_buf;
-> +
-> +	msgs[1].addr = client->addr;
-> +	msgs[1].flags = I2C_M_RD;
-> +	msgs[1].len = len;
-> +	msgs[1].buf = &data_buf[4 - len];
-> +
-> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret != ARRAY_SIZE(msgs)) {
-> +		dev_err(&client->dev, "read error: reg=0x%4x: %d\n", reg, ret);
-> +		return -EIO;
-> +	}
-> +
-> +	*val = get_unaligned_be32(data_buf);
-> +
-> +	return 0;
-> +}
-> +
-> +#define ovxxxx_read_reg8(s, r, v)	ovxxxx_read_reg(s, r, 1, v)
-> +#define ovxxxx_read_reg16(s, r, v)	ovxxxx_read_reg(s, r, 2, v)
-> +#define ovxxxx_read_reg24(s, r, v)	ovxxxx_read_reg(s, r, 3, v)
-> +
-> +static inline int ovxxxx_write_reg(struct i2c_client *client, u16 reg,
-> +				   unsigned int len, u32 val)
-> +{
-> +	u8 buf[6];
-> +	int ret;
-> +
-> +	if (len > 4)
-> +		return -EINVAL;
-> +
-> +	put_unaligned_be16(reg, buf);
-> +	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
-> +	ret = i2c_master_send(client, buf, len + 2);
-> +	if (ret != len + 2) {
-> +		dev_err(&client->dev, "write error: reg=0x%4x: %d\n", reg, ret);
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +#define ovxxxx_write_reg8(s, r, v)	ovxxxx_write_reg(s, r, 1, v)
-> +#define ovxxxx_write_reg16(s, r, v)	ovxxxx_write_reg(s, r, 2, v)
-> +#define ovxxxx_write_reg24(s, r, v)	ovxxxx_write_reg(s, r, 3, v)
-> +
-> +static inline int ovxxxx_mod_reg(struct i2c_client *client, u16 reg, u8 mask, u8 val)
-> +{
-> +	u32 readval;
-> +	int ret;
-> +
-> +	ret = ovxxxx_read_reg8(client, reg, &readval);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	readval &= ~mask;
-> +	val &= mask;
-> +	val |= readval;
-> +
-> +	return ovxxxx_write_reg8(client, reg, val);
-> +}
-> +
-> +#endif
+> diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
+> index 10b3474f93a4..a3cfd21f8aae 100644
+> --- a/drivers/media/platform/renesas/rcar-isp.c
+> +++ b/drivers/media/platform/renesas/rcar-isp.c
+> @@ -419,10 +419,7 @@ static const struct media_entity_operations risp_entity_ops = {
+>  static int risp_probe_resources(struct rcar_isp *isp,
+>  				struct platform_device *pdev)
+>  {
+> -	struct resource *res;
+> -
+> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	isp->base = devm_ioremap_resource(&pdev->dev, res);
+> +	isp->base = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+>  	if (IS_ERR(isp->base))
+>  		return PTR_ERR(isp->base);
+> 
+> -- 
+> 2.25.1
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kind Regards,
+Niklas Söderlund
