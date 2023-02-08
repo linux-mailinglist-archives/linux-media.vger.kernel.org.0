@@ -2,123 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72BF968F499
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 18:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA97C68F4C1
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 18:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230370AbjBHRcW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 12:32:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
+        id S231931AbjBHReH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 12:34:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231375AbjBHRcV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 12:32:21 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E7834308
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 09:32:20 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id ay41so3827911qkb.5
-        for <linux-media@vger.kernel.org>; Wed, 08 Feb 2023 09:32:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ab1RjUdxvP17+YGwr2cWF8s+ENzo57KFBShZI3lUZaA=;
-        b=dfxnruPINjNPupZYXweFRu5h9z2HOASWI2s5bsoyRZLaIuhKPy783w+jBOyUYwKL1f
-         4ga5HhDOj9gT4nSGM2uFITLBXvsOVfPSdHWvm185EwXzPRVDMDwAzUvvdj07oKl4TopS
-         ErRuK9b6kbUv9+HVR7/Yv13SvTzfMv93oUO6BqmnxAL6TJGpbm+f9zTKULXV2guJWx3C
-         DmkFMXbsVEUmhc5Iir3S2gY1tMkJxjDFePZWEHLOBIfFNtDbYfLYY/GXvPMVpo/tbB61
-         Ffv7lbLzhUCDNhqVf9iteS3AL7aSOjqsiJYzSsyhwaRjdLp6CGHRdgc3HaVdVjsKY7jd
-         x5Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ab1RjUdxvP17+YGwr2cWF8s+ENzo57KFBShZI3lUZaA=;
-        b=UFR+MkU4GEZmTgXahS3S1xfncrLw9mugdcf99jcPfB6WS3IbodYdvqgFABelJC2QOd
-         jrdDOsrZ8mdzQUh7sNIvi0n3H2KgQ0N2FdnHnEDnH1ZhvMp+/7/trsknc7ixmt47eewn
-         f04qjKLyrif5aCkWuuHTH3l1ZR2u/wpFCXBHO87nD+hjpKsnLWUUIqiLS0sqYhq80VeJ
-         usuru4Q8cSwkpx2XoOzLToOgWP9MLwbt7rapflkq/KAbg3NCx2X/GWG42NuXOxPCgkah
-         Ye2Fx+x91mK8bLuLwLEOE0bIvH9fXR9IPv/p7OuSEs+2VibxgbzsNijc3p+Mqk9XdJzl
-         O2iQ==
-X-Gm-Message-State: AO0yUKUFeUaMGKG3T/YZXhYxr3VElZrUOabe+wmDVjy10Ab6Cam68G6b
-        AlXPhyNlhBvZM7gOdjlC99QASRu10tT95i2Zetc=
-X-Google-Smtp-Source: AK7set/8yzHFxOA1zz0vOqmp7SOH2rfQnyZiVpjaexktNnocUhy7OEJ4UUxky8bxv3T5hufGAI+Z5ijT9lzJEpFMVVw=
-X-Received: by 2002:a37:9a97:0:b0:706:7bf0:3440 with SMTP id
- c145-20020a379a97000000b007067bf03440mr753000qke.9.1675877539199; Wed, 08 Feb
- 2023 09:32:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20230123125205.622152-1-hdegoede@redhat.com> <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com> <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
- <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com> <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
- <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
-In-Reply-To: <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Feb 2023 19:31:43 +0200
-Message-ID: <CAHp75VeC8UM8WA-EECB98n+DZQ5J5kgdx5yrxnpYjpBRQjtQ-g@mail.gmail.com>
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        with ESMTP id S231648AbjBHRd7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 12:33:59 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABC4B3A879;
+        Wed,  8 Feb 2023 09:33:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675877636; x=1707413636;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sDFh6JeR2XcTkYhVvLPcaBAq4Ze0UO0qz9+CSTh3saw=;
+  b=JbPfNKlaEydECMI6+evwBtvDm6bjbLxL+YElsZTG2IE7x/yyWy5y8lrK
+   5L7ngYhPKO4/SC0nrWOkifHpGnVF/2n16wW6CQaPDwTSu+ELs/UIedzmH
+   +/9uywjUWRqFc0uaveUh1peuOp5+huPD6+lrwxdbewoBW2g6TvyqAR5Aw
+   AKC8yPoE27mBasgbZiQBIxK7EUUkRTP2ve4yyzbQcbawjQ7szQK2ks7Az
+   n8cQsy0wHvw2NZnVilqgnHVnyeJNSS79YloFiprywi6hF2enSluO6xFHV
+   tuzpj8etp3f/dPrrMdTitJjQ1xZD/+a9Z4oE80/kC9uN8FCU8nh2KAPbk
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310225204"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
+   d="scan'208";a="310225204"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 09:33:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="697722955"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
+   d="scan'208";a="697722955"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga008.jf.intel.com with ESMTP; 08 Feb 2023 09:33:08 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 6543F1A6; Wed,  8 Feb 2023 19:33:47 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v4 00/18] gpiolib cleanups
+Date:   Wed,  8 Feb 2023 19:33:25 +0200
+Message-Id: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 8, 2023 at 6:04 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Feb 08, 2023 at 05:50:26PM +0200, Andy Shevchenko wrote:
-> > On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart wrote:
-> > > On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
-> > > > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+These are some older patches Arnd did last year, rebased to
+linux-next-20230208. On top there are Andy's patches regarding
+similar topic. The series starts with Linus Walleij's patches.
 
-...
+The main goal is to remove some of the legacy bits of the gpiolib
+interfaces, where the corner cases are easily avoided or replaced
+with gpio descriptor based interfaces.
 
-> > > > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > > > > > versions of these register access helpers, so that this code duplication
-> > > > > > can be removed.
-> > > > >
-> > > > > Any reason to hand-roll those instead of using regmap ? Also, may I
-> > > > > suggest to have a look at drivers/media/i2c/imx290.c
-> > > >
-> > > > While this is a bit error prone example, a patch is on its way, ...
-> > >
-> > > The two cleanups are nice, but they're cleanup, not error fixes :-)
-> >
-> > It depends on which side you look at it. I admit I haven't dug into
-> > the code to see if endianess can be an issue there, but the code
-> > itself is not written well, esp. when one offers it as an example. So
-> > definitely there is a fix on the upper layer.
->
-> Did I miss something ? Your two patches replace a tiny amount of code
-> with helper functions that don't change any behaviour. It's nicer with
-> those helpers, no question about that, but "not written well" is a bit
-> of a stretch and feels quite insulting.
+The idea is to get an immutable branch and route the whole series
+via GPIO tree.
 
-Sorry for your feelings, what I meant is the pure educational purposes
-of the example. When one takes the mentioned driver as an example and
-uses the code in a slightly different environment the endianess issue
-may become a real one. That's why we have helpers in kernel to improve
-robustness against blind copy'n'paste approach. It does not mean your
-code is broken per se.
+Changes in v4:
+- incorporated Linus Walleij's patches
+- reworked touchscreen patch to have bare minimum changes (Dmitry)
+- described changes in gpio-aggregator in full (Geert)
+- addressed compilation errors (LKP)
+- added tags (Geert, Lee, Vincenzo)
 
-> Feel free to submit patches that
-> add new "well-written" helpers.
+Changes in v3:
+- reworked touchscreen patch in accordance with Dmitry's comments
+- rebased on the latest Linux Next
+- added on top Andy's series
 
+Changes in v2:
+- dropped patch 8 after Andy's identical patch was merged
+- rebase on latest gpio tree
+- leave unused gpio_cansleep() in place for now
+- address feedback from Andy Shevchenko
 
+Andy Shevchenko (7):
+  gpio: aggregator: Add missing header(s)
+  gpio: reg: Add missing header(s)
+  gpio: regmap: Add missing header(s)
+  gpiolib: Drop unused forward declaration from driver.h
+  gpiolib: Deduplicate forward declarations in consumer.h
+  gpiolib: Group forward declarations in consumer.h
+  gpiolib: Clean up headers
+
+Arnd Bergmann (7):
+  gpiolib: remove empty asm/gpio.h files
+  gpiolib: coldfire: remove custom asm/gpio.h
+  gpiolib: remove asm-generic/gpio.h
+  gpiolib: remove gpio_set_debounce()
+  gpiolib: remove legacy gpio_export()
+  gpiolib: split linux/gpio/driver.h out of linux/gpio.h
+  gpiolib: split of_mm_gpio_chip out of linux/of_gpio.h
+
+Linus Walleij (4):
+  ARM: orion/gpio: Use the right include
+  ARM: s3c24xx: Use the right include
+  hte: tegra-194: Use proper includes
+  gpiolib: Make the legacy <linux/gpio.h> consumer-only
+
+ Documentation/admin-guide/gpio/sysfs.rst      |   2 +-
+ Documentation/driver-api/gpio/legacy.rst      |  23 ---
+ .../zh_CN/driver-api/gpio/legacy.rst          |  20 ---
+ Documentation/translations/zh_TW/gpio.txt     |  19 ---
+ MAINTAINERS                                   |   1 -
+ arch/arm/Kconfig                              |   1 -
+ arch/arm/include/asm/gpio.h                   |  21 ---
+ arch/arm/mach-omap1/irq.c                     |   1 +
+ arch/arm/mach-omap2/pdata-quirks.c            |   9 +-
+ arch/arm/mach-orion5x/board-rd88f5182.c       |   1 +
+ arch/arm/mach-s3c/s3c64xx.c                   |   2 +-
+ arch/arm/mach-sa1100/assabet.c                |   1 +
+ arch/arm/plat-orion/gpio.c                    |   5 +-
+ arch/m68k/Kconfig.cpu                         |   1 -
+ arch/m68k/include/asm/gpio.h                  |  95 -----------
+ arch/m68k/include/asm/mcfgpio.h               |   2 +-
+ arch/powerpc/platforms/44x/Kconfig            |   1 +
+ arch/powerpc/platforms/4xx/gpio.c             |   2 +-
+ arch/powerpc/platforms/8xx/Kconfig            |   1 +
+ arch/powerpc/platforms/8xx/cpm1.c             |   2 +-
+ arch/powerpc/platforms/Kconfig                |   2 +
+ arch/powerpc/sysdev/cpm_common.c              |   2 +-
+ arch/sh/Kconfig                               |   1 -
+ arch/sh/boards/board-magicpanelr2.c           |   1 +
+ arch/sh/boards/mach-ap325rxa/setup.c          |   7 +-
+ arch/sh/include/asm/gpio.h                    |  45 ------
+ drivers/gpio/Kconfig                          |  19 ++-
+ drivers/gpio/TODO                             |  15 +-
+ drivers/gpio/gpio-aggregator.c                |   9 +-
+ drivers/gpio/gpio-altera.c                    |   2 +-
+ drivers/gpio/gpio-davinci.c                   |   2 -
+ drivers/gpio/gpio-mm-lantiq.c                 |   2 +-
+ drivers/gpio/gpio-mpc5200.c                   |   2 +-
+ drivers/gpio/gpio-reg.c                       |  12 +-
+ drivers/gpio/gpio-regmap.c                    |  12 +-
+ drivers/gpio/gpiolib-acpi.c                   |  10 +-
+ drivers/gpio/gpiolib-acpi.h                   |   1 -
+ drivers/gpio/gpiolib-of.c                     |   9 +-
+ drivers/gpio/gpiolib-of.h                     |   1 -
+ drivers/gpio/gpiolib-swnode.c                 |   5 +-
+ drivers/gpio/gpiolib-sysfs.c                  |  25 ++-
+ drivers/gpio/gpiolib.c                        |   9 +-
+ drivers/hte/hte-tegra194-test.c               |  10 +-
+ drivers/input/touchscreen/ads7846.c           |   5 +-
+ drivers/media/pci/sta2x11/sta2x11_vip.c       |  10 +-
+ drivers/net/ieee802154/ca8210.c               |   3 +-
+ .../broadcom/brcm80211/brcmsmac/led.c         |   1 +
+ drivers/pinctrl/core.c                        |   1 -
+ drivers/soc/fsl/qe/gpio.c                     |   2 +-
+ include/asm-generic/gpio.h                    | 147 ------------------
+ include/linux/gpio.h                          | 104 ++++++++-----
+ include/linux/gpio/consumer.h                 |  24 +--
+ include/linux/gpio/driver.h                   |  31 +++-
+ .../legacy-of-mm-gpiochip.h}                  |  33 +---
+ include/linux/mfd/ucb1x00.h                   |   1 +
+ include/linux/of_gpio.h                       |  21 ---
+ 56 files changed, 240 insertions(+), 556 deletions(-)
+ delete mode 100644 arch/arm/include/asm/gpio.h
+ delete mode 100644 arch/m68k/include/asm/gpio.h
+ delete mode 100644 arch/sh/include/asm/gpio.h
+ delete mode 100644 include/asm-generic/gpio.h
+ copy include/linux/{of_gpio.h => gpio/legacy-of-mm-gpiochip.h} (50%)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.39.1
+
