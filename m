@@ -2,154 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 882EB68F188
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 16:02:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4A7B68F1A5
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 16:10:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231497AbjBHPC0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 10:02:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37092 "EHLO
+        id S231230AbjBHPKb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 10:10:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230352AbjBHPCZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 10:02:25 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D822BF00
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 07:02:23 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id e3so287057wrs.10
-        for <linux-media@vger.kernel.org>; Wed, 08 Feb 2023 07:02:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IwI0SrtBWIBmFb7E4SZsGl7KMRUEHiS4u5DafTwsdkg=;
-        b=P2RAmOEhuo5JXUW6cnf8a6R80E+qqNEBGAokC9zvw8UBcP/UppRbGsrdqNSBcURCcQ
-         YgX1Asom/OHdfPE7N/db1PG773r3UudqLSJXve9/Ta1H4GE/j3j9cBDjyBo+RTAaUVWj
-         /B3W65DsJYIGcxI+vQW6mSKrJzC7Zoc943V8E3+/lgfs6RzqIuw+kt8ohN/xEX+LP8Bb
-         R1cObtQyuZp8Eev12k0TdSzaJgfXtLVfg0PTYN2qEn7FjYtRN02n8iRvTtg/VGA4Hqvl
-         HTBjgHnNclH1MAhNI/g/WKY4/u2x9NKP+2Z0SfBjLgqwMyjsZt7CeveaEYdsA/vJ/QLE
-         vARA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IwI0SrtBWIBmFb7E4SZsGl7KMRUEHiS4u5DafTwsdkg=;
-        b=Halhvmd7bs4OndmLau9zUDJ5CfeLC7tbq4wL/dy8TDnIvSx0eAaDvNZgIdyhRjctdu
-         wt+2YWlqt4HWoBADGlgTiD+G+uhBCCHDo5MBqXeJOnGAI2XsXeGOW12KhubAFilIEleb
-         Rf8UdowwFn94tApCEYWfO06YHqyXmE4GuNcV+l3zPgSwyp9TznL3sm8u8mnNXtRJ19wo
-         S2/dJ5LzNTo6W6smdJ12n7l76lVqG2oVjxv61Ur5ug0V+fAH+ZkyQLYYlHLwtbtCjc1Q
-         bbZ8wKXR3LHUI3AZoJEHpcN+G5ywzfQagLIZpaQMTerXcvCpOx3TfWHlGbFxcHxfFyCS
-         HYkg==
-X-Gm-Message-State: AO0yUKU35f/BGOVNr9QjGPNSY5sMNyP+mtvetFAEmPx5SXj0298y3qhS
-        1aibP4Om7Lbw400to6v7JWA=
-X-Google-Smtp-Source: AK7set8DN58r3g78dMsnXy/9mZqwG15mH96lP9NDwgxx5sQUTJqyrHiiDV3L/Mg3FWqmGIiCTFRLgg==
-X-Received: by 2002:adf:f4d0:0:b0:2bf:df72:fdfd with SMTP id h16-20020adff4d0000000b002bfdf72fdfdmr8844967wrp.5.1675868542267;
-        Wed, 08 Feb 2023 07:02:22 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l6-20020a5d4bc6000000b002c3f9dc5a5fsm2241205wrt.114.2023.02.08.07.02.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 07:02:21 -0800 (PST)
-Date:   Wed, 8 Feb 2023 18:02:12 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [bug report] media: i2c: ov5670: Use common clock framework
-Message-ID: <Y+O5dKQAXD+GqpbZ@kadam>
-References: <Y+Oln/uxPVwKVwFX@kili>
- <20230208142340.pmg337xngo2qv7jk@uno.localdomain>
+        with ESMTP id S230203AbjBHPKN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 10:10:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B24138002;
+        Wed,  8 Feb 2023 07:10:12 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F3B3E79;
+        Wed,  8 Feb 2023 16:10:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675869010;
+        bh=IWtkdqIfEEk36yRhhEcGs7EgU7XpOj/TaOe55N3zkxk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=eQajGGZbZvC3oF7ceoVnj/XCh5b5xmvygo1qNucYVXTX5l4pv9mEy7TvOs63a7/mn
+         9AzUaDE/mCGX8Hvj9q+3OhuRxA4FC1UCAMD0UuMOzWtiQLKPzA+oT8d0hagfp7dWSH
+         pc8q4kVgQcQVvrUQimGtNBKgrkxCa72ilJlub3oA=
+Message-ID: <2501ffcc-82ff-c0bc-366a-33b62bf28e76@ideasonboard.com>
+Date:   Wed, 8 Feb 2023 17:10:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230208142340.pmg337xngo2qv7jk@uno.localdomain>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+References: <4286abe2-f23f-d4c9-ef18-f351af7a3a8b@ideasonboard.com>
+ <Y9EcRlooHwIjOqiZ@smile.fi.intel.com>
+ <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
+ <Y9FBlMl4b3l1zVck@smile.fi.intel.com>
+ <5d208710-f284-e6e9-18dc-f5ef63a9ea44@ideasonboard.com>
+ <Y9FKcoVlgUWR4rhn@smile.fi.intel.com>
+ <04a82b08-524f-8d03-ac47-73d826907fc3@ideasonboard.com>
+ <Y9JUEv66Gze8FjMZ@smile.fi.intel.com>
+ <Y9JbMjPM3Ea3RVzH@pendragon.ideasonboard.com>
+ <0c13eac3-cadb-b923-d475-7851dbef0c4e@ideasonboard.com>
+ <Y9OWFSxs9ev9hfp2@smile.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y9OWFSxs9ev9hfp2@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 03:23:40PM +0100, Jacopo Mondi wrote:
-> >     2663         ov5670->xvclk = devm_clk_get(&client->dev, NULL);
-> >     2664         if (!IS_ERR_OR_NULL(ov5670->xvclk))
-> >                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > Imagine CONFIG_HAVE_CLK is not enabled so now devm_clk_get() returns
-> > NULL.
-> >
-> >     2665                 input_clk = clk_get_rate(ov5670->xvclk);
-> >     2666         else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
-> >     2667                 device_property_read_u32(&client->dev, "clock-frequency",
-> >     2668                                          &input_clk);
-> >     2669         else
-> > --> 2670                 return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
-> >     2671                                      "error getting clock\n");
-> >
-> > A NULL is zero and zero is success.
-> >
+On 27/01/2023 11:15, Andy Shevchenko wrote:
+> On Fri, Jan 27, 2023 at 10:24:04AM +0200, Tomi Valkeinen wrote:
+>> On 26/01/2023 12:51, Laurent Pinchart wrote:
+>>> On Thu, Jan 26, 2023 at 12:21:06PM +0200, Andy Shevchenko wrote:
+>>>> On Thu, Jan 26, 2023 at 10:41:47AM +0200, Tomi Valkeinen wrote:
+>>>>> On 25/01/2023 17:27, Andy Shevchenko wrote:
 > 
-> Ouch! Quite a subtle bug!
+> ...
 > 
-> > That means this code returns success without doing anything.  Perhaps
-> > the right thing is to use use Kconfig to ensure that this cannot be
-> > build without CONFIG_HAVE_CLK.  The other solution is to write the
-> > driver with a bunch of NULL checks so that it still runs without a clk.
-> >
-> > The IS_ERR_OR_NULL() check should be changed to if (IS_ERR()).
+>>>>>> But I probably don't understand the ATR structure and what exactly we need to
+>>>>>> pass to it, perhaps it also can be replaced with properties (note, that we have
+>>>>>> some interesting ones that called references, which is an alternative to DT
+>>>>>> phandle).
+>>>>>
+>>>>> Well, maybe this needs a Linux bus implementation. I'm not that familiar
+>>>>> with implementing a bus, but I think that would make it easier to share data
+>>>>> between the deserializer and the serializer. A bus sounds a bit like an
+>>>>> overkill for a 1-to-1 connection, used by a few drivers, but maybe it
+>>>>> wouldn't be too much code.
+>>>>
+>>>> Have you looked at auxiliary bus (appeared a few releases ago in kernel)?
+>>>
+>>> As far as I understand, the auxiliary bus infrastructure is meant for
+>>> use cases where a single hardware device needs to be split into multiple
+>>> logical devices (as in struct device). Platform devices were
+>>> historically (ab)used for this, and the auxiliary bus is meant as a
+>>> cleaner solution. I'm not sure if it would be a good match here, or if
+>>> it would be considered an abuse of the auxiliary bus API.
+>>
+>> The aux bus docs say "A key requirement for utilizing the auxiliary bus is
+>> that there is no dependency on a physical bus, device, register accesses or
+>> regmap support. These individual devices split from the core cannot live on
+>> the platform bus as they are not physical devices that are controlled by
+>> DT/ACPI.", which doesn't sound like a good fit.
 > 
-> >From a very quick lookup at how that symbol is used it seems it is
-> selected both by COMMON_CLOCK and HAVE_LEGACY_CLOCK, however I'm not
-> sure I know enough to consider safe depending on that symbol.
+> Thanks for checking!
 > 
-> When it comes to sensor-driver specific issues, I see CCS (the
-> reference i2c camera sensor driver) depending on it, so I guess it's
-> fine (Sakari in cc), but no other sensor driver does that (actually no
-> driver in drivers/linux/media/ does that, not just i2c sensors!)
+>> The deserializer and serializers are currently independent devices and
+>> drivers (the pdata is the only shared thing), but I think we may need
+>> something better here. The devices are more tightly tied together than
+>> "normal" video devices, in my opinion, as the serializer is fully controlled
+>> by the deserializer (including power).
+>>
+>> And if we ever want to implement something like power management, we
+>> probably need something more than what we have now. Although I don't know
+>> how that would be done, as all the peripherals behind the serializer would
+>> also lose power...
 > 
-> When it comes to adding NULL checks, the common clock frameworks
-> already protects against that, turning the usual
-> clock_prepare_enable() and clock_disable_unprepare() calls into nop,
-> so if we can't depend on CONFIG_HAVE_CLK I guess we can get away
-> with some ugly:
-> 
-> #if defined(CONFIG_HAVE_CLK)
->         ov5670->xvclk = devm_clk_get(&client->dev, NULL);
-> #else
->         ov5670->xvclk = ERR_PTR(-ENOENT);
-> #endif
->          if (!IS_ERR_OR_NULL(ov5670->xvclk))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> I believe you have to create a power domain for them and when such device
+> is added, the power domain of it should belong to the serialized.
 
-The static checker would still complain that we're passing NULL to
-PTR_ERR() because of the IS_ERR_OR_NULL() check.  It should just be
-IS_ERR().
+I was testing this, and got something working.
 
-I wouldn't be surprised if the Kconfig ensures that a NULL return is
-impossible in the original code.  However in the proposed code, then
-it's definitely impossible.
+I have the deserializer introducing a separate power-domain for each RX 
+port, and the serializer and the sensor both refer to their port's 
+domain. I can see that the deserializer gets power on/off callbacks 
+correctly when either serializer or sensor resumes.
 
->                  input_clk = clk_get_rate(ov5670->xvclk);
->          else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
->                  device_property_read_u32(&client->dev, "clock-frequency",
->                                           &input_clk);
->          else
->                  return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
->                                       "error getting clock\n");
-> 
-> Not super nice though :/
+The problem I have now is that while the power comes from the 
+deserializer and is thus covered with the power domain, the sensor uses 
+services from the serializer (gpios, clocks, i2c bus), and the 
+serializer is not woken up when the sensor does runtime-pm resume (the 
+power domain is powered up correctly when the sensor resumes).
 
-Why not just add the NULL path to the check for -ENOENT?
+The serializer creates the i2c adapter to which the sensor is added, so, 
+afaics, there should be a child-parent relationship there. But maybe I 
+have something wrong there, or it just doesn't work as I imagine it 
+would work.
 
-	ov5670->xvclk = devm_clk_get(&client->dev, NULL);
-	if (!IS_ERR_OR_NULL(ov5670->xvclk))
-		input_clk = clk_get_rate(ov5670->xvclk);
-	else if (!ov5670->xvclk ||  PTR_ERR(ov5670->xvclk) == -ENOENT)
-		device_property_read_u32(&client->dev, "clock-frequency",
-					 &input_clk);
-	else
-		return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
-				     "error getting clock\n");
-
-regards,
-dan carpenter
+  Tomi
 
