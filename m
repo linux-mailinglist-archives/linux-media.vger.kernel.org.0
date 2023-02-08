@@ -2,146 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B7668F253
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 16:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9207E68F25F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 16:51:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230433AbjBHPrb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 10:47:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36934 "EHLO
+        id S230167AbjBHPvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 10:51:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229724AbjBHPra (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 10:47:30 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0231EBED
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 07:47:29 -0800 (PST)
-Received: from ideasonboard.com (host-79-35-57-126.retail.telecomitalia.it [79.35.57.126])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F407EE79;
-        Wed,  8 Feb 2023 16:47:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675871248;
-        bh=GtanM+p9OhmXEqLKbuKpSWsTnzUPsQjGD32S3bPMgOw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gseP2Sp24CUGzPxOzrFICLG25uSgMN24xUBTXospq45WPLr3FDzPMKNSGWA1s2Csj
-         hRTbAiqZ6uHbXEfbf3PTv8mhVF0AhEmztZMHssOgOxHZdFj6hDlC96/lpDZ8LcrORS
-         B1+3Qf6TwKbjbZVl4hTEH9OBmwKfsHnI5YnMEo20=
-Date:   Wed, 8 Feb 2023 16:47:25 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Dan Carpenter <error27@gmail.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [bug report] media: i2c: ov5670: Use common clock framework
-Message-ID: <20230208154725.vjqm2vvp5tq6cfjx@uno.localdomain>
-References: <Y+Oln/uxPVwKVwFX@kili>
- <20230208142340.pmg337xngo2qv7jk@uno.localdomain>
- <Y+O5dKQAXD+GqpbZ@kadam>
+        with ESMTP id S229724AbjBHPvH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 10:51:07 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BFD9742
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 07:51:03 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id lx14so1700967qvb.11
+        for <linux-media@vger.kernel.org>; Wed, 08 Feb 2023 07:51:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0FCUAdP8fR8HGttmQ9FRjYswWv2Z/w5870k5xh2T9xE=;
+        b=Z0vAmf8Wt5sM/ATT3uuyPoQCnJHEUTPXqlQvKzH5WkinYxQRZTvkMYCNjjIhDZqvKW
+         4eOkr/MSyG8OFENquuYQC6Uw48EgEc/rPEvsekV3K2sYGdKA2B3/ME4RKLe2oaveIbJw
+         h79kWuoSesE22XqQHX+8LtvO5EXc43jfv9W6hV3fuKfpq1+BUnJDYWJ5WEmqt2f9ETEh
+         cKMyWIPh2S/VeqCFOpBM86Ic4VelX5uj0rz1WhwARPkyjtKy9cqOacotztcoeyNCEBh5
+         wpdLQvD3OPyZrDUqkDE7K3ybW2TmslqRL8A0V2bZ1rqvhN6htkf5iaH1evfBxXDc/B96
+         t8RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0FCUAdP8fR8HGttmQ9FRjYswWv2Z/w5870k5xh2T9xE=;
+        b=pJnHX09d2Hq50Vp0IIDDnUVdFcnkYelkXzJgqEZDv7XAjilwtr/ryaRYU3rpH+hVyM
+         Fo/Q6kR5Sn020YPWg/3wnM5KoGlweeTl/s5o4dXtXnDu9HdwgaqxWyqKU6cKuB69kY78
+         fVnRyjP1A9cwHIVQQQiUeB1i1tNeqvcXmGcweQvOv1yOnpsES7wf6fnfHnMoRDm7nWvA
+         AmpyolHPi9ltrQfgJ4ZpcQGno2vVfjjJ9+8VdI/2pV/nrLNRfAveuR9oCrvH3guMWsif
+         VGvdO+vPj5Dd8kzOa5k/bCobPvVbyWvkVNXsA8PxB6TMt3+0BlP6mK7Y1IQQLEhoXZNz
+         dXZw==
+X-Gm-Message-State: AO0yUKWVvSYAFPyJ/jsOTuOJ0MEYSqpeljslLOdfmgKkRhzTkS5k7jJ9
+        HWP5Mncx/hm1hQdbTmckLiwd4XnNgllxR2XVRZ9ksNmpMfI=
+X-Google-Smtp-Source: AK7set+EvCQEntsJ4kMRBwUZNsL+UT5UDeEFU32hz61aliMKZXDUg7gXm5BG2ssE7v//m3jeQEq8Wwbd2HcWAPuFfRA=
+X-Received: by 2002:a0c:9d42:0:b0:56b:ebca:815d with SMTP id
+ n2-20020a0c9d42000000b0056bebca815dmr715571qvf.57.1675871462172; Wed, 08 Feb
+ 2023 07:51:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y+O5dKQAXD+GqpbZ@kadam>
+References: <20230123125205.622152-1-hdegoede@redhat.com> <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com> <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
+ <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
+In-Reply-To: <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 8 Feb 2023 17:50:26 +0200
+Message-ID: <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan
+On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
+> > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
+> > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
 
-On Wed, Feb 08, 2023 at 06:02:12PM +0300, Dan Carpenter wrote:
-> On Wed, Feb 08, 2023 at 03:23:40PM +0100, Jacopo Mondi wrote:
-> > >     2663         ov5670->xvclk = devm_clk_get(&client->dev, NULL);
-> > >     2664         if (!IS_ERR_OR_NULL(ov5670->xvclk))
-> > >                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > Imagine CONFIG_HAVE_CLK is not enabled so now devm_clk_get() returns
-> > > NULL.
+...
+
+> > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+> > > > versions of these register access helpers, so that this code duplication
+> > > > can be removed.
 > > >
-> > >     2665                 input_clk = clk_get_rate(ov5670->xvclk);
-> > >     2666         else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
-> > >     2667                 device_property_read_u32(&client->dev, "clock-frequency",
-> > >     2668                                          &input_clk);
-> > >     2669         else
-> > > --> 2670                 return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
-> > >     2671                                      "error getting clock\n");
-> > >
-> > > A NULL is zero and zero is success.
-> > >
+> > > Any reason to hand-roll those instead of using regmap ? Also, may I
+> > > suggest to have a look at drivers/media/i2c/imx290.c
 > >
-> > Ouch! Quite a subtle bug!
-> >
-> > > That means this code returns success without doing anything.  Perhaps
-> > > the right thing is to use use Kconfig to ensure that this cannot be
-> > > build without CONFIG_HAVE_CLK.  The other solution is to write the
-> > > driver with a bunch of NULL checks so that it still runs without a clk.
-> > >
-> > > The IS_ERR_OR_NULL() check should be changed to if (IS_ERR()).
-> >
-> > >From a very quick lookup at how that symbol is used it seems it is
-> > selected both by COMMON_CLOCK and HAVE_LEGACY_CLOCK, however I'm not
-> > sure I know enough to consider safe depending on that symbol.
-> >
-> > When it comes to sensor-driver specific issues, I see CCS (the
-> > reference i2c camera sensor driver) depending on it, so I guess it's
-> > fine (Sakari in cc), but no other sensor driver does that (actually no
-> > driver in drivers/linux/media/ does that, not just i2c sensors!)
-> >
-> > When it comes to adding NULL checks, the common clock frameworks
-> > already protects against that, turning the usual
-> > clock_prepare_enable() and clock_disable_unprepare() calls into nop,
-> > so if we can't depend on CONFIG_HAVE_CLK I guess we can get away
-> > with some ugly:
-> >
-> > #if defined(CONFIG_HAVE_CLK)
-> >         ov5670->xvclk = devm_clk_get(&client->dev, NULL);
-> > #else
-> >         ov5670->xvclk = ERR_PTR(-ENOENT);
-> > #endif
-> >          if (!IS_ERR_OR_NULL(ov5670->xvclk))
->                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > While this is a bit error prone example, a patch is on its way, ...
 >
-> The static checker would still complain that we're passing NULL to
-> PTR_ERR() because of the IS_ERR_OR_NULL() check.  It should just be
-> IS_ERR().
->
-> I wouldn't be surprised if the Kconfig ensures that a NULL return is
-> impossible in the original code.  However in the proposed code, then
-> it's definitely impossible.
->
+> The two cleanups are nice, but they're cleanup, not error fixes :-)
 
-So let's please the machine overlords and silence the static analyzer
-false positives :)
+It depends on which side you look at it. I admit I haven't dug into
+the code to see if endianess can be an issue there, but the code
+itself is not written well, esp. when one offers it as an example. So
+definitely there is a fix on the upper layer.
 
-
-> >                  input_clk = clk_get_rate(ov5670->xvclk);
-> >          else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
-> >                  device_property_read_u32(&client->dev, "clock-frequency",
-> >                                           &input_clk);
-> >          else
-> >                  return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
-> >                                       "error getting clock\n");
-> >
-> > Not super nice though :/
->
-> Why not just add the NULL path to the check for -ENOENT?
->
-> 	ov5670->xvclk = devm_clk_get(&client->dev, NULL);
-> 	if (!IS_ERR_OR_NULL(ov5670->xvclk))
-> 		input_clk = clk_get_rate(ov5670->xvclk);
-> 	else if (!ov5670->xvclk ||  PTR_ERR(ov5670->xvclk) == -ENOENT)
-> 		device_property_read_u32(&client->dev, "clock-frequency",
-> 					 &input_clk);
-> 	else
-> 		return dev_err_probe(&client->dev, PTR_ERR(ov5670->xvclk),
-> 				     "error getting clock\n");
->
-
-That's defintely better.
-
-I can send a patch right away
-
-Thanks!
-
-> regards,
-> dan carpenter
->
+-- 
+With Best Regards,
+Andy Shevchenko
