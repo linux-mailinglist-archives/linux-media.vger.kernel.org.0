@@ -2,70 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 908AD68F780
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 19:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB36568F83F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 20:44:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbjBHSyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 13:54:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49236 "EHLO
+        id S231726AbjBHToq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 14:44:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjBHSyh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 13:54:37 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A7ED18A95;
-        Wed,  8 Feb 2023 10:54:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1C5BEB81F4D;
-        Wed,  8 Feb 2023 18:54:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB21C433D2;
-        Wed,  8 Feb 2023 18:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675882473;
-        bh=xTtM9WlSf7bwExmahb6XOjPHbEjpNPb+C9ZLErT3mV8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kJN28UveNEt23ZFALxkKRAduymcXqKXXhl5ZE6krYfbalb6HMbzHo9qeVzvcHI7Wm
-         H7S6jcL16vD7PqCbUM676t6Ujn2JFJPW6F8SYQEY0t+JColJ5tdmzL8HnmWP59Mv+N
-         h1XG21jruiC7Pqu0lZhIHvhdf8KfE3r2XiOfPuEIw7UtbGW+1gt8cYhRh3sZd6iQB0
-         OKQT0joBdQfoYqU3AXs0x+0ro+BNaKQvYiFcCdFS93pX8FTqdLs62iSLZQceti8ikH
-         8vqlPouh7hbFMq94LAL+5Wj+RTZZwiFzYMUZ+IE2R0duumYDsHSZLH3uCg57RDgxC5
-         5i80rfFHy/R9Q==
-Date:   Wed, 8 Feb 2023 19:08:33 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-Cc:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <linux-crypto@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Loic PALLARDY <loic.pallardy@st.com>
-Subject: Re: [PATCH v3 4/6] bus: stm32_sys_bus: add support for STM32MP15
- and STM32MP13 system bus
-Message-ID: <20230208190833.532cd60c@jic23-huawei>
-In-Reply-To: <d6c659d8-2e5c-cb60-d950-685c4ba319e2@foss.st.com>
-References: <20230127164040.1047583-1-gatien.chevallier@foss.st.com>
-        <20230127164040.1047583-5-gatien.chevallier@foss.st.com>
-        <20230128161217.0e79436e@jic23-huawei>
-        <d6c659d8-2e5c-cb60-d950-685c4ba319e2@foss.st.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
+        with ESMTP id S229515AbjBHToo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 14:44:44 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C3E6869E
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 11:44:43 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1pPqMk-0000MT-Df; Wed, 08 Feb 2023 20:44:26 +0100
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1pPqMj-0003FP-6D; Wed, 08 Feb 2023 20:44:25 +0100
+Date:   Wed, 8 Feb 2023 20:44:25 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, p.zabel@pengutronix.de,
+        slongerbeam@gmail.com, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 1/6] media: uapi: Add MEDIA_BUS_FMT_SGRGB_IGIG_GBGR_IGIG
+ media bus formats
+Message-ID: <20230208194425.anis36f6jlzmsjwp@pengutronix.de>
+References: <20210427120701.21809-1-m.felsch@pengutronix.de>
+ <20210427120701.21809-2-m.felsch@pengutronix.de>
+ <YIoRLQfoNm0GJGsY@pendragon.ideasonboard.com>
+ <20210429074903.cc5gohn52cgv4i5z@pengutronix.de>
+ <YIsvyz49KvZK6Wg5@pendragon.ideasonboard.com>
+ <20210430065134.jwscxlv3sydo4zgy@pengutronix.de>
+ <YIv1rMFZuv7z4R8a@pendragon.ideasonboard.com>
+ <20210430145146.359a9b90@coco.lan>
+ <YIv/DuLdrs3NEDoB@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YIv/DuLdrs3NEDoB@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,84 +58,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 7 Feb 2023 15:12:23 +0100
-Gatien CHEVALLIER <gatien.chevallier@foss.st.com> wrote:
+Hi all,
 
-> Hi Jonathan,
+sorry for the long absence on this topic. Only a few years later I'm
+back on this topic :)
+
+On 21-04-30, Laurent Pinchart wrote:
+> On Fri, Apr 30, 2021 at 02:51:46PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Fri, 30 Apr 2021 15:18:52 +0300
+> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+> > 
+> > > Hi Marco,
+> > > 
+> > > On Fri, Apr 30, 2021 at 08:51:34AM +0200, Marco Felsch wrote:
+> > > > On 21-04-30 01:14, Laurent Pinchart wrote:  
+> > > > > On Thu, Apr 29, 2021 at 09:49:03AM +0200, Marco Felsch wrote:  
+> > > > > > On 21-04-29 04:51, Laurent Pinchart wrote:  
+> > > > > > > On Tue, Apr 27, 2021 at 02:06:56PM +0200, Marco Felsch wrote:  
+> > > > > > > > Add special 8/12bit bayer media bus format for the OnSemi AR0237IR
+> > > > > > > > camera sensor [1]. OnSemi calls this format RGB-IR, the pixel array
+> > > > > > > > with the interleaved IR pixels looks like:
+> > > > > > > > 
+> > > > > > > >         |  G |  R |  G |  B | ...
+> > > > > > > >         +----+----+----+----+---
+> > > > > > > >         | IR |  G | IR |  G | ...
+> > > > > > > >         +----+----+----+----+---
+> > > > > > > >         |  G |  B |  G |  R | ...
+> > > > > > > >         +----+----+----+----+---
+> > > > > > > >         | IR |  G | IR |  G | ...
+> > > > > > > >         +----+----+----+----+---
+> > > > > > > >         | .. | .. | .. | .. | ..
+> > > > > > > > 
+> > > > > > > > [1] https://www.framos.com/media/pdf/96/ac/8f/AR0237CS-D-PDF-framos.pdf  
+> > > > > > > 
+> > > > > > > I think we're reaching a limit of the media bus codes model here, due to
+> > > > > > > a historical mistake. The four possible Bayer patterns, times the
+> > > > > > > different number of bits per pixel, creates a lot of media bus codes,
+> > > > > > > and drivers for CSI-2 receivers and IP cores further down the pipeline
+> > > > > > > have to support them all.  
+> > > > > > 
+> > > > > > That's correct but it is not bayer related. Currently it is what it is,
+> > > > > > if a new code is added it must be propagated through all the involved
+> > > > > > subdevs. On the other hand I wouldn't say that it is better to support
+> > > > > > new codes per default for all drivers. Since this would add a lot of
+> > > > > > untested code paths.  
+> > > > > 
+> > > > > It's not an issue limited to Bayer patterns, but they make the issue
+> > > > > worse given the number of possible combinations (think about adding DPCM
+> > > > > and ALAW compression on top of that...).  
+> > > > 
+> > > > You're right and again this will apply to all mbus formats...
+> > > >   
+> > > > > > > This is already painful, and if we had a
+> > > > > > > non-Bayer pattern such as this one,  
+> > > > > > 
+> > > > > > That's not exactly true since it is a bayer pattern but instead of using
+> > > > > > 4x4 it uses 8x8 and it as some special pixels.
+> > > > > >   
+> > > > > > > we'll open the door to an explosion
+> > > > > > > of the number of media bus codes (imagine all the different possible
+> > > > > > > arrangements of this pattern, for instance if you enable horizontal
+> > > > > > > and/or vertical flipping on the sensor). All drivers would need to be
+> > > > > > > updated to support these new bus codes, and this really kills the
+> > > > > > > current model.  
+> > > > > > 
+> > > > > > Yep, I know what you mean but as I said above I think that adding it
+> > > > > > explicite is the better abbroach since it involves somone who add _and_
+> > > > > > test the new code on the particular platform.
+> > > > > >   
+> > > > > > > The historical mistake was to tie the Bayer pattern with the media bus
+> > > > > > > code. We should really have specified raw 8/10/12/14/16 media bus codes,
+> > > > > > > and conveyed the pattern separately. Most IP cores in the pipeline don't
+> > > > > > > need to care about the pattern at all, and those who do (that's mostly
+> > > > > > > ISPs) could be programmed explicitly by userspace as long as we have an
+> > > > > > > API to retrieve the pattern from the sensor. I believe it's time to bite
+> > > > > > > the bullet and go in that direction. I'm sorry for this case of yak
+> > > > > > > shaving, but it really wouldn't be manageable anymore :-(  
+> > > > > > 
+> > > > > > I got all your points and would agree but this is not a bayer only
+> > > > > > related problem. You will have this problem with all new other formats
+> > > > > > as well. I'm with you, most IP cores don't care but I wouldn't
+> > > > > > guarantee that.  
+> > > > > 
+> > > > > Sorry, but adding new media bus formats like this one will just not
+> > > > > scale. We have two options, either fixing the issue, or considering that
+> > > > > V4L2 is a barely alive API with no future, and merging this without
+> > > > > caring anymore.  
+> > > > 
+> > > > Hm.. you're right that it doesn't scale, as I said I'm absolute on your
+> > > > side. So let us consider a new approach @Mauro, @Hans, @Sailus what do
+> > > > you think about?  
+> > > 
+> > > Starting brainstorming, how about new media bus codes for
+> > > raw{8,10,12,14,16}, 
+> > 
+> > By "raw", are you meaning vendor-specific formats? If so, that sounds 
+> > a bad idea. Different vendor-specific formats should use different
+> > media bus codes (and fourccs) as otherwise there won't be an easy way
+> > to distinguish them and to describe the raw formats at the media specs.
 > 
-> On 1/28/23 17:12, Jonathan Cameron wrote:
-> > On Fri, 27 Jan 2023 17:40:38 +0100
-> > Gatien Chevallier <gatien.chevallier@foss.st.com> wrote:
-> >   
-> >> This driver is checking the access rights of the different
-> >> peripherals connected to the system bus. If access is denied,
-> >> the associated device tree node is skipped so the platform bus
-> >> does not probe it.
-> >>
-> >> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> >> Signed-off-by: Loic PALLARDY <loic.pallardy@st.com>  
-> > 
-> > Hi Gatien,
-> > 
-> > A few comments inline,
-> > 
-> > Thanks,
-> > 
-> > Jonathan
-> >   
-> >> diff --git a/drivers/bus/stm32_sys_bus.c b/drivers/bus/stm32_sys_bus.c
-> >> new file mode 100644
-> >> index 000000000000..c12926466bae
-> >> --- /dev/null
-> >> +++ b/drivers/bus/stm32_sys_bus.c
-> >> @@ -0,0 +1,168 @@
-> >> +// SPDX-License-Identifier: GPL-2.0
-> >> +/*
-> >> + * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
-> >> + */
-> >> +
-> >> +#include <linux/bitfield.h>
-> >> +#include <linux/bits.h>
-> >> +#include <linux/device.h>
-> >> +#include <linux/err.h>
-> >> +#include <linux/io.h>
-> >> +#include <linux/init.h>
-> >> +#include <linux/kernel.h>
-> >> +#include <linux/module.h>
-> >> +#include <linux/of.h>
-> >> +#include <linux/of_platform.h>
-> >> +#include <linux/platform_device.h>
-> >> +
-> >> +/* ETZPC peripheral as firewall bus */
-> >> +/* ETZPC registers */
-> >> +#define ETZPC_DECPROT			0x10
-> >> +
-> >> +/* ETZPC miscellaneous */
-> >> +#define ETZPC_PROT_MASK			GENMASK(1, 0)
-> >> +#define ETZPC_PROT_A7NS			0x3
-> >> +#define ETZPC_DECPROT_SHIFT		1  
-> > 
-> > This define makes the code harder to read.  What we care about is
-> > the number of bits in the register divided by number of entries.
-> > (which is 2) hence the shift by 1. See below for more on this.
-> > 
-> >   
-> >> +
-> >> +#define IDS_PER_DECPROT_REGS		16  
-> >   
-> >> +#define STM32MP15_ETZPC_ENTRIES		96
-> >> +#define STM32MP13_ETZPC_ENTRIES		64  
-> > 
-> > These defines just make the code harder to check.
-> > They aren't magic numbers, but rather just telling us how many
-> > entries there are, so I would just put them in the structures directly.
-> > Their use make it clear what they are without needing to give them a name.
-> >   
-> 
-> Honestly, I'd rather read the hardware configuration registers to get 
-> this information instead of differentiating MP13/15. Would you agree on 
-> that?
+> I mean what the CSI-2 spec means. The exact interpretation of the format
+> will be a combination of the media bus code and the CFA pattern control.
+> The whole point of this discussion is to not have different media bus
+> codes for all possible combinations of formats, as that clearly doesn't
+> scale.
 
-Sure, if they are discoverable even better.
+You mean that we should propagate the value as raw{size} through the
+entire pipeline, if I got this correctly. How the picture should be
+interpreted is up to the user-space by calling a new read-only CFA
+v4l2-control. This way we don't need to patch each subdev driver and
+take the user-space into account of interpreting the data. For the CFA
+control we could use a global-unique list so the control returns an
+enum.
 
-
+Regards,
+  Marco
