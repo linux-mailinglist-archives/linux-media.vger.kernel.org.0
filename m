@@ -2,129 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF57368EDBD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 12:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59A6B68EDE8
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 12:28:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230487AbjBHLT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 06:19:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43210 "EHLO
+        id S230349AbjBHL2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 06:28:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbjBHLS4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 06:18:56 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2149D4940C
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 03:18:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 505C5B81BA8
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 11:17:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CA9C4339B;
-        Wed,  8 Feb 2023 11:17:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675855075;
-        bh=W+jHaO0cROq4vVeNZVaXt3Zy0zJwl6B2g61Uhefsx0o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pUAfyq0fRC9eQoEh2Lk4HVmMRTIhpTXi9SbIVBV5VFJPPTN8aZZlOow1TUxapGS+m
-         aqLst5ascTzTpXp+1smXpzfpjACcovSRh3U2tlw3Tu9SUtL/qNTuwzO2h0BUB8OTMI
-         LGJB5nLozVcVHqrbsZVU51BLpv8WT9GTgZ0qodpvqs88+QqHFiMv3YYME4F8EeAA/L
-         om9hhTH+Ot7pYkRqAvgVXtAESqSP3A2I49vtsmi0lWAGd2fdAE8vP8QigwHQ/KUR2R
-         cbJ5vVglgOd2Srm5MpdFp76hyA52jYO++AYVD1JkBYA6Gp/l3wKN+8gzMeQd+wg917
-         J85D9U5kVkJ5Q==
-Date:   Wed, 8 Feb 2023 12:17:50 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] media: Fix building pdfdocs
-Message-ID: <20230208121750.1b4ac5cd@coco.lan>
-In-Reply-To: <Y+NnRvQ8X04tuurf@pendragon.ideasonboard.com>
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
-        <Y+NnRvQ8X04tuurf@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+        with ESMTP id S229739AbjBHL2R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 06:28:17 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7189C28847
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 03:28:14 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id z5so20230829qtn.8
+        for <linux-media@vger.kernel.org>; Wed, 08 Feb 2023 03:28:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J7YpfNmkAKeiQRbYqt6rvLG7n/PQqFPtfmCT30QU4IU=;
+        b=HtYsaoBpdOlbY8Y/b0VGrVOb6VoCm0SqSgiczMXLiJaeTc+04jtzQMskjCYB5C5OcF
+         GEXov6ehfj+3N27qvZJH1yGjVe4bS/LxnBeDqlup7mvtgnDiJGO/svLv5QaOUxvj9u1L
+         snLUJWFulzRh0Jlse/Yx3IUPcXKOd1yoBUG4rNEy2Bd96CgegybuSzb2fgGFplwladqp
+         VdBYtxQRUTCMYT1ER6bA4gHXGKAaqt3B5YpXQlFjA/VG9JBzivZioaOFTpVbqaMIMuPI
+         pgl25io1KqoV+BCjj225IdxMROPdJxIFK5D9U7rnMndGcSCO5jfJc0lK+Cv4SKfqhkOU
+         8qZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J7YpfNmkAKeiQRbYqt6rvLG7n/PQqFPtfmCT30QU4IU=;
+        b=WLLwokNmMTfmVQBeu0lIZE8WYn2kXNAFYQsDoW6Y/a/aVPLHjWFqR20pb7DacF6ZqY
+         hy0oD+B0VfHCBayfvg7wINufEKF2hed8CqdDdD1hoId5a5xHUjrgxFffG+AfzepJcq1q
+         rWylpX2ZsyQpTUkCD5Wo7/6dPwn4kOOMlceRsSUsfjASfc7xOZJpF8NuTYyNpqOOpFpt
+         XSepO+2WjpwBpp0YZ6+msYdPuDr968Ov905yI8ago5GlftqJyirKKAfScb7IdAgamQ9/
+         +dIgpzrKnBr3zguwDu2KZAAts9BS7BaeX+E+1lT4XnKyrXAEIbizEWxdsPCbkQZdQrYH
+         6UeQ==
+X-Gm-Message-State: AO0yUKV1QBUzuN4o1McPEu4RbxjcD94bfG8IGTvFHWDNL9AiNjOGEtM6
+        /BdsLtnYAtSLlB99q6DtJmiRCiCGtEQ30h7XHZ0=
+X-Google-Smtp-Source: AK7set8jaCUipbc0hNu7gRUHgc2ylVfsf9/2wYfCf3Q8JN0SrFk+CmXhpHcX3sA3e7jkR4OQup2uADLHUHAsZvZTHMk=
+X-Received: by 2002:a05:622a:1456:b0:3b9:a4ee:be1c with SMTP id
+ v22-20020a05622a145600b003b9a4eebe1cmr1241819qtx.391.1675855693515; Wed, 08
+ Feb 2023 03:28:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230123125205.622152-1-hdegoede@redhat.com> <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+In-Reply-To: <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 8 Feb 2023 13:27:37 +0200
+Message-ID: <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 8 Feb 2023 11:11:34 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
 
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Feb 08, 2023 at 10:29:16AM +0200, Tomi Valkeinen wrote:
-> > Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
-> > documatation for a few new RGB formats. For some reason these break the  
-> 
-> s/documatation/documentation/
-> 
-> > pdfdocs build, even if the same style seems to work elsewhere in the
-> > file.
-> > 
-> > Remove the trailing empty dash lines, which seems to fix the issue.
-> > 
-> > Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
-> > Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>  
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> > ---
-> > 
-> > Note: the offending patch was merged via drm tree, so we may want to
-> > apply the fix to the drm tree also.  
-> 
-> Sounds good to me. Mauro, could you ack this patch ?
+...
 
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+> > versions of these register access helpers, so that this code duplication
+> > can be removed.
+>
+> Any reason to hand-roll those instead of using regmap ? Also, may I
+> suggest to have a look at drivers/media/i2c/imx290.c
 
-> 
-> >  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
-> >  1 file changed, 3 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> > index d330aeb4d3eb..ea545ed1aeaa 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> > @@ -868,7 +868,6 @@ number of bits for each component.
-> >        - r\ :sub:`4`
-> >        - r\ :sub:`3`
-> >        - r\ :sub:`2`
-> > -      -
-> >      * .. _V4L2-PIX-FMT-RGBA1010102:
-> >  
-> >        - ``V4L2_PIX_FMT_RGBA1010102``
-> > @@ -909,7 +908,6 @@ number of bits for each component.
-> >        - r\ :sub:`4`
-> >        - r\ :sub:`3`
-> >        - r\ :sub:`2`
-> > -      -
-> >      * .. _V4L2-PIX-FMT-ARGB2101010:
-> >  
-> >        - ``V4L2_PIX_FMT_ARGB2101010``
-> > @@ -950,7 +948,6 @@ number of bits for each component.
-> >        - r\ :sub:`6`
-> >        - r\ :sub:`5`
-> >        - r\ :sub:`4`
-> > -      -
-> >  
-> >  .. raw:: latex
-> >    
-> 
+While this is a bit error prone example, a patch is on its way, ...
 
+>  for an example of
+> how registers of different sizes can be handled in a less error-prone
+> way, using single read/write functions that adapt to the size
+> automatically ?
 
+...with regmap fields I believe you can avoid even that and use proper
+regmap accessors directly.
 
-Thanks,
-Mauro
+-- 
+With Best Regards,
+Andy Shevchenko
