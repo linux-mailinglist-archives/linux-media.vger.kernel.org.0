@@ -2,74 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52F4F68FA29
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 23:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89B0968FA6B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 23:50:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232386AbjBHWQq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 17:16:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42410 "EHLO
+        id S232299AbjBHWuB convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 Feb 2023 17:50:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232398AbjBHWQn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 17:16:43 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEFA3755D;
-        Wed,  8 Feb 2023 14:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675894598; x=1707430598;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l3HMKANKT06QhSwevMDgDpXf1tEHYJtuiJZ0WpFg+0s=;
-  b=Qxufv5ef15jO3eD8E+vGs90hZd+HmgjanmeLBvuxrF9D8Zo1OOGmrZV/
-   2JlPcDYwYmAGwU8N2M/5zDm7tMSKvssPxqET/3MF+VPZ4syrILhWadJ36
-   Hf+2bLK53bQ7YW0ld5xqHyCb50ITkiA0nGOJ9W+3HbPqr8rEAysgfvTKO
-   GizXtDSfQuPQ2+XplghiCEDeGfgdDbUwKo8KDz1ZJMa0vDWpmQ9DxY/eo
-   4Mp7wub7ey0OcSLPfPdHV85QkE3ggZYe9Wg4PWt0F2Xgz9GKYlJxAmd2N
-   roIb2Pm4gVQXnXHB3Vt5/Zitu4UkoQzfrpoGoYch/ZCoeWSbDv9jqPK0e
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="394534481"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="394534481"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 14:16:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="810093623"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="810093623"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 14:16:36 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 95F4D1218E2;
-        Thu,  9 Feb 2023 00:16:33 +0200 (EET)
-Date:   Thu, 9 Feb 2023 00:16:33 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     linux-acpi@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, rafael@kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <Y+QfQUflAJHmFI1l@kekkonen.localdomain>
-References: <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
- <202302090442.og7NHYTZ-lkp@intel.com>
+        with ESMTP id S232171AbjBHWuA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 17:50:00 -0500
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0031A20071
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 14:49:57 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-136-ULMWmCnbPdqcPO_ejgvR-Q-1; Wed, 08 Feb 2023 22:49:55 +0000
+X-MC-Unique: ULMWmCnbPdqcPO_ejgvR-Q-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.45; Wed, 8 Feb
+ 2023 22:49:53 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.045; Wed, 8 Feb 2023 22:49:53 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: RE: [PATCH v1 1/1] media: i2c: imx290: Make use of
+ get_unaligned_le24(), put_unaligned_le24()
+Thread-Topic: [PATCH v1 1/1] media: i2c: imx290: Make use of
+ get_unaligned_le24(), put_unaligned_le24()
+Thread-Index: AQHZO7CvZGRxViq4Fk6IGHHe5gfM5a7FprYA
+Date:   Wed, 8 Feb 2023 22:49:53 +0000
+Message-ID: <3e2edbf4530345d7a0a04c0dc68ae65a@AcuMS.aculab.com>
+References: <20230208112957.15563-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230208112957.15563-1-andriy.shevchenko@linux.intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202302090442.og7NHYTZ-lkp@intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,PDS_BAD_THREAD_QP_64,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 04:43:45AM +0800, kernel test robot wrote:
-> >> drivers/acpi/mipi.c:205:6: warning: no previous prototype for 'acpi_crs_csi2_alloc_fill_swnodes' [-Wmissing-prototypes]
->      205 | void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
+From: Andy Shevchenko
+> Sent: 08 February 2023 11:30
+> 
+> Since we have a proper endianness converters for LE 24-bit data use
+> them. While at it, format the code using switch-cases as it's done
+> for the rest of the endianness handlers.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/media/i2c/imx290.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 49d6c8bdec41..330098a0772d 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -16,6 +16,9 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/regulator/consumer.h>
+> +
+> +#include <asm/unaligned.h>
+> +
+>  #include <media/media-entity.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+> @@ -466,18 +469,20 @@ static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *val
+>  		return ret;
+>  	}
+> 
+> -	*value = (data[2] << 16) | (data[1] << 8) | data[0];
+> +	*value = get_unaligned_le24(data);
+>  	return 0;
+>  }
+> 
+>  static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
+>  {
+> -	u8 data[3] = { value & 0xff, (value >> 8) & 0xff, value >> 16 };
+> +	u8 data[3];
+>  	int ret;
+> 
+>  	if (err && *err)
+>  		return *err;
+> 
+> +	put_unaligned_le24(value, data);
+> +
+>  	ret = regmap_raw_write(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
+>  			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
 
-I was wondering what wast the actual problem here as having no prototype
-isn't an issue really. The function should have been static, of course.
-I'll address this in v6, but waiting for other comments for now.
+Why not just use an le32, htole32() and take the address of the low byte?
 
--- 
-Sakari Ailus
+Anything doing put/get on a 24bit value is pretty much required
+to do byte accesses anyway.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
