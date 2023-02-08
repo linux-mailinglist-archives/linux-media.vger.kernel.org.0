@@ -2,123 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89B0968FA6B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 23:50:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A15A68FB91
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 00:50:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232299AbjBHWuB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 Feb 2023 17:50:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54038 "EHLO
+        id S230030AbjBHXuP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 18:50:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232171AbjBHWuA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 17:50:00 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0031A20071
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 14:49:57 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-136-ULMWmCnbPdqcPO_ejgvR-Q-1; Wed, 08 Feb 2023 22:49:55 +0000
-X-MC-Unique: ULMWmCnbPdqcPO_ejgvR-Q-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.45; Wed, 8 Feb
- 2023 22:49:53 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.045; Wed, 8 Feb 2023 22:49:53 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: RE: [PATCH v1 1/1] media: i2c: imx290: Make use of
- get_unaligned_le24(), put_unaligned_le24()
-Thread-Topic: [PATCH v1 1/1] media: i2c: imx290: Make use of
- get_unaligned_le24(), put_unaligned_le24()
-Thread-Index: AQHZO7CvZGRxViq4Fk6IGHHe5gfM5a7FprYA
-Date:   Wed, 8 Feb 2023 22:49:53 +0000
-Message-ID: <3e2edbf4530345d7a0a04c0dc68ae65a@AcuMS.aculab.com>
-References: <20230208112957.15563-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230208112957.15563-1-andriy.shevchenko@linux.intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S230014AbjBHXuO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 18:50:14 -0500
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 337A630EE;
+        Wed,  8 Feb 2023 15:50:14 -0800 (PST)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-15f97c478a8so527729fac.13;
+        Wed, 08 Feb 2023 15:50:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Swlj8Zg4D3ZA9hPkSkkSZIaYsGYqtBZARu8vwYQvoxY=;
+        b=a/ufj0WZlamVoRQcUXHmH/ap8DsT1Mnrik/Zt5iPajlWmOBMQDjm+vMtJ5JtbJRJbh
+         PPwh8G2ju9wXqwN7iPJnH7ElfkkGlVmzpSHt6fa3xqVlc3RS1XXeA5PSI0+fOEywqJN4
+         vg4FBHCYc3hXH4CxR1JejkbCZXWbW0opno7t2xUgfkZMdIZd9gqGsOBZ1akwEp1bnI6z
+         mxcF+fWmoE/qB6Nd73oB0He+HG0RkYl2qCruWzqHwL/oDGaRVMzD+nBrFHvNhjl9r7J9
+         1nOLvsixfcaypL6RM1vi8ihxVMstZXsHrV7BdxB4aZ7H5WjXlNEwNJoVLQvDble0dXmA
+         EcBA==
+X-Gm-Message-State: AO0yUKUE7sn1Suhi7k3DMvrrw7ATNiqghoB4LmkpVJI9M0hhrL84RX2b
+        FnQz76nEVq39eWxjoD/ApQ==
+X-Google-Smtp-Source: AK7set8XmWn4nD/gLJ0/2A/sHMSobVsdiLJerGR6oGztRoF5qbOK794iOc4fZQcRYHcxFbomCi5dFQ==
+X-Received: by 2002:a05:6870:3324:b0:163:92dd:a164 with SMTP id x36-20020a056870332400b0016392dda164mr5093381oae.44.1675900213424;
+        Wed, 08 Feb 2023 15:50:13 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id f7-20020a9d2c07000000b0068d4649bedasm8704968otb.67.2023.02.08.15.50.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 15:50:13 -0800 (PST)
+Received: (nullmailer pid 2939151 invoked by uid 1000);
+        Wed, 08 Feb 2023 23:50:12 -0000
+Date:   Wed, 8 Feb 2023 17:50:12 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>
+Subject: Re: [PATCH v2 1/4] media: dt-bindings: samsung-fimc: drop simple-bus
+Message-ID: <167590021178.2939096.11710329935156604662.robh@kernel.org>
+References: <20230207205834.673163-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,PDS_BAD_THREAD_QP_64,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230207205834.673163-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andy Shevchenko
-> Sent: 08 February 2023 11:30
+
+On Tue, 07 Feb 2023 21:58:31 +0100, Krzysztof Kozlowski wrote:
+> The FIMC camera node wrapper is not a bus, so using simple-bus fallback
+> compatible just to instantiate its children nodes was never correct.
+> Drop the simple-bus compatible and expect driver to explicitly populate
+> children devices.
 > 
-> Since we have a proper endianness converters for LE 24-bit data use
-> them. While at it, format the code using switch-cases as it's done
-> for the rest of the endianness handlers.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  drivers/media/i2c/imx290.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 49d6c8bdec41..330098a0772d 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -16,6 +16,9 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
-> +
-> +#include <asm/unaligned.h>
-> +
->  #include <media/media-entity.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
-> @@ -466,18 +469,20 @@ static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *val
->  		return ret;
->  	}
+> Changes since v1:
+> 1. None
+> ---
+>  Documentation/devicetree/bindings/media/samsung-fimc.txt | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> -	*value = (data[2] << 16) | (data[1] << 8) | data[0];
-> +	*value = get_unaligned_le24(data);
->  	return 0;
->  }
-> 
->  static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
->  {
-> -	u8 data[3] = { value & 0xff, (value >> 8) & 0xff, value >> 16 };
-> +	u8 data[3];
->  	int ret;
-> 
->  	if (err && *err)
->  		return *err;
-> 
-> +	put_unaligned_le24(value, data);
-> +
->  	ret = regmap_raw_write(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
->  			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
 
-Why not just use an le32, htole32() and take the address of the low byte?
-
-Anything doing put/get on a 24bit value is pretty much required
-to do byte accesses anyway.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Acked-by: Rob Herring <robh@kernel.org>
 
