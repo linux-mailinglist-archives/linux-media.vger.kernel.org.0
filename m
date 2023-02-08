@@ -2,105 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02EBD68F0E2
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 15:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 097BE68F17C
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 15:58:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231511AbjBHOdk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 09:33:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47980 "EHLO
+        id S231285AbjBHO63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 09:58:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230080AbjBHOdj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 09:33:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C8A0FA
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 06:33:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A7749B81E28
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 14:33:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA0FC433EF;
-        Wed,  8 Feb 2023 14:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1675866815;
-        bh=nWey4jNU9+Sif+LSgRMsMxWM4RnLU+cpOsDgXGewWQg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Bxr6yBG2Sc2qJ8swG0K4FZBoRaWDOrxNOV4/Ljrof1okbjOBp9ODwtSnL5XEYUT3T
-         dABWfhz1D35ipFx685szlb3KLiBQicaVpLNMMGwwdHGnixiNWNI58cw5Opmab4DEzx
-         tN+KhRI6t277jpdWddIWGhFLtz/WtmWcr7FNpi9HGbNWa+XeSmth43M5xPsb3wnOKI
-         8s/Wv3W5YYzuR8WkIKgISlnWdpjOGJPxjel9cu0qRimAdSJjrSHh7kjB3SKed6UUcR
-         rRLFQ74JJ3gCyfIpYi9fl9kvIrBNax1zudQ06Ol8WvwxrxIZ/BZgOZwidQ40ANHvr4
-         cMl5I248ST+Eg==
-Date:   Wed, 8 Feb 2023 15:33:29 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <20230208153329.6dccd807@coco.lan>
-In-Reply-To: <Y+OIBefssxY3bbmK@kekkonen.localdomain>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
-        <20230123125205.622152-29-hdegoede@redhat.com>
-        <Y+OIBefssxY3bbmK@kekkonen.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+        with ESMTP id S230498AbjBHO62 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 09:58:28 -0500
+X-Greylist: delayed 711 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 08 Feb 2023 06:58:27 PST
+Received: from homes.ktnet.kg (homes.ktnet.kg [213.145.129.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4269A298DC
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 06:58:27 -0800 (PST)
+Received: by homes.ktnet.kg (Postfix, from userid 10972)
+        id C09BA4A8E00; Wed,  8 Feb 2023 20:42:00 +0600 (+06)
+To:     linux-media@vger.kernel.org
+Subject: 
+Date:   Wed, 8 Feb 2023 14:42:00 +0000
+From:   THAM CHOY <support@sad.from.kg>
+Reply-To: thanchoy@mail.ee
+Message-ID: <d81323e5f2baa5c25b2282b0803ec23d@sad.from.kg>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Spam-Status: Yes, score=5.8 required=5.0 tests=BAYES_99,BAYES_999,
+        FREEMAIL_FORGED_REPLYTO,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
+        *      [score: 0.9999]
+        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
+        *      [score: 0.9999]
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [213.145.129.23 listed in wl.mailspike.net]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 8 Feb 2023 13:31:17 +0200
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+Good Day,
 
-> Hi Hans,
-> 
-> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> > The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
-> > ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
-> > ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
-> > 
-> > as well as various "atomisp" sensor drivers in drivers/staging, *all*
-> > use register access helpers with the following function prototypes:
-> > 
-> > int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
-> >                     unsigned int len, u32 *val);
-> > 
-> > int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
-> >                      unsigned int len, u32 val);
-> > 
-> > To read/write registers on Omnivision OVxxxx image sensors wich expect
-> > a 16 bit register address in big-endian format and which have 1-3 byte
-> > wide registers, in big-endian format (for the higher width registers).
-> > 
-> > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > versions of these register access helpers, so that this code duplication
-> > can be removed.  
-> 
-> Ideally we'd have helpers for CCI, of which this is a subset. And on top of
-> regmap. I don't object adding these either though.
+Would you be interested in a project proposal of 150 Million EUR.
 
-Well, ideally, when the atomisp-specific sensor ioctls go away, we can
-merge the atomisp-specific sensor drivers for not-yet-uptreamed sensors
-or modify the existing sensor drivers to accept the atomisp resolutions [1].
+Regards,
 
-So, for now, I wouldn't convert those to use regmap. This can be done
-later with the remaining drivers.
+Tham
 
-[1] atomisp usually requires 16 extra lines/columns for it to work, so
-the current sensor drivers there allow setting resolutions like
-1616x1216 at the sensor, while offering 1600x1200 resolution to
-userspace.
-
-Thanks,
-Mauro
