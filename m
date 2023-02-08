@@ -2,126 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B230F68F8C9
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 21:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 830D068F8CE
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 21:28:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230397AbjBHU0M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 15:26:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44334 "EHLO
+        id S230421AbjBHU2z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 15:28:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229745AbjBHU0L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 15:26:11 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5486639CFC;
-        Wed,  8 Feb 2023 12:26:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675887969; x=1707423969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T1S/OSskZmAwmIGSRQH2mggp3Mf/j4uP40UTYr4GaC4=;
-  b=Q/chbdhGVj7m5Qq0kuT8q3qGYrAQ36e65KSXjwJpZCszG8lb2Q0qDYgX
-   9jcUl9MOzriegIJdff54kgqtn92V2NHmWNGxy9BoEQi4kavRrK0CmtvRd
-   s9cDGOr2nYbW20iT5JqBuE2Y6l4O/J0xeiIzjQPuOu9is3G/ubJDiH4lh
-   /IK0Jt5ukn8hQlH7oGH/TuHN4n5x1zRXQr0T3Dm5x85GOC+guPUDKSrKB
-   11+yr/pBlYoDpeAq1KwLsUIPdVKI82zFkoESaWKg1TQrUwwJqDFPiDatn
-   QA8bbZIsnFqnn+X/2LhkpSs/PKWY45vPwxVgq1kRlrf+sQXYrLLwgk1Lm
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="329942483"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="329942483"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 12:26:09 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="776182603"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="776182603"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 12:26:07 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D8824120D20;
-        Wed,  8 Feb 2023 22:26:04 +0200 (EET)
-Date:   Wed, 8 Feb 2023 22:26:04 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <Y+QFXGDUXEB4ablF@kekkonen.localdomain>
-References: <20230208152807.3064242-1-sakari.ailus@linux.intel.com>
- <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
- <Y+PROE+7o8yuoGB6@smile.fi.intel.com>
+        with ESMTP id S229479AbjBHU2y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 15:28:54 -0500
+Received: from sp13.canonet.ne.jp (sp13.canonet.ne.jp [210.134.168.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EE0B81E9DD;
+        Wed,  8 Feb 2023 12:28:52 -0800 (PST)
+Received: from csp13.canonet.ne.jp (unknown [172.21.160.133])
+        by sp13.canonet.ne.jp (Postfix) with ESMTP id BBB871E058A;
+        Thu,  9 Feb 2023 05:28:51 +0900 (JST)
+Received: from echeck13.canonet.ne.jp ([172.21.160.123])
+        by csp3 with ESMTP
+        id Pr3jpA4GixJr5Pr3jpoD6Q; Thu, 09 Feb 2023 05:28:51 +0900
+X-CNT-CMCheck-Reason: "undefined", "v=2.4 cv=S49nfKgP c=1 sm=1 tr=0
+ ts=63e40603 cx=g_jp:t_eml p=mma4DOr-2TkA:10 p=FYAhlTQRCH2TXxF9pwWT:22
+ a=c8wCX2VJ6RehaN9m5YqYzw==:117 a=yr9NA9NbXb0B05yJHQEWeQ==:17
+ a=PlGk70OYzacA:10 a=8nJEP1OIZ-IA:10 a=m04uMKEZRckA:10 a=Mrz3sjv-sVQA:10
+ a=x7bEGLp0ZPQA:10 a=YtQNzjfyrWE1PQnbW48A:9 a=wPNLvfGTeEIA:10"
+X-CNT-CMCheck-Score: 100.00
+Received: from echeck13.canonet.ne.jp (localhost [127.0.0.1])
+        by esets.canonet.ne.jp (Postfix) with ESMTP id 77C6B1C0246;
+        Thu,  9 Feb 2023 05:28:51 +0900 (JST)
+X-Virus-Scanner: This message was checked by ESET Mail Security
+        for Linux/BSD. For more information on ESET Mail Security,
+        please, visit our website: http://www.eset.com/.
+Received: from smtp13.canonet.ne.jp (unknown [172.21.160.103])
+        by echeck13.canonet.ne.jp (Postfix) with ESMTP id 49FCA1C024D;
+        Thu,  9 Feb 2023 05:28:51 +0900 (JST)
+Received: from nakazatokoumuten.co.jp (webmail.canonet.ne.jp [210.134.169.250])
+        by smtp13.canonet.ne.jp (Postfix) with ESMTPA id E08CB15F962;
+        Thu,  9 Feb 2023 05:28:50 +0900 (JST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+PROE+7o8yuoGB6@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Message-ID: <20230208202850.00007EE5.0209@nakazatokoumuten.co.jp>
+Date:   Thu, 09 Feb 2023 05:28:50 +0900
+From:   "Attoh Mensah" <web@nakazatokoumuten.co.jp>
+To:     <andrew.ejiro01@gmail.com>
+Reply-To: <barrattohmensahlawfirm@gmail.com>
+Subject: =?ISO-8859-1?B?T2zhIFNhdWRh5/Vlcw==?= meu amigo
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: base64
+X-Priority: 3
+ORGANIZATION: Attoh Mensah
+X-MAILER: Active! mail
+X-EsetResult: clean, %VIRUSNAME%
+X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1675888131;VERSION=7944;MC=515598722;TRN=0;CRV=0;IPC=210.134.169.250;SP=4;SIPS=1;PI=5;F=0
+X-I-ESET-AS: RN=0;RNP=
+X-ESET-Antispam: OK
+X-Spam-Status: Yes, score=7.5 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,HK_SCAM,RCVD_IN_MSPIKE_H2,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,UNRESOLVED_TEMPLATE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [210.134.168.90 listed in bl.score.senderscore.com]
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [210.134.168.90 listed in wl.mailspike.net]
+        *  1.3 UNRESOLVED_TEMPLATE Headers contain an unresolved template
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.0 HK_SCAM No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+T2zhIFNhdWRh5/VlcyBNZXUgQW1pZ28NCg0KRXUgc291IG8gYWR2b2dhZG8gcGVzc29hbCBTeWx2
+YWluIEtvZmZpIEF0dG9oIE1lbnNhaCBBZHZvZ2FkbyBwZXNzb2FsIGRlIA0KdW0gaW52ZXN0aWRv
+ciBkbyBCcmFzaWwgYXF1aSBubyBUb2dvLCBObyBkaWEgMzEgZGUgamFuZWlybyBkZSAyMDEzLCAN
+CmR1cmFudGUgYSBjcmlzZSBkYSBM7WJpYSBtZXUgY2xpZW50ZSBlIHRvZGEgYSBzdWEgZmFt7Wxp
+YSBkb2lzIG1lbmlub3MgDQpjb20gdW1hIG1lbmluYSBlIGVzcG9zYSBmb2kgYXNzYXNzaW5hZG8g
+cG9yIHJlYmVsZGVzIGRvIGztZGVyIGRhIG9wb3Np5+MNCm8gcG9ycXVlIGVsZSBvIHBhdHJvY2lu
+YSBwb2xpdGljYW1lbnRlLiANCg0KQXR1YWxtZW50ZSwgbyBCYW5jbyBvbmRlIG8gZmFsZWNpZG8g
+KG1ldSBjbGllbnRlKSB0aW5oYSB1bSBkZXDzc2l0byANCmF2YWxpYWRvIGVtIFVTJC4gNy4yIE1p
+bGj1ZXMgbWUgZW1pdGlyYW0gdW0gYXZpc28gcGFyYSBmb3JuZWNlciBvIE5leHQgDQpvZiBLaW4g
+YW8gbWV1IGNsaWVudGUgcGFyYSByZWNlYmVyIHNldSBiZW5lZu1jaW8gb3UgdGVyIGEgY29udGEg
+DQpjb25maXNjYWRhLCBlbnTjbyBlbnRyZWkgZW0gY29udGF0byBjb20gdm9j6iBwYXJhIG1lIGFq
+dWRhciBhIHJlcGF0cmlhciANCmVzc2UgYmVuZWbtY2lvIGRlaXhhZG8gcGFyYSB0cuFzIHBlbG8g
+bWV1IGNsaWVudGUgYW50ZXMgcXVlIGVsZXMgc2VqYW0gDQpjb25maXNjYWRvcyBwZWxvIEJhbmNv
+LiANCg0KR2FyYW50byBxdWUgaXNzbyBzZXLhIGV4ZWN1dGFkbyBzb2IgdW0gYWNvcmRvIGxlZ+10
+aW1vIHF1ZSBvIHByb3RlZ2Vy4SANCmRlIHF1YWxxdWVyIHZpb2xh5+NvIGRhIGxlaS4NCnZvY+og
+ZSBldSBwb2RlbW9zIGNvbXBhcnRpbGjhLWxvOyA1MCUgcGFyYSBtaW0sIDUwJSBwYXJhIHZvY+ou
+DQoNClBvciBmYXZvciwgdm9sdGUgc2Ugdm9j6iBlc3RpdmVyIGludGVyZXNzYWRvLiANCg0KQXRl
+bmNpb3NhbWVudGUNCkJhcnIuIFN5bHZhaW4gS29mZmkgQXR0b2ggTWVuc2FoIChFc3EuKQ0K
 
-Thanks for the review.
-
-On Wed, Feb 08, 2023 at 06:43:36PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 08, 2023 at 05:28:01PM +0200, Sakari Ailus wrote:
-> > Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
-> > configuration. For now, only figure out where the descriptor is present in
-> > order to allow adding information from it to related devices.
-> 
-> Nit-picks below that may be ignored. Up to you, guys.
-> 
-> ...
-> 
-> > +#define NO_CSI2_PORT (~1U)
-> 
-> A bit unclear why this value. Is it bitfield? Then GENMASK() would be better.
-> Is it a plain value with a type limit? Then (UINT_MAX - 1) probably the best.
-
-This value is used to signify that a port node isn't yet allocated for a
-CSI-2 port. I can change this to UINT_MAX - 1.
-
-> 
-> ...
-> 
-> > +	ads->nodeptrs = (void *)(ads->nodes +
-> > +				 ports_count * 2 + 1);
-> 
-> Now this fits one line.
-
-Yes.
-
-> 
-> ...
-> 
-> > +	handle_refs = kcalloc(csi2_all.handle_count + 1, sizeof(*handle_refs),
-> > +			      GFP_KERNEL);
-> > +	if (!handle_refs) {
-> > +		acpi_handle_debug(handle, "no memory for %zu handle refs\n",
-> > +				  csi2_all.handle_count + 1);
-> > +		return;
-> > +	}
-> 
-> In a code above you used "1 + foo" approach if I'm not mistaken. Why here is
-> the difference?
-
-The last entry is a guardian (NULL handle). 1 + number of lanes is used
-where the first lane is the clock lane.
-
-> 
-> ...
-> 
-> In some code comments which I removed before remarking you forgot the
-> grammatical period.
-
-Some comments aren't proper sentences. I'll see which could be improved by
-adding a period.
-
--- 
-Regards,
-
-Sakari Ailus
