@@ -2,92 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 121AC68F2BF
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 17:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FC1168F3A5
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 17:44:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230365AbjBHQEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 11:04:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49612 "EHLO
+        id S231539AbjBHQo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 11:44:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbjBHQEe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 11:04:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FED14B1A2
-        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 08:04:04 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F33E7E79;
-        Wed,  8 Feb 2023 17:03:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675872239;
-        bh=W5FlBut5KJo/QH50PBih7EOEQ3pSML1vBYRZQcv94fM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uzeO/WpWKpqcJpvwVbb0nn2opjpkw6CxbXVW4jDOF1h3RADnRpZwdc/yrjqaxEbB4
-         VusP/d6TzT+hiHs/GeilNQAJ6uhJs8dXZsjOpPlNTafSzwTo+xcGuvGbrylJSv0kPL
-         AfgCbVitEPdR2Skyit2Xm8EqVkfVI5pUOio099K0=
-Date:   Wed, 8 Feb 2023 18:03:57 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
- <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
- <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
+        with ESMTP id S231572AbjBHQoU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 11:44:20 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 149524ED03;
+        Wed,  8 Feb 2023 08:44:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675874646; x=1707410646;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kh+ojvZ6ewps1Bew/oIQ4leqYP22Cqk9o0XzJVM6qyo=;
+  b=LaD35gVtKFahVpoUiWqxivcwIv3yI/m/oZJAA1JSoZh+OVXbQVMn2i43
+   olFWJEvQooHOC5mx7FEOblDdSlVMf1K/62hFAezn01HJANYRewlcr02tO
+   2Zsjzaugmv4I9WbCg7E44g3vnaV3cCTupAfpe5G3XnaYYJmYYY+ux9Nnx
+   WIGGhDzDaCzQhKGGL/YFRIWzuhMG5lJpnxvqDsV22A9TXC6XGXFANTUb8
+   GIwJK3439yAdxy8X/ThGpZ7UoXxAI7Exwf6TCwzt6nCmtdGlHrV1XE/SV
+   Tu3Hwnyv0WUWErk0eTU3t7rHPwUvGj29jR1S4nXpwC7Bxg0vdAFENiqIC
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="392244363"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
+   d="scan'208";a="392244363"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 08:43:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="669243606"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
+   d="scan'208";a="669243606"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 08 Feb 2023 08:43:37 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pPnXk-004DHk-1D;
+        Wed, 08 Feb 2023 18:43:36 +0200
+Date:   Wed, 8 Feb 2023 18:43:36 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
+Message-ID: <Y+PROE+7o8yuoGB6@smile.fi.intel.com>
+References: <20230208152807.3064242-1-sakari.ailus@linux.intel.com>
+ <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 08, 2023 at 05:50:26PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart wrote:
-> > On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
-> > > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
-> > > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> 
-> ...
-> 
-> > > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > > > > versions of these register access helpers, so that this code duplication
-> > > > > can be removed.
-> > > >
-> > > > Any reason to hand-roll those instead of using regmap ? Also, may I
-> > > > suggest to have a look at drivers/media/i2c/imx290.c
-> > >
-> > > While this is a bit error prone example, a patch is on its way, ...
-> >
-> > The two cleanups are nice, but they're cleanup, not error fixes :-)
-> 
-> It depends on which side you look at it. I admit I haven't dug into
-> the code to see if endianess can be an issue there, but the code
-> itself is not written well, esp. when one offers it as an example. So
-> definitely there is a fix on the upper layer.
+On Wed, Feb 08, 2023 at 05:28:01PM +0200, Sakari Ailus wrote:
+> Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
+> configuration. For now, only figure out where the descriptor is present in
+> order to allow adding information from it to related devices.
 
-Did I miss something ? Your two patches replace a tiny amount of code
-with helper functions that don't change any behaviour. It's nicer with
-those helpers, no question about that, but "not written well" is a bit
-of a stretch and feels quite insulting. Feel free to submit patches that
-add new "well-written" helpers.
+Nit-picks below that may be ignored. Up to you, guys.
+
+...
+
+> +#define NO_CSI2_PORT (~1U)
+
+A bit unclear why this value. Is it bitfield? Then GENMASK() would be better.
+Is it a plain value with a type limit? Then (UINT_MAX - 1) probably the best.
+
+...
+
+> +	ads->nodeptrs = (void *)(ads->nodes +
+> +				 ports_count * 2 + 1);
+
+Now this fits one line.
+
+...
+
+> +	handle_refs = kcalloc(csi2_all.handle_count + 1, sizeof(*handle_refs),
+> +			      GFP_KERNEL);
+> +	if (!handle_refs) {
+> +		acpi_handle_debug(handle, "no memory for %zu handle refs\n",
+> +				  csi2_all.handle_count + 1);
+> +		return;
+> +	}
+
+In a code above you used "1 + foo" approach if I'm not mistaken. Why here is
+the difference?
+
+...
+
+In some code comments which I removed before remarking you forgot the
+grammatical period.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
