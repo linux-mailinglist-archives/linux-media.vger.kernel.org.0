@@ -2,79 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB91C68E8BF
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 08:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1B8668E924
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 08:39:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230082AbjBHHPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 02:15:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45594 "EHLO
+        id S230184AbjBHHjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 02:39:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230390AbjBHHOs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 02:14:48 -0500
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D17522A03;
-        Tue,  7 Feb 2023 23:14:46 -0800 (PST)
-Received: from localhost.localdomain (unknown [124.16.138.125])
-        by APP-05 (Coremail) with SMTP id zQCowAAHDfHkS+NjSNwlBA--.18813S2;
-        Wed, 08 Feb 2023 15:14:44 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     fabien.dessenne@foss.st.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] media: bdisp: Add missing check for create_workqueue
-Date:   Wed,  8 Feb 2023 15:14:42 +0800
-Message-Id: <20230208071442.45065-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S230378AbjBHHjQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 02:39:16 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E46A26E90
+        for <linux-media@vger.kernel.org>; Tue,  7 Feb 2023 23:38:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 151A5B81C3B
+        for <linux-media@vger.kernel.org>; Wed,  8 Feb 2023 07:38:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1177C4339B;
+        Wed,  8 Feb 2023 07:38:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1675841903;
+        bh=Eh1Qhxbv89N9hnay9RF+92zBKi8hIE4t5S58btHtnVM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=WwTef12C93slqocOcrndu7Zq0Kj7LQfvwaOdK4fUTug9pUbeMdaFhVu9fqyL1K3rD
+         4MdBuGYnEeUUq1egSi3UmILXy39qdo+SILEkFNfNi3mj8vyoksgV8tXzLyuNPUcr6w
+         T0sEdd2ooNlD/SFCVj6Hj5ADgdSjHGCB7gq8TUyj6Lpj/dEhnZLkORF7vf5fVWV2VC
+         RMekIuPPxPVg+fZNYDdFA8rWiXZTIePhlosnscelYIEycxqyDutNxByqYW8+Nnif8x
+         CyYM/esQes4RXojSIN6wH2gqpM4kg5/GHDjcV6vpItoW2wvozo0neIgutqUAhMztvu
+         tKSywzBUSPLFw==
+Date:   Wed, 8 Feb 2023 08:38:19 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Moudy Ho <moudy.ho@mediatek.com>
+Subject: Re: [PATCH 10/17] media: mediatek: mdp3: replace return by goto for
+ proper unwind
+Message-ID: <20230208083819.4365b97d@coco.lan>
+In-Reply-To: <20230126150657.367921-11-hverkuil-cisco@xs4all.nl>
+References: <20230126150657.367921-1-hverkuil-cisco@xs4all.nl>
+        <20230126150657.367921-11-hverkuil-cisco@xs4all.nl>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAHDfHkS+NjSNwlBA--.18813S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtr1xWF1Dur15Gr1UAr1rXrb_yoWDCFc_W3
-        s293WDWry0krn0qr1Utw1ruFyrtrZ09Fn3Wa1Sqry3tayUG3WaqrWjyF95Wa1DWay0g3sx
-        CrWYkry0krs3WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbcxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-        0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4x
-        MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-        0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
-        wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
-        WxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-        cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbD5r7UUUUU==
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the check for the return value of the create_workqueue
-in order to avoid NULL pointer dereference.
+Em Thu, 26 Jan 2023 16:06:50 +0100
+Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
 
-Fixes: 28ffeebbb7bd ("[media] bdisp: 2D blitter driver using v4l2 mem2mem framework")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c | 2 ++
- 1 file changed, 2 insertions(+)
+> An error was returned at one point without going through the
+> goto label for proper unwinding.
+> 
+> This fixes a smatch warning:
+> 
+> mtk-mdp3-comp.c:1005 mdp_comp_config() warn: missing unwind goto?
 
-diff --git a/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c b/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-index dd74cc43920d..080da254b910 100644
---- a/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-+++ b/drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-@@ -1309,6 +1309,8 @@ static int bdisp_probe(struct platform_device *pdev)
- 	init_waitqueue_head(&bdisp->irq_queue);
- 	INIT_DELAYED_WORK(&bdisp->timeout_work, bdisp_irq_timeout);
- 	bdisp->work_queue = create_workqueue(BDISP_NAME);
-+	if (!bdisp->work_queue)
-+		return -ENOMEM;
- 
- 	spin_lock_init(&bdisp->slock);
- 	mutex_init(&bdisp->lock);
--- 
-2.25.1
+This patch doesn't apply, as the logic it is meant to touch
+changed a lot. I'm simply discarding it from your PR.
 
+Please work on a new version if still needed.
+
+Regards,
+Mauro
+
+Thanks,
+Mauro
