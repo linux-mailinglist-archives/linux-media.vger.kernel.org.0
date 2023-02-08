@@ -2,170 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4A368F96F
-	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 22:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1B7368F9AD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Feb 2023 22:27:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232080AbjBHVFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Feb 2023 16:05:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40138 "EHLO
+        id S231578AbjBHV1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Feb 2023 16:27:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232357AbjBHVEq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 16:04:46 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690C9125AB;
-        Wed,  8 Feb 2023 13:04:19 -0800 (PST)
+        with ESMTP id S231489AbjBHV1x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Feb 2023 16:27:53 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087C518145;
+        Wed,  8 Feb 2023 13:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675890259; x=1707426259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FZG9PLpoY1qYgYnRoz88BAvdkbKCEGF3ZT8rJwxcgmM=;
-  b=IHMKQX6I52i1SYeYDHr4jrs3gIuJdgjUh2emylHyWjXuAgWO0tKcU037
-   +Ba/dukktNYTMGEAnVdzzB2NS8GMjtl3CT1evCZkN3bm3/MQcz+g86jfn
-   DI3ShKEm+KZq9bKRANpaDoh+1F/nxfC6GdBjbRy+4Eun+I8QSjhmS5bqx
-   KIM5WYe8viNpsgwL37EulYTCSKP5xUyiKk26bpTgIt0vXF1GmOTeGR0JO
-   r/mEK0x21cNZ1xGTD3zddwdI85kV92yEY5Srm6fRlnhzsWmxk8p2yaO5t
-   HRguKNf3CGlK/4DvnDT9EfTLVYEoSqjIcv0joQYkz7WJ++SKnmQ/lFbzS
+  t=1675891672; x=1707427672;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tO5ZStCHaE9EaCQ5G44gxhPHC4TmQE3JIjZ4/JyKrE8=;
+  b=fbvsT1GjY0pYRR6Kz1sXFpHf18kxdsyz0ernYFg1uVdOwsMEC9AzIE+q
+   WnpOUSbzYAPS/01r2a4fhlev+kmCx4AydB/nawUhp7+1gKzocvP4DWD8X
+   bO+v1/MWEAttpEvKvEqXDLft7+aLI4FuYms51Grs+rj1xE8NLJHRjhPcO
+   4Ud7crYeolwrz17puWctW9g+MOTRzle15t9R+gKrBNAfOyDbPiclx5nVf
+   78OkcAngDUGWYB1u4inpP1w1y5XExMaexwrtCwV1AV2htQCjgTuFRsTMi
+   X4DcJxnqGB/fRB+Zf6yD9M4pO5YBuS6GLCd0ZZKtAEyVlIKXbnmZKr/0r
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="332048278"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="313566165"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="332048278"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 13:04:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="996284230"
+   d="scan'208";a="313566165"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 13:27:51 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="756180453"
 X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; 
-   d="scan'208";a="996284230"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 08 Feb 2023 13:04:15 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pPrby-0004eM-0b;
-        Wed, 08 Feb 2023 21:04:14 +0000
-Date:   Thu, 9 Feb 2023 05:04:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-acpi@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <202302090459.kIM95vle-lkp@intel.com>
-References: <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
+   d="scan'208";a="756180453"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2023 13:27:49 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id A5B5D120D20;
+        Wed,  8 Feb 2023 23:27:47 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1pPryM-00DMZ8-NT; Wed, 08 Feb 2023 23:27:22 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-acpi@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, rafael@kernel.org,
+        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
+Subject: [PATCH v5 0/8] ACPI _CRS CSI-2 and MIPI DisCo for Imaging support
+Date:   Wed,  8 Feb 2023 23:27:04 +0200
+Message-Id: <20230208212712.3184953-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230208152807.3064242-3-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hello all,
 
-I love your patch! Perhaps something to improve:
+Here's an implementation of ACPI 6.4 _CRS CSI-2 resource descriptor and
+MIPI DisCo for Imaging 1.0 [1]. What the two basically provide is an
+officially sanctioned way to describe CSI-2 connected cameras to operating
+system software, something DT based systems have enjoyed for quite some
+time already.
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on sailus-media-tree/streams linus/master v6.2-rc7 next-20230208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The implementation digs the information from ACPI tables (_CRS descriptors
+and data + property extensions) and constructs software nodes that are
+compatible with Documentation/firmware-guide/acpi/dsd/graph.rst and
+Documentation/devicetree/bindings/media/video-interface-devices.yaml . No
+specific driver changes are needed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/ACPI-property-Parse-data-node-string-references-in-properties/20230208-233112
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230208152807.3064242-3-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v4 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-config: x86_64-rhel-8.3-syz (https://download.01.org/0day-ci/archive/20230209/202302090459.kIM95vle-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/d78f47f2d5051c50bdcea131da1779ec0fc8e266
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sakari-Ailus/ACPI-property-Parse-data-node-string-references-in-properties/20230208-233112
-        git checkout d78f47f2d5051c50bdcea131da1779ec0fc8e266
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/
+These patches are on the testing branch of the linux-acpi tree where they
+depend on the patch constifying the ACPI pathname argument for
+acpi_get_handle() (commit 91fdb91ccca2b48572a1ccf1d382fd599e3e1237).
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/20230208152807.3064242-3-sakari.ailus@linux.intel.com
+[1] https://www.mipi.org/specifications/mipi-disco-imaging
 
-All warnings (new ones prefixed by >>):
+since v4:
 
->> drivers/acpi/mipi.c:205:6: warning: no previous prototype for 'acpi_crs_csi2_alloc_fill_swnodes' [-Wmissing-prototypes]
-     205 | void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Add leading dots to comment sentences.
 
+- Use UINT_MAX - 1 to denote an unallocated port instead of ~1U.
 
-vim +/acpi_crs_csi2_alloc_fill_swnodes +205 drivers/acpi/mipi.c
+- Unwrap a line.
 
-   200	
-   201	/*
-   202	 * Allocate memory and set up software nodes for an ACPI device with given
-   203	 * number of CSI-2 ports.
-   204	 */
- > 205	void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
-   206	{
-   207		struct acpi_device_software_nodes *ads;
-   208		struct crs_csi2_swnodes *swnodes;
-   209		size_t alloc_size;
-   210		unsigned int i;
-   211		bool overflow;
-   212		void *end;
-   213	
-   214		/*
-   215		 * Allocate memory for ports, node pointers (number of nodes +
-   216		 * 1 (guardian), nodes (root + number of ports * 2 (for for
-   217		 * every port there is an endpoint)).
-   218		 */
-   219		overflow = check_mul_overflow(sizeof(*ads->ports) +
-   220					      sizeof(*ads->nodes) * 2 +
-   221					      sizeof(*ads->nodeptrs) * 2,
-   222					      ports_count, &alloc_size);
-   223		overflow = overflow ||
-   224			   check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
-   225					      sizeof(*ads->nodeptrs) * 2,
-   226					      alloc_size, &alloc_size);
-   227		if (overflow) {
-   228			acpi_handle_warn(handle,
-   229					 "too many _CRS CSI2 resource handles (%zu)",
-   230					 ports_count);
-   231			return;
-   232		}
-   233	
-   234		swnodes = kzalloc(sizeof(*swnodes), GFP_KERNEL);
-   235		ads = kzalloc(alloc_size, GFP_KERNEL);
-   236		ads->ports = (void *)(ads + 1);
-   237		ads->nodes = (void *)(ads->ports + ports_count);
-   238		ads->nodeptrs = (void *)(ads->nodes +
-   239					 ports_count * 2 + 1);
-   240		end = ads->nodeptrs + ports_count * 2 + 2;
-   241		if (!swnodes || !ads || WARN_ON((void *)ads + alloc_size != end)) {
-   242			kfree(swnodes);
-   243			kfree(ads);
-   244			acpi_handle_debug(handle,
-   245					  "cannot allocate for %zu software nodes\n",
-   246					  ports_count);
-   247			return;
-   248		}
-   249	
-   250		ads->num_ports = ports_count;
-   251		for (i = 0; i < ports_count * 2 + 1; i++)
-   252			ads->nodeptrs[i] = &ads->nodes[i];
-   253		ads->nodeptrs[i] = NULL;
-   254		for (i = 0; i < ports_count; i++)
-   255			ads->ports[i].port_nr = NO_CSI2_PORT;
-   256		swnodes->handle = handle;
-   257		swnodes->ads = ads;
-   258		list_add(&swnodes->list, &crs_csi2_swnodes);
-   259	}
-   260	
+- Get ACPI handle into a local variable in acpi_init_swnodes() for easier
+  use, use acpi_device_handle() to obtain it.
+
+- Rework "rotation" property checking and _PLD object access.
+
+- Also obtain return value of acpi_get_name() into a local variable before
+  testing it.
+
+- Use a local variable for the first element string pointer in
+  acpi_properties_prepare_mipi().
+
+since v3:
+
+- Add comments to data structures and functions, code inside functions.
+
+- Use ACPI_FAILURE() for testing ACPI framework function return values.
+
+- Unwrap a few lines.
+
+- Rename list heads as "head", some were called just "list".
+
+- Count ACPI handles related to _CRS CSI2 resources during tree walk.
+
+- Reshape testing for CSI-2 port allocation in next_csi2_port_index().
+
+- Move allocation of software nodes into a new function,
+  acpi_crs_csi2_alloc_fill_swnodes().
+
+- Comments: acpi_bus_scan_crs_csi2() is to be called on the namespace
+  root.
+
+- Use size_t for this_count variable in acpi_bus_scan_crs_csi2().
+
+- Revert the NEXT_PROPERTY() macro condition to original (the suggested
+  one was different).
+
+- Remove u union in init_port_csi2_common().
+
+- Fix val array size in init_port_csi2_common(). This issue was masked by
+  the presence of a u32 field in the union.
+
+- Use "-" for copyright year range.
+
+since v2:
+
+- Unwrap a few lines.
+
+- Copy CSI-2 resource source string using strscpy() instead of memcpy() in
+  scan_check_crs_csi2_instance.
+
+- Fix GRAPH_PORT_NAME() sanity check bug introduced in v2.
+
+- Fix snprintf() return value check for port node name in
+  get_mipi_port_handle().
+
+- Fix mipi-img-lane-polarities reading.
+
+- Cast bit value to bool instead of using ... ? 1U : 0U.
+
+- Get primary fwnode using acpi_fwnode_handle().
+
+- Don't use MIPI_IMG_PREFIX in the array of renamed properties.
+
+- Use tabs for indenting drivers/acpi/property.c authors.
+
+- Add a comment on assigning ACPI device's secondary fwnode and assign
+  ACPI device's secondary fwnode straight to NULL when unassigning it.
+
+since v1:
+
+- Update copyright notices.
+
+- Include linux/types.h instead of linux/kernel.h in drivers/acpi/mipi.c.
+
+- Use SWNODE_GRAPH_PORT_NAME_FMT instead of plain "port@%u" in
+  GRAPH_PORT_NAME macro.
+
+- Make the condition in NEXT_PROPERTY() macro easier to read.
+
+- Unwrap lines to make them moderately longer than 80 characters.
+
+- Use * BITS_PER_TYPE(u8) instead of << 3 to convert bytes to bits in
+  init_port_csi2_common().
+
+- Test ACPI framework call success using ACPI_SUCCESS() instead of
+  comparing with AE_OK. Likewise for ACPI_FAILURE and != AE_OK.
+
+- Use newly added SOFTWARE_NODE() macro to construct the root software
+  node.
+
+- Use str_has_prefix() to test for a string prefix instead of memcmp().
+
+- Add pr_fmt() macro to drivers/acpi/property.c.
+
+- Move logical or operators to the end of the line in
+  acpi_properties_prepare().
+
+- Improve bad node type error in acpi_parse_string_ref().
+
+Sakari Ailus (8):
+  ACPI: property: Parse data node string references in properties
+  ACPI: property: Parse _CRS CSI-2 descriptor
+  device property: Add SOFTWARE_NODE() macro for defining software nodes
+  ACPI: property: Generate camera swnodes for ACPI and DisCo for Imaging
+  ACPI: property: Dig "rotation" property for devices with CSI2 _CRS
+  ACPI: property: Rename parsed MIPI DisCo for Imaging properties
+  ACPI: property: Skip MIPI property table without "mipi-img" prefix
+  ACPI: property: Document _CRS CSI-2 and DisCo for Imaging support
+
+ drivers/acpi/Makefile    |   2 +-
+ drivers/acpi/internal.h  |   9 +
+ drivers/acpi/mipi.c      | 806 +++++++++++++++++++++++++++++++++++++++
+ drivers/acpi/property.c  | 132 +++++--
+ drivers/acpi/scan.c      |  35 +-
+ include/acpi/acpi_bus.h  |  82 ++++
+ include/linux/property.h |   7 +
+ 7 files changed, 1042 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/acpi/mipi.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.30.2
+
+
+Sakari Ailus (8):
+  ACPI: property: Parse data node string references in properties
+  ACPI: property: Parse _CRS CSI-2 descriptor
+  device property: Add SOFTWARE_NODE() macro for defining software nodes
+  ACPI: property: Generate camera swnodes for ACPI and DisCo for Imaging
+  ACPI: property: Dig "rotation" property for devices with CSI2 _CRS
+  ACPI: property: Rename parsed MIPI DisCo for Imaging properties
+  ACPI: property: Skip MIPI property table without "mipi-img" prefix
+  ACPI: property: Document _CRS CSI-2 and DisCo for Imaging support
+
+ drivers/acpi/Makefile    |   2 +-
+ drivers/acpi/internal.h  |   9 +
+ drivers/acpi/mipi.c      | 809 +++++++++++++++++++++++++++++++++++++++
+ drivers/acpi/property.c  | 132 +++++--
+ drivers/acpi/scan.c      |  35 +-
+ include/acpi/acpi_bus.h  |  82 ++++
+ include/linux/property.h |   7 +
+ 7 files changed, 1045 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/acpi/mipi.c
+
+-- 
+2.30.2
+
