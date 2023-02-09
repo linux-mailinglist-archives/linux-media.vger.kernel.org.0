@@ -2,80 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1528B690F6D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 18:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A348D690F72
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 18:45:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbjBIRnN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 12:43:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34238 "EHLO
+        id S229709AbjBIRp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 12:45:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjBIRnL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 12:43:11 -0500
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30A75ACFE;
-        Thu,  9 Feb 2023 09:43:10 -0800 (PST)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1636eae256cso3606642fac.0;
-        Thu, 09 Feb 2023 09:43:10 -0800 (PST)
+        with ESMTP id S229468AbjBIRpz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 12:45:55 -0500
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845C35ACFB;
+        Thu,  9 Feb 2023 09:45:54 -0800 (PST)
+Received: by mail-oi1-f182.google.com with SMTP id s17so2272398ois.10;
+        Thu, 09 Feb 2023 09:45:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zmWeTxm3eAR69llILe3yLFx61s6S09dltEYFO6LRpqs=;
-        b=wzaCVzm1MSB1/SEuFhlCKyOM6sTpL4AMEu+aIJd6+64/abw8FSD6xU/+1t2EQ1zEss
-         AZm8yttj3KT6VWFpewWlKc5QNHV9slH8/mx+Bl6Nbjaw+4gKcgaZiAXDXaHg+elE6CQG
-         B8CmOgL9Hfk4XrXuHmlI8pGVNVSv8gp7VopwCWHlyS1BCMf5HrikyinAVWXITvRj0OOd
-         5y5ioFrn7mr/vJi7+RH/erMsHeUPOJACBTmZ+tulwrZbK+BRT6HIMviFFHZJev0joD5V
-         cZsCBXUcJUkAIz7dPy+vu6t//Bxr4bU/tH1OKUwFGDIpmxMeuem9xaSXOMhhn3pRXfYH
-         5PtA==
-X-Gm-Message-State: AO0yUKUJ9QGIVRkzGipKPRfW6qrYc+J1UiYQIknJ6HJzngwtYGGruNO0
-        xl94uqqDxjcNS2md19zWeA==
-X-Google-Smtp-Source: AK7set9i8Yc0as8tcS+G5ABFmialaz9E/t1quo/d+glus4OAQlGXNCIBfTxURc1sXvd6sOHL45g/YQ==
-X-Received: by 2002:a05:6870:a11d:b0:163:d167:80bc with SMTP id m29-20020a056870a11d00b00163d16780bcmr2886406oae.49.1675964590032;
-        Thu, 09 Feb 2023 09:43:10 -0800 (PST)
+        bh=0DrSTVU0MouuPAPgDnH3bvO6W0mBoIKC+iPYe6f7yQ8=;
+        b=NvYDTBDPFa+6x9dhLyqEGqjSMWeuiIG/34HvcJwFBCJ/L/Hj49cz8bs3XJhBrUqI9s
+         fCic/siVexNp1kG9kdSx7CAD5fde313O1vj67erhWVXGJH/oLOHf1SaC5l1AOyW2Zseq
+         r51T7trudUBB/f5lu/TAzi2dTF8oiwNf93iS199UECKyo+ksIpW/UJNv5RHZxAvOtp9f
+         fMbElOL3OldJOWUVyedlvZYnbreRyFDJs789SGjcIaag7j93de1BXw8kqwktzle1bKED
+         9DBIxYOH+xYAmP+xf9Mrvn6UH9MXzq4ZJonSXZwe+uQqwoK2yvgsAiLKDDSORxE6hCeP
+         +3OA==
+X-Gm-Message-State: AO0yUKXqlptBurg3XLppvjaIU5HwKRRqBoEfL1B2br5clXe7JXHsr0/c
+        48mfUe9Wm/dv0RCy4OsqNg==
+X-Google-Smtp-Source: AK7set9jyx6LMJhbcKNlh1fXP27jxIMoQEJ+KUbwmEZRPY53UW1ny3huB384noPvethCecih31RSAw==
+X-Received: by 2002:a05:6808:279a:b0:37b:3177:65c with SMTP id es26-20020a056808279a00b0037b3177065cmr5747500oib.28.1675964753686;
+        Thu, 09 Feb 2023 09:45:53 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id ky15-20020a056871404f00b0014fc049fc0asm900969oab.57.2023.02.09.09.43.08
+        by smtp.gmail.com with ESMTPSA id z14-20020a0568301dae00b0068d56f93d73sm973117oti.26.2023.02.09.09.45.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 09:43:09 -0800 (PST)
-Received: (nullmailer pid 553172 invoked by uid 1000);
-        Thu, 09 Feb 2023 17:43:08 -0000
-Date:   Thu, 9 Feb 2023 11:43:08 -0600
+        Thu, 09 Feb 2023 09:45:53 -0800 (PST)
+Received: (nullmailer pid 556291 invoked by uid 1000);
+        Thu, 09 Feb 2023 17:45:52 -0000
+Date:   Thu, 9 Feb 2023 11:45:52 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Yong Wu <yong.wu@mediatek.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+Cc:     anan.sun@mediatek.com, Xia Jiang <xia.jiang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>, yf.wang@mediatek.com,
+        chengci.xu@mediatek.com, iommu@lists.linux.dev,
+        devicetree@vger.kernel.org, Yunfei Dong <yunfei.dong@mediatek.com>,
+        Robin Murphy <robin.murphy@arm.com>, mingyuan.ma@mediatek.com,
+        Joerg Roedel <joro@8bytes.org>,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        libo.kang@mediatek.com,
         kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
         youlin.pei@mediatek.com, Matthias Brugger <matthias.bgg@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        chengci.xu@mediatek.com, mingyuan.ma@mediatek.com,
-        devicetree@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
-        linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
-        iommu@lists.linux.dev, libo.kang@mediatek.com,
+        nfraprado@collabora.com, Will Deacon <will@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        yf.wang@mediatek.com,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Bin Liu <bin.liu@mediatek.com>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        linux-mediatek@lists.infradead.org, nfraprado@collabora.com,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v2 01/10] dt-bindings: media: mediatek,vcodec: Remove
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 02/10] dt-bindings: media: mediatek,jpeg: Remove
  dma-ranges property
-Message-ID: <167596458765.553111.2698863120254622830.robh@kernel.org>
+Message-ID: <167596475165.556224.15663986433586946843.robh@kernel.org>
 References: <20230208053643.28249-1-yong.wu@mediatek.com>
- <20230208053643.28249-2-yong.wu@mediatek.com>
+ <20230208053643.28249-3-yong.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208053643.28249-2-yong.wu@mediatek.com>
+In-Reply-To: <20230208053643.28249-3-yong.wu@mediatek.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -83,37 +81,28 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Wed, 08 Feb 2023 13:36:34 +0800, Yong Wu wrote:
+On Wed, 08 Feb 2023 13:36:35 +0800, Yong Wu wrote:
 > After commit f1ad5338a4d5 ("of: Fix "dma-ranges" handling for bus
 > controllers"), the dma-ranges of the leaf node doesn't work. Remove
-> it for vcodec here.
+> it for jpeg here.
 > 
-> 1) For mediatek,vcodec-decoder.yaml and mediatek,vcodec-encoder.yaml,
-> this property is in the leaf node, it is invalid as the above comment.
+> Currently there is only mt8195 jpeg node has this property in upstream,
+> and it already uses parent-child node, this property did work. But instead,
+> MediaTek iommu will control the masters' iova ranges by the master's
+> larb/port id internally, then this property is unnecessary.
 > 
-> Currently there is only mt8195 VENC node has this property in upstream.
-> Indeed, VENC is affected, but it is not a fatal issue. Originally it
-> expects its iova range locate at 4GB-8GB. However after that commit, its
-> expectation doesn't come true, it will fall back to 0-4GB iova and also
-> could work well.
-> 
-> 2) For mediatek,vcodec-subdev-decoder.yaml, It already uses parent-child
-> node, this property works. Instead, MediaTek iommu will control the
-> masters' iova ranges by the master's larb/port id internally, then the
-> dma-ranges property is unnecessary for the master's node.
-> 
-> Cc: Tiffany Lin <tiffany.lin@mediatek.com>
-> Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>
-> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
 > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Bin Liu <bin.liu@mediatek.com>
+> Cc: kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
+> Cc: Xia Jiang <xia.jiang@mediatek.com>
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  .../devicetree/bindings/media/mediatek,vcodec-decoder.yaml | 5 -----
->  .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml | 5 -----
->  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml     | 7 -------
->  3 files changed, 17 deletions(-)
+>  .../devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml | 7 -------
+>  .../devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml | 7 -------
+>  .../devicetree/bindings/media/mediatek-jpeg-encoder.yaml   | 5 -----
+>  3 files changed, 19 deletions(-)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
