@@ -2,158 +2,1018 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CBC6905C1
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 11:55:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0BA2690791
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 12:39:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjBIKzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 05:55:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
+        id S230317AbjBILjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 06:39:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbjBIKy6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 05:54:58 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 636D945203;
-        Thu,  9 Feb 2023 02:54:55 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CF129CA;
-        Thu,  9 Feb 2023 11:54:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675940092;
-        bh=73IEMIN1hCTZFD2vBhICWx4cAg+zQeBz89tcm2fOb70=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PRBIqnLGDG+WmtiDpUW/dEBwJuPdpOGjKyomTlPMpiEJfwJO5yhzObdwIR5aP7IVy
-         XjhH2HGBkTGsNcAmiMEJMWuP2r+Sdw6XEk1mpY4aaNcjchdCSUGz9HUf3Lk4bqS412
-         i2LX8IPQ0gMGBKL3V9Odumv2sakCLo/YOT+tEAx8=
-Date:   Thu, 9 Feb 2023 12:54:51 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
-Message-ID: <Y+TQ+60w3T0HH+FY@pendragon.ideasonboard.com>
-References: <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
- <Y9FBlMl4b3l1zVck@smile.fi.intel.com>
- <5d208710-f284-e6e9-18dc-f5ef63a9ea44@ideasonboard.com>
- <Y9FKcoVlgUWR4rhn@smile.fi.intel.com>
- <04a82b08-524f-8d03-ac47-73d826907fc3@ideasonboard.com>
- <Y9JUEv66Gze8FjMZ@smile.fi.intel.com>
- <Y9JbMjPM3Ea3RVzH@pendragon.ideasonboard.com>
- <0c13eac3-cadb-b923-d475-7851dbef0c4e@ideasonboard.com>
- <Y9OWFSxs9ev9hfp2@smile.fi.intel.com>
- <2501ffcc-82ff-c0bc-366a-33b62bf28e76@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2501ffcc-82ff-c0bc-366a-33b62bf28e76@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230355AbjBILij (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 06:38:39 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1107B171
+        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 03:27:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675942076; x=1707478076;
+  h=from:to:cc:subject:date:message-id;
+  bh=8g7k5cO68xlSs5irAhZrJ4p7CNZFtX1JD4nKH5SSJos=;
+  b=Dwkoc5bs0whoJTzej6fzw6ye7RSAn/7nOQ54dAE9fALnyoav9jXy4Hzx
+   OtVxRSnd4VxTeoHFmEvScR99FXfM1cn2Eq6xRVcYNQmG+2wvsfAqQSBvw
+   ERE48noKW71P/D6kL+4vJSL+h6YWYUEnFtFxi8wcsqJU865ZM7v6pSgD0
+   sXkx/FQdyxr8gnaqGrp/YBDfRXWSqrf+1UgmZCqyksOvJ6Yzj3mmDBcv5
+   9nVub6WRY8/ObpMho0un2qjKARXcf64/3wnkaaeVMwfuq6SUixrDDf8c0
+   oGAe9XTDjldIpMB5qXWOhaQ9Mf/F7k79ITO2M8r+ELj2t5R/jMy/ND+bQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416303106"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
+   d="scan'208";a="416303106"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 03:26:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="660977883"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
+   d="scan'208";a="660977883"
+Received: from ipu5-build.bj.intel.com ([10.238.232.139])
+  by orsmga007.jf.intel.com with ESMTP; 09 Feb 2023 03:26:40 -0800
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
+Cc:     bingbu.cao@intel.com, bingbu.cao@linux.intel.com,
+        yating.wang@intel.com
+Subject: [PATCH] media: i2c: add ov01a10 image sensor driver
+Date:   Thu,  9 Feb 2023 19:22:38 +0800
+Message-Id: <1675941758-21433-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Add v4l2 device driver for OmniVision ov01a10 image sensor, ov01a10
+image sensor can deliver 1280x800 resolution BGGR10 images at 60 fps.
 
-On Wed, Feb 08, 2023 at 05:10:05PM +0200, Tomi Valkeinen wrote:
-> On 27/01/2023 11:15, Andy Shevchenko wrote:
-> > On Fri, Jan 27, 2023 at 10:24:04AM +0200, Tomi Valkeinen wrote:
-> >> On 26/01/2023 12:51, Laurent Pinchart wrote:
-> >>> On Thu, Jan 26, 2023 at 12:21:06PM +0200, Andy Shevchenko wrote:
-> >>>> On Thu, Jan 26, 2023 at 10:41:47AM +0200, Tomi Valkeinen wrote:
-> >>>>> On 25/01/2023 17:27, Andy Shevchenko wrote:
-> > 
-> > ...
-> > 
-> >>>>>> But I probably don't understand the ATR structure and what exactly we need to
-> >>>>>> pass to it, perhaps it also can be replaced with properties (note, that we have
-> >>>>>> some interesting ones that called references, which is an alternative to DT
-> >>>>>> phandle).
-> >>>>>
-> >>>>> Well, maybe this needs a Linux bus implementation. I'm not that familiar
-> >>>>> with implementing a bus, but I think that would make it easier to share data
-> >>>>> between the deserializer and the serializer. A bus sounds a bit like an
-> >>>>> overkill for a 1-to-1 connection, used by a few drivers, but maybe it
-> >>>>> wouldn't be too much code.
-> >>>>
-> >>>> Have you looked at auxiliary bus (appeared a few releases ago in kernel)?
-> >>>
-> >>> As far as I understand, the auxiliary bus infrastructure is meant for
-> >>> use cases where a single hardware device needs to be split into multiple
-> >>> logical devices (as in struct device). Platform devices were
-> >>> historically (ab)used for this, and the auxiliary bus is meant as a
-> >>> cleaner solution. I'm not sure if it would be a good match here, or if
-> >>> it would be considered an abuse of the auxiliary bus API.
-> >>
-> >> The aux bus docs say "A key requirement for utilizing the auxiliary bus is
-> >> that there is no dependency on a physical bus, device, register accesses or
-> >> regmap support. These individual devices split from the core cannot live on
-> >> the platform bus as they are not physical devices that are controlled by
-> >> DT/ACPI.", which doesn't sound like a good fit.
-> > 
-> > Thanks for checking!
-> > 
-> >> The deserializer and serializers are currently independent devices and
-> >> drivers (the pdata is the only shared thing), but I think we may need
-> >> something better here. The devices are more tightly tied together than
-> >> "normal" video devices, in my opinion, as the serializer is fully controlled
-> >> by the deserializer (including power).
-> >>
-> >> And if we ever want to implement something like power management, we
-> >> probably need something more than what we have now. Although I don't know
-> >> how that would be done, as all the peripherals behind the serializer would
-> >> also lose power...
-> > 
-> > I believe you have to create a power domain for them and when such device
-> > is added, the power domain of it should belong to the serialized.
-> 
-> I was testing this, and got something working.
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Yating Wang <yating.wang@intel.com>
+---
+ drivers/media/i2c/Kconfig   |  13 +
+ drivers/media/i2c/Makefile  |   1 +
+ drivers/media/i2c/ov01a10.c | 906 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 920 insertions(+)
+ create mode 100644 drivers/media/i2c/ov01a10.c
 
-As discussed offline, I'm not sure power domains are the right tool for
-this. I would model the power supplies as regulators, provided by the
-deserializer, and acquired by the serializers. If the devices on the
-remote side are all children of the serializer (which I think they
-should be), then enabling the regulator in the PM resume handler of the
-serializer should be all you need.
-
-> I have the deserializer introducing a separate power-domain for each RX 
-> port, and the serializer and the sensor both refer to their port's 
-> domain. I can see that the deserializer gets power on/off callbacks 
-> correctly when either serializer or sensor resumes.
-> 
-> The problem I have now is that while the power comes from the 
-> deserializer and is thus covered with the power domain, the sensor uses 
-> services from the serializer (gpios, clocks, i2c bus), and the 
-> serializer is not woken up when the sensor does runtime-pm resume (the 
-> power domain is powered up correctly when the sensor resumes).
-
-Is the sensor not a child of the serializer ?
-
-> The serializer creates the i2c adapter to which the sensor is added, so, 
-> afaics, there should be a child-parent relationship there. But maybe I 
-> have something wrong there, or it just doesn't work as I imagine it 
-> would work.
-
-You can check the parent/child relationships fairly easily in sysfs.
-
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 833241897d63..8e5d1ef0616f 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -338,6 +338,19 @@ config VIDEO_OG01A1B
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called og01a1b.
+ 
++config VIDEO_OV01A10
++	tristate "OmniVision OV01A10 sensor support"
++	depends on VIDEO_DEV && I2C
++	select MEDIA_CONTROLLER
++	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_FWNODE
++	help
++	  This is a Video4Linux2 sensor driver for the OmniVision
++	  OV01A10 camera.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called ov01a10.
++
+ config VIDEO_OV02A10
+ 	tristate "OmniVision OV02A10 sensor support"
+ 	depends on VIDEO_DEV && I2C
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index 4d6c052bb5a7..ce214503b526 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -70,6 +70,7 @@ obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
+ obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
+ obj-$(CONFIG_VIDEO_NOON010PC30) += noon010pc30.o
+ obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
++obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
+ obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+ obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
+ obj-$(CONFIG_VIDEO_OV08X40) += ov08x40.o
+diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+new file mode 100644
+index 000000000000..13de9f9ccdc8
+--- /dev/null
++++ b/drivers/media/i2c/ov01a10.c
+@@ -0,0 +1,906 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) 2020-2021 Intel Corporation.
++
++#include <asm/unaligned.h>
++
++#include <linux/acpi.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/pm_runtime.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-fwnode.h>
++
++#define OV01A10_LINK_FREQ_400MHZ	400000000ULL
++#define OV01A10_SCLK			40000000LL
++#define OV01A10_MCLK			19200000
++#define OV01A10_DATA_LANES		1
++#define OV01A10_RGB_DEPTH		10
++
++#define OV01A10_REG_CHIP_ID		0x300a
++#define OV01A10_CHIP_ID			0x560141
++
++#define OV01A10_REG_MODE_SELECT		0x0100
++#define OV01A10_MODE_STANDBY		0x00
++#define OV01A10_MODE_STREAMING		0x01
++
++/* vertical timings */
++#define OV01A10_REG_VTS			0x380e
++#define OV01A10_VTS_DEF			0x0380
++#define OV01A10_VTS_MIN			0x0380
++#define OV01A10_VTS_MAX			0xffff
++
++/* exposure controls */
++#define OV01A10_REG_EXPOSURE		0x3501
++#define OV01A10_EXPOSURE_MIN		4
++#define OV01A10_EXPOSURE_MAX_MARGIN	8
++#define OV01A10_EXPOSURE_STEP		1
++
++/* analog gain controls */
++#define OV01A10_REG_ANALOG_GAIN		0x3508
++#define OV01A10_ANAL_GAIN_MIN		0x100
++#define OV01A10_ANAL_GAIN_MAX		0xffff
++#define OV01A10_ANAL_GAIN_STEP		1
++
++/* digital gain controls */
++#define OV01A10_REG_DIGILAL_GAIN_B	0x350A
++#define OV01A10_REG_DIGITAL_GAIN_GB	0x3510
++#define OV01A10_REG_DIGITAL_GAIN_GR	0x3513
++#define OV01A10_REG_DIGITAL_GAIN_R	0x3516
++#define OV01A10_DGTL_GAIN_MIN		0
++#define OV01A10_DGTL_GAIN_MAX		0x3ffff
++#define OV01A10_DGTL_GAIN_STEP		1
++#define OV01A10_DGTL_GAIN_DEFAULT	1024
++
++/* test pattern control */
++#define OV01A10_REG_TEST_PATTERN		0x4503
++#define OV01A10_TEST_PATTERN_ENABLE	BIT(7)
++#define OV01A10_TEST_PATTERN_BAR_SHIFT	0
++
++enum {
++	OV01A10_LINK_FREQ_400MHZ_INDEX,
++};
++
++struct ov01a10_reg {
++	u16 address;
++	u8 val;
++};
++
++struct ov01a10_reg_list {
++	u32 num_of_regs;
++	const struct ov01a10_reg *regs;
++};
++
++struct ov01a10_link_freq_config {
++	const struct ov01a10_reg_list reg_list;
++};
++
++struct ov01a10_mode {
++	u32 width;
++	u32 height;
++	u32 hts;
++	u32 vts_def;
++	u32 vts_min;
++	u32 link_freq_index;
++
++	const struct ov01a10_reg_list reg_list;
++};
++
++static const struct ov01a10_reg mipi_data_rate_720mbps[] = {
++};
++
++static const struct ov01a10_reg sensor_1280x800_setting[] = {
++	{0x0103, 0x01},
++	{0x0302, 0x00},
++	{0x0303, 0x06},
++	{0x0304, 0x01},
++	{0x0305, 0xe0},
++	{0x0306, 0x00},
++	{0x0308, 0x01},
++	{0x0309, 0x00},
++	{0x030c, 0x01},
++	{0x0322, 0x01},
++	{0x0323, 0x06},
++	{0x0324, 0x01},
++	{0x0325, 0x68},
++	{0x3002, 0xa1},
++	{0x301e, 0xf0},
++	{0x3022, 0x01},
++	{0x3501, 0x03},
++	{0x3502, 0x78},
++	{0x3504, 0x0c},
++	{0x3508, 0x01},
++	{0x3509, 0x00},
++	{0x3601, 0xc0},
++	{0x3603, 0x71},
++	{0x3610, 0x68},
++	{0x3611, 0x86},
++	{0x3640, 0x10},
++	{0x3641, 0x80},
++	{0x3642, 0xdc},
++	{0x3646, 0x55},
++	{0x3647, 0x57},
++	{0x364b, 0x00},
++	{0x3653, 0x10},
++	{0x3655, 0x00},
++	{0x3656, 0x00},
++	{0x365f, 0x0f},
++	{0x3661, 0x45},
++	{0x3662, 0x24},
++	{0x3663, 0x11},
++	{0x3664, 0x07},
++	{0x3709, 0x34},
++	{0x370b, 0x6f},
++	{0x3714, 0x22},
++	{0x371b, 0x27},
++	{0x371c, 0x67},
++	{0x371d, 0xa7},
++	{0x371e, 0xe7},
++	{0x3730, 0x81},
++	{0x3733, 0x10},
++	{0x3734, 0x40},
++	{0x3737, 0x04},
++	{0x3739, 0x1c},
++	{0x3767, 0x00},
++	{0x376c, 0x81},
++	{0x3772, 0x14},
++	{0x37c2, 0x04},
++	{0x37d8, 0x03},
++	{0x37d9, 0x0c},
++	{0x37e0, 0x00},
++	{0x37e1, 0x08},
++	{0x37e2, 0x10},
++	{0x37e3, 0x04},
++	{0x37e4, 0x04},
++	{0x37e5, 0x03},
++	{0x37e6, 0x04},
++	{0x3800, 0x00},
++	{0x3801, 0x00},
++	{0x3802, 0x00},
++	{0x3803, 0x00},
++	{0x3804, 0x05},
++	{0x3805, 0x0f},
++	{0x3806, 0x03},
++	{0x3807, 0x2f},
++	{0x3808, 0x05},
++	{0x3809, 0x00},
++	{0x380a, 0x03},
++	{0x380b, 0x20},
++	{0x380c, 0x02},
++	{0x380d, 0xe8},
++	{0x380e, 0x03},
++	{0x380f, 0x80},
++	{0x3810, 0x00},
++	{0x3811, 0x09},
++	{0x3812, 0x00},
++	{0x3813, 0x08},
++	{0x3814, 0x01},
++	{0x3815, 0x01},
++	{0x3816, 0x01},
++	{0x3817, 0x01},
++	{0x3820, 0xa8},
++	{0x3822, 0x13},
++	{0x3832, 0x28},
++	{0x3833, 0x10},
++	{0x3b00, 0x00},
++	{0x3c80, 0x00},
++	{0x3c88, 0x02},
++	{0x3c8c, 0x07},
++	{0x3c8d, 0x40},
++	{0x3cc7, 0x80},
++	{0x4000, 0xc3},
++	{0x4001, 0xe0},
++	{0x4003, 0x40},
++	{0x4008, 0x02},
++	{0x4009, 0x19},
++	{0x400a, 0x01},
++	{0x400b, 0x6c},
++	{0x4011, 0x00},
++	{0x4041, 0x00},
++	{0x4300, 0xff},
++	{0x4301, 0x00},
++	{0x4302, 0x0f},
++	{0x4503, 0x00},
++	{0x4601, 0x50},
++	{0x4800, 0x64},
++	{0x481f, 0x34},
++	{0x4825, 0x33},
++	{0x4837, 0x11},
++	{0x4881, 0x40},
++	{0x4883, 0x01},
++	{0x4890, 0x00},
++	{0x4901, 0x00},
++	{0x4902, 0x00},
++	{0x4b00, 0x2a},
++	{0x4b0d, 0x00},
++	{0x450a, 0x04},
++	{0x450b, 0x00},
++	{0x5000, 0x65},
++	{0x5200, 0x18},
++	{0x5004, 0x00},
++	{0x5080, 0x40},
++	{0x0305, 0xf4},
++	{0x0325, 0xc2},
++};
++
++static const char * const ov01a10_test_pattern_menu[] = {
++	"Disabled",
++	"Color Bar",
++	"Top-Bottom Darker Color Bar",
++	"Right-Left Darker Color Bar",
++	"Color Bar type 4",
++};
++
++static const s64 link_freq_menu_items[] = {
++	OV01A10_LINK_FREQ_400MHZ,
++};
++
++static const struct ov01a10_link_freq_config link_freq_configs[] = {
++	[OV01A10_LINK_FREQ_400MHZ_INDEX] = {
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mipi_data_rate_720mbps),
++			.regs = mipi_data_rate_720mbps,
++		}
++	},
++};
++
++static const struct ov01a10_mode supported_modes[] = {
++	{
++		.width = 1280,
++		.height = 800,
++		.hts = 1488,
++		.vts_def = OV01A10_VTS_DEF,
++		.vts_min = OV01A10_VTS_MIN,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(sensor_1280x800_setting),
++			.regs = sensor_1280x800_setting,
++		},
++		.link_freq_index = OV01A10_LINK_FREQ_400MHZ_INDEX,
++	},
++};
++
++struct ov01a10 {
++	struct v4l2_subdev sd;
++	struct media_pad pad;
++	struct v4l2_ctrl_handler ctrl_handler;
++
++	/* v4l2 controls */
++	struct v4l2_ctrl *link_freq;
++	struct v4l2_ctrl *pixel_rate;
++	struct v4l2_ctrl *vblank;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *exposure;
++
++	const struct ov01a10_mode *cur_mode;
++
++	/* serialize asynchronous callbacks */
++	struct mutex mutex;
++
++	/* streaming state */
++	bool streaming;
++};
++
++static inline struct ov01a10 *to_ov01a10(struct v4l2_subdev *subdev)
++{
++	return container_of(subdev, struct ov01a10, sd);
++}
++
++static int ov01a10_read_reg(struct ov01a10 *ov01a10, u16 reg, u16 len, u32 *val)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	struct i2c_msg msgs[2];
++	u8 addr_buf[2];
++	u8 data_buf[4] = {0};
++	int ret = 0;
++
++	if (len > sizeof(data_buf))
++		return -EINVAL;
++
++	put_unaligned_be16(reg, addr_buf);
++	msgs[0].addr = client->addr;
++	msgs[0].flags = 0;
++	msgs[0].len = sizeof(addr_buf);
++	msgs[0].buf = addr_buf;
++	msgs[1].addr = client->addr;
++	msgs[1].flags = I2C_M_RD;
++	msgs[1].len = len;
++	msgs[1].buf = &data_buf[sizeof(data_buf) - len];
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++
++	if (ret != ARRAY_SIZE(msgs))
++		return ret < 0 ? ret : -EIO;
++
++	*val = get_unaligned_be32(data_buf);
++
++	return 0;
++}
++
++static int ov01a10_write_reg(struct ov01a10 *ov01a10, u16 reg, u16 len, u32 val)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	u8 buf[6];
++	int ret = 0;
++
++	if (len > 4)
++		return -EINVAL;
++
++	put_unaligned_be16(reg, buf);
++	put_unaligned_be32(val << 8 * (4 - len), buf + 2);
++
++	ret = i2c_master_send(client, buf, len + 2);
++	if (ret != len + 2)
++		return ret < 0 ? ret : -EIO;
++
++	return 0;
++}
++
++static int ov01a10_write_reg_list(struct ov01a10 *ov01a10,
++				  const struct ov01a10_reg_list *r_list)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	unsigned int i;
++	int ret = 0;
++
++	for (i = 0; i < r_list->num_of_regs; i++) {
++		ret = ov01a10_write_reg(ov01a10, r_list->regs[i].address, 1,
++					r_list->regs[i].val);
++		if (ret) {
++			dev_err_ratelimited(&client->dev,
++					    "write reg 0x%4.4x return err = %d",
++					    r_list->regs[i].address, ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	u32 real = d_gain << 6;
++	int ret = 0;
++
++	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_DIGILAL_GAIN_B, 3, real);
++	if (ret) {
++		dev_err(&client->dev, "failed to set OV01A10_REG_DIGITAL_GAIN_B");
++		return ret;
++	}
++
++	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_DIGITAL_GAIN_GB, 3, real);
++	if (ret) {
++		dev_err(&client->dev, "failed to set OV01A10_REG_DIGITAL_GAIN_GB");
++		return ret;
++	}
++
++	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_DIGITAL_GAIN_GR, 3, real);
++	if (ret) {
++		dev_err(&client->dev, "failed to set OV01A10_REG_DIGITAL_GAIN_GR");
++		return ret;
++	}
++
++	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_DIGITAL_GAIN_R, 3, real);
++	if (ret) {
++		dev_err(&client->dev, "failed to set OV01A10_REG_DIGITAL_GAIN_R");
++		return ret;
++	}
++
++	return ret;
++}
++
++static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
++{
++	if (pattern)
++		pattern = (pattern - 1) << OV01A10_TEST_PATTERN_BAR_SHIFT |
++			  OV01A10_TEST_PATTERN_ENABLE;
++
++	return ov01a10_write_reg(ov01a10, OV01A10_REG_TEST_PATTERN, 1, pattern);
++}
++
++static int ov01a10_set_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct ov01a10 *ov01a10 = container_of(ctrl->handler,
++					     struct ov01a10, ctrl_handler);
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	s64 exposure_max;
++	int ret = 0;
++
++	if (ctrl->id == V4L2_CID_VBLANK) {
++		exposure_max = ov01a10->cur_mode->height + ctrl->val -
++			       OV01A10_EXPOSURE_MAX_MARGIN;
++		__v4l2_ctrl_modify_range(ov01a10->exposure,
++					 ov01a10->exposure->minimum,
++					 exposure_max, ov01a10->exposure->step,
++					 exposure_max);
++	}
++
++	if (!pm_runtime_get_if_in_use(&client->dev))
++		return 0;
++
++	switch (ctrl->id) {
++	case V4L2_CID_ANALOGUE_GAIN:
++		ret = ov01a10_write_reg(ov01a10, OV01A10_REG_ANALOG_GAIN, 2,
++					ctrl->val);
++		break;
++
++	case V4L2_CID_DIGITAL_GAIN:
++		ret = ov01a10_update_digital_gain(ov01a10, ctrl->val);
++		break;
++
++	case V4L2_CID_EXPOSURE:
++		ret = ov01a10_write_reg(ov01a10, OV01A10_REG_EXPOSURE, 2,
++					ctrl->val);
++		break;
++
++	case V4L2_CID_VBLANK:
++		ret = ov01a10_write_reg(ov01a10, OV01A10_REG_VTS, 2,
++					ov01a10->cur_mode->height + ctrl->val);
++		break;
++
++	case V4L2_CID_TEST_PATTERN:
++		ret = ov01a10_test_pattern(ov01a10, ctrl->val);
++		break;
++
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	pm_runtime_put(&client->dev);
++
++	return ret;
++}
++
++static const struct v4l2_ctrl_ops ov01a10_ctrl_ops = {
++	.s_ctrl = ov01a10_set_ctrl,
++};
++
++static int ov01a10_init_controls(struct ov01a10 *ov01a10)
++{
++	struct v4l2_ctrl_handler *ctrl_hdlr;
++	const struct ov01a10_mode *cur_mode;
++	s64 exposure_max, h_blank;
++	u32 vblank_min, vblank_max, vblank_default;
++	int size;
++	int ret = 0;
++
++	ctrl_hdlr = &ov01a10->ctrl_handler;
++	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
++	if (ret)
++		return ret;
++
++	ctrl_hdlr->lock = &ov01a10->mutex;
++	cur_mode = ov01a10->cur_mode;
++	size = ARRAY_SIZE(link_freq_menu_items);
++
++	ov01a10->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
++						    &ov01a10_ctrl_ops,
++						    V4L2_CID_LINK_FREQ,
++						    size - 1, 0,
++						    link_freq_menu_items);
++	if (ov01a10->link_freq)
++		ov01a10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	ov01a10->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
++						V4L2_CID_PIXEL_RATE, 0,
++						OV01A10_SCLK, 1, OV01A10_SCLK);
++
++	vblank_min = cur_mode->vts_min - cur_mode->height;
++	vblank_max = OV01A10_VTS_MAX - cur_mode->height;
++	vblank_default = cur_mode->vts_def - cur_mode->height;
++	ov01a10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
++					    V4L2_CID_VBLANK, vblank_min,
++					    vblank_max, 1, vblank_default);
++
++	h_blank = cur_mode->hts - cur_mode->width;
++	ov01a10->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
++					    V4L2_CID_HBLANK, h_blank, h_blank,
++					    1, h_blank);
++	if (ov01a10->hblank)
++		ov01a10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
++			  OV01A10_ANAL_GAIN_MIN, OV01A10_ANAL_GAIN_MAX,
++			  OV01A10_ANAL_GAIN_STEP, OV01A10_ANAL_GAIN_MIN);
++	v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
++			  OV01A10_DGTL_GAIN_MIN, OV01A10_DGTL_GAIN_MAX,
++			  OV01A10_DGTL_GAIN_STEP, OV01A10_DGTL_GAIN_DEFAULT);
++	exposure_max = cur_mode->vts_def - OV01A10_EXPOSURE_MAX_MARGIN;
++	ov01a10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
++					      V4L2_CID_EXPOSURE,
++					      OV01A10_EXPOSURE_MIN,
++					      exposure_max,
++					      OV01A10_EXPOSURE_STEP,
++					      exposure_max);
++	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov01a10_ctrl_ops,
++				     V4L2_CID_TEST_PATTERN,
++				     ARRAY_SIZE(ov01a10_test_pattern_menu) - 1,
++				     0, 0, ov01a10_test_pattern_menu);
++	if (ctrl_hdlr->error)
++		return ctrl_hdlr->error;
++
++	ov01a10->sd.ctrl_handler = ctrl_hdlr;
++
++	return 0;
++}
++
++static void ov01a10_update_pad_format(const struct ov01a10_mode *mode,
++				      struct v4l2_mbus_framefmt *fmt)
++{
++	fmt->width = mode->width;
++	fmt->height = mode->height;
++	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
++	fmt->field = V4L2_FIELD_NONE;
++}
++
++static int ov01a10_start_streaming(struct ov01a10 *ov01a10)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	const struct ov01a10_reg_list *reg_list;
++	int link_freq_index;
++	int ret = 0;
++
++	link_freq_index = ov01a10->cur_mode->link_freq_index;
++	reg_list = &link_freq_configs[link_freq_index].reg_list;
++	ret = ov01a10_write_reg_list(ov01a10, reg_list);
++	if (ret) {
++		dev_err(&client->dev, "failed to set plls\n");
++		return ret;
++	}
++
++	reg_list = &ov01a10->cur_mode->reg_list;
++	ret = ov01a10_write_reg_list(ov01a10, reg_list);
++	if (ret) {
++		dev_err(&client->dev, "failed to set mode\n");
++		return ret;
++	}
++
++	ret = __v4l2_ctrl_handler_setup(ov01a10->sd.ctrl_handler);
++	if (ret)
++		return ret;
++
++	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_MODE_SELECT, 1,
++				OV01A10_MODE_STREAMING);
++	if (ret)
++		dev_err(&client->dev, "failed to start streaming\n");
++
++	return ret;
++}
++
++static void ov01a10_stop_streaming(struct ov01a10 *ov01a10)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	int ret = 0;
++
++	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_MODE_SELECT, 1,
++				OV01A10_MODE_STANDBY);
++	if (ret)
++		dev_err(&client->dev, "failed to stop streaming");
++
++}
++
++static int ov01a10_set_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	int ret = 0;
++
++	if (ov01a10->streaming == enable)
++		return 0;
++
++	mutex_lock(&ov01a10->mutex);
++	if (enable) {
++		ret = pm_runtime_get_sync(&client->dev);
++		if (ret < 0) {
++			pm_runtime_put_noidle(&client->dev);
++			mutex_unlock(&ov01a10->mutex);
++			return ret;
++		}
++
++		ret = ov01a10_start_streaming(ov01a10);
++		if (ret) {
++			enable = 0;
++			ov01a10_stop_streaming(ov01a10);
++			pm_runtime_put(&client->dev);
++		}
++	} else {
++		ov01a10_stop_streaming(ov01a10);
++		pm_runtime_put(&client->dev);
++	}
++
++	ov01a10->streaming = enable;
++	mutex_unlock(&ov01a10->mutex);
++
++	return ret;
++}
++
++static int __maybe_unused ov01a10_suspend(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++
++	mutex_lock(&ov01a10->mutex);
++	if (ov01a10->streaming)
++		ov01a10_stop_streaming(ov01a10);
++
++	mutex_unlock(&ov01a10->mutex);
++
++	return 0;
++}
++
++static int __maybe_unused ov01a10_resume(struct device *dev)
++{
++	struct i2c_client *client = to_i2c_client(dev);
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++	int ret = 0;
++
++	mutex_lock(&ov01a10->mutex);
++	if (!ov01a10->streaming)
++		goto exit;
++
++	ret = ov01a10_start_streaming(ov01a10);
++	if (ret) {
++		ov01a10->streaming = false;
++		ov01a10_stop_streaming(ov01a10);
++	}
++
++exit:
++	mutex_unlock(&ov01a10->mutex);
++
++	return ret;
++}
++
++static int ov01a10_set_format(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *sd_state,
++			      struct v4l2_subdev_format *fmt)
++{
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++	const struct ov01a10_mode *mode;
++	s32 vblank_def, h_blank;
++
++	mode = v4l2_find_nearest_size(supported_modes,
++				      ARRAY_SIZE(supported_modes), width,
++				      height, fmt->format.width,
++				      fmt->format.height);
++
++	mutex_lock(&ov01a10->mutex);
++	ov01a10_update_pad_format(mode, &fmt->format);
++	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
++		*v4l2_subdev_get_try_format(sd, sd_state, fmt->pad) = fmt->format;
++	} else {
++		ov01a10->cur_mode = mode;
++		__v4l2_ctrl_s_ctrl(ov01a10->link_freq, mode->link_freq_index);
++		__v4l2_ctrl_s_ctrl_int64(ov01a10->pixel_rate, OV01A10_SCLK);
++
++		vblank_def = mode->vts_def - mode->height;
++		__v4l2_ctrl_modify_range(ov01a10->vblank,
++					 mode->vts_min - mode->height,
++					 OV01A10_VTS_MAX - mode->height, 1,
++					 vblank_def);
++		__v4l2_ctrl_s_ctrl(ov01a10->vblank, vblank_def);
++		h_blank = mode->hts - mode->width;
++		__v4l2_ctrl_modify_range(ov01a10->hblank, h_blank, h_blank, 1,
++					 h_blank);
++	}
++	mutex_unlock(&ov01a10->mutex);
++
++	return 0;
++}
++
++static int ov01a10_get_format(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *sd_state,
++			      struct v4l2_subdev_format *fmt)
++{
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++
++	mutex_lock(&ov01a10->mutex);
++	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
++		fmt->format = *v4l2_subdev_get_try_format(&ov01a10->sd,
++							  sd_state, fmt->pad);
++	else
++		ov01a10_update_pad_format(ov01a10->cur_mode, &fmt->format);
++
++	mutex_unlock(&ov01a10->mutex);
++
++	return 0;
++}
++
++static int ov01a10_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *sd_state,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	if (code->index > 0)
++		return -EINVAL;
++
++	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
++
++	return 0;
++}
++
++static int ov01a10_enum_frame_size(struct v4l2_subdev *sd,
++				   struct v4l2_subdev_state *sd_state,
++				   struct v4l2_subdev_frame_size_enum *fse)
++{
++	if (fse->index >= ARRAY_SIZE(supported_modes))
++		return -EINVAL;
++
++	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
++		return -EINVAL;
++
++	fse->min_width = supported_modes[fse->index].width;
++	fse->max_width = fse->min_width;
++	fse->min_height = supported_modes[fse->index].height;
++	fse->max_height = fse->min_height;
++
++	return 0;
++}
++
++static int ov01a10_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
++{
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++
++	mutex_lock(&ov01a10->mutex);
++	ov01a10_update_pad_format(&supported_modes[0],
++				  v4l2_subdev_get_try_format(sd, fh->state, 0));
++	mutex_unlock(&ov01a10->mutex);
++
++	return 0;
++}
++
++static const struct v4l2_subdev_core_ops ov01a10_core_ops = {
++	.log_status = v4l2_ctrl_subdev_log_status,
++	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
++static const struct v4l2_subdev_video_ops ov01a10_video_ops = {
++	.s_stream = ov01a10_set_stream,
++};
++
++static const struct v4l2_subdev_pad_ops ov01a10_pad_ops = {
++	.set_fmt = ov01a10_set_format,
++	.get_fmt = ov01a10_get_format,
++	.enum_mbus_code = ov01a10_enum_mbus_code,
++	.enum_frame_size = ov01a10_enum_frame_size,
++};
++
++static const struct v4l2_subdev_ops ov01a10_subdev_ops = {
++	.core = &ov01a10_core_ops,
++	.video = &ov01a10_video_ops,
++	.pad = &ov01a10_pad_ops,
++};
++
++static const struct media_entity_operations ov01a10_subdev_entity_ops = {
++	.link_validate = v4l2_subdev_link_validate,
++};
++
++static const struct v4l2_subdev_internal_ops ov01a10_internal_ops = {
++	.open = ov01a10_open,
++};
++
++static int ov01a10_identify_module(struct ov01a10 *ov01a10)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov01a10->sd);
++	int ret;
++	u32 val;
++
++	ret = ov01a10_read_reg(ov01a10, OV01A10_REG_CHIP_ID, 3, &val);
++	if (ret)
++		return ret;
++
++	if (val != OV01A10_CHIP_ID) {
++		dev_err(&client->dev, "chip id mismatch: %x!=%x\n",
++			OV01A10_CHIP_ID, val);
++		return -EIO;
++	}
++
++	return 0;
++}
++
++static void ov01a10_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct ov01a10 *ov01a10 = to_ov01a10(sd);
++
++	v4l2_async_unregister_subdev(sd);
++	media_entity_cleanup(&sd->entity);
++	v4l2_ctrl_handler_free(sd->ctrl_handler);
++
++	pm_runtime_disable(&client->dev);
++	mutex_destroy(&ov01a10->mutex);
++}
++
++static int ov01a10_probe(struct i2c_client *client)
++{
++	struct device *dev = &client->dev;
++	struct ov01a10 *ov01a10;
++	int ret = 0;
++
++	ov01a10 = devm_kzalloc(dev, sizeof(*ov01a10), GFP_KERNEL);
++	if (!ov01a10)
++		return -ENOMEM;
++
++	v4l2_i2c_subdev_init(&ov01a10->sd, client, &ov01a10_subdev_ops);
++
++	ret = ov01a10_identify_module(ov01a10);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to find sensor\n");
++
++	mutex_init(&ov01a10->mutex);
++	ov01a10->cur_mode = &supported_modes[0];
++
++	ret = ov01a10_init_controls(ov01a10);
++	if (ret) {
++		dev_err(dev, "failed to init controls: %d\n", ret);
++		goto err_mutex_destroy;
++	}
++
++	ov01a10->sd.internal_ops = &ov01a10_internal_ops;
++	ov01a10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
++		V4L2_SUBDEV_FL_HAS_EVENTS;
++	ov01a10->sd.entity.ops = &ov01a10_subdev_entity_ops;
++	ov01a10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	ov01a10->pad.flags = MEDIA_PAD_FL_SOURCE;
++
++	ret = media_entity_pads_init(&ov01a10->sd.entity, 1, &ov01a10->pad);
++	if (ret) {
++		dev_err(dev, "failed to init entity pads: %d\n", ret);
++		goto err_handler_free;
++	}
++
++	ret = v4l2_async_register_subdev_sensor(&ov01a10->sd);
++	if (ret < 0) {
++		dev_err(dev, "failed to register subdev: %d\n",
++			ret);
++		goto err_media_entity_cleanup;
++	}
++
++	pm_runtime_enable(dev);
++	pm_runtime_idle(dev);
++
++	return 0;
++
++err_media_entity_cleanup:
++	media_entity_cleanup(&ov01a10->sd.entity);
++
++err_handler_free:
++	v4l2_ctrl_handler_free(ov01a10->sd.ctrl_handler);
++
++err_mutex_destroy:
++	mutex_destroy(&ov01a10->mutex);
++
++	return ret;
++}
++
++static const struct dev_pm_ops ov01a10_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(ov01a10_suspend, ov01a10_resume)
++};
++
++static const struct acpi_device_id ov01a10_acpi_ids[] = {
++	{"OVTI01A0"},
++	{}
++};
++
++MODULE_DEVICE_TABLE(acpi, ov01a10_acpi_ids);
++
++static struct i2c_driver ov01a10_i2c_driver = {
++	.driver = {
++		.name = "ov01a10",
++		.pm = &ov01a10_pm_ops,
++		.acpi_match_table = ACPI_PTR(ov01a10_acpi_ids),
++	},
++	.probe_new = ov01a10_probe,
++	.remove = ov01a10_remove,
++};
++
++module_i2c_driver(ov01a10_i2c_driver);
++
++MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
++MODULE_AUTHOR("Wang Yating <yating.wang@intel.com>");
++MODULE_DESCRIPTION("OmniVision OV01A10 sensor driver");
++MODULE_LICENSE("GPL v2");
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
