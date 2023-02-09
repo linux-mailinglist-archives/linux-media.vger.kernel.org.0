@@ -2,146 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B514690595
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 11:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03CBC6905C1
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 11:55:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230135AbjBIKrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 05:47:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36356 "EHLO
+        id S229966AbjBIKzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 05:55:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbjBIKqZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 05:46:25 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8656953C
-        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 02:45:31 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id t1so1840317ybd.4
-        for <linux-media@vger.kernel.org>; Thu, 09 Feb 2023 02:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ECisu58Ou5Xr+AMVxHOSKNEG1TgY5Zq0H9DdDE7KjY=;
-        b=PVhgmNxsQQPyBAEDdyt8QfmWO6MNCgn8yXiI9Mk1P0Ph6Z19uULy1nXT56GCFjrWPx
-         kjKAE5+lQs+meWWdvnVXJViYasQ2BIpN581gJLur43fb8v+TauC8ZGc8lXkHOKYKGPcA
-         FP9AoOGP4SFr4QMxn1WBQianBQR4oWtc3600hrLz3lvn4coxlQ/kaFuOWt2ycqbFfbXj
-         SxVqq2jNdWE80O8KHlaeEokxbPI9aumzyK9cn0FOyw0rWNFqZc4gomcB9McjjYB1Bcm8
-         Us5DeeJ+v5hZbjP8yos1A+fhfcFeiZ/hBxsKgjJrx5lCY9fTmG5/RwJWvoKjyWMph0k2
-         WXDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6ECisu58Ou5Xr+AMVxHOSKNEG1TgY5Zq0H9DdDE7KjY=;
-        b=dz48Nt1xXdLqNMsCbtFRye8ZMnbrFTjHSHugweriVIs76lZLxd0zyFr4OsISkOjjmH
-         pTYQfNQLzqg+u/X6YdRqJwITD8EqlXXzcdwyCr5/BYJ7Br1oWL1sjZLktEbGI3nHcrLM
-         Agfu3M85lgSELfgbQdk+xZnUDcHNqQk0IH0w2m/nifrE7XnNrnHtC1BVLSh/xhDjGFeq
-         1rl0PtjcHXEMHbgepnF2zbijxi+UUJdZ/fa3GCCNbjrlCpkuFEfLMZJkbU+upfME/nUE
-         mpcM8rDSuGHy3Qdikmr1yO9bID1753s3Ss4c4fNlsKjkT63frBQ3jLH3Y/6i811Pau2p
-         qn/g==
-X-Gm-Message-State: AO0yUKUFAGU7OfiZonZ/jRrq0nWXAiAwiHWiYtlq3jcBT0DX502vtgWz
-        T6BMvN1r/os2cj4+S7W2nmyF1LWNe15S29MNfv4ZtA==
-X-Google-Smtp-Source: AK7set+c8vMXQoWt9zrvvB2u9a8HdXjW8xESL/qxrGLNm0jpSb7R5TJb/uyrRXXnVWpXHWRj2G52DUyGkXuHv+E8/cU=
-X-Received: by 2002:a5b:6c5:0:b0:88f:946:bd98 with SMTP id r5-20020a5b06c5000000b0088f0946bd98mr1339211ybq.24.1675939530421;
- Thu, 09 Feb 2023 02:45:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
- <20230208173343.37582-3-andriy.shevchenko@linux.intel.com> <30234963-33e5-e2d7-a6ef-112e89efbdd0@linaro.org>
-In-Reply-To: <30234963-33e5-e2d7-a6ef-112e89efbdd0@linaro.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 9 Feb 2023 11:45:18 +0100
-Message-ID: <CACRpkdYRTq35gJq3YODGh9S_JnH1jxSOT8mNnetyRQY9Z5LhWQ@mail.gmail.com>
-Subject: Re: [PATCH v4 02/18] ARM: s3c24xx: Use the right include
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        with ESMTP id S230280AbjBIKy6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 05:54:58 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 636D945203;
+        Thu,  9 Feb 2023 02:54:55 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CF129CA;
+        Thu,  9 Feb 2023 11:54:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1675940092;
+        bh=73IEMIN1hCTZFD2vBhICWx4cAg+zQeBz89tcm2fOb70=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PRBIqnLGDG+WmtiDpUW/dEBwJuPdpOGjKyomTlPMpiEJfwJO5yhzObdwIR5aP7IVy
+         XjhH2HGBkTGsNcAmiMEJMWuP2r+Sdw6XEk1mpY4aaNcjchdCSUGz9HUf3Lk4bqS412
+         i2LX8IPQ0gMGBKL3V9Odumv2sakCLo/YOT+tEAx8=
+Date:   Thu, 9 Feb 2023 12:54:51 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v7 5/7] media: i2c: add DS90UB960 driver
+Message-ID: <Y+TQ+60w3T0HH+FY@pendragon.ideasonboard.com>
+References: <cad92dbb-43ef-fa8c-1962-13c4a8578899@ideasonboard.com>
+ <Y9FBlMl4b3l1zVck@smile.fi.intel.com>
+ <5d208710-f284-e6e9-18dc-f5ef63a9ea44@ideasonboard.com>
+ <Y9FKcoVlgUWR4rhn@smile.fi.intel.com>
+ <04a82b08-524f-8d03-ac47-73d826907fc3@ideasonboard.com>
+ <Y9JUEv66Gze8FjMZ@smile.fi.intel.com>
+ <Y9JbMjPM3Ea3RVzH@pendragon.ideasonboard.com>
+ <0c13eac3-cadb-b923-d475-7851dbef0c4e@ideasonboard.com>
+ <Y9OWFSxs9ev9hfp2@smile.fi.intel.com>
+ <2501ffcc-82ff-c0bc-366a-33b62bf28e76@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2501ffcc-82ff-c0bc-366a-33b62bf28e76@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 8, 2023 at 6:39 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+Hi Tomi,
 
-> On 08/02/2023 18:33, Andy Shevchenko wrote:
-> > From: Linus Walleij <linus.walleij@linaro.org>
-> >
-> > The file s3c64xx.c is including <linux/gpio.h> despite using no
-> > symbols from the file, however it needs it to implicitly bring in
-> > of_have_populated_dt() so include <linux/of.h> explicitly instead.
-> >
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  arch/arm/mach-s3c/s3c64xx.c | 2 +-
->
-> It's not s3c24xx anymore, so subject prefix:
-> ARM: s3c64xx:
+On Wed, Feb 08, 2023 at 05:10:05PM +0200, Tomi Valkeinen wrote:
+> On 27/01/2023 11:15, Andy Shevchenko wrote:
+> > On Fri, Jan 27, 2023 at 10:24:04AM +0200, Tomi Valkeinen wrote:
+> >> On 26/01/2023 12:51, Laurent Pinchart wrote:
+> >>> On Thu, Jan 26, 2023 at 12:21:06PM +0200, Andy Shevchenko wrote:
+> >>>> On Thu, Jan 26, 2023 at 10:41:47AM +0200, Tomi Valkeinen wrote:
+> >>>>> On 25/01/2023 17:27, Andy Shevchenko wrote:
+> > 
+> > ...
+> > 
+> >>>>>> But I probably don't understand the ATR structure and what exactly we need to
+> >>>>>> pass to it, perhaps it also can be replaced with properties (note, that we have
+> >>>>>> some interesting ones that called references, which is an alternative to DT
+> >>>>>> phandle).
+> >>>>>
+> >>>>> Well, maybe this needs a Linux bus implementation. I'm not that familiar
+> >>>>> with implementing a bus, but I think that would make it easier to share data
+> >>>>> between the deserializer and the serializer. A bus sounds a bit like an
+> >>>>> overkill for a 1-to-1 connection, used by a few drivers, but maybe it
+> >>>>> wouldn't be too much code.
+> >>>>
+> >>>> Have you looked at auxiliary bus (appeared a few releases ago in kernel)?
+> >>>
+> >>> As far as I understand, the auxiliary bus infrastructure is meant for
+> >>> use cases where a single hardware device needs to be split into multiple
+> >>> logical devices (as in struct device). Platform devices were
+> >>> historically (ab)used for this, and the auxiliary bus is meant as a
+> >>> cleaner solution. I'm not sure if it would be a good match here, or if
+> >>> it would be considered an abuse of the auxiliary bus API.
+> >>
+> >> The aux bus docs say "A key requirement for utilizing the auxiliary bus is
+> >> that there is no dependency on a physical bus, device, register accesses or
+> >> regmap support. These individual devices split from the core cannot live on
+> >> the platform bus as they are not physical devices that are controlled by
+> >> DT/ACPI.", which doesn't sound like a good fit.
+> > 
+> > Thanks for checking!
+> > 
+> >> The deserializer and serializers are currently independent devices and
+> >> drivers (the pdata is the only shared thing), but I think we may need
+> >> something better here. The devices are more tightly tied together than
+> >> "normal" video devices, in my opinion, as the serializer is fully controlled
+> >> by the deserializer (including power).
+> >>
+> >> And if we ever want to implement something like power management, we
+> >> probably need something more than what we have now. Although I don't know
+> >> how that would be done, as all the peripherals behind the serializer would
+> >> also lose power...
+> > 
+> > I believe you have to create a power domain for them and when such device
+> > is added, the power domain of it should belong to the serialized.
+> 
+> I was testing this, and got something working.
 
-My mistake, mea culpa.
+As discussed offline, I'm not sure power domains are the right tool for
+this. I would model the power supplies as regulators, provided by the
+deserializer, and acquired by the serializers. If the devices on the
+remote side are all children of the serializer (which I think they
+should be), then enabling the regulator in the PM resume handler of the
+serializer should be all you need.
 
-Yours,
-Linus Walleij
+> I have the deserializer introducing a separate power-domain for each RX 
+> port, and the serializer and the sensor both refer to their port's 
+> domain. I can see that the deserializer gets power on/off callbacks 
+> correctly when either serializer or sensor resumes.
+> 
+> The problem I have now is that while the power comes from the 
+> deserializer and is thus covered with the power domain, the sensor uses 
+> services from the serializer (gpios, clocks, i2c bus), and the 
+> serializer is not woken up when the sensor does runtime-pm resume (the 
+> power domain is powered up correctly when the sensor resumes).
+
+Is the sensor not a child of the serializer ?
+
+> The serializer creates the i2c adapter to which the sensor is added, so, 
+> afaics, there should be a child-parent relationship there. But maybe I 
+> have something wrong there, or it just doesn't work as I imagine it 
+> would work.
+
+You can check the parent/child relationships fairly easily in sysfs.
+
+-- 
+Regards,
+
+Laurent Pinchart
