@@ -2,67 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D62E690A86
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 14:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B44D2690AE5
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 14:53:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbjBINjT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 08:39:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40760 "EHLO
+        id S230195AbjBINxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 08:53:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbjBINjS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 08:39:18 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7F0D10D4;
-        Thu,  9 Feb 2023 05:39:17 -0800 (PST)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id D2A5566020C1;
-        Thu,  9 Feb 2023 13:39:14 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1675949956;
-        bh=el4tNcyCAEC+oZUCSzKc3hOlEvtwGNspm+w1ZpzJ3Xc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PnIJTG5CsdKRvBB73UJzYfCjjNgqY23zH/q7x5WGlFRPSrLBHu9CyGzclXShDplHr
-         45GsGoCaH00ri7vEucAQPXhh/joZ9GEq9XG99bRA+up1lx2CqyxK4xVHKuN2SP8gxg
-         lEju+dRBhSt0L+rz020G7wc3zzIGABTZI3iHjwTVcRZc2WbwN2dY+JblmWU4PGVeNC
-         HLk+2yPVDm3nY8fAzXqQDf7IfbABLHe19vK47nnz+pAsEHyhOQDe7X7YtlQJY8PDYW
-         BiUUvawIe6u27YSuqS7Pkmw6HXEOOTxrwmqwFRoRZTK01bW65YDAvAsieLMfpy6egQ
-         AGblF49BAwfhw==
-Message-ID: <cab40506-8b3a-0b53-b45d-a8000e953289@collabora.com>
-Date:   Thu, 9 Feb 2023 14:39:11 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 03/10] iommu/mediatek: Get regionid from larb/port id
-Content-Language: en-US
-To:     Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, nfraprado@collabora.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        with ESMTP id S229758AbjBINxB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 08:53:01 -0500
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1FC297A81;
+        Thu,  9 Feb 2023 05:52:58 -0800 (PST)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+        by APP-03 (Coremail) with SMTP id rQCowABHTiat+uRjo3cXBA--.22229S2;
+        Thu, 09 Feb 2023 21:52:45 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     angelogioacchino.delregno@collabora.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com, moudy.ho@mediatek.com,
+        daoyuan.huang@mediatek.com, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, mingyuan.ma@mediatek.com,
-        yf.wang@mediatek.com, libo.kang@mediatek.com,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
-        chengci.xu@mediatek.com, youlin.pei@mediatek.com,
-        anan.sun@mediatek.com
-References: <20230208053643.28249-1-yong.wu@mediatek.com>
- <20230208053643.28249-4-yong.wu@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230208053643.28249-4-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        linux-mediatek@lists.infradead.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH v4] media: platform: mtk-mdp3: Add missing check and free for ida_alloc
+Date:   Thu,  9 Feb 2023 21:52:45 +0800
+Message-Id: <20230209135245.11203-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: rQCowABHTiat+uRjo3cXBA--.22229S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryUZFy8Kr4DAF4rKw45KFg_yoW8Xry3pr
+        4xKw47CFW5GrnrKF42y3WxuFW5ArnYgayUWFs7Z3yxZas0grsrCry5C3ZYvryktrW8Ja42
+        qr40vryfCr4YyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+        n2kIc2xKxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+        C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+        6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+        73UjIFyTuYvjfU1NVyUUUUU
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,83 +58,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 08/02/23 06:36, Yong Wu ha scritto:
-> After commit f1ad5338a4d5 ("of: Fix "dma-ranges" handling for bus
-> controllers"), the dma-ranges is not allowed for dts leaf node.
-> but we still would like to separate to different masters
-> into different iova regions.
-> 
-> Thus we have to separate it by the HW larbid and portid. For example,
-> larb1/2 are in region2 and larb3 is in region3. The problem is that
-> some ports inside a larb are in region4 while some ports inside this
-> larb are in region5. Therefore I define a "larb_region_msk" to help
-> record the information for each a port. Take a example for a larb:
->   [1] = ~0: means all ports in this larb are in region1;
->   [2] = BIT(3) | BIT(4): means port3/4 in this larb are region2;
->   [3] = ~(BIT(3) | BIT(4)): means all the other ports except port3/4
->                             in this larb are region3.
-> 
-> This method also avoids the users forget/abuse the iova regions.
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->   drivers/iommu/mtk_iommu.c | 43 +++++++++++++++++++++------------------
->   1 file changed, 23 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index d5a4955910ff..fc3d9be120a0 100644
-> --- a/drivers/iommu/mtk_iommu.c
-> +++ b/drivers/iommu/mtk_iommu.c
-> @@ -8,7 +8,6 @@
->   #include <linux/clk.h>
->   #include <linux/component.h>
->   #include <linux/device.h>
-> -#include <linux/dma-direct.h>
->   #include <linux/err.h>
->   #include <linux/interrupt.h>
->   #include <linux/io.h>
-> @@ -194,6 +193,7 @@ struct mtk_iommu_plat_data {
->   	enum mtk_iommu_plat	m4u_plat;
->   	u32			flags;
->   	u32			inv_sel_reg;
-> +	const u32		(*larb_region_msk)[32];
+Add the check for the return value of the ida_alloc in order to avoid
+NULL pointer dereference.
+Moreover, free allocated "ctx->id" if mdp_m2m_open fails later in order
+to avoid memory leak.
 
-Can you please document this larb region mask in code, other than the commit
-description?
+Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+Changelog:
 
-I can see this being essential for the next person reading this driver's code
-without digging through the commit history. At least some comment on top of
-the pointer, or on top of the struct declaration... and perhaps also describe
-briefly that the array is "indexed by region" (so 1 = region 1; 2 = region 2)
-and that the region index corresponds to the same index as `mtk_iommu_iova_region`.
+v3 -> v4
 
+1. Use ret to check the return value.
 
-Before doing that, I'd like to check if anyone else has a better solution for
-that... because when looking at data for one of the SoCs in here, it looks a bit
-intimidating!
+v2 -> v3:
 
-Copy-paste from patch [04/10] of this series for the reader's commodity:
+1. Fix the goto label.
 
-static const unsigned int mt8195_larb_region_msk[][32] = {
-	[0] = {~0, ~0, ~0, ~0},               /* Region0: all ports for larb0/1/2/3 */
-	[1] = {0, 0, 0, 0, 0, 0, 0, 0,
-	       0, 0, 0, 0, 0, 0, 0, 0,
-	       0, 0, 0, ~0, ~0, ~0, ~0, ~0,   /* Region1: larb19/20/21/22/23/24 */
-	       ~0},
-	[2] = {0, 0, 0, 0, ~0, ~0, ~0, ~0,    /* Region2: the other larbs. */
-	       ~0, ~0, ~0, ~0, ~0, ~0, ~0, ~0,
-	       ~0, ~0, 0, 0, 0, 0, 0, 0,
-	       0, ~0, ~0, ~0, ~0},
-	[3] = {0},
-	[4] = {[18] = BIT(0) | BIT(1)},       /* Only larb18 port0/1 */
-	[5] = {[18] = BIT(2) | BIT(3)},       /* Only larb18 port2/3 */
-};
+v1 -> v2:
 
-^^^^ That's what I actually mean by "intimidating"... :-P
+1. Fix the check for the ida_alloc.
+---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-It's just looks though, there's nothing much complicated here.
-
-Regards,
-Angelo
-
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+index 5f74ea3b7a52..8612a48bde10 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+@@ -566,7 +566,11 @@ static int mdp_m2m_open(struct file *file)
+ 		goto err_free_ctx;
+ 	}
+ 
+-	ctx->id = ida_alloc(&mdp->mdp_ida, GFP_KERNEL);
++	ret = ida_alloc(&mdp->mdp_ida, GFP_KERNEL);
++	if (ret < 0)
++		goto err_unlock_mutex;
++	ctx->id = ret;
++
+ 	ctx->mdp_dev = mdp;
+ 
+ 	v4l2_fh_init(&ctx->fh, vdev);
+@@ -617,6 +621,8 @@ static int mdp_m2m_open(struct file *file)
+ 	v4l2_fh_del(&ctx->fh);
+ err_exit_fh:
+ 	v4l2_fh_exit(&ctx->fh);
++	ida_free(&mdp->mdp_ida, ctx->id);
++err_unlock_mutex:
+ 	mutex_unlock(&mdp->m2m_lock);
+ err_free_ctx:
+ 	kfree(ctx);
+-- 
+2.25.1
 
