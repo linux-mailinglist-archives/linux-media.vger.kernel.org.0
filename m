@@ -2,145 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 126A8690E97
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 17:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1528B690F6D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 18:43:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbjBIQq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 11:46:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54790 "EHLO
+        id S229999AbjBIRnN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 12:43:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbjBIQq4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 11:46:56 -0500
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45754E078;
-        Thu,  9 Feb 2023 08:46:51 -0800 (PST)
-Received: from g550jk.localnet (unknown [62.108.10.64])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 1045ACE004;
-        Thu,  9 Feb 2023 16:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1675961210; bh=WzP22PkUOOEnYEsiechqbOaqD/J6AkmB473A99UfdqE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=noIvF3ES5jB7bjscHwRtjP6qOggwXUwlBBhYkn/6v85fSxTU5X2lstNdwG1Tn/5S7
-         EB2AnNp2c5TqTf7JfiSzg/Gj1iEFCXkgSQJ3dykyQTEbtmT/Qyh36thygHSVWof75g
-         dNNOmPF1jBlHFfyo6ouNIiPwQBCoiKzDUXLnRIME=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
+        with ESMTP id S229468AbjBIRnL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 12:43:11 -0500
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30A75ACFE;
+        Thu,  9 Feb 2023 09:43:10 -0800 (PST)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1636eae256cso3606642fac.0;
+        Thu, 09 Feb 2023 09:43:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zmWeTxm3eAR69llILe3yLFx61s6S09dltEYFO6LRpqs=;
+        b=wzaCVzm1MSB1/SEuFhlCKyOM6sTpL4AMEu+aIJd6+64/abw8FSD6xU/+1t2EQ1zEss
+         AZm8yttj3KT6VWFpewWlKc5QNHV9slH8/mx+Bl6Nbjaw+4gKcgaZiAXDXaHg+elE6CQG
+         B8CmOgL9Hfk4XrXuHmlI8pGVNVSv8gp7VopwCWHlyS1BCMf5HrikyinAVWXITvRj0OOd
+         5y5ioFrn7mr/vJi7+RH/erMsHeUPOJACBTmZ+tulwrZbK+BRT6HIMviFFHZJev0joD5V
+         cZsCBXUcJUkAIz7dPy+vu6t//Bxr4bU/tH1OKUwFGDIpmxMeuem9xaSXOMhhn3pRXfYH
+         5PtA==
+X-Gm-Message-State: AO0yUKUJ9QGIVRkzGipKPRfW6qrYc+J1UiYQIknJ6HJzngwtYGGruNO0
+        xl94uqqDxjcNS2md19zWeA==
+X-Google-Smtp-Source: AK7set9i8Yc0as8tcS+G5ABFmialaz9E/t1quo/d+glus4OAQlGXNCIBfTxURc1sXvd6sOHL45g/YQ==
+X-Received: by 2002:a05:6870:a11d:b0:163:d167:80bc with SMTP id m29-20020a056870a11d00b00163d16780bcmr2886406oae.49.1675964590032;
+        Thu, 09 Feb 2023 09:43:10 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id ky15-20020a056871404f00b0014fc049fc0asm900969oab.57.2023.02.09.09.43.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 09:43:09 -0800 (PST)
+Received: (nullmailer pid 553172 invoked by uid 1000);
+        Thu, 09 Feb 2023 17:43:08 -0000
+Date:   Thu, 9 Feb 2023 11:43:08 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yong Wu <yong.wu@mediatek.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        linux-media@vger.kernel.org,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
+        youlin.pei@mediatek.com, Matthias Brugger <matthias.bgg@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht,
+        Robin Murphy <robin.murphy@arm.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        chengci.xu@mediatek.com, mingyuan.ma@mediatek.com,
+        devicetree@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+        linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+        iommu@lists.linux.dev, libo.kang@mediatek.com,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        phone-devel@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH] media: dt-bindings: ov2685: convert to dtschema
-Date:   Thu, 09 Feb 2023 17:46:48 +0100
-Message-ID: <2665862.mvXUDI8C0e@z3ntu.xyz>
-In-Reply-To: <167572017056.1564123.13342855865502188090.robh@kernel.org>
-References: <20230206-ov2685-dtschema-v1-1-9e4da3474c10@z3ntu.xyz>
- <167572017056.1564123.13342855865502188090.robh@kernel.org>
+        yf.wang@mediatek.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org, nfraprado@collabora.com,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v2 01/10] dt-bindings: media: mediatek,vcodec: Remove
+ dma-ranges property
+Message-ID: <167596458765.553111.2698863120254622830.robh@kernel.org>
+References: <20230208053643.28249-1-yong.wu@mediatek.com>
+ <20230208053643.28249-2-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230208053643.28249-2-yong.wu@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+CC Helen Koike
 
-On Montag, 6. Februar 2023 22:50:08 CET Rob Herring wrote:
-> On Mon, 06 Feb 2023 21:23:16 +0100, Luca Weiss wrote:
-> > Convert the text-based dt-bindings to yaml.
-> > 
-> > Changes from original txt:
-> > * Take wording for various properties from other yaml bindings, this
-> > 
-> >   removes e.g. volt amount from schema since it isn't really relevant
-> >   and the datasheet is a better source.
-> > 
-> > * Don't make reset-gpios a required property since it can be tied to
-> > 
-> >   DOVDD instead.
-> > 
-> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > ---
-> > 
-> >  .../devicetree/bindings/media/i2c/ov2685.txt       |  41 ---------
-> >  .../devicetree/bindings/media/i2c/ovti,ov2685.yaml | 101
-> >  +++++++++++++++++++++ MAINTAINERS                                       
-> >  |   1 +
-> >  3 files changed, 102 insertions(+), 41 deletions(-)
+On Wed, 08 Feb 2023 13:36:34 +0800, Yong Wu wrote:
+> After commit f1ad5338a4d5 ("of: Fix "dma-ranges" handling for bus
+> controllers"), the dma-ranges of the leaf node doesn't work. Remove
+> it for vcodec here.
 > 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 1) For mediatek,vcodec-decoder.yaml and mediatek,vcodec-encoder.yaml,
+> this property is in the leaf node, it is invalid as the above comment.
 > 
-> yamllint warnings/errors:
+> Currently there is only mt8195 VENC node has this property in upstream.
+> Indeed, VENC is affected, but it is not a fatal issue. Originally it
+> expects its iova range locate at 4GB-8GB. However after that commit, its
+> expectation doesn't come true, it will fall back to 0-4GB iova and also
+> could work well.
 > 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/medi
-> a/rockchip-isp1.example.dtb: camera@3c: 'clocks' is a required property From
-> schema:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/i2c/ovti,ov2685.yaml
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/rockchip-isp1.example.dtb: camera@3c: 'clock-names' is a required
-> property From schema:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/i2c/ovti,ov2685.yaml
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/rockchip-isp1.example.dtb: camera@3c: 'dvdd-supply' is a required
-> property From schema:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/i2c/ovti,ov2685.yaml
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/rockchip-isp1.example.dtb: camera@3c: 'avdd-supply' is a required
-> property From schema:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/i2c/ovti,ov2685.yaml
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/rockchip-isp1.example.dtb: camera@3c: 'dovdd-supply' is a required
-> property From schema:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> ia/i2c/ovti,ov2685.yaml
+> 2) For mediatek,vcodec-subdev-decoder.yaml, It already uses parent-child
+> node, this property works. Instead, MediaTek iommu will control the
+> masters' iova ranges by the master's larb/port id internally, then the
+> dma-ranges property is unnecessary for the master's node.
+> 
+> Cc: Tiffany Lin <tiffany.lin@mediatek.com>
+> Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../devicetree/bindings/media/mediatek,vcodec-decoder.yaml | 5 -----
+>  .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml | 5 -----
+>  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml     | 7 -------
+>  3 files changed, 17 deletions(-)
+> 
 
-Looks like rockchip-isp1.yaml uses very incomplete sensor examples in their 
-binding example, which sort of makes sense since those bindings are showing 
-the rockchip isp bindings and contain the bare minimum to show how a sensor is 
-connected in dt.
-
-Not sure how to solve this - ov2685 is also one of three sensors that are used 
-very abbreviated there.
-
-Regards
-Luca
-
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See
-> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230206-ov2
-> 685-dtschema-v1-1-9e4da3474c10@z3ntu.xyz
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your
-> schema.
-
-
-
+Acked-by: Rob Herring <robh@kernel.org>
 
