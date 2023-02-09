@@ -2,133 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A11A06902A5
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 09:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9506902B9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 10:02:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjBII53 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 03:57:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34832 "EHLO
+        id S229516AbjBIJCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 04:02:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjBII51 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 03:57:27 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB77B10268;
-        Thu,  9 Feb 2023 00:57:24 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id u21so1536957edv.3;
-        Thu, 09 Feb 2023 00:57:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CR+Zuj41V9OcnwxkujW0Dat+YRKGS6lOdavnOivT+n8=;
-        b=OG0UMkcht3W1uLChw55NX4r8OMofbgx3cnsiQ9qFDhnznOtXOgYAH7jY69/bGtHfjB
-         6hwGxQZZT2nFtWkhvV2cB806ESghC4undw+8MrUf/fHS+rjh41BIp6zpTdt4ypJHmlVx
-         SysPdxIq/aHC+yv57qonEF7B690N/6Wg88l99mqtC+zkdgDqAPeRoLR/ZZNdm0O9fPC1
-         6Vhz3l6eKj6vymTF4azg4Ljd7MKn4rY30H7KLfabCnt1fvD+qo2gs7UVvEFlYm9n41mZ
-         D9rn5+pxxe8GfVjzsk7YC9FN+pMhzPWmtL4O/fJ+MBYggKLFTdy2a9Em31MJVLDsO6Us
-         yuuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CR+Zuj41V9OcnwxkujW0Dat+YRKGS6lOdavnOivT+n8=;
-        b=iaBcDV7RQdLKSoDxX+pBQDj9nLJy+9b1Juc5c1Mk51YGnOtdXP/1Y0ROqV4bRo0WuI
-         L2IHLorbpTxLeb5Sng5n9ys0VT6SFgu+a7dPWxPsY9IYurAqm8oC+Ag762UInJSIVqdc
-         slhjmhkN3bl7FrASFzREeJWQSUCGIBZ5n5A8M0HC6oh1MP38ojweydOhZEnESihafAQw
-         V1BHgQSWpDHB36K6swuhuOlXEUFmULsClFEKw71E1gpz57K2gx4lMaMxQ45BMMR7Jo5e
-         ljsQtGwBTPHCGvxNnhXMp24nh0lHBwm+/R4+OrhvUXlQFVb+eYa39OemFvRS4a/Whgap
-         lenA==
-X-Gm-Message-State: AO0yUKWcgESMdMX/iQfC4sWOzM/s8tqPpcFhmWXmPxp2MTqKrC+PJjhg
-        bW9sLZVG/cNpOt6UCV0HLXM=
-X-Google-Smtp-Source: AK7set/ljAZnzz7RXHpqE+yV4xbCb6FV0Lp47/Gn9bYBkkX3OE9cAh0INkNdrI29LcQwlKoVOWyrjQ==
-X-Received: by 2002:a50:955b:0:b0:4aa:9ac7:403d with SMTP id v27-20020a50955b000000b004aa9ac7403dmr11306719eda.1.1675933043302;
-        Thu, 09 Feb 2023 00:57:23 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-57-202.cust.vodafonedsl.it. [188.217.57.202])
-        by smtp.gmail.com with ESMTPSA id u1-20020a50c2c1000000b004a21263bbaasm455224edf.49.2023.02.09.00.57.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 00:57:22 -0800 (PST)
-Date:   Thu, 9 Feb 2023 09:57:20 +0100
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S229829AbjBIJCU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 04:02:20 -0500
+Received: from cstnet.cn (smtp80.cstnet.cn [159.226.251.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A7CB3193D6;
+        Thu,  9 Feb 2023 01:02:13 -0800 (PST)
+Received: from localhost.localdomain (unknown [124.16.138.125])
+        by APP-01 (Coremail) with SMTP id qwCowAAXMNSJtuRj978zBA--.1832S2;
+        Thu, 09 Feb 2023 17:02:01 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, moudy.ho@mediatek.com,
+        daoyuan.huang@mediatek.com, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH] media: mediatek: vcodec: Force capture queue format to
- MM21
-Message-ID: <Y+S1cA4PXT1MVJm8@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230209074025.1816-1-yunfei.dong@mediatek.com>
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] media: platform: mtk-mdp3: Add missing check and free for ida_alloc
+Date:   Thu,  9 Feb 2023 17:02:00 +0800
+Message-Id: <20230209090200.8667-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230209074025.1816-1-yunfei.dong@mediatek.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAXMNSJtuRj978zBA--.1832S2
+X-Coremail-Antispam: 1UD129KBjvJXoWruF4fKw1xZF1rAw1fWrW8tFb_yoW8JF4Upr
+        WxK3y7CrWUGFnFgF40y3W7uFW5Ar1F9ayUWFZ2vw4xZas8WrsrCry5CasYvr95tryrta43
+        tr4Utr43CrWYyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+        vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+        cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+        nxnUUI43ZEXa7VUjwSdDUUUUU==
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei Dong,
+Add the check for the return value of the ida_alloc in order to avoid
+NULL pointer dereference.
+Moreover, free allocated "ctx->id" if mdp_m2m_open fails later in order
+to avoid memory leak.
 
-On Thu, Feb 09, 2023 at 03:40:25PM +0800, Yunfei Dong wrote:
-> In order to conver the format of capture queue from mediatek MM21 to
-> standard yuv420 with Libyuv, need to force capture queue format to
-> MM21 for Libyuv can't covert mediatek MT21 format.
+Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Sorry, just some clarifications on my side, just to understand :)
-The problem is that libyuv can't convert mm21 format into yuv420
-than you need to use mm21 (forcing this).
-Did I understand correctly?
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+index 5f74ea3b7a52..857098f1d71d 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+@@ -567,6 +567,11 @@ static int mdp_m2m_open(struct file *file)
+ 	}
+ 
+ 	ctx->id = ida_alloc(&mdp->mdp_ida, GFP_KERNEL);
++	if (!ctx->id) {
++		ret = -ENOMEM;
++		goto err_unlock_mutex;
++	}
++
+ 	ctx->mdp_dev = mdp;
+ 
+ 	v4l2_fh_init(&ctx->fh, vdev);
+@@ -617,6 +622,8 @@ static int mdp_m2m_open(struct file *file)
+ 	v4l2_fh_del(&ctx->fh);
+ err_exit_fh:
+ 	v4l2_fh_exit(&ctx->fh);
++	ida_free(&mdp->mdp_ida, ctx->id);
++err_unlock_mutext:
+ 	mutex_unlock(&mdp->m2m_lock);
+ err_free_ctx:
+ 	kfree(ctx);
+-- 
+2.25.1
 
-Thanks in advance,
-Tommaso
-
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.org>
-> ---
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> index 641f533c417f..4f5e9c20214f 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> @@ -41,7 +41,7 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
->  	const struct mtk_video_fmt *fmt;
->  	struct mtk_q_data *q_data;
->  	int num_frame_count = 0, i;
-> -	bool ret = true;
-> +	bool ret = false;
->  
->  	for (i = 0; i < *dec_pdata->num_formats; i++) {
->  		if (dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
-> @@ -63,7 +63,7 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
->  	case V4L2_PIX_FMT_H264_SLICE:
->  	case V4L2_PIX_FMT_VP9_FRAME:
->  		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
-> -			ret = false;
-> +			ret = true;
->  		break;
->  	default:
->  		ret = true;
-> -- 
-> 2.18.0
-> 
