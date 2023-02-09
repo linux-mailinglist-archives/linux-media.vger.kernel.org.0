@@ -2,110 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2166904FB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 11:34:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6A07690526
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 11:42:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbjBIKen (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 05:34:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
+        id S229589AbjBIKmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 05:42:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbjBIKeN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 05:34:13 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E643011663
-        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 02:31:49 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED6879CA;
-        Thu,  9 Feb 2023 11:31:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1675938708;
-        bh=IFH57KJA3pDUcEpYqg9pcwc55BqbfsSm4P7fDGdt1i8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mFsBNgLUiK7bvy5e3afQww0e7Bmeyw41OXFxFB1x1YuDD2ogManAcaAC+OunDmCLN
-         XOlrkzHlVjmgFntA8sOiaJkS9VN7hRBx/acXVv8nHok7+LlG5gDlWQYttu9C/Ziz2Q
-         9+gbtHN37rmZJX1Y+zsCX3i2FZKYid/5viGaZ6bA=
-Date:   Thu, 9 Feb 2023 12:31:47 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+TLk4Oyb4QkJr22@pendragon.ideasonboard.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
- <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
- <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
- <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
- <CAHp75VeC8UM8WA-EECB98n+DZQ5J5kgdx5yrxnpYjpBRQjtQ-g@mail.gmail.com>
+        with ESMTP id S229687AbjBIKmC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 05:42:02 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B38B3F758
+        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 02:41:40 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id 139so367803ybe.3
+        for <linux-media@vger.kernel.org>; Thu, 09 Feb 2023 02:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tNSj88tAbE2c6y06Ms9sAOyNH2UyWm+Nrt13hPQ8iWI=;
+        b=CTfWL8pjm8f2MrW7uavUbnvldEyg0bhDjX9kzmJAomtRXVNHa/aGLoocEdHD0fyy/Y
+         fEKylqcVs1Rm6vCkJ86UCaYPU6SgxWlbi4HnnDcv7Bz22EuLo8VnW5wtx9Bdq3ozCs7A
+         lZNkMVc+naW+d5b+0eDsi+iQsjJg8Q3YhD4iP1td0QgnSPS70YmDicHTJMzjun3aNplC
+         sZJW9L4XCkQP1k06jvz134a+Cjmc7KfiYD3pjsjNdX3Y/BgLss5Jg+vJgVWN5BpvDERW
+         BN28nTKVj1O3Zhkbf2gj8UPBUdyuQZp8hD6GqbCQ1PcojQJtzxTJ1vptev4FdI5FrQI1
+         Ewyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tNSj88tAbE2c6y06Ms9sAOyNH2UyWm+Nrt13hPQ8iWI=;
+        b=AEqGGvOlmczklTZ9JgCGduUC3HtuZ62aOaK13pvJp8G1SzN6bWqVMrLeEBQCna0vAQ
+         BMzdH91aGbuEshKNoUdru7Y+LyhKAQTiE1GEjmtrv9GTAxTCQnB6ZGrS9CaGnE86wp0W
+         XDNIQw5CH2J6jWAlHwCR5rlfrvToB7wisWsCaYe5hoUtchIM9tJ24a2jEY8+9Ya39sXI
+         KhL/VyJ3x/0qthE0khUp6MzzJXmhVG7gopBvJ7g5tH1tJrtUl/7EliVKiVdICpGkF2HR
+         aCNGlG3eLP+QiEA9ZCOScy59GXC/Ulj9qdt/Ftn5fbrRI1Ue0rh6PItibpDKSsQ/Vkig
+         Y54w==
+X-Gm-Message-State: AO0yUKUj/Zey2TyI0ivqC3DO+PtuHJ2U5hcCZchj3/HtLrxbruhGzYos
+        85l7YlurV1pfwbGVYkm9h7+JonHF35lvcZszL9BJcA==
+X-Google-Smtp-Source: AK7set8zUBoMuKEkh07dateX8DXDKQwFdadaIyfZa9ErQD4UXOsRHzHAgRvHHkEB2ER9MGhyrUUFZo9EgHYFwleS790=
+X-Received: by 2002:a5b:6c5:0:b0:88f:946:bd98 with SMTP id r5-20020a5b06c5000000b0088f0946bd98mr1338256ybq.24.1675939286984;
+ Thu, 09 Feb 2023 02:41:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeC8UM8WA-EECB98n+DZQ5J5kgdx5yrxnpYjpBRQjtQ-g@mail.gmail.com>
+References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com> <20230208173343.37582-15-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230208173343.37582-15-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 9 Feb 2023 11:41:15 +0100
+Message-ID: <CACRpkdbyosRgubdbNDiHZddK-hPAX7C2MV26eaeKnPO5xy+=Eg@mail.gmail.com>
+Subject: Re: [PATCH v4 14/18] gpio: regmap: Add missing header(s)
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
+        Devarsh Thakkar <devarsht@ti.com>,
+        Michael Walle <michael@walle.cc>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        brcm80211-dev-list.pdl@broadcom.com,
+        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
+        devicetree@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Russell King <linux@armlinux.org.uk>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Keerthy <j-keerthy@ti.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
+        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+On Wed, Feb 8, 2023 at 6:34 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-On Wed, Feb 08, 2023 at 07:31:43PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 8, 2023 at 6:04 PM Laurent Pinchart wrote:
-> > On Wed, Feb 08, 2023 at 05:50:26PM +0200, Andy Shevchenko wrote:
-> > > On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart wrote:
-> > > > On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
-> > > > > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
-> > > > > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> 
-> ...
-> 
-> > > > > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > > > > > > versions of these register access helpers, so that this code duplication
-> > > > > > > can be removed.
-> > > > > >
-> > > > > > Any reason to hand-roll those instead of using regmap ? Also, may I
-> > > > > > suggest to have a look at drivers/media/i2c/imx290.c
-> > > > >
-> > > > > While this is a bit error prone example, a patch is on its way, ...
-> > > >
-> > > > The two cleanups are nice, but they're cleanup, not error fixes :-)
-> > >
-> > > It depends on which side you look at it. I admit I haven't dug into
-> > > the code to see if endianess can be an issue there, but the code
-> > > itself is not written well, esp. when one offers it as an example. So
-> > > definitely there is a fix on the upper layer.
-> >
-> > Did I miss something ? Your two patches replace a tiny amount of code
-> > with helper functions that don't change any behaviour. It's nicer with
-> > those helpers, no question about that, but "not written well" is a bit
-> > of a stretch and feels quite insulting.
-> 
-> Sorry for your feelings, what I meant is the pure educational purposes
-> of the example. When one takes the mentioned driver as an example and
-> uses the code in a slightly different environment the endianess issue
-> may become a real one. That's why we have helpers in kernel to improve
-> robustness against blind copy'n'paste approach. It does not mean your
-> code is broken per se.
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
+>
+> While at it, split out the GPIO group of headers.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Reference code should be pristine as much as possible, no disagreement
-there. That's why I think your two patches are good :-)
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> > Feel free to submit patches that
-> > add new "well-written" helpers.
-
--- 
-Regards,
-
-Laurent Pinchart
+Yours,
+Linus Walleij
