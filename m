@@ -2,68 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52E32690FA4
-	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 18:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F17E690FC7
+	for <lists+linux-media@lfdr.de>; Thu,  9 Feb 2023 19:01:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbjBIR4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 12:56:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43428 "EHLO
+        id S230192AbjBISBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 13:01:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjBIR4Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 12:56:24 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12E366FB3
-        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 09:56:20 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id h24so2849011qta.12
-        for <linux-media@vger.kernel.org>; Thu, 09 Feb 2023 09:56:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DF3SHPT7+Nd+faRZqSk/ih12R/u2oE/ePY9rLQ5SmfI=;
-        b=fhESxpVm8DZViT9pQmG6zPHNEp9MVFS0XQWT+Zk0Xq8V9bVvvJcQ739LB/MKGAuA0d
-         cUkThtmHQ38wDwVovvmjb5S6WZderxqTeTi8nv49d6ViFzA9Aq3RXRxbrDByGsdPUkA7
-         wYhmzWVpde08LHnnvJdr5uLS/6BOGeajP0CWUBDrhGnsvagJCL9DqCA3DVECsjIqmmKN
-         HFG9IWfB1EYTuFJq2Y9I7EYs4gAMCCUrByVD9f3fEyVPydjuJqduTLLtq/fnmqSx+3HM
-         xq2KUo+qq66A1ndigB/RdSf7vxvyHiLTJN3QZls3NLIRv+w5QbgrV2iiyYxKBZL3lJBC
-         0pvg==
+        with ESMTP id S230181AbjBISB3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 13:01:29 -0500
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1328865690;
+        Thu,  9 Feb 2023 10:01:28 -0800 (PST)
+Received: by mail-ot1-f45.google.com with SMTP id r34-20020a05683044a200b0068d4a8a8d2dso773040otv.12;
+        Thu, 09 Feb 2023 10:01:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DF3SHPT7+Nd+faRZqSk/ih12R/u2oE/ePY9rLQ5SmfI=;
-        b=Qt7upapM6vI1EteXBhoSBPltlVi2Z8aIw1xh43CG25oXwmSiImHmUJORy1pdWAb2bI
-         Wiu4u3n0l3MrChquVFze3PfosdCFOBoW6mJzyVWnNujKjajCV+ujrvyzR4YQEBexK1yi
-         z9jES2LWQipBKtF6WH13zobgBM82frw6yqYNkQdHCjTNRZdxKSGyE3qFnit63JdyxLOu
-         oYx7Fa6FEw+Dgbc8PDUGcvqDlkzMZ5HTXIkzB8N7t1BzqnoLmvVDAiArtKFrtjWRhMjh
-         WMjqYFbDk9reJ/puZ/X9gJAnu2peGSqMah7VRVyQp5mwZ9XTmFIZ2Vl0h4ykV77UPTgf
-         IE9w==
-X-Gm-Message-State: AO0yUKVlF3WsRUOUwUdg7TajiYDOZs/ENkbuVN07cEM+FheDJ19J3B/l
-        k20L+vaGHww6N5jMMP2nI6IBYA==
-X-Google-Smtp-Source: AK7set/bwbtjEyvOsRVvpcnUKszlNCjSe7fKWrhm26gy5bAW3GObZiJIL2NZDVTG7vVhs5VAopBmRA==
-X-Received: by 2002:ac8:7455:0:b0:3b9:bc8c:c209 with SMTP id h21-20020ac87455000000b003b9bc8cc209mr3920992qtr.20.1675965380027;
-        Thu, 09 Feb 2023 09:56:20 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id s75-20020a37454e000000b006fa22f0494bsm1798346qka.117.2023.02.09.09.56.19
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GCHbKK7aK3USBAo3gabRZIaR4yTklPH9pwvPUQckT04=;
+        b=lI9hextVB0Tk7H1KcJ1eNUVg/97TH/aDlf5YEzUhKYdFr1dCFXLSbLcK+XkC0fnz8b
+         aL5bRDII2Oy4nBE2flRqB9/GKQMf/mYZg2NeKdwXieHDAIZzzDOspEovXih6PH5LDaLp
+         In15AHgNMUqA5FhY1j8Z1pDgJaHIAmnzjZFbzYXSA9PVVZg9aSRPLiUn0BEehwDjEder
+         TqG1To0SUbbBCNK0juVO6hsu1ZkA3fvRQ2YoxjfnoCQFISQTNrgDE0EGtP9px0gpaMT8
+         b0ZxhSVG6DGJgYcwBX/9a5/HTRjvKRtPDl1eG3/sqhMHDgJSOec3pcXyXsNSbB5Y7Fyn
+         LoOg==
+X-Gm-Message-State: AO0yUKVdHZO5znLjq2/uWy5hWzXuBs2oL7K2/2cZMyAEBE2B8LLcLo+S
+        bUeEj9efSbR6l0XTnDuCPA==
+X-Google-Smtp-Source: AK7set/5ZR9OKv2z9uS3wgYrDsxQa7igQtzjUW9+VNf+t5Amf315wc8kBiWF6vYIzYzyfvUjblk2kA==
+X-Received: by 2002:a9d:6741:0:b0:68b:c04d:79ca with SMTP id w1-20020a9d6741000000b0068bc04d79camr6312281otm.33.1675965686735;
+        Thu, 09 Feb 2023 10:01:26 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r13-20020a05683001cd00b0068be61a7ac6sm970781ota.56.2023.02.09.10.01.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 09:56:19 -0800 (PST)
-Message-ID: <44531f980f771272a8a663c2b2d68dce3bf47456.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/2] media: v4l: Add Broadcom sand format to the list of
- V4L formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     John Cox <jc@kynesim.co.uk>, linux-media@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl
-Date:   Thu, 09 Feb 2023 12:56:18 -0500
-In-Reply-To: <20230127153415.83126-1-jc@kynesim.co.uk>
-References: <20230127153415.83126-1-jc@kynesim.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        Thu, 09 Feb 2023 10:01:26 -0800 (PST)
+Received: (nullmailer pid 572794 invoked by uid 1000);
+        Thu, 09 Feb 2023 18:01:25 -0000
+Date:   Thu, 9 Feb 2023 12:01:25 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v4 03/16] dt-binding: mediatek: add MediaTek mt8195 MDP3
+ components
+Message-ID: <20230209180125.GA557423-robh@kernel.org>
+References: <20230208092209.19472-1-moudy.ho@mediatek.com>
+ <20230208092209.19472-4-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230208092209.19472-4-moudy.ho@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,33 +69,186 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =C3=A9crit=C2=A0=
-:
-> This is in preparation for attempting to upstream the Rpi H265 decoder
-> as these formats are the only ones the hardware can decode to. They are
-> a column format rather than a tile format but I've added them to the
-> list of tiled formats as that seems the closest match.
->=20
-> V4L2_PIX_FMT_NV12_C128 matches DRM format NV12 with modifier
-> DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT(ch) and
-> V4L2_PIX_FMT_P030_C128 matches DRM format P030 with the same modifier.
+On Wed, Feb 08, 2023 at 05:21:56PM +0800, Moudy Ho wrote:
+> Adds support for MT8195 MDP3 RDMA, and introduce more MDP3 components
+> present in MT8195.
 
-Cause pixel format matching is hard, P030 matches GStreamer NV12_10LE32, fo=
-rmat
-also found on Xilinx ZynMP CODECs (but without any modifiers so far).
+I'm sure I asked this before, but how are these blocks different from 
+what we already have in bindings/display/mediatek/. It's all the same 
+block names. If they are the same/similar h/w, then it should be 1 
+binding even if you have different consumers in the kernel.
 
-This is just for curiosity, was there any software implementation of these
-formats made available publicly ? or have they only been tested in conjunct=
-ion
-with an importing HW ?
+If my questions aren't answered in the patches, then I'll just keep 
+asking because I won't remember...
 
->=20
-> John Cox (2):
->   media: v4l: Add Broadcom sand formats to videodev2.h
->   media: v4l: Add documentation for Broadcom sand formats
->=20
->  .../media/v4l/pixfmt-yuv-planar.rst           | 192 ++++++++++++++++++
->  include/uapi/linux/videodev2.h                |   2 +
->  2 files changed, 194 insertions(+)
->=20
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    |  30 +--
+>  .../bindings/media/mediatek,mdp3-rsz.yaml     |   5 +-
+>  .../bindings/media/mediatek,mt8195-mdp3.yaml  | 174 ++++++++++++++++++
+>  3 files changed, 197 insertions(+), 12 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-mdp3.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> index 46730687c662..abc3284b21d0 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -20,8 +20,9 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - const: mediatek,mt8183-mdp3-rdma
+> +    enum:
+> +      - mediatek,mt8183-mdp3-rdma
+> +      - mediatek,mt8195-mdp3-rdma
+>  
+>    reg:
+>      maxItems: 1
+> @@ -46,20 +47,28 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/uint32-array
+>  
+>    power-domains:
+> -    maxItems: 1
+> +    oneOf:
+> +      - items:
+> +          - description: for RDMA
+> +      - items:
+> +          - description: for vppsys 0
+> +          - description: for vppsys 1
+>  
+>    clocks:
+> -    items:
+> -      - description: RDMA clock
+> -      - description: RSZ clock
+> +    minItems: 2
+> +    maxItems: 19
+>  
+>    iommus:
+> -    maxItems: 1
+> +    oneOf:
+> +      - items:
+> +          - description: RDMA port
+> +      - items:
+> +          - description: RDMA port
+> +          - description: RDMA to WROT DL port
+>  
+>    mboxes:
+> -    items:
+> -      - description: used for 1st data pipe from RDMA
+> -      - description: used for 2nd data pipe from RDMA
+> +    minItems: 1
+> +    maxItems: 5
+>  
+>    '#dma-cells':
+>      const: 1
+> @@ -72,7 +81,6 @@ required:
+>    - power-domains
+>    - clocks
+>    - iommus
+> -  - mboxes
+>    - '#dma-cells'
+>  
+>  additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> index 78f9de6192ef..4bc5ac112d2a 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> @@ -43,12 +43,15 @@ properties:
+>  
+>    clocks:
+>      minItems: 1
+> +    maxItems: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+>  
+>  required:
+>    - compatible
+>    - reg
+>    - mediatek,gce-client-reg
+> -  - mediatek,gce-events
+>    - clocks
+>  
+>  additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-mdp3.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-mdp3.yaml
+> new file mode 100644
+> index 000000000000..d2b01456c495
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-mdp3.yaml
+> @@ -0,0 +1,174 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mt8195-mdp3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Media Data Path 3 display components
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Moudy Ho <moudy.ho@mediatek.com>
+> +
+> +description:
+> +  A group of display pipeline components for image quality adjustment,
+> +  color format conversion and data flow control, and the abbreviations
+> +  are explained below.
+> +  AAL    - Ambient-light Adaptive Luma.
+> +  Color  - Enhance or reduce color in Y/S/H channel.
+> +  FG     - Fime Grain for AV1 spec.
+> +  HDR    - Perform HDR to SDR.
+> +  MERGE  - Used to merge two slice-per-line into one side-by-side.
+> +  OVL    - Perform alpha blending.
+> +  PAD    - Predefined alpha or color value insertion.
+> +  SPLIT  - Split a HDMI stream into two ouptut.
+> +  STITCH - Combine multiple video frame with overlapping fields of view.
+> +  TCC    - HDR gamma curve conversion support.
+> +  TDSHP  - Sharpness and contrast improvement.
 
+Each block likely needs its own schema.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-mdp3-aal
+> +      - mediatek,mt8195-mdp3-color
+> +      - mediatek,mt8195-mdp3-fg
+> +      - mediatek,mt8195-mdp3-hdr
+> +      - mediatek,mt8195-mdp3-merge
+> +      - mediatek,mt8195-mdp3-ovl
+> +      - mediatek,mt8195-mdp3-pad
+> +      - mediatek,mt8195-mdp3-split
+> +      - mediatek,mt8195-mdp3-stitch
+> +      - mediatek,mt8195-mdp3-tcc
+> +      - mediatek,mt8195-mdp3-tdshp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      items:
+> +        - description: phandle of GCE
+> +        - description: GCE subsys id
+> +        - description: register offset
+> +        - description: register size
+
+Given these match up to reg values, I'm really wondering why we have 
+this.
+
+> +    description:
+> +      Each GCE subsys id is mapping to a base address of display function blocks
+> +      register which is defined in <include/dt-bindings/gce/mt8195-gce.h>.
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 7
+
+You have to define what each clock is which probably depends on each 
+block.
+
+Rob
