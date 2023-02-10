@@ -2,198 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3480C6921E8
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E1D2692256
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:36:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbjBJPUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 10:20:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48558 "EHLO
+        id S232768AbjBJPgA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 10:36:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbjBJPUk (ORCPT
+        with ESMTP id S232664AbjBJPf7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 10:20:40 -0500
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8666373970
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:20:38 -0800 (PST)
-Received: by mail-qt1-x833.google.com with SMTP id w3so6061876qts.7
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JriAq8Gi/1ZAZCHSiwYn6iWy1YzYFzfCzvtM0f9TK/4=;
-        b=Ak8uumyyGZ2WCdR3YOxToX/neUD8YY5KeeCoEm8dnW9/UtQRR8eAR6ZhvglL1jim6C
-         EBeIk4aYLtWCVW4VTKNqB4KCJkX/ftlPsHBY4jIAgelx5ReOzxf0BeOn8WlP6oT6kft+
-         vKP/BIOjz6a8myuyIrp29bVs3v0mFSonTyB/t5T4Jo/OOcTRYN00jSTKoDJiSfYHzFHz
-         RStxXyJqix26zvAjfsRPnEy5l8eu4pXBa7XejghyWx0hBZ9636/Nh0HvIChOGmaxI9JC
-         WQyoLzWVmgQot++KyMR00pKHkjN+PdvUfJwd+kNbBMtBMDrh/Fay22iK1t7UYo6o2QVr
-         uISw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JriAq8Gi/1ZAZCHSiwYn6iWy1YzYFzfCzvtM0f9TK/4=;
-        b=E+Gnpdlfzjb9H3RPx3aH++SuX7ESnx+AE/YaOXKHn6zrG7dDyWH4eEgmFOQ4HKatVf
-         ncmDHGlkk8ps/rIxSO7zhxTkz2PlT199PChBnx5jo/2LUfpYfmumW24NM+E1SOD8Dvyz
-         3fu8V7ssoh4jtHEgpfM5j1CLQUIOYgpAZIUVUriJPX1YHlDAOB69q655kZDTU3pum0GK
-         uRl16i2tkGeiFIWtGFSg2/AvXx/l1E1QRf3/gVr/Fz/8FtZ4+q3gfPDepQZu+2Nj8aFb
-         k0ly5RmK4eIDB0u7FDa/XcewnjY9wXa/6d1KVblrfAYIbSabOTdmsGCHz17163Ztv1WR
-         J06A==
-X-Gm-Message-State: AO0yUKVEwQVU5AlAK2kC7S2XVPD9XRWIxEVWwtVQJf5XxamPD66WWH+P
-        whDC/cx6JrSyDSjitErVQDWw8g==
-X-Google-Smtp-Source: AK7set8Hgjc+RtD9vvQpcaHf6vyuZwqRm3G5h1zIyMGrK/eaeebkthVn4A7HBOu+ycP2s1p7nd2JFQ==
-X-Received: by 2002:ac8:5c01:0:b0:3bb:7c6b:9cce with SMTP id i1-20020ac85c01000000b003bb7c6b9ccemr14400068qti.30.1676042437609;
-        Fri, 10 Feb 2023 07:20:37 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id 74-20020a37044d000000b007343fceee5fsm3764005qke.8.2023.02.10.07.20.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 07:20:36 -0800 (PST)
-Message-ID: <d62cae23114b44f956d7e080b98dcbca630f7215.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 04/10] media: Add YUV24_12 video format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        mirela.rabulea@oss.nxp.com, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Fri, 10 Feb 2023 10:20:35 -0500
-In-Reply-To: <70b55bc46cd3cce59637d384013785c9efe444db.1675230665.git.ming.qian@nxp.com>
-References: <cover.1675230665.git.ming.qian@nxp.com>
-         <70b55bc46cd3cce59637d384013785c9efe444db.1675230665.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        Fri, 10 Feb 2023 10:35:59 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0277226CEC
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:35:56 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="314089903"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="314089903"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 07:35:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="731743405"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="731743405"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 10 Feb 2023 07:35:53 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1pQVRH-0056b7-0h;
+        Fri, 10 Feb 2023 17:35:51 +0200
+Date:   Fri, 10 Feb 2023 17:35:50 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Message-ID: <Y+ZkVlzV7qY0K4gS@smile.fi.intel.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
+ <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
+ <Y+YamxehIUdF5aU7@kekkonen.localdomain>
+ <Y+Ycf4SpMaUfdR5m@pendragon.ideasonboard.com>
+ <Y+Yg217HSEi4c+mP@kekkonen.localdomain>
+ <Y+YiNyC7TeOEn/Hi@smile.fi.intel.com>
+ <Y+YlELz9C61HQE0x@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y+YlELz9C61HQE0x@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_SOFTFAIL autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 01 f=C3=A9vrier 2023 =C3=A0 14:02 +0800, Ming Qian a =C3=A9crit=
-=C2=A0:
-> YUV24_12 is a YUV format with 12-bits per component like YUV24,
-> expanded to 16bits.
-> Data in the 12 high bits, zeros in the 4 low bits,
-> arranged in little endian order.
+On Fri, Feb 10, 2023 at 01:05:52PM +0200, Laurent Pinchart wrote:
+> On Fri, Feb 10, 2023 at 12:53:43PM +0200, Andy Shevchenko wrote:
+> > On Fri, Feb 10, 2023 at 12:47:55PM +0200, Sakari Ailus wrote:
+> > > On Fri, Feb 10, 2023 at 12:29:19PM +0200, Laurent Pinchart wrote:
+> > > > On Fri, Feb 10, 2023 at 12:21:15PM +0200, Sakari Ailus wrote:
+> > > > > On Thu, Feb 09, 2023 at 06:11:12PM +0200, Laurent Pinchart wrote:
 
-In YUV24, 24 is derived from 8x3, but here we have 16x3. So if naming is me=
-ant
-to be accurate, shouldn't this be YUV48_12 ?
+...
 
->=20
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  .../media/v4l/pixfmt-packed-yuv.rst           | 28 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c         |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 31 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> index bb7169b2cc8d..a098c5e8e609 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> @@ -257,6 +257,34 @@ the second byte and Y'\ :sub:`7-0` in the third byte=
-.
->      - The padding bits contain undefined values that must be ignored by =
-all
->        applications and drivers.
-> =20
-> +The next lists the packed YUV 4:4:4 formats with more than 8 bits per co=
-mponent.
-> +expand the bits per component to 16 bits, data in the high bits, zeros i=
-n the low bits,
-> +arranged in little endian order. storing 1 pixels in 6 bytes.
-> +
-> +.. flat-table:: Packed YUV 4:4:4 Image Formats (more than 8bpc)
-> +    :header-rows: 1
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      - Byte 1-0
-> +      - Byte 3-2
-> +      - Byte 5-4
-> +      - Byte 7-6
-> +      - Byte 9-8
-> +      - Byte 11-10
-> +
-> +    * .. _V4L2-PIX-FMT-YUV24-12:
-> +
-> +      - ``V4L2_PIX_FMT_YUV24_12``
-> +      - 'Y312'
-> +
-> +      - Y'\ :sub:`0`
-> +      - Cb\ :sub:`0`
-> +      - Cr\ :sub:`0`
-> +      - Y'\ :sub:`1`
-> +      - Cb\ :sub:`1`
-> +      - Cr\ :sub:`1`
-> =20
->  4:2:2 Subsampling
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 3a882fb71227..b3ad02f8cf11 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -259,6 +259,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
->  		{ .format =3D V4L2_PIX_FMT_UYVY,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
-2, .vdiv =3D 1 },
->  		{ .format =3D V4L2_PIX_FMT_VYUY,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D =
-2, .vdiv =3D 1 },
->  		{ .format =3D V4L2_PIX_FMT_YUYV_12, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .hdiv =3D =
-2, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_YUV24_12, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
-, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .hdiv =3D=
- 1, .vdiv =3D 1 },
-> =20
->  		/* YUV planar formats */
->  		{ .format =3D V4L2_PIX_FMT_NV12,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D =
-2, .vdiv =3D 2 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 928acb9d13ec..711d1b0a8184 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1343,6 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  	case V4L2_PIX_FMT_HI240:	descr =3D "8-bit Dithered RGB (BTTV)"; break;
->  	case V4L2_PIX_FMT_M420:		descr =3D "YUV 4:2:0 (M420)"; break;
->  	case V4L2_PIX_FMT_YUYV_12:	descr =3D "12-bit Depth YUYV 4:2:2"; break;
-> +	case V4L2_PIX_FMT_YUV24_12:	descr =3D "12-bit Depth YUV 4:4:4"; break;
->  	case V4L2_PIX_FMT_NV12:		descr =3D "Y/UV 4:2:0"; break;
->  	case V4L2_PIX_FMT_NV21:		descr =3D "Y/VU 4:2:0"; break;
->  	case V4L2_PIX_FMT_NV16:		descr =3D "Y/UV 4:2:2"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 01fd233ff681..3eb188581b83 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -619,6 +619,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX=
--8-8-8-8  */
->  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV =
-4:2:0 2 lines y, 1 line uv interleaved */
->  #define V4L2_PIX_FMT_YUYV_12     v4l2_fourcc('Y', '2', '1', '2') /* 32  =
-YUYV 12-bit per component */
-> +#define V4L2_PIX_FMT_YUV24_12    v4l2_fourcc('Y', '3', '1', '2') /* 48  =
-YUV 4:4:4 12-bit per component */
-> =20
->  /* two planes -- one Y, one Cr + Cb interleaved  */
->  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/Cb=
-Cr 4:2:0  */
+> > > > > I took a look at this some time ago, too, and current regmap API is a poor
+> > > > > fit for CCI devices. CCI works on top of e.g. both I²C and I3C so something
+> > > > > on top of regmap is a better approach indeed.
+> > > > 
+> > > > I'm confused, is regmap a poor fit, or a better approach ?
+> > > 
+> > > I'm proposing having something on top of regmap, but not changing regmap
+> > > itself.
+> > 
+> > I don't understand why we can't change regmap? regmap has a facility called
+> > regmap bus which we can provide specifically for these types of devices. What's
+> > wrong to see it done?
+> 
+> How would that work ?
+
+If I'm not mistaken, you may introduce something like regmal CCI and then
+
+	regmap_init_cci();
+
+
+	regmap_read()/regmap_write()
+	regmap_update_bits()
+	regmap_bulk_*()
+
+at your service without changing a bit in the drivers (they will use plain
+regmap APIs instead of custom ones).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
