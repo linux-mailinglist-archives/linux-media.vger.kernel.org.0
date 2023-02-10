@@ -2,57 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11718691E67
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61D66691E90
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:45:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231846AbjBJLfS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 06:35:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
+        id S231963AbjBJLpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 06:45:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231701AbjBJLfR (ORCPT
+        with ESMTP id S231167AbjBJLpP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 06:35:17 -0500
+        Fri, 10 Feb 2023 06:45:15 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B00271F07
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:35:16 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7ED12125
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:45:13 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0AF7927C;
-        Fri, 10 Feb 2023 12:35:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B59DE70;
+        Fri, 10 Feb 2023 12:45:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676028915;
-        bh=BCCOHpkCVGThX6ksdJ6uABjuM8PelMmC6tLHGzcCA54=;
+        s=mail; t=1676029512;
+        bh=Vy/cJtmhwuD31Ld7WAbrT5UnfoVpeuGf6C/2GyB/Ge0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lerfKsljU4GprnNsU2CAdwoWU31Ejq50+ry83cQgCiE9x4LiwzZFxwgcqEodSlFPw
-         QM+Ft/1r6sZLK5ZOFi5JKNUH5KsLUlOrVbJgjJKRLhX9k8Ln5wVwoI03pP9bR8N+Op
-         bFRxmdHvaWhcdypLkOHWnGX/rbd9OYmmtC35RTHg=
-Date:   Fri, 10 Feb 2023 13:35:13 +0200
+        b=nmo5miMUEW7aJhCmcZC+4+/pdEEJ28BOYu+EDMnLsQK+FJD7pke5hu7IcGcmqCr1q
+         Ovj4Bmc1slgNUyC6WXC1SV3hR9bqwdpFex2U/5z9BA7Ik/HZU7X4Yw+CwN9XfRyAxP
+         1MkUXnIAIAx+5ENW0gooeqhsX38EV7K+2qvfWfYY=
+Date:   Fri, 10 Feb 2023 13:45:10 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
         Yury Luneff <yury.lunev@gmail.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+Yr8dOcDptuUe4D@pendragon.ideasonboard.com>
+Message-ID: <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
  <20230123125205.622152-29-hdegoede@redhat.com>
  <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
  <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
  <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
- <Y+YamxehIUdF5aU7@kekkonen.localdomain>
- <Y+Ycf4SpMaUfdR5m@pendragon.ideasonboard.com>
- <Y+Yg217HSEi4c+mP@kekkonen.localdomain>
- <Y+YiNyC7TeOEn/Hi@smile.fi.intel.com>
- <974597c0-1614-97d5-d933-e52bb1a062ab@redhat.com>
+ <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <974597c0-1614-97d5-d933-e52bb1a062ab@redhat.com>
+In-Reply-To: <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -62,60 +57,265 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 12:19:30PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 2/10/23 11:53, Andy Shevchenko wrote:
-> > On Fri, Feb 10, 2023 at 12:47:55PM +0200, Sakari Ailus wrote:
-> >> On Fri, Feb 10, 2023 at 12:29:19PM +0200, Laurent Pinchart wrote:
-> >>> On Fri, Feb 10, 2023 at 12:21:15PM +0200, Sakari Ailus wrote:
-> >>>> On Thu, Feb 09, 2023 at 06:11:12PM +0200, Laurent Pinchart wrote:
-> > 
-> > ...
-> > 
-> >>>> I took a look at this some time ago, too, and current regmap API is a poor
-> >>>> fit for CCI devices. CCI works on top of e.g. both I²C and I3C so something
-> >>>> on top of regmap is a better approach indeed.
+Hi Hans,
+
+On Fri, Feb 10, 2023 at 12:20:36PM +0100, Hans de Goede wrote:
+> On 2/9/23 17:11, Laurent Pinchart wrote:
+> > On Thu, Feb 09, 2023 at 04:03:22PM +0100, Hans de Goede wrote:
+> >> On 2/8/23 10:52, Laurent Pinchart wrote:
+> >>> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+> >>>> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
+> >>>> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
+> >>>> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
+> >>>>
+> >>>> as well as various "atomisp" sensor drivers in drivers/staging, *all*
+> >>>> use register access helpers with the following function prototypes:
+> >>>>
+> >>>> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
+> >>>>                     unsigned int len, u32 *val);
+> >>>>
+> >>>> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
+> >>>>                      unsigned int len, u32 val);
+> >>>>
+> >>>> To read/write registers on Omnivision OVxxxx image sensors wich expect
+> >>>> a 16 bit register address in big-endian format and which have 1-3 byte
+> >>>> wide registers, in big-endian format (for the higher width registers).
+> >>>>
+> >>>> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+> >>>> versions of these register access helpers, so that this code duplication
+> >>>> can be removed.
 > >>>
-> >>> I'm confused, is regmap a poor fit, or a better approach ?
+> >>> Any reason to hand-roll those instead of using regmap ?
 > >>
-> >> I'm proposing having something on top of regmap, but not changing regmap
-> >> itself.
+> >> These devices have a mix of 8 + 16 + 24 bit registers which regmap
+> >> appears to not handle, a regmap has a single regmap_config struct
+> >> with a single "@reg_bits: Number of bits in a register address, mandatory",
+> >> so we would still need wrappers around regmap, at which point it
+> >> really offers us very little.
 > > 
-> > I don't understand why we can't change regmap? regmap has a facility called
-> > regmap bus which we can provide specifically for these types of devices. What's
-> > wrong to see it done?
+> > We could extend regmap too, although that may be too much yak shaving.
+> > It would be nice, but I won't push hard for it.
+> > 
+> >> Also I'm moving duplicate code present in many of the
+> >> drivers/media/i2c/ov*.c files into a common header to remove
+> >> duplicate code. The handrolling was already there before :)
+> >>
+> >> My goal with the new ovxxxx_16bit_addr_reg_helpers.h file was to
+> >> offer something which is as much of a drop-in replacement of the
+> >> current handrolled code as possible (usable with just a few
+> >> search-n-replaces) as possible.
+> >>
+> >> Basically my idea here was to factor out code which I noticed was
+> >> being repeated over and over again. My goal was not to completely
+> >> redo how register accesses are done in these drivers.
+> >>
+> >> I realize I have not yet converted any other drivers, that is because
+> >> I don't really have a way to test most of the other drivers. OTOH
+> >> with the current helpers most conversions should be fairly simply
+> >> and remove a nice amount of code. So maybe I should just only compile
+> >> test the conversions ?
+> > 
+> > Before you spend time converting drivers, I'd like to complete the
+> > discussion regarding the design of those helpers. I'd rather avoid
+> > mass-patching drivers now and doing it again in the next kernel release.
 > 
-> It is fairly easy to layer the few 16 and 24 bit register accesses over
-> a standard regmap with 16 bit reg-address and 8 bit reg-data width using
-> regmap_bulk_write() to still do the write in e.g. a single i2c-transfer.
+> I completely agree.
+> 
+> > Sakari mentioned CCI (part of the CSI-2 specification). I think that
+> > would be a good name to replace ov* here, as none of this is specific to
+> > OmniVision.
+> 
+> I did not realize this was CCI I agree renaming the helpers makes sense.
+> 
+> I see there still is a lot of discussion going on.
 
-I think we could also use regmap_raw_write().
+I haven't seen any disagreement regarding the cci prefix, so let's go
+for that. I'd propose cci_read() and cci_write().
 
-> So if we want regmap for underlying physical layer independence, e.g.
-> spi / i2c / i3c. we can just use standard regmap with a 
-> cci_write_reg helper on top.
+Sakari, you and I would prefer layering this on top of regmap, while
+Andy proposed extending the regmap API. Let's see if we reach an
+anonymous agreement on this.
 
-Agreed. We can start experimenting with this, and if somebody has use
-cases outside of the camera sensor drivers space, we could later move
-those helpers to regmap.
+Regarding the width-specific versions of the helpers, I really think
+encoding the size in the register macros is the best option. It makes
+life easier for driver authors (only one function to call, no need to
+think about the register width to pick the appropriate function in each
+call) and reviewers (same reason), without any drawback in my opinion.
 
-> I think that would be the most KISS solution here. One thing to also keep
-> in mind is the amount of work necessary to convert existing sensor drivers.
-> Also keeping in mind that it is not just the in tree sensor drivers, but
-> also all out of tree sensor drivers which I have seen use similar constructs.
+Another feature I'd like in these helpers is improved error handling. In
+quite a few sensor drivers I've written, I've implemented the write
+function as
 
-If this was the only issue to handle when porting drivers to mainline
-and upstreaming them, I'd be happy :-)
+int foo_write(struct foo *foo, u32 reg, u32 val, int *err)
+{
+	...
+	int ret;
 
-> Requiring drivers to have a list / array of structs of all used register
-> addresses + specifying the width per register address is not going to scale
-> very poorly wrt converting all the code out there and I'm afraid that
-> letting regmap somehow deal with the register-width issue is going to
-> require something like this.
+	if (err && *err)
+		return *err;
 
-Did you mean "not going to scale very well" ? I'm not sure to understand
-what you mean here.
+	ret = real_write(...);
+	if (ret < 0) {
+		dev_err(...);
+		if (err)
+			*err = ret;
+	}
+
+	return ret;
+}
+
+This allows callers to write
+
+	int ret = 0;
+
+	foo_write(foo, REG_A, 0, &ret);
+	foo_write(foo, REG_B, 1, &ret);
+	foo_write(foo, REG_C, 2, &ret);
+	foo_write(foo, REG_D, 3, &ret);
+
+	return ret;
+
+which massively simplifies error handling. I'd like the CCI write helper
+to implement such a pattern.
+
+> I'll do a follow up series renaming the helpers and converting the
+> atomisp ov2680 sensor driver (!) to the new helpers when the current
+> discussion about this is done.
+
+Thank you in advance.
+
+> And then we can discuss any further details based on v1 of that
+> follow up series.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 1) this is already in media-next, but only used by the 1 staging atomisp sensor driver
+
+That's fine, let's just make sure not to use these new helpers further
+before we rename them.
+
+> >>> Also, may I
+> >>> suggest to have a look at drivers/media/i2c/imx290.c for an example of
+> >>> how registers of different sizes can be handled in a less error-prone
+> >>> way, using single read/write functions that adapt to the size
+> >>> automatically ?
+> >>
+> >> Yes I have seen this pattern in drivers/media/i2c/ov5693.c too
+> >> (at least I assume it is the same pattern you are talking about).
+> > 
+> > Correct. Can we use something like that to merge all the ov*_write_reg()
+> > variants into a single function ? Having to select the size manually in
+> > each call (either by picking the function variant, or by passing a size
+> > as a function parameter) is error-prone. Encoding the size in the
+> > register macro is much safer, easing both development and review.
+> > 
+> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >>>> ---
+> >>>>  include/media/ovxxxx_16bit_addr_reg_helpers.h | 93 +++++++++++++++++++
+> >>>>  1 file changed, 93 insertions(+)
+> >>>>  create mode 100644 include/media/ovxxxx_16bit_addr_reg_helpers.h
+> >>>>
+> >>>> diff --git a/include/media/ovxxxx_16bit_addr_reg_helpers.h b/include/media/ovxxxx_16bit_addr_reg_helpers.h
+> >>>> new file mode 100644
+> >>>> index 000000000000..e2ffee3d797a
+> >>>> --- /dev/null
+> >>>> +++ b/include/media/ovxxxx_16bit_addr_reg_helpers.h
+> >>>> @@ -0,0 +1,93 @@
+> >>>> +/* SPDX-License-Identifier: GPL-2.0 */
+> >>>> +/*
+> >>>> + * I2C register access helpers for Omnivision OVxxxx image sensors which expect
+> >>>> + * a 16 bit register address in big-endian format and which have 1-3 byte
+> >>>> + * wide registers, in big-endian format (for the higher width registers).
+> >>>> + *
+> >>>> + * Based on the register helpers from drivers/media/i2c/ov2680.c which is:
+> >>>> + * Copyright (C) 2018 Linaro Ltd
+> >>>> + */
+> >>>> +#ifndef __OVXXXX_16BIT_ADDR_REG_HELPERS_H
+> >>>> +#define __OVXXXX_16BIT_ADDR_REG_HELPERS_H
+> >>>> +
+> >>>> +#include <asm/unaligned.h>
+> >>>> +#include <linux/dev_printk.h>
+> >>>> +#include <linux/i2c.h>
+> >>>> +
+> >>>> +static inline int ovxxxx_read_reg(struct i2c_client *client, u16 reg,
+> >>>> +				  unsigned int len, u32 *val)
+> >>>> +{
+> >>>> +	struct i2c_msg msgs[2];
+> >>>> +	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
+> >>>> +	u8 data_buf[4] = { 0, };
+> >>>> +	int ret;
+> >>>> +
+> >>>> +	if (len > 4)
+> >>>> +		return -EINVAL;
+> >>>> +
+> >>>> +	msgs[0].addr = client->addr;
+> >>>> +	msgs[0].flags = 0;
+> >>>> +	msgs[0].len = ARRAY_SIZE(addr_buf);
+> >>>> +	msgs[0].buf = addr_buf;
+> >>>> +
+> >>>> +	msgs[1].addr = client->addr;
+> >>>> +	msgs[1].flags = I2C_M_RD;
+> >>>> +	msgs[1].len = len;
+> >>>> +	msgs[1].buf = &data_buf[4 - len];
+> >>>> +
+> >>>> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+> >>>> +	if (ret != ARRAY_SIZE(msgs)) {
+> >>>> +		dev_err(&client->dev, "read error: reg=0x%4x: %d\n", reg, ret);
+> >>>> +		return -EIO;
+> >>>> +	}
+> >>>> +
+> >>>> +	*val = get_unaligned_be32(data_buf);
+> >>>> +
+> >>>> +	return 0;
+> >>>> +}
+> >>>> +
+> >>>> +#define ovxxxx_read_reg8(s, r, v)	ovxxxx_read_reg(s, r, 1, v)
+> >>>> +#define ovxxxx_read_reg16(s, r, v)	ovxxxx_read_reg(s, r, 2, v)
+> >>>> +#define ovxxxx_read_reg24(s, r, v)	ovxxxx_read_reg(s, r, 3, v)
+> >>>> +
+> >>>> +static inline int ovxxxx_write_reg(struct i2c_client *client, u16 reg,
+> >>>> +				   unsigned int len, u32 val)
+> >>>> +{
+> >>>> +	u8 buf[6];
+> >>>> +	int ret;
+> >>>> +
+> >>>> +	if (len > 4)
+> >>>> +		return -EINVAL;
+> >>>> +
+> >>>> +	put_unaligned_be16(reg, buf);
+> >>>> +	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
+> >>>> +	ret = i2c_master_send(client, buf, len + 2);
+> >>>> +	if (ret != len + 2) {
+> >>>> +		dev_err(&client->dev, "write error: reg=0x%4x: %d\n", reg, ret);
+> >>>> +		return -EIO;
+> >>>> +	}
+> >>>> +
+> >>>> +	return 0;
+> >>>> +}
+> >>>> +
+> >>>> +#define ovxxxx_write_reg8(s, r, v)	ovxxxx_write_reg(s, r, 1, v)
+> >>>> +#define ovxxxx_write_reg16(s, r, v)	ovxxxx_write_reg(s, r, 2, v)
+> >>>> +#define ovxxxx_write_reg24(s, r, v)	ovxxxx_write_reg(s, r, 3, v)
+> >>>> +
+> >>>> +static inline int ovxxxx_mod_reg(struct i2c_client *client, u16 reg, u8 mask, u8 val)
+> >>>> +{
+> >>>> +	u32 readval;
+> >>>> +	int ret;
+> >>>> +
+> >>>> +	ret = ovxxxx_read_reg8(client, reg, &readval);
+> >>>> +	if (ret < 0)
+> >>>> +		return ret;
+> >>>> +
+> >>>> +	readval &= ~mask;
+> >>>> +	val &= mask;
+> >>>> +	val |= readval;
+> >>>> +
+> >>>> +	return ovxxxx_write_reg8(client, reg, val);
+> >>>> +}
+> >>>> +
+> >>>> +#endif
 
 -- 
 Regards,
