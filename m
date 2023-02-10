@@ -2,152 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFF2E6921D1
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B40716921D9
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232360AbjBJPS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 10:18:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
+        id S232622AbjBJPTF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 10:19:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232536AbjBJPS2 (ORCPT
+        with ESMTP id S232613AbjBJPTE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 10:18:28 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D43774054
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:18:27 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id f10so6079584qtv.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:18:27 -0800 (PST)
+        Fri, 10 Feb 2023 10:19:04 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E017406B
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:18:59 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id 141so3960264pgc.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:18:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kgPIjCTIkUK2HSydXpeow0zn/gWtp/nDZGA8t6qS5Fo=;
-        b=fJuzmKqP1FyrpKunPWkIWZlVixMikRcsvY0XDhEg18HEtRmaR9NuBb9Oyl9QCVEYhc
-         dC3+NVFqXiFEzLnSjmBvvTliOARPGyCGMIElYKwZYbnEsEBiBcar9uhx+EudsBH5lI9F
-         qlOIeOq7kPqKmGv4j4XJMqO9627Tpl96OlVF8zlWN+BSgbLRfC/eY3HJVilpBhQHJA39
-         8BmUM2fr/9SS31R/UzD1SOH7Vt78WiXeaue6gQRA3zhj2fbU6qm8i01LGNCBVfP4GZfI
-         C6kTxwbN8Dqmhlm/k7/PPLY/X7SxQG2lyM23INYIU1yyS6U+iwJTsJmAOG93g49mFJFe
-         JYmw==
+        d=semihalf.com; s=google; t=1676042339;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SZJPND2s+zQTcPg0lTRjGcQ6VAXJSBe+ETxukqXx6TY=;
+        b=GLwRV7JINjFYIBK9wuwB1hc8Kov9Yd0NsyeednjqlZ2UWz4RvxDL+u9g1yvu1x7F48
+         Dmu3hQ5gsj1doi2QDE89d92lI0O4h21YzjH55lbPzuF73Bfc3e1Fh45iLp6Ho6oBtd5S
+         AXR1WVstTrnWSsa3FK5WMO6vfZIWog2Rscdbr0kI8J5CqlTd7PZDLpQxjL5XADaH5jhb
+         8nLI6qsffcMXhLdCXNB0DujC7UfWqJCbAz4mRaCHT/f79LIFQPo3dnBNCgZb0Os9HrtX
+         NVrU6pxJMwv0e8FOR6H7JdK3RtB1vM2shDelPBbLqvD8SCFZsNIOCWunr1xJ7HWviOIn
+         xXCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kgPIjCTIkUK2HSydXpeow0zn/gWtp/nDZGA8t6qS5Fo=;
-        b=0DsoXIqK5MJCfeEyybSvKJ9EXeCDs6orxbVdLKvRyjliQONYU0bno5T7qzpMNciRDc
-         p5kG8O596EIVxIPKPv7r586/TlhVURZIAC1n3laX6hCRwH0y5mdV8xZ4eza2wP1jOlSm
-         jC0znriv4eOXfxi6ZK+g8GYZ5UnQ1IUw9dGux4mB4dnTnB0HskVOFk1iYYJwMUNeBj0n
-         /aafXQvEUwmUXVrYR1eljmv2j+upOh5IQwh37O5O2930H3ubybGn2TG3pE+hdgBcjIq7
-         LUkdazQQ3iHxsNtYuQnCwHxQ0V7pLkJ2v9fGiXnBxYiRVSHZ608DU6A2EINk2oxHagnS
-         wvdQ==
-X-Gm-Message-State: AO0yUKXLEfGVH0B9JFYL/hN9DsAAWDn0Xsm367ZC6cJ2Tc7Jv4FucG5D
-        ukPT6zpMFXvN8cZ9wMewVolcnA==
-X-Google-Smtp-Source: AK7set+gUFCcFMUcL9lV8dyoEs94WpKVtWCKgY2rHe531Q1KT2iZt1vu+oZXGbFTnbBqNWfdeZU3ag==
-X-Received: by 2002:a05:622a:1a05:b0:3b6:3995:2ec2 with SMTP id f5-20020a05622a1a0500b003b639952ec2mr26618793qtb.19.1676042306398;
-        Fri, 10 Feb 2023 07:18:26 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id g4-20020ac80704000000b003b63b8df24asm3464597qth.36.2023.02.10.07.18.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 07:18:25 -0800 (PST)
-Message-ID: <fa6fcd8a905bff34f6d436ef328f5142b72b854c.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 02/10] media: Add Y012 video format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        mirela.rabulea@oss.nxp.com, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Fri, 10 Feb 2023 10:18:24 -0500
-In-Reply-To: <93889cdefacaad260d978a8353066dd384a64609.1675230665.git.ming.qian@nxp.com>
-References: <cover.1675230665.git.ming.qian@nxp.com>
-         <93889cdefacaad260d978a8353066dd384a64609.1675230665.git.ming.qian@nxp.com>
+        d=1e100.net; s=20210112; t=1676042339;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SZJPND2s+zQTcPg0lTRjGcQ6VAXJSBe+ETxukqXx6TY=;
+        b=u9aNq6B8D0mtWvx+30/q+/3yOKGcv2CwGQRPjqb4VHOgYDIBuQCDS32+81OS5jeSkf
+         nZjlwW2SybpfNuBmCbMABbwbxW/TY8W6Mr2/wNQe1EiQb0rmQlqhVendGZsxke78B9bQ
+         MZV7lZkCuXvlpY5OcHLXe//t8B4wpGfjivJTIhChHG6h/+fAjxJecrOCTT95mJi2ML/f
+         IrUo39mewSF93J8QT6tsaYZ2cMw4RkF2VOflYyl7RssXwJymS7+WOXbT9yX8M9aHkR7U
+         0RAdaDw+6Q1okzSdLp0xkDEp+4LTspOl7sdWuwwyYBAXhgtYieio9+XudJDc9Gw+C3xN
+         QZbg==
+X-Gm-Message-State: AO0yUKWSfvDCAoMDRXTevHTT6FPvDZCwwIvk8CCpKFlfoQG66YgvWbJ/
+        WdaNxmX63c+l8Ne525OJQDHyZb0K7QheoQAZvmVxCw==
+X-Google-Smtp-Source: AK7set/0kOMUQDxFWMfAfr5O5VlT67Hlh3gmf7QVZEcin3wKEVNgleV6xMqGCZwpG4zHOmc5o2TOk7skFNIJI9Mbb0s=
+X-Received: by 2002:aa7:9d9e:0:b0:5a8:5351:81d0 with SMTP id
+ f30-20020aa79d9e000000b005a8535181d0mr1280424pfq.42.1676042338996; Fri, 10
+ Feb 2023 07:18:58 -0800 (PST)
+MIME-Version: 1.0
+References: <20230130105423.1338554-1-mk@semmihalf.com> <20230130135418.1604455-1-mk@semmihalf.com>
+ <CAJMMOfNJV+eOqTgUoLLWKQe2MJ=6fXL3aaP6d=YrSBQvfhOXiA@mail.gmail.com>
+ <DM8PR02MB8169B2AC8918F8E31628F61AF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <CAJMMOfN-6fgN0VohA5ViwVXmNWtA13ycfZFoO4ys9_CLes0feA@mail.gmail.com>
+In-Reply-To: <CAJMMOfN-6fgN0VohA5ViwVXmNWtA13ycfZFoO4ys9_CLes0feA@mail.gmail.com>
+From:   =?UTF-8?Q?Micha=C5=82_Krawczyk?= <mk@semihalf.com>
+Date:   Fri, 10 Feb 2023 16:18:47 +0100
+Message-ID: <CAJMMOfM41dfqx0NoiHGE=8X5hoRHo1=qPEp4KXLP1kygestEJQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: venus: dec: Fix handling of the start cmd
+To:     Vikash Garodia <vgarodia@qti.qualcomm.com>
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mw@semihalf.com" <mw@semihalf.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 01 f=C3=A9vrier 2023 =C3=A0 14:02 +0800, Ming Qian a =C3=A9crit=
-=C2=A0:
-> Y012 is a luma-only formats with 12-bits per pixel,
-> expanded to 16bits.
-> Data in the 12 high bits, zeros in the 4 low bits,
-> arranged in little endian order.
->=20
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
->  include/uapi/linux/videodev2.h                        |  1 +
->  3 files changed, 13 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/=
-Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> index 6a387f9df3ba..3ffa29000238 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> @@ -103,6 +103,17 @@ are often referred to as greyscale formats.
->        - ...
->        - ...
-> =20
-> +    * .. _V4L2-PIX-FMT-Y012:
+Hi,
 
-Why the 0, can't this be name Y12 (just like Y14) ?
+I'm wondering if there are any more comments for this patch? I would
+be happy to clarify anything that's unclear or improve the code if
+needed.
 
-> +
-> +      - ``V4L2_PIX_FMT_Y012``
-> +      - 'Y012'
-> +
-> +      - Y'\ :sub:`0`\ [3:0] `0000`
-> +      - Y'\ :sub:`0`\ [11:4]
-> +      - ...
-> +      - ...
-> +      - ...
-> +
->      * .. _V4L2-PIX-FMT-Y14:
-> =20
->        - ``V4L2_PIX_FMT_Y14``
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 067dbdd0a9ef..0ee730aa6cc7 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1303,6 +1303,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  	case V4L2_PIX_FMT_Y6:		descr =3D "6-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y10:		descr =3D "10-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y12:		descr =3D "12-bit Greyscale"; break;
-> +	case V4L2_PIX_FMT_Y012:		descr =3D "12-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y14:		descr =3D "14-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y16:		descr =3D "16-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y16_BE:	descr =3D "16-bit Greyscale BE"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 5448aa3b7858..3d8f89bff33c 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -583,6 +583,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_Y6      v4l2_fourcc('Y', '0', '6', ' ') /*  6  Grey=
-scale     */
->  #define V4L2_PIX_FMT_Y10     v4l2_fourcc('Y', '1', '0', ' ') /* 10  Grey=
-scale     */
->  #define V4L2_PIX_FMT_Y12     v4l2_fourcc('Y', '1', '2', ' ') /* 12  Grey=
-scale     */
-> +#define V4L2_PIX_FMT_Y012    v4l2_fourcc('Y', '0', '1', '2') /* 12  Grey=
-scale     */
->  #define V4L2_PIX_FMT_Y14     v4l2_fourcc('Y', '1', '4', ' ') /* 14  Grey=
-scale     */
->  #define V4L2_PIX_FMT_Y16     v4l2_fourcc('Y', '1', '6', ' ') /* 16  Grey=
-scale     */
->  #define V4L2_PIX_FMT_Y16_BE  v4l2_fourcc_be('Y', '1', '6', ' ') /* 16  G=
-reyscale BE  */
+I know it's pretty late, but it would be really great if this fix
+could land before v6.2 is released, so I'd appreciate your help and
+review.
 
+Thank you,
+Micha=C5=82
+
+wt., 7 lut 2023 o 12:15 Micha=C5=82 Krawczyk <mk@semihalf.com> napisa=C5=82=
+(a):
+>
+> wt., 7 lut 2023 o 10:54 Vikash Garodia <vgarodia@qti.qualcomm.com> napisa=
+=C5=82(a):
+> > I have reviewed the patch, and the drain sequence handling looks good t=
+o me.
+> > Could you share some details on the test client which you are using to =
+catch this issue ?
+>
+> Hi Vikash,
+>
+> Thank you for looking at the code!
+>
+> I've been testing it using the Chromium implementation of the V4L2
+> codec [1]. Meanwhile, we were running a test suite which changes the
+> encryption method in the middle of the video decoding. This triggers
+> the flush behavior and the Chromium sends the stop/start cmd to the
+> V4L2 kernel component, and the test expects the video to continue the
+> playback normally. Unfortunately, it was causing a stall of the video
+> at the same time.
+>
+> [1] https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/v4=
+l2/
+>
+> >
+> > > Thank you,
+> > > Micha=C5=82
+> >
+> > Thanks,
+> > Vikash
