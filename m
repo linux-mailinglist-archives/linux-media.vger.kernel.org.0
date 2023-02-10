@@ -2,165 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77F6F6922E0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 17:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2420469231B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 17:17:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232920AbjBJQCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 11:02:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
+        id S232157AbjBJQR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 11:17:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232904AbjBJQCI (ORCPT
+        with ESMTP id S231948AbjBJQR0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 11:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CA3B20565
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 08:01:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676044878;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UgRvWSSS/HZdkVKd8F3x24TtSl4QFRTT0cLIERg7rLM=;
-        b=eiQ9l6zoeElucO8v0PnUs85wCx45z7tOXv9rIvoR+bAm9zVAHQGllBCJpdnDkfi4/t5F56
-        EjMuDmncXhQq+j62ItxJfbTw748RkENkvRHDqXkAAvdByL5kq4QzYWhwPe+r5zD41TDBLI
-        BSoL1HHxuEwy2Xl62Sg40fVxWpuiymU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-35-pcjL6MvEPca2MDPgwAyV3Q-1; Fri, 10 Feb 2023 11:01:17 -0500
-X-MC-Unique: pcjL6MvEPca2MDPgwAyV3Q-1
-Received: by mail-ej1-f72.google.com with SMTP id qa17-20020a170907869100b0088ea39742c8so3853019ejc.13
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 08:01:16 -0800 (PST)
+        Fri, 10 Feb 2023 11:17:26 -0500
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 228EE6A7D
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 08:17:26 -0800 (PST)
+Received: by mail-qt1-x831.google.com with SMTP id c2so6307600qtw.5
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 08:17:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ljkZKrFHFRYLKh4I/ps9hC1nFLlJkJ8B3rbSxUPKJw0=;
+        b=aA4SwBRm+7a9CgUx9XZ7axJQOXX4Wi7yjyeL186RjVgTTyEjwSsH0aeVzUvsqLk3I5
+         TmlbCLD8Kf8lEFEwvZx/D2tjgo4Bqmw7nqayzhOpFVb0FFVQx/+ypSTnZj/n6U0oBU8X
+         zkZtxQEOfoGHFS9bomYj2fGnM8/gtpd9k0GuNQOEbWbxZFQqUfdccaq/7Q5si3wHB0zD
+         dwno+6Odo/T1S4S5u9IFZo34qKCAj1+L8I9OCDr7BuOOKKMom1lmZBwTnXJnAYglk2rn
+         qFeNVgpJV/mUxBL7FOEG25TIT8HhjqrfUuvG7edQEJ0L6BZlS2xxPKBPqOh7QqrwfG/B
+         tsJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UgRvWSSS/HZdkVKd8F3x24TtSl4QFRTT0cLIERg7rLM=;
-        b=yLSqKCm/CQ0/DttMHqXvTHwWH16aUC4cIDXPaFXTPAYwXkanyXWQgMMQYH0jtbXdIB
-         9Obf3d85ERBbUdPmZToOcUr3ZNm+/pRwZJZ9YOENsD8ed6W99seZsJBRxPk4EyC4Jpzd
-         KvJBiZPXjAqTyn2AFUkpEAIEEFpOTQNJvTEIk+8tVZi4OHrzy6oY66cClWlkgRgeOlvT
-         Mn4ULShtAHMGyuFQmovLxo23Kw4uSRGuHUg6pcJNe8xRkpoc+DXYECwmYFg9PCW+7x22
-         5HbVeRkp9XKvesvBTOTLGJ10aAPSJCe8P/2Im79WjfmxpsMyAoa5a/ABIISzT+rPfdv0
-         hD1g==
-X-Gm-Message-State: AO0yUKWNw72WBpo879OFuZpM3wvEHZ7ctwlzWaji80VzfMT6xp9T4AJU
-        qXJJ6vvrpSaNGc2SId8GOcl12w/O0zWH7zCcmrQNV3Jfh89ogK22VQmWduHU8UhLBIzB01Dvs51
-        C5BXPB9GkbajY3bSd8qph3NLXSFV2
-X-Received: by 2002:a50:d49e:0:b0:46d:35f6:5a9b with SMTP id s30-20020a50d49e000000b0046d35f65a9bmr16935499edi.24.1676044875289;
-        Fri, 10 Feb 2023 08:01:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set8cFaea0cXGa98GMo9HtF2UFB/0Yqym/MBvtdHiJBmrfnEmKiA9+bVjbdVDhh8mFOtRVfzErw==
-X-Received: by 2002:a50:d49e:0:b0:46d:35f6:5a9b with SMTP id s30-20020a50d49e000000b0046d35f65a9bmr16935484edi.24.1676044875136;
-        Fri, 10 Feb 2023 08:01:15 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id z16-20020a5096d0000000b004aad0a9144fsm2419311eda.51.2023.02.10.08.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 08:01:14 -0800 (PST)
-Message-ID: <975bcc79-6ac1-658d-582a-cbd4ec3434b8@redhat.com>
-Date:   Fri, 10 Feb 2023 17:01:13 +0100
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ljkZKrFHFRYLKh4I/ps9hC1nFLlJkJ8B3rbSxUPKJw0=;
+        b=6cfGuQmE2jDm6xXnjrlcPmXtEx9G+b/JZfMtMuPjQprBvLDKD9VLH3vsr7gu9eARGq
+         nCsEcgmLLUtK3znczHoj9gpUdR7wpK1GW42i1ibdSwoPT9zjP9muGXoEriTL5fUkXR+1
+         R5UGlRMfLrjBNk0gI13PBZlao1CZPNEiNftamg5Ndjqrgv4LZTM09otYhvOiMYCXm47n
+         tx1nLqLLpNc/xVoTWXY7jNHZsom1R5NtKzxOKmFPH/ca+fW6mmZ8vj1Ui4jr2F/KRreE
+         81d8Tk59+Wo8Y5TGSBr3Lhz0dKkCtwB5WBEav/Jj/nZp6nA/uGiqUWq28hPPFgtUIxxG
+         wBZw==
+X-Gm-Message-State: AO0yUKV+cra4CKk6FNNkEGtnWV5JSJ390Qs4RAJcGIhLmjogMr6Eg33y
+        rnFMbZVK0VZNvjtB/RbkZtgpmIIPOc3uCWGeK0c=
+X-Google-Smtp-Source: AK7set8d5QX9lklyAWz/sM8+0xgT0nY/10pX9fD00ocoNZjIeOVwoSWUUTyEO4l0iOtobAMWvlZp3w==
+X-Received: by 2002:a05:622a:1b8e:b0:3b9:b5c5:ebb1 with SMTP id bp14-20020a05622a1b8e00b003b9b5c5ebb1mr28066042qtb.9.1676045845288;
+        Fri, 10 Feb 2023 08:17:25 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id i6-20020ac84f46000000b003b80fdaa14dsm3598880qtw.73.2023.02.10.08.17.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Feb 2023 08:17:24 -0800 (PST)
+Message-ID: <04dd55039d1c66d382dc9086500e5b8037ed6598.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/2] media: v4l: Add Broadcom sand formats to videodev2.h
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     John Cox <jc@kynesim.co.uk>
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
+Date:   Fri, 10 Feb 2023 11:17:23 -0500
+In-Reply-To: <1ogauh5ro652so8vtc2fsgor5g3pj6ns3e@4ax.com>
+References: <20230127153415.83126-1-jc@kynesim.co.uk>
+         <20230127153415.83126-2-jc@kynesim.co.uk>
+         <4c9eef106e893b633ab83a792d97cc5e36f408fe.camel@ndufresne.ca>
+         <1ogauh5ro652so8vtc2fsgor5g3pj6ns3e@4ax.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andy@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
- <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
- <Y+YamxehIUdF5aU7@kekkonen.localdomain>
- <Y+Ycf4SpMaUfdR5m@pendragon.ideasonboard.com>
- <Y+Yg217HSEi4c+mP@kekkonen.localdomain> <Y+YiNyC7TeOEn/Hi@smile.fi.intel.com>
- <Y+YlELz9C61HQE0x@pendragon.ideasonboard.com>
- <Y+ZkVlzV7qY0K4gS@smile.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y+ZkVlzV7qY0K4gS@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 19:06 +0000, John Cox a =C3=A9crit=C2=
+=A0:
+> Hi
+>=20
+> > Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =C3=A9crit=
+=C2=A0:
+> > > Add fourccs for Broadcom 8 and 10-bit packed 128 byte column formats =
+to
+> > > videodev2.h
+> > >=20
+> > > Signed-off-by: John Cox <jc@kynesim.co.uk>
+> > > ---
+> > >  include/uapi/linux/videodev2.h | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >=20
+> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vide=
+odev2.h
+> > > index 1befd181a4cc..a836322ae5d8 100644
+> > > --- a/include/uapi/linux/videodev2.h
+> > > +++ b/include/uapi/linux/videodev2.h
+> > > @@ -656,6 +656,8 @@ struct v4l2_pix_format {
+> > >  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12 =
+ Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
+> > >  #define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1', '2'=
+) /* Y/CbCr 4:2:0 8x128 tiles */
+> > >  #define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', '1', =
+'2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> > > +#define V4L2_PIX_FMT_NV12_C128        v4l2_fourcc('C', 'N', '1', '2'=
+) /* Y/CbCr 4:2:0 128 byte columns */
+> > > +#define V4L2_PIX_FMT_P030_C128        v4l2_fourcc('C', 'N', '3', '0'=
+) /* Y/CbCr 4:2:0 10-bit packed 128 byte columns */
+> > > =20
+> > >  /* Tiled YUV formats, non contiguous planes */
+> > >  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  =
+Y/CbCr 4:2:0 64x32 tiles */
+> >=20
+> > I would expect updates to v4l2-common.c and v4l2-ioctl.c to be in the s=
+ame
+> > patch. And then the driver should be using the helpers there whenever p=
+ossible.
+>=20
+> Fair point - I'll fix that.
+>=20
+> What is the correct .bpp for 3 10-bit pixels packed into 4 bytes in the
+> v4l2_format_info?
 
-On 2/10/23 16:35, Andy Shevchenko wrote:
-> On Fri, Feb 10, 2023 at 01:05:52PM +0200, Laurent Pinchart wrote:
->> On Fri, Feb 10, 2023 at 12:53:43PM +0200, Andy Shevchenko wrote:
->>> On Fri, Feb 10, 2023 at 12:47:55PM +0200, Sakari Ailus wrote:
->>>> On Fri, Feb 10, 2023 at 12:29:19PM +0200, Laurent Pinchart wrote:
->>>>> On Fri, Feb 10, 2023 at 12:21:15PM +0200, Sakari Ailus wrote:
->>>>>> On Thu, Feb 09, 2023 at 06:11:12PM +0200, Laurent Pinchart wrote:
-> 
-> ...
-> 
->>>>>> I took a look at this some time ago, too, and current regmap API is a poor
->>>>>> fit for CCI devices. CCI works on top of e.g. both I²C and I3C so something
->>>>>> on top of regmap is a better approach indeed.
->>>>>
->>>>> I'm confused, is regmap a poor fit, or a better approach ?
->>>>
->>>> I'm proposing having something on top of regmap, but not changing regmap
->>>> itself.
->>>
->>> I don't understand why we can't change regmap? regmap has a facility called
->>> regmap bus which we can provide specifically for these types of devices. What's
->>> wrong to see it done?
->>
->> How would that work ?
-> 
-> If I'm not mistaken, you may introduce something like regmal CCI and then
-> 
-> 	regmap_init_cci();
-> 
-> 
-> 	regmap_read()/regmap_write()
-> 	regmap_update_bits()
-> 	regmap_bulk_*()
-> 
-> at your service without changing a bit in the drivers (they will use plain
-> regmap APIs instead of custom ones).
+Good question, maybe this can be done with the fractional bpp support. I mu=
+st
+admit, I didn't think about padded cases, I was handling 10bit fully packed=
+ over
+5 bytes.
 
-regmap_bus is for low-level busses like i2c, i3c, spi, etc.
+https://lore.kernel.org/linux-arm-kernel/20230103170058.810597-3-benjamin.g=
+aignard@collabora.com/
+My case ended working with:
 
-We could "abuse" this to overwrite the standard regmap read/write helpers
-with bus specific ones, but then we loose the actual bus abstraction
-and we would need separate regmap-cci implementations for i2c/i3c/spi.
+ { .format =3D V4L2_PIX_FMT_NV12_10LE40_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_=
+YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bpp_=
+div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
 
-> Again, we can extend regmap to have something like
->
->	int (*reg_width)(regmap *, offset)
->
-> callback added that will tell the regmap bus underneath what size to use.
->
-> In the driver one will define the respective method to return these widths.
+Question is what do we do about comp_planes, if we kind of fake it to be 2,=
+ then maybe this would work.
 
-That won't work internal helpers to marshall raw-buffers with both reg-addr
-+ reg value(s) to pass to the low-level (i2c/i3c/spi) drivers use an internal
-regmap.format struct which gets filled with reg-width specific info once
-from __regmap_init() what you are suggesting really requires major surgery
-to the whole regmap core.
+ { .format =3D V4L2_PIX_FMT_P030_C128, .pixel_enc =3D V4L2_PIXEL_ENC_YUV, .=
+mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 4, 8, 0, 0 }, .bpp_div =3D=
+ { 3, 3, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
 
-CCI really is an extra protocol layer on top of lower-level / more primitive
-busses and it is best to have a helper library with a few helpers using
-regmap underneath to abstract the raw bus accesses away. Note this helper
-library can be quite thin and small though :)
+For weird format, this is a bit of hacky, all we want is to get the right
+stride, and the offset part is not used for mem_planes =3D 1 formats.
 
-Regards,
+let me know,
+Nicolas
 
-Hans
+>=20
+> Regards
+>=20
+> John Cox
 
