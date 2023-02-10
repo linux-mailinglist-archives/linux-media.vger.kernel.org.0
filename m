@@ -2,506 +2,375 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 260B1691EAF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D077691EB8
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:57:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231630AbjBJL4M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 06:56:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58338 "EHLO
+        id S231673AbjBJL5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 06:57:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbjBJL4L (ORCPT
+        with ESMTP id S231400AbjBJL5o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 06:56:11 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042C39EF3
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:56:09 -0800 (PST)
-Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13B441ACE;
-        Fri, 10 Feb 2023 12:56:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676030164;
-        bh=bh8aJ/04rBVTXCul8lO+G9aUqRIDpjt+d7GcLxAu58g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ic6+e1CemCP5kOxeCk53PX16c3KHVIJH9atI7xVbZQehbCBVynC0J92yWRm83a+uK
-         9coNkIIcZ1nOg0c7EG4gERPd+l4l3NsiBzq/5xbFXDQe/3vdW6oewIlHpCDyMjWLW5
-         Jdj5gisG9pJbY7vZwU1vcIy4bGvLv6E3CfV2osJc=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 3/3] v4l2-ctl/compliance: add routing and streams multiplexed streams
-Date:   Fri, 10 Feb 2023 13:55:46 +0200
-Message-Id: <20230210115546.199809-4-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230210115546.199809-1-tomi.valkeinen@ideasonboard.com>
-References: <20230210115546.199809-1-tomi.valkeinen@ideasonboard.com>
+        Fri, 10 Feb 2023 06:57:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7944872AE
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:56:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676030209;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pN77IUTOm99nvYWwBZjFTgyqFeUULFMcilTRDsL2zxg=;
+        b=ZeklkqzCAFuHXKGzbSbSu+wS6q34nCAG9+nLTXCtMHMuYEbe2BUUsprwr8qqjfh1vlyr/g
+        1DrukWSWgi2DJLtQF5mLpJnCc3nVvnlwNBjtf6G3Od/CbIVyVyUYCzEea4wKDqeKshDmXq
+        vMDktvlB1pG3LGbpIdF/foobq9ctSM8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-402-wXPQay9bN3GKh9-BauqD3g-1; Fri, 10 Feb 2023 06:56:48 -0500
+X-MC-Unique: wXPQay9bN3GKh9-BauqD3g-1
+Received: by mail-ed1-f70.google.com with SMTP id bo27-20020a0564020b3b00b004a6c2f6a226so3405587edb.15
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:56:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pN77IUTOm99nvYWwBZjFTgyqFeUULFMcilTRDsL2zxg=;
+        b=zQ4l7vfSj1YO0AdvoGTfafonypQp/VS4Wb0z3PVy8QOZEdnTxJE3QfJzCoQbKhYAmP
+         +6/tbZ9wj9Oin2Eb4iIkMOyM4EyeYl5UOCfqlqm/FZUwJHwwBae5QNoJB6X/q1hbQMTa
+         GqljO+ODj9zd7b4aLe3GxA4GtFy/2IXcx/Y5ELukVo3o+Yc8VQYNpewrqeEnvn+xCBSD
+         Bm9qtCIp61VAPHTgDbiEPdJyuMc+fGTlcduAv/CyKhJESs6NkalEMS1Syzj6MpeQ9w0X
+         KGKVpusvp1rsK35UvjsuxYLTlZ35txZyPvNvVhG30OeJCcENfGw6Qp38p7jXeaZatlTf
+         TS7A==
+X-Gm-Message-State: AO0yUKX1pYloefLvVJ8ps5gFUjgM9OeyBZRVFPa+qaBKXq9KbYjj1qmf
+        MXFv7XAdIXF1+Nk/YXwHw4u/XHJbmj6X8hizw+kSTtZKsgQcZFUJp1WbOqj7TbzEIGG95PZ1bOK
+        1Gfqu/z9HPNqdn9guwOQ9MOc=
+X-Received: by 2002:a17:907:8b06:b0:8af:391e:e4c4 with SMTP id sz6-20020a1709078b0600b008af391ee4c4mr6353255ejc.41.1676030207408;
+        Fri, 10 Feb 2023 03:56:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set9bHDITTXtZ84/uzuRSqTEtxbXJojf7D6AneIYtawqf+z/pgvAc1J5Ko5oCEkmFXfCj9YgUBA==
+X-Received: by 2002:a17:907:8b06:b0:8af:391e:e4c4 with SMTP id sz6-20020a1709078b0600b008af391ee4c4mr6353241ejc.41.1676030207198;
+        Fri, 10 Feb 2023 03:56:47 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id q9-20020a170906388900b00887a28ac01asm2273715ejd.31.2023.02.10.03.56.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 03:56:46 -0800 (PST)
+Message-ID: <3be27a04-21e5-5929-88a1-0159f554a36f@redhat.com>
+Date:   Fri, 10 Feb 2023 12:56:45 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_PDS_OTHER_BAD_TLD autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Content-Language: en-US, nl
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
+ <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
+ <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
+ <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add basic support for routing and streams.
+Hi,
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- utils/v4l2-compliance/v4l2-compliance.cpp   | 120 ++++++++++++++++----
- utils/v4l2-compliance/v4l2-compliance.h     |   8 +-
- utils/v4l2-compliance/v4l2-test-subdevs.cpp |  43 ++++++-
- 3 files changed, 137 insertions(+), 34 deletions(-)
+On 2/10/23 12:45, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Fri, Feb 10, 2023 at 12:20:36PM +0100, Hans de Goede wrote:
+>> On 2/9/23 17:11, Laurent Pinchart wrote:
+>>> On Thu, Feb 09, 2023 at 04:03:22PM +0100, Hans de Goede wrote:
+>>>> On 2/8/23 10:52, Laurent Pinchart wrote:
+>>>>> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+>>>>>> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
+>>>>>> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
+>>>>>> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
+>>>>>>
+>>>>>> as well as various "atomisp" sensor drivers in drivers/staging, *all*
+>>>>>> use register access helpers with the following function prototypes:
+>>>>>>
+>>>>>> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
+>>>>>>                     unsigned int len, u32 *val);
+>>>>>>
+>>>>>> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
+>>>>>>                      unsigned int len, u32 val);
+>>>>>>
+>>>>>> To read/write registers on Omnivision OVxxxx image sensors wich expect
+>>>>>> a 16 bit register address in big-endian format and which have 1-3 byte
+>>>>>> wide registers, in big-endian format (for the higher width registers).
+>>>>>>
+>>>>>> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+>>>>>> versions of these register access helpers, so that this code duplication
+>>>>>> can be removed.
+>>>>>
+>>>>> Any reason to hand-roll those instead of using regmap ?
+>>>>
+>>>> These devices have a mix of 8 + 16 + 24 bit registers which regmap
+>>>> appears to not handle, a regmap has a single regmap_config struct
+>>>> with a single "@reg_bits: Number of bits in a register address, mandatory",
+>>>> so we would still need wrappers around regmap, at which point it
+>>>> really offers us very little.
+>>>
+>>> We could extend regmap too, although that may be too much yak shaving.
+>>> It would be nice, but I won't push hard for it.
+>>>
+>>>> Also I'm moving duplicate code present in many of the
+>>>> drivers/media/i2c/ov*.c files into a common header to remove
+>>>> duplicate code. The handrolling was already there before :)
+>>>>
+>>>> My goal with the new ovxxxx_16bit_addr_reg_helpers.h file was to
+>>>> offer something which is as much of a drop-in replacement of the
+>>>> current handrolled code as possible (usable with just a few
+>>>> search-n-replaces) as possible.
+>>>>
+>>>> Basically my idea here was to factor out code which I noticed was
+>>>> being repeated over and over again. My goal was not to completely
+>>>> redo how register accesses are done in these drivers.
+>>>>
+>>>> I realize I have not yet converted any other drivers, that is because
+>>>> I don't really have a way to test most of the other drivers. OTOH
+>>>> with the current helpers most conversions should be fairly simply
+>>>> and remove a nice amount of code. So maybe I should just only compile
+>>>> test the conversions ?
+>>>
+>>> Before you spend time converting drivers, I'd like to complete the
+>>> discussion regarding the design of those helpers. I'd rather avoid
+>>> mass-patching drivers now and doing it again in the next kernel release.
+>>
+>> I completely agree.
+>>
+>>> Sakari mentioned CCI (part of the CSI-2 specification). I think that
+>>> would be a good name to replace ov* here, as none of this is specific to
+>>> OmniVision.
+>>
+>> I did not realize this was CCI I agree renaming the helpers makes sense.
+>>
+>> I see there still is a lot of discussion going on.
+> 
+> I haven't seen any disagreement regarding the cci prefix, so let's go
+> for that. I'd propose cci_read() and cci_write().
+> 
+> Sakari, you and I would prefer layering this on top of regmap, while
+> Andy proposed extending the regmap API. Let's see if we reach an
+> anonymous agreement on this.
+> 
+> Regarding the width-specific versions of the helpers, I really think
+> encoding the size in the register macros is the best option. It makes
+> life easier for driver authors (only one function to call, no need to
+> think about the register width to pick the appropriate function in each
+> call) and reviewers (same reason), without any drawback in my opinion.
+> 
+> Another feature I'd like in these helpers is improved error handling. In
+> quite a few sensor drivers I've written, I've implemented the write
+> function as
+> 
+> int foo_write(struct foo *foo, u32 reg, u32 val, int *err)
+> {
+> 	...
+> 	int ret;
+> 
+> 	if (err && *err)
+> 		return *err;
+> 
+> 	ret = real_write(...);
+> 	if (ret < 0) {
+> 		dev_err(...);
+> 		if (err)
+> 			*err = ret;
+> 	}
+> 
+> 	return ret;
+> }
+> 
+> This allows callers to write
+> 
+> 	int ret = 0;
+> 
+> 	foo_write(foo, REG_A, 0, &ret);
+> 	foo_write(foo, REG_B, 1, &ret);
+> 	foo_write(foo, REG_C, 2, &ret);
+> 	foo_write(foo, REG_D, 3, &ret);
+> 
+> 	return ret;
+> 
+> which massively simplifies error handling. I'd like the CCI write helper
+> to implement such a pattern.
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 8aebae2e..63b5fbbb 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1224,6 +1224,10 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 	if (node.is_subdev()) {
- 		bool has_source = false;
- 		bool has_sink = false;
-+		struct v4l2_subdev_routing sd_routing[2] = {};
-+		struct v4l2_subdev_route sd_routes[2][256] = {};
-+		bool has_routes = !!(subdevcap.capabilities & V4L2_SUBDEV_CAP_STREAMS);
-+		int ret;
- 
- 		node.frame_interval_pad = -1;
- 		node.enum_frame_interval_pad = -1;
-@@ -1235,6 +1239,22 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		}
- 		node.is_passthrough_subdev = has_source && has_sink;
- 
-+		if (has_routes) {
-+			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
-+				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
-+
-+				sd_routing[which].which = which;
-+				sd_routing[which].routes = (__u64)sd_routes[which];
-+				sd_routing[which].num_routes = 256;
-+
-+				ret = doioctl(&node, VIDIOC_SUBDEV_G_ROUTING, &sd_routing[which]);
-+				if (ret) {
-+					fail("VIDIOC_SUBDEV_G_ROUTING: failed to get routing\n");
-+					sd_routing[which].num_routes = 0;
-+				}
-+			}
-+		}
-+
- 		for (unsigned pad = 0; pad < node.entity.pads; pad++) {
- 			printf("Sub-Device ioctls (%s Pad %u):\n",
- 			       (node.pads[pad].flags & MEDIA_PAD_FL_SINK) ?
-@@ -1244,32 +1264,82 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 			node.has_subdev_enum_fival = 0;
- 			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
- 			     which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
--				printf("\ttest %s VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: %s\n",
--				       which ? "Active" : "Try",
--				       ok(testSubDevEnum(&node, which, pad)));
--				printf("\ttest %s VIDIOC_SUBDEV_G/S_FMT: %s\n",
--				       which ? "Active" : "Try",
--				       ok(testSubDevFormat(&node, which, pad)));
--				printf("\ttest %s VIDIOC_SUBDEV_G/S_SELECTION/CROP: %s\n",
--				       which ? "Active" : "Try",
--				       ok(testSubDevSelection(&node, which, pad)));
--				if (which)
--					printf("\ttest VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: %s\n",
--					       ok(testSubDevFrameInterval(&node, pad)));
-+				struct v4l2_subdev_routing dummy_routing;
-+				struct v4l2_subdev_route dummy_routes[1];
-+
-+				const struct v4l2_subdev_routing *routing;
-+				const struct v4l2_subdev_route *routes;
-+
-+				if (has_routes) {
-+					routing = &sd_routing[which];
-+					routes = sd_routes[which];
-+				} else {
-+					dummy_routing.num_routes = 1;
-+					dummy_routing.routes = (__u64)&dummy_routes;
-+					dummy_routes[0].source_pad = pad;
-+					dummy_routes[0].source_stream = 0;
-+					dummy_routes[0].sink_pad = pad;
-+					dummy_routes[0].sink_stream = 0;
-+					dummy_routes[0].flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
-+
-+					routing = &dummy_routing;
-+					routes = dummy_routes;
-+				}
-+
-+				for (unsigned i = 0; i < routing->num_routes; ++i) {
-+					const struct v4l2_subdev_route *r = &routes[i];
-+					unsigned stream;
-+
-+					if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+						continue;
-+
-+					if ((node.pads[pad].flags & MEDIA_PAD_FL_SINK) &&
-+					    (r->sink_pad == pad))
-+						stream = r->sink_stream;
-+					else if ((node.pads[pad].flags & MEDIA_PAD_FL_SOURCE) &&
-+					    (r->source_pad == pad))
-+						stream = r->source_stream;
-+					else
-+						continue;
-+
-+					printf("\t%s Stream %u\n",which ? "Active" : "Try",
-+					       stream);
-+
-+					printf("\ttest %s VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: %s\n",
-+					       which ? "Active" : "Try",
-+					       ok(testSubDevEnum(&node, which, pad, stream)));
-+					printf("\ttest %s VIDIOC_SUBDEV_G/S_FMT: %s\n",
-+					       which ? "Active" : "Try",
-+					       ok(testSubDevFormat(&node, which, pad, stream)));
-+					printf("\ttest %s VIDIOC_SUBDEV_G/S_SELECTION/CROP: %s\n",
-+					       which ? "Active" : "Try",
-+					       ok(testSubDevSelection(&node, which, pad, stream)));
-+					if (which)
-+						printf("\ttest VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: %s\n",
-+						       ok(testSubDevFrameInterval(&node, pad, stream)));
-+				}
-+			}
-+
-+			/*
-+			 * These tests do not make sense for subdevs with multiplexed streams,
-+			 * as the try & active cases may have different routing and thus different
-+			 * behavior.
-+			 */
-+			if (!has_routes) {
-+				if (node.has_subdev_enum_code && node.has_subdev_enum_code < 3)
-+					fail("VIDIOC_SUBDEV_ENUM_MBUS_CODE: try/active mismatch\n");
-+				if (node.has_subdev_enum_fsize && node.has_subdev_enum_fsize < 3)
-+					fail("VIDIOC_SUBDEV_ENUM_FRAME_SIZE: try/active mismatch\n");
-+				if (node.has_subdev_enum_fival && node.has_subdev_enum_fival < 3)
-+					fail("VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: try/active mismatch\n");
-+				if (node.has_subdev_fmt && node.has_subdev_fmt < 3)
-+					fail("VIDIOC_SUBDEV_G/S_FMT: try/active mismatch\n");
-+				if (node.has_subdev_selection && node.has_subdev_selection < 3)
-+					fail("VIDIOC_SUBDEV_G/S_SELECTION: try/active mismatch\n");
-+				if (node.has_subdev_selection &&
-+				    node.has_subdev_selection != node.has_subdev_fmt)
-+					fail("VIDIOC_SUBDEV_G/S_SELECTION: fmt/selection mismatch\n");
- 			}
--			if (node.has_subdev_enum_code && node.has_subdev_enum_code < 3)
--				fail("VIDIOC_SUBDEV_ENUM_MBUS_CODE: try/active mismatch\n");
--			if (node.has_subdev_enum_fsize && node.has_subdev_enum_fsize < 3)
--				fail("VIDIOC_SUBDEV_ENUM_FRAME_SIZE: try/active mismatch\n");
--			if (node.has_subdev_enum_fival && node.has_subdev_enum_fival < 3)
--				fail("VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: try/active mismatch\n");
--			if (node.has_subdev_fmt && node.has_subdev_fmt < 3)
--				fail("VIDIOC_SUBDEV_G/S_FMT: try/active mismatch\n");
--			if (node.has_subdev_selection && node.has_subdev_selection < 3)
--				fail("VIDIOC_SUBDEV_G/S_SELECTION: try/active mismatch\n");
--			if (node.has_subdev_selection &&
--			    node.has_subdev_selection != node.has_subdev_fmt)
--				fail("VIDIOC_SUBDEV_G/S_SELECTION: fmt/selection mismatch\n");
- 			printf("\n");
- 		}
- 	}
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index e574c06c..67b3521e 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -373,10 +373,10 @@ int testDecoder(struct node *node);
- 
- // SubDev ioctl tests
- int testSubDevCap(struct node *node);
--int testSubDevEnum(struct node *node, unsigned which, unsigned pad);
--int testSubDevFormat(struct node *node, unsigned which, unsigned pad);
--int testSubDevSelection(struct node *node, unsigned which, unsigned pad);
--int testSubDevFrameInterval(struct node *node, unsigned pad);
-+int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned stream);
-+int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
-+int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
-+int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
- 
- // Buffer ioctl tests
- int testReqBufs(struct node *node);
-diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index f3d85771..07192bda 100644
---- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -25,7 +25,7 @@
- 
- #include "v4l2-compliance.h"
- 
--#define VALID_SUBDEV_CAPS (V4L2_SUBDEV_CAP_RO_SUBDEV)
-+#define VALID_SUBDEV_CAPS (V4L2_SUBDEV_CAP_RO_SUBDEV | V4L2_SUBDEV_CAP_STREAMS)
- 
- int testSubDevCap(struct node *node)
- {
-@@ -54,6 +54,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
- 	memset(&fie, 0, sizeof(fie));
- 	fie.which = which;
- 	fie.pad = pad;
-+	fie.stream = 0;
- 	fie.code = code;
- 	fie.width = width;
- 	fie.height = height;
-@@ -83,6 +84,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
- 	memset(&fie, 0xff, sizeof(fie));
- 	fie.which = which;
- 	fie.pad = pad;
-+	fie.stream = 0;
- 	fie.code = code;
- 	fie.width = width;
- 	fie.height = height;
-@@ -128,6 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
-+	fse.stream = 0;
- 	fse.code = code;
- 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
- 	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
-@@ -137,6 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 		memset(&fie, 0, sizeof(fie));
- 		fie.which = which;
- 		fie.pad = pad;
-+		fie.stream = 0;
- 		fie.code = code;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
- 		return ret;
-@@ -152,6 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	memset(&fse, 0xff, sizeof(fse));
- 	fse.which = which;
- 	fse.pad = pad;
-+	fse.stream = 0;
- 	fse.code = code;
- 	fse.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
-@@ -195,7 +200,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
- 	return 0;
- }
- 
--int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
-+int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_mbus_code_enum mbus_core_enum;
- 	unsigned num_codes;
-@@ -204,6 +209,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 	memset(&mbus_core_enum, 0, sizeof(mbus_core_enum));
- 	mbus_core_enum.which = which;
- 	mbus_core_enum.pad = pad;
-+	mbus_core_enum.stream = stream;
- 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum);
- 	node->has_subdev_enum_code |= (ret != ENOTTY) << which;
- 	if (ret == ENOTTY) {
-@@ -214,8 +220,10 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 		memset(&fie, 0, sizeof(fie));
- 		fse.which = which;
- 		fse.pad = pad;
-+		fse.stream = stream;
- 		fie.which = which;
- 		fie.pad = pad;
-+		fie.stream = stream;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse) != ENOTTY);
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
- 		return ret;
-@@ -226,16 +234,19 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 	mbus_core_enum.index = ~0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum) != EINVAL);
- 	mbus_core_enum.pad = node->entity.pads;
-+	mbus_core_enum.stream = stream;
- 	mbus_core_enum.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum) != EINVAL);
- 	memset(&mbus_core_enum, 0xff, sizeof(mbus_core_enum));
- 	mbus_core_enum.which = which;
- 	mbus_core_enum.pad = pad;
-+	mbus_core_enum.stream = stream;
- 	mbus_core_enum.index = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum));
- 	fail_on_test(check_0(mbus_core_enum.reserved, sizeof(mbus_core_enum.reserved)));
- 	fail_on_test(mbus_core_enum.code == ~0U);
- 	fail_on_test(mbus_core_enum.pad != pad);
-+	fail_on_test(mbus_core_enum.stream != stream);
- 	fail_on_test(mbus_core_enum.index);
- 	fail_on_test(mbus_core_enum.which != which);
- 	do {
-@@ -252,6 +263,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(!mbus_core_enum.code);
- 		fail_on_test(mbus_core_enum.which != which);
- 		fail_on_test(mbus_core_enum.pad != pad);
-+		fail_on_test(mbus_core_enum.stream != stream);
- 		fail_on_test(mbus_core_enum.index != i);
- 
- 		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
-@@ -260,7 +272,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
- 	return 0;
- }
- 
--int testSubDevFrameInterval(struct node *node, unsigned pad)
-+int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_frame_interval fival;
- 	struct v4l2_fract ival;
-@@ -268,6 +280,7 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
- 
- 	memset(&fival, 0xff, sizeof(fival));
- 	fival.pad = pad;
-+	fival.stream = stream;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival);
- 	if (ret == ENOTTY) {
- 		fail_on_test(node->enum_frame_interval_pad >= 0);
-@@ -279,6 +292,7 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
- 	node->frame_interval_pad = pad;
- 	fail_on_test(check_0(fival.reserved, sizeof(fival.reserved)));
- 	fail_on_test(fival.pad != pad);
-+	fail_on_test(fival.stream != stream);
- 	fail_on_test(!fival.interval.numerator);
- 	fail_on_test(!fival.interval.denominator);
- 	fail_on_test(fival.interval.numerator == ~0U || fival.interval.denominator == ~0U);
-@@ -290,20 +304,25 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
- 	}
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival));
- 	fail_on_test(fival.pad != pad);
-+	fail_on_test(fival.stream != stream);
- 	fail_on_test(ival.numerator != fival.interval.numerator);
- 	fail_on_test(ival.denominator != fival.interval.denominator);
- 	fail_on_test(check_0(fival.reserved, sizeof(fival.reserved)));
- 	memset(&fival, 0, sizeof(fival));
- 	fival.pad = pad;
-+	fival.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival));
- 	fail_on_test(fival.pad != pad);
-+	fail_on_test(fival.stream != stream);
- 	fail_on_test(ival.numerator != fival.interval.numerator);
- 	fail_on_test(ival.denominator != fival.interval.denominator);
- 
- 	fival.pad = node->entity.pads;
-+	fival.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival) != EINVAL);
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival) != EINVAL);
- 	fival.pad = pad;
-+	fival.stream = stream;
- 	fival.interval = ival;
- 	fival.interval.numerator = 0;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival));
-@@ -340,7 +359,7 @@ static int checkMBusFrameFmt(struct node *node, struct v4l2_mbus_framefmt &fmt)
- 	return 0;
- }
- 
--int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
-+int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_format fmt;
- 	struct v4l2_subdev_format s_fmt;
-@@ -349,6 +368,7 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
- 	memset(&fmt, 0, sizeof(fmt));
- 	fmt.which = which;
- 	fmt.pad = pad;
-+	fmt.stream = stream;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt);
- 	node->has_subdev_fmt |= (ret != ENOTTY) << which;
- 	if (ret == ENOTTY) {
-@@ -359,14 +379,17 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt) != EINVAL);
- 	fmt.which = 0;
- 	fmt.pad = node->entity.pads;
-+	fmt.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt) != EINVAL);
- 	memset(&fmt, 0xff, sizeof(fmt));
- 	fmt.which = which;
- 	fmt.pad = pad;
-+	fmt.stream = stream;
- 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt));
- 	fail_on_test(check_0(fmt.reserved, sizeof(fmt.reserved)));
- 	fail_on_test(fmt.which != which);
- 	fail_on_test(fmt.pad != pad);
-+	fail_on_test(fmt.stream != stream);
- 	fail_on_test(checkMBusFrameFmt(node, fmt.format));
- 	s_fmt = fmt;
- 	memset(s_fmt.reserved, 0xff, sizeof(s_fmt.reserved));
-@@ -379,6 +402,7 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
- 	fail_on_test(ret && ret != ENOTTY);
- 	fail_on_test(s_fmt.which != which);
- 	fail_on_test(s_fmt.pad != pad);
-+	fail_on_test(s_fmt.stream != stream);
- 	if (ret) {
- 		warn("VIDIOC_SUBDEV_G_FMT is supported but not VIDIOC_SUBDEV_S_FMT\n");
- 		return 0;
-@@ -423,7 +447,7 @@ static target_info targets[] = {
- 	{ ~0U },
- };
- 
--int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
-+int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream)
- {
- 	struct v4l2_subdev_selection sel;
- 	struct v4l2_subdev_selection s_sel;
-@@ -435,10 +459,12 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 	targets[V4L2_SEL_TGT_NATIVE_SIZE].readonly = is_sink;
- 	memset(&crop, 0, sizeof(crop));
- 	crop.pad = pad;
-+	crop.stream = stream;
- 	crop.which = which;
- 	memset(&sel, 0, sizeof(sel));
- 	sel.which = which;
- 	sel.pad = pad;
-+	sel.stream = stream;
- 	sel.target = V4L2_SEL_TGT_CROP;
- 	ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
- 	node->has_subdev_selection |= (ret != ENOTTY) << which;
-@@ -451,6 +477,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 	fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
- 	fail_on_test(crop.which != which);
- 	fail_on_test(crop.pad != pad);
-+	fail_on_test(crop.stream != stream);
- 	fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
- 
- 	for (unsigned tgt = 0; targets[tgt].target != ~0U; tgt++) {
-@@ -458,6 +485,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		memset(&sel, 0xff, sizeof(sel));
- 		sel.which = which;
- 		sel.pad = pad;
-+		sel.stream = stream;
- 		sel.target = tgt;
- 		ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
- 		targets[tgt].found = !ret;
-@@ -469,6 +497,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(check_0(sel.reserved, sizeof(sel.reserved)));
- 		fail_on_test(sel.which != which);
- 		fail_on_test(sel.pad != pad);
-+		fail_on_test(sel.stream != stream);
- 		fail_on_test(sel.target != tgt);
- 		fail_on_test(!sel.r.width);
- 		fail_on_test(sel.r.width == ~0U);
-@@ -480,9 +509,11 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel) != EINVAL);
- 		sel.which = 0;
- 		sel.pad = node->entity.pads;
-+		sel.stream = stream;
- 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel) != EINVAL);
- 		sel.which = which;
- 		sel.pad = pad;
-+		sel.stream = stream;
- 		s_sel = sel;
- 		memset(s_sel.reserved, 0xff, sizeof(s_sel.reserved));
- 		ret = doioctl(node, VIDIOC_SUBDEV_S_SELECTION, &s_sel);
-@@ -496,6 +527,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 				fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
- 				fail_on_test(crop.which != which);
- 				fail_on_test(crop.pad != pad);
-+				fail_on_test(crop.stream != stream);
- 				fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
- 			}
- 		}
-@@ -504,6 +536,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
- 		fail_on_test(!ret && targets[tgt].readonly);
- 		fail_on_test(s_sel.which != which);
- 		fail_on_test(s_sel.pad != pad);
-+		fail_on_test(s_sel.stream != stream);
- 		if (ret && !targets[tgt].readonly && tgt != V4L2_SEL_TGT_NATIVE_SIZE)
- 			warn("VIDIOC_SUBDEV_G_SELECTION is supported for target %u but not VIDIOC_SUBDEV_S_SELECTION\n", tgt);
- 		if (ret)
--- 
-2.34.1
+Interesting, I see that the passing of the err return pointer is optional,
+so we can still just do a search replace in existing code setting that
+to just NULL.
+
+I like this I agree we should add this.
+
+
+> 
+>> I'll do a follow up series renaming the helpers and converting the
+>> atomisp ov2680 sensor driver (!) to the new helpers when the current
+>> discussion about this is done.
+> 
+> Thank you in advance.
+> 
+>> And then we can discuss any further details based on v1 of that
+>> follow up series.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>> 1) this is already in media-next, but only used by the 1 staging atomisp sensor driver
+> 
+> That's fine, let's just make sure not to use these new helpers further
+> before we rename them.
+
+Ack.
+
+Regards,
+
+Hans
+
+
+
+> 
+>>>>> Also, may I
+>>>>> suggest to have a look at drivers/media/i2c/imx290.c for an example of
+>>>>> how registers of different sizes can be handled in a less error-prone
+>>>>> way, using single read/write functions that adapt to the size
+>>>>> automatically ?
+>>>>
+>>>> Yes I have seen this pattern in drivers/media/i2c/ov5693.c too
+>>>> (at least I assume it is the same pattern you are talking about).
+>>>
+>>> Correct. Can we use something like that to merge all the ov*_write_reg()
+>>> variants into a single function ? Having to select the size manually in
+>>> each call (either by picking the function variant, or by passing a size
+>>> as a function parameter) is error-prone. Encoding the size in the
+>>> register macro is much safer, easing both development and review.
+>>>
+>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>>>> ---
+>>>>>>  include/media/ovxxxx_16bit_addr_reg_helpers.h | 93 +++++++++++++++++++
+>>>>>>  1 file changed, 93 insertions(+)
+>>>>>>  create mode 100644 include/media/ovxxxx_16bit_addr_reg_helpers.h
+>>>>>>
+>>>>>> diff --git a/include/media/ovxxxx_16bit_addr_reg_helpers.h b/include/media/ovxxxx_16bit_addr_reg_helpers.h
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..e2ffee3d797a
+>>>>>> --- /dev/null
+>>>>>> +++ b/include/media/ovxxxx_16bit_addr_reg_helpers.h
+>>>>>> @@ -0,0 +1,93 @@
+>>>>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>>>>> +/*
+>>>>>> + * I2C register access helpers for Omnivision OVxxxx image sensors which expect
+>>>>>> + * a 16 bit register address in big-endian format and which have 1-3 byte
+>>>>>> + * wide registers, in big-endian format (for the higher width registers).
+>>>>>> + *
+>>>>>> + * Based on the register helpers from drivers/media/i2c/ov2680.c which is:
+>>>>>> + * Copyright (C) 2018 Linaro Ltd
+>>>>>> + */
+>>>>>> +#ifndef __OVXXXX_16BIT_ADDR_REG_HELPERS_H
+>>>>>> +#define __OVXXXX_16BIT_ADDR_REG_HELPERS_H
+>>>>>> +
+>>>>>> +#include <asm/unaligned.h>
+>>>>>> +#include <linux/dev_printk.h>
+>>>>>> +#include <linux/i2c.h>
+>>>>>> +
+>>>>>> +static inline int ovxxxx_read_reg(struct i2c_client *client, u16 reg,
+>>>>>> +				  unsigned int len, u32 *val)
+>>>>>> +{
+>>>>>> +	struct i2c_msg msgs[2];
+>>>>>> +	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
+>>>>>> +	u8 data_buf[4] = { 0, };
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	if (len > 4)
+>>>>>> +		return -EINVAL;
+>>>>>> +
+>>>>>> +	msgs[0].addr = client->addr;
+>>>>>> +	msgs[0].flags = 0;
+>>>>>> +	msgs[0].len = ARRAY_SIZE(addr_buf);
+>>>>>> +	msgs[0].buf = addr_buf;
+>>>>>> +
+>>>>>> +	msgs[1].addr = client->addr;
+>>>>>> +	msgs[1].flags = I2C_M_RD;
+>>>>>> +	msgs[1].len = len;
+>>>>>> +	msgs[1].buf = &data_buf[4 - len];
+>>>>>> +
+>>>>>> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+>>>>>> +	if (ret != ARRAY_SIZE(msgs)) {
+>>>>>> +		dev_err(&client->dev, "read error: reg=0x%4x: %d\n", reg, ret);
+>>>>>> +		return -EIO;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	*val = get_unaligned_be32(data_buf);
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +#define ovxxxx_read_reg8(s, r, v)	ovxxxx_read_reg(s, r, 1, v)
+>>>>>> +#define ovxxxx_read_reg16(s, r, v)	ovxxxx_read_reg(s, r, 2, v)
+>>>>>> +#define ovxxxx_read_reg24(s, r, v)	ovxxxx_read_reg(s, r, 3, v)
+>>>>>> +
+>>>>>> +static inline int ovxxxx_write_reg(struct i2c_client *client, u16 reg,
+>>>>>> +				   unsigned int len, u32 val)
+>>>>>> +{
+>>>>>> +	u8 buf[6];
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	if (len > 4)
+>>>>>> +		return -EINVAL;
+>>>>>> +
+>>>>>> +	put_unaligned_be16(reg, buf);
+>>>>>> +	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
+>>>>>> +	ret = i2c_master_send(client, buf, len + 2);
+>>>>>> +	if (ret != len + 2) {
+>>>>>> +		dev_err(&client->dev, "write error: reg=0x%4x: %d\n", reg, ret);
+>>>>>> +		return -EIO;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +#define ovxxxx_write_reg8(s, r, v)	ovxxxx_write_reg(s, r, 1, v)
+>>>>>> +#define ovxxxx_write_reg16(s, r, v)	ovxxxx_write_reg(s, r, 2, v)
+>>>>>> +#define ovxxxx_write_reg24(s, r, v)	ovxxxx_write_reg(s, r, 3, v)
+>>>>>> +
+>>>>>> +static inline int ovxxxx_mod_reg(struct i2c_client *client, u16 reg, u8 mask, u8 val)
+>>>>>> +{
+>>>>>> +	u32 readval;
+>>>>>> +	int ret;
+>>>>>> +
+>>>>>> +	ret = ovxxxx_read_reg8(client, reg, &readval);
+>>>>>> +	if (ret < 0)
+>>>>>> +		return ret;
+>>>>>> +
+>>>>>> +	readval &= ~mask;
+>>>>>> +	val &= mask;
+>>>>>> +	val |= readval;
+>>>>>> +
+>>>>>> +	return ovxxxx_write_reg8(client, reg, val);
+>>>>>> +}
+>>>>>> +
+>>>>>> +#endif
+> 
 
