@@ -2,139 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0076C6920F9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 15:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AC56692118
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 15:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231934AbjBJOmm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 09:42:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40200 "EHLO
+        id S231904AbjBJOoy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 09:44:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231874AbjBJOml (ORCPT
+        with ESMTP id S232435AbjBJOon (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 09:42:41 -0500
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8AB7101F
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 06:42:38 -0800 (PST)
-Received: by mail-qt1-x82c.google.com with SMTP id f10so5934900qtv.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 06:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=C1OSll8a7ObxBAOGjQ0TXc/7NA3iDlcndTlQF5xnNfY=;
-        b=smFBZoIQWXg7pZZpmSGuAEl37wUkS/knZAPBfAPV087xWmGtnk3wm9zNWxN1u3lUmv
-         vZ+qQoewN/5NhHpTsxvYJ4rXZyRJ8TXQjqjznfQ578OX9pJNTViLTmU/Vw79PdKEi1Nu
-         O1LVxUNacbkcAVZkJ/acmEnW1xpSpDm9mFaAiyjcLvJY/cN2mwgBx0q2Le5edrmn0cSr
-         XAk4Wh5Bm71a92Jv1romMSTdSvKk/rpCiHvhTkkZKV8C3Tz8ezgXomWlVz25t2Wy9yZH
-         mcHLaKkVIQR8N8URoPHEx0nbsPSP4TCOf0/F7txVcu2PdXf0w2SSaeRGeV7hGXUPSJCE
-         7zog==
+        Fri, 10 Feb 2023 09:44:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B226D71027
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 06:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676040235;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fg7isv25GsAJhW7P8I98ofFRurVeZvcIJwmS+sUa6uQ=;
+        b=CKDsvcm+LTwBmDAC9eZDbf69/7fTBaUMUsdj0nrYdtPrgvdykUSbynz4Xf+xpKSWL3FOdR
+        tDpbZMli/aEzWmhuIif3QqQfSUk9oThUHLx0hoaYAUk3F4RiZSqycCaQcXM9ajMc/4Q301
+        U2jl5NdCOfCchqgj/qxrY/3WC7AdnWI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-AvqgbjVqMaywMRkeO6rnRw-1; Fri, 10 Feb 2023 09:43:54 -0500
+X-MC-Unique: AvqgbjVqMaywMRkeO6rnRw-1
+Received: by mail-ed1-f69.google.com with SMTP id o21-20020aa7dd55000000b004a245f58006so3727462edw.12
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 06:43:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C1OSll8a7ObxBAOGjQ0TXc/7NA3iDlcndTlQF5xnNfY=;
-        b=loy0m0T0x2f9nQ5EPe5ietgPB/fFadWFAkG1/bnCqL8UfJAwCtWULzCNKlLigVdTa0
-         qmFcxF7XPATZgqqytn6XnRGIiTqkJfmUww1dN3LVuq797CVQ47gD+Hbo0IDT2oYF+YpW
-         //lgAXj2nKVB6dIAk67HlgxKS6pvcHQPa9VVhSS/oMYcrtwBqHq+1uuD+kdm8kQPqzJD
-         JEC5YYFe2PiwymGFJ6ZfEovSLBrmOaAcGiaObcKM6st3jny1tZZDoES7quVgcm+5aWSH
-         qtZQ0WoLzFz8/eUc5kudOJgVuYNuIJgRoc3rkZc5LzQUA1qWvlmjtlYdR9VMyOjdBsz4
-         W4vw==
-X-Gm-Message-State: AO0yUKUKZsk6Nkuifs4r+bYC6hlZvscFBLdIQ6j6upLe4uOkaH4M5woW
-        x1TWsjT7Oe7y0JwU+mlC0WF777JXMsq9bBLx
-X-Google-Smtp-Source: AK7set8B5fAKTn1XHhJlZJXgIy5YLFxzymaNJs+FWW3J2Oc5o9UYIaY/M57NHrFcot5CzGXo2/rNiQ==
-X-Received: by 2002:ac8:5955:0:b0:3b3:7d5:a752 with SMTP id 21-20020ac85955000000b003b307d5a752mr26770390qtz.50.1676040158001;
-        Fri, 10 Feb 2023 06:42:38 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id r142-20020a37a894000000b00729a26e836esm3640679qke.84.2023.02.10.06.42.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 06:42:37 -0800 (PST)
-Message-ID: <1abbb76c060c5e4d1d96c32ec8faacbf9a012fd2.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/2] media: v4l: Add Broadcom sand format to the list of
- V4L formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     John Cox <jc@kynesim.co.uk>
-Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Date:   Fri, 10 Feb 2023 09:42:35 -0500
-In-Reply-To: <qldauht5k6rfa2o2uqvcfh66ul0vf7a036@4ax.com>
-References: <20230127153415.83126-1-jc@kynesim.co.uk>
-         <44531f980f771272a8a663c2b2d68dce3bf47456.camel@ndufresne.ca>
-         <qldauht5k6rfa2o2uqvcfh66ul0vf7a036@4ax.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fg7isv25GsAJhW7P8I98ofFRurVeZvcIJwmS+sUa6uQ=;
+        b=F3AB5jR99nyhNO86rTaI0c4WzRekTw77m2pgtNGWg9zaDnMMGuGKED3XUTWK3tFzzi
+         4xVb1qfJr363x1rwD4BnfieJ5vmDW2kmXpskWMtcl7xrYepO0orOlHcKrGMP2aJm7ryG
+         GlY65Cd4vaYCwcT9RZDd39k/y50ldrOo6qMpG2237Fns44Qgr7t6/LCImvoCr1MWlRVT
+         c+EOIXQ+XP7Td8tT8/TxmRc6TAGatkpzuBJPe2EYgeGzLF9+x7FSVQJnq7r4GsAEzxh4
+         GP7prsAbvNf7EKL6gD7lLesTwWzk4J1TOBOTvHXBEdDdG/yivXxw2xRtj1k1DL24P3Mf
+         MH6w==
+X-Gm-Message-State: AO0yUKVxMzEm2sAS6yYKO2X2ajX6iSmmnSJWUaXoWNnhzGcR8t1JSkjt
+        xe/X8dM31fe0FMPO0ylh/UFFz/s0w7+V3W3boRB/z8luvc8231RVsGN4msIPfiP/xwA1iNVL3oU
+        x5+hod/EQqliwBz64i+xDp6Q=
+X-Received: by 2002:a17:907:3f91:b0:8ae:bb1d:45e4 with SMTP id hr17-20020a1709073f9100b008aebb1d45e4mr10554280ejc.26.1676040233242;
+        Fri, 10 Feb 2023 06:43:53 -0800 (PST)
+X-Google-Smtp-Source: AK7set8lKNPlEXwDw4UvbUeFXHmZ3VhLvmfcP20Mv0bTY+FYar2+bmnddVZKMDwJLQVszoWOSrnaNw==
+X-Received: by 2002:a17:907:3f91:b0:8ae:bb1d:45e4 with SMTP id hr17-20020a1709073f9100b008aebb1d45e4mr10554263ejc.26.1676040233033;
+        Fri, 10 Feb 2023 06:43:53 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id c20-20020a50f614000000b004ac089bb600sm434218edn.0.2023.02.10.06.43.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 06:43:52 -0800 (PST)
+Message-ID: <8e4813ea-06a4-4e8a-4401-9d05af767377@redhat.com>
+Date:   Fri, 10 Feb 2023 15:43:51 +0100
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Content-Language: en-US, nl
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
+ <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
+ <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
+ <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
+ <3be27a04-21e5-5929-88a1-0159f554a36f@redhat.com>
+ <Y+Yz3qPY3aiJ+bYZ@pendragon.ideasonboard.com>
+ <30181cf6-7dc8-d75c-5d7a-93f483d4f045@redhat.com>
+ <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 18:21 +0000, John Cox a =C3=A9crit=C2=
-=A0:
-> Hi
->=20
-> > Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =C3=A9crit=
-=C2=A0:
-> > > This is in preparation for attempting to upstream the Rpi H265 decode=
-r
-> > > as these formats are the only ones the hardware can decode to. They a=
-re
-> > > a column format rather than a tile format but I've added them to the
-> > > list of tiled formats as that seems the closest match.
-> > >=20
-> > > V4L2_PIX_FMT_NV12_C128 matches DRM format NV12 with modifier
-> > > DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT(ch) and
-> > > V4L2_PIX_FMT_P030_C128 matches DRM format P030 with the same modifier=
-.
-> >=20
-> > Cause pixel format matching is hard, P030 matches GStreamer NV12_10LE32=
-, format
-> > also found on Xilinx ZynMP CODECs (but without any modifiers so far).
-> >=20
-> > This is just for curiosity, was there any software implementation of th=
-ese
-> > formats made available publicly ? or have they only been tested in conj=
-unction
-> > with an importing HW ?
->=20
-> I'm unsure exactly what you are asking here.
->=20
-> I don't think that anyone other than RPi/Broadcom has used these formats
-> for anything. I've certainly written code that uses and converts them
-> that has been on my public github and has been used by RPi but I doubt
-> that is what you meant by "Publicly". V4L2_PIX_FMT_NV12_C128 is annoying
-> to use in s/w (though I have written s/w parts of a decoder that use
-> it), V4L2_PIX_FMT_P030_C128 is stupidly annoying to use in s/w and all
-> I've ever written is code to convert it to something more useable.
->=20
-> Does that answer the question?
+Hi,
 
-Well, whatever you have and you can share a link to would be nice, it does =
-help
-reviewing your doc. But I think I understand what it is from your doc so fa=
-r, so
-nothing to worry about.
+On 2/10/23 14:18, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On Fri, Feb 10, 2023 at 01:47:49PM +0100, Hans de Goede wrote:
+>>> And if someone dislikes having to pass NULL for the last argument, we
+>>> could use some macro magic to accept both the 3 arguments and 4
+>>> arguments variants.
+>>>
+>>> int __cci_write3(struct cci *cci, u32 reg, u32 val);
+>>> int __cci_write4(struct cci *cci, u32 reg, u32 val, int *err);
+>>>
+>>> #define __cci_write(_1, _2, _3, _4, NAME, ...) NAME
+>>> #define cci_write(...) __cci_write(__VA_ARGS__, __cci_write4, __cci_write3)(__VA_ARGS__)
+>>
+>> TBH this just feels like code obfuscation to me and it is also going
+>> to write havoc with various smarted code-editors / IDEs which give
+>> proptype info to the user while typing the function name.
+>>
+>> Having the extra ", NULL" there in calls which don't use / need
+>> the *err thingie really is not a big deal IMHO.
+> 
+> It's still an eyesore if the driver doesn't use that pattern of register
+> access error handling. I also prioritise source code itself rather than try
+> to make it fit for a particular editor (which is neither Emacs nor Vim I
+> suppose?).
 
-As a side note, for boards that are readily available in KernelCI, I often
-implement slow path converter in GStreamer so we can run it through fluster=
- and
-catch any regressions. It is very minimal regression tests simply using wha=
-t ITU
-made publicly available.
+vim and emacs also both have support for showing function prototypes,
+but this is not only about breaking tooling like that.
 
-> =20
-> > > John Cox (2):
-> > >   media: v4l: Add Broadcom sand formats to videodev2.h
-> > >   media: v4l: Add documentation for Broadcom sand formats
-> > >=20
-> > >  .../media/v4l/pixfmt-yuv-planar.rst           | 192 ++++++++++++++++=
-++
-> > >  include/uapi/linux/videodev2.h                |   2 +
-> > >  2 files changed, 194 insertions(+)
-> > >=20
+My main objection is not that it confuses various tooling, it also confuses
+me as a human if I'm trying to figure out what is going on. The kernel's
+internal API documentation generally isn't great so I'm used to just look
+at a functions implementation as an alternative. These sort of dark-magic
+pre-compiler macros make it very hard for me *as a human* to figure out
+what is going on.
+
+So to me personally this level of code-obfuscation just to avoid 6 chars
+", NULL" per function calls is very much not worth the making things
+harder to understand level it adds.
+
+I mean this will even allow mixing the 3 and 4 parameter variants
+in a single .c file! That is just very very confusing and anti KISS.
+
+Who knows maybe iso-c2023 or whatever will give us default function
+arguments values? That would be a nice way to do this, the above
+not so much IMHO.
+
+So I won't be adding this per-processor (dark) magic to my patch-set
+for this.
+
+If people really want this they can add this in a follow-up patch-set.
+
+Regards,
+
+Hans
 
