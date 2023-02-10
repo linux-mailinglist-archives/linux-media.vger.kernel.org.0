@@ -2,58 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62FBD691E2E
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 373FF691E15
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:20:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231781AbjBJL1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 06:27:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39526 "EHLO
+        id S231518AbjBJLUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 06:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232128AbjBJL1G (ORCPT
+        with ESMTP id S230456AbjBJLUY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 06:27:06 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790626BAA4
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:27:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676028425; x=1707564425;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DzXHqz2CeYe24S17PY8CbWRmhq9uaL6YfcGl+VJL8e8=;
-  b=MbTAv0y5v+ie2Wz9hn6FojHIU7iGe2xGvvLGm7fHVWeHuTkjiGXjMEYw
-   zInyccjaYWIpc3wSNi40nlb+fCt1p6YsBRKQ6wsnxd773pyueISljR6/i
-   8TEa/8QnUMiP+w8jQOR4q45DhE/sXuULmtfRvBXxIZnuVdgcPNVLzQm24
-   uyskt1sdSL1cxmn81ad4D6ZFM9oicKVNlWdMaU6DBx3Za1yIaQadz5G/q
-   Usxv3s4nAwzz2q2Aa5ZF/qLTnzDpL/BqRx5CrPwy+pMKPAN0TDuTlPa++
-   QmK2qvq9+EBGOx3lXzApXiyEPv3sa/bsV061wARYMz/ba3nywKkuQHr0t
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="314042669"
-X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
-   d="scan'208";a="314042669"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 03:27:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="669972152"
-X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
-   d="scan'208";a="669972152"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 03:27:01 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 3FB9111F9EF;
-        Fri, 10 Feb 2023 13:18:12 +0200 (EET)
-Date:   Fri, 10 Feb 2023 13:18:12 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Fri, 10 Feb 2023 06:20:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6F81BAFF
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:19:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676027974;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EWATG1nfwrnPGpKg4h6TUPJK2jBZUl8fDKwJ15Mnkpc=;
+        b=MFhbz0C9wvVp64ixMUVSwptvc+KxaBBlvPF/KgZ6AccMnzhOdWFLrLxirurZrYVASL3dp8
+        YVOx0rHm9BPQYWsqMOJlngPQqHENluRkNfSfK5YF+L+3b6rqL1Kbe7SeZ6G1OOKgZs2RzO
+        +sJCtsaO8eaqkV16QfuctA2I2sr8X04=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-84-zr4OSUs2O2KaS7KoHj7ayg-1; Fri, 10 Feb 2023 06:19:33 -0500
+X-MC-Unique: zr4OSUs2O2KaS7KoHj7ayg-1
+Received: by mail-ed1-f69.google.com with SMTP id bq13-20020a056402214d00b004a25d8d7593so3347390edb.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:19:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EWATG1nfwrnPGpKg4h6TUPJK2jBZUl8fDKwJ15Mnkpc=;
+        b=kI7Uj/f3ZwrCMemluddk/N/F4miPxlhShmanZghaodMoOgQd+ewXfGuLZ9RZvf2M67
+         fVfP+o1XHSl+DUOOnuR147x54m1ilLuFsQIeKGd55UitUB1PElnUNv9VC4sTc9tGD62I
+         kgcz8SGdrRsdnpPSVFyY1ts4hAPQSiG87tVEUEBxnKVNZJxIKRjCYwYNMpt7aSniyqC0
+         tFt+6l/M1NNQhZAeOxH5pZZ13pWDgcZeYs6ff+EyPZ3m/XNN+Q/cI1HS0+bea6gXEJ1o
+         zLAcr7EAXDl5NwhzpU55lhalozCBmTpsXird++7FeuS0dL7+Am513E0RSs01aA38DOLO
+         WmrA==
+X-Gm-Message-State: AO0yUKXira1o2H0uPiQZoreQtkmNXndz/HGfHZTElsGzMqy+7DWj7JvG
+        JPBeycYBY9dYYZf9+HHmw+sADJ3CWyjTSQ5Z4lk4SrOeOvA+lIyCMFUIkGzM0d+BZkShV6w+ChG
+        gMZLldIm98ekrY+RcdCvGrB0=
+X-Received: by 2002:a17:906:720f:b0:8aa:9a03:356a with SMTP id m15-20020a170906720f00b008aa9a03356amr12441720ejk.49.1676027972269;
+        Fri, 10 Feb 2023 03:19:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set8BdTKIVQ9XX8/YtvA5BvLBEJsaLojUbZ+czHrocqNl+jkt6XJ2UWpNuUuaDt2McpyxXgh5mA==
+X-Received: by 2002:a17:906:720f:b0:8aa:9a03:356a with SMTP id m15-20020a170906720f00b008aa9a03356amr12441706ejk.49.1676027972072;
+        Fri, 10 Feb 2023 03:19:32 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id v24-20020a170906859800b0088c224bf5b5sm2244999ejx.148.2023.02.10.03.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 03:19:31 -0800 (PST)
+Message-ID: <974597c0-1614-97d5-d933-e52bb1a062ab@redhat.com>
+Date:   Fri, 10 Feb 2023 12:19:30 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
         Yury Luneff <yury.lunev@gmail.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+Yn9JRsZOb6ZuzW@kekkonen.localdomain>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
  <20230123125205.622152-29-hdegoede@redhat.com>
  <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
@@ -61,14 +79,14 @@ References: <20230123125205.622152-1-hdegoede@redhat.com>
  <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
  <Y+YamxehIUdF5aU7@kekkonen.localdomain>
  <Y+Ycf4SpMaUfdR5m@pendragon.ideasonboard.com>
- <Y+Yg217HSEi4c+mP@kekkonen.localdomain>
- <Y+Yk0IaBghjj18C8@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+Yk0IaBghjj18C8@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+ <Y+Yg217HSEi4c+mP@kekkonen.localdomain> <Y+YiNyC7TeOEn/Hi@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y+YiNyC7TeOEn/Hi@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,46 +94,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On Fri, Feb 10, 2023 at 01:04:48PM +0200, Laurent Pinchart wrote:
-> > > > > > > Also, may I
-> > > > > > > suggest to have a look at drivers/media/i2c/imx290.c for an example of
-> > > > > > > how registers of different sizes can be handled in a less error-prone
-> > > > > > > way, using single read/write functions that adapt to the size
-> > > > > > > automatically ?
-> > > > > > 
-> > > > > > Yes I have seen this pattern in drivers/media/i2c/ov5693.c too
-> > > > > > (at least I assume it is the same pattern you are talking about).
-> > > > > 
-> > > > > Correct. Can we use something like that to merge all the ov*_write_reg()
-> > > > > variants into a single function ? Having to select the size manually in
-> > > > > each call (either by picking the function variant, or by passing a size
-> > > > > as a function parameter) is error-prone. Encoding the size in the
-> > > > > register macro is much safer, easing both development and review.
-> > > > 
-> > > > I think so, too.
-> > > > 
-> > > > That doesn't mean we shouldn't have function variants for specific register
-> > > > sizes (taking just register addresses) though.
-> > > 
-> > > I don't see why we should have multiple APIs when a single one works.
-> > 
-> > Yes, it "works", but the purpose of the API is to avoid driver code. A
-> > driver accessing fixed width registers is likely to use a helper function
-> > with an API that requires encoding the width into the register address.
+On 2/10/23 11:53, Andy Shevchenko wrote:
+> On Fri, Feb 10, 2023 at 12:47:55PM +0200, Sakari Ailus wrote:
+>> On Fri, Feb 10, 2023 at 12:29:19PM +0200, Laurent Pinchart wrote:
+>>> On Fri, Feb 10, 2023 at 12:21:15PM +0200, Sakari Ailus wrote:
+>>>> On Thu, Feb 09, 2023 at 06:11:12PM +0200, Laurent Pinchart wrote:
 > 
-> Why not ? I don't see anything wrong with having that as a single API,
-> it doesn't make life more complicated for driver authors or reviewers.
+> ...
+> 
+>>>> I took a look at this some time ago, too, and current regmap API is a poor
+>>>> fit for CCI devices. CCI works on top of e.g. both I²C and I3C so something
+>>>> on top of regmap is a better approach indeed.
+>>>
+>>> I'm confused, is regmap a poor fit, or a better approach ?
+>>
+>> I'm proposing having something on top of regmap, but not changing regmap
+>> itself.
+> 
+> I don't understand why we can't change regmap? regmap has a facility called
+> regmap bus which we can provide specifically for these types of devices. What's
+> wrong to see it done?
 
-Given that the reviewers (at least me) haven't had noteworthy issues when
-each driver implements their own register access functions, I'm not
-concerned having ~ six register read functions instead of one or two.
-Driver authors should pick the one that fits the purpose best, and not be
-required to implement wrappers in drivers --- which is exactly the
-situation we have today.
+It is fairly easy to layer the few 16 and 24 bit register accesses over
+a standard regmap with 16 bit reg-address and 8 bit reg-data width using
+regmap_bulk_write() to still do the write in e.g. a single i2c-transfer.
 
--- 
+So if we want regmap for underlying physical layer independence, e.g.
+spi / i2c / i3c. we can just use standard regmap with a 
+cci_write_reg helper on top.
+
+I think that would be the most KISS solution here. One thing to also keep
+in mind is the amount of work necessary to convert existing sensor drivers.
+Also keeping in mind that it is not just the in tree sensor drivers, but
+also all out of tree sensor drivers which I have seen use similar constructs.
+
+Requiring drivers to have a list / array of structs of all used register
+addresses + specifying the width per register address is not going to scale
+very poorly wrt converting all the code out there and I'm afraid that
+letting regmap somehow deal with the register-width issue is going to
+require something like this.
+
 Regards,
 
-Sakari Ailus
+Hans
+
+
