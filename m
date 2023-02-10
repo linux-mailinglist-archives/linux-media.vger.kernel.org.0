@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97130692A9A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 23:56:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CCC2692A9C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 23:56:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbjBJW41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 17:56:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48128 "EHLO
+        id S229584AbjBJW43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 17:56:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjBJW40 (ORCPT
+        with ESMTP id S229520AbjBJW42 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 17:56:26 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB7AD26586;
-        Fri, 10 Feb 2023 14:56:25 -0800 (PST)
+        Fri, 10 Feb 2023 17:56:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F4826599;
+        Fri, 10 Feb 2023 14:56:27 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55668886;
-        Fri, 10 Feb 2023 23:56:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE99D8BE;
+        Fri, 10 Feb 2023 23:56:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676069784;
-        bh=HlMIBUjC0BU9Jb7s8XXv15LvZLpgq8Ao2/R1GtyHTyc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Spbqt+F0Fb7K4oY7iRoLM6lvzR6BJlMHqyC4NIdtpCnbrYP9/hFQ5aGqnydXw9xGI
-         OF2Rz8Df1Mm5++YNouLe21f3fs6PstMuvq65VnOJMqfZc/r3kwKVPGz5bqnU9kj+0A
-         vULxcvY/MiirfH8W2rzCXEV286EWaW4iwG5hi3S0=
+        s=mail; t=1676069786;
+        bh=rSU6WL8A5pxiiE+CsZ9jMEQVB0gtoTz7fBtsgzNw8tQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Hwbd1fjWuxOYWfYyl2lbxS2OS4TrcjAiwvPDVFla0uKLzIZN7O2baE4C2iw8eWHR3
+         nb/q3oEO+Fp8fN//mJHc2m049j8X+R3u1shfoTkbxhoZJV82TgSUDQk3k+i+99rzZj
+         QZB2gVTHmpHg4i399mHTkYqrpTyhk8sMJoG1fa3M=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 0/2] media: i2c: adv7604: Fix handling of video adjustments
-Date:   Sat, 11 Feb 2023 00:56:20 +0200
-Message-Id: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 1/2] media: i2c: adv7604: Enable video adjustment
+Date:   Sat, 11 Feb 2023 00:56:21 +0200
+Message-Id: <20230210225622.24411-2-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
@@ -45,34 +46,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The video adjustments (contrast, brightness, saturation and hue) are
+ignored by default by the device when the VID_ADJ_EN bit is clear. The
+corresponding V4L2 controls exposed by the drivers have thus no effect.
+Fix this by setting the VID_ADJ_EN bit.
 
-This small series fixes two issues with video adjustments (brightness,
-contrast, saturation and hue) in the adv7604 driver. Patch 1/2 makes
-those controls effective (they currently have no effect), and patch 2/2
-fixes the range of the hue control.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/media/i2c/adv7604.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I have successfully tested the series with an ADV7612. The ADV7604 and
-ADV7611 documentation of the hue control differs from the ADV7612, but I
-believe that's because earlier documentation was incorrect. It could
-still be useful to test the series with an ADV7604 or ADV7611.
-
-In patch 2/2 I've decided to represent the hue value as an unsigned
-8-bit integer, mapping to the [0°, 360°[ range. Using a signed value
-would map to the [-180°, 180°[ range instead, without making any other
-difference (and without requiring any modification to the patch other
-than changing the range). I don't have a strong preference between the
-two options, and I'm pretty sure we can freely pick one without any fear
-of an impact on existing userspace applications as patch 1/2 shows that
-the hue control has currently no effect.
-
-Laurent Pinchart (2):
-  media: i2c: adv7604: Enable video adjustment
-  media: i2c: adv7604: Fix range of hue control
-
- drivers/media/i2c/adv7604.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 9d218962d7c8..3af0e67f9edb 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -1805,6 +1805,9 @@ static void select_input(struct v4l2_subdev *sd)
+ 		v4l2_dbg(2, debug, sd, "%s: Unknown port %d selected\n",
+ 				__func__, state->selected_input);
+ 	}
++
++	/* Enable video adjustment (contrast, saturation, brightness and hue) */
++	cp_write_clr_set(sd, 0x3e, 0x80, 0x80);
+ }
+ 
+ static int adv76xx_s_routing(struct v4l2_subdev *sd,
 -- 
 Regards,
 
