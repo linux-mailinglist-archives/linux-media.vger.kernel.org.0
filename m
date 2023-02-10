@@ -2,128 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A77A369238C
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 17:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EA1369240F
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 18:09:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232505AbjBJQoG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 11:44:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56302 "EHLO
+        id S233043AbjBJRJ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 12:09:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232192AbjBJQn5 (ORCPT
+        with ESMTP id S233042AbjBJRJ5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 11:43:57 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A518B2387B
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 08:43:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D222C904;
-        Fri, 10 Feb 2023 17:43:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676047435;
-        bh=Bx0RW8eetzo/7eHBUne+BXLb1YWCcBppPN/gMqlYop0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rcRhtGmNFgJv5zlxlzj+NI4Wyly4UK8bTKo60dtstjrYhvyptkKT5P3/OQAVpSY8o
-         sYPGIQCdlfqw0fWsaJuFB1YNoegO/cxe0czHABN/uAtUmQDPiaoMytv2IplurHWQi2
-         Ca76IeCTcEhHr1cSsHfbPN8iKHWTUpgLNKOlS0Hw=
-Date:   Fri, 10 Feb 2023 18:43:52 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
+        Fri, 10 Feb 2023 12:09:57 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AA461D06;
+        Fri, 10 Feb 2023 09:09:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676048996; x=1707584996;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X4df6tkPvZnOhswuUyouIoq1fOXHb7p++8B0BxaCA4E=;
+  b=S8BiDeNgg35YlnNtpQlsZqJJSXBKHrpi1gIb5ALGTmKrEmOVUIvLtGVG
+   tfjRcyKebLfYsixNzSg20AUiyGeVoijFxF5QuzVLyMMB0BiALsCOx+Xrx
+   q99AFu8Bfd7Boyx7F5hBigxO8PUE16SwRtgPaqxA0FeL9Vk3zi65fA4QT
+   wpnOISVZHBmtHgj5DUupTYjnwe1GTJ9q2y3kTC5d8dxZEJYWr3UiLg46r
+   7TByWlvE7YZ/FNovJS7q5ox8HrW/tMAugU7qjHRTZLHlAiIaJzYcga5xp
+   5GDx8hLT0YxeT69VpoFR57oUAFWOwoQfTgpA0I09LRXrB9Ksh7xYQft3T
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="328159084"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="328159084"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 09:06:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="698466916"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="698466916"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 10 Feb 2023 09:06:34 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pQWr2-0058Sd-1O;
+        Fri, 10 Feb 2023 19:06:32 +0200
+Date:   Fri, 10 Feb 2023 19:06:32 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+Z0SEfZsRC/y+Ju@pendragon.ideasonboard.com>
-References: <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
- <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
- <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
- <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
- <3be27a04-21e5-5929-88a1-0159f554a36f@redhat.com>
- <Y+Yz3qPY3aiJ+bYZ@pendragon.ideasonboard.com>
- <30181cf6-7dc8-d75c-5d7a-93f483d4f045@redhat.com>
- <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
- <8e4813ea-06a4-4e8a-4401-9d05af767377@redhat.com>
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 1/1] media: i2c: imx290: Make use of
+ get_unaligned_le24(), put_unaligned_le24()
+Message-ID: <Y+Z5mAhQk6zEFHOz@smile.fi.intel.com>
+References: <20230209221205.46573-1-andriy.shevchenko@linux.intel.com>
+ <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8e4813ea-06a4-4e8a-4401-9d05af767377@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Fri, Feb 10, 2023 at 12:35:09AM +0200, Laurent Pinchart wrote:
+> On Fri, Feb 10, 2023 at 12:12:05AM +0200, Andy Shevchenko wrote:
+> > Since we have a proper endianness converters for LE 24-bit data use them.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-On Fri, Feb 10, 2023 at 03:43:51PM +0100, Hans de Goede wrote:
-> On 2/10/23 14:18, Sakari Ailus wrote:
-> > On Fri, Feb 10, 2023 at 01:47:49PM +0100, Hans de Goede wrote:
-> >>> And if someone dislikes having to pass NULL for the last argument, we
-> >>> could use some macro magic to accept both the 3 arguments and 4
-> >>> arguments variants.
-> >>>
-> >>> int __cci_write3(struct cci *cci, u32 reg, u32 val);
-> >>> int __cci_write4(struct cci *cci, u32 reg, u32 val, int *err);
-> >>>
-> >>> #define __cci_write(_1, _2, _3, _4, NAME, ...) NAME
-> >>> #define cci_write(...) __cci_write(__VA_ARGS__, __cci_write4, __cci_write3)(__VA_ARGS__)
-> >>
-> >> TBH this just feels like code obfuscation to me and it is also going
-> >> to write havoc with various smarted code-editors / IDEs which give
-> >> proptype info to the user while typing the function name.
-> >>
-> >> Having the extra ", NULL" there in calls which don't use / need
-> >> the *err thingie really is not a big deal IMHO.
-> >
-> > It's still an eyesore if the driver doesn't use that pattern of register
-> > access error handling. I also prioritise source code itself rather than try
-> > to make it fit for a particular editor (which is neither Emacs nor Vim I
-> > suppose?).
-> 
-> vim and emacs also both have support for showing function prototypes,
-> but this is not only about breaking tooling like that.
-> 
-> My main objection is not that it confuses various tooling, it also confuses
-> me as a human if I'm trying to figure out what is going on. The kernel's
-> internal API documentation generally isn't great so I'm used to just look
-> at a functions implementation as an alternative. These sort of dark-magic
-> pre-compiler macros make it very hard for me *as a human* to figure out
-> what is going on.
-> 
-> So to me personally this level of code-obfuscation just to avoid 6 chars
-> ", NULL" per function calls is very much not worth the making things
-> harder to understand level it adds.
-> 
-> I mean this will even allow mixing the 3 and 4 parameter variants
-> in a single .c file! That is just very very confusing and anti KISS.
-> 
-> Who knows maybe iso-c2023 or whatever will give us default function
-> arguments values? That would be a nice way to do this, the above
-> not so much IMHO.
+Thank you for the reviews!
 
-The macro-based code I proposed is a poor man's workaround to the lack
-of both default argument values and function override in plain C. It
-could be nicer with dedicated language constructs for those, but that
-won't change how the callers look like (you'll still be able to mix the
-3 and 4 parameters variants in a single .c file), only the
-implementation.
+> I assume Sakari will pick both patches.
 
-> So I won't be adding this per-processor (dark) magic to my patch-set
-> for this.
-> 
-> If people really want this they can add this in a follow-up patch-set.
-
-I don't mind much either way personally.
+I also assume the same.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Laurent Pinchart
+
