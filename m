@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8483B6915FF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 02:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60408691600
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 02:00:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbjBJBAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Feb 2023 20:00:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
+        id S229764AbjBJBAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Feb 2023 20:00:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbjBJBAV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 20:00:21 -0500
+        with ESMTP id S230238AbjBJBAZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Feb 2023 20:00:25 -0500
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4E01BF5
-        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 17:00:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00004C22
+        for <linux-media@vger.kernel.org>; Thu,  9 Feb 2023 17:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675990819; x=1707526819;
+  t=1675990824; x=1707526824;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Tot06ZrpgRqpaHJjI93sCmTTQ7KdekHTBwRcoXQLrnE=;
-  b=jgde1+j5iQxH1sXPGzCvsXGpXj0aGRSil0PMhp3wGcb1LDe3cNpYoQDI
-   CsrNp8labIXTx1KSG37Xd5ChzQI08qbZ5iBDoNk416IxrY3xnGeQvukMt
-   DioWc+z5Y3tKdK951JJsmiRkY7W9WqVDmXy+o8iNuMyJ/0r1D9S+4FvIy
-   mbH9lbb1XjEZzkS7wRLggUs5XaMO2u5Qepc0X3AjRlrhaNMfCi+KzLoHE
-   LjdX0Z87BaiZeWoyZkfrjPHdVDraBucS4P5Kja/KZHp0nJ0Ej5Hp+iIpv
-   NVmKxyz6iKVXIrMJNP9/zPE4A3Mnb7gmN15UoImA0ER43F+tyQuzFzVc8
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="313943398"
+  bh=WWB6i1R0hRSQi17PJ41xbkQC2m/YTpM2kB96UwAvNM4=;
+  b=g9U2fpKaaHTTYILicl1AcmAWP03h14OAbWiNBNMVeZsu4krGvFJ6tARZ
+   2iMjF3tqyYxfPZma+TGS0sjF8KTWtoPV7zVQvYN9vzoYClG7VimkhbA57
+   Q7Q0xfE7zjaAzgy6ZxD80iwPyG4rNIsGPzYHuMJDMmDP52HLjbSRWAu8V
+   eUIjN5hoSxO3dy2EvoldGTCtL5setXXbC1uTyAT8pedqe6DaZmFO7IBqg
+   mqiVzx49ki+ZL9+WyKDam85GiMl5Guv3Bpzd8vCJpicg7qckuNrKruAEY
+   qH6NIpm5L8D5n8iH2hogBVqHsgrthO9/SDgcZkewduDi8kYvBL8BzOFXA
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="313943414"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="313943398"
+   d="scan'208";a="313943414"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 17:00:19 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 17:00:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="667878109"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="667878127"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="667878109"
+   d="scan'208";a="667878127"
 Received: from wentongw-hp-z228-microtower-workstation.sh.intel.com ([10.239.153.109])
-  by orsmga002.jf.intel.com with ESMTP; 09 Feb 2023 17:00:16 -0800
+  by orsmga002.jf.intel.com with ESMTP; 09 Feb 2023 17:00:21 -0800
 From:   Wentong Wu <wentong.wu@intel.com>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         linux-media@vger.kernel.org
@@ -45,9 +45,9 @@ Cc:     srinivas.pandruvada@intel.com,
         pierre-louis.bossart@linux.intel.com, zhifeng.wang@intel.com,
         xiang.ye@intel.com, tian.shu.qiu@intel.com, bingbu.cao@intel.com,
         Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v1 2/3] media: pci: intel: ivsc: Add ACE submodule
-Date:   Fri, 10 Feb 2023 09:02:20 +0800
-Message-Id: <20230210010221.2466486-3-wentong.wu@intel.com>
+Subject: [PATCH v1 3/3] media: pci: intel: ivsc: Add acquire/release API for ivsc
+Date:   Fri, 10 Feb 2023 09:02:21 +0800
+Message-Id: <20230210010221.2466486-4-wentong.wu@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230210010221.2466486-1-wentong.wu@intel.com>
 References: <20230210010221.2466486-1-wentong.wu@intel.com>
@@ -62,560 +62,192 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ACE is a submodule of IVSC which controls camera sensor's
-ownership, belonging to host or IVSC. When IVSC owns camera
-sensor, it is for algorithm computing. When host wants to
-control camera sensor, ACE module needs to be informed of
-ownership with defined interface.
+IVSC directly connects to camera sensor on source side, and on
+output side it not only connects ISH via I2C, but also exposes
+MIPI CSI-2 interface to output camera sensor data. IVSC can use
+the camera sensor data to do AI algorithm, and send the results
+to ISH. On the other end, IVSC can share camera sensor to host
+by routing the raw camera sensor data to the exposed MIPI CSI-2
+interface. But they can not work at the same time, so software
+APIs are defined to sync the ownership.
 
-The interface is via MEI. There is a separate MEI UUID, which
-this driver uses to enumerate.
-
-To switch ownership of camera sensor between IVSC and host,
-the caller specifies the defined ownership information which
-will be sent to firmware by sending MEI command.
-
-The only exported API ace_set_camera_owner is to switch
-ownership of camera sensor.
+This commit defines the interfaces between IVSC and camera sensor
+driver in include/linux/ivsc.h. The camera driver controls
+ownership of the CSI-2 link and sensor with the acquire/release
+APIs. When acquiring camera, lane number and link freq are also
+required by IVSC frame router.
 
 Signed-off-by: Wentong Wu <wentong.wu@intel.com>
 ---
- drivers/media/pci/intel/ivsc/Makefile  |   1 +
- drivers/media/pci/intel/ivsc/mei_ace.c | 472 +++++++++++++++++++++++++
- drivers/media/pci/intel/ivsc/mei_ace.h |  36 ++
- 3 files changed, 509 insertions(+)
- create mode 100644 drivers/media/pci/intel/ivsc/mei_ace.c
- create mode 100644 drivers/media/pci/intel/ivsc/mei_ace.h
+ drivers/media/pci/intel/ivsc/Makefile |  1 +
+ drivers/media/pci/intel/ivsc/ivsc.c   | 84 +++++++++++++++++++++++++++
+ include/linux/ivsc.h                  | 55 ++++++++++++++++++
+ 3 files changed, 140 insertions(+)
+ create mode 100644 drivers/media/pci/intel/ivsc/ivsc.c
 
 diff --git a/drivers/media/pci/intel/ivsc/Makefile b/drivers/media/pci/intel/ivsc/Makefile
-index 1825aad45cff..de0a425c22c2 100644
+index de0a425c22c2..b8b6fc1083be 100644
 --- a/drivers/media/pci/intel/ivsc/Makefile
 +++ b/drivers/media/pci/intel/ivsc/Makefile
-@@ -3,3 +3,4 @@
- # Copyright (C) 2023, Intel Corporation. All rights reserved.
+@@ -4,3 +4,4 @@
  
  obj-$(CONFIG_INTEL_VSC) += mei_csi.o
-+obj-$(CONFIG_INTEL_VSC) += mei_ace.o
-diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
+ obj-$(CONFIG_INTEL_VSC) += mei_ace.o
++obj-$(CONFIG_INTEL_VSC) += ivsc.o
+diff --git a/drivers/media/pci/intel/ivsc/ivsc.c b/drivers/media/pci/intel/ivsc/ivsc.c
 new file mode 100644
-index 000000000000..3dbd885d11a1
+index 000000000000..12996b587639
 --- /dev/null
-+++ b/drivers/media/pci/intel/ivsc/mei_ace.c
-@@ -0,0 +1,472 @@
++++ b/drivers/media/pci/intel/ivsc/ivsc.c
+@@ -0,0 +1,84 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2023 Intel Corporation. All rights reserved.
-+ * Intel Visual Sensing Controller ACE Linux driver
++ * Intel Visual Sensing Controller interface
 + */
 +
-+/*
-+ * To set ownership of camera sensor, there is specific command, which
-+ * is sent via MEI protocol. That's a two-step scheme where the firmware
-+ * first acks receipt of the command and later responses the command was
-+ * executed. The command sending function uses "completion" as the
-+ * synchronization mechanism. The notification for command is received
-+ * via a mei callback which wakes up the caller. There can be only one
-+ * outstanding command at a time.
-+ */
-+
-+#include <linux/completion.h>
 +#include <linux/delay.h>
 +#include <linux/ivsc.h>
-+#include <linux/kernel.h>
-+#include <linux/mei_cl_bus.h>
 +#include <linux/module.h>
 +#include <linux/mutex.h>
-+#include <linux/slab.h>
-+#include <linux/uuid.h>
 +
 +#include "mei_ace.h"
++#include "mei_csi.h"
 +
-+#define	MEI_ACE_DRIVER_NAME	"ivsc_ace"
++/* lock for ivsc APIs */
++static DEFINE_MUTEX(ivsc_mutex);
 +
-+/* indicating driver message */
-+#define	ACE_DRV_MSG		1
-+/* indicating set command */
-+#define	ACE_CMD_SET		4
-+/* command timeout determined experimentally */
-+#define	ACE_CMD_TIMEOUT		(5 * HZ)
-+/* indicating the first command block */
-+#define	ACE_CMD_INIT_BLOCK	1
-+/* indicating the last command block */
-+#define	ACE_CMD_FINAL_BLOCK	1
-+/* size of camera status notification content */
-+#define	ACE_CAMERA_STATUS_SIZE	5
-+
-+/* UUID used to get firmware id */
-+#define ACE_GET_FW_ID_UUID UUID_LE(0x6167DCFB, 0x72F1, 0x4584, 0xBF, \
-+				   0xE3, 0x84, 0x17, 0x71, 0xAA, 0x79, 0x0B)
-+
-+/* identify firmware event type */
-+enum ace_event_type {
-+	/* firmware ready */
-+	ACE_FW_READY = 0x8,
-+
-+	/* command response */
-+	ACE_CMD_RESPONSE = 0x10,
-+};
-+
-+/* identify the command id supported by firmware IPC */
-+enum ace_cmd_id {
-+	/* used to switch camera sensor to host */
-+	ACE_SWITCH_CAMERA_TO_HOST = 0x13,
-+
-+	/* used to switch camera sensor to IVSC */
-+	ACE_SWITCH_CAMERA_TO_IVSC = 0x14,
-+
-+	/* used to get firmware id */
-+	ACE_GET_FW_ID = 0x1A,
-+};
-+
-+/* ACE command header structure */
-+struct ace_cmd_hdr {
-+	u32 firmware_id : 16;
-+	u32 instance_id : 8;
-+	u32 type : 5;
-+	u32 rsp : 1;
-+	u32 msg_tgt : 1;
-+	u32 _hw_rsvd_1 : 1;
-+	u32 param_size : 20;
-+	u32 cmd_id : 8;
-+	u32 final_block : 1;
-+	u32 init_block : 1;
-+	u32 _hw_rsvd_2 : 2;
-+} __packed;
-+
-+/* ACE command parameter structure */
-+union ace_cmd_param {
-+	uuid_le uuid;
-+	u32 param;
-+};
-+
-+/* ACE command structure */
-+struct ace_cmd {
-+	struct ace_cmd_hdr hdr;
-+	union ace_cmd_param param;
-+} __packed;
-+
-+/* ACE notification header */
-+union ace_notif_hdr {
-+	struct _confirm {
-+		u32 status : 24;
-+		u32 type : 5;
-+		u32 rsp : 1;
-+		u32 msg_tgt : 1;
-+		u32 _hw_rsvd_1 : 1;
-+		u32 param_size : 20;
-+		u32 cmd_id : 8;
-+		u32 final_block : 1;
-+		u32 init_block : 1;
-+		u32 _hw_rsvd_2 : 2;
-+	} __packed ack;
-+
-+	struct _event {
-+		u32 rsvd1 : 16;
-+		u32 event_type : 8;
-+		u32 type : 5;
-+		u32 ack : 1;
-+		u32 msg_tgt : 1;
-+		u32 _hw_rsvd_1 : 1;
-+		u32 rsvd2 : 30;
-+		u32 _hw_rsvd_2 : 2;
-+	} __packed event;
-+
-+	struct _response {
-+		u32 event_id : 16;
-+		u32 notif_type : 8;
-+		u32 type : 5;
-+		u32 rsp : 1;
-+		u32 msg_tgt : 1;
-+		u32 _hw_rsvd_1 : 1;
-+		u32 event_data_size : 16;
-+		u32 request_target : 1;
-+		u32 request_type : 5;
-+		u32 cmd_id : 8;
-+		u32 _hw_rsvd_2 : 2;
-+	} __packed response;
-+};
-+
-+/* ACE notification content */
-+union ace_notif_cont {
-+	u16 firmware_id;
-+	u8 state_notif;
-+	u8 camera_status[ACE_CAMERA_STATUS_SIZE];
-+};
-+
-+/* ACE notification structure */
-+struct ace_notif {
-+	union ace_notif_hdr hdr;
-+	union ace_notif_cont cont;
-+} __packed;
-+
-+struct mei_ace {
-+	struct mei_cl_device *cldev;
-+
-+	/* command ack */
-+	struct ace_notif cmd_ack;
-+	/* command response */
-+	struct ace_notif cmd_response;
-+	/* used to wait for command ack and response */
-+	struct completion cmd_completion;
-+
-+	/* used to construct command */
-+	u16 firmware_id;
-+};
-+
-+/* only one for now */
-+static struct mei_ace *ace;
-+/* lock used to prevent multiple call to ace */
-+static DEFINE_MUTEX(ace_mutex);
-+
-+static inline void init_cmd_hdr(struct ace_cmd_hdr *hdr)
-+{
-+	memset(hdr, 0, sizeof(struct ace_cmd_hdr));
-+
-+	hdr->type = ACE_CMD_SET;
-+	hdr->msg_tgt = ACE_DRV_MSG;
-+	hdr->init_block = ACE_CMD_INIT_BLOCK;
-+	hdr->final_block = ACE_CMD_FINAL_BLOCK;
-+}
-+
-+static int construct_command(struct ace_cmd *cmd, enum ace_cmd_id cmd_id)
-+{
-+	union ace_cmd_param *param = &cmd->param;
-+	struct ace_cmd_hdr *hdr = &cmd->hdr;
-+
-+	init_cmd_hdr(hdr);
-+
-+	hdr->cmd_id = cmd_id;
-+	switch (cmd_id) {
-+	case ACE_GET_FW_ID:
-+		param->uuid = ACE_GET_FW_ID_UUID;
-+		hdr->param_size = sizeof(param->uuid);
-+		break;
-+	case ACE_SWITCH_CAMERA_TO_IVSC:
-+		param->param = 0;
-+		hdr->firmware_id = ace->firmware_id;
-+		hdr->param_size = sizeof(param->param);
-+		break;
-+	case ACE_SWITCH_CAMERA_TO_HOST:
-+		hdr->firmware_id = ace->firmware_id;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return hdr->param_size + sizeof(cmd->hdr);
-+}
-+
-+/* send a command to firmware and mutex must be held by caller */
-+static int mei_ace_send(struct ace_cmd *cmd, size_t len, bool only_ack)
-+{
-+	union ace_notif_hdr *resp_hdr = &ace->cmd_response.hdr;
-+	union ace_notif_hdr *ack_hdr = &ace->cmd_ack.hdr;
-+	struct ace_cmd_hdr *cmd_hdr = &cmd->hdr;
-+	int ret;
-+
-+	reinit_completion(&ace->cmd_completion);
-+
-+	ret = mei_cldev_send(ace->cldev, (u8 *)cmd, len);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = wait_for_completion_killable_timeout(&ace->cmd_completion,
-+						   ACE_CMD_TIMEOUT);
-+	if (ret < 0) {
-+		goto out;
-+	} else if (!ret) {
-+		ret = -ETIMEDOUT;
-+		goto out;
-+	}
-+
-+	if (ack_hdr->ack.cmd_id != cmd_hdr->cmd_id) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	/* command ack status */
-+	ret = ack_hdr->ack.status;
-+	if (ret) {
-+		ret = -EIO;
-+		goto out;
-+	}
-+
-+	if (only_ack)
-+		goto out;
-+
-+	ret = wait_for_completion_killable_timeout(&ace->cmd_completion,
-+						   ACE_CMD_TIMEOUT);
-+	if (ret < 0) {
-+		goto out;
-+	} else if (!ret) {
-+		ret = -ETIMEDOUT;
-+		goto out;
-+	}
-+
-+	if (resp_hdr->response.cmd_id != cmd_hdr->cmd_id)
-+		ret = -EINVAL;
-+
-+out:
-+	return ret;
-+}
-+
-+int ace_set_camera_owner(enum ace_camera_owner owner)
-+{
-+	enum ace_cmd_id cmd_id;
-+	struct ace_cmd cmd;
-+	int cmd_size;
-+	int ret;
-+
-+	if (owner == ACE_CAMERA_IVSC)
-+		cmd_id = ACE_SWITCH_CAMERA_TO_IVSC;
-+	else
-+		cmd_id = ACE_SWITCH_CAMERA_TO_HOST;
-+
-+	mutex_lock(&ace_mutex);
-+	if (unlikely(!ace)) {
-+		mutex_unlock(&ace_mutex);
-+		return -EAGAIN;
-+	}
-+
-+	cmd_size = construct_command(&cmd, cmd_id);
-+	if (cmd_size >= 0)
-+		ret = mei_ace_send(&cmd, cmd_size, false);
-+	else
-+		ret = cmd_size;
-+	mutex_unlock(&ace_mutex);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS_GPL(ace_set_camera_owner, IVSC);
-+
-+/* the first command downloaded to firmware */
-+static inline int ace_get_firmware_id(void)
-+{
-+	struct ace_cmd cmd;
-+	int cmd_size;
-+	int ret;
-+
-+	cmd_size = construct_command(&cmd, ACE_GET_FW_ID);
-+	if (cmd_size >= 0)
-+		ret = mei_ace_send(&cmd, cmd_size, true);
-+	else
-+		ret = cmd_size;
-+
-+	return ret;
-+}
-+
-+static void handle_command_response(struct ace_notif *resp, int len)
-+{
-+	union ace_notif_hdr *hdr = &resp->hdr;
-+
-+	switch (hdr->response.cmd_id) {
-+	case ACE_SWITCH_CAMERA_TO_IVSC:
-+	case ACE_SWITCH_CAMERA_TO_HOST:
-+		memcpy(&ace->cmd_response, resp, len);
-+		complete(&ace->cmd_completion);
-+		break;
-+	case ACE_GET_FW_ID:
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static void handle_command_ack(struct ace_notif *ack, int len)
-+{
-+	union ace_notif_hdr *hdr = &ack->hdr;
-+
-+	switch (hdr->ack.cmd_id) {
-+	case ACE_GET_FW_ID:
-+		ace->firmware_id = ack->cont.firmware_id;
-+		fallthrough;
-+	case ACE_SWITCH_CAMERA_TO_IVSC:
-+	case ACE_SWITCH_CAMERA_TO_HOST:
-+		memcpy(&ace->cmd_ack, ack, len);
-+		complete(&ace->cmd_completion);
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+/* callback for receive */
-+static void mei_ace_rx(struct mei_cl_device *cldev)
-+{
-+	struct ace_notif event;
-+	union ace_notif_hdr *hdr = &event.hdr;
-+	int ret;
-+
-+	ret = mei_cldev_recv(cldev, (u8 *)&event, sizeof(event));
-+	if (ret < 0) {
-+		dev_err(&cldev->dev, "recv error: %d\n", ret);
-+		return;
-+	}
-+
-+	if (hdr->event.ack) {
-+		handle_command_ack(&event, ret);
-+		return;
-+	}
-+
-+	switch (hdr->event.event_type) {
-+	case ACE_CMD_RESPONSE:
-+		handle_command_response(&event, ret);
-+		break;
-+	case ACE_FW_READY:
-+		/*
-+		 * firmware ready notification sent to driver
-+		 * after HECI client connected with firmware.
-+		 */
-+		dev_dbg(&cldev->dev, "firmware ready\n");
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static int mei_ace_probe(struct mei_cl_device *cldev,
-+			 const struct mei_cl_device_id *id)
++int ivsc_acquire_camera(u32 nr_of_lanes, u64 link_freq,
++			void (*callback)(void *, enum ivsc_privacy_status),
++			void *context)
 +{
 +	int ret;
 +
-+	mutex_lock(&ace_mutex);
-+	/*
-+	 * only instance is possible in the current hardware,
-+	 * but adding protection for future hardware.
-+	 */
-+	if (ace) {
-+		ret = -EBUSY;
-+		goto err_unlock;
-+	}
++	mutex_lock(&ivsc_mutex);
 +
-+	ace = kzalloc(sizeof(struct mei_ace), GFP_KERNEL);
-+	if (!ace) {
-+		ret = -ENOMEM;
-+		goto err_unlock;
-+	}
++	/* switch camera sensor ownership to host */
++	ret = ace_set_camera_owner(ACE_CAMERA_HOST);
++	if (ret)
++		goto error;
 +
-+	ace->cldev = cldev;
-+	init_completion(&ace->cmd_completion);
++	/* switch CSI-2 link to host */
++	ret = csi_set_link_owner(CSI_LINK_HOST, callback, context);
++	if (ret)
++		goto release_camera;
 +
-+	mei_cldev_set_drvdata(cldev, ace);
++	/* configure CSI-2 link */
++	ret = csi_set_link_cfg(nr_of_lanes, link_freq);
++	if (ret)
++		goto release_csi;
 +
-+	ret = mei_cldev_enable(cldev);
-+	if (ret < 0) {
-+		dev_err(&cldev->dev, "mei_cldev_enable failed: %d\n", ret);
-+		goto err_free;
-+	}
-+
-+	ret = mei_cldev_register_rx_cb(cldev, mei_ace_rx);
-+	if (ret) {
-+		dev_err(&cldev->dev, "event cb registration failed: %d\n", ret);
-+		goto err_disable;
-+	}
-+
-+	ret = ace_get_firmware_id();
-+	if (ret) {
-+		dev_err(&cldev->dev, "get firmware id failed: %d\n", ret);
-+		goto err_disable;
-+	}
-+	mutex_unlock(&ace_mutex);
++	mutex_unlock(&ivsc_mutex);
 +
 +	return 0;
 +
-+err_disable:
-+	mei_cldev_disable(cldev);
++release_csi:
++	csi_set_link_owner(CSI_LINK_IVSC, NULL, NULL);
 +
-+err_free:
-+	kfree(ace);
-+	/* disable ace */
-+	ace = NULL;
++release_camera:
++	ace_set_camera_owner(ACE_CAMERA_IVSC);
 +
-+err_unlock:
-+	mutex_unlock(&ace_mutex);
++error:
++	mutex_unlock(&ivsc_mutex);
 +
 +	return ret;
 +}
++EXPORT_SYMBOL_GPL(ivsc_acquire_camera);
 +
-+static void mei_ace_remove(struct mei_cl_device *cldev)
++int ivsc_release_camera(void)
 +{
-+	mutex_lock(&ace_mutex);
-+	/* disable mei ace client device */
-+	mei_cldev_disable(cldev);
++	int ret;
 +
-+	kfree(ace);
-+	/* disable ace */
-+	ace = NULL;
-+	mutex_unlock(&ace_mutex);
++	mutex_lock(&ivsc_mutex);
++
++	/* switch CSI-2 link to IVSC */
++	ret = csi_set_link_owner(CSI_LINK_IVSC, NULL, NULL);
++	if (ret)
++		goto error;
++
++	/* switch camera sensor ownership to IVSC */
++	ret = ace_set_camera_owner(ACE_CAMERA_IVSC);
++
++error:
++	mutex_unlock(&ivsc_mutex);
++
++	return ret;
 +}
-+
-+#define MEI_ACE_UUID UUID_LE(0x5DB76CF6, 0x0A68, 0x4ED6, \
-+			     0x9B, 0x78, 0x03, 0x61, 0x63, 0x5E, 0x24, 0x47)
-+
-+static const struct mei_cl_device_id mei_ace_tbl[] = {
-+	{ MEI_ACE_DRIVER_NAME, MEI_ACE_UUID, MEI_CL_VERSION_ANY },
-+
-+	/* required last entry */
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(mei, mei_ace_tbl);
-+
-+static struct mei_cl_driver mei_ace_driver = {
-+	.id_table = mei_ace_tbl,
-+	.name = MEI_ACE_DRIVER_NAME,
-+
-+	.probe = mei_ace_probe,
-+	.remove = mei_ace_remove,
-+};
-+
-+module_mei_cl_driver(mei_ace_driver);
++EXPORT_SYMBOL_GPL(ivsc_release_camera);
 +
 +MODULE_AUTHOR("Wentong Wu <wentong.wu@intel.com>");
 +MODULE_AUTHOR("Zhifeng Wang <zhifeng.wang@intel.com>");
-+MODULE_DESCRIPTION("Device driver for IVSC ACE");
++MODULE_SOFTDEP("pre: mei_csi mei_ace");
++MODULE_DESCRIPTION("IVSC interface");
 +MODULE_LICENSE("GPL");
-diff --git a/drivers/media/pci/intel/ivsc/mei_ace.h b/drivers/media/pci/intel/ivsc/mei_ace.h
-new file mode 100644
-index 000000000000..0302bc899521
---- /dev/null
-+++ b/drivers/media/pci/intel/ivsc/mei_ace.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2023 Intel Corporation. All rights reserved.
-+ * Intel Visual Sensing Controller ACE external interface
-+ */
-+
-+#ifndef _MEI_ACE_H_
-+#define _MEI_ACE_H_
-+
-+#include <linux/types.h>
-+
-+/* identify camera sensor ownership */
-+enum ace_camera_owner {
-+	ACE_CAMERA_IVSC,
-+	ACE_CAMERA_HOST,
-+};
-+
++MODULE_IMPORT_NS(IVSC);
+diff --git a/include/linux/ivsc.h b/include/linux/ivsc.h
+index 6572ca4f340c..bc9006cd6efc 100644
+--- a/include/linux/ivsc.h
++++ b/include/linux/ivsc.h
+@@ -16,4 +16,59 @@ enum ivsc_privacy_status {
+ 	IVSC_PRIVACY_MAX,
+ };
+ 
 +#if IS_ENABLED(CONFIG_INTEL_VSC)
 +/*
-+ * @brief set camera sensor ownership
++ * @brief Acquire camera sensor ownership to host and setup
++ * the CSI-2 link between host and IVSC
 + *
-+ * @param owner Camera sensor ownership being set
++ * IVSC provides a privacy mode. When the privacy mode is turned
++ * on, camera sensor can't be used. This means that both IVSC and
++ * host Image Processing Unit(IPU) can't get image data. And when
++ * this mode is turned on, host Image Processing Unit(IPU) driver
++ * is informed via the registered callback, so that user can be
++ * notified.
 + *
-+ * @return 0 on success, negative on failure
++ * @param nr_of_lanes Number of data lanes used on the CSI-2 link
++ * @param link_freq Frequency of the CSI-2 link
++ * @param callback The pointer of privacy callback function
++ * @param context Privacy callback function runtime context
++ *
++ * @retval 0 If success
++ * @retval -EIO IO error
++ * @retval -EINVAL Invalid argument
++ * @retval -EAGAIN IVSC device not ready
++ * @retval negative values for other errors
 + */
-+int ace_set_camera_owner(enum ace_camera_owner owner);
++int ivsc_acquire_camera(u32 nr_of_lanes, u64 link_freq,
++			void (*callback)(void *, enum ivsc_privacy_status),
++			void *context);
++
++/*
++ * @brief Release camera sensor ownership and stop the CSI-2
++ * link between host and IVSC
++ *
++ * @retval 0 If success
++ * @retval -EIO IO error
++ * @retval -EINVAL Invalid argument
++ * @retval -EAGAIN IVSC device not ready
++ * @retval negative values for other errors
++ */
++int ivsc_release_camera(void);
 +
 +#else
-+static inline int ace_set_camera_owner(enum ace_camera_owner owner)
++static inline
++int ivsc_acquire_camera(u32 nr_of_lanes, u64 link_freq,
++			void (*callback)(void *, enum ivsc_privacy_status),
++			void *context)
++{
++	return 0;
++}
++
++static inline int ivsc_release_camera(void)
 +{
 +	return 0;
 +}
 +
 +#endif
 +
-+#endif
+ #endif
 -- 
 2.25.1
 
