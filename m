@@ -2,181 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7350A6921A4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:08:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D2656921AD
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232110AbjBJPIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 10:08:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
+        id S232417AbjBJPLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 10:11:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbjBJPIk (ORCPT
+        with ESMTP id S232144AbjBJPLQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 10:08:40 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600EB71014
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:08:28 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id v17so6036318qto.3
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:08:28 -0800 (PST)
+        Fri, 10 Feb 2023 10:11:16 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DBF75378
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:10:49 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id r2so5363224wrv.7
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:10:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
+         :references:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=NeXajktN08gdTqt/pb1PeyZwlRPXP0HIHSrcxP/wobQ=;
-        b=4tz0G1FmuViqvkhIudhqhbw7o48RF15bvCVJ8whu4nFj5BzkWYRhwDP0DBuBbHvyOV
-         2TCufrhYIxparXIirM90ae67HytZTXY/OMR8LIdwRNjy47yvWYpCcRUNfgOxK1Ndv9F+
-         Wamp2/MbQ3FQO/OZ85pKweJ9/iJI15npFgEqKYhdrgM7mpuh1nEUKAMQmw23Jw3GZrvg
-         Axdqe4O7ahSdl0QU8+5JfRxdubpUHIxL9jskCp5CSGAdWY8daWMIExB6afUNwedX2jWu
-         YYJqYpVKt0h0BPR7B7jcN+2hen/rwlidcyifr/DFVHQ05EO1URsMHg0w/DaEApuGGlG6
-         RASQ==
+        bh=1lsojafdg72ij4bM8LLn4SoCPZIeSuyVBjlTn7vKMIk=;
+        b=NaLRY6QpQM9AJsFyxp2qxeo9SwtFQAgAeJYs2B8cg7BelTuDcbxr/jbqcQoDQrNoKN
+         UBK5V45SoqYsN40Tn67Cl4A0VUTmLdp2wXqQJ288Ul2Vf4XkgCcptGZRCR6ixj7dh0WP
+         slsgbk5nkWDUmTIOpLanN6z3qIcBh0Q1W6ZD57+6gpvPecg/g7mzIQ/i5yJ8kO0qYrS1
+         kZHYwrp9BgAu5uk77dKLhwTe54pFdDT+9wS/LxWQjEzvMljyfBI7MPb6/9k0TybHKcIs
+         CA5JrhG0JMt6agOR8KPrZfkzdmFEYTg0Ee8wYHPm2/OfZ2RwgaX2LXQE7iwCgkXbB/cg
+         9M1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
+         :references:message-id:date:subject:cc:to:from:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NeXajktN08gdTqt/pb1PeyZwlRPXP0HIHSrcxP/wobQ=;
-        b=72EP5EvcB0ARV7nELOrvFOkcqnVtmYt527IK00/fzGPcxv497U4P/ODKT4gp06nuVA
-         a2h9kltq0EGbyl3ozSXjMvcPs/E5wQFgtHHhTzVvl80e2XlebsxKZHtM9Y+B3aqqeiEf
-         qViL+to5/bs+qKGfRkH5sO34J4yQVOcag5a44I8OmMDL56rvjg4gLTHmn2zjj3Yywt5x
-         iAQ8hi26XvPEavel5QIEwcEnr5F1tYsN8aoXC/hpq+489zONOKYdF0oz1fPtZ1gfRN7l
-         jdkDKsm42zQdWSUEAsy6xHF9AsoxHbliggcVDHTQPOAsRamf/HXLqt7zHVCGNR+dfbzP
-         SziA==
-X-Gm-Message-State: AO0yUKW5QB5X2X9JKxSUqf1HlaEJT3Ub4NsZxFy97cYbHcItVWQUCz6V
-        yJTTBhw8ZTq+uxI4wdEbnEj84w==
-X-Google-Smtp-Source: AK7set+gB8I7SsaibW3tqxP2qGOehyGAfE7YysBkVatv5LZKtMsvyz4C6ypUP2jUhOysRHv/ioF2JQ==
-X-Received: by 2002:a05:622a:11c3:b0:3ab:d932:6c4e with SMTP id n3-20020a05622a11c300b003abd9326c4emr28225693qtk.18.1676041707499;
-        Fri, 10 Feb 2023 07:08:27 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id d10-20020ac800ca000000b003b0b903720esm3579310qtg.13.2023.02.10.07.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 07:08:26 -0800 (PST)
-Message-ID: <e60e4abcc9a4ae149844982afd65135d6e1c87b6.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH 01/10] media: Add P012 and P012M video format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
-Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "X.H. Bao" <xiahong.bao@nxp.com>, dl-linux-imx <linux-imx@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Date:   Fri, 10 Feb 2023 10:08:25 -0500
-In-Reply-To: <AM6PR04MB63418538B02868455752C74DE7D39@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <cover.1671071730.git.ming.qian@nxp.com>
-         <dfaef3c8eb29108b1837a1959d598c8b0db63422.1671071730.git.ming.qian@nxp.com>
-         <05bfc909-1ebb-b74f-dcdd-adc70dd97f3e@xs4all.nl>
-         <AM6PR04MB63418538B02868455752C74DE7D39@AM6PR04MB6341.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        bh=1lsojafdg72ij4bM8LLn4SoCPZIeSuyVBjlTn7vKMIk=;
+        b=1hDFtAzWFuHCMjKy1INTLH59KN8j8KuTh/zoHqY8KfSlPDVGLVo427SjkZobW9y3x0
+         MPXdFfE5J1leRVZbXXBJYLXpaka3Z6F9j2Jg3E4o0D0RwYN9kLYACGRergd6UrS6gx9F
+         gJ3eFqN/s7cWmlNfr0GbuJwtPcr/l9992ZPcW70+dctBeEWdz2438ZGaw24d7uSPx/kI
+         QFT1eQW6cOu1M5v0kl1vhpOs6M3TUjuHZGYEoOXoiKUgYapvnTHNsoTzjSk99z3MqtMA
+         dJg7Vb4KniH2jJczi6uwoLqVbOA4OP8rucnyoy1QyboqSEZvoT7U0l9ZH56h9QmjwuNZ
+         /iNg==
+X-Gm-Message-State: AO0yUKXbIrdDDsnxzZVYOjXGrZlTiDW2NDkHK2c/VOdMnviWqjcda6A3
+        NgPBYTyel3FKeUqdjq84fxLhlw==
+X-Google-Smtp-Source: AK7set/bs8HkEvA0AIDb5VLBUppr71Y4kUaqGG5efH8/397K+Q1mxhDunzVcCMNajxbMH7wl8Cw8hw==
+X-Received: by 2002:a5d:5088:0:b0:2c5:4c7c:6aad with SMTP id a8-20020a5d5088000000b002c54c7c6aadmr1503468wrt.8.1676041848291;
+        Fri, 10 Feb 2023 07:10:48 -0800 (PST)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id l17-20020a5d6691000000b002c549dd0a4bsm1751789wru.37.2023.02.10.07.10.47
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Fri, 10 Feb 2023 07:10:47 -0800 (PST)
+From:   John Cox <jc@kynesim.co.uk>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH 0/2] media: v4l: Add Broadcom sand format to the list of V4L formats
+Date:   Fri, 10 Feb 2023 15:10:47 +0000
+Message-ID: <ngmcuh5s3mqhsa6mabdb3r754k34e9n85c@4ax.com>
+References: <20230127153415.83126-1-jc@kynesim.co.uk> <44531f980f771272a8a663c2b2d68dce3bf47456.camel@ndufresne.ca> <qldauht5k6rfa2o2uqvcfh66ul0vf7a036@4ax.com> <1abbb76c060c5e4d1d96c32ec8faacbf9a012fd2.camel@ndufresne.ca>
+In-Reply-To: <1abbb76c060c5e4d1d96c32ec8faacbf9a012fd2.camel@ndufresne.ca>
+User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 30 janvier 2023 =C3=A0 08:15 +0000, Ming Qian a =C3=A9crit=C2=A0:
-> > > diff --git a/include/uapi/linux/videodev2.h
-> > > b/include/uapi/linux/videodev2.h index 1befd181a4cc..5448aa3b7858
-> > > 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -626,12 +626,14 @@ struct v4l2_pix_format {
-> > > =C2=A0 #define V4L2_PIX_FMT_NV24=C2=A0=C2=A0=C2=A0 v4l2_fourcc('N', '=
-V', '2', '4') /* 24=C2=A0
-> > > Y/CbCr
-> > 4:4:4=C2=A0 */
-> > > =C2=A0 #define V4L2_PIX_FMT_NV42=C2=A0=C2=A0=C2=A0 v4l2_fourcc('N', '=
-V', '4', '2') /* 24=C2=A0
-> > > Y/CrCb
-> > 4:4:4=C2=A0 */
-> > > =C2=A0 #define V4L2_PIX_FMT_P010=C2=A0=C2=A0=C2=A0 v4l2_fourcc('P', '=
-0', '1', '0') /* 24=C2=A0
-> > > Y/CbCr
-> > 4:2:0 10-bit per component */
-> > > +#define V4L2_PIX_FMT_P012=C2=A0=C2=A0=C2=A0 v4l2_fourcc('P', '0', '1=
-', '2') /* 24=C2=A0
-> > > Y/CbCr
-> > 4:2:0 12-bit per component */
-> > >=20
-> > > =C2=A0 /* two non contiguous planes - one Y, one Cr + Cb interleaved=
-=C2=A0 */
-> > > =C2=A0 #define V4L2_PIX_FMT_NV12M=C2=A0=C2=A0 v4l2_fourcc('N', 'M', '=
-1', '2') /* 12=C2=A0
-> > > Y/CbCr
-> > 4:2:0=C2=A0 */
-> > > =C2=A0 #define V4L2_PIX_FMT_NV21M=C2=A0=C2=A0 v4l2_fourcc('N', 'M', '=
-2', '1') /* 21=C2=A0
-> > > Y/CrCb
-> > 4:2:0=C2=A0 */
-> > > =C2=A0 #define V4L2_PIX_FMT_NV16M=C2=A0=C2=A0 v4l2_fourcc('N', 'M', '=
-1', '6') /* 16=C2=A0
-> > > Y/CbCr
-> > 4:2:2=C2=A0 */
-> > > =C2=A0 #define V4L2_PIX_FMT_NV61M=C2=A0=C2=A0 v4l2_fourcc('N', 'M', '=
-6', '1') /* 16=C2=A0
-> > > Y/CrCb
-> > 4:2:2=C2=A0 */
-> > > +#define V4L2_PIX_FMT_P012M=C2=A0=C2=A0 v4l2_fourcc('P', 'M', '1', '2=
-') /* 24=C2=A0
-> > > Y/CbCr
-> > 4:2:0 12-bit per component */
-> >=20
-> > The name of the V4L2_PIX_FMT_ defines in this series are hard to decode=
-.
-> >=20
-> > In this case is it derived from V4L2_PIX_FMT_P010, which really should =
-have
-> > been named differently, but it's too late now :-(
-> >=20
-> > So I guess we'll stick with this naming, but it's not obvious what 'P01=
-2'
-> > means
-> > without referring to documentation.
-> >=20
-> > Oh well.
-> >=20
-> > Regards,
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Hans
->=20
-> Hi Hans,
-> =C2=A0=C2=A0=C2=A0 I'll update the format name, as you know,=C2=A0 the P0=
-12 is following the P010,
-> as they are almost the same, and the Y212 comes from gstreamer
-> (GST_VIDEO_FORMAT_Y212_LE), then I did some naming like that.
-> =C2=A0=C2=A0=C2=A0 I'll correct them in v2 patch.
+>Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 18:21 +0000, John Cox a =
+=C3=A9crit=C2=A0:
+>> Hi
+>>=20
+>> > Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =
+=C3=A9crit=C2=A0:
+>> > > This is in preparation for attempting to upstream the Rpi H265 =
+decoder
+>> > > as these formats are the only ones the hardware can decode to. =
+They are
+>> > > a column format rather than a tile format but I've added them to =
+the
+>> > > list of tiled formats as that seems the closest match.
+>> > >=20
+>> > > V4L2_PIX_FMT_NV12_C128 matches DRM format NV12 with modifier
+>> > > DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT(ch) and
+>> > > V4L2_PIX_FMT_P030_C128 matches DRM format P030 with the same =
+modifier.
+>> >=20
+>> > Cause pixel format matching is hard, P030 matches GStreamer =
+NV12_10LE32, format
+>> > also found on Xilinx ZynMP CODECs (but without any modifiers so =
+far).
+>> >=20
+>> > This is just for curiosity, was there any software implementation of=
+ these
+>> > formats made available publicly ? or have they only been tested in =
+conjunction
+>> > with an importing HW ?
+>>=20
+>> I'm unsure exactly what you are asking here.
+>>=20
+>> I don't think that anyone other than RPi/Broadcom has used these =
+formats
+>> for anything. I've certainly written code that uses and converts them
+>> that has been on my public github and has been used by RPi but I doubt
+>> that is what you meant by "Publicly". V4L2_PIX_FMT_NV12_C128 is =
+annoying
+>> to use in s/w (though I have written s/w parts of a decoder that use
+>> it), V4L2_PIX_FMT_P030_C128 is stupidly annoying to use in s/w and all
+>> I've ever written is code to convert it to something more useable.
+>>=20
+>> Does that answer the question?
+>
+>Well, whatever you have and you can share a link to would be nice, it =
+does help
+>reviewing your doc. But I think I understand what it is from your doc so=
+ far, so
+>nothing to worry about.
 
-I agree these naming are not obvious. In GStreamer, appart from the _LE par=
-t,
-we've had this historical tendency to just stick with Microsoft names when =
-they
-exist. Though Microsoft only define 10 and 16bits (P010/P016, Y210 and Y216=
-). In
-this case, the 12 has is derived from it.
+There are more files including arvm7 & v8 neon converters but this has C
+converters out of sand8/30 to YUV420/NV12/VUV420P10:=20
 
-https://learn.microsoft.com/en-us/windows/win32/medfound/10-bit-and-16-bit-=
-yuv-video-formats
+https://github.com/jc-kynesim/rpi-ffmpeg/blob/test/5.1.2/main/libavutil/r=
+pi_sand_fns.c
 
-While P010 is very commonly seen, I don't know if Y210/Y212/Y216 is a great
-idea. It is a 16bit component width version of YUYV, which as we know exist=
- in
-all sort of swizzling. So the Microsoft name will be hard to extend to othe=
-r
-component order. My argument of keeping it this way though is that it match=
-es
-the other copy of pixel formats definition that exist in Linux, which is
-drm_fourcc.h.
+which should give you what you need. V4L2_PIX_FMT_NV12_C128 =3D
+AV_PIX_FMT_RPI4_8, V4L2_PIX_FMT_P030_C128 =3D AV_PIX_FMT_RPI4_10.
 
-Nicolas
+Ignore code referencing AV_PIX_FMT_SAND64_10, that format is now
+obsolete (10 bits in 16, so 64 pixels per col) and was only used by the
+Pi3 gpu assisted H265 s/w decode.
+
+>As a side note, for boards that are readily available in KernelCI, I =
+often
+>implement slow path converter in GStreamer so we can run it through =
+fluster and
+>catch any regressions. It is very minimal regression tests simply using =
+what ITU
+>made publicly available.
+
+Oh absolutely. Whilst I admit I haven't done proper fate integration
+(yet) I do run a test script against all the ITU conformance streams (+
+a few others that had bad cases missed by ITU) on a regular basis.
+
+Regards
+
+John Cox
+ =20
+>> > > John Cox (2):
+>> > >   media: v4l: Add Broadcom sand formats to videodev2.h
+>> > >   media: v4l: Add documentation for Broadcom sand formats
+>> > >=20
+>> > >  .../media/v4l/pixfmt-yuv-planar.rst           | 192 =
+++++++++++++++++++
+>> > >  include/uapi/linux/videodev2.h                |   2 +
+>> > >  2 files changed, 194 insertions(+)
+>> > >=20
