@@ -2,160 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D2656921AD
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF2E6921D1
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 16:18:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbjBJPLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 10:11:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
+        id S232360AbjBJPS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 10:18:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbjBJPLQ (ORCPT
+        with ESMTP id S232536AbjBJPS2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 10:11:16 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DBF75378
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:10:49 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id r2so5363224wrv.7
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:10:49 -0800 (PST)
+        Fri, 10 Feb 2023 10:18:28 -0500
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D43774054
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:18:27 -0800 (PST)
+Received: by mail-qt1-x82d.google.com with SMTP id f10so6079584qtv.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 07:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
-         :references:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=1lsojafdg72ij4bM8LLn4SoCPZIeSuyVBjlTn7vKMIk=;
-        b=NaLRY6QpQM9AJsFyxp2qxeo9SwtFQAgAeJYs2B8cg7BelTuDcbxr/jbqcQoDQrNoKN
-         UBK5V45SoqYsN40Tn67Cl4A0VUTmLdp2wXqQJ288Ul2Vf4XkgCcptGZRCR6ixj7dh0WP
-         slsgbk5nkWDUmTIOpLanN6z3qIcBh0Q1W6ZD57+6gpvPecg/g7mzIQ/i5yJ8kO0qYrS1
-         kZHYwrp9BgAu5uk77dKLhwTe54pFdDT+9wS/LxWQjEzvMljyfBI7MPb6/9k0TybHKcIs
-         CA5JrhG0JMt6agOR8KPrZfkzdmFEYTg0Ee8wYHPm2/OfZ2RwgaX2LXQE7iwCgkXbB/cg
-         9M1g==
+        bh=kgPIjCTIkUK2HSydXpeow0zn/gWtp/nDZGA8t6qS5Fo=;
+        b=fJuzmKqP1FyrpKunPWkIWZlVixMikRcsvY0XDhEg18HEtRmaR9NuBb9Oyl9QCVEYhc
+         dC3+NVFqXiFEzLnSjmBvvTliOARPGyCGMIElYKwZYbnEsEBiBcar9uhx+EudsBH5lI9F
+         qlOIeOq7kPqKmGv4j4XJMqO9627Tpl96OlVF8zlWN+BSgbLRfC/eY3HJVilpBhQHJA39
+         8BmUM2fr/9SS31R/UzD1SOH7Vt78WiXeaue6gQRA3zhj2fbU6qm8i01LGNCBVfP4GZfI
+         C6kTxwbN8Dqmhlm/k7/PPLY/X7SxQG2lyM23INYIU1yyS6U+iwJTsJmAOG93g49mFJFe
+         JYmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
-         :references:message-id:date:subject:cc:to:from:x-gm-message-state
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1lsojafdg72ij4bM8LLn4SoCPZIeSuyVBjlTn7vKMIk=;
-        b=1hDFtAzWFuHCMjKy1INTLH59KN8j8KuTh/zoHqY8KfSlPDVGLVo427SjkZobW9y3x0
-         MPXdFfE5J1leRVZbXXBJYLXpaka3Z6F9j2Jg3E4o0D0RwYN9kLYACGRergd6UrS6gx9F
-         gJ3eFqN/s7cWmlNfr0GbuJwtPcr/l9992ZPcW70+dctBeEWdz2438ZGaw24d7uSPx/kI
-         QFT1eQW6cOu1M5v0kl1vhpOs6M3TUjuHZGYEoOXoiKUgYapvnTHNsoTzjSk99z3MqtMA
-         dJg7Vb4KniH2jJczi6uwoLqVbOA4OP8rucnyoy1QyboqSEZvoT7U0l9ZH56h9QmjwuNZ
-         /iNg==
-X-Gm-Message-State: AO0yUKXbIrdDDsnxzZVYOjXGrZlTiDW2NDkHK2c/VOdMnviWqjcda6A3
-        NgPBYTyel3FKeUqdjq84fxLhlw==
-X-Google-Smtp-Source: AK7set/bs8HkEvA0AIDb5VLBUppr71Y4kUaqGG5efH8/397K+Q1mxhDunzVcCMNajxbMH7wl8Cw8hw==
-X-Received: by 2002:a5d:5088:0:b0:2c5:4c7c:6aad with SMTP id a8-20020a5d5088000000b002c54c7c6aadmr1503468wrt.8.1676041848291;
-        Fri, 10 Feb 2023 07:10:48 -0800 (PST)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id l17-20020a5d6691000000b002c549dd0a4bsm1751789wru.37.2023.02.10.07.10.47
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Fri, 10 Feb 2023 07:10:47 -0800 (PST)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH 0/2] media: v4l: Add Broadcom sand format to the list of V4L formats
-Date:   Fri, 10 Feb 2023 15:10:47 +0000
-Message-ID: <ngmcuh5s3mqhsa6mabdb3r754k34e9n85c@4ax.com>
-References: <20230127153415.83126-1-jc@kynesim.co.uk> <44531f980f771272a8a663c2b2d68dce3bf47456.camel@ndufresne.ca> <qldauht5k6rfa2o2uqvcfh66ul0vf7a036@4ax.com> <1abbb76c060c5e4d1d96c32ec8faacbf9a012fd2.camel@ndufresne.ca>
-In-Reply-To: <1abbb76c060c5e4d1d96c32ec8faacbf9a012fd2.camel@ndufresne.ca>
-User-Agent: ForteAgent/8.00.32.1272
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        bh=kgPIjCTIkUK2HSydXpeow0zn/gWtp/nDZGA8t6qS5Fo=;
+        b=0DsoXIqK5MJCfeEyybSvKJ9EXeCDs6orxbVdLKvRyjliQONYU0bno5T7qzpMNciRDc
+         p5kG8O596EIVxIPKPv7r586/TlhVURZIAC1n3laX6hCRwH0y5mdV8xZ4eza2wP1jOlSm
+         jC0znriv4eOXfxi6ZK+g8GYZ5UnQ1IUw9dGux4mB4dnTnB0HskVOFk1iYYJwMUNeBj0n
+         /aafXQvEUwmUXVrYR1eljmv2j+upOh5IQwh37O5O2930H3ubybGn2TG3pE+hdgBcjIq7
+         LUkdazQQ3iHxsNtYuQnCwHxQ0V7pLkJ2v9fGiXnBxYiRVSHZ608DU6A2EINk2oxHagnS
+         wvdQ==
+X-Gm-Message-State: AO0yUKXLEfGVH0B9JFYL/hN9DsAAWDn0Xsm367ZC6cJ2Tc7Jv4FucG5D
+        ukPT6zpMFXvN8cZ9wMewVolcnA==
+X-Google-Smtp-Source: AK7set+gUFCcFMUcL9lV8dyoEs94WpKVtWCKgY2rHe531Q1KT2iZt1vu+oZXGbFTnbBqNWfdeZU3ag==
+X-Received: by 2002:a05:622a:1a05:b0:3b6:3995:2ec2 with SMTP id f5-20020a05622a1a0500b003b639952ec2mr26618793qtb.19.1676042306398;
+        Fri, 10 Feb 2023 07:18:26 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id g4-20020ac80704000000b003b63b8df24asm3464597qth.36.2023.02.10.07.18.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Feb 2023 07:18:25 -0800 (PST)
+Message-ID: <fa6fcd8a905bff34f6d436ef328f5142b72b854c.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 02/10] media: Add Y012 video format
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        mirela.rabulea@oss.nxp.com, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date:   Fri, 10 Feb 2023 10:18:24 -0500
+In-Reply-To: <93889cdefacaad260d978a8353066dd384a64609.1675230665.git.ming.qian@nxp.com>
+References: <cover.1675230665.git.ming.qian@nxp.com>
+         <93889cdefacaad260d978a8353066dd384a64609.1675230665.git.ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 18:21 +0000, John Cox a =
-=C3=A9crit=C2=A0:
->> Hi
->>=20
->> > Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =
-=C3=A9crit=C2=A0:
->> > > This is in preparation for attempting to upstream the Rpi H265 =
-decoder
->> > > as these formats are the only ones the hardware can decode to. =
-They are
->> > > a column format rather than a tile format but I've added them to =
-the
->> > > list of tiled formats as that seems the closest match.
->> > >=20
->> > > V4L2_PIX_FMT_NV12_C128 matches DRM format NV12 with modifier
->> > > DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT(ch) and
->> > > V4L2_PIX_FMT_P030_C128 matches DRM format P030 with the same =
-modifier.
->> >=20
->> > Cause pixel format matching is hard, P030 matches GStreamer =
-NV12_10LE32, format
->> > also found on Xilinx ZynMP CODECs (but without any modifiers so =
-far).
->> >=20
->> > This is just for curiosity, was there any software implementation of=
- these
->> > formats made available publicly ? or have they only been tested in =
-conjunction
->> > with an importing HW ?
->>=20
->> I'm unsure exactly what you are asking here.
->>=20
->> I don't think that anyone other than RPi/Broadcom has used these =
-formats
->> for anything. I've certainly written code that uses and converts them
->> that has been on my public github and has been used by RPi but I doubt
->> that is what you meant by "Publicly". V4L2_PIX_FMT_NV12_C128 is =
-annoying
->> to use in s/w (though I have written s/w parts of a decoder that use
->> it), V4L2_PIX_FMT_P030_C128 is stupidly annoying to use in s/w and all
->> I've ever written is code to convert it to something more useable.
->>=20
->> Does that answer the question?
->
->Well, whatever you have and you can share a link to would be nice, it =
-does help
->reviewing your doc. But I think I understand what it is from your doc so=
- far, so
->nothing to worry about.
+Le mercredi 01 f=C3=A9vrier 2023 =C3=A0 14:02 +0800, Ming Qian a =C3=A9crit=
+=C2=A0:
+> Y012 is a luma-only formats with 12-bits per pixel,
+> expanded to 16bits.
+> Data in the 12 high bits, zeros in the 4 low bits,
+> arranged in little endian order.
+>=20
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  .../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 +++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
+>  include/uapi/linux/videodev2.h                        |  1 +
+>  3 files changed, 13 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/=
+Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> index 6a387f9df3ba..3ffa29000238 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> @@ -103,6 +103,17 @@ are often referred to as greyscale formats.
+>        - ...
+>        - ...
+> =20
+> +    * .. _V4L2-PIX-FMT-Y012:
 
-There are more files including arvm7 & v8 neon converters but this has C
-converters out of sand8/30 to YUV420/NV12/VUV420P10:=20
+Why the 0, can't this be name Y12 (just like Y14) ?
 
-https://github.com/jc-kynesim/rpi-ffmpeg/blob/test/5.1.2/main/libavutil/r=
-pi_sand_fns.c
+> +
+> +      - ``V4L2_PIX_FMT_Y012``
+> +      - 'Y012'
+> +
+> +      - Y'\ :sub:`0`\ [3:0] `0000`
+> +      - Y'\ :sub:`0`\ [11:4]
+> +      - ...
+> +      - ...
+> +      - ...
+> +
+>      * .. _V4L2-PIX-FMT-Y14:
+> =20
+>        - ``V4L2_PIX_FMT_Y14``
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index 067dbdd0a9ef..0ee730aa6cc7 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1303,6 +1303,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  	case V4L2_PIX_FMT_Y6:		descr =3D "6-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y10:		descr =3D "10-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y12:		descr =3D "12-bit Greyscale"; break;
+> +	case V4L2_PIX_FMT_Y012:		descr =3D "12-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y14:		descr =3D "14-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y16:		descr =3D "16-bit Greyscale"; break;
+>  	case V4L2_PIX_FMT_Y16_BE:	descr =3D "16-bit Greyscale BE"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 5448aa3b7858..3d8f89bff33c 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -583,6 +583,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_Y6      v4l2_fourcc('Y', '0', '6', ' ') /*  6  Grey=
+scale     */
+>  #define V4L2_PIX_FMT_Y10     v4l2_fourcc('Y', '1', '0', ' ') /* 10  Grey=
+scale     */
+>  #define V4L2_PIX_FMT_Y12     v4l2_fourcc('Y', '1', '2', ' ') /* 12  Grey=
+scale     */
+> +#define V4L2_PIX_FMT_Y012    v4l2_fourcc('Y', '0', '1', '2') /* 12  Grey=
+scale     */
+>  #define V4L2_PIX_FMT_Y14     v4l2_fourcc('Y', '1', '4', ' ') /* 14  Grey=
+scale     */
+>  #define V4L2_PIX_FMT_Y16     v4l2_fourcc('Y', '1', '6', ' ') /* 16  Grey=
+scale     */
+>  #define V4L2_PIX_FMT_Y16_BE  v4l2_fourcc_be('Y', '1', '6', ' ') /* 16  G=
+reyscale BE  */
 
-which should give you what you need. V4L2_PIX_FMT_NV12_C128 =3D
-AV_PIX_FMT_RPI4_8, V4L2_PIX_FMT_P030_C128 =3D AV_PIX_FMT_RPI4_10.
-
-Ignore code referencing AV_PIX_FMT_SAND64_10, that format is now
-obsolete (10 bits in 16, so 64 pixels per col) and was only used by the
-Pi3 gpu assisted H265 s/w decode.
-
->As a side note, for boards that are readily available in KernelCI, I =
-often
->implement slow path converter in GStreamer so we can run it through =
-fluster and
->catch any regressions. It is very minimal regression tests simply using =
-what ITU
->made publicly available.
-
-Oh absolutely. Whilst I admit I haven't done proper fate integration
-(yet) I do run a test script against all the ITU conformance streams (+
-a few others that had bad cases missed by ITU) on a regular basis.
-
-Regards
-
-John Cox
- =20
->> > > John Cox (2):
->> > >   media: v4l: Add Broadcom sand formats to videodev2.h
->> > >   media: v4l: Add documentation for Broadcom sand formats
->> > >=20
->> > >  .../media/v4l/pixfmt-yuv-planar.rst           | 192 =
-++++++++++++++++++
->> > >  include/uapi/linux/videodev2.h                |   2 +
->> > >  2 files changed, 194 insertions(+)
->> > >=20
