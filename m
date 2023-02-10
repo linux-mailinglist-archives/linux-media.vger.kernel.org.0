@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37D84691EB0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 260B1691EAF
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 12:56:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231656AbjBJL4O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 06:56:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231638AbjBJL4M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S231630AbjBJL4M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 10 Feb 2023 06:56:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8DD8A6C
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:56:08 -0800 (PST)
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230130AbjBJL4L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Feb 2023 06:56:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042C39EF3
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 03:56:09 -0800 (PST)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDF571932;
-        Fri, 10 Feb 2023 12:56:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13B441ACE;
+        Fri, 10 Feb 2023 12:56:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676030163;
-        bh=0k3YYi9uSj9myD4o4e9s9JPHQ59yGTAFUOX9//2JZzM=;
+        s=mail; t=1676030164;
+        bh=bh8aJ/04rBVTXCul8lO+G9aUqRIDpjt+d7GcLxAu58g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D54oS9jOHs5i7PK0Ct8KR62BH5yd1iQKJZTkqk/h0ER8p6cd9uAgnvUNq1Wdd7kVX
-         saZEhFfFESn/bLHsUC1fUjpC+D2LQosSS/0irczrpxXy3ULeOygeps2/uz2R6TyZ1W
-         fjwyWUdN9gtOa6qxjVGAElgrhd7OUD1OKklV5mLI=
+        b=ic6+e1CemCP5kOxeCk53PX16c3KHVIJH9atI7xVbZQehbCBVynC0J92yWRm83a+uK
+         9coNkIIcZ1nOg0c7EG4gERPd+l4l3NsiBzq/5xbFXDQe/3vdW6oewIlHpCDyMjWLW5
+         Jdj5gisG9pJbY7vZwU1vcIy4bGvLv6E3CfV2osJc=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -34,9 +34,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         satish.nagireddy@getcruise.com
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 2/3] media-ctl: add support for routes and streams
-Date:   Fri, 10 Feb 2023 13:55:45 +0200
-Message-Id: <20230210115546.199809-3-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 3/3] v4l2-ctl/compliance: add routing and streams multiplexed streams
+Date:   Fri, 10 Feb 2023 13:55:46 +0200
+Message-Id: <20230210115546.199809-4-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230210115546.199809-1-tomi.valkeinen@ideasonboard.com>
 References: <20230210115546.199809-1-tomi.valkeinen@ideasonboard.com>
@@ -51,1020 +51,457 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support to get and set subdev routes and to get and set
-configurations per stream.
-
-Based on work from Sakari Ailus <sakari.ailus@linux.intel.com>.
+Add basic support for routing and streams.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- utils/media-ctl/libmediactl.c   |  41 +++++
- utils/media-ctl/libv4l2subdev.c | 283 ++++++++++++++++++++++++++++----
- utils/media-ctl/media-ctl.c     | 121 ++++++++++++--
- utils/media-ctl/mediactl.h      |  16 ++
- utils/media-ctl/options.c       |  15 +-
- utils/media-ctl/options.h       |   1 +
- utils/media-ctl/v4l2subdev.h    |  58 ++++++-
- 7 files changed, 478 insertions(+), 57 deletions(-)
+ utils/v4l2-compliance/v4l2-compliance.cpp   | 120 ++++++++++++++++----
+ utils/v4l2-compliance/v4l2-compliance.h     |   8 +-
+ utils/v4l2-compliance/v4l2-test-subdevs.cpp |  43 ++++++-
+ 3 files changed, 137 insertions(+), 34 deletions(-)
 
-diff --git a/utils/media-ctl/libmediactl.c b/utils/media-ctl/libmediactl.c
-index 1fd6525b..537365d0 100644
---- a/utils/media-ctl/libmediactl.c
-+++ b/utils/media-ctl/libmediactl.c
-@@ -876,6 +876,47 @@ struct media_pad *media_parse_pad(struct media_device *media,
- 	return &entity->pads[pad];
- }
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index 8aebae2e..63b5fbbb 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -1224,6 +1224,10 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 	if (node.is_subdev()) {
+ 		bool has_source = false;
+ 		bool has_sink = false;
++		struct v4l2_subdev_routing sd_routing[2] = {};
++		struct v4l2_subdev_route sd_routes[2][256] = {};
++		bool has_routes = !!(subdevcap.capabilities & V4L2_SUBDEV_CAP_STREAMS);
++		int ret;
  
-+struct media_pad *media_parse_pad_stream(struct media_device *media,
-+					 const char *p, unsigned int *stream,
-+					 char **endp)
-+{
-+	struct media_pad *pad;
-+	const char *orig_p = p;
-+	char *ep;
+ 		node.frame_interval_pad = -1;
+ 		node.enum_frame_interval_pad = -1;
+@@ -1235,6 +1239,22 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 		}
+ 		node.is_passthrough_subdev = has_source && has_sink;
+ 
++		if (has_routes) {
++			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
++				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
 +
-+	pad = media_parse_pad(media, p, &ep);
-+	if (pad == NULL)
-+		return NULL;
++				sd_routing[which].which = which;
++				sd_routing[which].routes = (__u64)sd_routes[which];
++				sd_routing[which].num_routes = 256;
 +
-+	p = ep;
-+
-+	if (*p == '/') {
-+		unsigned int s;
-+
-+		p++;
-+
-+		s = strtoul(p, &ep, 10);
-+
-+		if (ep == p) {
-+			printf("Unable to parse stream: '%s'\n", orig_p);
-+			if (endp)
-+				*endp = (char*)p;
-+			return NULL;
++				ret = doioctl(&node, VIDIOC_SUBDEV_G_ROUTING, &sd_routing[which]);
++				if (ret) {
++					fail("VIDIOC_SUBDEV_G_ROUTING: failed to get routing\n");
++					sd_routing[which].num_routes = 0;
++				}
++			}
 +		}
 +
-+		*stream = s;
+ 		for (unsigned pad = 0; pad < node.entity.pads; pad++) {
+ 			printf("Sub-Device ioctls (%s Pad %u):\n",
+ 			       (node.pads[pad].flags & MEDIA_PAD_FL_SINK) ?
+@@ -1244,32 +1264,82 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 			node.has_subdev_enum_fival = 0;
+ 			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
+ 			     which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
+-				printf("\ttest %s VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: %s\n",
+-				       which ? "Active" : "Try",
+-				       ok(testSubDevEnum(&node, which, pad)));
+-				printf("\ttest %s VIDIOC_SUBDEV_G/S_FMT: %s\n",
+-				       which ? "Active" : "Try",
+-				       ok(testSubDevFormat(&node, which, pad)));
+-				printf("\ttest %s VIDIOC_SUBDEV_G/S_SELECTION/CROP: %s\n",
+-				       which ? "Active" : "Try",
+-				       ok(testSubDevSelection(&node, which, pad)));
+-				if (which)
+-					printf("\ttest VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: %s\n",
+-					       ok(testSubDevFrameInterval(&node, pad)));
++				struct v4l2_subdev_routing dummy_routing;
++				struct v4l2_subdev_route dummy_routes[1];
 +
-+		p++;
-+	} else {
-+		*stream = 0;
-+	}
++				const struct v4l2_subdev_routing *routing;
++				const struct v4l2_subdev_route *routes;
 +
-+	if (endp)
-+		*endp = (char*)p;
++				if (has_routes) {
++					routing = &sd_routing[which];
++					routes = sd_routes[which];
++				} else {
++					dummy_routing.num_routes = 1;
++					dummy_routing.routes = (__u64)&dummy_routes;
++					dummy_routes[0].source_pad = pad;
++					dummy_routes[0].source_stream = 0;
++					dummy_routes[0].sink_pad = pad;
++					dummy_routes[0].sink_stream = 0;
++					dummy_routes[0].flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE;
 +
-+	return pad;
-+}
++					routing = &dummy_routing;
++					routes = dummy_routes;
++				}
 +
- struct media_link *media_parse_link(struct media_device *media,
- 				    const char *p, char **endp)
- {
-diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
-index 63bb3d75..d203e5b4 100644
---- a/utils/media-ctl/libv4l2subdev.c
-+++ b/utils/media-ctl/libv4l2subdev.c
-@@ -64,7 +64,7 @@ void v4l2_subdev_close(struct media_entity *entity)
- }
- 
- int v4l2_subdev_get_format(struct media_entity *entity,
--	struct v4l2_mbus_framefmt *format, unsigned int pad,
-+	struct v4l2_mbus_framefmt *format, unsigned int pad, unsigned int stream,
- 	enum v4l2_subdev_format_whence which)
- {
- 	struct v4l2_subdev_format fmt;
-@@ -76,6 +76,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
- 
- 	memset(&fmt, 0, sizeof(fmt));
- 	fmt.pad = pad;
-+	fmt.stream = stream;
- 	fmt.which = which;
- 
- 	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FMT, &fmt);
-@@ -88,6 +89,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
- 
- int v4l2_subdev_set_format(struct media_entity *entity,
- 	struct v4l2_mbus_framefmt *format, unsigned int pad,
-+	unsigned int stream,
- 	enum v4l2_subdev_format_whence which)
- {
- 	struct v4l2_subdev_format fmt;
-@@ -99,6 +101,7 @@ int v4l2_subdev_set_format(struct media_entity *entity,
- 
- 	memset(&fmt, 0, sizeof(fmt));
- 	fmt.pad = pad;
-+	fmt.stream = stream;
- 	fmt.which = which;
- 	fmt.format = *format;
- 
-@@ -111,8 +114,8 @@ int v4l2_subdev_set_format(struct media_entity *entity,
- }
- 
- int v4l2_subdev_get_selection(struct media_entity *entity,
--	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
--	enum v4l2_subdev_format_whence which)
-+	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
-+	unsigned int target, enum v4l2_subdev_format_whence which)
- {
- 	union {
- 		struct v4l2_subdev_selection sel;
-@@ -150,8 +153,8 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
- }
- 
- int v4l2_subdev_set_selection(struct media_entity *entity,
--	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
--	enum v4l2_subdev_format_whence which)
-+	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
-+	unsigned int target, enum v4l2_subdev_format_whence which)
- {
- 	union {
- 		struct v4l2_subdev_selection sel;
-@@ -165,6 +168,7 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
- 
- 	memset(&u.sel, 0, sizeof(u.sel));
- 	u.sel.pad = pad;
-+	u.sel.stream = stream;
- 	u.sel.target = target;
- 	u.sel.which = which;
- 	u.sel.r = *rect;
-@@ -179,6 +183,7 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
- 
- 	memset(&u.crop, 0, sizeof(u.crop));
- 	u.crop.pad = pad;
-+	u.crop.stream = stream;
- 	u.crop.which = which;
- 	u.crop.rect = *rect;
- 
-@@ -190,6 +195,69 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
- 	return 0;
- }
- 
-+int v4l2_subdev_set_routing(struct media_entity *entity,
-+			    struct v4l2_subdev_route *routes,
-+			    unsigned int num_routes)
-+{
-+	struct v4l2_subdev_routing routing = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+		.routes = (uintptr_t)routes,
-+		.num_routes = num_routes,
-+	};
-+	int ret;
++				for (unsigned i = 0; i < routing->num_routes; ++i) {
++					const struct v4l2_subdev_route *r = &routes[i];
++					unsigned stream;
 +
-+	ret = v4l2_subdev_open(entity);
-+	if (ret < 0)
-+		return ret;
++					if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
++						continue;
 +
-+	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_ROUTING, &routing);
-+	if (ret == -1)
-+		return -errno;
++					if ((node.pads[pad].flags & MEDIA_PAD_FL_SINK) &&
++					    (r->sink_pad == pad))
++						stream = r->sink_stream;
++					else if ((node.pads[pad].flags & MEDIA_PAD_FL_SOURCE) &&
++					    (r->source_pad == pad))
++						stream = r->source_stream;
++					else
++						continue;
 +
-+	return 0;
-+}
++					printf("\t%s Stream %u\n",which ? "Active" : "Try",
++					       stream);
 +
-+int v4l2_subdev_get_routing(struct media_entity *entity,
-+			    struct v4l2_subdev_route **routes,
-+			    unsigned int *num_routes)
-+{
-+	struct v4l2_subdev_routing routing = { 0 };
-+	struct v4l2_subdev_route *r;
-+	int ret;
++					printf("\ttest %s VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: %s\n",
++					       which ? "Active" : "Try",
++					       ok(testSubDevEnum(&node, which, pad, stream)));
++					printf("\ttest %s VIDIOC_SUBDEV_G/S_FMT: %s\n",
++					       which ? "Active" : "Try",
++					       ok(testSubDevFormat(&node, which, pad, stream)));
++					printf("\ttest %s VIDIOC_SUBDEV_G/S_SELECTION/CROP: %s\n",
++					       which ? "Active" : "Try",
++					       ok(testSubDevSelection(&node, which, pad, stream)));
++					if (which)
++						printf("\ttest VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: %s\n",
++						       ok(testSubDevFrameInterval(&node, pad, stream)));
++				}
++			}
 +
-+	ret = v4l2_subdev_open(entity);
-+	if (ret < 0)
-+		return ret;
-+
-+	routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+
-+	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
-+	if (ret == -1 && errno != ENOSPC)
-+		return -errno;
-+
-+	if (!routing.num_routes) {
-+		*routes = NULL;
-+		*num_routes = 0;
-+		return 0;
-+	}
-+
-+	r = calloc(routing.num_routes, sizeof(*r));
-+	if (!r)
-+		return -ENOMEM;
-+
-+	routing.routes = (uintptr_t)r;
-+	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
-+	if (ret) {
-+		free(r);
-+		return ret;
-+	}
-+
-+	*num_routes = routing.num_routes;
-+	*routes = r;
-+
-+	return 0;
-+}
-+
- int v4l2_subdev_get_dv_timings_caps(struct media_entity *entity,
- 	struct v4l2_dv_timings_cap *caps)
- {
-@@ -264,7 +332,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
- 
- int v4l2_subdev_get_frame_interval(struct media_entity *entity,
- 				   struct v4l2_fract *interval,
--				   unsigned int pad)
-+				   unsigned int pad, unsigned int stream)
- {
- 	struct v4l2_subdev_frame_interval ival;
- 	int ret;
-@@ -275,6 +343,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
- 
- 	memset(&ival, 0, sizeof(ival));
- 	ival.pad = pad;
-+	ival.stream = stream;
- 
- 	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &ival);
- 	if (ret < 0)
-@@ -286,7 +355,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
- 
- int v4l2_subdev_set_frame_interval(struct media_entity *entity,
- 				   struct v4l2_fract *interval,
--				   unsigned int pad)
-+				   unsigned int pad, unsigned int stream)
- {
- 	struct v4l2_subdev_frame_interval ival;
- 	int ret;
-@@ -297,6 +366,7 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
- 
- 	memset(&ival, 0, sizeof(ival));
- 	ival.pad = pad;
-+	ival.stream = stream;
- 	ival.interval = *interval;
- 
- 	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &ival);
-@@ -307,6 +377,155 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
- 	return 0;
- }
- 
-+static int v4l2_subdev_parse_setup_route(struct media_device *media,
-+					 struct v4l2_subdev_route *r,
-+					 const char *p, char **endp)
-+{
-+	char *end;
-+
-+	/* sink pad/stream */
-+
-+	r->sink_pad = strtoul(p, &end, 10);
-+
-+	if (*end != '/') {
-+		media_dbg(media, "Expected '/'\n");
-+		return -EINVAL;
-+	}
-+
-+	p = end + 1;
-+
-+	r->sink_stream = strtoul(p, &end, 10);
-+
-+	for (; isspace(*end); ++end);
-+
-+	if (end[0] != '-' || end[1] != '>') {
-+		media_dbg(media, "Expected '->'\n");
-+		return -EINVAL;
-+	}
-+	p = end + 2;
-+
-+	/* source pad/stream */
-+
-+	r->source_pad = strtoul(p, &end, 10);
-+
-+	if (*end != '/') {
-+		media_dbg(media, "Expected '/'\n");
-+		return -EINVAL;
-+	}
-+
-+	p = end + 1;
-+
-+	r->source_stream = strtoul(p, &end, 10);
-+
-+	/* flags */
-+
-+	for (; isspace(*end); ++end);
-+
-+	if (*end != '[') {
-+		media_dbg(media, "Expected '['\n");
-+		return -EINVAL;
-+	}
-+
-+	for (end++; isspace(*end); ++end);
-+
-+	p = end;
-+
-+	r->flags = strtoul(p, &end, 0);
-+
-+	if (r->flags & ~(V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
-+		media_dbg(media, "Bad route flags %#x\n", r->flags);
-+		return -EINVAL;
-+	}
-+
-+	for (; isspace(*end); ++end);
-+
-+	if (*end != ']') {
-+		media_dbg(media, "Expected ']'\n");
-+		return -EINVAL;
-+	}
-+	end++;
-+
-+	*endp = end;
-+
-+	return 0;
-+}
-+
-+int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
-+{
-+	struct media_entity *entity;
-+	struct v4l2_subdev_route *routes;
-+	unsigned int num_routes;
-+	char *end;
-+	int ret;
-+	int i;
-+
-+	entity = media_parse_entity(media, p, &end);
-+	if (!entity)
-+		return -EINVAL;
-+
-+	p = end;
-+
-+	if (*p != '[') {
-+		media_dbg(media, "Expected '['\n");
-+		return -EINVAL;
-+	}
-+
-+	p++;
-+
-+	routes = calloc(256, sizeof(routes[0]));
-+	if (!routes)
-+		return -ENOMEM;
-+
-+	num_routes = 0;
-+
-+	while (*p != 0) {
-+		struct v4l2_subdev_route *r = &routes[num_routes];
-+
-+		ret = v4l2_subdev_parse_setup_route(media, r, p, &end);
-+		if (ret)
-+			goto out;
-+
-+		p = end;
-+
-+		num_routes++;
-+
-+		if (*p == ',') {
-+			p++;
-+			continue;
-+		}
-+
-+		break;
-+	}
-+
-+	if (*p != ']') {
-+		media_dbg(media, "Expected ']'\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	for (i = 0; i < num_routes; ++i) {
-+		struct v4l2_subdev_route *r = &routes[i];
-+
-+		media_dbg(entity->media,
-+			  "Setting up route %s : %u/%u -> %u/%u, flags 0x%8.8x\n",
-+			  entity->info.name,
-+			  r->sink_pad, r->sink_stream,
-+			  r->source_pad, r->source_stream,
-+			  r->flags);
-+	}
-+
-+	ret = v4l2_subdev_set_routing(entity, routes, num_routes);
-+	if (ret) {
-+		printf("VIDIOC_SUBDEV_S_ROUTING failed: %d\n", ret);
-+		goto out;
-+	}
-+
-+out:
-+	free(routes);
-+
-+	return ret;
-+}
-+
- static int v4l2_subdev_parse_format(struct media_device *media,
- 				    struct v4l2_mbus_framefmt *format,
- 				    const char *p, char **endp)
-@@ -442,7 +661,8 @@ static bool strhazit(const char *str, const char **p)
- }
- 
- static struct media_pad *v4l2_subdev_parse_pad_format(
--	struct media_device *media, struct v4l2_mbus_framefmt *format,
-+	struct media_device *media, unsigned int *stream,
-+	struct v4l2_mbus_framefmt *format,
- 	struct v4l2_rect *crop, struct v4l2_rect *compose,
- 	struct v4l2_fract *interval, const char *p, char **endp)
- {
-@@ -453,7 +673,7 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
- 
- 	for (; isspace(*p); ++p);
- 
--	pad = media_parse_pad(media, p, &end);
-+	pad = media_parse_pad_stream(media, p, stream, &end);
- 	if (pad == NULL) {
- 		*endp = end;
- 		return NULL;
-@@ -675,6 +895,7 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
- }
- 
- static int set_format(struct media_pad *pad,
-+		      unsigned int stream,
- 		      struct v4l2_mbus_framefmt *format)
- {
- 	int ret;
-@@ -683,12 +904,12 @@ static int set_format(struct media_pad *pad,
- 		return 0;
- 
- 	media_dbg(pad->entity->media,
--		  "Setting up format %s %ux%u on pad %s/%u\n",
-+		  "Setting up format %s %ux%u on pad %s/%u/%u\n",
- 		  v4l2_subdev_pixelcode_to_string(format->code),
- 		  format->width, format->height,
--		  pad->entity->info.name, pad->index);
-+		  pad->entity->info.name, pad->index, stream);
- 
--	ret = v4l2_subdev_set_format(pad->entity, format, pad->index,
-+	ret = v4l2_subdev_set_format(pad->entity, format, pad->index, stream,
- 				     V4L2_SUBDEV_FORMAT_ACTIVE);
- 	if (ret < 0) {
- 		media_dbg(pad->entity->media,
-@@ -705,8 +926,8 @@ static int set_format(struct media_pad *pad,
- 	return 0;
- }
- 
--static int set_selection(struct media_pad *pad, unsigned int target,
--			 struct v4l2_rect *rect)
-+static int set_selection(struct media_pad *pad, unsigned int stream,
-+			 unsigned int target, struct v4l2_rect *rect)
- {
- 	int ret;
- 
-@@ -714,11 +935,11 @@ static int set_selection(struct media_pad *pad, unsigned int target,
- 		return 0;
- 
- 	media_dbg(pad->entity->media,
--		  "Setting up selection target %u rectangle (%u,%u)/%ux%u on pad %s/%u\n",
-+		  "Setting up selection target %u rectangle (%u,%u)/%ux%u on pad %s/%u/%u\n",
- 		  target, rect->left, rect->top, rect->width, rect->height,
--		  pad->entity->info.name, pad->index);
-+		  pad->entity->info.name, pad->index, stream);
- 
--	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index,
-+	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index, stream,
- 					target, V4L2_SUBDEV_FORMAT_ACTIVE);
- 	if (ret < 0) {
- 		media_dbg(pad->entity->media,
-@@ -734,7 +955,7 @@ static int set_selection(struct media_pad *pad, unsigned int target,
- 	return 0;
- }
- 
--static int set_frame_interval(struct media_pad *pad,
-+static int set_frame_interval(struct media_pad *pad, unsigned int stream,
- 			      struct v4l2_fract *interval)
- {
- 	int ret;
-@@ -743,11 +964,12 @@ static int set_frame_interval(struct media_pad *pad,
- 		return 0;
- 
- 	media_dbg(pad->entity->media,
--		  "Setting up frame interval %u/%u on pad %s/%u\n",
-+		  "Setting up frame interval %u/%u on pad %s/%u/%u\n",
- 		  interval->numerator, interval->denominator,
--		  pad->entity->info.name, pad->index);
-+		  pad->entity->info.name, pad->index, stream);
- 
--	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index);
-+	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index,
-+					     stream);
- 	if (ret < 0) {
- 		media_dbg(pad->entity->media,
- 			  "Unable to set frame interval: %s (%d)",
-@@ -770,11 +992,13 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
- 	struct v4l2_rect crop = { -1, -1, -1, -1 };
- 	struct v4l2_rect compose = crop;
- 	struct v4l2_fract interval = { 0, 0 };
-+	unsigned int stream;
- 	unsigned int i;
- 	char *end;
- 	int ret;
- 
--	pad = v4l2_subdev_parse_pad_format(media, &format, &crop, &compose,
-+	pad = v4l2_subdev_parse_pad_format(media, &stream,
-+					   &format, &crop, &compose,
- 					   &interval, p, &end);
- 	if (pad == NULL) {
- 		media_print_streampos(media, p, end);
-@@ -783,30 +1007,29 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
- 	}
- 
- 	if (pad->flags & MEDIA_PAD_FL_SINK) {
--		ret = set_format(pad, &format);
-+		ret = set_format(pad, stream, &format);
- 		if (ret < 0)
- 			return ret;
- 	}
- 
--	ret = set_selection(pad, V4L2_SEL_TGT_CROP, &crop);
-+	ret = set_selection(pad, stream, V4L2_SEL_TGT_CROP, &crop);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = set_selection(pad, V4L2_SEL_TGT_COMPOSE, &compose);
-+	ret = set_selection(pad, stream, V4L2_SEL_TGT_COMPOSE, &compose);
- 	if (ret < 0)
- 		return ret;
- 
- 	if (pad->flags & MEDIA_PAD_FL_SOURCE) {
--		ret = set_format(pad, &format);
-+		ret = set_format(pad, stream, &format);
- 		if (ret < 0)
- 			return ret;
- 	}
- 
--	ret = set_frame_interval(pad, &interval);
-+	ret = set_frame_interval(pad, stream, &interval);
- 	if (ret < 0)
- 		return ret;
- 
--
- 	/* If the pad is an output pad, automatically set the same format and
- 	 * frame interval on the remote subdev input pads, if any.
- 	 */
-@@ -821,9 +1044,9 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
- 			if (link->source == pad &&
- 			    link->sink->entity->info.type == MEDIA_ENT_T_V4L2_SUBDEV) {
- 				remote_format = format;
--				set_format(link->sink, &remote_format);
-+				set_format(link->sink, stream, &remote_format);
- 
--				ret = set_frame_interval(link->sink, &interval);
-+				ret = set_frame_interval(link->sink, stream, &interval);
- 				if (ret < 0 && ret != -EINVAL && ret != -ENOTTY)
- 					return ret;
++			/*
++			 * These tests do not make sense for subdevs with multiplexed streams,
++			 * as the try & active cases may have different routing and thus different
++			 * behavior.
++			 */
++			if (!has_routes) {
++				if (node.has_subdev_enum_code && node.has_subdev_enum_code < 3)
++					fail("VIDIOC_SUBDEV_ENUM_MBUS_CODE: try/active mismatch\n");
++				if (node.has_subdev_enum_fsize && node.has_subdev_enum_fsize < 3)
++					fail("VIDIOC_SUBDEV_ENUM_FRAME_SIZE: try/active mismatch\n");
++				if (node.has_subdev_enum_fival && node.has_subdev_enum_fival < 3)
++					fail("VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: try/active mismatch\n");
++				if (node.has_subdev_fmt && node.has_subdev_fmt < 3)
++					fail("VIDIOC_SUBDEV_G/S_FMT: try/active mismatch\n");
++				if (node.has_subdev_selection && node.has_subdev_selection < 3)
++					fail("VIDIOC_SUBDEV_G/S_SELECTION: try/active mismatch\n");
++				if (node.has_subdev_selection &&
++				    node.has_subdev_selection != node.has_subdev_fmt)
++					fail("VIDIOC_SUBDEV_G/S_SELECTION: fmt/selection mismatch\n");
  			}
-diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-index 84ee7a83..831136a0 100644
---- a/utils/media-ctl/media-ctl.c
-+++ b/utils/media-ctl/media-ctl.c
-@@ -28,6 +28,7 @@
- #include <errno.h>
- #include <fcntl.h>
- #include <stdbool.h>
-+#include <stdint.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-@@ -75,23 +76,43 @@ static void print_flags(const struct flag_name *flag_names, unsigned int num_ent
+-			if (node.has_subdev_enum_code && node.has_subdev_enum_code < 3)
+-				fail("VIDIOC_SUBDEV_ENUM_MBUS_CODE: try/active mismatch\n");
+-			if (node.has_subdev_enum_fsize && node.has_subdev_enum_fsize < 3)
+-				fail("VIDIOC_SUBDEV_ENUM_FRAME_SIZE: try/active mismatch\n");
+-			if (node.has_subdev_enum_fival && node.has_subdev_enum_fival < 3)
+-				fail("VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: try/active mismatch\n");
+-			if (node.has_subdev_fmt && node.has_subdev_fmt < 3)
+-				fail("VIDIOC_SUBDEV_G/S_FMT: try/active mismatch\n");
+-			if (node.has_subdev_selection && node.has_subdev_selection < 3)
+-				fail("VIDIOC_SUBDEV_G/S_SELECTION: try/active mismatch\n");
+-			if (node.has_subdev_selection &&
+-			    node.has_subdev_selection != node.has_subdev_fmt)
+-				fail("VIDIOC_SUBDEV_G/S_SELECTION: fmt/selection mismatch\n");
+ 			printf("\n");
+ 		}
  	}
- }
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index e574c06c..67b3521e 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -373,10 +373,10 @@ int testDecoder(struct node *node);
  
-+static void v4l2_subdev_print_routes(struct media_entity *entity,
-+				     struct v4l2_subdev_route *routes,
-+				     unsigned int num_routes)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < num_routes; i++) {
-+		const struct v4l2_subdev_route *r = &routes[i];
-+
-+		if (i == 0)
-+			printf("\troutes:\n");
-+
-+		printf("\t\t%u/%u -> %u/%u [%s]\n",
-+		       r->sink_pad, r->sink_stream,
-+		       r->source_pad, r->source_stream,
-+		       r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE ? "ACTIVE" : "INACTIVE");
-+	}
-+}
-+
- static void v4l2_subdev_print_format(struct media_entity *entity,
--	unsigned int pad, enum v4l2_subdev_format_whence which)
-+	unsigned int pad, unsigned int stream,
-+	enum v4l2_subdev_format_whence which)
+ // SubDev ioctl tests
+ int testSubDevCap(struct node *node);
+-int testSubDevEnum(struct node *node, unsigned which, unsigned pad);
+-int testSubDevFormat(struct node *node, unsigned which, unsigned pad);
+-int testSubDevSelection(struct node *node, unsigned which, unsigned pad);
+-int testSubDevFrameInterval(struct node *node, unsigned pad);
++int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned stream);
++int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
++int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
++int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
+ 
+ // Buffer ioctl tests
+ int testReqBufs(struct node *node);
+diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+index f3d85771..07192bda 100644
+--- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
++++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+@@ -25,7 +25,7 @@
+ 
+ #include "v4l2-compliance.h"
+ 
+-#define VALID_SUBDEV_CAPS (V4L2_SUBDEV_CAP_RO_SUBDEV)
++#define VALID_SUBDEV_CAPS (V4L2_SUBDEV_CAP_RO_SUBDEV | V4L2_SUBDEV_CAP_STREAMS)
+ 
+ int testSubDevCap(struct node *node)
  {
- 	struct v4l2_mbus_framefmt format;
- 	struct v4l2_fract interval = { 0, 0 };
- 	struct v4l2_rect rect;
- 	int ret;
- 
--	ret = v4l2_subdev_get_format(entity, &format, pad, which);
-+	ret = v4l2_subdev_get_format(entity, &format, pad, stream, which);
- 	if (ret != 0)
- 		return;
- 
--	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad);
-+	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad, stream);
- 	if (ret != 0 && ret != -ENOTTY && ret != -EINVAL)
- 		return;
- 
--	printf("\t\t[fmt:%s/%ux%u",
-+	printf("\t\t[stream:%u fmt:%s/%ux%u", stream,
- 	       v4l2_subdev_pixelcode_to_string(format.code),
- 	       format.width, format.height);
- 
-@@ -118,28 +139,28 @@ static void v4l2_subdev_print_format(struct media_entity *entity,
- 			       v4l2_subdev_quantization_to_string(format.quantization));
- 	}
- 
--	ret = v4l2_subdev_get_selection(entity, &rect, pad,
-+	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
- 					V4L2_SEL_TGT_CROP_BOUNDS,
- 					which);
- 	if (ret == 0)
- 		printf("\n\t\t crop.bounds:(%u,%u)/%ux%u", rect.left, rect.top,
- 		       rect.width, rect.height);
- 
--	ret = v4l2_subdev_get_selection(entity, &rect, pad,
-+	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
- 					V4L2_SEL_TGT_CROP,
- 					which);
- 	if (ret == 0)
- 		printf("\n\t\t crop:(%u,%u)/%ux%u", rect.left, rect.top,
- 		       rect.width, rect.height);
- 
--	ret = v4l2_subdev_get_selection(entity, &rect, pad,
-+	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
- 					V4L2_SEL_TGT_COMPOSE_BOUNDS,
- 					which);
- 	if (ret == 0)
- 		printf("\n\t\t compose.bounds:(%u,%u)/%ux%u",
- 		       rect.left, rect.top, rect.width, rect.height);
- 
--	ret = v4l2_subdev_get_selection(entity, &rect, pad,
-+	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
- 					V4L2_SEL_TGT_COMPOSE,
- 					which);
- 	if (ret == 0)
-@@ -455,16 +476,58 @@ static void media_print_topology_dot(struct media_device *media)
+@@ -54,6 +54,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
+ 	memset(&fie, 0, sizeof(fie));
+ 	fie.which = which;
+ 	fie.pad = pad;
++	fie.stream = 0;
+ 	fie.code = code;
+ 	fie.width = width;
+ 	fie.height = height;
+@@ -83,6 +84,7 @@ static int testSubDevEnumFrameInterval(struct node *node, unsigned which,
+ 	memset(&fie, 0xff, sizeof(fie));
+ 	fie.which = which;
+ 	fie.pad = pad;
++	fie.stream = 0;
+ 	fie.code = code;
+ 	fie.width = width;
+ 	fie.height = height;
+@@ -128,6 +130,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 	memset(&fse, 0, sizeof(fse));
+ 	fse.which = which;
+ 	fse.pad = pad;
++	fse.stream = 0;
+ 	fse.code = code;
+ 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse);
+ 	node->has_subdev_enum_fsize |= (ret != ENOTTY) << which;
+@@ -137,6 +140,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 		memset(&fie, 0, sizeof(fie));
+ 		fie.which = which;
+ 		fie.pad = pad;
++		fie.stream = 0;
+ 		fie.code = code;
+ 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
+ 		return ret;
+@@ -152,6 +156,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 	memset(&fse, 0xff, sizeof(fse));
+ 	fse.which = which;
+ 	fse.pad = pad;
++	fse.stream = 0;
+ 	fse.code = code;
+ 	fse.index = 0;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse));
+@@ -195,7 +200,7 @@ static int testSubDevEnumFrameSize(struct node *node, unsigned which,
+ 	return 0;
  }
  
- static void media_print_pad_text(struct media_entity *entity,
--				 const struct media_pad *pad)
-+				 const struct media_pad *pad,
-+				 struct v4l2_subdev_route *routes,
-+				 unsigned int num_routes)
+-int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
++int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned stream)
  {
-+	unsigned int i;
-+	uint64_t printed_streams_mask;
-+
- 	if (media_entity_type(entity) != MEDIA_ENT_T_V4L2_SUBDEV)
- 		return;
+ 	struct v4l2_subdev_mbus_code_enum mbus_core_enum;
+ 	unsigned num_codes;
+@@ -204,6 +209,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
+ 	memset(&mbus_core_enum, 0, sizeof(mbus_core_enum));
+ 	mbus_core_enum.which = which;
+ 	mbus_core_enum.pad = pad;
++	mbus_core_enum.stream = stream;
+ 	ret = doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum);
+ 	node->has_subdev_enum_code |= (ret != ENOTTY) << which;
+ 	if (ret == ENOTTY) {
+@@ -214,8 +220,10 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
+ 		memset(&fie, 0, sizeof(fie));
+ 		fse.which = which;
+ 		fse.pad = pad;
++		fse.stream = stream;
+ 		fie.which = which;
+ 		fie.pad = pad;
++		fie.stream = stream;
+ 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &fse) != ENOTTY);
+ 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &fie) != ENOTTY);
+ 		return ret;
+@@ -226,16 +234,19 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
+ 	mbus_core_enum.index = ~0;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum) != EINVAL);
+ 	mbus_core_enum.pad = node->entity.pads;
++	mbus_core_enum.stream = stream;
+ 	mbus_core_enum.index = 0;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum) != EINVAL);
+ 	memset(&mbus_core_enum, 0xff, sizeof(mbus_core_enum));
+ 	mbus_core_enum.which = which;
+ 	mbus_core_enum.pad = pad;
++	mbus_core_enum.stream = stream;
+ 	mbus_core_enum.index = 0;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_ENUM_MBUS_CODE, &mbus_core_enum));
+ 	fail_on_test(check_0(mbus_core_enum.reserved, sizeof(mbus_core_enum.reserved)));
+ 	fail_on_test(mbus_core_enum.code == ~0U);
+ 	fail_on_test(mbus_core_enum.pad != pad);
++	fail_on_test(mbus_core_enum.stream != stream);
+ 	fail_on_test(mbus_core_enum.index);
+ 	fail_on_test(mbus_core_enum.which != which);
+ 	do {
+@@ -252,6 +263,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
+ 		fail_on_test(!mbus_core_enum.code);
+ 		fail_on_test(mbus_core_enum.which != which);
+ 		fail_on_test(mbus_core_enum.pad != pad);
++		fail_on_test(mbus_core_enum.stream != stream);
+ 		fail_on_test(mbus_core_enum.index != i);
  
--	v4l2_subdev_print_format(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
--	v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
-+	if (!routes) {
-+		v4l2_subdev_print_format(entity, pad->index, 0, V4L2_SUBDEV_FORMAT_ACTIVE);
-+		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
-+
-+		if (pad->flags & MEDIA_PAD_FL_SOURCE)
-+			v4l2_subdev_print_subdev_dv(entity);
-+
-+		return;
-+	}
-+
-+	printed_streams_mask = 0;
-+
-+	for (i = 0; i < num_routes; ++i) {
-+		const struct v4l2_subdev_route *r = &routes[i];
-+		unsigned int stream;
- 
--	if (pad->flags & MEDIA_PAD_FL_SOURCE)
--		v4l2_subdev_print_subdev_dv(entity);
-+		if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		if (pad->flags & MEDIA_PAD_FL_SINK) {
-+			if (r->sink_pad != pad->index)
-+				continue;
-+
-+			stream = r->sink_stream;
-+		} else {
-+			if (r->source_pad != pad->index)
-+				continue;
-+
-+			stream = r->source_stream;
-+		}
-+
-+		if (printed_streams_mask & (1 << stream))
-+			continue;
-+
-+		v4l2_subdev_print_format(entity, pad->index, stream, V4L2_SUBDEV_FORMAT_ACTIVE);
-+		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
-+
-+		if (pad->flags & MEDIA_PAD_FL_SOURCE)
-+			v4l2_subdev_print_subdev_dv(entity);
-+
-+		printed_streams_mask |= (1 << stream);
-+	}
+ 		ret = testSubDevEnumFrameSize(node, which, pad, mbus_core_enum.code);
+@@ -260,7 +272,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad)
+ 	return 0;
  }
  
- static void media_print_topology_text_entity(struct media_device *media,
-@@ -480,11 +543,17 @@ static void media_print_topology_text_entity(struct media_device *media,
- 	unsigned int num_links = media_entity_get_links_count(entity);
- 	unsigned int j, k;
- 	unsigned int padding;
-+	struct v4l2_subdev_route *routes = NULL;
-+	unsigned int num_routes = 0;
-+
-+	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
-+		v4l2_subdev_get_routing(entity, &routes, &num_routes);
+-int testSubDevFrameInterval(struct node *node, unsigned pad)
++int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream)
+ {
+ 	struct v4l2_subdev_frame_interval fival;
+ 	struct v4l2_fract ival;
+@@ -268,6 +280,7 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
  
- 	padding = printf("- entity %u: ", info->id);
--	printf("%s (%u pad%s, %u link%s)\n", info->name,
-+	printf("%s (%u pad%s, %u link%s, %u route%s)\n", info->name,
- 	       info->pads, info->pads > 1 ? "s" : "",
--	       num_links, num_links > 1 ? "s" : "");
-+	       num_links, num_links > 1 ? "s" : "",
-+	       num_routes, num_routes > 1 ? "s" : "");
- 	printf("%*ctype %s subtype %s flags %x\n", padding, ' ',
- 	       media_entity_type_to_string(info->type),
- 	       media_entity_subtype_to_string(info->type),
-@@ -492,12 +561,15 @@ static void media_print_topology_text_entity(struct media_device *media,
- 	if (devname)
- 		printf("%*cdevice node name %s\n", padding, ' ', devname);
- 
-+	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
-+		v4l2_subdev_print_routes(entity, routes, num_routes);
-+
- 	for (j = 0; j < info->pads; j++) {
- 		const struct media_pad *pad = media_entity_get_pad(entity, j);
- 
- 		printf("\tpad%u: %s\n", j, media_pad_type_to_string(pad->flags));
- 
--		media_print_pad_text(entity, pad);
-+		media_print_pad_text(entity, pad, routes, num_routes);
- 
- 		for (k = 0; k < num_links; k++) {
- 			const struct media_link *link = media_entity_get_link(entity, k);
-@@ -521,6 +593,8 @@ static void media_print_topology_text_entity(struct media_device *media,
- 		}
+ 	memset(&fival, 0xff, sizeof(fival));
+ 	fival.pad = pad;
++	fival.stream = stream;
+ 	ret = doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival);
+ 	if (ret == ENOTTY) {
+ 		fail_on_test(node->enum_frame_interval_pad >= 0);
+@@ -279,6 +292,7 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
+ 	node->frame_interval_pad = pad;
+ 	fail_on_test(check_0(fival.reserved, sizeof(fival.reserved)));
+ 	fail_on_test(fival.pad != pad);
++	fail_on_test(fival.stream != stream);
+ 	fail_on_test(!fival.interval.numerator);
+ 	fail_on_test(!fival.interval.denominator);
+ 	fail_on_test(fival.interval.numerator == ~0U || fival.interval.denominator == ~0U);
+@@ -290,20 +304,25 @@ int testSubDevFrameInterval(struct node *node, unsigned pad)
  	}
- 	printf("\n");
-+
-+	free(routes);
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival));
+ 	fail_on_test(fival.pad != pad);
++	fail_on_test(fival.stream != stream);
+ 	fail_on_test(ival.numerator != fival.interval.numerator);
+ 	fail_on_test(ival.denominator != fival.interval.denominator);
+ 	fail_on_test(check_0(fival.reserved, sizeof(fival.reserved)));
+ 	memset(&fival, 0, sizeof(fival));
+ 	fival.pad = pad;
++	fival.stream = stream;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival));
+ 	fail_on_test(fival.pad != pad);
++	fail_on_test(fival.stream != stream);
+ 	fail_on_test(ival.numerator != fival.interval.numerator);
+ 	fail_on_test(ival.denominator != fival.interval.denominator);
+ 
+ 	fival.pad = node->entity.pads;
++	fival.stream = stream;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival) != EINVAL);
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival) != EINVAL);
+ 	fival.pad = pad;
++	fival.stream = stream;
+ 	fival.interval = ival;
+ 	fival.interval.numerator = 0;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival));
+@@ -340,7 +359,7 @@ static int checkMBusFrameFmt(struct node *node, struct v4l2_mbus_framefmt &fmt)
+ 	return 0;
  }
  
- static void media_print_topology_text(struct media_device *media)
-@@ -594,14 +668,16 @@ int main(int argc, char **argv)
- 
- 	if (media_opts.fmt_pad) {
- 		struct media_pad *pad;
-+		unsigned int stream;
-+		char *p;
- 
--		pad = media_parse_pad(media, media_opts.fmt_pad, NULL);
-+		pad = media_parse_pad_stream(media, media_opts.fmt_pad, &stream, &p);
- 		if (pad == NULL) {
- 			printf("Pad '%s' not found\n", media_opts.fmt_pad);
- 			goto out;
- 		}
- 
--		v4l2_subdev_print_format(pad->entity, pad->index,
-+		v4l2_subdev_print_format(pad->entity, pad->index, stream,
- 					 V4L2_SUBDEV_FORMAT_ACTIVE);
- 	}
- 
-@@ -685,6 +761,15 @@ int main(int argc, char **argv)
- 		}
- 	}
- 
-+	if (media_opts.routes) {
-+		ret = v4l2_subdev_parse_setup_routes(media, media_opts.routes);
-+		if (ret) {
-+			printf("Unable to setup routes: %s (%d)\n",
-+			       strerror(-ret), -ret);
-+			goto out;
-+		}
-+	}
-+
- 	if (media_opts.interactive) {
- 		while (1) {
- 			char buffer[32];
-diff --git a/utils/media-ctl/mediactl.h b/utils/media-ctl/mediactl.h
-index af360518..c0fc2962 100644
---- a/utils/media-ctl/mediactl.h
-+++ b/utils/media-ctl/mediactl.h
-@@ -394,6 +394,22 @@ struct media_entity *media_parse_entity(struct media_device *media,
- struct media_pad *media_parse_pad(struct media_device *media,
- 				  const char *p, char **endp);
- 
-+/**
-+ * @brief Parse string to a pad and stream on the media device.
-+ * @param media - media device.
-+ * @param p - input string
-+ * @param stream - pointer to uint where the stream number is stored
-+ * @param endp - pointer to string where parsing ended
-+ *
-+ * Parse NULL terminated string describing a pad and stream and return its struct
-+ * media_pad instance and the stream number.
-+ *
-+ * @return Pointer to struct media_pad on success, NULL on failure.
-+ */
-+struct media_pad *media_parse_pad_stream(struct media_device *media,
-+					 const char *p, unsigned int *stream,
-+					 char **endp);
-+
- /**
-  * @brief Parse string to a link on the media device.
-  * @param media - media device.
-diff --git a/utils/media-ctl/options.c b/utils/media-ctl/options.c
-index 6d30d3dc..58ddec3c 100644
---- a/utils/media-ctl/options.c
-+++ b/utils/media-ctl/options.c
-@@ -63,6 +63,7 @@ static void usage(const char *argv0)
- 	printf("    --get-v4l2 pad	Print the active format on a given pad\n");
- 	printf("    --get-dv pad        Print detected and current DV timings on a given pad\n");
- 	printf("    --set-dv pad	Configure DV timings on a given pad\n");
-+	printf("-R, --set-routes routes Configure routes on a given subdev entity\n");
- 	printf("-h, --help		Show verbose help and exit\n");
- 	printf("-i, --interactive	Modify links interactively\n");
- 	printf("-l, --links links	Comma-separated list of link descriptors to setup\n");
-@@ -78,7 +79,7 @@ static void usage(const char *argv0)
- 	printf("Links and formats are defined as\n");
- 	printf("\tlinks           = link { ',' link } ;\n");
- 	printf("\tlink            = pad '->' pad '[' flags ']' ;\n");
--	printf("\tpad             = entity ':' pad-number ;\n");
-+	printf("\tpad             = entity ':' pad-number { '/' stream-number } ;\n");
- 	printf("\tentity          = entity-number | ( '\"' entity-name '\"' ) ;\n");
- 	printf("\n");
- 	printf("\tv4l2            = pad '[' v4l2-properties ']' ;\n");
-@@ -95,11 +96,16 @@ static void usage(const char *argv0)
- 	printf("\trectangle       = '(' left ',' top, ')' '/' size ;\n");
- 	printf("\tsize            = width 'x' height ;\n");
- 	printf("\n");
-+	printf("\troutes          = entity '[' route { ',' route } ']' ;\n");
-+	printf("\troute           = pad-number '/' stream-number '->' pad-number '/' stream-number '[' route-flags ']' ;\n");
-+	printf("\n");
- 	printf("where the fields are\n");
- 	printf("\tentity-number   Entity numeric identifier\n");
- 	printf("\tentity-name     Entity name (string) \n");
- 	printf("\tpad-number      Pad numeric identifier\n");
-+	printf("\tstream-number   Stream numeric identifier\n");
- 	printf("\tflags           Link flags (0: inactive, 1: active)\n");
-+	printf("\troute-flags     Route flags (bitmask of route flags: active - 0x1, immutable - 0x2, source - 0x4)\n");
- 	printf("\tfcc             Format FourCC\n");
- 	printf("\twidth           Image width in pixels\n");
- 	printf("\theight          Image height in pixels\n");
-@@ -152,6 +158,7 @@ static struct option opts[] = {
- 	{"get-v4l2", 1, 0, OPT_GET_FORMAT},
- 	{"get-dv", 1, 0, OPT_GET_DV},
- 	{"set-dv", 1, 0, OPT_SET_DV},
-+	{"set-routes", 1, 0, 'R'},
- 	{"help", 0, 0, 'h'},
- 	{"interactive", 0, 0, 'i'},
- 	{"links", 1, 0, 'l'},
-@@ -237,7 +244,7 @@ int parse_cmdline(int argc, char **argv)
- 	}
- 
- 	/* parse options */
--	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:",
-+	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:R:",
- 				  opts, NULL)) != -1) {
- 		switch (opt) {
- 		case 'd':
-@@ -283,6 +290,10 @@ int parse_cmdline(int argc, char **argv)
- 			media_opts.verbose = 1;
- 			break;
- 
-+		case 'R':
-+			media_opts.routes = optarg;
-+			break;
-+
- 		case OPT_PRINT_DOT:
- 			media_opts.print_dot = 1;
- 			break;
-diff --git a/utils/media-ctl/options.h b/utils/media-ctl/options.h
-index b1751f56..8796f1b6 100644
---- a/utils/media-ctl/options.h
-+++ b/utils/media-ctl/options.h
-@@ -38,6 +38,7 @@ struct media_options
- 	const char *fmt_pad;
- 	const char *get_dv_pad;
- 	const char *dv_pad;
-+	const char *routes;
+-int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
++int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream)
+ {
+ 	struct v4l2_subdev_format fmt;
+ 	struct v4l2_subdev_format s_fmt;
+@@ -349,6 +368,7 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
+ 	memset(&fmt, 0, sizeof(fmt));
+ 	fmt.which = which;
+ 	fmt.pad = pad;
++	fmt.stream = stream;
+ 	ret = doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt);
+ 	node->has_subdev_fmt |= (ret != ENOTTY) << which;
+ 	if (ret == ENOTTY) {
+@@ -359,14 +379,17 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt) != EINVAL);
+ 	fmt.which = 0;
+ 	fmt.pad = node->entity.pads;
++	fmt.stream = stream;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt) != EINVAL);
+ 	memset(&fmt, 0xff, sizeof(fmt));
+ 	fmt.which = which;
+ 	fmt.pad = pad;
++	fmt.stream = stream;
+ 	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_FMT, &fmt));
+ 	fail_on_test(check_0(fmt.reserved, sizeof(fmt.reserved)));
+ 	fail_on_test(fmt.which != which);
+ 	fail_on_test(fmt.pad != pad);
++	fail_on_test(fmt.stream != stream);
+ 	fail_on_test(checkMBusFrameFmt(node, fmt.format));
+ 	s_fmt = fmt;
+ 	memset(s_fmt.reserved, 0xff, sizeof(s_fmt.reserved));
+@@ -379,6 +402,7 @@ int testSubDevFormat(struct node *node, unsigned which, unsigned pad)
+ 	fail_on_test(ret && ret != ENOTTY);
+ 	fail_on_test(s_fmt.which != which);
+ 	fail_on_test(s_fmt.pad != pad);
++	fail_on_test(s_fmt.stream != stream);
+ 	if (ret) {
+ 		warn("VIDIOC_SUBDEV_G_FMT is supported but not VIDIOC_SUBDEV_S_FMT\n");
+ 		return 0;
+@@ -423,7 +447,7 @@ static target_info targets[] = {
+ 	{ ~0U },
  };
  
- extern struct media_options media_opts;
-diff --git a/utils/media-ctl/v4l2subdev.h b/utils/media-ctl/v4l2subdev.h
-index a1813911..a8a6e7ad 100644
---- a/utils/media-ctl/v4l2subdev.h
-+++ b/utils/media-ctl/v4l2subdev.h
-@@ -64,7 +64,7 @@ void v4l2_subdev_close(struct media_entity *entity);
-  * @return 0 on success, or a negative error code on failure.
-  */
- int v4l2_subdev_get_format(struct media_entity *entity,
--	struct v4l2_mbus_framefmt *format, unsigned int pad,
-+	struct v4l2_mbus_framefmt *format, unsigned int pad, unsigned int stream,
- 	enum v4l2_subdev_format_whence which);
+-int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
++int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream)
+ {
+ 	struct v4l2_subdev_selection sel;
+ 	struct v4l2_subdev_selection s_sel;
+@@ -435,10 +459,12 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 	targets[V4L2_SEL_TGT_NATIVE_SIZE].readonly = is_sink;
+ 	memset(&crop, 0, sizeof(crop));
+ 	crop.pad = pad;
++	crop.stream = stream;
+ 	crop.which = which;
+ 	memset(&sel, 0, sizeof(sel));
+ 	sel.which = which;
+ 	sel.pad = pad;
++	sel.stream = stream;
+ 	sel.target = V4L2_SEL_TGT_CROP;
+ 	ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
+ 	node->has_subdev_selection |= (ret != ENOTTY) << which;
+@@ -451,6 +477,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 	fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
+ 	fail_on_test(crop.which != which);
+ 	fail_on_test(crop.pad != pad);
++	fail_on_test(crop.stream != stream);
+ 	fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
  
- /**
-@@ -86,6 +86,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
-  */
- int v4l2_subdev_set_format(struct media_entity *entity,
- 	struct v4l2_mbus_framefmt *format, unsigned int pad,
-+	unsigned int stream,
- 	enum v4l2_subdev_format_whence which);
- 
- /**
-@@ -107,8 +108,8 @@ int v4l2_subdev_set_format(struct media_entity *entity,
-  * @return 0 on success, or a negative error code on failure.
-  */
- int v4l2_subdev_get_selection(struct media_entity *entity,
--	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
--	enum v4l2_subdev_format_whence which);
-+	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
-+	unsigned int target, enum v4l2_subdev_format_whence which);
- 
- /**
-  * @brief Set a selection rectangle on a pad.
-@@ -129,8 +130,40 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
-  * @return 0 on success, or a negative error code on failure.
-  */
- int v4l2_subdev_set_selection(struct media_entity *entity,
--	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
--	enum v4l2_subdev_format_whence which);
-+	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
-+	unsigned int target, enum v4l2_subdev_format_whence which);
-+
-+/**
-+ * @brief Get the routing table of a subdev media entity.
-+ * @param entity - subdev-device media entity.
-+ * @param routes - routes of the subdev.
-+ * @param num_routes - number of routes.
-+ *
-+ * Get the routes of @a entity and return them in an allocated array in @a routes
-+ * and the number of routes in @a num_routes.
-+ *
-+ * The caller is responsible for freeing the routes array after use.
-+ *
-+ * @return 0 on success, or a negative error code on failure.
-+ */
-+int v4l2_subdev_get_routing(struct media_entity *entity,
-+			    struct v4l2_subdev_route **routes,
-+			    unsigned int *num_routes);
-+
-+/**
-+ * @brief Set the routing table of a subdev media entity.
-+ * @param entity - subdev-device media entity.
-+ * @param routes - routes of the subdev.
-+ * @param num_routes - number of routes.
-+ *
-+ * Set the routes of @a entity. The routes are given in @a routes with the
-+ * length of @a num_routes.
-+ *
-+ * @return 0 on success, or a negative error code on failure.
-+ */
-+int v4l2_subdev_set_routing(struct media_entity *entity,
-+			    struct v4l2_subdev_route *route,
-+			    unsigned int num_routes);
- 
- /**
-  * @brief Query the digital video capabilities of a pad.
-@@ -200,7 +233,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
-  */
- 
- int v4l2_subdev_get_frame_interval(struct media_entity *entity,
--	struct v4l2_fract *interval, unsigned int pad);
-+	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
- 
- /**
-  * @brief Set the frame interval on a sub-device.
-@@ -217,7 +250,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
-  * @return 0 on success, or a negative error code on failure.
-  */
- int v4l2_subdev_set_frame_interval(struct media_entity *entity,
--	struct v4l2_fract *interval, unsigned int pad);
-+	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
- 
- /**
-  * @brief Parse a string and apply format, crop and frame interval settings.
-@@ -235,6 +268,17 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
-  */
- int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p);
- 
-+/**
-+ * @brief Parse a string and apply route settings.
-+ * @param media - media device.
-+ * @param p - input string
-+ *
-+ * Parse string @a p and apply route settings to a subdev.
-+ *
-+ * @return 0 on success, or a negative error code on failure.
-+ */
-+int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p);
-+
- /**
-  * @brief Convert media bus pixel code to string.
-  * @param code - input string
+ 	for (unsigned tgt = 0; targets[tgt].target != ~0U; tgt++) {
+@@ -458,6 +485,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 		memset(&sel, 0xff, sizeof(sel));
+ 		sel.which = which;
+ 		sel.pad = pad;
++		sel.stream = stream;
+ 		sel.target = tgt;
+ 		ret = doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel);
+ 		targets[tgt].found = !ret;
+@@ -469,6 +497,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 		fail_on_test(check_0(sel.reserved, sizeof(sel.reserved)));
+ 		fail_on_test(sel.which != which);
+ 		fail_on_test(sel.pad != pad);
++		fail_on_test(sel.stream != stream);
+ 		fail_on_test(sel.target != tgt);
+ 		fail_on_test(!sel.r.width);
+ 		fail_on_test(sel.r.width == ~0U);
+@@ -480,9 +509,11 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel) != EINVAL);
+ 		sel.which = 0;
+ 		sel.pad = node->entity.pads;
++		sel.stream = stream;
+ 		fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_SELECTION, &sel) != EINVAL);
+ 		sel.which = which;
+ 		sel.pad = pad;
++		sel.stream = stream;
+ 		s_sel = sel;
+ 		memset(s_sel.reserved, 0xff, sizeof(s_sel.reserved));
+ 		ret = doioctl(node, VIDIOC_SUBDEV_S_SELECTION, &s_sel);
+@@ -496,6 +527,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 				fail_on_test(check_0(crop.reserved, sizeof(crop.reserved)));
+ 				fail_on_test(crop.which != which);
+ 				fail_on_test(crop.pad != pad);
++				fail_on_test(crop.stream != stream);
+ 				fail_on_test(memcmp(&crop.rect, &sel.r, sizeof(sel.r)));
+ 			}
+ 		}
+@@ -504,6 +536,7 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad)
+ 		fail_on_test(!ret && targets[tgt].readonly);
+ 		fail_on_test(s_sel.which != which);
+ 		fail_on_test(s_sel.pad != pad);
++		fail_on_test(s_sel.stream != stream);
+ 		if (ret && !targets[tgt].readonly && tgt != V4L2_SEL_TGT_NATIVE_SIZE)
+ 			warn("VIDIOC_SUBDEV_G_SELECTION is supported for target %u but not VIDIOC_SUBDEV_S_SELECTION\n", tgt);
+ 		if (ret)
 -- 
 2.34.1
 
