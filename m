@@ -2,117 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7B96927BB
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 21:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A9AE692859
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 21:33:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233608AbjBJUSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 15:18:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50614 "EHLO
+        id S233799AbjBJUdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 15:33:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233601AbjBJUSO (ORCPT
+        with ESMTP id S233231AbjBJUdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 15:18:14 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44319BB80
-        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 12:18:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676060293; x=1707596293;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KbKJqm7orm9Pu4lwi4Vn8dxJck8nZzTbye31rXcdld0=;
-  b=Bv1S2APPWxXyLMLgapkiMo2//OBZkKU2eGucGXuaAs30rYkH0461wPyU
-   Edb51ekxm0NScLMfRqPfG+OAl+QsQH7ooDa+i6BOVZzC2+22cm6Msy13S
-   UcdN6X6XTZnMdNMr5iFvjb7PqJ+vjRLTObG/vA10XJcPN4/aCo8OlD931
-   qQNwIoKWhN/FKdv6U3qkTwQOC8qOgwoxy6yiy+pcWAfo8MKSzA26f0Ixi
-   oyTwDAMMxChdwrJwRqS9GHkGyMgS3lsEuwz2KBEun0Z38gKaw1PjeckBA
-   LqWC0l7pOaYedART/QXnyHXaBLyEh9aKso4dwePQ4TaUavnOJBFR0liS5
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="310148100"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="310148100"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 12:18:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="645739974"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="645739974"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 12:18:09 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id AEFCC1218A3;
-        Fri, 10 Feb 2023 22:18:06 +0200 (EET)
-Date:   Fri, 10 Feb 2023 22:18:06 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Andy Shevchenko <andy@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+amfuCNZG8mbYXZ@kekkonen.localdomain>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
- <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
- <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
- <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
- <Y+Y39+IRyjwQi7Jr@kekkonen.localdomain>
- <Y+Zl4UfRN6sgcaf4@smile.fi.intel.com>
- <Y+ZzL5gWUg79wDX+@pendragon.ideasonboard.com>
+        Fri, 10 Feb 2023 15:33:46 -0500
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DA83A09F;
+        Fri, 10 Feb 2023 12:33:43 -0800 (PST)
+Received: from [192.168.178.23] (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id D19A2CD5E0;
+        Fri, 10 Feb 2023 20:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1676061222; bh=J+hP2D5DvKXBlQ7o3a6vrwvdg/KQ9OdP2BfjQ977q5s=;
+        h=From:Subject:Date:To:Cc;
+        b=dtNVv8XUDQDoNO5V+WZLoMuVtn+p/er3PTBgv39236EUtEPOEiQfwzvliHa7Rjbs0
+         2DTHXZTF+KZ2BMWijcIXSpWdrk+EadSLMsM5au5Nrh8n9wgxnkX6YCR5T5KuOFSgKX
+         qsc65ESQAu7T2q+iVxxWEvktVzixACPny3YYDcSo=
+From:   Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH 0/2] Single-lane CSI-2 operation on OmniVision OV5670
+Date:   Fri, 10 Feb 2023 21:33:16 +0100
+Message-Id: <20230210-ov5670-single-lane-v1-0-71835d39c1ce@z3ntu.xyz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+ZzL5gWUg79wDX+@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAyq5mMC/x2OQQrCMBAAv1L27JYkmrT1K+JhE9c20KSahaKU/
+ t3U48AMzAbCJbLAtdmg8BolLrmCPjUQJsojY3xUBqPMWRmtcFmt6xRKzOPMOFNmNHawTntNvVF
+ QQ0/C6AvlMB3pOywJk6R+6C7oWt1+MVDiQuaQX4Wf8fM/uN33/QcSZrnVkQAAAA==
+To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luca Weiss <luca@z3ntu.xyz>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=710; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=J+hP2D5DvKXBlQ7o3a6vrwvdg/KQ9OdP2BfjQ977q5s=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBj5qogkBU38fHnB5aUG1acia91XNT1ZvclaK4xc
+ KP1L3ZUTRmJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCY+aqIAAKCRBy2EO4nU3X
+ VrEyD/0VDFpMhCjXHYChLMrwsaXB3efwOg+LuIlyMiIyvJ8vs1b5/Q/Fcl8HtJafKf7qHea5WNc
+ 4CB7EcJjIT3qxqp3CeLQtgEVVIPSSySfgQPH8IawpWnH6o6kAG0Cv3TwJ8bgRyERKHLb3ywMLbH
+ 2jODifDX8Kd77b7butVWSl0UHTyluB2GVYCi97p8Q5eB9Q/nPufu3kM1HoCJbVJ85qw+nZN42gy
+ bgc+O89r3XVeH13Anthah/QdyYwsISrkXgu+5N+c7c7bagmwyjJa4+WaGXUYVOy+w0whz2gjD9F
+ Cm49DbIZjGDw7YPXcBLwvZKUZMIk9eDlzICJqnYJuMb/b+S6x1e1XJqSjTl+/ltsiIdBzwohZss
+ sYW+bwOAgKs0cphylQN7Vv9TwYeKMLeuuLJ/N6UUPOWw4CNchYFHUO+V9fakUmCwveD0+okZSQx
+ +JsUmvGLOhvOXryMRWNoe650GHpx0pkBATkiG63jP9rkqDYs2mCTlQUunhdPh9MvavGIuL1jozB
+ l94YTGBjrKiFptAiG6DxxCue5VtHH7bci/rZGIkES8U42K7L4MF6alPGoyzLyKer+db5vYc92D2
+ ZxHtGMbodApyiMu0Z0y4xLMceENqyxaxf4Q0a4W6zd2ZID46aE7GVh6tGWW3QlHDR8m0EoomLdD
+ k/58qB8RQIatLiA==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Andy,
+Add support for single-lane configuration of OV5670 sensor.
 
-On Fri, Feb 10, 2023 at 06:39:11PM +0200, Laurent Pinchart wrote:
-> On Fri, Feb 10, 2023 at 05:42:25PM +0200, Andy Shevchenko wrote:
-> > On Fri, Feb 10, 2023 at 02:26:31PM +0200, Sakari Ailus wrote:
-> > > On Fri, Feb 10, 2023 at 01:45:10PM +0200, Laurent Pinchart wrote:
-> > > > Regarding the width-specific versions of the helpers, I really think
-> > > > encoding the size in the register macros is the best option. It makes
-> > > > life easier for driver authors (only one function to call, no need to
-> > > > think about the register width to pick the appropriate function in each
-> > > > call) and reviewers (same reason), without any drawback in my opinion.
-> > > 
-> > > As I noted previously, this works well for drivers that need to access
-> > > registers with multiple widths, which indeed applies to the vast majority
-> > > of camera sensor drivers, but not to e.g. flash or lens VCM drivers. Fixed
-> > > width registers are better served with a width-specific function. But these
-> > > can be always added later on.
-> > 
-> > Again, we can extend regmap to have something like
-> > 
-> > 	int (*reg_width)(regmap *, offset)
-> > 
-> > callback added that will tell the regmap bus underneath what size to use.
-> > 
-> > In the driver one will define the respective method to return these widths.
-> 
-> I don't think that's worth it, it would make drivers quite complex
-> compared to encoding the register width in the register address macros.
-> We're dealing with devices that have hundreds of registers of various
-> widths interleaved, a big switch/case for every write isn't great.
+While I believe this series shouldn't break anything on ACPI systems I
+don't not have one to test. Verified on DT/OF only using a single-lane
+configuration.
 
-I'd really prefer the register width information kept as close as possible
-to the register address, and most probably the best way is to be part of
-the same macro.
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+Luca Weiss (2):
+      media: i2c: ov5670: Use dev_err_probe in probe function
+      media: i2c: ov5670: Support single-lane operation
 
+ drivers/media/i2c/ov5670.c | 112 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 77 insertions(+), 35 deletions(-)
+---
+base-commit: 6ba8a227fd19d19779005fb66ad7562608e1df83
+change-id: 20230210-ov5670-single-lane-259561b1a820
+
+Best regards,
 -- 
-Kind regards,
+Luca Weiss <luca@z3ntu.xyz>
 
-Sakari Ailus
