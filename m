@@ -2,90 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EA1369240F
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 18:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7C426924B5
+	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 18:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233043AbjBJRJ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 12:09:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49724 "EHLO
+        id S232692AbjBJRkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 12:40:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233042AbjBJRJ5 (ORCPT
+        with ESMTP id S232666AbjBJRki (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 12:09:57 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AA461D06;
-        Fri, 10 Feb 2023 09:09:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676048996; x=1707584996;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X4df6tkPvZnOhswuUyouIoq1fOXHb7p++8B0BxaCA4E=;
-  b=S8BiDeNgg35YlnNtpQlsZqJJSXBKHrpi1gIb5ALGTmKrEmOVUIvLtGVG
-   tfjRcyKebLfYsixNzSg20AUiyGeVoijFxF5QuzVLyMMB0BiALsCOx+Xrx
-   q99AFu8Bfd7Boyx7F5hBigxO8PUE16SwRtgPaqxA0FeL9Vk3zi65fA4QT
-   wpnOISVZHBmtHgj5DUupTYjnwe1GTJ9q2y3kTC5d8dxZEJYWr3UiLg46r
-   7TByWlvE7YZ/FNovJS7q5ox8HrW/tMAugU7qjHRTZLHlAiIaJzYcga5xp
-   5GDx8hLT0YxeT69VpoFR57oUAFWOwoQfTgpA0I09LRXrB9Ksh7xYQft3T
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="328159084"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="328159084"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 09:06:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="698466916"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="698466916"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 10 Feb 2023 09:06:34 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pQWr2-0058Sd-1O;
-        Fri, 10 Feb 2023 19:06:32 +0200
-Date:   Fri, 10 Feb 2023 19:06:32 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 1/1] media: i2c: imx290: Make use of
- get_unaligned_le24(), put_unaligned_le24()
-Message-ID: <Y+Z5mAhQk6zEFHOz@smile.fi.intel.com>
-References: <20230209221205.46573-1-andriy.shevchenko@linux.intel.com>
- <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
+        Fri, 10 Feb 2023 12:40:38 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C7A7A7FF
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 09:40:07 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1pQXNU-0007m3-Uq; Fri, 10 Feb 2023 18:40:04 +0100
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1pQXNU-0001T0-5s; Fri, 10 Feb 2023 18:40:04 +0100
+Date:   Fri, 10 Feb 2023 18:40:04 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Deji Aribuki Ext <deji.aribuki.ext@brainlab.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Laurenz Eschwey <laurenz.eschwey@brainlab.com>,
+        kernel@pengutronix.de
+Subject: Re: Mainline zyncmp vcu driver: support for the video decoder
+Message-ID: <20230210174004.GB29504@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Deji Aribuki Ext <deji.aribuki.ext@brainlab.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Laurenz Eschwey <laurenz.eschwey@brainlab.com>,
+        kernel@pengutronix.de
+References: <FR2P281MB28166C9AD7111B3488BCE297A8D99@FR2P281MB2816.DEUP281.PROD.OUTLOOK.COM>
+ <20230209135444.GB30549@pengutronix.de>
+ <e1bf1a456ef83eeca9ad4dd18c55f7e423105be8.camel@ndufresne.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e1bf1a456ef83eeca9ad4dd18c55f7e423105be8.camel@ndufresne.ca>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 12:35:09AM +0200, Laurent Pinchart wrote:
-> On Fri, Feb 10, 2023 at 12:12:05AM +0200, Andy Shevchenko wrote:
-> > Since we have a proper endianness converters for LE 24-bit data use them.
+On Fri, 10 Feb 2023 10:58:01 -0500, Nicolas Dufresne wrote:
+> Le jeudi 09 février 2023 à 14:54 +0100, Michael Tretter a écrit :
+> > Hi Deji,
 > > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > On Thu, 09 Feb 2023 10:03:19 +0000, Deji Aribuki Ext wrote:
+> > > I would like to know if there is a plan (or if there is already have a
+> > > patch-set) for adding support for allegro dvt video decoder.
+> > 
+> > I currently don't have any plans or patches to add decoder support.
+> > 
+> > A while ago, there was a bit of interest in decoder support, but I haven't
+> > heard of anything new for a long time.
+> > 
+> > Are you interested in adding decoder support to the driver? I would be happy
+> > to review and test patches.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Isn't the decoder side stateless ? That could be difficult to achieve without
+> reference code or documentation.
 
-Thank you for the reviews!
+There is at least some firmware running on the decoder. And I am pretty sure
+that it provides a similar mailbox interface as the encoder that the driver
+must use.
 
-> I assume Sakari will pick both patches.
+However, I don't know, what messages the firmware expects. Thus, the decoder
+maybe stateless. Maybe it even keeps some state in the firmware, but still
+requires the software to parse the stream and explicitly set the stream
+parameters.
 
-I also assume the same.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Michael
