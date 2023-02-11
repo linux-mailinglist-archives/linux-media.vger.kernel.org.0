@@ -2,122 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11890692FAE
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 10:11:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3CC692FC3
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 10:20:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbjBKJL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 04:11:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53200 "EHLO
+        id S229587AbjBKJUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 04:20:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjBKJL1 (ORCPT
+        with ESMTP id S229571AbjBKJUJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 04:11:27 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E6C6FEB7;
-        Sat, 11 Feb 2023 01:11:21 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id b13so9038047ljf.8;
-        Sat, 11 Feb 2023 01:11:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oyJN2jBDM0ZQ9e4AvGNxG2V2mglnEJ80cu8rJwEXHYA=;
-        b=LPUo/RnI68TUc4H/+2vxdGf1usrKLVjkGCbX2FzNvCx9IMbfxTb6sdAlmr9t4JPWNf
-         uEIapbF2H7+IiRh7uXiranYqs+mqQe8IcXude768YRMxQlzSBUApDxN9i9PKjiF2wSKb
-         readvC5EYyubZ+z+bYRsU3AJOXBPETFE+6LtltkJqWMSTmHSHKkGr1ke7Np1+oN+V9t3
-         riE/6yDyvbboa0+fQD+7r5zrK5SntFx+LeuMLMUyitHzYwnwR1ynwwvvloOMW3F43Mro
-         9pM5n6cvzHexk3JMYFO+HVRerwWTo/n/QHGPeILdFr136XaeWJ4FyaU0XcDVjNbECuiF
-         Iviw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oyJN2jBDM0ZQ9e4AvGNxG2V2mglnEJ80cu8rJwEXHYA=;
-        b=IvyvRodI1SNHR7QGybGhC6dqfcvmUwwv7ZTp+S/cLr3Aq+3+A7BdS2BEUWBn0tFvK0
-         Fbj4IA2Wxhw24t3+3ibzY/38zVKOWxCmuS4FHuyIxelB4R6WDZ1iN7Gn0AGeGkG6v97m
-         H9QL94XHEBKfdVSCdNdQrQIhJpKGI0V0iL+21y+zkU8qM8OZfVNxdcwdrgy6OliTK9bJ
-         Rx9DWuADybg+5w+kp/bykU3iTbuT1wn+jq+HFt67jxPUcrkYGTFMfXamx6VXlYVIiwk7
-         qd7RP+30EO300JjyN0YFLQEWzUUHmiWymHLAhaXMW3F3WGWrpCVeLijpqLhsjZUajJbT
-         A6XQ==
-X-Gm-Message-State: AO0yUKWqNNzMLgHWqCULK8GSDCL++T0jNwv5bhcVM2W7kd6capDlU8ND
-        WBwyhYfWtC/Q70lLapYlv5OnoSUwGig=
-X-Google-Smtp-Source: AK7set80SoVou0TAiVnDQJmizMnt+SgefTjT/MF106Yswsdo/3D8u4waLuu067yBBYITz8Wdul4BDA==
-X-Received: by 2002:a2e:8805:0:b0:293:2b97:c983 with SMTP id x5-20020a2e8805000000b002932b97c983mr4418505ljh.38.1676106679788;
-        Sat, 11 Feb 2023 01:11:19 -0800 (PST)
-Received: from [192.168.1.103] ([178.176.78.148])
-        by smtp.gmail.com with ESMTPSA id y26-20020a2e9d5a000000b0029335c12997sm641060ljj.58.2023.02.11.01.11.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Feb 2023 01:11:19 -0800 (PST)
-Subject: Re: [PATCH 2/2] media: i2c: adv7604: Fix range of hue control
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
- <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <e2f92695-c681-616d-a565-89d348f00a3b@gmail.com>
-Date:   Sat, 11 Feb 2023 12:11:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sat, 11 Feb 2023 04:20:09 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F6530192;
+        Sat, 11 Feb 2023 01:20:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676107207; x=1707643207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sthyvzdqWUebeh9Ku/k4oVBc3bHU/xq8WbNuQ5sinR0=;
+  b=ip+CFwqWSaWasIu52JczKfSI4o0QBcbsBIHXscNm20gVcO4BeBQxB0Fi
+   dMfgz4JTWD9c4VgD7SwB0cnKxRAS6K9Z5sbcaJIvlHqyL+iSules/vmSw
+   2Ieawnhr68qjRe1iY74byXDqr1PHV3ybWQ8piwNX7K4PndiNEMg8Mi6bC
+   0EGzVYGxJ40+eC2n6JGE4AeKkEYAyUGQjRWDRFWHiuxIj6bGJlQGRNNEn
+   MpWzKpySmr1Opdhfm8Mx9JefzldcWVu+NY761D2JV5XFWIS6a1sPynGdc
+   WhgZn26KO+sF97O1xX6mwl/1Rajfv1PFDSM6bRx/dIMJGjh2U/BzVoaVq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="393000129"
+X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
+   d="scan'208";a="393000129"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 01:20:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="668305744"
+X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
+   d="scan'208";a="668305744"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 11 Feb 2023 01:20:03 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pQm39-0006Ns-03;
+        Sat, 11 Feb 2023 09:20:03 +0000
+Date:   Sat, 11 Feb 2023 17:19:31 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>
+Subject: Re: [PATCH 2/2] media: i2c: ov5670: Support single-lane operation
+Message-ID: <202302111713.VF9P2Gae-lkp@intel.com>
+References: <20230210-ov5670-single-lane-v1-2-71835d39c1ce@z3ntu.xyz>
 MIME-Version: 1.0
-In-Reply-To: <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230210-ov5670-single-lane-v1-2-71835d39c1ce@z3ntu.xyz>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
+Hi Luca,
 
-On 2/11/23 1:56 AM, Laurent Pinchart wrote:
+Thank you for the patch! Yet something to improve:
 
-> The ADV7604, ADV7611 and ADV7612 software manuals different the CP_HUE
+[auto build test ERROR on 6ba8a227fd19d19779005fb66ad7562608e1df83]
 
-   s/different/document/?
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Weiss/media-i2c-ov5670-Use-dev_err_probe-in-probe-function/20230211-043546
+base:   6ba8a227fd19d19779005fb66ad7562608e1df83
+patch link:    https://lore.kernel.org/r/20230210-ov5670-single-lane-v1-2-71835d39c1ce%40z3ntu.xyz
+patch subject: [PATCH 2/2] media: i2c: ov5670: Support single-lane operation
+config: openrisc-randconfig-r003-20230210 (https://download.01.org/0day-ci/archive/20230211/202302111713.VF9P2Gae-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6cd856e5e8f62b0926959199d5a998de321c78e2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Luca-Weiss/media-i2c-ov5670-Use-dev_err_probe-in-probe-function/20230211-043546
+        git checkout 6cd856e5e8f62b0926959199d5a998de321c78e2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
 
-> value differently:
-> 
-> - For ADV7604 and ADV7611, the hue is specified as an unsigned 8-bit
->   value, and calculated as
-> 
->   (CP_HUE[7:0] * 180) / 256 - 90
-> 
->   with the range set to [-90°, 90°]. Additionally, the values 0x00, 0x0f
->   and 0xff are documented as corresponding to -90°, 0° and 90°
->   respectively.
-> 
-> - For ADV7612, the hue is specified as a signed 8-bit value in the range
->   [0°, 360°[ without any formula. Additionally, the value 0x00 is
->   documented as corresponding to 0°.
-> 
-> The ADV7604 and ADV7611 documentation is clearly wrong as the example
-> values don't correspond to the formula. Furthermore, the [-90°, 90°]
-> range seems incorrect as it would cover only half of the hue space.
-> 
-> The ADV7612 documentation is better, although the range should likely be
-> [-180°, 180°[ if the value is signed. Given that the values wrap around,
-> this makes no difference in practice.
-> 
-> The hue values have been verified on ADV7612 to follow the
-> documentation. There is a high chance they do as well on ADV7604 and
-> ADV7611.
-> 
-> In any case, all software manuals document the register as 8-bit, so the
-> current range of the V4L2 hue control [0, 128] is not correct. Expand it
-> to cover the full 8-bit space, using unsigned values to avoid breaking
-> any application that may rely on 128 being a valid value.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-[...]
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302111713.VF9P2Gae-lkp@intel.com/
 
-MBR, Sergey
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_1g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_10g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_25g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_40g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_50g_base_r (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_50g_base_r2 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_100g_base_r2 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_ext_maps (section: .data) -> qed_mfw_ext_100g_base_r4 (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_1g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_10g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_20g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_25g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_40g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_50g (section: .init.rodata)
+WARNING: modpost: drivers/net/ethernet/qlogic/qed/qed.o: section mismatch in reference: qed_mfw_legacy_maps (section: .data) -> qed_mfw_legacy_bb_100g (section: .init.rodata)
+>> ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov5670.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/media/i2c/ov5670.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
