@@ -2,104 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4278D692A9D
-	for <lists+linux-media@lfdr.de>; Fri, 10 Feb 2023 23:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFB13692BE0
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 01:19:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjBJW4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Feb 2023 17:56:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48164 "EHLO
+        id S229512AbjBKATG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Feb 2023 19:19:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjBJW4a (ORCPT
+        with ESMTP id S229483AbjBKATF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Feb 2023 17:56:30 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38FE62BF23;
-        Fri, 10 Feb 2023 14:56:29 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD558886;
-        Fri, 10 Feb 2023 23:56:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676069787;
-        bh=X0WNXLVARzL1ats4vw1Zei4+47i/xaoDhB/JnKfMavw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UbrsfxhIqoKrYIvUs9BtO3JlFS65iBgZCCrAYvPEmtW6FvhyHfVkBctsW58G8vL6J
-         Q6cLfeblIOI86jvwW7QhP60QdYz4yuD36z9eHuvUz89j6GpwqnDA0X8Y8NS8J801K9
-         niD41NJGrDm9XH+6oLVU+dH+lIcHuNLEd7maZVVg=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/2] media: i2c: adv7604: Fix range of hue control
-Date:   Sat, 11 Feb 2023 00:56:22 +0200
-Message-Id: <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
+        Fri, 10 Feb 2023 19:19:05 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96E075F62
+        for <linux-media@vger.kernel.org>; Fri, 10 Feb 2023 16:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676074743; x=1707610743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ehQzxX6L4ASmLk3JlrAJ2eAIDW9XFTC5kS3bmmGg88=;
+  b=mv/pvYAzCqK6S1koBWVSPUVf5/HPYK5hWABgpYibNYMo1yhw9/HHUiXF
+   rPr6HWnwQRqdX91S0ID/AYFks3X9LDnRlOS+vXJczUTr9xr1URuyLO54I
+   qhz7HfX1zIVtpHg5m1Zhy/OGDXVbnoC2JOrT7/Dp2sCmLZUAvrZUvgXlI
+   a+jRbz93SoUE8otx+eCeUyPbIajaVNiEcEyAaKfUb6hVLI+0uF8W73JNy
+   Dv+1a86viKvqdNE13Gq5OvyZmYU881Z6f0rv1oYNseBfjTM9vUEZrP2qY
+   8xBAkQdkvtPBTXzq2DOlkhG5uV/rWip1KsPJIhDx2CMOXSe5Q/DEncqiw
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="416785801"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="416785801"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 16:18:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="756959080"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="756959080"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2023 16:18:51 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pQdbO-00068L-2R;
+        Sat, 11 Feb 2023 00:18:50 +0000
+Date:   Sat, 11 Feb 2023 08:18:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Wentong Wu <wentong.wu@intel.com>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@intel.com,
+        pierre-louis.bossart@linux.intel.com, zhifeng.wang@intel.com,
+        xiang.ye@intel.com, tian.shu.qiu@intel.com, bingbu.cao@intel.com,
+        Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH v1 1/3] media: pci: intel: ivsc: Add CSI submodule
+Message-ID: <202302110756.bGB3JLgP-lkp@intel.com>
+References: <20230210010221.2466486-2-wentong.wu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230210010221.2466486-2-wentong.wu@intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ADV7604, ADV7611 and ADV7612 software manuals different the CP_HUE
-value differently:
+Hi Wentong,
 
-- For ADV7604 and ADV7611, the hue is specified as an unsigned 8-bit
-  value, and calculated as
+Thank you for the patch! Yet something to improve:
 
-  (CP_HUE[7:0] * 180) / 256 - 90
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on sailus-media-tree/streams linus/master v6.2-rc7 next-20230210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  with the range set to [-90°, 90°]. Additionally, the values 0x00, 0x0f
-  and 0xff are documented as corresponding to -90°, 0° and 90°
-  respectively.
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentong-Wu/media-pci-intel-ivsc-Add-CSI-submodule/20230210-090202
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230210010221.2466486-2-wentong.wu%40intel.com
+patch subject: [PATCH v1 1/3] media: pci: intel: ivsc: Add CSI submodule
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302110756.bGB3JLgP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/bb45f3cb357165838a3c90d4bddfad40ad2d8ce7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Wentong-Wu/media-pci-intel-ivsc-Add-CSI-submodule/20230210-090202
+        git checkout bb45f3cb357165838a3c90d4bddfad40ad2d8ce7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-- For ADV7612, the hue is specified as a signed 8-bit value in the range
-  [0°, 360°[ without any formula. Additionally, the value 0x00 is
-  documented as corresponding to 0°.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302110756.bGB3JLgP-lkp@intel.com/
 
-The ADV7604 and ADV7611 documentation is clearly wrong as the example
-values don't correspond to the formula. Furthermore, the [-90°, 90°]
-range seems incorrect as it would cover only half of the hue space.
+All errors (new ones prefixed by >>):
 
-The ADV7612 documentation is better, although the range should likely be
-[-180°, 180°[ if the value is signed. Given that the values wrap around,
-this makes no difference in practice.
+   ld: drivers/media/pci/intel/ivsc/mei_csi.o: in function `csi_set_link_cfg':
+>> mei_csi.c:(.text+0x1a6): undefined reference to `__udivdi3'
 
-The hue values have been verified on ADV7612 to follow the
-documentation. There is a high chance they do as well on ADV7604 and
-ADV7611.
-
-In any case, all software manuals document the register as 8-bit, so the
-current range of the V4L2 hue control [0, 128] is not correct. Expand it
-to cover the full 8-bit space, using unsigned values to avoid breaking
-any application that may rely on 128 being a valid value.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/media/i2c/adv7604.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 3af0e67f9edb..3d0898c4175e 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -3548,7 +3548,7 @@ static int adv76xx_probe(struct i2c_client *client)
- 	v4l2_ctrl_new_std(hdl, &adv76xx_ctrl_ops,
- 			V4L2_CID_SATURATION, 0, 255, 1, 128);
- 	v4l2_ctrl_new_std(hdl, &adv76xx_ctrl_ops,
--			V4L2_CID_HUE, 0, 128, 1, 0);
-+			V4L2_CID_HUE, 0, 255, 1, 0);
- 	ctrl = v4l2_ctrl_new_std_menu(hdl, &adv76xx_ctrl_ops,
- 			V4L2_CID_DV_RX_IT_CONTENT_TYPE, V4L2_DV_IT_CONTENT_TYPE_NO_ITC,
- 			0, V4L2_DV_IT_CONTENT_TYPE_NO_ITC);
 -- 
-Regards,
-
-Laurent Pinchart
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
