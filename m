@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CFEF6931C9
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B8F6931CC
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:53:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbjBKOxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 09:53:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51060 "EHLO
+        id S229801AbjBKOxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 09:53:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbjBKOxb (ORCPT
+        with ESMTP id S229546AbjBKOxd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 09:53:31 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA7623C67
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:53:29 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id o18so7971489wrj.3
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:53:29 -0800 (PST)
+        Sat, 11 Feb 2023 09:53:33 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E735A24487
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:53:30 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id y1so7967417wru.2
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:53:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0C3E7DdRqImDuF4mDF2gXlbpZic0I+kEp75WAj97lWc=;
-        b=OYAB5fzraUmCXDOqHjJz4ESUiQlYlvz4lfP9RxfO8X8wOIa3bCSb6Saaaq8ijT1Qlc
-         ET6vXdLZKVg2RL5yUpMc3QjCwnD3IwJ4zcMYHc50KoWNjgSNZT2bz1BenArJtoo4uUmC
-         g+rozFQ1s/qSNYhnznU3YjZ9FTA+Kzfd7PGtN+KQEjBE06zNZawtzFHaj1zFlj8e11Tt
-         vHdBO9SwcyGwscqVj6wRE7p3ugZkmwzCdZYjAU/MB0mdp2pKcqtEFPlTpq+1KODQKYt7
-         XH/pYe/Xj2ivuX94hfCqrqWNpX/jnVcTXXESxPM9uNwEE2NH8kzmv75YVsRZEN1p5Ff2
-         QL5A==
+        bh=e2DssklKEH3ZguQjL4NDllo4Z1dy35eEP2bGhtEhl6s=;
+        b=FZI+OfgR7SJGOMNw/UbKzhBFgEVU6gBpUQG5HA0dLmpOFB5eZf4iBUKMvyeZHz/sla
+         3PvgA+27V6C7+rklffJ3l5nKZerI9ae8+FQov0H+hEOtjLojcq5KxT1Np+weNYMOPIUJ
+         U6A6BgzDN7kj4MnFcyhr6TRDGJ7Z1kh55E4mwy65DrsRROiX8K5KUjWf48QKQ0U3aVST
+         YwMOUmTr5DuIcbUv8dnLQqT91dDuXX1m+Wv1i8rxbIebyQglMzZopagqFMovx8N5ctIj
+         scHwHClWsoEnkJIZ5MirqdIixVkZUR/K9K28P+ojsYhWotzM5RIthab9u0tDQcebXkYQ
+         s91Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0C3E7DdRqImDuF4mDF2gXlbpZic0I+kEp75WAj97lWc=;
-        b=WbX1ANofyjQ+ABxaAQzvKJGWH4mSx84EgYq/M+Eu8phewmnzpSocUP2n1tHFY3JlOC
-         c0v6TbHYp8BRjcBvKKELCXaNYjNeEX7Uj1cTOJv/3j4e6PQEyJoFBSH8XvDIwn3GWrhv
-         TtyA3QChghCjy58njy13iL9gWBcV2wZE4nbrSU1TWybs4OTm/ozn8pNcqZQLTQJwjhGR
-         aTMgXXVbJrgWGdlgCefYzO6y2tEFGZjAnLBqgDOv1ylpsypNdiohMIs7GuLP1cFTBqfl
-         SfSl0m9DZOXO6HVRiP1stUA6hP9hvIlvzi/ODqH9OXDDgQYCjGDLEVjJboB4Ye0omlSX
-         7GBw==
-X-Gm-Message-State: AO0yUKUiqxjGSl803xQwUSus/gRagVltU2AwZphyi1xkJBjecfe/96o3
-        nxna/TPQ1hsxtH5bDpU7p76reQ==
-X-Google-Smtp-Source: AK7set90AG/oxLMdr6MMeBqPL0McJZPF1QkOaJ8dv+3idXgz8s9i9poCIKi+BXzid5Ni4SzDWUl+QA==
-X-Received: by 2002:a5d:6902:0:b0:2c5:4bcf:c62a with SMTP id t2-20020a5d6902000000b002c54bcfc62amr4176166wru.29.1676127208422;
-        Sat, 11 Feb 2023 06:53:28 -0800 (PST)
+        bh=e2DssklKEH3ZguQjL4NDllo4Z1dy35eEP2bGhtEhl6s=;
+        b=JC++MpYM2JlVYipai9Q2GA4NN+WObBYgcUTRnHBUSVfXsRhsiI3eRVqnxBa3yocDKh
+         i5eAGQjnS4VihEFh8jx1AqPzOuBSMfcaRbNPV+JjtthaO4aNakt5k81kFq74gpiXbfof
+         1k1wUSYCD2TA2HeTOOGRterLZgHvqRO30mHLwLToPskWyrzRwPG4iVyXVRirl9xQGx7C
+         GX4QT2rAI4nHtvmlpVR5SkHo8EBOyxJCwyP1CCCJ33AkbTfp/PA7gPnBFMs8BObDEMfs
+         MF9SWu0lKcv7jTkiAD4q/lHfDZ1lsE9HKMEPdo77YD8t/zala0v86FCzxn+SsuuOEXA6
+         R6Sw==
+X-Gm-Message-State: AO0yUKWcxsKi+hKs6e3gHKq8xKZHcEhRy9+E3qgUSyC7FvgdwHiQOA9p
+        OS1P9caoMfcrLMrwlSGr12d0Sw==
+X-Google-Smtp-Source: AK7set8GHnUlrRqf0bg0vD1Mqg7SqB7HOHPxNL6wrvcTzU1e9hyIF2bCYZDTWhDWeUuwd/y4tibsRQ==
+X-Received: by 2002:adf:f34d:0:b0:2c5:3fce:423b with SMTP id e13-20020adff34d000000b002c53fce423bmr5990452wrp.4.1676127209326;
+        Sat, 11 Feb 2023 06:53:29 -0800 (PST)
 Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.googlemail.com with ESMTPSA id u10-20020a5d514a000000b002c3e28d0343sm6091344wrt.85.2023.02.11.06.53.27
+        by smtp.googlemail.com with ESMTPSA id u10-20020a5d514a000000b002c3e28d0343sm6091344wrt.85.2023.02.11.06.53.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 06:53:27 -0800 (PST)
+        Sat, 11 Feb 2023 06:53:28 -0800 (PST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/3] media: rcar-csi2: Prepare for Gen4 support
-Date:   Sat, 11 Feb 2023 15:53:08 +0100
-Message-Id: <20230211145310.3819989-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/3] media: rcar-csi2: Prepare for C-PHY support
+Date:   Sat, 11 Feb 2023 15:53:09 +0100
+Message-Id: <20230211145310.3819989-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se>
@@ -74,148 +74,199 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Prepare the driver for supporting R-Car Gen4. The starting of the
-receiver and how to enter standby differs between Gen3 and Gen4,
-create function pointers in the device info structure to control the
-different behavior.
+Gen4 will support both D-PHY and C-PHY, while Gen3 only supports D-PHY.
+Add two flags to the device information structure to be able to record
+what each SoC supports.
+
+Extend the device node parsing to accept both CSI_2 D-PHY and C-PHY
+buses, while at the same time taking the SoC support into account.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../platform/renesas/rcar-vin/rcar-csi2.c     | 35 +++++++++++++++++--
- 1 file changed, 32 insertions(+), 3 deletions(-)
+ .../platform/renesas/rcar-vin/rcar-csi2.c     | 71 +++++++++++++++----
+ 1 file changed, 59 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-index 174aa6176f54..180926a2722d 100644
+index 180926a2722d..5fa4a29064fd 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-@@ -483,6 +483,8 @@ enum rcar_csi2_pads {
- struct rcar_csi2_info {
- 	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
- 	int (*phy_post_init)(struct rcar_csi2 *priv);
-+	int (*start_receiver)(struct rcar_csi2 *priv);
-+	void (*enter_standby)(struct rcar_csi2 *priv);
- 	const struct rcsi2_mbps_reg *hsfreqrange;
- 	unsigned int csi0clkfreqrange;
+@@ -490,6 +490,8 @@ struct rcar_csi2_info {
  	unsigned int num_channels;
-@@ -533,10 +535,17 @@ static void rcsi2_write(struct rcar_csi2 *priv, unsigned int reg, u32 data)
- 	iowrite32(data, priv->base + reg);
- }
+ 	bool clear_ulps;
+ 	bool use_isp;
++	bool support_dphy;
++	bool support_cphy;
+ };
  
--static void rcsi2_enter_standby(struct rcar_csi2 *priv)
-+static void rcsi2_enter_standby_gen3(struct rcar_csi2 *priv)
- {
- 	rcsi2_write(priv, PHYCNT_REG, 0);
- 	rcsi2_write(priv, PHTC_REG, PHTC_TESTCLR);
-+}
-+
-+static void rcsi2_enter_standby(struct rcar_csi2 *priv)
-+{
-+	if (priv->info->enter_standby)
-+		priv->info->enter_standby(priv);
-+
- 	reset_control_assert(priv->rstc);
- 	usleep_range(100, 150);
- 	pm_runtime_put(priv->dev);
-@@ -674,7 +683,7 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
- 	return 0;
- }
+ struct rcar_csi2 {
+@@ -511,6 +513,7 @@ struct rcar_csi2 {
+ 	struct v4l2_mbus_framefmt mf;
+ 	int stream_count;
  
--static int rcsi2_start_receiver(struct rcar_csi2 *priv)
-+static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
- {
- 	const struct rcar_csi2_format *format;
- 	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
-@@ -821,7 +830,7 @@ static int rcsi2_start(struct rcar_csi2 *priv)
- 	if (ret < 0)
++	bool cphy;
+ 	unsigned short lanes;
+ 	unsigned char lane_swap[4];
+ };
+@@ -665,9 +668,17 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
  		return ret;
+ 	}
  
--	ret = rcsi2_start_receiver(priv);
-+	ret = priv->info->start_receiver(priv);
- 	if (ret) {
- 		rcsi2_enter_standby(priv);
- 		return ret;
-@@ -1363,6 +1372,8 @@ static int rcsi2_probe_resources(struct rcar_csi2 *priv,
+-	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
+-		dev_err(priv->dev, "Unsupported media bus type %u\n",
+-			mbus_config.type);
++	switch (mbus_config.type) {
++	case V4L2_MBUS_CSI2_CPHY:
++		if (!priv->cphy)
++			return -EINVAL;
++		break;
++	case V4L2_MBUS_CSI2_DPHY:
++		if (priv->cphy)
++			return -EINVAL;
++		break;
++	default:
++		dev_err(priv->dev, "Unsupported media bus type %u\n", mbus_config.type);
+ 		return -EINVAL;
+ 	}
  
- static const struct rcar_csi2_info rcar_csi2_info_r8a7795 = {
- 	.init_phtw = rcsi2_init_phtw_h3_v3h_m3n,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
- 	.hsfreqrange = hsfreqrange_h3_v3h_m3n,
+@@ -1025,15 +1036,41 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+ 	if (vep->base.port || vep->base.id)
+ 		return -ENOTCONN;
+ 
+-	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
+-		dev_err(priv->dev, "Unsupported bus: %u\n", vep->bus_type);
+-		return -EINVAL;
+-	}
+-
+ 	priv->lanes = vep->bus.mipi_csi2.num_data_lanes;
+-	if (priv->lanes != 1 && priv->lanes != 2 && priv->lanes != 4) {
+-		dev_err(priv->dev, "Unsupported number of data-lanes: %u\n",
+-			priv->lanes);
++
++	switch (vep->bus_type) {
++	case V4L2_MBUS_CSI2_DPHY:
++		if (!priv->info->support_dphy) {
++			dev_err(priv->dev, "D-PHY not supported\n");
++			return -EINVAL;
++		}
++
++		if (priv->lanes != 1 && priv->lanes != 2 && priv->lanes != 4) {
++			dev_err(priv->dev,
++				"Unsupported number of data-lanes for D-PHY: %u\n",
++				priv->lanes);
++			return -EINVAL;
++		}
++
++		priv->cphy = false;
++		break;
++	case V4L2_MBUS_CSI2_CPHY:
++		if (!priv->info->support_cphy) {
++			dev_err(priv->dev, "C-PHY not supported\n");
++			return -EINVAL;
++		}
++
++		if (priv->lanes != 3) {
++			dev_err(priv->dev,
++				"Unsupported number of data-lanes for C-PHY: %u\n",
++				priv->lanes);
++			return -EINVAL;
++		}
++
++		priv->cphy = true;
++		break;
++	default:
++		dev_err(priv->dev, "Unsupported bus: %u\n", vep->bus_type);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1057,7 +1094,7 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+ 	struct fwnode_handle *fwnode;
+ 	struct fwnode_handle *ep;
+ 	struct v4l2_fwnode_endpoint v4l2_ep = {
+-		.bus_type = V4L2_MBUS_CSI2_DPHY
++		.bus_type = V4L2_MBUS_UNKNOWN,
+ 	};
+ 	int ret;
+ 
+@@ -1378,6 +1415,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795 = {
  	.csi0clkfreqrange = 0x20,
  	.num_channels = 4,
-@@ -1370,12 +1381,16 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795 = {
+ 	.clear_ulps = true,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a7795es1 = {
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
+@@ -1385,6 +1423,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795es1 = {
+ 	.enter_standby = rcsi2_enter_standby_gen3,
  	.hsfreqrange = hsfreqrange_m3w_h3es1,
  	.num_channels = 4,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a7795es2 = {
- 	.init_phtw = rcsi2_init_phtw_h3es2,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
- 	.hsfreqrange = hsfreqrange_h3_v3h_m3n,
+@@ -1395,6 +1434,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795es2 = {
  	.csi0clkfreqrange = 0x20,
  	.num_channels = 4,
-@@ -1383,17 +1398,23 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7795es2 = {
+ 	.clear_ulps = true,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
+@@ -1402,6 +1442,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a7796 = {
+ 	.enter_standby = rcsi2_enter_standby_gen3,
  	.hsfreqrange = hsfreqrange_m3w_h3es1,
  	.num_channels = 4,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
+@@ -1409,6 +1450,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77961 = {
+ 	.enter_standby = rcsi2_enter_standby_gen3,
  	.hsfreqrange = hsfreqrange_m3w_h3es1,
  	.num_channels = 4,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
- 	.init_phtw = rcsi2_init_phtw_h3_v3h_m3n,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
- 	.hsfreqrange = hsfreqrange_h3_v3h_m3n,
+@@ -1419,6 +1461,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
  	.csi0clkfreqrange = 0x20,
  	.num_channels = 4,
-@@ -1403,11 +1424,15 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
+ 	.clear_ulps = true,
++	.support_dphy = true,
+ };
+ 
  static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
- 	.init_phtw = rcsi2_init_phtw_v3m_e3,
- 	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
+@@ -1427,6 +1470,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
+ 	.start_receiver = rcsi2_start_receiver_gen3,
+ 	.enter_standby = rcsi2_enter_standby_gen3,
  	.num_channels = 4,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
- 	.init_phtw = rcsi2_init_phtw_h3_v3h_m3n,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
+@@ -1436,6 +1480,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
  	.hsfreqrange = hsfreqrange_h3_v3h_m3n,
  	.csi0clkfreqrange = 0x20,
  	.clear_ulps = true,
-@@ -1416,11 +1441,15 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
++	.support_dphy = true,
+ };
+ 
  static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
- 	.init_phtw = rcsi2_init_phtw_v3m_e3,
- 	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
+@@ -1444,6 +1489,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
+ 	.start_receiver = rcsi2_start_receiver_gen3,
+ 	.enter_standby = rcsi2_enter_standby_gen3,
  	.num_channels = 2,
++	.support_dphy = true,
  };
  
  static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
- 	.init_phtw = rcsi2_init_phtw_v3u,
-+	.start_receiver = rcsi2_start_receiver_gen3,
-+	.enter_standby = rcsi2_enter_standby_gen3,
- 	.hsfreqrange = hsfreqrange_v3u,
+@@ -1454,6 +1500,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
  	.csi0clkfreqrange = 0x20,
  	.clear_ulps = true,
+ 	.use_isp = true,
++	.support_dphy = true,
+ };
+ 
+ static const struct of_device_id rcar_csi2_of_table[] = {
 -- 
 2.39.1
 
