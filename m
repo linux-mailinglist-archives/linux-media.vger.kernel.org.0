@@ -2,100 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 561B8693158
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 14:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4EB1693179
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:23:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjBKNrn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 08:47:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
+        id S229553AbjBKOXo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 09:23:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbjBKNrm (ORCPT
+        with ESMTP id S229447AbjBKOXn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 08:47:42 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC5A2887A
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 05:47:41 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so8172353wmb.2
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 05:47:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GNw2mod3gWtSxV8TGsOP4LskTXsTrjJuzsHKbwxb+uQ=;
-        b=nP3MfXPXwSqRwAc+vIoE2dSrs3YZ1+8AUIZ7cWGqUlkZQYvs4YZTUnE07Pqco2oitB
-         5yJURMsKyg4E7dRCx5QE3tQlVBIfX/k5nDmJeG7IKdq43V+VVWPUMJ/UW/9DScUvv55q
-         5JwV51ALM8h+LjRngFHzhzi9alXxQ3kImHPYQ1/oNq4Gel5Fz3OnHipp/GVJZW1epSEr
-         57Yt+O2hmgDbdHHGK6rquu5VmuMDr4eIpE6edCVROC4rIzEppanXF1twx5u+ppqAIrj1
-         y0QU2v+uQCx8EeE7sjizYEjvPtxN0tEtlw57b2hbml5fO8CQ8HTQzrGM+LcL4vDq6L3u
-         R/sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GNw2mod3gWtSxV8TGsOP4LskTXsTrjJuzsHKbwxb+uQ=;
-        b=lbIUFJn21hZ/nSVemv6SnlbB8SS55CgPduhcxEKnjhcWHxgUbw2JwrCbVsaB+ZDRQS
-         3GvBvASoTrmsKAIcuSIdfaFGaA5fy75M+/ID70E7e/GsForXBHRETglAEL+bw0aqMLWe
-         ml7UXJjJQzx0z5+s/jLVA04gMEK8gRWzT6V8WdY4y2g5NJQARk4J9SzNNt5QgKS2ozOv
-         +SDTSNC6tjBcUBlrLOdu//jWaXsZWdrLkqH+b/PXmFVdP9QEXXo2YVzDrM69dTK3WwVs
-         3C5gtRu45S/0aaxaEmO7AvBoWhom2LNmizCAo+epKIMIsMs7lShjOIlqwl/EGex1GN80
-         Wjig==
-X-Gm-Message-State: AO0yUKVwpEDjH3cwzIceyYACHt3XGMUhxe1bfupzsxauKltzjr+pXaGu
-        fGmXSkspq8+soJrN9+LbvYaAkA==
-X-Google-Smtp-Source: AK7set/gA9F4rO7vw/m35L3ozxDwFR/WyvdGiXfXG/ffB/dutI9OO7WFUkGppG57qHHxnFT0lbrWOg==
-X-Received: by 2002:a05:600c:3d98:b0:3e1:e149:b67b with SMTP id bi24-20020a05600c3d9800b003e1e149b67bmr1213952wmb.18.1676123259672;
-        Sat, 11 Feb 2023 05:47:39 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id y9-20020adfee09000000b002c550eb062fsm1118055wrn.14.2023.02.11.05.47.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 05:47:39 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 3/3] ARM: dts: exynos: drop unused samsung,camclk-out property in Midas
-Date:   Sat, 11 Feb 2023 14:47:31 +0100
-Message-Id: <20230211134731.85957-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230211134731.85957-1-krzysztof.kozlowski@linaro.org>
-References: <20230211134731.85957-1-krzysztof.kozlowski@linaro.org>
+        Sat, 11 Feb 2023 09:23:43 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC98D23C6C;
+        Sat, 11 Feb 2023 06:23:41 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pQqmy-000309-Cp; Sat, 11 Feb 2023 15:23:40 +0100
+Message-ID: <3d702234-88b3-42ae-9b12-0ccf19bd9bcb@leemhuis.info>
+Date:   Sat, 11 Feb 2023 15:23:39 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/3] venus: firmware: Correct non-pix start and end
+ addresses
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Matthias Kaehlcke <mka@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Nathan Hebert <nhebert@chromium.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <20221005083730.963322-1-stanimir.varbanov@linaro.org>
+ <20221005083730.963322-3-stanimir.varbanov@linaro.org>
+ <Y9LSMap+jRxbtpC8@google.com>
+ <b2007bc9-b05f-eb17-a373-9587b01d3788@leemhuis.info>
+In-Reply-To: <b2007bc9-b05f-eb17-a373-9587b01d3788@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1676125421;f3f8427f;
+X-HE-SMSGID: 1pQqmy-000309-Cp
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The S5K6A3 camera sensor does not use nor allow samsung,camclk-out
-property.
+[TLDR: This mail in primarily relevant for Linux regression tracking. A
+change or fix related to the regression discussed in this thread was
+posted or applied, but it did not use a Link: tag to point to the
+report, as Linus and the documentation call for. Things happen, no
+worries -- but now the regression tracking bot needs to be told manually
+about the fix. See link in footer if these mails annoy you.]
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/exynos4412-midas.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+On 05.02.23 12:00, Linux kernel regression tracking (#adding) wrote:
+> On 26.01.23 20:19, Matthias Kaehlcke wrote:
+>> On Wed, Oct 05, 2022 at 11:37:29AM +0300, Stanimir Varbanov wrote:
+>>> The default values for those registers are zero.
+>>>
+>>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> [...]
+>> I found that this commit prevents the AOSS from entering sleep mode during
+>> system suspend at least on sc7180 and sc7280. AOSS not entering sleep mode
+>> leads to a (apparently significant) increase in S3 power consumption, on
+>> trogdor and herobrine it prevents the system from staying suspended, because
+>> the embedded controller detect the condition and wakes the sytem up again.
+> 
+> Thanks for the report. To be sure the issue doesn't fall through the
+> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+> tracking bot:
+> 
+> #regzbot ^introduced a837e5161cfffbb32
+> #regzbot title meida: venus: firmware: AOSS doesn't seel anymore on at
+> least sc7180 and sc7280
+> #regzbot ignore-activity
 
-diff --git a/arch/arm/boot/dts/exynos4412-midas.dtsi b/arch/arm/boot/dts/exynos4412-midas.dtsi
-index 525f945c4b91..763bd3441c5b 100644
---- a/arch/arm/boot/dts/exynos4412-midas.dtsi
-+++ b/arch/arm/boot/dts/exynos4412-midas.dtsi
-@@ -592,7 +592,6 @@ image-sensor@10 {
- 		/* CAM_B_CLKOUT */
- 		clocks = <&camera 1>;
- 		clock-names = "extclk";
--		samsung,camclk-out = <1>;
- 		gpios = <&gpm1 6 GPIO_ACTIVE_LOW>;
- 
- 		port {
--- 
-2.34.1
+#regzbot monitor:
+https://lore.kernel.org/all/20230207102254.1446461-1-javierm@redhat.com/
+#regzbot ignore-activity
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
+
+
 
