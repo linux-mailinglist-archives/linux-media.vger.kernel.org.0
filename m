@@ -2,53 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8DDA693151
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 14:47:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50239693155
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 14:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229546AbjBKNrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 08:47:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
+        id S229566AbjBKNrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 08:47:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjBKNrj (ORCPT
+        with ESMTP id S229620AbjBKNrl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 08:47:39 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A6A2799B
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 05:47:37 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id r2so7838005wrv.7
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 05:47:37 -0800 (PST)
+        Sat, 11 Feb 2023 08:47:41 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B4928200
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 05:47:39 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id h16so7817983wrz.12
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 05:47:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hsGQ0gdbtX4/5NNKjqT00xb2Pj6HxWh2Joiq7xE1GTg=;
-        b=kAy91UoI6Ps1U+hiHxlVGyoABPV5pXKbvqap4stZ6fdIMyIuLf+BW8SJNkfa9QsOGb
-         nUxzfmf36bv/owKTt8YUZc9B4DQpv6qLYPaaP/q915lHhTWYlxJWNCuuk61dvzN4MGBm
-         C0SvKWeSshh8e5HPkB2Vwtz4fMfvX24Or28TpkLm5VBPXqbsGN7Z5/JtOmPCy0ahQyIR
-         zGEBycdfKFkinpF8uPanorpWAuUqTEgyS6p4pBeDpyRT+OcLxYakpQPtQ45gu+F3Fdlu
-         LL0VwEtU8DSXHjdgpoHBGA5WZlz5Mw7Pd9+HVSFKkGFXw1xP61IB1KjDsVB17rFaIH8Q
-         lKmg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1RtrS8mLtl7ssVBCGB2QEC8eHd7/s0+c6vonCW3UXCY=;
+        b=lNTCUPyKJh67Sp45u9X7lDBFO3QWb+wjDKRFL7yoUvliYg1+MpNteOmztjMJEsLapN
+         pWbJOY/aTu4zPeshTOyW7aq7/tnvh0jGpf61UAY3QP74rLCtfgrksK+Ne5hbns+/StKM
+         d+0cn05eTZ+ZQbIcSALV1jA+xV+53Qyd+XOgcujfong1TPfu0O+dd/kjLScuhWEXb2xD
+         Citjpu+mMvYBcqxJybPP332tnWwqturUht8l60XnXgdV6cbTw39QRzDYo3s3H6pEsKdW
+         YbvCnLT1gv2fvmHAhd5I2rDYuiBTR+S4J8rKBs2Q4OKchyk1HRyW7PT5wF9uh9RsuMlr
+         uaqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hsGQ0gdbtX4/5NNKjqT00xb2Pj6HxWh2Joiq7xE1GTg=;
-        b=qMrvO61H+vYjlaj0gmS0svQz/rL0n6BucsxUc0zzVxlVTg+kMwUxB4Yqf0bULy9gBY
-         qP+3inrJyKeKqvJPlZFtk6pI/27XfOPzGbC45zgQsfm3BOlut6663gndWCg6mD14awk2
-         UK4+EFG/WR1epSRGaXBxdiZHtgZ1KApj2M++o7Q/ruvXo2RW+idgxNbavg87e7mCVNef
-         Av0FDG/39Qll4sN+RXYoa/mOdJY5SPkMgN1t5KX0PzWMXQ/CAz+N6pYns4VSRPSY/8Q4
-         AEnpWR118UK8sRllrxMSn7qKcCLRlmoG10nqoUdTL3cuBJN0NohGLxUm25zh4d4aic6B
-         jiaQ==
-X-Gm-Message-State: AO0yUKXYeW6h0o5JI3zf/4kBGkVb7lDYfUjKsuUEtcXgl7gXBBWmqOiV
-        5sj8BgSevBcXosmB+WwHVxLfzw==
-X-Google-Smtp-Source: AK7set883aIRz5Kw1LUd1XUpdItdJfyN4f58Ttlh78ES2wS7DTA+MkxILK7GlP55376IH+/Kn1KtVA==
-X-Received: by 2002:adf:e691:0:b0:2c5:509b:dc4a with SMTP id r17-20020adfe691000000b002c5509bdc4amr1015127wrm.50.1676123256177;
-        Sat, 11 Feb 2023 05:47:36 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1RtrS8mLtl7ssVBCGB2QEC8eHd7/s0+c6vonCW3UXCY=;
+        b=NxBYy2sg1f4qJn57wcSsf0ExT6DNpXIHcfc5pAqHIHClWawXQQXkmylkXHjehJUdq9
+         D6NM6H/MerWpRwrSLgywMIiRdLzH82UFeGzs5KcOb72tMshK92dirj+oZRpVcgBRGPYV
+         izjh+7PbigEnVMoxEY7qotv2EU+CljJJTQ941cekeK9NF40Zq0q+iTUBEotIB5HdPYcD
+         suhFZjehKaqlW7JGXXyWRvYSxe2VP0GTy8vDU7FPgAhb+EtAiuJjv3tLT6sCPLqOAguq
+         tuBKVxXHXmlIqBaz7iJJWdFjpSjwEzoFo4w58O/vkeG5/gerbxAxzloXX20HqkmA+42Z
+         SOhg==
+X-Gm-Message-State: AO0yUKXFKFWrjeiISFIUezAzXiop8uc4nsYhtqPbRwtezaWBOlsNlvdw
+        KvcO09K5VtiGz/TWyPJSWR5Agg==
+X-Google-Smtp-Source: AK7set8uab1hRAPzEt+iup9dx4I6F+c3TfUmqNTMUc36rapfNi9/19ZWTFvQcsWtzjhVHWijRHusIw==
+X-Received: by 2002:a5d:5389:0:b0:2c3:f808:2d97 with SMTP id d9-20020a5d5389000000b002c3f8082d97mr15682310wrv.43.1676123257958;
+        Sat, 11 Feb 2023 05:47:37 -0800 (PST)
 Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id y9-20020adfee09000000b002c550eb062fsm1118055wrn.14.2023.02.11.05.47.34
+        by smtp.gmail.com with ESMTPSA id y9-20020adfee09000000b002c550eb062fsm1118055wrn.14.2023.02.11.05.47.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 05:47:35 -0800 (PST)
+        Sat, 11 Feb 2023 05:47:37 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -58,10 +59,12 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/3] media: dt-bindings: i2c: samsung,s5k6a3: convert to dtschema
-Date:   Sat, 11 Feb 2023 14:47:29 +0100
-Message-Id: <20230211134731.85957-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/3] media: dt-bindings: i2c: samsung,s5k5baf: convert to dtschema
+Date:   Sat, 11 Feb 2023 14:47:30 +0100
+Message-Id: <20230211134731.85957-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230211134731.85957-1-krzysztof.kozlowski@linaro.org>
+References: <20230211134731.85957-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -73,40 +76,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Samsung S5K6A3(YX) raw image sensor bindings to DT schema.
+Convert the Samsung S5K5BAF image sensor bindings to DT schema.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/media/i2c/samsung,s5k6a3.yaml    | 98 +++++++++++++++++++
- .../bindings/media/samsung-s5k6a3.txt         | 33 -------
- 2 files changed, 98 insertions(+), 33 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k6a3.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5k6a3.txt
+ .../bindings/media/i2c/samsung,s5k5baf.yaml   | 101 ++++++++++++++++++
+ .../bindings/media/samsung-s5k5baf.txt        |  58 ----------
+ 2 files changed, 101 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k5baf.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5k5baf.txt
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5k6a3.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5k6a3.yaml
+diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5k5baf.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5k5baf.yaml
 new file mode 100644
-index 000000000000..7e83a94124b5
+index 000000000000..c8f2955e0825
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5k6a3.yaml
-@@ -0,0 +1,98 @@
++++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5k5baf.yaml
+@@ -0,0 +1,101 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/i2c/samsung,s5k6a3.yaml#
++$id: http://devicetree.org/schemas/media/i2c/samsung,s5k5baf.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Samsung S5K6A3(YX) raw image sensor
++title: Samsung S5K5BAF UXGA 1/5" 2M CMOS Image Sensor with embedded SoC ISP
 +
 +maintainers:
 +  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 +
-+description:
-+  S5K6A3(YX) is a raw image sensor with MIPI CSI-2 and CCP2 image data
-+  interfaces and CCI (I2C compatible) control bus.
-+
 +properties:
 +  compatible:
-+    const: samsung,s5k6a3
++    const: samsung,s5k5baf
 +
 +  reg:
 +    maxItems: 1
@@ -116,24 +115,29 @@ index 000000000000..7e83a94124b5
 +
 +  clock-names:
 +    items:
-+      - const: extclk
++      - const: mclk
 +
 +  clock-frequency:
 +    default: 24000000
-+    description: extclk clock frequency
++    description: mclk clock frequency
 +
-+  gpios:
++  rstn-gpios:
 +    maxItems: 1
-+    description: GPIO connected to the RESET pin
++    description: RSTN pin
 +
-+  afvdd-supply:
-+    description: AF (actuator) voltage supply
++  stbyn-gpios:
++    maxItems: 1
++    description: STDBYN pin
 +
-+  svdda-supply:
-+    description: Core voltage supply
++  vdda-supply:
++    description: Analog power supply 2.8V (2.6V to 3.0V)
 +
-+  svddio-supply:
-+    description: I/O voltage supply
++  vddio-supply:
++    description: I/O power supply 1.8V (1.65V to 1.95V) or 2.8V (2.5V to 3.1V)
++
++  vddreg-supply:
++    description:
++      Regulator input power supply 1.8V (1.7V to 1.9V) or 2.8V (2.6V to 3.0)
 +
 +  port:
 +    $ref: /schemas/graph.yaml#/$defs/port-base
@@ -153,10 +157,11 @@ index 000000000000..7e83a94124b5
 +  - compatible
 +  - clocks
 +  - clock-names
-+  - gpios
-+  - afvdd-supply
-+  - svdda-supply
-+  - svddio-supply
++  - rstn-gpios
++  - stbyn-gpios
++  - vdda-supply
++  - vddio-supply
++  - vddreg-supply
 +
 +additionalProperties: false
 +
@@ -168,16 +173,17 @@ index 000000000000..7e83a94124b5
 +        #address-cells = <1>;
 +        #size-cells = <0>;
 +
-+        sensor@10 {
-+            compatible = "samsung,s5k6a3";
-+            reg = <0x10>;
++        sensor@2d {
++            compatible = "samsung,s5k5baf";
++            reg = <0x2d>;
++            clocks = <&camera 0>;
++            clock-names = "mclk";
 +            clock-frequency = <24000000>;
-+            clocks = <&camera 1>;
-+            clock-names = "extclk";
-+            gpios = <&gpm1 6 GPIO_ACTIVE_LOW>;
-+            afvdd-supply = <&ldo19_reg>;
-+            svdda-supply = <&cam_io_reg>;
-+            svddio-supply = <&ldo19_reg>;
++            rstn-gpios = <&gpl2 1 GPIO_ACTIVE_LOW>;
++            stbyn-gpios = <&gpl2 0 GPIO_ACTIVE_LOW>;
++            vdda-supply = <&cam_io_en_reg>;
++            vddio-supply = <&vtcam_reg>;
++            vddreg-supply = <&vt_core_15v_reg>;
 +
 +            port {
 +                endpoint {
@@ -187,45 +193,70 @@ index 000000000000..7e83a94124b5
 +            };
 +        };
 +    };
-diff --git a/Documentation/devicetree/bindings/media/samsung-s5k6a3.txt b/Documentation/devicetree/bindings/media/samsung-s5k6a3.txt
+diff --git a/Documentation/devicetree/bindings/media/samsung-s5k5baf.txt b/Documentation/devicetree/bindings/media/samsung-s5k5baf.txt
 deleted file mode 100644
-index cce01e82f3e3..000000000000
---- a/Documentation/devicetree/bindings/media/samsung-s5k6a3.txt
+index 1f51e0439c96..000000000000
+--- a/Documentation/devicetree/bindings/media/samsung-s5k5baf.txt
 +++ /dev/null
-@@ -1,33 +0,0 @@
--Samsung S5K6A3(YX) raw image sensor
-----------------------------------
--
--S5K6A3(YX) is a raw image sensor with MIPI CSI-2 and CCP2 image data interfaces
--and CCI (I2C compatible) control bus.
+@@ -1,58 +0,0 @@
+-Samsung S5K5BAF UXGA 1/5" 2M CMOS Image Sensor with embedded SoC ISP
+---------------------------------------------------------------------
 -
 -Required properties:
 -
--- compatible	: "samsung,s5k6a3";
--- reg		: I2C slave address of the sensor;
--- svdda-supply	: core voltage supply;
--- svddio-supply	: I/O voltage supply;
--- afvdd-supply	: AF (actuator) voltage supply;
--- gpios		: specifier of a GPIO connected to the RESET pin;
--- clocks	: should contain list of phandle and clock specifier pairs
--		  according to common clock bindings for the clocks described
--		  in the clock-names property;
--- clock-names	: should contain "extclk" entry for the sensor's EXTCLK clock;
+-- compatible	  : "samsung,s5k5baf";
+-- reg		  : I2C slave address of the sensor;
+-- vdda-supply	  : analog power supply 2.8V (2.6V to 3.0V);
+-- vddreg-supply	  : regulator input power supply 1.8V (1.7V to 1.9V)
+-		    or 2.8V (2.6V to 3.0);
+-- vddio-supply	  : I/O power supply 1.8V (1.65V to 1.95V)
+-		    or 2.8V (2.5V to 3.1V);
+-- stbyn-gpios	  : GPIO connected to STDBYN pin;
+-- rstn-gpios	  : GPIO connected to RSTN pin;
+-- clocks	  : list of phandle and clock specifier pairs
+-		    according to common clock bindings for the
+-		    clocks described in clock-names;
+-- clock-names	  : should include "mclk" for the sensor's master clock;
 -
 -Optional properties:
 -
--- clock-frequency : the frequency at which the "extclk" clock should be
+-- clock-frequency : the frequency at which the "mclk" clock should be
 -		    configured to operate, in Hz; if this property is not
 -		    specified default 24 MHz value will be used.
 -
--The common video interfaces bindings (see video-interfaces.txt) should be
--used to specify link to the image data receiver. The S5K6A3(YX) device
--node should contain one 'port' child node with an 'endpoint' subnode.
+-The device node should contain one 'port' child node with one child 'endpoint'
+-node, according to the bindings defined in Documentation/devicetree/bindings/
+-media/video-interfaces.txt. The following are properties specific to those
+-nodes.
 -
--Following properties are valid for the endpoint node:
+-endpoint node
+--------------
 -
 -- data-lanes : (optional) specifies MIPI CSI-2 data lanes as covered in
--  video-interfaces.txt.  The sensor supports only one data lane.
+-	       video-interfaces.txt. If present it should be <1> - the device
+-	       supports only one data lane without re-mapping.
+-
+-Example:
+-
+-s5k5bafx@2d {
+-	compatible = "samsung,s5k5baf";
+-	reg = <0x2d>;
+-	vdda-supply = <&cam_io_en_reg>;
+-	vddreg-supply = <&vt_core_15v_reg>;
+-	vddio-supply = <&vtcam_reg>;
+-	stbyn-gpios = <&gpl2 0 1>;
+-	rstn-gpios = <&gpl2 1 1>;
+-	clock-names = "mclk";
+-	clocks = <&clock_cam 0>;
+-	clock-frequency = <24000000>;
+-
+-	port {
+-		s5k5bafx_ep: endpoint {
+-			remote-endpoint = <&csis1_ep>;
+-			data-lanes = <1>;
+-		};
+-	};
+-};
 -- 
 2.34.1
 
