@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F3A693193
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB842693195
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:42:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjBKOmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 09:42:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42362 "EHLO
+        id S229758AbjBKOmE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 09:42:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjBKOmB (ORCPT
+        with ESMTP id S229658AbjBKOmC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 09:42:01 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 044E32941F
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:41:59 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id h16so7903195wrz.12
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:41:59 -0800 (PST)
+        Sat, 11 Feb 2023 09:42:02 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C1155A5
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:42:00 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id co8so4183554wrb.1
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:42:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kKG0ypF6gbhvdP8zAGHpXP3/P0Hsw2jM9OG5E6fiHI8=;
-        b=uOtf1SIs57hOS8fVy35dVhUlttLEJtm6ZbYpNe6VqxDcE0Y1lzJRz6NmQ7Z2sCK6bN
-         0u7B7NQlPUSVLKeeruAAHCmeRKVLg4n1mlpFX/q3AyUEx26MWs2PuK9PumyR611axrXd
-         9yxi90mqYAEh00ytG+Y+j3xc2+nQO8Z6M5h/15HlxqcP232mKPBd99aIx8Vx7W5l3zYW
-         MCykrN6UowopNham4XDFiv8C3AsAHb191EbZuPO9QqhV9KenxuAZdXLXBzvO5m16jHUY
-         x84BRkjd/tE2uietLtxJnXaKpXimhI/izAqRj3wqiT7tOCljdMllNecp4vmnkOfuKPqM
-         B5RA==
+        bh=wYihlRBSgUX0V4izOF22/pryLG+o0TZa15GZ5+G7yjY=;
+        b=I104glg/qrsF6mrPbvNkPeYcv2gdzhv1THfazCHjDEYwAQAyClZLUeASwVb6MbqAW6
+         fq3OIYbjUTUIeca+lbBYTxHWzKkqAWmKTvB/Mi+ppUlubYf0ILAi114yIlmFTZnuDIV+
+         w4iRgqTxDZhSWNI78xjx+evx10IxztbPNiKC9yhKhP9znFEphFZCYWQHzRjhXy8LjnE2
+         OBqo+4hWz2IvSB1et2owXA6sR2lraEx6blVOJDUW/LpRnEY4ULXydrnHS5dJ131FaHN3
+         4asLxfJfpWKDatj2OwwXkLnbPaE2W3Qwzu20a8a6nxL9OXekHd9GRfewzKmLXnZH2UGU
+         ykGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kKG0ypF6gbhvdP8zAGHpXP3/P0Hsw2jM9OG5E6fiHI8=;
-        b=gX0NCPCLBzDsYYkVHyzdJMENgCEwuMpUzmMF3degI1o5fSs8DdNzdDJ3wRh75W5kZx
-         cIeCV8Fs8LcIfLddYeaU1kqy8wiAa7rAbE90xkyCvi9MKfy5h400KUrXkAL2NiJTj9wn
-         4KSM3b6R9VZo9q/f9M3rVrKAuNDT4nONf5Sm6eY9sf03bkoIpiKXW194o5DPFG1qgB5R
-         DNtoE6wN0r9OK7V4x9EBjrc3sTh208D+x0j1fa3UgxW1xFL3WULdqnMUWs2w8HlcS/tJ
-         VqJIZ3L541XFwry/NXolpzDAx7otzVfcr7MgzQXN7wAYTCVUHwftY44qpHVepXalsM+1
-         oGCA==
-X-Gm-Message-State: AO0yUKX1PUvYBPPELEFdDAykbi3m0j9YpkJvPga5/9n6lQ7Nid2yr7My
-        taAhez5uieoW7u4ojqHuUHmwSZ9y1yxNTnrwhd8=
-X-Google-Smtp-Source: AK7set/RVUhgXzkUZXt1nJmn85VE1ijjwQ8bkv75So/niA7PC4Y64VaoYkP4cNbZMV2O8HnnH1/i1A==
-X-Received: by 2002:adf:fec7:0:b0:2c5:4cf1:a57b with SMTP id q7-20020adffec7000000b002c54cf1a57bmr3013581wrs.35.1676126518280;
+        bh=wYihlRBSgUX0V4izOF22/pryLG+o0TZa15GZ5+G7yjY=;
+        b=P+guf/ZSl/ztd4OttXejZvhXQNF7EZ2sZmYACP6qfZHSRBgiAOXp0oMl52muUMEIn3
+         hHXcfII086m3qbzqPBtT5TnRICS3hzIxSw2+DB6kkCE0lBsTN6DuAQSxd6MkOEdv5kpC
+         nM+3z0tr7eVUw+FlBf5QvEvRmPmrMS2AKn+RV3VB+ZMX6qXewgzhPAxw6oAQyP/CR60j
+         AKEN+dCvyHR0jCVBAdu1x0oFb12lHytoHAZCuEpZ7XJfYn1afyQv1ZhKGlr+z+q1YJ1a
+         IbNZyNp2tWP224FkajQOAJGjRED0pUqWxfZw1EdhMdwK4g0oKbasGUVg6JB4G8ACjdzz
+         Zd1A==
+X-Gm-Message-State: AO0yUKXuW0Ofwk1PaeQvDvjh9X1PkQyQC1yIs8461BLS1+0jCrt0Oh4Z
+        F2fiHvO2UqNC89oAaoQgn7fuew==
+X-Google-Smtp-Source: AK7set+hO89Qa3igpInUnE9Gxm2vfbYaY0WhtNNvyGgC5p7fN7zMMfZybj406guDDU7gMd//2XQwGw==
+X-Received: by 2002:a5d:4e10:0:b0:2bf:e5cc:91c1 with SMTP id p16-20020a5d4e10000000b002bfe5cc91c1mr15985399wrt.52.1676126518986;
         Sat, 11 Feb 2023 06:41:58 -0800 (PST)
 Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.googlemail.com with ESMTPSA id i8-20020a5d4388000000b002c5493a17efsm4202510wrq.25.2023.02.11.06.41.57
+        by smtp.googlemail.com with ESMTPSA id i8-20020a5d4388000000b002c5493a17efsm4202510wrq.25.2023.02.11.06.41.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 06:41:57 -0800 (PST)
+        Sat, 11 Feb 2023 06:41:58 -0800 (PST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
@@ -57,9 +57,9 @@ To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/3] media: dt-bindings: media: renesas,isp: Add binding for V4H
-Date:   Sat, 11 Feb 2023 15:41:45 +0100
-Message-Id: <20230211144147.3812388-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/3] media: dt-bindings: media: renesas,csi2: Add binding for V4H
+Date:   Sat, 11 Feb 2023 15:41:46 +0100
+Message-Id: <20230211144147.3812388-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230211144147.3812388-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20230211144147.3812388-1-niklas.soderlund+renesas@ragnatech.se>
@@ -75,25 +75,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document support for the ISP module in the Renesas V4H (r8a779g0) SoC.
+Document support for the CSI-2 module in the Renesas V4H (r8a779g0) SoC.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- Documentation/devicetree/bindings/media/renesas,isp.yaml | 1 +
+ Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-index 514857d36f6b..33650a1ea034 100644
---- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-@@ -21,6 +21,7 @@ properties:
-     items:
-       - enum:
-           - renesas,r8a779a0-isp # V3U
-+          - renesas,r8a779g0-isp # V4H
+diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+index b520d6c5c102..977ab188d654 100644
+--- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+@@ -31,6 +31,7 @@ properties:
+           - renesas,r8a77980-csi2 # R-Car V3H
+           - renesas,r8a77990-csi2 # R-Car E3
+           - renesas,r8a779a0-csi2 # R-Car V3U
++          - renesas,r8a779g0-csi2 # R-Car V4H
+ 
    reg:
      maxItems: 1
- 
 -- 
 2.39.1
 
