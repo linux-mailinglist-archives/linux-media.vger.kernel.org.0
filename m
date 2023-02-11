@@ -2,48 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BD406932C6
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 18:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ADEF693366
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 20:52:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbjBKRMm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 12:12:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33480 "EHLO
+        id S229561AbjBKTwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 14:52:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjBKRMl (ORCPT
+        with ESMTP id S229472AbjBKTwB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 12:12:41 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E4F46A0
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 09:12:38 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 975266CF;
-        Sat, 11 Feb 2023 18:12:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676135555;
-        bh=q2OF/iL2+17d6WzcUf4A8Wm/1AoQ3DgolmF+LXQKLs4=;
+        Sat, 11 Feb 2023 14:52:01 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F62216327;
+        Sat, 11 Feb 2023 11:51:59 -0800 (PST)
+Received: from localhost (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id B53A1660211A;
+        Sat, 11 Feb 2023 19:51:56 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1676145117;
+        bh=Dds6dBFqJOASeFzEjW9BSrdneYSHbK+I+VSvvl3QM4c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pYnt2xzluNWr5MMZ2horDXAKOnJs6IrNp0ENhHHrSPOgF/0NRvah3Vw68gmV2d6mw
-         7KcH0/YAXbb0DXB3zIJrCIsG6rZMYFlR/FMsz6Vkq7VcNKAoixoAP8iGTe11qP2bN6
-         8pkwJsAJRZnN/Axj4QjdELtod5XnIAhYNkoKQUpw=
-Date:   Sat, 11 Feb 2023 19:12:34 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rosen Penev <rosenp@gmail.com>
-Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
-        gjasny@googlemail.com, hverkuil@xs4all.nl,
-        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
-        nicolas@ndufresne.ca, p.zabel@pengutronix.de, sakari.ailus@iki.fi,
-        sean@mess.org, user.vdr@gmail.com, xavier.claessens@collabora.com
-Subject: Re: [PATCH v7 0/5] Switch build system to meson
-Message-ID: <Y+fMgvfIlzZfX2n+@pendragon.ideasonboard.com>
-References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
- <CAKxU2N-vRQqwTNaCQiodj9NLGEuF8CijbwNcLHkCRSCSxi652g@mail.gmail.com>
- <Yx8EpB2p6gkcjhTm@pendragon.ideasonboard.com>
+        b=cb7dTDmFWMnGeEHL2Natpvar52pjhcZfPI4x2JckWA+y7AlE1Ff1xVcHoaUDLYy4O
+         Bi2tEDF39IDye96DP8jUnI9e/uhFuCQz8hT/V2McWorDPZu0X5w8fIVPgA8seMMQf3
+         zYND3tPLUaPTqteKYjDSZufz1jD8twQJbUF61V7B2Hj7kLNEOq0fR6RNc7cgQr3Doa
+         lGDwTpUwNK8VcyIvld9iVGnHGIZdSZmgP3Qro4T9DxhTQnSsi2JAtxLgZeWkX1eGVW
+         kaSWNBUqSHMQIyzskfh/2Tjf44rb1saAe5sQsdh97niM/POKQ3d+vlRie+yZkp6cdv
+         uj9bDRiUVkmqA==
+Date:   Sat, 11 Feb 2023 11:53:31 -0800
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] configure.ac: Add option to disable compilation of
+ v4l2-tracer
+Message-ID: <Y+fx6OYqCVEgK9ii@xps>
+References: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Yx8EpB2p6gkcjhTm@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230211101231.3060841-1-niklas.soderlund@ragnatech.se>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,344 +56,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 12, 2022 at 01:06:29PM +0300, Laurent Pinchart wrote:
-> Hi Rosen,
+On Sat, Feb 11, 2023 at 11:12:31AM +0100, Niklas Söderlund wrote:
+> Add a configuration time option to disable compilation of the
+> v4l2-tracer utility.
 > 
-> Thank you for looking into this, the review is appreciated.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> ---
 > 
-> On Sat, Sep 10, 2022 at 07:17:53PM -0700, Rosen Penev wrote:
-> > On Fri, Sep 9, 2022 at 6:44 AM Laurent Pinchart wrote:
-> > >
-> > > Hello everybody,
-> > >
-> > > This series is the latest (and greatest) attempt to switch v4l-utils
-> > > from autotools to meson.
-> > 
-> > I looked at the base meson.build file. Those enabled() usages look
-> > weird to me. The libudev one seems like a refactoring oversight.
+> Hi Hans,
 > 
-> Indeed. I'll fix that.
+> The v4l2-tracer fails to build on arm32. While I'm sure that can be
+> fixed, this is an utility I don't use and building on target any thing I
+> can disable in the build saves me time.
 > 
-> > dep_gl = dependency('gl', required : get_option('qvidcap').enabled()
-> > or get_option('qv4l2').enabled())
-> > 
-> > can be rewritten as
-> > dep gl = dependency('gl, required: get_option('qvidcap'))
-> > if not dep_gl.found()
-> >   dep gl = dependency('gl, required: get_option('qv4l2'))
-> > endif
-> > 
-> > That'll enable the actual feature option to work properly.
+> From completes, the classes of errors I see are around v4l2_fourcc(),
+> _IOR() and _IOWR().
 > 
-> Will fix too. It would be nice if meson had a way to easily combine two
-> features, something along the lines of
+> ../../include/linux/videodev2.h:81:66: error: narrowing conversion of '3039908417' from '__u32' {aka 'unsigned int'} to 'long int' [-Wnarrowing]
+>    81 | #define v4l2_fourcc_be(a, b, c, d)      (v4l2_fourcc(a, b, c, d) | (1U << 31))
 > 
-> dep gl = dependency('gl, required: get_option('qvidcap') || get_option('qv4l2'))
+> ../../include/linux/videodev2.h:2528:34: error: narrowing conversion of '2154321408' from 'unsigned int' to 'long int' [-Wnarrowing]
+>  2528 | #define VIDIOC_QUERYCAP          _IOR('V',  0, struct v4l2_capability)
 > 
-> > have_visibility should use cc.has_function_attribute(' visibility:hidden')
+> ../../include/linux/videodev2.h:2529:33: error: narrowing conversion of '3225441794' from 'unsigned int' to 'long int' [-Wnarrowing]
+>  2529 | #define VIDIOC_ENUM_FMT         _IOWR('V',  2, struct v4l2_fmtdesc)
 > 
-> I didn't know about that. Will fix.
+> I'm building on target with gcc 12.1.0, nothing fancy,
+> 
+>     $ ./bootstrap.sh && ./configure && make
+> 
+> Kind Regards
+> Niklas
 
-I gave this a try and it works fine, but I'm wondering why
-has_function_attribute() is preferred here.
+Hi Niklas,
+Thanks for this patch it is good and probably how I should have done it
+originally :) It does make the "HAVE_JSONC" conditional redundant, so once
+this is applied, I will send a follow-up patch to replace "HAVE_JSONC" with
+"WITH_V4L2_TRACER" in the v4l2-tracer Makefile.am.
 
-Also, shouldn't we test for 'visibility:default' instead, as that's what
-is being used in the source code ? Technically I suppose we should test
-for both 'visibility:default' and '-fvisibility=hidden', but I doubt it
-would make any different in practice, if one of them is supported, the
-other should be as well.
+Best,
+Deb
 
-> > The libiconv check should also be a feature check:
-> > 
-> > if meson.version().version_compare('>= 0.60')
-> >   iconv_dep = dependency('iconv', required: get_option('iconv'))
-> > else
-> >   ...
-> > endif
+> ---
+>  configure.ac      | 11 +++++++++++
+>  utils/Makefile.am |  2 +-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
 > 
-> I'll do this too.
+> diff --git a/configure.ac b/configure.ac
+> index dc9c4af71c45..46ddc7a8b404 100644
+> --- a/configure.ac
+> +++ b/configure.ac
+> @@ -497,6 +497,14 @@ AC_ARG_ENABLE(v4l2-compliance-32,
+>     esac]
+>  )
+>  
+> +AC_ARG_ENABLE(v4l2-tracer,
+> +  AS_HELP_STRING([--disable-v4l2-tracer], [disable v4l2-tracer compilation]),
+> +  [case "${enableval}" in
+> +     yes | no ) ;;
+> +     *) AC_MSG_ERROR(bad value ${enableval} for --disable-v4l2-tracer) ;;
+> +   esac]
+> +)
+> +
+>  AC_ARG_ENABLE(v4l2-ctl-libv4l,
+>    AS_HELP_STRING([--disable-v4l2-ctl-libv4l], [disable use of libv4l in v4l2-ctl]),
+>    [case "${enableval}" in
+> @@ -578,6 +586,7 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
+> +AM_CONDITIONAL([WITH_V4L2_TRACER], [test x$jsonc_pkgconfig = xyes -a x$enable_v4l2_tracer != xno])
+>  PKG_CHECK_MODULES([LIBBPF], [libbpf >= 0.7], [bpf_pc=yes], [bpf_pc=no])
+>  AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
+>  
+> @@ -628,6 +637,7 @@ AM_COND_IF([WITH_V4L2_CTL_32], [USE_V4L2_CTL_32="yes"], [USE_V4L2_CTL_32="no"])
+>  AM_COND_IF([WITH_V4L2_COMPLIANCE], [USE_V4L2_COMPLIANCE="yes"], [USE_V4L2_COMPLIANCE="no"])
+>  AM_COND_IF([WITH_V4L2_COMPLIANCE_LIBV4L], [USE_V4L2_COMPLIANCE_LIBV4L="yes"], [USE_V4L2_COMPLIANCE_LIBV4L="no"])
+>  AM_COND_IF([WITH_V4L2_COMPLIANCE_32], [USE_V4L2_COMPLIANCE_32="yes"], [USE_V4L2_COMPLIANCE_32="no"])
+> +AM_COND_IF([WITH_V4L2_TRACER], [USE_V4L2_TRACER="yes"], [USE_V4L2_TRACER="no"])
+>  AM_COND_IF([WITH_BPF],         [USE_BPF="yes"
+>                                  AC_DEFINE([HAVE_BPF], [1], [BPF IR decoder support enabled])],
+>  				[USE_BPF="no"])
+> @@ -679,5 +689,6 @@ compile time options summary
+>      v4l2-compliance            : $USE_V4L2_COMPLIANCE
+>      v4l2-compliance uses libv4l: $USE_V4L2_COMPLIANCE_LIBV4L
+>      v4l2-compliance-32         : $USE_V4L2_COMPLIANCE_32
+> +    v4l2-tracer                : $USE_V4L2_TRACER
+>      BPF IR Decoders:           : $USE_BPF
+>  EOF
+> diff --git a/utils/Makefile.am b/utils/Makefile.am
+> index 6f59515ef29d..b2a6ac211473 100644
+> --- a/utils/Makefile.am
+> +++ b/utils/Makefile.am
+> @@ -15,7 +15,7 @@ SUBDIRS = \
+>  	cec-follower \
+>  	rds-ctl
+>  
+> -if HAVE_JSONC
+> +if WITH_V4L2_TRACER
+>  SUBDIRS += \
+>  	v4l2-tracer
+>  endif
+> -- 
+> 2.39.1
 > 
-> > > Compared to v6, the first noticeable change is that fixups have been
-> > > squashed into their corresponding commit. Detailed changelogs are now
-> > > included in individual patches.
-> > >
-> > > The second big change is that the last patch from v6 ("Makefile.am:
-> > > Distribute meson related files") got replaced by 5/5 which drops
-> > > autotools support, completing the switch from autotools to meson.
-> > >
-> > > A branch that includes this series can be found at
-> > >
-> > >         git://linuxtv.org/pinchartl/v4l-utils.git meson
-> > >
-> > > Ariel D'Alessandro (4):
-> > >   Move README to markdown syntax
-> > >   Add support for meson building
-> > >   Copy Doxygen configuration file to doc/
-> > >   meson: Add support for doxygen documentation
-> > >
-> > > Laurent Pinchart (1):
-> > >   Drop autoconf/automake support
-> > >
-> > >  .gitignore                                    |  62 +-
-> > >  INSTALL                                       | 105 ---
-> > >  INSTALL.md                                    | 142 ++++
-> > >  Makefile.am                                   |  16 -
-> > >  README                                        | 274 -------
-> > >  README.md                                     | 275 +++++++
-> > >  aminclude.am                                  | 186 -----
-> > >  bootstrap.sh                                  |  28 -
-> > >  configure.ac                                  | 668 ------------------
-> > >  contrib/Makefile.am                           |  25 -
-> > >  contrib/cobalt-ctl/.gitignore                 |   1 -
-> > >  contrib/cobalt-ctl/Makefile.am                |   3 -
-> > >  contrib/cobalt-ctl/meson.build                |   8 +
-> > >  contrib/decode_tm6000/.gitignore              |   1 -
-> > >  contrib/decode_tm6000/Makefile.am             |   4 -
-> > >  contrib/decode_tm6000/meson.build             |  14 +
-> > >  contrib/freebsd/Makefile.am                   |   3 -
-> > >  contrib/gconv/Makefile.am                     |  17 -
-> > >  contrib/gconv/meson.build                     |  44 ++
-> > >  contrib/meson.build                           |  13 +
-> > >  contrib/rds-saa6588/.gitignore                |   1 -
-> > >  contrib/rds-saa6588/Makefile.am               |   3 -
-> > >  contrib/rds-saa6588/meson.build               |   7 +
-> > >  contrib/test/.gitignore                       |  11 -
-> > >  contrib/test/Makefile.am                      |  65 --
-> > >  contrib/test/meson.build                      | 143 ++++
-> > >  contrib/xc3028-firmware/.gitignore            |   1 -
-> > >  contrib/xc3028-firmware/Makefile.am           |   5 -
-> > >  contrib/xc3028-firmware/meson.build           |  11 +
-> > >  doxygen_libdvbv5.cfg => doc/Doxyfile.in       | 128 ++--
-> > >  doc/meson.build                               |  34 +
-> > >  lib/Makefile.am                               |  13 -
-> > >  lib/libdvbv5/Makefile.am                      | 126 ----
-> > >  lib/libdvbv5/libdvbv5.pc.in                   |  11 -
-> > >  lib/libdvbv5/meson.build                      | 159 +++++
-> > >  lib/libv4l-mplane/Makefile.am                 |   7 -
-> > >  lib/libv4l-mplane/meson.build                 |  23 +
-> > >  lib/libv4l1/Makefile.am                       |  29 -
-> > >  lib/libv4l1/libv4l1.pc.in                     |  12 -
-> > >  lib/libv4l1/meson.build                       |  62 ++
-> > >  lib/libv4l2/Makefile.am                       |  32 -
-> > >  lib/libv4l2/libv4l2.pc.in                     |  12 -
-> > >  lib/libv4l2/meson.build                       |  71 ++
-> > >  lib/libv4l2rds/Makefile.am                    |  12 -
-> > >  lib/libv4l2rds/libv4l2rds.pc.in               |  11 -
-> > >  lib/libv4l2rds/meson.build                    |  37 +
-> > >  lib/libv4lconvert/.gitignore                  |   3 -
-> > >  lib/libv4lconvert/Makefile.am                 |  36 -
-> > >  lib/libv4lconvert/libv4lconvert.pc.in         |  11 -
-> > >  lib/libv4lconvert/meson.build                 | 117 +++
-> > >  lib/meson.build                               |  11 +
-> > >  libdvbv5-po/Makevars                          |  72 --
-> > >  libdvbv5-po/meson.build                       |   3 +
-> > >  m4/ac_define_dir.m4                           |  34 -
-> > >  m4/ax_prog_doxygen.m4                         | 532 --------------
-> > >  m4/ax_pthread.m4                              | 522 --------------
-> > >  m4/mode_t.m4                                  |  26 -
-> > >  m4/visibility.m4                              |  82 ---
-> > >  meson.build                                   | 339 +++++++++
-> > >  meson_options.txt                             |  50 ++
-> > >  utils/Makefile.am                             |  36 -
-> > >  utils/cec-compliance/.gitignore               |   2 -
-> > >  utils/cec-compliance/Makefile.am              |   8 -
-> > >  utils/cec-compliance/meson.build              |  23 +
-> > >  utils/cec-ctl/.gitignore                      |   2 -
-> > >  utils/cec-ctl/Makefile.am                     |   8 -
-> > >  utils/cec-ctl/meson.build                     |  18 +
-> > >  utils/cec-follower/.gitignore                 |   2 -
-> > >  utils/cec-follower/Makefile.am                |   8 -
-> > >  utils/cec-follower/meson.build                |  19 +
-> > >  utils/cx18-ctl/.gitignore                     |   1 -
-> > >  utils/cx18-ctl/Makefile.am                    |   3 -
-> > >  utils/cx18-ctl/meson.build                    |   8 +
-> > >  utils/dvb/.gitignore                          |   9 -
-> > >  utils/dvb/Makefile.am                         |  35 -
-> > >  utils/dvb/meson.build                         |  70 ++
-> > >  utils/gen_media_bus_format_codes.sh           |   7 +
-> > >  utils/gen_media_bus_format_names.sh           |   7 +
-> > >  utils/ir-ctl/.gitignore                       |   2 -
-> > >  utils/ir-ctl/Makefile.am                      |   6 -
-> > >  utils/ir-ctl/meson.build                      |  23 +
-> > >  utils/ivtv-ctl/.gitignore                     |   1 -
-> > >  utils/ivtv-ctl/Makefile.am                    |   4 -
-> > >  utils/ivtv-ctl/meson.build                    |  13 +
-> > >  utils/keytable/.gitignore                     |   3 -
-> > >  utils/keytable/Makefile.am                    |  36 -
-> > >  utils/keytable/bpf_protocols/Makefile.am      |  24 -
-> > >  .../bpf_protocols/clang_sys_includes.sh       |   9 +
-> > >  utils/keytable/bpf_protocols/meson.build      |  31 +
-> > >  utils/keytable/meson.build                    |  81 +++
-> > >  utils/keytable/rc_keymaps/meson.build         | 150 ++++
-> > >  utils/libcecutil/.gitignore                   |   4 -
-> > >  utils/libcecutil/Makefile.am                  |  24 -
-> > >  utils/libcecutil/meson.build                  |  45 ++
-> > >  utils/libmedia_dev/Makefile.am                |   7 -
-> > >  utils/libmedia_dev/meson.build                |  14 +
-> > >  utils/libv4l2util/Makefile.am                 |   7 -
-> > >  utils/libv4l2util/meson.build                 |  16 +
-> > >  utils/media-ctl/.gitignore                    |   3 -
-> > >  utils/media-ctl/Makefile.am                   |  30 -
-> > >  utils/media-ctl/libmediactl.pc.in             |  10 -
-> > >  utils/media-ctl/libv4l2subdev.pc.in           |  11 -
-> > >  utils/media-ctl/meson.build                   |  43 ++
-> > >  utils/meson.build                             |  46 ++
-> > >  utils/qv4l2/.gitignore                        |   9 -
-> > >  utils/qv4l2/Makefile.am                       |  54 --
-> > >  utils/qv4l2/meson.build                       |  80 +++
-> > >  utils/qvidcap/.gitignore                      |   6 -
-> > >  utils/qvidcap/Makefile.am                     |  42 --
-> > >  utils/qvidcap/meson.build                     |  82 +++
-> > >  utils/rds-ctl/.gitignore                      |   2 -
-> > >  utils/rds-ctl/Makefile.am                     |   6 -
-> > >  utils/rds-ctl/meson.build                     |  17 +
-> > >  utils/v4l2-compliance/.gitignore              |   3 -
-> > >  utils/v4l2-compliance/Makefile.am             |  31 -
-> > >  utils/v4l2-compliance/meson.build             |  59 ++
-> > >  utils/v4l2-ctl/.gitignore                     |   4 -
-> > >  utils/v4l2-ctl/Makefile.am                    |  44 --
-> > >  utils/v4l2-ctl/meson.build                    |  75 ++
-> > >  utils/v4l2-dbg/.gitignore                     |   1 -
-> > >  utils/v4l2-dbg/Makefile.am                    |   6 -
-> > >  utils/v4l2-dbg/meson.build                    |  20 +
-> > >  utils/v4l2-sysfs-path/.gitignore              |   1 -
-> > >  utils/v4l2-sysfs-path/Makefile.am             |   4 -
-> > >  utils/v4l2-sysfs-path/meson.build             |  14 +
-> > >  v4l-utils-po/Makevars                         |  72 --
-> > >  v4l-utils-po/meson.build                      |   3 +
-> > >  v4l-utils.spec.in                             |   6 +-
-> > >  128 files changed, 2604 insertions(+), 3699 deletions(-)
-> > >  delete mode 100644 INSTALL
-> > >  create mode 100644 INSTALL.md
-> > >  delete mode 100644 Makefile.am
-> > >  delete mode 100644 README
-> > >  create mode 100644 README.md
-> > >  delete mode 100644 aminclude.am
-> > >  delete mode 100755 bootstrap.sh
-> > >  delete mode 100644 configure.ac
-> > >  delete mode 100644 contrib/Makefile.am
-> > >  delete mode 100644 contrib/cobalt-ctl/.gitignore
-> > >  delete mode 100644 contrib/cobalt-ctl/Makefile.am
-> > >  create mode 100644 contrib/cobalt-ctl/meson.build
-> > >  delete mode 100644 contrib/decode_tm6000/.gitignore
-> > >  delete mode 100644 contrib/decode_tm6000/Makefile.am
-> > >  create mode 100644 contrib/decode_tm6000/meson.build
-> > >  delete mode 100644 contrib/freebsd/Makefile.am
-> > >  delete mode 100644 contrib/gconv/Makefile.am
-> > >  create mode 100644 contrib/gconv/meson.build
-> > >  create mode 100644 contrib/meson.build
-> > >  delete mode 100644 contrib/rds-saa6588/.gitignore
-> > >  delete mode 100644 contrib/rds-saa6588/Makefile.am
-> > >  create mode 100644 contrib/rds-saa6588/meson.build
-> > >  delete mode 100644 contrib/test/.gitignore
-> > >  delete mode 100644 contrib/test/Makefile.am
-> > >  create mode 100644 contrib/test/meson.build
-> > >  delete mode 100644 contrib/xc3028-firmware/.gitignore
-> > >  delete mode 100644 contrib/xc3028-firmware/Makefile.am
-> > >  create mode 100644 contrib/xc3028-firmware/meson.build
-> > >  rename doxygen_libdvbv5.cfg => doc/Doxyfile.in (96%)
-> > >  create mode 100644 doc/meson.build
-> > >  delete mode 100644 lib/Makefile.am
-> > >  delete mode 100644 lib/libdvbv5/Makefile.am
-> > >  delete mode 100644 lib/libdvbv5/libdvbv5.pc.in
-> > >  create mode 100644 lib/libdvbv5/meson.build
-> > >  delete mode 100644 lib/libv4l-mplane/Makefile.am
-> > >  create mode 100644 lib/libv4l-mplane/meson.build
-> > >  delete mode 100644 lib/libv4l1/Makefile.am
-> > >  delete mode 100644 lib/libv4l1/libv4l1.pc.in
-> > >  create mode 100644 lib/libv4l1/meson.build
-> > >  delete mode 100644 lib/libv4l2/Makefile.am
-> > >  delete mode 100644 lib/libv4l2/libv4l2.pc.in
-> > >  create mode 100644 lib/libv4l2/meson.build
-> > >  delete mode 100644 lib/libv4l2rds/Makefile.am
-> > >  delete mode 100644 lib/libv4l2rds/libv4l2rds.pc.in
-> > >  create mode 100644 lib/libv4l2rds/meson.build
-> > >  delete mode 100644 lib/libv4lconvert/.gitignore
-> > >  delete mode 100644 lib/libv4lconvert/Makefile.am
-> > >  delete mode 100644 lib/libv4lconvert/libv4lconvert.pc.in
-> > >  create mode 100644 lib/libv4lconvert/meson.build
-> > >  create mode 100644 lib/meson.build
-> > >  delete mode 100644 libdvbv5-po/Makevars
-> > >  create mode 100644 libdvbv5-po/meson.build
-> > >  delete mode 100644 m4/ac_define_dir.m4
-> > >  delete mode 100644 m4/ax_prog_doxygen.m4
-> > >  delete mode 100644 m4/ax_pthread.m4
-> > >  delete mode 100644 m4/mode_t.m4
-> > >  delete mode 100644 m4/visibility.m4
-> > >  create mode 100644 meson.build
-> > >  create mode 100644 meson_options.txt
-> > >  delete mode 100644 utils/Makefile.am
-> > >  delete mode 100644 utils/cec-compliance/.gitignore
-> > >  delete mode 100644 utils/cec-compliance/Makefile.am
-> > >  create mode 100644 utils/cec-compliance/meson.build
-> > >  delete mode 100644 utils/cec-ctl/.gitignore
-> > >  delete mode 100644 utils/cec-ctl/Makefile.am
-> > >  create mode 100644 utils/cec-ctl/meson.build
-> > >  delete mode 100644 utils/cec-follower/.gitignore
-> > >  delete mode 100644 utils/cec-follower/Makefile.am
-> > >  create mode 100644 utils/cec-follower/meson.build
-> > >  delete mode 100644 utils/cx18-ctl/.gitignore
-> > >  delete mode 100644 utils/cx18-ctl/Makefile.am
-> > >  create mode 100644 utils/cx18-ctl/meson.build
-> > >  delete mode 100644 utils/dvb/.gitignore
-> > >  delete mode 100644 utils/dvb/Makefile.am
-> > >  create mode 100644 utils/dvb/meson.build
-> > >  create mode 100755 utils/gen_media_bus_format_codes.sh
-> > >  create mode 100755 utils/gen_media_bus_format_names.sh
-> > >  delete mode 100644 utils/ir-ctl/.gitignore
-> > >  delete mode 100644 utils/ir-ctl/Makefile.am
-> > >  create mode 100644 utils/ir-ctl/meson.build
-> > >  delete mode 100644 utils/ivtv-ctl/.gitignore
-> > >  delete mode 100644 utils/ivtv-ctl/Makefile.am
-> > >  create mode 100644 utils/ivtv-ctl/meson.build
-> > >  delete mode 100644 utils/keytable/.gitignore
-> > >  delete mode 100644 utils/keytable/Makefile.am
-> > >  delete mode 100644 utils/keytable/bpf_protocols/Makefile.am
-> > >  create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
-> > >  create mode 100644 utils/keytable/bpf_protocols/meson.build
-> > >  create mode 100644 utils/keytable/meson.build
-> > >  create mode 100644 utils/keytable/rc_keymaps/meson.build
-> > >  delete mode 100644 utils/libcecutil/.gitignore
-> > >  delete mode 100644 utils/libcecutil/Makefile.am
-> > >  create mode 100644 utils/libcecutil/meson.build
-> > >  delete mode 100644 utils/libmedia_dev/Makefile.am
-> > >  create mode 100644 utils/libmedia_dev/meson.build
-> > >  delete mode 100644 utils/libv4l2util/Makefile.am
-> > >  create mode 100644 utils/libv4l2util/meson.build
-> > >  delete mode 100644 utils/media-ctl/.gitignore
-> > >  delete mode 100644 utils/media-ctl/Makefile.am
-> > >  delete mode 100644 utils/media-ctl/libmediactl.pc.in
-> > >  delete mode 100644 utils/media-ctl/libv4l2subdev.pc.in
-> > >  create mode 100644 utils/media-ctl/meson.build
-> > >  create mode 100644 utils/meson.build
-> > >  delete mode 100644 utils/qv4l2/.gitignore
-> > >  delete mode 100644 utils/qv4l2/Makefile.am
-> > >  create mode 100644 utils/qv4l2/meson.build
-> > >  delete mode 100644 utils/qvidcap/.gitignore
-> > >  delete mode 100644 utils/qvidcap/Makefile.am
-> > >  create mode 100644 utils/qvidcap/meson.build
-> > >  delete mode 100644 utils/rds-ctl/.gitignore
-> > >  delete mode 100644 utils/rds-ctl/Makefile.am
-> > >  create mode 100644 utils/rds-ctl/meson.build
-> > >  delete mode 100644 utils/v4l2-compliance/.gitignore
-> > >  delete mode 100644 utils/v4l2-compliance/Makefile.am
-> > >  create mode 100644 utils/v4l2-compliance/meson.build
-> > >  delete mode 100644 utils/v4l2-ctl/.gitignore
-> > >  delete mode 100644 utils/v4l2-ctl/Makefile.am
-> > >  create mode 100644 utils/v4l2-ctl/meson.build
-> > >  delete mode 100644 utils/v4l2-dbg/.gitignore
-> > >  delete mode 100644 utils/v4l2-dbg/Makefile.am
-> > >  create mode 100644 utils/v4l2-dbg/meson.build
-> > >  delete mode 100644 utils/v4l2-sysfs-path/.gitignore
-> > >  delete mode 100644 utils/v4l2-sysfs-path/Makefile.am
-> > >  create mode 100644 utils/v4l2-sysfs-path/meson.build
-> > >  delete mode 100644 v4l-utils-po/Makevars
-> > >  create mode 100644 v4l-utils-po/meson.build
-> > >
-> > >
-> > > base-commit: a7611b2407982d823d1561c23f4531b8cc5c9dee
-
--- 
-Regards,
-
-Laurent Pinchart
