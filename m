@@ -2,92 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50A2E69317C
-	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:27:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 949BB693191
+	for <lists+linux-media@lfdr.de>; Sat, 11 Feb 2023 15:42:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbjBKO1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 09:27:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38738 "EHLO
+        id S229560AbjBKOmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 09:42:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjBKO1e (ORCPT
+        with ESMTP id S229631AbjBKOmB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 09:27:34 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD232799A;
-        Sat, 11 Feb 2023 06:27:32 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pQqqg-0003jd-CB; Sat, 11 Feb 2023 15:27:30 +0100
-Message-ID: <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
-Date:   Sat, 11 Feb 2023 15:27:29 +0100
+        Sat, 11 Feb 2023 09:42:01 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0158144B6
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:41:58 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id co8so4183512wrb.1
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 06:41:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=co8qjcyAfva4C9Kz6MryDMkFI1R96ChagGxAD7VsPjQ=;
+        b=OKHMUVunF8ln2sKHa4rQhtaKqKBJHvwNFrvl0A5Yy/roJimXRWI14hiiwF+UanEU4r
+         YSkg8Tb8t9JM29tj5akgEeWgYfH8mh+dOjIz4hw6C9mqAIB0iUO94lb9R4PQp+RhYxgo
+         4a3HlfrSvZ76PjfKggXiwNj7DTYSpypqlScYGuYAXKTyZ73BlcJU7EXvG+klIfsNspTa
+         CIf0L/3CtLu9/m2GZRjGjblQVo8niuq0FDejD87ZHIOfi8RZk7kNM1EdJLtKi89k7yI7
+         qx8Lgaq0RH4HGiv/5jad99UwjegFMeE61LMpFNUWtiaXhRxzI2aq9/NyplX+wK46ObCs
+         le0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=co8qjcyAfva4C9Kz6MryDMkFI1R96ChagGxAD7VsPjQ=;
+        b=SR5WM1x6Ljw4yobyqIiYg2KmsK4zYxngR7EPtvl8HY/VPV7WB/PjpSJ7dcXzNze5qe
+         sPKEYyPaFz6T2mnXnB+MLHy+oazxFtv2cF1B1FLtKOo68HP5g7B+Byy9qTkoeQ7q9GKO
+         MThHY0gNpdn1+QRhCkfv5UsJZzPaIfcq/eUIomIADqsqdalm4+9JYqcnoNwsmZWMkamF
+         EaYkAoqGFHLJy+DuUHT3sHUd6AOfK0RE7XYRhCOxdOuJ7VCkpiqgMbdUmoocW7sOJ75O
+         WNoEMeA8rb9vNJijyb5OnXm828LSeQ/SUGaIP7M6iQ6k58nb0TgDXOfrbkw9pDDvXDUO
+         KS7w==
+X-Gm-Message-State: AO0yUKXQovMfWyhpQCI5i5foOIYDcpymBUsTfawtShP2BB0g9ADLFByL
+        rYr+O9f8ZLjY+3JHVP7AzDoCk2s6X5OionInkjg=
+X-Google-Smtp-Source: AK7set/FUzwC2XGcGhDSg88v9Z+HB3UQICNa08kuXU1WqTHFTDcjL0TOB/QR0R7aBBnWaVqqI9GI7w==
+X-Received: by 2002:a5d:595f:0:b0:2c3:d8f0:547a with SMTP id e31-20020a5d595f000000b002c3d8f0547amr15888824wri.1.1676126517538;
+        Sat, 11 Feb 2023 06:41:57 -0800 (PST)
+Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
+        by smtp.googlemail.com with ESMTPSA id i8-20020a5d4388000000b002c5493a17efsm4202510wrq.25.2023.02.11.06.41.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Feb 2023 06:41:57 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] media: dt-bindings: media: Add bindings for video capture on R-Car V4H
+Date:   Sat, 11 Feb 2023 15:41:44 +0100
+Message-Id: <20230211144147.3812388-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-Content-Language: en-US, de-DE
-To:     Javier Martinez Canillas <javierm@redhat.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mka@chromium.org" <mka@chromium.org>
-Cc:     Albert Esteve <aesteve@redhat.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fritz Koenig <frkoenig@google.com>,
-        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>
-References: <20230207102254.1446461-1-javierm@redhat.com>
- <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
- <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
- <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1676125653;fccb2c5e;
-X-HE-SMSGID: 1pQqqg-0003jd-CB
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10.02.23 11:07, Javier Martinez Canillas wrote:
-> On 2/10/23 10:22, Vikash Garodia wrote:
->
->>> So what should we do about this folks? Since not allowing the driver to probe on
->>> at least SC7180 is a quite serious regression, can we revert for now until a proper
->>> fix is figured out?
->>
->> I am able to repro this issue on sc7180 and discussing with firmware team on the cause
->> of reset failure. The original patch was raised for fixing rare SMMU faults during warm
->> boot of video hardware. Hence looking to understand the regressing part before we
->> proceed to revert.
-> 
-> Great, if you are working on a proper fix then that would be much better indeed.
+Hello,
 
-Yeah, that's great, but OTOH: there is almost certainly just one week
-before 6.2 will be released. Ideally this should be fixed by then.
-Vikash, do you think that's in the cards? If not: why not revert this
-now to make sure 6.2 works fine?
+This small series and bindings for all modules involved in video capture 
+on Renesas R-Car V4H.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Niklas Söderlund (3):
+  media: dt-bindings: media: renesas,isp: Add binding for V4H
+  media: dt-bindings: media: renesas,csi2: Add binding for V4H
+  media: dt-bindings: media: renesas,vin: Add binding for V4H
+
+ Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 +
+ Documentation/devicetree/bindings/media/renesas,isp.yaml  | 1 +
+ Documentation/devicetree/bindings/media/renesas,vin.yaml  | 1 +
+ 3 files changed, 3 insertions(+)
+
+-- 
+2.39.1
+
