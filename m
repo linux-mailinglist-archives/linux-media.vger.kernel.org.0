@@ -2,129 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 354D669377B
-	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 13:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B40086938DA
+	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 17:51:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbjBLMxv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Feb 2023 07:53:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49398 "EHLO
+        id S229789AbjBLQvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Feb 2023 11:51:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjBLMxu (ORCPT
+        with ESMTP id S229457AbjBLQvH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Feb 2023 07:53:50 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8AC12842;
-        Sun, 12 Feb 2023 04:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676206426; x=1707742426;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TUnLdQngEgMWvrkAudk6ufpyfmAnF3rSTSx+s3TYcnY=;
-  b=OGFPGNRjnJ57hiVNckOcePC/jz6BUlc1Gg2KzDziclx9IeQYuKWlLK1M
-   HkJQ+dj1TIib6Wu+pGN2F02ZRJypOGIFUrryYJ8D7MnLtkXN8g4UP3oei
-   Fj+QrTOmuOazD7UdKDhwTSPfGc/V5hb55L7t0VvsbE43l7117EMD30nz1
-   QDUauBDWDbt/y/sS80rsyqQpipOoLO4dZI7gYxeXE1CpbP3Z/t7XALCP1
-   qAq7x0ojz83H1Nn6GAqHhXmjxUGtCMK6OQ7AbkodvwgHJ5D/3eF1o8yZD
-   TYIJdkp7HkPMgnYPjH4zL9cgZUfyxAZxlUgTgor+bkyJnpRp82DJZRl89
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="310346659"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="310346659"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 04:53:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="842494185"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="842494185"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Feb 2023 04:53:44 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pRBrT-0007DZ-2h;
-        Sun, 12 Feb 2023 12:53:43 +0000
-Date:   Sun, 12 Feb 2023 20:52:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning:
- unused variable 'mtk_mdp_comp_dt_ids'
-Message-ID: <202302122022.1CJ8CO2t-lkp@intel.com>
+        Sun, 12 Feb 2023 11:51:07 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355108A49;
+        Sun, 12 Feb 2023 08:51:06 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id rp23so26579600ejb.7;
+        Sun, 12 Feb 2023 08:51:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LGNTzKThLFC+ICzqVFt9Ik75F3U4hNDrBu6zDf2ISVg=;
+        b=drLnqeLTpoSXKGe3WC6T0PCKD64Mlcf32TEyMOROS9x3KmCDynx32ACRFeWSwWPNqe
+         /AksMPeyU1M2y/iZ9BC6yJy+vFG9T+iCyzr6CXfZBhlpTZaDaw6XYpHZiUXCfapWjOQ8
+         dB9quCF598ekszB3j5N80rcqnBePcxLQEBR00EpXv3c8jWblX42qDzS4u+l50Ru4p3GH
+         ZwvrTuZAII0nLq1wyd5W77SfZr/yvjocAJOnyOP9tK/a/sjbVSDmjP8JJmqoQ3aAPjpN
+         q3Lyp+7QX4fCtLUEdNZCCeKgw1qgoY+gZDe8oGhsbSDkiI8+zReGw5nG15gTCtojNjdS
+         Ulmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LGNTzKThLFC+ICzqVFt9Ik75F3U4hNDrBu6zDf2ISVg=;
+        b=fWUctBBBHMV4s8hUmqP3jtA+95IutbyS/r65XDOHypqzV2qMc4K2NvDJ4+o3HBpxEo
+         9R91e9vqgbi4I257f/dBckkm6fadKuLLY/Zvh2dTzWqyOy3TabPUbC88IAWDC5a9tJEH
+         gtHepTAGpVXfTva2f352Kf76AZ+geJCiVfTFQSTimXSV1guUz8H0O39PzxRKdk6OJJ4Y
+         QDqftHPC8XXiIz0gPQOhwMIQp/NHf+f15cl/kMoXeO8o2iQy/vL5UuojvcEX69Z8Fe+S
+         jAzc5HMbO7Kz24/+O19URrInxFdIHcd01o/OWOS2ZEH0IyZmmMXp29lLtuMyB2LvXPSh
+         k5HA==
+X-Gm-Message-State: AO0yUKVTfnKnjKQ8bhjG7rElR6K7H5rOuwpMdvwhUKY+evwKgVw1k87B
+        0eKoFfLRV6uD/PyidL28kxEHSNTEZ0Q=
+X-Google-Smtp-Source: AK7set8rJ7aNoHxwHiQIZDi/NL64TSR8L4pfjrQAbsLtdkCgLc8kkYkwMg+orpzAWrEb0tAnMrj1mQ==
+X-Received: by 2002:a17:906:d92:b0:88a:a09d:e673 with SMTP id m18-20020a1709060d9200b0088aa09de673mr20328585eji.31.1676220664607;
+        Sun, 12 Feb 2023 08:51:04 -0800 (PST)
+Received: from ?IPV6:2a01:c23:bdd2:4300:1932:303f:b63a:5a0e? (dynamic-2a01-0c23-bdd2-4300-1932-303f-b63a-5a0e.c23.pool.telefonica.de. [2a01:c23:bdd2:4300:1932:303f:b63a:5a0e])
+        by smtp.googlemail.com with ESMTPSA id k20-20020a1709061c1400b00871390a3b74sm5588297ejg.177.2023.02.12.08.51.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Feb 2023 08:51:03 -0800 (PST)
+Message-ID: <a91e3a8e-7ef1-70bb-f6be-01a9a90c0e05@gmail.com>
+Date:   Sun, 12 Feb 2023 17:51:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+From:   Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] dt-bindings: media: meson-ir: Convert Amlogic Meson IR
+ controller binding
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc:     linux-media@vger.kernel.org,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Convert Amlogic Meson IR controller binding to yaml.
 
-First bad commit (maybe != root cause):
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ .../devicetree/bindings/media/meson-ir.txt    | 20 ---------
+ .../devicetree/bindings/media/meson-ir.yaml   | 45 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 20 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/meson-ir.txt
+ create mode 100644 Documentation/devicetree/bindings/media/meson-ir.yaml
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f339c2597ebb00e738f2b6328c14804ed19f5d57
-commit: 2023a99811110aebba9eee4aa09ef7bd21a8a249 media: platform: rename mediatek/mtk-jpeg/ to mediatek/jpeg/
-date:   11 months ago
-config: hexagon-randconfig-r022-20230212 (https://download.01.org/0day-ci/archive/20230212/202302122022.1CJ8CO2t-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2023a99811110aebba9eee4aa09ef7bd21a8a249
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2023a99811110aebba9eee4aa09ef7bd21a8a249
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/mediatek/mdp/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302122022.1CJ8CO2t-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning: unused variable 'mtk_mdp_comp_dt_ids' [-Wunused-const-variable]
-   static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
-                                    ^
-   1 warning generated.
-
-
-vim +/mtk_mdp_comp_dt_ids +31 drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  30  
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08 @31  static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  32  	{
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  33  		.compatible = "mediatek,mt8173-mdp-rdma",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  34  		.data = (void *)MTK_MDP_RDMA
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  35  	}, {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  36  		.compatible = "mediatek,mt8173-mdp-rsz",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  37  		.data = (void *)MTK_MDP_RSZ
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  38  	}, {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  39  		.compatible = "mediatek,mt8173-mdp-wdma",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  40  		.data = (void *)MTK_MDP_WDMA
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  41  	}, {
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  42  		.compatible = "mediatek,mt8173-mdp-wrot",
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  43  		.data = (void *)MTK_MDP_WROT
-55d80506c5f7c3 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  44  	},
-55d80506c5f7c3 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  45  	{ },
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  46  };
-c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  47  
-
-:::::: The code at line 31 was first introduced by commit
-:::::: c8eb2d7e8202fd9cb912f5d33cc34ede66dcb24a [media] media: Add Mediatek MDP Driver
-
-:::::: TO: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-
+diff --git a/Documentation/devicetree/bindings/media/meson-ir.txt b/Documentation/devicetree/bindings/media/meson-ir.txt
+deleted file mode 100644
+index efd9d29a8..000000000
+--- a/Documentation/devicetree/bindings/media/meson-ir.txt
++++ /dev/null
+@@ -1,20 +0,0 @@
+-* Amlogic Meson IR remote control receiver
+-
+-Required properties:
+- - compatible	: depending on the platform this should be one of:
+-		  - "amlogic,meson6-ir"
+-		  - "amlogic,meson8b-ir"
+-		  - "amlogic,meson-gxbb-ir"
+- - reg		: physical base address and length of the device registers
+- - interrupts	: a single specifier for the interrupt from the device
+-
+-Optional properties:
+- - linux,rc-map-name:	see rc.txt file in the same directory.
+-
+-Example:
+-
+-	ir-receiver@c8100480 {
+-		compatible= "amlogic,meson6-ir";
+-		reg = <0xc8100480 0x20>;
+-		interrupts = <0 15 1>;
+-	};
+diff --git a/Documentation/devicetree/bindings/media/meson-ir.yaml b/Documentation/devicetree/bindings/media/meson-ir.yaml
+new file mode 100644
+index 000000000..8d3c7acfa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/meson-ir.yaml
+@@ -0,0 +1,45 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/meson-ir.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Amlogic Meson IR remote control receiver
++
++maintainers:
++  - Heiner Kallweit <hkallweit1@gmail.com>
++
++allOf:
++  - $ref: rc.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - amlogic,meson6-ir
++          - amlogic,meson8b-ir
++          - amlogic,meson-gxbb-ir
++      - items:
++          - const: amlogic,meson-gx-ir
++          - const: amlogic,meson-gxbb-ir
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    ir-receiver@c8100480 {
++      compatible= "amlogic,meson6-ir";
++      reg = <0xc8100480 0x20>;
++      interrupts = <0 15 1>;
++    };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.1
+
+
