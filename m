@@ -2,163 +2,369 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 733F069396F
-	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 19:49:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B69869398E
+	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 20:03:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbjBLStd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Feb 2023 13:49:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
+        id S229651AbjBLTDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Feb 2023 14:03:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjBLStc (ORCPT
+        with ESMTP id S229532AbjBLTDE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Feb 2023 13:49:32 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E1610ABB
-        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 10:49:31 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id s13-20020a05600c45cd00b003ddca7a2bcbso2142958wmo.3
-        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 10:49:30 -0800 (PST)
+        Sun, 12 Feb 2023 14:03:04 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A511117E
+        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 11:02:31 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id o18so10185347wrj.3
+        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 11:02:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
-         :references:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=U8VxFVlnr1dSmNKtjlq8YgJMEgTc5/WAcuQ2sHlzYKo=;
-        b=VuEzHYklYJBoCu5v9B6xXsvhMtryxjHRs5kngSA4c2dunIHPiZD0yFjo5xIPo8WfIe
-         7GcQQ815V65aBgIBX9dTYe7QJOyOikJUuKPlgspE4WmjKKmKkXW0U47kAxbmaQCNxagq
-         /E9dme1D8OAbzCoxleZiJW0hscYB0V3VlM3xZMvsm0gTw7kzUZfjFpVs2sATNnL5P1ur
-         aLfgxlLOPKgjTLjMrARfKaHYyF8NCSIZy/v0DgU0sbqMbIl/geTZlC1fl/y6r/c3vfqm
-         TaspqicSfvd3QpBkHQ8oDBI3b90mAhxXI8Ns6qMTXXTmYEBg7RCrSr3v63UfdeQmqpas
-         7tBA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PG+muVyWPYqX4GhfI4uTTvVn+EP8eqkxMYOrtVPSKO0=;
+        b=Mge+5hWOxytxFBcMII+aRfnjuvb3scfkDBTokPzfMVu4RakoqEekVRImsgUoaCkTfC
+         zbcZRCZ+pubJlz2WkHpfffnU+kWAGzWPBqnl/e1FtLK2gmrwIlP94s4FK2mr8SbY4X7z
+         69TsKNUAYznRK/WMlFFoIG0Io2HZlcsDTMfvmmWeB9k4fhHXVOlwLlSbYDXuus7XCYv6
+         kPSzBzWjfYmXvbkDWXyuXBPPXwNU0GjaxxXecaRONU1s06t3lnsuJs+sHu5LQG9CHNkh
+         NWojlV0ML5LMKNQeYSVvrYJwsyqxOKmOq8MlJTEjfW7AxDUL1a1GnYnpFEpTnFW7bj4a
+         EGBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
-         :references:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U8VxFVlnr1dSmNKtjlq8YgJMEgTc5/WAcuQ2sHlzYKo=;
-        b=7M3Haypj96zWWKBL1dsFr8ggd/r+RKjVYEPeK7WRApYJYQ2sxY+CS2/+W1Ntxp5yYv
-         BezEZgHBqWqKTnYaigTyPAD22GAQJxC7LUeSnFEUNBAEHEghHRwy3jHtbCHaKteG0G6z
-         7uxkjZ3xvXEsemuHgyUxijjzK3gaKQPCAj1+RJdZ+Xk4eaDjBdOapRIkAYsVnFEuktLA
-         WoDVMMpHiCCM+UiO07BBflYJLoaVm8Dqf+p8Zfh4+cxmQF9JmKjVx0ZJZcFyI0Z0HOHM
-         E13fHSouHqTsSBP+8g4kS9NJyCPZpDd5oQWYbW2RlYxKzBcryDvHkQM7leiPBkiChcUm
-         JV1A==
-X-Gm-Message-State: AO0yUKUsvgM7sQRemNe5e5HhvkS3V05Cbhqug2lpAWrcRY8Olz4SrMHK
-        h2mFzRNEgnykkdI4sc4aoaAFs6wGVhbvWA7+
-X-Google-Smtp-Source: AK7set+gBrMAlcVr1KyQkAwbXtWCNN1iscHc+0eIGkICiRU0/MQYf6rvLg0KMnH0MZdhfvzaKpfCFQ==
-X-Received: by 2002:a05:600c:5028:b0:3dd:1bd3:4f6d with SMTP id n40-20020a05600c502800b003dd1bd34f6dmr17538910wmr.32.1676227769590;
-        Sun, 12 Feb 2023 10:49:29 -0800 (PST)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id i16-20020a05600c4b1000b003dc4fd6e624sm11213225wmp.19.2023.02.12.10.49.28
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Sun, 12 Feb 2023 10:49:29 -0800 (PST)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH 1/2] media: v4l: Add Broadcom sand formats to videodev2.h
-Date:   Sun, 12 Feb 2023 18:49:29 +0000
-Message-ID: <olciuh9k2f6qsirql2oh450tiashbo62im@4ax.com>
-References: <20230127153415.83126-1-jc@kynesim.co.uk> <20230127153415.83126-2-jc@kynesim.co.uk> <4c9eef106e893b633ab83a792d97cc5e36f408fe.camel@ndufresne.ca> <1ogauh5ro652so8vtc2fsgor5g3pj6ns3e@4ax.com> <04dd55039d1c66d382dc9086500e5b8037ed6598.camel@ndufresne.ca>
-In-Reply-To: <04dd55039d1c66d382dc9086500e5b8037ed6598.camel@ndufresne.ca>
-User-Agent: ForteAgent/8.00.32.1272
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PG+muVyWPYqX4GhfI4uTTvVn+EP8eqkxMYOrtVPSKO0=;
+        b=MNuMa48IlPGv6efYGLKdDXcoEj6XP3il6lmhaFgaEL9wlQz2egh9L9mmkZL9SJ59qS
+         X+DRIxnDJDbwGn8re+ZXFfe1PxgGCSpMid+ZGvTB9vRH/kMjMya5IE4tA94nZ4PhyaSm
+         bznznydZLBYViegVYWg2UvlWp9SDzA6ietelf8P+zaoEVngSfNEEMBjaSE5i68GHLNCo
+         0RAV7JvWx/s51LxmaZkGENN1PZcvMQWwesFdeDFQo54eYO2ObGGyE3aHSkvEaDPtbzFs
+         NE0axbHw2T4lb+ENGhCWQcPVf5bthGhT2MAXMOG6Rqp/dqTOWfCIUVz5DHtIc5oNCvmf
+         +7JA==
+X-Gm-Message-State: AO0yUKWRdjorpGv85ee6DqFBqxuOiSdLwg+AFc+Kt9mgs5VjdO2ygk0i
+        3YsYkS34V1H2CTcybpjr8vKf8w==
+X-Google-Smtp-Source: AK7set/soHFHkHKezDZd7ta2P1yhu1L8B59geA7ru4ZGipAzHiNAk2HmFZ18aluiqIzLXn7vnnRsDA==
+X-Received: by 2002:a5d:42cf:0:b0:2c3:d9dc:773d with SMTP id t15-20020a5d42cf000000b002c3d9dc773dmr19476373wrr.26.1676228546882;
+        Sun, 12 Feb 2023 11:02:26 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id f15-20020adff98f000000b002c5583ab017sm1327884wrr.15.2023.02.12.11.02.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Feb 2023 11:02:26 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/4] media: dt-bindings: samsung,exynos4210-csis: convert to dtschema
+Date:   Sun, 12 Feb 2023 20:02:19 +0100
+Message-Id: <20230212190222.44977-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Convert the Samsung S5P/Exynos SoC series MIPI CSI-2 receiver (MIPI
+CSIS) bindings to DT schema.  Changes during conversion - adjust to
+existing DTS and Linux driver:
+1. Add phys and power-domains.
+2. Move samsung,csis-wclk property to the endpoint node.
 
->Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 19:06 +0000, John Cox a =
-=C3=A9crit=C2=A0:
->> Hi
->>=20
->> > Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =
-=C3=A9crit=C2=A0:
->> > > Add fourccs for Broadcom 8 and 10-bit packed 128 byte column =
-formats to
->> > > videodev2.h
->> > >=20
->> > > Signed-off-by: John Cox <jc@kynesim.co.uk>
->> > > ---
->> > >  include/uapi/linux/videodev2.h | 2 ++
->> > >  1 file changed, 2 insertions(+)
->> > >=20
->> > > diff --git a/include/uapi/linux/videodev2.h =
-b/include/uapi/linux/videodev2.h
->> > > index 1befd181a4cc..a836322ae5d8 100644
->> > > --- a/include/uapi/linux/videodev2.h
->> > > +++ b/include/uapi/linux/videodev2.h
->> > > @@ -656,6 +656,8 @@ struct v4l2_pix_format {
->> > >  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* =
-12  Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
->> > >  #define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1', =
-'2') /* Y/CbCr 4:2:0 8x128 tiles */
->> > >  #define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', =
-'1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
->> > > +#define V4L2_PIX_FMT_NV12_C128        v4l2_fourcc('C', 'N', '1', =
-'2') /* Y/CbCr 4:2:0 128 byte columns */
->> > > +#define V4L2_PIX_FMT_P030_C128        v4l2_fourcc('C', 'N', '3', =
-'0') /* Y/CbCr 4:2:0 10-bit packed 128 byte columns */
->> > > =20
->> > >  /* Tiled YUV formats, non contiguous planes */
->> > >  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* =
-12  Y/CbCr 4:2:0 64x32 tiles */
->> >=20
->> > I would expect updates to v4l2-common.c and v4l2-ioctl.c to be in =
-the same
->> > patch. And then the driver should be using the helpers there =
-whenever possible.
->>=20
->> Fair point - I'll fix that.
->>=20
->> What is the correct .bpp for 3 10-bit pixels packed into 4 bytes in =
-the
->> v4l2_format_info?
->
->Good question, maybe this can be done with the fractional bpp support. I=
- must
->admit, I didn't think about padded cases, I was handling 10bit fully =
-packed over
->5 bytes.
->
->https://lore.kernel.org/linux-arm-kernel/20230103170058.810597-3-benjami=
-n.gaignard@collabora.com/
->My case ended working with:
->
-> { .format =3D V4L2_PIX_FMT_NV12_10LE40_4L4, .pixel_enc =3D =
-V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, =
-10, 0, 0 }, .bpp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
->
->Question is what do we do about comp_planes, if we kind of fake it to be=
- 2, then maybe this would work.
->
-> { .format =3D V4L2_PIX_FMT_P030_C128, .pixel_enc =3D =
-V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 4, =
-8, 0, 0 }, .bpp_div =3D { 3, 3, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
->
->For weird format, this is a bit of hacky, all we want is to get the =
-right
->stride, and the offset part is not used for mem_planes =3D 1 formats.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../media/samsung,exynos4210-csis.yaml        | 170 ++++++++++++++++++
+ .../bindings/media/samsung-mipi-csis.txt      |  81 ---------
+ MAINTAINERS                                   |   1 +
+ 3 files changed, 171 insertions(+), 81 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-mipi-csis.txt
 
-I'm happy with whatever the consensus says is "right".
+diff --git a/Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml b/Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
+new file mode 100644
+index 000000000000..6e3f730f97ad
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
+@@ -0,0 +1,170 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/samsung,exynos4210-csis.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S5P/Exynos SoC series MIPI CSI-2 receiver (MIPI CSIS)
++
++maintainers:
++  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
++  - Sylwester Nawrocki <s.nawrocki@samsung.com>
++
++properties:
++  compatible:
++    enum:
++      - samsung,s5pv210-csis
++      - samsung,exynos4210-csis
++      - samsung,exynos4212-csis
++      - samsung,exynos5250-csis
++
++  reg:
++    maxItems: 1
++
++  '#address-cells':
++    const: 1
++
++  bus-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [2, 4]
++    description:
++      Number of data lines supported.
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: csis
++      - const: sclk_csis
++
++  clock-frequency:
++    default: 166000000
++    description:
++      The IP's main (system bus) clock frequency in Hz.
++
++  interrupts:
++    maxItems: 1
++
++  phys:
++    maxItems: 1
++
++  phy-names:
++    items:
++      - const: csis
++
++  power-domains:
++    maxItems: 1
++
++  '#size-cells':
++    const: 0
++
++  vddio-supply:
++    description: MIPI CSIS I/O and PLL voltage supply (e.g. 1.8V).
++
++  vddcore-supply:
++    description: MIPI CSIS Core voltage supply (e.g. 1.1V).
++
++patternProperties:
++  "^port@[34]$":
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++    description:
++      Camera input port.
++
++    properties:
++      reg:
++        enum: [3, 4]
++
++      endpoint:
++        $ref: video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            minItems: 1
++            maxItems: 4
++
++          samsung,csis-hs-settle:
++            $ref: /schemas/types.yaml#/definitions/uint32
++            description: Differential receiver (HS-RX) settle time.
++
++          samsung,csis-wclk:
++            type: boolean
++            description:
++              CSI-2 wrapper clock selection. If this property is present external clock
++              from CMU will be used, or the bus clock if it's not specified.
++
++        required:
++          - data-lanes
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++  - bus-width
++  - clocks
++  - clock-names
++  - interrupts
++  - vddio-supply
++  - vddcore-supply
++
++anyOf:
++  - required:
++      - port@3
++  - required:
++      - port@4
++
++allOf:
++  - if:
++      required:
++        - samsung,isp-wb
++    then:
++      required:
++        - samsung,sysreg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/exynos4.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    csis@11890000 {
++        compatible = "samsung,exynos4210-csis";
++        reg = <0x11890000 0x4000>;
++        clocks = <&clock CLK_CSIS1>,
++                 <&clock CLK_SCLK_CSIS1>;
++        clock-names = "csis", "sclk_csis";
++        assigned-clocks = <&clock CLK_MOUT_CSIS1>,
++                          <&clock CLK_SCLK_CSIS1>;
++        assigned-clock-parents = <&clock CLK_MOUT_MPLL_USER_T>;
++        assigned-clock-rates = <0>, <176000000>;
++
++        interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
++
++        bus-width = <2>;
++        power-domains = <&pd_cam>;
++        phys = <&mipi_phy 2>;
++        phy-names = "csis";
++
++        vddcore-supply = <&ldo8_reg>;
++        vddio-supply = <&ldo10_reg>;
++
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* Camera D (4) MIPI CSI-2 (CSIS1) */
++        port@4 {
++            reg = <4>;
++
++            endpoint {
++                remote-endpoint = <&is_s5k6a3_ep>;
++                data-lanes = <1>;
++                samsung,csis-hs-settle = <18>;
++                samsung,csis-wclk;
++            };
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/media/samsung-mipi-csis.txt b/Documentation/devicetree/bindings/media/samsung-mipi-csis.txt
+deleted file mode 100644
+index a4149c9434ea..000000000000
+--- a/Documentation/devicetree/bindings/media/samsung-mipi-csis.txt
++++ /dev/null
+@@ -1,81 +0,0 @@
+-Samsung S5P/Exynos SoC series MIPI CSI-2 receiver (MIPI CSIS)
+--------------------------------------------------------------
+-
+-Required properties:
+-
+-- compatible	  : "samsung,s5pv210-csis" for S5PV210 (S5PC110),
+-		    "samsung,exynos4210-csis" for Exynos4210 (S5PC210),
+-		    "samsung,exynos4212-csis" for Exynos4212/Exynos4412,
+-		    "samsung,exynos5250-csis" for Exynos5250;
+-- reg		  : offset and length of the register set for the device;
+-- interrupts      : should contain MIPI CSIS interrupt; the format of the
+-		    interrupt specifier depends on the interrupt controller;
+-- bus-width	  : maximum number of data lanes supported (SoC specific);
+-- vddio-supply    : MIPI CSIS I/O and PLL voltage supply (e.g. 1.8V);
+-- vddcore-supply  : MIPI CSIS Core voltage supply (e.g. 1.1V);
+-- clocks	  : list of clock specifiers, corresponding to entries in
+-		    clock-names property;
+-- clock-names	  : must contain "csis", "sclk_csis" entries, matching entries
+-		    in the clocks property.
+-
+-Optional properties:
+-
+-- clock-frequency : The IP's main (system bus) clock frequency in Hz, default
+-		    value when this property is not specified is 166 MHz;
+-- samsung,csis-wclk : CSI-2 wrapper clock selection. If this property is present
+-		    external clock from CMU will be used, or the bus clock if
+-		    if it's not specified.
+-
+-The device node should contain one 'port' child node with one child 'endpoint'
+-node, according to the bindings defined in Documentation/devicetree/bindings/
+-media/video-interfaces.txt. The following are properties specific to those nodes.
+-
+-port node
+----------
+-
+-- reg		  : (required) must be 3 for camera C input (CSIS0) or 4 for
+-		    camera D input (CSIS1);
+-
+-endpoint node
+--------------
+-
+-- data-lanes	  : (required) an array specifying active physical MIPI-CSI2
+-		    data input lanes and their mapping to logical lanes; the
+-		    array's content is unused, only its length is meaningful;
+-
+-- samsung,csis-hs-settle : (optional) differential receiver (HS-RX) settle time;
+-
+-
+-Example:
+-
+-	reg0: regulator@0 {
+-	};
+-
+-	reg1: regulator@1 {
+-	};
+-
+-/* SoC properties */
+-
+-	csis_0: csis@11880000 {
+-		compatible = "samsung,exynos4210-csis";
+-		reg = <0x11880000 0x1000>;
+-		interrupts = <0 78 0>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-	};
+-
+-/* Board properties */
+-
+-	csis_0: csis@11880000 {
+-		clock-frequency = <166000000>;
+-		vddio-supply = <&reg0>;
+-		vddcore-supply = <&reg1>;
+-		port {
+-			reg = <3>; /* 3 - CSIS0, 4 - CSIS1 */
+-			csis0_ep: endpoint {
+-				remote-endpoint = <...>;
+-				data-lanes = <1>, <2>;
+-				samsung,csis-hs-settle = <12>;
+-			};
+-		};
+-	};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c6f1bb8c469e..f02ce233a034 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18473,6 +18473,7 @@ M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+ Q:	https://patchwork.linuxtv.org/project/linux-media/list/
++F:	Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
+ F:	drivers/media/platform/samsung/exynos4-is/
+ 
+ SAMSUNG SOC CLOCK DRIVERS
+-- 
+2.34.1
 
-What tree/branch should I be patching against? Code to support the above
-doesn't seem to be in git://linuxtv.org/media_tree:master which is what
-I was using.
-
-Thanks
-
-John Cox
-
->let me know,
->Nicolas
->
->>=20
->> Regards
->>=20
->> John Cox
