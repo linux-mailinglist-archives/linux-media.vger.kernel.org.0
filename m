@@ -2,105 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9102869355C
-	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 01:10:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CDA9693561
+	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 01:18:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjBLAKn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Feb 2023 19:10:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57816 "EHLO
+        id S229506AbjBLASW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Feb 2023 19:18:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjBLAKm (ORCPT
+        with ESMTP id S229449AbjBLASV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Feb 2023 19:10:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6B012F1A
-        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 16:10:41 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C35C0706;
-        Sun, 12 Feb 2023 01:10:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676160637;
-        bh=8g6wQzL6NQJDWs7DXWuZHEji/yGHI2kjMQFsPyvjOkk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PxttmBJRI76nKXykGYB0kGMaoiUdeB84K2aIMRO8c/3cAJc/UhzNxajOwQzHmpMFh
-         VTjMPBPnFaqXHfVddHDBFVeq9/iPZY4qYRwR47zkeO6XL04ML5U4svb9Z5zAxTJsj/
-         oltdkJHuHffJpmguUgJxS7HRbbH4VeOW2PmydwFk=
-Date:   Sun, 12 Feb 2023 02:10:35 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Gregor Jasny <gjasny@googlemail.com>, linux-media@vger.kernel.org,
-        ezequiel@collabora.com, kieran.bingham@ideasonboard.com,
-        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
-        rosenp@gmail.com, sakari.ailus@iki.fi, sean@mess.org,
-        user.vdr@gmail.com, xavier.claessens@collabora.com
-Subject: Re: [PATCH v7 0/5] Switch build system to meson
-Message-ID: <Y+gue3R+x6GWPORv@pendragon.ideasonboard.com>
-References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
- <c96f4806-13ec-335f-68ab-10194411da43@googlemail.com>
- <Yx+yv8l7EFbIniup@pendragon.ideasonboard.com>
- <67fa379a-07f9-e19c-22da-6fda931ad8ca@xs4all.nl>
- <YyBEdPGpsVMIP9dq@pendragon.ideasonboard.com>
+        Sat, 11 Feb 2023 19:18:21 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 689CF15557
+        for <linux-media@vger.kernel.org>; Sat, 11 Feb 2023 16:18:19 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 1A3F42009F
+        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 02:18:16 +0200 (EET)
+Received: from vihersipuli.localdomain (vihersipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::84:2])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 5D498634C91;
+        Sun, 12 Feb 2023 02:16:58 +0200 (EET)
+Received: from sailus by vihersipuli.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@iki.fi>)
+        id 1pR037-0005V5-Fc; Sun, 12 Feb 2023 02:16:57 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+Subject: [PATCH 1/1] utils: Allow choosing v4l2-tracer-gen.pl output
+Date:   Sun, 12 Feb 2023 02:16:57 +0200
+Message-Id: <20230212001657.21098-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YyBEdPGpsVMIP9dq@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+In v4l2-tracer-gen.pl, add support for setting the output directory for
+the generated files and choosing which ones to generate (common, trace or
+retrace). The default is to generate them all in the current directory,
+i.e. what the script used to do.
 
-On Tue, Sep 13, 2022 at 11:51:01AM +0300, Laurent Pinchart wrote:
-> On Tue, Sep 13, 2022 at 08:15:43AM +0100, Hans Verkuil wrote:
-> > On 9/12/22 23:29, Laurent Pinchart wrote:
-> > > On Mon, Sep 12, 2022 at 04:41:33PM +0200, Gregor Jasny wrote:
-> > >> Hello Laurent and all the other helping hands,
-> > >>
-> > >> On 9/9/22 3:44 PM, Laurent Pinchart wrote:
-> > >>> This series is the latest (and greatest) attempt to switch v4l-utils
-> > >>> from autotools to meson.
-> > >>>
-> > >>> Compared to v6, the first noticeable change is that fixups have been
-> > >>> squashed into their corresponding commit. Detailed changelogs are now
-> > >>> included in individual patches.
-> > >>
-> > >> Tested-by: Gregor Jasny <gjasny@googlemail.com>
-> > >>
-> > >> v7 is still working as expected with my Debian and Ubuntu packaging scripts.
-> > > 
-> > > Thanks for testing. I'll post a v8 with the improvements suggested in
-> > > the review comments. I will also include updates to the
-> > > v4l-utils.spec.in file, and would appreciate help testing it.
-> > > 
-> > >> What would you think would be a good time to release these changes?
-> > >> Should I do a release shortly after the this change has landed?
-> > > 
-> > > I think that would be a good idea. Once v8 is out, if there are no more
-> > > issues, I think it could be merged.
-> > 
-> > Two questions: for meson, what is the equivalent to 'make distclean'? 
-> > Just rm -rf build?
-> 
-> That's correct. Meson doesn't make *any* change to the source directory.
-> 
-> > And another: if I enable building for v4l2-ctl-32 and 
-> > v4l2-compliance-32, then those targets aren't build AFAICS.
-> 
-> I'll check that (a bit busy this week with ELC and LPC).
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ utils/v4l2-tracer/v4l2-tracer-gen.pl | 36 ++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 5 deletions(-)
 
-They get built for me. I've rebased meson support on top of the latest
-master branch and fixed lots of small issues, so I may have fixed this
-at the same time. I'll post v8 soon, if you still experience the
-problem, I'll debug it with you.
-
-> > It's needed for testing 32-bit compat code.
-
+diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+index fe648182..8192a5bf 100755
+--- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
++++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+@@ -2,6 +2,16 @@
+ # SPDX-License-Identifier: GPL-2.0-only */
+ # Copyright 2022 Collabora Ltd.
+ 
++my $outdir = "";
++my %outtype = ( "common" => 1, "trace" => 1, "retrace" => 1 );
++
++while ($ARGV[0] =~ /^-/) {
++	my $arg = shift @ARGV;
++
++	$outdir = shift @ARGV if $arg eq "-o";
++	%outtype = (shift @ARGV => 1) if $arg eq '-t';
++}
++
+ sub convert_type_to_json_type {
+ 	my $type = shift;
+ 	if ($type eq __u8 || $type eq char || $type eq __u16 || $type eq __s8 || $type eq __s16 || $type eq __s32 || $type eq 'int') {
+@@ -696,29 +706,45 @@ sub struct_gen_ctrl {
+ 	printf $fh_retrace_cpp "}\n\n";
+ }
+ 
+-open($fh_trace_cpp, '>', 'trace-gen.cpp') or die "Could not open trace-gen.cpp for writing";
++sub do_open($$) {
++	my ($type, $fname) = @_;
++	my $fh;
++
++	if (defined $outtype{$type}) {
++		$fname = $outdir . $fname;
++	} else {
++		$fname = "/dev/null";
++	}
++
++	open($fh, "> $fname") or die "Could not open $fname for writing";
++
++	return $fh;
++}
++
++
++$fh_trace_cpp = do_open("trace", "trace-gen.cpp");
+ printf $fh_trace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+ printf $fh_trace_cpp " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+ printf $fh_trace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
+ 
+-open($fh_trace_h, '>', 'trace-gen.h') or die "Could not open trace-gen.h for writing";
++$fh_trace_h = do_open("trace", "trace-gen.h");
+ printf $fh_trace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+ printf $fh_trace_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+ printf $fh_trace_h "\#ifndef TRACE_GEN_H\n";
+ printf $fh_trace_h "\#define TRACE_GEN_H\n\n";
+ 
+-open($fh_retrace_cpp, '>', 'retrace-gen.cpp') or die "Could not open retrace-gen.cpp for writing";
++$fh_retrace_cpp = do_open("retrace", "retrace-gen.cpp");
+ printf $fh_retrace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+ printf $fh_retrace_cpp " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+ printf $fh_retrace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
+ 
+-open($fh_retrace_h, '>', 'retrace-gen.h') or die "Could not open retrace-gen.h for writing";
++$fh_retrace_h = do_open("retrace", "retrace-gen.h");
+ printf $fh_retrace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+ printf $fh_retrace_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+ printf $fh_retrace_h "\#ifndef RETRACE_GEN_H\n";
+ printf $fh_retrace_h "\#define RETRACE_GEN_H\n\n";
+ 
+-open($fh_common_info_h, '>', 'v4l2-tracer-info-gen.h') or die "Could not open v4l2-tracer-info-gen.h for writing";
++$fh_common_info_h = do_open("common", "v4l2-tracer-info-gen.h");
+ printf $fh_common_info_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+ printf $fh_common_info_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+ printf $fh_common_info_h "\#ifndef V4L2_TRACER_INFO_GEN_H\n";
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
