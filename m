@@ -2,771 +2,385 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C020693997
-	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 20:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 891166939CD
+	for <lists+linux-media@lfdr.de>; Sun, 12 Feb 2023 21:22:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbjBLTDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Feb 2023 14:03:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
+        id S229552AbjBLUWJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Feb 2023 15:22:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjBLTDR (ORCPT
+        with ESMTP id S229436AbjBLUWJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Feb 2023 14:03:17 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B8E1164F
-        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 11:02:41 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id k3so2535801wrv.5
-        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 11:02:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZYGnUTxQC//Nu759+zwhs3ywiMNd9dYHa/JDKqSPeJU=;
-        b=VTaferNEFNN9QC6mnZkLM7LwnAg+6u4WA851kWeiTQ9RGNQTF0JftT+isXt7GZ/Jo5
-         8C4KCVM9jGvCfVCxXPRar6+fyxco5WYblqRT8RiEF9DDN53/ky2pHXwR3B5UespcANWO
-         b/jmaCQ0OeS3OntMvuF9MJFiSDRsa8wyLmqMHGBuvbmFs88LiMiL+XQLDptkIAA6A95c
-         Kikp+fXUGNloxjqXt9mNfpWSlHgNKV89Rni3YPuzJxRfys6Q82ipmP7O+HFyxjVCx1sD
-         tgGi55qTHyTQDO/By4fIrQ2azy4sFKrZ8VA8C4ePspMax6Zf+oyQZFQFv+lQ7x6QsbBs
-         HJDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZYGnUTxQC//Nu759+zwhs3ywiMNd9dYHa/JDKqSPeJU=;
-        b=LU8S4zYfk8Kdg7N7AgWl1YD9XDJ2QBu34VKIg2Xtzm8PdgFg4GkacAiB6tSYJJqvIe
-         d1oJFQyvY9muUUK5sa+L5ZuKTFqMs9QeHd8zzH/HWmo15znGp+0LLM2slvsZ60kOQS3q
-         WM8mTsX6Eiu2jWCNJOEppnjKrCUTphShtRAG6M92TerZN6MQHGn/me6wklEwxAbNLgXN
-         laeZx594XDMXiyWWfcqVRnsA4CGz47vYHyma7RpGOVsmKj694OjPKcK4abqEzcTTC5Hr
-         t3PJP6BFUu7t514uQKjYJitlkpZTKl352BmO2lPzNhVATytY0A/vTvOKLXynQ40o4pJj
-         Wizg==
-X-Gm-Message-State: AO0yUKWqKHzNrJyeHNsGhWisW322DmaxThV7XUTwBcjSL5NyFVTkgwrp
-        ziBJwqzROa1BS96uwhwXnD/xkA==
-X-Google-Smtp-Source: AK7set/NjsdGEZ57FdQHtrGDq/P17ThlpCK2qvNRaAnZql03kXGr6inL07MNjHA7a4UhzYBHT0n9Mg==
-X-Received: by 2002:adf:cf0d:0:b0:2c5:4ccc:a770 with SMTP id o13-20020adfcf0d000000b002c54ccca770mr6103405wrj.7.1676228551300;
-        Sun, 12 Feb 2023 11:02:31 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id f15-20020adff98f000000b002c5583ab017sm1327884wrr.15.2023.02.12.11.02.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 11:02:30 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 4/4] media: dt-bindings: samsung,fimc: convert to dtschema
-Date:   Sun, 12 Feb 2023 20:02:22 +0100
-Message-Id: <20230212190222.44977-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230212190222.44977-1-krzysztof.kozlowski@linaro.org>
-References: <20230212190222.44977-1-krzysztof.kozlowski@linaro.org>
+        Sun, 12 Feb 2023 15:22:09 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8F5BB89
+        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 12:22:06 -0800 (PST)
+Received: from localhost (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E858A6602123;
+        Sun, 12 Feb 2023 20:22:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1676233324;
+        bh=jPk5aNf1owzgTP9URYmZJTWnyZ8QqyBG5fD80FnOMAE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MygZI/tQLvQN30ZRSJ+L52NuJuHKHVuFuv8cjKg9iCq1v4EI1svKeFLNMl8Z4QEIV
+         L/58XS9aMiOYHfTscADeURE6aYrrRBOI5e/C4e9xSpRF44UtMPc+j5OwzsvlxbsKbF
+         SxbWEGJEa42unsy6I9L8760XzuXpopJY3ApRpKwLNNl6b4z2S8C4X0IjFjsow+ny0Q
+         g36vJyE6Oqgbx1L+BeAMRucrZ6N/Mc+TLeFc+6JG3N52J7lfqn0ErJhC9ayZzwWsXR
+         J/uu54hSqh/TuDHW4KLhCT9h/7Md66/+01+otsK2mFlf48lDUBXBgKUn/P5iX4jIwA
+         x0nHOp59cVq3g==
+Date:   Sun, 12 Feb 2023 12:23:39 -0800
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
+        gjasny@googlemail.com, hverkuil@xs4all.nl,
+        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
+        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
+        xavier.claessens@collabora.com
+Subject: Re: [v4l-utils] [PATCH v8 3/6] Add support for meson building
+Message-ID: <Y+icmJg1gCUG0q6n@xps>
+References: <20230212005137.12025-1-laurent.pinchart@ideasonboard.com>
+ <20230212005137.12025-4-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230212005137.12025-4-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Samsung S5P/Exynos Camera Subsystem (FIMC) bindings to DT
-schema.  Changes during conversion - adjust to existing DTS and Linux
-driver: add iommus and power-domains.
+Hi Laurent,
+Thank you for your work to move the v4l2-tracer into the meson build.
+I noticed a problem below but I think it is easy to fix.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../media/samsung,exynos4210-fimc.yaml        | 152 ++++++++++
- .../bindings/media/samsung,fimc.yaml          | 279 ++++++++++++++++++
- .../bindings/media/samsung-fimc.txt           | 210 -------------
- MAINTAINERS                                   |   2 +
- 4 files changed, 433 insertions(+), 210 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml
- create mode 100644 Documentation/devicetree/bindings/media/samsung,fimc.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/samsung-fimc.txt
+On Sun, Feb 12, 2023 at 02:51:34AM +0200, Laurent Pinchart wrote:
+> From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> 
+> Supports building libraries and tools found in contrib/, lib/ and
+> utils/ directories, along with the implemented gettext translations.
+> 
+> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Acked-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Acked-by: Gregor Jasny <gjasny@googlemail.com>
+> [Gregor: Control symbol visibility]
+> Signed-off-by: Gregor Jasny <gjasny@googlemail.com>
+> Tested-by: Gregor Jasny <gjasny@googlemail.com>
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes since v7:
+> 
+> - Make v4l2gl conditional on dep_gl and dep_libudev
+> - Fix udev dependency handling
+> - Add comment about switching to install_emptydir()
+> - Use meson's native dependency('iconv') when possible
+> - Properly test for visibility support
+> - Add v4l2-tracer
+> - Add v4l-wrappers option
+> - Simplify check for libdvbv5 option
+> - Drop unused variables dep_v4l1compat and dep_v4l2convert
+> - Push handling of have_qt5_opengl and have_fork in subdirs
+> - Add summary
+> - White space fixes
+> 
+> Changes since v6:
+> 
+> - Generate v4l-utils.spec
+> 
+> Changes since v5:
+> 
+> - Drop unneeded bpf option check
+> - Avoid double-quoting strings
+> - Use external_program object directly without calling path()
+> - Specify check kwarg to run_command()
+> - Replace deprecated get_cross_property() with get_external_property()
+> - Fix SDL dependency fallback check
+> - Set the default build type to debugoptimized
+> ---
+>  .gitignore                                    |   1 +
+>  INSTALL.meson.md                              | 142 +++++++
+>  README.md                                     |  83 +++-
+>  contrib/cobalt-ctl/meson.build                |   8 +
+>  contrib/decode_tm6000/meson.build             |  14 +
+>  contrib/gconv/meson.build                     |  44 ++
+>  contrib/meson.build                           |  13 +
+>  contrib/rds-saa6588/meson.build               |   7 +
+>  contrib/test/meson.build                      | 143 +++++++
+>  contrib/xc3028-firmware/meson.build           |  11 +
+>  lib/libdvbv5/meson.build                      | 156 +++++++
+>  lib/libv4l-mplane/meson.build                 |  23 +
+>  lib/libv4l1/meson.build                       |  64 +++
+>  lib/libv4l2/meson.build                       |  73 ++++
+>  lib/libv4l2rds/meson.build                    |  37 ++
+>  lib/libv4lconvert/meson.build                 | 117 ++++++
+>  lib/meson.build                               |  11 +
+>  libdvbv5-po/meson.build                       |   3 +
+>  meson.build                                   | 396 ++++++++++++++++++
+>  meson_options.txt                             |  46 ++
+>  utils/cec-compliance/meson.build              |  23 +
+>  utils/cec-ctl/meson.build                     |  18 +
+>  utils/cec-follower/meson.build                |  19 +
+>  utils/cx18-ctl/meson.build                    |   8 +
+>  utils/dvb/meson.build                         |  70 ++++
+>  utils/gen_media_bus_format_codes.sh           |   7 +
+>  utils/gen_media_bus_format_names.sh           |   7 +
+>  utils/ir-ctl/meson.build                      |  23 +
+>  utils/ivtv-ctl/meson.build                    |  13 +
+>  .../bpf_protocols/clang_sys_includes.sh       |   9 +
+>  utils/keytable/bpf_protocols/meson.build      |  31 ++
+>  utils/keytable/meson.build                    |  85 ++++
+>  utils/keytable/rc_keymaps/meson.build         | 150 +++++++
+>  utils/libcecutil/meson.build                  |  45 ++
+>  utils/libmedia_dev/meson.build                |  14 +
+>  utils/libv4l2util/meson.build                 |  16 +
+>  utils/media-ctl/meson.build                   |  43 ++
+>  utils/meson.build                             |  43 ++
+>  utils/qv4l2/meson.build                       |  79 ++++
+>  utils/qvidcap/meson.build                     |  87 ++++
+>  utils/rds-ctl/meson.build                     |  17 +
+>  utils/v4l2-compliance/meson.build             |  63 +++
+>  utils/v4l2-ctl/meson.build                    |  75 ++++
+>  utils/v4l2-dbg/meson.build                    |  20 +
+>  utils/v4l2-sysfs-path/meson.build             |  14 +
+>  utils/v4l2-tracer/media-info.cpp              |   1 +
+>  utils/v4l2-tracer/meson.build                 | 133 ++++++
+>  utils/v4l2-tracer/v4l2-info.cpp               |   1 +
+>  v4l-utils-po/meson.build                      |   3 +
+>  49 files changed, 2493 insertions(+), 16 deletions(-)
+>  create mode 100644 INSTALL.meson.md
+>  create mode 100644 contrib/cobalt-ctl/meson.build
+>  create mode 100644 contrib/decode_tm6000/meson.build
+>  create mode 100644 contrib/gconv/meson.build
+>  create mode 100644 contrib/meson.build
+>  create mode 100644 contrib/rds-saa6588/meson.build
+>  create mode 100644 contrib/test/meson.build
+>  create mode 100644 contrib/xc3028-firmware/meson.build
+>  create mode 100644 lib/libdvbv5/meson.build
+>  create mode 100644 lib/libv4l-mplane/meson.build
+>  create mode 100644 lib/libv4l1/meson.build
+>  create mode 100644 lib/libv4l2/meson.build
+>  create mode 100644 lib/libv4l2rds/meson.build
+>  create mode 100644 lib/libv4lconvert/meson.build
+>  create mode 100644 lib/meson.build
+>  create mode 100644 libdvbv5-po/meson.build
+>  create mode 100644 meson.build
+>  create mode 100644 meson_options.txt
+>  create mode 100644 utils/cec-compliance/meson.build
+>  create mode 100644 utils/cec-ctl/meson.build
+>  create mode 100644 utils/cec-follower/meson.build
+>  create mode 100644 utils/cx18-ctl/meson.build
+>  create mode 100644 utils/dvb/meson.build
+>  create mode 100755 utils/gen_media_bus_format_codes.sh
+>  create mode 100755 utils/gen_media_bus_format_names.sh
+>  create mode 100644 utils/ir-ctl/meson.build
+>  create mode 100644 utils/ivtv-ctl/meson.build
+>  create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+>  create mode 100644 utils/keytable/bpf_protocols/meson.build
+>  create mode 100644 utils/keytable/meson.build
+>  create mode 100644 utils/keytable/rc_keymaps/meson.build
+>  create mode 100644 utils/libcecutil/meson.build
+>  create mode 100644 utils/libmedia_dev/meson.build
+>  create mode 100644 utils/libv4l2util/meson.build
+>  create mode 100644 utils/media-ctl/meson.build
+>  create mode 100644 utils/meson.build
+>  create mode 100644 utils/qv4l2/meson.build
+>  create mode 100644 utils/qvidcap/meson.build
+>  create mode 100644 utils/rds-ctl/meson.build
+>  create mode 100644 utils/v4l2-compliance/meson.build
+>  create mode 100644 utils/v4l2-ctl/meson.build
+>  create mode 100644 utils/v4l2-dbg/meson.build
+>  create mode 100644 utils/v4l2-sysfs-path/meson.build
+>  create mode 120000 utils/v4l2-tracer/media-info.cpp
+>  create mode 100644 utils/v4l2-tracer/meson.build
+>  create mode 120000 utils/v4l2-tracer/v4l2-info.cpp
+>  create mode 100644 v4l-utils-po/meson.build
+> 
 
-diff --git a/Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml b/Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml
-new file mode 100644
-index 000000000000..271d0577a83c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml
-@@ -0,0 +1,152 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/samsung,exynos4210-fimc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung S5P/Exynos SoC Fully Integrated Mobile Camera
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+  - Sylwester Nawrocki <s.nawrocki@samsung.com>
-+
-+description:
-+  Each FIMC device should have an alias in the aliases node, in the form of
-+  fimc<n>, where <n> is an integer specifying the IP block instance.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - samsung,exynos4210-fimc
-+      - samsung,exynos4212-fimc
-+      - samsung,s5pv210-fimc
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 2
-+
-+  clock-names:
-+    items:
-+      - const: fimc
-+      - const: sclk_fimc
-+
-+  clock-frequency:
-+    description:
-+      Maximum FIMC local clock (LCLK) frequency.
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  samsung,cam-if:
-+    type: boolean
-+    description:
-+      The FIMC IP block includes the camera input interface.
-+
-+  samsung,isp-wb:
-+    type: boolean
-+    description: |
-+      The FIMC IP block has the ISP writeback input.
-+
-+  samsung,lcd-wb:
-+    type: boolean
-+    description: |
-+      The FIMC IP block has the LCD writeback input.
-+
-+  samsung,mainscaler-ext:
-+    type: boolean
-+    description:
-+      FIMC IP supports extended image size and has CIEXTEN register.
-+
-+  samsung,min-pix-alignment:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    items:
-+      - description: Minimum supported image height alignment.
-+      - description: Horizontal image offset.
-+    description:
-+      The values are in pixels and default is <2 1>.
-+
-+  samsung,min-pix-sizes:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    maxItems: 2
-+    description: |
-+      An array specyfing minimum image size in pixels at the FIMC input and
-+      output DMA, in the first and second cell respectively.  Default value
-+      is <16 16>.
-+
-+  samsung,pix-limits:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    maxItems: 4
-+    description: |
-+      An array of maximum supported image sizes in pixels, for details refer to
-+      Table 2-1 in the S5PV210 SoC User Manual. The meaning of each cell is as
-+      follows:
-+       0 - scaler input horizontal size
-+       1 - input horizontal size for the scaler bypassed
-+       2 - REAL_WIDTH without input rotation
-+       3 - REAL_HEIGHT with input rotation
-+
-+  samsung,rotators:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    default: 0x11
-+    description: |
-+      A bitmask specifying whether this IP has the input and the output
-+      rotator. Bits 4 and 0 correspond to input and output rotator
-+      respectively. If a rotator is present its corresponding bit should be
-+      set.
-+
-+  samsung,sysreg:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      System Registers (SYSREG) node.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - samsung,pix-limits
-+
-+allOf:
-+  - if:
-+      required:
-+        - samsung,isp-wb
-+    then:
-+      required:
-+        - samsung,sysreg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos4.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    fimc@11800000 {
-+        compatible = "samsung,exynos4212-fimc";
-+        reg = <0x11800000 0x1000>;
-+        clocks = <&clock CLK_FIMC0>,
-+                 <&clock CLK_SCLK_FIMC0>;
-+        clock-names = "fimc", "sclk_fimc";
-+        interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-+        iommus = <&sysmmu_fimc0>;
-+        power-domains = <&pd_cam>;
-+        samsung,sysreg = <&sys_reg>;
-+
-+        samsung,pix-limits = <4224 8192 1920 4224>;
-+        samsung,mainscaler-ext;
-+        samsung,isp-wb;
-+        samsung,cam-if;
-+
-+        assigned-clocks = <&clock CLK_MOUT_FIMC0>,
-+                          <&clock CLK_SCLK_FIMC0>;
-+        assigned-clock-parents = <&clock CLK_MOUT_MPLL_USER_T>;
-+        assigned-clock-rates = <0>, <176000000>;
-+    };
-diff --git a/Documentation/devicetree/bindings/media/samsung,fimc.yaml b/Documentation/devicetree/bindings/media/samsung,fimc.yaml
-new file mode 100644
-index 000000000000..8e3a81f819dd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/samsung,fimc.yaml
-@@ -0,0 +1,279 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/samsung,fimc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung S5P/Exynos SoC Camera Subsystem (FIMC)
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+  - Sylwester Nawrocki <s.nawrocki@samsung.com>
-+
-+description: |
-+  The S5P/Exynos SoC Camera subsystem comprises of multiple sub-devices
-+  represented by separate device tree nodes. Currently this includes: Fully
-+  Integrated Mobile Camera (FIMC, in the S5P SoCs series known as CAMIF), MIPI
-+  CSIS, FIMC-LITE and FIMC-IS (ISP).
-+
-+properties:
-+  compatible:
-+    const: samsung,fimc
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#clock-cells':
-+    const: 1
-+    description: |
-+      The clock specifier cell stores an index of a clock: 0, 1 for
-+      CAM_A_CLKOUT, CAM_B_CLKOUT clocks respectively.
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 4
-+
-+  clock-names:
-+    minItems: 2
-+    items:
-+      - const: sclk_cam0
-+      - const: sclk_cam1
-+      - const: pxl_async0
-+      - const: pxl_async1
-+
-+  clock-output-names:
-+    maxItems: 2
-+
-+  ranges: true
-+
-+  '#size-cells':
-+    const: 1
-+
-+  parallel-ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    description:
-+      Active parallel video input ports.
-+
-+    patternProperties:
-+      "^port@[01]$":
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        description:
-+          Camera A and camera B inputs.
-+
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+  pinctrl-names:
-+    minItems: 1
-+    items:
-+      - const: default
-+      - const: idle
-+      - const: active_a
-+      - const: active_b
-+
-+patternProperties:
-+  "^csis@[0-9a-f]+$":
-+    type: object
-+    $ref: samsung,exynos4210-csis.yaml#
-+    description: MIPI CSI-2 receiver.
-+
-+  "^fimc@[0-9a-f]+$":
-+    type: object
-+    $ref: samsung,exynos4210-fimc.yaml#
-+    description: Fully Integrated Mobile Camera.
-+
-+  "^fimc-is@[0-9a-f]+$":
-+    type: object
-+    $ref: samsung,exynos4212-fimc-is.yaml#
-+    description: Imaging Subsystem (FIMC-IS).
-+
-+  "^fimc-lite@[0-9a-f]+$":
-+    type: object
-+    $ref: samsung,exynos4212-fimc-lite.yaml#
-+    description: Camera host interface (FIMC-LITE).
-+
-+required:
-+  - compatible
-+  - '#address-cells'
-+  - '#clock-cells'
-+  - clocks
-+  - clock-names
-+  - clock-output-names
-+  - ranges
-+  - '#size-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos4.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    camera@11800000 {
-+        compatible = "samsung,fimc";
-+        #clock-cells = <1>;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        ranges = <0x0 0x0 0x18000000>;
-+
-+        clocks = <&clock CLK_SCLK_CAM0>, <&clock CLK_SCLK_CAM1>,
-+                 <&clock CLK_PIXELASYNCM0>, <&clock CLK_PIXELASYNCM1>;
-+        clock-names = "sclk_cam0", "sclk_cam1", "pxl_async0", "pxl_async1";
-+        clock-output-names = "cam_a_clkout", "cam_b_clkout";
-+
-+        assigned-clocks = <&clock CLK_MOUT_CAM0>,
-+                          <&clock CLK_MOUT_CAM1>;
-+        assigned-clock-parents = <&clock CLK_XUSBXTI>,
-+                                 <&clock CLK_XUSBXTI>;
-+
-+        pinctrl-0 = <&cam_port_a_clk_active &cam_port_b_clk_active>;
-+        pinctrl-names = "default";
-+
-+        fimc@11800000 {
-+            compatible = "samsung,exynos4212-fimc";
-+            reg = <0x11800000 0x1000>;
-+            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&clock CLK_FIMC0>,
-+                     <&clock CLK_SCLK_FIMC0>;
-+            clock-names = "fimc", "sclk_fimc";
-+            power-domains = <&pd_cam>;
-+            samsung,sysreg = <&sys_reg>;
-+            iommus = <&sysmmu_fimc0>;
-+
-+            samsung,pix-limits = <4224 8192 1920 4224>;
-+            samsung,mainscaler-ext;
-+            samsung,isp-wb;
-+            samsung,cam-if;
-+        };
-+
-+        /* ... FIMC 1-3 */
-+
-+        csis@11880000 {
-+            compatible = "samsung,exynos4210-csis";
-+            reg = <0x11880000 0x4000>;
-+            interrupts = <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&clock CLK_CSIS0>,
-+                     <&clock CLK_SCLK_CSIS0>;
-+            clock-names = "csis", "sclk_csis";
-+            assigned-clocks = <&clock CLK_MOUT_CSIS0>,
-+                              <&clock CLK_SCLK_CSIS0>;
-+            assigned-clock-parents = <&clock CLK_MOUT_MPLL_USER_T>;
-+            assigned-clock-rates = <0>, <176000000>;
-+
-+            bus-width = <4>;
-+            power-domains = <&pd_cam>;
-+            phys = <&mipi_phy 0>;
-+            phy-names = "csis";
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            vddcore-supply = <&ldo8_reg>;
-+            vddio-supply = <&ldo10_reg>;
-+
-+            /* Camera C (3) MIPI CSI-2 (CSIS0) */
-+            port@3 {
-+                reg = <3>;
-+                endpoint {
-+                    remote-endpoint = <&s5c73m3_ep>;
-+                    data-lanes = <1 2 3 4>;
-+                    samsung,csis-hs-settle = <12>;
-+                };
-+            };
-+        };
-+
-+        /* ... CSIS 1 */
-+
-+        fimc-lite@12390000 {
-+              compatible = "samsung,exynos4212-fimc-lite";
-+              reg = <0x12390000 0x1000>;
-+              interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-+              power-domains = <&pd_isp>;
-+              clocks = <&isp_clock CLK_ISP_FIMC_LITE0>;
-+              clock-names = "flite";
-+              iommus = <&sysmmu_fimc_lite0>;
-+        };
-+
-+        /* ... FIMC-LITE 1 */
-+
-+        fimc-is@12000000 {
-+            compatible = "samsung,exynos4212-fimc-is";
-+            reg = <0x12000000 0x260000>;
-+            interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&isp_clock CLK_ISP_FIMC_LITE0>,
-+                     <&isp_clock CLK_ISP_FIMC_LITE1>,
-+                     <&isp_clock CLK_ISP_PPMUISPX>,
-+                     <&isp_clock CLK_ISP_PPMUISPMX>,
-+                     <&isp_clock CLK_ISP_FIMC_ISP>,
-+                     <&isp_clock CLK_ISP_FIMC_DRC>,
-+                     <&isp_clock CLK_ISP_FIMC_FD>,
-+                     <&isp_clock CLK_ISP_MCUISP>,
-+                     <&isp_clock CLK_ISP_GICISP>,
-+                     <&isp_clock CLK_ISP_MCUCTL_ISP>,
-+                     <&isp_clock CLK_ISP_PWM_ISP>,
-+                     <&isp_clock CLK_ISP_DIV_ISP0>,
-+                     <&isp_clock CLK_ISP_DIV_ISP1>,
-+                     <&isp_clock CLK_ISP_DIV_MCUISP0>,
-+                     <&isp_clock CLK_ISP_DIV_MCUISP1>,
-+                     <&clock CLK_MOUT_MPLL_USER_T>,
-+                     <&clock CLK_ACLK200>,
-+                     <&clock CLK_ACLK400_MCUISP>,
-+                     <&clock CLK_DIV_ACLK200>,
-+                     <&clock CLK_DIV_ACLK400_MCUISP>,
-+                     <&clock CLK_UART_ISP_SCLK>;
-+            clock-names = "lite0", "lite1", "ppmuispx",
-+                          "ppmuispmx", "isp",
-+                          "drc", "fd", "mcuisp",
-+                          "gicisp", "mcuctl_isp", "pwm_isp",
-+                          "ispdiv0", "ispdiv1", "mcuispdiv0",
-+                          "mcuispdiv1", "mpll", "aclk200",
-+                          "aclk400mcuisp", "div_aclk200",
-+                          "div_aclk400mcuisp", "uart";
-+            iommus = <&sysmmu_fimc_isp>, <&sysmmu_fimc_drc>,
-+                     <&sysmmu_fimc_fd>, <&sysmmu_fimc_mcuctl>;
-+            iommu-names = "isp", "drc", "fd", "mcuctl";
-+            power-domains = <&pd_isp>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <1>;
-+            ranges;
-+
-+            pmu@10020000 {
-+                reg = <0x10020000 0x3000>;
-+            };
-+
-+            i2c-isp@12140000 {
-+                compatible = "samsung,exynos4212-i2c-isp";
-+                reg = <0x12140000 0x100>;
-+                clocks = <&isp_clock CLK_ISP_I2C1_ISP>;
-+                clock-names = "i2c_isp";
-+                pinctrl-0 = <&fimc_is_i2c1>;
-+                pinctrl-names = "default";
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                image-sensor@10 {
-+                    compatible = "samsung,s5k6a3";
-+                    reg = <0x10>;
-+                    svdda-supply = <&cam_io_reg>;
-+                    svddio-supply = <&ldo19_reg>;
-+                    afvdd-supply = <&ldo19_reg>;
-+                    clock-frequency = <24000000>;
-+                    /* CAM_B_CLKOUT */
-+                    clocks = <&camera 1>;
-+                    clock-names = "extclk";
-+                    gpios = <&gpm1 6 GPIO_ACTIVE_LOW>;
-+
-+                    port {
-+                        endpoint {
-+                            remote-endpoint = <&csis1_ep>;
-+                            data-lanes = <1>;
-+                        };
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/media/samsung-fimc.txt b/Documentation/devicetree/bindings/media/samsung-fimc.txt
-deleted file mode 100644
-index f90267f1180e..000000000000
---- a/Documentation/devicetree/bindings/media/samsung-fimc.txt
-+++ /dev/null
-@@ -1,210 +0,0 @@
--Samsung S5P/Exynos SoC Camera Subsystem (FIMC)
------------------------------------------------
--
--The S5P/Exynos SoC Camera subsystem comprises of multiple sub-devices
--represented by separate device tree nodes. Currently this includes: FIMC (in
--the S5P SoCs series known as CAMIF), MIPI CSIS, FIMC-LITE and FIMC-IS (ISP).
--
--The sub-subdevices are defined as child nodes of the common 'camera' node which
--also includes common properties of the whole subsystem not really specific to
--any single sub-device, like common camera port pins or the CAMCLK clock outputs
--for external image sensors attached to an SoC.
--
--Common 'camera' node
----------------------
--
--Required properties:
--
--- compatible: must be "samsung,fimc"
--- clocks: list of clock specifiers, corresponding to entries in
--  the clock-names property;
--- clock-names : must contain "sclk_cam0", "sclk_cam1", "pxl_async0",
--  "pxl_async1" entries, matching entries in the clocks property.
--
--- #clock-cells: from the common clock bindings (../clock/clock-bindings.txt),
--  must be 1. A clock provider is associated with the 'camera' node and it should
--  be referenced by external sensors that use clocks provided by the SoC on
--  CAM_*_CLKOUT pins. The clock specifier cell stores an index of a clock.
--  The indices are 0, 1 for CAM_A_CLKOUT, CAM_B_CLKOUT clocks respectively.
--
--- clock-output-names: from the common clock bindings, should contain names of
--  clocks registered by the camera subsystem corresponding to CAM_A_CLKOUT,
--  CAM_B_CLKOUT output clocks respectively.
--
--The pinctrl bindings defined in ../pinctrl/pinctrl-bindings.txt must be used
--to define a required pinctrl state named "default" and optional pinctrl states:
--"idle", "active-a", active-b". These optional states can be used to switch the
--camera port pinmux at runtime. The "idle" state should configure both the camera
--ports A and B into high impedance state, especially the CAMCLK clock output
--should be inactive. For the "active-a" state the camera port A must be activated
--and the port B deactivated and for the state "active-b" it should be the other
--way around.
--
--The 'camera' node must include at least one 'fimc' child node.
--
--
--'fimc' device nodes
---------------------
--
--Required properties:
--
--- compatible: "samsung,s5pv210-fimc" for S5PV210, "samsung,exynos4210-fimc"
--  for Exynos4210 and "samsung,exynos4212-fimc" for Exynos4x12 SoCs;
--- reg: physical base address and length of the registers set for the device;
--- interrupts: should contain FIMC interrupt;
--- clocks: list of clock specifiers, must contain an entry for each required
--  entry in clock-names;
--- clock-names: must contain "fimc", "sclk_fimc" entries.
--- samsung,pix-limits: an array of maximum supported image sizes in pixels, for
--  details refer to Table 2-1 in the S5PV210 SoC User Manual; The meaning of
--  each cell is as follows:
--  0 - scaler input horizontal size,
--  1 - input horizontal size for the scaler bypassed,
--  2 - REAL_WIDTH without input rotation,
--  3 - REAL_HEIGHT with input rotation,
--- samsung,sysreg: a phandle to the SYSREG node.
--
--Each FIMC device should have an alias in the aliases node, in the form of
--fimc<n>, where <n> is an integer specifying the IP block instance.
--
--Optional properties:
--
--- clock-frequency: maximum FIMC local clock (LCLK) frequency;
--- samsung,min-pix-sizes: an array specyfing minimum image size in pixels at
--  the FIMC input and output DMA, in the first and second cell respectively.
--  Default value when this property is not present is <16 16>;
--- samsung,min-pix-alignment: minimum supported image height alignment (first
--  cell) and the horizontal image offset (second cell). The values are in pixels
--  and default to <2 1> when this property is not present;
--- samsung,mainscaler-ext: a boolean property indicating whether the FIMC IP
--  supports extended image size and has CIEXTEN register;
--- samsung,rotators: a bitmask specifying whether this IP has the input and
--  the output rotator. Bits 4 and 0 correspond to input and output rotator
--  respectively. If a rotator is present its corresponding bit should be set.
--  Default value when this property is not specified is 0x11.
--- samsung,cam-if: a bolean property indicating whether the IP block includes
--  the camera input interface.
--- samsung,isp-wb: this property must be present if the IP block has the ISP
--  writeback input.
--- samsung,lcd-wb: this property must be present if the IP block has the LCD
--  writeback input.
--
--
--'parallel-ports' node
-----------------------
--
--This node should contain child 'port' nodes specifying active parallel video
--input ports. It includes camera A and camera B inputs. 'reg' property in the
--port nodes specifies data input - 1, 2 indicates input A, B respectively.
--
--Optional properties
--
--- samsung,camclk-out (deprecated) : specifies clock output for remote sensor,
--  0 - CAM_A_CLKOUT, 1 - CAM_B_CLKOUT;
--
--Image sensor nodes
--------------------
--
--The sensor device nodes should be added to their control bus controller (e.g.
--I2C0) nodes and linked to a port node in the csis or the parallel-ports node,
--using the common video interfaces bindings, defined in video-interfaces.txt.
--
--Example:
--
--	aliases {
--		fimc0 = &fimc_0;
--	};
--
--	/* Parallel bus IF sensor */
--	i2c_0: i2c@13860000 {
--		s5k6aa: sensor@3c {
--			compatible = "samsung,s5k6aafx";
--			reg = <0x3c>;
--			vddio-supply = <...>;
--
--			clock-frequency = <24000000>;
--			clocks = <&camera 1>;
--			clock-names = "mclk";
--
--			port {
--				s5k6aa_ep: endpoint {
--					remote-endpoint = <&fimc0_ep>;
--					bus-width = <8>;
--					hsync-active = <0>;
--					vsync-active = <1>;
--					pclk-sample = <1>;
--				};
--			};
--		};
--
--		/* MIPI CSI-2 bus IF sensor */
--		s5c73m3: sensor@1a {
--			compatible = "samsung,s5c73m3";
--			reg = <0x1a>;
--			vddio-supply = <...>;
--
--			clock-frequency = <24000000>;
--			clocks = <&camera 0>;
--			clock-names = "mclk";
--
--			port {
--				s5c73m3_1: endpoint {
--					data-lanes = <1 2 3 4>;
--					remote-endpoint = <&csis0_ep>;
--				};
--			};
--		};
--	};
--
--	camera@11800000 {
--		compatible = "samsung,fimc";
--		clocks = <&clock 132>, <&clock 133>, <&clock 351>,
--			 <&clock 352>;
--		clock-names = "sclk_cam0", "sclk_cam1", "pxl_async0",
--			      "pxl_async1";
--		#clock-cells = <1>;
--		clock-output-names = "cam_a_clkout", "cam_b_clkout";
--		pinctrl-names = "default";
--		pinctrl-0 = <&cam_port_a_clk_active>;
--		ranges;
--		#address-cells = <1>;
--		#size-cells = <1>;
--
--		/* parallel camera ports */
--		parallel-ports {
--			/* camera A input */
--			port@1 {
--				reg = <1>;
--				fimc0_ep: endpoint {
--					remote-endpoint = <&s5k6aa_ep>;
--					bus-width = <8>;
--					hsync-active = <0>;
--					vsync-active = <1>;
--					pclk-sample = <1>;
--				};
--			};
--		};
--
--		fimc_0: fimc@11800000 {
--			compatible = "samsung,exynos4210-fimc";
--			reg = <0x11800000 0x1000>;
--			interrupts = <0 85 0>;
--		};
--
--		csis_0: csis@11880000 {
--			compatible = "samsung,exynos4210-csis";
--			reg = <0x11880000 0x1000>;
--			interrupts = <0 78 0>;
--			/* camera C input */
--			port@3 {
--				reg = <3>;
--				csis0_ep: endpoint {
--					remote-endpoint = <&s5c73m3_ep>;
--					data-lanes = <1 2 3 4>;
--					samsung,csis-hs-settle = <12>;
--				};
--			};
--		};
--	};
--
--The MIPI-CSIS device binding is defined in samsung-mipi-csis.txt.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e74fd2d4b003..d9b9a95d2ce2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18474,8 +18474,10 @@ L:	linux-media@vger.kernel.org
- S:	Supported
- Q:	https://patchwork.linuxtv.org/project/linux-media/list/
- F:	Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
-+F:	Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml
- F:	Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml
- F:	Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-lite.yaml
-+F:	Documentation/devicetree/bindings/media/samsung,fimc.yaml
- F:	drivers/media/platform/samsung/exynos4-is/
- 
- SAMSUNG SOC CLOCK DRIVERS
--- 
-2.34.1
+<snip>
 
+> diff --git a/utils/v4l2-tracer/media-info.cpp b/utils/v4l2-tracer/media-info.cpp
+> new file mode 120000
+> index 000000000000..89676ff50494
+> --- /dev/null
+> +++ b/utils/v4l2-tracer/media-info.cpp
+> @@ -0,0 +1 @@
+> +../common/media-info.cpp
+> \ No newline at end of file
+> diff --git a/utils/v4l2-tracer/meson.build b/utils/v4l2-tracer/meson.build
+> new file mode 100644
+> index 000000000000..dc16526220ca
+> --- /dev/null
+> +++ b/utils/v4l2-tracer/meson.build
+> @@ -0,0 +1,133 @@
+> +if not dep_jsonc.found()
+> +    subdir_done()
+> +endif
+> +
+> +# Generated sources
+> +
+> +v4l2_tracer_gen = files('v4l2-tracer-gen.pl')
+> +
+> +# Don't reorder the inputs The order of the input headers matters
+> +v4l2_tracer_gen_inputs = files(
+> +    '..' / '..' / 'include' / 'linux' / 'v4l2-controls.h',
+> +    '..' / '..' / 'include' / 'linux' / 'videodev2.h',
+> +    '..' / '..' / 'include' / 'linux' / 'media.h',
+> +    '..' / '..' / 'include' / 'linux' / 'v4l2-common.h',
+> +)
+> +
+> +v4l2_tracer_gen_common_sources = custom_target('v4l2-tracer-gen-common-sources',
+> +                                               input : v4l2_tracer_gen_inputs,
+> +                                               output : ['v4l2-tracer-info-gen.h'],
+> +                                               command : [
+> +                                                   v4l2_tracer_gen,
+> +                                                  '-o', meson.current_build_dir(),
+> +                                                    '-t', 'common',
+> +                                                   '@INPUT@',
+> +                                               ])
+> +
+> +v4l2_tracer_gen_retrace_sources = custom_target('v4l2-tracer-gen-retrace-sources',
+> +                                                input : v4l2_tracer_gen_inputs,
+> +                                                output : ['retrace-gen.cpp', 'retrace-gen.h'],
+> +                                                command : [
+> +                                                    v4l2_tracer_gen,
+> +                                                    '-o', meson.current_build_dir(),
+> +                                                    '-t', 'retrace',
+> +                                                    '@INPUT@',
+> +                                                ])
+> +
+> +v4l2_tracer_gen_trace_sources = custom_target('v4l2-tracer-gen-trace-sources',
+> +                                              input : v4l2_tracer_gen_inputs,
+> +                                              output : ['trace-gen.cpp', 'trace-gen.h'],
+> +                                              command : [
+> +                                                  v4l2_tracer_gen,
+> +                                                  '-o', meson.current_build_dir(),
+> +                                                  '-t', 'trace',
+> +                                                  '@INPUT@',
+> +                                              ])
+> +
+> +# V4L2 tracer library
+> +
+> +libv4l2tracer_sources = files(
+> +    'libv4l2tracer.cpp',
+> +    'media-info.cpp',
+> +    'trace-helper.cpp',
+> +    'trace.cpp',
+> +    'v4l2-info.cpp',
+> +    'v4l2-tracer-common.cpp',
+> +)
+> +
+> +libv4l2tracer_sources += [
+> +    v4l2_tracer_gen_common_sources,
+> +    v4l2_tracer_gen_trace_sources,
+> +]
+> +
+> +libv4l2tracer_deps = [
+> +    dep_jsonc,
+> +    dep_libdl,
+> +]
+> +
+> +libv4l2_tracer_incdir = [
+> +    utils_common_incdir,
+> +    v4l2_utils_incdir,
+> +]
+> +
+> +libv4l2_tracer_cpp_args = [
+> +    # Meson enables large file support unconditionally, which redirects file
+> +    # operations to 64-bit versions. This results in some symbols being
+> +    # renamed, for instance open() being renamed to open64(). As the library
+> +    # needs to provide both 32-bit and 64-bit versions of file operations,
+> +    # disable transparent large file support.
+> +    '-U_FILE_OFFSET_BITS',
+> +    '-D_FILE_OFFSET_BITS=32',
+> +    '-D_LARGEFILE64_SOURCE',
+> +]
+> +
+> +libv4l2tracer = shared_module('v4l2tracer',
+> +                              libv4l2tracer_sources,
+> +                              install : true,
+> +                              cpp_args : libv4l2_tracer_cpp_args,
+> +                              dependencies : libv4l2tracer_deps,
+> +                              include_directories : libv4l2_tracer_incdir)
+> +
+> +# Command line tool
+> +
+> +v4l2_tracer_sources = files(
+> +    'media-info.cpp',
+> +    'retrace-helper.cpp',
+> +    'retrace.cpp',
+> +    'v4l2-info.cpp',
+> +    'v4l2-tracer-common.cpp',
+> +    'v4l2-tracer.cpp',
+> +)
+> +
+> +v4l2_tracer_sources += [
+> +    v4l2_tracer_gen_common_sources,
+> +    v4l2_tracer_gen_retrace_sources,
+> +]
+> +
+> +v4l2_tracer_deps = [
+> +    dep_jsonc,
+> +    dep_librt,
+> +    dep_threads,
+> +]
+> +
+> +v4l2_tracer_cpp_args = [
+> +    '-DLIBTRACER_PATH="@0@"'.format(get_option('libdir')),
+> +]
+
+After the meson build the v4l2-tracer can't find its library to preload,
+so no tracing happens. But if you change this line like this it will work again:
+
+'-DLIBTRACER_PATH=@0@'.format(get_option('prefix')/get_option('libdir')),
+
+> +
+> +if have_visibility
+> +    v4l2_tracer_cpp_args += ['-fvisibility=hidden']
+> +endif
+> +
+> +v4l2_tracer_incdir = [
+> +    utils_common_incdir,
+> +    v4l2_utils_incdir,
+> +]
+> +
+> +v4l2_tracer = executable('v4l2-tracer',
+> +                         v4l2_tracer_sources,
+> +                         install : true,
+> +                         dependencies : v4l2_tracer_deps,
+> +                         cpp_args : v4l2_tracer_cpp_args,
+> +                         include_directories : v4l2_tracer_incdir)
+> +
+> +man_pages += [[ meson.current_source_dir(), 'v4l2-tracer', 1 ]]
+> diff --git a/utils/v4l2-tracer/v4l2-info.cpp b/utils/v4l2-tracer/v4l2-info.cpp
+> new file mode 120000
+> index 000000000000..c87caf75bbfd
+> --- /dev/null
+> +++ b/utils/v4l2-tracer/v4l2-info.cpp
+> @@ -0,0 +1 @@
+> +../common/v4l2-info.cpp
+> \ No newline at end of file
+> diff --git a/v4l-utils-po/meson.build b/v4l-utils-po/meson.build
+> new file mode 100644
+> index 000000000000..4fad42eb0b4a
+> --- /dev/null
+> +++ b/v4l-utils-po/meson.build
+> @@ -0,0 +1,3 @@
+> +i18n.gettext('v4l-utils',
+> +    args : i18n_gettext_arguments,
+> +)
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
