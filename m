@@ -2,228 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B5CC694D0B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 17:38:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF1BE694EC7
+	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 19:06:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbjBMQip (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Feb 2023 11:38:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
+        id S229642AbjBMSGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Feb 2023 13:06:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbjBMQio (ORCPT
+        with ESMTP id S229576AbjBMSGO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Feb 2023 11:38:44 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A3714498
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 08:38:43 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id f10so14392415qtv.1
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 08:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=of5ICr9L1SNi/fIIwLV0Ou7LNrmAbw9vuFF0UoeHvV0=;
-        b=D0b3HumuyZdrCW31MwzKs4JncPmAdXl/+lI40vyr3i253KzPDxd/I0M0sTPGj/xVLO
-         J74GErmrkmv7vaOwjmZBpgV826+Y7aL0s/CXR/zCzOKRFmLl/bMUUSKQDT1LRkpGYqGs
-         xjIOy2IoXkpX+Pxbam0PxnCNmCZQp4RkvXUzknqYvAMyQIDb3vP6xNJjGIRiLu3NoJBA
-         ugWXnBUNfPw/7cUdPUJGaGjR8VoosuugGCxJvcrbmqZcc6wj/y06QT/cR7/OMqHEWbV9
-         quvZB0vUnoB5wwdnq8r1gdDWGoaKRwsFQmAHUy581BGG7ZGfjq183yb0+AJt4ndAVFeu
-         u1UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=of5ICr9L1SNi/fIIwLV0Ou7LNrmAbw9vuFF0UoeHvV0=;
-        b=W+ABToZ6+mD5nCQpnvQsAn7VZt8MDLXotOI4gWmgaeBmacw93Mt5PHIRtmMzD5DI2K
-         9e/ebL+s7Q7Su3FgmXumLI1ST0VcKnhSH5OHEhMbYILVog0InuVhH0IeV0GlceyXfMXK
-         DlflCywXWnIGh6H/u4Z7mEKs2KWJe35jt8lptyWKG1s9IfEqHb3rs5oW+vlbmL51s/Xc
-         c4RnbZ2dLE3u6OpY+2NVOa3f4TVt5DEbHxXB9lQzVIc7dHGcrrP/p+Ri4fH86KkTHWi8
-         7OpP4kXKNAVLSRSh81MNwAS8n4oYNV22i7R4PpuZD+873w+DEGK4bAy5vTNEDCO8e98V
-         SKqQ==
-X-Gm-Message-State: AO0yUKX58Z2rxtge7pEQ9QzHWU6eheHqSoAw0x6lsLh4wfoQamjsGYU6
-        IZQeMeDokfQzZNtrH240neknlw==
-X-Google-Smtp-Source: AK7set/eFg9C/RdSOP104CBK6c0/68ffH4q9gO44zsLJrYEKZP0sqMZqqVyLsKKxGZFMvCbNA8nkog==
-X-Received: by 2002:a05:622a:413:b0:3b9:b57d:4646 with SMTP id n19-20020a05622a041300b003b9b57d4646mr45134039qtx.18.1676306322110;
-        Mon, 13 Feb 2023 08:38:42 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id o5-20020ac80245000000b003b64f1b1f40sm9503620qtg.40.2023.02.13.08.38.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 08:38:41 -0800 (PST)
-Message-ID: <ddd0082ee020165dc84d7e57265cd4e92135c144.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH v2 02/10] media: Add Y012 video format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ming Qian <ming.qian@nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "X.H. Bao" <xiahong.bao@nxp.com>, dl-linux-imx <linux-imx@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Date:   Mon, 13 Feb 2023 11:38:40 -0500
-In-Reply-To: <AM6PR04MB63418F16201148ECB0935A4CE7DD9@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <cover.1675230665.git.ming.qian@nxp.com>
-         <93889cdefacaad260d978a8353066dd384a64609.1675230665.git.ming.qian@nxp.com>
-         <fa6fcd8a905bff34f6d436ef328f5142b72b854c.camel@ndufresne.ca>
-         <AM6PR04MB63418F16201148ECB0935A4CE7DD9@AM6PR04MB6341.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        Mon, 13 Feb 2023 13:06:14 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DB2CC0D;
+        Mon, 13 Feb 2023 10:05:43 -0800 (PST)
+Received: from ideasonboard.com (mob-5-90-163-230.net.vodafone.it [5.90.163.230])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 424D33D7;
+        Mon, 13 Feb 2023 19:04:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676311473;
+        bh=/ZYhxv33dPeYgG6cc2iLw9XAPVWJZPVHMTiDfcS5/OE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=npKfgr5Sv1n3e0eAouRIBPQlViN6Rexe2kMSH95d/p3P0V3FesGw19e4asSRKgsC0
+         BZjDu0PLTQsCkfftOFv5CycpaMKjOmrPYjrSXm8ruXFpMkmKSTZOy/zFNKUnBFL1Zq
+         ybxW2eoycRlLy+a7iGTwZ1+OpwiOeMSN4gUphKdg=
+Date:   Mon, 13 Feb 2023 19:04:29 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: i2c: ov5670: Use dev_err_probe in probe
+ function
+Message-ID: <20230213175504.ajxa4zgezclxvzuk@uno.localdomain>
+References: <20230210-ov5670-single-lane-v1-0-71835d39c1ce@z3ntu.xyz>
+ <20230210-ov5670-single-lane-v1-1-71835d39c1ce@z3ntu.xyz>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230210-ov5670-single-lane-v1-1-71835d39c1ce@z3ntu.xyz>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 13 f=C3=A9vrier 2023 =C3=A0 09:22 +0000, Ming Qian a =C3=A9crit=C2=
-=A0:
-> > From: Nicolas Dufresne <nicolas@ndufresne.ca>
-> > Sent: 2023=E5=B9=B42=E6=9C=8810=E6=97=A5 23:18
-> > To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org; Mirela Rabulea
-> > (OSS) <mirela.rabulea@oss.nxp.com>; hverkuil-cisco@xs4all.nl
-> > Cc: shawnguo@kernel.org; s.hauer@pengutronix.de; kernel@pengutronix.de;
-> > festevam@gmail.com; X.H. Bao <xiahong.bao@nxp.com>; dl-linux-imx <linux=
--
-> > imx@nxp.com>; linux-media@vger.kernel.org; linux-kernel@vger.kernel.org=
-;
-> > devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org
-> > Subject: [EXT] Re: [PATCH v2 02/10] media: Add Y012 video format
-> >=20
-> > Caution: EXT Email
-> >=20
-> > Le mercredi 01 f=C3=A9vrier 2023 =C3=A0 14:02 +0800, Ming Qian a =C3=A9=
-crit :
-> > > Y012 is a luma-only formats with 12-bits per pixel, expanded to
-> > > 16bits.
-> > > Data in the 12 high bits, zeros in the 4 low bits, arranged in little
-> > > endian order.
-> > >=20
-> > > Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> > > ---
-> > > =C2=A0.../userspace-api/media/v4l/pixfmt-yuv-luma.rst       | 11 ++++=
-+++++++
-> > > =C2=A0drivers/media/v4l2-core/v4l2-ioctl.c                  |  1 +
-> > > =C2=A0include/uapi/linux/videodev2.h                        |  1 +
-> > > =C2=A03 files changed, 13 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rs=
-t
-> > > b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > index 6a387f9df3ba..3ffa29000238 100644
-> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > @@ -103,6 +103,17 @@ are often referred to as greyscale formats.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- ...
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- ...
-> > >=20
-> > > +    * .. _V4L2-PIX-FMT-Y012:
-> >=20
-> > Why the 0, can't this be name Y12 (just like Y14) ?
-> >=20
->=20
-> Hi Nicolas,
-> =C2=A0=C2=A0=C2=A0=C2=A0As the V4L2_PIX_FMT_Y12 is defined, but it's data=
- is in the 12 low bits,
-> zeros in the high bits.
-> =C2=A0=C2=A0=C2=A0=C2=A0Here I want to place the 12 bits data in the high=
- bits, with zeros in the
-> 4 low bits.
-> =C2=A0=C2=A0=C2=A0=C2=A0So I add 0 before 12, I want to say that the low =
-bits are padding data 0.
-> =C2=A0=C2=A0=C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0Or do you have a better suggestion?
+Hi Luca
 
-I see, I had missed this aspect. I think in this context, it would be fair
-naming. Maybe drop a note in the doc saying just that:
+On Fri, Feb 10, 2023 at 09:33:17PM +0100, Luca Weiss wrote:
+> Replace the unusual const char *err_msg usage with dev_err_probe which
+> also handles -EPROBE_DEFER better by not printing the message to kmsg.
+>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 
-"In contrast to V4L2_PIX_FMT_Y12 format, which have its padding located in =
-the
-most significant bits of the 16 bit word".
+Thanks! The *err_msg thing was weird indeed
 
-Or something similar.,
-Nicolas
+> ---
+>  drivers/media/i2c/ov5670.c | 37 ++++++++++++-------------------------
+>  1 file changed, 12 insertions(+), 25 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index f79d908f4531..189920571df2 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -2648,17 +2648,13 @@ static int ov5670_gpio_probe(struct ov5670 *ov5670)
+>  static int ov5670_probe(struct i2c_client *client)
+>  {
+>  	struct ov5670 *ov5670;
+> -	const char *err_msg;
+>  	u32 input_clk = 0;
+>  	bool full_power;
+>  	int ret;
+>
+>  	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
+> -	if (!ov5670) {
+> -		ret = -ENOMEM;
+> -		err_msg = "devm_kzalloc() error";
+> -		goto error_print;
+> -	}
+> +	if (!ov5670)
+> +		return -ENOMEM;
+>
+>  	ov5670->xvclk = devm_clk_get(&client->dev, NULL);
+>  	if (!IS_ERR_OR_NULL(ov5670->xvclk))
+> @@ -2680,29 +2676,23 @@ static int ov5670_probe(struct i2c_client *client)
+>  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
+>
+>  	ret = ov5670_regulators_probe(ov5670);
+> -	if (ret) {
+> -		err_msg = "Regulators probe failed";
+> -		goto error_print;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(&client->dev, ret, "Regulators probe failed\n");
+>
+>  	ret = ov5670_gpio_probe(ov5670);
+> -	if (ret) {
+> -		err_msg = "GPIO probe failed";
+> -		goto error_print;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(&client->dev, ret, "GPIO probe failed\n");
 
->=20
-> Ming
->=20
-> > > +
-> > > +      - ``V4L2_PIX_FMT_Y012``
-> > > +      - 'Y012'
-> > > +
-> > > +      - Y'\ :sub:`0`\ [3:0] `0000`
-> > > +      - Y'\ :sub:`0`\ [11:4]
-> > > +      - ...
-> > > +      - ...
-> > > +      - ...
-> > > +
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* .. _V4L2-PIX-FMT-Y14:
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0- ``V4L2_PIX_FMT_Y14``
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > index 067dbdd0a9ef..0ee730aa6cc7 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > @@ -1303,6 +1303,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdes=
-c
-> > *fmt)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case V4L2_PIX_FMT_Y6:           d=
-escr =3D "6-bit Greyscale"; break;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case V4L2_PIX_FMT_Y10:          d=
-escr =3D "10-bit Greyscale"; break;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case V4L2_PIX_FMT_Y12:          d=
-escr =3D "12-bit Greyscale"; break;
-> > > +     case V4L2_PIX_FMT_Y012:         descr =3D "12-bit Greyscale"; b=
-reak;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case V4L2_PIX_FMT_Y14:          d=
-escr =3D "14-bit Greyscale"; break;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case V4L2_PIX_FMT_Y16:          d=
-escr =3D "16-bit Greyscale"; break;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case V4L2_PIX_FMT_Y16_BE:       d=
-escr =3D "16-bit Greyscale BE";
-> > > break;
-> > > diff --git a/include/uapi/linux/videodev2.h
-> > > b/include/uapi/linux/videodev2.h index 5448aa3b7858..3d8f89bff33c
-> > > 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -583,6 +583,7 @@ struct v4l2_pix_format {
-> > > =C2=A0#define V4L2_PIX_FMT_Y6      v4l2_fourcc('Y', '0', '6', ' ') /*=
-  6=20
-> > > Greyscale     */
-> > > =C2=A0#define V4L2_PIX_FMT_Y10     v4l2_fourcc('Y', '1', '0', ' ') /*=
- 10=20
-> > > Greyscale
-> > */
-> > > =C2=A0#define V4L2_PIX_FMT_Y12     v4l2_fourcc('Y', '1', '2', ' ') /*=
- 12=20
-> > > Greyscale
-> > */
-> > > +#define V4L2_PIX_FMT_Y012    v4l2_fourcc('Y', '0', '1', '2') /* 12=
-=20
-> > > Greyscale
-> > */
-> > > =C2=A0#define V4L2_PIX_FMT_Y14     v4l2_fourcc('Y', '1', '4', ' ') /*=
- 14=20
-> > > Greyscale
-> > */
-> > > =C2=A0#define V4L2_PIX_FMT_Y16     v4l2_fourcc('Y', '1', '6', ' ') /*=
- 16=20
-> > > Greyscale
-> > */
-> > > =C2=A0#define V4L2_PIX_FMT_Y16_BE  v4l2_fourcc_be('Y', '1', '6', ' ')=
- /* 16
-> > > Greyscale BE  */
->=20
+From now on, I don't think there are functions that can return
+-EPROBE_DEFER and you could
 
+        if (ret) {
+                dev_err(...)
+                goto ...;
+        }
+
+But if others are fine with what you have and consider using
+dev_err_probe() better regardless if the called function can
+return -EPROBE_DEFER or not, I'm fine with what you have here.
+
+>
+>  	full_power = acpi_dev_state_d0(&client->dev);
+>  	if (full_power) {
+>  		ret = ov5670_runtime_resume(&client->dev);
+> -		if (ret) {
+> -			err_msg = "Power up failed";
+> -			goto error_print;
+> -		}
+> +		if (ret)
+> +			return dev_err_probe(&client->dev, ret, "Power up failed\n");
+>
+>  		/* Check module identity */
+>  		ret = ov5670_identify_module(ov5670);
+>  		if (ret) {
+> -			err_msg = "ov5670_identify_module() error";
+> +			dev_err_probe(&client->dev, ret, "ov5670_identify_module() error\n");
+>  			goto error_power_off;
+>  		}
+>  	}
+> @@ -2714,7 +2704,7 @@ static int ov5670_probe(struct i2c_client *client)
+>
+>  	ret = ov5670_init_controls(ov5670);
+>  	if (ret) {
+> -		err_msg = "ov5670_init_controls() error";
+> +		dev_err_probe(&client->dev, ret, "ov5670_init_controls() error\n");
+>  		goto error_mutex_destroy;
+>  	}
+>
+> @@ -2727,7 +2717,7 @@ static int ov5670_probe(struct i2c_client *client)
+>  	ov5670->pad.flags = MEDIA_PAD_FL_SOURCE;
+>  	ret = media_entity_pads_init(&ov5670->sd.entity, 1, &ov5670->pad);
+>  	if (ret) {
+> -		err_msg = "media_entity_pads_init() error";
+> +		dev_err_probe(&client->dev, ret, "media_entity_pads_init() error\n");
+>  		goto error_handler_free;
+>  	}
+>
+> @@ -2741,7 +2731,7 @@ static int ov5670_probe(struct i2c_client *client)
+>  	/* Async register for subdev */
+>  	ret = v4l2_async_register_subdev_sensor(&ov5670->sd);
+>  	if (ret < 0) {
+> -		err_msg = "v4l2_async_register_subdev() error";
+> +		dev_err_probe(&client->dev, ret, "v4l2_async_register_subdev() error\n");
+>  		goto error_pm_disable;
+>  	}
+>
+> @@ -2764,9 +2754,6 @@ static int ov5670_probe(struct i2c_client *client)
+>  	if (full_power)
+>  		ov5670_runtime_suspend(&client->dev);
+>
+> -error_print:
+> -	dev_err(&client->dev, "%s: %s %d\n", __func__, err_msg, ret);
+> -
+>  	return ret;
+>  }
+>
+>
+> --
+> 2.39.1
+>
