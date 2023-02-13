@@ -2,322 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E18693CDC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 04:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67F96693E17
+	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 07:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbjBMDVP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Feb 2023 22:21:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40008 "EHLO
+        id S229612AbjBMGNf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 13 Feb 2023 01:13:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjBMDVN (ORCPT
+        with ESMTP id S229436AbjBMGNe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Feb 2023 22:21:13 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B9A9EFC;
-        Sun, 12 Feb 2023 19:21:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676258472; x=1707794472;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=q5hPu8ZN5BnRrcT9aC4jTls+30o8RCme+DjO5qu7E5E=;
-  b=ARyw+AcM58R/IO6s/aOXPeIXSOS7VQVeNDmF6Jq6/G5DN/JAITnsVRZo
-   n06fRtMBSk9zE1pyQDcJNuJwhtpgBkADRL+94pcWZWBZmaY5SWxZ78lCm
-   O/t4JobojcWtwBkQB0rNI9r8RFuKvoF2dxlxg9vnAy5C/4/Rfhb9YzjnZ
-   86l+w036KB9/SkNdaS6LJazosD916M/qPCYTcLqCXNzTV2NsD6l5EekYq
-   6WGg+zLCJ/YivMhZCi+8F2P/qGUzABsI9oaUTekoxHgPiwTTQl7Ytfr8z
-   yXhlFQoudnQndGYRerPrchuLzDFM2yY6Rg72wxs4kXiUsNnFl/hhBNnyW
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="311158545"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="311158545"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 19:20:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="732335896"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="732335896"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Feb 2023 19:20:55 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Sun, 12 Feb 2023 19:20:54 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Sun, 12 Feb 2023 19:20:54 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Sun, 12 Feb 2023 19:20:54 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YRcDAm+GRGwGWiQZb49f7MYhOwHoBTJSUHHvQizH5iFaT7Fa7N6VXvnvzJO4LaGr5OJIula3cxK1qvkZ6j5GmkhuV46B2XCgoLJTB+ChYySi5vH73nlzk+pMoLlOLxqpqb8nNSZE11GCNpBwpHjkkbpUwCdw4irV5GPuvx9yfweS99LcDJLr3fWEBqxbk/FdNlRGxQHfXEfePC5VmSVvkvYYf/vKOvhU8T1yeUy8IVksOc8zPjtZxu6pJV87evYS6TPrtq6EW+vCiFoTL0fz8kB05dkJIWTbAJ61ycMi2Zco74P+RcaSQiM326MWh4is6Nsz2uXeWjJ0LZWlpG0o5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q5hPu8ZN5BnRrcT9aC4jTls+30o8RCme+DjO5qu7E5E=;
- b=MiAWAfPWh2X0157n502LA90n1gwjVpBRXdhizxB+3vHZRPhqF0rL4HsIou5uEx59xakOBjdlvbF4BEYhuJHL+Jh8t4JB52MaDGshHo1U389yqe2IqD40ETnPINZkglI7XqJnVdePAMOUd02okkL5xw6yyPiElOYywwqFjZ/Cnk+lFm6PvIRI12NLVwGYaBxbk/4YILcODeO8cQBxAfwDJxfWttoSpgFcM6KpX1CQ6c3Ptl6ij8Rv+0xZnCzL1cheGn7hPhytVNpankg1tpbpEH6Jlr039sYm+VaXEZ4g8YaUrwuY8vtL5wWEuZg8eSXdFNx8mGh/A5do+Dt0v7U6bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5592.namprd11.prod.outlook.com (2603:10b6:8:35::6) by
- CH3PR11MB8095.namprd11.prod.outlook.com (2603:10b6:610:154::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.23; Mon, 13 Feb
- 2023 03:20:50 +0000
-Received: from DM8PR11MB5592.namprd11.prod.outlook.com
- ([fe80::e9c0:eeac:5553:aba5]) by DM8PR11MB5592.namprd11.prod.outlook.com
- ([fe80::e9c0:eeac:5553:aba5%6]) with mapi id 15.20.6086.023; Mon, 13 Feb 2023
- 03:20:50 +0000
-From:   "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>
-To:     "Wu, Wentong" <wentong.wu@intel.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-CC:     "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>
-Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Thread-Topic: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Thread-Index: AQHZP1HlZhLdN6VSZkmXifw5lc/5F67MNbKA
-Date:   Mon, 13 Feb 2023 03:20:50 +0000
-Message-ID: <b6555f44430286416c66e2ecd7ff4f4b2bd3642e.camel@intel.com>
-References: <20230213022347.2480307-1-wentong.wu@intel.com>
-In-Reply-To: <20230213022347.2480307-1-wentong.wu@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
+        Mon, 13 Feb 2023 01:13:34 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F7D6B77E
+        for <linux-media@vger.kernel.org>; Sun, 12 Feb 2023 22:13:23 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 1DC8224E361;
+        Mon, 13 Feb 2023 14:13:19 +0800 (CST)
+Received: from EXMBX067.cuchost.com (172.16.6.67) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 13 Feb
+ 2023 14:13:19 +0800
+Received: from EXMBX164.cuchost.com (172.16.7.74) by EXMBX067.cuchost.com
+ (172.16.6.67) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 13 Feb
+ 2023 14:13:18 +0800
+Received: from EXMBX164.cuchost.com ([fe80::d8ef:7d01:dc7a:c4a9]) by
+ EXMBX164.cuchost.com ([fe80::d8ef:7d01:dc7a:c4a9%17]) with mapi id
+ 15.00.1497.044; Mon, 13 Feb 2023 14:13:18 +0800
+From:   Som Qin <som.qin@starfivetech.com>
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC:     "kernel@collabora.com" <kernel@collabora.com>,
+        "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
+        "nas.chung@chipsnmedia.com" <nas.chung@chipsnmedia.com>
+Subject: Re: [PATCH v11 0/6] Wave5 codec driver
+Thread-Topic: Re: [PATCH v11 0/6] Wave5 codec driver
+Thread-Index: Adk/cc8w9ZL4VtQ5QqeFEJ2ofubLSw==
+Date:   Mon, 13 Feb 2023 06:13:18 +0000
+Message-ID: <a336c17afc9143858fb9beb82aa800a8@EXMBX164.cuchost.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5592:EE_|CH3PR11MB8095:EE_
-x-ms-office365-filtering-correlation-id: 75b032f1-7a79-4699-5d3e-08db0d714ead
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0jLdLSVn4tQD+/4/h/gQp8aryNNIJNInnScoyHu0MeYo4aip1bG9r7pFX3r2Z04gd6pRnSgn7EDpaLCcBSfKJ5Ae0xinnC7QdfSLqlsITkkDvZWmpemYb+4jd+VMQD88asFJ1CD1pP1VFxqQAKVS7L10E5wZE0qcHkHQp3UGi0W/TaCQvffrTuOmnzYKC+7I5A7nT4+eIQr0Pv+dMABa7oTKQCUemq6fotYaVqLf3+EXN37qZWCHS3rwPg3t9nTIiwfAdPca4+wYrHWPmWFbU+6zgt5C8u3jNCU8bYSDSYPrxzwx2Xa0aZGgeqiIhtFYX9eUJy5392JuM047Jv+St/u2dl0URYdGGE4174gnbKSY/K8dZBSRUJRefRLqF2i2DSBALf14me2cs+UWuZN9oZVfq3kb0TT7yaXrKKWqGtzSn90D0BWt+zs7mUT3RZnbAfd2ctKEFDrZh/opT2Y5j6eSmY+ZiXCR54rA+webzw8F+MqoSHuYwgPAqNpp7k/uDMEA4WUZ8seaXYGwAA1k+YyhZIXAPkUQCX3n8uVptx/ZsGh6oSWEyW7PzEd2tUe/DDBpsNS/qn1KV5dhaQu7xjWnEgqpyo0uYQTnPxcVw0AEVLCFqV0qc14nJQ39t3N/qeP2VNjeWmIP2+B42kUYRTqPR+YUsFv5J4nRvk3fnNMm7jM0nlZgp6mktnP2hbGKB6W5s2mb8JUrIgXdrwNp9g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5592.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(136003)(346002)(366004)(39860400002)(396003)(451199018)(8676002)(71200400001)(8936002)(38100700002)(2616005)(2906002)(36756003)(5660300002)(86362001)(122000001)(186003)(110136005)(54906003)(41300700001)(6506007)(6512007)(478600001)(82960400001)(6486002)(316002)(66899018)(66476007)(66946007)(4326008)(76116006)(66556008)(64756008)(66446008)(91956017)(38070700005)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SkhjeFA1SVBJT3M3YlB5YmI4SkxtdlFqU0Y2RUhnek0wd0NGNE9LemtycFBV?=
- =?utf-8?B?K0FoaEliZFRpTUkwNjBqZUQzWEQxaGNEeHRkV0JYeVdoZkJpSE9OaWxNSlpL?=
- =?utf-8?B?YWJub1N0bkl2RVpRRFJyc0ZkbEpMcEV0TEliOS90aFZ1Tk9MSUs4eHN6UzlT?=
- =?utf-8?B?a1dJUS81U2JMRTF6ZW91ZmdIOG9RemovcmRYZHp0M1ZLZjk1WHhJUEUrRGdR?=
- =?utf-8?B?bFVRWnVWckdGaERvN2V5ZXZDcytxSEZOSDR6dHdpY3pJbXA2N2puMzlwcWcw?=
- =?utf-8?B?eXY3S2FSRnVCWTV6RzlnaTk4ZG0yVjNGSWswQ0dORXN2R0JtdzByK2tVRmpo?=
- =?utf-8?B?S0l3YStFRFo0aVpnQ0RKSVBIbEJTS0cvaUV6WEhSUlMyNUFYbGoyMmkrQUdz?=
- =?utf-8?B?L3lqSzRpYWo3MXFkcE5GOWFlUkVPU3RQSVZza2lGY3lybEI1d1lQdTFkUU1Y?=
- =?utf-8?B?Ym16R3M0MkJsMUZDY3E2ekx4L2NSdWx3QWtTTFgvellxRFhhTWk1ZUtZdGFM?=
- =?utf-8?B?UzJFUEozU0xtTGoycDlWV2dtYVVNTTBmdko5a2NqRGhGVEM4SUFjL1ZETWRL?=
- =?utf-8?B?cHZkSkZ3Z2N1N3BjejgzcEJXdVNYbWJJNmFnWThtTmNxLzRPR3dxSlZTZFRs?=
- =?utf-8?B?dmZYbGllVElxTzEzbXd0RDBSNExHczBmemt3UTdGSVAyMjJpT09NZEtKWTA5?=
- =?utf-8?B?QWE2a2xkdTFsY0pkQ0FTTXpVM2VxSzZobXQvSzZmNmZuRGNkUTNaWG00NlMw?=
- =?utf-8?B?a2hGM0Z2UCttZTNSeW9QUDRhWjVpRnNBbnVFQThIMTEvSkJGblJRcjUydTFV?=
- =?utf-8?B?MXhZczBUaTRjQk5aQ3QzQVNkWlZsaXlCaWp3azBQQVJIdFZOd3RFRy9PNzBn?=
- =?utf-8?B?R09kdklrUHRkRUREVXpvcVpVSk5FYTI0dmJJeHlqVkhpQk5jNTM3dW5JYitQ?=
- =?utf-8?B?NitIaGdiTVYvSXFoUDBUTStUMk9TdnM5WDljUVZkWFdtdHRBS0lNUGU4WWp1?=
- =?utf-8?B?R1A2UTlCWCtFc2J0Uko3WU42M0tHWFpLbG0xZ2w2UDBmc3dXYklPbkRjQUFm?=
- =?utf-8?B?Vk1NTk8yNHhvMFNrUG5pWU1lQUw1bXlJVFVPVEk1SlVKZmhYbHNKN1YyK2NC?=
- =?utf-8?B?bWlWR0NNYnJSYVhYSWo2Ly8xc2ZWak9DQ1NCWUtsYnV0NkJqaFNRajdFQ1lL?=
- =?utf-8?B?YWNuaXZQaXJwME9ibEQyYW0rbjg0S3FKbXUxRlZHQVU3M3I0VVVkcTZnUHpN?=
- =?utf-8?B?cWp6OXNjd3JsYzF1MllNZ3RPUTN5b2VRNXg4a21LVHN3bWNOSWsvMGpiSHNl?=
- =?utf-8?B?Tk5McUxpQkVVN0N4RlcvWDZBbm1WQ2Q2cmJyOHdNNGxGTkpMcDF5TWJ6bWhs?=
- =?utf-8?B?eUpMZHRvTXk1QkJXNHhVL1dUOTNRcUlWY29YSU43Q0htWXhNNHNFdG1UV080?=
- =?utf-8?B?dzdyVXNrNE9xclZiWmNoUVVPWU1hQzd6ckNYY1hrRHgrbFNMaDR1em9pb1or?=
- =?utf-8?B?aHRKTFVHWFZkdWJJbVB5QzN6T2s4WUxmVHA2ck9raG1iSnVHMXIrS0VmRUh6?=
- =?utf-8?B?N3Q1SGVFa2Q0UVRTQUdzRVErSnAvbWpQN3c4RVpEOWJmZi9YeFpZbEl4SHhP?=
- =?utf-8?B?NDF2QnpWbzdPcmc0MDdOcEV2MWhUUVFNZ09qOWR6a2RpSkZoQThWZnl5S2V6?=
- =?utf-8?B?SHU5bThsSTFTZUIzVnJYZ0ZHVkhHOW1qdDRKdVBYUnNyRWZueVBnUnNPWDFX?=
- =?utf-8?B?WlErYlB4TVFESDJUTkZ2OFRCVXZqWjBrampRZU5YM2ZTRkI4TWxGdGpVaVdM?=
- =?utf-8?B?NXVOTmt2WUswYllXZ1JPdHhRTkZXajdIbWljNWV2TTVrakZsTG1FNWdRb3Fx?=
- =?utf-8?B?cEY3b2lqLy8rNmRhVGNWNFd3U0QxcGUxb0oyTDN1OGFPTUhPYzdwczdlSHF0?=
- =?utf-8?B?Q3NJejhHaVZna043Vk9jSWhRaWVmdnRNb3VUT2ZpRWFVVVVhSWphWW4rci9v?=
- =?utf-8?B?bUxhTEN4M0ZCNHFOb3RrdHVTQ2J3QnZXNHFHclJXRk1KTk5VbUYvVHBzSnI4?=
- =?utf-8?B?YXNCaGt6UnZyY3ovOXFzSVFDck5ZQ2I0YUZ2RG1HbXZEZDZYSk9YWkJnbG1o?=
- =?utf-8?B?Y2FYb3NDT2srdDV6NHBwTEZyUm5ESmlZemRJRThBSzVzZXJJV3c2WG9iSzBy?=
- =?utf-8?B?SHNhblc5OVJnWDF2ZHplUmN3aFZVOGo5UHIxYlQ1Wjh2ZkFOMjJhMDlwM0R5?=
- =?utf-8?Q?pJeFTwMMQBFuD0Gi9d4/jWLe3WhFo5nOx0Veyvg3RU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CE5575A0C4BB0F439AE53E616311E001@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [183.27.97.168]
+x-yovoleruleagent: yovoleflag
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5592.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75b032f1-7a79-4699-5d3e-08db0d714ead
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2023 03:20:50.5026
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xtKdPNVy8CqXK3ipP9H31YFqein3KJxyTAAl+7g3fsavDtIWmygMSe9wIvNvvBNphoCFFmMIqBLn3V0Sz1J+9rb/xOWdv3oKgT5UlSsOuA0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8095
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTAyLTEzIGF0IDEwOjIzICswODAwLCBXZW50b25nIFd1IHdyb3RlOgo+IAoK
-djIgd2l0aG91dCBjaGFuZ2UgbG9nLCB3aHk/Cgo+IEludGVsIFZpc3VhbCBTZW5zaW5nIENvbnRy
-b2xsZXIgKElWU0MpLCBjb2RlbmFtZWQgIkNsb3ZlciBGYWxscyIsIGlzCj4gYQo+IGNvbXBhbmlv
-biBjaGlwIGRlc2lnbmVkIHRvIHByb3ZpZGUgc2VjdXJlIGFuZCBsb3cgcG93ZXIgdmlzaW9uCj4g
-Y2FwYWJpbGl0eQo+IHRvIElBIHBsYXRmb3Jtcy4gSVZTQyBpcyBhdmFpbGFibGUgaW4gZXhpc3Rp
-bmcgY29tbWVyY2lhbCBwbGF0Zm9ybXMKPiBmcm9tCj4gbXVsdGlwbGUgT0VNcy4KPiAKPiBUaGUg
-cHJpbWFyeSB1c2UgY2FzZSBvZiBJVlNDIGlzIHRvIGJyaW5nIGluIGNvbnRleHQgYXdhcmVuZXNz
-LiBJVlNDCj4gaW50ZXJmYWNlcyBkaXJlY3RseSB3aXRoIHRoZSBwbGF0Zm9ybSBtYWluIGNhbWVy
-YSBzZW5zb3IgdmlhIGEgQ1NJLTIKPiBsaW5rCj4gYW5kIHByb2Nlc3NlcyB0aGUgaW1hZ2UgZGF0
-YSB3aXRoIHRoZSBlbWJlZGRlZCBBSSBlbmdpbmUuIFRoZQo+IGRldGVjdGVkCj4gZXZlbnRzIGFy
-ZSBzZW50IG92ZXIgSTJDIHRvIElTSCAoSW50ZWwgU2Vuc29yIEh1YikgZm9yIGFkZGl0aW9uYWwK
-PiBkYXRhCj4gZnVzaW9uIGZyb20gbXVsdGlwbGUgc2Vuc29ycy4gVGhlIGZ1c2lvbiByZXN1bHRz
-IGFyZSB1c2VkIHRvCj4gaW1wbGVtZW50Cj4gYWR2YW5jZWQgdXNlIGNhc2VzIGxpa2U6Cj4gwqAt
-IEZhY2UgZGV0ZWN0aW9uIHRvIHVubG9jayBzY3JlZW4KPiDCoC0gRGV0ZWN0IHVzZXIgcHJlc2Vu
-Y2UgdG8gbWFuYWdlIGJhY2tsaWdodCBzZXR0aW5nIG9yIHdha2luZyB1cAo+IHN5c3RlbQo+IAo+
-IFNpbmNlIHRoZSBJbWFnZSBQcm9jZXNzaW5nIFVuaXQoSVBVKSB1c2VkIG9uIHRoZSBob3N0IHBy
-b2Nlc3NvciBuZWVkcwo+IHRvCj4gY29uZmlndXJlIHRoZSBDU0ktMiBsaW5rIGluIG5vcm1hbCBj
-YW1lcmEgdXNhZ2VzLCB0aGUgQ1NJLTIgbGluayBhbmQKPiBjYW1lcmEgc2Vuc29yIGNhbiBvbmx5
-IGJlIHVzZWQgaW4gbXV0dWFsbHktZXhjbHVzaXZlIHdheXMgYnkgaG9zdCBJUFUKPiBhbmQKPiBJ
-VlNDLiBCeSBkZWZhdWx0IHRoZSBJVlNDIG93bnMgdGhlIENTSS0yIGxpbmsgYW5kIGNhbWVyYSBz
-ZW5zb3IuIFRoZQo+IElQVQo+IGRyaXZlciBjYW4gdGFrZSBvd25lcnNoaXAgb2YgdGhlIENTSS0y
-IGxpbmsgYW5kIGNhbWVyYSBzZW5zb3IgdXNpbmcKPiBpbnRlcmZhY2VzIHByb3ZpZGVkIGJ5IHRo
-aXMgSVZTQyBkcml2ZXIuCj4gCj4gU3dpdGNoaW5nIG93bmVyc2hpcCByZXF1aXJlcyBhbiBpbnRl
-cmZhY2Ugd2l0aCB0d28gZGlmZmVyZW50IGhhcmR3YXJlCj4gbW9kdWxlcyBpbnNpZGUgSVZTQy4g
-VGhlIHNvZnR3YXJlIGludGVyZmFjZSB0byB0aGVzZSBtb2R1bGVzIGlzIHZpYQo+IEludGVsCj4g
-TUVJIChUaGUgSW50ZWwgTWFuYWdlbWVudCBFbmdpbmUpIGNvbW1hbmRzLiBUaGVzZSB0d28gaGFy
-ZHdhcmUKPiBtb2R1bGVzCj4gaGF2ZSB0d28gZGlmZmVyZW50IE1FSSBVVUlEcyB0byBlbnVtZXJh
-dGUuIFRoZXNlIGhhcmR3YXJlIG1vZHVsZXMKPiBhcmU6Cj4gwqAtIEFDRSAoQWxnb3JpdGhtIENv
-bnRleHQgRW5naW5lKTogVGhpcyBtb2R1bGUgaXMgZm9yIGFsZ29yaXRobQo+IGNvbXB1dGluZwo+
-IHdoZW4gSVZTQyBvd25zIGNhbWVyYSBzZW5zb3IuIEFsc28gQUNFIG1vZHVsZSBjb250cm9scyBj
-YW1lcmEKPiBzZW5zb3Incwo+IG93bmVyc2hpcC4gVGhpcyBoYXJkd2FyZSBtb2R1bGUgaXMgdXNl
-ZCB0byBzZXQgb3duZXJzaGlwIG9mIGNhbWVyYQo+IHNlbnNvci4KPiDCoC0gQ1NJIChDYW1lcmEg
-U2VyaWFsIEludGVyZmFjZSk6IFRoaXMgbW9kdWxlIGlzIHVzZWQgdG8gcm91dGUgY2FtZXJhCj4g
-c2Vuc29yIGRhdGEgZWl0aGVyIHRvIElWU0Mgb3IgdG8gaG9zdCBmb3IgSVBVIGRyaXZlciBhbmQg
-YXBwbGljYXRpb24uCj4gCj4gSVZTQyBhbHNvIHByb3ZpZGVzIGEgcHJpdmFjeSBtb2RlLiBXaGVu
-IHByaXZhY3kgbW9kZSBpcyB0dXJuZWQgb24sCj4gY2FtZXJhIHNlbnNvciBjYW4ndCBiZSB1c2Vk
-LiBUaGlzIG1lYW5zIHRoYXQgYm90aCBBQ0UgYW5kIGhvc3QgSVBVCj4gY2FuJ3QKPiBnZXQgaW1h
-Z2UgZGF0YS4gQW5kIHdoZW4gdGhpcyBtb2RlIGlzIHR1cm5lZCBvbiwgaG9zdCBJUFUgZHJpdmVy
-IGlzCj4gaW5mb3JtZWQgdmlhIGEgcmVnaXN0ZXJlZCBjYWxsYmFjaywgc28gdGhhdCB1c2VyIGNh
-biBiZSBub3RpZmllZC4KPiAKPiBJbiBzdW1tYXJ5LCB0byBhY3F1aXJlIG93bmVyc2hpcCBvZiBj
-YW1lcmEgYnkgSVBVIGRyaXZlciwgZmlyc3QgQUNFCj4gbW9kdWxlIG5lZWRzIHRvIGJlIGluZm9y
-bWVkIG9mIG93bmVyc2hpcCBhbmQgdGhlbiB0byBzZXR1cCBNSVBJIENTSS0yCj4gbGluayBmb3Ig
-dGhlIGNhbWVyYSBzZW5zb3IgYW5kIElQVS4KPiAKPiBJbXBsZW1lbnRhdGlvbjoKPiBUaGVyZSBh
-cmUgdHdvIGRpZmZlcmVudCBkcml2ZXJzIHRvIGhhbmRsZSBBQ0UgYW5kIENTSSBoYXJkd2FyZQo+
-IG1vZHVsZXMKPiBpbnNpZGUgSVZTQy4KPiDCoC0gbWVpX2NzaTogTUVJIGNsaWVudCBkcml2ZXIg
-dG8gc2VuZCBjb21tYW5kcyBhbmQgcmVjZWl2ZQo+IG5vdGlmaWNhdGlvbnMKPiBmcm9tIENTSSBt
-b2R1bGUuCj4gwqAtIG1laV9hY2U6IE1FSSBjbGllbnQgZHJpdmVyIHRvIHNlbmQgY29tbWFuZHMg
-YW5kIGdldCBzdGF0dXMgZnJvbQo+IEFDRQo+IG1vZHVsZS4KPiBJbnRlcmZhY2UgaXMgZXhwb3Nl
-ZCB2aWEgaXZzYy5oIHRvIGFjcXVpcmUgYW5kIHJlbGVhc2UgY2FtZXJhIHNlbnNvcgo+IGFuZAo+
-IENTSS0yIGxpbmsuCj4gCj4gQmVsb3cgZGlhZ3JhbSBzaG93cyBjb25uZWN0aW9ucyBvZiBJVlND
-L0lTSC9JUFUvQ2FtZXJhIHNlbnNvci4KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAtLS0tLS0tLQo+ID4gSG9z
-dAo+ID4gUHJvY2Vzc29ywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAKPiA+IMKgIHwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiDC
-oMKgwqDCoMKgwqAgfAo+ID4gwqDCoMKgwqDCoCAtLS0tLS0tLS0tLS0tLS0tLcKgwqDCoMKgwqDC
-oCAtLS0tLS0tLS0tLS0tLS0tLcKgwqDCoMKgwqDCoCAtLS0tLS0tLS0tLS0tCj4gPiAtLcKgwqDC
-oMKgIHwKPiA+IMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDC
-oMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHzCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAKPiA+IHwgSTJDIHwKPiA+IMKgwqDCoMKgwqAgfMKgwqDCoMKg
-wqAgSVBVwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgIElTSMKgwqDCoMKgwqAg
-fMKgwqDCoMKgwqDCoCB8Y2FtZXJhCj4gPiBkcml2ZXJ8LS18wqAgfAo+ID4gwqDCoMKgwqDCoCB8
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+
-ID4gfMKgIHzCoCB8Cj4gPiDCoMKgwqDCoMKgIC0tLS0tLS0tLS0tLS0tLS0twqDCoMKgwqDCoMKg
-IC0tLS0tLS0tLS0tLS0tLS0twqDCoMKgwqDCoMKgIC0tLS0tLS0tLS0tLS0KPiA+IC0twqAgfMKg
-IHwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgCj4gPiB8wqDCoMKgwqDCoMKgwqDCoCB8wqAgfAo+ID4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC0tLS0tLS0tLS0tLS0KPiA+IC0twqAgfMKg
-IHwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiB8wqAgfMKgIHwKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IElWU0MgZHJpdmVyCj4gPiB8wqAgfMKgIHwK
-PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgCj4gPiB8wqAgfMKgIHwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtLS0tLS0tLS0tLS0tCj4gPiAtLcKgIHzCoCB8Cj4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoAo+ID4gfMKgwqDCoMKgwqDCoMKgwqAgfMKgIHwKPiAtLS0tLS0tLS0tLS0tLS0tfC0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS0tLS0tLS18LS0tLS0KPiAtLS0tfC0t
-LQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IENTScKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8IEkyQ8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAKPiB8U1BJwqDCoMKgwqDCoCB8Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgCj4gfMKgwqDCoMKgwqDCoMKgwqAgfAo+IC0t
-LS0tLS0tLS0tLS0tLS18LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS18LS0tLS0tLS0tLS0tLS0tLcKg
-wqDCoMKgwqAKPiB8wqDCoMKgwqDCoMKgwqDCoCB8Cj4gPiBJVlNDwqDCoMKgwqDCoMKgwqDCoMKg
-IHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgCj4gPiB8wqDCoMKgwqDCoMKgwqDCoCB8
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
-oMKgwqDCoAo+ID4gfMKgwqDCoMKgwqDCoMKgwqAgfAo+ID4gwqDCoMKgwqDCoCAtLS0tLS0tLS0t
-LS0tLS0tLcKgwqDCoMKgwqDCoCAtLS0tLS0tLS0tLS0tLS0tLcKgwqDCoMKgwqDCoCB8wqDCoMKg
-wqDCoAo+ID4gfMKgwqDCoMKgwqDCoMKgwqAgfAo+ID4gwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHzCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqAKPiA+IHzCoMKgwqDCoMKgwqDCoMKgIHwKPiA+
-IMKgwqDCoMKgwqAgfMKgwqDCoMKgwqAgQ1NJwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHzCoMKg
-wqDCoMKgIEFDRcKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoCB8LS0tLS0tCj4gPiB8wqDCoMKgwqDC
-oMKgwqDCoCB8Cj4gPiDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
-oMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoAo+
-ID4gfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8Cj4gPiDCoMKgwqDCoMKgIC0tLS0t
-LS0tLS0tLS0tLS0twqDCoMKgwqDCoMKgIC0tLS0tLS0tLS0tLS0tLS0twqDCoMKgwqDCoMKgCj4g
-PiB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
-IEkyQ8KgwqDCoMKgwqDCoMKgwqDCoMKgCj4gPiB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHwKPiAtLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0t
-LS0tLS0tLS0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfAo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8IENTScKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoAo+IHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCB8Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+IHzCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8Cj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwKPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwKPiBJMkPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDC
-oMKgwqDCoMKgwqAgY2FtZXJhIHNlbnNvcsKgwqDCoMKgwqDCoMKgIHwtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tCj4gLS0tLXwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwKPiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gCj4gV2Vu
-dG9uZyBXdSAoMyk6Cj4gwqAgbWVkaWE6IHBjaTogaW50ZWw6IGl2c2M6IEFkZCBDU0kgc3VibW9k
-dWxlCj4gwqAgbWVkaWE6IHBjaTogaW50ZWw6IGl2c2M6IEFkZCBBQ0Ugc3VibW9kdWxlCj4gwqAg
-bWVkaWE6IHBjaTogaW50ZWw6IGl2c2M6IEFkZCBhY3F1aXJlL3JlbGVhc2UgQVBJIGZvciBpdnNj
-Cj4gCj4gwqBkcml2ZXJzL21lZGlhL3BjaS9LY29uZmlnwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqAgMSArCj4gwqBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9NYWtlZmlsZcKgwqDCoMKg
-wqDCoCB8wqDCoCAyICsKPiDCoGRyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2l2c2MvS2NvbmZpZ8Kg
-wqAgfMKgIDEyICsKPiDCoGRyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2l2c2MvTWFrZWZpbGXCoCB8
-wqDCoCA3ICsKPiDCoGRyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2l2c2MvaXZzYy5jwqDCoMKgIHzC
-oCA4NCArKysrKwo+IMKgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXZzYy9tZWlfYWNlLmMgfCA0
-NzIKPiArKysrKysrKysrKysrKysrKysrKysrKysrCj4gwqBkcml2ZXJzL21lZGlhL3BjaS9pbnRl
-bC9pdnNjL21laV9hY2UuaCB8wqAgMzYgKysKPiDCoGRyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2l2
-c2MvbWVpX2NzaS5jIHwgMzQyICsrKysrKysrKysrKysrKysrKwo+IMKgZHJpdmVycy9tZWRpYS9w
-Y2kvaW50ZWwvaXZzYy9tZWlfY3NpLmggfMKgIDYwICsrKysKPiDCoGluY2x1ZGUvbGludXgvaXZz
-Yy5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA3NCArKysrCj4gwqAx
-MCBmaWxlcyBjaGFuZ2VkLCAxMDkwIGluc2VydGlvbnMoKykKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pdnNjL0tjb25maWcKPiDCoGNyZWF0ZSBtb2RlIDEw
-MDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pdnNjL01ha2VmaWxlCj4gwqBjcmVhdGUgbW9k
-ZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXZzYy9pdnNjLmMKPiDCoGNyZWF0ZSBt
-b2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pdnNjL21laV9hY2UuYwo+IMKgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2l2c2MvbWVpX2FjZS5oCj4g
-wqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXZzYy9tZWlfY3Np
-LmMKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pdnNjL21l
-aV9jc2kuaAo+IMKgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvaXZzYy5oCj4gCgo=
+On 12/7/22 20:13, Sebastian Fricke wrote:
+>The Wave5 codec driver is a stateful encoder/decoder.
+>It is found on the J721S2 SoC, JH7100 SoC, and ssd202d SoC. etc.
+>But the current test report is based on J721S2 SoC and pre-silicon FPGA.
+>
+>The driver currently supports V4L2_PIX_FMT_HEVC and V4L2_PIX_FMT_H264.
+>
+>This driver has so far been tested on the J721S2 EVM board and
+>pre-silicon FPGA.
+>
+>Testing on the J721S2 EVM board in combination with the GStreamer v4l2
+>good plugin shows the decoder is working correctly, it has been tested
+>with H264 & HEVC video clips with multiple different dimensions (4k,
+>1080p, 720p, 540p, 360p, 270p) and various lengths. Additionally,
+>Fluster conformance tests have been run for both supported codecs.
+>
+>The encoder can encode various videos but still has some issues causing
+>it to fail occassionally.
+>
+>V4L2 compliance:
+>
+>Total for wave5-dec device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+>
+>Buffer ioctls:
+>		fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-buffers.cpp(610): q.reqbufs(node, 1)
+>	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+>		fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-buffers.cpp(753): q.reqbufs(node, 2)
+>	test VIDIOC_EXPBUF: FAIL
+>	test Requests: OK (Not Supported)
+>
+>Total for wave5-enc device /dev/video1: 44, Succeeded: 42, Failed: 2, Warnings: 2
+>
+>changes since v10:
+>
+>* Remove structure member from the encoder and decoder output info
+>  structs, that have assigned values from the registers but aren't used
+>  in the driver, add comments to describe the register values in the
+>  register definitions
+>* Fix issue with decoding videos with a dimension where the height is
+>  not a multiple of 16 (270, 360, 540, 1024 etc.)
+>* Fix incorrect variable format identifiers in printks
+>* Use debug logs in loops to avoid flooding the message log
+>* Use the swap() function instead of manual swapping of two values
+>* Add extended controls for the encoder
+>* Fix control flow issue while handling bitstream buffers, where an
+>  error while writing the source buffer into the hardware ring buffer
+>  would result in skipping the problematic buffer, which in turn causes
+>  a reordering of source buffers
+>* Use the rectangle format as described by the hardware, the hardware
+>  uses for rectangles like the display rectangle 4 offsets (top, bottom,
+>  left, right), which depict the offset from the respective edge. Use
+>  this format instead of implicitly converting the bottom and right
+>  attributes to width and height attributes.
+>* Return an error upon reading the sequence header while STREAMON
+>* Squash the VDI and the VPUAPI layer commits as they had circular
+>  dependencies
+>
+>changes since v9:
+>
+>* Move from staging to the media directory
+>  * Move coda driver to sub-directory
+>
+>* Fixes:
+>  * Use platform_get_irq instead of platform_get_resource to fetch the IRQ
+>
+>* General cleanups:
+>  * Add missing error messages to error conditions
+>  * Improve messages/variable names/comments, align parameter names across the driver
+>  * Use macros instead of magic numbers in multiple occassions
+>  * Reduce code duplication in multiple places
+>  * Fix whitespace, newline and tab alignment issues
+>  * Remove unused struct fields & commented out code
+>  * Convert signed integers to unsigned if signed is not necessary
+>  * Convert int/unsigned int to s32/u32, when the variable is assigned to the
+>    return of a register read or provided as a parameter for a register write
+>    (and vice versa)
+>  * Fix incorrect bitwise operators where logical operators are appropriate
+>  * Multiple smaller changes
+>
+>* Generalization:
+>  * Add new helper file providing generalized routines for vpu-dec & vpu-enc
+>  * Generalize luma & chroma table size calculation and stride calculation
+>
+>* Resource cleanup and error handling:
+>  * Add error handling to all calls with ignored return codes
+>  * Handle DMA resource cleanup properly
+>  * Fix insufficient instance cleanup while opening dec/enc
+>
+>changes since v8:
+>
+>* add 'wave5' to DEV_NAME
+>* update to support Multi-stream
+>* update to support loop test/dynamic resolution change
+>* remove unnecessary memset, g_volatile, old version option
+>
+>changes since v7:
+>
+>* update v4l2-compliance test report
+>* fix build error on linux-kernel 5.18.0-rc4
+>
+>changes since v6:
+>
+>* update TODO file
+>* get sram info from device tree
+>
+>changes since v5:
+>
+>* support NV12/NV21 pixelformat for encoder and decoder
+>* handle adnormal exit and EOS
+>
+>changes since v4:
+>
+>* refactor functions in wave5-hw and fix bug reported by Daniel Palmer
+>* rename functions and variables to better names
+>* change variable types such as replacing s32 with u32 and int with bool
+>* as appropriate
+>
+>changes since v3:
+>
+>* Fixing all issues commented by Dan Carpenter
+>* Change file names to have wave5- prefix
+>* In wave5_vpu_probe, enable the clocks before reading registers, as
+>* commented from Daniel Palmer
+>* Add more to the TODO list,
+>
+>changes since v2:
+>
+>Main fixes includes:
+>* change the yaml and dirver code to support up to 4 clks (instead of
+>* one)
+>* fix Kconfig format
+>* remove unneeded cast,
+>* change var types
+>* change var names, func names
+>* checkpatch fixes
+>
+>changes since v1:
+>
+>Fix changes due to comments from Ezequiel and Dan Carpenter. Main fixes
+>inclueds:
+>* move all files to one dir 'wave5'
+>* replace private error codes with standard error codes
+>* fix extra spaces
+>* various checkpatch fixes
+>* replace private 'DPRINTK' macro with standard 'dev_err/dbg ..'
+>* fix error handling
+>* add more possible fixes to the TODO file
+>
+
+We used the patchset on JH7110 SoC which is integrated with a wave511 VPU. 
+We see issue that the decoder output contains garbage data in the image
+when decoding some of HEVC videos, in 1080p or 4k. But Most of the videos
+we tested decoded well.
+
+Beside, ffmpeg h264_v4l2m2m could not get the correct resolution via
+VIDIOC_G_FMT or VIDIOC_TRY_FMT for 1080p AVC video.
+
+>Nas Chung (3):
+>  media: chips-media: wave5: Add vpuapi layer
+>  media: chips-media: wave5: Add the v4l2 layer
+>  media: chips-media: wave5: Add TODO file
+>
+>Robert Beckett (2):
+>  dt-bindings: media: wave5: add yaml devicetree bindings
+>  media: chips-media: wave5: Add wave5 driver to maintainers file
+>
+>Sebastian Fricke (1):
+>  media: platform: chips-media: Move Coda to separate folder
+>
+> .../devicetree/bindings/cnm,wave5.yml         |   72 +
+> MAINTAINERS                                   |   11 +-
+> drivers/media/platform/chips-media/Kconfig    |   18 +-
+> drivers/media/platform/chips-media/Makefile   |    6 +-
+> .../media/platform/chips-media/coda/Kconfig   |   18 +
+> .../media/platform/chips-media/coda/Makefile  |    6 +
+> .../chips-media/{ => coda}/coda-bit.c         |    0
+> .../chips-media/{ => coda}/coda-common.c      |    0
+> .../chips-media/{ => coda}/coda-gdi.c         |    0
+> .../chips-media/{ => coda}/coda-h264.c        |    0
+> .../chips-media/{ => coda}/coda-jpeg.c        |    0
+> .../chips-media/{ => coda}/coda-mpeg2.c       |    0
+> .../chips-media/{ => coda}/coda-mpeg4.c       |    0
+> .../platform/chips-media/{ => coda}/coda.h    |    0
+> .../chips-media/{ => coda}/coda_regs.h        |    0
+> .../chips-media/{ => coda}/imx-vdoa.c         |    0
+> .../chips-media/{ => coda}/imx-vdoa.h         |    0
+> .../platform/chips-media/{ => coda}/trace.h   |    0
+> .../media/platform/chips-media/wave5/Kconfig  |   12 +
+> .../media/platform/chips-media/wave5/Makefile |   10 +
+> drivers/media/platform/chips-media/wave5/TODO |   18 +
+> .../platform/chips-media/wave5/wave5-helper.c |  175 +
+> .../platform/chips-media/wave5/wave5-helper.h |   28 +
+> .../platform/chips-media/wave5/wave5-hw.c     | 3359 +++++++++++++++++
+> .../chips-media/wave5/wave5-regdefine.h       |  743 ++++
+> .../platform/chips-media/wave5/wave5-vdi.c    |  245 ++
+> .../platform/chips-media/wave5/wave5-vdi.h    |   67 +
+> .../chips-media/wave5/wave5-vpu-dec.c         | 1429 +++++++
+> .../chips-media/wave5/wave5-vpu-enc.c         | 1746 +++++++++
+> .../platform/chips-media/wave5/wave5-vpu.c    |  362 ++
+> .../platform/chips-media/wave5/wave5-vpu.h    |   72 +
+> .../platform/chips-media/wave5/wave5-vpuapi.c | 1040 +++++
+> .../platform/chips-media/wave5/wave5-vpuapi.h | 1136 ++++++
+> .../chips-media/wave5/wave5-vpuconfig.h       |   90 +
+> .../chips-media/wave5/wave5-vpuerror.h        |  454 +++
+> .../media/platform/chips-media/wave5/wave5.h  |   94 +
+> 36 files changed, 11190 insertions(+), 21 deletions(-)
+> create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
+> create mode 100644 drivers/media/platform/chips-media/coda/Kconfig
+> create mode 100644 drivers/media/platform/chips-media/coda/Makefile
+> rename drivers/media/platform/chips-media/{ => coda}/coda-bit.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda-common.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda-gdi.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda-h264.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda-jpeg.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda-mpeg2.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda-mpeg4.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda.h (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/coda_regs.h (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/imx-vdoa.c (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/imx-vdoa.h (100%)
+> rename drivers/media/platform/chips-media/{ => coda}/trace.h (100%)
+> create mode 100644 drivers/media/platform/chips-media/wave5/Kconfig
+> create mode 100644 drivers/media/platform/chips-media/wave5/Makefile
+> create mode 100644 drivers/media/platform/chips-media/wave5/TODO
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-helper.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-helper.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-hw.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-regdefine.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuerror.h
+> create mode 100644 drivers/media/platform/chips-media/wave5/wave5.h
+>
+>-- 
+>2.25.1
+>
+
