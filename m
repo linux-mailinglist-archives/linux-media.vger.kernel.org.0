@@ -2,72 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 833EB694C10
-	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 17:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1146694C9B
+	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 17:25:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjBMQLB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Feb 2023 11:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        id S230149AbjBMQZl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Feb 2023 11:25:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbjBMQLA (ORCPT
+        with ESMTP id S229868AbjBMQZe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Feb 2023 11:11:00 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192D21EFFE
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 08:10:59 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id p26so33056027ejx.13
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 08:10:59 -0800 (PST)
+        Mon, 13 Feb 2023 11:25:34 -0500
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B99FD1CF77
+        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 08:25:11 -0800 (PST)
+Received: by mail-qt1-x831.google.com with SMTP id f10so14337652qtv.1
+        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 08:25:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zDVfwvFSS8VJ1hXNKdD4Fk6lUNif8eaxpztOBA00pq8=;
-        b=UzMY9Jb6/w+2sI+xuELNwlp0VLzvhyo00S1kY/JgKVTeRXd0g+NKkV2peL3XAdFdxy
-         Qb4ULglTrGW1/BCDTIdHkekJ8s6VLVhnG2XOwngOEJB7z5N87vK8ONdhqnQxvMArjT2u
-         a3BhsuA+hsLJnEjU/k3uKuEYuHRid9vZO5bEBZ4pYHv3n6JYgSbaC8mStHvZrMqTodMJ
-         wKkiB3ZH+eyySkjg5O9Gv1Gnn7Afpd6SEeLIu5RiuwEg4oyBmesxjAX8AoI5nEZ/VeUP
-         jEuQtYRWZYH3bypiBiI7aHhpnt+7jPvx+TSaclP26HlkWbzgw9qMBD6jxBXqGXl6cYs3
-         OTKw==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RzCZ7Gz8dNg2wwMEAhcGBRHW0pAcl0AMRnHCGIOP8gM=;
+        b=8B47NgTrT9a8ALWWpWuJlPNLWReTysKXWa7izy9352B/PQ3rU0ThDNRZXJMwCqKUjI
+         AVfd+PUreh9kbwyGSEnqaQdb0wDEv8J7fXYzEuOoBweQbRgkvBidIIx0wISqXDOcFMK+
+         CHUPPSEImq/quctxIEMqCiwtg9oUE0ScJcDhcgwgTaQKgzI4oM+bdABK+Cdk/OAx0c4o
+         RCcyGpi8iPOSgV3jn2LVCVnE4RKOeBDiMQbNhDrdvHprxuE1zoeE5+W0efL2Dg8+Ab8Q
+         R3JbZK2E7wGAbMkDUHx66oZJv+opE17ypalXcxA12G3c7V7TjpC8KWsKemRCVa1Gt/r3
+         w+Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDVfwvFSS8VJ1hXNKdD4Fk6lUNif8eaxpztOBA00pq8=;
-        b=Uva/jtDAM7nBuiY/mtPYPH78zURKs3GyT3MZT0sq9lhKZWs9FGlDd8oei8ZdE12UVA
-         cmUIC3WitvUWcqoUcyy9YJVr3Td8V7+r/qxBY4O6asXPsNRvvLKjq2vNvoXppOKFr7dx
-         JppKQmYxMK+1Xu9yI9bTI/AiWp0hNHM33l1RIc4CfZMt/EfhtiWyN5oGzT0QAbEiA1aw
-         AwT+A3fSp6LIBrgp2XglNby7dAfL4lwsDNxdjIIRKwJD3F7YjTnGo0D2ADNCQ/5iRYO9
-         FlcZBoh1bsXbHZIeOgrVHnrLTWzkr0Wc57a98CCrsuWxIMF3AA4zKaHB9GSdlTUSbZFt
-         2mGw==
-X-Gm-Message-State: AO0yUKWXciZDwNOATaoIcmYR3S/3EuvdV01KZuM3S/1TuDPiBTuU8lhm
-        QsMnOcAr40CmHm4uyNaQC/ellA==
-X-Google-Smtp-Source: AK7set/33YBrEtdyXyOpC22woKTcLm3Q0MFElqVoHN9LjkLAGhZfTDQ88py0bNCJCKfL/ziABy0/dg==
-X-Received: by 2002:a17:907:d28:b0:8af:433d:5383 with SMTP id gn40-20020a1709070d2800b008af433d5383mr19717523ejc.9.1676304657722;
-        Mon, 13 Feb 2023 08:10:57 -0800 (PST)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id m10-20020a170906580a00b0086f4b8f9e42sm6906326ejq.65.2023.02.13.08.10.56
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RzCZ7Gz8dNg2wwMEAhcGBRHW0pAcl0AMRnHCGIOP8gM=;
+        b=lK9QFK1j5Ylmuc0vXlXsXulXsNYWJg2Lvrk3tG1uaCNF6YoGuAXhCOyhfTM8DKqDXh
+         8OdKZssCb2RIZiG8EQeCjo6cYEshNgbfkml0bzwO7hKd71UAZk/5+TyOdyPM5ajd+/ts
+         EB4i8VbuAd4yED4fd9JtR3hdylnTrMtt7eKM44JHmpB6TdL2qU7vbipm1hXYywJLS9P+
+         xfZy+YugRTf5KlDAc/Wi2SAyEXxuOLi3fC36dsErd+Bi+N0Jpso/ZAlQMCb0n1P3FeMC
+         oJEM00u5VyiHgw1WohPNhifGPVRqoPvStVALHnoXQ9QtD+TemHYSV62v0l76xnHTJ2nA
+         USQQ==
+X-Gm-Message-State: AO0yUKX3bvH/Z+HF8M2fm0D4XU2KrQg87FNznaRMlLBl9u+Gi1L73QSW
+        847ZaWOjF4Bp/pBKmSX9eLhAxw==
+X-Google-Smtp-Source: AK7set8Qn5QamWVNmff1ixzoznHYQT4xPDfMO+hD4rmH2tU1JcccuqfGYZnMHeB7n0QTLFYwuNFWFQ==
+X-Received: by 2002:a05:622a:1704:b0:3a8:1677:bc39 with SMTP id h4-20020a05622a170400b003a81677bc39mr46995125qtk.52.1676305509391;
+        Mon, 13 Feb 2023 08:25:09 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id x16-20020ac87ed0000000b003b82489d8acsm9486416qtj.21.2023.02.13.08.25.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 08:10:57 -0800 (PST)
-Date:   Mon, 13 Feb 2023 17:10:56 +0100
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: rcar-csi2: Add support for C-PHY on R-Car V4H
-Message-ID: <Y+phEOUAVMsWadOG@oden.dyn.berto.se>
-References: <20230211145310.3819989-1-niklas.soderlund+renesas@ragnatech.se>
- <20230211145310.3819989-4-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdW4A9zx6SMFUZUz9EBCedRpiB3aJsXv+5V2ggx_09NbbQ@mail.gmail.com>
+        Mon, 13 Feb 2023 08:25:08 -0800 (PST)
+Message-ID: <c49047ac613970d29618e6367214daa43064485f.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/2] media: v4l: Add Broadcom sand formats to videodev2.h
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     John Cox <jc@kynesim.co.uk>
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
+Date:   Mon, 13 Feb 2023 11:25:06 -0500
+In-Reply-To: <olciuh9k2f6qsirql2oh450tiashbo62im@4ax.com>
+References: <20230127153415.83126-1-jc@kynesim.co.uk>
+         <20230127153415.83126-2-jc@kynesim.co.uk>
+         <4c9eef106e893b633ab83a792d97cc5e36f408fe.camel@ndufresne.ca>
+         <1ogauh5ro652so8vtc2fsgor5g3pj6ns3e@4ax.com>
+         <04dd55039d1c66d382dc9086500e5b8037ed6598.camel@ndufresne.ca>
+         <olciuh9k2f6qsirql2oh450tiashbo62im@4ax.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdW4A9zx6SMFUZUz9EBCedRpiB3aJsXv+5V2ggx_09NbbQ@mail.gmail.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,78 +76,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Le dimanche 12 f=C3=A9vrier 2023 =C3=A0 18:49 +0000, John Cox a =C3=A9crit=
+=C2=A0:
+> Hi
+>=20
+> > Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 19:06 +0000, John Cox a =C3=A9crit=
+=C2=A0:
+> > > Hi
+> > >=20
+> > > > Le vendredi 27 janvier 2023 =C3=A0 15:34 +0000, John Cox a =C3=A9cr=
+it=C2=A0:
+> > > > > Add fourccs for Broadcom 8 and 10-bit packed 128 byte column form=
+ats to
+> > > > > videodev2.h
+> > > > >=20
+> > > > > Signed-off-by: John Cox <jc@kynesim.co.uk>
+> > > > > ---
+> > > > >  include/uapi/linux/videodev2.h | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > > >=20
+> > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/=
+videodev2.h
+> > > > > index 1befd181a4cc..a836322ae5d8 100644
+> > > > > --- a/include/uapi/linux/videodev2.h
+> > > > > +++ b/include/uapi/linux/videodev2.h
+> > > > > @@ -656,6 +656,8 @@ struct v4l2_pix_format {
+> > > > >  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /*=
+ 12  Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
+> > > > >  #define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1',=
+ '2') /* Y/CbCr 4:2:0 8x128 tiles */
+> > > > >  #define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', '=
+1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> > > > > +#define V4L2_PIX_FMT_NV12_C128        v4l2_fourcc('C', 'N', '1',=
+ '2') /* Y/CbCr 4:2:0 128 byte columns */
+> > > > > +#define V4L2_PIX_FMT_P030_C128        v4l2_fourcc('C', 'N', '3',=
+ '0') /* Y/CbCr 4:2:0 10-bit packed 128 byte columns */
+> > > > > =20
+> > > > >  /* Tiled YUV formats, non contiguous planes */
+> > > > >  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* =
+12  Y/CbCr 4:2:0 64x32 tiles */
+> > > >=20
+> > > > I would expect updates to v4l2-common.c and v4l2-ioctl.c to be in t=
+he same
+> > > > patch. And then the driver should be using the helpers there whenev=
+er possible.
+> > >=20
+> > > Fair point - I'll fix that.
+> > >=20
+> > > What is the correct .bpp for 3 10-bit pixels packed into 4 bytes in t=
+he
+> > > v4l2_format_info?
+> >=20
+> > Good question, maybe this can be done with the fractional bpp support. =
+I must
+> > admit, I didn't think about padded cases, I was handling 10bit fully pa=
+cked over
+> > 5 bytes.
+> >=20
+> > https://lore.kernel.org/linux-arm-kernel/20230103170058.810597-3-benjam=
+in.gaignard@collabora.com/
+> > My case ended working with:
+> >=20
+> > { .format =3D V4L2_PIX_FMT_NV12_10LE40_4L4, .pixel_enc =3D V4L2_PIXEL_E=
+NC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .b=
+pp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> >=20
+> > Question is what do we do about comp_planes, if we kind of fake it to b=
+e 2, then maybe this would work.
+> >=20
+> > { .format =3D V4L2_PIX_FMT_P030_C128, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 4, 8, 0, 0 }, .bpp_div =
+=3D { 3, 3, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> >=20
+> > For weird format, this is a bit of hacky, all we want is to get the rig=
+ht
+> > stride, and the offset part is not used for mem_planes =3D 1 formats.
+>=20
+> I'm happy with whatever the consensus says is "right".
+>=20
+> What tree/branch should I be patching against? Code to support the above
+> doesn't seem to be in git://linuxtv.org/media_tree:master which is what
+> I was using.
 
-Thanks for your feedback.
+Not yet, this patch is part of "[PATCH v3 00/13] AV1 stateless decoder for
+RK3588" serie from Benjamin, which now needs to be rebased on V5 of the API=
+.
 
-On 2023-02-13 16:45:18 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Sat, Feb 11, 2023 at 4:06 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > Add support for C-PHY on R-Car V4H. While the V4H supports both D-PHY
-> > and C-PHY this patch only adds support for the C-PHY mode due to lack of
-> > documentation and hardware to test on.
-> >
-> > The V4H is the first Gen4 device that is enabled in the rcar-csi2
-> > driver. There is much overlap with the Gen3 driver, the primary
-> > difference is in how the receiver is started. The V4H have a much larger
-> > register space and some addresses overlap with Gen3.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> 
-> > @@ -1503,6 +1781,12 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a779a0 = {
-> >         .support_dphy = true,
-> >  };
-> >
-> > +static const struct rcar_csi2_info rcar_csi2_info_r8a779g0 = {
-> > +       .start_receiver = rcsi2_start_receiver_v4h,
-> 
-> The description of "[PATCH 1/3] media: rcar-csi2: Prepare for Gen4
-> support" suggests you also need a different procedure for
-> .enter_standby()?  But perhaps not doing the procedure is just the right
-> thing to do?
+I see two options, you simply pick it as part of your patchset, worst case =
+the
+other serie get merge and we skip it or I split it out of AV1 so we can get=
+ it
+merged sooner. I can probably make it on its own, as  it is used to enable =
+the
+native (reference frame) format Hantro produces, including VP9, which is wr=
+ongly
+mapped to P010_4L4 at the moment (not even sure this format exist).
 
-They are indeed different, but doing nothing in enter_standby() for V4H 
-is the correct thing.
+Nicolas
 
-Maybe the function enter_standby(), could have been better named as 
-enter_standby_extra() or pre_enter_standby(). As for both on Gen3 and 
-V4H after enter_standby(), if present, have been called the rest 
-controller is asserted and the module is powers off.
+>=20
+> Thanks
+>=20
+> John Cox
+>=20
+> > let me know,
+> > Nicolas
+> >=20
+> > >=20
+> > > Regards
+> > >=20
+> > > John Cox
 
-Only that on Gen3 which have more documentation an extra step to poke 
-some registers before asserting the reset controller is documented, so 
-this is what happens in rcsi2_enter_standby_gen3(). I would not be 
-surprised as we get more documentation for V4H we will add a 
-rcsi2_enter_standby_gen4() to match updates in the datasheet.
-
-
-> 
-> > +       .use_isp = true,
-> > +       .support_cphy = true,
-> > +};
-> > +
-> >  static const struct of_device_id rcar_csi2_of_table[] = {
-> >         {
-> >                 .compatible = "renesas,r8a774a1-csi2",
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
--- 
-Kind Regards,
-Niklas Söderlund
