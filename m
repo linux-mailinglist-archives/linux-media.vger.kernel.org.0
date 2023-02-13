@@ -2,157 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B5806951E2
-	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 21:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72E736953DA
+	for <lists+linux-media@lfdr.de>; Mon, 13 Feb 2023 23:27:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbjBMUbp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Feb 2023 15:31:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33110 "EHLO
+        id S229581AbjBMW1S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Feb 2023 17:27:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbjBMUbo (ORCPT
+        with ESMTP id S229462AbjBMW1R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Feb 2023 15:31:44 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B4DB1BC0
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 12:31:42 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id cr22so15228155qtb.10
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 12:31:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ynunebNv3/ClzLadrcGUSHlvKNNIjn4cGACot/T4j8M=;
-        b=iIwgS+KpMsPRwG23PsszTNQdCJxbQu+yrGM+n3tIPedQo6TMhtAj5MxErwVVvJraLO
-         ZwYUqU7nq6+lbF/TWwWhTaLTWRf33CkI6b/eyZyG7J+sH3nfkauyaaDKj8mLh3KzVJJT
-         mDc/Y6+fWU3eiCSR3V0YKWDUMspYba/gifOEEj6gyC+f1dAYSzu7Cdy7qz1n7SCypUII
-         avkLlavLXiLxfqgwdkmXaU3ijEN8ANyWgXxP+BB3NX8JPYkUXGcp0UGlfRdM6eYJwerg
-         hdl/fKfsjSU6TB5zG6eG/Ws7vT3Mc8z3WJnFyLHZt+lxRflZbkFTdcIAW8eQy51WHrIp
-         t0+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ynunebNv3/ClzLadrcGUSHlvKNNIjn4cGACot/T4j8M=;
-        b=m/LyjO+tCgzxYygGunyVHDjQdkhLNn2TmN2OYAp2INjBjXHuuC9+drBmcTx2+xy4Ug
-         GI/p/KGuD1wxr0/U7i5RgHvK2u9b6dwIwgi70owT3RdCCJn7aEm5M404hZuj7Va9zA8C
-         nkF8tmWUv9Ehd8u68dZlpa/Zv75Z+Aw9gjk+T4i5uRSu+GnlUeJ0GbiPx36FSKFtU5uT
-         jhLEAeP6jlbf/JA534H6B4NPAPwSWtR4e2DjXojZ0CwOFHS/5+NUPllEZcsz6mRhFExd
-         yxnUSGNcOdA8Fuw5JS0xEQ8FAffP8n9ykU8AIpqo4bWkORVCA/XA/s59xVbqYNxPJc+K
-         5mUA==
-X-Gm-Message-State: AO0yUKU5mB9r+yUyNZ3qJT/1tQuFKLfRrH+8x98CujbuSwTmXyIbPA48
-        C7GvG0XdIzGRMx6dz5VO1nsgpQ==
-X-Google-Smtp-Source: AK7set9SwbGRjxfDykykr3N6yx3rUtZpATxZQq5gooFFAeKWSm+8pGkZ7Q9DTz8hoFAVZbCwxNxIiw==
-X-Received: by 2002:ac8:7f8e:0:b0:3b8:629e:afd1 with SMTP id z14-20020ac87f8e000000b003b8629eafd1mr42115868qtj.53.1676320301700;
-        Mon, 13 Feb 2023 12:31:41 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id 66-20020a370545000000b00725fd2aabd3sm10386454qkf.1.2023.02.13.12.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 12:31:40 -0800 (PST)
-Message-ID: <dbfeb82e7d3854e70a0dc12ab0d36097738855fe.camel@ndufresne.ca>
-Subject: Re: Mainline zyncmp vcu driver: support for the video decoder
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Laurenz Eschwey <laurenz.eschwey@brainlab.com>,
-        Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Deji Aribuki Ext <deji.aribuki.ext@brainlab.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>
-Date:   Mon, 13 Feb 2023 15:31:39 -0500
-In-Reply-To: <FR2P281MB2669449FD1DE98CB047453C48FDD9@FR2P281MB2669.DEUP281.PROD.OUTLOOK.COM>
-References: <FR2P281MB28166C9AD7111B3488BCE297A8D99@FR2P281MB2816.DEUP281.PROD.OUTLOOK.COM>
-         <20230209135444.GB30549@pengutronix.de>
-         <e1bf1a456ef83eeca9ad4dd18c55f7e423105be8.camel@ndufresne.ca>
-         <20230210174004.GB29504@pengutronix.de>
-         <FR2P281MB2669449FD1DE98CB047453C48FDD9@FR2P281MB2669.DEUP281.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        Mon, 13 Feb 2023 17:27:17 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345932101
+        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 14:27:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676327236; x=1707863236;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=uoHw2hTxbrnAjD0tozURjcNy/KhxXT08rWTz1h3KrO4=;
+  b=D0n9Zg64HxMOT+6PMD1UoIHvLQwT+2BdHZ9uiRK0WAyNuxiRUgdasHDA
+   X5lX/S+COf2pNvau6A5Ge4eZndfMh3skn/FKm2QEpnFDeJE8see/ikYoo
+   dF7boctJwnBbm0yvdWX8f+CW94Q10hG8BWqTzBiauoNRemb8rpyalIYGO
+   EmWxHc6kHyl2nLxAY0065TZtWWehtAWzsXNvLmxtR4N9GFB0LdxUaYPlI
+   ALRr5oFUaXq8s9NuTxg1soLofRnjqNW65TzQbnEsRQ+GrFyG5zV5a1P3C
+   OlxuEOQHS6iSYwcoi4aGWVLDMEfa5qVf0gnb61Z1g2Zt88coEElF11JiS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393416729"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="393416729"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 14:27:00 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="662344722"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="662344722"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 14:26:57 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 8306C12227E;
+        Tue, 14 Feb 2023 00:26:53 +0200 (EET)
+Date:   Tue, 14 Feb 2023 00:26:53 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        satish.nagireddy@getcruise.com
+Subject: Re: [PATCH v3 1/3] v4l2-ctl: Add routing and streams support
+Message-ID: <Y+q5LZdmcxOO+mrC@kekkonen.localdomain>
+References: <20230210115546.199809-1-tomi.valkeinen@ideasonboard.com>
+ <20230210115546.199809-2-tomi.valkeinen@ideasonboard.com>
+ <c5980db0-5ef2-bcd7-79d3-f45746eaf3d0@ideasonboard.com>
+ <d8716fa3-03fa-32b9-9dea-48c5d45151b0@xs4all.nl>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8716fa3-03fa-32b9-9dea-48c5d45151b0@xs4all.nl>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Hans, Tomi,
 
-Le lundi 13 f=C3=A9vrier 2023 =C3=A0 07:17 +0000, Laurenz Eschwey a =C3=A9c=
-rit=C2=A0:
-> The decoder does use the same message box type interface as the encoder,
-> reference implementation would be available here:
-> https://github.com/Xilinx/vcu-ctrl-sw
-> We are currently investigating on what needs to be done, first issue was =
-a
-> change in the interface with the later firmware images, we will start wit=
-h the
-> older firmware since the encoder is working for that one.
+On Mon, Feb 13, 2023 at 11:00:14AM +0100, Hans Verkuil wrote:
+> On 2/13/23 10:49, Tomi Valkeinen wrote:
+> > Hi,
+> > 
+> > On 10/02/2023 13:55, Tomi Valkeinen wrote:
+> >> Add support to get and set subdev routes and to get and set
+> >> configurations per stream.
+> >>
+> >> Based on work from Jacopo Mondi <jacopo@jmondi.org> and
+> >> Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>   utils/v4l2-ctl/v4l2-ctl-subdev.cpp | 288 +++++++++++++++++++++++++----
+> >>   utils/v4l2-ctl/v4l2-ctl.cpp        |   2 +
+> >>   utils/v4l2-ctl/v4l2-ctl.h          |   2 +
+> >>   3 files changed, 259 insertions(+), 33 deletions(-)
+> >>
+> >> diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
+> >> index 33cc1342..81236451 100644
+> >> --- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
+> >> +++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
+> >> @@ -1,5 +1,13 @@
+> >>   #include "v4l2-ctl.h"
+> >>   
+> >> +#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
+> >> +
+> >> +/*
+> >> + * The max value comes from a check in the kernel source code
+> >> + * drivers/media/v4l2-core/v4l2-ioctl.c check_array_args()
+> >> + */
+> >> +#define NUM_ROUTES_MAX 256
+> >> +
+> >>   struct mbus_name {
+> >>   	const char *name;
+> >>   	__u32 code;
+> >> @@ -19,45 +27,57 @@ static const struct mbus_name mbus_names[] = {
+> >>   #define SelectionFlags 		(1L<<4)
+> >>   
+> >>   static __u32 list_mbus_codes_pad;
+> >> +static __u32 list_mbus_codes_stream = 0;
+> >>   static __u32 get_fmt_pad;
+> >> +static __u32 get_fmt_stream = 0;
+> >>   static __u32 get_sel_pad;
+> >> +static __u32 get_sel_stream = 0;
+> >>   static __u32 get_fps_pad;
+> >> +static __u32 get_fps_stream = 0;
+> >>   static int get_sel_target = -1;
+> >>   static unsigned int set_selection;
+> >>   static struct v4l2_subdev_selection vsel;
+> >>   static unsigned int set_fmt;
+> >>   static __u32 set_fmt_pad;
+> >> +static __u32 set_fmt_stream = 0;
+> >>   static struct v4l2_mbus_framefmt ffmt;
+> >>   static struct v4l2_subdev_frame_size_enum frmsize;
+> >>   static struct v4l2_subdev_frame_interval_enum frmival;
+> >>   static __u32 set_fps_pad;
+> >> +static __u32 set_fps_stream = 0;
+> >>   static double set_fps;
+> >> +static struct v4l2_subdev_routing routing;
+> >> +static struct v4l2_subdev_route routes[NUM_ROUTES_MAX];
+> >>   
+> >>   void subdev_usage()
+> >>   {
+> >>   	printf("\nSub-Device options:\n"
+> >> -	       "  --list-subdev-mbus-codes <pad>\n"
+> >> +	       "  --list-subdev-mbus-codes pad=<pad>,stream=<stream>\n"
+> >>   	       "                      display supported mediabus codes for this pad (0 is default)\n"
+> >>   	       "                      [VIDIOC_SUBDEV_ENUM_MBUS_CODE]\n"
+> >> -	       "  --list-subdev-framesizes pad=<pad>,code=<code>\n"
+> >> +	       "  --list-subdev-framesizes pad=<pad>,stream=<stream>,code=<code>\n"
+> >>   	       "                     list supported framesizes for this pad and code\n"
+> >>   	       "                     [VIDIOC_SUBDEV_ENUM_FRAME_SIZE]\n"
+> >>   	       "                     <code> is the value of the mediabus code\n"
+> >> -	       "  --list-subdev-frameintervals pad=<pad>,width=<w>,height=<h>,code=<code>\n"
+> >> +	       "  --list-subdev-frameintervals pad=<pad>,stream=<stream>,width=<w>,height=<h>,code=<code>\n"
+> >>   	       "                     list supported frame intervals for this pad and code and\n"
+> >>   	       "                     the given width and height [VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL]\n"
+> >>   	       "                     <code> is the value of the mediabus code\n"
+> >> -	       "  --get-subdev-fmt [<pad>]\n"
+> >> -	       "     		     query the frame format for the given pad [VIDIOC_SUBDEV_G_FMT]\n"
+> >> -	       "  --get-subdev-selection pad=<pad>,target=<target>\n"
+> >> +	       "  --get-subdev-fmt pad=<pad>,stream=<stream>\n"
+> >> +	       "     		     query the frame format for the given pad and optional stream [VIDIOC_SUBDEV_G_FMT]\n"
+> >> +	       "		     <pad> the pad to get the format from\n"
+> >> +	       "		     <stream> the stream to get the format from (0 if not specified)\n"
+> >> +	       "  --get-subdev-selection pad=<pad>,stream=<stream>,target=<target>\n"
+> >>   	       "                     query the frame selection rectangle [VIDIOC_SUBDEV_G_SELECTION]\n"
+> >>   	       "                     See --set-subdev-selection command for the valid <target> values.\n"
+> >> -	       "  --get-subdev-fps [<pad>]\n"
+> >> +	       "  --get-subdev-fps pad=<pad>,stream=<stream>\n"
+> >>   	       "                     query the frame rate [VIDIOC_SUBDEV_G_FRAME_INTERVAL]\n"
+> > 
+> > Laurent noticed that the above option, and a few others, break backward 
+> > compatibility.
+> > 
+> > If no one has other suggestions, I'll additionally add back the old 
+> > option format. In other words, if the parameter is a number, it's a pad. 
+> > Otherwise we look for pad=<pad>,stream=<stream> style option.
+> 
+> That will work. Only mention the new arguments in the usage text, though.
+> 
+> And add a comment in the code why you check if the arg is just a number.
 
-thanks for sharing, I was convince the vcu-ctrl-sw was still private. Note
-though, careful with the licence, its not open source, so whatever we do, w=
-e
-must not copy code from it since it has "to be used on Xilinx hardware only=
-",
-which isn't GPL compatible.
+This would be my preference, too.
 
-If this is the lib app are using, the lib_decode implementation seems like =
-its
-stateless indeed:
-
-https://github.com/Xilinx/vcu-ctrl-sw/blob/master/lib_decode/AvcDecoder.c
-
-On the positive side, we have API for these now.
-
-Nicolas
-
->=20
-> -----Original Message-----
-> From: Michael Tretter <m.tretter@pengutronix.de>=20
-> Sent: Freitag, 10. Februar 2023 18:40
-> To: Nicolas Dufresne <nicolas@ndufresne.ca>
-> Cc: Deji Aribuki Ext <deji.aribuki.ext@brainlab.com>; linux-media@vger.ke=
-rnel.org; Laurenz Eschwey <laurenz.eschwey@brainlab.com>; kernel@pengutroni=
-x.de
-> Subject: Re: Mainline zyncmp vcu driver: support for the video decoder
->=20
-> [You don't often get email from m.tretter@pengutronix.de. Learn why this =
-is important at https://aka.ms/LearnAboutSenderIdentification ]
->=20
-> On Fri, 10 Feb 2023 10:58:01 -0500, Nicolas Dufresne wrote:
-> > Le jeudi 09 f=C3=A9vrier 2023 =C3=A0 14:54 +0100, Michael Tretter a =C3=
-=A9crit :
-> > > Hi Deji,
-> > >=20
-> > > On Thu, 09 Feb 2023 10:03:19 +0000, Deji Aribuki Ext wrote:
-> > > > I would like to know if there is a plan (or if there is already=20
-> > > > have a
-> > > > patch-set) for adding support for allegro dvt video decoder.
-> > >=20
-> > > I currently don't have any plans or patches to add decoder support.
-> > >=20
-> > > A while ago, there was a bit of interest in decoder support, but I=
-=20
-> > > haven't heard of anything new for a long time.
-> > >=20
-> > > Are you interested in adding decoder support to the driver? I would=
-=20
-> > > be happy to review and test patches.
-> >=20
-> > Isn't the decoder side stateless ? That could be difficult to achieve=
-=20
-> > without reference code or documentation.
->=20
-> There is at least some firmware running on the decoder. And I am pretty s=
-ure that it provides a similar mailbox interface as the encoder that the dr=
-iver must use.
->=20
-> However, I don't know, what messages the firmware expects. Thus, the deco=
-der maybe stateless. Maybe it even keeps some state in the firmware, but st=
-ill requires the software to parse the stream and explicitly set the stream=
- parameters.
->=20
-> Michael
-
+-- 
+Sakari Ailus
