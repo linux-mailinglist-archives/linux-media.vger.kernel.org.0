@@ -2,341 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F445695A6B
-	for <lists+linux-media@lfdr.de>; Tue, 14 Feb 2023 08:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0212D695CC7
+	for <lists+linux-media@lfdr.de>; Tue, 14 Feb 2023 09:20:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjBNHQE convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 14 Feb 2023 02:16:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60900 "EHLO
+        id S231888AbjBNIUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Feb 2023 03:20:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231877AbjBNHPq (ORCPT
+        with ESMTP id S231982AbjBNIUn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Feb 2023 02:15:46 -0500
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AFF12279C
-        for <linux-media@vger.kernel.org>; Mon, 13 Feb 2023 23:12:24 -0800 (PST)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 9F5F224E392;
-        Tue, 14 Feb 2023 15:11:29 +0800 (CST)
-Received: from EXMBX164.cuchost.com (172.16.7.74) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 14 Feb
- 2023 15:11:29 +0800
-Received: from [192.168.125.168] (183.27.97.168) by EXMBX164.cuchost.com
- (172.16.6.74) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 14 Feb
- 2023 15:11:28 +0800
-Message-ID: <405b9c8f-707e-9009-dafc-277f48c30749@starfivetech.com>
-Date:   Tue, 14 Feb 2023 15:11:28 +0800
+        Tue, 14 Feb 2023 03:20:43 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEBDC206BF
+        for <linux-media@vger.kernel.org>; Tue, 14 Feb 2023 00:20:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 65D7561388
+        for <linux-media@vger.kernel.org>; Tue, 14 Feb 2023 08:20:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D482C433EF
+        for <linux-media@vger.kernel.org>; Tue, 14 Feb 2023 08:20:38 +0000 (UTC)
+Message-ID: <2d210fee-42d3-00dc-1591-1e70d4d69a84@xs4all.nl>
+Date:   Tue, 14 Feb 2023 09:20:36 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v11 0/6] Wave5 codec driver
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     "kernel@collabora.com" <kernel@collabora.com>,
-        "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "nas.chung@chipsnmedia.com" <nas.chung@chipsnmedia.com>
-References: <a336c17afc9143858fb9beb82aa800a8@EXMBX164.cuchost.com>
- <2829b86c409058fb566a6a398eedff96b76cf6fe.camel@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
 Content-Language: en-US
-From:   Som Qin <som.qin@starfivetech.com>
-In-Reply-To: <2829b86c409058fb566a6a398eedff96b76cf6fe.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Originating-IP: [183.27.97.168]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX164.cuchost.com
- (172.16.6.74)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] admin-guide/media/cec.rst: update CEC debugging doc
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The documentation on how to create your own Raspberry Pi CEC debugger was a
+bit out of date. Update it to the Raspberry Pi 4B, drop the mention of the RTC
+and a link to a picture that no longer works.
 
+Also reorganize the text to make it easier to follow and change the pins to
+match the pins I use.
 
-On 2023/2/13 22:13, Nicolas Dufresne wrote:
-> Le lundi 13 février 2023 à 06:13 +0000, Som Qin a écrit :
->> On 12/7/22 20:13, Sebastian Fricke wrote:
->>> The Wave5 codec driver is a stateful encoder/decoder.
->>> It is found on the J721S2 SoC, JH7100 SoC, and ssd202d SoC. etc.
->>> But the current test report is based on J721S2 SoC and pre-silicon FPGA.
->>>
->>> The driver currently supports V4L2_PIX_FMT_HEVC and V4L2_PIX_FMT_H264.
->>>
->>> This driver has so far been tested on the J721S2 EVM board and
->>> pre-silicon FPGA.
->>>
->>> Testing on the J721S2 EVM board in combination with the GStreamer v4l2
->>> good plugin shows the decoder is working correctly, it has been tested
->>> with H264 & HEVC video clips with multiple different dimensions (4k,
->>> 1080p, 720p, 540p, 360p, 270p) and various lengths. Additionally,
->>> Fluster conformance tests have been run for both supported codecs.
->>>
->>> The encoder can encode various videos but still has some issues causing
->>> it to fail occassionally.
->>>
->>> V4L2 compliance:
->>>
->>> Total for wave5-dec device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
->>>
->>> Buffer ioctls:
->>> 		fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-buffers.cpp(610): q.reqbufs(node, 1)
->>> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
->>> 		fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-buffers.cpp(753): q.reqbufs(node, 2)
->>> 	test VIDIOC_EXPBUF: FAIL
->>> 	test Requests: OK (Not Supported)
->>>
->>> Total for wave5-enc device /dev/video1: 44, Succeeded: 42, Failed: 2, Warnings: 2
->>>
->>> changes since v10:
->>>
->>> * Remove structure member from the encoder and decoder output info
->>>   structs, that have assigned values from the registers but aren't used
->>>   in the driver, add comments to describe the register values in the
->>>   register definitions
->>> * Fix issue with decoding videos with a dimension where the height is
->>>   not a multiple of 16 (270, 360, 540, 1024 etc.)
->>> * Fix incorrect variable format identifiers in printks
->>> * Use debug logs in loops to avoid flooding the message log
->>> * Use the swap() function instead of manual swapping of two values
->>> * Add extended controls for the encoder
->>> * Fix control flow issue while handling bitstream buffers, where an
->>>   error while writing the source buffer into the hardware ring buffer
->>>   would result in skipping the problematic buffer, which in turn causes
->>>   a reordering of source buffers
->>> * Use the rectangle format as described by the hardware, the hardware
->>>   uses for rectangles like the display rectangle 4 offsets (top, bottom,
->>>   left, right), which depict the offset from the respective edge. Use
->>>   this format instead of implicitly converting the bottom and right
->>>   attributes to width and height attributes.
->>> * Return an error upon reading the sequence header while STREAMON
->>> * Squash the VDI and the VPUAPI layer commits as they had circular
->>>   dependencies
->>>
->>> changes since v9:
->>>
->>> * Move from staging to the media directory
->>>   * Move coda driver to sub-directory
->>>
->>> * Fixes:
->>>   * Use platform_get_irq instead of platform_get_resource to fetch the IRQ
->>>
->>> * General cleanups:
->>>   * Add missing error messages to error conditions
->>>   * Improve messages/variable names/comments, align parameter names across the driver
->>>   * Use macros instead of magic numbers in multiple occassions
->>>   * Reduce code duplication in multiple places
->>>   * Fix whitespace, newline and tab alignment issues
->>>   * Remove unused struct fields & commented out code
->>>   * Convert signed integers to unsigned if signed is not necessary
->>>   * Convert int/unsigned int to s32/u32, when the variable is assigned to the
->>>     return of a register read or provided as a parameter for a register write
->>>     (and vice versa)
->>>   * Fix incorrect bitwise operators where logical operators are appropriate
->>>   * Multiple smaller changes
->>>
->>> * Generalization:
->>>   * Add new helper file providing generalized routines for vpu-dec & vpu-enc
->>>   * Generalize luma & chroma table size calculation and stride calculation
->>>
->>> * Resource cleanup and error handling:
->>>   * Add error handling to all calls with ignored return codes
->>>   * Handle DMA resource cleanup properly
->>>   * Fix insufficient instance cleanup while opening dec/enc
->>>
->>> changes since v8:
->>>
->>> * add 'wave5' to DEV_NAME
->>> * update to support Multi-stream
->>> * update to support loop test/dynamic resolution change
->>> * remove unnecessary memset, g_volatile, old version option
->>>
->>> changes since v7:
->>>
->>> * update v4l2-compliance test report
->>> * fix build error on linux-kernel 5.18.0-rc4
->>>
->>> changes since v6:
->>>
->>> * update TODO file
->>> * get sram info from device tree
->>>
->>> changes since v5:
->>>
->>> * support NV12/NV21 pixelformat for encoder and decoder
->>> * handle adnormal exit and EOS
->>>
->>> changes since v4:
->>>
->>> * refactor functions in wave5-hw and fix bug reported by Daniel Palmer
->>> * rename functions and variables to better names
->>> * change variable types such as replacing s32 with u32 and int with bool
->>> * as appropriate
->>>
->>> changes since v3:
->>>
->>> * Fixing all issues commented by Dan Carpenter
->>> * Change file names to have wave5- prefix
->>> * In wave5_vpu_probe, enable the clocks before reading registers, as
->>> * commented from Daniel Palmer
->>> * Add more to the TODO list,
->>>
->>> changes since v2:
->>>
->>> Main fixes includes:
->>> * change the yaml and dirver code to support up to 4 clks (instead of
->>> * one)
->>> * fix Kconfig format
->>> * remove unneeded cast,
->>> * change var types
->>> * change var names, func names
->>> * checkpatch fixes
->>>
->>> changes since v1:
->>>
->>> Fix changes due to comments from Ezequiel and Dan Carpenter. Main fixes
->>> inclueds:
->>> * move all files to one dir 'wave5'
->>> * replace private error codes with standard error codes
->>> * fix extra spaces
->>> * various checkpatch fixes
->>> * replace private 'DPRINTK' macro with standard 'dev_err/dbg ..'
->>> * fix error handling
->>> * add more possible fixes to the TODO file
->>>
->>
->> We used the patchset on JH7110 SoC which is integrated with a wave511 VPU.
->> We see issue that the decoder output contains garbage data in the image
->> when decoding some of HEVC videos, in 1080p or 4k. But Most of the videos
->> we tested decoded well.
->>
->> Beside, ffmpeg h264_v4l2m2m could not get the correct resolution via
->> VIDIOC_G_FMT or VIDIOC_TRY_FMT for 1080p AVC video.
-> 
-> Thanks for the report, Sebastian has been working on a v12, which includes
-> important rework regarding format negotiation, hopefully this will help. One of
-> the pressing issue was that the original driver this effort was derived on was
-> designed to work on ancient GStreamer (1.16) and would simply not work at all on
-> new version, so this has been taking some time. It was also highlighted that
-> h264_v4l2m2m may run out of ram on JH7110 in absence of V4L2_CID_MIN_BUFFER*
-> controls, so we will be adding these too.
-> 
-> p.s. if you are allowed to share the streams (or a sample of it) you have had
-> issue with, Sebastian can certainly add this to his validation.
-> 
-> regards,
-> Nicolas
-> 
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/Documentation/admin-guide/media/cec.rst b/Documentation/admin-guide/media/cec.rst
+index 14ec3ff317c2..b046d87b0674 100644
+--- a/Documentation/admin-guide/media/cec.rst
++++ b/Documentation/admin-guide/media/cec.rst
+@@ -296,34 +296,24 @@ broadcast messages twice to reduce the chance of them being lost. Specifically
+ Making a CEC debugger
+ =====================
 
-Hi,Nicolas
+-By using a Raspberry Pi 2B/3/4 and some cheap components you can make
++By using a Raspberry Pi 4B and some cheap components you can make
+ your own low-level CEC debugger.
 
-Sure we will share the test stream we met issue, via Wetransfer net 
-disk. I'm not sure if this is a driver issue or a soc cache issue, it 
-not occurs with any stream. Hope you can clarify it.
+-Here is a picture of my setup:
+-
+-https://hverkuil.home.xs4all.nl/rpi3-cec.jpg
+-
+-It's a Raspberry Pi 3 together with a breadboard and some breadboard wires:
+-
+-http://www.dx.com/p/diy-40p-male-to-female-male-to-male-female-to-female-dupont-line-wire-3pcs-356089#.WYLOOXWGN7I
+-
+-Finally on of these HDMI female-female passthrough connectors (full soldering type 1):
++The critical component is one of these HDMI female-female passthrough connectors
++(full soldering type 1):
 
-It did run out the ram with h264_v4l2m2m if not do some modify, it 
-should be due to alignment.
+ https://elabbay.myshopify.com/collections/camera/products/hdmi-af-af-v1a-hdmi-type-a-female-to-hdmi-type-a-female-pass-through-adapter-breakout-board?variant=45533926147
 
-p.s. are you interested in using 7110soc for verification? We can 
-provide the board for it.
+-We've tested this and it works up to 4kp30 (297 MHz). The quality is not high
+-enough to pass-through 4kp60 (594 MHz).
+-
+-I also added an RTC and a breakout shield:
+-
+-https://www.amazon.com/Makerfire%C2%AE-Raspberry-Module-DS1307-Battery/dp/B00ZOXWHK4
++The video quality is variable and certainly not enough to pass-through 4kp60
++(594 MHz) video. You might be able to support 4kp30, but more likely you will
++be limited to 1080p60 (148.5 MHz). But for CEC testing that is fine.
 
-Thanks.
-Som
+-https://www.dx.com/p/raspberry-pi-gpio-expansion-board-breadboard-easy-multiplexing-board-one-to-three-with-screw-for-raspberry-pi-2-3-b-b-2729992.html#.YGRCG0MzZ7I
++You need a breadboard and some breadboard wires:
 
->>
->>> Nas Chung (3):
->>>   media: chips-media: wave5: Add vpuapi layer
->>>   media: chips-media: wave5: Add the v4l2 layer
->>>   media: chips-media: wave5: Add TODO file
->>>
->>> Robert Beckett (2):
->>>   dt-bindings: media: wave5: add yaml devicetree bindings
->>>   media: chips-media: wave5: Add wave5 driver to maintainers file
->>>
->>> Sebastian Fricke (1):
->>>   media: platform: chips-media: Move Coda to separate folder
->>>
->>> .../devicetree/bindings/cnm,wave5.yml         |   72 +
->>> MAINTAINERS                                   |   11 +-
->>> drivers/media/platform/chips-media/Kconfig    |   18 +-
->>> drivers/media/platform/chips-media/Makefile   |    6 +-
->>> .../media/platform/chips-media/coda/Kconfig   |   18 +
->>> .../media/platform/chips-media/coda/Makefile  |    6 +
->>> .../chips-media/{ => coda}/coda-bit.c         |    0
->>> .../chips-media/{ => coda}/coda-common.c      |    0
->>> .../chips-media/{ => coda}/coda-gdi.c         |    0
->>> .../chips-media/{ => coda}/coda-h264.c        |    0
->>> .../chips-media/{ => coda}/coda-jpeg.c        |    0
->>> .../chips-media/{ => coda}/coda-mpeg2.c       |    0
->>> .../chips-media/{ => coda}/coda-mpeg4.c       |    0
->>> .../platform/chips-media/{ => coda}/coda.h    |    0
->>> .../chips-media/{ => coda}/coda_regs.h        |    0
->>> .../chips-media/{ => coda}/imx-vdoa.c         |    0
->>> .../chips-media/{ => coda}/imx-vdoa.h         |    0
->>> .../platform/chips-media/{ => coda}/trace.h   |    0
->>> .../media/platform/chips-media/wave5/Kconfig  |   12 +
->>> .../media/platform/chips-media/wave5/Makefile |   10 +
->>> drivers/media/platform/chips-media/wave5/TODO |   18 +
->>> .../platform/chips-media/wave5/wave5-helper.c |  175 +
->>> .../platform/chips-media/wave5/wave5-helper.h |   28 +
->>> .../platform/chips-media/wave5/wave5-hw.c     | 3359 +++++++++++++++++
->>> .../chips-media/wave5/wave5-regdefine.h       |  743 ++++
->>> .../platform/chips-media/wave5/wave5-vdi.c    |  245 ++
->>> .../platform/chips-media/wave5/wave5-vdi.h    |   67 +
->>> .../chips-media/wave5/wave5-vpu-dec.c         | 1429 +++++++
->>> .../chips-media/wave5/wave5-vpu-enc.c         | 1746 +++++++++
->>> .../platform/chips-media/wave5/wave5-vpu.c    |  362 ++
->>> .../platform/chips-media/wave5/wave5-vpu.h    |   72 +
->>> .../platform/chips-media/wave5/wave5-vpuapi.c | 1040 +++++
->>> .../platform/chips-media/wave5/wave5-vpuapi.h | 1136 ++++++
->>> .../chips-media/wave5/wave5-vpuconfig.h       |   90 +
->>> .../chips-media/wave5/wave5-vpuerror.h        |  454 +++
->>> .../media/platform/chips-media/wave5/wave5.h  |   94 +
->>> 36 files changed, 11190 insertions(+), 21 deletions(-)
->>> create mode 100644 Documentation/devicetree/bindings/cnm,wave5.yml
->>> create mode 100644 drivers/media/platform/chips-media/coda/Kconfig
->>> create mode 100644 drivers/media/platform/chips-media/coda/Makefile
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-bit.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-common.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-gdi.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-h264.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-jpeg.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-mpeg2.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda-mpeg4.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda.h (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/coda_regs.h (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/imx-vdoa.c (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/imx-vdoa.h (100%)
->>> rename drivers/media/platform/chips-media/{ => coda}/trace.h (100%)
->>> create mode 100644 drivers/media/platform/chips-media/wave5/Kconfig
->>> create mode 100644 drivers/media/platform/chips-media/wave5/Makefile
->>> create mode 100644 drivers/media/platform/chips-media/wave5/TODO
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-helper.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-helper.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-hw.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-regdefine.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuerror.h
->>> create mode 100644 drivers/media/platform/chips-media/wave5/wave5.h
->>>
->>> -- 
->>> 2.25.1
->>>
->>
-> 
-> 
+-These two are not needed but they make life a bit easier.
++http://www.dx.com/p/diy-40p-male-to-female-male-to-male-female-to-female-dupont-line-wire-3pcs-356089#.WYLOOXWGN7I
+
+-If you want to monitor the HPD line as well, then you need one of these
+-level shifters:
++If you want to monitor the HPD and/or 5V lines as well, then you need one of
++these 5V to 3.3V level shifters:
+
+ https://www.adafruit.com/product/757
+
+@@ -331,34 +321,42 @@ https://www.adafruit.com/product/757
+ can get similar things).
+
+ The CEC pin of the HDMI connector needs to be connected to these pins:
+-CE0/IO8 and CE1/IO7 (pull-up GPIOs). The (optional) HPD pin of the HDMI
+-connector should be connected (via a level shifter to convert the 5V
+-to 3.3V) to these pins: IO17 and IO27. The (optional) 5V pin of the HDMI
+-connector should be connected (via a level shifter) to these pins: IO22
+-and IO24. Monitoring the HPD an 5V lines is not necessary, but it is helpful.
++GPIO 6 and GPIO 7. The optional HPD pin of the HDMI connector should
++be connected via the level shifter to these pins: GPIO 23 and GPIO 12.
++The optional 5V pin of the HDMI connector should be connected via the
++level shifter to these pins: GPIO 25 and GPIO 22. Monitoring the HPD and
++5V lines is not necessary, but it is helpful.
++
++This device tree addition in ``arch/arm/boot/dts/bcm2711-rpi-4-b.dts``
++will hook up the cec-gpio driver correctly::
+
+-This kernel patch will hook up the cec-gpio driver correctly to
+-e.g. ``arch/arm/boot/dts/bcm2837-rpi-3-b-plus.dts``::
++	cec@6 {
++		compatible = "cec-gpio";
++		cec-gpios = <&gpio 6 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
++		hpd-gpios = <&gpio 23 GPIO_ACTIVE_HIGH>;
++		v5-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
++	};
+
+ 	cec@7 {
+ 		compatible = "cec-gpio";
+ 		cec-gpios = <&gpio 7 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+-		hpd-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;
++		hpd-gpios = <&gpio 12 GPIO_ACTIVE_HIGH>;
+ 		v5-gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
+ 	};
+
+-	cec@8 {
+-		compatible = "cec-gpio";
+-		cec-gpios = <&gpio 8 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
+-		hpd-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
+-		v5-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
+-	};
++If you haven't hooked up the HPD and/or 5V lines, then just delete those
++lines.
+
+ This dts change will enable two cec GPIO devices: I typically use one to
+ send/receive CEC commands and the other to monitor. If you monitor using
+ an unconfigured CEC adapter then it will use GPIO interrupts which makes
+ monitoring very accurate.
+
++If you just want to monitor traffic, then a single instance is sufficient.
++The minimum configuration is one HDMI female-female passthrough connector
++and connecting the CEC pin to GPIO 6 on the Raspberry Pi using a single
++female-female breadboard wire.
++
+ The documentation on how to use the error injection is here: :ref:`cec_pin_error_inj`.
+
+ ``cec-ctl --monitor-pin`` will do low-level CEC bus sniffing and analysis.
