@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDBDC6977DB
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 09:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04360697807
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 09:20:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233857AbjBOIQy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 15 Feb 2023 03:16:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50636 "EHLO
+        id S233105AbjBOIT5 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 15 Feb 2023 03:19:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232690AbjBOIQy (ORCPT
+        with ESMTP id S233875AbjBOITz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 03:16:54 -0500
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142E4903B;
-        Wed, 15 Feb 2023 00:16:52 -0800 (PST)
-Received: by mail-qv1-f53.google.com with SMTP id i5so7781603qvp.6;
-        Wed, 15 Feb 2023 00:16:52 -0800 (PST)
+        Wed, 15 Feb 2023 03:19:55 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96F8A36465;
+        Wed, 15 Feb 2023 00:19:31 -0800 (PST)
+Received: by mail-qt1-f171.google.com with SMTP id b21so1503896qtr.13;
+        Wed, 15 Feb 2023 00:19:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q1Cdm5e9xLc8cevguScCQKFOc3q1xQOUoYIkxjH6rmU=;
-        b=MhzyqpSV10kZ210zT59eIdKYyQPKO3du13OJJ+2JJvDUBZmH/vs696YYTHuuRP8RKR
-         15H68Xb09af1mBWKZFTjrEjts6bbFlcRoM+ibQTo9pn7G0qLwm1Kcz7V7XE3VHh1umg1
-         GAMoOsdP+j6xKy+XxmhjRppvnwQ7Tsf4X2py9yb0GX+UC0dUZ2zYhOmBiS+J/JFP8WiH
-         VKwFUjBgfk+4+F+nH2P/3Cr58OdLdt8iHHzH5bQzIpiwAIDeVewRrocViNBAVoJ49E2c
-         54jgtb8Z+px7uNRvNkj+aEY12qHvcTbrmgW8vsUQDS8TuHrz7LwLvd936TXiK7a4Y61Q
-         8/jg==
-X-Gm-Message-State: AO0yUKXOo2y+Sz0jtxrB+WIDqTEmzy5dQl0DxZoEF0iDwpvJhLJEP4TJ
-        5PaWen9cUIke/aEK95+on7ohykKyInrsUyl3
-X-Google-Smtp-Source: AK7set/uPdlKyxM+QVnNsxdREDHrKabARlzlw804vXtTPf9XpAbkG8cNqz9deoXNhLeDp2qAaTlceA==
-X-Received: by 2002:a05:6214:1c44:b0:56e:aa32:bf5c with SMTP id if4-20020a0562141c4400b0056eaa32bf5cmr2771389qvb.47.1676449011067;
-        Wed, 15 Feb 2023 00:16:51 -0800 (PST)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id 73-20020a370b4c000000b007259807a512sm13313908qkl.12.2023.02.15.00.16.50
+        bh=WeElug1VuqdGIoDpcyvlcxBHL2uahehKVaMCIiqLvYw=;
+        b=N2VzjDDZAm6I3z5YpXKS5ETuZxqP+Y+4KZXgfxotXYGn/qOIYWQBZGUDJRBUs33rFC
+         Zmn4WC3mCYC6I+0y9NNSaW291wi/t1ellgkSunec4b8t5bCIqM9cfM+y1u9ryc/CT8cf
+         9SB7vJRJwXgDiAmSLeMaaOnZVYs1Ff9OH1DyNg0tu9gWHYk3fpxjG59mUTpo8CCZq6mp
+         tHHKwvs1LnoT8FOBC1ZtoAzh1b5Bl8fHDRmZfybfnrNxp/jz8UjzjzdnbbZCybwfgoks
+         ZalcwJzDTB0XcDwahtd1I2Sf2GAH/N2m5LDuAw8D60Ssv4U8TXMfrRHAxQjob8wi+TZu
+         zlyQ==
+X-Gm-Message-State: AO0yUKUaWHg7DWf4fPKXhU31jQa3J/OXtmXvJRW4jUgSA0Ms1796reoL
+        h2O/vDTQmwbFANvT+yGzIwa9VKnVt6V533mI
+X-Google-Smtp-Source: AK7set8XJHbm9KqJbxh1QmcVI1C4s0KZOC1rw02p/APnUH/klE8wZhmI5N3xVn5101zaW+3CXAjxSw==
+X-Received: by 2002:ac8:5a86:0:b0:3b7:faaf:f6da with SMTP id c6-20020ac85a86000000b003b7faaff6damr1950232qtc.50.1676449170515;
+        Wed, 15 Feb 2023 00:19:30 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id c29-20020ac8009d000000b003afbf704c7csm12583274qtg.24.2023.02.15.00.19.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Feb 2023 00:16:50 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-51ba4b1b9feso249578857b3.11;
-        Wed, 15 Feb 2023 00:16:50 -0800 (PST)
-X-Received: by 2002:a0d:fe03:0:b0:52e:ea5b:f6cb with SMTP id
- o3-20020a0dfe03000000b0052eea5bf6cbmr153963ywf.237.1676449010443; Wed, 15 Feb
- 2023 00:16:50 -0800 (PST)
+        Wed, 15 Feb 2023 00:19:30 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-530b85f118cso24347667b3.9;
+        Wed, 15 Feb 2023 00:19:30 -0800 (PST)
+X-Received: by 2002:a5b:491:0:b0:86e:1225:b335 with SMTP id
+ n17-20020a5b0491000000b0086e1225b335mr189096ybp.455.1676449169852; Wed, 15
+ Feb 2023 00:19:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20230211144147.3812388-1-niklas.soderlund+renesas@ragnatech.se> <20230211144147.3812388-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20230211144147.3812388-3-niklas.soderlund+renesas@ragnatech.se>
+References: <20230211144147.3812388-1-niklas.soderlund+renesas@ragnatech.se> <20230211144147.3812388-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20230211144147.3812388-4-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Feb 2023 09:16:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWn4JDnoFu5trtnnu2R-1dYW1bcS=MV4GMcNis+oDX2rw@mail.gmail.com>
-Message-ID: <CAMuHMdWn4JDnoFu5trtnnu2R-1dYW1bcS=MV4GMcNis+oDX2rw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: dt-bindings: media: renesas,csi2: Add binding
+Date:   Wed, 15 Feb 2023 09:19:18 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWe5SzrdpB9-oTVCVaiu1yD=3L4i_eZPZngJMEEoZ+EXA@mail.gmail.com>
+Message-ID: <CAMuHMdWe5SzrdpB9-oTVCVaiu1yD=3L4i_eZPZngJMEEoZ+EXA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: dt-bindings: media: renesas,vin: Add binding
  for V4H
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
@@ -68,19 +68,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Niklas,
+
 On Sat, Feb 11, 2023 at 3:43 PM Niklas Söderlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> Document support for the CSI-2 module in the Renesas V4H (r8a779g0) SoC.
+> Document support for the VIN module in the Renesas V4H (r8a779g0) SoC.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -53,6 +53,7 @@ properties:
+>                - renesas,vin-r8a77990 # R-Car E3
+>                - renesas,vin-r8a77995 # R-Car D3
+>                - renesas,vin-r8a779a0 # R-Car V3U
+> +              - renesas,vin-r8a779g0 # R-Car V4U
+
+V4H
+
+With the above fixed:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
