@@ -2,46 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FFC2697DE1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 14:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B30AB697DEA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 14:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbjBONwk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 08:52:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
+        id S229485AbjBONzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 08:55:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbjBONwb (ORCPT
+        with ESMTP id S229436AbjBONzs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 08:52:31 -0500
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C412A993;
-        Wed, 15 Feb 2023 05:52:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1676469147; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XbpiqG5t2GsPDg7j0qEdkn6EKRYRa6CH+nGlsTJwnqw=;
-        b=hzFOVWWXH8CD/SFSBFtrhb8Ni6P4ourJnZVpwTK86A70LxFLU/yD9jkvT4UiY6Iv/ChQMr
-        hkEuPvXJ83h3Dq6BU4lEMr6QqEkimi47t/eszOA6xwMHHA2ob817h7fsFbR2GBXalqFKdc
-        km10QZwTKGhulkKKMXH2hP8thJVJiZQ=
-Message-ID: <0a128bd44ee7f33369b19b1e984c9e6ffc926ae4.camel@crapouillou.net>
-Subject: Re: Question: partial transfers of DMABUFs
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     linux-media@vger.kernel.org, dmaengine@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date:   Wed, 15 Feb 2023 13:52:24 +0000
-In-Reply-To: <bf3771bc-bbdc-8a9f-b9e7-425812a66ea9@amd.com>
-References: <53ea4d2db570d3ca514a69015488bd5b849a5193.camel@crapouillou.net>
-         <c5fe8089-49e9-2bec-eac5-e8a035412cf3@amd.com>
-         <db4d83f3c3c8dc4f3ef5f850fe4c1c04aa648d47.camel@crapouillou.net>
-         <bf3771bc-bbdc-8a9f-b9e7-425812a66ea9@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 15 Feb 2023 08:55:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6D94C2E
+        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 05:55:47 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAF4810B;
+        Wed, 15 Feb 2023 14:55:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676469346;
+        bh=R73N9LrFQgS92bAa3uQ8qsw8+GoyLqJ1/WfDyiyLI4o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Xc9JRjSbnzEpzCpY3rfIT7keyrGSrP11LmV+HVOxYTUGN8LPGIy2WoiEu2+zRo4pn
+         tRlZT5uhbW/B+97ihRi+/I00u2EkxiOwto0GsUtf8oa+yGoMUMRperD8b5fC3SRioM
+         lPAtwfdlXUXz6LxZ5icsYetflfobqADSSYIwb8UM=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] media: subdev: Fix backward compatibility with the new 'stream' field
+Date:   Wed, 15 Feb 2023 15:55:23 +0200
+Message-Id: <20230215135523.357332-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -51,102 +44,143 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 15 f=C3=A9vrier 2023 =C3=A0 14:46 +0100, Christian K=C3=B6nig a=
- =C3=A9crit=C2=A0:
-> Am 15.02.23 um 14:24 schrieb Paul Cercueil:
-> > Hi Christian,
-> >=20
-> > Le mercredi 15 f=C3=A9vrier 2023 =C3=A0 13:58 +0100, Christian K=C3=B6n=
-ig a
-> > =C3=A9crit=C2=A0:
-> > > Hi Paul,
-> > >=20
-> > > Am 15.02.23 um 11:48 schrieb Paul Cercueil:
-> > > > Hi,
-> > > >=20
-> > > > I am working on adding support for DMABUFs in the IIO
-> > > > subsystem.
-> > > >=20
-> > > > One thing we want there, is the ability to specify the number
-> > > > of
-> > > > bytes
-> > > > to transfer (while still defaulting to the DMABUF size).
-> > > >=20
-> > > > Since dma_buf_map_attachment() returns a sg_table,
-> > > Please don't assume that this is an sg_table. We just used it as
-> > > container for DMA addresses, but this has proven to be a mistake.
-> > TL/DR, why was it a mistake? Just curious.
->=20
-> The sg_table should have just contained DMA addresses, but we had=20
-> multiple people who tried to use the pages instead.
->=20
-> This works to some extend, but goes boom as soon as somebody messes
-> with=20
-> the pages reference counts or tries to map it into an address space
-> or=20
-> something like that.
->=20
-> We got so far that we now intentionally mangle the page addresses in
-> the=20
-> sg_table to prevent people from using it:=20
-> https://elixir.bootlin.com/linux/latest/source/drivers/dma-buf/dma-buf.c#=
-L763
+The new 'stream' field in many v4l2 structs was taken from reserved
+fields. The assumption was that the userspace is always required to zero
+initialize the whole struct.
 
-Isn't that breaking the chains though? I'd expect page_link to be
-mangled only if !sg_is_chain(sg).
+However, what happens in real life is that the apps only zero initialize
+the reserved fields/arrays. When such an app is compiled with new
+headers, the 'stream' field will be uninitialized, causing the kernel to
+(most likely) return an error.
 
-> > > There is work underway to replace the sg_table with (for example)
-> > > just
-> > > an array of DMA addresses.
-> > Ok, so I believe at some point we will need an equivalent of
-> > dmaengine_prep_slave_sg() which takes an array of DMA addresses.
->=20
-> Well we will probably come up with a new container for this, but
-> yeah.
+The streams API is still experimental and behind a compile-time flag,
+'v4l2_subdev_enable_streams_api', and disabled by default. As a quick
+fix always set the 'stream' field to zero when that flag is not set.
+This keeps the backward compatibility when streams API is not enabled.
 
-Understood.
+A proper fix when streams support is enabled is something else. Somehow
+the userspace needs to signal the kernel that it actually intializes the
+'stream' field.
 
-You said there was work underway, could you point me to the
-corresponding mailing list threads and/or code?
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 33 +++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-> Regards,
-> Christian.
-
-Cheers,
--Paul
-
-> >=20
-> > > > I basically have two options, and I can't decide which one is
-> > > > the
-> > > > best (or the less ugly):
-> > > >=20
-> > > > - Either I add a new API function similar to
-> > > > dmaengine_prep_slave_sg(),
-> > > > which still takes a scatterlist as argument but also takes the
-> > > > number
-> > > > of bytes as argument;
-> > > >=20
-> > > > - Or I add a function to duplicate the scatterlist and then
-> > > > shrink
-> > > > it
-> > > > manually, which doesn't sound like a good idea either.
-> > > >=20
-> > > > What would be the recommended way?
-> > > I strongly recommend to come up with a new function which only
-> > > takes
-> > > DMA
-> > > addresses and separate segment length.
-> > Alright, thanks for your input.
-> >=20
-> > So I would add a new dma_device.dma_prep_slave_dma_array() callback
-> > with a corresponding API function, and then the drivers can be
-> > converted from using .dma_prep_slave_sg() to this new function in
-> > due
-> > time.
-> >=20
-> > Vinod, that works for you?
-> >=20
-> > Cheers,
-> > -Paul
->=20
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 1bebcda2bd20..efa0a7f770cf 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -609,6 +609,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_FMT: {
+ 		struct v4l2_subdev_format *format = arg;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			format->stream = 0;
++
+ 		memset(format->reserved, 0, sizeof(format->reserved));
+ 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+ 		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+@@ -620,6 +623,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			format->stream = 0;
++
+ 		memset(format->reserved, 0, sizeof(format->reserved));
+ 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+ 		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+@@ -629,6 +635,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		struct v4l2_subdev_crop *crop = arg;
+ 		struct v4l2_subdev_selection sel;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			crop->stream = 0;
++
+ 		memset(crop->reserved, 0, sizeof(crop->reserved));
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = crop->which;
+@@ -650,6 +659,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			crop->stream = 0;
++
+ 		memset(crop->reserved, 0, sizeof(crop->reserved));
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = crop->which;
+@@ -668,6 +680,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+ 		struct v4l2_subdev_mbus_code_enum *code = arg;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			code->stream = 0;
++
+ 		memset(code->reserved, 0, sizeof(code->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
+ 					code);
+@@ -676,6 +691,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+ 		struct v4l2_subdev_frame_size_enum *fse = arg;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			fse->stream = 0;
++
+ 		memset(fse->reserved, 0, sizeof(fse->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
+ 					fse);
+@@ -684,6 +702,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval *fi = arg;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			fi->stream = 0;
++
+ 		memset(fi->reserved, 0, sizeof(fi->reserved));
+ 		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
+ 	}
+@@ -694,6 +715,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (ro_subdev)
+ 			return -EPERM;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			fi->stream = 0;
++
+ 		memset(fi->reserved, 0, sizeof(fi->reserved));
+ 		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+ 	}
+@@ -701,6 +725,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval_enum *fie = arg;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			fie->stream = 0;
++
+ 		memset(fie->reserved, 0, sizeof(fie->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
+ 					fie);
+@@ -709,6 +736,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_SELECTION: {
+ 		struct v4l2_subdev_selection *sel = arg;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			sel->stream = 0;
++
+ 		memset(sel->reserved, 0, sizeof(sel->reserved));
+ 		return v4l2_subdev_call(
+ 			sd, pad, get_selection, state, sel);
+@@ -720,6 +750,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
+ 
++		if (!v4l2_subdev_enable_streams_api)
++			sel->stream = 0;
++
+ 		memset(sel->reserved, 0, sizeof(sel->reserved));
+ 		return v4l2_subdev_call(
+ 			sd, pad, set_selection, state, sel);
+-- 
+2.34.1
 
