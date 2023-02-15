@@ -2,104 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C8D8698781
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 22:47:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CE8B6987D3
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjBOVri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 16:47:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40654 "EHLO
+        id S229715AbjBOWaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 17:30:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbjBOVrh (ORCPT
+        with ESMTP id S229705AbjBOWaK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 16:47:37 -0500
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AF636472;
-        Wed, 15 Feb 2023 13:47:30 -0800 (PST)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-16e2c22c3baso393144fac.8;
-        Wed, 15 Feb 2023 13:47:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=q4BxVGyZRgRm7Y+yG+ffS0kZl38wYlTSPFaznatrum4=;
-        b=YXN/JRa+0PTiE8pF+7xU4s5HnUbnIFc5i7RuwFaQiz99pnOvx0cqIlAgiLD7PDS1R1
-         pqG1NZkWVqUAufZTzyb24UY4ESvWD2G0PDz56Pk/a3I9qDwRmUF/Ry1fKlspc1hWMAcO
-         s5p67/yOIRKAH2SUwlr+f8azgjWTnPt44qrlxzedZ/JHqb0tpvMFnhI9jnrkjsgegzh9
-         kA9RKUuGMTKqj4NQV8lLdCjXUA6oukd4W3htVTi7P/qBK6XBZkiGTcspOrzE6roJNz9k
-         W5lSq6M8KTXjYbeU9bN3CoP5Q2dLtr0uJDt4bhHoHOERbDqPpn5hoGvkZHy3bTymHJMT
-         DakQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q4BxVGyZRgRm7Y+yG+ffS0kZl38wYlTSPFaznatrum4=;
-        b=H9UpNyeRxwf1gW99QkzKURZfwESlDDrq2K4y/txto3Sf8Mb+eqjo9NAAEKmtwssuPc
-         Jp82fJ/QJFTj6eNtt42BCinhHkCdmp6KCR7XPRuxQWY6Gyz9dbJihteQglrluxkN7NoS
-         7tA1Rg++4raS8+77oOou38ZW64jKQ96eHoNzGlzallw5yQagYaAm9Pvn/G7OAY3t4D4T
-         nA+LWqjDnskj/AgozocKN+AXEq5bzVq9jFEbEUJSH9bld/IsxgRrcm2FX86ap9bpFpL0
-         rr4h7jed2MEJbx8AGL0G8GMWn+aAwgaqGO1P1uBNhy99TAqr+xImN2KkSY7nw4Y/+d5C
-         c+UA==
-X-Gm-Message-State: AO0yUKXxWnvNewYH4A796uov0jq7uLjtH30GzZrNKM2L3GUpUOP1FVRJ
-        kw2FfXbjsn9YGPLfkaoJdTgF0zcnnC4=
-X-Google-Smtp-Source: AK7set+hLDBdlWtkDx+h4YNI2bTu0I+wENBpAOvA21sl4txWqywqERsCHQ61JZsrW6sgZCrb1jE9zQ==
-X-Received: by 2002:a05:6870:82a8:b0:16e:23e5:5b69 with SMTP id q40-20020a05687082a800b0016e23e55b69mr2211927oae.52.1676497649000;
-        Wed, 15 Feb 2023 13:47:29 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j17-20020a056870d45100b0016e5ad3e892sm805619oag.14.2023.02.15.13.47.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 13:47:28 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Joe Tessler <jrt@google.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        Joshua Pius <joshuapius@google.com>
-Subject: [PATCH v2] media: cec: i2c: ch7322: Drop of_match_ptr
-Date:   Wed, 15 Feb 2023 13:47:24 -0800
-Message-Id: <20230215214724.3798917-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.39.1
+        Wed, 15 Feb 2023 17:30:10 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5071715545;
+        Wed, 15 Feb 2023 14:30:07 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECC34383;
+        Wed, 15 Feb 2023 23:30:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676500205;
+        bh=wuX1VZt0T858LjbZibYjh+vwfA2kQppU1KSaFN5knas=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tO0adn+bBg5xGaoBSPqH82mU3mr9fOg8gJnoicwYhYe2QMWTe0DesyQINgrDcPj2B
+         sAurAjSnxDIIroWAHnQ37J1yssjUpf2udaKPwcetQs1Jh2cRePy76XncmgFg9iwYQR
+         7HiKIWPsZ2RNalaglxFiA1HJhi3NE6jlay2kggAE=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+Subject: [PATCH v3 00/15] media: i2c: imx290: Mono support, minor fixes, alternate INCK, and more controls
+Date:   Thu, 16 Feb 2023 00:29:48 +0200
+Message-Id: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver does not instantiate on ACPI based systems if OF is disabled.
-Fix the problem by dropping of_match_ptr.
+Hello,
 
-Cc: Joshua Pius <joshuapius@google.com>
-Tested-by: Joshua Pius <joshuapius@google.com>
-Fixes: 21b9a47e0ec7 ("media: cec: i2c: ch7322: Add ch7322 CEC controller driver")
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v2: Added Joshua's Tested-by: tag
+This patch series combines the "[PATCH v2 0/2] Add support for mono
+version of Sony IMX290 sensor" ([1]) and "[PATCH v2 00/13] imx290: Minor
+fixes, support for alternate INCK, and more ctrls" ([2]) previously
+submitted by Dave into a single series.
 
- drivers/media/cec/i2c/ch7322.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As promised in my review of v2 of both series, I have tested the changes
+with my IMX327 camera sensor, connected to the i.MX8MP ISP, with
+libcamera. I haven't noticed any regression (but, full disclaimer, I
+haven't tested all the newly features). I think we're thus good to go.
 
-diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
-index 34fad7123704..3c6e6496a001 100644
---- a/drivers/media/cec/i2c/ch7322.c
-+++ b/drivers/media/cec/i2c/ch7322.c
-@@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
- static struct i2c_driver ch7322_i2c_driver = {
- 	.driver = {
- 		.name = "ch7322",
--		.of_match_table = of_match_ptr(ch7322_of_match),
-+		.of_match_table = ch7322_of_match,
- 	},
- 	.probe_new	= ch7322_probe,
- 	.remove		= ch7322_remove,
+This version handles all review comments from v2, resulting in the
+following changes:
+
+- Deprecate the sony,imx290 compatible
+- Update the DT example to use the new sony,imx290lqr compatible
+- Drop unneeded pointer cast
+- Don't move imx290_of_match table
+- Fix typos
+
+The code has also been rebased on top of the latest media master branch,
+with rebase conflicts and rebase-induced compilation breakages fixed.
+
+The patches are available from
+
+git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git next/media/sensors/imx290
+
+[1] https://lore.kernel.org/linux-media/20230203191644.947643-1-dave.stevenson@raspberrypi.com
+[2] https://lore.kernel.org/linux-media/20230203191811.947697-1-dave.stevenson@raspberrypi.com
+
+Dave Stevenson (15):
+  media: dt-bindings: media: i2c: Add mono version to IMX290 bindings
+  media: i2c: imx290: Add support for the mono sensor variant
+  media: i2c: imx290: Match kernel coding style on whitespace
+  media: i2c: imx290: Set the colorspace fields in the format
+  media: i2c: imx290: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+  media: i2c: imx290: Fix the pixel rate at 148.5Mpix/s
+  media: i2c: imx290: Support 60fps in 2 lane operation
+  media: i2c: imx290: Use CSI timings as per datasheet
+  media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
+  media: i2c: imx290: Convert V4L2_CID_VBLANK to read/write
+  media: i2c: imx290: VMAX is mode dependent
+  media: i2c: imx290: Remove duplicated write to IMX290_CTRL_07
+  media: i2c: imx290: Add support for 74.25MHz external clock
+  media: i2c: imx290: Add support for H & V Flips
+  media: i2c: imx290: Add the error code to logs in start_streaming
+
+ .../bindings/media/i2c/sony,imx290.yaml       |  24 +-
+ drivers/media/i2c/imx290.c                    | 537 ++++++++++++++----
+ 2 files changed, 442 insertions(+), 119 deletions(-)
+
+
+base-commit: 83e0f265aa8d0e37cc8e15d318b64da0ec03ff41
 -- 
-2.39.1
+Regards,
+
+Laurent Pinchart
 
