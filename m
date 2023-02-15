@@ -2,160 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72688697B45
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 13:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45E54697B55
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 13:01:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233718AbjBOMA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 07:00:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
+        id S234002AbjBOMB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 07:01:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbjBOMA0 (ORCPT
+        with ESMTP id S233996AbjBOMBN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 07:00:26 -0500
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E02B73525F;
-        Wed, 15 Feb 2023 04:00:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1676462423; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WE9ZsOz9nkCLMHmGO7Utnw1e7S4ivYjTnZ5PFRZQvVQ=;
-        b=pdXH5sfaJkR0EJBO6MZH5lk6QeDYb0fJU+J47GYDN2+d3pICMDjCdo8yU67nW8Mmd+RUra
-        Fvgt+lNqkiIGuYmTIKxMhp5P1duKZGQhLK/j3SgOXOniNJoVIMNgew+oKr7zX72xesBdxA
-        zBdJJjCg/OZqCTU63e0xdComHJPadr4=
-Message-ID: <77fc4dec6738d57ae6ca6232e502e3b228b1ae03.camel@crapouillou.net>
-Subject: Re: Question: partial transfers of DMABUFs
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Date:   Wed, 15 Feb 2023 12:00:20 +0000
-In-Reply-To: <05fb3949-d0aa-b653-d9a3-236a4c95a5a3@linux.intel.com>
-References: <53ea4d2db570d3ca514a69015488bd5b849a5193.camel@crapouillou.net>
-         <836d600a-bb1c-fbb2-89f5-7c79c3150e8c@linux.intel.com>
-         <d540965a25138772fa063d62e907ffd611f93205.camel@crapouillou.net>
-         <05fb3949-d0aa-b653-d9a3-236a4c95a5a3@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 15 Feb 2023 07:01:13 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C5D3770D
+        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 04:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676462452; x=1707998452;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pi/RWr1UFn7tZoB3/qq7JDoyMZtbKj+5kE9NFaao5Xc=;
+  b=XeaeZ5B1wuthRFpZuA3VvT0FC5s19RHunh4eZMQp/E1N8NbsH5Ik2fGc
+   kDAoioSn4AGJBkVVuUxKGNyuhc/EiX2lRfkaL05pVcSezer1pSxSiyqax
+   7sods4G9wueBO/5S8CA3KphDc4EKJbm1HnvQG5Kiq0zedRPaEndI15i7b
+   R2bDMOkCcNTXf8M1FsQwA0cxvXivqhC/sRF8Zzbf4oVhaCaE+l3+g1pLm
+   wZW6rzT7hJaiCDpWQVAdPtvyuDLEGLirYVEiWquUIHLQ75yAVSfF07FvZ
+   hHL3Ebl7mlGWo0uYDL498E3i4mEo8xT/6ubU7mn/k5mv5oBfXLuMVlPCa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="330040684"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="330040684"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 04:00:51 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="662899621"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
+   d="scan'208";a="662899621"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 04:00:49 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 7FE391224B4;
+        Wed, 15 Feb 2023 14:00:46 +0200 (EET)
+Date:   Wed, 15 Feb 2023 14:00:46 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, frieder.schrempf@kontron.de,
+        Tim Harvey <tharvey@gateworks.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [RFC 1/1] v4l: async: Add some debug prints
+Message-ID: <Y+zJboHu13jqo+Mv@kekkonen.localdomain>
+References: <049f2fea-1725-74d9-d20d-fc4f7506d504@kontron.de>
+ <20230209221634.35239-1-sakari.ailus@linux.intel.com>
+ <Y+V02fe9lqVrt3lb@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+V02fe9lqVrt3lb@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maarten,
+Hi Laurent,
 
-Le mercredi 15 f=C3=A9vrier 2023 =C3=A0 12:52 +0100, Maarten Lankhorst a =
-=C3=A9crit=C2=A0:
-> Hey,
->=20
-> On 2023-02-15 12:47, Paul Cercueil wrote:
-> > Hi Maarten,
-> >=20
-> > Le mercredi 15 f=C3=A9vrier 2023 =C3=A0 12:30 +0100, Maarten Lankhorst =
-a
-> > =C3=A9crit=C2=A0:
-> > > Hey,
-> > >=20
-> > > On 2023-02-15 11:48, Paul Cercueil wrote:
-> > > > Hi,
-> > > >=20
-> > > > I am working on adding support for DMABUFs in the IIO
-> > > > subsystem.
-> > > >=20
-> > > > One thing we want there, is the ability to specify the number
-> > > > of
-> > > > bytes
-> > > > to transfer (while still defaulting to the DMABUF size).
-> > > >=20
-> > > > Since dma_buf_map_attachment() returns a sg_table, I basically
-> > > > have
-> > > > two
-> > > > options, and I can't decide which one is the best (or the less
-> > > > ugly):
-> > > >=20
-> > > > - Either I add a new API function similar to
-> > > > dmaengine_prep_slave_sg(),
-> > > > which still takes a scatterlist as argument but also takes the
-> > > > number
-> > > > of bytes as argument;
-> > > >=20
-> > > > - Or I add a function to duplicate the scatterlist and then
-> > > > shrink
-> > > > it
-> > > > manually, which doesn't sound like a good idea either.
-> > > >=20
-> > > > What would be the recommended way?
-> > > Does this need an api change? If you create a DMA-BUF of size X,
-> > > it
-> > > has
-> > > to be of size X. You can pad with a dummy page probably if you
-> > > know
-> > > it
-> > > in advance. But after it has been imported, it cannot change
-> > > size.
-> > Yes, the sizes are fixed.
-> >=20
-> > > You don=C2=B4t have to write the entire dma-buf either, so if you wan=
-t
-> > > to
-> > > create a 1GB buf and only use the first 4K, that is allowed. The
-> > > contents of=C2=A0 the remainder of the DMA-BUF are undefined. It's up
-> > > to
-> > > userspace to assign a meaning to it.
-> > >=20
-> > > I think I'm missing something here that makes the whole question
-> > > m,ake
-> > > more sense.
-> > I want my userspace to be able to specify how much of the DMABUF is
-> > to
-> > be read from or written to.
-> >=20
-> > So in my new "dmabuf enqueue" IOCTL that I want to add to IIO, I
-> > added
-> > a parameter to specify the number of bytes to transfer (where 0
-> > means
-> > the whole buffer).
-> >=20
-> > The problem I have now, is that the current dmaengine core does not
-> > have a API function that takes a scatterlist (returned by
-> > dma_map_attachment()) and a transfer size in bytes, it will always
-> > transfer the whole scatterlist.
-> >=20
-> > So my two options would be to add a new API function to support
-> > specifying a bytes count, or add a mechanism to duplicate a
-> > scatterlist, so that I can tweak it to the right size.
->=20
-> This doesn't have to happen through DMA-BUF. Presumably you are both
-> the=20
-> importer and the exporter, so after you know how much is read, you
-> can=20
-> tell this to the importer that X number of bytes can be read from
-> DMA-BUF Y.
+On Fri, Feb 10, 2023 at 12:34:01AM +0200, Laurent Pinchart wrote:
+> Thank you for the patch.
 
-Yes, I do that already as it is an argument in my ioctl.
+Thanks for the review!
 
-> In your case, when enqueing you will get a full SG list, but if you
-> know=20
-> only X bytes are read/written you only have to map the first X bytes
-> to=20
-> your IIO device. The rest of the SG list could be ignored safely.
+This was indeed hastily written, to help debugging a particular issue. But
+I hope it'll be useful for other purposes, too. V4L2 async is about to get
+more complicated soon.
 
-Yes. But I don't know how to "ignore the rest of the SG list".
+> 
+> On Fri, Feb 10, 2023 at 12:16:34AM +0200, Sakari Ailus wrote:
+> > Just add some debug prints for V4L2 async sub-device matching process. These
+> > might come useful in figuring out why things don't work as expected.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > Frieder,
+> > 
+> > Can you try this? It prints what is being matched with what. Perhaps this
+> > could be merged in a bit more refined form if it proves useful.
+> > 
+> > Not tested in any way.
+> > 
+> >  drivers/media/v4l2-core/v4l2-async.c | 41 ++++++++++++++++++++++++----
+> >  1 file changed, 36 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index 2f1b718a9189..6c13a9488415 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -86,13 +86,18 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
+> >  	bool sd_fwnode_is_ep;
+> >  	struct device *dev;
+> >  
+> > +	dev_dbg(sd->dev, "async fwnode match %pfw vs. %pfw\n", sd_fwnode,
+> > +		asd->match.fwnode);
+> 
+> Let's be more explicit:
+> 
+> 	dev_dbg(sd->dev, "async fwnode match: need %pfw, trying %pfw\n",
+> 		sd_fwnode, asd->match.fwnode);
+> 
+> (feel free to adjust, as long as we differentiate what we're looking for
+> from what we're testing)
 
-- dma_buf_map_attachment() does not have a parameter to specify that I
-only need the first X bytes mapped;
+Yes.
 
-- if I map the whole thing, dmaengine_prep_slave_sg() does not have an
-option to specify that I only want the first X bytes transferred.
+> 
+> > +
+> >  	/*
+> >  	 * Both the subdev and the async subdev can provide either an endpoint
+> >  	 * fwnode or a device fwnode. Start with the simple case of direct
+> >  	 * fwnode matching.
+> >  	 */
+> > -	if (sd_fwnode == asd->match.fwnode)
+> > +	if (sd_fwnode == asd->match.fwnode) {
+> > +		dev_dbg(sd->dev, "true\n");
+> 
+> 		dev_dbg(sd->dev, "direct match found\n");
+> 
+> >  		return true;
+> > +	}
+> >  
+> >  	/*
+> >  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
+> > @@ -105,8 +110,12 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
+> >  	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
+> >  	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
+> >  
+> > -	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
+> > +	dev_dbg(sd->dev, "async fwnode match %pfw vs. %pfw\n", sd_fwnode,
+> > +		asd->match.fwnode);
+> 
+> You've already printed this above, no need to repeat it.
+> 
+> > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep) {
+> > +		dev_dbg(sd->dev, "unmatching node types (false)\n");
+> 
+> 		dev_dbg(sd->dev, "direct match not found\n");
+> 
+> >  		return false;
+> > +	}
+> >  
+> >  	/*
+> >  	 * The sd and asd fwnodes are of different types. Get the device fwnode
+> > @@ -120,10 +129,15 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
+> >  		other_fwnode = sd_fwnode;
+> >  	}
+> >  
+> > +	dev_dbg(sd->dev, "async fwnode (compat) match %pfw vs. %pfw\n",
+> > +		dev_fwnode, other_fwnode);
+> 
+> Same comment as above regarding "vs." not telling which is which.
+> 
+> > +
+> >  	fwnode_handle_put(dev_fwnode);
+> >  
+> > -	if (dev_fwnode != other_fwnode)
+> > +	if (dev_fwnode != other_fwnode) {
+> > +		dev_dbg(sd->dev, "false\n");
+> 
+> 		dev_dbg(sd->dev, "compat match not found\n");
+> 
+> >  		return false;
+> > +	}
+> >  
+> >  	/*
+> >  	 * We have a heterogeneous match. Retrieve the struct device of the side
+> > @@ -143,6 +157,8 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
+> >  			   dev->driver->name);
+> >  	}
+> >  
+> > +	dev_dbg(sd->dev, "true\n");
+> 
+> 	dev_dbg(sd->dev, "compat match found\n");
+> 
+> > +
+> >  	return true;
+> >  }
+> >  
+> > @@ -255,7 +271,10 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
+> >  			v4l2_async_find_subdev_notifier(sd);
+> >  
+> >  		if (subdev_notifier &&
+> > -		    !v4l2_async_nf_can_complete(subdev_notifier))
+> > +		    !v4l2_async_nf_can_complete(subdev_notifier)) {
+> > +			if (subdev_notifier->sd)
+> > +				deb_dbg(subdev_notifier->sd->dev,
+> > +					"cannot complete\n");
+> 
+> I'd add a reference to v4l2-async, either directly in the string, or
+> with a "%s: ", __func__ prefix. Otherwise the message will be easy to
+> miss. Same in other messages. Maybe a "v4l2-async: " prefix for all
+> debug messages ?
 
--Paul
+How about just "async: " for all of these? It's shorther, still unique, and
+these lines will be long.
+
+> 
+> >  			return false;
+> >  	}
+> >  
+> > @@ -273,18 +292,27 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+> >  	if (!list_empty(&notifier->waiting))
+> >  		return 0;
+> >  
+> > +	if (notifier->sd)
+> > +		deb_dbg(notifier->sd->dev, "trying to complete\n");
+> > +
+> >  	/* Check the entire notifier tree; find the root notifier first. */
+> >  	while (notifier->parent)
+> >  		notifier = notifier->parent;
+> >  
+> >  	/* This is root if it has v4l2_dev. */
+> > -	if (!notifier->v4l2_dev)
+> > +	if (!notifier->v4l2_dev) {
+> > +		if (notifier->sd)
+> > +			deb_dbg(notifier->sd->dev,
+> > +				"V4L2 device not available\n");
+> >  		return 0;
+> > +	}
+> >  
+> >  	/* Is everything ready? */
+> >  	if (!v4l2_async_nf_can_complete(notifier))
+> >  		return 0;
+> >  
+> > +	deb_dbg(notifier->sd->dev, "complete\n");
+> 
+> You guard against notifier->sd being NULL above, but not here. At least
+> one of the two is wrong.
+
+I'll add a helper function to get the device safely.
+
+> 
+> > +
+> >  	return v4l2_async_nf_call_complete(notifier);
+> >  }
+> >  
+> > @@ -386,6 +414,9 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier)
+> >  			continue;
+> >  
+> >  		ret = v4l2_async_match_notify(notifier, v4l2_dev, sd, asd);
+> > +		deb_dbg(sd->dev, "bound to %s's notifier (ret %d)\n",
+> > +			notifier->sd ? dev_name(notifier->sd->dev) : "no-dev",
+> > +			ret);
+> >  		if (ret < 0)
+> >  			return ret;
+> >  
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
