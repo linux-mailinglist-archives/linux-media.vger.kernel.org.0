@@ -2,43 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B459369817D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 18:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 019686981BD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 18:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229936AbjBORAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 12:00:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42062 "EHLO
+        id S230055AbjBORRn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 12:17:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbjBORAl (ORCPT
+        with ESMTP id S229904AbjBORRj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 12:00:41 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4519323644
-        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 09:00:39 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C560C25E;
-        Wed, 15 Feb 2023 18:00:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676480438;
-        bh=jcnrgUlEc0jPtGLeEdzGYHUpfM5YqGYRsBb+jPHXARk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S/FG7oGcqPQMeBCVo/dCgZx2zN3sKpXMXUANzN5CiuB+HPBWXtaEOriZSlvRyjItK
-         J3xzK4iGnnmYLRe/nMcEgSxxyQC1r9Wg77veQt2w36Izy875ZZfSNGAGR2QiVI0aI4
-         M2/dz8CY5Oe8Jvy3VVOo9wrqmKUcLqGRUP20XSLY=
-Date:   Wed, 15 Feb 2023 19:00:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH for v6.3] media: v4l2-subdev.c: clear stream field
-Message-ID: <Y+0PtUKmZmDxkkOK@pendragon.ideasonboard.com>
-References: <e9cb93fd-cdb7-7e67-ca79-1e3ffd1241e6@xs4all.nl>
+        Wed, 15 Feb 2023 12:17:39 -0500
+X-Greylist: delayed 89012 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 15 Feb 2023 09:17:32 PST
+Received: from mail.fris.de (mail.fris.de [IPv6:2a01:4f8:c2c:390b::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E6CF2DE4C;
+        Wed, 15 Feb 2023 09:17:32 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4008ABFAEB;
+        Wed, 15 Feb 2023 18:17:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
+        t=1676481448; h=from:subject:date:message-id:to:cc:mime-version:
+         content-transfer-encoding; bh=tOQ4GCJqQIcdutDt62TtDCuCrq+2rPI1vsV+AOkH/r8=;
+        b=DphvDi3j8QPey/TUZO9u7AlpSHBaHmKDiQxYftklbw9BLqxiGyluP3FY9rW2lNKHLyMI/Q
+        B1GQpG4K2jXr1+gCme2TKjDXiAE7xRXaS8dVGaRMQ7vkIVyZJtdblYceCuPA7O4kfE6VN/
+        WMGvvuKEKq9eWE5iEPkpizJwoAnYSoQCK1c6ZdR2Tb4fQRjfc2u6MKZa4nPQP6VL3W8jZE
+        5KJ6WxM+SsJwGIieBsLb1mh3tTbFmqbMrlodH80A2W6nkjQ5xprId8SBX5V5QZF+HIVLLa
+        o7s/tgILz5lPqUMJ+ZlrB3c7bXctSUTU0AsTuvys0H8j2aeVFF/8Hj6JyBELIA==
+From:   Frieder Schrempf <frieder@fris.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>
+Cc:     Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: [PATCH v2] media: imx: imx7-media-csi: Fix error handling in imx7_csi_async_register()
+Date:   Wed, 15 Feb 2023 18:16:38 +0100
+Message-Id: <20230215171642.2122786-1-frieder@fris.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e9cb93fd-cdb7-7e67-ca79-1e3ffd1241e6@xs4all.nl>
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,87 +54,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-Thank you for the patch.
+The CSI requires a connected source subdev to operate. If
+fwnode_graph_get_endpoint_by_id() fails and returns NULL, there is no
+point in going on. Print an error message and abort instead.
 
-On Wed, Feb 15, 2023 at 03:48:17PM +0100, Hans Verkuil wrote:
-> Both userspace and kernelspace can pass structs with an uninitialized 'stream'
-> field. Since the check_state() function checks for a non-zero stream field,
-> suddenly these calls will fails with -EINVAL.
-> 
-> So check in the wrapper functions in v4l2-subdev.c (which are used by both the
-> kernel and userspace API) if V4L2_SUBDEV_FL_STREAMS is set, and if not, then zero
-> the stream field.
-> 
-> Currently no drivers set V4L2_SUBDEV_FL_STREAMS.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Also we don't need to check for an existing asd. Any failure of
+v4l2_async_nf_add_fwnode_remote() should abort the probe.
 
-Looks good to me as a v6.3 fix. I would however like to then revert it
-in v6.4 once a better fix gets developed: if an application that does
-support the streams API sets the stream field to an invalid value for a
-subdev that doesn't support streams, this shouldn't be silently ignored.
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+---
+Changes for v2:
+* Improve commit message
+* Use dev_err_probe
+---
+ drivers/media/platform/nxp/imx7-media-csi.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-Could you capture this in the commit message ?
-
-> ---
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 1bebcda2bd20..db22da153002 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -197,6 +198,8 @@ static inline int check_format(struct v4l2_subdev *sd,
->  	if (!format)
->  		return -EINVAL;
-> 
-> +	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +		format->stream = 0;
-
-Could you add a blank line here ? Same below. With that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  	return check_which(format->which) ? : check_pad(sd, format->pad) ? :
->  	       check_state(sd, state, format->which, format->pad, format->stream);
->  }
-> @@ -224,6 +227,8 @@ static int call_enum_mbus_code(struct v4l2_subdev *sd,
->  	if (!code)
->  		return -EINVAL;
-> 
-> +	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +		code->stream = 0;
->  	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
->  	       check_state(sd, state, code->which, code->pad, code->stream) ? :
->  	       sd->ops->pad->enum_mbus_code(sd, state, code);
-> @@ -236,6 +241,8 @@ static int call_enum_frame_size(struct v4l2_subdev *sd,
->  	if (!fse)
->  		return -EINVAL;
-> 
-> +	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +		fse->stream = 0;
->  	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
->  	       check_state(sd, state, fse->which, fse->pad, fse->stream) ? :
->  	       sd->ops->pad->enum_frame_size(sd, state, fse);
-> @@ -271,6 +278,8 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
->  	if (!fie)
->  		return -EINVAL;
-> 
-> +	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +		fie->stream = 0;
->  	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
->  	       check_state(sd, state, fie->which, fie->pad, fie->stream) ? :
->  	       sd->ops->pad->enum_frame_interval(sd, state, fie);
-> @@ -283,6 +292,8 @@ static inline int check_selection(struct v4l2_subdev *sd,
->  	if (!sel)
->  		return -EINVAL;
-> 
-> +	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +		sel->stream = 0;
->  	return check_which(sel->which) ? : check_pad(sd, sel->pad) ? :
->  	       check_state(sd, state, sel->which, sel->pad, sel->stream);
->  }
-
+diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+index 886374d3a6ff..76ce6ff2c60a 100644
+--- a/drivers/media/platform/nxp/imx7-media-csi.c
++++ b/drivers/media/platform/nxp/imx7-media-csi.c
+@@ -2191,19 +2191,18 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
+ 
+ 	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csi->dev), 0, 0,
+ 					     FWNODE_GRAPH_ENDPOINT_NEXT);
+-	if (ep) {
+-		asd = v4l2_async_nf_add_fwnode_remote(&csi->notifier, ep,
+-						      struct v4l2_async_subdev);
++	if (!ep)
++		return dev_err_probe(csi->dev, -ENOTCONN,
++				     "Failed to get remote endpoint\n");
+ 
+-		fwnode_handle_put(ep);
++	asd = v4l2_async_nf_add_fwnode_remote(&csi->notifier, ep,
++					      struct v4l2_async_subdev);
+ 
+-		if (IS_ERR(asd)) {
+-			ret = PTR_ERR(asd);
+-			/* OK if asd already exists */
+-			if (ret != -EEXIST)
+-				return ret;
+-		}
+-	}
++	fwnode_handle_put(ep);
++
++	if (IS_ERR(asd))
++		return dev_err_probe(csi->dev, PTR_ERR(asd),
++				     "Failed to add remote subdev to notifier\n");
+ 
+ 	csi->notifier.ops = &imx7_csi_notify_ops;
+ 
 -- 
-Regards,
+2.39.1
 
-Laurent Pinchart
