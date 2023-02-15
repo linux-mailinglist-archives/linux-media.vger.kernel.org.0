@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE5666987D7
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F80A6987D9
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjBOWaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 17:30:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
+        id S229737AbjBOWaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 17:30:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbjBOWaN (ORCPT
+        with ESMTP id S229746AbjBOWaQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 17:30:13 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702DF37B6D
-        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 14:30:12 -0800 (PST)
+        Wed, 15 Feb 2023 17:30:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DC538035
+        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 14:30:14 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00CA7475;
-        Wed, 15 Feb 2023 23:30:10 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5CF3465;
+        Wed, 15 Feb 2023 23:30:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676500211;
-        bh=oVV45dd9BKMhy6GwDg7AQeYiWJVyPrN0YqOB+M9cgss=;
+        s=mail; t=1676500213;
+        bh=kiFL5iQE/Co98HA7SMsVHLs+K7HdRmYXikESRGRYnLs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bHiF56wOjjAW8xSE7rLSMV30cbz8b2OQ20HmRqEnGRwtNRI/wEzDujSQ2Iy3zZM3U
-         nZAMEbZ4aaN4Fs4vaiIO0WGHd9fBFpiKY2YP+H1ZilUKWZF41C7TsMElY4wPU4V+Ri
-         kag0YdQfFbn1CK/92ByouGwOIg32138Ih3wTsj7o=
+        b=urNskwxGMhMM2zl40jwB64m8JQB/G52pNzHOBnMOSPc7Az8xHhsCCSFOdiwYyRXCC
+         hro8zrQbi9xlCJH1rzV5AHEe45Wbd9aNmWp9GKDjWL23GCD3MkPzR03BV0e+0NZq6g
+         5EZGi/VTQipXuHTmij4wcyBJEQ5wtZhq+ldyLvc8=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH v3 03/15] media: i2c: imx290: Match kernel coding style on whitespace
-Date:   Thu, 16 Feb 2023 00:29:51 +0200
-Message-Id: <20230215223003.30170-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 04/15] media: i2c: imx290: Set the colorspace fields in the format
+Date:   Thu, 16 Feb 2023 00:29:52 +0200
+Message-Id: <20230215223003.30170-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
 References: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
@@ -50,65 +50,31 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Fix up a couple of coding style issues regarding missing blank
-lines after declarations, double blank lines, and incorrect
-indentation.
+The colorspace fields were left untouched in imx290_set_fmt
+which lead to a v4l2-compliance failure.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/media/i2c/imx290.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index febb8aeb9252..a8acc785d995 100644
+index a8acc785d995..d68752aea3cf 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -106,7 +106,6 @@
+@@ -917,6 +917,10 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+ 		fmt->format.code = imx290_formats[0].code[imx290->model->colour_variant];
  
- #define IMX290_VMAX_DEFAULT				1125
+ 	fmt->format.field = V4L2_FIELD_NONE;
++	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
++	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
++	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
  
--
- /*
-  * The IMX290 pixel array is organized as follows:
-  *
-@@ -350,6 +349,7 @@ static const s64 imx290_link_freq_2lanes[] = {
- 	[FREQ_INDEX_1080P] = 445500000,
- 	[FREQ_INDEX_720P] = 297000000,
- };
-+
- static const s64 imx290_link_freq_4lanes[] = {
- 	[FREQ_INDEX_1080P] = 222750000,
- 	[FREQ_INDEX_720P] = 148500000,
-@@ -485,7 +485,7 @@ static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *val
- 			      data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
- 	if (ret < 0) {
- 		dev_err(imx290->dev, "%u-bit read from 0x%04x failed: %d\n",
--			 ((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
-+			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
- 			 addr & IMX290_REG_ADDR_MASK, ret);
- 		return ret;
- 	}
-@@ -506,7 +506,7 @@ static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
- 			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
- 	if (ret < 0) {
- 		dev_err(imx290->dev, "%u-bit write to 0x%04x failed: %d\n",
--			 ((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
-+			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
- 			 addr & IMX290_REG_ADDR_MASK, ret);
- 		if (err)
- 			*err = ret;
-@@ -772,8 +772,7 @@ static int imx290_start_streaming(struct imx290 *imx290,
+ 	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
  
- 	/* Set init register settings */
- 	ret = imx290_set_register_array(imx290, imx290_global_init_settings,
--					ARRAY_SIZE(
--						imx290_global_init_settings));
-+					ARRAY_SIZE(imx290_global_init_settings));
- 	if (ret < 0) {
- 		dev_err(imx290->dev, "Could not set init registers\n");
- 		return ret;
 -- 
 Regards,
 
