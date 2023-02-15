@@ -2,111 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFCAD697CFD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 14:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 868E1697D1F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 14:25:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234154AbjBONSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 08:18:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
+        id S233217AbjBONY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 08:24:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232055AbjBONSe (ORCPT
+        with ESMTP id S234212AbjBONYw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 08:18:34 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C25DB93CB;
-        Wed, 15 Feb 2023 05:18:33 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pSHg6-0001fQ-LV; Wed, 15 Feb 2023 14:18:30 +0100
-Message-ID: <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
-Date:   Wed, 15 Feb 2023 14:18:29 +0100
+        Wed, 15 Feb 2023 08:24:52 -0500
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 981CA38E86;
+        Wed, 15 Feb 2023 05:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1676467467; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FEyXmPy0b4Lc8uWvpDYsGz83becDnInwGO3EaqxRFUk=;
+        b=T50XxDNIkK9Jr/7I9BBsd9GHLn2cecKVyqr2xeGtQ8IA38nxEFb3mQ+ofgeumWqBvInmxm
+        5KwiyF3++QQZpDR5UTyo0oaxfKfnSSgo9mp1P0ccekk9gb8jWvz+dcZ49zn3rHvBfBZgtT
+        P8wOXw7B/fVRCQLp6LDGFeyyCf0lZdc=
+Message-ID: <db4d83f3c3c8dc4f3ef5f850fe4c1c04aa648d47.camel@crapouillou.net>
+Subject: Re: Question: partial transfers of DMABUFs
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>
+Cc:     linux-media@vger.kernel.org, dmaengine@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date:   Wed, 15 Feb 2023 13:24:24 +0000
+In-Reply-To: <c5fe8089-49e9-2bec-eac5-e8a035412cf3@amd.com>
+References: <53ea4d2db570d3ca514a69015488bd5b849a5193.camel@crapouillou.net>
+         <c5fe8089-49e9-2bec-eac5-e8a035412cf3@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mka@chromium.org" <mka@chromium.org>,
-        Albert Esteve <aesteve@redhat.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fritz Koenig <frkoenig@google.com>,
-        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-References: <20230207102254.1446461-1-javierm@redhat.com>
- <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
- <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
- <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
- <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
- <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
- <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1676467113;d1d0c92f;
-X-HE-SMSGID: 1pSHg6-0001fQ-LV
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15.02.23 11:57, Javier Martinez Canillas wrote:
-> On Wed, Feb 15, 2023 at 11:53 AM Linux regression tracking (Thorsten
-> Leemhuis) <regressions@leemhuis.info> wrote:
->> On 11.02.23 15:27, Linux regression tracking (Thorsten Leemhuis) wrote:
->>> On 10.02.23 11:07, Javier Martinez Canillas wrote:
->>>> On 2/10/23 10:22, Vikash Garodia wrote:
->>>>
->>>>>> So what should we do about this folks? Since not allowing the driver to probe on
->>>>>> at least SC7180 is a quite serious regression, can we revert for now until a proper
->>>>>> fix is figured out?
->>>>> I am able to repro this issue on sc7180 and discussing with firmware team on the cause
->>>>> of reset failure. The original patch was raised for fixing rare SMMU faults during warm
->>>>> boot of video hardware. Hence looking to understand the regressing part before we
->>>>> proceed to revert.
->>>> Great, if you are working on a proper fix then that would be much better indeed.
->>> Yeah, that's great, but OTOH: there is almost certainly just one week
->>> before 6.2 will be released. Ideally this should be fixed by then.
->>> Vikash, do you think that's in the cards? If not: why not revert this
->>> now to make sure 6.2 works fine?
->> Hmm, no reply. And we meanwhile have Wednesday and 6.2 is almost
->> certainly going to be out on Sunday. And the problem was called "a quite
->> serious regression" above. So why not quickly fix this with the revert,
->> as proposed earlier?
->> Vikash? Javier?
->
-> I agree with you, that we should land this revert and then properly
-> fix the page fault issue in v6.3.
-> 
-> But it's not my call, the v4l2/media folks have to decide that.
+Hi Christian,
 
-In that case: Mauro, what's your opinion here?
+Le mercredi 15 f=C3=A9vrier 2023 =C3=A0 13:58 +0100, Christian K=C3=B6nig a=
+ =C3=A9crit=C2=A0:
+> Hi Paul,
+>=20
+> Am 15.02.23 um 11:48 schrieb Paul Cercueil:
+> > Hi,
+> >=20
+> > I am working on adding support for DMABUFs in the IIO subsystem.
+> >=20
+> > One thing we want there, is the ability to specify the number of
+> > bytes
+> > to transfer (while still defaulting to the DMABUF size).
+> >=20
+> > Since dma_buf_map_attachment() returns a sg_table,
+>=20
+> Please don't assume that this is an sg_table. We just used it as=20
+> container for DMA addresses, but this has proven to be a mistake.
 
-Thread starts here:
-https://lore.kernel.org/lkml/20230207102254.1446461-1-javierm@redhat.com/
+TL/DR, why was it a mistake? Just curious.
 
-Regression report:
-https://lore.kernel.org/lkml/Y9LSMap%2BjRxbtpC8@google.com/
+> There is work underway to replace the sg_table with (for example)
+> just=20
+> an array of DMA addresses.
 
-Ciao, Thorsten
+Ok, so I believe at some point we will need an equivalent of
+dmaengine_prep_slave_sg() which takes an array of DMA addresses.
+
+> > I basically have two options, and I can't decide which one is the
+> > best (or the less ugly):
+> >=20
+> > - Either I add a new API function similar to
+> > dmaengine_prep_slave_sg(),
+> > which still takes a scatterlist as argument but also takes the
+> > number
+> > of bytes as argument;
+> >=20
+> > - Or I add a function to duplicate the scatterlist and then shrink
+> > it
+> > manually, which doesn't sound like a good idea either.
+> >=20
+> > What would be the recommended way?
+>=20
+> I strongly recommend to come up with a new function which only takes
+> DMA=20
+> addresses and separate segment length.
+
+Alright, thanks for your input.
+
+So I would add a new dma_device.dma_prep_slave_dma_array() callback
+with a corresponding API function, and then the drivers can be
+converted from using .dma_prep_slave_sg() to this new function in due
+time.
+
+Vinod, that works for you?
+
+Cheers,
+-Paul
