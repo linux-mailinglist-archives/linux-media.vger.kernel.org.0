@@ -2,150 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ABBB6972A7
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 01:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0CC469747E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 03:41:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231751AbjBOAZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Feb 2023 19:25:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59632 "EHLO
+        id S229686AbjBOClb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Feb 2023 21:41:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231476AbjBOAZw (ORCPT
+        with ESMTP id S229493AbjBOCla (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Feb 2023 19:25:52 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E701D2E0E5
-        for <linux-media@vger.kernel.org>; Tue, 14 Feb 2023 16:25:50 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id e1so6585253pgg.9
-        for <linux-media@vger.kernel.org>; Tue, 14 Feb 2023 16:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=13xGsV2jjmQG8zQgYM+MlutjbCojfUR9ZAZxMQUAu6A=;
-        b=VbDHSuKi2kZRWENSk2pFNf3FMtXUOOe3VDfIEKUiwUU2+nF2+OCaaPOuXdYtNyUpLQ
-         9Xd6EO7n+xMbaBqmbVbZrsA/QZ0yVnFFzEFzoEbgloRQvcRU+Ki24BDOV+MfdQ2jBar5
-         eiZqKerrZbTyGjo6xBnZQi2ut6PhyieHf/h2xGezwbRP9mthdu/8cMTCBWAzZXPR2gdR
-         PiN1UI8bVN+UgiaeNJCUWgfamW6ad7EVUNUwK7ChPOaz9F0R9pHDUsTzhgm5s+peYflE
-         7CBDOVmIbnPaWF8jdyyrURj3MGG7bRXnNdgk62B6mB12/0Wng4KDkH5wFr2fI4oR7OxN
-         joRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=13xGsV2jjmQG8zQgYM+MlutjbCojfUR9ZAZxMQUAu6A=;
-        b=aFFCeh9ZInH4Aa6UDrwCdDpAMLW7PTghGVSktnvHOtJEp7FSHfEJy7KI5pilNCxWN1
-         YSp0OgFIal9vSrhdAV1hvYADlKGXjGhRvsi/fgxlMUVjHUPhubhn1IrXKsaGTIK3NCol
-         gxaoSw5jBZCI0ayxEJCosxLOqLCzIkC9eItJb0OdPUGmAMBTs/NK2o7D4gyTj6xS9xS6
-         bBPCTI1myA2ArxRFTimtYT316iB/EDu8QJbZjQgZyWFa3coXnoSRysfxG7hbIOVRdDSQ
-         vm9zFgKxvUK2AtOOBVRgz54E/cRd77+HHQ57uUl36POYaa8UKP1EQ9wAEmN8Sp+5/lhx
-         3BkA==
-X-Gm-Message-State: AO0yUKWUO3gbsvhIw2tFrJEPI1XHpyJHXfRUyPkmeO+mZf4IoQy+jbb0
-        cxRCvf95/PeJWs9JznF2x2tvOA==
-X-Google-Smtp-Source: AK7set/RfDAmrDwKus+3EwyrpiXyachl6rM8SdJg8/oDC0GOfqqp5AasjoE8kO/Zq+15hhwXvqWA4Q==
-X-Received: by 2002:aa7:9581:0:b0:5a8:65e4:aba9 with SMTP id z1-20020aa79581000000b005a865e4aba9mr55940pfj.18.1676420750261;
-        Tue, 14 Feb 2023 16:25:50 -0800 (PST)
-Received: from localhost ([135.180.226.51])
-        by smtp.gmail.com with ESMTPSA id i22-20020aa787d6000000b005998a75dbc5sm10351038pfo.2.2023.02.14.16.25.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 16:25:49 -0800 (PST)
-Date:   Tue, 14 Feb 2023 16:25:49 -0800 (PST)
-X-Google-Original-Date: Tue, 14 Feb 2023 16:25:45 PST (-0800)
-Subject:     Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
-In-Reply-To: <4767366.GXAFRqVoOG@jernej-laptop>
-CC:     paul.kocialkowski@bootlin.com, samuel@sholland.org, wens@csie.org,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, aou@eecs.berkeley.edu,
-        Conor Dooley <conor@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>, mripard@kernel.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     jernej.skrabec@gmail.com
-Message-ID: <mhng-e29729d8-6f1e-42a5-bff6-852a16626cd4@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 14 Feb 2023 21:41:30 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E9C827D6E;
+        Tue, 14 Feb 2023 18:41:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EEC48619AC;
+        Wed, 15 Feb 2023 02:41:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ADE3C433D2;
+        Wed, 15 Feb 2023 02:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1676428889;
+        bh=wWD/OfXPqNsPHWvTUEODuneuyI/n26v4Hg5Tl/XoJIs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MeoNHJbCnBzJAwmp8++AYNciPQtge44PnNvboq2u03dqtl8Pbea9nmB9UoZfUKmoa
+         2xy+l7EdKgZJBB5gICf0hgxKgEjhlEDpOZEoxwhLIZtft3Km9aiCq8ZmnPxkX2dUUG
+         aqbCHCFN/MzLXC4y9qVSOhEvuONi3nMtPAKDzY+kxPWTfBbHco31yzk/+7Q22mo1fR
+         uxKHF06G/OeOEPyON2xEEnK36cE1H5+EkPYnXrSJ1AehtroRk6cFf/+BgGQdSYeIr/
+         ncAl8qrd01snNrUyXOX8Otacurtg7myguV35By98hKh2af9znpOCOSAE4ldB0u2lmU
+         fWGM3DNWQRaiQ==
+Date:   Tue, 14 Feb 2023 18:41:28 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     mchehab@kernel.org
+Cc:     netdev@vger.kernel.org, hverkuil@xs4all.nl,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: drop unnecessary networking includes
+Message-ID: <20230214184128.45cabcf8@kernel.org>
+In-Reply-To: <20230203233129.3413367-1-kuba@kernel.org>
+References: <20230203233129.3413367-1-kuba@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 05 Jan 2023 08:21:58 PST (-0800), jernej.skrabec@gmail.com wrote:
-> Dne četrtek, 05. januar 2023 ob 15:38:36 CET je Samuel Holland napisal(a):
->> Hi Paul,
->> 
->> On 1/5/23 04:11, Paul Kocialkowski wrote:
->> > On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
->> >> D1 contains a video engine which is supported by the Cedrus driver.
->> > 
->> > Does it work "outside the box" without power domain management?
->> > If not, it might be a bit confusing to add the node at this point.
->> 
->> Yes, it does. All of the power domains are enabled by default. However,
->> if the PPU series is merged first, I will respin this to include the
->> power-domains property from the beginning.
->
-> I would rather see that merged before and having complete node right away.
->
-> I've been away, but I'll merge everything that's ready for sunxi tree until 
-> end of the weekend.
+On Fri,  3 Feb 2023 15:31:29 -0800 Jakub Kicinski wrote:
+> dvb_net.h includes a bunch of core networking headers which increases
+> the number of objects rebuilt when we touch them. They are unnecessary
+> for the header itself and only one driver has an indirect dependency.
+> 
+> tveeprom.h includes if_packet to gain access to ETH_ALEN. This
+> is a bit of an overkill because if_packet.h pulls in skbuff.h.
+> The definition of ETH_ALEN is in the uAPI header, which is
+> very rarely touched, so switch to including that.
+> 
+> This results in roughly 250 fewer objects built when skbuff.h
+> is touched (6028 -> 5788).
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Just checking up on this one, as it's still in the RISC-V patchwork but 
-I don't see it in linux-next.  No big deal on my end, I just don't want 
-to be dropping the ball here.
-
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-
-In case you were waiting for it (in which case sorry).
-
->
-> Best regards,
-> Jernej
->
->> 
->> Regards,
->> Samuel
->> 
->> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> >> ---
->> >> 
->> >>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
->> >>  1 file changed, 11 insertions(+)
->> >> 
->> >> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> >> b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
->> >> dff363a3c934..4bd374279155 100644
->> >> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> >> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
->> >> @@ -34,6 +34,17 @@ soc {
->> >> 
->> >>  		#address-cells = <1>;
->> >>  		#size-cells = <1>;
->> >> 
->> >> +		ve: video-codec@1c0e000 {
->> >> +			compatible = "allwinner,sun20i-d1-video-
-> engine";
->> >> +			reg = <0x1c0e000 0x2000>;
->> >> +			interrupts = <SOC_PERIPHERAL_IRQ(66) 
-> IRQ_TYPE_LEVEL_HIGH>;
->> >> +			clocks = <&ccu CLK_BUS_VE>,
->> >> +				 <&ccu CLK_VE>,
->> >> +				 <&ccu CLK_MBUS_VE>;
->> >> +			clock-names = "ahb", "mod", "ram";
->> >> +			resets = <&ccu RST_BUS_VE>;
->> >> +		};
->> >> +
->> >> 
->> >>  		pio: pinctrl@2000000 {
->> >>  		
->> >>  			compatible = "allwinner,sun20i-d1-pinctrl";
->> >>  			reg = <0x2000000 0x800>;
+Hi Mauro! Could you take this in for 6.3?
+Is it okay if we queue it via the networking tree otherwise?
