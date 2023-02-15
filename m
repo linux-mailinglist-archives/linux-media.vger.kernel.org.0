@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAEFB6987DA
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 695BA6987DB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbjBOWaT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 17:30:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33214 "EHLO
+        id S229746AbjBOWaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 17:30:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjBOWaR (ORCPT
+        with ESMTP id S229750AbjBOWaU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 17:30:17 -0500
+        Wed, 15 Feb 2023 17:30:20 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CCA430295
-        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 14:30:16 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3790415545
+        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 14:30:18 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFDAB383;
-        Wed, 15 Feb 2023 23:30:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9747478;
+        Wed, 15 Feb 2023 23:30:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676500215;
-        bh=qEkgH/FGPv8zCFjH2pD5LbLHcrPzANsAlXHGrg8n+0g=;
+        s=mail; t=1676500217;
+        bh=T0YSimg5smRhWKBzp2aYmt0xKy/nuFnfwJKpTYgqxuQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tbrJf3xUzXLfd9CPJrTxU4BcVCrYlmuaC2S9cl36hd9ZoX25oAAE7qsIvEjS5p8sI
-         VKh23LZ2yS28ck30JyK5TMNVKw7ZX9yDMRZQTjWBPW3kguKQoHwcQQtUPvSv+E/73l
-         wgkTou92NujqUsg+dnZKMfVt+ymiOfSx6vPLwZCg=
+        b=RNCoD1mF4kYFLQi7O5XJMhf8e/qswEAzdhbUJ8a/tHU3zSFoydF7VcLL4la93+RJz
+         p8x0xuF+lrn27zD2/kfAnUPQ4u4EQvFeyTsQy01Dw43OYSC6OYDH7vnpVAYNlTOXQ6
+         v4Tg4XO1Is9d1fyaBWF4D6qo5cPCj5x+r8xzGdH8=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH v3 05/15] media: i2c: imx290: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
-Date:   Thu, 16 Feb 2023 00:29:53 +0200
-Message-Id: <20230215223003.30170-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 06/15] media: i2c: imx290: Fix the pixel rate at 148.5Mpix/s
+Date:   Thu, 16 Feb 2023 00:29:54 +0200
+Message-Id: <20230215223003.30170-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
 References: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
@@ -50,65 +50,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Any V4L2 subdevice that implements controls and declares
-V4L2_SUBDEV_FL_HAS_DEVNODE should also declare V4L2_SUBDEV_FL_HAS_EVENTS
-and implement subscribe_event and unsubscribe_event hooks.
+The datasheet lists the link frequency changes between
+1080p and 720p modes. This is correct that the link frequency
+changes as measured on an oscilloscope.
 
-This driver didn't and would therefore fail v4l2-compliance
-testing.
+Link frequency is not necessarily the same as pixel rate.
 
-Add the relevant hooks.
+The datasheet gives standard configurations for 1080p and 720p
+modes at a number of frame rates.
+Looking at the 1080p mode it gives:
+HMAX = 0x898 = 2200
+VMAX = 0x465 = 1125
+2200 * 1125 * 60fps = 148.5MPix/s
+
+Looking at the 720p mode it gives:
+HMAX = 0xce4 = 3300
+VMAX = 0x2ee = 750
+3300 * 750 * 60fps = 148.5Mpix/s
+
+This driver currently scales the pixel rate proportionally to the
+link frequency, however the above shows that this is not the
+correct thing to do, and currently all frame rate and exposure
+calculations give incorrect results.
+
+Correctly report the pixel rate as being 148.5MPix/s under any
+mode.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/imx290.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/media/i2c/imx290.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index d68752aea3cf..0a77391ece9b 100644
+index 0a77391ece9b..c0b37afd2fbe 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -20,6 +20,7 @@
- #include <media/media-entity.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
+@@ -107,6 +107,8 @@
  
-@@ -993,6 +994,11 @@ static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
- 	return 0;
- }
+ #define IMX290_VMAX_DEFAULT				1125
  
-+static const struct v4l2_subdev_core_ops imx290_core_ops = {
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
++#define IMX290_PIXEL_RATE				148500000
 +
- static const struct v4l2_subdev_video_ops imx290_video_ops = {
- 	.s_stream = imx290_set_stream,
- };
-@@ -1007,6 +1013,7 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops = {
- };
+ /*
+  * The IMX290 pixel array is organized as follows:
+  *
+@@ -205,7 +207,6 @@ struct imx290 {
  
- static const struct v4l2_subdev_ops imx290_subdev_ops = {
-+	.core = &imx290_core_ops,
- 	.video = &imx290_video_ops,
- 	.pad = &imx290_pad_ops,
+ 	struct v4l2_ctrl_handler ctrls;
+ 	struct v4l2_ctrl *link_freq;
+-	struct v4l2_ctrl *pixel_rate;
+ 	struct v4l2_ctrl *hblank;
+ 	struct v4l2_ctrl *vblank;
  };
-@@ -1025,7 +1032,8 @@ static int imx290_subdev_init(struct imx290 *imx290)
- 	imx290->current_mode = &imx290_modes_ptr(imx290)[0];
+@@ -669,15 +670,8 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+ {
+ 	unsigned int hblank = mode->hmax - mode->width;
+ 	unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
+-	s64 link_freq = imx290_link_freqs_ptr(imx290)[mode->link_freq_index];
+-	u64 pixel_rate;
+-
+-	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
+-	pixel_rate = link_freq * 2 * imx290->nlanes;
+-	do_div(pixel_rate, imx290_format_info(imx290, format->code)->bpp);
  
- 	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
--	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	imx290->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_HAS_EVENTS;
- 	imx290->sd.dev = imx290->dev;
- 	imx290->sd.entity.ops = &imx290_subdev_entity_ops;
- 	imx290->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+ 	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+-	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate, pixel_rate);
+ 
+ 	__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank, 1, hblank);
+ 	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
+@@ -727,9 +721,9 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+ 	if (imx290->link_freq)
+ 		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+-	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+-					       V4L2_CID_PIXEL_RATE,
+-					       1, INT_MAX, 1, 1);
++	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops, V4L2_CID_PIXEL_RATE,
++			  IMX290_PIXEL_RATE, IMX290_PIXEL_RATE, 1,
++			  IMX290_PIXEL_RATE);
+ 
+ 	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
+ 				     V4L2_CID_TEST_PATTERN,
 -- 
 Regards,
 
