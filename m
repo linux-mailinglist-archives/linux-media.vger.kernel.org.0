@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 076AA697BDD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 13:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49778697BEB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 13:36:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233619AbjBOMd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 07:33:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51266 "EHLO
+        id S233860AbjBOMgI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 07:36:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230492AbjBOMd5 (ORCPT
+        with ESMTP id S233561AbjBOMgF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 07:33:57 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B28338663;
-        Wed, 15 Feb 2023 04:33:32 -0800 (PST)
+        Wed, 15 Feb 2023 07:36:05 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24AC38024;
+        Wed, 15 Feb 2023 04:35:48 -0800 (PST)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id F1262660218A;
-        Wed, 15 Feb 2023 12:33:23 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3459D66020BD;
+        Wed, 15 Feb 2023 12:35:46 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1676464405;
-        bh=XjKxrV8fXkRvrXBNe0Ydl7+8yd1Vv/vlPl9Gx+Y6YkM=;
+        s=mail; t=1676464547;
+        bh=1xCCe0WB5EclmlsSqF9Xyjv96K2FBMIVBfbtWbcB8XA=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Uz0hRl40VuK3a2d6yqRDVcl37/37u/4CNYCIrahSlkK3Qe/AgaAoIYZktt2jYp+qX
-         VzCjlnkCfmSPNJTf8YX7ktoBQYFx9jgc8AngZpMMdf0ZZQFbseN0nTKrcILXMxgkvl
-         zcCxOLRtJNVV4CNfmcffkjHu5BiXmX3i401ssgF20o8nb0o2NCGX14ineyve6n1TM3
-         mY1kIaBR2oFlGTVuRcdqJACoiDFb+8RuCvekS8sg7XKExX79wdU3RVp46Bra0iyzbu
-         KSx4tkMq82sOcb/lqqJWpw9dL2vUY6oliaA6zmK5+1Nx2TutiVJFbOaetU6lxyhQy4
-         EDByEb1blM8pQ==
-Message-ID: <7a46706b-3de5-d8dc-6ea5-8e909e2b927e@collabora.com>
-Date:   Wed, 15 Feb 2023 13:33:20 +0100
+        b=g1Ms3BZbDTzmhD98kyn+rcwDdi4StjxVnHzSKxMjBYVqUmD8SjyG/FAvXS6ouBdCT
+         lfC9+OqhYaE2Ut4LAhSAfnhsXEYVMpNEbSPaW8UXryidEmHFUAn6OeShRM0KXk9kAv
+         JSyC1mWN7REftcGDOz8RPT8t0GbOR3hxpzXD7hQF9rbwDRfwAgHhBSDz8PtTC3yXEU
+         gO661cTXETOU2m7S/uM48Ny6VjHDcxU8+Dxa3b0MwtczyDrvIaEj7EgRJ9Z485nBTD
+         uKfBIzvoUCT4WFuHgIOZOT9JLv/fxcdDtGWCA9mJyI0Mb27XUOXhhQPV95W8qGL90j
+         quEGyKQZnj1tg==
+Message-ID: <7e108286-4ada-fdf3-cabc-aa3ce61117a6@collabora.com>
+Date:   Wed, 15 Feb 2023 13:35:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v4 06/11] iommu/mediatek: mt8195: Add iova_region_larb_msk
+Subject: Re: [PATCH v4 08/11] iommu/mediatek: Add a gap for the iova regions
 Content-Language: en-US
 To:     Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
@@ -56,10 +56,10 @@ Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
         chengci.xu@mediatek.com, youlin.pei@mediatek.com,
         anan.sun@mediatek.com
 References: <20230215062544.8677-1-yong.wu@mediatek.com>
- <20230215062544.8677-7-yong.wu@mediatek.com>
+ <20230215062544.8677-9-yong.wu@mediatek.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230215062544.8677-7-yong.wu@mediatek.com>
+In-Reply-To: <20230215062544.8677-9-yong.wu@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -72,12 +72,30 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Il 15/02/23 07:25, Yong Wu ha scritto:
-> Add iova_region_larb_msk for mt8195. We separate the 16GB iova regions
-> by each device's larbid/portid.
-> Refer to include/dt-bindings/memory/mt8195-memory-port.h
+> As the removed property in the vcodec dt-binding, the property is:
+> dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> 
+> The length is 0xfff0_0000 rather than 0x1_0000_0000, this means it
+> requires 1M as a gap. This is because the end address for some vcodec
+> HW is (address + size). If the size is 4G, the end address may be
+> 0x2_0000_0000, and the width for vcodec register only is 32, then the
+> HW may get the ZERO address.
+> 
+> Currently the consumer's dma-ranges property doesn't work, IOMMU
+> has to consider this case. Add a bigger gap(8M) for all the regions
+> to avoid it.
 > 
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+> Hi AngeloGioacchino,
+> I define a new macro for this, I think it is a small change, thus keep
+> you R-b.
+> Thanks.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Hello!
+You added a nice comment to the new definition describing that there's a 8M gap,
+so it's completely fine; you can keep my R-b on this one just fine!
 
-
+Regards,
+Angelo
