@@ -2,64 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 733C469724F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 01:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0335E697257
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 01:01:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbjBOAAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Feb 2023 19:00:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45024 "EHLO
+        id S231876AbjBOAAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Feb 2023 19:00:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232248AbjBNX7o (ORCPT
+        with ESMTP id S232004AbjBOAAM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Feb 2023 18:59:44 -0500
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607CC2CFC8;
-        Tue, 14 Feb 2023 15:59:43 -0800 (PST)
-Received: by mail-il1-f175.google.com with SMTP id i26so561578ila.11;
-        Tue, 14 Feb 2023 15:59:43 -0800 (PST)
+        Tue, 14 Feb 2023 19:00:12 -0500
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4F9828855;
+        Tue, 14 Feb 2023 16:00:11 -0800 (PST)
+Received: by mail-il1-f176.google.com with SMTP id 18so898944ilg.3;
+        Tue, 14 Feb 2023 16:00:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=47c8N65+bA0va12esEad9F+wfY0jNc6/6f/7s5GMhO8=;
-        b=AvH1VDkyHiH7A+NPzt1aag7xLpOhIfBS3fYkWDbWXoT6fpwxrdelCga1NXfFv2kbNH
-         0/82DWQerVdabVyx5lbyI6GoSEhXXs5fCVu6ri2LKVg9myaMxF6IOj5Tu3LwPrVcfCD+
-         +nchQYwZSLi5dc8UMegqxOp68PLJ3IQypQe8FLi7sU6VsfC9A5ov1QZN/vJbAv84uDyU
-         8Jb0+RORkuVvLlayrCIdxGiwYdC0cKIs6nHRxCiTziXDK4W9iwAToQmMqOVMJn4xu4YF
-         tId8opJ1SUCcVS0jVfgF0OVI7wTb80NJmgBcGevIl6LyMbPFK4t/aEf1Wr361FF8pGbx
-         LGBQ==
-X-Gm-Message-State: AO0yUKUOoS5am2yvvpOZGAgNKmfe+laX9q7DB6bHZHEKyNlSECBiW9XS
-        Ys+LS5q+leZPufEj0SbJFw==
-X-Google-Smtp-Source: AK7set+XH9b8ktNsasvbgIJRBQmFqKfQdWRX5JLUyb8R3zB6ZuA6Qqi0YDWXX0Dbqs+2khFXzLwNVQ==
-X-Received: by 2002:a05:6e02:b2f:b0:302:a58f:38ab with SMTP id e15-20020a056e020b2f00b00302a58f38abmr527073ilu.0.1676419182555;
-        Tue, 14 Feb 2023 15:59:42 -0800 (PST)
-Received: from robh_at_kernel.org ([65.158.198.6])
-        by smtp.gmail.com with ESMTPSA id g15-20020a92dd8f000000b00313f2279f06sm5044113iln.73.2023.02.14.15.59.41
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GdnOc8Rw0xQA+X2ORwY/P1SBgpvcAT9ng4m6T6MLKbc=;
+        b=4Tm5LiWzvboiuPCydGCcoMuKLS34kvEaWfzbb3t9PTomNE1Subp1cKpdu5E6lt1HvK
+         LLqXnHNFVVBXFTB4CR0qRM9TsC4zitMq3J05lVskO2TCyCmHqKFClblPTnZP0DKhT73A
+         osofEXO2MdO5hiv0s/D9GJGtHjHH1RAucsYCo1TLzp8wwNP/CYrvKjH/ocOIitt4wEWM
+         O0VCAlJM7mUzDrxbajwT2OZsEmeOKHAHnJQ4Q42q2ileWeeE6nNh+OvYu8FCaM//q8JO
+         85ijEKuuDaDY4POmMUSGGPZMXYwhiV1j6q8WliZ95387mO60jZNglXq9Q2leMoDptt6e
+         xcNA==
+X-Gm-Message-State: AO0yUKVy65y4egm6o6q99MTjda9CH2/TtDFmsTIWY3C39uo7ZYyjV74f
+        ASUaboke4/P0AC91S1ONuQ==
+X-Google-Smtp-Source: AK7set+VFtlGR9O6ONinVbvRhR8mt3S1/86u++8R8x0HH+Sl39VPNMFdu/pbdfaseAfVcml9cBwA0w==
+X-Received: by 2002:a05:6e02:b4b:b0:315:4c18:5142 with SMTP id f11-20020a056e020b4b00b003154c185142mr450688ilu.10.1676419210941;
+        Tue, 14 Feb 2023 16:00:10 -0800 (PST)
+Received: from robh_at_kernel.org ([65.158.198.3])
+        by smtp.gmail.com with ESMTPSA id k2-20020a02c762000000b003c4907302a1sm5166865jao.107.2023.02.14.16.00.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 15:59:42 -0800 (PST)
-Received: (nullmailer pid 59144 invoked by uid 1000);
-        Tue, 14 Feb 2023 23:59:40 -0000
-Date:   Tue, 14 Feb 2023 17:59:40 -0600
+        Tue, 14 Feb 2023 16:00:10 -0800 (PST)
+Received: (nullmailer pid 59722 invoked by uid 1000);
+        Wed, 15 Feb 2023 00:00:03 -0000
+Date:   Tue, 14 Feb 2023 18:00:03 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-media@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] media: dt-bindings: st,stm32-cec: drop obsolete file
-Message-ID: <167641913806.58082.2803069837642065032.robh@kernel.org>
-References: <20230211124540.71208-1-krzysztof.kozlowski@linaro.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 1/3] media: dt-bindings: media: renesas,isp: Add binding
+ for V4H
+Message-ID: <167641920328.59670.12720988583639874176.robh@kernel.org>
+References: <20230211144147.3812388-1-niklas.soderlund+renesas@ragnatech.se>
+ <20230211144147.3812388-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230211124540.71208-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230211144147.3812388-2-niklas.soderlund+renesas@ragnatech.se>
 X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -73,17 +69,13 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Sat, 11 Feb 2023 13:45:40 +0100, Krzysztof Kozlowski wrote:
-> The st,stm32-cec.yaml was moved to media/cec directory, however the
-> "remove" part disappeared during applying.
+On Sat, 11 Feb 2023 15:41:45 +0100, Niklas Söderlund wrote:
+> Document support for the ISP module in the Renesas V4H (r8a779g0) SoC.
 > 
-> Fixes: 8f43766211af ("media: dt-bindings: st,stm32-cec: move to cec subfolder")
-> Link: https://lore.kernel.org/all/20221208103115.25512-3-krzysztof.kozlowski@linaro.org/
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  .../bindings/media/st,stm32-cec.yaml          | 53 -------------------
->  1 file changed, 53 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+>  Documentation/devicetree/bindings/media/renesas,isp.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
