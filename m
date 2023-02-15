@@ -2,157 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B02F8698015
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 17:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 691BC698026
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 17:05:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbjBOQAF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 11:00:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46802 "EHLO
+        id S229970AbjBOQFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 11:05:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjBOQAD (ORCPT
+        with ESMTP id S229891AbjBOQFy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 11:00:03 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 594FA3A86E;
-        Wed, 15 Feb 2023 07:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676476790; x=1708012790;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rFzlPJjklUrRYXlztiXxbWF4vZTLJe24dy5KZSKBFTU=;
-  b=a2QbX3wd6aUC0XQJ2qfsU00tzCVvCSv9F3xqk4Z83a8t6xUnXvoVdf4i
-   NBxzdPdWCGWw2G0+a2FRuc48aS6+5zJjMUsAUU4x7VaRvR1kt0dzcZeE4
-   jHo1zYFgV07HaGAbi4BPBks+qZO9fn82e64Aa8yl7lKBMwgcsv+zV9IxW
-   OiuiwgzZBscUVew/h/YbZuv2dJSiEXos8iy5r5aT66TiKYAAe654m+i11
-   7/wVHEjSAu+ZufvrTjIJdAAaHjX6IYCkPCwqy3u3/8UDxpT3SMTZUn4cD
-   5pGtrG081KVPyAUVsBJtZcBo/nzky/lMvsHKB6yLBlnvLINeQJm0/k0wE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="331461160"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="331461160"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 07:59:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="700017813"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="700017813"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 15 Feb 2023 07:59:31 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pSKBp-007KF7-0b;
-        Wed, 15 Feb 2023 17:59:25 +0200
-Date:   Wed, 15 Feb 2023 17:59:24 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vincenzo Palazzo <vincenzopalazzodev@gmail.com>,
-        Devarsh Thakkar <devarsht@ti.com>,
-        Michael Walle <michael@walle.cc>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dipen Patel <dipenp@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lee Jones <lee@kernel.org>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-arch@vger.kernel.org,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        Keerthy <j-keerthy@ti.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>, Qiang Zhao <qiang.zhao@nxp.com>,
-        Li Yang <leoyang.li@nxp.com>, Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v4 00/18] gpiolib cleanups
-Message-ID: <Y+0BXGLf2n+dAi4v@smile.fi.intel.com>
-References: <20230208173343.37582-1-andriy.shevchenko@linux.intel.com>
- <CAMRc=MdsCZKh12QcqdWk+Zht5UDpA_G1+rx6+_3dzwjDYe6L+Q@mail.gmail.com>
+        Wed, 15 Feb 2023 11:05:54 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1094B39CFE
+        for <linux-media@vger.kernel.org>; Wed, 15 Feb 2023 08:05:52 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFCFE10B;
+        Wed, 15 Feb 2023 17:05:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676477151;
+        bh=IYW1L9KuAlE6/w2NMZL1g5g6848vNQVMna+G+LtaZpM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SSXpQgo7scqZrZsybKtg5qf4n1D1wJoj4S67zSLPYyZUwqCTSfTHxx2ziYUdEAvzb
+         vROCYHNGsqwS74WS8TUjO/G/Np0zgAq3HiDpMEyqooHInXVBjh6RT3Ra4Adg43GVk3
+         94xiQ8+9oVsAjouFCyGdWY1+mi/4/To2iPpd7gT0=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Eugen Hristev <eugen.hristev@collabora.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] media: Fix indentation issues introduced by subdev-wide state struct
+Date:   Wed, 15 Feb 2023 18:05:50 +0200
+Message-Id: <20230215160550.5108-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdsCZKh12QcqdWk+Zht5UDpA_G1+rx6+_3dzwjDYe6L+Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 15, 2023 at 04:52:29PM +0100, Bartosz Golaszewski wrote:
-> On Wed, Feb 8, 2023 at 6:34 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > These are some older patches Arnd did last year, rebased to
-> > linux-next-20230208. On top there are Andy's patches regarding
-> > similar topic. The series starts with Linus Walleij's patches.
-> >
-> > The main goal is to remove some of the legacy bits of the gpiolib
-> > interfaces, where the corner cases are easily avoided or replaced
-> > with gpio descriptor based interfaces.
-> >
-> > The idea is to get an immutable branch and route the whole series
-> > via GPIO tree.
-> 
-> Andy,
-> 
-> looks like this series has all the acks it needs but I decided to not
-> send it in the upcoming merge window, I'd prefer it gets some time in
-> next so I'll let it sit until the next release cycle.
+Commit 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
+applied a large media tree-wide change produced by coccinelle. It was so
+large that a set of identical indentation issues went unnoticed during
+review. Fix them.
 
-Ah, I forgot to mention that this is for the next cycle (v6.4).
-Hence it's fine. (Moreover it's based on Linux Next, so it will
-fail compilation in any certain tree except that one.)
+While at it, and because it's easy to review both changes together, add
+a trailing comma for the last (and only) struct member initialization of
+the related structures, to avoid future changes should new fields need
+to be initialized.
 
-I will create an immutable branch after v6.3-rc1 is out.
+Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/pci/saa7134/saa7134-empress.c        |  4 ++--
+ drivers/media/platform/atmel/atmel-isi.c           |  4 ++--
+ drivers/media/platform/intel/pxa_camera.c          |  4 ++--
+ drivers/media/platform/marvell/mcam-core.c         |  4 ++--
+ drivers/media/platform/renesas/renesas-ceu.c       |  4 ++--
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c      | 14 +++++++-------
+ drivers/media/platform/via/via-camera.c            |  4 ++--
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c    |  8 ++++----
+ .../media/deprecated/atmel/atmel-isc-base.c        |  4 ++--
+ 9 files changed, 25 insertions(+), 25 deletions(-)
 
+diff --git a/drivers/media/pci/saa7134/saa7134-empress.c b/drivers/media/pci/saa7134/saa7134-empress.c
+index aafbb34765b0..434fa1ee1c33 100644
+--- a/drivers/media/pci/saa7134/saa7134-empress.c
++++ b/drivers/media/pci/saa7134/saa7134-empress.c
+@@ -139,8 +139,8 @@ static int empress_try_fmt_vid_cap(struct file *file, void *priv,
+ 	struct saa7134_dev *dev = video_drvdata(file);
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
+index 4d15814e4481..fbfec3b81713 100644
+--- a/drivers/media/platform/atmel/atmel-isi.c
++++ b/drivers/media/platform/atmel/atmel-isi.c
+@@ -587,8 +587,8 @@ static int isi_try_fmt(struct atmel_isi *isi, struct v4l2_format *f,
+ 	struct v4l2_pix_format *pixfmt = &f->fmt.pix;
+ 	struct v4l2_subdev_pad_config pad_cfg = {};
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
+index 54270d6b6f50..56b363c93f8c 100644
+--- a/drivers/media/platform/intel/pxa_camera.c
++++ b/drivers/media/platform/intel/pxa_camera.c
+@@ -1794,8 +1794,8 @@ static int pxac_vidioc_try_fmt_vid_cap(struct file *filp, void *priv,
+ 	struct v4l2_pix_format *pix = &f->fmt.pix;
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
+index ad4a7922d0d7..154bdcb3f2cc 100644
+--- a/drivers/media/platform/marvell/mcam-core.c
++++ b/drivers/media/platform/marvell/mcam-core.c
+@@ -1351,8 +1351,8 @@ static int mcam_vidioc_try_fmt_vid_cap(struct file *filp, void *priv,
+ 	struct v4l2_pix_format *pix = &fmt->fmt.pix;
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+diff --git a/drivers/media/platform/renesas/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
+index f70f91b006b7..6bab72def972 100644
+--- a/drivers/media/platform/renesas/renesas-ceu.c
++++ b/drivers/media/platform/renesas/renesas-ceu.c
+@@ -795,8 +795,8 @@ static int __ceu_try_fmt(struct ceu_device *ceudev, struct v4l2_format *v4l2_fmt
+ 	struct v4l2_subdev *v4l2_sd = ceu_sd->v4l2_sd;
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	const struct ceu_fmt *ceu_fmt;
+ 	u32 mbus_code_old;
+ 	u32 mbus_code;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+index f76afd8112b2..c15ae0218118 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+@@ -123,8 +123,8 @@ rkisp1_rsz_get_pad_fmt(struct rkisp1_resizer *rsz,
+ 		       unsigned int pad, u32 which)
+ {
+ 	struct v4l2_subdev_state state = {
+-		.pads = rsz->pad_cfg
+-		};
++		.pads = rsz->pad_cfg,
++	};
+ 	if (which == V4L2_SUBDEV_FORMAT_TRY)
+ 		return v4l2_subdev_get_try_format(&rsz->sd, sd_state, pad);
+ 	else
+@@ -137,8 +137,8 @@ rkisp1_rsz_get_pad_crop(struct rkisp1_resizer *rsz,
+ 			unsigned int pad, u32 which)
+ {
+ 	struct v4l2_subdev_state state = {
+-		.pads = rsz->pad_cfg
+-		};
++		.pads = rsz->pad_cfg,
++	};
+ 	if (which == V4L2_SUBDEV_FORMAT_TRY)
+ 		return v4l2_subdev_get_try_crop(&rsz->sd, sd_state, pad);
+ 	else
+@@ -366,7 +366,7 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
+ 	struct v4l2_subdev_pad_config dummy_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+ 		.pads = &dummy_cfg
+-		};
++	};
+ 	u32 pad = code->pad;
+ 	int ret;
+ 
+@@ -733,8 +733,8 @@ static void rkisp1_rsz_unregister(struct rkisp1_resizer *rsz)
+ static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
+ {
+ 	struct v4l2_subdev_state state = {
+-		.pads = rsz->pad_cfg
+-		};
++		.pads = rsz->pad_cfg,
++	};
+ 	static const char * const dev_names[] = {
+ 		RKISP1_RSZ_MP_DEV_NAME,
+ 		RKISP1_RSZ_SP_DEV_NAME
+diff --git a/drivers/media/platform/via/via-camera.c b/drivers/media/platform/via/via-camera.c
+index 95483c84c3f2..0cd4d706afdc 100644
+--- a/drivers/media/platform/via/via-camera.c
++++ b/drivers/media/platform/via/via-camera.c
+@@ -845,8 +845,8 @@ static int viacam_do_try_fmt(struct via_camera *cam,
+ 	int ret;
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 47f18ac5e40e..73a5ef9c97ec 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -4254,8 +4254,8 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
+ 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+@@ -4882,8 +4882,8 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev,
+ 	const struct atomisp_format_bridge *format;
+ 	struct v4l2_subdev_pad_config pad_cfg;
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format vformat = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+diff --git a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+index 99e61bbfc9bc..0d48ae1bd71a 100644
+--- a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
++++ b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+@@ -860,8 +860,8 @@ static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f,
+ 	struct v4l2_pix_format *pixfmt = &f->fmt.pix;
+ 	struct v4l2_subdev_pad_config pad_cfg = {};
+ 	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
++		.pads = &pad_cfg,
++	};
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_TRY,
+ 	};
+
+base-commit: 83e0f265aa8d0e37cc8e15d318b64da0ec03ff41
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
+Laurent Pinchart
 
