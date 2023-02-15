@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17CB46987D5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE2D6987D8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 23:30:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbjBOWaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 17:30:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33030 "EHLO
+        id S229736AbjBOWaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 17:30:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbjBOWaK (ORCPT
+        with ESMTP id S229734AbjBOWaN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 17:30:10 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EC0530295;
-        Wed, 15 Feb 2023 14:30:09 -0800 (PST)
+        Wed, 15 Feb 2023 17:30:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2003252D;
+        Wed, 15 Feb 2023 14:30:10 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C286465;
-        Wed, 15 Feb 2023 23:30:07 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CDDB46D;
+        Wed, 15 Feb 2023 23:30:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676500207;
-        bh=l+clC6WIppIJdkCBIFOcnTMxtLFtXa5ptPUjSCQRiZ4=;
+        s=mail; t=1676500209;
+        bh=8KmgrebNDzY6Pj45O43Fv1SwAEbebMom9KF6Dtq5tZs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=U/cZOqn09RWcTPw8LO0MZWS56McRlW+Zyts/7YX5FTOYiq5D29bM4k9OJJ9JKROLy
-         bn0b65T4wnwUutMQN9DmotSA9WVucuyTdpQSU/IMyrQm68trIiVar+0zrixFC91AIE
-         D7aeVYxumT4p3tmtoCNNKbE+EWF9vOoJoC/vseAI=
+        b=joDaR+gWHli0SBwH0S7xaQvc/LHwSmQ5HDXHA+40yMXXH+WG3xNeIvi7Y5JSQ3W+v
+         mxAHwLSxkPN+2dAgaglkIfKEW82MMY0JtIlQoisQq8L4ncQTIABzGDMWfYlv1lR+sX
+         DRMO2a+4mz554CAyFIODQbJnzHeOQpq896Qb16Z0=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -34,9 +34,9 @@ Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         devicetree@vger.kernel.org
-Subject: [PATCH v3 01/15] media: dt-bindings: media: i2c: Add mono version to IMX290 bindings
-Date:   Thu, 16 Feb 2023 00:29:49 +0200
-Message-Id: <20230215223003.30170-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 02/15] media: i2c: imx290: Add support for the mono sensor variant
+Date:   Thu, 16 Feb 2023 00:29:50 +0200
+Message-Id: <20230215223003.30170-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
 References: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
@@ -53,73 +53,221 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The IMX290 module is available as either monochrome or colour and
-the variant is not detectable at runtime.
+The IMX290 module is available as either mono or colour (Bayer).
 
-Add a new compatible string for the monochrome version, based on the
-full device name IMX290LLR. For consistency, add a new compatible string
-for the colour version based on the IMX290LQR full device name, and
-deprecate the current ambiguous compatible string.
+Update the driver so that it can advertise the correct mono
+formats instead of the colour ones.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Acked-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 Changes since v2:
 
-- Deprecate the sony,imx290 compatible
-- Update the example to use the new sony,imx290lqr compatible.
+- Fix conflict causing compilation breakage
+- Drop unneeded pointer cast
+- Don't move imx290_of_match table
 ---
- .../bindings/media/i2c/sony,imx290.yaml       | 24 +++++++++++++------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ drivers/media/i2c/imx290.c | 75 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 61 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-index 21377daae026..cafb6e1a7150 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-@@ -12,15 +12,25 @@ maintainers:
+diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+index 49d6c8bdec41..febb8aeb9252 100644
+--- a/drivers/media/i2c/imx290.c
++++ b/drivers/media/i2c/imx290.c
+@@ -13,6 +13,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/of_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+@@ -157,6 +158,21 @@
  
- description: |-
-   The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with Square
--  Pixel for Color Cameras. It is programmable through I2C and 4-wire
--  interfaces. The sensor output is available via CMOS logic parallel SDR
--  output, Low voltage LVDS DDR output and CSI-2 serial data output. The CSI-2
--  bus is the default. No bindings have been defined for the other busses.
-+  Pixel, available in either mono or colour variants. It is programmable
-+  through I2C and 4-wire interfaces.
+ #define IMX290_NUM_SUPPLIES				3
+ 
++enum imx290_colour_variant {
++	IMX290_VARIANT_COLOUR,
++	IMX290_VARIANT_MONO,
++	IMX290_VARIANT_MAX
++};
 +
-+  The sensor output is available via CMOS logic parallel SDR output, Low voltage
-+  LVDS DDR output and CSI-2 serial data output. The CSI-2 bus is the default.
-+  No bindings have been defined for the other busses.
++enum imx290_model {
++	IMX290_MODEL_IMX290LQR,
++	IMX290_MODEL_IMX290LLR,
++};
 +
-+  imx290lqr is the full model identifier for the colour variant. "sony,imx290"
-+  is treated the same as this as it was the original compatible string.
-+  imx290llr is the mono version of the sensor.
++struct imx290_model_info {
++	enum imx290_colour_variant colour_variant;
++};
++
+ struct imx290_regval {
+ 	u32 reg;
+ 	u32 val;
+@@ -177,6 +193,7 @@ struct imx290 {
+ 	struct clk *xclk;
+ 	struct regmap *regmap;
+ 	u8 nlanes;
++	const struct imx290_model_info *model;
  
- properties:
-   compatible:
--    enum:
--      - sony,imx290
-+    oneOf:
-+      - enum:
-+          - sony,imx290lqr # Colour
-+          - sony,imx290llr # Monochrome
-+      - const: sony,imx290
-+        deprecated: true
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+@@ -414,7 +431,7 @@ static inline int imx290_modes_num(const struct imx290 *imx290)
+ }
  
-   reg:
-     maxItems: 1
-@@ -101,7 +111,7 @@ examples:
-         #size-cells = <0>;
+ struct imx290_format_info {
+-	u32 code;
++	u32 code[IMX290_VARIANT_MAX];
+ 	u8 bpp;
+ 	const struct imx290_regval *regs;
+ 	unsigned int num_regs;
+@@ -422,26 +439,33 @@ struct imx290_format_info {
  
-         imx290: camera-sensor@1a {
--            compatible = "sony,imx290";
-+            compatible = "sony,imx290lqr";
-             reg = <0x1a>;
+ static const struct imx290_format_info imx290_formats[] = {
+ 	{
+-		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
++		.code = {
++			[IMX290_VARIANT_COLOUR] = MEDIA_BUS_FMT_SRGGB10_1X10,
++			[IMX290_VARIANT_MONO] = MEDIA_BUS_FMT_Y10_1X10
++		},
+ 		.bpp = 10,
+ 		.regs = imx290_10bit_settings,
+ 		.num_regs = ARRAY_SIZE(imx290_10bit_settings),
+ 	}, {
+-		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
++		.code = {
++			[IMX290_VARIANT_COLOUR] = MEDIA_BUS_FMT_SRGGB12_1X12,
++			[IMX290_VARIANT_MONO] = MEDIA_BUS_FMT_Y12_1X12
++		},
+ 		.bpp = 12,
+ 		.regs = imx290_12bit_settings,
+ 		.num_regs = ARRAY_SIZE(imx290_12bit_settings),
+ 	}
+ };
  
-             pinctrl-names = "default";
+-static const struct imx290_format_info *imx290_format_info(u32 code)
++static const struct imx290_format_info *
++imx290_format_info(const struct imx290 *imx290, u32 code)
+ {
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(imx290_formats); ++i) {
+ 		const struct imx290_format_info *info = &imx290_formats[i];
+ 
+-		if (info->code == code)
++		if (info->code[imx290->model->colour_variant] == code)
+ 			return info;
+ 	}
+ 
+@@ -536,7 +560,7 @@ static int imx290_set_black_level(struct imx290 *imx290,
+ 				  const struct v4l2_mbus_framefmt *format,
+ 				  unsigned int black_level, int *err)
+ {
+-	unsigned int bpp = imx290_format_info(format->code)->bpp;
++	unsigned int bpp = imx290_format_info(imx290, format->code)->bpp;
+ 
+ 	return imx290_write(imx290, IMX290_BLKLEVEL,
+ 			    black_level >> (16 - bpp), err);
+@@ -548,7 +572,7 @@ static int imx290_setup_format(struct imx290 *imx290,
+ 	const struct imx290_format_info *info;
+ 	int ret;
+ 
+-	info = imx290_format_info(format->code);
++	info = imx290_format_info(imx290, format->code);
+ 
+ 	ret = imx290_set_register_array(imx290, info->regs, info->num_regs);
+ 	if (ret < 0) {
+@@ -649,7 +673,7 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+ 
+ 	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
+ 	pixel_rate = link_freq * 2 * imx290->nlanes;
+-	do_div(pixel_rate, imx290_format_info(format->code)->bpp);
++	do_div(pixel_rate, imx290_format_info(imx290, format->code)->bpp);
+ 
+ 	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+ 	__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate, pixel_rate);
+@@ -844,10 +868,12 @@ static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
+ 				 struct v4l2_subdev_state *sd_state,
+ 				 struct v4l2_subdev_mbus_code_enum *code)
+ {
++	const struct imx290 *imx290 = to_imx290(sd);
++
+ 	if (code->index >= ARRAY_SIZE(imx290_formats))
+ 		return -EINVAL;
+ 
+-	code->code = imx290_formats[code->index].code;
++	code->code = imx290_formats[code->index].code[imx290->model->colour_variant];
+ 
+ 	return 0;
+ }
+@@ -859,7 +885,7 @@ static int imx290_enum_frame_size(struct v4l2_subdev *sd,
+ 	const struct imx290 *imx290 = to_imx290(sd);
+ 	const struct imx290_mode *imx290_modes = imx290_modes_ptr(imx290);
+ 
+-	if (!imx290_format_info(fse->code))
++	if (!imx290_format_info(imx290, fse->code))
+ 		return -EINVAL;
+ 
+ 	if (fse->index >= imx290_modes_num(imx290))
+@@ -888,8 +914,8 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+ 	fmt->format.width = mode->width;
+ 	fmt->format.height = mode->height;
+ 
+-	if (!imx290_format_info(fmt->format.code))
+-		fmt->format.code = imx290_formats[0].code;
++	if (!imx290_format_info(imx290, fmt->format.code))
++		fmt->format.code = imx290_formats[0].code[imx290->model->colour_variant];
+ 
+ 	fmt->format.field = V4L2_FIELD_NONE;
+ 
+@@ -1177,6 +1203,15 @@ static s64 imx290_check_link_freqs(const struct imx290 *imx290,
+ 	return 0;
+ }
+ 
++static const struct imx290_model_info imx290_models[] = {
++	[IMX290_MODEL_IMX290LQR] = {
++		.colour_variant = IMX290_VARIANT_COLOUR,
++	},
++	[IMX290_MODEL_IMX290LLR] = {
++		.colour_variant = IMX290_VARIANT_MONO,
++	},
++};
++
+ static int imx290_parse_dt(struct imx290 *imx290)
+ {
+ 	/* Only CSI2 is supported for now: */
+@@ -1187,6 +1222,8 @@ static int imx290_parse_dt(struct imx290 *imx290)
+ 	int ret;
+ 	s64 fq;
+ 
++	imx290->model = of_device_get_match_data(imx290->dev);
++
+ 	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(imx290->dev), NULL);
+ 	if (!endpoint) {
+ 		dev_err(imx290->dev, "Endpoint node not found\n");
+@@ -1352,8 +1389,18 @@ static void imx290_remove(struct i2c_client *client)
+ }
+ 
+ static const struct of_device_id imx290_of_match[] = {
+-	{ .compatible = "sony,imx290" },
+-	{ /* sentinel */ }
++	{
++		/* Deprecated - synonym for "sony,imx290lqr" */
++		.compatible = "sony,imx290",
++		.data = &imx290_models[IMX290_MODEL_IMX290LQR],
++	}, {
++		.compatible = "sony,imx290lqr",
++		.data = &imx290_models[IMX290_MODEL_IMX290LQR],
++	}, {
++		.compatible = "sony,imx290llr",
++		.data = &imx290_models[IMX290_MODEL_IMX290LLR],
++	},
++	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, imx290_of_match);
+ 
 -- 
 Regards,
 
