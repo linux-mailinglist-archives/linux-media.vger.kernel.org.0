@@ -2,109 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C14C697C38
-	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 13:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B99E8697C7E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Feb 2023 13:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233456AbjBOMuC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 07:50:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36852 "EHLO
+        id S233843AbjBOM7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 07:59:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjBOMuB (ORCPT
+        with ESMTP id S229877AbjBOM7E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 07:50:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A621934C10;
-        Wed, 15 Feb 2023 04:50:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 42CE461B7D;
-        Wed, 15 Feb 2023 12:50:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F394C433D2;
-        Wed, 15 Feb 2023 12:49:58 +0000 (UTC)
-Message-ID: <b1ede4da-c432-1533-aab9-a73e1a1f0a55@xs4all.nl>
-Date:   Wed, 15 Feb 2023 13:49:57 +0100
-MIME-Version: 1.0
+        Wed, 15 Feb 2023 07:59:04 -0500
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2044.outbound.protection.outlook.com [40.107.100.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA13614215;
+        Wed, 15 Feb 2023 04:58:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iXtSF619yWL+bAgqOOLSURW+Z1QY1Ued2k4Y/s0PssDJfSvZnD47Cd71IfduQx6RCBZIKgif5/63G8et9fkUEUMQ2Cv+KI8gg/zFsXkfbJanK2R8yXk6Is70/FDx9BrXXQjj14Prd0FesA3Y5wuaJ4/sU5ummgYrxhqt4lkAOn42zToX3rDXCguzrZFsUV8Ws2HxgSMNvfXTAS5vZJPlPRvfkHPXf4qXAdWirU7Q65+x7q7pTJ/CRaqKxds3bQMHhI7KRFPJ2uw6x4DASErgMizf9RSeQTJRGu4gsNwG47x6xRK5NZEmN7MKW/f+vOn7i9wUAgk1R2gL1S96DnKEUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hQwV8eZ17qPFhRPnHkgxcuRZK32Nx7gry/fcbRSVSug=;
+ b=H3eL0singgXC+8ITLBso9hhqdeVfbOAIwli+Wq8zZdHoo1Oey8RoPVlUvl/P3rAeduDeQULaQIcR8OkWkt8PCStrqmehwyEa1uMlNrHrNna1avAq9/6NIwvhaY6QFdOK+HIv2NpwPtXfaVGyTMuXpJ7ik4rABlYIytrB71TnBQNVl9llM8oCjFYJnnWsHFFs+BmdEiDGxp/mRvfH55FsfoWIr4FPo1jaz+AwlrJ9Yn1R2ndCkGzgjJL4hqNW0WsFCnPSdmCbbycwRjaxGCVFni6YDdPtgNw9dOcrv13dckmHcE6GQGNdxl+7BGsEXkZ3v8gWb5GtZ2rteSCSQm2ecA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hQwV8eZ17qPFhRPnHkgxcuRZK32Nx7gry/fcbRSVSug=;
+ b=Y+WnJ/OYw3LIPJ+zdT+bCR0fQ1EkG0ndhcDE/Emu1gf3EuLIc0ca3Qb1eh8UQYFfF/CTofo3c2OlvprV9ZIWhcmf9zEeewisMfNYcbbBq4637yIy6g1X19GX+30VKd+4wN5lHaSc5KN0FFF2o0mDyGHKKdYxgTQZOWhJ7uzpvRk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS0PR12MB6391.namprd12.prod.outlook.com (2603:10b6:8:cd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Wed, 15 Feb
+ 2023 12:58:25 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6086.026; Wed, 15 Feb 2023
+ 12:58:25 +0000
+Message-ID: <c5fe8089-49e9-2bec-eac5-e8a035412cf3@amd.com>
+Date:   Wed, 15 Feb 2023 13:58:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] media: i2c: adv7604: Fix range of hue control
+Subject: Re: Question: partial transfers of DMABUFs
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20230210225622.24411-1-laurent.pinchart+renesas@ideasonboard.com>
- <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230210225622.24411-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>
+Cc:     linux-media@vger.kernel.org, dmaengine@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <53ea4d2db570d3ca514a69015488bd5b849a5193.camel@crapouillou.net>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <53ea4d2db570d3ca514a69015488bd5b849a5193.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0107.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::20) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB6391:EE_
+X-MS-Office365-Filtering-Correlation-Id: a51c2278-4f3a-4ccd-bfb4-08db0f54532b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H14pUAcku2PxWhhZIKLIeovMoIkNhtwuA6AFOLFFONUVWGnq4wKb9vBq22DpISQ0HyI6WgTxF/3KvTqpzmfhfhCG04Kb6mceGMT71VXVi+gfh06qy0hm1GJeaenyCNRizfuCc3+MyL5pgFAB1wjVprXQ0+MmIheFyLZuNpcyQlHxOOKZgFDUpbkNXBuHbhiXjEVz6Nn1hRsbfS2YRPun2xbJknH1TIfGkDUpP4cxlS3+mmSba9o2vYp83Gl0RyQ6h0eafHAYahoD1W0vG5mG0Ac157PUceagKYESQhEOlgShNkZLf6uWZTR8V+NJy8RgxN18E8lYiTQ1/LrNgrECw0eP23gGMDOdW7gn02UG1uRV9fj4V2+tjJB6nGmWmFlXa0z66VOEdGpZnUJUFEu6GU2Exo+3sOMulhfp2rAxv7dZB9c66nBZx6sFtOdCULlCalwoU7LTcobH+UAoOSkdjLzS/pdvDRvsj2XAFguhRa4qyscJrLldzyjP5fEZb1GQCn4yciNz7s0GzkCjrxdV6j6saAc2jqVXyn+Qj919Mbrr7bAqe8nwkTbYbU+HXPwsd3M/Siicvd9LEVafnGAft+1GHRguO+jRd/zp2QXMDpRud83DNc77awgIDEjSIlZapOcoFManJnEUClK1w2n7HnxzFFFqRLg2f5SJdIzKmNX3y2r09ItK4p405nTvqeruNhbRs2zB39vTp3shNzMpJ+KNAnFgd35hyqklPf08i4o=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(451199018)(5660300002)(8676002)(2906002)(4326008)(8936002)(66476007)(66556008)(66946007)(316002)(110136005)(41300700001)(478600001)(6506007)(186003)(6666004)(6512007)(6486002)(2616005)(31686004)(36756003)(31696002)(86362001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VkhFeklhM25peEhPZVRveE52Q3VHZjZQR01vamJnZnZzYVR4MGgrZ21ScEtH?=
+ =?utf-8?B?TkRoL1lNMVVJdzVIamdvOEFybWx0azFtU0JENnI4V1BnY0pmNVk5clZabjdv?=
+ =?utf-8?B?ckNnWjZsNzVSSmRhUU1iWXRQNGhZVXlIYUkxRmxzNFV3enR2SVdYUkV5bHJI?=
+ =?utf-8?B?TDhUd0Rhb0VVSld3bUROc05waHl0ZnFBSjVOU0VQa3NCY3J0Z3Z6VU1DcnV6?=
+ =?utf-8?B?QXpwMEZUR2pYaXlHaFI4WFNFdlU5aFlNb3FUR1Q1R1hBUFJ2dTJpNldRb1N6?=
+ =?utf-8?B?amt5blVNUTVubWgrRHRGNy9LUmZERnNxOFhyVFlhTDJid3Z2dFJzc0RrelIw?=
+ =?utf-8?B?T3RoL24vNDNFblRqTzEydVRsOHZKTFZKeVFRUmhnWnBTelZYdWUrVjRGSTVj?=
+ =?utf-8?B?REM5OUUwenRWdk11emp3UDZWMTFlcDA3Q3Q2enNOU1IrbXBhK0VBYkJZRDRZ?=
+ =?utf-8?B?NmdlRFl5dDhiRjlQdjBRSWhHc1JlWTgwUUVuSzZFY1ZxZ0dHdVh6NitMZGNU?=
+ =?utf-8?B?RE44aDJLSy8zdG1IWVZKZS9aRGNXbUNXSTkzazJxQjRjMkpSbDd3c0I3VUVC?=
+ =?utf-8?B?c21aVEYzSHRQYnMxYzNQZWpFNzRybjNrVDBkdFU5WHhDNTE5M3lnMVJxQlRH?=
+ =?utf-8?B?NDVjYlZsOGRUdi9vbmRLUE5DZVkydGt3Q25HeUgwQzdybWsvbXRNNDF2Uml5?=
+ =?utf-8?B?RHFkRTBjNWdQdVRMaXJ3RGM1Ky9sQ0YwMGFOeTYxVzNnem9udzRmeVNBL29n?=
+ =?utf-8?B?MW1UZWk1YjdIYnBzWEptU3dnWVFoSnRBbGI3TXJjTnJ4aWp6eGRTQ29jUkNF?=
+ =?utf-8?B?Nmx5QmQrRko0SVdyaURyWVd3a1pxR1ZacUhORlVkY3U4cEt0V0RTbDhyNG9V?=
+ =?utf-8?B?VUdhQjlQU3hNY2ZVN0dNWTJFbFIyblE0eEU0QmRrNjZwb3RjSjhCUk1hLzFM?=
+ =?utf-8?B?bXZCMjZ0OHk4aExMaGNlcGtLY25HVU5NNnNjMTdtaEFVL1hDK0tqbk9keUN1?=
+ =?utf-8?B?S251UURWTHlTSVhmK242V09UbzY4NENQejhXaGtnZzI0c2xzc29kU3d3ZHA2?=
+ =?utf-8?B?bnJQcEVKYlpLZW9zbmdOWkcyc2h5TzBTSCtNR3J1UmE4ZlU4N0U3LzNZZkYy?=
+ =?utf-8?B?QS9vSEI3UlNUeFM4QjNGekt4ZnppRFMzRnFjM2pKTEt5ay8rUllYV1ptajVi?=
+ =?utf-8?B?ZC90NTRTSkVOcVIrZmUvR05kc2h2MmltZUpHT3JPUUlQeWpQYkRCTUpHQ3Rn?=
+ =?utf-8?B?WFJkY0Z3YllLZDZXWEhnczVxNE5SeFc2VTV2cXFpcjc1NExZSUE0aHgzRFl5?=
+ =?utf-8?B?REZCaFVwTVYyMU1jc25yQXlsV1lDY0ZjNnhWZ2NMSlAwQ1FlVUhKRnlJdFow?=
+ =?utf-8?B?VHIwL3paUlFVZ1hNZllzWEZyRHhab3h5OU9nL3FLbXh0MVFVSmhnbnJqdmtC?=
+ =?utf-8?B?a1hmQkRkQ2lUN1I2alJMZnNkS0RqTG5XMlMxSXZ5MDJGVytyRlc2Z2NpdUgr?=
+ =?utf-8?B?ZlgwSlpkQWdDNW43Qk1kem4xdUNZcTB4b1Y2aXIwOFYyNWRjNkJLV1U3dWJn?=
+ =?utf-8?B?NjJQWjYwV004eUFEUWRNZlVuQm5yOVUvc1RSRElSTEp0ZDNJWUM2bnFnQm84?=
+ =?utf-8?B?ZkdyNDV0MUtMSVRMUW82SEhjL3Y5S2czSXpRUkR5VjVOSmFZdTI1TXhqN256?=
+ =?utf-8?B?WWRUN2thSEVRODM1RDd3cFNVeUhlSXovS3MyUDIzbzBDSXVQc0dYM1hFV2lW?=
+ =?utf-8?B?UmVWQTJoYUVMWnN3dmtWeURSMG83Q1hJT3Ztc2tFYTAyOWR0Y2ZvWXROQXpU?=
+ =?utf-8?B?SENLanlxZ0diUWVxYjJtY1NlYm9ITnVlNlV0V0ZqcnZiU0I5RTlscUZkVG5a?=
+ =?utf-8?B?MWZuYTRmeXo1WmZhenB1K3d4WUV4WW8wODh2eU9WK2dTV25KclMzMFJ0Z2xN?=
+ =?utf-8?B?MTlaeVRJbVpzanJVL0lPS0kySXdWOTVwMnZMaWxHYUNPZnl3Y2lFcnNDeFpi?=
+ =?utf-8?B?dFRsUzZZa2dWa3FMZEUwMnJPOTMycEpYOUN4ZkIybzBkZEZlVWhESEFoZDZr?=
+ =?utf-8?B?RERzaW5FTUpYT0hrZExSZ1FSZGZzYkJCdUp6eklIVHZOVTV1T2pNMmpiM1Ur?=
+ =?utf-8?B?Q214SlNVVm1PZ1A4USsyMzlRMUp2b2RrcTNaZi9tQllkN3N2cXJEMFo2Uys5?=
+ =?utf-8?Q?qEp4L+bIoL9PeQdLLKxDkH6V0oYTKag2ZZnr63R/zYL2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a51c2278-4f3a-4ccd-bfb4-08db0f54532b
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 12:58:25.2758
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /2ygApkOfYAtiR3CslJ89WW5geEl8ucqYJOrunrcT3Qr3S13+29VKDopg2cxcyTp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6391
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/02/2023 23:56, Laurent Pinchart wrote:
-> The ADV7604, ADV7611 and ADV7612 software manuals different the CP_HUE
-> value differently:
-> 
-> - For ADV7604 and ADV7611, the hue is specified as an unsigned 8-bit
->   value, and calculated as
-> 
->   (CP_HUE[7:0] * 180) / 256 - 90
-> 
->   with the range set to [-90°, 90°]. Additionally, the values 0x00, 0x0f
->   and 0xff are documented as corresponding to -90°, 0° and 90°
->   respectively.
-> 
-> - For ADV7612, the hue is specified as a signed 8-bit value in the range
->   [0°, 360°[ without any formula. Additionally, the value 0x00 is
->   documented as corresponding to 0°.
-> 
-> The ADV7604 and ADV7611 documentation is clearly wrong as the example
-> values don't correspond to the formula. Furthermore, the [-90°, 90°]
-> range seems incorrect as it would cover only half of the hue space.
-> 
-> The ADV7612 documentation is better, although the range should likely be
-> [-180°, 180°[ if the value is signed. Given that the values wrap around,
-> this makes no difference in practice.
-> 
-> The hue values have been verified on ADV7612 to follow the
-> documentation. There is a high chance they do as well on ADV7604 and
-> ADV7611.
-> 
-> In any case, all software manuals document the register as 8-bit, so the
-> current range of the V4L2 hue control [0, 128] is not correct. Expand it
-> to cover the full 8-bit space, using unsigned values to avoid breaking
-> any application that may rely on 128 being a valid value.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/adv7604.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-> index 3af0e67f9edb..3d0898c4175e 100644
-> --- a/drivers/media/i2c/adv7604.c
-> +++ b/drivers/media/i2c/adv7604.c
-> @@ -3548,7 +3548,7 @@ static int adv76xx_probe(struct i2c_client *client)
->  	v4l2_ctrl_new_std(hdl, &adv76xx_ctrl_ops,
->  			V4L2_CID_SATURATION, 0, 255, 1, 128);
->  	v4l2_ctrl_new_std(hdl, &adv76xx_ctrl_ops,
-> -			V4L2_CID_HUE, 0, 128, 1, 0);
-> +			V4L2_CID_HUE, 0, 255, 1, 0);
->  	ctrl = v4l2_ctrl_new_std_menu(hdl, &adv76xx_ctrl_ops,
->  			V4L2_CID_DV_RX_IT_CONTENT_TYPE, V4L2_DV_IT_CONTENT_TYPE_NO_ITC,
->  			0, V4L2_DV_IT_CONTENT_TYPE_NO_ITC);
+Hi Paul,
 
-Tested with the adv7604.
+Am 15.02.23 um 11:48 schrieb Paul Cercueil:
+> Hi,
+>
+> I am working on adding support for DMABUFs in the IIO subsystem.
+>
+> One thing we want there, is the ability to specify the number of bytes
+> to transfer (while still defaulting to the DMABUF size).
+>
+> Since dma_buf_map_attachment() returns a sg_table,
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Please don't assume that this is an sg_table. We just used it as 
+container for DMA addresses, but this has proven to be a mistake.
 
-Thank you for looking at this!
+There is work underway to replace the sg_table with (for example) just 
+an array of DMA addresses.
 
-	Hans
+> I basically have two options, and I can't decide which one is the best (or the less ugly):
+>
+> - Either I add a new API function similar to dmaengine_prep_slave_sg(),
+> which still takes a scatterlist as argument but also takes the number
+> of bytes as argument;
+>
+> - Or I add a function to duplicate the scatterlist and then shrink it
+> manually, which doesn't sound like a good idea either.
+>
+> What would be the recommended way?
+
+I strongly recommend to come up with a new function which only takes DMA 
+addresses and separate segment length.
+
+Regards,
+Christian.
+
+>
+> Cheers,
+> -Paul
+
