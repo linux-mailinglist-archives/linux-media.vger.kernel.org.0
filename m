@@ -2,151 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 787F46988F3
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 00:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0D7869898E
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 01:58:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbjBOX4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Feb 2023 18:56:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48530 "EHLO
+        id S229608AbjBPA6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Feb 2023 19:58:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjBOXz6 (ORCPT
+        with ESMTP id S229496AbjBPA6K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Feb 2023 18:55:58 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865E03864F;
-        Wed, 15 Feb 2023 15:55:57 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72CE510B;
-        Thu, 16 Feb 2023 00:55:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676505355;
-        bh=xk5vBg/Iz8a0qsDOR7HVUgH7GHTgpabQoQX9UvpnwQQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RnCQ7g1HJ7UDnweuIrJb5hOmkxgrbwvyCESUQoL5/RRyCDaVRMnpgLFc1j7U6waP4
-         i2U0QzMD9Kg/ud5VJh+Q5Y+P7QFtuPu5GB5olUm3bmhs8djJC0nzwnVd6HmKyHQ39g
-         PXp39l1vaPYBElxfeVolTI3zOUOIHzaqUeCak8O8=
-Date:   Thu, 16 Feb 2023 01:55:54 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Wed, 15 Feb 2023 19:58:10 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B5E298F1;
+        Wed, 15 Feb 2023 16:58:09 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id b2so1359073ejz.9;
+        Wed, 15 Feb 2023 16:58:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ezmrG/sOZbkfRK1NLR5fLERLXGxJdhb7yn9bDGpi7v8=;
+        b=OfIq5oGygvJyp/wgd4xHbSY1M1Kqk3g7bGo3odmZB8EsIeG2FJiNSlCdaAmL7S8/Ca
+         RJ3bFwo+l2GJdGWxWosjuIXTwewp12A2zm789qhrWjfbjJhyFNNKVs14n1odCZjRSzJ/
+         /jo8iBIzInJTLvEfIz0rxgn1BoWqOL7XXrLDfEAgWhS0J9Gd6LY7rA2gU3onyoZ3e4Ls
+         oAIfSRxuWgbVuiH3cvisWjGF8dWkm6Mv6pLvk7FsxH9Vx5ssZDw5VZUKwZbKeUmY2kJs
+         Uq7n0V6fjqOR27Fnv9wq/TjeUdwvkhEAVS5hetzEQkFZyMuJQ+bTrG4MGWY1SGLxJAxi
+         H4ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ezmrG/sOZbkfRK1NLR5fLERLXGxJdhb7yn9bDGpi7v8=;
+        b=QaXEOaKcFqGV+kM995L388Qws6j3Y1EEhNGwq8oGHgBxPXFcSqgiQZv1YPXjjvqjBS
+         oPhmR6J2dkUziQL3Mryq7DuyVrD/jyT7FQCJaHYWMdwIvl0M9NJa0m0W7iZn7zMc4+34
+         Nd0vbWZwzfXis/J5g/rBtjlR3H7emrqM5EsTWfOMcBDxwmJqVfh/ehSHEY3fRJe1G1st
+         YDz9hAAVBQDIovZ3QbqFFu2i4MWUkXTrX+CHZe5Qqdn8L3OB3rFCC2yldfZOu8KtWxxP
+         XYKAhtyFRuRjXUCqVOLnlcsz59S8thPa/iGhPRlQoZorXDpZRWZeQOa474VaI14M/lmT
+         jvxg==
+X-Gm-Message-State: AO0yUKXobRAzlHniACvxf7YNeBCvs0F7w1VONtuettCsavRnz6EENOgv
+        ZHLVHYhFYthbTnMnYGLLDk/6hSsDazBr3B//
+X-Google-Smtp-Source: AK7set+2OIGCsB09ZBMpZEveYY/8a0IjQJ+ZU0hsZ+BkXrje6Dl6j3EDX23bWoxXuMlBE/MR7Krpzg==
+X-Received: by 2002:a17:906:4a58:b0:8af:4314:24a6 with SMTP id a24-20020a1709064a5800b008af431424a6mr4310464ejv.31.1676509087561;
+        Wed, 15 Feb 2023 16:58:07 -0800 (PST)
+Received: from smurf (80.71.142.58.ipv4.parknet.dk. [80.71.142.58])
+        by smtp.gmail.com with ESMTPSA id w5-20020a1709064a0500b008b144796d9esm73458eju.143.2023.02.15.16.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 16:58:07 -0800 (PST)
+Date:   Thu, 16 Feb 2023 01:57:45 +0100 (CET)
+From:   Jesper Juhl <jesperjuhl76@gmail.com>
+To:     linux-kernel@vger.kernel.org
+cc:     linux-staging@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
-Message-ID: <Y+1xCtdxIoPtnOws@pendragon.ideasonboard.com>
-References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
- <CAHCN7x+9E8qcBVOQZKTKagDkvkKVnqDtjvpNX-iNFYwCLRoYug@mail.gmail.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [Paatch] [staging][atomisp] Remove unneeded version.h include pointed
+ out by 'make versioncheck'
+Message-ID: <4b9f2443-3360-bdb0-c4d4-7687db333d0a@gmail.com>
+User-Agent: Alpine 2.26 (LNX 649 2022-06-02)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7x+9E8qcBVOQZKTKagDkvkKVnqDtjvpNX-iNFYwCLRoYug@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,MALFORMED_FREEMAIL,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+From d0b9a59ac1bc69523b5cc8b2bab0b0e0b4bd0ab6 Mon Sep 17 00:00:00 2001
+From: Jesper Juhl <jesperjuhl76@gmail.com>
+Date: Mon, 13 Feb 2023 02:52:24 +0100
+Subject: [PATCH 05/12] [staging][atomisp] Remove unneeded version.h include
+  pointed out by 'make versioncheck'
 
-On Wed, Feb 15, 2023 at 07:57:53AM -0600, Adam Ford wrote:
-> On Fri, Nov 18, 2022 at 3:44 AM Paul Elder wrote:
-> 
-> > This series depends on v3 of "dt-bindings: media: Add macros for video
-> > interface bus types" [1].
-> >
-> > This series extends the rkisp1 driver to support the ISP found in the
-> > NXP i.MX8MP SoC.
-> 
-> I'm going to spend some time testing this over the weekend.  Is there a V4
-> pending, or should I just test whatever is in Laurent's repo?
+Signed-off-by: Jesper Juhl <jesperjuhl76@gmail.com>
+---
+  drivers/staging/media/atomisp/include/linux/atomisp.h | 1 -
+  1 file changed, 1 deletion(-)
 
-I've updated all the v6.2-based branches on
-https://gitlab.com/ideasonboard/nxp/linux.git (and renamed them to
-v6.2/*). Beside a rebase, the v6.2/isp branch contains (at the bottom) 6
-additional patches that I've previously posted to the linux-media
-mailing list (feel free to review them ;-)).
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 3f602b5aaff9..3deffcb81683 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -20,7 +20,6 @@
+  #define _ATOM_ISP_H
 
-My only concern with this series is with patch "media: rkisp1: Add match
-data for i.MX8MP ISP", and in particular with the following hunk:
+  #include <linux/types.h>
+-#include <linux/version.h>
 
- enum rkisp1_cif_isp_version {
- 	RKISP1_V10 = 10,
- 	RKISP1_V11,
- 	RKISP1_V12,
- 	RKISP1_V13,
-+	IMX8MP_V10,
- };
-
-It's not a very nice versioning scheme :-S I'll see if I can find
-something better, but regardless of that, I'll post v4 with the goal of
-merging it in v6.4.
-
-> I have an IMX219 camera with 4-lane support and an i.MX8M Plus kit from
-> Beacon, and I want to test the RGGB bayer conversion to see how well it
-> works.
-> 
-> > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-> > and in the NXP i.MX8MP have the same origin, and have slightly diverged
-> > over time as they are now independently developed (afaik) by Rockchip
-> > and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-> > and is close enough to the RK3399 ISP that it can easily be supported by
-> > the same driver.
->
-> Is there a reason the driver cannot be renamed to a more generic name than
-> rkisp1 if the Rockchip and VeriSilicon had similar origins?  Having the
-> name Rockchip referenced from an NXP i.MX8M Plus seems odd to me.
-
-The common roots of the IP core predate both Rockchip and VeriSilicon.
-Those two implementations have now diverged (as with all forks), so
-either name would be wrong in some cases :-S
-
-> > The last two patches add support for UYVY output format, which can be
-> > implemented on the ISP version in the i.MX8MP but not in the one in the
-> > RK3399.
-> >
-> > This version of the series specifically has been tested on a Polyhex
-> > Debix model A with an imx219 (Raspberry Pi cam v2).
-> >
-> > [1] https://lore.kernel.org/linux-media/20220615221410.27459-2-laurent.pinchart@ideasonboard.com/
-> >
-> > Laurent Pinchart (3):
-> >   dt-bindings: media: rkisp1: Add i.MX8MP ISP example
-> >   media: rkisp1: Add and use rkisp1_has_feature() macro
-> >   media: rkisp1: Configure gasket on i.MX8MP
-> >
-> > Paul Elder (11):
-> >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
-> >   media: rkisp1: Add match data for i.MX8MP ISP
-> >   media: rkisp1: Add and set registers for crop for i.MX8MP
-> >   media: rkisp1: Add and set registers for output size config on i.MX8MP
-> >   media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
-> >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
-> >   media: rkisp1: Add register definitions for the test pattern generator
-> >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
-> >   media: rkisp1: Support devices without self path
-> >   media: rkisp1: Add YC swap capability
-> >   media: rkisp1: Add UYVY as an output format
-> >
-> >  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
-> >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
-> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
-> >  .../platform/rockchip/rkisp1/rkisp1-debug.c   |  14 +-
-> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  67 +++++++--
-> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 +++++++++++++++++-
-> >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  90 ++++++++++++
-> >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
-> >  include/uapi/linux/rkisp1-config.h            |   2 +
-> >  9 files changed, 509 insertions(+), 40 deletions(-)
-
+  /* struct media_device_info.hw_revision */
+  #define ATOMISP_HW_REVISION_MASK	0x0000ff00
 -- 
-Regards,
+2.39.2
 
-Laurent Pinchart
