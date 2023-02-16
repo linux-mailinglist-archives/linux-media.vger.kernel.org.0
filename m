@@ -2,290 +2,314 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC66698E76
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 09:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBD07698F25
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 09:58:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbjBPIS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 03:18:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44744 "EHLO
+        id S229838AbjBPI6I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 03:58:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbjBPISX (ORCPT
+        with ESMTP id S229787AbjBPI6H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 03:18:23 -0500
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2113.outbound.protection.outlook.com [40.107.249.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202AF2686E
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 00:18:21 -0800 (PST)
+        Thu, 16 Feb 2023 03:58:07 -0500
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on20619.outbound.protection.outlook.com [IPv6:2a01:111:f400:7ea9::619])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606946E91;
+        Thu, 16 Feb 2023 00:58:05 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZZ2VzCF0EHzcOpniZsrCSmktONcBM8u/pCddNfZ5bpbYnVOXZFhaIjFvn6zGWfkeign1KTH6c6BtU9MlxWue5ev6AcmSB2ihehca25RErr5kQatP2siJbv2cN4rGdgbDi9gmi4RWAKFuJBFJj5j88wdoWcQo8Mnyv9A3M7PYAxCZI9GMHGjGdNi9lGeCPNDgr+IMkhQh8xul7b8f1VwYGkC1ChtEEHJlMQx0+Xh8t27GGiRWjPWp9q+9u2/dAUmobCf3opwVDLnVz5hVVH+dnlXxrODNzadbrilXPB48kAROcfE4YCvDp3ed1tzRSetSAefuziWczdgzDhxnQkxW0A==
+ b=K9aOZ5rWlmTBlWgB5zXK2MTPYVm6pYW4NPy5P1tMj58c0mlgCbt+zc/eqJNqivUCXzBNC97D3dXDJ7bIb72uguamJ/RMMq7r6gDVm0rvDt1k+SLfu88aAf9Uspne0RuiaBWMjt+luHQUXmAklyGq1NnojxSqVoC+jBid7M7MZuuRkRG4if3zbS8FmiM9V6B+Xg2cLaRQwKK66ViSqayHhckYKvJ8WG7qsl+6Ox1So0szwf/i2rTHZTpzThtbQDT6w+ypz/maLoHXFgG6ZYYrgejK5qqZgIlP25abjmSfCwAk+EVkEbZ4dM4ZKOr6xP7/GZmz3wVJQdz5ArApvqsZMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kHYje7PMH+/cItLg5WygWHDFW6eWd0rPmwQwYVA+sMQ=;
- b=ApectDQtRlXYbYxtda3jUE+D7GxvtsMUjdQjbED0I7MhcMAzPsFqXtwoGC0LquiISTAJMYpEDP62EWq921Jsvzruhzvkr4q8h4SFJbgyoykLW8U/lrXf1LIxitT1MP4Cd4G3J3lzqG9yXG41p0/13OZ/e/U4xqxfz8DPUDfNwwRdF5Fp5utAonudjjZ+1gs52qwU+SYBqbDgG/4zfd8GK22L9UAlBCDby8uH/YxODtkwbSjxx/DUQLFPJV969Qemb8e2QHGPdrjPOFPcBu/dFJHQS8pkUnmjLb33eiQRRdNjCrN7mfC1n8KBERQhtpbjCEReb1w5LKvkLX4ud05qXQ==
+ bh=5vAWESRYC7z9byeLEW4568Xup2R4G1JpP4IXHmUqN+w=;
+ b=Lgj5xZUJjDdv3zXtGhRWdaByM/uflp1bSkDwfTmPoqKYSlSR+4uFqALStRKsfoC8/2gE4aOc27PkV3H7nfQ5L82FvSJnrZIYOiM3hnkhBd6mtWoBLFLR0cVWNnZkeyQ6mw8e29YCtKEtAHLuKf6Rnh46rVDyYGSzOO4z3vI6H9x2dEKu1ONud45QJy0Bsnh9DCdVrGipfvILi7LEjrMb6X8MkRpeekTyDe9RzlzQmXsxTkV3PhlA2vxtOFmHu4NIPOy0XWJ6IP9T1bsgio4VKApD+QXou2HbV8+QgHjlu+VoRIYhij4zLpIoIBxKfbJP0RPR2AH33davsFHOrI6dPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
- s=selector2-mysnt-onmicrosoft-com;
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kHYje7PMH+/cItLg5WygWHDFW6eWd0rPmwQwYVA+sMQ=;
- b=ntuRptmZiD5dsM2KLw8x9B/hT0eAy02TudTemapLdekUMY+Zb45fark5mH+iFdM/gNqErNkqJAegzlCvr8lKFvuYUJ50e9hgHd68ucNdNPn35HBtyOfT1kI8Kla9zCvzkZIhBt9Bu5I/xUC8e6APKP6oNkfkProOXid61NpIWg8=
+ bh=5vAWESRYC7z9byeLEW4568Xup2R4G1JpP4IXHmUqN+w=;
+ b=UQftEVVKTtjnmCvQIxIHdvJ0WIFGNPq7xzzQ1GXxPJ+hGPBzH8VGkjPgj20jQGDulvsRE+7p6HqYCf5AlwyipSaDCrKGnvlJjeTQU4y1eWE2xKsDLlaRYuOyZkooBT9eAMo56kujCw5g480GQNU9YD4+vv/AdhQNfvL3RQ/2V9o=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
- by DU0PR10MB6728.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:400::19) with
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by CO3PR03MB6792.namprd03.prod.outlook.com (2603:10b6:303:164::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Thu, 16 Feb
- 2023 08:18:17 +0000
-Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::59e9:ea90:b6ea:3863]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::59e9:ea90:b6ea:3863%4]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
- 08:18:17 +0000
-Message-ID: <c841bb0e-2044-5a91-9e61-9f47063e002b@kontron.de>
-Date:   Thu, 16 Feb 2023 09:18:14 +0100
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Thu, 16 Feb
+ 2023 08:58:01 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::10e9:e275:9f10:67cc]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::10e9:e275:9f10:67cc%8]) with mapi id 15.20.6111.013; Thu, 16 Feb 2023
+ 08:58:00 +0000
+Message-ID: <aa85c526-da32-d108-f85e-5dcd2cc8c846@synaptics.com>
+Date:   Thu, 16 Feb 2023 16:57:49 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: NULL pointer dereference in imx-mipi-csis driver when starting
- stream
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-References: <7658a15a-80c5-219f-2477-2a94ba6c6ba1@kontron.de>
- <d2fc1a0d-d058-757e-f935-1b91cfd19749@kontron.de>
- <Y+zKibHcez8or6nS@pendragon.ideasonboard.com>
- <d797611e-8e07-402f-ec75-7a1eadbc2122@kontron.de>
- <dfdd11f6-8692-1bec-2a7c-1d890039cfe7@kontron.de>
- <edddba07-c5c3-bab4-ca0c-49e1a5dc1135@kontron.de>
- <Y+0iMyLnHmqdDJOk@pendragon.ideasonboard.com>
-Content-Language: en-US
-From:   Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <Y+0iMyLnHmqdDJOk@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 01/12] media: v4l2: Add NV15 pixel format
+Content-Language: en-GB
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Alex Bee <knaerzche@gmail.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Collabora Kernel-domain <kernel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Robert Beckett <bob.beckett@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
+ <20230101-patch-series-v2-6-2-rc1-v2-1-fa1897efac14@collabora.com>
+From:   Hsia-Jun Li <Randy.Li@synaptics.com>
+In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-1-fa1897efac14@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BE1P281CA0021.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:15::7) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:263::10)
+X-ClientProxiedBy: BYAPR11CA0082.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::23) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DU0PR10MB6728:EE_
-X-MS-Office365-Filtering-Correlation-Id: 360b7997-b5cc-4d2b-efda-08db0ff65b44
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|CO3PR03MB6792:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02b28fe3-b173-4199-550e-08db0ffbe817
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 057b9/dC5zUU46a0hgfXABeIxiVOUmMQ8xi3eLELeL3YSscDPRvZusSdVRrCzuXkdTDAd7IV/oP9JkauAjzIn7RT0Rofu5X9Ye/iRK5TXbk+78xt416QEmoOt4XSYOeygUOEJYycdXDYy/RkJ90IVLoVeyiwHzjlEV53MbnwywRBXiCDlqeRRIXr/ZYQ4mXAAFa8O3QFSjlChqOqclrnWcT4srdy2zlva4dVNfvUXzH2DFWb9PRJckMavBqceBuvTJHzoiDFcVs7Pb6qpdq8qF2wp0y8Bcaz+faMH8u6NpPIypehhXOzdm2P/tVPzLDqHqAWHrSR8wByqvXbcEjeOkW7qPLZ0e4TcRDWFnaCaqSlaVYf5c0XNSyZHSGQYaa/bs6Lq8CMb1wtLiR8po/b7P2jkpM9YHL/piWf1E/Djs2EmD+AN3D5ZohfMRYQ/61TEhOlYLJBgri9Erusoe6X1tTr8z0N2nA8o+gihw8Un8+HnsMD1pRugCYjWh4+1xnzhG6xDKmp8gMc93QFTyRUopSuYZsN1761hZPY69yX7AIkHF+yhiec8/ExD3h3LIk3QdV8LLCoMJqUl9XRhgHRo0U2Zd2JRWz0p37+V6LJ6EvGD1KUZg5ZWNvlbnq7qwzKpR02f7ap2Gz90z6/+ofFeuCnxnz0frsEwXELZZJUrlGfco0AidyLwSHIf/gMAWLrpCzbULJY6mLdUiex5VY7sH9UQ4kzQmDcaeH7IlYxxIs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(366004)(346002)(376002)(136003)(451199018)(54906003)(316002)(53546011)(8936002)(6506007)(6512007)(186003)(86362001)(478600001)(6486002)(31696002)(2616005)(38100700002)(6666004)(45080400002)(83380400001)(44832011)(36756003)(5660300002)(2906002)(66476007)(66556008)(66946007)(8676002)(4326008)(41300700001)(6916009)(66899018)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: HJAfGx5bR9oWsAsggP6hDtJwOkEB+IZBGKhoIedlhnYesRrWx2XwqWtQWkLgomBjG4a7lbaTkUnWnwhyV0kwfISo7C4Y33OgNfWmDQcSNq+jGFI2J/L2Lvf+U4kLsH+7M05jc5N2LfAGtAK6pvPO6dlU/ob8Yb5k85hQn1Z8elfHM2Q1UHEVGJAq5yDESdVYfYhT7x35lsgTb95BpkDCQYXRmlA3P1JeWS1Q8Rk7nSVVvnfsxiX8hGWRDhKFWEZx0dZutH4cEqmfX0mo6off/tzzchKNZKNAeyFnBgzUZ0f1TBG9UoN/VulBNll5XPSauPmov0oIcRxzoTMbCQLdoFBFbCONcxzU2mQcSiBWIenM7JnSLAS4gDf9nPXUdM4rCWmCKVCcUxt8sQMkDpUlF6csoXsaOr68Wa59+ugkVxlEhekmeVEEJgWx2U6MWB6YySfoiYLjjsXdyoAU/+MiLAdCMafGunbjUHqtAtl9YzZR7nUDAUJ2pP/s0rLe7VbrQ8KabnOv/uYKKubKx8xzf0KD0VR7YYGBy1cF3tvaYga/v5GlOoOKbECkXK4qizPQpLexv9vC3oVIREtmZkvzuf5uF9RDxmMJFyo5uG9Dnx+DN01vQk5TY+040jcctlii2+aWOjg/1rPDDN7e8WqmNr4NH+oPAWh/zQPlb+FkUXK8h6zsjtKI6bjyLJ3SjFncKg1UbCNdHAe5xgEj4TB6hdW9uX+Bg2JOiGn5RnUMPXdQhHrlUW/vcJ0TCmEZG3aNWXncu/9FH3stygyBwSm30Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(346002)(376002)(39860400002)(366004)(136003)(451199018)(4326008)(5660300002)(316002)(31686004)(54906003)(2906002)(41300700001)(66556008)(8676002)(6916009)(8936002)(7416002)(66476007)(66946007)(6486002)(52116002)(478600001)(36756003)(26005)(6506007)(186003)(53546011)(6512007)(2616005)(83380400001)(6666004)(31696002)(38100700002)(38350700002)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHozVUp3Z3dtS1RpaGFKamxwRmIwRGp3WlRaN2phcmprNUtQNTVIZ3pjbzR4?=
- =?utf-8?B?cFN2dHZwZUQ5c3FjRWluUGUvN3ZNUmtBdjRuLzVuUlRWaDJaeUdtWExtUUFu?=
- =?utf-8?B?c3pBV0lxUXdoaVBLYlpCZTc0aWlYVHZKV0dhUGV1dDNRZ3c3eHpvRlBKYnp6?=
- =?utf-8?B?VHB4K2ZXM0JDR2V5YTZtT0xIeHlKRmFHTzE5WWRzeG5GZ0ZkR3NTRDc2aEpp?=
- =?utf-8?B?UlZuMjlZM2hXZXhxK0ZtcE9kbWJLMVZLK0NBRGVDcmQvd2xDVHZlTVhFWnpn?=
- =?utf-8?B?QnlwRDcvZElqZ2hFSnRUaGN2bWl4cVloNlhIZUxIUDNVTnduL3FLZkNFUyty?=
- =?utf-8?B?NDZ0ZzRFK3pVT3BNak5GaTM5V05ybDRKTHJTTTFLc0VOQmlwTlNiSm13U1h3?=
- =?utf-8?B?c3BtejU5MW9JcXY5TFVuTW5DOEpDaU5Hc1V2ZDBRTW1MV1BkK1VRM1FFVzdy?=
- =?utf-8?B?eXJUOURab1VqZmVmLzRoZC9XbHd6eDlDeG44Kzk0YVc5NFAyeU5pNHBQTytI?=
- =?utf-8?B?SUpUMjFvWnZ1UkxDYUlVQmNSb3dpcGdGbW1UMEVHdDNpeGRNeVdWMTdadTNs?=
- =?utf-8?B?RUJ4TmlSeGJINS9TM1IreUVSS09XdXcvaTkvRGJRK1kvUjlMM1FWak5IRlRq?=
- =?utf-8?B?RklBeHd1S0VQNXB6ODZ6MUZ5bkVFc2ZNWWg3b0REUVpXWlhxTWk5WnhTUk4r?=
- =?utf-8?B?V1dOZGphUlhkT28yMnZXWnVHSFBPVUVyS0hYK1RFMks0NVRydnkxNGY4RnZB?=
- =?utf-8?B?S3VLSWN6eEFxRkRBZTVjMkR4Z0xRWENqZDFFejJ5RDJhc2RRRHZod0FlWUpu?=
- =?utf-8?B?T0Q1L1YwUXZ5ckRUSDBEa0NpZVhEQmlYcGZsanlLZU1YOGRVNG1HcUR5cG95?=
- =?utf-8?B?OUprTW82NG1yeVYxeW5mNU1GL1pjWXliS0s2dnYzbGxib1J3Ny81MjF4TUJv?=
- =?utf-8?B?K0JUZWk0S0t3WVRCa21lZW9PaWN6UWVkM1hhVXF4TFlVSlZWc2ZNZEdBQ0Vr?=
- =?utf-8?B?RENYTUYzendwbUIrbk1KYjdRaFNGVEdwUTJjUTF1RGcwYnVVa04wUmIxZGNQ?=
- =?utf-8?B?UjFjUjFiUzRMdkozY2ZGQTJ5RFZFN05BR2RxeDJiMkdiR2Q3R0Jpd1B6RGFX?=
- =?utf-8?B?SnBNbG9GNmNGR04xRnAzTGlkNytxK2lheVhRWThzWUwzeUk1TGoxVnlnbjVE?=
- =?utf-8?B?NlQrbUVXNVJQcUc0WGt6dlh6b3R0d1NWdUNWUldZNmVPWkJBRXRXa1ZXOXdK?=
- =?utf-8?B?RnRwaUU4ZFlkQ2E0U01yMWkrZ0JpcFhFUkZQQzltRFhWd0dOK3hnZFpVWXg0?=
- =?utf-8?B?SVVncktZZXozQkFxUVoxdXJyM3VEeGI4MWY0UGpjVGdJWUhlSjZvd1Avb0hZ?=
- =?utf-8?B?LzJoczFyQUFOOHJuM04zVGVzcXFHaTZ3a3ZhbkY3M0Q1cmpoWmlVbUwrdTNn?=
- =?utf-8?B?VmhTbXk2Z253NzF0ei9EZ25oZ0xHbmttNkozN2Mwc05qSVpXd2dBdjFEYm9i?=
- =?utf-8?B?WnVEaU5TM0NBMVVxWXJlNnVsZGtCMnd2MSt1Q09WSGhaM0dXRVVheTRoYWxB?=
- =?utf-8?B?ZndUYSt1ZWg4b1VjWWFNOHJ2a1dqNlpiN0srWUU4dTNiL292b0wwZXRmYkxu?=
- =?utf-8?B?RGJyWGFNajBwTXp3VjB2RDllT2FjVXlJaUEwZXRMMkE4b1dydGhZRWZseVVD?=
- =?utf-8?B?YkRVWkQ4bUwwOHZYOTF1dDgxMTlTUTFZRGVGTFJXa0ZCS0J3dVp0UzMrVHht?=
- =?utf-8?B?NnRXeTlIeHpER0ZxWFFLOXptc1YvMHl4RWdZOEo2dXZ6ajAyU0J1SlJ0dzBa?=
- =?utf-8?B?MHgreWQ1VUxyd2NUS3dxekxwTHFhdFY4R3hpQXBnNkVTWEI3VWpGSUE1TjB2?=
- =?utf-8?B?d080OWpVQlNObHNUWGJ1M2s4eVF3S1RHNEprNFZhSEszMzVEM2RRNzR6QVFJ?=
- =?utf-8?B?d2hKaEFEaDY1SlpUN2FQK2pzQURGTGI3ZU9xaXMwMWx2T0NNZlFvQU9aMlpx?=
- =?utf-8?B?V1FwVU5Ma0hkNkthVGhKTVo1dzJOb2ZGLzU0NmZ6a3JRczhsVWdRcXN0bjVZ?=
- =?utf-8?B?Z3ZpNHFNdTdYc0h1MUlKb3R6OFl3a29CQThEUGJCL1RBNUFRSUYwcjllYXc1?=
- =?utf-8?B?UmM2VXFrM2pMaVVhbkY0WU8rSG8xMEpuSU1rNEpUZThtcHRRMGJ6UkMwcHB0?=
- =?utf-8?Q?bfbCnOrrgjcWDKUnYZGWY76IOVbvRjkYIgz8v7AqPRmL?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 360b7997-b5cc-4d2b-efda-08db0ff65b44
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTdTSmU3Vy9oUm5ocFEvaS90RmdDcmtCRGMyU3k4Yk9TQ1VJS3d2OEFWeVJw?=
+ =?utf-8?B?Qm5sWGhsT2VvZjRPTzJ6ZUttVDJNMEUxQnBXeUROQWJHSllIOWh1cjdKWlZS?=
+ =?utf-8?B?K2dDK25NU1dxN0pha1pJQm1pVjJCcUNmdiswWFFtd1d0Rkg1d0pIcXhzazBD?=
+ =?utf-8?B?RFBFQUpVMHUxQ1h4YkliTGl4cFpsQkJUdUZvQTV6ZEQ2L1ZRVVl5OVBvcW4w?=
+ =?utf-8?B?M2hKYm9QOFhwU1NCSWk3dS9xUCtjdkFCVXk4TnIxU3NDZlk1cm9TZnlxTTBx?=
+ =?utf-8?B?UnlBL3JFdE1ILzF6OVBQcHowZ1ZKZFJWaXZQek1VVXloSGE5ZFBjenQ4T3lp?=
+ =?utf-8?B?UFFUSkwrRlNPdHZuUlV2bUhwZjBSRmt5U1Vhc2VFNGFaNHAvbnNXVE1RMUc0?=
+ =?utf-8?B?T3RSeCtwQi9GbmJYWCtxUXBVd1dFdmMxWlZqVDViKzNYYmhOdklNQkI3YnhL?=
+ =?utf-8?B?ZVNWdlNUOTMzc1V0UTFiZ1FrSFFlQXBXWm9PTE9uTGZRV1BlY3RjSXJERjVX?=
+ =?utf-8?B?bytrK2NkZUpQaGpxRkNPQmZYZjJzcFQ0b0IralIybmZYT3BON2xXazE4NFJl?=
+ =?utf-8?B?ZHUrb1FpRHBUVFFTb05rZGt6akN0VlllS2JTMUQySmw3c1l5QWVObS9vY1BJ?=
+ =?utf-8?B?UFZkcFNGaHlJMVV4RUMwZXJSVW02dzc1bWJpaURaWk13Rm1uWktqNnRRcUpM?=
+ =?utf-8?B?M0drM1FEQ3llQ0tZREhpMVJnUUlEeUJ1bXZMa1ZkSDJ2eGd0Y2xqR0NUdGI3?=
+ =?utf-8?B?TFRXUk9Yd3BxSjR0eVUzVzljT2djOHJJeXM1RnFJZmxrRnNabkdKaGJmR3Vy?=
+ =?utf-8?B?V2hibnFtTkFWTEZVYnhjUHBuRlB4RWhvUnhiZGFlQ2dBaWttMG5UUWVvNVQ5?=
+ =?utf-8?B?TnBJcGdSR0Z6Q0oveFFIUkp2S3Q2YkErbjQ4LzdmWlVpYkdHam4zMjV6dzY4?=
+ =?utf-8?B?anNjZFJYTnRtejBVdEtCTHpjZjBrdFBGN1k1dnl5eXAvUWwvRnJjRnMyREM3?=
+ =?utf-8?B?MDY0enJnUmc5SXlES0ZkTUpKTXNJcS9Ic1A4Ynd2MmlxczFqUjJSVHFoaFZ1?=
+ =?utf-8?B?RGtJWnBCV2tXeVkwa3R2T2FoOWVKT282ZGxVTytqVStnRmN1dERxNUl0cWUw?=
+ =?utf-8?B?UDQ3elhNU3VDdzhMVU52eENMdE1FTmhVdmUvc0o5UkNDcDl4YzRlTjVYaWZv?=
+ =?utf-8?B?OHVNZWZBT1BFVHk1TWdvWUJpVkhYZkgyRU0rQWFYeEgzcGkxTkpLdzY0azFO?=
+ =?utf-8?B?SDNPUVNpU2tyL3g5VG9PTFFFelByVkFaZ1M0K242dlVRWGYvdWdET3NQZXYx?=
+ =?utf-8?B?VDVaSy81NlhFdzNCMTNNTWtTdlk1WnRtUkNMTXhzRVkrSnhqemdzbEJXWTVL?=
+ =?utf-8?B?T0RibHkxV0ZnV21hL2R4UFRrN01uaXJQc1EyYXRQVDN1aVpRcnVhYitaWUxx?=
+ =?utf-8?B?bG9GRnJ6TC9nMXk4REVzdjJRU3NsY0MzYmZpc2lDYWxaaUxHazJoOGlLcHha?=
+ =?utf-8?B?ZG9NOHpidGU0NEQwN2Q2YVNER25KeHJrS0xLTGhYdjNQVVdWQ2g0djRwSXpH?=
+ =?utf-8?B?YUNIV0VyTW9QNCtlVzRDUVB6TXZFdmdNbTBXSTBWK25HOWFQQ0FnVWErZ0lW?=
+ =?utf-8?B?NlZRRDQ0M3NzbEorakQxZnNTUE92aHFhM2dvUVdia2ZaR0lKbm9OS2VRWWFu?=
+ =?utf-8?B?V0dqbnN1WlQzQTI3SFloNHAydFlJQk8wUEIzeTlZSVVMazNzL2U2dCtyTVhz?=
+ =?utf-8?B?eHhZOFI0aEt2NXR6d05kN3VicHUzMm9ueHcvUVVvR20vVVZybjNrWjJ3WGF0?=
+ =?utf-8?B?ZHhrTlpOTzJYMStlYWU2VzNPREtGMXQ3ZFVOU2xma1FWOENDWDBQcGtsVkdT?=
+ =?utf-8?B?MFpneStSNXF2WTdpdG5vNnFucnZsYmlxemRNbi9kcVk1R2EyOW1Vb0RHRVVh?=
+ =?utf-8?B?ek01WXdPanUzSXFobmo1Z3I3RGxFRDlhWHNCZklOVElsSTFCa3VzSWtKMUV5?=
+ =?utf-8?B?N1N5UXZ1d2J0ZVIwaVk0WFd6TUc4SmNnV21adTZFdlhzYzNYOEFtbkdyZW52?=
+ =?utf-8?B?SkVqSnFXdWJSN3U1R1hLTnhSM2JvRjRxUG5MY0ZrVy9wa21TaUpoSWllMnlk?=
+ =?utf-8?Q?nBMNjKeKBoOlpkE65/pEl1X3d?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02b28fe3-b173-4199-550e-08db0ffbe817
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 08:18:17.2703
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 08:58:00.9044
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rD4ORWpV1CHNCO/IjDfVRiGeDCvr76tra7v6uHjRaLWASLv8ivTvdP29rE6wzpPTxlzfmyLJzaiQ/oUYsFXxdHcGmiIgWAytu4mLbCMuy2E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6728
+X-MS-Exchange-CrossTenant-UserPrincipalName: p0+Lzn+FusPsU9G7fR+8C8gmD8kUcAh7lqvsH2kMU/PQLbP2Gbduk8rFs9DxqFigjKpFmss0t9uAKdvirEixgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO3PR03MB6792
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15.02.23 19:19, Laurent Pinchart wrote:
-> On Wed, Feb 15, 2023 at 04:30:49PM +0100, Frieder Schrempf wrote:
->> On 15.02.23 15:40, Frieder Schrempf wrote:
->>> On 15.02.23 15:20, Frieder Schrempf wrote:
->>>> Hi Laurent,
->>>>
->>>> On 15.02.23 13:05, Laurent Pinchart wrote:
->>>>> On Wed, Feb 15, 2023 at 12:53:56PM +0100, Frieder Schrempf wrote:
->>>>>> On 14.02.23 17:47, Frieder Schrempf wrote:
->>>>>>> Hi everyone,
->>>>>>>
->>>>>>> after solving the previous devicetree and driver issues with the media
->>>>>>> pipeline on i.MX8MM using a RPi v2.1 camera module (imx219) as sensor, I
->>>>>>> now try to get an image from the sensor and run into the next problem.
->>>>>>>
->>>>>>> Below you can find the commands I use and the output I'm getting. Maybe
->>>>>>> someone can see straight away what's wrong or at least can make a guess
->>>>>>> before I start diving into the code. ;)
->>>>>>>
->>>>>>> By the way: This happens on v6.1.11 and 6.2-rc8.
->>>>>>
->>>>>> So it looks like there are several problems (again):
->>>>>>
->>>>>> First I missed to enable the link between the imx219 and the imx-mipi-csis:
->>>>>>
->>>>>> media-ctl -l "'imx219 1-0010':0 -> 'csis-32e30000.mipi-csi':0[1]"
->>>>>>
->>>>>> And the imx-mipi-csis driver is missing a check for the missing source
->>>>>> link which caused the exception. I currently have this applied and will
->>>>>> send this as formal patch later:
->>>>>>
->>>>>> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
->>>>>> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
->>>>>> @@ -596,6 +596,11 @@ static int mipi_csis_calculate_params(struct
->>>>>> mipi_csis_device *csis,
->>>>>>         s64 link_freq;
->>>>>>         u32 lane_rate;
->>>>>>
->>>>>> +       if (!csis->src_sd) {
->>>>>> +               dev_err(csis->dev, "Missing source link\n");
->>>>>> +               return -EINVAL;
->>>>>> +       }
->>>>>> +
->>>>>>         /* Calculate the line rate from the pixel rate. */
->>>>>>         link_freq = v4l2_get_link_freq(csis->src_sd->ctrl_handler,
->>>>>>                                        csis_fmt->width,
->>>>>
->>>>> The pipeline is not correctly configured, and that should have been
->>>>> caught earlier as both pads are created with the
->>>>> MEDIA_PAD_FL_MUST_CONNECT flag. The __media_pipeline_start() function
->>>>> should have return an error. Could you try to check why that didn't
->>>>> happen ?
->>>>
->>>> Thanks for the pointer. I looked at __media_pipeline_start() and to me
->>>> it looks like there's something wrong. During validation of the links,
->>>> there is no code to handle the case where all links are skipped before
->>>> link_validate() is called on them. The loop is left with has_link = true
->>>> and has_enabled_link = true and validation of the pipeline succeeds even
->>>> though there is a missing link.
->>>>
->>>> Does this look like a valid fix to you:
->>>>
->>>> --- a/drivers/media/mc/mc-entity.c
->>>> +++ b/drivers/media/mc/mc-entity.c
->>>> @@ -744,6 +744,7 @@ __must_check int __media_pipeline_start(struct
->>>> media_pad *pad,
->>>>                 struct media_pad *pad = ppad->pad;
->>>>                 struct media_entity *entity = pad->entity;
->>>>                 bool has_enabled_link = false;
->>>> +               bool has_valid_link = false;
->>>>                 bool has_link = false;
->>>>                 struct media_link *link;
->>>>
->>>> @@ -806,6 +807,15 @@ __must_check int __media_pipeline_start(struct
->>>> media_pad *pad,
->>>>                                 link->source->index,
->>>>                                 link->sink->entity->name,
->>>>                                 link->sink->index);
->>>> +
->>>> +                       has_valid_link = true;
->>>> +                       break;
->>>> +               }
->>>> +
->>>> +               if (!has_valid_link) {
->>>> +                       dev_dbg(mdev->dev, "No valid link found");
->>>> +                       ret = -ENOLINK;
->>>> +                       goto error;
->>>>                 }
->>>>
->>>>
->>>
->>> On second thought, I see that this is probably not a correct fix. But I
->>> still think the current code has a flaw. Or maybe I'm missing something
->>> important again. ;)
->>
->> Looks like the pipeline validation is only run for the pads of the links
->> that are enabled. As the following output shows, the pad
->> 'csis-32e30000.mipi-csi':0 is not part of the pipeline and the link
->> 'csis-32e30000.mipi-csi':0 -> 'imx219 1-0010':0 is therefore not part of
->> the validation in __media_pipeline_start().
->>
->> [   36.069274] imx7-csi 32e20000.csi: media pipeline populated, found pads:
->> [   36.080901] imx7-csi 32e20000.csi: - 'csi capture':0
->> [   36.085926] imx7-csi 32e20000.csi: - 'csi':1
->> [   36.090222] imx7-csi 32e20000.csi: - 'csi':0
->> [   36.094524] imx7-csi 32e20000.csi: - 'csis-32e30000.mipi-csi':1
->>
->> So the first time the disabled link is detected is in the driver in
->> mipi_csis_calculate_params() which leads to the crash.
-> 
-> Of course ! That's what I was missing. Indeed, we have an issue there.
-> I'll try to cook up a patch.
 
-Great! Thanks!
 
+On 1/12/23 20:56, Sebastian Fricke wrote:
+> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
 > 
->>>>>> Now with this resolved, I get:
->>>>>>
->>>>>> v4l2-ctl -d /dev/video0
->>>>>> --set-fmt-video=width=640,height=480,pixelformat=RG10 --stream-mmap
->>>>>> [  574.758110] imx7-csi 32e20000.csi: pipeline start failed with -32
->>>>>>                 VIDIOC_STREAMON returned -1 (Broken pipe)
->>>>>>
->>>>>> So still not there, but a bit closer ;)
->>>>>> Probably I'm doing something wrong when setting up the format, etc.
->>>>>
->>>>> Quite likely :-) Have you configured formats on all subdevs through the
->>>>> pipeline with media-ctl ?
->>>>>
->>>>
->>>> I'm doing the following:
->>>>
->>>> media-ctl -l "'imx219 1-0010':0 -> 'csis-32e30000.mipi-csi':0[1]"
->>>> media-ctl -d /dev/media0 -V '"imx219 1-0010":0[fmt:SBGGR10_1X10/640x480
->>>> field:none]'
->>>> media-ctl -d /dev/media0 -V
->>>> '"csis-32e30000.mipi-csi":0[fmt:SBGGR10_1X10/640x480 field:none]'
->>>> media-ctl -d /dev/media0 -V '"csi":0[fmt:SBGGR10_1X10/640x480 field:none]'
->>>>
->>>> Is there more I need to do? Sorry, I still lack a lot of understanding
->>>> and experience on how to use the media framework.
->>>>
->>>> But I guess in some way it's also good, as I can provide some testing
->>>> for the error handling, that you would probably miss otherwise as you
->>>> know how to setup things properly. ;)
->>
->> So, I found out that I used SBGGR10_1X10 but the sensor only supports
->> SRGGB10_1X10. Now the pipeline seems to work.
 > 
-> Great !
+> From: Jonas Karlman <jonas@kwiboo.se>
 > 
-> On a side note, if you don't want to deal with the complexity of
-> configuring the pipeline, libcamera (https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Flibcamera.org%2F&data=05%7C01%7Cfrieder.schrempf%40kontron.de%7Ce522d5e5757e4a6d58b608db0f813049%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C638120819750552954%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GaL%2Bjlm0pcKs2Ijy23UQ6PzWuDVxpTTkjbhuiBASoJw%3D&reserved=0) can do it
-> for you :-)
+> Add the NV15 pixel format used by the Rockchip Video Decoder for 10-bit buffers.
+> 
+I think this pixel format in the Rockchip platform supports multiple 
+planes buffers. It is all right not to add more variant until the ext 
+pixel format and buffer APIs are merged.
 
-Awesome, thanks for the note! I will give libcamera a try.
+I just want to mention the need of this.
+> NV15 is a packed 10-bit 4:2:0 Y/CbCr format similar to P010 and P210 but has no
+> padding between components. Instead, luminance and chrominance samples are grouped
+> into 4s so that each group is packed into an integer number of bytes:
+> 
+> YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+> 
+> The '15' suffix refers to the optimum effective bits per pixel
+> which is achieved when the total number of luminance samples is a multiple
+> of 8 for NV15.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> ---
+>   .../userspace-api/media/v4l/pixfmt-yuv-planar.rst  | 75 ++++++++++++++++++++++
+>   drivers/media/v4l2-core/v4l2-common.c              |  2 +
+>   drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
+>   include/uapi/linux/videodev2.h                     |  1 +
+>   4 files changed, 79 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index f1d5bb7b806d..7d8d228f8063 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -79,6 +79,13 @@ All components are stored with the same number of bits per component.
+>         - Cr, Cb
+>         - Yes
+>         - Linear
+> +    * - V4L2_PIX_FMT_NV15
+> +      - 'NV15'
+> +      - 15
+> +      - 4:2:0
+> +      - Cb, Cr
+> +      - Yes
+> +      - Linear
+>       * - V4L2_PIX_FMT_NV12M
+>         - 'NM12'
+>         - 8
+> @@ -183,6 +190,7 @@ horizontally.
+> 
+>   .. _V4L2-PIX-FMT-NV12:
+>   .. _V4L2-PIX-FMT-NV21:
+> +.. _V4L2-PIX-FMT-NV15:
+>   .. _V4L2-PIX-FMT-NV12M:
+>   .. _V4L2-PIX-FMT-NV21M:
+>   .. _V4L2-PIX-FMT-P010:
+> @@ -586,6 +594,73 @@ Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian ord
+>         - Cb\ :sub:`11`
+>         - Cr\ :sub:`11`
+> 
+> +.. _V4L2_PIX_FMT_NV15:
+> +
+> +NV15
+> +----
+> +
+> +Similar to P010, a semi-planar 10-bit Y/CbCr format, but all components are
+> +packed without any padding between each other. As a side-effect, each group of
+> +4 components are stored over 5 bytes (YYYY or UVUV = 4 * 10 bits = 40 bits = 5
+> +bytes).
+> +
+> +.. flat-table:: Sample 4x4 NV15 Image
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - start + 0:
+> +      - Y'\ :sub:`00`
+> +      - Y'\ :sub:`01`
+> +      - Y'\ :sub:`02`
+> +      - Y'\ :sub:`03`
+> +    * - start + 8:
+> +      - Y'\ :sub:`04`
+> +      - Y'\ :sub:`10`
+> +      - Y'\ :sub:`11`
+> +      - Y'\ :sub:`12`
+> +    * - start + 16:
+> +      - Y'\ :sub:`13`
+> +      - Y'\ :sub:`14`
+> +      - Y'\ :sub:`20`
+> +      - Y'\ :sub:`21`
+> +    * - start + 24:
+> +      - Y'\ :sub:`22`
+> +      - Y'\ :sub:`23`
+> +      - Y'\ :sub:`24`
+> +      - Y'\ :sub:`30`
+> +    * - start + 32:
+> +      - Y'\ :sub:`31`
+> +      - Y'\ :sub:`32`
+> +      - Y'\ :sub:`33`
+> +      - Y'\ :sub:`34`
+> +
+> +    * - start + 0:
+> +      - Cb\ :sub:`00`
+> +      - Cr\ :sub:`00`
+> +      - Cb\ :sub:`01`
+> +      - Cr\ :sub:`01`
+> +    * - start + 8:
+> +      - Cb\ :sub:`02`
+> +      - Cr\ :sub:`02`
+> +      - Cb\ :sub:`03`
+> +      - Cr\ :sub:`03`
+> +    * - start + 16:
+> +      - Cb\ :sub:`04`
+> +      - Cr\ :sub:`04`
+> +      - Cb\ :sub:`10`
+> +      - Cr\ :sub:`10`
+> +    * - start + 24:
+> +      - Cb\ :sub:`11`
+> +      - Cr\ :sub:`11`
+> +      - Cb\ :sub:`12`
+> +      - Cr\ :sub:`12`
+> +    * - start + 32:
+> +      - Cb\ :sub:`13`
+> +      - Cr\ :sub:`13`
+> +      - Cb\ :sub:`14`
+> +      - Cr\ :sub:`14`
+> +
+> +.. raw:: latex
+> 
+>   Fully Planar YUV Formats
+>   ========================
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 40f56e044640..be23e319fb3a 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -262,6 +262,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>                  /* YUV planar formats */
+>                  { .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+>                  { .format = V4L2_PIX_FMT_NV21,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> +               { .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 5, 0, 0 }, .hdiv = 2, .vdiv = 2,
+> +                 .block_w = { 4, 2, 0, 0 }, .block_h = { 1, 1, 0, 0 } },
+>                  { .format = V4L2_PIX_FMT_NV16,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>                  { .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>                  { .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 8e0a0ff62a70..1c80ad78ef00 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1343,6 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>          case V4L2_PIX_FMT_M420:         descr = "YUV 4:2:0 (M420)"; break;
+>          case V4L2_PIX_FMT_NV12:         descr = "Y/UV 4:2:0"; break;
+>          case V4L2_PIX_FMT_NV21:         descr = "Y/VU 4:2:0"; break;
+> +       case V4L2_PIX_FMT_NV15:         descr = "10-bit Y/UV 4:2:0 (Packed)"; break;
+>          case V4L2_PIX_FMT_NV16:         descr = "Y/UV 4:2:2"; break;
+>          case V4L2_PIX_FMT_NV61:         descr = "Y/VU 4:2:2"; break;
+>          case V4L2_PIX_FMT_NV24:         descr = "Y/UV 4:4:4"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 1befd181a4cc..e9731286dc77 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -621,6 +621,7 @@ struct v4l2_pix_format {
+>   /* two planes -- one Y, one Cr + Cb interleaved  */
+>   #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+>   #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
+> +#define V4L2_PIX_FMT_NV15    v4l2_fourcc('N', 'V', '1', '5') /* 15  Y/CbCr 4:2:0 10-bit packed */
+>   #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
+>   #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+>   #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+> 
+> --
+> 2.25.1
+
+-- 
+Hsia-Jun(Randy) Li
