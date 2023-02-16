@@ -2,387 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 238B9699745
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 15:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC9276997CD
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 15:48:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbjBPOWw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 09:22:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60670 "EHLO
+        id S230204AbjBPOsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 09:48:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230204AbjBPOWn (ORCPT
+        with ESMTP id S229980AbjBPOsV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 09:22:43 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9394057778
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:22:23 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id cq19so3419744edb.5
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:22:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LMSroA7NTqEfdgUOUGJc/loVGhG2ewqJeKTXz4Yo+Sk=;
-        b=Iy1hX2J4CDQ7crIeotIv6JEU5sfdu0+ODSWoveRg1dhhTyP4EErRzDUyg7HT3NQMa0
-         DcFOtejX0oHh7PLKj+xKi04ggiRj0gzryMUrm1DPdoVICJzLM4aQBtzif0qnZWxJx4Jq
-         5i1yvu1ci6dNgIaqqjzPRaA3RktrsPPHaDwUZhb2egH+8MmR6Ly5N2jebEU3izVBkraT
-         fCmPsllGNlOW9mVVMdUD8Z/GsXPsLawL9KAqacUAMYP0sxeJrjFfY+yqYQG2ckWevdAB
-         /W4tVb6pSVhtANMhPhms7quRXlF5iil514EErgHfba/Hx5/Zpmvh9XS2FmizB3iLGV1U
-         0ESw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LMSroA7NTqEfdgUOUGJc/loVGhG2ewqJeKTXz4Yo+Sk=;
-        b=35NYpRBZq/WKLAFUPvYIi4SIXnGzNKIkLBJ/Q3KQTKOMxqNHcVUK6klUQsajU4WbXQ
-         COSj1i0C2l/tB/iIh1tGpaasmx9B2sCxKYGBSMOTWeXCN5bHhzeEFkhvZroxMKfoXNiy
-         5FRD6yOxhI+cUn5lZVazF5af7+cPD6LA6yKC5YPQ5QJ23d4YWx9gCnY4dTLMzp8kd8zV
-         A0d3iRnQYDvxj4CSNTYk2qzO2fgX/YOgZzbfgnvKmyUPziDPDfyC1tH9IKzhpVzvvc2j
-         w8DoJHixr1w/bdUmsNO5SO2NZxhnN6xQQ045U/9wrfWKAIFHk8hS7pJ827MExmYX2MCn
-         l6Mw==
-X-Gm-Message-State: AO0yUKWb0HjymFa5lxUQjcYSapTygBKSnSadm9Iopx+D35T7vCbNKdaG
-        5L5s1OonIdi5WnE1yS+VtaiodA==
-X-Google-Smtp-Source: AK7set89N50W4mmaSqBwdPY6RgizZS1mmkpPyZ18OccfyKyNudJTBiM4mQ3gJe99ju8HHFdGy7a4+A==
-X-Received: by 2002:a17:906:e89:b0:8b1:7fa:6588 with SMTP id p9-20020a1709060e8900b008b107fa6588mr6007393ejf.12.1676557339909;
-        Thu, 16 Feb 2023 06:22:19 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id ad24-20020a170907259800b0087bdac06a3bsm884757ejc.2.2023.02.16.06.22.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Feb 2023 06:22:19 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 7/7] media: dt-bindings: samsung,s5c73m3: convert to dtschema
-Date:   Thu, 16 Feb 2023 15:22:04 +0100
-Message-Id: <20230216142204.48394-8-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230216142204.48394-1-krzysztof.kozlowski@linaro.org>
-References: <20230216142204.48394-1-krzysztof.kozlowski@linaro.org>
+        Thu, 16 Feb 2023 09:48:21 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A03AC7
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:48:20 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E5EA10B;
+        Thu, 16 Feb 2023 15:48:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676558898;
+        bh=sH1y0qRlTkiw4pP+PL/0doxzM1Co0msrnxgMCXyr5ko=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o4IOKI6SSdiZc3sZItmTKs51N1hvwNiaofedrSCInUYfsUHxO+YVitxjuPwnGoCz1
+         C6HsO5cX4i10Y3rubJNHRdCv4WDhWq+spfyVQP1j2AqOufGKUJ3Nb8FjYUOcp2Gix0
+         bx+o/PR4IHPhYjgS7rYO69ZP1Rh+YwGF/SmndQ3Q=
+Date:   Thu, 16 Feb 2023 16:48:18 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Dan Scally <djrscally@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: RFC: removing various special/obscure features from atomisp code
+ ?
+Message-ID: <Y+5CMkwHy9tuk6G2@pendragon.ideasonboard.com>
+References: <5309d845-063b-6dd9-529d-0f82654290f2@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5309d845-063b-6dd9-529d-0f82654290f2@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Samsung S5C73M3 8Mp camera ISP bindings to DT schema.
+Hi Hans,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Thu, Feb 16, 2023 at 03:20:08PM +0100, Hans de Goede wrote:
+> Hi All,
+> 
+> I have been looking into moving the sensor registration for atomisp2
+> over to v4l2-aysnc similar to how
+> drivers/media/pci/intel/ipu3/cio2-bridge.c does things.
+> 
+> Together with some other smaller changes this should allow the atomisp
+> code use standard sensor drivers instead of having their own fork of
+> these drivers.
+> 
+> While looking into this I realized that the current architecture of
+> the atomisp2 code where it registers 8 /dev/video# nodes + many
+> v4l2-subdevs is getting in the way of doing this.  At a minimum the
+> current convoluted media-ctl graph makes it harder then necessary to
+> make this change.
+> 
+> So this makes me realize that it probably is time to make some changes
+> to the atomisp-code to remove a bunch of somewhat obscure (and
+> untested / unused) features. I have been thinking about removing these
+> for a long time already since they also get in the way of a bunch of
+> other things like allowing the /dev/video# nodes to be opened multiple
+> times.
+> 
+> So my plan is to reduce the feature set to make atomisp work as more
+> or less a standard webcam (with front/back sensors) which is how most
+> hw is using it and also is how all our (my) current testing uses it.
+> 
+> This means reducing the graph to a single /dev/video0 output node + 2
+> subdevs for the sensors I might put one more node in the graph for
+> selecting between the 3 CSI ports, or those could be 3 possible
+> sources for /dev/video0.
 
----
+Could you briefly summarize the hardware architecture, and in particular
+what building blocks are present, and how they're connected ? That will
+help with the discussion.
 
-Changes since v2:
-1. Add Rb tag.
----
- .../bindings/media/samsung,s5c73m3.yaml       | 165 ++++++++++++++++++
- .../bindings/media/samsung-s5c73m3.txt        |  97 ----------
- MAINTAINERS                                   |   1 +
- 3 files changed, 166 insertions(+), 97 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5c73m3.txt
+> So back to $subject, this means removing a bunch of stuff which
+> atomisp at point supported (but we don't know if it currently even
+> works). Before I start deleting all this code I wanted to give people
+> a chance to protest here :)
+> 
+> So here we go the removal list:
+> 
+> 1. Remove support for depth mode. This is a special mode where 2
+> streams (from 2 different sensors) can be setup and then
+> starting/stopping 1 will automatically also start/stop the other.
+> Like many of these special features I'm pretty sure that if the queue
+> setup is not done exactly right things will crash and burn, there is
+> no error checking for this.
+> 
+> This seems to be for stereoscopic vision and the only hw I know of
+> which actually supports this is the Intel Aero board/SDK, all other
+> 1000+ byt/cht models don't need this.
+> 
+> This definitely falls outside of the webcam use scenario and this
+> involves a bunch of hacks / special exceptions all over the code, so
+> lets remove this.
 
-diff --git a/Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml b/Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml
-new file mode 100644
-index 000000000000..1b75390fdaac
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml
-@@ -0,0 +1,165 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/samsung,s5c73m3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung S5C73M3 8Mp camera ISP
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+  - Sylwester Nawrocki <s.nawrocki@samsung.com>
-+
-+description:
-+  The S5C73M3 camera ISP supports MIPI CSI-2 and parallel (ITU-R BT.656)
-+  video data busses. The I2C bus is the main control bus and additionally the
-+  SPI bus is used, mostly for transferring the firmware to and from the
-+  device. Two slave device nodes corresponding to these control bus
-+  interfaces are required and should be placed under respective bus
-+  controller nodes.
-+
-+properties:
-+  compatible:
-+    const: samsung,s5c73m3
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: cis_extclk
-+
-+  clock-frequency:
-+    default: 24000000
-+    description: cis_extclk clock frequency.
-+
-+  standby-gpios:
-+    maxItems: 1
-+    description: STANDBY pin.
-+
-+  vdda-supply:
-+    description: Analog power supply (1.2V).
-+
-+  vdd-af-supply:
-+    description: lens power supply (2.8V).
-+
-+  vddio-cis-supply:
-+    description: CIS I/O power supply (1.2V to 1.8V).
-+
-+  vddio-host-supply:
-+    description: Host I/O power supply (1.8V to 2.8V).
-+
-+  vdd-int-supply:
-+    description: Digital power supply (1.2V).
-+
-+  vdd-reg-supply:
-+    description: Regulator input power supply (2.8V).
-+
-+  xshutdown-gpios:
-+    maxItems: 1
-+    description: XSHUTDOWN pin.
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          data-lanes:
-+            items:
-+              - const: 1
-+              - const: 2
-+              - const: 3
-+              - const: 4
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+  - if:
-+      required:
-+        - spi-max-frequency
-+    then:
-+      properties:
-+        # The SPI node is simplified firmware-transfer interface only
-+        clocks: false
-+        clock-names: false
-+        standby-gpios: false
-+        vdda-supply: false
-+        vdd-af-supply: false
-+        vddio-cis-supply: false
-+        vddio-host-supply: false
-+        vdd-int-supply: false
-+        vdd-reg-supply: false
-+        xshutdown-gpios: false
-+        port: false
-+    else:
-+      required:
-+        - clocks
-+        - clock-names
-+        - standby-gpios
-+        - vdda-supply
-+        - vdd-af-supply
-+        - vddio-cis-supply
-+        - vddio-host-supply
-+        - vdd-int-supply
-+        - vdd-reg-supply
-+        - xshutdown-gpios
-+        - port
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        image-sensor@3c {
-+            compatible = "samsung,s5c73m3";
-+            reg = <0x3c>;
-+            clock-frequency = <24000000>;
-+            clocks = <&camera 0>;
-+            clock-names = "cis_extclk";
-+            standby-gpios = <&gpm0 6 GPIO_ACTIVE_LOW>;
-+            vdda-supply = <&cam_vdda_reg>;
-+            vdd-af-supply = <&cam_af_reg>;
-+            vddio-cis-supply = <&ldo9_reg>;
-+            vddio-host-supply = <&ldo18_reg>;
-+            vdd-int-supply = <&buck9_reg>;
-+            vdd-reg-supply = <&cam_io_reg>;
-+            xshutdown-gpios = <&gpf1 3 GPIO_ACTIVE_LOW>; /* ISP_RESET */
-+
-+            port {
-+                s5c73m3_ep: endpoint {
-+                    remote-endpoint = <&csis0_ep>;
-+                    data-lanes = <1 2 3 4>;
-+                };
-+            };
-+        };
-+    };
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        image-sensor@0 {
-+            compatible = "samsung,s5c73m3";
-+            reg = <0>;
-+            spi-max-frequency = <50000000>;
-+            controller-data {
-+                samsung,spi-feedback-delay = <2>;
-+            };
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/media/samsung-s5c73m3.txt b/Documentation/devicetree/bindings/media/samsung-s5c73m3.txt
-deleted file mode 100644
-index f0ea9adad442..000000000000
---- a/Documentation/devicetree/bindings/media/samsung-s5c73m3.txt
-+++ /dev/null
-@@ -1,97 +0,0 @@
--Samsung S5C73M3 8Mp camera ISP
--------------------------------
--
--The S5C73M3 camera ISP supports MIPI CSI-2 and parallel (ITU-R BT.656) video
--data busses. The I2C bus is the main control bus and additionally the SPI bus
--is used, mostly for transferring the firmware to and from the device. Two
--slave device nodes corresponding to these control bus interfaces are required
--and should be placed under respective bus controller nodes.
--
--I2C slave device node
-----------------------
--
--Required properties:
--
--- compatible	    : "samsung,s5c73m3";
--- reg		    : I2C slave address of the sensor;
--- vdd-int-supply    : digital power supply (1.2V);
--- vdda-supply	    : analog power supply (1.2V);
--- vdd-reg-supply    : regulator input power supply (2.8V);
--- vddio-host-supply : host I/O power supply (1.8V to 2.8V);
--- vddio-cis-supply  : CIS I/O power supply (1.2V to 1.8V);
--- vdd-af-supply     : lens power supply (2.8V);
--- xshutdown-gpios   : specifier of GPIO connected to the XSHUTDOWN pin;
--- standby-gpios     : specifier of GPIO connected to the STANDBY pin;
--- clocks	    : should contain list of phandle and clock specifier pairs
--		      according to common clock bindings for the clocks described
--		      in the clock-names property;
--- clock-names	    : should contain "cis_extclk" entry for the CIS_EXTCLK clock;
--
--Optional properties:
--
--- clock-frequency   : the frequency at which the "cis_extclk" clock should be
--		      configured to operate, in Hz; if this property is not
--		      specified default 24 MHz value will be used.
--
--The common video interfaces bindings (see video-interfaces.txt) should be used
--to specify link from the S5C73M3 to an external image data receiver. The S5C73M3
--device node should contain one 'port' child node with an 'endpoint' subnode for
--this purpose. The data link from a raw image sensor to the S5C73M3 can be
--similarly specified, but it is optional since the S5C73M3 ISP and a raw image
--sensor are usually inseparable and form a hybrid module.
--
--Following properties are valid for the endpoint node(s):
--
--endpoint subnode
------------------
--
--- data-lanes : (optional) specifies MIPI CSI-2 data lanes as covered in
--  video-interfaces.txt. This sensor doesn't support data lane remapping
--  and physical lane indexes in subsequent elements of the array should
--  be only consecutive ascending values.
--
--SPI device node
-----------------
--
--Required properties:
--
--- compatible	    : "samsung,s5c73m3";
--
--For more details see description of the SPI busses bindings
--(../spi/spi-bus.txt) and bindings of a specific bus controller.
--
--Example:
--
--i2c@138a000000 {
--	...
--	s5c73m3@3c {
--		compatible = "samsung,s5c73m3";
--		reg = <0x3c>;
--		vdd-int-supply = <&buck9_reg>;
--		vdda-supply = <&ldo17_reg>;
--		vdd-reg-supply = <&cam_io_reg>;
--		vddio-host-supply = <&ldo18_reg>;
--		vddio-cis-supply = <&ldo9_reg>;
--		vdd-af-supply = <&cam_af_reg>;
--		clock-frequency = <24000000>;
--		clocks = <&clk 0>;
--		clock-names = "cis_extclk";
--		xshutdown-gpios = <&gpf1 3 1>;
--		standby-gpios = <&gpm0 1 1>;
--		port {
--			s5c73m3_ep: endpoint {
--				remote-endpoint = <&csis0_ep>;
--				data-lanes = <1 2 3 4>;
--			};
--		};
--	};
--};
--
--spi@1392000 {
--	...
--	s5c73m3_spi: s5c73m3@0 {
--		compatible = "samsung,s5c73m3";
--		reg = <0>;
--		...
--	};
--};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 87140ebb9a40..9bb777760964 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18441,6 +18441,7 @@ M:	Sylwester Nawrocki <s.nawrocki@samsung.com>
- M:	Andrzej Hajda <andrzej.hajda@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Supported
-+F:	Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml
- F:	drivers/media/i2c/s5c73m3/*
- 
- SAMSUNG S5K5BAF CAMERA DRIVER
+Is this implemented purely in software in the driver, or does the
+hardware/firmware also play a role there ? If it's a pure software
+implementation, sure, ditch it. If the hardware plays a role, I'd like
+to better understand what role it plays.
+
+> 2. Remove support for 2 streams at the same time, in theory the
+> atomisp supports streaming from 2 sensors at the same time outputting
+> something to 2 different /dev/video nodes. Downsides:
+
+Here too I'd like to better understand how this is implemented.
+
+> a. The atomisp is not really powerful enough for this. The DVFS code
+> has a special "go all out" mode for this to try and keep up.
+> 
+> b. The BYT/CHT CPU also is not really powerful enough to do something
+> useful with 2 streams
+
+That depends on the resolution, and what those two streams are used for.
+One could be displayed with zero-copy, making it essentially free from a
+CPU point of view.
+
+> c. The code is full of ugly special casing for this where certain
+> cleanup on stream-stop needs to be skipped if the other stream is
+> still active since some bits are shared.
+> 
+> d. This is not something which I see a lot of users actually using.
+> 
+> So lets remove this.
+> 
+> 
+> 3. Remove having 4 separate video node (per stream, so 8 in total
+> until 2. is done/removed).
+> 
+> The atomisp has 4 different modes / firmware-pipes it can setup:
+> 
+> i.   Still camera preview aka viewfinder
+> ii.  Still camera capture aka capture
+> iii. Video preview aka preview
+> iv.  Video capture mode aka capture
+> 
+> Downsides:
+> 
+> a) This feels more like it should be some mode set on a single
+> /dev/video# node rather then having separate nodes for this
+
+If they're mutually exclusive, I agree.
+
+> b) Only one mode and thus node can be active at the same time. The one
+> exception being a special mode where viewfinder + capture buffers can
+> be queued at the same time and then a trigger can be send to capture a
+> string of frames in capture mode while the viewfinder also keeps
+> streaming.
+> 
+> In all other cases calling stream-on on multiple nodes is not
+> supported, but this is currently not enforced and trying to stream on
+> multiple nodes likely just goes boom
+> 
+> c) it seems many of the modes have special pre-requisites, like
+> capture mode seems to only work if already streaming in viewfinder
+> mode.
+> 
+> d) we only ever have gotten video-preview mode to actually work,
+> everything else is pretty much dead weight at this point
+> 
+> e) there is all kind of ugly reference counting .  exceptions to e.g.
+> not turn off the sensor on stream-off if another /dev/video# node
+> which is part of the same "stream" (in the sense of the 2 supported
+> streams at once) is still active.
+> 
+> f) the special ref-counting/exceptions are getting in the way of
+> allowing multiple opens of the /dev/video# node and generally get in
+> the way of using standard v4l2-core helpers for file open/close
+> handling.
+> 
+> g) having 8 / 4 /dev/video nodes confuses userspace
+> 
+> Thus from my pov ideally this should all go away too.
+> 
+> 
+> So any objections or shall I start working on removing all this so
+> that we end up with a much simpler driver?
+
+I'll tell you once I get a better understanding of the hardware ;-)
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
