@@ -2,139 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FCDD699547
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 14:12:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26EF869968C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 15:01:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjBPNM6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 08:12:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54294 "EHLO
+        id S229504AbjBPOBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 09:01:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjBPNM4 (ORCPT
+        with ESMTP id S229598AbjBPOBn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 08:12:56 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7C886196;
-        Thu, 16 Feb 2023 05:12:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676553174; x=1708089174;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oA5RgJJpAq5UHJHvgQA/ufGiWBI4ibAgsdQPXkJlx/Q=;
-  b=mX/sEg5c3IPyvA17vZXHWBQPIjPZseF3N3/Ytd0q1lGuz6EtOhypMWAW
-   zx9+VdHyfVo7Nx1N+PpQxkunPeJ2qgu9mHHQLZ+1ZnUZ9pwymzEfet8XZ
-   Qo4c+4y0LtKB7kHTMO7yTaYgOspRb1oDjfsG1yN57LZToBiqhfQ/RlzhG
-   rtIDOZDFQsvlxI4ogd6B8xkDUtIjL/wq9nGrbEk6LVfly/dg3LaeNmV73
-   cHKZmkySWbaZm8YbO7oOsBrZWe0+nD4tfMdpecbm/2NTnmvq6WBLYjpRe
-   Dm+DYvdmv0EMjf1rXBRHXcR1UV4mt8SrcRs4N35qotGRNsZXJKLSSJy1K
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396355423"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="396355423"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 05:12:44 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670123452"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="670123452"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 05:12:25 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 92E95121932;
-        Thu, 16 Feb 2023 15:12:21 +0200 (EET)
-Date:   Thu, 16 Feb 2023 15:12:21 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Wentong Wu <wentong.wu@intel.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, srinivas.pandruvada@intel.com,
-        pierre-louis.bossart@linux.intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com, bingbu.cao@intel.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Message-ID: <Y+4rtSMArg5ow0Sh@kekkonen.localdomain>
-References: <20230213022347.2480307-1-wentong.wu@intel.com>
- <Y+ypKYI4c6fHL4Eu@pendragon.ideasonboard.com>
- <00c5c16e-c94e-a328-06d9-5f09ad35258d@linux.intel.com>
+        Thu, 16 Feb 2023 09:01:43 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E06D43470
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:01:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F29FF6102F
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 14:01:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215DBC433D2
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 14:01:39 +0000 (UTC)
+Message-ID: <fb672e3b-ed17-bcc3-ddd8-b1d851fb5b3d@xs4all.nl>
+Date:   Thu, 16 Feb 2023 15:01:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00c5c16e-c94e-a328-06d9-5f09ad35258d@linux.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT FIXES FOR v6.3] media: v4l2-subdev.c: clear stream field
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu, Wentong,
+The recently merged series adding the new 'stream' field caused a regression
+in both userspace and kernelspace API where the 'stream' field was passed in
+uninitialized, and then failed the 'check_state' check, causing -EINVAL to be
+returned.
 
-On Wed, Feb 15, 2023 at 08:09:50PM +0800, Bingbu Cao wrote:
-> 
-> Hi, Wentong,
-> 
-> On 2/15/23 5:43 PM, Laurent Pinchart wrote:
-> > Hello Wentong,
-> > 
-> > On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
-> >> Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
-> >> companion chip designed to provide secure and low power vision capability
-> >> to IA platforms. IVSC is available in existing commercial platforms from
-> >> multiple OEMs.
-> >>
-> >> The primary use case of IVSC is to bring in context awareness. IVSC
-> >> interfaces directly with the platform main camera sensor via a CSI-2 link
-> >> and processes the image data with the embedded AI engine. The detected
-> >> events are sent over I2C to ISH (Intel Sensor Hub) for additional data
-> >> fusion from multiple sensors. The fusion results are used to implement
-> >> advanced use cases like:
-> >>  - Face detection to unlock screen
-> >>  - Detect user presence to manage backlight setting or waking up system
-> > 
-> > Do you have plan to support these features in the ivsc driver in the
-> > future ?
-> > 
-> >> Since the Image Processing Unit(IPU) used on the host processor needs to
-> >> configure the CSI-2 link in normal camera usages, the CSI-2 link and
-> >> camera sensor can only be used in mutually-exclusive ways by host IPU and
-> >> IVSC. By default the IVSC owns the CSI-2 link and camera sensor. The IPU
-> >> driver can take ownership of the CSI-2 link and camera sensor using
-> >> interfaces provided by this IVSC driver.
-> >>
-> >> Switching ownership requires an interface with two different hardware
-> >> modules inside IVSC. The software interface to these modules is via Intel
-> >> MEI (The Intel Management Engine) commands. These two hardware modules
-> >> have two different MEI UUIDs to enumerate. These hardware modules are:
-> >>  - ACE (Algorithm Context Engine): This module is for algorithm computing
-> >> when IVSC owns camera sensor. Also ACE module controls camera sensor's
-> >> ownership. This hardware module is used to set ownership of camera sensor.
-> >>  - CSI (Camera Serial Interface): This module is used to route camera
-> >> sensor data either to IVSC or to host for IPU driver and application.
-> >>
-> >> IVSC also provides a privacy mode. When privacy mode is turned on,
-> >> camera sensor can't be used. This means that both ACE and host IPU can't
-> >> get image data. And when this mode is turned on, host IPU driver is
-> >> informed via a registered callback, so that user can be notified.
-> > 
-> > How does the privacy mode work, and how can the user trust that the
-> > closed-source IVSC and IME firmwares will honour the privacy settings ?
-> >
-> 
-> Continue with question from Laurent,
-> 
-> How IVSC handle the privacy request from user? Is there some notification
-> mechanism to user-space? I'd have concern if IVSC driver need private callback
-> to request back-end(e.g. ISP driver) to handle stream cutting.
+Since this feature isn't used anywhere yet, add this patch to zero the 'stream'
+field to prevent breakage.
 
-How does the privacy mode work, does it just pass zeroes (or other dummy
-data) towards the host or nothing?
+This will be properly resolved for 6.4, but for now let's keep existing
+applications and drivers running...
 
-A V4L2 control can be used for the purpose of passing the information to
-the user space at least.
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+The following changes since commit 05165248df6552daaacf5621e3a5e2369117a8a9:
+
+  media: v4l2-ctrls-api.c: move ctrl->is_new = 1 to the correct line (2023-02-09 09:22:45 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.3k
+
+for you to fetch changes up to a990d9e36d35ab6887c6ce2c8e1191ccb1dc7b48:
+
+  media: v4l2-subdev.c: clear stream field (2023-02-16 12:10:16 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      media: v4l2-subdev.c: clear stream field
+
+ drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
