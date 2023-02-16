@@ -2,111 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 141AB699B2A
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 18:23:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1C3E699F08
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 22:34:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjBPRXC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 12:23:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        id S229816AbjBPVeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 16:34:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbjBPRXB (ORCPT
+        with ESMTP id S229483AbjBPVeH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 12:23:01 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2034C6D5
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 09:23:00 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id v11so3129189edx.12
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 09:23:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CgujHaHXUR9rsoL7c92bZNN7/8k5pOu6iNqvBQ5bLj4=;
-        b=lBP7D2RChfckbpLKqiJvNWKcJ9clSqSYv8bnizeDEmQluv6xMIOnbtFGrHei1W+ZZN
-         rRm946SwdJjWXjawN2Tj5ny2Zj+g+ytsVyfAhZotJJEK6eSsb4TOzf5ub0uAbARG/SAn
-         1gzQgAu8GFO7HRTd74gwpL+Jmhcve2n5bWkWBESO9S8uLMDtvxhHsWoWCLBZ4rGQ/RQV
-         yOkohcxhrzcJBNe0lef3a+AISNeXnq9NKYbxMsBXG6uVQh2fSKMRPWkYrUaUEZlN2bVn
-         2kKsStvuQxmeuwpmV33GLYfvi6shxe3UZV8IVUPhGgP2wWVsm9ozDVshDkR9MqxmsEnM
-         x8aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CgujHaHXUR9rsoL7c92bZNN7/8k5pOu6iNqvBQ5bLj4=;
-        b=4Lxizk31vyJ59g2o7RGv5BxEV+lr3CGjOJGLaqepXhD5QATB1XiL6Aq/PL61TuDslq
-         rU79es3hjOj2mGK3glKXvDBEzWKhJY0ZC/YuinxljHJUDgwG4wuTR0XitvDtLabg8Hfm
-         md2+7xfKKXjujdVx/ImeKkvMZGZA3NbzxKcnvw80UQNL1l3sWrdAsDJ0h9E8Fl8hAXkd
-         xHtDe38Grer/4q+VW3KAnJIvTUdnnHhDzf0tPh/jfh/S8k6MKbma/Tsx7i0mcU0nGmzR
-         CXpoSh/Ag8oOif9J1AZEGJTzT6HsuH0xU6WpSQ6sx8muvutZIXzB9MFQZxADXcgsAxGt
-         41hA==
-X-Gm-Message-State: AO0yUKVC55AHo6Esw4N0ADP+OHAaX2nUe/K948mlpe/QYxL9pSyiWPtq
-        ZzTWnSoUVGDT6ldcnEXZlpQK8CvDxstIMyQLmB59hycdBvVAP6dp
-X-Google-Smtp-Source: AK7set8WtPrjRgcSyrVQo+ZpdoncG6QN25IVOlwDMY0eXKiuWBP53zX28TlFTLNWpPB4OJ2SCaKg/2mpehtwFG+pACQ=
-X-Received: by 2002:a17:906:3b10:b0:886:4b7e:c1dc with SMTP id
- g16-20020a1709063b1000b008864b7ec1dcmr3261650ejf.6.1676568178457; Thu, 16 Feb
- 2023 09:22:58 -0800 (PST)
+        Thu, 16 Feb 2023 16:34:07 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7534C3E1
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 13:34:05 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89A4310B;
+        Thu, 16 Feb 2023 22:34:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676583243;
+        bh=b3ZpUvhX5OvXnf6bITsJxi2xXEl4LTP9HOzPL4snrMA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sB4M6ysulkNo+fsTlYT819FC8+D06pIbGzo+KeLuxmaL2fjI1Xloh8H7xbIxlwwG9
+         JD3DUnW/7FKkVkb6ZSfKtBQi7/PIOBW2kSHgKo34PCL9bDiOm5D4UHptjjCNKsSmNc
+         WulLoiKPCrQNvLYfzAYm7JsnCjMJiDYNtMvy9E4Q=
+Date:   Thu, 16 Feb 2023 23:34:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Dan Scally <djrscally@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: RFC: removing various special/obscure features from atomisp code
+ ?
+Message-ID: <Y+6hSuRzaaHj83S9@pendragon.ideasonboard.com>
+References: <5309d845-063b-6dd9-529d-0f82654290f2@redhat.com>
+ <Y+5CMkwHy9tuk6G2@pendragon.ideasonboard.com>
+ <c3dc3173-9bbd-c48a-80a7-ec6a86b6e360@redhat.com>
 MIME-Version: 1.0
-References: <20230215214724.3798917-1-linux@roeck-us.net>
-In-Reply-To: <20230215214724.3798917-1-linux@roeck-us.net>
-From:   Joe Tessler <jrt@google.com>
-Date:   Thu, 16 Feb 2023 12:22:21 -0500
-Message-ID: <CAJPkMDTDU-UK35hrx4=c26VmBVSuZO6usr9Omiq2dtyTjHsZLg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: cec: i2c: ch7322: Drop of_match_ptr
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Joshua Pius <joshuapius@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c3dc3173-9bbd-c48a-80a7-ec6a86b6e360@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Guenter,
+Hi Hans,
 
-Thank you for this fix.
+On Thu, Feb 16, 2023 at 04:47:51PM +0100, Hans de Goede wrote:
+> On 2/16/23 15:48, Laurent Pinchart wrote:
+> > On Thu, Feb 16, 2023 at 03:20:08PM +0100, Hans de Goede wrote:
+> >> Hi All,
+> >>
+> >> I have been looking into moving the sensor registration for atomisp2
+> >> over to v4l2-aysnc similar to how
+> >> drivers/media/pci/intel/ipu3/cio2-bridge.c does things.
+> >>
+> >> Together with some other smaller changes this should allow the atomisp
+> >> code use standard sensor drivers instead of having their own fork of
+> >> these drivers.
+> >>
+> >> While looking into this I realized that the current architecture of
+> >> the atomisp2 code where it registers 8 /dev/video# nodes + many
+> >> v4l2-subdevs is getting in the way of doing this.  At a minimum the
+> >> current convoluted media-ctl graph makes it harder then necessary to
+> >> make this change.
+> >>
+> >> So this makes me realize that it probably is time to make some changes
+> >> to the atomisp-code to remove a bunch of somewhat obscure (and
+> >> untested / unused) features. I have been thinking about removing these
+> >> for a long time already since they also get in the way of a bunch of
+> >> other things like allowing the /dev/video# nodes to be opened multiple
+> >> times.
+> >>
+> >> So my plan is to reduce the feature set to make atomisp work as more
+> >> or less a standard webcam (with front/back sensors) which is how most
+> >> hw is using it and also is how all our (my) current testing uses it.
+> >>
+> >> This means reducing the graph to a single /dev/video0 output node + 2
+> >> subdevs for the sensors I might put one more node in the graph for
+> >> selecting between the 3 CSI ports, or those could be 3 possible
+> >> sources for /dev/video0.
+> > 
+> > Could you briefly summarize the hardware architecture, and in particular
+> > what building blocks are present, and how they're connected ? That will
+> > help with the discussion.
+> 
+> I can try, but it is complicated. The atomisp appears to mainly be
+> some coprocessor thing (with I guess some hw-accel blocks on the side)
+> the way it works from the driver's pov is that the firmware file really
+> contains a a whole bunch of different binaries to run on the co-processor,
+> with a table describing the binaries including supported input and
+> output formats.
+> 
+> Each binary represents a complete camera pipeline, going from
+> directly reading from the CSI receiver on one end to DMA-ing
+> the fully finished ready to consume buffers in the requested
+> destination fmt on the other end. The driver picks a binary
+> based on the requested input + output formats and then uploads
+> + starts that.
+> 
+> So basically it is one big black box, where we hookup a
+> sensor on one side and then on the other end say give my YUYV
+> or YU12, or ...   There are of course a whole bunch of
+> processing parameters we can set like lens shading correction
+> tables (format unknown), etc. But basically it is still
+> just a black box.
+> 
+> So from a mediactl pov as I see it the whole thing is a single
+> node in the graph.
 
-On Wed, Feb 15, 2023 at 4:47 PM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> The driver does not instantiate on ACPI based systems if OF is disabled.
-> Fix the problem by dropping of_match_ptr.
->
-> Cc: Joshua Pius <joshuapius@google.com>
-> Tested-by: Joshua Pius <joshuapius@google.com>
-> Fixes: 21b9a47e0ec7 ("media: cec: i2c: ch7322: Add ch7322 CEC controller driver")
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Do you mean a single entity for the ISP ? I'd go for
 
-Reviewed-by: Joe Tessler <jrt@google.com>
+sensor subdev -> CSI-2 RX subdev -> ISP subdev -> video device
 
-> ---
-> v2: Added Joshua's Tested-by: tag
->
->  drivers/media/cec/i2c/ch7322.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
-> index 34fad7123704..3c6e6496a001 100644
-> --- a/drivers/media/cec/i2c/ch7322.c
-> +++ b/drivers/media/cec/i2c/ch7322.c
-> @@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
->  static struct i2c_driver ch7322_i2c_driver = {
->         .driver = {
->                 .name = "ch7322",
-> -               .of_match_table = of_match_ptr(ch7322_of_match),
-> +               .of_match_table = ch7322_of_match,
->         },
->         .probe_new      = ch7322_probe,
->         .remove         = ch7322_remove,
-> --
-> 2.39.1
->
+Is that what you meant ?
 
-Joe
+> >> So back to $subject, this means removing a bunch of stuff which
+> >> atomisp at point supported (but we don't know if it currently even
+> >> works). Before I start deleting all this code I wanted to give people
+> >> a chance to protest here :)
+> >>
+> >> So here we go the removal list:
+> >>
+> >> 1. Remove support for depth mode. This is a special mode where 2
+> >> streams (from 2 different sensors) can be setup and then
+> >> starting/stopping 1 will automatically also start/stop the other.
+> >> Like many of these special features I'm pretty sure that if the queue
+> >> setup is not done exactly right things will crash and burn, there is
+> >> no error checking for this.
+> >>
+> >> This seems to be for stereoscopic vision and the only hw I know of
+> >> which actually supports this is the Intel Aero board/SDK, all other
+> >> 1000+ byt/cht models don't need this.
+> >>
+> >> This definitely falls outside of the webcam use scenario and this
+> >> involves a bunch of hacks / special exceptions all over the code, so
+> >> lets remove this.
+> > 
+> > Is this implemented purely in software in the driver, or does the
+> > hardware/firmware also play a role there ? If it's a pure software
+> > implementation, sure, ditch it. If the hardware plays a role, I'd like
+> > to better understand what role it plays.
+> 
+> AFAICT there is no hw involved. To do this 2 separate binaries are
+> started on the co-proc an there seems to be be no real synchronisation
+> between the 2. So this seems to be purely a sw hack to start
+> the 2 streams more or less at once (do the 2 starts immediately
+> one after the other without leaving the kernel).
+
+OK, let's drop that.
+
+> >> 2. Remove support for 2 streams at the same time, in theory the
+> >> atomisp supports streaming from 2 sensors at the same time outputting
+> >> something to 2 different /dev/video nodes. Downsides:
+> > 
+> > Here too I'd like to better understand how this is implemented.
+> 
+> See above, I guess in theory with low enough resolutions even
+> doing 3 streams at the same time by starting 3 binaries on
+> the co-processor at the same time is possible.
+>
+> >> a. The atomisp is not really powerful enough for this. The DVFS code
+> >> has a special "go all out" mode for this to try and keep up.
+> >>
+> >> b. The BYT/CHT CPU also is not really powerful enough to do something
+> >> useful with 2 streams
+> > 
+> > That depends on the resolution, and what those two streams are used for.
+> > One could be displayed with zero-copy, making it essentially free from a
+> > CPU point of view.
+> 
+> True, but this hw is already approaching a point where it is
+> too slow for most modern sw. So I would really like to focus
+> on making the single stream case work well.
+
+OK.
+
+> >> c. The code is full of ugly special casing for this where certain
+> >> cleanup on stream-stop needs to be skipped if the other stream is
+> >> still active since some bits are shared.
+> >>
+> >> d. This is not something which I see a lot of users actually using.
+> >>
+> >> So lets remove this.
+> >>
+> >>
+> >> 3. Remove having 4 separate video node (per stream, so 8 in total
+> >> until 2. is done/removed).
+> >>
+> >> The atomisp has 4 different modes / firmware-pipes it can setup:
+> >>
+> >> i.   Still camera preview aka viewfinder
+> >> ii.  Still camera capture aka capture
+> >> iii. Video preview aka preview
+> >> iv.  Video capture mode aka capture
+> >>
+> >> Downsides:
+> >>
+> >> a) This feels more like it should be some mode set on a single
+> >> /dev/video# node rather then having separate nodes for this
+> > 
+> > If they're mutually exclusive, I agree.
+> 
+> Generally speaking they are mutually exclusive, but there
+> are some hacks where if certain preconditions are met
+> (which are not checked and which are essentially unkown
+> to us) one should be able to do some still camera mode
+> captures at the same time as running the viewfinder.
+> 
+> I have not looked in detail yet how this hack works.
+> 
+> I would guess it would involve running 2 binaries, maybe
+> prepping 2 binaries and then stopping the viewfinder one
+> briefly, since I don't think 2 binaries can share the
+> CSI connection.
+> 
+> >> b) Only one mode and thus node can be active at the same time. The one
+> >> exception being a special mode where viewfinder + capture buffers can
+> >> be queued at the same time and then a trigger can be send to capture a
+> >> string of frames in capture mode while the viewfinder also keeps
+> >> streaming.
+> >>
+> >> In all other cases calling stream-on on multiple nodes is not
+> >> supported, but this is currently not enforced and trying to stream on
+> >> multiple nodes likely just goes boom
+> >>
+> >> c) it seems many of the modes have special pre-requisites, like
+> >> capture mode seems to only work if already streaming in viewfinder
+> >> mode.
+> >>
+> >> d) we only ever have gotten video-preview mode to actually work,
+> >> everything else is pretty much dead weight at this point
+> >>
+> >> e) there is all kind of ugly reference counting .  exceptions to e.g.
+> >> not turn off the sensor on stream-off if another /dev/video# node
+> >> which is part of the same "stream" (in the sense of the 2 supported
+> >> streams at once) is still active.
+> >>
+> >> f) the special ref-counting/exceptions are getting in the way of
+> >> allowing multiple opens of the /dev/video# node and generally get in
+> >> the way of using standard v4l2-core helpers for file open/close
+> >> handling.
+> >>
+> >> g) having 8 / 4 /dev/video nodes confuses userspace
+> >>
+> >> Thus from my pov ideally this should all go away too.
+> >>
+> >>
+> >> So any objections or shall I start working on removing all this so
+> >> that we end up with a much simpler driver?
+> > 
+> > I'll tell you once I get a better understanding of the hardware ;-)
+
+-- 
+Regards,
+
+Laurent Pinchart
