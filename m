@@ -2,230 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43CCE699715
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 15:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E156D69972A
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 15:22:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbjBPOVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 09:21:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58096 "EHLO
+        id S229706AbjBPOWQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 09:22:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjBPOVG (ORCPT
+        with ESMTP id S230096AbjBPOWO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 09:21:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292FD4A1D6
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676557212;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=hWnPZhOmtQ1OI3vBrQnoq9dkQN+RdX2+yUZisf6ZsT8=;
-        b=RkdVdmgcLgMGv2uBAHOuJZaUTXgej5YCMlGVzL0GmYZuQb8qWy2Mh4LP9C4b92vjqbLwe3
-        yBCwr01HQ6WiYOyKNuAh5EDsZyadUazhrwdiruNKwhX1R8pDiKtu33VCVQEWws2zxDgSa6
-        EVO4yYCC/W6fUc0Txr6H7TDB+ksY7oo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-AWOpoA1sPLije6NIZezVoA-1; Thu, 16 Feb 2023 09:20:11 -0500
-X-MC-Unique: AWOpoA1sPLije6NIZezVoA-1
-Received: by mail-ed1-f70.google.com with SMTP id eo7-20020a056402530700b004aab4319cedso1741849edb.2
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:20:11 -0800 (PST)
+        Thu, 16 Feb 2023 09:22:14 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A80814DBC3
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:22:10 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id t16so3349954edd.10
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 06:22:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FFSICMNCf+cnC1kdKQE45X4ohBcHV/EILTtWgDyR10c=;
+        b=q2Myj/NDoO39115jNuPbOnkUiu1Rxdj1nP6VhsWdKZVZ0eWx8nDhMlE/kR/H4Dpb7d
+         UDGNUq+PTVWqhRC26OBOirOoT8VgwhQ98xJlHoP1fwxvWEAGrbq9X9NVy7UM8z7L2KLW
+         MBE0R4IqEuFH/HUMI2D+kvstZQTtFyIPCRR60jITUSOgaC1MO4SFqla0rfabNZO8BZ0v
+         bsLgwWUaF4rFpBrqMtN0n8qhOsGAeVdFVIGB4CZwmSqOJo58tqa8Ub3yZEf6/P7BibyU
+         kcCWIuxJQxJRuXuXnORK5XOjQQCFvGcYIAnr/YCkiyCbNKAWeq3mc4d1bVT+XfJMACwm
+         gnzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hWnPZhOmtQ1OI3vBrQnoq9dkQN+RdX2+yUZisf6ZsT8=;
-        b=s9FQX7y5egeXLf7VgMODbVRuX8PaStNKp9dR4+siAorHWOcmLu5vQVFNP5xE/j0+vj
-         BIPGqQ7IWa9oA/oVFdMNpz+0V6g/qH+fdeT+2PsPkOd+4lK3FhryOQ+0Ia9kVvIDgzQ5
-         3A/EZAilaeiK0NTuiPT3jfzMp/pGG/H6Ij6u1pYCck1XGAQ1+3cDGFTq+exHYzJo4oPW
-         JvTK9Kol4LghqWzGkRfwiQNiuOajiLVbKxZ2M+yZTcBZM6LJ/R/cpSvBgpmwdC9hkBgL
-         ZWNPXBc8k6rXGbxIxn1dJdG3xKL9f+kzxvmwxQIWZIMrSjU/omd3EmMhHF54qZx2HXFP
-         C7gg==
-X-Gm-Message-State: AO0yUKV/5acmaYAxIMWVz5K8/ghcP5vEX1C+QnUbjpGWTOVZaBQR7xYK
-        nFFZa/cBy9vysZt5FDqaBTxh91kP8++Y7M5tnTOP1pasfkTqMCDevCuZ4kMmN92aWIX3r9z72G3
-        XirFNd1yzPyT/Em9NJXsXva+a38iT
-X-Received: by 2002:a17:907:c18:b0:8b1:7b12:2914 with SMTP id ga24-20020a1709070c1800b008b17b122914mr178721ejc.35.1676557209686;
-        Thu, 16 Feb 2023 06:20:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set8VGJnPag35KJ3Lkq4L2z9lziM7G3BAKEExGqdhibFaMft+OTTFbcUSNUOcEFAo4v2srZJTuw==
-X-Received: by 2002:a17:907:c18:b0:8b1:7b12:2914 with SMTP id ga24-20020a1709070c1800b008b17b122914mr178693ejc.35.1676557209407;
-        Thu, 16 Feb 2023 06:20:09 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id dk14-20020a170906f0ce00b0087bd2924e74sm849043ejb.205.2023.02.16.06.20.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Feb 2023 06:20:08 -0800 (PST)
-Message-ID: <5309d845-063b-6dd9-529d-0f82654290f2@redhat.com>
-Date:   Thu, 16 Feb 2023 15:20:08 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FFSICMNCf+cnC1kdKQE45X4ohBcHV/EILTtWgDyR10c=;
+        b=AXzyEoWe0K1P9XI6YmsbMBLAg0RdeNYLeTSXHGzL6QWnwm1Z/F0ftWdCcR6Bw9QuK2
+         oyLuhnFRzWGYhoXZTLPtfTcobsJ7Jk5IkAppqwh67s1l5uGsMpYuf2TFX529NEVb/YFE
+         gZiE1IXN0nk8sbobU16DJlRh/ZwjjNIO0C53VMohFpHRT1mojmWxFpQUS6p58se91QC9
+         EUspGeLMN+H3VRQRtdJifnhtXs2DixD/frI5RzR4DUrSRSyH251U//THh1i6sMBceHQ8
+         VGXYYU6UCKZP3rlv/q10AZ1FARDkLc6o3REuTB8Qcd54zAi9QcxC9IRcird9bwH3lNkH
+         mKRg==
+X-Gm-Message-State: AO0yUKUiAxWTjI5b1fbFZr7fEieSRxwgYsCvgWQl3yBwWC4bV/fP+6S3
+        nEhk2fw3B6xAMUxsa2M90DSr8g==
+X-Google-Smtp-Source: AK7set+f/ZU/TyqK7kdIJ1GAMD4yEvJQNNz87t3Fj795iqRUsFImuZJRGgbzRu+OgVpXXaTn86EWzQ==
+X-Received: by 2002:a17:907:a42a:b0:8b1:730b:a296 with SMTP id sg42-20020a170907a42a00b008b1730ba296mr1503971ejc.15.1676557328883;
+        Thu, 16 Feb 2023 06:22:08 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id ad24-20020a170907259800b0087bdac06a3bsm884757ejc.2.2023.02.16.06.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 06:22:08 -0800 (PST)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 0/7] media: dt-bindings: Convert Samsung SoC Camera to DT schema
+Date:   Thu, 16 Feb 2023 15:21:57 +0100
+Message-Id: <20230216142204.48394-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Content-Language: en-US, nl
-To:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Dan Scally <djrscally@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: RFC: removing various special/obscure features from atomisp code ?
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+Hi,
 
-I have been looking into moving the sensor registration for
-atomisp2 over to v4l2-aysnc similar to how
-drivers/media/pci/intel/ipu3/cio2-bridge.c does things.
+The patchset depends on:
+https://lore.kernel.org/all/20230207205834.673163-1-krzysztof.kozlowski@linaro.org/
 
-Together with some other smaller changes this should
-allow the atomisp code use standard sensor drivers
-instead of having their own fork of these drivers.
+Changes since v2
+================
+1. Move size-cells next to address-cells.
+2. Drop dead/debug code.
+3. Add Rb tags.
 
-While looking into this I realized that the current
-architecture of the atomisp2 code where it
-registers 8 /dev/video# nodes + many v4l2-subdevs
-is getting in the way of doing this.  At a minimum
-the current convoluted media-ctl graph makes it
-harder then necessary to make this change.
+Changes since v1
+================
+1. Collect few independent patches into one patchset.
 
-So this makes me realize that it probably is time to
-make some changes to the atomisp-code to remove
-a bunch of somewhat obscure (and untested / unused)
-features. I have been thinking about removing these
-for a long time already since they also get in the
-way of a bunch of other things like allowing the
-/dev/video# nodes to be opened multiple times.
+Best regards,
+Krzysztof
 
-So my plan is to reduce the feature set to make
-atomisp work as more or less a standard webcam
-(with front/back sensors) which is how most hw
-is using it and also is how all our (my) current
-testing uses it.
+Krzysztof Kozlowski (7):
+  media: dt-bindings: i2c: samsung,s5k6a3: convert to dtschema
+  media: dt-bindings: i2c: samsung,s5k5baf: convert to dtschema
+  media: dt-bindings: samsung,exynos4210-csis: convert to dtschema
+  media: dt-bindings: samsung,exynos4212-fimc-lite: convert to dtschema
+  media: dt-bindings: samsung,exynos4212-is: convert to dtschema
+  media: dt-bindings: samsung,fimc: convert to dtschema
+  media: dt-bindings: samsung,s5c73m3: convert to dtschema
 
-This means reducing the graph to a single
-/dev/video0 output node + 2 subdevs for the sensors
-I might put one more node in the graph for selecting
-between the 3 CSI ports, or those could be 3 possible
-sources for /dev/video0.
+ .../bindings/media/exynos-fimc-lite.txt       |  16 -
+ .../bindings/media/exynos4-fimc-is.txt        |  50 ----
+ .../bindings/media/i2c/samsung,s5k5baf.yaml   | 101 +++++++
+ .../bindings/media/i2c/samsung,s5k6a3.yaml    |  98 ++++++
+ .../media/samsung,exynos4210-csis.yaml        | 170 +++++++++++
+ .../media/samsung,exynos4210-fimc.yaml        | 152 ++++++++++
+ .../media/samsung,exynos4212-fimc-is.yaml     | 220 ++++++++++++++
+ .../media/samsung,exynos4212-fimc-lite.yaml   |  63 ++++
+ .../bindings/media/samsung,fimc.yaml          | 279 ++++++++++++++++++
+ .../bindings/media/samsung,s5c73m3.yaml       | 165 +++++++++++
+ .../bindings/media/samsung-fimc.txt           | 210 -------------
+ .../bindings/media/samsung-mipi-csis.txt      |  81 -----
+ .../bindings/media/samsung-s5c73m3.txt        |  97 ------
+ .../bindings/media/samsung-s5k5baf.txt        |  58 ----
+ .../bindings/media/samsung-s5k6a3.txt         |  33 ---
+ MAINTAINERS                                   |   6 +
+ 16 files changed, 1254 insertions(+), 545 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/exynos-fimc-lite.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/exynos4-fimc-is.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k5baf.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k6a3.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-lite.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,fimc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-fimc.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-mipi-csis.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5c73m3.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5k5baf.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5k6a3.txt
 
-So back to $subject, this means removing a bunch
-of stuff which atomisp at point supported (but we don't
-know if it currently even works). Before I start
-deleting all this code I wanted to give people
-a chance to protest here :)
-
-So here we go the removal list:
-
-1. Remove support for depth mode. This is a special
-mode where 2 streams (from 2 different sensors) can
-be setup and then starting/stopping 1 will automatically
-also start/stop the other.  Like many of these special
-features I'm pretty sure that if the queue setup is
-not done exactly right things will crash and burn,
-there is no error checking for this.
-
-This seems to be for stereoscopic vision and the only
-hw I know of which actually supports this is
-the Intel Aero board/SDK, all other 1000+ byt/cht
-models don't need this.
-
-This definitely falls outside of the webcam use
-scenario and this involves a bunch of hacks / special
-exceptions all over the code, so lets remove this.
-
-
-2. Remove support for 2 streams at the same time,
-in theory the atomisp supports streaming from 2
-sensors at the same time outputting something
-to 2 different /dev/video nodes. Downsides:
-
-a. The atomisp is not really powerful enough
-for this. The DVFS code has a special "go all out"
-mode for this to try and keep up.
-
-b. The BYT/CHT CPU also is not really powerful enough
-to do something useful with 2 streams
-
-c. The code is full of ugly special casing for
-this where certain cleanup on stream-stop needs
-to be skipped if the other stream is still active
-since some bits are shared.
-
-d. This is not something which I see a lot of users
-actually using.
-
-So lets remove this.
-
-
-3. Remove having 4 separate video node (per stream,
-so 8 in total until 2. is done/removed).
-
-The atomisp has 4 different modes / firmware-pipes
-it can setup:
-
-i.   Still camera preview aka viewfinder
-ii.  Still camera capture aka capture
-iii. Video preview aka preview
-iv.  Video capture mode aka capture
-
-Downsides:
-
-a) This feels more like it should be some mode set
-on a single /dev/video# node rather then having
-separate nodes for this
-
-b) Only one mode and thus node can be active at
-the same time. The one exception being a special
-mode where viewfinder + capture buffers can
-be queued at the same time and then a trigger
-can be send to capture a string of frames in
-capture mode while the viewfinder also keeps streaming.
-
-In all other cases calling stream-on on multiple
-nodes is not supported, but this is currently
-not enforced and trying to stream on multiple
-nodes likely just goes boom
-
-c) it seems many of the modes have special
-pre-requisites, like capture mode seems to
-only work if already streaming in viewfinder
-mode.
-
-d) we only ever have gotten video-preview mode
-to actually work, everything else is pretty
-much dead weight at this point
-
-e) there is all kind of ugly reference counting .
-exceptions to e.g. not turn off the sensor on stream-off
-if another /dev/video# node which is part of
-the same "stream" (in the sense of the 2 supported
-streams at once) is still active.
-
-f) the special ref-counting/exceptions are getting
-in the way of allowing multiple opens of the /dev/video#
-node and generally get in the way of using standard
-v4l2-core helpers for file open/close handling.
-
-g) having 8 / 4 /dev/video nodes confuses userspace
-
-Thus from my pov ideally this should all go away too.
-
-
-So any objections or shall I start working on removing
-all this so that we end up with a much simpler driver?
-
-Regards,
-
-Hans
-
-
+-- 
+2.34.1
 
