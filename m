@@ -2,157 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BA89699043
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 10:43:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B0F76990CC
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 11:12:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbjBPJnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 04:43:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55926 "EHLO
+        id S229740AbjBPKM4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 05:12:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230086AbjBPJmn (ORCPT
+        with ESMTP id S229666AbjBPKMy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 04:42:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE26A448E;
-        Thu, 16 Feb 2023 01:42:28 -0800 (PST)
-Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30DAC10B;
-        Thu, 16 Feb 2023 10:42:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676540547;
-        bh=eKxWdPFgEOGh5kPG01BBdnGLaOxx/dIjFRiz8NUtThE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=EZKUwgJaw6MsJ8mB4OSaTsIzaRT8Pz9ebI9oNVmCOTW9XXe0QlhOPGb6baqx2gqH7
-         fLTvA9M4HEUO8oMnuaDp9MIwPLkK7YYzKVT97n1XaWj47DKVT/CUYtRCeQ4FtYPGS3
-         ALgBS+n1YdvqJz0MLdJIFbgkePSVYKacTz8yqOro=
-From:   Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH] media: renesas: vsp1: Align VSPD startup to HW manual
-Date:   Thu, 16 Feb 2023 11:42:05 +0200
-Message-Id: <20230216094205.151375-1-tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 16 Feb 2023 05:12:54 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE5B4DE1A
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 02:12:40 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id f21so3872463ejq.8
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 02:12:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HtoS5Fc6kievsx7bkF2ANsfXMDRCk+9jlUcWB2a1kVs=;
+        b=MUX74fM+IUHv+p/En8Yx6YhlFnIv6hh8V9CUrNCxRSYE7l4PjbApUlcA6ub94vtGVf
+         QvphSRTONfgz3x2IbC6Zfjt4xEhMN24MNXBQp+Q2rHiQWIM+mslW0QOehyLiqeSOr7ug
+         skGENiBlQm+XFiJXDuHvtNfLxW7kHUOLh62ITu+SCn2eZ2WjtphbfHiuYFhA+9jSFqFU
+         kAxmI8DirqgfGDul2Cd1zPdLhuYNX44/Fp4XhQW7ZoPSnfKehDxs1AX9HIiZfddoeeHJ
+         yUuvEau0BAoLfQN4YeKCX6lBSg4heK4AGah1njTUCw/S5fFfBI0+2RrZds6SzvgB/B+A
+         sxXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HtoS5Fc6kievsx7bkF2ANsfXMDRCk+9jlUcWB2a1kVs=;
+        b=MOXnGdY48UIuTBgk2yhFs3gGlHSVOJrcHhxipS8AsBOt6MN5vJLnEhPWBqgQibua/K
+         lf0air1mO6OGxAFau683vZWtNG4V3MBhGGUI9WyZ3+BzHkRJeNt1mUof2qcY279HV0hk
+         2EuCtGtZpm3gyGzJGrIqKz18PsQVWrAViy8tXay4J3eUztHhNKHIbftGRMOO6+DLTVks
+         o/R1VKTeUjrBPZWA55htY1aT9NwiszUBhAMj6hhQVMFscIna6QhFbqZzDzTisN77+x/I
+         ds9SfssyAL1gCkxQoztdIQDUEQuGuScc7dPzcgUMLTXZAUa70Hqfyl9+IBnSrb9LC2BQ
+         nwZA==
+X-Gm-Message-State: AO0yUKUqQiNhZ/bXYtwPFwui1jbgbY9WBUD7um7DJG6SfxAkHdOgWn2k
+        8dyE8sDbVjHwtCcVTGTvq5xTHQ==
+X-Google-Smtp-Source: AK7set9kEv33IzlcpbMW6jNn8Fo9bLHGXIfOLqekrMZyoJvtmhsq1EtAcSC3UaXikWeXB/MULq0fkQ==
+X-Received: by 2002:a17:907:96a0:b0:8af:4418:8700 with SMTP id hd32-20020a17090796a000b008af44188700mr7029881ejc.47.1676542359481;
+        Thu, 16 Feb 2023 02:12:39 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id p9-20020a17090653c900b008b13039003csm609343ejo.166.2023.02.16.02.12.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Feb 2023 02:12:38 -0800 (PST)
+Message-ID: <35ce2119-f33d-31cb-7c93-e68642828dfe@linaro.org>
+Date:   Thu, 16 Feb 2023 11:12:35 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] dt-bindings: media: meson-ir: Convert Amlogic Meson IR
+ controller binding
+Content-Language: en-US
+To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc:     linux-media@vger.kernel.org,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        neil.armstrong@linaro.org
+References: <a91e3a8e-7ef1-70bb-f6be-01a9a90c0e05@gmail.com>
+ <a0e11df2-576c-da61-a583-81528cb77d20@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <a0e11df2-576c-da61-a583-81528cb77d20@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On 13/02/2023 10:02, Neil Armstrong wrote:
+> Hi Heiner,
+> 
+> On 12/02/2023 17:51, Heiner Kallweit wrote:
+>> Convert Amlogic Meson IR controller binding to yaml.
+>>
+>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+>> ---
+>>   .../devicetree/bindings/media/meson-ir.txt    | 20 ---------
+>>   .../devicetree/bindings/media/meson-ir.yaml   | 45 +++++++++++++++++++
+>>   2 files changed, 45 insertions(+), 20 deletions(-)
+>>   delete mode 100644 Documentation/devicetree/bindings/media/meson-ir.txt
+>>   create mode 100644 Documentation/devicetree/bindings/media/meson-ir.yaml
+> 
+> I've already posted a patch for ir which is reviewed and ready to be merged :
+> https://lore.kernel.org/all/20221117-b4-amlogic-bindings-convert-v3-4-e28dd31e3bed@linaro.org/
 
-The hardware manual states that after setting VI6_CMD0.STRCMD to 1, we
-need to wait until VI6_DISP0_IRQ_STA.DST is set before proceeding. The
-driver is missing this wait.
+lore has useful keyword "dfn". Just put there "dfn:meson-ir.txt" before
+converting bindings and it can spare you some effort.
 
-Add the wait with readl_poll_timeout, because:
-1) The VI6_DISP0_IRQ_STA.DST bit is usually set more or less immediately
-   after setting the VI6_CMD0.STRCMD (i.e. the first test passes).
-2) While we have an interrupt handler, we never enable nor handle the
-   VI6_DISP0_IRQ interrupts.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- .../media/platform/renesas/vsp1/vsp1_drm.c    | 19 ++++++++++++++++++-
- .../media/platform/renesas/vsp1/vsp1_pipe.c   |  7 ++++++-
- .../media/platform/renesas/vsp1/vsp1_pipe.h   |  2 +-
- 3 files changed, 25 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-index 5da1bc991750..767ebab65114 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/device.h>
- #include <linux/dma-mapping.h>
-+#include <linux/iopoll.h>
- #include <linux/slab.h>
- 
- #include <media/media-entity.h>
-@@ -648,7 +649,9 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
- 	struct vsp1_pipeline *pipe;
- 	unsigned long flags;
- 	unsigned int i;
-+	bool started;
- 	int ret;
-+	u32 v;
- 
- 	if (pipe_index >= vsp1->info->lif_count)
- 		return -EINVAL;
-@@ -757,11 +760,25 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
- 	if (ret < 0)
- 		return ret;
- 
-+	/* Clear VI6_DISP_IRQ_STA_DST flag */
-+	v = vsp1_read(vsp1, VI6_DISP_IRQ_STA(pipe->output->entity.index));
-+	vsp1_write(vsp1, VI6_DISP_IRQ_STA(pipe->output->entity.index),
-+		   ~v & VI6_DISP_IRQ_STA_DST);
-+
- 	/* Start the pipeline. */
- 	spin_lock_irqsave(&pipe->irqlock, flags);
--	vsp1_pipeline_run(pipe);
-+	started = vsp1_pipeline_run(pipe);
- 	spin_unlock_irqrestore(&pipe->irqlock, flags);
- 
-+	if (started) {
-+		/* Wait for VI6_DISP_IRQ_STA_DST flag */
-+		ret = readl_poll_timeout(vsp1->mmio + VI6_DISP_IRQ_STA(pipe->output->entity.index),
-+			v, v & VI6_DISP_IRQ_STA_DST, 1,  100 * USEC_PER_MSEC);
-+		if (ret)
-+			dev_warn(vsp1->dev,
-+				 "Timeout waiting for VI6_DISP_IRQ_STA_DST\n");
-+	}
-+
- 	dev_dbg(vsp1->dev, "%s: pipeline enabled\n", __func__);
- 
- 	return 0;
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index f8093ba9539e..87f97d2d5773 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -302,17 +302,22 @@ void vsp1_pipeline_init(struct vsp1_pipeline *pipe)
- }
- 
- /* Must be called with the pipe irqlock held. */
--void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
-+bool vsp1_pipeline_run(struct vsp1_pipeline *pipe)
- {
- 	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
-+	bool started = false;
- 
- 	if (pipe->state == VSP1_PIPELINE_STOPPED) {
- 		vsp1_write(vsp1, VI6_CMD(pipe->output->entity.index),
- 			   VI6_CMD_STRCMD);
- 		pipe->state = VSP1_PIPELINE_RUNNING;
-+
-+		started = true;
- 	}
- 
- 	pipe->buffers_ready = 0;
-+
-+	return started;
- }
- 
- bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe)
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-index 674b5748d929..5a7b38efa67a 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-@@ -155,7 +155,7 @@ struct vsp1_pipeline {
- void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
- void vsp1_pipeline_init(struct vsp1_pipeline *pipe);
- 
--void vsp1_pipeline_run(struct vsp1_pipeline *pipe);
-+bool vsp1_pipeline_run(struct vsp1_pipeline *pipe);
- bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe);
- int vsp1_pipeline_stop(struct vsp1_pipeline *pipe);
- bool vsp1_pipeline_ready(struct vsp1_pipeline *pipe);
--- 
-2.34.1
+Best regards,
+Krzysztof
 
