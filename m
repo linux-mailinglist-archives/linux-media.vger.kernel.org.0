@@ -2,304 +2,290 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5618698E5D
-	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 09:12:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADC66698E76
+	for <lists+linux-media@lfdr.de>; Thu, 16 Feb 2023 09:18:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjBPIMb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 03:12:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40632 "EHLO
+        id S229692AbjBPIS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 03:18:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbjBPIMa (ORCPT
+        with ESMTP id S229651AbjBPISX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 03:12:30 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA31A2886B
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 00:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676535147; x=1708071147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kn4pQ/ejdnxRsjlPlpjHexpe3UP6IqASH2N2x1qRDvY=;
-  b=SVLNwoOp61XvVhEC36wa9C2nK0bVPJ/bkxdDFu6Okdg4OC8a9oHmpgMM
-   dt/INcdVcnwLRs+8dc0/bnj6guKDtqBbfEFvl0iNU28Baj91Sjif1sk9L
-   xh1HpbH/5l89/P6/UzLYVkfVt8xyiM6wuGrnGnPyHsyTijaLTle+G8TD2
-   m5axXDpOd9dtkmuC7cATGGrIPMTqhzZ0o22UO9XLTI0VUd1h9SvWCvhQU
-   YmEWjLp8nHe3fb3w6OJNke8hFrflxS6PnK3XS3VDECtqpPL6F10SJQQYW
-   T7pQ55SIOwSV0bz5X47+9B5kZNwGtfmcl+rlfjZI5J+KhYi9e0VEiEqs7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="333821734"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="333821734"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 00:12:26 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="672069170"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="672069170"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 00:12:24 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 40E7811FC11;
-        Thu, 16 Feb 2023 10:12:22 +0200 (EET)
-Date:   Thu, 16 Feb 2023 10:12:22 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        Thu, 16 Feb 2023 03:18:23 -0500
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2113.outbound.protection.outlook.com [40.107.249.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202AF2686E
+        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 00:18:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZZ2VzCF0EHzcOpniZsrCSmktONcBM8u/pCddNfZ5bpbYnVOXZFhaIjFvn6zGWfkeign1KTH6c6BtU9MlxWue5ev6AcmSB2ihehca25RErr5kQatP2siJbv2cN4rGdgbDi9gmi4RWAKFuJBFJj5j88wdoWcQo8Mnyv9A3M7PYAxCZI9GMHGjGdNi9lGeCPNDgr+IMkhQh8xul7b8f1VwYGkC1ChtEEHJlMQx0+Xh8t27GGiRWjPWp9q+9u2/dAUmobCf3opwVDLnVz5hVVH+dnlXxrODNzadbrilXPB48kAROcfE4YCvDp3ed1tzRSetSAefuziWczdgzDhxnQkxW0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kHYje7PMH+/cItLg5WygWHDFW6eWd0rPmwQwYVA+sMQ=;
+ b=ApectDQtRlXYbYxtda3jUE+D7GxvtsMUjdQjbED0I7MhcMAzPsFqXtwoGC0LquiISTAJMYpEDP62EWq921Jsvzruhzvkr4q8h4SFJbgyoykLW8U/lrXf1LIxitT1MP4Cd4G3J3lzqG9yXG41p0/13OZ/e/U4xqxfz8DPUDfNwwRdF5Fp5utAonudjjZ+1gs52qwU+SYBqbDgG/4zfd8GK22L9UAlBCDby8uH/YxODtkwbSjxx/DUQLFPJV969Qemb8e2QHGPdrjPOFPcBu/dFJHQS8pkUnmjLb33eiQRRdNjCrN7mfC1n8KBERQhtpbjCEReb1w5LKvkLX4ud05qXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com;
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kHYje7PMH+/cItLg5WygWHDFW6eWd0rPmwQwYVA+sMQ=;
+ b=ntuRptmZiD5dsM2KLw8x9B/hT0eAy02TudTemapLdekUMY+Zb45fark5mH+iFdM/gNqErNkqJAegzlCvr8lKFvuYUJ50e9hgHd68ucNdNPn35HBtyOfT1kI8Kla9zCvzkZIhBt9Bu5I/xUC8e6APKP6oNkfkProOXid61NpIWg8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by DU0PR10MB6728.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:400::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Thu, 16 Feb
+ 2023 08:18:17 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::59e9:ea90:b6ea:3863]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::59e9:ea90:b6ea:3863%4]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
+ 08:18:17 +0000
+Message-ID: <c841bb0e-2044-5a91-9e61-9f47063e002b@kontron.de>
+Date:   Thu, 16 Feb 2023 09:18:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: NULL pointer dereference in imx-mipi-csis driver when starting
+ stream
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, frieder.schrempf@kontron.de,
-        Tim Harvey <tharvey@gateworks.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [RFC 1/1] v4l: async: Add some debug prints
-Message-ID: <Y+3lZs3S1EhYuuHp@kekkonen.localdomain>
-References: <049f2fea-1725-74d9-d20d-fc4f7506d504@kontron.de>
- <20230209221634.35239-1-sakari.ailus@linux.intel.com>
- <Y+V02fe9lqVrt3lb@pendragon.ideasonboard.com>
- <Y+zJboHu13jqo+Mv@kekkonen.localdomain>
- <Y+0xGRgQdACCIqnL@pendragon.ideasonboard.com>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+References: <7658a15a-80c5-219f-2477-2a94ba6c6ba1@kontron.de>
+ <d2fc1a0d-d058-757e-f935-1b91cfd19749@kontron.de>
+ <Y+zKibHcez8or6nS@pendragon.ideasonboard.com>
+ <d797611e-8e07-402f-ec75-7a1eadbc2122@kontron.de>
+ <dfdd11f6-8692-1bec-2a7c-1d890039cfe7@kontron.de>
+ <edddba07-c5c3-bab4-ca0c-49e1a5dc1135@kontron.de>
+ <Y+0iMyLnHmqdDJOk@pendragon.ideasonboard.com>
+Content-Language: en-US
+From:   Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <Y+0iMyLnHmqdDJOk@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0021.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:15::7) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+0xGRgQdACCIqnL@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DU0PR10MB6728:EE_
+X-MS-Office365-Filtering-Correlation-Id: 360b7997-b5cc-4d2b-efda-08db0ff65b44
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 057b9/dC5zUU46a0hgfXABeIxiVOUmMQ8xi3eLELeL3YSscDPRvZusSdVRrCzuXkdTDAd7IV/oP9JkauAjzIn7RT0Rofu5X9Ye/iRK5TXbk+78xt416QEmoOt4XSYOeygUOEJYycdXDYy/RkJ90IVLoVeyiwHzjlEV53MbnwywRBXiCDlqeRRIXr/ZYQ4mXAAFa8O3QFSjlChqOqclrnWcT4srdy2zlva4dVNfvUXzH2DFWb9PRJckMavBqceBuvTJHzoiDFcVs7Pb6qpdq8qF2wp0y8Bcaz+faMH8u6NpPIypehhXOzdm2P/tVPzLDqHqAWHrSR8wByqvXbcEjeOkW7qPLZ0e4TcRDWFnaCaqSlaVYf5c0XNSyZHSGQYaa/bs6Lq8CMb1wtLiR8po/b7P2jkpM9YHL/piWf1E/Djs2EmD+AN3D5ZohfMRYQ/61TEhOlYLJBgri9Erusoe6X1tTr8z0N2nA8o+gihw8Un8+HnsMD1pRugCYjWh4+1xnzhG6xDKmp8gMc93QFTyRUopSuYZsN1761hZPY69yX7AIkHF+yhiec8/ExD3h3LIk3QdV8LLCoMJqUl9XRhgHRo0U2Zd2JRWz0p37+V6LJ6EvGD1KUZg5ZWNvlbnq7qwzKpR02f7ap2Gz90z6/+ofFeuCnxnz0frsEwXELZZJUrlGfco0AidyLwSHIf/gMAWLrpCzbULJY6mLdUiex5VY7sH9UQ4kzQmDcaeH7IlYxxIs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(366004)(346002)(376002)(136003)(451199018)(54906003)(316002)(53546011)(8936002)(6506007)(6512007)(186003)(86362001)(478600001)(6486002)(31696002)(2616005)(38100700002)(6666004)(45080400002)(83380400001)(44832011)(36756003)(5660300002)(2906002)(66476007)(66556008)(66946007)(8676002)(4326008)(41300700001)(6916009)(66899018)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHozVUp3Z3dtS1RpaGFKamxwRmIwRGp3WlRaN2phcmprNUtQNTVIZ3pjbzR4?=
+ =?utf-8?B?cFN2dHZwZUQ5c3FjRWluUGUvN3ZNUmtBdjRuLzVuUlRWaDJaeUdtWExtUUFu?=
+ =?utf-8?B?c3pBV0lxUXdoaVBLYlpCZTc0aWlYVHZKV0dhUGV1dDNRZ3c3eHpvRlBKYnp6?=
+ =?utf-8?B?VHB4K2ZXM0JDR2V5YTZtT0xIeHlKRmFHTzE5WWRzeG5GZ0ZkR3NTRDc2aEpp?=
+ =?utf-8?B?UlZuMjlZM2hXZXhxK0ZtcE9kbWJLMVZLK0NBRGVDcmQvd2xDVHZlTVhFWnpn?=
+ =?utf-8?B?QnlwRDcvZElqZ2hFSnRUaGN2bWl4cVloNlhIZUxIUDNVTnduL3FLZkNFUyty?=
+ =?utf-8?B?NDZ0ZzRFK3pVT3BNak5GaTM5V05ybDRKTHJTTTFLc0VOQmlwTlNiSm13U1h3?=
+ =?utf-8?B?c3BtejU5MW9JcXY5TFVuTW5DOEpDaU5Hc1V2ZDBRTW1MV1BkK1VRM1FFVzdy?=
+ =?utf-8?B?eXJUOURab1VqZmVmLzRoZC9XbHd6eDlDeG44Kzk0YVc5NFAyeU5pNHBQTytI?=
+ =?utf-8?B?SUpUMjFvWnZ1UkxDYUlVQmNSb3dpcGdGbW1UMEVHdDNpeGRNeVdWMTdadTNs?=
+ =?utf-8?B?RUJ4TmlSeGJINS9TM1IreUVSS09XdXcvaTkvRGJRK1kvUjlMM1FWak5IRlRq?=
+ =?utf-8?B?RklBeHd1S0VQNXB6ODZ6MUZ5bkVFc2ZNWWg3b0REUVpXWlhxTWk5WnhTUk4r?=
+ =?utf-8?B?V1dOZGphUlhkT28yMnZXWnVHSFBPVUVyS0hYK1RFMks0NVRydnkxNGY4RnZB?=
+ =?utf-8?B?S3VLSWN6eEFxRkRBZTVjMkR4Z0xRWENqZDFFejJ5RDJhc2RRRHZod0FlWUpu?=
+ =?utf-8?B?T0Q1L1YwUXZ5ckRUSDBEa0NpZVhEQmlYcGZsanlLZU1YOGRVNG1HcUR5cG95?=
+ =?utf-8?B?OUprTW82NG1yeVYxeW5mNU1GL1pjWXliS0s2dnYzbGxib1J3Ny81MjF4TUJv?=
+ =?utf-8?B?K0JUZWk0S0t3WVRCa21lZW9PaWN6UWVkM1hhVXF4TFlVSlZWc2ZNZEdBQ0Vr?=
+ =?utf-8?B?RENYTUYzendwbUIrbk1KYjdRaFNGVEdwUTJjUTF1RGcwYnVVa04wUmIxZGNQ?=
+ =?utf-8?B?UjFjUjFiUzRMdkozY2ZGQTJ5RFZFN05BR2RxeDJiMkdiR2Q3R0Jpd1B6RGFX?=
+ =?utf-8?B?SnBNbG9GNmNGR04xRnAzTGlkNytxK2lheVhRWThzWUwzeUk1TGoxVnlnbjVE?=
+ =?utf-8?B?NlQrbUVXNVJQcUc0WGt6dlh6b3R0d1NWdUNWUldZNmVPWkJBRXRXa1ZXOXdK?=
+ =?utf-8?B?RnRwaUU4ZFlkQ2E0U01yMWkrZ0JpcFhFUkZQQzltRFhWd0dOK3hnZFpVWXg0?=
+ =?utf-8?B?SVVncktZZXozQkFxUVoxdXJyM3VEeGI4MWY0UGpjVGdJWUhlSjZvd1Avb0hZ?=
+ =?utf-8?B?LzJoczFyQUFOOHJuM04zVGVzcXFHaTZ3a3ZhbkY3M0Q1cmpoWmlVbUwrdTNn?=
+ =?utf-8?B?VmhTbXk2Z253NzF0ei9EZ25oZ0xHbmttNkozN2Mwc05qSVpXd2dBdjFEYm9i?=
+ =?utf-8?B?WnVEaU5TM0NBMVVxWXJlNnVsZGtCMnd2MSt1Q09WSGhaM0dXRVVheTRoYWxB?=
+ =?utf-8?B?ZndUYSt1ZWg4b1VjWWFNOHJ2a1dqNlpiN0srWUU4dTNiL292b0wwZXRmYkxu?=
+ =?utf-8?B?RGJyWGFNajBwTXp3VjB2RDllT2FjVXlJaUEwZXRMMkE4b1dydGhZRWZseVVD?=
+ =?utf-8?B?YkRVWkQ4bUwwOHZYOTF1dDgxMTlTUTFZRGVGTFJXa0ZCS0J3dVp0UzMrVHht?=
+ =?utf-8?B?NnRXeTlIeHpER0ZxWFFLOXptc1YvMHl4RWdZOEo2dXZ6ajAyU0J1SlJ0dzBa?=
+ =?utf-8?B?MHgreWQ1VUxyd2NUS3dxekxwTHFhdFY4R3hpQXBnNkVTWEI3VWpGSUE1TjB2?=
+ =?utf-8?B?d080OWpVQlNObHNUWGJ1M2s4eVF3S1RHNEprNFZhSEszMzVEM2RRNzR6QVFJ?=
+ =?utf-8?B?d2hKaEFEaDY1SlpUN2FQK2pzQURGTGI3ZU9xaXMwMWx2T0NNZlFvQU9aMlpx?=
+ =?utf-8?B?V1FwVU5Ma0hkNkthVGhKTVo1dzJOb2ZGLzU0NmZ6a3JRczhsVWdRcXN0bjVZ?=
+ =?utf-8?B?Z3ZpNHFNdTdYc0h1MUlKb3R6OFl3a29CQThEUGJCL1RBNUFRSUYwcjllYXc1?=
+ =?utf-8?B?UmM2VXFrM2pMaVVhbkY0WU8rSG8xMEpuSU1rNEpUZThtcHRRMGJ6UkMwcHB0?=
+ =?utf-8?Q?bfbCnOrrgjcWDKUnYZGWY76IOVbvRjkYIgz8v7AqPRmL?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 360b7997-b5cc-4d2b-efda-08db0ff65b44
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 08:18:17.2703
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rD4ORWpV1CHNCO/IjDfVRiGeDCvr76tra7v6uHjRaLWASLv8ivTvdP29rE6wzpPTxlzfmyLJzaiQ/oUYsFXxdHcGmiIgWAytu4mLbCMuy2E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6728
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 15.02.23 19:19, Laurent Pinchart wrote:
+> On Wed, Feb 15, 2023 at 04:30:49PM +0100, Frieder Schrempf wrote:
+>> On 15.02.23 15:40, Frieder Schrempf wrote:
+>>> On 15.02.23 15:20, Frieder Schrempf wrote:
+>>>> Hi Laurent,
+>>>>
+>>>> On 15.02.23 13:05, Laurent Pinchart wrote:
+>>>>> On Wed, Feb 15, 2023 at 12:53:56PM +0100, Frieder Schrempf wrote:
+>>>>>> On 14.02.23 17:47, Frieder Schrempf wrote:
+>>>>>>> Hi everyone,
+>>>>>>>
+>>>>>>> after solving the previous devicetree and driver issues with the media
+>>>>>>> pipeline on i.MX8MM using a RPi v2.1 camera module (imx219) as sensor, I
+>>>>>>> now try to get an image from the sensor and run into the next problem.
+>>>>>>>
+>>>>>>> Below you can find the commands I use and the output I'm getting. Maybe
+>>>>>>> someone can see straight away what's wrong or at least can make a guess
+>>>>>>> before I start diving into the code. ;)
+>>>>>>>
+>>>>>>> By the way: This happens on v6.1.11 and 6.2-rc8.
+>>>>>>
+>>>>>> So it looks like there are several problems (again):
+>>>>>>
+>>>>>> First I missed to enable the link between the imx219 and the imx-mipi-csis:
+>>>>>>
+>>>>>> media-ctl -l "'imx219 1-0010':0 -> 'csis-32e30000.mipi-csi':0[1]"
+>>>>>>
+>>>>>> And the imx-mipi-csis driver is missing a check for the missing source
+>>>>>> link which caused the exception. I currently have this applied and will
+>>>>>> send this as formal patch later:
+>>>>>>
+>>>>>> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+>>>>>> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+>>>>>> @@ -596,6 +596,11 @@ static int mipi_csis_calculate_params(struct
+>>>>>> mipi_csis_device *csis,
+>>>>>>         s64 link_freq;
+>>>>>>         u32 lane_rate;
+>>>>>>
+>>>>>> +       if (!csis->src_sd) {
+>>>>>> +               dev_err(csis->dev, "Missing source link\n");
+>>>>>> +               return -EINVAL;
+>>>>>> +       }
+>>>>>> +
+>>>>>>         /* Calculate the line rate from the pixel rate. */
+>>>>>>         link_freq = v4l2_get_link_freq(csis->src_sd->ctrl_handler,
+>>>>>>                                        csis_fmt->width,
+>>>>>
+>>>>> The pipeline is not correctly configured, and that should have been
+>>>>> caught earlier as both pads are created with the
+>>>>> MEDIA_PAD_FL_MUST_CONNECT flag. The __media_pipeline_start() function
+>>>>> should have return an error. Could you try to check why that didn't
+>>>>> happen ?
+>>>>
+>>>> Thanks for the pointer. I looked at __media_pipeline_start() and to me
+>>>> it looks like there's something wrong. During validation of the links,
+>>>> there is no code to handle the case where all links are skipped before
+>>>> link_validate() is called on them. The loop is left with has_link = true
+>>>> and has_enabled_link = true and validation of the pipeline succeeds even
+>>>> though there is a missing link.
+>>>>
+>>>> Does this look like a valid fix to you:
+>>>>
+>>>> --- a/drivers/media/mc/mc-entity.c
+>>>> +++ b/drivers/media/mc/mc-entity.c
+>>>> @@ -744,6 +744,7 @@ __must_check int __media_pipeline_start(struct
+>>>> media_pad *pad,
+>>>>                 struct media_pad *pad = ppad->pad;
+>>>>                 struct media_entity *entity = pad->entity;
+>>>>                 bool has_enabled_link = false;
+>>>> +               bool has_valid_link = false;
+>>>>                 bool has_link = false;
+>>>>                 struct media_link *link;
+>>>>
+>>>> @@ -806,6 +807,15 @@ __must_check int __media_pipeline_start(struct
+>>>> media_pad *pad,
+>>>>                                 link->source->index,
+>>>>                                 link->sink->entity->name,
+>>>>                                 link->sink->index);
+>>>> +
+>>>> +                       has_valid_link = true;
+>>>> +                       break;
+>>>> +               }
+>>>> +
+>>>> +               if (!has_valid_link) {
+>>>> +                       dev_dbg(mdev->dev, "No valid link found");
+>>>> +                       ret = -ENOLINK;
+>>>> +                       goto error;
+>>>>                 }
+>>>>
+>>>>
+>>>
+>>> On second thought, I see that this is probably not a correct fix. But I
+>>> still think the current code has a flaw. Or maybe I'm missing something
+>>> important again. ;)
+>>
+>> Looks like the pipeline validation is only run for the pads of the links
+>> that are enabled. As the following output shows, the pad
+>> 'csis-32e30000.mipi-csi':0 is not part of the pipeline and the link
+>> 'csis-32e30000.mipi-csi':0 -> 'imx219 1-0010':0 is therefore not part of
+>> the validation in __media_pipeline_start().
+>>
+>> [   36.069274] imx7-csi 32e20000.csi: media pipeline populated, found pads:
+>> [   36.080901] imx7-csi 32e20000.csi: - 'csi capture':0
+>> [   36.085926] imx7-csi 32e20000.csi: - 'csi':1
+>> [   36.090222] imx7-csi 32e20000.csi: - 'csi':0
+>> [   36.094524] imx7-csi 32e20000.csi: - 'csis-32e30000.mipi-csi':1
+>>
+>> So the first time the disabled link is detected is in the driver in
+>> mipi_csis_calculate_params() which leads to the crash.
+> 
+> Of course ! That's what I was missing. Indeed, we have an issue there.
+> I'll try to cook up a patch.
 
-On Wed, Feb 15, 2023 at 09:23:05PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Wed, Feb 15, 2023 at 02:00:46PM +0200, Sakari Ailus wrote:
-> > On Fri, Feb 10, 2023 at 12:34:01AM +0200, Laurent Pinchart wrote:
-> > > Thank you for the patch.
-> > 
-> > Thanks for the review!
-> > 
-> > This was indeed hastily written, to help debugging a particular issue. But
-> > I hope it'll be useful for other purposes, too. V4L2 async is about to get
-> > more complicated soon.
-> 
-> Could it get simpler instead ? :-) Maybe one day v4l2-async may cross
-> the threshold of how much pain I can bear, and I'll rewrite it...
-
-I wish it could, but often supporting complex needs is complicated.
-"Simplicated" is not even a proper word after all. Let's see.
-
-> 
-> > > On Fri, Feb 10, 2023 at 12:16:34AM +0200, Sakari Ailus wrote:
-> > > > Just add some debug prints for V4L2 async sub-device matching process. These
-> > > > might come useful in figuring out why things don't work as expected.
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > > Frieder,
-> > > > 
-> > > > Can you try this? It prints what is being matched with what. Perhaps this
-> > > > could be merged in a bit more refined form if it proves useful.
-> > > > 
-> > > > Not tested in any way.
-> > > > 
-> > > >  drivers/media/v4l2-core/v4l2-async.c | 41 ++++++++++++++++++++++++----
-> > > >  1 file changed, 36 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > > index 2f1b718a9189..6c13a9488415 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > > @@ -86,13 +86,18 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  	bool sd_fwnode_is_ep;
-> > > >  	struct device *dev;
-> > > >  
-> > > > +	dev_dbg(sd->dev, "async fwnode match %pfw vs. %pfw\n", sd_fwnode,
-> > > > +		asd->match.fwnode);
-> > > 
-> > > Let's be more explicit:
-> > > 
-> > > 	dev_dbg(sd->dev, "async fwnode match: need %pfw, trying %pfw\n",
-> > > 		sd_fwnode, asd->match.fwnode);
-> > > 
-> > > (feel free to adjust, as long as we differentiate what we're looking for
-> > > from what we're testing)
-> > 
-> > Yes.
-> > 
-> > > > +
-> > > >  	/*
-> > > >  	 * Both the subdev and the async subdev can provide either an endpoint
-> > > >  	 * fwnode or a device fwnode. Start with the simple case of direct
-> > > >  	 * fwnode matching.
-> > > >  	 */
-> > > > -	if (sd_fwnode == asd->match.fwnode)
-> > > > +	if (sd_fwnode == asd->match.fwnode) {
-> > > > +		dev_dbg(sd->dev, "true\n");
-> > > 
-> > > 		dev_dbg(sd->dev, "direct match found\n");
-> > > 
-> > > >  		return true;
-> > > > +	}
-> > > >  
-> > > >  	/*
-> > > >  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> > > > @@ -105,8 +110,12 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
-> > > >  	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
-> > > >  
-> > > > -	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> > > > +	dev_dbg(sd->dev, "async fwnode match %pfw vs. %pfw\n", sd_fwnode,
-> > > > +		asd->match.fwnode);
-> > > 
-> > > You've already printed this above, no need to repeat it.
-> > > 
-> > > > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep) {
-> > > > +		dev_dbg(sd->dev, "unmatching node types (false)\n");
-> > > 
-> > > 		dev_dbg(sd->dev, "direct match not found\n");
-> > > 
-> > > >  		return false;
-> > > > +	}
-> > > >  
-> > > >  	/*
-> > > >  	 * The sd and asd fwnodes are of different types. Get the device fwnode
-> > > > @@ -120,10 +129,15 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  		other_fwnode = sd_fwnode;
-> > > >  	}
-> > > >  
-> > > > +	dev_dbg(sd->dev, "async fwnode (compat) match %pfw vs. %pfw\n",
-> > > > +		dev_fwnode, other_fwnode);
-> > > 
-> > > Same comment as above regarding "vs." not telling which is which.
-> > > 
-> > > > +
-> > > >  	fwnode_handle_put(dev_fwnode);
-> > > >  
-> > > > -	if (dev_fwnode != other_fwnode)
-> > > > +	if (dev_fwnode != other_fwnode) {
-> > > > +		dev_dbg(sd->dev, "false\n");
-> > > 
-> > > 		dev_dbg(sd->dev, "compat match not found\n");
-> > > 
-> > > >  		return false;
-> > > > +	}
-> > > >  
-> > > >  	/*
-> > > >  	 * We have a heterogeneous match. Retrieve the struct device of the side
-> > > > @@ -143,6 +157,8 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  			   dev->driver->name);
-> > > >  	}
-> > > >  
-> > > > +	dev_dbg(sd->dev, "true\n");
-> > > 
-> > > 	dev_dbg(sd->dev, "compat match found\n");
-> > > 
-> > > > +
-> > > >  	return true;
-> > > >  }
-> > > >  
-> > > > @@ -255,7 +271,10 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
-> > > >  			v4l2_async_find_subdev_notifier(sd);
-> > > >  
-> > > >  		if (subdev_notifier &&
-> > > > -		    !v4l2_async_nf_can_complete(subdev_notifier))
-> > > > +		    !v4l2_async_nf_can_complete(subdev_notifier)) {
-> > > > +			if (subdev_notifier->sd)
-> > > > +				deb_dbg(subdev_notifier->sd->dev,
-> > > > +					"cannot complete\n");
-> > > 
-> > > I'd add a reference to v4l2-async, either directly in the string, or
-> > > with a "%s: ", __func__ prefix. Otherwise the message will be easy to
-> > > miss. Same in other messages. Maybe a "v4l2-async: " prefix for all
-> > > debug messages ?
-> > 
-> > How about just "async: " for all of these? It's shorther, still unique, and
-> > these lines will be long.
-> 
-> "async" is a bit vague, I think you should mention V4L2 too. If this
-> ends up printing
-> 
-> 3-0010 async: cannot complete
-> 
-> someone may wonder what it relates to. We're talking about debugging
-> messages here, let's make sure they improve debugging as much as
-> possible.
-
-These messages include the device name which already implies what it is
-about, so I'm frankly not concerned about this. Also these messages tend to
-occur in series. Having them shorter, instead, is a small plus. An example:
-
-[    5.716093] dw9807 i2c-PRP0001:01: async: matching for notifier \_SB.PCI0.CIO2, sd \_SB.PCI0.I2C2.VCM0
-[    5.716109] dw9807 i2c-PRP0001:01: async: fwnode match: need \_SB.PCI0.I2C2.VCM0, trying \_SB_.PCI0.I2C2.CAM0/port@0/endpoint@0
-[    5.716123] dw9807 i2c-PRP0001:01: async: fwnode compat match, need \_SB_.PCI0.I2C2.CAM0, trying \_SB.PCI0.I2C2.VCM0
-[    5.716131] dw9807 i2c-PRP0001:01: async: compat match not found
-[   30.333138] imx258 i2c-SONY258A:00: async: matching for notifier \_SB.PCI0.CIO2, sd \_SB.PCI0.I2C2.CAM0
-[   30.333154] imx258 i2c-SONY258A:00: async: fwnode match: need \_SB.PCI0.I2C2.CAM0, trying \_SB_.PCI0.I2C2.CAM0/port@0/endpoint@0
-[   30.333168] imx258 i2c-SONY258A:00: async: fwnode compat match, need \_SB_.PCI0.I2C2.CAM0, trying \_SB.PCI0.I2C2.CAM0
-[   30.333175] imx258 i2c-SONY258A:00: async: compat match not found
-[   30.333178] imx258 i2c-SONY258A:00: async: trying secondary fwnode match
-[   30.333181] imx258 i2c-SONY258A:00: async: fwnode match: need \_SB_.PCI0.I2C2.CAM0, trying \_SB_.PCI0.I2C2.CAM0/port@0/endpoint@0
-[   30.333189] imx258 i2c-SONY258A:00: async: fwnode compat match, need \_SB_.PCI0.I2C2.CAM0, trying \_SB_.PCI0.I2C2.CAM0
-[   30.333196] imx258 i2c-SONY258A:00: async: compat match found
-[   30.333214] dw9807 i2c-PRP0001:01: async: matching for notifier \_SB.PCI0.I2C2.CAM0, sd \_SB.PCI0.I2C2.VCM0
-[   30.333225] dw9807 i2c-PRP0001:01: async: fwnode match: need \_SB.PCI0.I2C2.VCM0, trying \_SB.PCI0.I2C2.VCM0
-[   30.333235] dw9807 i2c-PRP0001:01: async: direct match found
-[   30.333248] dw9807 i2c-PRP0001:01: async: bound to i2c-SONY258A:00's notifier (ret 0)
-[   30.333252] ipu3-cio2 0000:00:14.3: async: complete
+Great! Thanks!
 
 > 
-> > > >  			return false;
-> > > >  	}
-> > > >  
-> > > > @@ -273,18 +292,27 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
-> > > >  	if (!list_empty(&notifier->waiting))
-> > > >  		return 0;
-> > > >  
-> > > > +	if (notifier->sd)
-> > > > +		deb_dbg(notifier->sd->dev, "trying to complete\n");
-> > > > +
-> > > >  	/* Check the entire notifier tree; find the root notifier first. */
-> > > >  	while (notifier->parent)
-> > > >  		notifier = notifier->parent;
-> > > >  
-> > > >  	/* This is root if it has v4l2_dev. */
-> > > > -	if (!notifier->v4l2_dev)
-> > > > +	if (!notifier->v4l2_dev) {
-> > > > +		if (notifier->sd)
-> > > > +			deb_dbg(notifier->sd->dev,
-> > > > +				"V4L2 device not available\n");
-> > > >  		return 0;
-> > > > +	}
-> > > >  
-> > > >  	/* Is everything ready? */
-> > > >  	if (!v4l2_async_nf_can_complete(notifier))
-> > > >  		return 0;
-> > > >  
-> > > > +	deb_dbg(notifier->sd->dev, "complete\n");
-> > > 
-> > > You guard against notifier->sd being NULL above, but not here. At least
-> > > one of the two is wrong.
-> > 
-> > I'll add a helper function to get the device safely.
-> > 
-> > > > +
-> > > >  	return v4l2_async_nf_call_complete(notifier);
-> > > >  }
-> > > >  
-> > > > @@ -386,6 +414,9 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier)
-> > > >  			continue;
-> > > >  
-> > > >  		ret = v4l2_async_match_notify(notifier, v4l2_dev, sd, asd);
-> > > > +		deb_dbg(sd->dev, "bound to %s's notifier (ret %d)\n",
-> > > > +			notifier->sd ? dev_name(notifier->sd->dev) : "no-dev",
-> > > > +			ret);
-> > > >  		if (ret < 0)
-> > > >  			return ret;
-> > > >  
+>>>>>> Now with this resolved, I get:
+>>>>>>
+>>>>>> v4l2-ctl -d /dev/video0
+>>>>>> --set-fmt-video=width=640,height=480,pixelformat=RG10 --stream-mmap
+>>>>>> [  574.758110] imx7-csi 32e20000.csi: pipeline start failed with -32
+>>>>>>                 VIDIOC_STREAMON returned -1 (Broken pipe)
+>>>>>>
+>>>>>> So still not there, but a bit closer ;)
+>>>>>> Probably I'm doing something wrong when setting up the format, etc.
+>>>>>
+>>>>> Quite likely :-) Have you configured formats on all subdevs through the
+>>>>> pipeline with media-ctl ?
+>>>>>
+>>>>
+>>>> I'm doing the following:
+>>>>
+>>>> media-ctl -l "'imx219 1-0010':0 -> 'csis-32e30000.mipi-csi':0[1]"
+>>>> media-ctl -d /dev/media0 -V '"imx219 1-0010":0[fmt:SBGGR10_1X10/640x480
+>>>> field:none]'
+>>>> media-ctl -d /dev/media0 -V
+>>>> '"csis-32e30000.mipi-csi":0[fmt:SBGGR10_1X10/640x480 field:none]'
+>>>> media-ctl -d /dev/media0 -V '"csi":0[fmt:SBGGR10_1X10/640x480 field:none]'
+>>>>
+>>>> Is there more I need to do? Sorry, I still lack a lot of understanding
+>>>> and experience on how to use the media framework.
+>>>>
+>>>> But I guess in some way it's also good, as I can provide some testing
+>>>> for the error handling, that you would probably miss otherwise as you
+>>>> know how to setup things properly. ;)
+>>
+>> So, I found out that I used SBGGR10_1X10 but the sensor only supports
+>> SRGGB10_1X10. Now the pipeline seems to work.
+> 
+> Great !
+> 
+> On a side note, if you don't want to deal with the complexity of
+> configuring the pipeline, libcamera (https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Flibcamera.org%2F&data=05%7C01%7Cfrieder.schrempf%40kontron.de%7Ce522d5e5757e4a6d58b608db0f813049%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C638120819750552954%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=GaL%2Bjlm0pcKs2Ijy23UQ6PzWuDVxpTTkjbhuiBASoJw%3D&reserved=0) can do it
+> for you :-)
 
--- 
-Regards,
-
-Sakari Ailus
+Awesome, thanks for the note! I will give libcamera a try.
