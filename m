@@ -2,226 +2,314 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9D0E69ACD1
-	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 14:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6A269ADCB
+	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 15:20:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbjBQNpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Feb 2023 08:45:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40098 "EHLO
+        id S229788AbjBQOUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Feb 2023 09:20:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjBQNpl (ORCPT
+        with ESMTP id S229663AbjBQOUK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Feb 2023 08:45:41 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0119F5590;
-        Fri, 17 Feb 2023 05:45:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676641540; x=1708177540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=0bI4eu7CsGkpbAbTeeplt9TFcf3bqOc9S2sMj8KlvNs=;
-  b=gkUGGhTWui7lPJvnP5+Drme2/AzBxD1pXx2Z2pHErj3yuXjqBXMeHFtQ
-   VxOkT37TGWl5ndSwOgwYtNFpqVYGviHlTwGUYUNLbYY715Qo64eSWrw0l
-   ubaAldEenZ/lX/cDjqX6iBvlX1mu3RGxVEGEzIncMFU0rObizMUcqAsEu
-   UAGM3JwNpN5N7hN07E/iTwOPcMB4e4ZxzDiQ/qD2aw3G7o8aMA1jEx9Fg
-   2LXC3zdZjCFrb7gkaTXTp5QTj/zp5EdAPwPcU6MLcK0tVofZE+YOGTFmM
-   3wD0pageQnMci0ojr1xGdC+HeFCiojdMnnEqdA5hC5da2CwEGRSSoJb4C
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="359437736"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="359437736"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 05:45:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670546804"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="670546804"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 17 Feb 2023 05:45:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1pT13J-008EHk-24;
-        Fri, 17 Feb 2023 15:45:29 +0200
-Date:   Fri, 17 Feb 2023 15:45:29 +0200
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>
-Subject: Re: [PATCH v9 0/8] i2c-atr and FPDLink
-Message-ID: <Y++E+Rr54p3vd8Jn@smile.fi.intel.com>
-References: <20230216140747.445477-1-tomi.valkeinen@ideasonboard.com>
- <Y+5Rb17FTG4IxcE0@smile.fi.intel.com>
- <e4141652-53c0-fce1-dac7-5da5368e2240@ideasonboard.com>
- <Y+9j3cYOG+Z0zmyC@smile.fi.intel.com>
- <9f3f0744-f771-cd2c-3b8e-5b79f7a430c7@ideasonboard.com>
+        Fri, 17 Feb 2023 09:20:10 -0500
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn20818.outbound.protection.outlook.com [IPv6:2a01:111:f403:700c::818])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C74BDD9;
+        Fri, 17 Feb 2023 06:20:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PNnPYhgoJu/XgYh0nP9jn4DFtP5LpYfOrzUUtVL/76wddUQGe8jRnSl3VcVLWwdpBH3zGnLNhZgsYlvgru/usazh+Asb56fZ0DLOeu0Viqe6DyCRREfL541dmsi04qz8/J1yQB/eGyv6xDDCwStUW4FzOyJaleZiRY/HBxDpwKsmB47reoIWB3JHAq3gVXRdLbyoU3FSJH7nBOLr/PZvOWvJVQovPKhlwM7Hp+GpwL5tNHw86+FQn+BuO7ofwKXy2tJZXaW8qH+QpG1nR+rqKkInjudMEngx87IKpQH0Rw1jjSapCVivb9rhN/kjmwfy6F8ytXBtLygMic4PuC60fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cn+hnj0UhXOndDhKg3at8Ck3yIuePUsOMHHDNC92gvo=;
+ b=nk9eQ5tqluYxN4Ryj93NRMeB4v1LWsXPmFJWIjssDB9kpnsX5NCD4kULwOcXc9NrjzkLS/+X9OZ6bTMDE3FzIKszBXcAAmQjIdl9hbv3Y42iJS9afrroT+T7L1KnT2GKRjDAgjzkFkfmf/GKalaKL3tVuewqtBvNX3qArvTN/aoMoghhY6FBCeuGnsKtblmwjPmhuc/dIs0BJa44w4mgW5fp4ydSJWzaI58RsxG81jIFs18mJbtcukC8lhMxJdQEiTW+/Mn2oESPfrvOh57ISK044GOBCisi7N7v4NOOmpuY09NXaG1GU9JFieDK6hE8zuBzb4C2C2KsbirSIBkeWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cn+hnj0UhXOndDhKg3at8Ck3yIuePUsOMHHDNC92gvo=;
+ b=p69fh7SjBH24LYpnstF2Q8nN8nbUHoXGzGsQYU2CSWb1fT8pFvN990yzwBkb6zPBzia/xZbLafcla8aPNl9R92PJVLJeQK/XZhLTb7p6NaGDPUnl/TqCMlRATY5jQmPJoE6XO2uVjQIzWpPc1EWpP7LfBCVG+jxD8PQn4d8gjt4K7q/K3cFQGzudb2v6SDPai7JMJbIpSYECKuSKka69OgUPgSBsHo7fBn4Y6LVizsx19tOKYsweGFW7HDhjdAqUZ7vqPwnG7+wRshWyZ++v2yCwLBn5d36zWTCi43gIBVCCcWmCa3LOWAnOx9t0h/t94TneCkThCyomKdRwbTqADA==
+Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:252::12)
+ by TYYP286MB1740.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:fe::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17; Fri, 17 Feb
+ 2023 14:14:32 +0000
+Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cd65:1f1c:ceda:5979]) by TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cd65:1f1c:ceda:5979%8]) with mapi id 15.20.6111.014; Fri, 17 Feb 2023
+ 14:14:32 +0000
+Message-ID: <TY3P286MB2611256E28AF951F2B38A5B098A19@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+Date:   Fri, 17 Feb 2023 22:14:13 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        devicetree@vger.kernel.org, ezequiel@vanguardiasur.com.ar,
+        frattaroli.nicolas@gmail.com, heiko@sntech.de,
+        jacob-chen@iotwrt.com, krzysztof.kozlowski+dt@linaro.org,
+        krzysztof.kozlowski@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, robh+dt@kernel.org, kernel@pengutronix.de
+References: <20230119-rk3568-rga-v1-2-43d4d14365e6@pengutronix.de>
+ <TY3P286MB26115F60D273E840D36A610598CA9@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+ <20230217110413.GA28242@pengutronix.de>
+From:   Shengyu Qu <wiagn233@outlook.com>
+Subject: Re: [PATCH RESEND 2/2] arm64: dts: rockchip: Add RGA2 support to
+ rk356x
+In-Reply-To: <20230217110413.GA28242@pengutronix.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------TlDJ9kAPCmQKsXgOKIzDjYea"
+X-TMN:  [E0eg4PNwkAPN7fU7D2nWaiX4xUFWrML4tkMzZSgm9yLup0PDs+oYqD+9+YJIVWJ6]
+X-ClientProxiedBy: SG2PR04CA0215.apcprd04.prod.outlook.com
+ (2603:1096:4:187::14) To TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:252::12)
+X-Microsoft-Original-Message-ID: <35fe0ae1-d9a1-dce6-abc9-2fb3c124b953@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9f3f0744-f771-cd2c-3b8e-5b79f7a430c7@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3P286MB2611:EE_|TYYP286MB1740:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1017d0f0-69c9-471d-da97-08db10f14a26
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lzV9ZvYVKxjT6Pnme5YtBbNK9Le13tL957WFMpta6Ti9f0/NaPvdQ8h3M+0b/d8EVU+6vGmX7ZB3LhbC0ajFRxsVdciZWRGfRs55eIgjWctYcsZApp47SpJb9V4Y7+ANuiwrW0gvuHR8pLmRliJbK2SKoZcHm9MarO1B2gjJn/8OcwkYeO4Sxh5jOBfPxfhysZlB4+uLo+vZLecuAd7xZds6N6AvFSFQqnpYmY08MTNXvzFH/f8wIsmUOLOY9uelrH6OFJMqaGo2Zc9YkOux5g0kJLELm3V07F/Y9uA4OsRN/vyRnkTQJO81fRHfhXT7O5pXc3cblx2dCkSfhScq40bgYA0e5t85ulTGwGqlgLvJvqP0wuxfmczwSEKFR8IrBR/O9ydcD7/wP4kqJb1+eVW/CId+d7RV8O2Hzzegi4xREfI/t95v88WawRCvDjEz5sDHFeY99xOeFbntuKEhXlbXr6W46WI7NLWiougpvQGeMdkx7JrsFcb1Ud9sOaJDy4pPFfJMmNrRkYpzeLmrPvlM5JfDzPrWZDt2oeUwrdqoSjXvoF184qwVBMjP0rqIguR3DTwhPfRt2jyfN6RMyxbjPEh7WZVFKXkyW0/ne0TZ0+n9yD9azSMZZTseoD9K/eJ2I5zxgI+d8f+ywISRIA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c2VIK3hkU2k2b21mMnQ2cjRHWG5xRmMvRWpDUDNGQTZwOFkzQjdJWnlmbWlJ?=
+ =?utf-8?B?RENwOGxCL1luL2Y2VmhIcFdxVFpmRXBzS3BDckxGd1hERUkvTDZCZDkycThR?=
+ =?utf-8?B?NHpteFlpako0bEYyUUluQmdmYTJtYmRvcTlNM3BNZFJ5YkN6Z0MyTTZCV1lD?=
+ =?utf-8?B?TTNyUTVvNk1lRVpHUktCVGU3ci9halh5RHl2VHdWendIMjN1L204c2RJQk9B?=
+ =?utf-8?B?YkZSR21kaVgvU2hXWkw2azBUMGtSTWxlK3EyNUZheWhlMStQelQydnh5ZWpP?=
+ =?utf-8?B?US9VQXBUYnF0c0NwR2RPQS9lNGxoWjdkZzlnemdTUmJZYXM1VFRNVFhGVlA3?=
+ =?utf-8?B?aGZieVFtTWpUQytHcHF5QUhPVzJnMmx2WWsrdUlTUk8yVzBPcDMrOTRzeERj?=
+ =?utf-8?B?dGlMMENGd0NLU0pzc2ViRmN3NFdESFBweVo2cHpEMW55eDRabTlqeHAzTCtk?=
+ =?utf-8?B?aDVTYnRRWVRBVzJjTnF6OXU2WmZkRHpoZkxDWlUvRU55RWNKU1JkdmtBQ3FB?=
+ =?utf-8?B?STBMQ1VYWDNXZDc1RzB1UjIvQTF6UDZ6eFdQTTE3eURwWktaUzBqMUFWVGtu?=
+ =?utf-8?B?YlhYQVp5Vy9XYUFTOTl2bUxXS056b2cvanZNdVpKTjA4N3FLelBkMk9sV3o2?=
+ =?utf-8?B?blVoMzNXajRnbXBqQUNhVVdjNnFOcG45MVByWU11cmF0Z3dwNWlyWmFPR3lI?=
+ =?utf-8?B?MFNhclV6aEdyc1djdlVoTWJVSG1NckNPMkRIZ0Jkam9xUEo3KysxZzdib29v?=
+ =?utf-8?B?aC9mamdBL01Yc09zczlwbjl3VXd2TXFYOFNaOU1BalJKM1dGZ3dwWkFhcGtk?=
+ =?utf-8?B?TW9BRFhpODZEN0RudlROYUx4Z2xsVXg3N3Ivbi9Fb2VKRnFCb1FMeldOVTBu?=
+ =?utf-8?B?dk1oc3pHSTZOSHpwK2tWUWRaSXo5N3BqOUhpT2YwSk83YVprQUNTZDJsZjRi?=
+ =?utf-8?B?VHdwaFlEVDgrTlFZd3VXbWpoVDNZTDBLSlRHVDdaR0NGclJaZ3lBSTZwV3N5?=
+ =?utf-8?B?WHllblQ1RGF1eUFkNVVQYmJwUnp5Zm14Z2N4KzB6S2FVZEUrSzZWYitYVFc2?=
+ =?utf-8?B?ZTd1akZoNHFlRGpQUE4zd0VTZHdITGNLUFNKR1RuZEhMTHE0Tm4zUnZRbHJL?=
+ =?utf-8?B?ZTBPZXdwSC9aODdtL2pzbnNNZmx2OVlCWlYrN29Ia3pOMDVWLzk1eVUvNkFz?=
+ =?utf-8?B?THJhZzZGOVRhbDk1MTBiOUg1NHZoUVg4Q2loMXhWUXhUb3hvdE45MHFZa0RI?=
+ =?utf-8?B?cTArL1ZqY1ZuMkZpR0RpZVVMQktxU3NGbHFlckhuUFQ3U2xRY0xObS9EaGNi?=
+ =?utf-8?B?VVAxY1lTL2k3ZWpiNkVIWEY1aFg3SFVvM2V6aWIvdnFVcmx5ZFBoRm8yU1Rw?=
+ =?utf-8?B?OENoejJQenNqb255M2x3S2F0L3RQczZ5cWpnejQ1TEd6TVJja0kvOWJDMFdJ?=
+ =?utf-8?B?Vk10S1BZNjhnL2I1T1MrdlZxc0tVRHc3a0VaTklZZ0c2WTh4VndJNzQrY3FQ?=
+ =?utf-8?B?ZEhNTVcyM1ZWOXRNK3F4VmREOXNDOGZFNDVHUENPeTM3UHdsSGpMdVIvNXBn?=
+ =?utf-8?B?TEhvMEZKMnZMNXJrbzJqakNKekxOdzIyaDBaNWRzSTF5ZHg2SU02TG4zM3NW?=
+ =?utf-8?B?S0l6NW9lSWg1cjQra0JhSkFJU2w4SFluMmhrZGtyQzBJZWVRVGowS3I2U2Z6?=
+ =?utf-8?B?QXZvTWVKN2R2YzVOUW5hRzZEanh1TGovWXp5bmlBZ3VyamZhVXNPYWZPTm5K?=
+ =?utf-8?B?OEpNOGEwajQyMytBWTlXSHFtSWZMWHl3Z0t0V3pLYlNMNWhKeXdsemtiU1JC?=
+ =?utf-8?B?V09DZ2NUbk5rUUdpWGFHZz09?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1017d0f0-69c9-471d-da97-08db10f14a26
+X-MS-Exchange-CrossTenant-AuthSource: TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 14:14:32.3405
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYP286MB1740
+X-Spam-Status: No, score=0.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 17, 2023 at 02:57:02PM +0200, Tomi Valkeinen wrote:
-> On 17/02/2023 13:24, Andy Shevchenko wrote:
-> > On Fri, Feb 17, 2023 at 08:57:32AM +0200, Tomi Valkeinen wrote:
-> > > On 16/02/2023 17:53, Andy Shevchenko wrote:
-> > > > On Thu, Feb 16, 2023 at 04:07:39PM +0200, Tomi Valkeinen wrote:
+--------------TlDJ9kAPCmQKsXgOKIzDjYea
+Content-Type: multipart/mixed; boundary="------------A4T2JPqVGvOsEtJF9dsFrqtF";
+ protected-headers="v1"
+From: Shengyu Qu <wiagn233@outlook.com>
+To: Michael Tretter <m.tretter@pengutronix.de>, devicetree@vger.kernel.org,
+ ezequiel@vanguardiasur.com.ar, frattaroli.nicolas@gmail.com,
+ heiko@sntech.de, jacob-chen@iotwrt.com, krzysztof.kozlowski+dt@linaro.org,
+ krzysztof.kozlowski@linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, mchehab@kernel.org, robh+dt@kernel.org,
+ kernel@pengutronix.de
+Message-ID: <35fe0ae1-d9a1-dce6-abc9-2fb3c124b953@outlook.com>
+Subject: Re: [PATCH RESEND 2/2] arm64: dts: rockchip: Add RGA2 support to
+ rk356x
+References: <20230119-rk3568-rga-v1-2-43d4d14365e6@pengutronix.de>
+ <TY3P286MB26115F60D273E840D36A610598CA9@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+ <20230217110413.GA28242@pengutronix.de>
+In-Reply-To: <20230217110413.GA28242@pengutronix.de>
 
-...
+--------------A4T2JPqVGvOsEtJF9dsFrqtF
+Content-Type: multipart/mixed; boundary="------------m5mrDA4twJNAY0Eec7HGshL2"
 
-> > > > >    	struct i2c_board_info ser_info = {
-> > > > > -		.of_node = to_of_node(rxport->remote_fwnode),
-> > > > > -		.fwnode = rxport->remote_fwnode,
-> > > > 
-> > > > > +		.of_node = to_of_node(rxport->ser.fwnode),
-> > > > > +		.fwnode = rxport->ser.fwnode,
-> > > > 
-> > > > Why do you need to have both?!
-> > > 
-> > > I didn't debug it, but having only fwnode there will break the probing (no
-> > > match).
-> > 
-> > This needs to be investigated. The whole fwnode approach, when we have both
-> > fwnode and legacy of_node fields in the same data structure, is that fwnode
-> > _OR_ of_node initialization is enough, when both are defined the fwnode
-> > should take precedence.
-> > 
-> > If your testing is correct (and I have no doubts) it means we have a serious
-> > bug lurking somewhere.
-> 
-> Having both defined or only of_node defined works for me.
+--------------m5mrDA4twJNAY0Eec7HGshL2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-But of_node is _legacy_ stuff. We should not really consider this option in the
-new code.
+SGkgTWljaGFlbCwNCg0KU2VlbXMgd2UgY291bGQgdXNlIEdGUF9ETUEzMiBmbGFnIHRvIGxp
+bWl0IG1lbW9yeSByZXF1aXJlZCBieSBkcml2ZXIgaW50bw0KDQp1cHBlciBzaXplIHJhbmdl
+KGFjdHVhbGx5IHVzaW5nIFpPTkVfRE1BMzIgY29uZmlndXJlZCBieSBkZXZpY2UgdHJlZSku
+IEp1c3QNCg0Kc29tZSBkcml2ZXIgbW9kaWZpY2F0aW9uIG5lZWRlZC4gTWF5YmUgTmljb2xh
+cyBjb3VsZCBoZWxwIHRlc3Rpbmc/IEkgd291bGQNCg0KbGlrZSB0byBmaXggdGhpcywgYnV0
+IEkgZG9uJ3QgaGF2ZSBtdWNoIGZyZWUgdGltZSB0aGVzZSBkYXlzLg0KDQpCZXN0IHJlZ2Fy
+ZHMsDQoNClNoZW5neXUNCg0KPiBIaSwNCj4NCj4gT24gU3VuLCAyMiBKYW4gMjAyMyAwMDo1
+MDozNyArMDgwMCwgU2hlbmd5dSBRdSB3cm90ZToNCj4+IFNpbmNlIHdlIGhhdmUgdGhlIG92
+ZXItNEdCIHByb2JsZW0gbm93LCBzaG91bGQgd2UgbWFyayB0aGlzIHByb2JsZW0gYXMgYQ0K
+Pj4gVE9ETyBvciBzb21ldGhpbmc/DQo+IEkgYW0gbm90IHJlYWxseSBzdXJlIHdoZXJlIHRv
+IHB1dCBzdWNoIGEgVE9ETyB0byBtYWtlIGl0IHZpc2libGUgZm9yIHBlb3BsZQ0KPiB0aGF0
+IGFyZSBydW5uaW5nIGludG8gdGhlIGlzc3VlIGFuZCB0byBtYWtlIHN1cmUgdGhhdCBpdCBp
+cyByZW1vdmVkIG9uY2UgaXQgaXMNCj4gZml4ZWQuDQo+DQo+IE1heWJlIGl0IHdvdWxkIGJl
+IGJldHRlciB0byBhZGQgZXJyb3IgaGFuZGxpbmcgdG8gdGhlIHJnYV9idWZfbWFwIGZ1bmN0
+aW9uIHRvDQo+IGZhaWwgaWYgdGhlIGFkZHJlc3Mgb2YgdGhlIGJ1ZmZlciB0aGF0IHNob3Vs
+ZCBiZSBtYXBwZWQgaGFzIHRoZSB1cHBlciAzMiBiaXQNCj4gc2V0IGFuZCBwcmludCBhIHdh
+cm5pbmcuIEZ1cnRoZXJtb3JlLCB0aGUgZHJpdmVyIHdvdWxkIGJlIGFibGUgdG8gc2tpcCB0
+aGUNCj4gYnVmZmVyIGFuZCBwcmV2ZW50IHBvdGVudGlhbCBtZW1vcnkgY29ycnVwdGlvbiBj
+YXVzZWQgYnkgdGhlIGVycm9uZW91cw0KPiBtYXBwaW5nLg0KPg0KPiBVbmZvcnR1bmF0ZWx5
+LCBJIGRvbid0IGhhdmUgaGFyZHdhcmUgdGhhdCBhbGxvd3MgbWUgdG8gdGVzdCB0aGlzLg0K
+Pg0KPiBNaWNoYWVsDQo=
+--------------m5mrDA4twJNAY0Eec7HGshL2
+Content-Type: application/pgp-keys; name="OpenPGP_0xE3520CC91929C8E7.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xE3520CC91929C8E7.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-> Perhaps the issue is that these drivers only add of_match_table, and thus
-> having only .fwnode above is not enough.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-No, the code should work with fwnode that carrying DT node or another.
-The matching table shouldn't affect this either.
+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
+lMSoVV3z1s8dA1DK95ykSdIFtVZT
+=3Dr4B8
+-----END PGP PUBLIC KEY BLOCK-----
 
-> Looking at i2c_device_match(), i2c_of_match_device() only uses of_node, so
-> perhaps I would need CONFIG_ACPI for acpi_driver_match_device to do matching
-> with of_node? Although I don't see the acpi code using fwnode, just of_node.
-> Well, I have to say I have no idea without spending more time on this.
+--------------m5mrDA4twJNAY0Eec7HGshL2--
 
-Again, there is a bug and that bug seems nasty one as it would allow to
-work the device in one environment and not in another.
+--------------A4T2JPqVGvOsEtJF9dsFrqtF--
 
-Since it's about I²C board files, I believe that an issue is in I²C core.
+--------------TlDJ9kAPCmQKsXgOKIzDjYea
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> > > > >    		.platform_data = ser_pdata,
-> > > > >    	};
+-----BEGIN PGP SIGNATURE-----
 
-...
+iQIzBAEBCAAdFiEET/yoGP3p5Zl+RKVuX75KBAfJsRkFAmPvi7kACgkQX75KBAfJ
+sRkpDA/8C0rlFYgsMHAEdOVeaWdeDSI06YV3AKtYaOjvDp4h+TTckZrfzBn2MWY7
+6OVYM1Djc7i4bxIdbgRvizjm1oUIXPiprDVhFcrvcbtSGf9UEjQCKiRFLLXK86uE
+sdLn0kUw/I3XZ4pV5cTKLrOK2XscLd9AqmLO9SgBE82i7tcb69rwnfuEUrQWf2Mt
+9KxuIEcixyBXDiSkDsFCl1QDxHk0BU8RnN0buk2IcbEyl10VgzLB5iiDh0MhlH1V
+GfQLRafzWlO2atRrRXqIHdrpvjvLKMgt9nK4S3+CDhZVTptOGBGODUmbgEeCraDM
+ZGMFlsmUC3CtgwDYAidrjjE0dMO4Y8R18kOGKlpLF26vXYp9GWLiWgLPTsNLec/0
+NMkruGyphoIZj2B6Eo2aMUBYRjrojavNrYqMeb0BB8nowPCft8VEsal7qw4iQBnU
+e+sH+EPF9I4HWJ7gY017GG/WJYxvT+THJhxgDFqxBsCzZwh7QvKY52aFxChcXlCu
+Ej1VZo1OXAFx+wXqsJ+9ioPiRu4Swo66nwSC5eOrrX7NCCU3alUiTR8KkOay6xxr
+KGnTVi8PKhg57gXmjuUXfXcK8aGDNL6j2te+B0LRTkyqyZjF4teixS4nUo+ueZ5K
+Rl30o92ZeC+6ZcdQjHdHHzpEeXttXPopidLD5INpJZcdF/MfeX0=
+=eW22
+-----END PGP SIGNATURE-----
 
-> > > > 		cur_vc = desc.entry[0].bus.csi2.vc;
-> > > > 
-> > > > > +		for (i = 0; i < desc.num_entries; ++i) {
-> > > > > +			u8 vc = desc.entry[i].bus.csi2.vc;
-> > > > 
-> > > > > +			if (i == 0) {
-> > > > > +				cur_vc = vc;
-> > > > > +				continue;
-> > > > > +			}
-> > > > 
-> > > > This is an invariant to the loop, see above.
-> > > 
-> > > Well, the current code handles the case of num_entries == 0. I can change it
-> > > as you suggest, and first check if num_entries == 0 and also start the loop
-> > > from 1.
-> > 
-> > You may try to compile both variants and see which one gets lets code.
-> > I believe it will be mine or they are equivalent in case compiler is clever
-> > enough to recognize the invariant.
-> 
-> But your suggestion accesses desc.entry[0] even if there are no entries,
-> accessing possibly uninitialized memory. In that case it doesn't use it for
-> anything, but at least I find that kind of code worrying.
-
-Yes you probably will need a 0 case to be handled separately. I was and
-is not objecting this.
-
-> > > > > +			if (vc == cur_vc)
-> > > > > +				continue;
-> > > > > +
-> > > > > +			dev_err(&priv->client->dev,
-> > > > > +				"rx%u: source with multiple virtual-channels is not supported\n",
-> > > > > +				nport);
-> > > > > +			return -ENODEV;
-> > > > > +		}
-
-...
-
-> > Up to you, but this just a good example why I do not like how optional
-> > properties are handled in a "smart" way.
-> > 
-> > To me
-> > 
-> > 	foo = DEFAULT;
-> > 	_property_read_(&foo); // no error checking
-> > 
-> > is clean, neat, small and good enough solution.
-> 
-> Yes, if you have a default. I don't.
-
-It can't be true. If you have an optional property you always have a default
-even if you are not using it (let's call it special case).
-
-	foo_present = property_present();
-	property_read(&foo_val);
-
-	...
-
-	if (foo_present) {
-		// do something with foo_val
-	}
-
-The boolean variable is needed when the range of the foo_val takes all possible
-values of the type (u32?). Otherwise you always can define a magic that will
-tell you "okay, this is not in use". Of course having boolean always is also
-fine.
-
-> I could add a new magic number for the
-> eq_level which means not-defined and use it as a default, but I don't
-> usually like default values which are not 0. Here I have the manual_eq
-> boolean to tell if we're using manual EQ or not.
-
-Oh, this is similar that I described above.
-
-But as I said, you can keep your initial version, it's up to you and
-maintainers to cope with that (uglification).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--------------TlDJ9kAPCmQKsXgOKIzDjYea--
