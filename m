@@ -2,34 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFA5269AA06
-	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 12:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F29569AA31
+	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 12:19:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbjBQLNy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Feb 2023 06:13:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56410 "EHLO
+        id S229959AbjBQLTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Feb 2023 06:19:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbjBQLNs (ORCPT
+        with ESMTP id S229916AbjBQLTe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Feb 2023 06:13:48 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31383B642;
-        Fri, 17 Feb 2023 03:13:31 -0800 (PST)
+        Fri, 17 Feb 2023 06:19:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E2816AE2;
+        Fri, 17 Feb 2023 03:19:32 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D059D2D8;
-        Fri, 17 Feb 2023 12:12:12 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE0E32D8;
+        Fri, 17 Feb 2023 12:19:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676632333;
-        bh=p+/XYpsyaLuSdXd8GeZdzQ1+zj1zDQa/Uq7JBwYAvHI=;
+        s=mail; t=1676632770;
+        bh=PvT62c8I4s3eL7qSkxcqUk7u2C/GILqs28vFdJJm2ws=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jge4+Cjcaq2QRA6Vpx/7Fdjc4jQXg9t0rmoU7qiklZ15hZXi0OAUgI7wRQjKoGYkN
-         tboP/BOLlc2f0nLZ/bYlGEtjbHuE59tZlFial5yOmXYGczctt31ETJuRzZ919Cdxpw
-         4kh7K3FgWL5gPY4N+M+a2fbx/GSTEl3TFo383Euw=
-Date:   Fri, 17 Feb 2023 13:12:10 +0200
+        b=rp3ICJuExXrGLHJxHgzBA49qPrlbMqqFnWZVuElnDLYlgUvmxYLJI2PKdkGJOX7Il
+         qrx2cMfplkP7+J40jH0vjdtkLj1etMKGKdYMEsNrxWLzE7z0sXaBqR3o2IJNjKiuCe
+         aW/HMlasjDsxwRACdUW+SPfRFnaYehDNMjzkTmlI=
+Date:   Fri, 17 Feb 2023 13:19:28 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     "Wu, Wentong" <wentong.wu@intel.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
         "pierre-louis.bossart@linux.intel.com" 
@@ -39,16 +40,19 @@ Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
         "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
         "Cao, Bingbu" <bingbu.cao@intel.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Message-ID: <Y+9hCuGneJUrLrgi@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 3/3] media: pci: intel: ivsc: Add acquire/release API
+ for ivsc
+Message-ID: <Y+9iwMbW0kk6eJKe@pendragon.ideasonboard.com>
 References: <20230213022347.2480307-1-wentong.wu@intel.com>
- <Y+ypKYI4c6fHL4Eu@pendragon.ideasonboard.com>
- <DM6PR11MB4316E7241D6F11CC4121AFC98DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <20230213022347.2480307-4-wentong.wu@intel.com>
+ <Y+uxbQi7seGf+adP@kekkonen.localdomain>
+ <0457831e-a347-8278-01fe-52c011759d90@redhat.com>
+ <Y+ypwnRVwReIEjUo@pendragon.ideasonboard.com>
+ <DM6PR11MB43166A8D4225C8460C29803B8DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4316E7241D6F11CC4121AFC98DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
+In-Reply-To: <DM6PR11MB43166A8D4225C8460C29803B8DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -58,141 +62,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Wentong,
+Hi Wentong,
 
-On Fri, Feb 17, 2023 at 06:20:10AM +0000, Wu, Wentong wrote:
-> On Wednesday, February 15, 2023 5:43 PM, Laurent Pinchart wrote:
-> > On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
-> > > Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
-> > > companion chip designed to provide secure and low power vision
-> > > capability to IA platforms. IVSC is available in existing commercial
-> > > platforms from multiple OEMs.
+On Fri, Feb 17, 2023 at 06:10:22AM +0000, Wu, Wentong wrote:
+> On Sent: Wednesday, February 15, 2023 5:46 PM, Laurent Pinchart wrote:
+> > On Wed, Feb 15, 2023 at 10:03:29AM +0100, Hans de Goede wrote:
+> > > On 2/14/23 17:06, Sakari Ailus wrote:
+> > > > On Mon, Feb 13, 2023 at 10:23:47AM +0800, Wentong Wu wrote:
+> > > >> IVSC directly connects to camera sensor on source side, and on
+> > > >> output side it not only connects ISH via I2C, but also exposes MIPI
+> > > >> CSI-2 interface to output camera sensor data. IVSC can use the
+> > > >> camera sensor data to do AI algorithm, and send the results to ISH.
+> > > >> On the other end, IVSC can share camera sensor to host by routing
+> > > >> the raw camera sensor data to the exposed MIPI CSI-2 interface. But
+> > > >> they can not work at the same time, so software APIs are defined to
+> > > >> sync the ownership.
+> > > >>
+> > > >> This commit defines the interfaces between IVSC and camera sensor
+> > > >> driver in include/linux/ivsc.h. The camera driver controls
+> > > >> ownership of the CSI-2 link and sensor with the acquire/release
+> > > >> APIs. When acquiring camera, lane number and link freq are also
+> > > >> required by IVSC frame router.
+> > > >
+> > > > The more I learn about this system, the more I'm inclined to think
+> > > > this functionality should be exposed as a V4L2 sub-device. IVSC
+> > > > doesn't really do anything to the data (as long as it directs it
+> > > > towards the CSI-2 receiver in the SoC), but it is definitely
+> > > > part of the image pipeline.
 > > >
-> > > The primary use case of IVSC is to bring in context awareness. IVSC
-> > > interfaces directly with the platform main camera sensor via a CSI-2
-> > > link and processes the image data with the embedded AI engine. The
-> > > detected events are sent over I2C to ISH (Intel Sensor Hub) for
-> > > additional data fusion from multiple sensors. The fusion results are
-> > > used to implement advanced use cases like:
-> > >  - Face detection to unlock screen
-> > >  - Detect user presence to manage backlight setting or waking up
-> > > system
+> > > Yes I happened to discuss this exact same thing with Laurent at FOSDEM
+> > > and we also came to the conclusion that the IVSC chip should be
+> > > modeled as a V4L2 sub-device.
 > > 
-> > Do you have plan to support these features in the ivsc driver in the future ?
+> > Agreed.
 > 
-> Not sure, but the first step is to upstream this driver.
+> Thanks for your quick review and conclusion, I'm fresh to media
+> sub-system, is there any convention that I should follow to upstream
+> this kind of v4l2 sub-device driver so that not too much back and
+> forth?
 
-Sure, no problem.
+This is a tentative proposal, as I'm not very familiar with the hardware
+architecture:
 
-> > > Since the Image Processing Unit(IPU) used on the host processor needs
-> > > to configure the CSI-2 link in normal camera usages, the CSI-2 link
-> > > and camera sensor can only be used in mutually-exclusive ways by host
-> > > IPU and IVSC. By default the IVSC owns the CSI-2 link and camera
-> > > sensor. The IPU driver can take ownership of the CSI-2 link and camera
-> > > sensor using interfaces provided by this IVSC driver.
-> > >
-> > > Switching ownership requires an interface with two different hardware
-> > > modules inside IVSC. The software interface to these modules is via
-> > > Intel MEI (The Intel Management Engine) commands. These two hardware
-> > > modules have two different MEI UUIDs to enumerate. These hardware
-> > > modules are:
-> > >  - ACE (Algorithm Context Engine): This module is for algorithm
-> > > computing when IVSC owns camera sensor. Also ACE module controls
-> > > camera sensor's ownership. This hardware module is used to set ownership of
-> > > camera sensor.
-> > >  - CSI (Camera Serial Interface): This module is used to route camera
-> > > sensor data either to IVSC or to host for IPU driver and application.
-> > >
-> > > IVSC also provides a privacy mode. When privacy mode is turned on,
-> > > camera sensor can't be used. This means that both ACE and host IPU
-> > > can't get image data. And when this mode is turned on, host IPU driver
-> > > is informed via a registered callback, so that user can be notified.
-> > 
-> > How does the privacy mode work, and how can the user trust that the closed-
-> > source IVSC and IME firmwares will honour the privacy settings ?
-> 
-> No camera data will be allowed to go through IVSC, and then there will
-> be no data on IVSC CSI transmitter side. 
+- The subdev should have two pads, a sink pad connected to the camera
+  sensor, and a source pad connected to the CSI-2 receiver in the IPU.
 
-But how can I be sure that the IVSC will not use the camera behind my
-back, if it's all controlled through a closed-source firmware ?
+- As for any new driver, the subdev driver should use the active state
+  managed by the v4l2-subdev core. This requires calling
+  v4l2_subdev_init_finalize() at probe time. See
+  https://git.linuxtv.org/media_tree.git/commit/?id=a2514b9a634a for an
+  example of a subdev driver converted to this mechanism.
 
-> > > In summary, to acquire ownership of camera by IPU driver, first ACE
-> > > module needs to be informed of ownership and then to setup MIPI CSI-2
-> > > link for the camera sensor and IPU.
-> > >
-> > > Implementation:
-> > > There are two different drivers to handle ACE and CSI hardware modules
-> > > inside IVSC.
-> > >  - mei_csi: MEI client driver to send commands and receive notifications from CSI module.
-> > >  - mei_ace: MEI client driver to send commands and get status from ACE module.
-> > > Interface is exposed via ivsc.h to acquire and release camera sensor and
-> > > CSI-2 link.
-> > 
-> > Do I understand correctly, from your diagram below, that the communication
-> > between the IME and IVSC goes through SPI ?
-> > 
-> > > Below diagram shows connections of IVSC/ISH/IPU/Camera sensor.
-> > > -----------------------------------------------------------------------------
-> > > | Host Processor                                                            |
-> > > |                                                                           |
-> > > |       -----------------       -----------------       ---------------     |
-> > > |       |               |       |               |       |             | I2C |
-> > > |       |      IPU      |       |      ISH      |       |camera driver|--|  |
-> > > |       |               |       |               |       |             |  |  |
-> > > |       -----------------       -----------------       ---------------  |  |
-> > > |               |                       |                      |         |  |
-> > > |               |                       |               ---------------  |  |
-> > > |               |                       |               |             |  |  |
-> > > |               |                       |               | IVSC driver |  |  |
-> > > |               |                       |               |             |  |  |
-> > > |               |                       |               ---------------  |  |
-> > > |               |                       |                      |         |  |
-> > > ----------------|-----------------------|----------------------|---------|---
-> > >                 | CSI                   | I2C                  |SPI      |
-> > >                 |                       |                      |         |
-> > > ----------------|-----------------------|----------------      |         |
-> > > | IVSC          |                                       |      |         |
-> > > |               |                                       |      |         |
-> > > |       -----------------       -----------------       |      |         |
-> > > |       |               |       |               |       |      |         |
-> > > |       |      CSI      |       |      ACE      |       |------|         |
-> > > |       |               |       |               |       |                |
-> > > |       -----------------       -----------------       |                |
-> > > |               |                       | I2C           |                |
-> > > ----------------|-----------------------|----------------                |
-> > >                 | CSI                   |                                |
-> > >                 |                       |                                |
-> > >             --------------------------------                             |
-> > >             |                              | I2C                         |
-> > >             |         camera sensor        |-----------------------------|
-> > >             |                              |
-> > >             --------------------------------
-> > >
-> > > Wentong Wu (3):
-> > >   media: pci: intel: ivsc: Add CSI submodule
-> > >   media: pci: intel: ivsc: Add ACE submodule
-> > >   media: pci: intel: ivsc: Add acquire/release API for ivsc
-> > >
-> > >  drivers/media/pci/Kconfig              |   1 +
-> > >  drivers/media/pci/intel/Makefile       |   2 +
-> > >  drivers/media/pci/intel/ivsc/Kconfig   |  12 +
-> > >  drivers/media/pci/intel/ivsc/Makefile  |   7 +
-> > >  drivers/media/pci/intel/ivsc/ivsc.c    |  84 +++++
-> > >  drivers/media/pci/intel/ivsc/mei_ace.c | 472 +++++++++++++++++++++++++
-> > >  drivers/media/pci/intel/ivsc/mei_ace.h |> 36 ++
-> > >  drivers/media/pci/intel/ivsc/mei_csi.c | 342 ++++++++++++++++++
-> > >  drivers/media/pci/intel/ivsc/mei_csi.h |  60 ++++
-> > >  include/linux/ivsc.h                   |  74 ++++
-> > >  10 files changed, 1090 insertions(+)
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/Kconfig
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/Makefile
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/ivsc.c
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/mei_ace.c
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/mei_ace.h
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/mei_csi.c
-> > >  create mode 100644 drivers/media/pci/intel/ivsc/mei_csi.h
-> > >  create mode 100644 include/linux/ivsc.h
+- As we're talking about CSI-2, the subdev driver should use the streams
+  API that was recently merged, and in particular support the
+  .get_frame_desc(), .set_routing(), .enable_streams() and
+  .disable_streams() operations.
+
+- I don't see a need to support V4L2 controls in the subdev driver, but
+  I may be missing something.
+
+- The driver should be validated with v4l2-compliance, part of
+  v4l-utils.
+
+> > > > I suppose the intended use cases assume a single instance of IVSC
+> > > > (as well as MEI) but there can, and often are, be multiple camera
+> > > > sensors in the system. The decision whether to request pass-through
+> > > > from IVCS can't be done in the camera sensor driver, and should not
+> > > > be visible to the camera sensor driver. Exposing IVSC as a V4L2
+> > > > sub-device makes this trivial to address, as the IVSC driver's V4L2
+> > > > sub-device video s_stream() operation gets called before streaming is started.
+> > > >
+> > > > The information whether IVSC is found between the camera sensor and
+> > > > the host's CSI-2 receiver (IPU in this case) should come from system
+> > > > firmware and accessed most probably by what is called cio2-bridge at
+> > > > the moment.
+> > > >
+> > > > The privacy status can be a V4L2 control.
+> > > >
+> > > > Also cc Hans.
+> > > >
+> > > >> Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+> > > >> ---
+> > > >>  drivers/media/pci/intel/ivsc/Makefile |  1 +
+> > > >>  drivers/media/pci/intel/ivsc/ivsc.c   | 84 +++++++++++++++++++++++++++
+> > > >>  include/linux/ivsc.h                  | 55 ++++++++++++++++++
+> > > >>  3 files changed, 140 insertions(+)  create mode 100644
+> > > >> drivers/media/pci/intel/ivsc/ivsc.c
+
+[snip]
 
 -- 
 Regards,
