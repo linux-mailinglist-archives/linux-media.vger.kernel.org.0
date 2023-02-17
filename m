@@ -2,51 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A37B69A21E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 00:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 754FD69A391
+	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 02:47:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjBPXLK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Feb 2023 18:11:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56852 "EHLO
+        id S230154AbjBQBrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Feb 2023 20:47:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjBPXLJ (ORCPT
+        with ESMTP id S230004AbjBQBrc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Feb 2023 18:11:09 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 678613800F
-        for <linux-media@vger.kernel.org>; Thu, 16 Feb 2023 15:11:07 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB3B42D8;
-        Fri, 17 Feb 2023 00:11:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676589065;
-        bh=Wvhp9UY+QHMvGeZbAQO4WciZnjDP1ZUifki0espzuUE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bd6tU4pdCohJnpas80dZAJKA9cYOHTclyFWViZNIe5RYVhnyqRT2KyO5w9HY5NdDn
-         Ixhx3+Ve+nPhOzuZglBzkoqqmfs/Y6oUXzCOGyIp0Rvo+WigpoYZkRozwGkkHzSyDV
-         VchrctJ4cGqXec7SWgl6a+XnqQB2UUUR7m8RXvwY=
-Date:   Fri, 17 Feb 2023 01:11:05 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Thu, 16 Feb 2023 20:47:32 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 704904CCBA;
+        Thu, 16 Feb 2023 17:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676598450; x=1708134450;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=RbNfSARDvLPJapxmmg3BxpzyzbRqno6KD685T0zOp+Y=;
+  b=lSacXNljUjNyzS8xBjunE99DFbvquzd1RMBz8hDz4hpNhrjn9ZB/4YkQ
+   G3VhRUz3Wd98epeQ3R/hVxf0tl1FIEGMh34Ocvc10Vrfb+wfnZoDANdBJ
+   X5Jtn5oPYgS7rm/iu77F1A+dND9MTnZ1iqB/M/kS2zejyoiLfQtLXEFR5
+   4zqG0tStOR4pLbe9dh/1J5Tajzufsb9gRfnrgHlSOUUyoURbpV8MWfu7A
+   oXJqAyNjH3GW0uLu7/ORQ4uufTAxIiZ8kR7ei7zpZxNp/NehCCPfW9n9d
+   9GzrBwho1EJW+1CVs5MMSUp9Wh/rGj/Pqmzr+Rxhgnyg2S9Dy9XLGoSH2
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333246101"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="333246101"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 17:47:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="915919466"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="915919466"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
+  by fmsmga006.fm.intel.com with ESMTP; 16 Feb 2023 17:47:26 -0800
+Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, frieder.schrempf@kontron.de,
-        Tim Harvey <tharvey@gateworks.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [RFC 1/1] v4l: async: Add some debug prints
-Message-ID: <Y+64CdATkoeE5AdL@pendragon.ideasonboard.com>
-References: <049f2fea-1725-74d9-d20d-fc4f7506d504@kontron.de>
- <20230209221634.35239-1-sakari.ailus@linux.intel.com>
- <Y+V02fe9lqVrt3lb@pendragon.ideasonboard.com>
- <Y+zJboHu13jqo+Mv@kekkonen.localdomain>
- <Y+0xGRgQdACCIqnL@pendragon.ideasonboard.com>
- <Y+3lZs3S1EhYuuHp@kekkonen.localdomain>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wentong Wu <wentong.wu@intel.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org, srinivas.pandruvada@intel.com,
+        pierre-louis.bossart@linux.intel.com, zhifeng.wang@intel.com,
+        xiang.ye@intel.com, tian.shu.qiu@intel.com, bingbu.cao@intel.com,
+        linux-kernel@vger.kernel.org
+References: <20230213022347.2480307-1-wentong.wu@intel.com>
+ <Y+ypKYI4c6fHL4Eu@pendragon.ideasonboard.com>
+ <00c5c16e-c94e-a328-06d9-5f09ad35258d@linux.intel.com>
+ <Y+4rtSMArg5ow0Sh@kekkonen.localdomain>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <8022b9da-e033-b77b-914c-d35a31aac2e2@linux.intel.com>
+Date:   Fri, 17 Feb 2023 09:43:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y+3lZs3S1EhYuuHp@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+In-Reply-To: <Y+4rtSMArg5ow0Sh@kekkonen.localdomain>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,239 +72,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi, Sakari,
 
-On Thu, Feb 16, 2023 at 10:12:22AM +0200, Sakari Ailus wrote:
-> On Wed, Feb 15, 2023 at 09:23:05PM +0200, Laurent Pinchart wrote:
-> > On Wed, Feb 15, 2023 at 02:00:46PM +0200, Sakari Ailus wrote:
-> > > On Fri, Feb 10, 2023 at 12:34:01AM +0200, Laurent Pinchart wrote:
-> > > > Thank you for the patch.
-> > > 
-> > > Thanks for the review!
-> > > 
-> > > This was indeed hastily written, to help debugging a particular issue. But
-> > > I hope it'll be useful for other purposes, too. V4L2 async is about to get
-> > > more complicated soon.
-> > 
-> > Could it get simpler instead ? :-) Maybe one day v4l2-async may cross
-> > the threshold of how much pain I can bear, and I'll rewrite it...
+On 2/16/23 9:12 PM, Sakari Ailus wrote:
+> Hi Bingbu, Wentong,
 > 
-> I wish it could, but often supporting complex needs is complicated.
-> "Simplicated" is not even a proper word after all. Let's see.
+> On Wed, Feb 15, 2023 at 08:09:50PM +0800, Bingbu Cao wrote:
+>>
+>> Hi, Wentong,
+>>
+>> On 2/15/23 5:43 PM, Laurent Pinchart wrote:
+>>> Hello Wentong,
+>>>
+>>> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
+>>>> Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
+>>>> companion chip designed to provide secure and low power vision capability
+>>>> to IA platforms. IVSC is available in existing commercial platforms from
+>>>> multiple OEMs.
+>>>>
+>>>> The primary use case of IVSC is to bring in context awareness. IVSC
+>>>> interfaces directly with the platform main camera sensor via a CSI-2 link
+>>>> and processes the image data with the embedded AI engine. The detected
+>>>> events are sent over I2C to ISH (Intel Sensor Hub) for additional data
+>>>> fusion from multiple sensors. The fusion results are used to implement
+>>>> advanced use cases like:
+>>>>  - Face detection to unlock screen
+>>>>  - Detect user presence to manage backlight setting or waking up system
+>>>
+>>> Do you have plan to support these features in the ivsc driver in the
+>>> future ?
+>>>
+>>>> Since the Image Processing Unit(IPU) used on the host processor needs to
+>>>> configure the CSI-2 link in normal camera usages, the CSI-2 link and
+>>>> camera sensor can only be used in mutually-exclusive ways by host IPU and
+>>>> IVSC. By default the IVSC owns the CSI-2 link and camera sensor. The IPU
+>>>> driver can take ownership of the CSI-2 link and camera sensor using
+>>>> interfaces provided by this IVSC driver.
+>>>>
+>>>> Switching ownership requires an interface with two different hardware
+>>>> modules inside IVSC. The software interface to these modules is via Intel
+>>>> MEI (The Intel Management Engine) commands. These two hardware modules
+>>>> have two different MEI UUIDs to enumerate. These hardware modules are:
+>>>>  - ACE (Algorithm Context Engine): This module is for algorithm computing
+>>>> when IVSC owns camera sensor. Also ACE module controls camera sensor's
+>>>> ownership. This hardware module is used to set ownership of camera sensor.
+>>>>  - CSI (Camera Serial Interface): This module is used to route camera
+>>>> sensor data either to IVSC or to host for IPU driver and application.
+>>>>
+>>>> IVSC also provides a privacy mode. When privacy mode is turned on,
+>>>> camera sensor can't be used. This means that both ACE and host IPU can't
+>>>> get image data. And when this mode is turned on, host IPU driver is
+>>>> informed via a registered callback, so that user can be notified.
+>>>
+>>> How does the privacy mode work, and how can the user trust that the
+>>> closed-source IVSC and IME firmwares will honour the privacy settings ?
 
-Don't try to lure me into rewriting it sooner than later ;-)
+As I know, without IVSC, once user enable the privacy mode, the Intel
+Converged Security Engine will configure the IPU camera mask (security
+register), which will mask the specific CSI2 port and produce dummy
+imaging data. For the case with IVSC, there is no final solution on Linux
+so far I think.
 
-> > > > On Fri, Feb 10, 2023 at 12:16:34AM +0200, Sakari Ailus wrote:
-> > > > > Just add some debug prints for V4L2 async sub-device matching process. These
-> > > > > might come useful in figuring out why things don't work as expected.
-> > > > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > > Frieder,
-> > > > > 
-> > > > > Can you try this? It prints what is being matched with what. Perhaps this
-> > > > > could be merged in a bit more refined form if it proves useful.
-> > > > > 
-> > > > > Not tested in any way.
-> > > > > 
-> > > > >  drivers/media/v4l2-core/v4l2-async.c | 41 ++++++++++++++++++++++++----
-> > > > >  1 file changed, 36 insertions(+), 5 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > > > index 2f1b718a9189..6c13a9488415 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > > > @@ -86,13 +86,18 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > > >  	bool sd_fwnode_is_ep;
-> > > > >  	struct device *dev;
-> > > > >  
-> > > > > +	dev_dbg(sd->dev, "async fwnode match %pfw vs. %pfw\n", sd_fwnode,
-> > > > > +		asd->match.fwnode);
-> > > > 
-> > > > Let's be more explicit:
-> > > > 
-> > > > 	dev_dbg(sd->dev, "async fwnode match: need %pfw, trying %pfw\n",
-> > > > 		sd_fwnode, asd->match.fwnode);
-> > > > 
-> > > > (feel free to adjust, as long as we differentiate what we're looking for
-> > > > from what we're testing)
-> > > 
-> > > Yes.
-> > > 
-> > > > > +
-> > > > >  	/*
-> > > > >  	 * Both the subdev and the async subdev can provide either an endpoint
-> > > > >  	 * fwnode or a device fwnode. Start with the simple case of direct
-> > > > >  	 * fwnode matching.
-> > > > >  	 */
-> > > > > -	if (sd_fwnode == asd->match.fwnode)
-> > > > > +	if (sd_fwnode == asd->match.fwnode) {
-> > > > > +		dev_dbg(sd->dev, "true\n");
-> > > > 
-> > > > 		dev_dbg(sd->dev, "direct match found\n");
-> > > > 
-> > > > >  		return true;
-> > > > > +	}
-> > > > >  
-> > > > >  	/*
-> > > > >  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> > > > > @@ -105,8 +110,12 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > > >  	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
-> > > > >  	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
-> > > > >  
-> > > > > -	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> > > > > +	dev_dbg(sd->dev, "async fwnode match %pfw vs. %pfw\n", sd_fwnode,
-> > > > > +		asd->match.fwnode);
-> > > > 
-> > > > You've already printed this above, no need to repeat it.
-> > > > 
-> > > > > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep) {
-> > > > > +		dev_dbg(sd->dev, "unmatching node types (false)\n");
-> > > > 
-> > > > 		dev_dbg(sd->dev, "direct match not found\n");
-> > > > 
-> > > > >  		return false;
-> > > > > +	}
-> > > > >  
-> > > > >  	/*
-> > > > >  	 * The sd and asd fwnodes are of different types. Get the device fwnode
-> > > > > @@ -120,10 +129,15 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > > >  		other_fwnode = sd_fwnode;
-> > > > >  	}
-> > > > >  
-> > > > > +	dev_dbg(sd->dev, "async fwnode (compat) match %pfw vs. %pfw\n",
-> > > > > +		dev_fwnode, other_fwnode);
-> > > > 
-> > > > Same comment as above regarding "vs." not telling which is which.
-> > > > 
-> > > > > +
-> > > > >  	fwnode_handle_put(dev_fwnode);
-> > > > >  
-> > > > > -	if (dev_fwnode != other_fwnode)
-> > > > > +	if (dev_fwnode != other_fwnode) {
-> > > > > +		dev_dbg(sd->dev, "false\n");
-> > > > 
-> > > > 		dev_dbg(sd->dev, "compat match not found\n");
-> > > > 
-> > > > >  		return false;
-> > > > > +	}
-> > > > >  
-> > > > >  	/*
-> > > > >  	 * We have a heterogeneous match. Retrieve the struct device of the side
-> > > > > @@ -143,6 +157,8 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > > >  			   dev->driver->name);
-> > > > >  	}
-> > > > >  
-> > > > > +	dev_dbg(sd->dev, "true\n");
-> > > > 
-> > > > 	dev_dbg(sd->dev, "compat match found\n");
-> > > > 
-> > > > > +
-> > > > >  	return true;
-> > > > >  }
-> > > > >  
-> > > > > @@ -255,7 +271,10 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
-> > > > >  			v4l2_async_find_subdev_notifier(sd);
-> > > > >  
-> > > > >  		if (subdev_notifier &&
-> > > > > -		    !v4l2_async_nf_can_complete(subdev_notifier))
-> > > > > +		    !v4l2_async_nf_can_complete(subdev_notifier)) {
-> > > > > +			if (subdev_notifier->sd)
-> > > > > +				deb_dbg(subdev_notifier->sd->dev,
-> > > > > +					"cannot complete\n");
-> > > > 
-> > > > I'd add a reference to v4l2-async, either directly in the string, or
-> > > > with a "%s: ", __func__ prefix. Otherwise the message will be easy to
-> > > > miss. Same in other messages. Maybe a "v4l2-async: " prefix for all
-> > > > debug messages ?
-> > > 
-> > > How about just "async: " for all of these? It's shorther, still unique, and
-> > > these lines will be long.
-> > 
-> > "async" is a bit vague, I think you should mention V4L2 too. If this
-> > ends up printing
-> > 
-> > 3-0010 async: cannot complete
-> > 
-> > someone may wonder what it relates to. We're talking about debugging
-> > messages here, let's make sure they improve debugging as much as
-> > possible.
+Wentong, is IVSC trying to cut off the stream and then notify user and IPU?
+
+>>>
+>>
+>> Continue with question from Laurent,
+>>
+>> How IVSC handle the privacy request from user? Is there some notification
+>> mechanism to user-space? I'd have concern if IVSC driver need private callback
+>> to request back-end(e.g. ISP driver) to handle stream cutting.
 > 
-> These messages include the device name which already implies what it is
-> about, so I'm frankly not concerned about this. Also these messages tend to
-> occur in series. Having them shorter, instead, is a small plus. An example:
+> How does the privacy mode work, does it just pass zeroes (or other dummy
+> data) towards the host or nothing?
 > 
-> [    5.716093] dw9807 i2c-PRP0001:01: async: matching for notifier \_SB.PCI0.CIO2, sd \_SB.PCI0.I2C2.VCM0
-> [    5.716109] dw9807 i2c-PRP0001:01: async: fwnode match: need \_SB.PCI0.I2C2.VCM0, trying \_SB_.PCI0.I2C2.CAM0/port@0/endpoint@0
-> [    5.716123] dw9807 i2c-PRP0001:01: async: fwnode compat match, need \_SB_.PCI0.I2C2.CAM0, trying \_SB.PCI0.I2C2.VCM0
-> [    5.716131] dw9807 i2c-PRP0001:01: async: compat match not found
-> [   30.333138] imx258 i2c-SONY258A:00: async: matching for notifier \_SB.PCI0.CIO2, sd \_SB.PCI0.I2C2.CAM0
-> [   30.333154] imx258 i2c-SONY258A:00: async: fwnode match: need \_SB.PCI0.I2C2.CAM0, trying \_SB_.PCI0.I2C2.CAM0/port@0/endpoint@0
-> [   30.333168] imx258 i2c-SONY258A:00: async: fwnode compat match, need \_SB_.PCI0.I2C2.CAM0, trying \_SB.PCI0.I2C2.CAM0
-> [   30.333175] imx258 i2c-SONY258A:00: async: compat match not found
-> [   30.333178] imx258 i2c-SONY258A:00: async: trying secondary fwnode match
-> [   30.333181] imx258 i2c-SONY258A:00: async: fwnode match: need \_SB_.PCI0.I2C2.CAM0, trying \_SB_.PCI0.I2C2.CAM0/port@0/endpoint@0
-> [   30.333189] imx258 i2c-SONY258A:00: async: fwnode compat match, need \_SB_.PCI0.I2C2.CAM0, trying \_SB_.PCI0.I2C2.CAM0
-> [   30.333196] imx258 i2c-SONY258A:00: async: compat match found
-> [   30.333214] dw9807 i2c-PRP0001:01: async: matching for notifier \_SB.PCI0.I2C2.CAM0, sd \_SB.PCI0.I2C2.VCM0
-> [   30.333225] dw9807 i2c-PRP0001:01: async: fwnode match: need \_SB.PCI0.I2C2.VCM0, trying \_SB.PCI0.I2C2.VCM0
-> [   30.333235] dw9807 i2c-PRP0001:01: async: direct match found
-> [   30.333248] dw9807 i2c-PRP0001:01: async: bound to i2c-SONY258A:00's notifier (ret 0)
-> [   30.333252] ipu3-cio2 0000:00:14.3: async: complete
-
-I would still prefer v4l2-async, but I won't nack the patch just for
-that.
-
-> > > > >  			return false;
-> > > > >  	}
-> > > > >  
-> > > > > @@ -273,18 +292,27 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
-> > > > >  	if (!list_empty(&notifier->waiting))
-> > > > >  		return 0;
-> > > > >  
-> > > > > +	if (notifier->sd)
-> > > > > +		deb_dbg(notifier->sd->dev, "trying to complete\n");
-> > > > > +
-> > > > >  	/* Check the entire notifier tree; find the root notifier first. */
-> > > > >  	while (notifier->parent)
-> > > > >  		notifier = notifier->parent;
-> > > > >  
-> > > > >  	/* This is root if it has v4l2_dev. */
-> > > > > -	if (!notifier->v4l2_dev)
-> > > > > +	if (!notifier->v4l2_dev) {
-> > > > > +		if (notifier->sd)
-> > > > > +			deb_dbg(notifier->sd->dev,
-> > > > > +				"V4L2 device not available\n");
-> > > > >  		return 0;
-> > > > > +	}
-> > > > >  
-> > > > >  	/* Is everything ready? */
-> > > > >  	if (!v4l2_async_nf_can_complete(notifier))
-> > > > >  		return 0;
-> > > > >  
-> > > > > +	deb_dbg(notifier->sd->dev, "complete\n");
-> > > > 
-> > > > You guard against notifier->sd being NULL above, but not here. At least
-> > > > one of the two is wrong.
-> > > 
-> > > I'll add a helper function to get the device safely.
-> > > 
-> > > > > +
-> > > > >  	return v4l2_async_nf_call_complete(notifier);
-> > > > >  }
-> > > > >  
-> > > > > @@ -386,6 +414,9 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier)
-> > > > >  			continue;
-> > > > >  
-> > > > >  		ret = v4l2_async_match_notify(notifier, v4l2_dev, sd, asd);
-> > > > > +		deb_dbg(sd->dev, "bound to %s's notifier (ret %d)\n",
-> > > > > +			notifier->sd ? dev_name(notifier->sd->dev) : "no-dev",
-> > > > > +			ret);
-> > > > >  		if (ret < 0)
-> > > > >  			return ret;
-> > > > >  
+> A V4L2 control can be used for the purpose of passing the information to
+> the user space at least.
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Bingbu Cao
