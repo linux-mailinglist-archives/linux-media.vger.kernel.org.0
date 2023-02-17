@@ -2,210 +2,300 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC91F69A62A
-	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 08:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7026469A6DC
+	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 09:26:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjBQHho (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Feb 2023 02:37:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51624 "EHLO
+        id S229512AbjBQI0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Feb 2023 03:26:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjBQHhk (ORCPT
+        with ESMTP id S229531AbjBQI0J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Feb 2023 02:37:40 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AD05D3F9;
-        Thu, 16 Feb 2023 23:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676619455; x=1708155455;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=5+amSRvoEf6RSqchQtCJJyj0eQ+92k99nms6PnzvlnA=;
-  b=AuSFGhUSHAz0OEZU2GvWDQbDSHdhT9XCVdk9ryG41LtpSAzthc+a/Gdl
-   7Id9Cfsv6vPD3En+EcmOVXz/9wFs5WTomPln8ZcxIhFzV+s9yirClHq//
-   9tfbjvLeZRdUE8L6zOMDEoTMAmTIHNFVMU8E+lvk3jvia84o7eZAVHUId
-   QpLER6wnHbtJf8HXXvML9erjjYO+e90fDQ/wTuP3TzzyvHCyXn9TCBL+y
-   UmqIBcNHSNsflsqdj4Vzye8xHa+pRr+WGt9udqHpqKR+m3PbMyViA9XYx
-   NHAcPnGW0csSzQOKNF8Gsatlw6uoa6rbjlLKyrZbizIrFSP85nXqmwxp+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="330594075"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="330594075"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 23:37:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="794327007"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
-   d="scan'208";a="794327007"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga004.jf.intel.com with ESMTP; 16 Feb 2023 23:37:34 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 16 Feb 2023 23:37:34 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 16 Feb 2023 23:37:34 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 16 Feb 2023 23:37:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=czcbkHSCMbs6IA/VuZFMCIX4NLkyXiYCNThgSdBQghVJonIsLjLKEe9dKvq8Tqx7jNV3x5wFNRVsvIiG3xr2lybPRm1qN/L1GnzBhBaCpVIsO27/01RXQuo2gEJs9wTmE7+khtQ0p2f/WbYnBVdDlh9hj5VHDQD7lRz6Rr3fua6GPVTekec0X/zRSMogkbkVu2kbnvWLYW6NNOGRvYvtEgVisIL7xfxirXkCo3Y7gLiocZyCEcBwYSUo+vJVcDxshWH/c6tM9s9sqSZH7Xt3JPn6C79WMN2nyM2FH1lEn8LI0VpyGNy7qpHlpft/Gsf5FXG1mTg5Y3E/M5SVrY11JQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zdhWWb0rsDB2XLkzYbsrpHbgnt5eLdRi9eLMdKlC/5M=;
- b=VtlHQRyxgQBn0ZnBWXfb93pWv3shcEIbt9/bRVH2wv68lzsqfkV3jsnBQW+/Yp7MDl9w6k95R0lFjR7QaGD0FcPVN8SSWSQg7/iFajpOTtZvO2c+lHk/7wR4/8ZAZ6FXlGHFgDlhhdYmD8Tt124smauNzWmaaNli8odL4vrfPh7B4lz59Uoz5xnkei7eJFEyy3vMaiMIdFTJxpvdFbhLZG+4gIbG1oUaQQh3R7mvSIrvo+9DkLIP6nibdjrBr5GjoHI+pBf45S4EKc7/qBxbxurXv37cZmVDuytNuiY+6ER374DamvIi0sIFzT+eAgEvm/TNyT34fml3cwFq3GhmKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4316.namprd11.prod.outlook.com (2603:10b6:5:205::16)
- by IA1PR11MB7246.namprd11.prod.outlook.com (2603:10b6:208:42e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 07:37:31 +0000
-Received: from DM6PR11MB4316.namprd11.prod.outlook.com
- ([fe80::8b8d:f936:4e17:13f6]) by DM6PR11MB4316.namprd11.prod.outlook.com
- ([fe80::8b8d:f936:4e17:13f6%4]) with mapi id 15.20.6111.015; Fri, 17 Feb 2023
- 07:37:31 +0000
-From:   "Wu, Wentong" <wentong.wu@intel.com>
-To:     Hillf Danton <hdanton@sina.com>
-CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 1/3] media: pci: intel: ivsc: Add CSI submodule
-Thread-Topic: [PATCH v2 1/3] media: pci: intel: ivsc: Add CSI submodule
-Thread-Index: AQHZP1HqpZLwLlRt00ml9e7fRXtKOq7MO6AAgAG4EjCAACxFgIAAM1HwgADNUYCAA4fWgIAACvWAgAANv1A=
-Date:   Fri, 17 Feb 2023 07:37:31 +0000
-Message-ID: <DM6PR11MB4316365C6A210BC728B5C4948DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
-References: <20230213022347.2480307-1-wentong.wu@intel.com>
- <20230213034202.2926-1-hdanton@sina.com>
- <20230214083533.3410-1-hdanton@sina.com>
- <20230214235405.3587-1-hdanton@sina.com>
- <20230217062815.1682-1-hdanton@sina.com>
-In-Reply-To: <20230217062815.1682-1-hdanton@sina.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4316:EE_|IA1PR11MB7246:EE_
-x-ms-office365-filtering-correlation-id: 5e4ba3b5-8695-4d83-dbcf-08db10b9d3e3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7O1pXmhWGJhtycymEaozpPzqzaFwFQapimDChAvEXGvn0DeA0ruQDk8B2DMEDwLKGMDxG2/QA3wMmZfWaQ87RqXyt6N7g+aQd18F7GH0PZ7zoSG7LzdY1rtyEwKL4aRGELukJb3CvW4S1S2meR5bU3chKFjDaFxo3FhTRujmCwLlzIffo56wQw1O0cxrNPp8A7UXDs499wdu2paIy7QRtdKlkhg1WsuCZTMjalWdwqo9oSUjU36AbGQJx6OKQwEUswm4Th/fmEa4MvyyD0A9odiHqDWiNhNhOU4pElLnnHxUoXG+0sjZ1uOY0CoevUO8Krz08OOz+hp50YcKjokdANXHX8/vvf2nYWTMilhqCgI716hkuQ6KjIXxZCEHoZaKmWdNbKHaYyRnFq1SJRcjhtGQTnYJJCw7Y+142WQwh21RDEGhIGYtvcuAHT7BiYwizt3jjS1D7YCN+0a6NEi2EVg06swFuLNCn3b1tl809s8hEtDMVApHJPNQ7B4Nlf01mTyvkz/uIczcsaL9TILVBxTJLxhC2WS7UtKA43yoLvJTpFLpxkS47OOmmZdEbkd8LjDpC0awJVY3p7xTyOS1XmU1BuSqTnMly4dvxrTiWTDIoDF77BZnFqRbb3WvAHuaS358aBPwTD32tgeIl4Xe2BKwfMWyZ07mYuRUHW5B3EPbMpUyRhsk9AgR9bn0Ycf6LgkTkDqWQ9ouQWNoK6yEJw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4316.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(39860400002)(396003)(376002)(346002)(366004)(451199018)(55016003)(83380400001)(86362001)(2906002)(478600001)(33656002)(7696005)(71200400001)(6506007)(26005)(9686003)(186003)(122000001)(38070700005)(38100700002)(82960400001)(5660300002)(52536014)(41300700001)(4326008)(6916009)(66476007)(8936002)(64756008)(66446008)(76116006)(66946007)(8676002)(66556008)(316002)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?db8dEevQqCp+wqlrOJ+eO0cmCwo2LrTl2+1xioo5xhuveAsrgLiC1Z45EH+T?=
- =?us-ascii?Q?LCRC2enntn4nwikkaVIuOal2ilytdt8h1fxAlofCuVc6FY75Dm35MKqDJrkr?=
- =?us-ascii?Q?Y3psZPE4PhBOztFlPjltwc67QmmCJQNIWHfKU0wSC2AQL0wBUidm1mdo2h3F?=
- =?us-ascii?Q?4ZQR90Zka4lWsGBMSYBe1xFEcyNsQb0Uw686KFIO8sxZzQTYsIXNmo1Q0oTj?=
- =?us-ascii?Q?HwKrnD6xvpfhmlmm3PsQRr08hymdo5eTVupfTEay4qAcazi2Wlj9wPv+qo42?=
- =?us-ascii?Q?KRxSnOA1Tok248TBogcEcfmD1gu/Ral3Fd96dRmm0/9okp4YLT/iMCdz3gXK?=
- =?us-ascii?Q?H/LKIGdtm5FjSJZvWbp+zWaP/C3V2DAafEJysiQoSrAdMoFyZUzoG7t18hTh?=
- =?us-ascii?Q?sLVg9R49fPncNdPMS2bTfAtCzdC5nFLG3f7meKBkiczJycgmTythhZDy1J3z?=
- =?us-ascii?Q?9vv0BFoNWYVxvlL4YDgRHwwoQbQvDZyRQlIJi/UGPJD5dznR+eNajfFg7fEZ?=
- =?us-ascii?Q?zujuWAs05HmJ8mAhqEkIlJ5C+SbzqTHwxcKWDmsItwaGTfGlC3pNwiPAgBwQ?=
- =?us-ascii?Q?pOXoyfm2HVdq4uiFK/1n9jYpVWM5J+mwrtAjwoDUQyDJ+pB+OpCffPNeZYe4?=
- =?us-ascii?Q?4W2hAv8VjdEc2k3RNLsP/82eOdNE/lBn+qR/ppKFRTxGnfq2RyC8NIHBgfEE?=
- =?us-ascii?Q?VblnoXZLmlhuhu2x2hnRcnlKBSPBsPne5Eucp+23k4BdoPP3kEzDqzTrxnUp?=
- =?us-ascii?Q?fSDHGFfo9gRFWq7dcgkBPYuIxwvfFPWEi3xxGuh4t45J1c4soQPrXnc1OuS2?=
- =?us-ascii?Q?LPOPgx17kSMEo9EWVVgl1fYPcuF7Pf2QctjW0TsAfiuNWj+ZumefQPNK3Qif?=
- =?us-ascii?Q?ouMvLe6k5YQQnffX9LAk1o/MN5IvCWNlZzC9nWVPYn9aN6qdo295xlN7hfIO?=
- =?us-ascii?Q?rjy/ukpS34Geu/856UyRyRhTFjTyJeULLfibTe6w9MKFJT8r1hjN4FnNZKm6?=
- =?us-ascii?Q?uzKWG4N0tPTsSjvSnrbqiZlJwmqEV4NkKAI421NmFuyEK5iC8jL+W7yl4TxT?=
- =?us-ascii?Q?XWyuov2x5UsiXkhGcHwnGJHPbJxYYEZlGT+EzSWqglsZLTETsnm65iNPTBq6?=
- =?us-ascii?Q?VHT5+IY1Rha9MlVxPnzKzX8NQ9nGQd8TySojugLEy58A2LB4ug6i+EJQZujT?=
- =?us-ascii?Q?XeMcVcB7NSeRBXi5TJBeu9Dlo4mUHVYKl1P2JBgN8ctztBdIL4Ja0F8+pJqo?=
- =?us-ascii?Q?qlM2s8lN4gawyTWjbpjGImFc2OHfafLX1SpCJ9hNn0d+hNr0Swa5o1FaMCKb?=
- =?us-ascii?Q?CJkzYfkfdqZXHsMf48hV465LzPdU8o2Mhc09sJyVY1tHA46t9jNv9repfCIO?=
- =?us-ascii?Q?LAg0xRypYUXhiH2L6Szoru1rsH0C3ZX5sctK7U8Cu+Sb0/ibffg8VOFGX4kk?=
- =?us-ascii?Q?7a2P8oZZOzNiXyVarSkSGCUjJWbCDrnGhYyxhzsUpU6U/qtDKDa7zNfFxZYk?=
- =?us-ascii?Q?3nK97RhPaO/637o0SFeavqUvDFgLJhMA71NmtsRBLAn1Zfosr6Q5ItntX6ac?=
- =?us-ascii?Q?fJ+JKphRrd8JuJIXSN7vfx67S4zofIDwrnG3acpV?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 17 Feb 2023 03:26:09 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0DCA1BACE
+        for <linux-media@vger.kernel.org>; Fri, 17 Feb 2023 00:26:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1676622365; x=1708158365;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8TR/UtLCbhxT9RUeW4SLuXvCl1KqvsJSmDpL0khQ52g=;
+  b=WuWVXkfaFd8ZRt2dIFxxG6slLelyXQoeW399eXUi7rdTqriDuHeQsL68
+   DT9iFCeXSC0lA47vgBO7m+w5tSUR/zQN2t+dhXXqswDNZ5NH+OrXf1qod
+   s2VUFcSGkEKwQCXnib8vTBKSCXNz29P/gU+MwDuNjbRPO94lvW8Xm/s8S
+   UI+t0nyhHKTMdS5HWjheBHTJ3PRqVaSq/eVwtawYvnDvCG3VZ/ghWlJIC
+   9vy8Svj9lZwNqIyuoSW+qZdQdAwWjLvt41itJH7sy6eyck20P+aQyj+6j
+   v5YmkocjuERDkKKz5Le1DrLX4WW1b5euz4qJr4/B1/ol18cTRpm150ACV
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; 
+   d="scan'208";a="29148745"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 17 Feb 2023 09:26:03 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 17 Feb 2023 09:26:03 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 17 Feb 2023 09:26:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1676622363; x=1708158363;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8TR/UtLCbhxT9RUeW4SLuXvCl1KqvsJSmDpL0khQ52g=;
+  b=f9kC1wqHJSsy5knB51LUn3AxvRV7dq6mQY3PG30tSUYe7dLvwrngxvDf
+   TWZwA5YgaHk6so/ocEYKh8yQ9TsEGnOr5LLyZbUU3AOVeEqhuom59N/Ei
+   EK+qFZ1Pk7SzMhf48qxYJgUd10eqXWpXwA+h1kVP7CAr0In/u7pjTs5MB
+   zgZJauiqjPnRsRINrOV0w/JovbKZUgNjnsGhXwNLBPPcXnmOB64n9X55H
+   P2F/E86fkj52Wks63GS+7xK7BLEgoWXdEPbt9UOKhDxDXFkSjARFSShIu
+   xEVuEWP/AdcqfkyjJxvGOs4G7jnTzAcLqEy9e91XKpoqWY936DLgpyapu
+   w==;
+X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; 
+   d="scan'208";a="29148744"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 17 Feb 2023 09:26:03 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E7E04280056;
+        Fri, 17 Feb 2023 09:26:02 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v3 10/15] media: i2c: imx290: Convert V4L2_CID_VBLANK to read/write
+Date:   Fri, 17 Feb 2023 09:26:00 +0100
+Message-ID: <8184512.T7Z3S40VBb@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230215223003.30170-11-laurent.pinchart@ideasonboard.com>
+References: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com> <20230215223003.30170-11-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4316.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e4ba3b5-8695-4d83-dbcf-08db10b9d3e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2023 07:37:31.2820
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xx9dydLNLn1fIN4/CoiLjvwTfDwfbTKy22ESYoty+sB9QFq9IypqGQjmUf1bzEAasJFFRX95WqRp3AUlWUa5pw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7246
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
+
+thanks for putting these series together.
+
+Am Mittwoch, 15. Februar 2023, 23:29:58 CET schrieb Laurent Pinchart:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>=20
+> The driver exposed V4L2_CID_VBLANK as a read only control to allow
+> for exposure calculations and determination of the frame rate.
+>=20
+> Convert to a read/write control so that the frame rate can be
+> controlled.
+> V4L2_CID_VBLANK also sets the limits for the exposure control,
+> therefore exposure ranges have to be updated when vblank changes
+> (either via s_ctrl, or via changing mode).
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx290.c | 58 +++++++++++++++++++++++++++++++-------
+>  1 file changed, 48 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index f82fb05b6695..1ae01cd43efb 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -46,6 +46,7 @@
+>  #define IMX290_BLKLEVEL				=09
+IMX290_REG_16BIT(0x300a)
+>  #define IMX290_GAIN				=09
+IMX290_REG_8BIT(0x3014)
+>  #define IMX290_VMAX				=09
+IMX290_REG_24BIT(0x3018)
+> +#define IMX290_VMAX_MAX					0x3ffff
+>  #define IMX290_HMAX				=09
+IMX290_REG_16BIT(0x301c)
+>  #define IMX290_HMAX_MAX					0xffff
+>  #define IMX290_SHS1				=09
+IMX290_REG_24BIT(0x3020)
+> @@ -106,6 +107,9 @@
+>  #define IMX290_PGCTRL_THRU				BIT(1)
+>  #define IMX290_PGCTRL_MODE(n)				((n) <<=20
+4)
+>=20
+> +/* Number of lines by which exposure must be less than VMAX) */
+
+I guess the ')' is a leftover. Despite that:
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+Best regards,
+Alexander
+
+> +#define IMX290_EXPOSURE_OFFSET				2
+> +
+>  #define IMX290_VMAX_DEFAULT				1125
+>=20
+>  #define IMX290_PIXEL_RATE				148500000
+> @@ -222,6 +226,7 @@ struct imx290 {
+>  	struct v4l2_ctrl *link_freq;
+>  	struct v4l2_ctrl *hblank;
+>  	struct v4l2_ctrl *vblank;
+> +	struct v4l2_ctrl *exposure;
+>  };
+>=20
+>  static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+> @@ -235,7 +240,6 @@ static inline struct imx290 *to_imx290(struct
+> v4l2_subdev *_sd)
+>=20
+>  static const struct imx290_regval imx290_global_init_settings[] =3D {
+>  	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
+> -	{ IMX290_VMAX, IMX290_VMAX_DEFAULT },
+>  	{ IMX290_EXTCK_FREQ, 0x2520 },
+>  	{ IMX290_WINWV_OB, 12 },
+>  	{ IMX290_WINPH, 0 },
+> @@ -659,6 +663,16 @@ static int imx290_setup_format(struct imx290 *imx290,
+>  /*
+> -------------------------------------------------------------------------=
+=2D-
+> - * Controls
+>   */
+> +static void imx290_exposure_update(struct imx290 *imx290,
+> +				   const struct imx290_mode *mode)
+> +{
+> +	unsigned int exposure_max;
+> +
+> +	exposure_max =3D imx290->vblank->val + mode->height -
+> +		       IMX290_EXPOSURE_OFFSET;
+> +	__v4l2_ctrl_modify_range(imx290->exposure, 1, exposure_max, 1,
+> +				 exposure_max);
+> +}
+>=20
+>  static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+> @@ -666,7 +680,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  					     struct imx290, ctrls);
+>  	const struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_subdev_state *state;
+> -	int ret =3D 0;
+> +	int ret =3D 0, vmax;
+>=20
+>  	/*
+>  	 * Return immediately for controls that don't need to be applied to=20
+the
+> @@ -675,6 +689,11 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+>  		return 0;
+>=20
+> +	if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> +		/* Changing vblank changes the allowed range for exposure.=20
+*/
+> +		imx290_exposure_update(imx290, imx290->current_mode);
+> +	}
+> +
+>  	/* V4L2 controls values will be applied only when power is already=20
+up */
+>  	if (!pm_runtime_get_if_in_use(imx290->dev))
+>  		return 0;
+> @@ -687,9 +706,23 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		ret =3D imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
+>  		break;
+>=20
+> +	case V4L2_CID_VBLANK:
+> +		ret =3D imx290_write(imx290, IMX290_VMAX,
+> +				   ctrl->val + imx290->current_mode-
+>height,
+> +				   NULL);
+> +		/*
+> +		 * Due to the way that exposure is programmed in this=20
+sensor in
+> +		 * relation to VMAX, we have to reprogramme it whenever=20
+VMAX is
+> +		 * changed.
+> +		 * Update ctrl so that the V4L2_CID_EXPOSURE case can=20
+refer to
+> +		 * it.
+> +		 */
+> +		ctrl =3D imx290->exposure;
+> +		fallthrough;
+>  	case V4L2_CID_EXPOSURE:
+> +		vmax =3D imx290->vblank->val + imx290->current_mode->height;
+>  		ret =3D imx290_write(imx290, IMX290_SHS1,
+> -				   IMX290_VMAX_DEFAULT - ctrl->val -=20
+1, NULL);
+> +				   vmax - ctrl->val - 1, NULL);
+>  		break;
+>=20
+>  	case V4L2_CID_TEST_PATTERN:
+> @@ -746,13 +779,15 @@ static void imx290_ctrl_update(struct imx290 *imx29=
+0,
+>  {
+>  	unsigned int hblank_min =3D mode->hmax_min - mode->width;
+>  	unsigned int hblank_max =3D IMX290_HMAX_MAX - mode->width;
+> -	unsigned int vblank =3D IMX290_VMAX_DEFAULT - mode->height;
+> +	unsigned int vblank_min =3D IMX290_VMAX_DEFAULT - mode->height;
+> +	unsigned int vblank_max =3D IMX290_VMAX_MAX - mode->height;
+>=20
+>  	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+>=20
+>  	__v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max, 1,
+>  				 hblank_min);
+> -	__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank, 1, vblank);
+> +	__v4l2_ctrl_modify_range(imx290->vblank, vblank_min, vblank_max, 1,
+> +				 vblank_min);
+>  }
+>=20
+>  static int imx290_ctrl_init(struct imx290 *imx290)
+> @@ -782,9 +817,13 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>  	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>  			  V4L2_CID_ANALOGUE_GAIN, 0, 100, 1, 0);
+>=20
+> -	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> -			  V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2,=20
+1,
+> -			  IMX290_VMAX_DEFAULT - 2);
+> +	/*
+> +	 * Correct range will be determined through imx290_ctrl_update=20
+setting
+> +	 * V4L2_CID_VBLANK.
+> +	 */
+> +	imx290->exposure =3D v4l2_ctrl_new_std(&imx290->ctrls,=20
+&imx290_ctrl_ops,
+> +					     V4L2_CID_EXPOSURE, 1,=20
+65535, 1,
+> +					     65535);
+>=20
+>  	/*
+>  	 * Set the link frequency, pixel rate, horizontal blanking and=20
+vertical
+> @@ -816,8 +855,6 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>=20
+>  	imx290->vblank =3D v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>  					   V4L2_CID_VBLANK, 1, 1, 1,=20
+1);
+> -	if (imx290->vblank)
+> -		imx290->vblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+>=20
+>  	v4l2_ctrl_new_fwnode_properties(&imx290->ctrls, &imx290_ctrl_ops,
+>  					&props);
+> @@ -1003,6 +1040,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+>  		imx290->current_mode =3D mode;
+>=20
+>  		imx290_ctrl_update(imx290, &fmt->format, mode);
+> +		imx290_exposure_update(imx290, mode);
+>  	}
+>=20
+>  	*format =3D fmt->format;
 
 
-> -----Original Message-----
-> From: Hillf Danton <hdanton@sina.com>
-> Sent: Friday, February 17, 2023 2:28 PM
->=20
-> On Fri, 17 Feb 2023 05:52:38 +0000 Wentong Wu <wentong.wu@intel.com>
-> >
-> > Thanks, but what do you mean "emulated"?=3D20
-> >
-> Construct a scenario that ensures wakeup comes late because of no wait fo=
-r
-> completion. And we can see what will happen with the current test cases.
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-Thanks, I will remove reinit_completion
 
->=20
-> > static int mei_csi_send(u8 *buf, size_t len)
-> > +{
-> > +	struct csi_cmd *cmd =3D (struct csi_cmd *)buf;
-> > +	int ret;
-> > +
-> > +	reinit_completion(&csi->cmd_completion);
-> > +
-> > +	ret =3D mei_cldev_send(csi->cldev, buf, len);
-> > +	if (ret < 0)
-> > +		goto out;
->=20
-> 	return  -ETIMEDOUT;
->=20
-> > +
-> > +	ret =3D wait_for_completion_killable_timeout(&csi->cmd_completion,
-> > +						   CSI_CMD_TIMEOUT);
-> > +	if (ret < 0) {
-> > +		goto out;
-> > +	} else if (!ret) {
-> > +		ret =3D -ETIMEDOUT;
-> > +		goto out;
-> > +	}
-> > +
-> > +	/* command response status */
-> > +	ret =3D csi->cmd_response.status;
-> > +	if (ret) {
-> > +		ret =3D -EINVAL;
-> > +		goto out;
-> > +	}
-> > +
-> > +	if (csi->cmd_response.cmd_id !=3D cmd->cmd_id)
-> > +		ret =3D -EINVAL;
-> > +
-> > +out:
-> > +	return ret;
-> > +}
