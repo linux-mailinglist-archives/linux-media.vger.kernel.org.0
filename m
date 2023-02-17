@@ -2,209 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D9B69A8A1
-	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 10:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F9D69A963
+	for <lists+linux-media@lfdr.de>; Fri, 17 Feb 2023 11:50:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230180AbjBQJwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Feb 2023 04:52:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47056 "EHLO
+        id S229731AbjBQKuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Feb 2023 05:50:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjBQJwm (ORCPT
+        with ESMTP id S229923AbjBQKt5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Feb 2023 04:52:42 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440775F82B;
-        Fri, 17 Feb 2023 01:52:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1676627559; x=1708163559;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dfdINc9Z+hvhRZTRN1xdjn74m0eSkLV2CuxJRb6AAsk=;
-  b=J8c06aoM5Q/xIuBxJfvqFHoodG9PLQXXft6tt8bH3s2MW8yexRimU7+K
-   yXRavd32VfEdmIYbHvmNCZN1TCktkdeFQk6XsCf4fO96mKl47ayyHvnKy
-   5DFwQAqpRdYeHyCDKiSuQJM/vzQJUEaqK8DWPki4CazVSFEt9jxLsSq4p
-   X15yb+0ph5pv499qblpeO0ASAKQq5eb1LLjcvb8Olf+V+xIrC65J/Dzoq
-   WOGmeLPw1c6OnCTBwFv9DxYq6OTHNqlxY69tzOxjDiDrpA1sCf6r1KDAF
-   S54VACoT5UiRi7UNWuVlJgaT1lureER4QHIu/g67a/ArkU0j4Twp5Uk/V
+        Fri, 17 Feb 2023 05:49:57 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122475FD7;
+        Fri, 17 Feb 2023 02:49:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676630996; x=1708166996;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O+mHzQSlbuG5WOZs3mRUmw8gyZ8jtCsCQALBsk2fkWE=;
+  b=BJ5xRDxzZcc3vsYtUaPOiw5xfqY6bKwCrSDvMlm9S5R6q9u8R++j66fT
+   hhzgxA7YL9tBpZ7e789zg466NWV1uL7MvJRgGCW19UlVB/TgaOWzsO+21
+   +dupA/lz/w/rWRvlz53kpq0DKqXKEtmtdNbF5jCQg/cyAU64QdYdoYXuf
+   N96boNDyAZMN0KrXcaDg1/1hoaLvx9R1N1Otbd0dPO3FBhvFNtDmGY+5k
+   RpiBrEnN9Plyz5RTj7bWBGEYr9gSQUyvPhgh13kdW6Jsht29uiYSB515Z
+   N+DgFwirEfQKhMu4q+9djoFh5in/LNAjQGlohkobkGvkFaI2gtDNQg1u4
    w==;
-X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; 
-   d="scan'208";a="29151776"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 17 Feb 2023 10:52:34 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 17 Feb 2023 10:52:34 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 17 Feb 2023 10:52:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1676627554; x=1708163554;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dfdINc9Z+hvhRZTRN1xdjn74m0eSkLV2CuxJRb6AAsk=;
-  b=dhld0QRECIVwkFoMEWcF4LYHeySTsEfFy7nYLXTmj1MN2o3g/xMMK0Ho
-   CbNj62ghg1LW9DOcN3JbnzQBvhwd2AjOd1nRERmmEJE3L0Q3qWSowNhHJ
-   Phdx4hUIMAoSHXd0yuP8Aj9zRojp+vG7nBYx6bU07CMZIDCJMGWdgwDcI
-   bvg5TVPCx/mWNczVw/s9HjZLo+ZE85GvBLGANhP4wVptOxCP+7AcdQpB3
-   u4+GIEZRJ2sz40oWdF8f8vufVNTXtlRnIM62hiN8uG3jZlXo8xAh/ao9q
-   RYZxhr3hAoGXUZkcQvSSOicpxogSL5RveYQjrLSdUFjjKDfKbY5yo2NjT
-   A==;
-X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; 
-   d="scan'208";a="29151775"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 17 Feb 2023 10:52:34 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5F638280073;
-        Fri, 17 Feb 2023 10:52:34 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="315676224"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="315676224"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 02:49:40 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="648038784"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; 
+   d="scan'208";a="648038784"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 02:49:37 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id F0DEA11FC11;
+        Fri, 17 Feb 2023 12:49:34 +0200 (EET)
+Date:   Fri, 17 Feb 2023 12:49:34 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Wu, Wentong" <wentong.wu@intel.com>
+Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v3 2/2] media: i2c: imx290: Add support for imx327 variant
-Date:   Fri, 17 Feb 2023 10:52:21 +0100
-Message-Id: <20230217095221.499463-3-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230217095221.499463-1-alexander.stein@ew.tq-group.com>
-References: <20230217095221.499463-1-alexander.stein@ew.tq-group.com>
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
+        "Ye, Xiang" <xiang.ye@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "Cao, Bingbu" <bingbu.cao@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Message-ID: <Y+9bvl5SA2a1nXhe@kekkonen.localdomain>
+References: <20230213022347.2480307-1-wentong.wu@intel.com>
+ <Y+ypKYI4c6fHL4Eu@pendragon.ideasonboard.com>
+ <00c5c16e-c94e-a328-06d9-5f09ad35258d@linux.intel.com>
+ <Y+4rtSMArg5ow0Sh@kekkonen.localdomain>
+ <8022b9da-e033-b77b-914c-d35a31aac2e2@linux.intel.com>
+ <DM6PR11MB4316F7C9854B113556466BF58DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR11MB4316F7C9854B113556466BF58DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Both sensors are quite similar. Their specs only differ regarding LVDS
-and parallel output but are identical regarding MIPI-CSI-2 interface.
-But they use a different init setting of hard-coded values, taken from
-the datasheet.
+Hi Wentong,
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/media/i2c/imx290.c | 44 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 42 insertions(+), 2 deletions(-)
+On Fri, Feb 17, 2023 at 06:28:32AM +0000, Wu, Wentong wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Bingbu Cao <bingbu.cao@linux.intel.com>
+> > Sent: Friday, February 17, 2023 9:44 AM
+> > 
+> > Hi, Sakari,
+> > 
+> > On 2/16/23 9:12 PM, Sakari Ailus wrote:
+> > > Hi Bingbu, Wentong,
+> > >
+> > > On Wed, Feb 15, 2023 at 08:09:50PM +0800, Bingbu Cao wrote:
+> > >>
+> > >> Hi, Wentong,
+> > >>
+> > >> On 2/15/23 5:43 PM, Laurent Pinchart wrote:
+> > >>> Hello Wentong,
+> > >>>
+> > >>> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
+> > >>>> Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls",
+> > >>>> is a companion chip designed to provide secure and low power vision
+> > >>>> capability to IA platforms. IVSC is available in existing
+> > >>>> commercial platforms from multiple OEMs.
+> > >>>>
+> > >>>> The primary use case of IVSC is to bring in context awareness. IVSC
+> > >>>> interfaces directly with the platform main camera sensor via a
+> > >>>> CSI-2 link and processes the image data with the embedded AI
+> > >>>> engine. The detected events are sent over I2C to ISH (Intel Sensor
+> > >>>> Hub) for additional data fusion from multiple sensors. The fusion
+> > >>>> results are used to implement advanced use cases like:
+> > >>>>  - Face detection to unlock screen
+> > >>>>  - Detect user presence to manage backlight setting or waking up
+> > >>>> system
+> > >>>
+> > >>> Do you have plan to support these features in the ivsc driver in the
+> > >>> future ?
+> > >>>
+> > >>>> Since the Image Processing Unit(IPU) used on the host processor
+> > >>>> needs to configure the CSI-2 link in normal camera usages, the
+> > >>>> CSI-2 link and camera sensor can only be used in mutually-exclusive
+> > >>>> ways by host IPU and IVSC. By default the IVSC owns the CSI-2 link
+> > >>>> and camera sensor. The IPU driver can take ownership of the CSI-2
+> > >>>> link and camera sensor using interfaces provided by this IVSC driver.
+> > >>>>
+> > >>>> Switching ownership requires an interface with two different
+> > >>>> hardware modules inside IVSC. The software interface to these
+> > >>>> modules is via Intel MEI (The Intel Management Engine) commands.
+> > >>>> These two hardware modules have two different MEI UUIDs to enumerate.
+> > These hardware modules are:
+> > >>>>  - ACE (Algorithm Context Engine): This module is for algorithm
+> > >>>> computing when IVSC owns camera sensor. Also ACE module controls
+> > >>>> camera sensor's ownership. This hardware module is used to set ownership
+> > of camera sensor.
+> > >>>>  - CSI (Camera Serial Interface): This module is used to route
+> > >>>> camera sensor data either to IVSC or to host for IPU driver and application.
+> > >>>>
+> > >>>> IVSC also provides a privacy mode. When privacy mode is turned on,
+> > >>>> camera sensor can't be used. This means that both ACE and host IPU
+> > >>>> can't get image data. And when this mode is turned on, host IPU
+> > >>>> driver is informed via a registered callback, so that user can be notified.
+> > >>>
+> > >>> How does the privacy mode work, and how can the user trust that the
+> > >>> closed-source IVSC and IME firmwares will honour the privacy settings ?
+> > 
+> > As I know, without IVSC, once user enable the privacy mode, the Intel
+> > Converged Security Engine will configure the IPU camera mask (security register),
+> > which will mask the specific CSI2 port and produce dummy imaging data. For the
+> > case with IVSC, there is no final solution on Linux so far I think.
+> > 
+> > Wentong, is IVSC trying to cut off the stream and then notify user and IPU?
+> 
+> yes
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index a975bbbc0d69a..1f3f7181a8585 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -173,10 +173,14 @@ enum imx290_colour_variant {
- enum imx290_model {
- 	IMX290_MODEL_IMX290LQR,
- 	IMX290_MODEL_IMX290LLR,
-+	IMX290_MODEL_IMX327LQR,
- };
- 
- struct imx290_model_info {
- 	enum imx290_colour_variant colour_variant;
-+	const struct imx290_regval *init_regs;
-+	size_t init_regs_num;
-+	const char *name;
- };
- 
- enum imx290_clk_freq {
-@@ -272,10 +276,14 @@ static const struct imx290_regval imx290_global_init_settings[] = {
- 	{ IMX290_WINWV, 1097 },
- 	{ IMX290_XSOUTSEL, IMX290_XSOUTSEL_XVSOUTSEL_VSYNC |
- 			   IMX290_XSOUTSEL_XHSOUTSEL_HSYNC },
--	{ IMX290_REG_8BIT(0x300f), 0x00 },
--	{ IMX290_REG_8BIT(0x3010), 0x21 },
-+	{ IMX290_REG_8BIT(0x3011), 0x02 },
- 	{ IMX290_REG_8BIT(0x3012), 0x64 },
- 	{ IMX290_REG_8BIT(0x3013), 0x00 },
-+};
-+
-+static const struct imx290_regval imx290_global_init_settings_290[] = {
-+	{ IMX290_REG_8BIT(0x300f), 0x00 },
-+	{ IMX290_REG_8BIT(0x3010), 0x21 },
- 	{ IMX290_REG_8BIT(0x3016), 0x09 },
- 	{ IMX290_REG_8BIT(0x3070), 0x02 },
- 	{ IMX290_REG_8BIT(0x3071), 0x11 },
-@@ -328,6 +336,12 @@ static const struct imx290_regval xclk_regs[][IMX290_NUM_CLK_REGS] = {
- 	},
- };
- 
-+static const struct imx290_regval imx290_global_init_settings_327[] = {
-+	{ IMX290_REG_8BIT(0x309e), 0x4A },
-+	{ IMX290_REG_8BIT(0x309f), 0x4A },
-+	{ IMX290_REG_8BIT(0x313b), 0x61 },
-+};
-+
- static const struct imx290_regval imx290_1080p_settings[] = {
- 	/* mode settings */
- 	{ IMX290_WINWV_OB, 12 },
-@@ -1004,6 +1018,14 @@ static int imx290_start_streaming(struct imx290 *imx290,
- 		return ret;
- 	}
- 
-+	/* Set mdel specific init register settings */
-+	ret = imx290_set_register_array(imx290, imx290->model->init_regs,
-+					imx290->model->init_regs_num);
-+	if (ret < 0) {
-+		dev_err(imx290->dev, "Could not set model specific init registers\n");
-+		return ret;
-+	}
-+
- 	/* Set clock parameters based on mode and xclk */
- 	ret = imx290_set_clock(imx290);
- 	if (ret < 0) {
-@@ -1474,9 +1496,21 @@ static s64 imx290_check_link_freqs(const struct imx290 *imx290,
- static const struct imx290_model_info imx290_models[] = {
- 	[IMX290_MODEL_IMX290LQR] = {
- 		.colour_variant = IMX290_VARIANT_COLOUR,
-+		.init_regs = imx290_global_init_settings_290,
-+		.init_regs_num = ARRAY_SIZE(imx290_global_init_settings_290),
-+		.name = "imx290",
- 	},
- 	[IMX290_MODEL_IMX290LLR] = {
- 		.colour_variant = IMX290_VARIANT_MONO,
-+		.init_regs = imx290_global_init_settings_290,
-+		.init_regs_num = ARRAY_SIZE(imx290_global_init_settings_290),
-+		.name = "imx290",
-+	},
-+	[IMX290_MODEL_IMX327LQR] = {
-+		.colour_variant = IMX290_VARIANT_COLOUR,
-+		.init_regs = imx290_global_init_settings_327,
-+		.init_regs_num = ARRAY_SIZE(imx290_global_init_settings_327),
-+		.name = "imx327",
- 	},
- };
- 
-@@ -1609,6 +1643,9 @@ static int imx290_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_pm;
- 
-+	v4l2_i2c_subdev_set_name(&imx290->sd, client,
-+				 imx290->model->name, NULL);
-+
- 	/*
- 	 * Finally, register the V4L2 subdev. This must be done after
- 	 * initializing everything as the subdev can be used immediately after
-@@ -1667,6 +1704,9 @@ static const struct of_device_id imx290_of_match[] = {
- 	}, {
- 		.compatible = "sony,imx290llr",
- 		.data = &imx290_models[IMX290_MODEL_IMX290LLR],
-+	}, {
-+		.compatible = "sony,imx327lqr",
-+		.data = &imx290_models[IMX290_MODEL_IMX327LQR],
- 	},
- 	{ /* sentinel */ },
- };
+Does the CSI-2 transmitter on IVCS go to some LP mode during this time, or
+does the receiver need to initialise the bus again when the stream resuems?
+
+> 
+> > 
+> > >>>
+> > >>
+> > >> Continue with question from Laurent,
+> > >>
+> > >> How IVSC handle the privacy request from user? Is there some
+> > >> notification mechanism to user-space?
+> 
+> IVSC has already defined privacy callback for host IPU/camera driver.
+> 
+> > > I'd have concern if IVSC driver
+> > >> need private callback to request back-end(e.g. ISP driver) to handle stream
+> > cutting.
+> > >
+> > > How does the privacy mode work, does it just pass zeroes (or other
+> > > dummy
+> > > data) towards the host or nothing?
+> 
+> No data on CSI transmitter side
+
+Can it stop in the middle of the frame? Or is it guaranteed to produce full
+frames (assuming the sensor does)?
+
+> 
+> > >
+> > > A V4L2 control can be used for the purpose of passing the information
+> > > to the user space at least.
+> 
+> I will take some time to review V4L2 sub-device and control mechanism,
+> and then update the driver.
+
 -- 
-2.34.1
+Kind regards,
 
+Sakari Ailus
