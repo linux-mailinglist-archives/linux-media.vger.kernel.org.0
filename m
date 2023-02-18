@@ -2,129 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE54769BD2D
-	for <lists+linux-media@lfdr.de>; Sat, 18 Feb 2023 22:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE69469BDFE
+	for <lists+linux-media@lfdr.de>; Sun, 19 Feb 2023 00:43:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230055AbjBRVvz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Feb 2023 16:51:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
+        id S229637AbjBRXny (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Feb 2023 18:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbjBRVvx (ORCPT
+        with ESMTP id S229481AbjBRXnw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Feb 2023 16:51:53 -0500
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2068.outbound.protection.outlook.com [40.107.22.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A6AC1449A;
-        Sat, 18 Feb 2023 13:51:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TudoRFya774Ymo4TgnO51eZoWlMCBlrk0CmlsAl+DsSq9X+uDEHNiFCAVcD73b8/8bGCEABS/KM1/e2ko/7Ej5jlfdYPHEfhjy94RESJ0jQh1A6SxhjIh5FoWuzPvoR8X9MmEVyxYQG9PYnbXjeTZvFmxBqMwTeBsJFyP1dGK13S9Q75VbaB5EU8ocSkzcZn+5sUHK/m0vyDCurQiI+mAhnx0uCUxKWitd1vIR1oR7nvvUADaBk8K9ZmFrz8B0Fqk5VhHb1kKyaRq0ohBBWYZIyDzbp93zLun72FJX0L0TlqNmFfwXPbvb3hVuSj2Pg90tZZdroDzPRg5glwnROGgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WikfODRl2vT5mzIiq5BdDFdk8+5mgz31rTWeI/cJh5M=;
- b=VhGpSNyJ99zrpW6n/IPofsEapVPFpyE5r+Nnc1MnijHaL8EY/Td2uyy7w8OkbNzcmEOnq27ZkdNXb0bI13xxnN0VL4SPxgWJJ4F3oPSB/GRu6Z6oUi19SIbiN4o3cvdRG5asAfVGUJhbSc9HvKxzgM13n0LK6v+Vinq25dSsk7VkcC+RuiTZuKELdv8airpdErWazP1/4p0ut9dyh2QZFF4MgakatfatN3fj8gzjt+1GFSFRY6Do+oXShQF+6lN6yhS4JQ6jXEFQJlu+234JjX+ylYTp8nxobM+giY8pZWvwyOUjZexInit/vufQaq8H2SO7snazJk58Sa37dgz1Yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WikfODRl2vT5mzIiq5BdDFdk8+5mgz31rTWeI/cJh5M=;
- b=J6OsTzlftJo8KswQBynPVs7aeFmf8fY4wcOyB6qGpmMsNg8x27w0tgUsipMUloTpdtyGNJNh1htMPXfacPAnOQeoNer8tfpofbnnwpU454rXWh8flg4RJKxtQdEUBzK/cwxpuffGTMIL/eQBcFOaMbLb+lPQYsksS6AKVUGTqSU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by PA4PR04MB7695.eurprd04.prod.outlook.com (2603:10a6:102:e3::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.18; Sat, 18 Feb
- 2023 21:51:45 +0000
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::d71c:fd55:d8cf:4fc0]) by AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::d71c:fd55:d8cf:4fc0%3]) with mapi id 15.20.6111.013; Sat, 18 Feb 2023
- 21:51:45 +0000
-Message-ID: <b734fa87-c3ca-5c21-d8ce-ad5083461200@oss.nxp.com>
-Date:   Sat, 18 Feb 2023 23:51:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 03/10] media: Add YUYV64_12 video format
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <cover.1676368610.git.ming.qian@nxp.com>
- <f5ef51d5e0ce881501a3d72a8e49c8a040fc64f6.1676368610.git.ming.qian@nxp.com>
-From:   "mirela.rabulea@oss.nxp.com" <mirela.rabulea@oss.nxp.com>
-In-Reply-To: <f5ef51d5e0ce881501a3d72a8e49c8a040fc64f6.1676368610.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR03CA0058.eurprd03.prod.outlook.com
- (2603:10a6:207:5::16) To AS4PR04MB9244.eurprd04.prod.outlook.com
- (2603:10a6:20b:4e3::9)
+        Sat, 18 Feb 2023 18:43:52 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3459EEE;
+        Sat, 18 Feb 2023 15:43:50 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id z27so664963iow.1;
+        Sat, 18 Feb 2023 15:43:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSXD3ilVFUjn3r3UdDo5g/qYtuvwljXGZQiBBN41sWs=;
+        b=SgefFv7J51pfexZzH5kvItD600MQ21QNiQgSpmPLObpBD7IYfvMqYy+n3IyGN+GEvc
+         YrwRVJDtpii3cqbq6xh9aZlGJRDesyyM3YEwJ3VxUnkX7AI865SE8EQmEBhKFX9oQEBM
+         CPhdLyhCXaNg7mnMzXaqgRp8SjHfTKix1m2I+iMlvU27FkcPGtzi/nF7btU5nQ852R0a
+         kEM/Ap7mqTNBILwQAVl3/x4oJsYcXGBIt/t5uKt4o4AlWX4PlAF3mlvsD+DcdHZUIoEn
+         07g1tQRfp3UCqgOSi3g6oknGG3rwxhd+UQDlPt3L6b8vhnz37G6WL2XHMmOTAcNcAN/Q
+         sABw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YSXD3ilVFUjn3r3UdDo5g/qYtuvwljXGZQiBBN41sWs=;
+        b=m69xNXeuuUe53c1mmXN5S4roDt2odmU7fZfta++MpRTwuLa0OaZq/WiUDqtyuPAbi6
+         31fcQbJO8nAJAenuR/+obym4/TiS87kYWeTX4TJ7Y9vy+wUmHDGRa5wAqqNROsKyfJTT
+         m1BBd4iuvK+jLlhDsxe8yB794q6RuCQ9Q17KFXnUNrP3+m3Ihia7CAViq5udJquhzJip
+         zzdw+5fEnVWRJxSP8zQ4zjPnhs5ZzU2ex8H9c6oQGjYQRG/hzAfKA4rRnMmP7ThJZKZp
+         kTdYaiPQAErgqtCHzXbgSqwzkbFv4c0yz1Byy/0F9d7xLXzNMBwb2wDWNDZehPijEexs
+         TK4w==
+X-Gm-Message-State: AO0yUKXoqklIj/ywXDWk+nh14y0C+/2FVQYAt6y9WhYoaLBSp/5SHd8i
+        hFyusElVmpyICyZ3BWOIAo4Bq4lTCdM=
+X-Google-Smtp-Source: AK7set+bAXIl1jTp1MQpTGilUAEoR3R9tOw3B7vePkuAEKvuDKGixQOHfgcodRLOQk9gVlXqOUnWIg==
+X-Received: by 2002:a5e:a801:0:b0:6bc:d714:520f with SMTP id c1-20020a5ea801000000b006bcd714520fmr4361719ioa.15.1676763829906;
+        Sat, 18 Feb 2023 15:43:49 -0800 (PST)
+Received: from james-x399.localdomain (97-118-149-35.hlrn.qwest.net. [97.118.149.35])
+        by smtp.gmail.com with ESMTPSA id k17-20020a6b6f11000000b0071db3975335sm2167064ioc.12.2023.02.18.15.43.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Feb 2023 15:43:49 -0800 (PST)
+From:   James Hilliard <james.hilliard1@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Pawel Osciak <posciak@chromium.org>,
+        James Hilliard <james.hilliard1@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] uvcvideo: Unify UVC payload header parsing.
+Date:   Sat, 18 Feb 2023 16:43:33 -0700
+Message-Id: <20230218234334.1261631-1-james.hilliard1@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|PA4PR04MB7695:EE_
-X-MS-Office365-Filtering-Correlation-Id: c632a83a-a2a8-4670-9a57-08db11fa53ea
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rOVcFLyjaaoLdKw0VSU1rEEDoUYJGTKRtclrnXbqEHO7R0BFPfrBAlX65vkrKxzbefj13tOJ46XQmM9d3DqP3VTP57HBL6EbUlwTWUvkzHkN51pGgxJV8hS7ollgFebJbGYOPUDpVX1f7uCPDlxdwnetQemcsfIV9iJgtTKYvgCcO+9dPpcZCmDHFujuFwCgIfr83OiA6/jnx8h7YA7razwQ8diJffBZWNCKRtMRn++7nshP1mTMBrlkSEoODABAlBSu/HI99K7pS4x6lk8t33cG8LkrpbRaL+/seaF5JVeoyE+MMRMjVVfbTg9HZZ7B8w5A+ZG2ek7T9XAmsFsP6EBTK+oTooOlB+zvf387/cR5KOHToRsnzzXH6m3skJLXT2vVxHsDOji6WbuMBq8rSo4Abjm27Qhj5bjKRVt4SNW46WhRN8rEkBT9phhG/dmX/SZU235yKq2U+9mQiPC/6ZW7Pqg1onl1B3nvO0z9G2YnB0/r9nqIDdObaMZ4CxH06K/NNzidjg8PXaqH+RBbcDfmHb3dIrFFYo4yI/LYtXIWoi12cSCzHzP0iQAJ0o7BWNtrMjyVh+uiDy2aQ8PvKPMMG4+MYpp5xY4heAr0UuAXMyAMIApA0+02p0vRx3sxgYc8RPKRTKaAf4BSJPv37UpTY6JSs+mE7o4MFqpVS4wgqcYj0p+LoymV1v8Dqk/mnQDrTF/JtHbkX/s5MUXrFhmceb84W/yQz2TUDb8erv6FrOM6e1QYDKr7wNAVrNEHA0a5A5cbfJotuDeyjXC1lw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(39860400002)(366004)(136003)(346002)(396003)(451199018)(52116002)(31686004)(31696002)(6486002)(86362001)(316002)(4326008)(8676002)(66556008)(66946007)(66476007)(6512007)(6506007)(186003)(26005)(478600001)(53546011)(41300700001)(8936002)(7416002)(5660300002)(2906002)(38100700002)(2616005)(83380400001)(38350700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVloZk1BajBEbXdsV3o3NEVpK1JwdGZnUitlWFRuN1lyMFI5YmxrUzNMTDQ2?=
- =?utf-8?B?eEhVcVJwenBIdVBSa0cxNFFHaFhOdnQ4T0lEY3o2cVBUTXhDalhJMXBkQVBi?=
- =?utf-8?B?MFVKT0NlMDJjR1pKNzN1UmFZWExuK2o3UHdzVnVMNmRwcnk1YTBWbjBzMHdI?=
- =?utf-8?B?TFhoU2ltNitOS1hKNElwa3ozYXRpVkM0akI4RENiaFNxbmNHUGRSYUFsZm92?=
- =?utf-8?B?aC85TFlmV0tUOEpFTnh6U29uSkpRaXprL1BZcllNYWtQUzNjdXpsZzk1UTVD?=
- =?utf-8?B?eWNQRW5OdloxTGR5anhyaG13Z1ZOMGxaenZDVVpucmIzSjljclhWaXBsMjJF?=
- =?utf-8?B?Qm9PS21PZzkraE1RUnVTZjlER0V4S1p2UjVMcDVYZkppS3lTU1BFbW1VWDVz?=
- =?utf-8?B?TjBXSHJoTndlWkgyWm9haWE0a2RVbzJyMjAvd3BaVkpBd1hBdkMxWjdaclhU?=
- =?utf-8?B?dSt6LzQyQ09mVjJDb25uMmlyMndMRHVaZnByU2thcmI3c3NEZGI4MVJLVkxL?=
- =?utf-8?B?T1AvVGRkakpQWnFLS1krYWg5QjRZb2lCMlVrR0pJVUo0dmlCcWtXdDZuV2dl?=
- =?utf-8?B?QlVjSExLN3JyNUxieXpMaHBRZlROWnBERlFLUTR5bzlCdm1ERUdGeC90T2hX?=
- =?utf-8?B?ejF1ZVBXejhpeUJycStOZ2JBUmxxVEc3ZGo5R1Z2Q0xBK0ZMb0pIVnMxOXhE?=
- =?utf-8?B?c0UrY1JJeDQ1Y0JQWVpFYy9ZcGU3U0VHeE5aa1BuZnJsa0FIeWpPQ0V0a0ow?=
- =?utf-8?B?QU9CUkRSQnBqREhVUlZuSTNDU3BCb0NaOUVyV0gxK0twcm0vYUxIWURrMnk1?=
- =?utf-8?B?aU5MVStUbGk1Wk41RU5UUE9LbU9rLzVGS2RmcGdZSWs0Y0ZZN1FpOFB2WXFU?=
- =?utf-8?B?UElNRWNDY0x6ZHNzbXJTUFZXYjE5a2dRZlBYNnI3UFRJWnF5NTVrSG0ydkZB?=
- =?utf-8?B?cFpqRnN4R2FPbnkwckZnY3ZXbWd5dTI0UDRGZ1VsQ3oxY3RrUXdleC9VTHZL?=
- =?utf-8?B?a2pxNUlvd0ozOEtvcnN2WmprWm5jUHoxWHpFNDB6MHhlcTRiUmtzdXdtNmNs?=
- =?utf-8?B?eU80ck9JemVxejVxS1R5emw2SzJQNWFkSXRBYmtMTi85UEZLVjhXQ1pjcGt2?=
- =?utf-8?B?MjVUL3paTzlDNjFHU0pMTWFsOGZBVlB1TGh6M01IeVVGRkk4THlpVThRd0ZI?=
- =?utf-8?B?OTFvMHFlMzFLTlNtNWhmd056SlU4U3hObXhVUklycHdORGFZdWFqMnpaZE1C?=
- =?utf-8?B?NTRjQStBTkc2Yys0VlcyK3hCSlBkelE3SFV2ZVBKcy9QLzVxOFR1VGJ4NlFB?=
- =?utf-8?B?VHZ5TWlaalFyVEVTWGhYVmp4WmJoaU9qdzZmNWtTUlBTYUh6MVZFRFIzUisv?=
- =?utf-8?B?dnovaU94a3ZHY2hHdnk3eG1sYmxnQ25nM1Y5VHhDejV5bEY1aHNNUncrTnRy?=
- =?utf-8?B?ZTFuYmYrWStPWUp1Tjg2TG5iSjVBZTk2bHFuN0NtT3NRNHMvMCtRNlpzU2RV?=
- =?utf-8?B?dFR6VlRXZ3lXR3lsVmpUMW5lRTRHQlJiMFhKTXhvWTNlNU1LbEp6SHByT1JI?=
- =?utf-8?B?RFBOL0Y4M3NNU0I3bnBNSDhEcEo5RDIvUWdlNmVMeVlIRDRGblFVRGl0MGFy?=
- =?utf-8?B?Rit1TjZ3YTV2TlJQMXJ3ZGtwVUNmWEwyUEFHN3RaWm5mL0NHcitDdGJONmpj?=
- =?utf-8?B?MjR3bkVNZmNYck9YUGY5azZqbURWeVdMOWRUQ29maFpBTTdDNlc4aXNFUWk2?=
- =?utf-8?B?OUtFSTFOdURnWlgxSWl5ckpxWXhmNnZCVTRFMzQvOUxsMER5Z2NNT2thNVhY?=
- =?utf-8?B?NGZmS1pqWDJhaW1XdTVRYVBla1JJWXN3TG9YOTBlQXc4eU1ZeDV4M2h4NDdx?=
- =?utf-8?B?bDZMRTRtTjhmL1d2QW9iKzRGT2F6dzZKMFFOQS9oZ0d2akFldU1pYzdRZ1Ja?=
- =?utf-8?B?UmlXNHZoTlV3bm9GWVdpMEZ2NEpIeTQ5aFcySm9KYjQ2NVd6ZGtoMzVjSFFO?=
- =?utf-8?B?eitlQ3M0cGoyMURIUUdJV0lJM3pmQ0tWWlY5ejdRWUxGVkZLTDdYRTJONS9z?=
- =?utf-8?B?YmF1cnpNNTRVeEJnTWR4SFJneFM1WXV3cExJSW4zd0pvNGVQbUlVYVJ4Y294?=
- =?utf-8?B?TWJBVW1DRmczOG80bG5FMy9vVDVsTFU1cXZIbUhnWTIrZnlNcXdwbUxjVWY5?=
- =?utf-8?B?S2c9PQ==?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c632a83a-a2a8-4670-9a57-08db11fa53ea
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2023 21:51:45.1842
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p3C/vickPKpgYSc9JFrSOEJDDP3N0LtbJO0hChTK5+IJafDLsnbswPIetS7r79e34m48GC6hAw0M6b7Sb/cXUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7695
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -132,124 +72,518 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+From: Pawel Osciak <posciak@chromium.org>
 
-On 14.02.2023 12:04, Ming Qian wrote:
-> YUYV64_12 is a YUV format with 12-bits per component like YUYV,
-> expanded to 16bits.
-> Data in the 12 high bits, zeros in the 4 low bits,
-> arranged in little endian order.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->   .../media/v4l/pixfmt-packed-yuv.rst           | 42 +++++++++++++++++++
->   drivers/media/v4l2-core/v4l2-common.c         |  1 +
->   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->   include/uapi/linux/videodev2.h                |  1 +
->   4 files changed, 45 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> index bf283a1b5581..76fc331f126e 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-> @@ -341,6 +341,48 @@ components horizontally by 2, storing 2 pixels in 4 bytes.
->   
->       \normalsize
->   
-> +The next lists the packed YUV 4:2:2 formats with more than 8 bits per component.
-> +expand the bits per component to 16 bits, data in the high bits, zeros in the low bits,
-> +arranged in little endian order. storing 2 pixels in 8 bytes.
-> +
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
-> +.. tabularcolumns:: |p{3.4cm}|p{1.2cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|
-> +
-> +.. flat-table:: Packed YUV 4:2:2 Formats (more than 8bpc)
-> +    :header-rows: 1
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      - Byte 1-0
-> +      - Byte 3-2
-> +      - Byte 5-4
-> +      - Byte 7-6
-> +      - Byte 9-8
-> +      - Byte 11-10
-> +      - Byte 13-12
-> +      - Byte 15-14
-> +    * .. _V4L2-PIX-FMT-YUYV64-12:
-> +
-> +      - ``V4L2_PIX_FMT_YUYV64_12``
-> +      - 'Y212'
-> +
-> +      - Y'\ :sub:`0`
-> +      - Cb\ :sub:`0`
-> +      - Y'\ :sub:`1`
-> +      - Cr\ :sub:`0`
-> +      - Y'\ :sub:`2`
-> +      - Cb\ :sub:`2`
-> +      - Y'\ :sub:`3`
-> +      - Cr\ :sub:`2`
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
-> +
->   **Color Sample Location:**
->   Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
->   horizontally.
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index a5e8ba370d33..8fb1c0fa8158 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -258,6 +258,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->   		{ .format = V4L2_PIX_FMT_YVYU,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
->   		{ .format = V4L2_PIX_FMT_UYVY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
->   		{ .format = V4L2_PIX_FMT_VYUY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
-> +		{ .format = V4L2_PIX_FMT_YUYV64_12, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
->   
->   		/* YUV planar formats */
->   		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index ec1c9ef27e88..e5002d6fe7ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1343,6 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->   	case V4L2_PIX_FMT_YUV420:	descr = "Planar YUV 4:2:0"; break;
->   	case V4L2_PIX_FMT_HI240:	descr = "8-bit Dithered RGB (BTTV)"; break;
->   	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
-> +	case V4L2_PIX_FMT_YUYV64_12:	descr = "12-bit Depth YUYV 4:2:2"; break;
->   	case V4L2_PIX_FMT_NV12:		descr = "Y/UV 4:2:0"; break;
->   	case V4L2_PIX_FMT_NV21:		descr = "Y/VU 4:2:0"; break;
->   	case V4L2_PIX_FMT_NV16:		descr = "Y/UV 4:2:2"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 3d8f89bff33c..3712a36d6fdf 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -618,6 +618,7 @@ struct v4l2_pix_format {
->   #define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
->   #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
->   #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
-> +#define V4L2_PIX_FMT_YUYV64_12   v4l2_fourcc('Y', '2', '1', '2') /* 32  YUYV 12-bit per component */
+Create a separate function for parsing UVC payload headers and extract code
+from other functions into it. Store the parsed values in a header struct.
 
-It seems Y212 is already added with the same fourcc code, causing build 
-errors:
+Signed-off-by: Pawel Osciak <posciak@chromium.org>
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes v1 -> v2:
+  - rebase
+---
+ drivers/media/usb/uvc/uvc_video.c | 263 +++++++++++++++---------------
+ drivers/media/usb/uvc/uvcvideo.h  |  21 +++
+ 2 files changed, 152 insertions(+), 132 deletions(-)
 
-drivers/media/v4l2-core/v4l2-ioctl.c: In function ‘v4l_fill_fmtdesc’:
-drivers/media/v4l2-core/v4l2-ioctl.c:1455:9: error: duplicate case value
-  1455 |         case V4L2_PIX_FMT_Y212:         descr = "12-bit YUYV 
-Packed"; break;
-       |         ^~~~
-drivers/media/v4l2-core/v4l2-ioctl.c:1349:9: note: previously used here
-  1349 |         case V4L2_PIX_FMT_YUYV64_12:    descr = "12-bit Depth 
-YUYV 4:2:2"; break;
-       |         ^~~~
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index d2eb9066e4dc..ef6ac978ef87 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -466,39 +466,14 @@ static inline ktime_t uvc_video_get_time(void)
+ 
+ static void
+ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+-		       const u8 *data, int len)
++		       struct uvc_payload_header *header)
+ {
+ 	struct uvc_clock_sample *sample;
+-	unsigned int header_size;
+-	bool has_pts = false;
+-	bool has_scr = false;
+ 	unsigned long flags;
+ 	ktime_t time;
+ 	u16 host_sof;
+ 	u16 dev_sof;
+ 
+-	switch (data[1] & (UVC_STREAM_PTS | UVC_STREAM_SCR)) {
+-	case UVC_STREAM_PTS | UVC_STREAM_SCR:
+-		header_size = 12;
+-		has_pts = true;
+-		has_scr = true;
+-		break;
+-	case UVC_STREAM_PTS:
+-		header_size = 6;
+-		has_pts = true;
+-		break;
+-	case UVC_STREAM_SCR:
+-		header_size = 8;
+-		has_scr = true;
+-		break;
+-	default:
+-		header_size = 2;
+-		break;
+-	}
+-
+-	/* Check for invalid headers. */
+-	if (len < header_size)
+-		return;
+ 
+ 	/*
+ 	 * Extract the timestamps:
+@@ -508,17 +483,17 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	 *   kernel timestamps and store them with the SCR STC and SOF fields
+ 	 *   in the ring buffer
+ 	 */
+-	if (has_pts && buf != NULL)
+-		buf->pts = get_unaligned_le32(&data[2]);
++	if (header->has_pts && buf != NULL)
++		buf->pts = header->pts;
+ 
+-	if (!has_scr)
++	if (!header->has_scr)
+ 		return;
+ 
+ 	/*
+ 	 * To limit the amount of data, drop SCRs with an SOF identical to the
+ 	 * previous one.
+ 	 */
+-	dev_sof = get_unaligned_le16(&data[header_size - 2]);
++	dev_sof = header->sof;
+ 	if (dev_sof == stream->clock.last_sof)
+ 		return;
+ 
+@@ -560,7 +535,7 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	spin_lock_irqsave(&stream->clock.lock, flags);
+ 
+ 	sample = &stream->clock.samples[stream->clock.head];
+-	sample->dev_stc = get_unaligned_le32(&data[header_size - 6]);
++	sample->dev_stc = header->stc;
+ 	sample->dev_sof = dev_sof;
+ 	sample->host_sof = host_sof;
+ 	sample->host_time = time;
+@@ -804,65 +779,24 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+  */
+ 
+ static void uvc_video_stats_decode(struct uvc_streaming *stream,
+-		const u8 *data, int len)
++		struct uvc_payload_header *header)
+ {
+-	unsigned int header_size;
+-	bool has_pts = false;
+-	bool has_scr = false;
+-	u16 scr_sof;
+-	u32 scr_stc;
+-	u32 pts;
+-
+ 	if (stream->stats.stream.nb_frames == 0 &&
+ 	    stream->stats.frame.nb_packets == 0)
+ 		stream->stats.stream.start_ts = ktime_get();
+ 
+-	switch (data[1] & (UVC_STREAM_PTS | UVC_STREAM_SCR)) {
+-	case UVC_STREAM_PTS | UVC_STREAM_SCR:
+-		header_size = 12;
+-		has_pts = true;
+-		has_scr = true;
+-		break;
+-	case UVC_STREAM_PTS:
+-		header_size = 6;
+-		has_pts = true;
+-		break;
+-	case UVC_STREAM_SCR:
+-		header_size = 8;
+-		has_scr = true;
+-		break;
+-	default:
+-		header_size = 2;
+-		break;
+-	}
+-
+-	/* Check for invalid headers. */
+-	if (len < header_size || data[0] < header_size) {
+-		stream->stats.frame.nb_invalid++;
+-		return;
+-	}
+-
+-	/* Extract the timestamps. */
+-	if (has_pts)
+-		pts = get_unaligned_le32(&data[2]);
+-
+-	if (has_scr) {
+-		scr_stc = get_unaligned_le32(&data[header_size - 6]);
+-		scr_sof = get_unaligned_le16(&data[header_size - 2]);
+-	}
+-
+ 	/* Is PTS constant through the whole frame ? */
+-	if (has_pts && stream->stats.frame.nb_pts) {
+-		if (stream->stats.frame.pts != pts) {
++	if (header->has_pts && stream->stats.frame.nb_pts) {
++		if (stream->stats.frame.pts != header->pts) {
+ 			stream->stats.frame.nb_pts_diffs++;
+ 			stream->stats.frame.last_pts_diff =
+ 				stream->stats.frame.nb_packets;
+ 		}
+ 	}
+ 
+-	if (has_pts) {
++	if (header->has_pts) {
+ 		stream->stats.frame.nb_pts++;
+-		stream->stats.frame.pts = pts;
++		stream->stats.frame.pts = header->pts;
+ 	}
+ 
+ 	/*
+@@ -870,49 +804,49 @@ static void uvc_video_stats_decode(struct uvc_streaming *stream,
+ 	 * their first empty packet ?
+ 	 */
+ 	if (stream->stats.frame.size == 0) {
+-		if (len > header_size)
+-			stream->stats.frame.has_initial_pts = has_pts;
+-		if (len == header_size && has_pts)
++		if (header->payload_size > 0)
++			stream->stats.frame.has_initial_pts = header->has_pts;
++		if (header->payload_size == 0 && header->has_pts)
+ 			stream->stats.frame.has_early_pts = true;
+ 	}
+ 
+ 	/* Do the SCR.STC and SCR.SOF fields vary through the frame ? */
+-	if (has_scr && stream->stats.frame.nb_scr) {
+-		if (stream->stats.frame.scr_stc != scr_stc)
++	if (header->has_scr && stream->stats.frame.nb_scr) {
++		if (stream->stats.frame.scr_stc != header->stc)
+ 			stream->stats.frame.nb_scr_diffs++;
+ 	}
+ 
+-	if (has_scr) {
++	if (header->has_scr) {
+ 		/* Expand the SOF counter to 32 bits and store its value. */
+ 		if (stream->stats.stream.nb_frames > 0 ||
+ 		    stream->stats.frame.nb_scr > 0)
+ 			stream->stats.stream.scr_sof_count +=
+-				(scr_sof - stream->stats.stream.scr_sof) % 2048;
+-		stream->stats.stream.scr_sof = scr_sof;
++				(header->sof - stream->stats.stream.scr_sof) % 2048;
++		stream->stats.stream.scr_sof = header->sof;
+ 
+ 		stream->stats.frame.nb_scr++;
+-		stream->stats.frame.scr_stc = scr_stc;
+-		stream->stats.frame.scr_sof = scr_sof;
++		stream->stats.frame.scr_stc = header->stc;
++		stream->stats.frame.scr_sof = header->sof;
+ 
+-		if (scr_sof < stream->stats.stream.min_sof)
+-			stream->stats.stream.min_sof = scr_sof;
+-		if (scr_sof > stream->stats.stream.max_sof)
+-			stream->stats.stream.max_sof = scr_sof;
++		if (header->sof < stream->stats.stream.min_sof)
++			stream->stats.stream.min_sof = header->sof;
++		if (header->sof > stream->stats.stream.max_sof)
++			stream->stats.stream.max_sof = header->sof;
+ 	}
+ 
+ 	/* Record the first non-empty packet number. */
+-	if (stream->stats.frame.size == 0 && len > header_size)
++	if (stream->stats.frame.size == 0 && header->payload_size > 0)
+ 		stream->stats.frame.first_data = stream->stats.frame.nb_packets;
+ 
+ 	/* Update the frame size. */
+-	stream->stats.frame.size += len - header_size;
++	stream->stats.frame.size += header->payload_size;
+ 
+ 	/* Update the packets counters. */
+ 	stream->stats.frame.nb_packets++;
+-	if (len <= header_size)
++	if (header->payload_size == 0)
+ 		stream->stats.frame.nb_empty++;
+ 
+-	if (data[1] & UVC_STREAM_ERR)
++	if (header->has_err)
+ 		stream->stats.frame.nb_errors++;
+ }
+ 
+@@ -1047,22 +981,9 @@ static void uvc_video_stats_stop(struct uvc_streaming *stream)
+  * uvc_video_decode_end will never be called with a NULL buffer.
+  */
+ static int uvc_video_decode_start(struct uvc_streaming *stream,
+-		struct uvc_buffer *buf, const u8 *data, int len)
++		struct uvc_buffer *buf, struct uvc_payload_header *header)
+ {
+-	u8 fid;
+-
+-	/*
+-	 * Sanity checks:
+-	 * - packet must be at least 2 bytes long
+-	 * - bHeaderLength value must be at least 2 bytes (see above)
+-	 * - bHeaderLength value can't be larger than the packet size.
+-	 */
+-	if (len < 2 || data[0] < 2 || data[0] > len) {
+-		stream->stats.frame.nb_invalid++;
+-		return -EINVAL;
+-	}
+-
+-	fid = data[1] & UVC_STREAM_FID;
++	u8 fid = header->fid;
+ 
+ 	/*
+ 	 * Increase the sequence number regardless of any buffer states, so
+@@ -1074,8 +995,8 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 			uvc_video_stats_update(stream);
+ 	}
+ 
+-	uvc_video_clock_decode(stream, buf, data, len);
+-	uvc_video_stats_decode(stream, data, len);
++	uvc_video_clock_decode(stream, buf, header);
++	uvc_video_stats_decode(stream, header);
+ 
+ 	/*
+ 	 * Store the payload FID bit and return immediately when the buffer is
+@@ -1087,7 +1008,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 	}
+ 
+ 	/* Mark the buffer as bad if the error bit is set. */
+-	if (data[1] & UVC_STREAM_ERR) {
++	if (header->has_err) {
+ 		uvc_dbg(stream->dev, FRAME,
+ 			"Marking buffer as bad (error bit set)\n");
+ 		buf->error = 1;
+@@ -1107,7 +1028,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 			uvc_dbg(stream->dev, FRAME,
+ 				"Dropping payload (out of sync)\n");
+ 			if ((stream->dev->quirks & UVC_QUIRK_STREAM_NO_FID) &&
+-			    (data[1] & UVC_STREAM_EOF))
++			    (header->has_eof))
+ 				stream->last_fid ^= UVC_STREAM_FID;
+ 			return -ENODATA;
+ 		}
+@@ -1145,7 +1066,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 
+ 	stream->last_fid = fid;
+ 
+-	return data[0];
++	return 0;
+ }
+ 
+ static inline enum dma_data_direction uvc_stream_dir(
+@@ -1232,12 +1153,12 @@ static void uvc_video_decode_data(struct uvc_urb *uvc_urb,
+ }
+ 
+ static void uvc_video_decode_end(struct uvc_streaming *stream,
+-		struct uvc_buffer *buf, const u8 *data, int len)
++		struct uvc_buffer *buf, struct uvc_payload_header *header)
+ {
+ 	/* Mark the buffer as done if the EOF marker is set. */
+-	if (data[1] & UVC_STREAM_EOF && buf->bytesused != 0) {
++	if (header->has_eof && buf->bytesused != 0) {
+ 		uvc_dbg(stream->dev, FRAME, "Frame complete (EOF found)\n");
+-		if (data[0] == len)
++		if (header->payload_size == 0)
+ 			uvc_dbg(stream->dev, FRAME, "EOF in empty payload\n");
+ 		buf->state = UVC_BUF_STATE_READY;
+ 		if (stream->dev->quirks & UVC_QUIRK_STREAM_NO_FID)
+@@ -1285,6 +1206,75 @@ static int uvc_video_encode_data(struct uvc_streaming *stream,
+ 	return nbytes;
+ }
+ 
++static int uvc_video_parse_header(struct uvc_streaming *stream,
++		const __u8 *data, int len, struct uvc_payload_header *header)
++{
++	unsigned int off = 2;
++
++	/* Sanity checks:
++	 * - packet must be at least 2 bytes long
++	 * - bHeaderLength value must be at least 2 bytes (see above)
++	 */
++	if (len < 2 || len < data[0] || data[0] < 2 )
++		goto error;
++
++	header->length = 2; /* 1 byte of header length + 1 byte of BFH. */
++
++	header->has_sli = false;
++	header->has_eof = data[1] & UVC_STREAM_EOF;
++	header->has_pts = data[1] & UVC_STREAM_PTS;
++	header->has_scr = data[1] & UVC_STREAM_SCR;
++	header->has_err = data[1] & UVC_STREAM_ERR;
++
++	if (header->has_pts)
++		header->length += 4;
++
++	if (header->has_scr)
++		header->length += 6;
++
++	if (stream->cur_format->fcc == V4L2_PIX_FMT_VP8) {
++		/* VP8 payload has 2 additional bytes of BFH. */
++		header->length += 2;
++		off += 2;
++
++		/* SLI always present for VP8 simulcast (at the end of header),
++		 * allowed for VP8 non-simulcast.
++		 */
++		header->has_sli = data[1] & UVC_STREAM_EOH;
++		if (header->has_sli)
++			header->length += 2;
++	}
++
++	/* - bHeaderLength value can't be larger than the packet size. */
++	if (data[0] != header->length)
++		goto error;
++
++	/* PTS 4 bytes, STC 4 bytes, SOF 2 bytes. */
++	if (header->has_pts) {
++		header->pts = get_unaligned_le32(&data[off]);
++		off += 4;
++	}
++
++	if (header->has_scr) {
++		header->stc = get_unaligned_le32(&data[off]);
++		off += 4;
++		header->sof = get_unaligned_le16(&data[off]);
++		off += 2;
++	}
++
++	if (header->has_sli)
++		header->sli = get_unaligned_le16(&data[off]);
++
++	header->payload_size = len - header->length;
++	header->fid = data[1] & UVC_STREAM_FID;
++
++	return 0;
++
++error:
++	stream->stats.frame.nb_invalid++;
++	return -EINVAL;
++}
++
+ /* ------------------------------------------------------------------------
+  * Metadata
+  */
+@@ -1409,7 +1399,9 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+ 			struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+ {
+ 	struct urb *urb = uvc_urb->urb;
++	struct uvc_payload_header header;
+ 	struct uvc_streaming *stream = uvc_urb->stream;
++	unsigned int len;
+ 	u8 *mem;
+ 	int ret, i;
+ 
+@@ -1424,11 +1416,15 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+ 			continue;
+ 		}
+ 
+-		/* Decode the payload header. */
+ 		mem = urb->transfer_buffer + urb->iso_frame_desc[i].offset;
++		len = urb->iso_frame_desc[i].actual_length;
++
++		ret = uvc_video_parse_header(stream, mem, len, &header);
++		if (ret < 0)
++			continue;
++
+ 		do {
+-			ret = uvc_video_decode_start(stream, buf, mem,
+-				urb->iso_frame_desc[i].actual_length);
++			ret = uvc_video_decode_start(stream, buf, &header);
+ 			if (ret == -EAGAIN)
+ 				uvc_video_next_buffers(stream, &buf, &meta_buf);
+ 		} while (ret == -EAGAIN);
+@@ -1439,12 +1435,11 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+ 		uvc_video_decode_meta(stream, meta_buf, mem, ret);
+ 
+ 		/* Decode the payload data. */
+-		uvc_video_decode_data(uvc_urb, buf, mem + ret,
+-			urb->iso_frame_desc[i].actual_length - ret);
++		uvc_video_decode_data(uvc_urb, buf, mem + header.length,
++			urb->iso_frame_desc[i].actual_length - header.length);
+ 
+ 		/* Process the header again. */
+-		uvc_video_decode_end(stream, buf, mem,
+-			urb->iso_frame_desc[i].actual_length);
++		uvc_video_decode_end(stream, buf, &header);
+ 
+ 		if (buf->state == UVC_BUF_STATE_READY)
+ 			uvc_video_next_buffers(stream, &buf, &meta_buf);
+@@ -1455,6 +1450,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+ 			struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+ {
+ 	struct urb *urb = uvc_urb->urb;
++	struct uvc_payload_header header;
+ 	struct uvc_streaming *stream = uvc_urb->stream;
+ 	u8 *mem;
+ 	int len, ret;
+@@ -1475,8 +1471,12 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+ 	 * header.
+ 	 */
+ 	if (stream->bulk.header_size == 0 && !stream->bulk.skip_payload) {
++		ret = uvc_video_parse_header(stream, mem, len, &header);
++		if (ret < 0)
++			return;
++
+ 		do {
+-			ret = uvc_video_decode_start(stream, buf, mem, len);
++			ret = uvc_video_decode_start(stream, buf, &header);
+ 			if (ret == -EAGAIN)
+ 				uvc_video_next_buffers(stream, &buf, &meta_buf);
+ 		} while (ret == -EAGAIN);
+@@ -1485,13 +1485,13 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+ 		if (ret < 0 || buf == NULL) {
+ 			stream->bulk.skip_payload = 1;
+ 		} else {
+-			memcpy(stream->bulk.header, mem, ret);
+-			stream->bulk.header_size = ret;
++			memcpy(stream->bulk.header, mem, header.length);
++			stream->bulk.header_size = header.length;
+ 
+ 			uvc_video_decode_meta(stream, meta_buf, mem, ret);
+ 
+-			mem += ret;
+-			len -= ret;
++			mem += header.length;
++			len -= header.length;
+ 		}
+ 	}
+ 
+@@ -1512,8 +1512,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+ 	if (urb->actual_length < urb->transfer_buffer_length ||
+ 	    stream->bulk.payload_size >= stream->bulk.max_payload_size) {
+ 		if (!stream->bulk.skip_payload && buf != NULL) {
+-			uvc_video_decode_end(stream, buf, stream->bulk.header,
+-				stream->bulk.payload_size);
++			uvc_video_decode_end(stream, buf, &header);
+ 			if (buf->state == UVC_BUF_STATE_READY)
+ 				uvc_video_next_buffers(stream, &buf, &meta_buf);
+ 		}
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312..2678c680f6bc 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -425,6 +425,27 @@ struct uvc_urb {
+ 	struct work_struct work;
+ };
+ 
++struct uvc_payload_header {
++	bool has_eof;
++
++	bool has_pts;
++	u32 pts;
++
++	bool has_scr;
++	u16 sof;
++	u32 stc;
++
++	bool has_sli;
++	u16 sli;
++
++	u8 fid;
++
++	bool has_err;
++
++	int length;
++	int payload_size;
++};
++
+ struct uvc_streaming {
+ 	struct list_head list;
+ 	struct uvc_device *dev;
+-- 
+2.34.1
 
-Regards,
-Mirela
->   
->   /* two planes -- one Y, one Cr + Cb interleaved  */
->   #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
