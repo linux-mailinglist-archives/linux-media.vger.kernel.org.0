@@ -2,137 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AA7369B926
-	for <lists+linux-media@lfdr.de>; Sat, 18 Feb 2023 10:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E5069BA0A
+	for <lists+linux-media@lfdr.de>; Sat, 18 Feb 2023 13:52:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbjBRJlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Feb 2023 04:41:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
+        id S229669AbjBRMwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Feb 2023 07:52:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjBRJle (ORCPT
+        with ESMTP id S229441AbjBRMwK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Feb 2023 04:41:34 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3D131E1C;
-        Sat, 18 Feb 2023 01:41:33 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id s22-20020a17090a075600b0023127b2d602so484732pje.2;
-        Sat, 18 Feb 2023 01:41:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rmDK72vZ8fQzEyhFyhgCxcJBJHFfRcwj3bVJdDU7WM=;
-        b=asZwzgA3wjdnxVYvc7LzSxt8zYra6Rh/mddCKulD+zsSfNBr0E5MzT7wkMvF4o3e2S
-         SMl6c9Gd3ktXVxl2xxL7iOe8Q5585ZX2gSTrHKWszV4w3PPamiwdAAmRucs8eav8mF0J
-         U+ltA8a7J51xuv3n3O500sgYX93fg+AGRVEQzIwpurZG4XmWnnoK/hywpS7nIxlLU143
-         RfF5eFcKAeQSoeiUMVW+YR0KrCbsy0edOgdYarS1mrNn/dU5WneOdgKrR6kodK+FcEJd
-         m+gMFI/huEGmS8cu8BZZXj35T75gA3GLU9Ggt511f/Zjslyzisyxon3RvOaSygj2wNPD
-         /pAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5rmDK72vZ8fQzEyhFyhgCxcJBJHFfRcwj3bVJdDU7WM=;
-        b=64XNV9MyIaL9tHnkmZs2LTkOfbvxMN4v161LmUwZ23EwvKgkg32XH1n9TQzRynmkMd
-         Ss87vlT1gCuwHCXLtHSs0Qud5BoXUkmB28iRSBDiieXlpnQzQBmz59ZOSQzwbfS8WvrY
-         fDf9UuzWMDjp7P4Y12AOJ5li0QELCIZ5NB4kYsoTY8i6fKY2Mr0il+/V6mGU/y7/qWWj
-         qiwfDjBOrTHanyLjLRUe92Qt3Bemr5JIa/4TneZ4PfKg8ugS0BTeE8l+keBpuFoj9/i9
-         UFxsACBooz1SOOS8jwb6F/6xghawAorUguzyu/YSJsU39XHxd1JrCpdJhdL5iN5xVSb+
-         r5sg==
-X-Gm-Message-State: AO0yUKWStEy7EtzyhUtyo9eZ42e9kSnsNlPhkPCrm162bFuQ0HOrDczo
-        +y3lMZR8lrpkuUxB/3RPMro=
-X-Google-Smtp-Source: AK7set+3dG+Y+lb4W4nyypWiAZ/3FT/EnNIlAtkpQQT/0h8U6bYKOxgpxP5U7IiV0qgJr9lyry9BAg==
-X-Received: by 2002:a17:902:d489:b0:196:40b1:3319 with SMTP id c9-20020a170902d48900b0019640b13319mr3453151plg.5.1676713292798;
-        Sat, 18 Feb 2023 01:41:32 -0800 (PST)
-Received: from debian.me (subs28-116-206-12-56.three.co.id. [116.206.12.56])
-        by smtp.gmail.com with ESMTPSA id ji11-20020a170903324b00b0019afb7a02a1sm4055438plb.218.2023.02.18.01.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Feb 2023 01:41:32 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 4BA3F105E25; Sat, 18 Feb 2023 16:41:27 +0700 (WIB)
-Date:   Sat, 18 Feb 2023 16:41:27 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Vishal Parmar <vishistriker@gmail.com>,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] first patch test
-Message-ID: <Y/CdR0oBttYV85Y8@debian.me>
-References: <20230218031238.5747-1-vishistriker@gmail.com>
+        Sat, 18 Feb 2023 07:52:10 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58EAA14EA0
+        for <linux-media@vger.kernel.org>; Sat, 18 Feb 2023 04:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676724729; x=1708260729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kQnpOQhBXT/LA2KQtbj8PWcPPlTTfuaa8JKys7onHCw=;
+  b=aPeXdOGbdjwak2otuz5Aohf3H08imMVGgsBR/EWEkWAWt7zKtjL7bZD0
+   xIIHbFEZ/NfzEbukNU5a5BszlamqRyvjdwDK17jgUN2VPvB+t6L+bR2EQ
+   0MgokIvtG5IbfBd+eJDOeeWoCIiWedRjIdK1Jx36FJkvO0n4q/2iHsPvo
+   4POor8fSAStvekwSrlRqIdk9IWwBopKORnbimjy7stMUlFmoLPOYeaIA6
+   HIdkd71FUjATHDuXqNwz3yglR55Df/4GroNSLeeb4pOwqDmct7v5dfipv
+   YwI9mQ8H0j6fqpqlXzj9tLeJ/YlwnMC/pT7HZ9uTLCIIL6oijmEkfNil0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="418392560"
+X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; 
+   d="scan'208";a="418392560"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 04:52:09 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="739592371"
+X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; 
+   d="scan'208";a="739592371"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 04:52:07 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 0E3F211F913;
+        Sat, 18 Feb 2023 14:52:05 +0200 (EET)
+Date:   Sat, 18 Feb 2023 14:52:05 +0200
+From:   "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Dan Scally <djrscally@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: RFC: removing various special/obscure features from atomisp code
+ ?
+Message-ID: <Y/DJ9WikTA+OnrCu@kekkonen.localdomain>
+References: <5309d845-063b-6dd9-529d-0f82654290f2@redhat.com>
+ <Y+5CMkwHy9tuk6G2@pendragon.ideasonboard.com>
+ <c3dc3173-9bbd-c48a-80a7-ec6a86b6e360@redhat.com>
+ <Y+6hSuRzaaHj83S9@pendragon.ideasonboard.com>
+ <ea81b17b-7d1f-a5e1-11dd-04db310e1e50@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MuVn2X80n6RyCgzD"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230218031238.5747-1-vishistriker@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <ea81b17b-7d1f-a5e1-11dd-04db310e1e50@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
---MuVn2X80n6RyCgzD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Feb 17, 2023 at 04:18:55PM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 2/16/23 22:34, Laurent Pinchart wrote:
+> > Hi Hans,
+> > 
+> > On Thu, Feb 16, 2023 at 04:47:51PM +0100, Hans de Goede wrote:
+> >> On 2/16/23 15:48, Laurent Pinchart wrote:
+> >>> On Thu, Feb 16, 2023 at 03:20:08PM +0100, Hans de Goede wrote:
+> >>>> Hi All,
+> >>>>
+> >>>> I have been looking into moving the sensor registration for atomisp2
+> >>>> over to v4l2-aysnc similar to how
+> >>>> drivers/media/pci/intel/ipu3/cio2-bridge.c does things.
+> >>>>
+> >>>> Together with some other smaller changes this should allow the atomisp
+> >>>> code use standard sensor drivers instead of having their own fork of
+> >>>> these drivers.
+> >>>>
+> >>>> While looking into this I realized that the current architecture of
+> >>>> the atomisp2 code where it registers 8 /dev/video# nodes + many
+> >>>> v4l2-subdevs is getting in the way of doing this.  At a minimum the
+> >>>> current convoluted media-ctl graph makes it harder then necessary to
+> >>>> make this change.
+> >>>>
+> >>>> So this makes me realize that it probably is time to make some changes
+> >>>> to the atomisp-code to remove a bunch of somewhat obscure (and
+> >>>> untested / unused) features. I have been thinking about removing these
+> >>>> for a long time already since they also get in the way of a bunch of
+> >>>> other things like allowing the /dev/video# nodes to be opened multiple
+> >>>> times.
+> >>>>
+> >>>> So my plan is to reduce the feature set to make atomisp work as more
+> >>>> or less a standard webcam (with front/back sensors) which is how most
+> >>>> hw is using it and also is how all our (my) current testing uses it.
+> >>>>
+> >>>> This means reducing the graph to a single /dev/video0 output node + 2
+> >>>> subdevs for the sensors I might put one more node in the graph for
+> >>>> selecting between the 3 CSI ports, or those could be 3 possible
+> >>>> sources for /dev/video0.
+> >>>
+> >>> Could you briefly summarize the hardware architecture, and in particular
+> >>> what building blocks are present, and how they're connected ? That will
+> >>> help with the discussion.
+> >>
+> >> I can try, but it is complicated. The atomisp appears to mainly be
+> >> some coprocessor thing (with I guess some hw-accel blocks on the side)
+> >> the way it works from the driver's pov is that the firmware file really
+> >> contains a a whole bunch of different binaries to run on the co-processor,
+> >> with a table describing the binaries including supported input and
+> >> output formats.
+> >>
+> >> Each binary represents a complete camera pipeline, going from
+> >> directly reading from the CSI receiver on one end to DMA-ing
+> >> the fully finished ready to consume buffers in the requested
+> >> destination fmt on the other end. The driver picks a binary
+> >> based on the requested input + output formats and then uploads
+> >> + starts that.
+> >>
+> >> So basically it is one big black box, where we hookup a
+> >> sensor on one side and then on the other end say give my YUYV
+> >> or YU12, or ...   There are of course a whole bunch of
+> >> processing parameters we can set like lens shading correction
+> >> tables (format unknown), etc. But basically it is still
+> >> just a black box.
+> >>
+> >> So from a mediactl pov as I see it the whole thing is a single
+> >> node in the graph.
+> > 
+> > Do you mean a single entity for the ISP ? I'd go for
+> > 
+> > sensor subdev -> CSI-2 RX subdev -> ISP subdev -> video device
+> > 
+> > Is that what you meant ?
+> 
+> Yes although I'm not sure having "CSI-2 RX subdev" in there
+> as a separate node makes much sense given how blackbox-y
+> the entire working of the pipeline is.
+> 
+> At least I'm not aware of any way to e.g. skip the ISP and
+> get raw bayer frames directly out of the CSI-2 receiver.
 
-On Sat, Feb 18, 2023 at 08:42:37AM +0530, Vishal Parmar wrote:
-> Signed-off-by: Vishal Parmar <vishistriker@gmail.com>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
-vc_driver.c
-> index e4bcb5011360..c79dcee2213f 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2082,7 +2082,7 @@ static int uvc_probe(struct usb_interface *intf,
->  		(const struct uvc_device_info *)id->driver_info;
->  	int function;
->  	int ret;
-> -
-> +        pr_info("I changed uvcvideo driver in the Linux Kernel\n");
->  	/* Allocate memory for the device and initialize it. */
->  	dev =3D kzalloc(sizeof(*dev), GFP_KERNEL);
->  	if (dev =3D=3D NULL)
+This should be technically possible, or at least it has been. Not quite
+sure about this hardware version or firmware though.
 
-Hi and welcome to LKML!
+Even then, it's always possible to have one more pad for raw output in the
+same sub-device. The ISP won't be usable for memory to memory processing
+while capturing raw anyway --- it's not supported by the firmware.
 
-As others has pointed, it seems like you had sent a patch which only
-added noises to the ML. Also, I see that you send the similar change as
-one in "Modifying a driver under the VM" section of kernelnewbies.org
-[1].
+-- 
+Regards,
 
-If you'd like to submit patches, you can do so by contributing to
-drivers/staging/ drivers first or documentation files at Documentation/.
-It is not recommended to go outside of there until you've gained
-experience and have several of your patches accepted and applied by
-respective maintainers.
-
-In any case, please read Documentation/process/submitting-patches.rst.
-
-Thanks.
-
-[1]: https://kernelnewbies.org/FirstKernelPatch
-
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---MuVn2X80n6RyCgzD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/CdPQAKCRD2uYlJVVFO
-o8nmAQCOnUwLyF4xac0EXIx2bpexRRQsQPgigBeGPCpbd9ux0gEAvPMd6NbkOaTQ
-HGST2yZev1pmDiR0vxa7+re351sVGgU=
-=bRrx
------END PGP SIGNATURE-----
-
---MuVn2X80n6RyCgzD--
+Sakari Ailus
