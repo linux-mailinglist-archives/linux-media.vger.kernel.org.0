@@ -2,131 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA0469B7A6
-	for <lists+linux-media@lfdr.de>; Sat, 18 Feb 2023 03:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4774469B7DA
+	for <lists+linux-media@lfdr.de>; Sat, 18 Feb 2023 04:13:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbjBRCHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Feb 2023 21:07:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57402 "EHLO
+        id S229523AbjBRDND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Feb 2023 22:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjBRCHq (ORCPT
+        with ESMTP id S229445AbjBRDNC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Feb 2023 21:07:46 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078295F242;
-        Fri, 17 Feb 2023 18:07:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676686065; x=1708222065;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mJAHrXAWrfL2lvxNdKWgwnv47B8c9wg7eap7KWQCYtQ=;
-  b=Gm7tycKTAUgDzcA7xtci3AuQZRDY7r3AUrmBG4eP5aiAqj8W3ZPVD1FO
-   OWnws3ndg1Rly0VWNt7JSSI6hJpEluLq2RpcVuP6rR77xpRyHhOctqcgQ
-   ADTiGb7Vwr/wUwZ7dg3HYuaUKHNxYi52Q/djcr4wnA85wXje8aVi3fP/m
-   rN33TYYLBLwdaFccZOKjs5DNLDPOJT938P+ITIqdVO/4i+TQsQmfa9rLm
-   zMrG+LVIjTyg2bfWE8LwXLeFzcsVhkbwgvgy5lPwMB5+U70gsvcQV9V4A
-   oQTH0EzWbshHI0K02SBS1XKZj4DFkT44okJkt/jFQ8thuDpLz7VhqP5kE
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="311763201"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="311763201"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 18:07:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="813551667"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="813551667"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2023 18:07:43 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pTCda-000C0L-15;
-        Sat, 18 Feb 2023 02:07:42 +0000
-Date:   Sat, 18 Feb 2023 10:07:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c:648:5:
- warning: stack frame size (1072) exceeds limit (1024) in
- 'saa7146_enable_overlay'
-Message-ID: <202302180911.6Dde6M71-lkp@intel.com>
+        Fri, 17 Feb 2023 22:13:02 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33D119F0B;
+        Fri, 17 Feb 2023 19:12:58 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id u14-20020a17090a4bce00b002341fadc370so3160902pjl.1;
+        Fri, 17 Feb 2023 19:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Go/rrb42F/i0f8PVYoy8oUwA/BFEAezoQHrQtZBPKeQ=;
+        b=S0jKcsmQGoogHrpeU1NrfXgmk0MTiRqFtheVmPi+zbKzd5R0ZLdndMJtl9/SDHSpFh
+         7ELqFz7Ap1Glj5DiFwIrowahLwf2XWwnSWwxuObJl/nqFJo9XkwDWMzL4bDMKi+Zg1+y
+         u0I+x4W1T7c5Pdyyf/p+zgfGCRQzsj3mV9M4l+oTrdU8W5CSaLTLnYnErkpSFy5BArUd
+         CFkWfMRDcwbYTa7HQuHuQjEocASmzGmGW61nBf/5Xs/BVp9G1ZuRW4iKlvFN/5SVLPgf
+         KzyE/YGHtFN8r9p99uCsC1EzXcwRg7/4r73jJQCoCq21xvQ4qTiNBItzFttAghOdeY8e
+         IXrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Go/rrb42F/i0f8PVYoy8oUwA/BFEAezoQHrQtZBPKeQ=;
+        b=0rYPkq56uc2M6fQJXoxAKqDv+xQzOnUYXqe+8jsyiF257aKIGcmXIBRqwJCiGIKKrV
+         7nbDSA0Yj+12vX7hxne7ww+bvbHot4CwloGfS5dzIga+wM/rTos5Ns5MOtDJNeCBouKV
+         EjRKxzg+6ycyUTNahzlFSQzYMkCY9Sb0y9ySlTFXsfzINMhvMu+cCKw2CXFDssdVyrN6
+         lx3bvhqpxdpUYNcX19ptHnFDU3M6sqQvPWHe6sbFUJ5oKC2z5K3hEjhNYgwCsM4dMfkd
+         ZDjK1rYxSBMyDPzcVZ7/e+ac1u6LGtk3lhx+LfTv6rG5M6R0leuLNALbAfkjH+d7QTjj
+         dNyA==
+X-Gm-Message-State: AO0yUKVxr6P7udWR5IokW5pC5cAbp2TQ4wcGT/Iu6ZKVKFtnClvow8SP
+        BlIFnNy7EJ8rEmh/jkzIAZk=
+X-Google-Smtp-Source: AK7set/zisvzpVF1oVA+rUrz5DdY9o/hLU9ndApIrHUKrNKXORjyY3Ko0UX5Gtp6FPym29v9PopdzA==
+X-Received: by 2002:a17:902:f686:b0:19a:a647:1891 with SMTP id l6-20020a170902f68600b0019aa6471891mr2455870plg.67.1676689978086;
+        Fri, 17 Feb 2023 19:12:58 -0800 (PST)
+Received: from striker.. ([2401:4900:1c80:ffd7:ef1b:ca8:f52:fad])
+        by smtp.gmail.com with ESMTPSA id u9-20020a17090341c900b00198f36a8941sm3757490ple.221.2023.02.17.19.12.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 19:12:57 -0800 (PST)
+From:   Vishal Parmar <vishistriker@gmail.com>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     Vishal Parmar <vishistriker@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] first patch test
+Date:   Sat, 18 Feb 2023 08:42:37 +0530
+Message-Id: <20230218031238.5747-1-vishistriker@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Signed-off-by: Vishal Parmar <vishistriker@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dbeed98d89ea91ae68ff6dce6060671726292e85
-commit: e33fdb5a02490059e2f48ced2c038c8a46c6476d media: saa7146: deprecate hexium_gemini/orion, mxb and ttpci
-date:   6 months ago
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302180911.6Dde6M71-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e33fdb5a02490059e2f48ced2c038c8a46c6476d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e33fdb5a02490059e2f48ced2c038c8a46c6476d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/staging/media/deprecated/saa7146/common/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302180911.6Dde6M71-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c:648:5: warning: stack frame size (1072) exceeds limit (1024) in 'saa7146_enable_overlay' [-Wframe-larger-than]
-   int saa7146_enable_overlay(struct saa7146_fh *fh)
-       ^
-   257/1072 (23.97%) spills, 815/1072 (76.03%) variables
-   1 warning generated.
-
-
-vim +/saa7146_enable_overlay +648 drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.c
-
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  647  
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16 @648  int saa7146_enable_overlay(struct saa7146_fh *fh)
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  649  {
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  650  	struct saa7146_dev *dev = fh->dev;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  651  	struct saa7146_vv *vv = dev->vv_data;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  652  
-5da545ad08a3c6 drivers/media/common/saa7146_hlp.c Hans Verkuil   2012-05-01  653  	saa7146_set_window(dev, vv->ov.win.w.width, vv->ov.win.w.height, vv->ov.win.field);
-5da545ad08a3c6 drivers/media/common/saa7146_hlp.c Hans Verkuil   2012-05-01  654  	saa7146_set_position(dev, vv->ov.win.w.left, vv->ov.win.w.top, vv->ov.win.w.height, vv->ov.win.field, vv->ov_fmt->pixelformat);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  655  	saa7146_set_output_format(dev, vv->ov_fmt->trans);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  656  	saa7146_set_clipping_rect(fh);
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  657  
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  658  	/* enable video dma1 */
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  659  	saa7146_write(dev, MC1, (MASK_06 | MASK_22));
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  660  	return 0;
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  661  }
-^1da177e4c3f41 drivers/media/common/saa7146_hlp.c Linus Torvalds 2005-04-16  662  
-
-:::::: The code at line 648 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index e4bcb5011360..c79dcee2213f 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2082,7 +2082,7 @@ static int uvc_probe(struct usb_interface *intf,
+ 		(const struct uvc_device_info *)id->driver_info;
+ 	int function;
+ 	int ret;
+-
++        pr_info("I changed uvcvideo driver in the Linux Kernel\n");
+ 	/* Allocate memory for the device and initialize it. */
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+ 	if (dev == NULL)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
