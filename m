@@ -2,154 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A9B469D12A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 17:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1045A69D147
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 17:24:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232286AbjBTQPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 11:15:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60786 "EHLO
+        id S231961AbjBTQYh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 11:24:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231708AbjBTQO7 (ORCPT
+        with ESMTP id S231923AbjBTQYg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 11:14:59 -0500
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2491CF4E;
-        Mon, 20 Feb 2023 08:14:58 -0800 (PST)
-Received: by mail-oi1-x236.google.com with SMTP id be35so1549244oib.4;
-        Mon, 20 Feb 2023 08:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yucdNwlCfsGGEjZdnJPvfOZKmj3CAADyiPAf5hjswZg=;
-        b=ZxnDUIK9eHPfiknVqJN5rt64dYRWzqsyM6ai87lOd3rGkYut+gJ/n+6Q60l5pl9X0m
-         aA2xVnQMpHNtR7PQ8ZuDMhsvhBxEIA6RVe5PFIYbQHMt5hbHT4I1ZGY3ojxcWR/DON9r
-         GtImPbcTfYDxbU1M08ylmtdGi/pU3DvNMyn9R6NvYbuui4FinXluI/67qPQjjefFcY4y
-         btiSdrQHL2kv3JuRmJtxS7dpCBcfjo2n+2xcY02Nsbm6CRH6XFbnVzpgWu9oQybHP09j
-         SAXeRZCUoim+iykMYQIdC3P3AY5/YPuVOE1HcjfjBHkoZWXNDqneQskNWo5Z0xJsKYRa
-         TNMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yucdNwlCfsGGEjZdnJPvfOZKmj3CAADyiPAf5hjswZg=;
-        b=jhmIQZCbBuG75pC11699wYoLwQQ4xgY8NSaNaQrcUIUH5zl5gVDOjmOzZeEDioFPP8
-         ob9U4KAXAKR9tqId9MIWQhLONj6swxerECQOvvhAOtLg20EvtwuYjzrYgA5j3mpfBd1Q
-         AiL4ikbvnuIGG2jLhTQdoHToWJZU5v0k9ZSGG/g8hhqf1OLzDK0Rz5hoZpBgQjFlZCEu
-         aQ0OhlJC6J6lfyT2Uf7aV5C+/1upJOcyyDkLtAwQJO+rcwngCgmxtudXMNCB4snKFFbN
-         SqLUb65rdJnkL1J6ajhlWNU+C9dV4/relw4P8k0vbZ2owEE2Q/Jtp1MNqqT0oHOaceP1
-         1tLg==
-X-Gm-Message-State: AO0yUKXoGIijwT2vrrxbxsInwUiV1flpThxrPlpmviNKg7DWjBDbPp2t
-        EEIx6e6TWXi9OF30T5Rckp2C59jzq+6TJ5vbxtvQVgmk
-X-Google-Smtp-Source: AK7set+n1QvPydxi+hQlZFC/9h20UVfLJWhf+ldIyg34MhCT3B1Lw/a7cCOBNd9D7mP6aZ3TpheYxEk8RFxISNtjFbE=
-X-Received: by 2002:a05:6808:ec7:b0:364:c0a5:1fcf with SMTP id
- q7-20020a0568080ec700b00364c0a51fcfmr1104755oiv.58.1676909697815; Mon, 20 Feb
- 2023 08:14:57 -0800 (PST)
+        Mon, 20 Feb 2023 11:24:36 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7933B1E9D8;
+        Mon, 20 Feb 2023 08:24:34 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:d30c:b155:96fb:dcc] (unknown [IPv6:2a01:e0a:120:3210:d30c:b155:96fb:dcc])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FB746602149;
+        Mon, 20 Feb 2023 16:24:32 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1676910272;
+        bh=g2IHNrew0kWcRPOw2e3XyoeeIUPD0YEIAtIZiAGobF4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Na154KLhB9zEUG8GfxTqr6v0pbvHwVgfIavVzgzRWoHlgGcxnzrB3mUg4srgRwG19
+         aGAOaXcSrWuAwxyOxltOOjjZ8RGrDdk+soV+FozMRexYLiZvGugivhWGaQ7k5invVv
+         DDeL4HWp/jO72vRXyV2vQx+tWaXWWzSHbfSxgpVSJ52VrC51aCuB+xI2WR0MDEewSB
+         3YN5QXuvvKl2wGKbPgiacoivHzbZOgKuL47luAK8h03olp0B3B4fjGfiSAdSxfoqZD
+         1Ko8gEkWdrHuQ9LlNkuxJHuZya9FzVNUxJiUsB46MkB+UWt+Ve8tlIK3D8LHJzGd+t
+         n8v8UFDN3rBcA==
+Message-ID: <c4d355d5-5e14-8eba-1944-fc26b1050cf5@collabora.com>
+Date:   Mon, 20 Feb 2023 17:24:30 +0100
 MIME-Version: 1.0
-References: <20230218211608.1630586-1-robdclark@gmail.com> <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
-In-Reply-To: <20230220105345.70e46fa5@eldfell>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 20 Feb 2023 08:14:47 -0800
-Message-ID: <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 06/12] media: verisilicon: Check AV1 bitstreams bit
+ depth
+Content-Language: en-US
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        hverkuil@xs4all.nl, nicolas.dufresne@collabora.com,
+        jernej.skrabec@gmail.com, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20230214140557.537984-1-benjamin.gaignard@collabora.com>
+ <20230214140557.537984-7-benjamin.gaignard@collabora.com>
+ <CAAEAJfDihZND+1FSzFxT86j9u6h-wH6uMMNh7BiaEWQWtSpk=Q@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfDihZND+1FSzFxT86j9u6h-wH6uMMNh7BiaEWQWtSpk=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+
+Le 18/02/2023 à 14:11, Ezequiel Garcia a écrit :
+> On Tue, Feb 14, 2023 at 11:06 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>> The driver supports 8 and 10 bits bitstreams, make sure to discard
+>> other cases.
+>> It could happens that userland test if V4L2_CID_STATELESS_AV1_SEQUENCE
+>> exists without setting bit_depth field in this case use
+>> HANTRO_DEFAULT_BIT_DEPTH value.
+>>
+> This shouldn't happen.
 >
-> On Sat, 18 Feb 2023 13:15:49 -0800
-> Rob Clark <robdclark@gmail.com> wrote:
+> If the bit_depth argument in hantro_check_depth_match()
+> can be set unchecked by userspace, we have done something wrong!!
 >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
-> > wait (as opposed to a "housekeeping" wait to know when to cleanup after
-> > some work has completed).  Usermode components of GPU driver stacks
-> > often poll() on fence fd's to know when it is safe to do things like
-> > free or reuse a buffer, but they can also poll() on a fence fd when
-> > waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
-> > lets the kernel differentiate these two cases.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
->
-> Hi,
->
-> where would the UAPI documentation of this go?
-> It seems to be missing.
+> Are you sure that userspace can do a S_CTRL with an invalid bit-depth?
+> The try_or_set_cluster() function seems to always call try_ctrl before s_ctrl.
 
-Good question, I am not sure.  The poll() man page has a description,
-but my usage doesn't fit that _exactly_ (but OTOH the description is a
-bit vague).
+I have dump the stack when AV1 sequence bit depth = 0 in s_ctrl.
+It is happening when opening the driver, v4l2 setup the ctrls by calling __v4l2_ctrl_handler_setup()
+this led to call hantro_av1_s_ctrl() with empty structure.
 
-> If a Wayland compositor is polling application fences to know which
-> client buffer to use in its rendering, should the compositor poll with
-> PRI or not? If a compositor polls with PRI, then all fences from all
-> applications would always be PRI. Would that be harmful somehow or
-> would it be beneficial?
+For other codecs isn't a problem because bit depth is coded with a minus 8 value (ie: 8 bits = 0)
+while for AV1 it is the real value (ie: 8 bits = 8).
 
-I think a compositor would rather use the deadline ioctl and then poll
-without PRI.  Otherwise you are giving an urgency signal to the fence
-signaller which might not necessarily be needed.
+[   88.478751] Hardware name: Radxa Rock 5A Board (DT)
+[   88.479184] Call trace:
+[   88.479406]  dump_backtrace.part.0+0xdc/0xf0
+[   88.479796]  show_stack+0x18/0x30
+[   88.480099]  dump_stack_lvl+0x68/0x84
+[   88.480431]  dump_stack+0x18/0x34
+[   88.480732]  hantro_av1_s_ctrl+0x7c/0xcc [hantro_vpu]
+[   88.481211]  __v4l2_ctrl_handler_setup+0x120/0x154
+[   88.481643]  v4l2_ctrl_handler_setup+0x2c/0x50
+[   88.482043]  hantro_open+0x138/0x204 [hantro_vpu]
+[   88.482490]  v4l2_open+0xa8/0x124
+[   88.482794]  chrdev_open+0xc0/0x22c
+[   88.483114]  do_dentry_open+0x13c/0x490
+[   88.483464]  vfs_open+0x2c/0x40
+[   88.483749]  path_openat+0x878/0xe50
+[   88.484074]  do_filp_open+0x80/0x130
+[   88.484399]  do_sys_openat2+0xb4/0x170
+[   88.484736]  __arm64_sys_openat+0x60/0xb0
+[   88.485097]  invoke_syscall+0x48/0x114
+[   88.485437]  el0_svc_common.constprop.0+0x44/0xfc
+[   88.485860]  do_el0_svc+0x3c/0xc0
+[   88.486163]  el0_svc+0x2c/0x84
+[   88.486441]  el0t_64_sync_handler+0xbc/0x140
+[   88.486826]  el0t_64_sync+0x190/0x194
 
-The places where I expect PRI to be useful is more in mesa (things
-like glFinish(), readpix, and other similar sorts of blocking APIs)
+Regards,
+Benjamin
 
-BR,
--R
-
->
 >
 > Thanks,
-> pq
+> Ezequiel
 >
-> > ---
-> >  drivers/dma-buf/sync_file.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> > index fb6ca1032885..c30b2085ee0a 100644
-> > --- a/drivers/dma-buf/sync_file.c
-> > +++ b/drivers/dma-buf/sync_file.c
-> > @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file, poll_table *wait)
-> >  {
-> >       struct sync_file *sync_file = file->private_data;
-> >
-> > +     /*
-> > +      * The POLLPRI/EPOLLPRI flag can be used to signal that
-> > +      * userspace wants the fence to signal ASAP, express this
-> > +      * as an immediate deadline.
-> > +      */
-> > +     if (poll_requested_events(wait) & EPOLLPRI)
-> > +             dma_fence_set_deadline(sync_file->fence, ktime_get());
-> > +
-> >       poll_wait(file, &sync_file->wq, wait);
-> >
-> >       if (list_empty(&sync_file->cb.node) &&
->
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 4:
+>> - This patch is the result of squashing "Save bit depth for AV1 decoder"
+>>    and "Check AV1 bitstreams bit depth" of version 3 + adapation to
+>>    "[PATCH v8 0/6] media: verisilicon: HEVC: fix 10bits handling" series.
+>>
+>>   .../media/platform/verisilicon/hantro_drv.c   | 36 +++++++++++++++++++
+>>   .../media/platform/verisilicon/hantro_v4l2.c  |  4 +++
+>>   2 files changed, 40 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>> index bc1a85456142..666cd46902da 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>> @@ -275,7 +275,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>>                  /* We only support profile 0 */
+>>                  if (dec_params->profile != 0)
+>>                          return -EINVAL;
+>> +       } else if (ctrl->id == V4L2_CID_STATELESS_AV1_SEQUENCE) {
+>> +               const struct v4l2_ctrl_av1_sequence *sequence = ctrl->p_new.p_av1_sequence;
+>> +
+>> +               if (sequence->bit_depth != 8 && sequence->bit_depth != 10)
+>> +                       return -EINVAL;
+>>          }
+>> +
+>>          return 0;
+>>   }
+>>
+>> @@ -348,6 +354,30 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+>>          return 0;
+>>   }
+>>
+>> +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+>> +{
+>> +       struct hantro_ctx *ctx;
+>> +
+>> +       ctx = container_of(ctrl->handler,
+>> +                          struct hantro_ctx, ctrl_handler);
+>> +
+>> +       switch (ctrl->id) {
+>> +       case V4L2_CID_STATELESS_AV1_SEQUENCE:
+>> +       {
+>> +               int bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
+>> +
+>> +               if (ctx->bit_depth == bit_depth)
+>> +                       return 0;
+>> +
+>> +               return hantro_reset_raw_fmt(ctx, bit_depth);
+>> +       }
+>> +       default:
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+>>   static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>>          .try_ctrl = hantro_try_ctrl,
+>>   };
+>> @@ -365,6 +395,11 @@ static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+>>          .s_ctrl = hantro_hevc_s_ctrl,
+>>   };
+>>
+>> +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops = {
+>> +       .try_ctrl = hantro_try_ctrl,
+>> +       .s_ctrl = hantro_av1_s_ctrl,
+>> +};
+>> +
+>>   #define HANTRO_JPEG_ACTIVE_MARKERS     (V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+>>                                           V4L2_JPEG_ACTIVE_MARKER_COM | \
+>>                                           V4L2_JPEG_ACTIVE_MARKER_DQT | \
+>> @@ -542,6 +577,7 @@ static const struct hantro_ctrl controls[] = {
+>>                  .codec = HANTRO_AV1_DECODER,
+>>                  .cfg = {
+>>                          .id = V4L2_CID_STATELESS_AV1_SEQUENCE,
+>> +                       .ops = &hantro_av1_ctrl_ops,
+>>                  },
+>>          }, {
+>>                  .codec = HANTRO_AV1_DECODER,
+>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> index 992c5baa929f..7e74e47c9a89 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> @@ -86,6 +86,10 @@ hantro_check_depth_match(const struct hantro_fmt *fmt, int bit_depth)
+>>          if (!fmt->match_depth && !fmt->postprocessed)
+>>                  return true;
+>>
+>> +       /* 0 means default depth, which is 8 */
+>> +       if (!bit_depth)
+>> +               bit_depth = HANTRO_DEFAULT_BIT_DEPTH;
+>> +
+>>          fmt_depth = hantro_get_format_depth(fmt->fourcc);
+>>
+>>          /*
+>> --
+>> 2.34.1
+>>
