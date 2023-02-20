@@ -2,146 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6163B69CF99
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 15:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1300769CFC8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 15:59:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232184AbjBTOn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 09:43:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
+        id S231881AbjBTO7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 09:59:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231848AbjBTOnz (ORCPT
+        with ESMTP id S232254AbjBTO7r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 09:43:55 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6084F15543
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:43:53 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id cy6so118326edb.5
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:43:53 -0800 (PST)
+        Mon, 20 Feb 2023 09:59:47 -0500
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F271DB9F
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:59:39 -0800 (PST)
+Received: by mail-vs1-xe2c.google.com with SMTP id b20so734037vsu.5
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:59:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iKijfuj2j1S0TLmPw43C0OdgdeZjWXd42ORnI16fjGo=;
-        b=QfljmbPiQuomrYBdPu2jJ1IJiffHZOZYYjwOSknZa/Gt2vxRbP5WoJmcvjkkpFpIjP
-         X5WRI3PwHQVIXi8uzRBJu08NCzpEZhX6g0yLv0iFikyOeznfITvOIbsI+duMEU419Gdf
-         BIlwOShi6CtC9KaRE+vtqhWse6gm9TXoN3ZNX67XWjfzf3t2bDWipuBWdZe/lD/Yu19d
-         fXD1jN/HYK7RcDLYdjLqiX/qBW17IR8LvUeHixAmHLyxeCp6Rn6ekqT+Kxd/y6Q+N4Ek
-         ZiA/1xohrWPgFU899mbgApCMPmmpwAqPytxFsAk0YOri5OS2CgbUBp9hGk7hlsdyMQxB
-         pRHQ==
+        d=linaro.org; s=google; t=1676905178;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2EAsGyZAvm6u7RebXhNM4OstmhJzau/0diJUFrUURCA=;
+        b=knB3hT1duc1MTs0iknQypTc/pO26udEf2033nsquaRLESS+79t7qjfrPeuZQCT0Tej
+         OtmuoZ2rrXAdEnOnl2vDvoXC+zg6VaaDyz/awt8YVx3OjJRiep5hg1yUbdm0KYKyvgLn
+         DEhG/sTtb34ObEyUdnystXBdAJrThhvXHkk1SEpQz6LrvU4LZlaY+ArBNpujE0ZrTxdE
+         Fm0B9Kk6NEgTBf2+1gx68vxEmoBLNFVqERhiM7l7nUvsfucnqIP7K7bGsfv8Abh2ZEf6
+         vhi6oOpmIUvgZ44Ml+53uK91yJfoh2mANts9s7Evo5k2yvc/WM87/aAhMLTRvJnQtfW/
+         e+DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iKijfuj2j1S0TLmPw43C0OdgdeZjWXd42ORnI16fjGo=;
-        b=yV0eR1c5tVH7+wCFwFnQ71ZhkCSeyxZm/uZcrmyXCGVH6ghMXlbdUHRXDIXzFjSq6+
-         4jLjDdAx2JEMbR/9YJUGFQvkzAcf4aDotqXJpt+YQjI2ipRe/oCqWnDYRSCnCDB1xppj
-         nXtqPw6wA9SJn7e1OXcM4cf5W21jqgN8ixUjSv5esbRpUtDcuVOsaMF3aMXkRkQWQhhc
-         fjAPGCHATfDIsIfQoWSm4wZlzRSXBTOyRwzwMhmsvEBYhh60YH0+sI48Gr2IAtVq4iKY
-         s6SSPSIYaG+ylGIQZev8z5oKzVbEuRb89Ub6tSp3C8smk8YznUruJ49ieltn6Y8L2gD+
-         1OhQ==
-X-Gm-Message-State: AO0yUKVNNNS4GNKM1vkUMp3FNVv1XKlKwWCVzx3v/tgYkYTxCaCVjNiy
-        6QqNXUgj8gaELQk9XK2+R6I=
-X-Google-Smtp-Source: AK7set97XRihPnRU+OgpPvNzrqfBnK1+NGjgFI0e9E8ZHwuRna1pgbI3nT/HqhtV/cHyYimzDJGDkQ==
-X-Received: by 2002:a05:6402:c8:b0:4ac:bbdb:462a with SMTP id i8-20020a05640200c800b004acbbdb462amr2172145edu.14.1676904231576;
-        Mon, 20 Feb 2023 06:43:51 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-56-131.cust.vodafonedsl.it. [188.217.56.131])
-        by smtp.gmail.com with ESMTPSA id f29-20020a50a6dd000000b004ad6e3e4a26sm1830963edc.84.2023.02.20.06.43.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 06:43:51 -0800 (PST)
-Date:   Mon, 20 Feb 2023 15:43:49 +0100
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov5647: Use bus-locked i2c_transfer()
-Message-ID: <Y/OHJb3sSJsRtIj8@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230219180334.980950-1-jacopo.mondi@ideasonboard.com>
- <20230220124101.1010317-1-jacopo.mondi@ideasonboard.com>
+        d=1e100.net; s=20210112; t=1676905178;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2EAsGyZAvm6u7RebXhNM4OstmhJzau/0diJUFrUURCA=;
+        b=ZdCSaFLOLT9HXRod+jIBCYKLCEHjyT65OGA852A7Ln0ep6utCN2sB84lMn51Y3obL2
+         o9tXqouoFOt9vtPuLtS6T4E//3Es9Z6rPc+7R7RwOrr7DsiXN9kRI9A534ovyiuhZFGe
+         rzh0wih6svhfqY+pmvuC/LyPnt70dtGikciiAJNZqwjLxaLsBsb9MRz8cOSqZREKSv+s
+         Gd+AgERCd31o8QtEUe15qMbiPT3EI2TrX6+jeVNBQY0t4gstTBQL+M/Q89T0Ade2PzgD
+         RmQSED70aXDKAnTOAD9I84ygYstSI+U9MAPv3ek1nCOzuj/YAr+oytfwPsYW73Zv2J1x
+         GAtg==
+X-Gm-Message-State: AO0yUKV4UF0S+03/CdGzJfOytoG0NFh10oL0mJhQKaDFak6PmIvmYOa5
+        RfjVjpENLDoucbM1jyaHpMTxfa2BagSgGDoUXCuc5C9g6uXkMmtX
+X-Google-Smtp-Source: AK7set+++EUPmQLlCLmCPgXUxyzMvrtxfaiJJYKJlRr3HPWDYe4wgU5/IM0rTx3xz15k0zKKoKU/sN8+67Fmz+ZO2Vs=
+X-Received: by 2002:a67:d61e:0:b0:414:4aab:3c73 with SMTP id
+ n30-20020a67d61e000000b004144aab3c73mr192421vsj.71.1676905178358; Mon, 20 Feb
+ 2023 06:59:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230220124101.1010317-1-jacopo.mondi@ideasonboard.com>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Mon, 20 Feb 2023 20:29:27 +0530
+Message-ID: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
+Subject: arm64: libgpiod: refcount_t: underflow; use-after-free.
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        lkft-triage@lists.linaro.org
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ferry Toth <fntoth@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>, warthog618@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Following kernel warning notices on qemu-arm64, qemu-arm and also on devices
+running Linux version v6.2.0 while running libgpiod tests.
 
-On Mon, Feb 20, 2023 at 01:41:01PM +0100, Jacopo Mondi wrote:
-> The ov5647_read() functions calls i2c_master_send() and
-> i2c_master_read() in sequence. However this leaves space for other
-> clients to contend the bus and insert a unrelated transaction in between
-> the two calls.
-> 
-> Replace the two calls with a single i2c_transfer() one, that locks the
-> bus in between the transactions.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov5647.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 0b88ac6dee41..a423ee8fe20c 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -631,23 +631,29 @@ static int ov5647_write(struct v4l2_subdev *sd, u16 reg, u8 val)
-> 
->  static int ov5647_read(struct v4l2_subdev *sd, u16 reg, u8 *val)
->  {
-> -	unsigned char data_w[2] = { reg >> 8, reg & 0xff };
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> +	u8 buf[2] = { reg >> 8, reg & 0xff };
-> +	struct i2c_msg msg[2];
->  	int ret;
-> 
-> -	ret = i2c_master_send(client, data_w, 2);
-> +	msg[0].addr = client->addr;
-> +	msg[0].flags = client->flags;
-> +	msg[0].buf = buf;
-> +	msg[0].len = sizeof(buf);
-> +
-> +	msg[1].addr = client->addr;
-> +	msg[1].flags = client->flags | I2C_M_RD;
-> +	msg[1].buf = buf;
-> +	msg[1].len = 1;
-> +
-> +	ret = i2c_transfer(client->adapter, msg, 2);
->  	if (ret < 0) {
-> -		dev_dbg(&client->dev, "%s: i2c write error, reg: %x\n",
-> +		dev_err(&client->dev, "%s: i2c read error, reg: %x\n",
->  			__func__, reg);
->  		return ret;
->  	}
-> 
-> -	ret = i2c_master_recv(client, val, 1);
-> -	if (ret < 0) {
-> -		dev_dbg(&client->dev, "%s: i2c read error, reg: %x\n",
-> -				__func__, reg);
-> -		return ret;
-> -	}
-> +	*val = buf[0];
-> 
->  	return 0;
->  }
-> --
-> 2.39.0
-> 
-
-Fully agree.
-Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
-
-Thanks,
-Tommaso
++ ./gpiod.sh /opt/libgpiod/bin/
+  [INFO]    libgpiod test suite
+  [INFO]    117 tests registered
+  [INFO]    checking the linux kernel version
+  [INFO]    kernel release is v6.2.0 - ok to run tests
+  [INFO]    using gpio-tools from '/usr/bin'
+[   10.499036] ------------[ cut here ]------------
+[   10.499656] refcount_t: underflow; use-after-free.
+[   10.500264] WARNING: CPU: 2 PID: 291 at lib/refcount.c:28
+refcount_warn_saturate+0xf4/0x144
+[   10.501306] Modules linked in: gpio_mockup(-) cfg80211 bluetooth
+rfkill crct10dif_ce fuse drm
+[   10.502364] CPU: 2 PID: 291 Comm: gpiod-test Not tainted 6.2.0 #1
+[   10.503229] Hardware name: linux,dummy-virt (DT)
+[   10.503883] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   10.505331] pc : refcount_warn_saturate+0xf4/0x144
+[   10.505723] lr : refcount_warn_saturate+0xf4/0x144
+[   10.506115] sp : ffff800008983cd0
+[   10.506391] x29: ffff800008983cd0 x28: ffff0000c4c4c100 x27: 0000000000000000
+[   10.506961] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+[   10.507533] x23: 0000000000000200 x22: ffff0000c4e66800 x21: ffff0000c7734640
+[   10.508104] x20: 0000000000000001 x19: ffff0000c7734600 x18: ffffffffffffffff
+[   10.508677] x17: 3d4d455453595342 x16: ffffcf0234432020 x15: ffff800088983957
+[   10.509424] x14: 0000000000000000 x13: 2e656572662d7265 x12: 7466612d65737520
+[   10.510003] x11: 3b776f6c66726564 x10: ffffcf02365db580 x9 : ffffcf0233b20138
+[   10.510575] x8 : 00000000ffffefff x7 : ffffcf02365db580 x6 : 0000000000000001
+[   10.511145] x5 : ffffcf023655f000 x4 : ffffcf023655f2e8 x3 : 0000000000000000
+[   10.511721] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c4c4c100
+[   10.512294] Call trace:
+[   10.512494]  refcount_warn_saturate+0xf4/0x144
+[   10.512971]  kobject_put+0x164/0x220
+[   10.513224]  fwnode_remove_software_node+0x44/0x60
+[   10.513554]  gpio_mockup_unregister_pdevs+0x54/0x70 [gpio_mockup]
+[   10.513970]  gpio_mockup_exit+0x10/0x328 [gpio_mockup]
+[   10.514322]  __arm64_sys_delete_module+0x190/0x2a0
+[   10.514653]  invoke_syscall+0x50/0x120
+[   10.514915]  el0_svc_common.constprop.0+0x104/0x124
+[   10.515277]  do_el0_svc+0x44/0xcc
+[   10.515541]  el0_svc+0x30/0x94
+[   10.515788]  el0t_64_sync_handler+0xbc/0x13c
+[   10.516126]  el0t_64_sync+0x190/0x194
+[   10.516419] ---[ end trace 0000000000000000 ]---
 
 
+Build and test logs,
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14856342/suite/libgpiod/test/ctxless-get-value-single-line/log
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14856342/suite/libgpiod/tests/
+
+
+--
+Linaro LKFT
+https://lkft.linaro.org
