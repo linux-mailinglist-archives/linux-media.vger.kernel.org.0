@@ -2,184 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5703D69D280
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 19:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C53069D2A3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 19:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232479AbjBTSEB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 13:04:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56180 "EHLO
+        id S231346AbjBTSSe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 13:18:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjBTSEA (ORCPT
+        with ESMTP id S229738AbjBTSSd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 13:04:00 -0500
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9697F1BDA
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 10:03:58 -0800 (PST)
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay03.hostedemail.com (Postfix) with ESMTP id 81791A040A;
-        Mon, 20 Feb 2023 18:03:57 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: paulnee@xplornet.com) by omf19.hostedemail.com (Postfix) with ESMTPA id AC31820028;
-        Mon, 20 Feb 2023 18:03:54 +0000 (UTC)
-Message-ID: <eb478e7a-4e9a-69b4-b99c-b096016b76be@xplornet.com>
-Date:   Mon, 20 Feb 2023 13:03:53 -0500
+        Mon, 20 Feb 2023 13:18:33 -0500
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EC56CC3F
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 10:18:31 -0800 (PST)
+Received: by mail-ua1-x930.google.com with SMTP id x40so100416uaf.2
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 10:18:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UymYn69lMQOhe7iLTnfYmgqG2LpP5P/nl6iJ11BJBmY=;
+        b=Gobu8qzr1qFh0tDHeyjqsDELlbcT0bn9lvT7ADq4m9nP0hlSTp36VRly5e3jEWvwOR
+         4EIeyVYXNEr+eYW1ZnUXTEnG2jbjVb2vxgbJUmFR5e5xdW0xitvaJ/g0n6j7RGPw8TlK
+         FLFDD8LwNvsGlxsXbix6vbWHrQwd8+xR84KYAiP4FyS2QuvDaww2qKUJHHWbLYOtitph
+         /xne3g+KoUzC0LOyZKgdDyzmrGNCS2NWh3v3QfReNk69BSoFaSF5yCL4easJWSK8COpI
+         NrLo9CfSI3Tjjkh1EmKGruUKT1SvHtDGY+ePd6iV2kLuZUnwRVZQIsG33cTVjNNOZue4
+         XymA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UymYn69lMQOhe7iLTnfYmgqG2LpP5P/nl6iJ11BJBmY=;
+        b=VBkO1Jwcm4e1CSWJG1N0fP03PUMfPhXB0P63qPJJaGYjilp1yQORBqwCNzzeeVJyPo
+         xZ1olMUVsIdIBtt60Y2BekaPDtBrBQ0HTfrj+XLgXVSgbgPWRVL7rqumOKddjMIanfcT
+         FxJvrTofvduiIpGEv5kLrEOL4PKW79Wz69QjnXDxcJrgBmYheuF6RkOGBG0OqKjgVHuN
+         xtYAaCq5pwPRipKtNV7m5tlgzMINLWazWM5NKhP+TeBr9NkgUFy7KOlOvSDMbQpwseWL
+         jicItkCiMdCnKlSCcpc62JQ9fGzWwurBSBl1lOhnRZG0THihdipiM1BXD6KDbPK25xa7
+         bYcQ==
+X-Gm-Message-State: AO0yUKVHD7IFC4XOF5u7nV+yW+MTBrNSnPr4i9moiGcLfZLzwOi1KDal
+        Dz+awL3VRA8mzIeTRzSyQwH0IZ0Cz+IEhCSdKeOle6zx21x6rayW
+X-Google-Smtp-Source: AK7set8qD5meqhFHGYZrU0ET1eTQDfmOdX5riQF6Tqt+M0N5vjMsL79axNehWTrQ9nSvtTNd/eS4FYeCfdjkr+SldU4=
+X-Received: by 2002:ab0:5658:0:b0:68b:923a:d6f4 with SMTP id
+ z24-20020ab05658000000b0068b923ad6f4mr474669uaa.2.1676917110635; Mon, 20 Feb
+ 2023 10:18:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: uvcvideo
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+References: <20230219180334.980950-1-jacopo.mondi@ideasonboard.com> <20230220124041.1010289-1-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20230220124041.1010289-1-jacopo.mondi@ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 20 Feb 2023 18:18:14 +0000
+Message-ID: <CAPY8ntAqsL+Z-yM71keTcafxW6WDnzG4hFDq+AWk31jUjr3qGg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: i2c: ov5647: Add test pattern control
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Valentine Barshak <valentine.barshak@cogentembedded.com>,
         linux-media@vger.kernel.org
-References: <214b57ef-4cb8-c487-9f05-f44ee7e543af@xplornet.com>
- <Y+lUeASSLiGIDB4x@pendragon.ideasonboard.com>
- <0523daa0-ef00-19c9-a83a-6f04d8c00060@xplornet.com>
- <Y+l02luLG22ymOXC@pendragon.ideasonboard.com>
- <a8e734f5-4506-50c7-0bde-b57844954222@xplornet.com>
- <Y+orMX89blS1enED@pendragon.ideasonboard.com>
- <29625514-80d8-7b67-79b7-9e8db39b5301@xplornet.com>
- <CANiDSCvjw31+H7eYCzT7t1zs-eQ1kZHR-FQv42e5PYSNOk574w@mail.gmail.com>
-Content-Language: en-US
-From:   Paul Neelands <paulnee@xplornet.com>
-In-Reply-To: <CANiDSCvjw31+H7eYCzT7t1zs-eQ1kZHR-FQv42e5PYSNOk574w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: AC31820028
-X-Stat-Signature: cxte9rc9k3ko1u6dcobe5oppyt9j1h8i
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
-X-Session-Marker: 7061756C6E65654078706C6F726E65742E636F6D
-X-Session-ID: U2FsdGVkX1894xY+6YQ57vNyb7o04zO3/RhYgbe57bA=
-X-HE-Tag: 1676916234-49523
-X-HE-Meta: U2FsdGVkX19krKnpS0RZV9Sk/rjvb1kV6mOa9YHa14CZNeuOBzYiSrJrTZglq3aLVWVkkAKBGZbXa5vDjRYuKQ==
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Jacopo
 
-Sometimes the simplest things stump me. The privacy switch was it on 
-both laptops.
+On Mon, 20 Feb 2023 at 12:40, Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> From: Valentine Barshak <valentine.barshak@cogentembedded.com>
+>
+> This adds V4L2_CID_TEST_PATTERN control support.
+>
+> Signed-off-by: Valentine Barshak <valentine.barshak@cogentembedded.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 28 +++++++++++++++++++++++++++-
+>  1 file changed, 27 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 847a7bbb69c5..0b88ac6dee41 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -58,6 +58,7 @@
+>  #define OV5647_REG_MIPI_CTRL00         0x4800
+>  #define OV5647_REG_MIPI_CTRL14         0x4814
+>  #define OV5647_REG_AWB                 0x5001
+> +#define OV5647_REG_ISPCTRL3D           0x503d
+>
+>  #define REG_TERM 0xfffe
+>  #define VAL_TERM 0xfe
+> @@ -116,6 +117,22 @@ static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+>         return container_of(sd, struct ov5647, sd);
+>  }
+>
+> +static const char * const ov5647_test_pattern_menu[] = {
+> +       "Disabled",
+> +       "Color Bars",
+> +       "Color Squares",
+> +       "Random Data",
+> +       "Input Data"
 
-Thanks very much for all the thought and help.
+"Input Data" appears to give me just a black image. Have I missed
+something? What's it meant to be the input to?
+Is it worth adding 0x92 for a black and white checkboard as well?
 
-Paul Neelands
+Whichever way:
 
--------------------------------------
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-On 2/20/23 11:36, Ricardo Ribalda wrote:
-> Hi Paul
+Just as a note, the test patterns appear to be valid only if 0x3820
+bit 1 = 0 and 0x3821 bit 1 = 1 (V & H flips respectively).
+The sensor appears to be assuming one particular colour pattern (BGGR)
+when producing a test pattern, so flips altering the format give some
+very weird effects. I do have patches that add the V4L2 flip controls,
+so those expose some interesting effects :-/
+
+  Dave
+
+> +};
+> +
+> +static u8 ov5647_test_pattern_val[] = {
+> +       0x00,   /* Disabled */
+> +       0x80,   /* Color Bars */
+> +       0x82,   /* Color Squares */
+> +       0x81,   /* Random Data */
+> +       0x83,   /* Input Data */
+> +};
+> +
+>  static const struct regval_list sensor_oe_disable_regs[] = {
+>         {0x3000, 0x00},
+>         {0x3001, 0x00},
+> @@ -1242,6 +1259,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
+>                 ret = ov5647_write16(sd, OV5647_REG_VTS_HI,
+>                                      sensor->mode->format.height + ctrl->val);
+>                 break;
+> +       case V4L2_CID_TEST_PATTERN:
+> +               ret = ov5647_write(sd, OV5647_REG_ISPCTRL3D,
+> +                                  ov5647_test_pattern_val[ctrl->val]);
+> +               break;
 >
-> Sorry if you have already checked it, but: are you sure that the
-> privacy switch is not toggled on your device?
-> https://dl.dell.com/topicspdf/inspiron-16-7610-laptop_users-guide_en-us.pdf
+>         /* Read-only, but we adjust it based on mode. */
+>         case V4L2_CID_PIXEL_RATE:
+> @@ -1270,7 +1291,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+>         struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+>         int hblank, exposure_max, exposure_def;
 >
-> Can you try running yavta with something like:
+> -       v4l2_ctrl_handler_init(&sensor->ctrls, 8);
+> +       v4l2_ctrl_handler_init(&sensor->ctrls, 9);
 >
-> yavta -l  --capture=3 -F /dev/video0
+>         v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+>                           V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+> @@ -1314,6 +1335,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+>                                            sensor->mode->vts -
+>                                            sensor->mode->format.height);
 >
-> and then shading the output of yavta, and maybe also the generated
-> file frame-000002.bin
+> +       v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ov5647_ctrl_ops,
+> +                                    V4L2_CID_TEST_PATTERN,
+> +                                    ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
+> +                                    0, 0, ov5647_test_pattern_menu);
+> +
+>         if (sensor->ctrls.error)
+>                 goto handler_free;
 >
-> Thanks
->
-> On Mon, 13 Feb 2023 at 15:04, Paul Neelands <paulnee@xplornet.com> wrote:
->> Attached is kern.log after running and closing 'cheese' and then
->> 'webcamoid'.
->>
->> Thanks for all your input.
->>
->> Paul
->>
->> ---------------------------------------
->>
->> On 2/13/23 07:21, Laurent Pinchart wrote:
->>> Hi Paul,
->>>
->>> On Sun, Feb 12, 2023 at 07:14:46PM -0500, Paul Neelands wrote:
->>>> Cheese gives a black  screen with the light on.
->>>>
->>>> Webcamoid does the same.
->>>>
->>>> Zoom does the same.
->>> Could you send me the kernel log after running one of those applications
->>> ?
->>>
->>>> Attached is the output of v4l-info.
->>>>
->>>> All of these work on the Inspiron 15 3000 but not  on the Inspiron 16.
->>>> They both have the same camera. The only difference is that the Inspiron
->>>> 15 camera is on usb bus 1 while the Inspiron 16 camera is on usb bus 2.
->>>>
->>>> Thanks for the reply.
->>>>
->>>> Paul
->>>>
->>>> -------------------------
->>>>
->>>> On 2/12/23 18:23, Laurent Pinchart wrote:
->>>>> Hi Paul,
->>>>>
->>>>> Please don't drop the mailing list in your replies.
->>>>>
->>>>> On Sun, Feb 12, 2023 at 05:06:37PM -0500, Paul Neelands wrote:
->>>>>> Hi,
->>>>>>
->>>>>> Thanks for the reply.
->>>>>>
->>>>>> There is only one video device so I am confused about video0 & video1.
->>>>>>
->>>>>>
->>>>>> ls -l /dev/video*
->>>>>> crw-rw----+ 1 root video 81, 0 Feb 12 16:23 /dev/video0
->>>>>> crw-rw----+ 1 root video 81, 1 Feb 12 16:23 /dev/video1
->>>>>>
->>>>>> ls -l /sys/class/video4linux/video*
->>>>>> lrwxrwxrwx 1 root root 0 Feb 12 16:23 /sys/class/video4linux/video0->
->>>>>> ../../devices/pci0000:00/0000:00:14.0/usb2/2-6/2-6:1.0/video4linux/video0
->>>>>> lrwxrwxrwx 1 root root 0 Feb 12 16:23 /sys/class/video4linux/video1->
->>>>>> ../../devices/pci0000:00/0000:00:14.0/usb2/2-6/2-6:1.0/video4linux/video1
->>>>>>
->>>>>> lsusb -v -d 0c45:6739 is attached as file lsusb.
->>>>>>
->>>>>> */var/log/kern.**log is attached as file klog*
->>>>> Nothing strikes me as wrong there. You said your webcam doesn't work,
->>>>> could you please elaborate ?
->>>>>
->>>>>> On 2/12/23 16:04, Laurent Pinchart wrote:
->>>>>>> Hi Paul,
->>>>>>>
->>>>>>> (CC'ing the linux-media mailing list)
->>>>>>>
->>>>>>> On Sun, Feb 12, 2023 at 02:51:33PM -0500, Paul Neelands wrote:
->>>>>>>> Hi.
->>>>>>>>
->>>>>>>> I have a new dell Inspiron 16 5620 where the camera doesn't work.  The camera
->>>>>>>> is the same as a Dell Inspiron 15 3000 that I have where it works. The
->>>>>>>> difference between the two machines is that on the I15 it is on usb bus 1
->>>>>>>> whereas it is on bus 2 on the I16.
->>>>>>>>
->>>>>>>> I downloaded and built the latest kernel 6.2.0-rc7 and no joy. I looked at your
->>>>>>>> driver for the camera uvcvideo but haven't yet figured out where it finds the
->>>>>>>> usb bus. The lsusb of the camera is:
->>>>>>>>
->>>>>>>>      Bus 002 Device 004: ID 0c45:6739 Microdia Integrated_Webcam_FHD
->>>>>>>>
->>>>>>>> The kernel finds it with the demsg:
->>>>>>>>
->>>>>>>>       13.999455] usb 2-6: Found UVC 1.00 device Integrated_Webcam_FHD (0c45:6739)
->>>>>>>>             14.059462] usbcore: registered new interface driver uvcvideo
->>>>>>>>
->>>>>>>> I would really appreciate some help on where and how the usb bus gets
->>>>>>>> enumerated for the camera.
->>>>>>> What's the output of `ls -l /sys/class/video4linux/video*/` and
->>>>>>> `ls -l /dev/video*` ?
->>>>>>>
->>>>>>> Could you provide your full kernel log, as well as the output of
->>>>>>> `lsusb -v -d 0c45:6739` (if possible running as root, for instance with
->>>>>>> sudo) ?
->
+> --
+> 2.39.0
 >
