@@ -2,70 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC5569CF95
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 15:42:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6163B69CF99
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 15:43:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232174AbjBTOmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 09:42:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34710 "EHLO
+        id S232184AbjBTOn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 09:43:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232187AbjBTOmn (ORCPT
+        with ESMTP id S231848AbjBTOnz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 09:42:43 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A421EBC8
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:42:41 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id da10so6798964edb.3
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:42:41 -0800 (PST)
+        Mon, 20 Feb 2023 09:43:55 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6084F15543
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:43:53 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id cy6so118326edb.5
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:43:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hs+81tLE9zn2g4VmuBqcCmTI6Ea5z3jwQ+R3RhkadD4=;
-        b=Ow/fVDVq5GQrLjEwyyPp6og/e+oXX8y0ZmWBR3DvExqBmvUH6DMqZatQBFvxF6NDil
-         cfE58z5ubrUdfZEbPEW5LgD9a6jkX0ZHl+pFbzzIHD4xynNE/sdBRYDweOR/lhYp+uF1
-         B+cbIySNsRz6/U3OkHa4pX7riQmzxp4bJKEm2QogYmo51+BVF/wnrHeKhldEatOW6i8F
-         j2g5FdRk8cCSHsosckD44M9v5FcBqrpXkglI1clAIIKRAsPvTmIoH/i+fvvUp0kmDxVn
-         CROdyjr/heIU/HQP2MF53KiDlyBaPCMYgxHCI4yJDMe0dmLx9kAkpTK7MNuySWBoojlu
-         pyLg==
+        bh=iKijfuj2j1S0TLmPw43C0OdgdeZjWXd42ORnI16fjGo=;
+        b=QfljmbPiQuomrYBdPu2jJ1IJiffHZOZYYjwOSknZa/Gt2vxRbP5WoJmcvjkkpFpIjP
+         X5WRI3PwHQVIXi8uzRBJu08NCzpEZhX6g0yLv0iFikyOeznfITvOIbsI+duMEU419Gdf
+         BIlwOShi6CtC9KaRE+vtqhWse6gm9TXoN3ZNX67XWjfzf3t2bDWipuBWdZe/lD/Yu19d
+         fXD1jN/HYK7RcDLYdjLqiX/qBW17IR8LvUeHixAmHLyxeCp6Rn6ekqT+Kxd/y6Q+N4Ek
+         ZiA/1xohrWPgFU899mbgApCMPmmpwAqPytxFsAk0YOri5OS2CgbUBp9hGk7hlsdyMQxB
+         pRHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hs+81tLE9zn2g4VmuBqcCmTI6Ea5z3jwQ+R3RhkadD4=;
-        b=ZQVs/FGlFnKHFSFgE5m0MV0iN5nimvJUmoHBBGmv4V+/AAE1MeN2ktHBL3y2YF7pN5
-         hF4MGiWozrLWVxNsUgK+QVSd6OyKXk5jvlGJPHwUznNn0QkeEE6ZXB07DdfYO29x6zl7
-         xBxZnrsmTjMxXohedF312Dy7Y6Tw5QgQXvtWUpik70CBJYDvzxf1IioDIK99jMyFouJZ
-         Mquc9vKeM/Cw5MyvhMdi3MKtOUVLc2WLd7WQ+HYOZ//VrWSEdtCmkHtVp/n4PYlDtCRW
-         P03h5FJyngWHz4/v32h3/OMbi3IeRxSJ7/Zvz3Mq8278GXhO5oh//PTDgbfJPbm9WX4O
-         xgjw==
-X-Gm-Message-State: AO0yUKWKQQXE7yQDegtWT2/IdvCPZGyYhejL5YDKJrdTrOq0taR/QrnZ
-        KaaopRGBdY2da4eGiEfryGpUd897OW8=
-X-Google-Smtp-Source: AK7set+Wc0gdL9Tvdc71T/J2WzAy2uxSnqE3YOQKryTRto4r+3+TydEABZsBK8HSEAJafhVAsnQUcQ==
-X-Received: by 2002:a17:906:af15:b0:888:1f21:4429 with SMTP id lx21-20020a170906af1500b008881f214429mr6883005ejb.19.1676904159258;
-        Mon, 20 Feb 2023 06:42:39 -0800 (PST)
+        bh=iKijfuj2j1S0TLmPw43C0OdgdeZjWXd42ORnI16fjGo=;
+        b=yV0eR1c5tVH7+wCFwFnQ71ZhkCSeyxZm/uZcrmyXCGVH6ghMXlbdUHRXDIXzFjSq6+
+         4jLjDdAx2JEMbR/9YJUGFQvkzAcf4aDotqXJpt+YQjI2ipRe/oCqWnDYRSCnCDB1xppj
+         nXtqPw6wA9SJn7e1OXcM4cf5W21jqgN8ixUjSv5esbRpUtDcuVOsaMF3aMXkRkQWQhhc
+         fjAPGCHATfDIsIfQoWSm4wZlzRSXBTOyRwzwMhmsvEBYhh60YH0+sI48Gr2IAtVq4iKY
+         s6SSPSIYaG+ylGIQZev8z5oKzVbEuRb89Ub6tSp3C8smk8YznUruJ49ieltn6Y8L2gD+
+         1OhQ==
+X-Gm-Message-State: AO0yUKVNNNS4GNKM1vkUMp3FNVv1XKlKwWCVzx3v/tgYkYTxCaCVjNiy
+        6QqNXUgj8gaELQk9XK2+R6I=
+X-Google-Smtp-Source: AK7set97XRihPnRU+OgpPvNzrqfBnK1+NGjgFI0e9E8ZHwuRna1pgbI3nT/HqhtV/cHyYimzDJGDkQ==
+X-Received: by 2002:a05:6402:c8:b0:4ac:bbdb:462a with SMTP id i8-20020a05640200c800b004acbbdb462amr2172145edu.14.1676904231576;
+        Mon, 20 Feb 2023 06:43:51 -0800 (PST)
 Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-56-131.cust.vodafonedsl.it. [188.217.56.131])
-        by smtp.gmail.com with ESMTPSA id jr14-20020a170906a98e00b008af574fbfc2sm5926949ejb.33.2023.02.20.06.42.38
+        by smtp.gmail.com with ESMTPSA id f29-20020a50a6dd000000b004ad6e3e4a26sm1830963edc.84.2023.02.20.06.43.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 06:42:38 -0800 (PST)
-Date:   Mon, 20 Feb 2023 15:42:36 +0100
+        Mon, 20 Feb 2023 06:43:51 -0800 (PST)
+Date:   Mon, 20 Feb 2023 15:43:49 +0100
 From:   Tommaso Merciai <tomm.merciai@gmail.com>
 To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Valentine Barshak <valentine.barshak@cogentembedded.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: i2c: ov5647: Add test pattern control
-Message-ID: <Y/OG3P5unNisV4LL@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Subject: Re: [PATCH 2/2] media: i2c: ov5647: Use bus-locked i2c_transfer()
+Message-ID: <Y/OHJb3sSJsRtIj8@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 References: <20230219180334.980950-1-jacopo.mondi@ideasonboard.com>
- <20230220124041.1010289-1-jacopo.mondi@ideasonboard.com>
+ <20230220124101.1010317-1-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230220124041.1010289-1-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20230220124101.1010317-1-jacopo.mondi@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -78,92 +77,71 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Mon, Feb 20, 2023 at 01:40:41PM +0100, Jacopo Mondi wrote:
-> From: Valentine Barshak <valentine.barshak@cogentembedded.com>
+On Mon, Feb 20, 2023 at 01:41:01PM +0100, Jacopo Mondi wrote:
+> The ov5647_read() functions calls i2c_master_send() and
+> i2c_master_read() in sequence. However this leaves space for other
+> clients to contend the bus and insert a unrelated transaction in between
+> the two calls.
 > 
-> This adds V4L2_CID_TEST_PATTERN control support.
+> Replace the two calls with a single i2c_transfer() one, that locks the
+> bus in between the transactions.
 > 
-> Signed-off-by: Valentine Barshak <valentine.barshak@cogentembedded.com>
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->  drivers/media/i2c/ov5647.c | 28 +++++++++++++++++++++++++++-
->  1 file changed, 27 insertions(+), 1 deletion(-)
+>  drivers/media/i2c/ov5647.c | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 847a7bbb69c5..0b88ac6dee41 100644
+> index 0b88ac6dee41..a423ee8fe20c 100644
 > --- a/drivers/media/i2c/ov5647.c
 > +++ b/drivers/media/i2c/ov5647.c
-> @@ -58,6 +58,7 @@
->  #define OV5647_REG_MIPI_CTRL00		0x4800
->  #define OV5647_REG_MIPI_CTRL14		0x4814
->  #define OV5647_REG_AWB			0x5001
-> +#define OV5647_REG_ISPCTRL3D		0x503d
+> @@ -631,23 +631,29 @@ static int ov5647_write(struct v4l2_subdev *sd, u16 reg, u8 val)
 > 
->  #define REG_TERM 0xfffe
->  #define VAL_TERM 0xfe
-> @@ -116,6 +117,22 @@ static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
->  	return container_of(sd, struct ov5647, sd);
+>  static int ov5647_read(struct v4l2_subdev *sd, u16 reg, u8 *val)
+>  {
+> -	unsigned char data_w[2] = { reg >> 8, reg & 0xff };
+>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	u8 buf[2] = { reg >> 8, reg & 0xff };
+> +	struct i2c_msg msg[2];
+>  	int ret;
+> 
+> -	ret = i2c_master_send(client, data_w, 2);
+> +	msg[0].addr = client->addr;
+> +	msg[0].flags = client->flags;
+> +	msg[0].buf = buf;
+> +	msg[0].len = sizeof(buf);
+> +
+> +	msg[1].addr = client->addr;
+> +	msg[1].flags = client->flags | I2C_M_RD;
+> +	msg[1].buf = buf;
+> +	msg[1].len = 1;
+> +
+> +	ret = i2c_transfer(client->adapter, msg, 2);
+>  	if (ret < 0) {
+> -		dev_dbg(&client->dev, "%s: i2c write error, reg: %x\n",
+> +		dev_err(&client->dev, "%s: i2c read error, reg: %x\n",
+>  			__func__, reg);
+>  		return ret;
+>  	}
+> 
+> -	ret = i2c_master_recv(client, val, 1);
+> -	if (ret < 0) {
+> -		dev_dbg(&client->dev, "%s: i2c read error, reg: %x\n",
+> -				__func__, reg);
+> -		return ret;
+> -	}
+> +	*val = buf[0];
+> 
+>  	return 0;
 >  }
-> 
-> +static const char * const ov5647_test_pattern_menu[] = {
-> +	"Disabled",
-> +	"Color Bars",
-> +	"Color Squares",
-> +	"Random Data",
-> +	"Input Data"
-> +};
-> +
-> +static u8 ov5647_test_pattern_val[] = {
-> +	0x00,	/* Disabled */
-> +	0x80,	/* Color Bars */
-> +	0x82,	/* Color Squares */
-> +	0x81,	/* Random Data */
-> +	0x83,	/* Input Data */
-> +};
-> +
->  static const struct regval_list sensor_oe_disable_regs[] = {
->  	{0x3000, 0x00},
->  	{0x3001, 0x00},
-> @@ -1242,6 +1259,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
->  		ret = ov5647_write16(sd, OV5647_REG_VTS_HI,
->  				     sensor->mode->format.height + ctrl->val);
->  		break;
-> +	case V4L2_CID_TEST_PATTERN:
-> +		ret = ov5647_write(sd, OV5647_REG_ISPCTRL3D,
-> +				   ov5647_test_pattern_val[ctrl->val]);
-> +		break;
-> 
->  	/* Read-only, but we adjust it based on mode. */
->  	case V4L2_CID_PIXEL_RATE:
-> @@ -1270,7 +1291,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
->  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
->  	int hblank, exposure_max, exposure_def;
-> 
-> -	v4l2_ctrl_handler_init(&sensor->ctrls, 8);
-> +	v4l2_ctrl_handler_init(&sensor->ctrls, 9);
-> 
->  	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
->  			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
-> @@ -1314,6 +1335,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
->  					   sensor->mode->vts -
->  					   sensor->mode->format.height);
-> 
-> +	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ov5647_ctrl_ops,
-> +				     V4L2_CID_TEST_PATTERN,
-> +				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
-> +				     0, 0, ov5647_test_pattern_menu);
-> +
->  	if (sensor->ctrls.error)
->  		goto handler_free;
-> 
 > --
 > 2.39.0
 > 
 
-Looks good to me.
+Fully agree.
 Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
 Thanks,
 Tommaso
 
-Tommaso
+
