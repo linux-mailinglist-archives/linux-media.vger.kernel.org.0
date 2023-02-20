@@ -2,255 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA32169D3E2
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 20:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A8769D499
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 21:19:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbjBTTKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 14:10:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
+        id S232616AbjBTUTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 15:19:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233152AbjBTTKb (ORCPT
+        with ESMTP id S229446AbjBTUTV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 14:10:31 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC265B80;
-        Mon, 20 Feb 2023 11:10:04 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EEF336602122;
-        Mon, 20 Feb 2023 19:00:40 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1676919642;
-        bh=9KbPu9ClBtXXtJ67tRgMCXKSz44W/ZY6hNUVAXZP8LY=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=PMDkvc3TkIEoLNDHPdF2zuahmykU2BBwE/6uXHc1qodP5KvpXD5gRInJdvRrhBPFb
-         YlSKlaAufRMcoV8oWqQgUJrjJrHzYGce4VEKNJBEqTTatZ3TggR3ObafiZHDtc2XHc
-         Zf3gYkg7PpZoYDT5Jv92lEcoZ9RN7/cu9SCPCuQhyQFJL1QDlwSyVCTV+G+0waY3OA
-         voYGrouYUg/RpGWjmu+clt6b5rpsvUpz+1vl8spC6LSABacR7PIedxFgfajDEsUku3
-         joaHujiLGkrKqUHU8PYt8Ap+F7/6imz63vSwK7DHKXTv6HGdzYjwYyPdb4QInVUfu3
-         XRHa1c6S0ly0A==
-Message-ID: <6997fe5cbcfef626340ce4d85095eadb7bc63067.camel@collabora.com>
-Subject: Re: [PATCH v4 06/12] media: verisilicon: Check AV1 bitstreams bit
- depth
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        hverkuil@xs4all.nl, jernej.skrabec@gmail.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Mon, 20 Feb 2023 14:00:32 -0500
-In-Reply-To: <c4d355d5-5e14-8eba-1944-fc26b1050cf5@collabora.com>
-References: <20230214140557.537984-1-benjamin.gaignard@collabora.com>
-         <20230214140557.537984-7-benjamin.gaignard@collabora.com>
-         <CAAEAJfDihZND+1FSzFxT86j9u6h-wH6uMMNh7BiaEWQWtSpk=Q@mail.gmail.com>
-         <c4d355d5-5e14-8eba-1944-fc26b1050cf5@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        Mon, 20 Feb 2023 15:19:21 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5019BCDDD;
+        Mon, 20 Feb 2023 12:19:20 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id il18-20020a17090b165200b0023127b2d602so2595319pjb.2;
+        Mon, 20 Feb 2023 12:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c3iZVIEmRSqrThUkMgFnNzdxbCW0+gwLuKMdSEBTZdk=;
+        b=XudzNzCm0FKe2lIo1qRVr5sLuN77pLHRaJAkpk5nN+kAMt5yxOrww7exfQ1KGHBxvw
+         Qfq44H7k2ZhIY4RKNIWr1Ig2n9JnpB/KLPeADSuGGggoSD99Kp/QDnvcqkJPleFaVd3t
+         V5GQuD1elokWuQM+NpoVHXi17Jc5JatN7pvdSJmtv2906bbPCITMy01jb/RVSAhrH1s2
+         WYEGJpXDRWTfffqIQb7PFW5bDjSIhaozxo5JpWKIJfrha99mGl0ggB4dyMk8L3V1Lt2n
+         csH0zYdlwff/KHZIEDaTvd0GdzhjJRBcfCQ8rbqF0wRmYRf0o3kXSpsmxnUkZqkJo9iR
+         5PGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c3iZVIEmRSqrThUkMgFnNzdxbCW0+gwLuKMdSEBTZdk=;
+        b=zcy666zCJBUZDMM5qs4S+g6n2rtf1nGxMzl0Vj1iT7O959gltISxlNRbGgGBsOCctm
+         KP3ITwbnszuo46bbCRzXnYcMlSyY7qso1qxsUT1fpMwlh+lkzxFKyzPkZJdSmeZHVRn4
+         WsV9wTcMM7koTLNANjLBZkBirE5jotVDPHAHOisrY1Q0xzKC69t+ewVCuYRFHIWlsMOA
+         Yo6XzzkQwAahApo9s1U1WCvRu0y2H8FEqhUCS4iPP0H7CR1CjZk7HRdBYDEttrUZ9GCd
+         J1pIdPGL5gJjPTuIbSoylnwjN5BpOPvIywFsG9jyxdH4ys/jA6foiYtsJcF6/aroaK4T
+         SCww==
+X-Gm-Message-State: AO0yUKWCPwHOdqRotdE8DXHq6DeKD2Kwd07bnphdiihmQiMzLQ6nLiR7
+        LeMYwrmclwLnaadowIhhWhd2+30RecA=
+X-Google-Smtp-Source: AK7set98IO8l+gABanedVbXmDYUvdtim10BgWM5gyRskazHJbLVCeykOeOFx9FaeUCzP6cQ+Vn5YOQ==
+X-Received: by 2002:a17:90b:4a43:b0:234:10c:a0d0 with SMTP id lb3-20020a17090b4a4300b00234010ca0d0mr2998947pjb.6.1676924359710;
+        Mon, 20 Feb 2023 12:19:19 -0800 (PST)
+Received: from localhost (c-73-67-135-195.hsd1.or.comcast.net. [73.67.135.195])
+        by smtp.gmail.com with ESMTPSA id o14-20020a17090ad24e00b0023087e8adf8sm1839664pjw.21.2023.02.20.12.19.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 12:19:19 -0800 (PST)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Rob Clark <robdclark@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        intel-gfx@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK),
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        Sean Paul <sean@poorly.run>
+Subject: [PATCH v5 00/14] dma-fence: Deadline awareness
+Date:   Mon, 20 Feb 2023 12:18:47 -0800
+Message-Id: <20230220201916.1822214-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 20 f=C3=A9vrier 2023 =C3=A0 17:24 +0100, Benjamin Gaignard a =C3=
-=A9crit=C2=A0:
-> Le 18/02/2023 =C3=A0 14:11, Ezequiel Garcia a =C3=A9crit=C2=A0:
-> > On Tue, Feb 14, 2023 at 11:06 AM Benjamin Gaignard
-> > <benjamin.gaignard@collabora.com> wrote:
-> > > The driver supports 8 and 10 bits bitstreams, make sure to discard
-> > > other cases.
-> > > It could happens that userland test if V4L2_CID_STATELESS_AV1_SEQUENC=
-E
-> > > exists without setting bit_depth field in this case use
-> > > HANTRO_DEFAULT_BIT_DEPTH value.
-> > >=20
-> > This shouldn't happen.
-> >=20
-> > If the bit_depth argument in hantro_check_depth_match()
-> > can be set unchecked by userspace, we have done something wrong!!
-> >=20
-> > Are you sure that userspace can do a S_CTRL with an invalid bit-depth?
-> > The try_or_set_cluster() function seems to always call try_ctrl before =
-s_ctrl.
->=20
-> I have dump the stack when AV1 sequence bit depth =3D 0 in s_ctrl.
-> It is happening when opening the driver, v4l2 setup the ctrls by calling =
-__v4l2_ctrl_handler_setup()
-> this led to call hantro_av1_s_ctrl() with empty structure.
->=20
-> For other codecs isn't a problem because bit depth is coded with a minus =
-8 value (ie: 8 bits =3D 0)
-> while for AV1 it is the real value (ie: 8 bits =3D 8).
+From: Rob Clark <robdclark@chromium.org>
 
-Shouldn't this be fixed in v4l2-ctrls-core.c / std_init_compound() ? This i=
-s
-what we do for VP9:
+This series adds a deadline hint to fences, so realtime deadlines
+such as vblank can be communicated to the fence signaller for power/
+frequency management decisions.
+
+This is partially inspired by a trick i915 does, but implemented
+via dma-fence for a couple of reasons:
+
+1) To continue to be able to use the atomic helpers
+2) To support cases where display and gpu are different drivers
+
+This iteration adds a dma-fence ioctl to set a deadline (both to
+support igt-tests, and compositors which delay decisions about which
+client buffer to display), and a sw_sync ioctl to read back the
+deadline.  IGT tests utilizing these can be found at:
+
+  https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-deadline
 
 
-	case V4L2_CTRL_TYPE_VP9_FRAME:
-		p_vp9_frame =3D p;
-		p_vp9_frame->profile =3D 0;
-		p_vp9_frame->bit_depth =3D 8;
-		p_vp9_frame->flags |=3D V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
-			V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING;
-		break;
+v1: https://patchwork.freedesktop.org/series/93035/
+v2: Move filtering out of later deadlines to fence implementation
+    to avoid increasing the size of dma_fence
+v3: Add support in fence-array and fence-chain; Add some uabi to
+    support igt tests and userspace compositors.
+v4: Rebase, address various comments, and add syncobj deadline
+    support, and sync_file EPOLLPRI based on experience with perf/
+    freq issues with clvk compute workloads on i915 (anv)
+v5: Clarify that this is a hint as opposed to a more hard deadline
+    guarantee, switch to using u64 ns values in UABI (still absolute
+    CLOCK_MONOTONIC values), drop syncobj related cap and driver
+    feature flag in favor of allowing count_handles==0 for probing
+    kernel support.
 
+Rob Clark (14):
+  dma-buf/dma-fence: Add deadline awareness
+  dma-buf/fence-array: Add fence deadline support
+  dma-buf/fence-chain: Add fence deadline support
+  dma-buf/dma-resv: Add a way to set fence deadline
+  dma-buf/sync_file: Add SET_DEADLINE ioctl
+  dma-buf/sync_file: Support (E)POLLPRI
+  dma-buf/sw_sync: Add fence deadline support
+  drm/scheduler: Add fence deadline support
+  drm/syncobj: Add deadline support for syncobj waits
+  drm/vblank: Add helper to get next vblank time
+  drm/atomic-helper: Set fence deadline for vblank
+  drm/msm: Add deadline based boost support
+  drm/msm: Add wait-boost support
+  drm/i915: Add deadline based boost support
 
->=20
-> [   88.478751] Hardware name: Radxa Rock 5A Board (DT)
-> [   88.479184] Call trace:
-> [   88.479406]  dump_backtrace.part.0+0xdc/0xf0
-> [   88.479796]  show_stack+0x18/0x30
-> [   88.480099]  dump_stack_lvl+0x68/0x84
-> [   88.480431]  dump_stack+0x18/0x34
-> [   88.480732]  hantro_av1_s_ctrl+0x7c/0xcc [hantro_vpu]
-> [   88.481211]  __v4l2_ctrl_handler_setup+0x120/0x154
-> [   88.481643]  v4l2_ctrl_handler_setup+0x2c/0x50
-> [   88.482043]  hantro_open+0x138/0x204 [hantro_vpu]
-> [   88.482490]  v4l2_open+0xa8/0x124
-> [   88.482794]  chrdev_open+0xc0/0x22c
-> [   88.483114]  do_dentry_open+0x13c/0x490
-> [   88.483464]  vfs_open+0x2c/0x40
-> [   88.483749]  path_openat+0x878/0xe50
-> [   88.484074]  do_filp_open+0x80/0x130
-> [   88.484399]  do_sys_openat2+0xb4/0x170
-> [   88.484736]  __arm64_sys_openat+0x60/0xb0
-> [   88.485097]  invoke_syscall+0x48/0x114
-> [   88.485437]  el0_svc_common.constprop.0+0x44/0xfc
-> [   88.485860]  do_el0_svc+0x3c/0xc0
-> [   88.486163]  el0_svc+0x2c/0x84
-> [   88.486441]  el0t_64_sync_handler+0xbc/0x140
-> [   88.486826]  el0t_64_sync+0x190/0x194
->=20
-> Regards,
-> Benjamin
->=20
-> >=20
-> > Thanks,
-> > Ezequiel
-> >=20
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > ---
-> > > version 4:
-> > > - This patch is the result of squashing "Save bit depth for AV1 decod=
-er"
-> > >    and "Check AV1 bitstreams bit depth" of version 3 + adapation to
-> > >    "[PATCH v8 0/6] media: verisilicon: HEVC: fix 10bits handling" ser=
-ies.
-> > >=20
-> > >   .../media/platform/verisilicon/hantro_drv.c   | 36 ++++++++++++++++=
-+++
-> > >   .../media/platform/verisilicon/hantro_v4l2.c  |  4 +++
-> > >   2 files changed, 40 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/driver=
-s/media/platform/verisilicon/hantro_drv.c
-> > > index bc1a85456142..666cd46902da 100644
-> > > --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> > > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> > > @@ -275,7 +275,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctr=
-l)
-> > >                  /* We only support profile 0 */
-> > >                  if (dec_params->profile !=3D 0)
-> > >                          return -EINVAL;
-> > > +       } else if (ctrl->id =3D=3D V4L2_CID_STATELESS_AV1_SEQUENCE) {
-> > > +               const struct v4l2_ctrl_av1_sequence *sequence =3D ctr=
-l->p_new.p_av1_sequence;
-> > > +
-> > > +               if (sequence->bit_depth !=3D 8 && sequence->bit_depth=
- !=3D 10)
-> > > +                       return -EINVAL;
-> > >          }
-> > > +
-> > >          return 0;
-> > >   }
-> > >=20
-> > > @@ -348,6 +354,30 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *=
-ctrl)
-> > >          return 0;
-> > >   }
-> > >=20
-> > > +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > +{
-> > > +       struct hantro_ctx *ctx;
-> > > +
-> > > +       ctx =3D container_of(ctrl->handler,
-> > > +                          struct hantro_ctx, ctrl_handler);
-> > > +
-> > > +       switch (ctrl->id) {
-> > > +       case V4L2_CID_STATELESS_AV1_SEQUENCE:
-> > > +       {
-> > > +               int bit_depth =3D ctrl->p_new.p_av1_sequence->bit_dep=
-th;
-> > > +
-> > > +               if (ctx->bit_depth =3D=3D bit_depth)
-> > > +                       return 0;
-> > > +
-> > > +               return hantro_reset_raw_fmt(ctx, bit_depth);
-> > > +       }
-> > > +       default:
-> > > +               return -EINVAL;
-> > > +       }
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > >   static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
-> > >          .try_ctrl =3D hantro_try_ctrl,
-> > >   };
-> > > @@ -365,6 +395,11 @@ static const struct v4l2_ctrl_ops hantro_hevc_ct=
-rl_ops =3D {
-> > >          .s_ctrl =3D hantro_hevc_s_ctrl,
-> > >   };
-> > >=20
-> > > +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops =3D {
-> > > +       .try_ctrl =3D hantro_try_ctrl,
-> > > +       .s_ctrl =3D hantro_av1_s_ctrl,
-> > > +};
-> > > +
-> > >   #define HANTRO_JPEG_ACTIVE_MARKERS     (V4L2_JPEG_ACTIVE_MARKER_APP=
-0 | \
-> > >                                           V4L2_JPEG_ACTIVE_MARKER_COM=
- | \
-> > >                                           V4L2_JPEG_ACTIVE_MARKER_DQT=
- | \
-> > > @@ -542,6 +577,7 @@ static const struct hantro_ctrl controls[] =3D {
-> > >                  .codec =3D HANTRO_AV1_DECODER,
-> > >                  .cfg =3D {
-> > >                          .id =3D V4L2_CID_STATELESS_AV1_SEQUENCE,
-> > > +                       .ops =3D &hantro_av1_ctrl_ops,
-> > >                  },
-> > >          }, {
-> > >                  .codec =3D HANTRO_AV1_DECODER,
-> > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drive=
-rs/media/platform/verisilicon/hantro_v4l2.c
-> > > index 992c5baa929f..7e74e47c9a89 100644
-> > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > > @@ -86,6 +86,10 @@ hantro_check_depth_match(const struct hantro_fmt *=
-fmt, int bit_depth)
-> > >          if (!fmt->match_depth && !fmt->postprocessed)
-> > >                  return true;
-> > >=20
-> > > +       /* 0 means default depth, which is 8 */
-> > > +       if (!bit_depth)
-> > > +               bit_depth =3D HANTRO_DEFAULT_BIT_DEPTH;
-> > > +
-> > >          fmt_depth =3D hantro_get_format_depth(fmt->fourcc);
-> > >=20
-> > >          /*
-> > > --
-> > > 2.34.1
-> > >=20
+ drivers/dma-buf/dma-fence-array.c       | 11 ++++
+ drivers/dma-buf/dma-fence-chain.c       | 13 +++++
+ drivers/dma-buf/dma-fence.c             | 21 +++++++
+ drivers/dma-buf/dma-resv.c              | 22 ++++++++
+ drivers/dma-buf/sw_sync.c               | 58 +++++++++++++++++++
+ drivers/dma-buf/sync_debug.h            |  2 +
+ drivers/dma-buf/sync_file.c             | 27 +++++++++
+ drivers/gpu/drm/drm_atomic_helper.c     | 36 ++++++++++++
+ drivers/gpu/drm/drm_syncobj.c           | 59 +++++++++++++++-----
+ drivers/gpu/drm/drm_vblank.c            | 32 +++++++++++
+ drivers/gpu/drm/i915/i915_request.c     | 20 +++++++
+ drivers/gpu/drm/msm/msm_drv.c           | 12 ++--
+ drivers/gpu/drm/msm/msm_fence.c         | 74 +++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_fence.h         | 20 +++++++
+ drivers/gpu/drm/msm/msm_gem.c           |  5 ++
+ drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++
+ drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+ include/drm/drm_vblank.h                |  1 +
+ include/drm/gpu_scheduler.h             |  8 +++
+ include/linux/dma-fence.h               | 20 +++++++
+ include/linux/dma-resv.h                |  2 +
+ include/uapi/drm/drm.h                  |  5 ++
+ include/uapi/drm/msm_drm.h              | 14 ++++-
+ include/uapi/linux/sync_file.h          | 23 ++++++++
+ 24 files changed, 513 insertions(+), 20 deletions(-)
+
+-- 
+2.39.1
 
