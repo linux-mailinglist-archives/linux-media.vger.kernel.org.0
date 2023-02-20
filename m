@@ -2,142 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9372369D4D6
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 21:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C877269D577
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 21:59:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232587AbjBTUUm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 15:20:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38886 "EHLO
+        id S231290AbjBTU72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 15:59:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbjBTUU1 (ORCPT
+        with ESMTP id S229500AbjBTU70 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 15:20:27 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B1B21A1C;
-        Mon, 20 Feb 2023 12:20:09 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id k29so1596998pgm.3;
-        Mon, 20 Feb 2023 12:20:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
-        b=eFd6WKVkDjMERL0NUJwdZTkwaDz0OjPOGjnuwSqBIjiEyMvPenvK4sKtmZyxPWgSI5
-         WzMJ7uiuRFqsr+eNs7HnTFRMZMbN/YDiqBuD4ndq4yNYXEZLdGcxi3k805YFDaRTM49H
-         btsQGnmcp+Jjet2+wIFLHC8jDiihHqY6cv/dPw9x9644Qa2EUek2cYNr9GJNbS8dgyFQ
-         P4BpZWBP0fPeYBPaJP/C+GnuHA8Ghph1mcX47CION2s+/ZlxKblgjj9wQSBLyzCt5Nee
-         8vZ4iojT33oWnJ5z8yuQWQAsIzfLIZESfCxDG4TaE7N2JPqd9DRSZuJmNBVAKuuF7rDe
-         FzFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
-        b=pOxZSKZZCNYl93d22osXo+HFb4ekxazPbUtKJWJ9ZBJsEAYGMqIY0pLv4CJsdu2Qxy
-         7xdmgYassi/z/Qz9gToGjbxVR1GQPfnvmJJqLYfTqQW6jAh5Aks/jyURMfSmU8JQvuN7
-         1VoXxf5wqaEBEMjQ5MlUWdIxsXZuOhzWlMDC/pxp8GAi3BMpkka9I9yeo3yFgzr7IfOd
-         1kzi0ezqW8i7zal2LppwmIvYQbwn+TnXA47NAA9BfBgw8VBSMv66DulnjIxTWUZ2rBZd
-         vWv2Dx1LriMUZtwwulwrJer2Q3jHx9jHvjr1OqtTqWbsIEPAzl9sGcE9zbXYeX7Uuu1F
-         hDvQ==
-X-Gm-Message-State: AO0yUKUsQZa2mrQsFQK6Cn+TtTY3EQtlZCAoaM3TjpB8WKcl3qT9zK74
-        NQjeYYyZI/a6UlXvofjE7Uo=
-X-Google-Smtp-Source: AK7set/lZ+AFzfPQmwQQNW8iN+Fzdh2s6fnv3atcgztBFxVgeLYdWwu6bkkmpStlqHcJMRsJSfDpoA==
-X-Received: by 2002:a62:184d:0:b0:5a9:fcb0:e8a2 with SMTP id 74-20020a62184d000000b005a9fcb0e8a2mr1540546pfy.11.1676924402380;
-        Mon, 20 Feb 2023 12:20:02 -0800 (PST)
-Received: from localhost (c-73-67-135-195.hsd1.or.comcast.net. [73.67.135.195])
-        by smtp.gmail.com with ESMTPSA id e22-20020a62ee16000000b005a84e660713sm1934218pfi.195.2023.02.20.12.20.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 12:20:02 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Rob Clark <robdclark@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        intel-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH v5 14/14] drm/i915: Add deadline based boost support
-Date:   Mon, 20 Feb 2023 12:19:01 -0800
-Message-Id: <20230220201916.1822214-15-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230220201916.1822214-1-robdclark@gmail.com>
-References: <20230220201916.1822214-1-robdclark@gmail.com>
+        Mon, 20 Feb 2023 15:59:26 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4147159C5
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 12:59:25 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00B4B2F5;
+        Mon, 20 Feb 2023 21:59:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676926762;
+        bh=b2ld4NIwFjp4yAzmvQRQTJrST8F1DQ4UUE6JOsqRn+Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e68pfN3pjXFBDcQf418hRTRvoGwM+2th0Yz1ara4O+mEIt5OyqZ3UqtQQ/Cv9iAu2
+         s8coy885Gh8AQEqeeLZ5RYDI3TxgYqctWMjzFbWC3d+R9SCe5qBQMQGqjW9MqTS6+z
+         OVMtyc1rGxrMFD+wgoStB4DoNvhlL8xyghM216w8=
+Date:   Mon, 20 Feb 2023 22:59:20 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
+        gjasny@googlemail.com, hverkuil@xs4all.nl,
+        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
+        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
+        xavier.claessens@collabora.com, deborah.brouwer@collabora.com
+Subject: Re: [v4l-utils] [PATCH v8 0/6] Switch build system to meson
+Message-ID: <Y/PfKEYpZwMMi0wt@pendragon.ideasonboard.com>
+References: <20230212005137.12025-1-laurent.pinchart@ideasonboard.com>
+ <2fedb527-6faf-7d9b-592c-32862c18bcfa@ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2fedb527-6faf-7d9b-592c-32862c18bcfa@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Tomi,
 
-v2: rebase
+On Mon, Feb 20, 2023 at 01:13:09PM +0200, Tomi Valkeinen wrote:
+> On 12/02/2023 02:51, Laurent Pinchart wrote:
+> > Hello everybody,
+> > 
+> > This series is the latest (and greatest) attempt to switch v4l-utils
+> > from autotools to meson.
+> > 
+> > Compared to v7, the series has been rebased on top of the latest master
+> > branch, and lots of fixes have been added. All review comments should
+> > have been addressed. Detailed changelogs are included in individual
+> > patches, in particular in patch 3/6.
+> > 
+> > The rebase was a bit painful due to the new v4l2-tracer tool and its
+> > code generation script. While meson handles code generation fine, it
+> > required fixes to the script to be able to specify the output directory
+> > and to generate the trace and retrace sources separately. Many thanks to
+> > Sakari for his help with this, which I've included in this series as
+> > patch 1/6.
+> > 
+> > Gregor, I haven't included the Tested-by tag you gave on v7 as v8
+> > contains many small changes. Sorry about that.
+> > 
+> > The patches are based on 3 pending patches for v4l-utils that have been
+> > posted to the list in the last couple of days:
+> > 
+> > - libv4lconvert: Don't ignore return value of ftruncate()
+> > - keytable: Add -fno-stack-protector compilation option
+> > - configure.ac: Add option to disable compilation of v4l2-tracer
+> > 
+> > None are strictly required, but I've included the equivalent of the
+> > second and third patches in the meson support, so I wanted to base the
+> > patches on top of the autotools' equivalent. I expect those three
+> > patches to be merged soon.
+> > 
+> > As far as I can tell, meson support is now ready. I can address review
+> > comments in a v9 if there are any, but I'd like to merge it soon to
+> > avoid another painful rebase. I'll be available to fix issues on top if
+> > any problem is encountered later.
+> > 
+> > A tag that includes this series can be found at
+> > 
+> >          git://linuxtv.org/pinchartl/v4l-utils.git tags/meson-v8
+> 
+> If I build this for x86 or arm64 with default options, it builds fine. If I build for arm32 (against my buildroot rootfs), the build fails:
+> 
+> [197/254] Compiling C object contrib/test/v4l2gl.p/v4l2gl.c.o
+> FAILED: contrib/test/v4l2gl.p/v4l2gl.c.o
+> ccache /home/tomba/work/buildroot/output32/host/bin/arm-buildroot-linux-gnueabihf-gcc -Icontrib/test/v4l2gl.p -Icontrib/test -I../contrib/test -I../lib/include -I../include -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/libdrm -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/valgrind -I. -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=gnu99 -O2 -g -Wpointer-arith -D_GNU_SOURCE -DPROMOTED_MODE_T=int -DENABLE_NLS -MD -MQ contrib/test/v4l2gl.p/v4l2gl.c.o -MF contrib/test/v4l2gl.p/v4l2gl.c.o.d -o contrib/test/v4l2gl.p/v4l2gl.c.o -c ../contrib/test/v4l2gl.c
+> ../contrib/test/v4l2gl.c:268:60: error: expected ‘,’ or ‘;’ before ‘V4L_UTILS_VERSION’
+>    268 | const char *argp_program_version = "V4L2 grabber version " V4L_UTILS_VERSION;
+>        |                                                            ^~~~~~~~~~~~~~~~~
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Thank you for the report. I've test-compiled for arm32, but my build
+environment may not have the features needed by v4l2gl.c, so it may have
+been skipped. Would you be able to check what goes wrong ? v4l2gl.c
+includes config.h, so V4L_UTILS_VERSION should be defined. Does your
+config.h (generated in the build directory) define V4L_UTILS_VERSION ?
+Does your buildroot environment provide a config.h that is being picked
+instead ?
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 7503dcb9043b..44491e7e214c 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
- 	return i915_request_enable_breadcrumb(to_request(fence));
- }
- 
-+static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	if (i915_request_completed(rq))
-+		return;
-+
-+	if (i915_request_started(rq))
-+		return;
-+
-+	/*
-+	 * TODO something more clever for deadlines that are in the
-+	 * future.  I think probably track the nearest deadline in
-+	 * rq->timeline and set timer to trigger boost accordingly?
-+	 */
-+
-+	intel_rps_boost(rq);
-+}
-+
- static signed long i915_fence_wait(struct dma_fence *fence,
- 				   bool interruptible,
- 				   signed long timeout)
-@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
- 	.signaled = i915_fence_signaled,
- 	.wait = i915_fence_wait,
- 	.release = i915_fence_release,
-+	.set_deadline = i915_fence_set_deadline,
- };
- 
- static void irq_execute_cb(struct irq_work *wrk)
+> I also see some warnings, which are possibly not related to this seris, like:
+
+That's not related as far as I can tell.
+
+> [207/254] Compiling C++ object utils/cec-ctl/cec-ctl.p/cec-ctl.cpp.o
+> In file included from /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/vector:72,
+>                   from ../utils/cec-ctl/cec-ctl.cpp:13:
+> /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/vector.tcc: In member function ‘void std::vector<_Tp, _Alloc>::_M_realloc_insert(std::vector<_Tp, _Alloc>::iterator, _Args&& ...) [with _Args = {const cec_msg&}; _Tp = cec_msg; _Alloc = std::allocator<cec_msg>]’:
+> /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/vector.tcc:426:7: note: parameter passing for argument of type ‘std::vector<cec_msg>::iterator’ changed in GCC 7.1
+>    426 |       vector<_Tp, _Alloc>::
+>        |       ^~~~~~~~~~~~~~~~~~~
+> In file included from /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/vector:67,
+>                   from ../utils/cec-ctl/cec-ctl.cpp:13:
+> /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/stl_vector.h: In member function ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = cec_msg; _Alloc = std::allocator<cec_msg>]’:
+> /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/stl_vector.h:1198:28: note: parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<cec_msg*, std::vector<cec_msg> >’ changed in GCC 7.1
+>   1198 |           _M_realloc_insert(end(), __x);
+>        |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+> 
+
 -- 
-2.39.1
+Regards,
 
+Laurent Pinchart
