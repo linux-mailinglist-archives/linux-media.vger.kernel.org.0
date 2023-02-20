@@ -2,99 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB54C69C8EE
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 11:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4778C69C954
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 12:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231705AbjBTKtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 05:49:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39936 "EHLO
+        id S231446AbjBTLNU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 06:13:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231678AbjBTKtC (ORCPT
+        with ESMTP id S231137AbjBTLNS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 05:49:02 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED522A5F2;
-        Mon, 20 Feb 2023 02:49:01 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:d30c:b155:96fb:dcc])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 465BF6602173;
-        Mon, 20 Feb 2023 10:49:00 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1676890140;
-        bh=tiJU1XPfasKdiChhkAX5L0vI56X8ZEAvctUJUjANgAA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WsfFgn/LAzRHgba5r4let4PikDJEKi3nz7x+JN032GIebw38U8b7q4/jfMgEUcc7E
-         9pEIGIASB0M7KVFEIhKtCEJGOrTBmNzE3jBC+D4eAv2if/fA3fu3s3pPGJN0HjUqqN
-         9qeKO3HLaWIKZw9ZnsKztmlrgYTqiYVCckpDNgKuuQmxQZtCp1IlMyVMP/HTCAKOYE
-         7+bWt8KZjpOSxJWK2DcIWE3KbWCg4wPPMOfbVpi0MVHZXHKSdJHLxJg72AekvkLkWF
-         Bm8o+RgflIzQxHd7NjTg3gMoBco76PBfzJhGfUEsPlO/a82027p/MJZ7Dio+14xo8b
-         rsf7MsWy4/GXA==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk,
-        robert.mader@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v9 6/6] media: verisilicon: VP9: Only propose 10 bits compatible pixels formats
-Date:   Mon, 20 Feb 2023 11:48:49 +0100
-Message-Id: <20230220104849.398203-7-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
-References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
+        Mon, 20 Feb 2023 06:13:18 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A982E12BF0
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 03:13:16 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5360A49;
+        Mon, 20 Feb 2023 12:13:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676891593;
+        bh=Bab2RzRidKBpYklZEI0RKiQvSn7UUPYa/jHXQdirYDI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=k9IgZmNG+XUap9T2FQ6P3OVAgY2f3fDyeH5B5XybEOszYGkIl4f/68gvdyBN4v1jw
+         gDVnpgJEereDLOzWhQAtIQmy6jJIK5PeE7B6HJhqA7igh8lTlCoBLL5u5lQh1Jy4HC
+         tQJiP2OKEKpDqAS8ETWx3VlFJlsrXY76fsLKRhSM=
+Message-ID: <2fedb527-6faf-7d9b-592c-32862c18bcfa@ideasonboard.com>
+Date:   Mon, 20 Feb 2023 13:13:09 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [v4l-utils] [PATCH v8 0/6] Switch build system to meson
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com, gjasny@googlemail.com, hverkuil@xs4all.nl,
+        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
+        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
+        xavier.claessens@collabora.com, deborah.brouwer@collabora.com
+References: <20230212005137.12025-1-laurent.pinchart@ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230212005137.12025-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When decoding a 10bits bitstreams VP9 driver should only expose
-10bits pixel formats.
-To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
-when bit depth change and to correctly set match_depth in pixel formats
-enumeration.
+Hi,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-version 9:
-- Fix brackets
+On 12/02/2023 02:51, Laurent Pinchart wrote:
+> Hello everybody,
+> 
+> This series is the latest (and greatest) attempt to switch v4l-utils
+> from autotools to meson.
+> 
+> Compared to v7, the series has been rebased on top of the latest master
+> branch, and lots of fixes have been added. All review comments should
+> have been addressed. Detailed changelogs are included in individual
+> patches, in particular in patch 3/6.
+> 
+> The rebase was a bit painful due to the new v4l2-tracer tool and its
+> code generation script. While meson handles code generation fine, it
+> required fixes to the script to be able to specify the output directory
+> and to generate the trace and retrace sources separately. Many thanks to
+> Sakari for his help with this, which I've included in this series as
+> patch 1/6.
+> 
+> Gregor, I haven't included the Tested-by tag you gave on v7 as v8
+> contains many small changes. Sorry about that.
+> 
+> The patches are based on 3 pending patches for v4l-utils that have been
+> posted to the list in the last couple of days:
+> 
+> - libv4lconvert: Don't ignore return value of ftruncate()
+> - keytable: Add -fno-stack-protector compilation option
+> - configure.ac: Add option to disable compilation of v4l2-tracer
+> 
+> None are strictly required, but I've included the equivalent of the
+> second and third patches in the meson support, so I wanted to base the
+> patches on top of the autotools' equivalent. I expect those three
+> patches to be merged soon.
+> 
+> As far as I can tell, meson support is now ready. I can address review
+> comments in a v9 if there are any, but I'd like to merge it soon to
+> avoid another painful rebase. I'll be available to fix issues on top if
+> any problem is encountered later.
+> 
+> A tag that includes this series can be found at
+> 
+>          git://linuxtv.org/pinchartl/v4l-utils.git tags/meson-v8
 
- drivers/media/platform/verisilicon/hantro_drv.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+If I build this for x86 or arm64 with default options, it builds fine. If I build for arm32 (against my buildroot rootfs), the build fails:
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 7d452f1afaae..d20e62c025ae 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -307,9 +307,14 @@ static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctrl)
- 			   struct hantro_ctx, ctrl_handler);
- 
- 	switch (ctrl->id) {
--	case V4L2_CID_STATELESS_VP9_FRAME:
--		ctx->bit_depth = ctrl->p_new.p_vp9_frame->bit_depth;
--		break;
-+	case V4L2_CID_STATELESS_VP9_FRAME: {
-+		int bit_depth = ctrl->p_new.p_vp9_frame->bit_depth;
-+
-+		if (ctx->bit_depth == bit_depth)
-+			return 0;
-+
-+		return hantro_reset_raw_fmt(ctx, bit_depth);
-+	}
- 	default:
- 		return -EINVAL;
- 	}
--- 
-2.34.1
+[197/254] Compiling C object contrib/test/v4l2gl.p/v4l2gl.c.o
+FAILED: contrib/test/v4l2gl.p/v4l2gl.c.o
+ccache /home/tomba/work/buildroot/output32/host/bin/arm-buildroot-linux-gnueabihf-gcc -Icontrib/test/v4l2gl.p -Icontrib/test -I../contrib/test -I../lib/include -I../include -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/libdrm -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/valgrind -I. -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=gnu99 -O2 -g -Wpointer-arith -D_GNU_SOURCE -DPROMOTED_MODE_T=int -DENABLE_NLS -MD -MQ contrib/test/v4l2gl.p/v4l2gl.c.o -MF contrib/test/v4l2gl.p/v4l2gl.c.o.d -o contrib/test/v4l2gl.p/v4l2gl.c.o -c ../contrib/test/v4l2gl.c
+../contrib/test/v4l2gl.c:268:60: error: expected ‘,’ or ‘;’ before ‘V4L_UTILS_VERSION’
+   268 | const char *argp_program_version = "V4L2 grabber version " V4L_UTILS_VERSION;
+       |                                                            ^~~~~~~~~~~~~~~~~
+
+I also see some warnings, which are possibly not related to this seris, like:
+
+[207/254] Compiling C++ object utils/cec-ctl/cec-ctl.p/cec-ctl.cpp.o
+In file included from /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/vector:72,
+                  from ../utils/cec-ctl/cec-ctl.cpp:13:
+/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/vector.tcc: In member function ‘void std::vector<_Tp, _Alloc>::_M_realloc_insert(std::vector<_Tp, _Alloc>::iterator, _Args&& ...) [with _Args = {const cec_msg&}; _Tp = cec_msg; _Alloc = std::allocator<cec_msg>]’:
+/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/vector.tcc:426:7: note: parameter passing for argument of type ‘std::vector<cec_msg>::iterator’ changed in GCC 7.1
+   426 |       vector<_Tp, _Alloc>::
+       |       ^~~~~~~~~~~~~~~~~~~
+In file included from /home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/vector:67,
+                  from ../utils/cec-ctl/cec-ctl.cpp:13:
+/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/stl_vector.h: In member function ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = cec_msg; _Alloc = std::allocator<cec_msg>]’:
+/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/include/c++/11.3.0/bits/stl_vector.h:1198:28: note: parameter passing for argument of type ‘__gnu_cxx::__normal_iterator<cec_msg*, std::vector<cec_msg> >’ changed in GCC 7.1
+  1198 |           _M_realloc_insert(end(), __x);
+       |           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+
+  Tomi
 
