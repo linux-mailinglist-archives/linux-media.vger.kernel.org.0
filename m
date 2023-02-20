@@ -2,105 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 495A869CF93
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 15:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC5569CF95
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 15:42:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232148AbjBTOmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 09:42:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34436 "EHLO
+        id S232174AbjBTOmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 09:42:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230329AbjBTOmc (ORCPT
+        with ESMTP id S232187AbjBTOmn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 09:42:32 -0500
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 097C213DCE
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:42:31 -0800 (PST)
-Received: by mail-vk1-xa2c.google.com with SMTP id e10so1440668vkm.11
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:42:30 -0800 (PST)
+        Mon, 20 Feb 2023 09:42:43 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A421EBC8
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:42:41 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id da10so6798964edb.3
+        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 06:42:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1676904150;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qgp6IOUG6iKDfDU0tPmd9yrrDqr92A5QKSnpVkuODbs=;
-        b=O0p2bjXV3AoO84lFHvMs1+Q+bn3HXUS08mj0bhgHuqmPY/iuNDj74gw+PtZSEb4nPg
-         P9L79f1EkeN2YnA+3hpSO6t8nkcf6QGIGPQgv8/oZk+sCXLf6Hcc81AccqV1ORuiYLOa
-         80t8DOaNdmiOw0a76Cy2uZX0xIMU6n2Vz9pk2mk8kDoKAtxna+UyrYPUntib7mFy5BYK
-         cpe31edrTnhfplevIuqzbeQ3mrcY21jR/I0aFCwMortTSWIaOOymY9ZqDHRj4lZG02s+
-         tKH+SJfq9gw4vSEe2J11fM1dqeDFMR+fh4LJfSTwwhP8GTbh1/Gp+pjWY0sYPUb87LfV
-         XeoQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hs+81tLE9zn2g4VmuBqcCmTI6Ea5z3jwQ+R3RhkadD4=;
+        b=Ow/fVDVq5GQrLjEwyyPp6og/e+oXX8y0ZmWBR3DvExqBmvUH6DMqZatQBFvxF6NDil
+         cfE58z5ubrUdfZEbPEW5LgD9a6jkX0ZHl+pFbzzIHD4xynNE/sdBRYDweOR/lhYp+uF1
+         B+cbIySNsRz6/U3OkHa4pX7riQmzxp4bJKEm2QogYmo51+BVF/wnrHeKhldEatOW6i8F
+         j2g5FdRk8cCSHsosckD44M9v5FcBqrpXkglI1clAIIKRAsPvTmIoH/i+fvvUp0kmDxVn
+         CROdyjr/heIU/HQP2MF53KiDlyBaPCMYgxHCI4yJDMe0dmLx9kAkpTK7MNuySWBoojlu
+         pyLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1676904150;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qgp6IOUG6iKDfDU0tPmd9yrrDqr92A5QKSnpVkuODbs=;
-        b=6ssrAfz+WhL3CKvf/kTUpM2iK6XtUoUViWP+2wET0J2FWEdO40oXpyY8vC4MebpVW7
-         gRHx0spPA3FPzTyjaTRA5F/KptVvJMTO6WDCgRdao0JpYsr8gKB/eQHGsPhBtDtXIb4Z
-         pT8Dgo3bxA5GRUs8sy5vnYONofOEMfjMUK1w+3A2Yu//a2ZteMRxPtndBlBUllLSlAoF
-         WK2Ym3I/RE+RmZkDS2aIywwr02HTIFIAi1Xl20M3i3RFTtMSVmXIXTZbMjRInUdzNGQF
-         6jvqjJoMvsGKVK0TD36+mdjZzEgtc/W0cS8W470lxep/plJxhgAMwJCUKGsBMQQJrgMn
-         eKnw==
-X-Gm-Message-State: AO0yUKUN+Us5JPb3CTcZXiWnvEsMma2mNAGjsvWvGlL8WXC95x4L0kQo
-        lHwEYsDq7dBb21JBFVVJr9B1ysK8Rz/Alyiyd4wXiivaebY+rApi
-X-Google-Smtp-Source: AK7set//W5nvIuXxc1eW4WJRdB7WNjf+UKQwZq9CtFeqKO1paf9xVbZr7G/Unmm2aBuCdFE19vPJHzuvoaOFufqK7BE=
-X-Received: by 2002:a1f:2654:0:b0:401:7237:7c37 with SMTP id
- m81-20020a1f2654000000b0040172377c37mr210030vkm.43.1676904149855; Mon, 20 Feb
- 2023 06:42:29 -0800 (PST)
-MIME-Version: 1.0
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Mon, 20 Feb 2023 20:12:19 +0530
-Message-ID: <CA+G9fYt=mHaGEyKeyF+24u=QnDpePNz9_vh3SMK31+mGHSsCTg@mail.gmail.com>
-Subject: v4l2-test-controls.cpp(325): expected 8 private controls, got 7
-To:     open list <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hs+81tLE9zn2g4VmuBqcCmTI6Ea5z3jwQ+R3RhkadD4=;
+        b=ZQVs/FGlFnKHFSFgE5m0MV0iN5nimvJUmoHBBGmv4V+/AAE1MeN2ktHBL3y2YF7pN5
+         hF4MGiWozrLWVxNsUgK+QVSd6OyKXk5jvlGJPHwUznNn0QkeEE6ZXB07DdfYO29x6zl7
+         xBxZnrsmTjMxXohedF312Dy7Y6Tw5QgQXvtWUpik70CBJYDvzxf1IioDIK99jMyFouJZ
+         Mquc9vKeM/Cw5MyvhMdi3MKtOUVLc2WLd7WQ+HYOZ//VrWSEdtCmkHtVp/n4PYlDtCRW
+         P03h5FJyngWHz4/v32h3/OMbi3IeRxSJ7/Zvz3Mq8278GXhO5oh//PTDgbfJPbm9WX4O
+         xgjw==
+X-Gm-Message-State: AO0yUKWKQQXE7yQDegtWT2/IdvCPZGyYhejL5YDKJrdTrOq0taR/QrnZ
+        KaaopRGBdY2da4eGiEfryGpUd897OW8=
+X-Google-Smtp-Source: AK7set+Wc0gdL9Tvdc71T/J2WzAy2uxSnqE3YOQKryTRto4r+3+TydEABZsBK8HSEAJafhVAsnQUcQ==
+X-Received: by 2002:a17:906:af15:b0:888:1f21:4429 with SMTP id lx21-20020a170906af1500b008881f214429mr6883005ejb.19.1676904159258;
+        Mon, 20 Feb 2023 06:42:39 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-56-131.cust.vodafonedsl.it. [188.217.56.131])
+        by smtp.gmail.com with ESMTPSA id jr14-20020a170906a98e00b008af574fbfc2sm5926949ejb.33.2023.02.20.06.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 06:42:38 -0800 (PST)
+Date:   Mon, 20 Feb 2023 15:42:36 +0100
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        nicolas@ndufresne.ca, xavier.claessens@collabora.com,
-        benjamin.gaignard@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Valentine Barshak <valentine.barshak@cogentembedded.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: i2c: ov5647: Add test pattern control
+Message-ID: <Y/OG3P5unNisV4LL@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230219180334.980950-1-jacopo.mondi@ideasonboard.com>
+ <20230220124041.1010289-1-jacopo.mondi@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230220124041.1010289-1-jacopo.mondi@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Following v4l2 tests are failing on Linux mainline v6.2 on arm64 hikey device.
-Am I missing anything in my test environment ?
+Hi Jacopo,
 
-Driver Info:
-----------
-  Driver name      : vivid
-  Bus info         : platform:vivid-000
-  Driver version   : 6.2.0
+On Mon, Feb 20, 2023 at 01:40:41PM +0100, Jacopo Mondi wrote:
+> From: Valentine Barshak <valentine.barshak@cogentembedded.com>
+> 
+> This adds V4L2_CID_TEST_PATTERN control support.
+> 
+> Signed-off-by: Valentine Barshak <valentine.barshak@cogentembedded.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 28 +++++++++++++++++++++++++++-
+>  1 file changed, 27 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 847a7bbb69c5..0b88ac6dee41 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -58,6 +58,7 @@
+>  #define OV5647_REG_MIPI_CTRL00		0x4800
+>  #define OV5647_REG_MIPI_CTRL14		0x4814
+>  #define OV5647_REG_AWB			0x5001
+> +#define OV5647_REG_ISPCTRL3D		0x503d
+> 
+>  #define REG_TERM 0xfffe
+>  #define VAL_TERM 0xfe
+> @@ -116,6 +117,22 @@ static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct ov5647, sd);
+>  }
+> 
+> +static const char * const ov5647_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Color Bars",
+> +	"Color Squares",
+> +	"Random Data",
+> +	"Input Data"
+> +};
+> +
+> +static u8 ov5647_test_pattern_val[] = {
+> +	0x00,	/* Disabled */
+> +	0x80,	/* Color Bars */
+> +	0x82,	/* Color Squares */
+> +	0x81,	/* Random Data */
+> +	0x83,	/* Input Data */
+> +};
+> +
+>  static const struct regval_list sensor_oe_disable_regs[] = {
+>  	{0x3000, 0x00},
+>  	{0x3001, 0x00},
+> @@ -1242,6 +1259,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		ret = ov5647_write16(sd, OV5647_REG_VTS_HI,
+>  				     sensor->mode->format.height + ctrl->val);
+>  		break;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		ret = ov5647_write(sd, OV5647_REG_ISPCTRL3D,
+> +				   ov5647_test_pattern_val[ctrl->val]);
+> +		break;
+> 
+>  	/* Read-only, but we adjust it based on mode. */
+>  	case V4L2_CID_PIXEL_RATE:
+> @@ -1270,7 +1291,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+>  	int hblank, exposure_max, exposure_def;
+> 
+> -	v4l2_ctrl_handler_init(&sensor->ctrls, 8);
+> +	v4l2_ctrl_handler_init(&sensor->ctrls, 9);
+> 
+>  	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+>  			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+> @@ -1314,6 +1335,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+>  					   sensor->mode->vts -
+>  					   sensor->mode->format.height);
+> 
+> +	v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ov5647_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
+> +				     0, 0, ov5647_test_pattern_menu);
+> +
+>  	if (sensor->ctrls.error)
+>  		goto handler_free;
+> 
+> --
+> 2.39.0
+> 
 
-Fail  log:
----------
-    fail: v4l2-test-controls.cpp(325): expected 8 private controls, got 7
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
-    fail: v4l2-test-controls.cpp(366): qctrl.step || qctrl.minimum ||
-qctrl.maximum || qctrl.default_value
-  test VIDIOC_QUERYCTRL: FAIL
-..
-    fail: v4l2-test-controls.cpp(473): g_ctrl returned an error (22)
-  test VIDIOC_G/S_CTRL: FAIL
-..
-    fail: v4l2-test-controls.cpp(593): returned control value out of range
-    fail: v4l2-test-controls.cpp(706): invalid control 0098f90f
-  test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
-..
-    fail: v4l2-test-formats.cpp(264): fmtdesc.description mismatch:
-was 'Y/UV 4:2:0', expected 'Y/CbCr 4:2:0'
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
+Looks good to me.
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
+Thanks,
+Tommaso
 
-Test details,
-https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14859062/suite/v4l2-compliance/tests/
-https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14859062/suite/v4l2-compliance/test/VIDIOC_ENUM_FMT-FRAMESIZES-FRAMEINTERVALS/log
-
---
-Linaro LKFT
-https://lkft.linaro.org
+Tommaso
