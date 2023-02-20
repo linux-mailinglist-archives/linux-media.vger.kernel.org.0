@@ -2,98 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751BA69C740
-	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 10:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 622F569C8E6
+	for <lists+linux-media@lfdr.de>; Mon, 20 Feb 2023 11:49:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbjBTJE3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Feb 2023 04:04:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47532 "EHLO
+        id S231684AbjBTKtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Feb 2023 05:49:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjBTJE2 (ORCPT
+        with ESMTP id S231661AbjBTKtB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Feb 2023 04:04:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135E719A
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 01:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676883793;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EenIhw+1HmIvsFUb0i4grWRCZp0khcXrPfOlppJ9ALo=;
-        b=T7PdFmFo64TsBKoWWHnRbkYD6nX/+asKNOda+Lqm5Ja06qIRMU0CUGZr3z6cin6BZjJR6Y
-        /P2sy/wwY6Yua/fPdqiO0x/2h6qbMNesKh2WLPti3OmG+w67owK46f1sJerkezmZfqGt2O
-        +X9UaFltbzNHgC62rAG2qY33i7T1UIM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-672-fsQkh42iO3mHsJFe_WfM-Q-1; Mon, 20 Feb 2023 04:03:11 -0500
-X-MC-Unique: fsQkh42iO3mHsJFe_WfM-Q-1
-Received: by mail-ed1-f71.google.com with SMTP id ec13-20020a0564020d4d00b004a621e993a8so566547edb.13
-        for <linux-media@vger.kernel.org>; Mon, 20 Feb 2023 01:03:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EenIhw+1HmIvsFUb0i4grWRCZp0khcXrPfOlppJ9ALo=;
-        b=Ymp8k/P1T8+BW+c78X9BSCn0sFObRu79xTjbS9NLBfFmtcK1ZVBQjHAMu3K+wfRspF
-         2+XOFC4jYFYbZyA7DiR0+ia2xYNTUSrmGIgq3bZ6dRphkGsqGUsO54Kyx1xl6of67rKd
-         d4NmSt8ZHypzmleDJ3gH0pka0BtsvpyQswgZufC7AijhLUxcxfovKXs7JFUv0Xfh9SeA
-         kLETgnl/KAffKeHFNY3zQiYYa/CQq4GWHvQorcCsBa66gmJ51OMoEGAzFwLxhyX2GgZx
-         8kMZouXpCRIkuhYQtOb76Bl5MchphIGcWxXxtVpJ93Uxp9G7q0hDMeMvawsECp2fgHkh
-         5a4Q==
-X-Gm-Message-State: AO0yUKVxzDho3sugdNHmLakdc/rGpNArP7jF4Yh8bbXK1bhWILN4d9KG
-        m0r7hXt0kZw36vIkuKTLZMacL1ql0aP/hsg3784mhk9zYNeD54Y7RVlcLYLRLfnozX1yw+D3g9J
-        3Tf49FilgYy12IzMSnq6UWuw=
-X-Received: by 2002:a50:ec83:0:b0:4ad:1e21:9981 with SMTP id e3-20020a50ec83000000b004ad1e219981mr930769edr.41.1676883790684;
-        Mon, 20 Feb 2023 01:03:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set8B8sBAq4Cj6T+76hS0E7sctHcJ4lB8XB7ZkExypjyKrm2A4TBTamMuPgI0pGhLpjHgpcMXzw==
-X-Received: by 2002:a50:ec83:0:b0:4ad:1e21:9981 with SMTP id e3-20020a50ec83000000b004ad1e219981mr930742edr.41.1676883790360;
-        Mon, 20 Feb 2023 01:03:10 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id e23-20020a50d4d7000000b004acd9a3afb3sm208000edj.63.2023.02.20.01.03.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 01:03:09 -0800 (PST)
-Message-ID: <dfa64234-ddac-d88a-3127-a18da145bdf0@redhat.com>
-Date:   Mon, 20 Feb 2023 10:03:08 +0100
+        Mon, 20 Feb 2023 05:49:01 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB2AA5F2;
+        Mon, 20 Feb 2023 02:48:59 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:d30c:b155:96fb:dcc])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 12D246602122;
+        Mon, 20 Feb 2023 10:48:57 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1676890137;
+        bh=85vs88cR5sK6SskbvScfJohz4c11X4nglqVcDqSI9zE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SvWPYeThrOHHmkMjOi0L0K+fzpHCbJDXCWyy+dWPx9Kxm6HDwmByh5ujVZ8eoMT92
+         auUfzRhM6/99YPcG/X5c1zQi4YGCiWWDEfkha174gQuRhZ+OUAr0+5p4oWX0q4VPtG
+         QmwXGxCQ+ss9TsLu64ORDcd6xH/DyIk8o9rkyhgovzMz0eFeaAFzO5CKtEFARGqdLo
+         kEtMxtjtR5wPhCNDlzSiJ3Ex3e3Pi7dGply3fQZeUzbtn7gp517RrJ+r6+z9M8znzu
+         QGRzjezRGCvhAjaoFq8ahqZ9NItrNCh+RNVvncydOGzWPwaQJAevFnNUs0J/rEgpz8
+         HFxeHF5R7mB8A==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk,
+        robert.mader@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 0/6] media: verisilicon: HEVC: fix 10bits handling
+Date:   Mon, 20 Feb 2023 11:48:43 +0100
+Message-Id: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 3/3] media: pci: intel: ivsc: Add acquire/release API
- for ivsc
-Content-Language: en-US
-To:     "Wu, Wentong" <wentong.wu@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230213022347.2480307-1-wentong.wu@intel.com>
- <20230213022347.2480307-4-wentong.wu@intel.com>
- <Y+uxbQi7seGf+adP@kekkonen.localdomain>
- <0457831e-a347-8278-01fe-52c011759d90@redhat.com>
- <Y+ypwnRVwReIEjUo@pendragon.ideasonboard.com>
- <DM6PR11MB43166A8D4225C8460C29803B8DA19@DM6PR11MB4316.namprd11.prod.outlook.com>
- <Y+9iwMbW0kk6eJKe@pendragon.ideasonboard.com>
- <DM6PR11MB4316A36ACA077501B92C1D0E8DA49@DM6PR11MB4316.namprd11.prod.outlook.com>
- <Y/MxGRrKsgVat3zZ@kekkonen.localdomain>
- <DM6PR11MB4316B3105394F258D8205DBC8DA49@DM6PR11MB4316.namprd11.prod.outlook.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <DM6PR11MB4316B3105394F258D8205DBC8DA49@DM6PR11MB4316.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,121 +57,285 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+When decoding a 10bits bitstreams HEVC driver should only expose 10bits pixel formats.
+To fulfill this requirement it is needed to call hantro_reset_raw_fmt()
+and to only change driver internal state in case of success.
 
-On 2/20/23 09:57, Wu, Wentong wrote:
-> 
-> 
->> -----Original Message-----
->> From: Sakari Ailus <sakari.ailus@linux.intel.com>
->> Sent: Monday, February 20, 2023 4:37 PM
->>
->> Hi Wentong,
->>
->> On Mon, Feb 20, 2023 at 03:50:55AM +0000, Wu, Wentong wrote:
->>>
->>>
->>>> -----Original Message-----
->>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>> Sent: Friday, February 17, 2023 7:19 PM
->>>>
->>>> Hi Wentong,
->>>>
->>>> On Fri, Feb 17, 2023 at 06:10:22AM +0000, Wu, Wentong wrote:
->>>>> On Sent: Wednesday, February 15, 2023 5:46 PM, Laurent Pinchart wrote:
->>>>>> On Wed, Feb 15, 2023 at 10:03:29AM +0100, Hans de Goede wrote:
->>>>>>> On 2/14/23 17:06, Sakari Ailus wrote:
->>>>>>>> On Mon, Feb 13, 2023 at 10:23:47AM +0800, Wentong Wu wrote:
->>>>>>>>> IVSC directly connects to camera sensor on source side, and
->>>>>>>>> on output side it not only connects ISH via I2C, but also
->>>>>>>>> exposes MIPI
->>>>>>>>> CSI-2 interface to output camera sensor data. IVSC can use
->>>>>>>>> the camera sensor data to do AI algorithm, and send the results to
->> ISH.
->>>>>>>>> On the other end, IVSC can share camera sensor to host by
->>>>>>>>> routing the raw camera sensor data to the exposed MIPI
->>>>>>>>> CSI-2 interface. But they can not work at the same time, so
->>>>>>>>> software APIs are defined to sync the ownership.
->>>>>>>>>
->>>>>>>>> This commit defines the interfaces between IVSC and camera
->>>>>>>>> sensor driver in include/linux/ivsc.h. The camera driver
->>>>>>>>> controls ownership of the CSI-2 link and sensor with the
->>>>>>>>> acquire/release APIs. When acquiring camera, lane number
->>>>>>>>> and link freq are also required by IVSC frame router.
->>>>>>>>
->>>>>>>> The more I learn about this system, the more I'm inclined to
->>>>>>>> think this functionality should be exposed as a V4L2 sub-device.
->>>>>>>> IVSC doesn't really do anything to the data (as long as it
->>>>>>>> directs it towards the CSI-2 receiver in the SoC), but it is
->>>>>>>> definitely part of the image pipeline.
->>>>>>>
->>>>>>> Yes I happened to discuss this exact same thing with Laurent
->>>>>>> at FOSDEM and we also came to the conclusion that the IVSC
->>>>>>> chip should be modeled as a V4L2 sub-device.
->>>>>>
->>>>>> Agreed.
->>>>>
->>>>> Thanks for your quick review and conclusion, I'm fresh to media
->>>>> sub-system, is there any convention that I should follow to
->>>>> upstream this kind of v4l2 sub-device driver so that not too much
->>>>> back and forth?
->>>>
->>>> This is a tentative proposal, as I'm not very familiar with the
->>>> hardware
->>>> architecture:
->>>>
->>>> - The subdev should have two pads, a sink pad connected to the camera
->>>>   sensor, and a source pad connected to the CSI-2 receiver in the IPU.
->>>>
->>>> - As for any new driver, the subdev driver should use the active state
->>>>   managed by the v4l2-subdev core. This requires calling
->>>>   v4l2_subdev_init_finalize() at probe time. See
->>>>   https://git.linuxtv.org/media_tree.git/commit/?id=a2514b9a634a for an
->>>>   example of a subdev driver converted to this mechanism.
->>>>
->>>> - As we're talking about CSI-2, the subdev driver should use the streams
->>>>   API that was recently merged, and in particular support the
->>>>   .get_frame_desc(), .set_routing(), .enable_streams() and
->>>>   .disable_streams() operations.
->>>>
->>>> - I don't see a need to support V4L2 controls in the subdev driver, but
->>>>   I may be missing something.
->>>>
->>>> - The driver should be validated with v4l2-compliance, part of
->>>>   v4l-utils.
->>>>
->>>
->>> Thanks for the detail, but I have one more question, during probe of
->>> sensor(v4l2-sudev) driver, it will configure camera sensor connected
->>> to IVSC via I2C, but before that it should acquire camera sensor's
->>> ownership from IVSC, how v4l2 framework guarantee this?
->>
->> Please wrap the lines at 74 characters or so when replying.
-> 
-> Thanks, I will.
-> 
->>
->> Do you mean accessing the sensor via I²C also requires acquiring the sensor
->> from IVSC?
-> 
-> Yes
+Fluster score for HEVC (140/147) doesn't change after this series.
+Fluster score for VP9 is 146/303.
+Fluster score for VP8 is 59/61.
+Fluster score for H.264 is 129/135.
 
-Hmm, that is going to be a problem since  we really want to have
-independent driver for the 2 which are not aware of each other.
+v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
 
-I think that maybe we can model this part of the ivsc functionality
-as an i2c-mux. But then we will need to somehow change the parent
-of the i2c device for the sensor to the output of this mux ...
+Compliance test for hantro-vpu device /dev/video0:
 
-I guess this means adding some code (some hack likely) to
-drivers/platform/x86/intel/int3472/discrete.c which' proe function 
-is already guaranteed to run before the sensor's i2c-client gets
-instantiated, because of the ACPI _DEP on the INT3472 ACPI device
-in the DSDT.
+Driver Info:
+	Driver name      : hantro-vpu
+	Card type        : nxp,imx8mq-vpu-g1-dec
+	Bus info         : platform:38300000.video-codec
+	Driver version   : 6.2.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : hantro-vpu
+	Model            : hantro-vpu
+	Serial           : 
+	Bus info         : platform:38300000.video-codec
+	Media version    : 6.2.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.2.0
+Interface Info:
+	ID               : 0x0300000c
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : nxp,imx8mq-vpu-g1-dec-source
+	Function         : V4L2 I/O
+	Pad 0x01000002   : 0: Source
+	  Link 0x02000008: to remote pad 0x1000004 of entity 'nxp,imx8mq-vpu-g1-dec-proc': Data, Enabled, Immutable
 
-This is going to be a tricky problem to tackle.
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
 
-Regards,
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
 
-Hans
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 13 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK
+
+Total for hantro-vpu device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+v4l2-compliance -d 1 
+v4l2-compliance SHA: not available
+, 64 bits, 64-bit time_t
+
+Compliance test for hantro-vpu device /dev/video1:
+
+Driver Info:
+	Driver name      : hantro-vpu
+	Card type        : nxp,imx8mq-vpu-g2-dec
+	Bus info         : platform:38310000.video-codec
+	Driver version   : 6.2.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : hantro-vpu
+	Model            : hantro-vpu
+	Serial           : 
+	Bus info         : platform:38310000.video-codec
+	Media version    : 6.2.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 6.2.0
+Interface Info:
+	ID               : 0x0300000c
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : nxp,imx8mq-vpu-g2-dec-source
+	Function         : V4L2 I/O
+	Pad 0x01000002   : 0: Source
+	  Link 0x02000008: to remote pad 0x1000004 of entity 'nxp,imx8mq-vpu-g2-dec-proc': Data, Enabled, Immutable
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK
+
+Total for hantro-vpu device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+version 9:
+- Fix brackets
+- Remove Fixes tags
+- Run fluster for VP8, H264.
+- Add compliance tests results.
+- Rebased on v6.2-rc7
+- My hardware doesn't support JPEG encoder so I can't test it.
+
+version 8:
+- Correct patch 4.
+- Add a patch for VP9.
+
+version 7:
+- Remove unused ctx variable in hantro_try_ctrl().
+- Change HANTRO_DEFAULT_BIT_DEPTH value to 8.
+- Simplify hantro_check_depth_match logic.
+- Keep ctx->bit_depth as integer value because it is use
+  to compute buffers size for hevc.
+
+version 6:
+- Split the patches in multiple sub-patches.
+- Rework hantro_reset_encoded_fmt() usage.
+
+version 5:
+- Add Nicolas's review tags
+- Add Fixes tags
+
+version 4:
+- Split the change in 2 patches.
+- Change hantro_check_depth_match() prototype to avoid using
+  ctx->bit_depth
+- Return the result of hantro_reset_raw_fmt() to the caller.
+- Only set ctx->bit_depth when hantro_reset_raw_fmt() returns is ok.
+ 
+Benjamin Gaignard (6):
+  media: verisilicon: Do not set context src/dst formats in reset
+    functions
+  media: verisilicon: Do not use ctx fields as format storage when
+    resetting
+  media: verisilicon: Do not set ctx->bit_depth in hantro_try_ctrl()
+  media: verisilicon: Do not change context bit depth before validating
+    the format
+  media: verisilicon: HEVC: Only propose 10 bits compatible pixels
+    formats
+  media: verisilicon: VP9: Only propose 10 bits compatible pixels
+    formats
+
+ .../media/platform/verisilicon/hantro_drv.c   | 49 +++++++---
+ .../platform/verisilicon/hantro_postproc.c    |  2 +-
+ .../media/platform/verisilicon/hantro_v4l2.c  | 90 +++++++++----------
+ .../media/platform/verisilicon/hantro_v4l2.h  |  3 +-
+ .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
+ 5 files changed, 85 insertions(+), 61 deletions(-)
+
+-- 
+2.34.1
 
