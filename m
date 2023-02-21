@@ -2,268 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 572CB69DC47
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC93569DC56
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:45:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233427AbjBUIlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 03:41:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59326 "EHLO
+        id S233570AbjBUIor (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 03:44:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233828AbjBUIlb (ORCPT
+        with ESMTP id S232613AbjBUIop (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 03:41:31 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DAE84499;
-        Tue, 21 Feb 2023 00:41:23 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id m7so4613856lfj.8;
-        Tue, 21 Feb 2023 00:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EGcJFiyVXpm1vB6ryTENvvZEzbtzOfX5J/M+CGlWf3c=;
-        b=bFcp0nGW4q2R7nq3XgmABBvQRntiv3jq/Pq8FP01TT5KJHnppukZ1me252THxmFQ7R
-         PUjNse2z7n+i5DaQPDwIy7wednx17JtxONMrUQ6rfa0MKPiqb5JxCP4IwSA9kvKZVaSe
-         TQnCqdCGXue//+wA9ZbcahhVswstDUENZD61VPUNgeQUdpZsEhRO+lPP7i9WmUCjTaNh
-         znWqXnAqArPR/dOeljgzAK0XF4SBwcJrNmpcPQDWroSYSieL6YT/OdAfjvUokvp4+0Jk
-         UrespTozmBOkiyG5M+OtLGQ///qul7eyE4wLWr40gnbUGhuBAps4cr8Nr1XrISVHHF7I
-         Vt9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EGcJFiyVXpm1vB6ryTENvvZEzbtzOfX5J/M+CGlWf3c=;
-        b=1FK0p1TSPFA0XsIhzO7GMovaroYMK1uEFBQtxtzFwECpkmYhIS0QaZvHyPKavd45hJ
-         bKled4qX8BUEpSJhWvGBbup/U/2xFLRIZDxd/PCaISSrDMV8sbREIEjrBxl6A+CEWpgR
-         VrQmQN++8qoiJ4HHSwlYTdZPrPYGTl+7ERopI8MKD68NxwaNgF1+Nfx2kUivoG/Iu5YH
-         h1sENySKiAvu13deHYA8i2oN65blHJWj3Mf5mQkQ7Qmg0Bwxl8ull3bDmIcpZfvYc0tc
-         9hokCeMNz7Frso276f671fsvl2wLeFd9PLwXep++Q1FjVUzijX5qkJDY/STcNXdgwnPf
-         h5Ig==
-X-Gm-Message-State: AO0yUKUqwrHbueqNKfMY1AQa0nrAPmc3fw098QPhz1aWqUVIp8NprF1T
-        6eWFAhwO2g085bBLuib+Tqw=
-X-Google-Smtp-Source: AK7set+tPpbI5dUy4JJsPFoQ29Zp15BUflOBWAcU57dVeyCZp5zYatadpNHDJkaCq3Jotmh1HNC0Kg==
-X-Received: by 2002:a19:ad41:0:b0:4d5:c996:2940 with SMTP id s1-20020a19ad41000000b004d5c9962940mr1138770lfd.61.1676968881556;
-        Tue, 21 Feb 2023 00:41:21 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id m28-20020a056512015c00b004d7d13387b5sm682030lfo.116.2023.02.21.00.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 00:41:21 -0800 (PST)
-Date:   Tue, 21 Feb 2023 10:41:17 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 05/14] dma-buf/sync_file: Add SET_DEADLINE ioctl
-Message-ID: <20230221104117.05891eea@eldfell>
-In-Reply-To: <CAF6AEGtAHXQ05tWoXdbx3_TK+11+XN6J9wuXssSh3PswUhvwgg@mail.gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
-        <20230218211608.1630586-6-robdclark@gmail.com>
-        <37ec0125-8d0b-7d87-321d-ed4c7c7b32a7@amd.com>
-        <CAF6AEGtAHXQ05tWoXdbx3_TK+11+XN6J9wuXssSh3PswUhvwgg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Tue, 21 Feb 2023 03:44:45 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 820E64C14;
+        Tue, 21 Feb 2023 00:44:40 -0800 (PST)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31L3gt5B000674;
+        Tue, 21 Feb 2023 08:44:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=lJZJskjBOHx/iQdeXfb+9gcEIWXD+YzO5L8KNARmCUc=;
+ b=JIGb11jPom7O65wXfWmsXc8rEIVlR109S00E+EHfIEe14QXLycXvd86pUskbfj0TpBEG
+ 9u8nQsVpwCc7tKekoLq4nj7sDvhbHiwe7XCjPTpjbHTHNyQkm6HerTu6u9pgsusG9FvM
+ s775y01CrKGf1IvlEF5xXWp5iPGeqyOLDCQ5Da7NYhtMh9XfbrVcizuIUvTpuuvN55jz
+ GbRq97MzE9rOaB4a0ZDQfWo/Wz/MkKWGkxTm1w0GMug+clG7wOUb8aevI/kpRI5Aeb16
+ 7cdPD7BA+4B2vIaBzaaj6VemEx64cHtLNU8BWPqytQfDzpKL75T1mx5lxgjd1wv8/LM+ zg== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ntp98fcq4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 21 Feb 2023 08:44:31 +0000
+Received: from nasanex01a.na.qualcomm.com ([10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31L8iUwq027469
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 21 Feb 2023 08:44:30 GMT
+Received: from [10.251.44.63] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 21 Feb
+ 2023 00:44:26 -0800
+Message-ID: <8243cc42-236c-20e3-74dc-1f130ab1dcf6@quicinc.com>
+Date:   Tue, 21 Feb 2023 10:44:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RbrIELARXw_RRD9+waByAXN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v7 0/4] media: camss: sm8250: Virtual channels support for
+ SM8250
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <akapatra@quicinc.com>, <jzala@quicinc.com>, <todor.too@gmail.com>
+CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
+        <mchehab@kernel.org>, <cgera@qti.qualcomm.com>,
+        <gchinnab@quicinc.com>, <ayasan@qti.qualcomm.com>,
+        <laurent.pinchart@ideasonboard.com>
+References: <20221209094037.1148-1-quic_mmitkov@quicinc.com>
+ <662d68f7-6160-263d-6e4d-e3687d5cf8eb@quicinc.com>
+ <7565d38c-d8f4-39e0-8547-fbb511f6d649@quicinc.com>
+ <894e3ce6-0f2b-608b-ec4e-09083704f429@linaro.org>
+From:   "Milen Mitkov (Consultant)" <quic_mmitkov@quicinc.com>
+In-Reply-To: <894e3ce6-0f2b-608b-ec4e-09083704f429@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5hFQGPJ6yhUNnT9m3V5Ri1iNguX4ry4Y
+X-Proofpoint-ORIG-GUID: 5hFQGPJ6yhUNnT9m3V5Ri1iNguX4ry4Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-21_04,2023-02-20_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302210074
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/RbrIELARXw_RRD9+waByAXN
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Feb 2023 08:09:04 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+On 20/02/2023 14:26, Bryan O'Donoghue wrote:
+> On 20/02/2023 12:18, Milen Mitkov (Consultant) wrote:
+>> On 31/01/2023 11:00, Milen Mitkov (Consultant) wrote:
+>>> On 09/12/2022 11:40, quic_mmitkov@quicinc.com wrote:
+>>>> From: Milen Mitkov <quic_mmitkov@quicinc.com>
+>>>>
+>>>> For v7:
+>>>> - Fix an issue with output state for different versions of the IFE
+>>>>    hardware (for platforms different from QRB5, e.g. QRB3).
+>>>>
+>>>> For v6:
+>>>> - Fix for a potential race condition in csid
+>>>> - More detailed description on how to use/test this feature in
+>>>>    user-space in the last patch.
+>>>>
+>>>> For v5:
+>>>> - Use entity->use_count instead of s_stream subdev call ret code to
+>>>>    check if another instance of the pipeline is running. Prevents an
+>>>>    error on 6.1 and up, when stopping one of several simultaneous
+>>>>    instances.
+>>>> - flush buffers instead of just returning if the pipeline didn't 
+>>>> start.
+>>>>
+>>>> For v4:
+>>>> - fixes the warning reported by the kernel test robot
+>>>> - tiny code change to enable the vc functionality with the 
+>>>> partially-applied
+>>>>    multistream patches on linux-next (tested on tag:next-20221010)
+>>>>
+>>>> For v3:
+>>>> - setting the sink pad format on the CSID entity will now propagate 
+>>>> the
+>>>>    format to the source pads to keep the subdev in a valid internal 
+>>>> state.
+>>>> - code syntax improvements
+>>>>
+>>>> For v2:
+>>>> - code syntax improvements
+>>>> - The info print for the enabled VCs was demoted to a dbg print. 
+>>>> Can be
+>>>>    enabled with dynamic debug, e.g.:
+>>>> echo "file drivers/media/platform/qcom/camss/* +p" > 
+>>>> /sys/kernel/debug/dynamic_debug/control
+>>>>
+>>>> NOTE: These changes depend on the multistream series, that as of yet
+>>>> is still not merged upstream. However, part of the
+>>>> multistream patches are merged in linux-next (tested on
+>>>> tag:next-20221010), including the patch that introduces the
+>>>> video_device_pipeline_alloc_start() functionality. This allows
+>>>> applying and using this series on linux-next without applying the
+>>>> complete multistream set.
+>>>>
+>>>> The CSID hardware on SM8250 can demux the input data stream into
+>>>> maximum of 4 multiple streams depending on virtual channel (vc)
+>>>> or data type (dt) configuration.
+>>>>
+>>>> Situations in which demuxing is useful:
+>>>> - HDR sensors that produce a 2-frame HDR output, e.g. a light and a 
+>>>> dark frame
+>>>>    (the setup we used for testing, with the imx412 sensor),
+>>>>    or a 3-frame HDR output - light, medium-lit, dark frame.
+>>>> - sensors with additional metadata that is streamed over a different
+>>>>    virtual channel/datatype.
+>>>> - sensors that produce frames with multiple resolutions in the same 
+>>>> pixel
+>>>>    data stream
+>>>>
+>>>> With these changes, the CSID entity has, as it did previously, a 
+>>>> single
+>>>> sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+>>>> virtual channel configuration is determined by which of the source 
+>>>> ports
+>>>> are linked to an output VFE line. For example, the link below will
+>>>> configure the CSID driver to enable vc 0 and vc 1:
+>>>>
+>>>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+>>>> media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+>>>>
+>>>> which will be demuxed and propagated into /dev/video0
+>>>> and /dev/video1 respectively. With this, the userspace can use
+>>>> any normal V4L2 client app to start/stop/queue/dequeue from these
+>>>> video nodes. Tested with the yavta app.
+>>>>
+>>>> The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
+>>>> msm_vfe0_rdi1,...) must also be configured explicitly.
+>>>>
+>>>> Note that in order to keep a valid internal subdevice state,
+>>>> setting the sink pad format of the CSID subdevice will propagate
+>>>> this format to the source pads. However, since the CSID hardware
+>>>> can demux the input stream into several streams each of which can
+>>>> be a different format, in that case each source pad's
+>>>> format must be set individually, e.g.:
+>>>>
+>>>> media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+>>>> media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
+>>>>
+>>>> Milen Mitkov (4):
+>>>>    media: camss: sm8250: Virtual channels for CSID
+>>>>    media: camss: vfe: Reserve VFE lines on stream start and link to 
+>>>> CSID
+>>>>    media: camss: vfe-480: Multiple outputs support for SM8250
+>>>>    media: camss: sm8250: Pipeline starting and stopping for multiple
+>>>>      virtual channels
+>>>>
+>>>>   .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
+>>>>   .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
+>>>>   .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+>>>>   .../media/platform/qcom/camss/camss-vfe-170.c |  4 +-
+>>>>   .../media/platform/qcom/camss/camss-vfe-480.c | 61 
+>>>> ++++++++++++-------
+>>>>   .../platform/qcom/camss/camss-vfe-gen1.c      |  4 +-
+>>>>   drivers/media/platform/qcom/camss/camss-vfe.c |  1 +
+>>>>   .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+>>>>   drivers/media/platform/qcom/camss/camss.c     |  2 +-
+>>>>   9 files changed, 138 insertions(+), 64 deletions(-)
+>>>
+>>> Hi guys,
+>>>
+>>> just a ping for this series.
+>>>
+>>> Laurent, I sent you an email with answers to the questions you 
+>>> requested. I read your reply that you'll review these changes in the 
+>>> context of the multi-stream API, but this series doesn't really use 
+>>> the multi-stream API, just a note.
+>>>
+>>> Cheers,
+>>>
+>>> Milen
+>>>
+>> Hi there,
+>>
+>> Just another ping..:)
+>>
+>> Please let me know if there's anything I could do (improve/fix/code 
+>> differently/etc.) to help get this series merged.
+>>
+>>
+>> Best Regards,
+>>
+>> Milen
+>>
+>>
+>>
+>
+> Well, we need to re-verify it works on linux-next.
+>
+> Other than that it seems OK to me.
+>
+> ---
+> bod
 
-> On Mon, Feb 20, 2023 at 12:27 AM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 18.02.23 um 22:15 schrieb Rob Clark: =20
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > The initial purpose is for igt tests, but this would also be useful f=
-or
-> > > compositors that wait until close to vblank deadline to make decisions
-> > > about which frame to show.
-> > >
-> > > The igt tests can be found at:
-> > >
-> > > https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence=
--deadline
-> > >
-> > > v2: Clarify the timebase, add link to igt tests
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >   drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
-> > >   include/uapi/linux/sync_file.h | 22 ++++++++++++++++++++++
-> > >   2 files changed, 41 insertions(+)
-> > >
-> > > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> > > index af57799c86ce..fb6ca1032885 100644
-> > > --- a/drivers/dma-buf/sync_file.c
-> > > +++ b/drivers/dma-buf/sync_file.c
-> > > @@ -350,6 +350,22 @@ static long sync_file_ioctl_fence_info(struct sy=
-nc_file *sync_file,
-> > >       return ret;
-> > >   }
-> > >
-> > > +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
-> > > +                                     unsigned long arg)
-> > > +{
-> > > +     struct sync_set_deadline ts;
-> > > +
-> > > +     if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
-> > > +             return -EFAULT;
-> > > +
-> > > +     if (ts.pad)
-> > > +             return -EINVAL;
-> > > +
-> > > +     dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, t=
-s.tv_nsec));
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > >   static long sync_file_ioctl(struct file *file, unsigned int cmd,
-> > >                           unsigned long arg)
-> > >   {
-> > > @@ -362,6 +378,9 @@ static long sync_file_ioctl(struct file *file, un=
-signed int cmd,
-> > >       case SYNC_IOC_FILE_INFO:
-> > >               return sync_file_ioctl_fence_info(sync_file, arg);
-> > >
-> > > +     case SYNC_IOC_SET_DEADLINE:
-> > > +             return sync_file_ioctl_set_deadline(sync_file, arg);
-> > > +
-> > >       default:
-> > >               return -ENOTTY;
-> > >       }
-> > > diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync=
-_file.h
-> > > index ee2dcfb3d660..c8666580816f 100644
-> > > --- a/include/uapi/linux/sync_file.h
-> > > +++ b/include/uapi/linux/sync_file.h
-> > > @@ -67,6 +67,20 @@ struct sync_file_info {
-> > >       __u64   sync_fence_info;
-> > >   };
-> > >
-> > > +/**
-> > > + * struct sync_set_deadline - set a deadline on a fence
-> > > + * @tv_sec:  seconds elapsed since epoch
-> > > + * @tv_nsec: nanoseconds elapsed since the time given by the tv_sec
-> > > + * @pad:     must be zero
-> > > + *
-> > > + * The timebase for the deadline is CLOCK_MONOTONIC (same as vblank)
-> > > + */
-> > > +struct sync_set_deadline {
-> > > +     __s64   tv_sec;
-> > > +     __s32   tv_nsec;
-> > > +     __u32   pad; =20
-> >
-> > IIRC struct timespec defined this as time_t/long (which is horrible for
-> > an UAPI because of the sizeof(long) dependency), one possible
-> > alternative is to use 64bit nanoseconds from CLOCK_MONOTONIC (which is
-> > essentially ktime).
-> >
-> > Not 100% sure if there is any preferences documented, but I think the
-> > later might be better. =20
->=20
-> The original thought is that this maps directly to clock_gettime()
-> without extra conversion needed, and is similar to other pre-ktime_t
-> UAPI.  But OTOH if userspace wants to add an offset, it is maybe
-> better to convert completely to ns in userspace and use a u64 (as that
-> is what ns_to_ktime() uses).. (and OFC whatever decision here also
-> applies to the syncobj wait ioctls)
->=20
-> I'm leaning towards u64 CLOCK_MONOTONIC ns if no one has a good
-> argument against that.
+Thanks Bryan,
 
-No, no good argument against that, it's just different from any other
-UAPI so far, but a new style has to start somewhere. It's good for 584
-years after the epoch.
-
-Just make sure the documentation is explicit on how struct timespec is
-converted to and from u64 (signedness issues, overflow and whatnot).
+I just re-tested on latest linux-next (next-20230221 tag) and the set 
+applies and, judging by the standard set of tests I did, works as 
+expected and doesn't break anything.
 
 
-Thanks,
-pq
+Best Regards,
+
+Milen
 
 
->=20
-> BR,
-> -R
->=20
-> > Either way the patch is Acked-by: Christian K=C3=B6nig
-> > <christian.koenig@amd.com> for this patch.
-> >
-> > Regards,
-> > Christian.
-> > =20
-> > > +};
-> > > +
-> > >   #define SYNC_IOC_MAGIC              '>'
-> > >
-> > >   /**
-> > > @@ -95,4 +109,12 @@ struct sync_file_info {
-> > >    */
-> > >   #define SYNC_IOC_FILE_INFO  _IOWR(SYNC_IOC_MAGIC, 4, struct sync_fi=
-le_info)
-> > >
-> > > +
-> > > +/**
-> > > + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
-> > > + *
-> > > + * Allows userspace to set a deadline on a fence, see dma_fence_set_=
-deadline()
-> > > + */
-> > > +#define SYNC_IOC_SET_DEADLINE        _IOW(SYNC_IOC_MAGIC, 5, struct =
-sync_set_deadline)
-> > > +
-> > >   #endif /* _UAPI_LINUX_SYNC_H */ =20
-> > =20
-
-
---Sig_/RbrIELARXw_RRD9+waByAXN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP0g60ACgkQI1/ltBGq
-qqfolA//Q9ocJY3bZjCBI4MmTk59scDnNCRUNlP1nLt+zXKyKWkKwfuWLpFRBVkp
-TcxrwKaSXTVqWraDrRJFWB085/HdeTeO0k7NPRYMuZWtAPOZX3nK4v1LlVyG6Tvc
-NgUvXSiwJof0P2FGnVvQ1Sun4luO8tduookNwoi19XmBXYU37FQPMdwJU1Skprhe
-dUxkrJqnFsAX0BqLRq9sepoO9rTh8gbjSr/Fbx9R25IXzt+V2gifQAvkFYW+HaWg
-2BPlBFFdfzuP131DiWW78l3pwAsZiu6edsUHwOEZfS6OoH2V3JfwotLflNtEoDtV
-5fqJbhWfEESNhB9kHpMArrauaFGnzw3/KjKk3yvUTeEF751tUxbGjIXJSd4DRESX
-MmN/pfZMPa1ipAjJTKv2aaZyNTPn/WQRUkhlIuxpt3Dwe5T5QyH12plE7nSgz8Du
-/qz3K2hj/VhSnLOpj/uk81SkxEYywiuIumYhcRTYJiwuED4NDV5kXusaAfOhrkF5
-8GIgZDWvEJ2ty3fXxA9VFaPy4xjqi3NBzC7D2uebKeTFnPiUHbMZ3TqREyYhrc+o
-s6l0OC1yU/tbcdhckc1emI6OBb0LDGQNdxhCTwov4BYabsuSHbRhQBaLlMYD/F4s
-52nNjDqIE9oQo13YNCCaAVb0yrt7CZ/6Iik9qj++/lfsvacSvpo=
-=cQIs
------END PGP SIGNATURE-----
-
---Sig_/RbrIELARXw_RRD9+waByAXN--
