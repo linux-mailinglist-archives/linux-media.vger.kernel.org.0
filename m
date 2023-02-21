@@ -2,52 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBBF869DBAA
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10D9469DBC7
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:18:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233025AbjBUII5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 03:08:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56072 "EHLO
+        id S233707AbjBUIS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 03:18:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbjBUIIz (ORCPT
+        with ESMTP id S233685AbjBUISy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 03:08:55 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B707893F3
-        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 00:08:53 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 273872E4;
-        Tue, 21 Feb 2023 09:08:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1676966931;
-        bh=YFssmAsMoUPU8lQJ5Vsy2DjjZRjcivKwf6aZnC6aFns=;
+        Tue, 21 Feb 2023 03:18:54 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DC1A5C5;
+        Tue, 21 Feb 2023 00:18:48 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:5bf1:85e7:c290:7d2f] (unknown [IPv6:2a01:e0a:120:3210:5bf1:85e7:c290:7d2f])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 135A166021C4;
+        Tue, 21 Feb 2023 08:18:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1676967526;
+        bh=VL8H78+sZVJfJRLBdoM9mZC6818cM0JqQgnY2sYTasY=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Q/B8Of5MqFGskJiJtZ/rNRcZ6N9ABZQOtu8asr1QkiM8S3BhAqq2/VuJGLGrryARs
-         Wk91pK+NgYWbww7c7dY/hSy7a+0mB+QIcdAR6Vm3AtzQ+oaib+F1OLe2mz+fU4L+s7
-         qqnRu15Kznc3JDj/Ru7ePpfhOyziI96YZXVXNmz0=
-Message-ID: <69ef7a68-2f08-4006-7fd9-89ee003f42a5@ideasonboard.com>
-Date:   Tue, 21 Feb 2023 10:08:47 +0200
+        b=mKZTFibTyi8wSSWgu9OcDdYKiDKhA9svv69EnAopMqYQHnHd2qqX+LQYsoVbnnCkn
+         3lLDtXMX6uy66c9AxYt76+DeZpYwAezdiT7Mlg0bgppqp6WxywoV+ysuAqXx8X7VpF
+         VFWxDXUduy8GtpURk3rKfnjY/sA2tnbA4LDA4Mf/NAi28abN/27g9IeuWajwGQifrE
+         WHB/vCPNwzv3M24yxUuo8hd+OeNsOfMVQa0KoIk+stTYkhIJ26EnJ7qiIy46iqs7f5
+         qNAYhHU5DdZ9vy3Y+C0HSxhk8ft2iLfiBdfjA4+5RSUsFiAb9ShlMZB9a3s2/fjPLO
+         rmXP8aC+1DOMg==
+Message-ID: <a5e8a6c5-531a-1c4c-4235-e8cf7a68d96d@collabora.com>
+Date:   Tue, 21 Feb 2023 09:18:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [v4l-utils] [PATCH v8 0/6] Switch build system to meson
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
-        gjasny@googlemail.com, hverkuil@xs4all.nl,
-        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
-        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
-        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
-        xavier.claessens@collabora.com, deborah.brouwer@collabora.com
-References: <20230212005137.12025-1-laurent.pinchart@ideasonboard.com>
- <2fedb527-6faf-7d9b-592c-32862c18bcfa@ideasonboard.com>
- <Y/PfKEYpZwMMi0wt@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 06/12] media: verisilicon: Check AV1 bitstreams bit
+ depth
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
+        hverkuil@xs4all.nl, jernej.skrabec@gmail.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20230214140557.537984-1-benjamin.gaignard@collabora.com>
+ <20230214140557.537984-7-benjamin.gaignard@collabora.com>
+ <CAAEAJfDihZND+1FSzFxT86j9u6h-wH6uMMNh7BiaEWQWtSpk=Q@mail.gmail.com>
+ <c4d355d5-5e14-8eba-1944-fc26b1050cf5@collabora.com>
+ <6997fe5cbcfef626340ce4d85095eadb7bc63067.camel@collabora.com>
 Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y/PfKEYpZwMMi0wt@pendragon.ideasonboard.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <6997fe5cbcfef626340ce4d85095eadb7bc63067.camel@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,75 +66,177 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/02/2023 22:59, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> On Mon, Feb 20, 2023 at 01:13:09PM +0200, Tomi Valkeinen wrote:
->> On 12/02/2023 02:51, Laurent Pinchart wrote:
->>> Hello everybody,
+
+Le 20/02/2023 à 20:00, Nicolas Dufresne a écrit :
+> Le lundi 20 février 2023 à 17:24 +0100, Benjamin Gaignard a écrit :
+>> Le 18/02/2023 à 14:11, Ezequiel Garcia a écrit :
+>>> On Tue, Feb 14, 2023 at 11:06 AM Benjamin Gaignard
+>>> <benjamin.gaignard@collabora.com> wrote:
+>>>> The driver supports 8 and 10 bits bitstreams, make sure to discard
+>>>> other cases.
+>>>> It could happens that userland test if V4L2_CID_STATELESS_AV1_SEQUENCE
+>>>> exists without setting bit_depth field in this case use
+>>>> HANTRO_DEFAULT_BIT_DEPTH value.
+>>>>
+>>> This shouldn't happen.
 >>>
->>> This series is the latest (and greatest) attempt to switch v4l-utils
->>> from autotools to meson.
+>>> If the bit_depth argument in hantro_check_depth_match()
+>>> can be set unchecked by userspace, we have done something wrong!!
 >>>
->>> Compared to v7, the series has been rebased on top of the latest master
->>> branch, and lots of fixes have been added. All review comments should
->>> have been addressed. Detailed changelogs are included in individual
->>> patches, in particular in patch 3/6.
->>>
->>> The rebase was a bit painful due to the new v4l2-tracer tool and its
->>> code generation script. While meson handles code generation fine, it
->>> required fixes to the script to be able to specify the output directory
->>> and to generate the trace and retrace sources separately. Many thanks to
->>> Sakari for his help with this, which I've included in this series as
->>> patch 1/6.
->>>
->>> Gregor, I haven't included the Tested-by tag you gave on v7 as v8
->>> contains many small changes. Sorry about that.
->>>
->>> The patches are based on 3 pending patches for v4l-utils that have been
->>> posted to the list in the last couple of days:
->>>
->>> - libv4lconvert: Don't ignore return value of ftruncate()
->>> - keytable: Add -fno-stack-protector compilation option
->>> - configure.ac: Add option to disable compilation of v4l2-tracer
->>>
->>> None are strictly required, but I've included the equivalent of the
->>> second and third patches in the meson support, so I wanted to base the
->>> patches on top of the autotools' equivalent. I expect those three
->>> patches to be merged soon.
->>>
->>> As far as I can tell, meson support is now ready. I can address review
->>> comments in a v9 if there are any, but I'd like to merge it soon to
->>> avoid another painful rebase. I'll be available to fix issues on top if
->>> any problem is encountered later.
->>>
->>> A tag that includes this series can be found at
->>>
->>>           git://linuxtv.org/pinchartl/v4l-utils.git tags/meson-v8
+>>> Are you sure that userspace can do a S_CTRL with an invalid bit-depth?
+>>> The try_or_set_cluster() function seems to always call try_ctrl before s_ctrl.
+>> I have dump the stack when AV1 sequence bit depth = 0 in s_ctrl.
+>> It is happening when opening the driver, v4l2 setup the ctrls by calling __v4l2_ctrl_handler_setup()
+>> this led to call hantro_av1_s_ctrl() with empty structure.
 >>
->> If I build this for x86 or arm64 with default options, it builds fine. If I build for arm32 (against my buildroot rootfs), the build fails:
+>> For other codecs isn't a problem because bit depth is coded with a minus 8 value (ie: 8 bits = 0)
+>> while for AV1 it is the real value (ie: 8 bits = 8).
+> Shouldn't this be fixed in v4l2-ctrls-core.c / std_init_compound() ? This is
+> what we do for VP9:
+>
+>
+> 	case V4L2_CTRL_TYPE_VP9_FRAME:
+> 		p_vp9_frame = p;
+> 		p_vp9_frame->profile = 0;
+> 		p_vp9_frame->bit_depth = 8;
+> 		p_vp9_frame->flags |= V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
+> 			V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING;
+> 		break;
+
+That is indeed a better solution.
+I will add in my series has a fix of Daniel's series about AV1 uAPI.
+
+Thanks,
+Benjamin
+
+>
+>
+>> [   88.478751] Hardware name: Radxa Rock 5A Board (DT)
+>> [   88.479184] Call trace:
+>> [   88.479406]  dump_backtrace.part.0+0xdc/0xf0
+>> [   88.479796]  show_stack+0x18/0x30
+>> [   88.480099]  dump_stack_lvl+0x68/0x84
+>> [   88.480431]  dump_stack+0x18/0x34
+>> [   88.480732]  hantro_av1_s_ctrl+0x7c/0xcc [hantro_vpu]
+>> [   88.481211]  __v4l2_ctrl_handler_setup+0x120/0x154
+>> [   88.481643]  v4l2_ctrl_handler_setup+0x2c/0x50
+>> [   88.482043]  hantro_open+0x138/0x204 [hantro_vpu]
+>> [   88.482490]  v4l2_open+0xa8/0x124
+>> [   88.482794]  chrdev_open+0xc0/0x22c
+>> [   88.483114]  do_dentry_open+0x13c/0x490
+>> [   88.483464]  vfs_open+0x2c/0x40
+>> [   88.483749]  path_openat+0x878/0xe50
+>> [   88.484074]  do_filp_open+0x80/0x130
+>> [   88.484399]  do_sys_openat2+0xb4/0x170
+>> [   88.484736]  __arm64_sys_openat+0x60/0xb0
+>> [   88.485097]  invoke_syscall+0x48/0x114
+>> [   88.485437]  el0_svc_common.constprop.0+0x44/0xfc
+>> [   88.485860]  do_el0_svc+0x3c/0xc0
+>> [   88.486163]  el0_svc+0x2c/0x84
+>> [   88.486441]  el0t_64_sync_handler+0xbc/0x140
+>> [   88.486826]  el0t_64_sync+0x190/0x194
 >>
->> [197/254] Compiling C object contrib/test/v4l2gl.p/v4l2gl.c.o
->> FAILED: contrib/test/v4l2gl.p/v4l2gl.c.o
->> ccache /home/tomba/work/buildroot/output32/host/bin/arm-buildroot-linux-gnueabihf-gcc -Icontrib/test/v4l2gl.p -Icontrib/test -I../contrib/test -I../lib/include -I../include -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/libdrm -I/home/tomba/work/buildroot/output32/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/valgrind -I. -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -std=gnu99 -O2 -g -Wpointer-arith -D_GNU_SOURCE -DPROMOTED_MODE_T=int -DENABLE_NLS -MD -MQ contrib/test/v4l2gl.p/v4l2gl.c.o -MF contrib/test/v4l2gl.p/v4l2gl.c.o.d -o contrib/test/v4l2gl.p/v4l2gl.c.o -c ../contrib/test/v4l2gl.c
->> ../contrib/test/v4l2gl.c:268:60: error: expected ‘,’ or ‘;’ before ‘V4L_UTILS_VERSION’
->>     268 | const char *argp_program_version = "V4L2 grabber version " V4L_UTILS_VERSION;
->>         |                                                            ^~~~~~~~~~~~~~~~~
-> 
-> Thank you for the report. I've test-compiled for arm32, but my build
-> environment may not have the features needed by v4l2gl.c, so it may have
-> been skipped. Would you be able to check what goes wrong ? v4l2gl.c
-> includes config.h, so V4L_UTILS_VERSION should be defined. Does your
-> config.h (generated in the build directory) define V4L_UTILS_VERSION ?
-> Does your buildroot environment provide a config.h that is being picked
-> instead ?
-
-Yes, valgrind's directory has config.h (not sure why valgrind headers 
-are needed for v4l2gl). I think the problem is that the build dir (-I.) 
-is very late in the command line, in fact it seems to be the last 
-include dir listed.
-
-Isn't config.h and the like more commonly included via "-include"?
-
-  Tomi
-
+>> Regards,
+>> Benjamin
+>>
+>>> Thanks,
+>>> Ezequiel
+>>>
+>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>>> ---
+>>>> version 4:
+>>>> - This patch is the result of squashing "Save bit depth for AV1 decoder"
+>>>>     and "Check AV1 bitstreams bit depth" of version 3 + adapation to
+>>>>     "[PATCH v8 0/6] media: verisilicon: HEVC: fix 10bits handling" series.
+>>>>
+>>>>    .../media/platform/verisilicon/hantro_drv.c   | 36 +++++++++++++++++++
+>>>>    .../media/platform/verisilicon/hantro_v4l2.c  |  4 +++
+>>>>    2 files changed, 40 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+>>>> index bc1a85456142..666cd46902da 100644
+>>>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+>>>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+>>>> @@ -275,7 +275,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>>>>                   /* We only support profile 0 */
+>>>>                   if (dec_params->profile != 0)
+>>>>                           return -EINVAL;
+>>>> +       } else if (ctrl->id == V4L2_CID_STATELESS_AV1_SEQUENCE) {
+>>>> +               const struct v4l2_ctrl_av1_sequence *sequence = ctrl->p_new.p_av1_sequence;
+>>>> +
+>>>> +               if (sequence->bit_depth != 8 && sequence->bit_depth != 10)
+>>>> +                       return -EINVAL;
+>>>>           }
+>>>> +
+>>>>           return 0;
+>>>>    }
+>>>>
+>>>> @@ -348,6 +354,30 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>>           return 0;
+>>>>    }
+>>>>
+>>>> +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>> +{
+>>>> +       struct hantro_ctx *ctx;
+>>>> +
+>>>> +       ctx = container_of(ctrl->handler,
+>>>> +                          struct hantro_ctx, ctrl_handler);
+>>>> +
+>>>> +       switch (ctrl->id) {
+>>>> +       case V4L2_CID_STATELESS_AV1_SEQUENCE:
+>>>> +       {
+>>>> +               int bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
+>>>> +
+>>>> +               if (ctx->bit_depth == bit_depth)
+>>>> +                       return 0;
+>>>> +
+>>>> +               return hantro_reset_raw_fmt(ctx, bit_depth);
+>>>> +       }
+>>>> +       default:
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>>    static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>>>>           .try_ctrl = hantro_try_ctrl,
+>>>>    };
+>>>> @@ -365,6 +395,11 @@ static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+>>>>           .s_ctrl = hantro_hevc_s_ctrl,
+>>>>    };
+>>>>
+>>>> +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops = {
+>>>> +       .try_ctrl = hantro_try_ctrl,
+>>>> +       .s_ctrl = hantro_av1_s_ctrl,
+>>>> +};
+>>>> +
+>>>>    #define HANTRO_JPEG_ACTIVE_MARKERS     (V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+>>>>                                            V4L2_JPEG_ACTIVE_MARKER_COM | \
+>>>>                                            V4L2_JPEG_ACTIVE_MARKER_DQT | \
+>>>> @@ -542,6 +577,7 @@ static const struct hantro_ctrl controls[] = {
+>>>>                   .codec = HANTRO_AV1_DECODER,
+>>>>                   .cfg = {
+>>>>                           .id = V4L2_CID_STATELESS_AV1_SEQUENCE,
+>>>> +                       .ops = &hantro_av1_ctrl_ops,
+>>>>                   },
+>>>>           }, {
+>>>>                   .codec = HANTRO_AV1_DECODER,
+>>>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>>>> index 992c5baa929f..7e74e47c9a89 100644
+>>>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>>>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>>>> @@ -86,6 +86,10 @@ hantro_check_depth_match(const struct hantro_fmt *fmt, int bit_depth)
+>>>>           if (!fmt->match_depth && !fmt->postprocessed)
+>>>>                   return true;
+>>>>
+>>>> +       /* 0 means default depth, which is 8 */
+>>>> +       if (!bit_depth)
+>>>> +               bit_depth = HANTRO_DEFAULT_BIT_DEPTH;
+>>>> +
+>>>>           fmt_depth = hantro_get_format_depth(fmt->fourcc);
+>>>>
+>>>>           /*
+>>>> --
+>>>> 2.34.1
+>>>>
