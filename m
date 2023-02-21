@@ -2,140 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E065D69E65F
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 18:54:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7FAB69E67B
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 18:55:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229986AbjBURyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 12:54:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40520 "EHLO
+        id S231743AbjBURzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 12:55:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbjBURyI (ORCPT
+        with ESMTP id S230248AbjBURzf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 12:54:08 -0500
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731AC2DE66;
-        Tue, 21 Feb 2023 09:54:07 -0800 (PST)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1720887dfcdso6426368fac.6;
-        Tue, 21 Feb 2023 09:54:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMKhHmrd8lVSmliqVHExAgWorD/pXxkRRPzGvtF73wg=;
-        b=REEtn8PXtknW4y+6JwJtS9B4rLCRy5IdlJX8uMlYtB7FFFedOYzYTq/GgUwVy/bb7q
-         tM+1bwi/KgXmj/U4wkmFwrh6jpMQdVPSRCv1rQHKfu36P3M1/eOa38cAFmGo2HS0gDxt
-         TKgY4e2BnldR8TUtEEiyg55EEfDITdss4jIDSPFiJcBrU2AC/GKCR8JIMYvXjk2wBjk/
-         7hxcQLhU2Xnv3iOBkrK+cgRDzcopZztIJRh1q+Oly9r6yLK1vJjxaEqjnLA4EjvayWxf
-         zE23qNdSulwFR02SScgR9bvPvO/GTTzCEH8IrC6tm7VZgw1o0F/Rd3oae0/EgGp6KWwT
-         HfsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VMKhHmrd8lVSmliqVHExAgWorD/pXxkRRPzGvtF73wg=;
-        b=Eyzw7kvGNcMG8D6f5sacQqTueHdH1XsLvbiPeTryCwD97f5GylOi1Lo1EOjq+1TeIX
-         T6YA2vcN/7ILcLJDjEWhyHl71o7rYHuSS/a/ee+iUVK5HFa3K+4raCStTpNsI5jMFH+N
-         c3gB641ZBlPhvt+YxI2T7DUdGRtyprWeetYS+YBjHlCSRLLhPwanLvlrr+qyJbRnbFtR
-         HKDv6RjK8tWn1nnz9WuQwW8m3kABgY8JBdECwxHcO1F1MqITgvzX6SDb3fHFmYjSYtBr
-         ccVSt2WWObWN7pYFGfXpdq0T5pepsZIYmv8JLOOKyyhUBOlyL1gsL9OlqLUrGb/1piOf
-         R+LA==
-X-Gm-Message-State: AO0yUKVotCk/46gVXinYx3bswl0EVLQkHSNSInN5z6vSIu4ku4h2hOI8
-        K/Y6hvS/9hcPHb0iSxYdWOBuP+Rv/B6pQCUX/HY=
-X-Google-Smtp-Source: AK7set+Z+oPJUCqI/EoSMrVRlg+YMtuXgiK4i/ekz/43uKn112T5GqKqwizp2tik7ddFnI7qZP5oOWulwO0SuN2evZ4=
-X-Received: by 2002:a05:6870:32d4:b0:16e:5e5a:49da with SMTP id
- r20-20020a05687032d400b0016e5e5a49damr1496718oac.58.1677002046702; Tue, 21
- Feb 2023 09:54:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20230218211608.1630586-1-robdclark@gmail.com> <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell> <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
-In-Reply-To: <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 21 Feb 2023 09:53:56 -0800
-Message-ID: <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To:     Luben Tuikov <luben.tuikov@amd.com>
-Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        Tue, 21 Feb 2023 12:55:35 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E6B2FCC7;
+        Tue, 21 Feb 2023 09:55:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677002108; x=1708538108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HiP3irDvDIb8+Nk+q8Jh1Kdv24MWvC/xc8UlcNsgutU=;
+  b=OvWFFxtG45+c9NrJb4hpU4nHG0XiztLxiUku6caugEbCZmYFR74raCz/
+   5TEm5JiFNRdQG9h7mQTlX0zr8CHFmv5F5CXCfFanBJp25xSuCe8axAVoY
+   UX+6SAIUYmly++xzfoKKWCdoP8qZOnzqFI+TvBt2Ws/XbQ+8r2n/hsWf5
+   28KUKBXgaeveDW3TEKcWM/Z3Sefft1idloE31QkY05xUsH3uEcppPFbQ1
+   pbKMjYB1idfWcJGRzRFwBxsNv36RRHJ1pc563X1yCQQWhk0m1rOFImJPj
+   OE9pNMLAYO+LvjeyDlfRc4hWsNNH//h04A/k4NXPJiahq6Ra4h0ExQSuG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="316429043"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="316429043"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 09:54:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="665057592"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="665057592"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 21 Feb 2023 09:54:33 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1pUWqW-00A3o0-0H;
+        Tue, 21 Feb 2023 19:54:32 +0200
+Date:   Tue, 21 Feb 2023 19:54:31 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        lkft-triage@lists.linaro.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Ferry Toth <fntoth@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>, warthog618@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: Re: arm64: libgpiod: refcount_t: underflow; use-after-free.
+Message-ID: <Y/UFV2bgSyBI37vi@smile.fi.intel.com>
+References: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
+ <Y/T7unUf10Wis59a@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/T7unUf10Wis59a@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
->
-> On 2023-02-20 11:14, Rob Clark wrote:
-> > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >>
-> >> On Sat, 18 Feb 2023 13:15:49 -0800
-> >> Rob Clark <robdclark@gmail.com> wrote:
-> >>
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
-> >>> wait (as opposed to a "housekeeping" wait to know when to cleanup after
-> >>> some work has completed).  Usermode components of GPU driver stacks
-> >>> often poll() on fence fd's to know when it is safe to do things like
-> >>> free or reuse a buffer, but they can also poll() on a fence fd when
-> >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
-> >>> lets the kernel differentiate these two cases.
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>
-> >> Hi,
-> >>
-> >> where would the UAPI documentation of this go?
-> >> It seems to be missing.
-> >
-> > Good question, I am not sure.  The poll() man page has a description,
-> > but my usage doesn't fit that _exactly_ (but OTOH the description is a
-> > bit vague).
-> >
-> >> If a Wayland compositor is polling application fences to know which
-> >> client buffer to use in its rendering, should the compositor poll with
-> >> PRI or not? If a compositor polls with PRI, then all fences from all
-> >> applications would always be PRI. Would that be harmful somehow or
-> >> would it be beneficial?
-> >
-> > I think a compositor would rather use the deadline ioctl and then poll
-> > without PRI.  Otherwise you are giving an urgency signal to the fence
-> > signaller which might not necessarily be needed.
-> >
-> > The places where I expect PRI to be useful is more in mesa (things
-> > like glFinish(), readpix, and other similar sorts of blocking APIs)
-> Hi,
->
-> Hmm, but then user-space could do the opposite, namely, submit work as usual--never
-> using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPRI. That seems
-> like a possible usage pattern, unintended--maybe, but possible. Do we want to discourage
-> this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLINE with the current
-> time, and then wouldn't that be equivalent to (E)POLLPRI?
+On Tue, Feb 21, 2023 at 07:13:31PM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 20, 2023 at 08:29:27PM +0530, Naresh Kamboju wrote:
+> > Following kernel warning notices on qemu-arm64, qemu-arm and also on devices
+> > running Linux version v6.2.0 while running libgpiod tests.
 
-Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
-slightly more convenient if you want an immediate deadline (single
-syscall instead of two), but not strictly needed.  OTOH it piggy-backs
-on existing UABI.
+...
 
-BR,
--R
+> -		ACPI_COMPANION_SET(&pdev->dev, NULL);
+
+This line should stay otherwise it will remove the device that may share
+the fwnode with this newly created platform device.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
