@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4925769DC31
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:38:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A3EA69DC37
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:39:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232597AbjBUIig (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 03:38:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56020 "EHLO
+        id S233643AbjBUIjC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 03:39:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbjBUIif (ORCPT
+        with ESMTP id S233499AbjBUIi5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 03:38:35 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C293523858;
-        Tue, 21 Feb 2023 00:38:06 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id b18so3561625ljr.4;
-        Tue, 21 Feb 2023 00:38:06 -0800 (PST)
+        Tue, 21 Feb 2023 03:38:57 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D384499;
+        Tue, 21 Feb 2023 00:38:47 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id j17so3663212ljq.11;
+        Tue, 21 Feb 2023 00:38:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oXmAWRuzmcV8Elsgdpg1EiI+Ar/Kv6HOxJGHhplNmBg=;
-        b=dacIh5Ip7zWYTo66VddkqH1AfAudtj7gH52ck6kXphg5LwhFeolG9qkrO5LWkYrWyf
-         GqvWuZ2hA54hvbMbl8tRU6otjWwAMQ6bvtvZh5kLtSS4eeg+CaW2UFF77WFdzDI2VO3Y
-         7jVrXjtT2juixcnwr1x5LiyFghiE/hjVahbY6+YD2FqqWhQD/Z5214mrmCUZvaicui0h
-         2rO+0B9/MP5IcWzLESsiPdMB/Q2Kus+ed5DtStRFYKTuUj+5PL7G6EstrxrT6Lpxufcs
-         mcutB/4bghXrgFem9w3UcAgEr32cDXDvGDD6JRLy0ibSiJ4WMe9ncBolo7MeuNu73vUq
-         ZFLg==
+        bh=1W8pZijqLGcNat/8G5OTCx6Y7aJUY3oODAmVHl137tw=;
+        b=oYDbVFfFxhPkNyBf3v0ZYWsr1JhfHZRJkrawAzncV8YLAcKF9mC7dIpjDLlPfPDpEY
+         z32ja1Z48yPU8skaeXw/SOoNy3iqNg2w9PaiFwsIKu1f1A0QSxPjU2Q9pX0mUBo/igyZ
+         SgCqHcKO5yCaAXvPv1S/4aC87m87Nn9OUvXE4mMMIaXEFJdfCCqykVwEGNznzcA84ErV
+         W8m4IBZR/I/5tfiAFLEA7YJpZ89xvxobL71KKVFacS7n18fMoSG/2wpRoqgbi8H3Po3r
+         obLYMrJoBcH8DqoDCZsUV9DO7gKgOYJ68lfbXOisjkwpBjzcPoPxgUGhDxy4SXQlirXW
+         U1zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oXmAWRuzmcV8Elsgdpg1EiI+Ar/Kv6HOxJGHhplNmBg=;
-        b=zbCJ94i4j7inMvDxre54pPyQjvOnH66FF3sFP2pDzhv77kqitUFWy8jFmh+zygSg2g
-         JVn/YkOvY2JdmsoC4okmHTMm7deCOLM7ImYFxgqKb8bh4otYkgDp/FvyyOfSJb2nyDrk
-         OZ/K2ZEC3zrFYXp+wkewUYgI2fp8X34yKoXdVuYz4e4DoWp6UcnbKT1fGxxJvcC6/cG8
-         35UR0b0rHgkcf+7IHLF/F+mvK0Bptn08a1fT2Jdb628m8tLeHR5PSPudG/4L7c4qfsIH
-         chV6uUwTDxI8f78ejvVVSFu0c9lv2WePsiPL/UxRRM5+hnX22OkRzmXp6c2WFke5Gu9Z
-         XM2w==
-X-Gm-Message-State: AO0yUKVCYyeHitMir/RUzIiyNQ7s0cur6glFFGHm63v1CfnKoLzskGSp
-        EdZiALQnTtd4FD1BI020qrg=
-X-Google-Smtp-Source: AK7set+RqtfaOTqpjveAHIaH/mYBQDFd3HyzVq+YqARYpYETRDSQ5RKHLNE5xPgMIu7o4b3tO9CwXQ==
-X-Received: by 2002:a2e:a1c7:0:b0:293:6037:9850 with SMTP id c7-20020a2ea1c7000000b0029360379850mr1456739ljm.51.1676968683953;
-        Tue, 21 Feb 2023 00:38:03 -0800 (PST)
+        bh=1W8pZijqLGcNat/8G5OTCx6Y7aJUY3oODAmVHl137tw=;
+        b=W44209guJDaP++UmatErG7+x6brG5ZsXUpOdV+8zti9rdDET/3uGYTIFz2MiMC9Hv+
+         koH/G0I/iQ4sJe/U8jbMqUsK8k9wqTkIg7gFiDeMGryVruFE+X8iyLw2ZIlsshIXlAXf
+         kw/3OJe6PFFg80alS7NiZatnMpR7KmFbeRpbTM/YzZBUXhZzrvKUdDes5QWpVDk0jd+u
+         Q/LfbwnCSHqIbhtFd6kbKpDmZvbKrUkTVz1ICLRwda4axAiV0HqVoZcZAyO/81c/wLn1
+         dEz/ZZ9IZxGOecmcefLkU6Q8lx/qUWDsPExdDYyRPKRJT5s655O6lw9w1GHAASzyo0wH
+         UkHA==
+X-Gm-Message-State: AO0yUKWlpifAnBd4Pwk5crt3YXkce/X/OE6EqJjqti5aPzsRSxKefrdT
+        GdUS3N5QySTYaq5R10l9DEA=
+X-Google-Smtp-Source: AK7set92xE2QliPenlOzZe7t3tGVIknuNqqFpK1dHTQNre8Li8krArc7FA0WGNeY8l24sfghKtkwPw==
+X-Received: by 2002:a2e:8346:0:b0:28d:2cf8:9341 with SMTP id l6-20020a2e8346000000b0028d2cf89341mr1578505ljh.23.1676968725545;
+        Tue, 21 Feb 2023 00:38:45 -0800 (PST)
 Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id bd17-20020a05651c169100b002934ed148afsm23315ljb.52.2023.02.21.00.38.03
+        by smtp.gmail.com with ESMTPSA id y1-20020a2e3201000000b00294a1275192sm296299ljy.110.2023.02.21.00.38.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 00:38:03 -0800 (PST)
-Date:   Tue, 21 Feb 2023 10:37:53 +0200
+        Tue, 21 Feb 2023 00:38:45 -0800 (PST)
+Date:   Tue, 21 Feb 2023 10:38:41 +0200
 From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
+To:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
         Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
         Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
         Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
@@ -62,21 +62,19 @@ Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
         Rob Clark <robdclark@chromium.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Gustavo Padovan <gustavo@padovan.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
         "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
         <linaro-mm-sig@lists.linaro.org>,
         open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230221103753.205082d3@eldfell>
-In-Reply-To: <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+Message-ID: <20230221103841.0d501f01@eldfell>
+In-Reply-To: <2e6e9581-6de8-6aca-3e73-946fbc6ad2a3@amd.com>
 References: <20230218211608.1630586-1-robdclark@gmail.com>
         <20230218211608.1630586-7-robdclark@gmail.com>
-        <20230220105345.70e46fa5@eldfell>
-        <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+        <2e6e9581-6de8-6aca-3e73-946fbc6ad2a3@amd.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/GOkb+s3y./0Y.sz97vQW68J";
+Content-Type: multipart/signed; boundary="Sig_/PboreIUuM6gO6KQswv5Gd=N";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -88,122 +86,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/GOkb+s3y./0Y.sz97vQW68J
-Content-Type: text/plain; charset=US-ASCII
+--Sig_/PboreIUuM6gO6KQswv5Gd=N
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Feb 2023 08:14:47 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+On Mon, 20 Feb 2023 09:31:41 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-> On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
-te:
+> Am 18.02.23 um 22:15 schrieb Rob Clark:
+> > From: Rob Clark <robdclark@chromium.org>
 > >
-> > On Sat, 18 Feb 2023 13:15:49 -0800
-> > Rob Clark <robdclark@gmail.com> wrote:
-> > =20
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
-> > > wait (as opposed to a "housekeeping" wait to know when to cleanup aft=
-er
-> > > some work has completed).  Usermode components of GPU driver stacks
-> > > often poll() on fence fd's to know when it is safe to do things like
-> > > free or reuse a buffer, but they can also poll() on a fence fd when
-> > > waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
-> > > lets the kernel differentiate these two cases.
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org> =20
+> > Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> > wait (as opposed to a "housekeeping" wait to know when to cleanup after
+> > some work has completed).  Usermode components of GPU driver stacks
+> > often poll() on fence fd's to know when it is safe to do things like
+> > free or reuse a buffer, but they can also poll() on a fence fd when
+> > waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> > lets the kernel differentiate these two cases.
 > >
-> > Hi,
-> >
-> > where would the UAPI documentation of this go?
-> > It seems to be missing. =20
+> > Signed-off-by: Rob Clark <robdclark@chromium.org> =20
 >=20
-> Good question, I am not sure.  The poll() man page has a description,
-> but my usage doesn't fit that _exactly_ (but OTOH the description is a
-> bit vague).
->=20
-> > If a Wayland compositor is polling application fences to know which
-> > client buffer to use in its rendering, should the compositor poll with
-> > PRI or not? If a compositor polls with PRI, then all fences from all
-> > applications would always be PRI. Would that be harmful somehow or
-> > would it be beneficial? =20
->=20
-> I think a compositor would rather use the deadline ioctl and then poll
-> without PRI.  Otherwise you are giving an urgency signal to the fence
-> signaller which might not necessarily be needed.
->=20
-> The places where I expect PRI to be useful is more in mesa (things
-> like glFinish(), readpix, and other similar sorts of blocking APIs)
+> The code looks clean, but the different poll flags and their meaning are=
+=20
+> certainly not my field of expertise.
 
-Sounds good. Docs... ;-)
 
-Hmm, so a compositor should set the deadline when it processes the
-wl_surface.commit, and not when it actually starts repainting, to give
-time for the driver to react and the GPU to do some more work. The
-deadline would be the time when the compositor starts its repaint, so
-it knows if the buffer is ready or not.
+A good question. epoll_ctl manual refers to poll(2) which says:
+
+       POLLPRI
+              There is some exceptional condition on the file descriptor.  =
+Possibilities include:
+
+              =E2=80=A2 There is out-of-band data on a TCP socket (see tcp(=
+7)).
+
+              =E2=80=A2 A pseudoterminal master in packet mode has seen a s=
+tate change on the slave (see ioctl_tty(2)).
+
+              =E2=80=A2 A cgroup.events file has been modified (see cgroups=
+(7)).
+
+It seems to be about selecting what events will trigger the poll,
+more than how (fast) to poll. At least it is not documented to be
+ignored in 'events', so I guess it should work.
 
 
 Thanks,
 pq
 
-
+> Feel free to add Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com=
+>,=20
+> somebody with more background in this should probably take a look as well.
 >=20
-> BR,
-> -R
+> Regards,
+> Christian.
 >=20
+> > ---
+> >   drivers/dma-buf/sync_file.c | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
 > >
-> >
-> > Thanks,
-> > pq
-> > =20
-> > > ---
-> > >  drivers/dma-buf/sync_file.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> > > index fb6ca1032885..c30b2085ee0a 100644
-> > > --- a/drivers/dma-buf/sync_file.c
-> > > +++ b/drivers/dma-buf/sync_file.c
-> > > @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file=
-, poll_table *wait)
-> > >  {
-> > >       struct sync_file *sync_file =3D file->private_data;
-> > >
-> > > +     /*
-> > > +      * The POLLPRI/EPOLLPRI flag can be used to signal that
-> > > +      * userspace wants the fence to signal ASAP, express this
-> > > +      * as an immediate deadline.
-> > > +      */
-> > > +     if (poll_requested_events(wait) & EPOLLPRI)
-> > > +             dma_fence_set_deadline(sync_file->fence, ktime_get());
-> > > +
-> > >       poll_wait(file, &sync_file->wq, wait);
-> > >
-> > >       if (list_empty(&sync_file->cb.node) && =20
-> > =20
+> > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> > index fb6ca1032885..c30b2085ee0a 100644
+> > --- a/drivers/dma-buf/sync_file.c
+> > +++ b/drivers/dma-buf/sync_file.c
+> > @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file, =
+poll_table *wait)
+> >   {
+> >   	struct sync_file *sync_file =3D file->private_data;
+> >  =20
+> > +	/*
+> > +	 * The POLLPRI/EPOLLPRI flag can be used to signal that
+> > +	 * userspace wants the fence to signal ASAP, express this
+> > +	 * as an immediate deadline.
+> > +	 */
+> > +	if (poll_requested_events(wait) & EPOLLPRI)
+> > +		dma_fence_set_deadline(sync_file->fence, ktime_get());
+> > +
+> >   	poll_wait(file, &sync_file->wq, wait);
+> >  =20
+> >   	if (list_empty(&sync_file->cb.node) && =20
+>=20
 
 
---Sig_/GOkb+s3y./0Y.sz97vQW68J
+--Sig_/PboreIUuM6gO6KQswv5Gd=N
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP0guEACgkQI1/ltBGq
-qqf13g//YJ2rnH+E++Hj+BIIexJyigGRb4u4jrJTM5mZ9F5IbwwlyPYI1ave26xA
-E2fQdmTIrob7UZDSU0pjl0rHfGvqDlZVZP8IdhAA1Qwvsw8JUZ8XknppQ4THxMPh
-RgR5+XExivkzqj5L7UZaPb4oYLlp5qCooiS6iIgCI0Dx+cov3zfOGL8DJOFQKGXV
-reume8wVPWdqLS85ALYVHVdiOgWdxd+kw/njtM6lc6DYj3JTmrlEXY5puS60bH9t
-uBbd9AZm+PCKWX3qbxKCxWK8W06xAqaR1ZiCuRMvxN7L4hEbTTrkTIgUEkM2W6cF
-ItT8wY83agbYcCNQJcQ7U3EOGoDY/CKsKAnXNrEKKh3Jpemn3sKwVkIk4KboT4Ke
-mBtKMFrB/DtBGQBSD4Vn2YFSBZg8R5fDlOoMZhbZUltzYBHDOs7U631uVEkia+Mp
-RU2hOSjThTwQpJTTzw6QzrXQdurSUMYP/Wub6jOEH0mTnkCr4ENuR+QfdVeHCt37
-AM0B7KHNlEn40Vn8dbGV7yzUIep87BJWOKFXWhXWIJKQQPW9R6TWms5Xx7c/QbYd
-iwbPR/DBfQb6Huz9Ls8WFN5o8VvAEKQGtjCRn33J35aQYFmDseUbVqCuDv0HIYI+
-fFaaFPBWL+1GhBlITlBWAq5/ow9vvif11bWzStLTowmvoivxyWU=
-=WDHn
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP0gxEACgkQI1/ltBGq
+qqcMzA//UBA8OmgaplusdV3EYDrlm1XXYsndvhAJV/IPY3tPzwkjjE7dpf1TGYc+
+Wh1kvzNelRPlU0RESGQSvNyKwwp+eipZ+ug3HzO6axTf5Rh9ptuUZaSok5mrX7do
+U1fsZhDed9gsN/OqxOUoXgFnim0nOhFoyCRalgV6qQPmeiv18aExgbtV40bP8Qfw
+h79kSBGfsW2tQOjY4qr4tVPWyL31lIABLdYY3dlxib/OAe1cjIR7Dc51yNMC2TUg
+6jZetg0uDjv43YXnIqx/9kpv4RRt0kxUIukX5AiWQq7VIk0rXRKRORLXR1ri5u6m
+VZglgER6KZnEZBN9Fy6GMgV6QlnUWcQ/kFY1Hz+nd2EQEYzwBX4Eclf2q5GtArYP
++ShkIkfXWNisIJ7q6f2xYITQ5cbYK7D1baTyHXKgsUBZnltomwaMqmkKOimhQTFB
+5tXTTGqLjkwh2R1Sq9a+RklAMVn8IWgLn+dJw1CL69opfja5yLzpCplKgYgKCX6N
+9fqPC0IH56Om+a+wD+QgzWMFvguhbAk57IWVeEMgu4Qv2urtMNVCN2Jz2qpKafYq
+HKvfh7l900bwrndWtayCN+937hPhgtH/8lWB+0UmlG1EYwa4PK8lH2YNywnYi8ss
+rkXY5kqLS3izynKUaRLfjysAVzC2LZYJBO3Hik6g/fjdh62JH0U=
+=eI1y
 -----END PGP SIGNATURE-----
 
---Sig_/GOkb+s3y./0Y.sz97vQW68J--
+--Sig_/PboreIUuM6gO6KQswv5Gd=N--
