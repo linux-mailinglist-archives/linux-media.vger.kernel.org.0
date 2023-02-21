@@ -2,154 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C13DD69E2E7
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 16:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C334469E2FB
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 16:03:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234578AbjBUPAz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 10:00:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
+        id S234651AbjBUPDh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 10:03:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233202AbjBUPAx (ORCPT
+        with ESMTP id S234123AbjBUPDf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 10:00:53 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5F82BEC5
-        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 07:00:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D7F3AB80EFA
-        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 15:00:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDA5C433EF;
-        Tue, 21 Feb 2023 15:00:35 +0000 (UTC)
-Message-ID: <2a0cdb5e-6d7f-b59f-bd5f-9ee226097450@xs4all.nl>
-Date:   Tue, 21 Feb 2023 16:00:34 +0100
+        Tue, 21 Feb 2023 10:03:35 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4356F2118;
+        Tue, 21 Feb 2023 07:03:15 -0800 (PST)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pUUAi-0002sD-Ml; Tue, 21 Feb 2023 16:03:12 +0100
+Message-ID: <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
+Date:   Tue, 21 Feb 2023 16:03:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [v4l-utils] [PATCH v9 1/7] utils: Allow choosing
- v4l2-tracer-gen.pl output
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     gjasny@googlemail.com, kieran.bingham@ideasonboard.com,
-        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
-        rosenp@gmail.com, sakari.ailus@iki.fi, sean@mess.org,
-        user.vdr@gmail.com, xavier.claessens@collabora.com,
-        deborah.brouwer@collabora.com, ariel@vanguardiasur.com.ar,
-        ezequiel@vanguardiasur.com.ar, tomi.valkeinen@ideasonboard.com
-References: <20230221143204.26591-1-laurent.pinchart@ideasonboard.com>
- <20230221143204.26591-2-laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230221143204.26591-2-laurent.pinchart@ideasonboard.com>
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
+ addresses"
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+To:     Vikash Garodia <vgarodia@qti.qualcomm.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mka@chromium.org" <mka@chromium.org>,
+        Albert Esteve <aesteve@redhat.com>,
+        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
+        Enric Balletbo i Serra <eballetb@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fritz Koenig <frkoenig@google.com>,
+        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
+        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+References: <20230207102254.1446461-1-javierm@redhat.com>
+ <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
+ <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
+ <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
+ <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
+ <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
+ <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
+ <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
+In-Reply-To: <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1676991795;fc75e8d9;
+X-HE-SMSGID: 1pUUAi-0002sD-Ml
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/21/23 15:31, Laurent Pinchart wrote:
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+On 15.02.23 14:18, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 15.02.23 11:57, Javier Martinez Canillas wrote:
+>> On Wed, Feb 15, 2023 at 11:53 AM Linux regression tracking (Thorsten
+>> Leemhuis) <regressions@leemhuis.info> wrote:
+>>> On 11.02.23 15:27, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>> On 10.02.23 11:07, Javier Martinez Canillas wrote:
+>>>>> On 2/10/23 10:22, Vikash Garodia wrote:
+>>>>>
+>>>>>>> So what should we do about this folks? Since not allowing the driver to probe on
+>>>>>>> at least SC7180 is a quite serious regression, can we revert for now until a proper
+>>>>>>> fix is figured out?
+>>>>>> I am able to repro this issue on sc7180 and discussing with firmware team on the cause
+>>>>>> of reset failure. The original patch was raised for fixing rare SMMU faults during warm
+>>>>>> boot of video hardware. Hence looking to understand the regressing part before we
+>>>>>> proceed to revert.
+>>>>> Great, if you are working on a proper fix then that would be much better indeed.
+>>>> Yeah, that's great, but OTOH: there is almost certainly just one week
+>>>> before 6.2 will be released. Ideally this should be fixed by then.
+>>>> Vikash, do you think that's in the cards? If not: why not revert this
+>>>> now to make sure 6.2 works fine?
+>>> Hmm, no reply. And we meanwhile have Wednesday and 6.2 is almost
+>>> certainly going to be out on Sunday. And the problem was called "a quite
+>>> serious regression" above. So why not quickly fix this with the revert,
+>>> as proposed earlier?
+>>> Vikash? Javier?
+>>
+>> I agree with you, that we should land this revert and then properly
+>> fix the page fault issue in v6.3.
+>>
+>> But it's not my call, the v4l2/media folks have to decide that.
 > 
-> In v4l2-tracer-gen.pl, add support for setting the output directory for
-> the generated files and choosing which ones to generate (common, trace or
-> retrace). The default is to generate them all in the current directory,
-> i.e. what the script used to do.
+> In that case: Mauro, what's your opinion here?
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> [Append a '/' automatically between $outdir and $fname]
-> Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Tested-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> ---
->  utils/v4l2-tracer/v4l2-tracer-gen.pl | 36 ++++++++++++++++++++++++----
->  1 file changed, 31 insertions(+), 5 deletions(-)
+> Thread starts here:
+> https://lore.kernel.org/lkml/20230207102254.1446461-1-javierm@redhat.com/
 > 
-> diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-> index fe648182ac34..f7454e7f0bab 100755
-> --- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
-> +++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-> @@ -2,6 +2,16 @@
->  # SPDX-License-Identifier: GPL-2.0-only */
->  # Copyright 2022 Collabora Ltd.
->  
-> +my $outdir = ".";
-> +my %outtype = ( "common" => 1, "trace" => 1, "retrace" => 1 );
-> +
-> +while ($ARGV[0] =~ /^-/) {
-> +	my $arg = shift @ARGV;
-> +
-> +	$outdir = shift @ARGV if $arg eq "-o";
-> +	%outtype = (shift @ARGV => 1) if $arg eq '-t';
-> +}
+> Regression report:
+> https://lore.kernel.org/lkml/Y9LSMap%2BjRxbtpC8@google.com/
 
-Can you add a help message as well? At minimum as a comment, even better
-by adding a -h option.
+No reply from Mauro and Linus chose to not apply the revert I pointed
+him to. That at this point leads to the question:
 
-It's currently only documented in the commit log, which nobody will read :-)
+Vikash, did you or somebody else make any progress to fix this properly?
 
-Regards,
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-	Hans
-
-> +
->  sub convert_type_to_json_type {
->  	my $type = shift;
->  	if ($type eq __u8 || $type eq char || $type eq __u16 || $type eq __s8 || $type eq __s16 || $type eq __s32 || $type eq 'int') {
-> @@ -696,29 +706,45 @@ sub struct_gen_ctrl {
->  	printf $fh_retrace_cpp "}\n\n";
->  }
->  
-> -open($fh_trace_cpp, '>', 'trace-gen.cpp') or die "Could not open trace-gen.cpp for writing";
-> +sub do_open($$) {
-> +	my ($type, $fname) = @_;
-> +	my $fh;
-> +
-> +	if (defined $outtype{$type}) {
-> +		$fname = "$outdir/$fname";
-> +	} else {
-> +		$fname = "/dev/null";
-> +	}
-> +
-> +	open($fh, "> $fname") or die "Could not open $fname for writing";
-> +
-> +	return $fh;
-> +}
-> +
-> +
-> +$fh_trace_cpp = do_open("trace", "trace-gen.cpp");
->  printf $fh_trace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
->  printf $fh_trace_cpp " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
->  printf $fh_trace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
->  
-> -open($fh_trace_h, '>', 'trace-gen.h') or die "Could not open trace-gen.h for writing";
-> +$fh_trace_h = do_open("trace", "trace-gen.h");
->  printf $fh_trace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
->  printf $fh_trace_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
->  printf $fh_trace_h "\#ifndef TRACE_GEN_H\n";
->  printf $fh_trace_h "\#define TRACE_GEN_H\n\n";
->  
-> -open($fh_retrace_cpp, '>', 'retrace-gen.cpp') or die "Could not open retrace-gen.cpp for writing";
-> +$fh_retrace_cpp = do_open("retrace", "retrace-gen.cpp");
->  printf $fh_retrace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
->  printf $fh_retrace_cpp " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
->  printf $fh_retrace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
->  
-> -open($fh_retrace_h, '>', 'retrace-gen.h') or die "Could not open retrace-gen.h for writing";
-> +$fh_retrace_h = do_open("retrace", "retrace-gen.h");
->  printf $fh_retrace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
->  printf $fh_retrace_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
->  printf $fh_retrace_h "\#ifndef RETRACE_GEN_H\n";
->  printf $fh_retrace_h "\#define RETRACE_GEN_H\n\n";
->  
-> -open($fh_common_info_h, '>', 'v4l2-tracer-info-gen.h') or die "Could not open v4l2-tracer-info-gen.h for writing";
-> +$fh_common_info_h = do_open("common", "v4l2-tracer-info-gen.h");
->  printf $fh_common_info_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
->  printf $fh_common_info_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
->  printf $fh_common_info_h "\#ifndef V4L2_TRACER_INFO_GEN_H\n";
-
+#regzbot poke
