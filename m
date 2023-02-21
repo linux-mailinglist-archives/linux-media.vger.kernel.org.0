@@ -2,163 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EACEE69E5B3
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 18:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E065D69E65F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 18:54:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234572AbjBUROs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 12:14:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54340 "EHLO
+        id S229986AbjBURyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 12:54:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234873AbjBUROp (ORCPT
+        with ESMTP id S230215AbjBURyI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 12:14:45 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AA91167E;
-        Tue, 21 Feb 2023 09:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676999681; x=1708535681;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KfbwTghgO0/3M+21sjRPn9tYjmtct1z1AlbCtPRgaz8=;
-  b=EnbSwDqp0WBmllxdsk04x5WVmDqD3MB4iwg0NwB1H0LCVCaYcPW5/ZSq
-   AbL+5f8GLJ/GpiHgKl5pBmtD4C4LikRTbnOKjte9IeN9tvE+mryzBpXav
-   KTiH+7rRHBobeKMvmQ8Z6TDH8ZTDt+XvZ4y81nCwZZZPXi71ONTbVtYmO
-   q5r4yMLYEJ2b9TyyDJRIdyUnlmuqiScwX0OIUA3Oa1uOmfySfG8amkvHL
-   8myucGRvzJb4D2XUUUaGda3b+7SWhNNzCqqF5ABA6o2N+gcbo05FYrShc
-   u6LBA3Eso6jCMBZWc6iB0uVIw7BNAPXembXKoVoYONwpJSRtjT4hyZAne
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="418918247"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="418918247"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 09:13:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="795587674"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="795587674"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 21 Feb 2023 09:13:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pUWCp-00A35j-07;
-        Tue, 21 Feb 2023 19:13:31 +0200
-Date:   Tue, 21 Feb 2023 19:13:30 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        lkft-triage@lists.linaro.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Ferry Toth <fntoth@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>, warthog618@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: Re: arm64: libgpiod: refcount_t: underflow; use-after-free.
-Message-ID: <Y/T7unUf10Wis59a@smile.fi.intel.com>
-References: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
+        Tue, 21 Feb 2023 12:54:08 -0500
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731AC2DE66;
+        Tue, 21 Feb 2023 09:54:07 -0800 (PST)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1720887dfcdso6426368fac.6;
+        Tue, 21 Feb 2023 09:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VMKhHmrd8lVSmliqVHExAgWorD/pXxkRRPzGvtF73wg=;
+        b=REEtn8PXtknW4y+6JwJtS9B4rLCRy5IdlJX8uMlYtB7FFFedOYzYTq/GgUwVy/bb7q
+         tM+1bwi/KgXmj/U4wkmFwrh6jpMQdVPSRCv1rQHKfu36P3M1/eOa38cAFmGo2HS0gDxt
+         TKgY4e2BnldR8TUtEEiyg55EEfDITdss4jIDSPFiJcBrU2AC/GKCR8JIMYvXjk2wBjk/
+         7hxcQLhU2Xnv3iOBkrK+cgRDzcopZztIJRh1q+Oly9r6yLK1vJjxaEqjnLA4EjvayWxf
+         zE23qNdSulwFR02SScgR9bvPvO/GTTzCEH8IrC6tm7VZgw1o0F/Rd3oae0/EgGp6KWwT
+         HfsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VMKhHmrd8lVSmliqVHExAgWorD/pXxkRRPzGvtF73wg=;
+        b=Eyzw7kvGNcMG8D6f5sacQqTueHdH1XsLvbiPeTryCwD97f5GylOi1Lo1EOjq+1TeIX
+         T6YA2vcN/7ILcLJDjEWhyHl71o7rYHuSS/a/ee+iUVK5HFa3K+4raCStTpNsI5jMFH+N
+         c3gB641ZBlPhvt+YxI2T7DUdGRtyprWeetYS+YBjHlCSRLLhPwanLvlrr+qyJbRnbFtR
+         HKDv6RjK8tWn1nnz9WuQwW8m3kABgY8JBdECwxHcO1F1MqITgvzX6SDb3fHFmYjSYtBr
+         ccVSt2WWObWN7pYFGfXpdq0T5pepsZIYmv8JLOOKyyhUBOlyL1gsL9OlqLUrGb/1piOf
+         R+LA==
+X-Gm-Message-State: AO0yUKVotCk/46gVXinYx3bswl0EVLQkHSNSInN5z6vSIu4ku4h2hOI8
+        K/Y6hvS/9hcPHb0iSxYdWOBuP+Rv/B6pQCUX/HY=
+X-Google-Smtp-Source: AK7set+Z+oPJUCqI/EoSMrVRlg+YMtuXgiK4i/ekz/43uKn112T5GqKqwizp2tik7ddFnI7qZP5oOWulwO0SuN2evZ4=
+X-Received: by 2002:a05:6870:32d4:b0:16e:5e5a:49da with SMTP id
+ r20-20020a05687032d400b0016e5e5a49damr1496718oac.58.1677002046702; Tue, 21
+ Feb 2023 09:54:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230218211608.1630586-1-robdclark@gmail.com> <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell> <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+In-Reply-To: <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 21 Feb 2023 09:53:56 -0800
+Message-ID: <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+To:     Luben Tuikov <luben.tuikov@amd.com>
+Cc:     Pekka Paalanen <ppaalanen@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        freedreno@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 20, 2023 at 08:29:27PM +0530, Naresh Kamboju wrote:
-> Following kernel warning notices on qemu-arm64, qemu-arm and also on devices
-> running Linux version v6.2.0 while running libgpiod tests.
-> 
-> + ./gpiod.sh /opt/libgpiod/bin/
->   [INFO]    libgpiod test suite
->   [INFO]    117 tests registered
->   [INFO]    checking the linux kernel version
->   [INFO]    kernel release is v6.2.0 - ok to run tests
->   [INFO]    using gpio-tools from '/usr/bin'
-> [   10.499036] ------------[ cut here ]------------
-> [   10.499656] refcount_t: underflow; use-after-free.
-> [   10.500264] WARNING: CPU: 2 PID: 291 at lib/refcount.c:28
-> refcount_warn_saturate+0xf4/0x144
-> [   10.501306] Modules linked in: gpio_mockup(-) cfg80211 bluetooth
-> rfkill crct10dif_ce fuse drm
-> [   10.502364] CPU: 2 PID: 291 Comm: gpiod-test Not tainted 6.2.0 #1
-> [   10.503229] Hardware name: linux,dummy-virt (DT)
-> [   10.503883] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   10.505331] pc : refcount_warn_saturate+0xf4/0x144
-> [   10.505723] lr : refcount_warn_saturate+0xf4/0x144
-> [   10.506115] sp : ffff800008983cd0
-> [   10.506391] x29: ffff800008983cd0 x28: ffff0000c4c4c100 x27: 0000000000000000
-> [   10.506961] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
-> [   10.507533] x23: 0000000000000200 x22: ffff0000c4e66800 x21: ffff0000c7734640
-> [   10.508104] x20: 0000000000000001 x19: ffff0000c7734600 x18: ffffffffffffffff
-> [   10.508677] x17: 3d4d455453595342 x16: ffffcf0234432020 x15: ffff800088983957
-> [   10.509424] x14: 0000000000000000 x13: 2e656572662d7265 x12: 7466612d65737520
-> [   10.510003] x11: 3b776f6c66726564 x10: ffffcf02365db580 x9 : ffffcf0233b20138
-> [   10.510575] x8 : 00000000ffffefff x7 : ffffcf02365db580 x6 : 0000000000000001
-> [   10.511145] x5 : ffffcf023655f000 x4 : ffffcf023655f2e8 x3 : 0000000000000000
-> [   10.511721] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c4c4c100
-> [   10.512294] Call trace:
-> [   10.512494]  refcount_warn_saturate+0xf4/0x144
-> [   10.512971]  kobject_put+0x164/0x220
-> [   10.513224]  fwnode_remove_software_node+0x44/0x60
-> [   10.513554]  gpio_mockup_unregister_pdevs+0x54/0x70 [gpio_mockup]
-> [   10.513970]  gpio_mockup_exit+0x10/0x328 [gpio_mockup]
-> [   10.514322]  __arm64_sys_delete_module+0x190/0x2a0
-> [   10.514653]  invoke_syscall+0x50/0x120
-> [   10.514915]  el0_svc_common.constprop.0+0x104/0x124
-> [   10.515277]  do_el0_svc+0x44/0xcc
-> [   10.515541]  el0_svc+0x30/0x94
-> [   10.515788]  el0t_64_sync_handler+0xbc/0x13c
-> [   10.516126]  el0t_64_sync+0x190/0x194
-> [   10.516419] ---[ end trace 0000000000000000 ]---
-> 
-> 
-> Build and test logs,
-> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14856342/suite/libgpiod/test/ctxless-get-value-single-line/log
-> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14856342/suite/libgpiod/tests/
+On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+>
+> On 2023-02-20 11:14, Rob Clark wrote:
+> > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> >>
+> >> On Sat, 18 Feb 2023 13:15:49 -0800
+> >> Rob Clark <robdclark@gmail.com> wrote:
+> >>
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> >>> wait (as opposed to a "housekeeping" wait to know when to cleanup after
+> >>> some work has completed).  Usermode components of GPU driver stacks
+> >>> often poll() on fence fd's to know when it is safe to do things like
+> >>> free or reuse a buffer, but they can also poll() on a fence fd when
+> >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> >>> lets the kernel differentiate these two cases.
+> >>>
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>
+> >> Hi,
+> >>
+> >> where would the UAPI documentation of this go?
+> >> It seems to be missing.
+> >
+> > Good question, I am not sure.  The poll() man page has a description,
+> > but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> > bit vague).
+> >
+> >> If a Wayland compositor is polling application fences to know which
+> >> client buffer to use in its rendering, should the compositor poll with
+> >> PRI or not? If a compositor polls with PRI, then all fences from all
+> >> applications would always be PRI. Would that be harmful somehow or
+> >> would it be beneficial?
+> >
+> > I think a compositor would rather use the deadline ioctl and then poll
+> > without PRI.  Otherwise you are giving an urgency signal to the fence
+> > signaller which might not necessarily be needed.
+> >
+> > The places where I expect PRI to be useful is more in mesa (things
+> > like glFinish(), readpix, and other similar sorts of blocking APIs)
+> Hi,
+>
+> Hmm, but then user-space could do the opposite, namely, submit work as usual--never
+> using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPRI. That seems
+> like a possible usage pattern, unintended--maybe, but possible. Do we want to discourage
+> this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLINE with the current
+> time, and then wouldn't that be equivalent to (E)POLLPRI?
 
-Can you give a try of the patch below?
+Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
+slightly more convenient if you want an immediate deadline (single
+syscall instead of two), but not strictly needed.  OTOH it piggy-backs
+on existing UABI.
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 77510e4f47de..1807678f032b 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -557,7 +557,7 @@ static void platform_device_release(struct device *dev)
- 	struct platform_object *pa = container_of(dev, struct platform_object,
- 						  pdev.dev);
- 
--	of_node_put(pa->pdev.dev.of_node);
-+	fwnode_handle_put(dev_fwnode(&pa->pdev.dev));
- 	kfree(pa->pdev.dev.platform_data);
- 	kfree(pa->pdev.mfd_cell);
- 	kfree(pa->pdev.resource);
-@@ -814,8 +814,7 @@ struct platform_device *platform_device_register_full(
- 		return ERR_PTR(-ENOMEM);
- 
- 	pdev->dev.parent = pdevinfo->parent;
--	pdev->dev.fwnode = pdevinfo->fwnode;
--	pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
-+	device_set_node(&pdev->dev, fwnode_handle_get(pdevinfo->fwnode));
- 	pdev->dev.of_node_reused = pdevinfo->of_node_reused;
- 
- 	if (pdevinfo->dma_mask) {
-@@ -844,8 +843,8 @@ struct platform_device *platform_device_register_full(
- 	ret = platform_device_add(pdev);
- 	if (ret) {
- err:
--		ACPI_COMPANION_SET(&pdev->dev, NULL);
- 		platform_device_put(pdev);
-+		fwnode_handle_put(pdevinfo->fwnode);
- 		return ERR_PTR(ret);
- 	}
- 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+BR,
+-R
