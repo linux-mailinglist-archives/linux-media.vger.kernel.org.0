@@ -2,241 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10D9469DBC7
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2697169DBC9
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 09:19:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233707AbjBUIS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 03:18:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34878 "EHLO
+        id S232760AbjBUITM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 03:19:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233685AbjBUISy (ORCPT
+        with ESMTP id S233689AbjBUITE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 03:18:54 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DC1A5C5;
-        Tue, 21 Feb 2023 00:18:48 -0800 (PST)
-Received: from [IPV6:2a01:e0a:120:3210:5bf1:85e7:c290:7d2f] (unknown [IPv6:2a01:e0a:120:3210:5bf1:85e7:c290:7d2f])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 135A166021C4;
-        Tue, 21 Feb 2023 08:18:46 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1676967526;
-        bh=VL8H78+sZVJfJRLBdoM9mZC6818cM0JqQgnY2sYTasY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mKZTFibTyi8wSSWgu9OcDdYKiDKhA9svv69EnAopMqYQHnHd2qqX+LQYsoVbnnCkn
-         3lLDtXMX6uy66c9AxYt76+DeZpYwAezdiT7Mlg0bgppqp6WxywoV+ysuAqXx8X7VpF
-         VFWxDXUduy8GtpURk3rKfnjY/sA2tnbA4LDA4Mf/NAi28abN/27g9IeuWajwGQifrE
-         WHB/vCPNwzv3M24yxUuo8hd+OeNsOfMVQa0KoIk+stTYkhIJ26EnJ7qiIy46iqs7f5
-         qNAYhHU5DdZ9vy3Y+C0HSxhk8ft2iLfiBdfjA4+5RSUsFiAb9ShlMZB9a3s2/fjPLO
-         rmXP8aC+1DOMg==
-Message-ID: <a5e8a6c5-531a-1c4c-4235-e8cf7a68d96d@collabora.com>
-Date:   Tue, 21 Feb 2023 09:18:43 +0100
+        Tue, 21 Feb 2023 03:19:04 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB88F9740
+        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 00:18:57 -0800 (PST)
+Received: from ideasonboard.com (host-87-16-53-160.retail.telecomitalia.it [87.16.53.160])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF15A2E4;
+        Tue, 21 Feb 2023 09:18:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1676967536;
+        bh=e7MAUvEthZt4RGJHmBhYkjl8mgcq19WIKLPZFdojrNc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QVcgedbAKvVxMSkYw+XvfzZGFmx0qU2KgNRy9yfXbuJH4aPnuJO6zF/CIeDMSD7hy
+         0ALZ6OcZ7RECSDTN5I2I1bwL5mwerQ9dC0luw1qttWdwZzQ3NkCckjMRI+mz9j5d5R
+         tSlQeK4U/BakO7BsQFitoqlcNY4B4SGMq1JrtnzE=
+Date:   Tue, 21 Feb 2023 09:18:51 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: i2c: ov5647: Use bus-locked i2c_transfer()
+Message-ID: <20230221081851.63iaqjhmrqxo562h@uno.localdomain>
+References: <20230219180334.980950-1-jacopo.mondi@ideasonboard.com>
+ <20230220124101.1010317-1-jacopo.mondi@ideasonboard.com>
+ <CAPY8ntD2c0X=vyYTYRy6Lkq5xfiJX7Nk+0re5iS87n5jUnN50Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 06/12] media: verisilicon: Check AV1 bitstreams bit
- depth
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        hverkuil@xs4all.nl, jernej.skrabec@gmail.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230214140557.537984-1-benjamin.gaignard@collabora.com>
- <20230214140557.537984-7-benjamin.gaignard@collabora.com>
- <CAAEAJfDihZND+1FSzFxT86j9u6h-wH6uMMNh7BiaEWQWtSpk=Q@mail.gmail.com>
- <c4d355d5-5e14-8eba-1944-fc26b1050cf5@collabora.com>
- <6997fe5cbcfef626340ce4d85095eadb7bc63067.camel@collabora.com>
-Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <6997fe5cbcfef626340ce4d85095eadb7bc63067.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntD2c0X=vyYTYRy6Lkq5xfiJX7Nk+0re5iS87n5jUnN50Q@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Dave
 
-Le 20/02/2023 à 20:00, Nicolas Dufresne a écrit :
-> Le lundi 20 février 2023 à 17:24 +0100, Benjamin Gaignard a écrit :
->> Le 18/02/2023 à 14:11, Ezequiel Garcia a écrit :
->>> On Tue, Feb 14, 2023 at 11:06 AM Benjamin Gaignard
->>> <benjamin.gaignard@collabora.com> wrote:
->>>> The driver supports 8 and 10 bits bitstreams, make sure to discard
->>>> other cases.
->>>> It could happens that userland test if V4L2_CID_STATELESS_AV1_SEQUENCE
->>>> exists without setting bit_depth field in this case use
->>>> HANTRO_DEFAULT_BIT_DEPTH value.
->>>>
->>> This shouldn't happen.
->>>
->>> If the bit_depth argument in hantro_check_depth_match()
->>> can be set unchecked by userspace, we have done something wrong!!
->>>
->>> Are you sure that userspace can do a S_CTRL with an invalid bit-depth?
->>> The try_or_set_cluster() function seems to always call try_ctrl before s_ctrl.
->> I have dump the stack when AV1 sequence bit depth = 0 in s_ctrl.
->> It is happening when opening the driver, v4l2 setup the ctrls by calling __v4l2_ctrl_handler_setup()
->> this led to call hantro_av1_s_ctrl() with empty structure.
->>
->> For other codecs isn't a problem because bit depth is coded with a minus 8 value (ie: 8 bits = 0)
->> while for AV1 it is the real value (ie: 8 bits = 8).
-> Shouldn't this be fixed in v4l2-ctrls-core.c / std_init_compound() ? This is
-> what we do for VP9:
+On Mon, Feb 20, 2023 at 05:46:02PM +0000, Dave Stevenson wrote:
+> Hi Jacopo
 >
+> On Mon, 20 Feb 2023 at 12:41, Jacopo Mondi
+> <jacopo.mondi@ideasonboard.com> wrote:
+> >
+> > The ov5647_read() functions calls i2c_master_send() and
+> > i2c_master_read() in sequence. However this leaves space for other
+> > clients to contend the bus and insert a unrelated transaction in between
+> > the two calls.
+> >
+> > Replace the two calls with a single i2c_transfer() one, that locks the
+> > bus in between the transactions.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/ov5647.c | 24 +++++++++++++++---------
+> >  1 file changed, 15 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> > index 0b88ac6dee41..a423ee8fe20c 100644
+> > --- a/drivers/media/i2c/ov5647.c
+> > +++ b/drivers/media/i2c/ov5647.c
+> > @@ -631,23 +631,29 @@ static int ov5647_write(struct v4l2_subdev *sd, u16 reg, u8 val)
+> >
+> >  static int ov5647_read(struct v4l2_subdev *sd, u16 reg, u8 *val)
+> >  {
+> > -       unsigned char data_w[2] = { reg >> 8, reg & 0xff };
+> >         struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +       u8 buf[2] = { reg >> 8, reg & 0xff };
+> > +       struct i2c_msg msg[2];
+> >         int ret;
+> >
+> > -       ret = i2c_master_send(client, data_w, 2);
+> > +       msg[0].addr = client->addr;
+> > +       msg[0].flags = client->flags;
+> > +       msg[0].buf = buf;
+> > +       msg[0].len = sizeof(buf);
+> > +
+> > +       msg[1].addr = client->addr;
+> > +       msg[1].flags = client->flags | I2C_M_RD;
+> > +       msg[1].buf = buf;
+> > +       msg[1].len = 1;
+> > +
+> > +       ret = i2c_transfer(client->adapter, msg, 2);
+> >         if (ret < 0) {
 >
-> 	case V4L2_CTRL_TYPE_VP9_FRAME:
-> 		p_vp9_frame = p;
-> 		p_vp9_frame->profile = 0;
-> 		p_vp9_frame->bit_depth = 8;
-> 		p_vp9_frame->flags |= V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
-> 			V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING;
-> 		break;
+> i2c_transfer
+> * Returns negative errno, else the number of messages executed.
+>
+> Is there a valid failure case where it returns 1 having done the write
+> but failed the read? It's deferred to the individual I2C driver, so
+> could quite easily be iffy.
+> Personally I'd be tempted to check if (ret != 2), and remap any other
+> positive value to -EINVAL.
 
-That is indeed a better solution.
-I will add in my series has a fix of Daniel's series about AV1 uAPI.
+Seems indeed up to the individual drivers implementation of
+master_xfer, whose return value is documented as:
 
-Thanks,
-Benjamin
+include/linux/i2c.h:     * master_xfer should return the number of messages successfully
+include/linux/i2c.h-     * processed, or a negative value on error
+
+I can indeed:
+
+         if (ret != 2) {
+                dev_err(.., "i2c write error, reg: %x\n");
+                return ret > 0 ? -EINVAL : ret;
+         }
+
+         *val = buf[0];
+
+         return 0;
 
 >
+> Otherwise:
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Thanks for checking
+
 >
->> [   88.478751] Hardware name: Radxa Rock 5A Board (DT)
->> [   88.479184] Call trace:
->> [   88.479406]  dump_backtrace.part.0+0xdc/0xf0
->> [   88.479796]  show_stack+0x18/0x30
->> [   88.480099]  dump_stack_lvl+0x68/0x84
->> [   88.480431]  dump_stack+0x18/0x34
->> [   88.480732]  hantro_av1_s_ctrl+0x7c/0xcc [hantro_vpu]
->> [   88.481211]  __v4l2_ctrl_handler_setup+0x120/0x154
->> [   88.481643]  v4l2_ctrl_handler_setup+0x2c/0x50
->> [   88.482043]  hantro_open+0x138/0x204 [hantro_vpu]
->> [   88.482490]  v4l2_open+0xa8/0x124
->> [   88.482794]  chrdev_open+0xc0/0x22c
->> [   88.483114]  do_dentry_open+0x13c/0x490
->> [   88.483464]  vfs_open+0x2c/0x40
->> [   88.483749]  path_openat+0x878/0xe50
->> [   88.484074]  do_filp_open+0x80/0x130
->> [   88.484399]  do_sys_openat2+0xb4/0x170
->> [   88.484736]  __arm64_sys_openat+0x60/0xb0
->> [   88.485097]  invoke_syscall+0x48/0x114
->> [   88.485437]  el0_svc_common.constprop.0+0x44/0xfc
->> [   88.485860]  do_el0_svc+0x3c/0xc0
->> [   88.486163]  el0_svc+0x2c/0x84
->> [   88.486441]  el0t_64_sync_handler+0xbc/0x140
->> [   88.486826]  el0t_64_sync+0x190/0x194
->>
->> Regards,
->> Benjamin
->>
->>> Thanks,
->>> Ezequiel
->>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> ---
->>>> version 4:
->>>> - This patch is the result of squashing "Save bit depth for AV1 decoder"
->>>>     and "Check AV1 bitstreams bit depth" of version 3 + adapation to
->>>>     "[PATCH v8 0/6] media: verisilicon: HEVC: fix 10bits handling" series.
->>>>
->>>>    .../media/platform/verisilicon/hantro_drv.c   | 36 +++++++++++++++++++
->>>>    .../media/platform/verisilicon/hantro_v4l2.c  |  4 +++
->>>>    2 files changed, 40 insertions(+)
->>>>
->>>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
->>>> index bc1a85456142..666cd46902da 100644
->>>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
->>>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
->>>> @@ -275,7 +275,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>>>                   /* We only support profile 0 */
->>>>                   if (dec_params->profile != 0)
->>>>                           return -EINVAL;
->>>> +       } else if (ctrl->id == V4L2_CID_STATELESS_AV1_SEQUENCE) {
->>>> +               const struct v4l2_ctrl_av1_sequence *sequence = ctrl->p_new.p_av1_sequence;
->>>> +
->>>> +               if (sequence->bit_depth != 8 && sequence->bit_depth != 10)
->>>> +                       return -EINVAL;
->>>>           }
->>>> +
->>>>           return 0;
->>>>    }
->>>>
->>>> @@ -348,6 +354,30 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
->>>>           return 0;
->>>>    }
->>>>
->>>> +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
->>>> +{
->>>> +       struct hantro_ctx *ctx;
->>>> +
->>>> +       ctx = container_of(ctrl->handler,
->>>> +                          struct hantro_ctx, ctrl_handler);
->>>> +
->>>> +       switch (ctrl->id) {
->>>> +       case V4L2_CID_STATELESS_AV1_SEQUENCE:
->>>> +       {
->>>> +               int bit_depth = ctrl->p_new.p_av1_sequence->bit_depth;
->>>> +
->>>> +               if (ctx->bit_depth == bit_depth)
->>>> +                       return 0;
->>>> +
->>>> +               return hantro_reset_raw_fmt(ctx, bit_depth);
->>>> +       }
->>>> +       default:
->>>> +               return -EINVAL;
->>>> +       }
->>>> +
->>>> +       return 0;
->>>> +}
->>>> +
->>>>    static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
->>>>           .try_ctrl = hantro_try_ctrl,
->>>>    };
->>>> @@ -365,6 +395,11 @@ static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
->>>>           .s_ctrl = hantro_hevc_s_ctrl,
->>>>    };
->>>>
->>>> +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops = {
->>>> +       .try_ctrl = hantro_try_ctrl,
->>>> +       .s_ctrl = hantro_av1_s_ctrl,
->>>> +};
->>>> +
->>>>    #define HANTRO_JPEG_ACTIVE_MARKERS     (V4L2_JPEG_ACTIVE_MARKER_APP0 | \
->>>>                                            V4L2_JPEG_ACTIVE_MARKER_COM | \
->>>>                                            V4L2_JPEG_ACTIVE_MARKER_DQT | \
->>>> @@ -542,6 +577,7 @@ static const struct hantro_ctrl controls[] = {
->>>>                   .codec = HANTRO_AV1_DECODER,
->>>>                   .cfg = {
->>>>                           .id = V4L2_CID_STATELESS_AV1_SEQUENCE,
->>>> +                       .ops = &hantro_av1_ctrl_ops,
->>>>                   },
->>>>           }, {
->>>>                   .codec = HANTRO_AV1_DECODER,
->>>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
->>>> index 992c5baa929f..7e74e47c9a89 100644
->>>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->>>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->>>> @@ -86,6 +86,10 @@ hantro_check_depth_match(const struct hantro_fmt *fmt, int bit_depth)
->>>>           if (!fmt->match_depth && !fmt->postprocessed)
->>>>                   return true;
->>>>
->>>> +       /* 0 means default depth, which is 8 */
->>>> +       if (!bit_depth)
->>>> +               bit_depth = HANTRO_DEFAULT_BIT_DEPTH;
->>>> +
->>>>           fmt_depth = hantro_get_format_depth(fmt->fourcc);
->>>>
->>>>           /*
->>>> --
->>>> 2.34.1
->>>>
+> > -               dev_dbg(&client->dev, "%s: i2c write error, reg: %x\n",
+> > +               dev_err(&client->dev, "%s: i2c read error, reg: %x\n",
+> >                         __func__, reg);
+> >                 return ret;
+> >         }
+> >
+> > -       ret = i2c_master_recv(client, val, 1);
+> > -       if (ret < 0) {
+> > -               dev_dbg(&client->dev, "%s: i2c read error, reg: %x\n",
+> > -                               __func__, reg);
+> > -               return ret;
+> > -       }
+> > +       *val = buf[0];
+> >
+> >         return 0;
+> >  }
+> > --
+> > 2.39.0
+> >
