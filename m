@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F267269E2E2
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 16:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4060069E2DE
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 16:00:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234572AbjBUPAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 10:00:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234532AbjBUPA1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S234471AbjBUPA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 21 Feb 2023 10:00:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234229AbjBUPA0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Feb 2023 10:00:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE9E9EEF
-        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 06:59:38 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB5F93D7
+        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 06:59:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676991577;
+        s=mimecast20190719; t=1676991576;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=eXWh2URWSGercEdDDjtwVJhq6pSscqutL7bNofFyaOk=;
-        b=W44ZxkwllG5Lowm+Fugu6+85hcV1atuzIgFk9M49sXDjqoq07G3hySz4Zm5FE7ASWBWxXp
-        an7I2ua+ZM5nORSppN+IWMVjKkxNSZVDrVaesCEkxwWmceQHbUxJwvPE1UKVlvo9dzRrYq
-        JwY4OO79JX6FCFgLV5CowW5m3RuxBb0=
+        bh=PkjWOkRIndZUfF/YTGs93yN5o9BcsbFnbkOKoQ8RUi8=;
+        b=VkTmJlOuUOghBhAXU3Ij/26R2cYPdoLTHBvALUM4diCLhlVGxzsFaYF70LewO/2NQthoY4
+        czrYX+x0iXVm3H754cV6LXUum75HUQWRCIGi5Z64g5Xv1DL7WYryVqLmqrZivyhNoepFgO
+        lsajp5/DCGCBrslTx9LuhhnXtctTlh4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-vY3xSvMWMeuFu2oWrVbWOQ-1; Tue, 21 Feb 2023 09:59:28 -0500
-X-MC-Unique: vY3xSvMWMeuFu2oWrVbWOQ-1
+ us-mta-350-KRZv-xpSOKeFZ9TKcFjuhg-1; Tue, 21 Feb 2023 09:59:32 -0500
+X-MC-Unique: KRZv-xpSOKeFZ9TKcFjuhg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1123118E0920;
-        Tue, 21 Feb 2023 14:59:28 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A87D285A5B1;
+        Tue, 21 Feb 2023 14:59:31 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.195.177])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 01E4A2026D4B;
-        Tue, 21 Feb 2023 14:59:24 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 733242026D4B;
+        Tue, 21 Feb 2023 14:59:28 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 03/10] media: atomisp: Remove delayed_init related code
-Date:   Tue, 21 Feb 2023 15:58:59 +0100
-Message-Id: <20230221145906.8113-4-hdegoede@redhat.com>
+Subject: [PATCH 04/10] media: atomisp: Remove crop_needs_override from atomisp_set_fmt()
+Date:   Tue, 21 Feb 2023 15:59:00 +0100
+Message-Id: <20230221145906.8113-5-hdegoede@redhat.com>
 In-Reply-To: <20230221145906.8113-1-hdegoede@redhat.com>
 References: <20230221145906.8113-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -67,223 +67,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the continues-mode removal the delayed-work never gets queues
-remove all the related code.
+Remove the crop_needs_override local helper variable from
+atomisp_set_fmt(), as it always is true now.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/include/linux/atomisp.h     |  1 -
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 35 -------------------
- .../staging/media/atomisp/pci/atomisp_cmd.h   |  1 -
- .../staging/media/atomisp/pci/atomisp_fops.c  |  1 -
- .../media/atomisp/pci/atomisp_internal.h      |  4 ---
- .../staging/media/atomisp/pci/atomisp_ioctl.c |  7 ----
- .../media/atomisp/pci/atomisp_subdev.c        |  1 -
- .../media/atomisp/pci/atomisp_subdev.h        |  6 ----
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 25 -------------
- 9 files changed, 81 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 48 +++++++++----------
+ 1 file changed, 23 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index 290a6ed7237e..b3cceea570ca 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -1102,7 +1102,6 @@ struct atomisp_sensor_ae_bracketing_lut {
- 
- #define V4L2_EVENT_ATOMISP_3A_STATS_READY   (V4L2_EVENT_PRIVATE_START + 1)
- #define V4L2_EVENT_ATOMISP_METADATA_READY   (V4L2_EVENT_PRIVATE_START + 2)
--#define V4L2_EVENT_ATOMISP_RAW_BUFFERS_ALLOC_DONE   (V4L2_EVENT_PRIVATE_START + 3)
- #define V4L2_EVENT_ATOMISP_ACC_COMPLETE     (V4L2_EVENT_PRIVATE_START + 4)
- #define V4L2_EVENT_ATOMISP_PAUSE_BUFFER	    (V4L2_EVENT_PRIVATE_START + 5)
- #define V4L2_EVENT_ATOMISP_CSS_RESET	    (V4L2_EVENT_PRIVATE_START + 6)
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index fb8765fdefda..2af0de77c6ae 100644
+index 2af0de77c6ae..22b8e13e9c2e 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1001,35 +1001,6 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
- 		atomisp_qbuffers_to_css(asd);
- }
+@@ -4634,7 +4634,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	struct v4l2_pix_format backup_fmt, s_fmt;
+ 	unsigned int dvs_env_w = 0, dvs_env_h = 0;
+ 	unsigned int padding_w = pad_w, padding_h = pad_h;
+-	bool res_overflow = false, crop_needs_override = false;
+ 	struct v4l2_mbus_framefmt *isp_sink_fmt;
+ 	struct v4l2_mbus_framefmt isp_source_fmt = {0};
+ 	struct v4l2_subdev_format vformat = {
+@@ -4642,6 +4641,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	};
+ 	struct v4l2_rect isp_sink_crop;
+ 	u16 source_pad = atomisp_subdev_source_pad(vdev);
++	bool res_overflow = false;
+ 	struct v4l2_subdev_fh fh;
+ 	int ret;
  
--void atomisp_delayed_init_work(struct work_struct *work)
--{
--	struct atomisp_sub_device *asd = container_of(work,
--					 struct atomisp_sub_device,
--					 delayed_init_work);
--	/*
--	 * to SOC camera, use yuvpp pipe and no support continuous mode.
--	 */
--	if (!ATOMISP_USE_YUVPP(asd)) {
--		struct v4l2_event event = {0};
--		struct ia_css_stream *stream;
--
--		stream = asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream;
--
--
--		if (ia_css_alloc_continuous_frame_remain(stream))
--			return;
--
--		ia_css_update_continuous_frames(stream);
--
--		event.type = V4L2_EVENT_ATOMISP_RAW_BUFFERS_ALLOC_DONE;
--		v4l2_event_queue(asd->subdev.devnode, &event);
--	}
--
--	/* signal streamon after delayed init is done */
--	asd->delayed_init = ATOMISP_DELAYED_INIT_DONE;
--	complete(&asd->init_done);
--}
--
- static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
- {
- 	struct pci_dev *pdev = to_pci_dev(isp->dev);
-@@ -1054,12 +1025,6 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
- 		    !asd->stream_prepared)
- 			continue;
- 
--		if (asd->delayed_init == ATOMISP_DELAYED_INIT_QUEUED)
--			cancel_work_sync(&asd->delayed_init_work);
--
--		complete(&asd->init_done);
--		asd->delayed_init = ATOMISP_DELAYED_INIT_NOT_QUEUED;
--
- 		stream_restart[asd->index] = true;
- 
- 		spin_lock_irqsave(&isp->lock, flags);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index bea950a128a9..d26593cc648e 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -72,7 +72,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
- const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
-     u32 mbus_code);
- bool atomisp_is_mbuscode_raw(uint32_t code);
--void atomisp_delayed_init_work(struct work_struct *work);
- 
- /* Get internal fmt according to V4L2 fmt */
- bool atomisp_is_viewfinder_support(struct atomisp_device *isp);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 280e8057676b..28649a522683 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -614,7 +614,6 @@ static void atomisp_subdev_init_struct(struct atomisp_sub_device *asd)
- 	/* s3a grid not enabled for any pipe */
- 	asd->params.s3a_enabled_pipe = IA_CSS_PIPE_ID_NUM;
- 
--	asd->delayed_init = ATOMISP_DELAYED_INIT_NOT_QUEUED;
- 	/* Add for channel */
- 	asd->input_curr = 0;
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index 90caa4254893..7f346161c4b5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -101,10 +101,6 @@
- #define ATOMISP_METADATA_QUEUE_DEPTH_FOR_HAL	8
- #define ATOMISP_S3A_BUF_QUEUE_DEPTH_FOR_HAL	8
- 
--#define ATOMISP_DELAYED_INIT_NOT_QUEUED	0
--#define ATOMISP_DELAYED_INIT_QUEUED	1
--#define ATOMISP_DELAYED_INIT_DONE	2
--
- /*
-  * Define how fast CPU should be able to serve ISP interrupts.
-  * The bigger the value, the higher risk that the ISP is not
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index cb6324510aca..87e9b0b284d9 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1309,8 +1309,6 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
- 		goto out_unlock;
+@@ -4855,7 +4855,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
  	}
  
--	asd->delayed_init = ATOMISP_DELAYED_INIT_NOT_QUEUED;
--
- out_unlock:
- 	mutex_unlock(&isp->mutex);
- 	return ret;
-@@ -1366,11 +1364,6 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
- 	atomisp_clear_css_buffer_counters(asd);
- 	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
+ 	atomisp_csi_lane_config(isp);
+-	crop_needs_override = true;
  
--	if (asd->delayed_init == ATOMISP_DELAYED_INIT_QUEUED) {
--		cancel_work_sync(&asd->delayed_init_work);
--		asd->delayed_init = ATOMISP_DELAYED_INIT_NOT_QUEUED;
--	}
--
- 	css_pipe_id = atomisp_get_css_pipe_id(asd);
- 	atomisp_css_stop(asd, css_pipe_id, false);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 821f3204b759..9f07ed9f5306 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -189,7 +189,6 @@ static int isp_subdev_subscribe_event(struct v4l2_subdev *sd,
- 	    sub->type != V4L2_EVENT_ATOMISP_METADATA_READY &&
- 	    sub->type != V4L2_EVENT_ATOMISP_PAUSE_BUFFER &&
- 	    sub->type != V4L2_EVENT_ATOMISP_CSS_RESET &&
--	    sub->type != V4L2_EVENT_ATOMISP_RAW_BUFFERS_ALLOC_DONE &&
- 	    sub->type != V4L2_EVENT_ATOMISP_ACC_COMPLETE)
- 		return -EINVAL;
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index 141b93a6c0be..5583d6a02346 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -325,12 +325,6 @@ struct atomisp_sub_device {
- 	 */
- 	unsigned int index;
- 
--	/* delayed memory allocation for css */
--	struct completion init_done;
--	struct workqueue_struct *delayed_init_workq;
--	unsigned int delayed_init;
--	struct work_struct delayed_init_work;
--
- 	unsigned int latest_preview_exp_id; /* CSS ZSL/SDV raw buffer id */
- 
- 	unsigned int mipi_frame_size;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index e3672069877f..ce223fbb6640 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1083,27 +1083,6 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 	atomisp_check_copy_mode(asd, source_pad, &backup_fmt);
+ 	asd->yuvpp_mode = false;			/* Reset variable */
+@@ -4917,30 +4916,29 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 		 * which appears to be related by a hardware
+ 		 * performance limitation.  It's unclear why this
+ 		 * particular code triggers the issue. */
+-		if (crop_needs_override) {
+-			if (isp_sink_crop.width * main_compose.height >
+-			    isp_sink_crop.height * main_compose.width) {
+-				sink_crop.height = isp_sink_crop.height;
+-				sink_crop.width = DIV_NEAREST_STEP(
+-						      sink_crop.height *
+-						      f->fmt.pix.width,
+-						      f->fmt.pix.height,
+-						      ATOM_ISP_STEP_WIDTH);
+-			} else {
+-				sink_crop.width = isp_sink_crop.width;
+-				sink_crop.height = DIV_NEAREST_STEP(
+-						       sink_crop.width *
+-						       f->fmt.pix.height,
+-						       f->fmt.pix.width,
+-						       ATOM_ISP_STEP_HEIGHT);
+-			}
+-			atomisp_subdev_set_selection(&asd->subdev, fh.state,
+-						     V4L2_SUBDEV_FORMAT_ACTIVE,
+-						     ATOMISP_SUBDEV_PAD_SINK,
+-						     V4L2_SEL_TGT_CROP,
+-						     V4L2_SEL_FLAG_KEEP_CONFIG,
+-						     &sink_crop);
++		if (isp_sink_crop.width * main_compose.height >
++		    isp_sink_crop.height * main_compose.width) {
++			sink_crop.height = isp_sink_crop.height;
++			sink_crop.width = DIV_NEAREST_STEP(
++					      sink_crop.height *
++					      f->fmt.pix.width,
++					      f->fmt.pix.height,
++					      ATOM_ISP_STEP_WIDTH);
++		} else {
++			sink_crop.width = isp_sink_crop.width;
++			sink_crop.height = DIV_NEAREST_STEP(
++					       sink_crop.width *
++					       f->fmt.pix.height,
++					       f->fmt.pix.width,
++					       ATOM_ISP_STEP_HEIGHT);
  		}
- 	}
- 
--	for (i = 0; i < isp->num_of_streams; i++) {
--		struct atomisp_sub_device *asd = &isp->asd[i];
--
--		init_completion(&asd->init_done);
--
--		asd->delayed_init_workq =
--		    alloc_workqueue(isp->v4l2_dev.name, WQ_CPU_INTENSIVE,
--				    1);
--		if (!asd->delayed_init_workq) {
--			dev_err(isp->dev,
--				"Failed to initialize delayed init workq\n");
--			ret = -ENOMEM;
--
--			for (; i > 0; i--)
--				destroy_workqueue(isp->asd[i - 1].
--						  delayed_init_workq);
--			goto wq_alloc_failed;
--		}
--		INIT_WORK(&asd->delayed_init_work, atomisp_delayed_init_work);
--	}
--
- 	for (i = 0; i < isp->input_cnt; i++) {
- 		if (isp->inputs[i].port >= ATOMISP_CAMERA_NR_PORTS) {
- 			dev_err(isp->dev, "isp->inputs port %d not supported\n",
-@@ -1126,10 +1105,6 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 	return 0;
- 
- link_failed:
--	for (i = 0; i < isp->num_of_streams; i++)
--		destroy_workqueue(isp->asd[i].
--				  delayed_init_workq);
--wq_alloc_failed:
- 	for (i = 0; i < isp->num_of_streams; i++)
- 		atomisp_subdev_unregister_entities(
- 		    &isp->asd[i]);
++		atomisp_subdev_set_selection(&asd->subdev, fh.state,
++					     V4L2_SUBDEV_FORMAT_ACTIVE,
++					     ATOMISP_SUBDEV_PAD_SINK,
++					     V4L2_SEL_TGT_CROP,
++					     V4L2_SEL_FLAG_KEEP_CONFIG,
++					     &sink_crop);
++
+ 		atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 					     V4L2_SUBDEV_FORMAT_ACTIVE,
+ 					     source_pad,
 -- 
 2.39.1
 
