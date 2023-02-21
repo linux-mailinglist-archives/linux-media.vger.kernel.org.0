@@ -2,232 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C09E69E2E8
-	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 16:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13DD69E2E7
+	for <lists+linux-media@lfdr.de>; Tue, 21 Feb 2023 16:00:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234596AbjBUPA4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 10:00:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51342 "EHLO
+        id S234578AbjBUPAz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 10:00:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233992AbjBUPAx (ORCPT
+        with ESMTP id S233202AbjBUPAx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 21 Feb 2023 10:00:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF7732B60C
-        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 07:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676991599;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cCHQpVhGQcTxlg2tn6KMidOIFhUN3/xM0/6PlOWePJI=;
-        b=GAjO7n6Vbs5QG41tCaiF2XH7gbMhIya506mrxSgcYbqMpKoLOpGZxNMxEDgQhwQyyDp8eD
-        4CyJdymO9yXjKi0zLbX2STaMLiJq9H9Ae3W2rgd0IVLXk8wwZXvcgUsFx5k4WjoOvJQedX
-        M3JnaLyZaLRl+wH+IcrfIa3mMqlfLkc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-42-cXq6VLyWNfW62EdGlqZboQ-1; Tue, 21 Feb 2023 09:59:55 -0500
-X-MC-Unique: cXq6VLyWNfW62EdGlqZboQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5F82BEC5
+        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 07:00:42 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD82B811E9C;
-        Tue, 21 Feb 2023 14:59:54 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.195.177])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 95D562026D4B;
-        Tue, 21 Feb 2023 14:59:51 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 10/10] media: atomisp: Remove online_process setting
-Date:   Tue, 21 Feb 2023 15:59:06 +0100
-Message-Id: <20230221145906.8113-11-hdegoede@redhat.com>
-In-Reply-To: <20230221145906.8113-1-hdegoede@redhat.com>
-References: <20230221145906.8113-1-hdegoede@redhat.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id D7F3AB80EFA
+        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 15:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDA5C433EF;
+        Tue, 21 Feb 2023 15:00:35 +0000 (UTC)
+Message-ID: <2a0cdb5e-6d7f-b59f-bd5f-9ee226097450@xs4all.nl>
+Date:   Tue, 21 Feb 2023 16:00:34 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [v4l-utils] [PATCH v9 1/7] utils: Allow choosing
+ v4l2-tracer-gen.pl output
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     gjasny@googlemail.com, kieran.bingham@ideasonboard.com,
+        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
+        rosenp@gmail.com, sakari.ailus@iki.fi, sean@mess.org,
+        user.vdr@gmail.com, xavier.claessens@collabora.com,
+        deborah.brouwer@collabora.com, ariel@vanguardiasur.com.ar,
+        ezequiel@vanguardiasur.com.ar, tomi.valkeinen@ideasonboard.com
+References: <20230221143204.26591-1-laurent.pinchart@ideasonboard.com>
+ <20230221143204.26591-2-laurent.pinchart@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230221143204.26591-2-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-online_process is always true, remove it.
+On 2/21/23 15:31, Laurent Pinchart wrote:
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> In v4l2-tracer-gen.pl, add support for setting the output directory for
+> the generated files and choosing which ones to generate (common, trace or
+> retrace). The default is to generate them all in the current directory,
+> i.e. what the script used to do.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> [Append a '/' automatically between $outdir and $fname]
+> Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Tested-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> ---
+>  utils/v4l2-tracer/v4l2-tracer-gen.pl | 36 ++++++++++++++++++++++++----
+>  1 file changed, 31 insertions(+), 5 deletions(-)
+> 
+> diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> index fe648182ac34..f7454e7f0bab 100755
+> --- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> +++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> @@ -2,6 +2,16 @@
+>  # SPDX-License-Identifier: GPL-2.0-only */
+>  # Copyright 2022 Collabora Ltd.
+>  
+> +my $outdir = ".";
+> +my %outtype = ( "common" => 1, "trace" => 1, "retrace" => 1 );
+> +
+> +while ($ARGV[0] =~ /^-/) {
+> +	my $arg = shift @ARGV;
+> +
+> +	$outdir = shift @ARGV if $arg eq "-o";
+> +	%outtype = (shift @ARGV => 1) if $arg eq '-t';
+> +}
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 30 ++-----------------
- .../media/atomisp/pci/atomisp_compat.h        |  4 ---
- .../media/atomisp/pci/atomisp_compat_css20.c  |  8 -----
- .../staging/media/atomisp/pci/atomisp_fops.c  |  1 -
- .../media/atomisp/pci/atomisp_subdev.h        |  4 ---
- 5 files changed, 3 insertions(+), 44 deletions(-)
+Can you add a help message as well? At minimum as a comment, even better
+by adding a -h option.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 937cfe9489fc..b8112721f0a7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1622,11 +1622,6 @@ int atomisp_formats(struct atomisp_sub_device *asd, int flag,
- void atomisp_free_internal_buffers(struct atomisp_sub_device *asd)
- {
- 	atomisp_free_css_parameters(&asd->params.css_param);
--
--	if (asd->raw_output_frame) {
--		ia_css_frame_free(asd->raw_output_frame);
--		asd->raw_output_frame = NULL;
--	}
- }
- 
- static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
-@@ -4221,7 +4216,6 @@ static int css_input_resolution_changed(struct atomisp_sub_device *asd,
- 
- static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 				  struct ia_css_frame_info *output_info,
--				  struct ia_css_frame_info *raw_output_info,
- 				  struct v4l2_pix_format *pix,
- 				  unsigned int source_pad)
- {
-@@ -4372,20 +4366,13 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 
- 		/* in case of ANR, force capture pipe to offline mode */
- 		atomisp_css_capture_enable_online(asd, ATOMISP_INPUT_STREAM_GENERAL,
--						  asd->params.low_light ?
--						  false : asd->params.online_process);
-+						  !asd->params.low_light);
- 
- 		configure_output = atomisp_css_capture_configure_output;
- 		get_frame_info = atomisp_css_capture_get_output_frame_info;
- 		configure_pp_input = atomisp_css_capture_configure_pp_input;
- 		pipe_id = IA_CSS_PIPE_ID_CAPTURE;
- 
--		if (!asd->params.online_process) {
--			ret = atomisp_css_capture_get_output_raw_frame_info(asd,
--				raw_output_info);
--			if (ret)
--				return ret;
--		}
- 		if (asd->run_mode->val != ATOMISP_RUN_MODE_STILL_CAPTURE) {
- 			dev_err(isp->dev,
- 				"Need to set the running mode first\n");
-@@ -4430,16 +4417,6 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 	}
- 
- 	atomisp_update_grid_info(asd, pipe_id, source_pad);
--
--	/* Free the raw_dump buffer first */
--	ia_css_frame_free(asd->raw_output_frame);
--	asd->raw_output_frame = NULL;
--
--	if (!asd->params.online_process &&
--	    ia_css_frame_allocate_from_info(&asd->raw_output_frame,
--		    raw_output_info))
--		return -ENOMEM;
--
- 	return 0;
- }
- 
-@@ -4595,7 +4572,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 	struct atomisp_sub_device *asd = pipe->asd;
- 	const struct atomisp_format_bridge *format_bridge;
- 	const struct atomisp_format_bridge *snr_format_bridge;
--	struct ia_css_frame_info output_info, raw_output_info;
-+	struct ia_css_frame_info output_info;
- 	struct v4l2_pix_format snr_fmt;
- 	struct v4l2_pix_format backup_fmt, s_fmt;
- 	unsigned int dvs_env_w = 0, dvs_env_h = 0;
-@@ -4912,8 +4889,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 	}
- 
- set_fmt_to_isp:
--	ret = atomisp_set_fmt_to_isp(vdev, &output_info, &raw_output_info,
--				     &f->fmt.pix, source_pad);
-+	ret = atomisp_set_fmt_to_isp(vdev, &output_info, &f->fmt.pix, source_pad);
- 	if (ret) {
- 		dev_warn(isp->dev, "Can't set format on ISP. Error %d\n", ret);
- 		return -EINVAL;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-index 06d54c9bcb49..707509922784 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -303,10 +303,6 @@ int atomisp_css_copy_get_output_frame_info(
-     unsigned int stream_index,
-     struct ia_css_frame_info *info);
- 
--int atomisp_css_capture_get_output_raw_frame_info(
--    struct atomisp_sub_device *asd,
--    struct ia_css_frame_info *info);
--
- int atomisp_css_preview_get_output_frame_info(
-     struct atomisp_sub_device *asd,
-     struct ia_css_frame_info *info);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 10be77c478b8..a1c1c9b1e806 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2630,14 +2630,6 @@ int atomisp_css_capture_get_viewfinder_frame_info(
- 				ATOMISP_CSS_VF_FRAME, IA_CSS_PIPE_ID_CAPTURE);
- }
- 
--int atomisp_css_capture_get_output_raw_frame_info(
--    struct atomisp_sub_device *asd,
--    struct ia_css_frame_info *info)
--{
--	return __get_frame_info(asd, ATOMISP_INPUT_STREAM_GENERAL, info,
--				ATOMISP_CSS_RAW_FRAME, IA_CSS_PIPE_ID_CAPTURE);
--}
--
- int atomisp_css_copy_get_output_frame_info(
-     struct atomisp_sub_device *asd,
-     unsigned int stream_index,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index d8d4c412f66a..7f757f510190 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -564,7 +564,6 @@ static void atomisp_subdev_init_struct(struct atomisp_sub_device *asd)
- 	asd->params.fpn_en = false;
- 	asd->params.xnr_en = false;
- 	asd->params.false_color = 0;
--	asd->params.online_process = 1;
- 	asd->params.yuv_ds_en = 0;
- 	/* s3a grid not enabled for any pipe */
- 	asd->params.s3a_enabled_pipe = IA_CSS_PIPE_ID_NUM;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index df6e2a8c5f84..bcb0fe8d0538 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -183,9 +183,6 @@ struct atomisp_css_params {
- };
- 
- struct atomisp_subdev_params {
--	/* FIXME: Determines whether raw capture buffer are being passed to
--	 * user space. Unimplemented for now. */
--	int online_process;
- 	int yuv_ds_en;
- 	unsigned int color_effect;
- 	bool gdc_cac_en;
-@@ -303,7 +300,6 @@ struct atomisp_sub_device {
- 	spinlock_t dis_stats_lock;
- 
- 	struct ia_css_frame *vf_frame; /* TODO: needed? */
--	struct ia_css_frame *raw_output_frame;
- 	enum atomisp_frame_status frame_status[VIDEO_MAX_FRAME];
- 
- 	/* This field specifies which camera (v4l2 input) is selected. */
--- 
-2.39.1
+It's currently only documented in the commit log, which nobody will read :-)
+
+Regards,
+
+	Hans
+
+> +
+>  sub convert_type_to_json_type {
+>  	my $type = shift;
+>  	if ($type eq __u8 || $type eq char || $type eq __u16 || $type eq __s8 || $type eq __s16 || $type eq __s32 || $type eq 'int') {
+> @@ -696,29 +706,45 @@ sub struct_gen_ctrl {
+>  	printf $fh_retrace_cpp "}\n\n";
+>  }
+>  
+> -open($fh_trace_cpp, '>', 'trace-gen.cpp') or die "Could not open trace-gen.cpp for writing";
+> +sub do_open($$) {
+> +	my ($type, $fname) = @_;
+> +	my $fh;
+> +
+> +	if (defined $outtype{$type}) {
+> +		$fname = "$outdir/$fname";
+> +	} else {
+> +		$fname = "/dev/null";
+> +	}
+> +
+> +	open($fh, "> $fname") or die "Could not open $fname for writing";
+> +
+> +	return $fh;
+> +}
+> +
+> +
+> +$fh_trace_cpp = do_open("trace", "trace-gen.cpp");
+>  printf $fh_trace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+>  printf $fh_trace_cpp " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+>  printf $fh_trace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
+>  
+> -open($fh_trace_h, '>', 'trace-gen.h') or die "Could not open trace-gen.h for writing";
+> +$fh_trace_h = do_open("trace", "trace-gen.h");
+>  printf $fh_trace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+>  printf $fh_trace_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+>  printf $fh_trace_h "\#ifndef TRACE_GEN_H\n";
+>  printf $fh_trace_h "\#define TRACE_GEN_H\n\n";
+>  
+> -open($fh_retrace_cpp, '>', 'retrace-gen.cpp') or die "Could not open retrace-gen.cpp for writing";
+> +$fh_retrace_cpp = do_open("retrace", "retrace-gen.cpp");
+>  printf $fh_retrace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+>  printf $fh_retrace_cpp " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+>  printf $fh_retrace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
+>  
+> -open($fh_retrace_h, '>', 'retrace-gen.h') or die "Could not open retrace-gen.h for writing";
+> +$fh_retrace_h = do_open("retrace", "retrace-gen.h");
+>  printf $fh_retrace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+>  printf $fh_retrace_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+>  printf $fh_retrace_h "\#ifndef RETRACE_GEN_H\n";
+>  printf $fh_retrace_h "\#define RETRACE_GEN_H\n\n";
+>  
+> -open($fh_common_info_h, '>', 'v4l2-tracer-info-gen.h') or die "Could not open v4l2-tracer-info-gen.h for writing";
+> +$fh_common_info_h = do_open("common", "v4l2-tracer-info-gen.h");
+>  printf $fh_common_info_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n";
+>  printf $fh_common_info_h " *\n * AUTOMATICALLY GENERATED BY \'%s\' DO NOT EDIT\n */\n\n", __FILE__;
+>  printf $fh_common_info_h "\#ifndef V4L2_TRACER_INFO_GEN_H\n";
 
