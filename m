@@ -2,116 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B88D69EDF1
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 05:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A57D669EF24
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 08:11:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbjBVEeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 23:34:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
+        id S229964AbjBVHLV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 02:11:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231135AbjBVEeK (ORCPT
+        with ESMTP id S229493AbjBVHLU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 23:34:10 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563F91F4A7;
-        Tue, 21 Feb 2023 20:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677040445; x=1708576445;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l6eOsNz/yXzKCDr46auBkAcDilH/phLT1LbE7xDWqZo=;
-  b=QAqoEdAIfvoAjsYQBBQLmf8laUOnPa6Y3totBJpR2gH3xalgj2k39y9m
-   lSejF5xvjsrD8UZkC9kn7tlFDJEkGV+sMKQH35YDJFSPuYQU6y/aezbp3
-   HzoCSENOmP6bNMOTGpevuw+1Wvv6goZ/ti8i/VrUH0+KSp/1l3/jjNzii
-   gciEKGh1auGowLfUUJNFNUjC/TH1c56Mr9pbzASto7n/7ySMIoNGSspKM
-   IYHeFKQEigQhczmokPVp58pnV3V8T+3fnExclPTWDHNc3F/Uw5UUv6pwv
-   wqK5JAPvVZRu1v9AzKi1S4wPEkXx5+HOqZHe8tdSksqJuOBh43wZMfXdV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="316559332"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="316559332"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 20:34:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="795762568"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="795762568"
-Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Feb 2023 20:34:02 -0800
-Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pUgpN-0000c5-2r;
-        Wed, 22 Feb 2023 04:34:01 +0000
-Date:   Wed, 22 Feb 2023 12:33:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
- warning: unused variable 'c8sectpfe_match'
-Message-ID: <202302221244.snmk4mKq-lkp@intel.com>
+        Wed, 22 Feb 2023 02:11:20 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70F136682
+        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 23:11:19 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 5AF6220173;
+        Wed, 22 Feb 2023 09:11:16 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1677049876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iychovrpo23gV5eBwV1UdRroraUopeKjfO3jPuRenk0=;
+        b=jUWmA55Gk4Vhp3oiMkbFTjz+nL4N4WOM37xAkXnf2YmD/M7G5JzUpLWKqrEQmZGw3av/02
+        DQT4vAysOTzOHIN94Zp/y+GmZyws6JH8gRB6SM/XmzRzY7X2dqlrjEM3AnNoMYHIiu28zN
+        9erl1JLO26zrConSxpOG6E04x4x3A1Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1677049876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iychovrpo23gV5eBwV1UdRroraUopeKjfO3jPuRenk0=;
+        b=EqJ23smA6u47amCQs1+sgvpzHyxdGdUGlQKwVatX73YO/O6K2iMVrKlAArL6hjnhBUcE4D
+        SmOOtxKm3EuYmVmI0yJIaC6GcWnSwujzYtL0vKZ59T7hk8cbKZOxYFUz4nWTwRKInS7xfc
+        KTyN6v+naV5Y3kvmEXiZ6TZXbA9MrQc=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1677049876; a=rsa-sha256; cv=none;
+        b=ez9Hwc4whMcidPBhIMpnDZ1+Jqdat9U575Cqc4dJEQjrY4i5QVLNH5JsGnSvgTh7X0AsJp
+        agO3+IBugoBPpKEaQvMxueB2ibUzR5LHR8OBOLVgVx+IwwFvB+hqB9+bl0uUJuzxEKrr0O
+        Rh+t4dHddRqGihbYdfc5mVf+ahtq2eE=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CB3A0634C92;
+        Wed, 22 Feb 2023 09:11:03 +0200 (EET)
+Date:   Wed, 22 Feb 2023 09:11:04 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, gjasny@googlemail.com,
+        hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
+        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
+        rosenp@gmail.com, sean@mess.org, user.vdr@gmail.com,
+        xavier.claessens@collabora.com, deborah.brouwer@collabora.com,
+        ariel@vanguardiasur.com.ar, ezequiel@vanguardiasur.com.ar,
+        tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 1/1] utils: Add help text for v4l2-tracer-gen.pl
+Message-ID: <Y/XACCUyQ/2o6ylt@valkosipuli.retiisi.eu>
+References: <20230221143204.26591-1-laurent.pinchart@ideasonboard.com>
+ <20230221160849.2778-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230221160849.2778-1-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Laurent,
 
-First bad commit (maybe != root cause):
+On Tue, Feb 21, 2023 at 06:08:49PM +0200, Sakari Ailus wrote:
+> Add help text for v4l2-tracer-gen.pl, via the '-h' option. Also add
+> support for '--' to signal end of options, in case file names would begin
+> with dash.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> Hi Laurent,
+> 
+> Can you squash this to the utils patch?
+> 
+> - Sakari
+> 
+>  utils/v4l2-tracer/v4l2-tracer-gen.pl | 22 ++++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+> 
+> diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> index 8192a5bf..53473ae1 100755
+> --- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> +++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> @@ -8,8 +8,26 @@ my %outtype = ( "common" => 1, "trace" => 1, "retrace" => 1 );
+>  while ($ARGV[0] =~ /^-/) {
+>  	my $arg = shift @ARGV;
+>  
+> -	$outdir = shift @ARGV if $arg eq "-o";
+> -	%outtype = (shift @ARGV => 1) if $arg eq '-t';
+> +	($outdir = shift @ARGV) && next if $arg eq "-o";
+> +	(%outtype = (shift @ARGV => 1)) && next if $arg eq '-t';
+> +	(help() && exit 0) if $arg eq '-h';
+> +	last if $arg eq '--';
+> +
+> +	print stderr "invalid option $arg, use $0 -h for help\n";
+> +	exit 0;
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5b7c4cabbb65f5c469464da6c5f614cbd7f730f2
-commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
-date:   11 months ago
-config: hexagon-randconfig-r023-20230222 (https://download.01.org/0day-ci/archive/20230222/202302221244.snmk4mKq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/st/sti/c8sectpfe/
+This should have been:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221244.snmk4mKq-lkp@intel.com/
+	exit 1;
 
-All warnings (new ones prefixed by >>):
+to signal an error if an invalid option is given. The build process should
+stop here in that case.
 
->> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
-   static const struct of_device_id c8sectpfe_match[] = {
-                                    ^
-   1 warning generated.
+Could you change that while squashing it?
 
-
-vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
-
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
-c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
-
-:::::: The code at line 1175 was first introduced by commit
-:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
-
-:::::: TO: Peter Griffin <peter.griffin@linaro.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+> +}
+> +
+> +sub help() {
+> +	print stderr <<EOF;
+> +$0 - Generate files for V4L2 tracer
+> +
+> +usage: $0 [-o dir] [-t (common|trace|retrace)] [-h] header [header2] ...
+> +
+> +	-o dir	set output directory
+> +	-t x	generate particular trace files, the default is to generate
+> +		them all
+> +	-h	print this help text and quit
+> +EOF
+>  }
+>  
+>  sub convert_type_to_json_type {
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Sakari Ailus
