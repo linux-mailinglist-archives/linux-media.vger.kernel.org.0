@@ -2,87 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC1A169F233
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 10:51:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DBE69F260
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 10:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232333AbjBVJv1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 04:51:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49182 "EHLO
+        id S231828AbjBVJ7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 04:59:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230086AbjBVJvK (ORCPT
+        with ESMTP id S231497AbjBVJ7k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 04:51:10 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B023B3F0;
-        Wed, 22 Feb 2023 01:49:14 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id m7so9171560lfj.8;
-        Wed, 22 Feb 2023 01:49:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUTsw3c3dGl69gFjc2IPLlLseEpyU+BsJ/tXKcVGvJE=;
-        b=UfBONU13JoaYcQsCFIsDBmRdKbIhPk9GiK9bQJCcqCj2Ual6SFTndJ5DNxei8DGVF2
-         e++IlSQgRPd082iwJLNPlCKrVKSedW6SWbYAuV8YKIHlZ3V9Osm0jKf6NaDa5/8MJaBd
-         dARDXUEScOKGsXYEccBP+IM3wQl9Z7YBT97phvyqPa7mbNswkoq56FnN0EqG1/wCpvVS
-         WbVvCW1KAwboDqSdHVl5cwoWYAs22XWxmMCCtL9nXEc8tAP7nRJnbVwcUCRHXPzb9SlB
-         2EMEtSQSvoqHCQOSNKsUXLBJGt6nKI+wU9q4pINS72LopCt4c3RVZMg0PPSMuQhqA05X
-         ENCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUTsw3c3dGl69gFjc2IPLlLseEpyU+BsJ/tXKcVGvJE=;
-        b=BxTQmFl83HYWbn4toAt9ar7pFFzLr7O88DgoikFsFb1Z02KPTOvt/so/DiC5lfdbfx
-         iDBa+I+8T0f7WUhxtRt+2jM8Jq9hP8qnog4ap3QBsD83Es9GRndXeTNzRUf3upnUdqvb
-         exXYRNCjgTKOgUyiyebYMSrnciBojJS3YqEHEePZnyvDxeFM4OJmtAjJJlLA8XaRdkzF
-         YOrRThuLuJ8aFU7bD2czqwxUWwlri/qaYR58qylIDCX0xfdBG4euu+7HAzQiaKS+Fa5e
-         Aykipz+wHTz0PRX4GWZ2LxBJJbPrVRFLtLQrmlP3B9OEYQmsrJOiQbTgPDxX2XlXXPXT
-         pNGA==
-X-Gm-Message-State: AO0yUKUYVHo2UBrqHgm8XX1yfzgQY0XXGP64Hnbbn6gvz7GEjNzJrprd
-        RVEDwxrmcikwrqFpXkLV6Sw=
-X-Google-Smtp-Source: AK7set+/N70WpQDEBCEnI2DY3oZ18dabG3BI02ASZ7Aq5pjZT+kZQ8aYZsNj2eWwNwtMnlKRydoyCg==
-X-Received: by 2002:ac2:5494:0:b0:4db:3605:9bdd with SMTP id t20-20020ac25494000000b004db36059bddmr2770417lfk.5.1677059352364;
-        Wed, 22 Feb 2023 01:49:12 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id q13-20020ac25a0d000000b004b578e52d81sm2121394lfn.176.2023.02.22.01.49.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 01:49:11 -0800 (PST)
-Date:   Wed, 22 Feb 2023 11:49:00 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230222114900.1b6baf95@eldfell>
-In-Reply-To: <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
-        <20230218211608.1630586-7-robdclark@gmail.com>
-        <20230220105345.70e46fa5@eldfell>
-        <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
-        <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
-        <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Wed, 22 Feb 2023 04:59:40 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D67CF30B36;
+        Wed, 22 Feb 2023 01:59:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1677059960; x=1708595960;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N2hk9GlJCT2NgITlKoyZMXhacfZJstXnR+eEKJSowwk=;
+  b=IUZNvuwAjed5rwpmIGqtD14XdZyo9XDy53BLiMjeXIUOoFBSnQ7WTUtI
+   I6DyjndPxKerpavcnF5RAR+rRS8XvZaQbDRItjKnIq1/QgfiHFA4cNDEW
+   Eq7utCH8iICGfRUcW89xjJTQZ7Upaswg+65rqyFfDCuzr/iasbkMgaFoB
+   n0oQV2P4/hWD583ZickmOHstmF+jh0R/Cnw0xDm5q97ck2uFpJKox/r6v
+   OLm7aKRXM0nkwiNzC9BjSG3MTSgiP0e/8WqrpECs+NgcZ6BoPFp8YDMSi
+   f7pHLqbnMOv4+F8cLIO7QgnMRUr+ucqUAgQeAXSqjjI4KdYsuGPrn3zcS
+   g==;
+X-IronPort-AV: E=Sophos;i="5.97,318,1669100400"; 
+   d="asc'?scan'208";a="138447304"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Feb 2023 02:59:19 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 22 Feb 2023 02:59:17 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Wed, 22 Feb 2023 02:59:14 -0700
+Date:   Wed, 22 Feb 2023 09:58:48 +0000
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     shravan kumar <shravan.chippa@microchip.com>,
+        <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
+        <mchehab@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+        <festevam@gmail.com>, <linux-imx@nxp.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Prakash Battu <Prakash.Battu@microchip.com>
+Subject: Re: [PATCH v11 3/5] media: i2c: imx334: support lower bandwidth mode
+Message-ID: <Y/XnWOomz2N9fCvc@wendy>
+References: <20230208050915.1958183-1-shravan.chippa@microchip.com>
+ <20230208050915.1958183-4-shravan.chippa@microchip.com>
+ <Y/Xc9RCmO8P8eKtL@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/vMp1DRNCFLeCBFsykIrKQNo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6BcYyEiurpuctdJY"
+Content-Disposition: inline
+In-Reply-To: <Y/Xc9RCmO8P8eKtL@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,121 +74,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/vMp1DRNCFLeCBFsykIrKQNo
-Content-Type: text/plain; charset=US-ASCII
+--6BcYyEiurpuctdJY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 21 Feb 2023 09:53:56 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+On Wed, Feb 22, 2023 at 11:14:29AM +0200, Sakari Ailus wrote:
+> On Wed, Feb 08, 2023 at 10:39:13AM +0530, shravan kumar wrote:
+> > From: Shravan Chippa <shravan.chippa@microchip.com>
 
-> On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
-> >
-> > On 2023-02-20 11:14, Rob Clark wrote: =20
-> > > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com>=
- wrote: =20
-> > >>
-> > >> On Sat, 18 Feb 2023 13:15:49 -0800
-> > >> Rob Clark <robdclark@gmail.com> wrote:
-> > >> =20
-> > >>> From: Rob Clark <robdclark@chromium.org>
-> > >>>
-> > >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urg=
-ent
-> > >>> wait (as opposed to a "housekeeping" wait to know when to cleanup a=
-fter
-> > >>> some work has completed).  Usermode components of GPU driver stacks
-> > >>> often poll() on fence fd's to know when it is safe to do things like
-> > >>> free or reuse a buffer, but they can also poll() on a fence fd when
-> > >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI fl=
-ag
-> > >>> lets the kernel differentiate these two cases.
-> > >>>
-> > >>> Signed-off-by: Rob Clark <robdclark@chromium.org> =20
-> > >>
-> > >> Hi,
-> > >>
-> > >> where would the UAPI documentation of this go?
-> > >> It seems to be missing. =20
-> > >
-> > > Good question, I am not sure.  The poll() man page has a description,
-> > > but my usage doesn't fit that _exactly_ (but OTOH the description is a
-> > > bit vague).
-> > > =20
-> > >> If a Wayland compositor is polling application fences to know which
-> > >> client buffer to use in its rendering, should the compositor poll wi=
-th
-> > >> PRI or not? If a compositor polls with PRI, then all fences from all
-> > >> applications would always be PRI. Would that be harmful somehow or
-> > >> would it be beneficial? =20
-> > >
-> > > I think a compositor would rather use the deadline ioctl and then poll
-> > > without PRI.  Otherwise you are giving an urgency signal to the fence
-> > > signaller which might not necessarily be needed.
-> > >
-> > > The places where I expect PRI to be useful is more in mesa (things
-> > > like glFinish(), readpix, and other similar sorts of blocking APIs) =
-=20
-> > Hi,
-> >
-> > Hmm, but then user-space could do the opposite, namely, submit work as =
-usual--never
-> > using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPR=
-I. That seems
-> > like a possible usage pattern, unintended--maybe, but possible. Do we w=
-ant to discourage
-> > this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLIN=
-E with the current
-> > time, and then wouldn't that be equivalent to (E)POLLPRI? =20
+> > @@ -666,11 +885,26 @@ static int imx334_init_pad_cfg(struct v4l2_subdev=
+ *sd,
+> >  	struct v4l2_subdev_format fmt =3D { 0 };
+> > =20
+> >  	fmt.which =3D sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_=
+ACTIVE;
+> > -	imx334_fill_pad_format(imx334, &supported_mode, &fmt);
+> > +	imx334_fill_pad_format(imx334, &supported_modes[0], &fmt);
 >=20
-> Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
-> slightly more convenient if you want an immediate deadline (single
-> syscall instead of two), but not strictly needed.  OTOH it piggy-backs
-> on existing UABI.
+> Now that there are multiple modes supported, this would appear to get the
+> width, height as well as the other fields (apart from mbus code) from the
+> first mode.
 
-In that case, I would be conservative, and not add the POLLPRI
-semantics. An UAPI addition that is not strictly needed and somewhat
-unclear if it violates any design principles is best not done, until it
-is proven to be beneficial.
+Is this statement supposed to be a request to change something, or just
+a throwaway comment? It's a little hard for me to understand your
+intention here, sorry.
 
-Besides, a Wayland compositor does not necessary need to add the fd
-to its main event loop for poll. It could just SET_DEADLINE, and then
-when it renders simply check if the fence passed or not already. Not
-polling means the compositor does not need to wake up at the moment the
-fence signals to just record a flag.
-
-On another matter, if the application uses SET_DEADLINE with one
-timestamp, and the compositor uses SET_DEADLINE on the same thing with
-another timestamp, what should happen?
-
-Maybe it's a soft-realtime app whose primary goal is not display, and
-it needs the result faster than the window server?
-
-Maybe SET_DEADLINE should set the deadline only to an earlier timestamp
-and never later?
+> > =20
+> >  	return imx334_set_pad_format(sd, sd_state, &fmt);
+> >  }
+> > =20
 
 
-Thanks,
-pq
-
---Sig_/vMp1DRNCFLeCBFsykIrKQNo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--6BcYyEiurpuctdJY
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP15QwACgkQI1/ltBGq
-qqfMTQ/9FH4Z7EQ5jdc+1jGvO29uR7Ih0y1/k/wFFU3l7XCftBRKTn040aMGRnq7
-fQTG3rTSC47mHT2FlwO+gXfwHpW1z80FOy9tD/fl2CDmqxqJbHE6DyGYdFMjzK5y
-920v4kfJFeJ99CLssA6yQwxlfobHP+M3rbX0cFTOJ0YGeP8ZY3DyQng4lZgwa2wD
-/MYnAs+589mU93gBEB/rUWKbHIFnZFv7psLpf7iP3aRU7muQAieSMpJGWtW1f/M4
-YMPMAAJagplQAfwDhbBFMBNz2dJpzUFiCk4uPYSLh+ysD6KhR4K+LYBrlC237Obe
-9dSrnuaL0hfzkedElz/edHetggNhvPzoYgJlf+VqjoXwNwDN1IFYW9RGeikAvFhr
-7tK+yxIDHwB/grglQFEiaF8+BrUMAuXWc2IgIuZvG0blE/6JxEvfeh7mBT+R2kF0
-1xAdrFGrPw7/ALH5bvGLfOCkY8pTC+QBkwknGDZGszr1pP6gs0tUHI0uqonAPQ6k
-b+TmMJA8OtC/Te6fk7NSDvvxNjtRupS+M0c9avOVc3LrWpIK0SDi5RSIz0MSzXfr
-/2lo3AUYiY6GYt59msHwnNPK8jVvSLxs3yR0q6LE/2MICreclpVXxiUsP7SfBNR0
-VWlFWhFMQjiZWdS4m3ZZBoEn8JR7fTBPIXVCUQgX0+X7D6oQlJg=
-=+sLE
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY/XnWAAKCRB4tDGHoIJi
+0pMEAQDF93yO1Y4hUi+49FMYt5ZCrzx5No5+sGSuHEFB/uLh+wEAnElojzoqotU6
+PpeozsTZGz3d6VWaC32WOscjSMhGFgk=
+=UzAQ
 -----END PGP SIGNATURE-----
 
---Sig_/vMp1DRNCFLeCBFsykIrKQNo--
+--6BcYyEiurpuctdJY--
