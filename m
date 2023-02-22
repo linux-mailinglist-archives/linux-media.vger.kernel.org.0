@@ -2,297 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C346D69F11A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 10:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC1A169F233
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 10:51:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231658AbjBVJQi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 04:16:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34782 "EHLO
+        id S232333AbjBVJv1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 04:51:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbjBVJQg (ORCPT
+        with ESMTP id S230086AbjBVJvK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 04:16:36 -0500
-X-Greylist: delayed 109 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Feb 2023 01:16:35 PST
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32CF4367E6;
-        Wed, 22 Feb 2023 01:16:34 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 0D8E91B001D8;
-        Wed, 22 Feb 2023 11:16:33 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1677057393;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1gLABmEErG0c/dQ1eaD1AMy9nmYziBDR1skxStDMMes=;
-        b=JQ4xVmHsdot0+DDWsNIxqf3v54crYgImT4uS14vSeyg2rKQBf/UA5vkM2vtqnDZR3G2pxD
-        l2REqI7svnlKTuR0Q+BrUqx22RqFGVkRopEW8QDnkyGiQYVmv7Pny0IVykvg4aFuEdtSDB
-        JIGFlO1sugfNjVMusvMJ0vu6J6gqzrOnE4kvtooFS9/kizafVnKco0GzQGY+q7PmM9PrPh
-        jPW2Rwodasvdyg280ihO5tEU1nC2DT0BIsjbE7waXSFutopOvXEx7l+uxzV0zNWZs+PrFH
-        une3B5pBYLTTBVdhm5o7H/zwv/0W5Y+xHn5/ntZlaYftDemMvUTe5eyKkkc5fg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1677057393;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1gLABmEErG0c/dQ1eaD1AMy9nmYziBDR1skxStDMMes=;
-        b=czooaXG1dXhYirXUP2sAH0/CGmtJ7mGk6xWDTxIM1s8PP8odkSdy6JxCfXBO1MYhzf2e8O
-        VprJ5jLitF0DzT+anVchW2lYHrg0VA3ZATWyRIH5R9QrFjiaVJkK+VHScb2S0L2Ulo4s9f
-        wwRw12DIAAvYj8Be3Xi3wGe60czH0417SWik8Aj25kddrRFwdnKScUf71j7Kkwmm055734
-        HSwGCtudvIGwpFODDVk6u9Wg2UIe3q2o15z96q9gXbTBXDiWgA259/4h+jaIL+vX4WaUZL
-        af1kI+ARWoxop4CH4D9yR7mLHUJZLuwyBreZKyxaMb9domIXZsuvJETTCVB3SA==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1677057393; a=rsa-sha256;
-        cv=none;
-        b=ifQMFZDkD6GePV7K/znuMmm8o2B/pTb9KQEqGVUaxsPrqg1zldo542Z4NOF4Pun1x661nO
-        FdCDgTErPp9xfqjKn6lS2c1/cK/qHVraMsdKftRvlSIEzQcNECzyX9LCNX4tOClwS9Jheg
-        c3TgXNTQO2Ixp/toq7bhdlAFbm6DtKI12lwfhlq82gt6Czf4f4E77nRgSvADzw3KiTeg9b
-        jeuNBsnsUuDKdu6gjno4+fbI8aRQi+a2s6/N9o5NeWmtKp/iJCs6zABJkV/c1c7RYK9cMU
-        R/zGuF7ju2ozAGVcZ7667n2XP+zB85pvC0SDq4xZxtlp+iyd0DKs9YPn7ru9pg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8FBE3634C91;
-        Wed, 22 Feb 2023 11:16:20 +0200 (EET)
-Date:   Wed, 22 Feb 2023 11:16:20 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Shravan.Chippa@microchip.com
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RESEND v10 5/5] media: i2c: imx334: update pixel and link
- frequency
-Message-ID: <Y/XdZC7Yc8TjPvj4@valkosipuli.retiisi.eu>
-References: <20230121033713.3535351-1-shravan.chippa@microchip.com>
- <20230121033713.3535351-6-shravan.chippa@microchip.com>
- <Y88SG5ndXjQ9AjZg@valkosipuli.retiisi.eu>
- <PH0PR11MB56119C93EB4A19FEFC03778F81C99@PH0PR11MB5611.namprd11.prod.outlook.com>
- <Y9D5eG8PP/qYPk40@valkosipuli.retiisi.eu>
- <PH0PR11MB5611880BB2141A73B2D67D7181CC9@PH0PR11MB5611.namprd11.prod.outlook.com>
- <PH0PR11MB561174CA61F9C858577F726781DA9@PH0PR11MB5611.namprd11.prod.outlook.com>
+        Wed, 22 Feb 2023 04:51:10 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B023B3F0;
+        Wed, 22 Feb 2023 01:49:14 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id m7so9171560lfj.8;
+        Wed, 22 Feb 2023 01:49:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hUTsw3c3dGl69gFjc2IPLlLseEpyU+BsJ/tXKcVGvJE=;
+        b=UfBONU13JoaYcQsCFIsDBmRdKbIhPk9GiK9bQJCcqCj2Ual6SFTndJ5DNxei8DGVF2
+         e++IlSQgRPd082iwJLNPlCKrVKSedW6SWbYAuV8YKIHlZ3V9Osm0jKf6NaDa5/8MJaBd
+         dARDXUEScOKGsXYEccBP+IM3wQl9Z7YBT97phvyqPa7mbNswkoq56FnN0EqG1/wCpvVS
+         WbVvCW1KAwboDqSdHVl5cwoWYAs22XWxmMCCtL9nXEc8tAP7nRJnbVwcUCRHXPzb9SlB
+         2EMEtSQSvoqHCQOSNKsUXLBJGt6nKI+wU9q4pINS72LopCt4c3RVZMg0PPSMuQhqA05X
+         ENCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hUTsw3c3dGl69gFjc2IPLlLseEpyU+BsJ/tXKcVGvJE=;
+        b=BxTQmFl83HYWbn4toAt9ar7pFFzLr7O88DgoikFsFb1Z02KPTOvt/so/DiC5lfdbfx
+         iDBa+I+8T0f7WUhxtRt+2jM8Jq9hP8qnog4ap3QBsD83Es9GRndXeTNzRUf3upnUdqvb
+         exXYRNCjgTKOgUyiyebYMSrnciBojJS3YqEHEePZnyvDxeFM4OJmtAjJJlLA8XaRdkzF
+         YOrRThuLuJ8aFU7bD2czqwxUWwlri/qaYR58qylIDCX0xfdBG4euu+7HAzQiaKS+Fa5e
+         Aykipz+wHTz0PRX4GWZ2LxBJJbPrVRFLtLQrmlP3B9OEYQmsrJOiQbTgPDxX2XlXXPXT
+         pNGA==
+X-Gm-Message-State: AO0yUKUYVHo2UBrqHgm8XX1yfzgQY0XXGP64Hnbbn6gvz7GEjNzJrprd
+        RVEDwxrmcikwrqFpXkLV6Sw=
+X-Google-Smtp-Source: AK7set+/N70WpQDEBCEnI2DY3oZ18dabG3BI02ASZ7Aq5pjZT+kZQ8aYZsNj2eWwNwtMnlKRydoyCg==
+X-Received: by 2002:ac2:5494:0:b0:4db:3605:9bdd with SMTP id t20-20020ac25494000000b004db36059bddmr2770417lfk.5.1677059352364;
+        Wed, 22 Feb 2023 01:49:12 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id q13-20020ac25a0d000000b004b578e52d81sm2121394lfn.176.2023.02.22.01.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 01:49:11 -0800 (PST)
+Date:   Wed, 22 Feb 2023 11:49:00 +0200
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        freedreno@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+Message-ID: <20230222114900.1b6baf95@eldfell>
+In-Reply-To: <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+        <20230218211608.1630586-7-robdclark@gmail.com>
+        <20230220105345.70e46fa5@eldfell>
+        <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+        <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+        <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR11MB561174CA61F9C858577F726781DA9@PH0PR11MB5611.namprd11.prod.outlook.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; boundary="Sig_/vMp1DRNCFLeCBFsykIrKQNo";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shravan,
+--Sig_/vMp1DRNCFLeCBFsykIrKQNo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 06, 2023 at 04:43:42AM +0000, Shravan.Chippa@microchip.com wrote:
-> Hi Sakari,
-> 
-> 
-> > -----Original Message-----
-> > From: shravan Chippa - I35088
-> > Sent: 27 January 2023 05:40 AM
-> > To: Sakari Ailus <sakari.ailus@iki.fi>
-> > Cc: paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
-> > mchehab@kernel.org; krzysztof.kozlowski+dt@linaro.org;
-> > shawnguo@kernel.org; s.hauer@pengutronix.de; festevam@gmail.com;
-> > kernel@pengutronix.de; linux-imx@nxp.com; linux-media@vger.kernel.org;
-> > linux-kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-
-> > kernel@lists.infradead.org
-> > Subject: RE: [PATCH RESEND v10 5/5] media: i2c: imx334: update pixel and
-> > link frequency
-> > 
-> > Hi Sakari,
-> > 
-> > > -----Original Message-----
-> > > From: Sakari Ailus <sakari.ailus@iki.fi>
-> > > Sent: 25 January 2023 03:12 PM
-> > > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> > > Cc: paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
-> > > mchehab@kernel.org; krzysztof.kozlowski+dt@linaro.org;
-> > > shawnguo@kernel.org; s.hauer@pengutronix.de; festevam@gmail.com;
-> > > kernel@pengutronix.de; linux-imx@nxp.com; linux-
-> > media@vger.kernel.org;
-> > > linux-kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-
-> > > kernel@lists.infradead.org
-> > > Subject: Re: [PATCH RESEND v10 5/5] media: i2c: imx334: update pixel
-> > > and link frequency
-> > >
-> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know
-> > > the content is safe
-> > >
-> > > Hi Shravan,
-> > >
-> > > On Tue, Jan 24, 2023 at 05:34:02AM +0000, Shravan.Chippa@microchip.com
-> > > wrote:
-> > > > Hi Sakari,
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Sakari Ailus <sakari.ailus@iki.fi>
-> > > > > Sent: 24 January 2023 04:33 AM
-> > > > > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> > > > > Cc: paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
-> > > > > mchehab@kernel.org; krzysztof.kozlowski+dt@linaro.org;
-> > > > > shawnguo@kernel.org; s.hauer@pengutronix.de;
-> > festevam@gmail.com;
-> > > > > kernel@pengutronix.de; linux-imx@nxp.com;
-> > > > > linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > > > > devicetree@vger.kernel.org; linux-arm- kernel@lists.infradead.org
-> > > > > Subject: Re: [PATCH RESEND v10 5/5] media: i2c: imx334: update
-> > > > > pixel and link frequency
-> > > > >
-> > > > > EXTERNAL EMAIL: Do not click links or open attachments unless you
-> > > > > know the content is safe
-> > > > >
-> > > > > Hi Shravan,
-> > > > >
-> > > > > On Sat, Jan 21, 2023 at 09:07:13AM +0530, shravan kumar wrote:
-> > > > > > From: Shravan Chippa <shravan.chippa@microchip.com>
-> > > > > >
-> > > > > > Update pixel_rate and link frequency for 1920x1080@30 while
-> > > > > > changing mode.
-> > > > > >
-> > > > > > Add dummy ctrl cases for pixel_rate and link frequency to avoid
-> > > > > > error while changing the modes dynamically.
-> > > > > >
-> > > > > > Add support to handle multiple link frequencies.
-> > > > > >
-> > > > > > Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
-> > > > > > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> > > > > > ---
-> > > > > >  drivers/media/i2c/imx334.c | 41
-> > > > > > ++++++++++++++++++++++++++++----------
-> > > > > >  1 file changed, 30 insertions(+), 11 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/i2c/imx334.c
-> > > > > > b/drivers/media/i2c/imx334.c index 309c706114d2..62b104eaa437
-> > > > > > 100644
-> > > > > > --- a/drivers/media/i2c/imx334.c
-> > > > > > +++ b/drivers/media/i2c/imx334.c
-> > > > > > @@ -49,7 +49,8 @@
-> > > > > >  #define IMX334_INCLK_RATE    24000000
-> > > > > >
-> > > > > >  /* CSI2 HW configuration */
-> > > > > > -#define IMX334_LINK_FREQ     891000000
-> > > > > > +#define IMX334_LINK_FREQ_891M        891000000
-> > > > > > +#define IMX334_LINK_FREQ_445M        445500000
-> > > > > >  #define IMX334_NUM_DATA_LANES        4
-> > > > > >
-> > > > > >  #define IMX334_REG_MIN               0x00
-> > > > > > @@ -139,12 +140,14 @@ struct imx334 {
-> > > > > >       u32 vblank;
-> > > > > >       const struct imx334_mode *cur_mode;
-> > > > > >       struct mutex mutex;
-> > > > > > +     unsigned long menu_skip_mask;
-> > > > > >       u32 cur_code;
-> > > > > >       bool streaming;
-> > > > > >  };
-> > > > > >
-> > > > > >  static const s64 link_freq[] = {
-> > > > > > -     IMX334_LINK_FREQ,
-> > > > > > +     IMX334_LINK_FREQ_891M,
-> > > > > > +     IMX334_LINK_FREQ_445M,
-> > > > > >  };
-> > > > > >
-> > > > > >  /* Sensor mode registers for 1920x1080@30fps */ @@ -468,7
-> > > > > > +471,7 @@ static const struct imx334_mode supported_modes[] = {
-> > > > > >               .vblank_min = 45,
-> > > > > >               .vblank_max = 132840,
-> > > > > >               .pclk = 297000000,
-> > > > > > -             .link_freq_idx = 0,
-> > > > > > +             .link_freq_idx = 1,
-> > > > > >               .reg_list = {
-> > > > > >                       .num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
-> > > > > >                       .regs = mode_1920x1080_regs, @@ -598,6
-> > > > > > +601,11 @@ static int imx334_update_controls(struct imx334
-> > > > > > +*imx334,
-> > > > > >       if (ret)
-> > > > > >               return ret;
-> > > > > >
-> > > > > > +     ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-> > > > > > +                                    mode->pclk, 1, mode->pclk);
-> > > > > > +     if (ret)
-> > > > > > +             return ret;
-> > > > > > +
-> > > > > >       ret = __v4l2_ctrl_modify_range(imx334->hblank_ctrl, mode-
-> > >hblank,
-> > > > > >                                      mode->hblank, 1, mode->hblank);
-> > > > > >       if (ret)
-> > > > > > @@ -698,6 +706,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > >               pm_runtime_put(imx334->dev);
-> > > > > >
-> > > > > >               break;
-> > > > > > +     case V4L2_CID_PIXEL_RATE:
-> > > > > > +     case V4L2_CID_LINK_FREQ:
-> > > > > >       case V4L2_CID_HBLANK:
-> > > > > >               ret = 0;
-> > > > > >               break;
-> > > > > > @@ -1047,7 +1057,7 @@ static int imx334_parse_hw_config(struct
-> > > > > > imx334
-> > > > > *imx334)
-> > > > > >       struct fwnode_handle *ep;
-> > > > > >       unsigned long rate;
-> > > > > >       int ret;
-> > > > > > -     int i;
-> > > > > > +     int i, j;
-> > > > >
-> > > > > unsigned int would be nicer.
-> > > > I will change.
-> > > > >
-> > > > > >
-> > > > > >       if (!fwnode)
-> > > > > >               return -ENXIO;
-> > > > > > @@ -1097,11 +1107,20 @@ static int imx334_parse_hw_config(struct
-> > > > > > imx334
-> > > > > *imx334)
-> > > > > >               goto done_endpoint_free;
-> > > > > >       }
-> > > > > >
-> > > > > > -     for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
-> > > > > > -             if (bus_cfg.link_frequencies[i] == IMX334_LINK_FREQ)
-> > > > > > +     for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-> > > > > > +             for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-> > > > > > +                     if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-> > > > > > +                             set_bit(j,
-> > > > > > + &imx334->menu_skip_mask);
-> > > > >
-> > > > > Is there a guarantee that you'll only be using the modes with the
-> > > > > listed frequencies? I don't see one but I might have missed it.
-> > > >
-> > > > If I understand it correctly, the question here is, the listed
-> > > > freqeunceis and modes are one to one mapped? Then yes.
-> > >
-> > > I don't see this being checked in imx334_set_pad_format(), for instance.
-> > >
-> > > If a frequency isn't in DT, the driver isn't supposed to be using it either.
-> > 
-> > Yes, there is no check.
-> > 
-> > But, if a frequency is not in DT, the driver will not add in menu items.
-> > So, the function imx334_set_pad_format() -> imx334_update_controls()
-> > fails, if we set the frequencies which are not there in the DT or menu items.
-> > 
-> 
-> Are you ok with the above explanation or any changes you are expecting?
-> Please do let me know if there are any changes needed.
-> I am planning to send the next version.
+On Tue, 21 Feb 2023 09:53:56 -0800
+Rob Clark <robdclark@gmail.com> wrote:
 
-There doesn't seem to be anything that would prevent selecting a format
-with a wrong link frequency in these patches. Could you address that, or
-point me to where this is done? The control can't be changed by the user,
-but that's not enough.
+> On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+> >
+> > On 2023-02-20 11:14, Rob Clark wrote: =20
+> > > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com>=
+ wrote: =20
+> > >>
+> > >> On Sat, 18 Feb 2023 13:15:49 -0800
+> > >> Rob Clark <robdclark@gmail.com> wrote:
+> > >> =20
+> > >>> From: Rob Clark <robdclark@chromium.org>
+> > >>>
+> > >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urg=
+ent
+> > >>> wait (as opposed to a "housekeeping" wait to know when to cleanup a=
+fter
+> > >>> some work has completed).  Usermode components of GPU driver stacks
+> > >>> often poll() on fence fd's to know when it is safe to do things like
+> > >>> free or reuse a buffer, but they can also poll() on a fence fd when
+> > >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI fl=
+ag
+> > >>> lets the kernel differentiate these two cases.
+> > >>>
+> > >>> Signed-off-by: Rob Clark <robdclark@chromium.org> =20
+> > >>
+> > >> Hi,
+> > >>
+> > >> where would the UAPI documentation of this go?
+> > >> It seems to be missing. =20
+> > >
+> > > Good question, I am not sure.  The poll() man page has a description,
+> > > but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> > > bit vague).
+> > > =20
+> > >> If a Wayland compositor is polling application fences to know which
+> > >> client buffer to use in its rendering, should the compositor poll wi=
+th
+> > >> PRI or not? If a compositor polls with PRI, then all fences from all
+> > >> applications would always be PRI. Would that be harmful somehow or
+> > >> would it be beneficial? =20
+> > >
+> > > I think a compositor would rather use the deadline ioctl and then poll
+> > > without PRI.  Otherwise you are giving an urgency signal to the fence
+> > > signaller which might not necessarily be needed.
+> > >
+> > > The places where I expect PRI to be useful is more in mesa (things
+> > > like glFinish(), readpix, and other similar sorts of blocking APIs) =
+=20
+> > Hi,
+> >
+> > Hmm, but then user-space could do the opposite, namely, submit work as =
+usual--never
+> > using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPR=
+I. That seems
+> > like a possible usage pattern, unintended--maybe, but possible. Do we w=
+ant to discourage
+> > this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLIN=
+E with the current
+> > time, and then wouldn't that be equivalent to (E)POLLPRI? =20
+>=20
+> Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
+> slightly more convenient if you want an immediate deadline (single
+> syscall instead of two), but not strictly needed.  OTOH it piggy-backs
+> on existing UABI.
 
--- 
-Kind regards,
+In that case, I would be conservative, and not add the POLLPRI
+semantics. An UAPI addition that is not strictly needed and somewhat
+unclear if it violates any design principles is best not done, until it
+is proven to be beneficial.
 
-Sakari Ailus
+Besides, a Wayland compositor does not necessary need to add the fd
+to its main event loop for poll. It could just SET_DEADLINE, and then
+when it renders simply check if the fence passed or not already. Not
+polling means the compositor does not need to wake up at the moment the
+fence signals to just record a flag.
+
+On another matter, if the application uses SET_DEADLINE with one
+timestamp, and the compositor uses SET_DEADLINE on the same thing with
+another timestamp, what should happen?
+
+Maybe it's a soft-realtime app whose primary goal is not display, and
+it needs the result faster than the window server?
+
+Maybe SET_DEADLINE should set the deadline only to an earlier timestamp
+and never later?
+
+
+Thanks,
+pq
+
+--Sig_/vMp1DRNCFLeCBFsykIrKQNo
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP15QwACgkQI1/ltBGq
+qqfMTQ/9FH4Z7EQ5jdc+1jGvO29uR7Ih0y1/k/wFFU3l7XCftBRKTn040aMGRnq7
+fQTG3rTSC47mHT2FlwO+gXfwHpW1z80FOy9tD/fl2CDmqxqJbHE6DyGYdFMjzK5y
+920v4kfJFeJ99CLssA6yQwxlfobHP+M3rbX0cFTOJ0YGeP8ZY3DyQng4lZgwa2wD
+/MYnAs+589mU93gBEB/rUWKbHIFnZFv7psLpf7iP3aRU7muQAieSMpJGWtW1f/M4
+YMPMAAJagplQAfwDhbBFMBNz2dJpzUFiCk4uPYSLh+ysD6KhR4K+LYBrlC237Obe
+9dSrnuaL0hfzkedElz/edHetggNhvPzoYgJlf+VqjoXwNwDN1IFYW9RGeikAvFhr
+7tK+yxIDHwB/grglQFEiaF8+BrUMAuXWc2IgIuZvG0blE/6JxEvfeh7mBT+R2kF0
+1xAdrFGrPw7/ALH5bvGLfOCkY8pTC+QBkwknGDZGszr1pP6gs0tUHI0uqonAPQ6k
+b+TmMJA8OtC/Te6fk7NSDvvxNjtRupS+M0c9avOVc3LrWpIK0SDi5RSIz0MSzXfr
+/2lo3AUYiY6GYt59msHwnNPK8jVvSLxs3yR0q6LE/2MICreclpVXxiUsP7SfBNR0
+VWlFWhFMQjiZWdS4m3ZZBoEn8JR7fTBPIXVCUQgX0+X7D6oQlJg=
+=+sLE
+-----END PGP SIGNATURE-----
+
+--Sig_/vMp1DRNCFLeCBFsykIrKQNo--
