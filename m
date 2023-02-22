@@ -2,80 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 439FE69F2DB
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 11:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84E4369F2DC
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 11:43:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231218AbjBVKlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 05:41:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42396 "EHLO
+        id S231469AbjBVKnM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 05:43:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231551AbjBVKlp (ORCPT
+        with ESMTP id S231214AbjBVKnL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 05:41:45 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57FC37737
-        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 02:41:43 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id d10so423321pgt.12
-        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 02:41:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d2wqDkrxiDWE09Q3a4bC8PL8sBN0U7HIVcRwNkYnjZ0=;
-        b=VNtUMOUQf74azEyXsdfqaK1OT1s9jBblvEY+ZHAsOgG5fK2Ro8H40koIUe9ZBQBkwn
-         iK6jg2bO+5AsGX3GZxCA6JJ9AoCpXnQNFAWaRiwcekVBdTHO7a/tEdmIApfUmMYr6rfj
-         pz2qQRijYALBlofBjQedes2kuMOnSwJLSQzCYG73AwSCbf9Mb+lI+FIE+cC/6nC9wgj/
-         hFsCVVhEGEz4nWg7/bvQ+p3MI3RKtAsVBOyLF46SrAdrfrd86DRsRmDgGlCYhoZWfwKm
-         ZWJ15t1Th/UMbJD9O5MZl1yJFEgVMjblswWLAgVfdaTKF/4f5f8JsMY+KTpMXsfcotA9
-         KMng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d2wqDkrxiDWE09Q3a4bC8PL8sBN0U7HIVcRwNkYnjZ0=;
-        b=EwpDnV4PUjRnan8fjB55bSITTvSPavNdZd5SuMaSN3nCdJ5zQc4Sq243cNhEInZLvu
-         zc9f9ehVJ2UNiH9E8N59Vn9eqFF8hn6RrwmESx31duCiKE9UfBXaa/HAVgo5CfPSrBSK
-         ksqifb6zl4ICK7wsZ5bj1HuRMLLV3vPaSRjqrS8yznmmhcyC0h+b9EY/cOoQb2btSCea
-         dYrv3TsJGcsvAhiGcHbG1xttePU9eITUUl8GmhAwiUayVi4meWKeLpDtPAlnaVmLBRAx
-         oiMlCnjOpATOI25UAvT1tlJZbVbNhpOICkBc5x7mey1aj1lcXXdYFXemnWEVX6uI9mpg
-         c9CQ==
-X-Gm-Message-State: AO0yUKU11++H3qUyMvO+XT+YDObpT29yRpKE2jYFvBDZzCQQN1grAqSK
-        jfAFK3JpPRiD1xN07U51BwI=
-X-Google-Smtp-Source: AK7set/k4D/Zogwhn995G3dmFqEmEnf1JAK0P5livOLtASjBTSXX6QjWSZkDYWt2r1ti7a4Uw2We0w==
-X-Received: by 2002:a62:5250:0:b0:5a8:4bfb:6bee with SMTP id g77-20020a625250000000b005a84bfb6beemr8368252pfb.9.1677062503207;
-        Wed, 22 Feb 2023 02:41:43 -0800 (PST)
-Received: from [192.168.0.54] (ip5f5a5b70.dynamic.kabel-deutschland.de. [95.90.91.112])
-        by smtp.gmail.com with ESMTPSA id n24-20020aa79058000000b00592591d1634sm4796970pfo.97.2023.02.22.02.41.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 02:41:42 -0800 (PST)
-Message-ID: <e890fca0-a706-a43d-83ed-80c1f59b1182@googlemail.com>
-Date:   Wed, 22 Feb 2023 11:41:29 +0100
+        Wed, 22 Feb 2023 05:43:11 -0500
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035262BF03
+        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 02:43:09 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 326BB1BF215;
+        Wed, 22 Feb 2023 10:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1677062588;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=w15XMuIo0Mr5frPVdQZygcsiedXqfhLVljOtB3007iU=;
+        b=LzqZvOcHflDDc1ygHdJ6rvprTP8rXyX38/5gnYr2bdK/PBk3/9Op2bWNRpDFSgkNHlmUNt
+        NS9L3ZSkoDN2E9+tg372GDeT4bplKQQVGB70CAqgDM6gvnGTWeJLofF2RRvUWUqxfZUiqw
+        gVDZY/weyFXQWiSVZfd2Finixnpe6Y/xOIWhLF0Zxqoa5Ndz45Q1FasDLHm87v0PoAAuEw
+        l/L95fyEO6W9Cz69/EX805d2YfAxRzZqkEPm3j9gCeXS4+emSB2Rjejh4eO1h4HgthHb3T
+        q7IxN6DonGVBym9EOIt1WOokv0wb19DLdVv3Tal3Jo1ipAm+1zL/oCH1q9tvfg==
+Date:   Wed, 22 Feb 2023 11:43:06 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     adam@piggz.co.uk, linux-media@vger.kernel.org,
+        yong.deng@magewell.com, mchehab@kernel.org,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/3] media: sun6i-csi: implement vidioc_enum_framesizes
+Message-ID: <Y/XxuqtQ+RiANngZ@aptenodytes>
+References: <20230106194038.16018-1-adam@piggz.co.uk>
+ <20230106194038.16018-4-adam@piggz.co.uk>
+ <Y7iwR3W5RiQ2K+Ip@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [v4l-utils] [PATCH v9 3/7] Add support for meson building
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
-        rosenp@gmail.com, sakari.ailus@iki.fi, sean@mess.org,
-        user.vdr@gmail.com, xavier.claessens@collabora.com,
-        deborah.brouwer@collabora.com, ariel@vanguardiasur.com.ar,
-        ezequiel@vanguardiasur.com.ar, tomi.valkeinen@ideasonboard.com
-References: <20230221143204.26591-1-laurent.pinchart@ideasonboard.com>
- <20230221143204.26591-4-laurent.pinchart@ideasonboard.com>
- <0da1d7df-5ba5-c6ce-afa0-3450ea3e8ed3@xs4all.nl>
- <Y/Tab2i9eA+wcoF2@pendragon.ideasonboard.com>
-From:   Gregor Jasny <gjasny@googlemail.com>
-In-Reply-To: <Y/Tab2i9eA+wcoF2@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pZJD/d0ZMeQ5vF/E"
+Content-Disposition: inline
+In-Reply-To: <Y7iwR3W5RiQ2K+Ip@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,19 +55,122 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-On 21.02.23 15:51, Laurent Pinchart wrote:
->> I wonder if we shouldn't make a 1.24 stable release first without this patch
->> series, then introduce meson with version 1.25. Besides, the last stable release
->> was 16 months ago, so I think it is high time for a new stable anyway.
-> 
-> Works for me.
-> 
->> Gregor, any opinion?
+--pZJD/d0ZMeQ5vF/E
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure, I can create a new release tonight. Would anyone want to merge 
-something prior to the release?
+Hi,
 
-Thanks,
-Gregor
+On Sat 07 Jan 23, 01:35, Laurent Pinchart wrote:
+> Hi Adam,
+>=20
+> Thank you for the patch.
+>=20
+> On Fri, Jan 06, 2023 at 07:40:38PM +0000, adam@piggz.co.uk wrote:
+> > From: Adam Pigg <adam@piggz.co.uk>
+> >=20
+> > Create sun6i_csi_capture_enum_framesizes which defines the min
+> > and max frame sizes
+>=20
+> With the commit message updated (see review of 1/3),
+>=20
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I'm always a bit confused regarding how such an ioctl's behavior should dep=
+end
+on the attached subdev. Is it well-defined behavior that this here is only
+about the receiver part and has nothing to do with what the connected senso=
+r?
+
+> > Signed-off-by: Adam Pigg <adam@piggz.co.uk>
+> > ---
+> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 24 +++++++++++++++++++
+> >  1 file changed, 24 insertions(+)
+> >=20
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c=
+ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > index 54beba4d2b2f..2be761e6b650 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > @@ -739,6 +739,29 @@ static int sun6i_csi_capture_try_fmt(struct file *=
+file, void *private,
+> >  	return 0;
+> >  }
+> > =20
+> > +static int sun6i_csi_capture_enum_framesizes(struct file *file, void *=
+fh,
+> > +					  struct v4l2_frmsizeenum *fsize)
+
+A cosmetic/consistency suggestion would be to name this variable "frmsize" =
+to
+reuse part of the name of the structure, which is what I've done in other p=
+laces
+of the driver.
+
+Cheers,
+
+Paul
+
+> > +{
+> > +	const struct sun6i_csi_capture_format *format;
+> > +
+> > +	if (fsize->index > 0)
+> > +		return -EINVAL;
+> > +
+> > +	format =3D sun6i_csi_capture_format_find(fsize->pixel_format);
+> > +	if (!format)
+> > +		return -EINVAL;
+> > +
+> > +	fsize->type =3D V4L2_FRMSIZE_TYPE_CONTINUOUS;
+> > +	fsize->stepwise.min_width =3D SUN6I_CSI_CAPTURE_WIDTH_MIN;
+> > +	fsize->stepwise.max_width =3D SUN6I_CSI_CAPTURE_WIDTH_MAX;
+> > +	fsize->stepwise.min_height =3D SUN6I_CSI_CAPTURE_HEIGHT_MIN;
+> > +	fsize->stepwise.max_height =3D SUN6I_CSI_CAPTURE_HEIGHT_MAX;
+> > +	fsize->stepwise.step_width =3D 1;
+> > +	fsize->stepwise.step_height =3D 1;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int sun6i_csi_capture_enum_input(struct file *file, void *priva=
+te,
+> >  					struct v4l2_input *input)
+> >  {
+> > @@ -775,6 +798,7 @@ static const struct v4l2_ioctl_ops sun6i_csi_captur=
+e_ioctl_ops =3D {
+> >  	.vidioc_g_fmt_vid_cap		=3D sun6i_csi_capture_g_fmt,
+> >  	.vidioc_s_fmt_vid_cap		=3D sun6i_csi_capture_s_fmt,
+> >  	.vidioc_try_fmt_vid_cap		=3D sun6i_csi_capture_try_fmt,
+> > +	.vidioc_enum_framesizes		=3D sun6i_csi_capture_enum_framesizes,
+> > =20
+> >  	.vidioc_enum_input		=3D sun6i_csi_capture_enum_input,
+> >  	.vidioc_g_input			=3D sun6i_csi_capture_g_input,
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--pZJD/d0ZMeQ5vF/E
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmP18boACgkQ3cLmz3+f
+v9EWYgf7BD4C1MPAlmcXb6R5UmcCjQrgdhwtU/IqjRy4ShscyT8pucIRo+Ev6ZCp
+UnWxibMjfmAHs6hTVtFv8gPyhOOEPqb95Ez4+G9fm9Olxh4l9EWdtngylHPlYH8p
+CfG0nu8G3KdrX5uJHgguZJX1lek9AytFyGZRlHIFq10CqIKDmfVjSAZR2NGYRQEY
+jVw6Npp+6Wv/3ZLHr/OOCg+E2zmhbThzWvH1wm9uro4vJ3h6sVKE6hIQFM+jId9F
+tprpMQdRhlX/tLvNzkWBZ3Y6HhKYljBtcgE1ZMzlZO69EivE1U8kgAvYUm4UEyMu
+ELZa26EKK6QTB+nRAanoRNUtHPi47Q==
+=BgDg
+-----END PGP SIGNATURE-----
+
+--pZJD/d0ZMeQ5vF/E--
