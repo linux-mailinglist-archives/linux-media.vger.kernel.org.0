@@ -2,123 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E7A769F08D
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 09:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3127169F0F2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 10:07:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbjBVImy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 03:42:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60688 "EHLO
+        id S231583AbjBVJG7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 04:06:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230511AbjBVImx (ORCPT
+        with ESMTP id S231582AbjBVJG5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 03:42:53 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC1335A9
-        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 00:42:51 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 779B64E1;
-        Wed, 22 Feb 2023 09:42:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677055369;
-        bh=3JbyTfvWbtrZkyjivnkd8zhARw8D/clfpqdWnEHbbm0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iYFkNMVQ1u8xzjLZlpKzEpE3QVc0A4jWLupTpiiFvVRbJTG/0epjSCJ5CCmyvFEKO
-         gODol7tBLTCUK2Uwg/nqxa6YU+HW8vOdPXVznMMXp57SZBj/G/DNzJu/aaoRGIzCf0
-         GgeNbix7y0ZACLPEreTtkhdU3w8ZE0V/LGH6ifHo=
-Date:   Wed, 22 Feb 2023 10:42:47 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org, gjasny@googlemail.com,
-        hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
-        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
-        rosenp@gmail.com, sean@mess.org, user.vdr@gmail.com,
-        xavier.claessens@collabora.com, deborah.brouwer@collabora.com,
-        ariel@vanguardiasur.com.ar, ezequiel@vanguardiasur.com.ar,
-        tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 1/1] utils: Add help text for v4l2-tracer-gen.pl
-Message-ID: <Y/XVh58fj8vLokan@pendragon.ideasonboard.com>
-References: <20230221143204.26591-1-laurent.pinchart@ideasonboard.com>
- <20230221160849.2778-1-sakari.ailus@linux.intel.com>
- <Y/XACCUyQ/2o6ylt@valkosipuli.retiisi.eu>
+        Wed, 22 Feb 2023 04:06:57 -0500
+Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D4037B76
+        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 01:06:54 -0800 (PST)
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+        id 3344E9E67A; Wed, 22 Feb 2023 09:06:23 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+        t=1677056805; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
+        h=Date:From:To:Subject:From;
+        b=Irmea4m0IgFrX86362pASEnDSE0IMNO+n6sWETaE3dhGfk7bAsqVDTUN8XjoXw+XN
+         IdD9ZBa2mEXvUzDhWYMu6a1GlNzdge4jHnuFTGiXFDM3bFhXRPYGEh+XxYsTbjleOA
+         m7UfYDyuTzEkQtj3+edZlNtm7Z1bckmFWlSYjXrMaMQdqgqt9SvubT/1vRtfzhYZRR
+         All98/rbyuBaqKxHnAjQjiZ0RXGT9ffdkWiGgcHRy6b1zdgxPYw78R1wLCCWx8C6yx
+         ZWV31BwtJa7jxB6Sg8qpCLYpOpWlUXa1JU2SEE0vd6i9RhONEdVsuVvD+n2mPqh8cx
+         zwV7//7oayF6A==
+Received: by mail.corrib.pl for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 09:06:04 GMT
+Message-ID: <20230222074502-0.1.5n.hcg5.0.ju67b4z2j8@corrib.pl>
+Date:   Wed, 22 Feb 2023 09:06:04 GMT
+From:   =?UTF-8?Q? "Szczepan_Kie=C5=82basa" ?= 
+        <szczepan.kielbasa@corrib.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y/XACCUyQ/2o6ylt@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Dzie=C5=84 dobry,
 
-On Wed, Feb 22, 2023 at 09:11:04AM +0200, Sakari Ailus wrote:
-> On Tue, Feb 21, 2023 at 06:08:49PM +0200, Sakari Ailus wrote:
-> > Add help text for v4l2-tracer-gen.pl, via the '-h' option. Also add
-> > support for '--' to signal end of options, in case file names would begin
-> > with dash.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > Hi Laurent,
-> > 
-> > Can you squash this to the utils patch?
-> > 
-> > - Sakari
-> > 
-> >  utils/v4l2-tracer/v4l2-tracer-gen.pl | 22 ++++++++++++++++++++--
-> >  1 file changed, 20 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-> > index 8192a5bf..53473ae1 100755
-> > --- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
-> > +++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-> > @@ -8,8 +8,26 @@ my %outtype = ( "common" => 1, "trace" => 1, "retrace" => 1 );
-> >  while ($ARGV[0] =~ /^-/) {
-> >  	my $arg = shift @ARGV;
-> >  
-> > -	$outdir = shift @ARGV if $arg eq "-o";
-> > -	%outtype = (shift @ARGV => 1) if $arg eq '-t';
-> > +	($outdir = shift @ARGV) && next if $arg eq "-o";
-> > +	(%outtype = (shift @ARGV => 1)) && next if $arg eq '-t';
-> > +	(help() && exit 0) if $arg eq '-h';
-> > +	last if $arg eq '--';
-> > +
-> > +	print stderr "invalid option $arg, use $0 -h for help\n";
-> > +	exit 0;
-> 
-> This should have been:
-> 
-> 	exit 1;
-> 
-> to signal an error if an invalid option is given. The build process should
-> stop here in that case.
-> 
-> Could you change that while squashing it?
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
 
-Sure. I've done so in my tree.
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
 
-> > +}
-> > +
-> > +sub help() {
-> > +	print stderr <<EOF;
-> > +$0 - Generate files for V4L2 tracer
-> > +
-> > +usage: $0 [-o dir] [-t (common|trace|retrace)] [-h] header [header2] ...
-> > +
-> > +	-o dir	set output directory
-> > +	-t x	generate particular trace files, the default is to generate
-> > +		them all
-> > +	-h	print this help text and quit
-> > +EOF
-> >  }
-> >  
-> >  sub convert_type_to_json_type {
 
--- 
-Regards,
-
-Laurent Pinchart
+Pozdrawiam
+Szczepan Kie=C5=82basa
