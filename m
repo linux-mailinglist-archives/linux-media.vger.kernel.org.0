@@ -2,230 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1468169F4DC
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 13:49:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A8669F4A9
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 13:36:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbjBVMtU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 07:49:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45072 "EHLO
+        id S231474AbjBVMgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 07:36:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232012AbjBVMtT (ORCPT
+        with ESMTP id S231310AbjBVMgl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 07:49:19 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1057F34C33;
-        Wed, 22 Feb 2023 04:49:14 -0800 (PST)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31M8xrDP022840;
-        Wed, 22 Feb 2023 12:16:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=SGtRXeJfNFfM/gBHhH1VwoE+tnJqvkB4bqZxQM6wlj8=;
- b=k8a9fd7P2UI91b0fR5rm+e+bzlLHBOkb4PE30J7wPx/PVRCaK/yxT4h29cmh9Y3Q2ou0
- pPluNlN3Lm21mq/phpIrMcdJdrd1pNcjfO3PKujcfcZUWah5MNw/yBo/WQt+B/bkjM4B
- 8Pc1xvO7xLck7Mfzg1AF96cWWIue01JV4DY6O0jFNkTQbAq0bEO4kyoFyCklVCWnyHAr
- Lm7YMB6GwXKqXmAR/UDvWBUoB7Jk4Zi/LH2j5PC6hc3NhV+dfCJnlvCbmgIcbleE/cqw
- gdqdI6MD8+agNNi2TrhRUVs8QvOckSTr7TJiG1sJ64j01oHCSIVVjCdKuBRfegGOG6WS zQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ntnf3fq86-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 22 Feb 2023 12:16:46 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 31MBJD7T023916;
-        Wed, 22 Feb 2023 12:16:45 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ntn46j5ec-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 22 Feb 2023 12:16:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jTREfshGE7ON5olB8yNu+saIRjmnA+BMwwIjznqtuiqRPrgG19CWhuSWbF1SL9O7HFEW5KimHYuZ6MhMhZXU+2pSXdr92qZHCMeKp5FTaP4efXc/vbZvvaCWqeUaR06mYhSKqiy6/nvO7m9YCbL19w1JW1cJ5ZHdTWKSwXfOem2IzHmFj+e/9nRP9hbm3xpVnvaBZoZW/uuJMAEsBc20RbJ1dke88/fo6I1RkSvREtYg6k7Au8AkeyURJ6mIGvFAu4caTV3YnLj+qEpLOL75tm4MTF4VBl7g3Jtejk4jCJOtgFhMElcgPFYn0+FKyPMLN6ccVEMjRJFJphnQOCZ8rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SGtRXeJfNFfM/gBHhH1VwoE+tnJqvkB4bqZxQM6wlj8=;
- b=jZnx4qz6aLIRE4/bQOSX7DfC432CSThG18ZcIujw6Urz1dI1T4gKz42SsjjcNyuX1pLbAygGsZKnTlfUcp9PX9cKE24lhPVqUm1TWqWLRA/qntLcNqswKV2j1HYAP0OarlmIdx6SNiyLPNdBVaUo5vnOY+whj402ZZY07t1lV+/CDFsj+bmfyohqKosfhPeF10hg9XU92+VhJTueZGix6yr3qpUHSP2dOosQscqu50baXKxmcp1i2ojv397xtotN58MdhH1+lbrlxDjdwTNTQaIOinDi5rWuTP3JUYHEj0D/Z37uU871BD0BBmsC7Br2/RdG1hOhDmDP7K1UUscs6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        Wed, 22 Feb 2023 07:36:41 -0500
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E95538E97
+        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 04:36:36 -0800 (PST)
+Received: by mail-vs1-xe31.google.com with SMTP id o6so8843134vsq.10
+        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 04:36:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SGtRXeJfNFfM/gBHhH1VwoE+tnJqvkB4bqZxQM6wlj8=;
- b=ZeMMCHpwlPCa67idoX3Fc23CorgY92uCjnvo45uXL8NQ8xRA5/Mt1ymAje3FzlqY9t2UEBRRS3KOHErGQOSujo22XvFWbXumKWHl9042JP/hP01Zlzxm/xQa+nKaxoueYCJvOSrYvCJ9BQZ9bN2yMUGin/l2V0yEOK6UNgnxp3k=
-Received: from DS0PR10MB6798.namprd10.prod.outlook.com (2603:10b6:8:13c::20)
- by IA1PR10MB6805.namprd10.prod.outlook.com (2603:10b6:208:42b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.15; Wed, 22 Feb
- 2023 12:16:43 +0000
-Received: from DS0PR10MB6798.namprd10.prod.outlook.com
- ([fe80::d0f7:e4fd:bd4:b760]) by DS0PR10MB6798.namprd10.prod.outlook.com
- ([fe80::d0f7:e4fd:bd4:b760%3]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
- 12:16:43 +0000
-From:   Nick Alcock <nick.alcock@oracle.com>
-To:     mcgrof@kernel.org
-Cc:     linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 22/27] kbuild, dma-buf: heaps: remove MODULE_LICENSE in non-modules
-Date:   Wed, 22 Feb 2023 12:14:48 +0000
-Message-Id: <20230222121453.91915-23-nick.alcock@oracle.com>
-X-Mailer: git-send-email 2.39.1.268.g9de2f9a303
-In-Reply-To: <20230222121453.91915-1-nick.alcock@oracle.com>
-References: <20230222121453.91915-1-nick.alcock@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P265CA0053.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ac::19) To DS0PR10MB6798.namprd10.prod.outlook.com
- (2603:10b6:8:13c::20)
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112; t=1677069396;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zXKWn6cF0+CHQo35voABdeN+lewIiOJOlV9cWuYDSxI=;
+        b=PUHckDVC8tKSZ0FAPE61kmkSmeyKm/Sq5RkaIgu6wIIJxIerQr7AjEhEFH7eT6bLiA
+         9v0U1XMDwjI3dU30Dpk608KiP/t1K01NijDSLrj4bLEvZI4Hdsr5kCVDXSLSLx4fS8hm
+         pZsW5awatXhXA0ZCWzMMzHA3Qj6gVJnA4THx9mduF0fvhSBk2ZtOmDj8uPY7BsNzihig
+         h8l0KiIHI59fGPFBx8y82YZEjc+/1ytoBD1LVzVgAg8/PX0MaFY/yAsN/U33Q99ZMZ7y
+         I66s3Hhde85aS2Z79FJh7XLTeEx7QOHsBV35PeEXmAM6rGUcQMFElPvXkPXuhD9ywdvv
+         1iFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677069396;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zXKWn6cF0+CHQo35voABdeN+lewIiOJOlV9cWuYDSxI=;
+        b=eZbBk0vvrulX4I9XeGBP+2/QRpDAfTrU6Xuq/zcyi9lzDNhYbn2NnXR6N7BQgihtN2
+         DV1GRYhJ8gyyZObQAwyhgu1WarbtgeqrvvYcP67EjC71iRhfhp/oMXk0sr7wLEWAzgN5
+         i5zJ/4Pdgl8dH6e/t4F7LoEjijtInPatjZxdES2s3z/QuhFiFJtGMNwX+vuXpA7YR6pJ
+         5GVrTQIJU/IIT9KzUWowBipHgHADAMWNwbtoDtjv87X6YJbe4Y85omzDwXbWHKjLsjZT
+         10oKrAWP6a3gNciAWHLPyHODLs07Lx7s2xVC5bBiHBPjbCmi+wbgudia6tq6KqCjNWcg
+         oHIw==
+X-Gm-Message-State: AO0yUKU4KLBh2XrKpc1RKTUlnvSiQA4nEQYqfx+/Vp2iS48mU13maGIO
+        r6xUaKakh8HjyYL0My5EBEg/AQP8Y1AkQQ5LNYrqWw==
+X-Google-Smtp-Source: AK7set85UM52dIk/6l4hx5GXRC7iLhadz2pmT4Ls+DJUhrK2hIbprOPMz8lcmEbezXBdzGi7D/XisucsvME9ys1yn6o=
+X-Received: by 2002:a67:e1cc:0:b0:3ea:5896:84b9 with SMTP id
+ p12-20020a67e1cc000000b003ea589684b9mr1436878vsl.75.1677069395949; Wed, 22
+ Feb 2023 04:36:35 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB6798:EE_|IA1PR10MB6805:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3cfebb90-62c8-4593-ee1c-08db14cea91f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QtbKnKvNBdGSmELJvDMICAJMXjvVd3RFfj+gm6u21/GNM1ROLfadlLfQsVgjLpmRYhktZQ/8112Z5XEEgO/El9fX1xap7s3NuEwwXhwzAOpTkUFxPHAeBxX6lrfWzUpivUQ9LZZDAWegUX2K40skc6Bxtq8a+b1XjDbMyqf03b8upF90/2vlbIWpWOkBrZoNvKAjdMZoVlrAR3C2s/9c1GaRq20kHlAeiiifwaQSjgSRTvm7/qm586htpqKopijRruNdkVt7PD2xVT+MhYwa9mkLu7qX/As4O8gNatkAErsEusNVETjSvnvh7TMns8lq54CG2OQ8iQGQkemo1PVymAvfADnofe61ig/YSI3XpRwSpvwBpAgQXMTv3CPVexAmiR+40lFaNf7M5vgZkkEzjXI86AxqA6q58RWNEAHe84LnIF5i8Mpe3MloTwTKc4dZRUGXnGhyTgzVdFqEo6yo7XEWFlaKbhbe/ahROwY82+dhuV9oZMjw6mCWVLcI2gPsx5BLPUbVlfVKRt55IAXxA91cscOO63L9QR/slNLpaKBLj8WMrUkE7mVNahvosOo/pbY5l2ko0vOWj07Yj6kCU8ptvYRsHB5xmgW8AOjr3rtCbcy6t5pnovoy7KRx5rUXii9AJTrE8ivr/vhEcvwqYA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB6798.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199018)(36756003)(5660300002)(44832011)(83380400001)(2616005)(6512007)(478600001)(6486002)(6506007)(186003)(6916009)(66476007)(8936002)(66556008)(4326008)(66946007)(86362001)(41300700001)(8676002)(54906003)(1076003)(38100700002)(2906002)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cU16QXBUaGlhTnpFdUV5L1FOTXg5RWNKcUViSWhuY2dsZkVVYXJlZzRmNXhr?=
- =?utf-8?B?ckRYdTJZODg0SWpUMzlpTXhtU2V1bitqNHRnRGJjdjUzaU9jaldKcE56S3lq?=
- =?utf-8?B?RDRCZjI3WGNab2dkUUxuVGVISENMdzRxNHZVT0xqdktxYmpwV0Y1TzJIa0Nj?=
- =?utf-8?B?cjRJQm9OVVkrWStWaDBSUWtXT3NtckVNSis4ZVJubXpxRkNKMi9ncjNkTmpP?=
- =?utf-8?B?OUJPYm9TM216V0E0cGJ5allKdUtQaHRhYkE2aUxmWGRONHYzT0pQMEFDdU9z?=
- =?utf-8?B?TGpudkNrVlhNRW5jZzN4MmdHY2pWVEg1akJEc0hDM2V3c1V4MHljN3ErQ05u?=
- =?utf-8?B?Ry90OHZtVHNKc2pvSFZSVnY4eTU1YVo0VkJOWHBRTUlJbHBsYzVwVmpBcHVQ?=
- =?utf-8?B?YnkwZHZSRG5KNnlrWnYwOW50V0VtNWZTeHdtWE9oclBJYkFsYXhwSnpONGZX?=
- =?utf-8?B?aXRMbnB5Rm0yM0hrL2tBeWZEdXF2TmpmeHQ3QW5Kd05JTW5nay9qajI0bGtn?=
- =?utf-8?B?dUorQnNaM091Z04rUGhzdkhvTjJLSUtwa0paTHBiUVhFVG1XcmFFZU1Wck53?=
- =?utf-8?B?b3JXNmkvdTN2emR3YmlMRWhjLzZvYTdRdFFkNk12MnVhSnkxRU5rVUZUWXhJ?=
- =?utf-8?B?T0VMVENBUDg0bGdKV0VEdUJ6SytHdXpnbUFiN2IreGY3YURYZDBSaURQU0Z0?=
- =?utf-8?B?bHBCRHpGUlZwclp0bS9xNXlMR0EzM0R0YjBKcVJNc1VjTUI4Mld0MGJoZlhZ?=
- =?utf-8?B?eHFnSzdZbWtBeVFUdFR6WkhUV3lGNkFpamdwcTJ4bUNhdDZ1VE9QdDl1aDd5?=
- =?utf-8?B?ZnJCeEt0b1QyUitJcU5Uc0RpM2VkUUFzT1owTjUrNWFrRlBySTdiVWdFZTY1?=
- =?utf-8?B?bktKRk5OakV3VVE1Y3J3S0dSQmFxSHJBZHBzNWtaRGp3cEd5ZlYzTVAyMW5H?=
- =?utf-8?B?d0tyYkkyVjhFQnM5TGM0NFcweHRUZCtZaWZSRGMzMHppeDdvdmVhNmJhTWEw?=
- =?utf-8?B?NXVrZ21CZU5lU3Q0RDE3RHBVTDhFeTRVU3JESllLcy84SWxmRkl4R3VrZkto?=
- =?utf-8?B?eE51S1VLSmFnY1A5cmFZV0Q0c2VMWk0yUkVIb2oxYmtFRXcxeS8zRjJ1S2ds?=
- =?utf-8?B?bE4rVS9qR3JFenB2SFpHUHQ5UnVkMWFPek52LytMUEU2SER0Yi9IQUJtajJE?=
- =?utf-8?B?eVRSUXpndkVuUUdFODJ6ZldocHlRQTB1UHdPM3h6VXp3ZVZOeDIwYUttallY?=
- =?utf-8?B?QVN1SXFXeWVJcnI2OFFNWUpETW5Bd0Q0ZTNFb042dFMwN08rYnJJY2tRNTRi?=
- =?utf-8?B?YWVJS1h5Z2llSmVaa1hHWDlUcVFER1hWNlErbGpIOXdhNzcxdi9kOU9HWlFt?=
- =?utf-8?B?a1hyVGNCeUM3UllRcWdoUEV1QzlCVVl5U3hUVlZQNCtmamZqWkUvdytxdWVu?=
- =?utf-8?B?b3E1NjNKays4TUxwd1c4SjJUYnlDbUZTemFwN2FIejJRRnFWSWEyWGEwNmxY?=
- =?utf-8?B?QzlyYXg2eVREc3pwSWlwSFNtUXFLVkhjRHNvMFgzRXU3TFNpNDNoZE1xd21P?=
- =?utf-8?B?KytXZTlobDlkK3ZPU1dtR2k3VUpkT1dVRmRNNlFEYnU1djZ4alZvNzB0N0hP?=
- =?utf-8?B?K2lvMDBxL1V3ZUUvZDJOZEhJZ2ZQaFAyUlZEVVZkdjM3Mnh4anFXTE5STXNY?=
- =?utf-8?B?WlRhcmZVUlN4ZEo1aFhJSXc2NUhwYXZpSHJCckFyNGJrNTRJNCtyd2tvMjEw?=
- =?utf-8?B?bVVDdFZESGVlSkNSSHFSNGpZc2dFUzU3TWFXejBPZWI5cUI4YmJYcUw1eGFV?=
- =?utf-8?B?b3hhbkxTZU0rS0VKL1g1QUpzTkNNcUxBakpsalRDeVZJdDhFNkFNZEhrSE9I?=
- =?utf-8?B?RzR1ZzRjcTFzUXBpRWdhMGJzeDJDOGVtYis3SHFXeEh4VVowVnBpTTZ5RGJH?=
- =?utf-8?B?b0RmNWdiTGdvMzZtcWg5MVE1Y0l6VzVVMzdvL2RJekg0Sk5IVlZaY2VCdnZU?=
- =?utf-8?B?alhuTXcyV2dXRG15aVoxUS9RRmNtbk15b2FSN0lTRDF0M0FST1VVL29RN0hC?=
- =?utf-8?B?MU5HVDBNN2o5WDIxWFM1eEU2OW1iSWN4MnJ0QWVCNzFsR3Y0UkxOQVhnK29V?=
- =?utf-8?B?WnJ1SXpCa0hrSGpCMHIxS3NVbFM4Mk9JbFJzUFN4TytCL0hXSnFvcDlvOURU?=
- =?utf-8?Q?1IVjUpoYaFKTXE65lFbwMKE=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?a0dqd2t1NnZEOTJMNStITlpHN25naVRvQ2VzTVpieitsNlg4SzNhdGNYSitR?=
- =?utf-8?B?YncrTXlzZjZKSm50YTVHTVNOd2lUWVFJeTR5SUFVL1kxUStyYi81REZ2cVlD?=
- =?utf-8?B?em9EQ2lrNTdQSXBydkoxOXl0K1BpU3JkQ0RQaWxqbHRFd3lVWnY2TDVkc0lW?=
- =?utf-8?B?Y2I5NzQzQ3VwZC9TWGJUNDhrMVJhTVlnR3lUM3JQL1Y3alVXN2lGTlJhcFVN?=
- =?utf-8?B?ei9hb3pNVHM5dzIzd0tISGg1c0tPNmllaWkzcDFCNHhZOUF5YXIyQkFjNHRK?=
- =?utf-8?B?NFA0VkdrK09zQ3hvWjhHWXhlQyt1dkRhYlVudlkzWTRQdXlza3hMZmNWRXJ4?=
- =?utf-8?B?azlFcHdmQndZbXNYNFRMa2JsdTdqUlRrSkFEUUJuR2tZYTBzVUppNzEyZXAr?=
- =?utf-8?B?eWMxQVUxN2lxWWoxa0JkQUVjNjFDeTJCeWtYMFB1b05KMy9ZenNYZGlqNklq?=
- =?utf-8?B?WmpBZTk4TTFxN1VDNGM5SWd6OU1xWVJxUzFDN2tmVjZIRXIxV0VZOVpFbFlY?=
- =?utf-8?B?SitoNmRrUDZmNno5dGVIZHdxczdnalVrSHZacG96OFFzOGZ1S05RVWlldk1T?=
- =?utf-8?B?TEtUeWRkbDZYcFRTMzlWb21CN21KWGVyWGNKTVRkRUc1aGJzT1MyYmtxMHds?=
- =?utf-8?B?L1hkYkV4dzQrOW1QZGJ4Z0doaU9lY1g3WkdJSFprYkwyWHRLb1pCZnEzeGwy?=
- =?utf-8?B?TENuNVlob1ZCci9XdmxrVW8vb2FNYkJ4TkRYSEVvSFc3SjRoQWxMOU1wR3V6?=
- =?utf-8?B?L2lRSzNoS3RxNXBvbzlIaUpJTmlBMTNZWGhKejFyNWpObEJIOHVZWUw1WnV3?=
- =?utf-8?B?WHVMNUNCR1l0dmxpTVJROFZuQ2NRQldjcjBJWXp1eDk0bjNHSzFLenY0S1kz?=
- =?utf-8?B?NXBDdy8zRGpUTXlVblBTRjN6NXcvd1RNWDUwSFZVaGtWV2ZMWTZSTDUrTnFz?=
- =?utf-8?B?L2cydk5teWJBT1VVYmZ2Vm8rbmNZQVpKWG1hWXN5Y2gxamNkMDBsRXBrTVhB?=
- =?utf-8?B?NWhQQkJGQkdWS1Ryb01pcE5TN0oyZ1puODdMN29saVpzbnp5NVpqTU5kVTh4?=
- =?utf-8?B?SEVLZytKOFlTQzROREU2aFdvSXgyaVRpSGhkSWxFZVV1a1ZxVWVXY0VqY3ZC?=
- =?utf-8?B?d3BuNWVqcE5IRXB2bXREeTgwTDYzQ3VaV2NZeTd5MEM0cjk3WGd5K3lRVG8v?=
- =?utf-8?B?Q1RnVUo2R001M2tySGJ4S1BZSmEyZWtwcDF5OHMyN3ZaSW80T0RFWmdib0ZQ?=
- =?utf-8?B?azFlOTAvL1M4V1orTi9SSitKeWkreFZqS0xKeDBpSWxGbWhENmxtM1ArbGNI?=
- =?utf-8?Q?Z2vKsG5NBIrkI=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3cfebb90-62c8-4593-ee1c-08db14cea91f
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB6798.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 12:16:43.7422
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N7WygTcLIyOy1GaI6WQUv2aXvtSRJAu7sauU+RMyHPSLEqPbflUDPzGitrFdZDUwwBIuNYpS+twfGJaM+Cnpug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6805
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-22_05,2023-02-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- malwarescore=0 mlxscore=0 spamscore=0 adultscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302220108
-X-Proofpoint-GUID: tVI91aF08oC61edgE4ziXez_K1l3Aryg
-X-Proofpoint-ORIG-GUID: tVI91aF08oC61edgE4ziXez_K1l3Aryg
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
+In-Reply-To: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 22 Feb 2023 13:36:25 +0100
+Message-ID: <CAMRc=MdRev1NBz9ga0jcDKD0oZy_W-7caq9R0tQkUG86rBQ=3Q@mail.gmail.com>
+Subject: Re: arm64: libgpiod: refcount_t: underflow; use-after-free.
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        lkft-triage@lists.linaro.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ferry Toth <fntoth@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>, warthog618@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit 8b41fc4454e ("kbuild: create modules.builtin without
-Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
-are used to identify modules. As a consequence, uses of the macro
-in non-modules will cause modprobe to misidentify their containing
-object file as a module when it is not (false positives), and modprobe
-might succeed rather than failing with a suitable error message.
+On Mon, Feb 20, 2023 at 3:59 PM Naresh Kamboju
+<naresh.kamboju@linaro.org> wrote:
+>
+> Following kernel warning notices on qemu-arm64, qemu-arm and also on devices
+> running Linux version v6.2.0 while running libgpiod tests.
+>
 
-So remove it in the files in this commit, none of which can be built as
-modules.
+I don't see it on v6.2 with libgpiod v1.6.4. Seeing the output of the
+test script, it seems you're using an old version - what is it?
 
-Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
-Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Cc: linux-modules@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/heaps/cma_heap.c    | 1 -
- drivers/dma-buf/heaps/system_heap.c | 1 -
- 2 files changed, 2 deletions(-)
+> + ./gpiod.sh /opt/libgpiod/bin/
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 1131fb943992..a7f048048864 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -407,4 +407,3 @@ static int add_default_cma_heap(void)
- }
- module_init(add_default_cma_heap);
- MODULE_DESCRIPTION("DMA-BUF CMA Heap");
--MODULE_LICENSE("GPL v2");
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index e8bd10e60998..79c03f5b4e28 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -440,4 +440,3 @@ static int system_heap_create(void)
- 	return 0;
- }
- module_init(system_heap_create);
--MODULE_LICENSE("GPL v2");
--- 
-2.39.1.268.g9de2f9a303
+What's in gpiod.sh?
 
+Bart
+
+>   [INFO]    libgpiod test suite
+>   [INFO]    117 tests registered
+>   [INFO]    checking the linux kernel version
+>   [INFO]    kernel release is v6.2.0 - ok to run tests
+>   [INFO]    using gpio-tools from '/usr/bin'
+> [   10.499036] ------------[ cut here ]------------
+> [   10.499656] refcount_t: underflow; use-after-free.
+> [   10.500264] WARNING: CPU: 2 PID: 291 at lib/refcount.c:28
+> refcount_warn_saturate+0xf4/0x144
+> [   10.501306] Modules linked in: gpio_mockup(-) cfg80211 bluetooth
+> rfkill crct10dif_ce fuse drm
+> [   10.502364] CPU: 2 PID: 291 Comm: gpiod-test Not tainted 6.2.0 #1
+> [   10.503229] Hardware name: linux,dummy-virt (DT)
+> [   10.503883] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [   10.505331] pc : refcount_warn_saturate+0xf4/0x144
+> [   10.505723] lr : refcount_warn_saturate+0xf4/0x144
+> [   10.506115] sp : ffff800008983cd0
+> [   10.506391] x29: ffff800008983cd0 x28: ffff0000c4c4c100 x27: 0000000000000000
+> [   10.506961] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+> [   10.507533] x23: 0000000000000200 x22: ffff0000c4e66800 x21: ffff0000c7734640
+> [   10.508104] x20: 0000000000000001 x19: ffff0000c7734600 x18: ffffffffffffffff
+> [   10.508677] x17: 3d4d455453595342 x16: ffffcf0234432020 x15: ffff800088983957
+> [   10.509424] x14: 0000000000000000 x13: 2e656572662d7265 x12: 7466612d65737520
+> [   10.510003] x11: 3b776f6c66726564 x10: ffffcf02365db580 x9 : ffffcf0233b20138
+> [   10.510575] x8 : 00000000ffffefff x7 : ffffcf02365db580 x6 : 0000000000000001
+> [   10.511145] x5 : ffffcf023655f000 x4 : ffffcf023655f2e8 x3 : 0000000000000000
+> [   10.511721] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000c4c4c100
+> [   10.512294] Call trace:
+> [   10.512494]  refcount_warn_saturate+0xf4/0x144
+> [   10.512971]  kobject_put+0x164/0x220
+> [   10.513224]  fwnode_remove_software_node+0x44/0x60
+> [   10.513554]  gpio_mockup_unregister_pdevs+0x54/0x70 [gpio_mockup]
+> [   10.513970]  gpio_mockup_exit+0x10/0x328 [gpio_mockup]
+> [   10.514322]  __arm64_sys_delete_module+0x190/0x2a0
+> [   10.514653]  invoke_syscall+0x50/0x120
+> [   10.514915]  el0_svc_common.constprop.0+0x104/0x124
+> [   10.515277]  do_el0_svc+0x44/0xcc
+> [   10.515541]  el0_svc+0x30/0x94
+> [   10.515788]  el0t_64_sync_handler+0xbc/0x13c
+> [   10.516126]  el0t_64_sync+0x190/0x194
+> [   10.516419] ---[ end trace 0000000000000000 ]---
+>
+>
+> Build and test logs,
+> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14856342/suite/libgpiod/test/ctxless-get-value-single-line/log
+> https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/testrun/14856342/suite/libgpiod/tests/
+>
+>
+> --
+> Linaro LKFT
+> https://lkft.linaro.org
