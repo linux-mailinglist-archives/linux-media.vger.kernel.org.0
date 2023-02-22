@@ -2,152 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8105369ED6E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 04:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 414DF69EDE3
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 05:19:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbjBVDYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Feb 2023 22:24:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51334 "EHLO
+        id S230332AbjBVETI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Feb 2023 23:19:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjBVDYh (ORCPT
+        with ESMTP id S230055AbjBVETH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Feb 2023 22:24:37 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA97B25BA2;
-        Tue, 21 Feb 2023 19:24:34 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id s15so2198651pfg.3;
-        Tue, 21 Feb 2023 19:24:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=08RoP9FqZ5LRh0lE+LPot9xk+WOzcbwKxkpm4lLjdlc=;
-        b=J44cxmvqm067WA7UFA9kS1tZmSAaasG+U4ZbjNAwHrY1W9mMsMeqgbEl64t5m45NKm
-         xuZ9Bk3c0IoCG8J6BdBtjy6q7i4kZ1R4Uv1CnV99NA7neCy8g8apTVBUfW8kKI9SeR+P
-         fbcfXNA6gygapF2N/OnZi00vAkahV1Rr/cL2wN+YArzfjkHmUsENEq9XeGZPmKrmwp0Y
-         OC7mOum3LzNIzquktPEMVT0vAA37/0PRk+DwzzbeXGHXKHM1TDfOCim+puOwgt7u/jeC
-         uycwEenJmAK+UPCDg6DpGQ9gIUM+tbgpwafi4N+WnAXAgKOUXhY4PNS+IvtotiMSQ988
-         s0Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=08RoP9FqZ5LRh0lE+LPot9xk+WOzcbwKxkpm4lLjdlc=;
-        b=sQSDaov4wEYVLWdF4E1BDkzIxrgwRdPDLBGjFvhJz97ZH1iJM7Mc1hA2HTlg0SG4xA
-         jgEht7I1jtQJHCQ7nuRfTP1Q8fCeltoq3TM4LEm5cJe88MZiQrUchecQ/1BVpfb6uTlj
-         Mj95Odp0cqpkLHAJhW8Z/mxRwaKLkayRY91VS+ZKqA31hTkgiW7HUVI7pX1F1Bgp+kmb
-         vd0Bq+FKx8AXVbkWeoryzGtIzp86svifsj8jfjwJfQ1cISlPAD52PKlE4QjZRHRTDZ9i
-         Pkp5NT9EZ2cIEzoyKC5TPNqCXZewSa7PRm9Kc2yPMCk26Ud2EpVLFrelWDelIVtGGWBG
-         VG9Q==
-X-Gm-Message-State: AO0yUKU5mhJZqNGRTlxQrgWjBamJ8rqfxztUnCRaJi6Ef5jvtC5juCrE
-        HSCcWzZgrW+TNEwuNniWRJ9VZchW/l3VsFPtRZo=
-X-Google-Smtp-Source: AK7set94PuZmtKFqRhbuVnTkB5vjgbVsuRgrEOOyKMgWYBsWksN4RamTXAcKDx3zWaAJVDTxIIWOkV5xG6jaTiqQna4=
-X-Received: by 2002:a05:6a02:196:b0:4f1:cd3a:3e83 with SMTP id
- bj22-20020a056a02019600b004f1cd3a3e83mr866833pgb.3.1677036274163; Tue, 21 Feb
- 2023 19:24:34 -0800 (PST)
+        Tue, 21 Feb 2023 23:19:07 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4D44EFE
+        for <linux-media@vger.kernel.org>; Tue, 21 Feb 2023 20:19:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677039545; x=1708575545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=foVqbNwsSaT/XbSq2L56LbM/ErXYBob5z7eeWcgIvMs=;
+  b=n4FwRSvE+e09VXw8q1yqFxE8Qenb+DymE0uEPpOFQrsV5dV8U+7GzQZg
+   TXxnw/7j2d52SmtusrzrcTMgjhsWF9AcWexeMCHnUdFeG5ZxcNw2HORRB
+   A+w8gGqzr6AlDCFStbHw8ccqKS7rpUggkxjlljrQueDI0iIEiGDOCOArq
+   lofl84OsnGPPayaolf0du1DioTAR2CO58O35lAtUO5LjnKysMPZ/qtdaj
+   0u/5a5Ws7JF+Yd8JiXso4BooJa7qi39EZV945j8BPa+SXUc2yKB66UP63
+   pMoqtUmLY+wtXcS/67KdTMae9h5Q04d5lLldhM1MqQjud6tCXMWRAXl0Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="395314723"
+X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
+   d="scan'208";a="395314723"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 20:19:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="1000851954"
+X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
+   d="scan'208";a="1000851954"
+Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2023 20:19:00 -0800
+Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pUgaq-0000bB-0u;
+        Wed, 22 Feb 2023 04:19:00 +0000
+Date:   Wed, 22 Feb 2023 12:18:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 02/10] media: atomisp: Remove continuous mode support
+Message-ID: <202302221210.tOVPwauV-lkp@intel.com>
+References: <20230221145906.8113-3-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20230221094018.19840-1-zyytlz.wz@163.com> <20230221111529.2569-1-hdanton@sina.com>
-In-Reply-To: <20230221111529.2569-1-hdanton@sina.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Wed, 22 Feb 2023 11:24:21 +0800
-Message-ID: <CAJedcCxidOvqdTNp6Tk1ty4meh8htbqEbeOk2yhQhLsOVGRs=Q@mail.gmail.com>
-Subject: Re: [PATCH] media: bttv: fix use after free error due to btv->timeout timer
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alex000young@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221145906.8113-3-hdegoede@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hillf Danton <hdanton@sina.com> =E4=BA=8E2023=E5=B9=B42=E6=9C=8821=E6=97=A5=
-=E5=91=A8=E4=BA=8C 19:15=E5=86=99=E9=81=93=EF=BC=9A
->
-> Feel free to add info like how this fix was tested.
+Hi Hans,
 
-Hi Hillf,
+I love your patch! Perhaps something to improve:
 
-Sorry for my unclear description. I don't have the device to test. I
-learn it from someone else's experience.
+[auto build test WARNING on media-tree/master]
+[cannot apply to linus/master v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> >
-> > Fix it by adding del_timer_sync invoking to the remove function.
-> >
-> > cpu0                cpu1
-> >                   bttv_probe
-> >                     ->timer_setup
-> >                       ->bttv_set_dma
-> >                         ->mod_timer;
-> > bttv_remove
-> >   ->kfree(btv);
-> >                   ->bttv_irq_timeout
-> >                     ->USE btv
-> >
-> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > ---
-> >  drivers/media/pci/bt8xx/bttv-driver.c | 1 +
-> >  drivers/media/pci/bt8xx/bttv-risc.c   | 2 +-
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/=
-bt8xx/bttv-driver.c
-> > index d40b537f4e98..24ba5729969d 100644
-> > --- a/drivers/media/pci/bt8xx/bttv-driver.c
-> > +++ b/drivers/media/pci/bt8xx/bttv-driver.c
-> > @@ -4248,6 +4248,7 @@ static void bttv_remove(struct pci_dev *pci_dev)
-> >
-> >       /* free resources */
-> >       free_irq(btv->c.pci->irq,btv);
-> > +     del_timer_sync(&btv->timeout);
-> >       iounmap(btv->bt848_mmio);
-> >       release_mem_region(pci_resource_start(btv->c.pci,0),
-> >                          pci_resource_len(btv->c.pci,0));
-> > diff --git a/drivers/media/pci/bt8xx/bttv-risc.c b/drivers/media/pci/bt=
-8xx/bttv-risc.c
-> > index 32fa4a7fe76f..ada469198645 100644
-> > --- a/drivers/media/pci/bt8xx/bttv-risc.c
-> > +++ b/drivers/media/pci/bt8xx/bttv-risc.c
-> > @@ -481,7 +481,7 @@ bttv_set_dma(struct bttv *btv, int override)
-> >       if (btv->curr.frame_irq || btv->loop_irq || btv->cvbi) {
-> >               mod_timer(&btv->timeout, jiffies+BTTV_TIMEOUT);
-> >       } else {
-> > -             del_timer(&btv->timeout);
-> > +             del_timer_sync(&btv->timeout);
-> >       }
-> >       btv->main.cpu[RISC_SLOT_LOOP] =3D cpu_to_le32(cmd);
-> >
-> > --
-> > 2.25.1
->
-> This patch adds chance for deadlock by replacing del_timer() with del_tim=
-er_sync(), right?
->
->         cpu 0                           cpu 2
->         ---                             ---
->         bttv_read()                     bttv_irq_timeout()
->         bttv_reinit_bt848()
->         spin_lock_irqsave(&btv->s_lock,flags);
->
->                                         spin_lock_irqsave(&btv->s_lock,fl=
-ags);
->                                         deadlock;
->         btv->errors=3D0;
->         bttv_set_dma(btv,0);
->         del_timer_sync(&btv->timeout);
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-atomisp-Remove-depth-mode-support/20230221-230417
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230221145906.8113-3-hdegoede%40redhat.com
+patch subject: [PATCH 02/10] media: atomisp: Remove continuous mode support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230222/202302221210.tOVPwauV-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/130cc40ea8b4d6e5d3a752313fcffe29b63c46a5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hans-de-Goede/media-atomisp-Remove-depth-mode-support/20230221-230417
+        git checkout 130cc40ea8b4d6e5d3a752313fcffe29b63c46a5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/media/atomisp/
 
-Yes, it is. Thanks for pointing that out. Could you please give some
-advice about the fix?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221210.tOVPwauV-lkp@intel.com/
 
-Best regards,
-Zheng
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/media/atomisp/pci/atomisp_cmd.c: In function 'atomisp_get_dvs2_bq_resolutions':
+>> drivers/staging/media/atomisp/pci/atomisp_cmd.c:1919:44: warning: variable 'input_config' set but not used [-Wunused-but-set-variable]
+    1919 |         struct ia_css_stream_input_config *input_config = NULL;
+         |                                            ^~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_cmd.c: In function 'atomisp_set_fmt':
+>> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4673:36: warning: variable 'isp_sink_fmt' set but not used [-Wunused-but-set-variable]
+    4673 |         struct v4l2_mbus_framefmt *isp_sink_fmt;
+         |                                    ^~~~~~~~~~~~
+
+
+vim +/input_config +1919 drivers/staging/media/atomisp/pci/atomisp_cmd.c
+
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1910  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1911  /*
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1912   * Function to get DVS2 BQ resolution settings
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1913   */
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1914  int atomisp_get_dvs2_bq_resolutions(struct atomisp_sub_device *asd,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1915  				    struct atomisp_dvs2_bq_resolutions *bq_res)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1916  {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1917  	struct ia_css_pipe_config *pipe_cfg = NULL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1918  	struct ia_css_stream_config *stream_cfg = NULL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19 @1919  	struct ia_css_stream_input_config *input_config = NULL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1920  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1921  	struct ia_css_stream *stream =
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1922  		    asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1923  	if (!stream) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1924  		dev_warn(asd->isp->dev, "stream is not created");
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1925  		return -EAGAIN;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1926  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1927  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1928  	pipe_cfg = &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
+c01d5546773e3a drivers/staging/media/atomisp/pci/atomisp_cmd.c          Mauro Carvalho Chehab 2020-05-21  1929  		   .pipe_configs[IA_CSS_PIPE_ID_VIDEO];
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1930  	stream_cfg = &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1931  		     .stream_config;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1932  	input_config = &stream_cfg->input_config;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1933  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1934  	if (!bq_res)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1935  		return -EINVAL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1936  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1937  	/* the GDC output resolution */
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1938  	bq_res->output_bq.width_bq = pipe_cfg->output_info[0].res.width / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1939  	bq_res->output_bq.height_bq = pipe_cfg->output_info[0].res.height / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1940  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1941  	bq_res->envelope_bq.width_bq = 0;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1942  	bq_res->envelope_bq.height_bq = 0;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1943  	/* the GDC input resolution */
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1944  	bq_res->source_bq.width_bq = bq_res->output_bq.width_bq +
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1945  				     pipe_cfg->dvs_envelope.width / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1946  	bq_res->source_bq.height_bq = bq_res->output_bq.height_bq +
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1947  				      pipe_cfg->dvs_envelope.height / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1948  	/*
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1949  	 * Bad pixels caused by spatial filter processing
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1950  	 * ISP filter resolution should be given by CSS/FW, but for now
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1951  	 * there is not such API to query, and it is fixed value, so
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1952  	 * hardcoded here.
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1953  	 */
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1954  	bq_res->ispfilter_bq.width_bq = 12 / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1955  	bq_res->ispfilter_bq.height_bq = 12 / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1956  	/* spatial filter shift, always 4 pixels */
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1957  	bq_res->gdc_shift_bq.width_bq = 4 / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1958  	bq_res->gdc_shift_bq.height_bq = 4 / 2;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1959  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1960  	if (asd->params.video_dis_en) {
+130cc40ea8b4d6 drivers/staging/media/atomisp/pci/atomisp_cmd.c          Hans de Goede         2023-02-21  1961  		bq_res->envelope_bq.width_bq = pipe_cfg->dvs_envelope.width / 2 -
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1962  					       bq_res->ispfilter_bq.width_bq;
+130cc40ea8b4d6 drivers/staging/media/atomisp/pci/atomisp_cmd.c          Hans de Goede         2023-02-21  1963  		bq_res->envelope_bq.height_bq = pipe_cfg->dvs_envelope.height / 2 -
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1964  						bq_res->ispfilter_bq.height_bq;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1965  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1966  
+eaa399eb542cdf drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1967  	dev_dbg(asd->isp->dev,
+eaa399eb542cdf drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1968  		"source_bq.width_bq %d, source_bq.height_bq %d,\nispfilter_bq.width_bq %d, ispfilter_bq.height_bq %d,\ngdc_shift_bq.width_bq %d, gdc_shift_bq.height_bq %d,\nenvelope_bq.width_bq %d, envelope_bq.height_bq %d,\noutput_bq.width_bq %d, output_bq.height_bq %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1969  		bq_res->source_bq.width_bq, bq_res->source_bq.height_bq,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1970  		bq_res->ispfilter_bq.width_bq, bq_res->ispfilter_bq.height_bq,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1971  		bq_res->gdc_shift_bq.width_bq, bq_res->gdc_shift_bq.height_bq,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1972  		bq_res->envelope_bq.width_bq, bq_res->envelope_bq.height_bq,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1973  		bq_res->output_bq.width_bq, bq_res->output_bq.height_bq);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1974  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1975  	return 0;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1976  }
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1977  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
