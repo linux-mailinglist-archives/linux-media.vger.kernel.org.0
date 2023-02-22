@@ -2,75 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2FE69F7D0
-	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 16:31:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E5E69F82F
+	for <lists+linux-media@lfdr.de>; Wed, 22 Feb 2023 16:38:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232484AbjBVPbZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 10:31:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49700 "EHLO
+        id S231260AbjBVPiE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Feb 2023 10:38:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232488AbjBVPbT (ORCPT
+        with ESMTP id S232684AbjBVPh4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 10:31:19 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F2C437F26
-        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 07:31:17 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id s12so7949037qtq.11
-        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 07:31:17 -0800 (PST)
+        Wed, 22 Feb 2023 10:37:56 -0500
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C08A038E9A;
+        Wed, 22 Feb 2023 07:37:38 -0800 (PST)
+Received: by mail-oi1-x232.google.com with SMTP id c11so8794422oiw.2;
+        Wed, 22 Feb 2023 07:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fh6C77quFgb0sbEQJQh7U6O2ztcGG8ZW3pjGX3oErHE=;
-        b=JUcKVHkK/pw3xPAHb2WhFwz9wUMoQ9J7CeRSJs3iHDNBfb0jpxBe28aMi9ZE9pEkb3
-         VhW+w+R5ozM5s0DSWokvK0WclfvzU/QEiQq/wi//XUIVDK9I3HJBmT57ysp0QG4NdSnx
-         BjntMWeRmzV2fXtzzhetQ8/jfJPCNVILrPacXSx/rjEA3qJqD4iSu+b1EnC3yKfM8rIo
-         9LEIksD8Qn+sivTwdlnH817B6YN/mHsq1ZHprhCjt3VAIiNPjGWqOeF3POkmM4TWD37B
-         JwD7OKbhlU3qmc/Wzbo3N/bgV6gZU+91LjNFG4vdMpd5xai9TFq4sxLLapBu+j7WDuEq
-         /89w==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WywXApvBffh1ctyHLIw8PG0A91F5vwxm/kGgQV9IacY=;
+        b=YyGaMffCjHmeb7oKxQ/AjwDRPC3vooJ1hX7KULsqIMrny4Y/ywlqW1K1z0JtQh3GwC
+         97s0FyywTYTm4lkIxOzjKPqpDpYyNJVdABy708UFF+Tq8xpFeevUCxrlwK9gKxtxTYnj
+         ml/GZk+0PSjXV+nZcQ+EqeFZf3t2YwrK8ukjJM3QWmnbl0HLn4J6p9bNSGDJBk2i+Kni
+         gsM4bVRXRo8uxZ+6jnt9VZrPN60sdmAoiWAMsXCdSi+jGbyOlDwwPoz0hoWG9RWWDq2o
+         rPyhTFvUxgJSOd8LYXiIZnxR4ESA7m34m4+L6jWECPNtD4n+2myWFHygI9HBbNCxbkYM
+         32gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fh6C77quFgb0sbEQJQh7U6O2ztcGG8ZW3pjGX3oErHE=;
-        b=Iu/qStom3A/radPG6qE8VLfIOXIHmNsQW5oVHuoeMjj59vwnGZqDylihnYYsSX8KVP
-         JCLmR++Vf2TJHriwvw42RfV2lNm4yPxol1LyXp2r9qqAkQTjN615KgMC9xP3jYkoGnfn
-         JukFaNfy4CGPWDNroZDBWx+HmhFbAwJqU0duuwrYRW9615+xetI6OriZJEAk/wUa5isd
-         FYSjNVqLEMF+lQ1QsWXDf0A6YTCEsJQDAbWZMTsBOi7nl1lSw9zzrrOenISxTrjNxV2j
-         KjyvGJ3pUhO0VLRPGBcwINEmXqcyxzr9WvXAP4SQhb/H+7X2KzHGXemH5gKYb4N1mprd
-         st0g==
-X-Gm-Message-State: AO0yUKV8wxsJhcbOvybrrkOb6yZgNFulGZUKYx1LTeKFLWxupXpTMTU+
-        yyGAiyNEvDXaWttDpodQ5lvb2Q==
-X-Google-Smtp-Source: AK7set9O1fcF76S2nN5PHnfyp44+JWGYAs9/CQV3wl4gIeHjeJV7w23jjvq6MRKAU47RXwWoO7vppQ==
-X-Received: by 2002:a05:622a:2c2:b0:3b8:6b23:4fc2 with SMTP id a2-20020a05622a02c200b003b86b234fc2mr388260qtx.15.1677079876510;
-        Wed, 22 Feb 2023 07:31:16 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id ew10-20020a05622a514a00b003b8484fdfccsm4297942qtb.42.2023.02.22.07.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 07:31:15 -0800 (PST)
-Message-ID: <605689aa181770ad6c7fca2a55967ab5fc5a3699.camel@ndufresne.ca>
-Subject: Re: [PATCH 03/10] media: Add Y212 video format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        mirela.rabulea@oss.nxp.com
-Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Wed, 22 Feb 2023 10:31:14 -0500
-In-Reply-To: <93c8ae69-c765-f88e-23c3-9c6b8cf67b40@xs4all.nl>
-References: <cover.1671071730.git.ming.qian@nxp.com>
-         <9aa51224d2c37cca5f1283532cb99f3c8251b120.1671071730.git.ming.qian@nxp.com>
-         <93c8ae69-c765-f88e-23c3-9c6b8cf67b40@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WywXApvBffh1ctyHLIw8PG0A91F5vwxm/kGgQV9IacY=;
+        b=1fqvuYBKIfuI2pHrQGnPYnklkm0kbvAM8RGvu7EmGn/IIfprJBGveEPPggJIMmj00Z
+         wFiiweBtDY1I6URddy6k/jyVTq8m4V55mpySbUczPdhvhi3IaBOb4FIovjiKFT+xt/Bp
+         mjfRCK15BMA6/cZ16pS2VXGH7H/AnR9/J33ZJ9u2E0dZ2UyiGv5YxIg1DtzDhaZj1hxH
+         UdD0CtCXkWn7aGhXMsiQGVT8VRz9FJdwMeixtXAscL4M/K/KdTScQHSxH1mtSUy1wsjv
+         quBuvCetz3FbhX7CqQ25aW9U0LbAykWAlKwulSXSJZknDgwBZEoxSjbGDTAUaMLG19cG
+         eedA==
+X-Gm-Message-State: AO0yUKVG3B7iPrx4Xbu0eZA6oO1XNnfw6Z+PVuBaloJJSoa7r3DXIZU1
+        +YXj0IIenR/rSwiGrQwa9oiqLajba3qgqRw/SnI=
+X-Google-Smtp-Source: AK7set+ghT43kUTQU5CnG5qlnodVTbwtuuqgXrxj3sUQu1yp05OKsNhdEtnaHeVnQZ1YffZWQpnePgdKuPg3/NzktWY=
+X-Received: by 2002:a05:6808:16ab:b0:37d:81a9:5103 with SMTP id
+ bb43-20020a05680816ab00b0037d81a95103mr1413444oib.38.1677080257694; Wed, 22
+ Feb 2023 07:37:37 -0800 (PST)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <20230218211608.1630586-1-robdclark@gmail.com> <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell> <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com> <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+ <20230222114900.1b6baf95@eldfell>
+In-Reply-To: <20230222114900.1b6baf95@eldfell>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Wed, 22 Feb 2023 07:37:26 -0800
+Message-ID: <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        freedreno@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,51 +84,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, Ming,
+On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Tue, 21 Feb 2023 09:53:56 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+> > >
+> > > On 2023-02-20 11:14, Rob Clark wrote:
+> > > > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > > >>
+> > > >> On Sat, 18 Feb 2023 13:15:49 -0800
+> > > >> Rob Clark <robdclark@gmail.com> wrote:
+> > > >>
+> > > >>> From: Rob Clark <robdclark@chromium.org>
+> > > >>>
+> > > >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> > > >>> wait (as opposed to a "housekeeping" wait to know when to cleanup after
+> > > >>> some work has completed).  Usermode components of GPU driver stacks
+> > > >>> often poll() on fence fd's to know when it is safe to do things like
+> > > >>> free or reuse a buffer, but they can also poll() on a fence fd when
+> > > >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> > > >>> lets the kernel differentiate these two cases.
+> > > >>>
+> > > >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > >>
+> > > >> Hi,
+> > > >>
+> > > >> where would the UAPI documentation of this go?
+> > > >> It seems to be missing.
+> > > >
+> > > > Good question, I am not sure.  The poll() man page has a description,
+> > > > but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> > > > bit vague).
+> > > >
+> > > >> If a Wayland compositor is polling application fences to know which
+> > > >> client buffer to use in its rendering, should the compositor poll with
+> > > >> PRI or not? If a compositor polls with PRI, then all fences from all
+> > > >> applications would always be PRI. Would that be harmful somehow or
+> > > >> would it be beneficial?
+> > > >
+> > > > I think a compositor would rather use the deadline ioctl and then poll
+> > > > without PRI.  Otherwise you are giving an urgency signal to the fence
+> > > > signaller which might not necessarily be needed.
+> > > >
+> > > > The places where I expect PRI to be useful is more in mesa (things
+> > > > like glFinish(), readpix, and other similar sorts of blocking APIs)
+> > > Hi,
+> > >
+> > > Hmm, but then user-space could do the opposite, namely, submit work as usual--never
+> > > using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPRI. That seems
+> > > like a possible usage pattern, unintended--maybe, but possible. Do we want to discourage
+> > > this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLINE with the current
+> > > time, and then wouldn't that be equivalent to (E)POLLPRI?
+> >
+> > Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
+> > slightly more convenient if you want an immediate deadline (single
+> > syscall instead of two), but not strictly needed.  OTOH it piggy-backs
+> > on existing UABI.
+>
+> In that case, I would be conservative, and not add the POLLPRI
+> semantics. An UAPI addition that is not strictly needed and somewhat
+> unclear if it violates any design principles is best not done, until it
+> is proven to be beneficial.
+>
+> Besides, a Wayland compositor does not necessary need to add the fd
+> to its main event loop for poll. It could just SET_DEADLINE, and then
+> when it renders simply check if the fence passed or not already. Not
+> polling means the compositor does not need to wake up at the moment the
+> fence signals to just record a flag.
 
-Le vendredi 27 janvier 2023 =C3=A0 15:37 +0100, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> On 20/12/2022 04:11, Ming Qian wrote:
-> > Y212 is a YUV format with 12-bits per component like YUYV,
-> > expanded to 16bits.
-> > Data in the 12 high bits, zeros in the 4 low bits,
-> > arranged in little endian order.
-> >=20
-> >=20
+poll(POLLPRI) isn't intended for wayland.. but is a thing I want in
+mesa for fence waits.  I _could_ use SET_DEADLINE but it is two
+syscalls and correspondingly more code ;-)
 
-[...]
+> On another matter, if the application uses SET_DEADLINE with one
+> timestamp, and the compositor uses SET_DEADLINE on the same thing with
+> another timestamp, what should happen?
 
-> > @@ -618,6 +618,7 @@ struct v4l2_pix_format {
-> >  #define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YU=
-VA-8-8-8-8  */
-> >  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YU=
-VX-8-8-8-8  */
-> >  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YU=
-V 4:2:0 2 lines y, 1 line uv interleaved */
-> > +#define V4L2_PIX_FMT_Y212    v4l2_fourcc('Y', '2', '1', '2') /* 32  YU=
-YV 12-bit per component */
->=20
-> This definitely needs to be renamed to prevent repeating the 'P010' mista=
-ke.
->=20
-> It's a YUYV format, so perhaps: _YUYV_12?
->=20
-> You definitely need to have 'YUYV' in the name in order to deal with diff=
-erent
-> YUV orders.
+The expectation is that many deadline hints can be set on a fence.
+The fence signaller should track the soonest deadline.
 
-Hans, it seems you already accepted this exact same format from=20
-Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com> / [PATCH v3 2/7] m=
-edia:
-Add Y210, Y212 and Y216 formats.
+BR,
+-R
 
-Tomi omitted to update v4l2-common.c file. Ming, do you mind keeping this p=
-art
-of your patch (adding Y210/Y216 support), this way we'd get that properly
-implemented.
-
-Nicolas
-
-p.s. We can alternatively change our mind as this is not final yet I think.
-
-[...]
+> Maybe it's a soft-realtime app whose primary goal is not display, and
+> it needs the result faster than the window server?
+>
+> Maybe SET_DEADLINE should set the deadline only to an earlier timestamp
+> and never later?
+>
+>
+> Thanks,
+> pq
