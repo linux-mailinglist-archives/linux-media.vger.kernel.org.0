@@ -2,140 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9817E6A06C6
-	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 11:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDE426A06D5
+	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 11:58:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233248AbjBWKzE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Feb 2023 05:55:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60596 "EHLO
+        id S233407AbjBWK6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Feb 2023 05:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbjBWKy6 (ORCPT
+        with ESMTP id S233092AbjBWK6v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Feb 2023 05:54:58 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F1952DC1
-        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 02:54:37 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id d7so5930940pfu.4
-        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 02:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y+u5xMcW4Y2qj7hU/yc7EVZ6q+PSRWjd2qMgYmQ68mA=;
-        b=Vqpl6GEDKWLrDiSa4lHIVaPMXIPVvbdvz7WpQ7WUtFG/WgbKoH0TVXJlGIr3w+cvIB
-         JPkVKocc9ourApdVdilJ8YbEbUnyIecqbNSoDRXjCvTrMiXeCR6tHQxtPu7oJAbQQT0I
-         lkbnKcXxYRWP7oiPpuq6vAtfPpJ7fou65WTc4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y+u5xMcW4Y2qj7hU/yc7EVZ6q+PSRWjd2qMgYmQ68mA=;
-        b=QvhFO7WwUy+7nVDMxByNXm59ZGZEK+CU3QBH7Svwo/sNlzr4kHNpvMFUXXKzsxA+Xx
-         1tjfu2cC4SqJBT0pl83bfcZ3ZTHT10aWZv+VRclwB9smQacYM3ChbXpSC6vIgB/pdX1j
-         9Ucd098RBoijYTYGk7YkND00K9jqkp/btnxzhC/a5sHXNqpJilwxnTQKi73TsVO7P6/m
-         bOo19HfwPgg4Lc1163Ax3wMa8bdhbBFN/FoeKQ5lfovNRUNZOp79B02orWOR+2/gijdu
-         uFkJWd8NFtsb0vxRec9CqQZr6ew0xn0Y4DPLukVWc6/H3Oicz5dpHMmEz5HxXazfD1Jc
-         928A==
-X-Gm-Message-State: AO0yUKV7FbE1Nx6zEE677FyMUQPzVzpSNep8pfKidfyQX5nY6w7kNUxj
-        greiOesNeDsO6Jeb/6BGAXTD0AxGanuVnm9d
-X-Google-Smtp-Source: AK7set8WCiX0S30gut3q3jOVQjtTfGSggBHsl/1D/OJQXYbPLpuVgfAGy6Lu54/h6Dulza/oZScp1A==
-X-Received: by 2002:aa7:9d1c:0:b0:5db:ba06:1825 with SMTP id k28-20020aa79d1c000000b005dbba061825mr1880885pfp.3.1677149673614;
-        Thu, 23 Feb 2023 02:54:33 -0800 (PST)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com. [209.85.214.171])
-        by smtp.gmail.com with ESMTPSA id 10-20020aa7914a000000b0058bacd6c4e8sm1221310pfi.207.2023.02.23.02.54.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 02:54:33 -0800 (PST)
-Received: by mail-pl1-f171.google.com with SMTP id l15so13466314pls.1
-        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 02:54:32 -0800 (PST)
-X-Received: by 2002:a17:903:2402:b0:19c:9999:e922 with SMTP id
- e2-20020a170903240200b0019c9999e922mr1194063plo.5.1677149672172; Thu, 23 Feb
- 2023 02:54:32 -0800 (PST)
+        Thu, 23 Feb 2023 05:58:51 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708C49740;
+        Thu, 23 Feb 2023 02:58:49 -0800 (PST)
+Received: from ideasonboard.com (host-87-16-53-160.retail.telecomitalia.it [87.16.53.160])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84A7C4DE;
+        Thu, 23 Feb 2023 11:58:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677149926;
+        bh=ykZ6O0AnbceQWgdSWq/0czBCFAMEGPVFDYg0sfPzC3Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fgRFMMmDgBZA68w4BeUm4PB3UMouz8nrE4xJZ95Zhmp080fiW+ysN9PHonUqWUjzI
+         31ZB0f+7At4L2miOxZcc98q9rt2ayPUJ0UBgO6Tx2M6x2vKRVITuXjZuKfBI4jLe2T
+         giztLAVOND5z5sRRPBiK45Y/uTrjPrZqbUoFeLF0=
+Date:   Thu, 23 Feb 2023 11:58:44 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
+Message-ID: <20230223105844.cqhkxoypkl5v24h2@uno.localdomain>
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+ <CAHCN7x+9E8qcBVOQZKTKagDkvkKVnqDtjvpNX-iNFYwCLRoYug@mail.gmail.com>
+ <Y+1xCtdxIoPtnOws@pendragon.ideasonboard.com>
+ <CAHCN7xLQ2+EuwByr_S9LJjPOtNJncDEHJmBkiLqfEdG4P7gTkw@mail.gmail.com>
 MIME-Version: 1.0
-References: <83f9ba3c-18bb-e0cd-e5ac-7c3281f2b5f8@willerding.net>
-In-Reply-To: <83f9ba3c-18bb-e0cd-e5ac-7c3281f2b5f8@willerding.net>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 23 Feb 2023 11:54:20 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvNua4iuisDyp2E-7EZfwDCgx-2hyTK3rmB7HOUB=bszg@mail.gmail.com>
-Message-ID: <CANiDSCvNua4iuisDyp2E-7EZfwDCgx-2hyTK3rmB7HOUB=bszg@mail.gmail.com>
-Subject: Re: UVC device not yet supported
-To:     Lutz <lutz@willerding.net>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHCN7xLQ2+EuwByr_S9LJjPOtNJncDEHJmBkiLqfEdG4P7gTkw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lutz
+Hi Adam
+   sorry to jump up without being involved in the conversation
 
-Can you try:
-ls -la /dev/video*
-and then
-v4l2-ctl --all -d /dev/videoX
-for all the /dev/video devices that you found?
+On Sat, Feb 18, 2023 at 10:14:08AM -0600, Adam Ford wrote:
+> On Wed, Feb 15, 2023 at 5:55 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Adam,
+> >
+> > On Wed, Feb 15, 2023 at 07:57:53AM -0600, Adam Ford wrote:
+> > > On Fri, Nov 18, 2022 at 3:44 AM Paul Elder wrote:
+> > >
+> > > > This series depends on v3 of "dt-bindings: media: Add macros for video
+> > > > interface bus types" [1].
+> > > >
+> > > > This series extends the rkisp1 driver to support the ISP found in the
+> > > > NXP i.MX8MP SoC.
+> > >
+> > > I'm going to spend some time testing this over the weekend.  Is there a V4
+> > > pending, or should I just test whatever is in Laurent's repo?
+> >
+> > I've updated all the v6.2-based branches on
+> > https://gitlab.com/ideasonboard/nxp/linux.git (and renamed them to
+> > v6.2/*). Beside a rebase, the v6.2/isp branch contains (at the bottom) 6
+> > additional patches that I've previously posted to the linux-media
+> > mailing list (feel free to review them ;-)).
+>
+> I grabbed your v6.2 series, and applied some updates to enable an
+> imx219 camera and routed it through the ISP and configured the camera
+> to SRGGB10_1X10/640x480 and had the ISP convert to YUYV8_2X8/640x480
+> and it captured just fine.
+>
+> With that, I think you can add
+>
+> Tested-by: Adam Ford <aford173@gmail.com> #imx8mp-beacon
+>
+> I haven't experimented with the resizer yet,but  I did have some
+> questions on the AWB.  The AWB appears to be available on the 8MP per
+> the TRM, and  I see reference to AWB in the driver, but when I query
+> the subdev via yavta, I didn't see anything obvious on how to enable
+> it.  My pipeline (attached) shows klisp1_params as video2 and
+> rkisp1_stats as video1.  I attempted to query both without much
+> success.
 
-Thanks!
+As you might be aware there's no magic button to "turn AWB on". The
+ISP enables the implementation of AWB algorithms that consumes the
+statistics the ISP produces on the raw images it is fed with and
+allows to program the color gains to realize colors balancing.
 
-On Thu, 23 Feb 2023 at 10:34, Lutz <lutz@willerding.net> wrote:
->
-> Hi,
->
-> just got a Endoskop camera from pearl, very cheap device (12,99=E2=82=AC)=
- and
-> connected it to a debian 11.
->
-> I'm trying to get a picture or stream from this camera, an came across
-> this page:
->
-> https://www.ideasonboard.org/uvc/
->
-> There is a section you'd like to be notified if a UVC device is not
-> listed there.
->
-> So this is my motivation to email you :)
->
->
-> Device is recogniced and listed in lsusb:
->
-> Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-> Bus 001 Device 008: ID 04cf:8819 Myson Century, Inc. USB 2.0 SD/MMC Reade=
-r
-> ---> Bus 001 Device 009: ID 1908:2311 GEMBIRD Generic UVC 1.00 camera
-> [AppoTech AX2311]  <---
-> Bus 001 Device 006: ID 05e3:0608 Genesys Logic, Inc. Hub
-> Bus 001 Device 004: ID 0b05:19af ASUSTek Computer, Inc. AURA LED Controll=
-er
-> Bus 001 Device 007: ID 046d:c326 Logitech, Inc. Washable Keyboard K310
-> Bus 001 Device 005: ID 0557:8021 ATEN International Co., Ltd Hub
-> Bus 001 Device 003: ID 0409:005a NEC Corp. HighSpeed Hub
-> Bus 001 Device 002: ID 041e:4083 Creative Technology, Ltd Live! Cam
-> Socialize [VF0640]
-> Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
->
-> but no usable video device is created - at least i can not get a picture
-> from it.
->
-> The Creative Live! Cam does create a stream. I think this problem could
-> be solvable by some udev rules?
->
-> there is also a hw-probe for my machine:
->
-> https://linux-hardware.org/?probe=3D4f19f71811
->
-> tia for any hints
->
-> lutz willerding
->
->
+The implementation of such algorithms doesn't live in the driver but
+rather in a separate component usually running in user space. With
+libcamera we're creating a userspace camera stack where it is possible
+to implement such algorithms, and the i.MX8MP is fairly well supported
+by the "rkisp1" component.
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/pipeline/rkisp1
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/rkisp1/algorithms
+
+There's probably one single patch still out of tree in libcamera to flip
+the switch and enable i.MX8MP support through the RkISP1 component.
+
+If you're willing to give it a spin let me know and I can try
+support you in testing it.
 
 
---=20
-Ricardo Ribalda
+>
+> root@beacon-imx8mp-kit:~# yavta -l /dev/video2
+> Device /dev/video2 opened.
+> Device `rkisp1_params' on `platform:rkisp1' (driver 'rkisp1') supports
+> meta-data, output, without mplanes.
+> unable to query control 0xc0000000: Inappropriate ioctl for device (25).
+> Meta-data format: RK1P (50314b52) buffer size 3048
+> root@beacon-imx8mp-kit:~# yavta -l /dev/video1
+> Device /dev/video1 opened.
+> Device `rkisp1_stats' on `platform:rkisp1' (driver 'rkisp1') supports
+> meta-data, capture, without mplanes.
+> unable to query control 0xc0000000: Inappropriate ioctl for device (25).
+> Meta-data format: RK1S (53314b52) buffer size 260
+> root@beacon-imx8mp-kit:~#
+>
+> Is there documentation somewhere on where to test the AWB?  This is of
+> particular interest to me, because the RGGB format of the camera comes
+> across with a green tint.  I am able to remove this green-ness on a
+> different platform using some AWB on the ARM, but I'd rather do it in
+> hardware if possible.
+>
+> Thanks
+>
+> adam
+>
+>
+> >
+> > My only concern with this series is with patch "media: rkisp1: Add match
+> > data for i.MX8MP ISP", and in particular with the following hunk:
+> >
+> >  enum rkisp1_cif_isp_version {
+> >         RKISP1_V10 = 10,
+> >         RKISP1_V11,
+> >         RKISP1_V12,
+> >         RKISP1_V13,
+> > +       IMX8MP_V10,
+> >  };
+> >
+> > It's not a very nice versioning scheme :-S I'll see if I can find
+> > something better, but regardless of that, I'll post v4 with the goal of
+> > merging it in v6.4.
+> >
+> > > I have an IMX219 camera with 4-lane support and an i.MX8M Plus kit from
+> > > Beacon, and I want to test the RGGB bayer conversion to see how well it
+> > > works.
+> > >
+> > > > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+> > > > and in the NXP i.MX8MP have the same origin, and have slightly diverged
+> > > > over time as they are now independently developed (afaik) by Rockchip
+> > > > and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+> > > > and is close enough to the RK3399 ISP that it can easily be supported by
+> > > > the same driver.
+> > >
+> > > Is there a reason the driver cannot be renamed to a more generic name than
+> > > rkisp1 if the Rockchip and VeriSilicon had similar origins?  Having the
+> > > name Rockchip referenced from an NXP i.MX8M Plus seems odd to me.
+> >
+> > The common roots of the IP core predate both Rockchip and VeriSilicon.
+> > Those two implementations have now diverged (as with all forks), so
+> > either name would be wrong in some cases :-S
+> >
+> > > > The last two patches add support for UYVY output format, which can be
+> > > > implemented on the ISP version in the i.MX8MP but not in the one in the
+> > > > RK3399.
+> > > >
+> > > > This version of the series specifically has been tested on a Polyhex
+> > > > Debix model A with an imx219 (Raspberry Pi cam v2).
+> > > >
+> > > > [1] https://lore.kernel.org/linux-media/20220615221410.27459-2-laurent.pinchart@ideasonboard.com/
+> > > >
+> > > > Laurent Pinchart (3):
+> > > >   dt-bindings: media: rkisp1: Add i.MX8MP ISP example
+> > > >   media: rkisp1: Add and use rkisp1_has_feature() macro
+> > > >   media: rkisp1: Configure gasket on i.MX8MP
+> > > >
+> > > > Paul Elder (11):
+> > > >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+> > > >   media: rkisp1: Add match data for i.MX8MP ISP
+> > > >   media: rkisp1: Add and set registers for crop for i.MX8MP
+> > > >   media: rkisp1: Add and set registers for output size config on i.MX8MP
+> > > >   media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
+> > > >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+> > > >   media: rkisp1: Add register definitions for the test pattern generator
+> > > >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+> > > >   media: rkisp1: Support devices without self path
+> > > >   media: rkisp1: Add YC swap capability
+> > > >   media: rkisp1: Add UYVY as an output format
+> > > >
+> > > >  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
+> > > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
+> > > >  .../platform/rockchip/rkisp1/rkisp1-debug.c   |  14 +-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  67 +++++++--
+> > > >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 +++++++++++++++++-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  90 ++++++++++++
+> > > >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
+> > > >  include/uapi/linux/rkisp1-config.h            |   2 +
+> > > >  9 files changed, 509 insertions(+), 40 deletions(-)
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+
+
