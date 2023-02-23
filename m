@@ -2,106 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 487586A022C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 05:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13B926A0270
+	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 06:41:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233255AbjBWE5L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Feb 2023 23:57:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58112 "EHLO
+        id S233160AbjBWFlt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Feb 2023 00:41:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233133AbjBWE5I (ORCPT
+        with ESMTP id S229453AbjBWFls (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Feb 2023 23:57:08 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600A23755E;
-        Wed, 22 Feb 2023 20:57:04 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id c18so2914448wmr.3;
-        Wed, 22 Feb 2023 20:57:04 -0800 (PST)
+        Thu, 23 Feb 2023 00:41:48 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F7B497D4
+        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 21:41:47 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id q11so11860764plx.5
+        for <linux-media@vger.kernel.org>; Wed, 22 Feb 2023 21:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oJ1ygPoZcuhkXc7zdPRG9mHdkWlXAbKRlPTRdm1B9Xc=;
-        b=QVAGNRXBucmqC3/ksxMo0H1YDI+NXvdl/Al8bLXaUC0gf6n7YtU+tGs1Z+vAYhhYJu
-         IM+XPMgeh+tKrczoNu/s9YGf7SbzaOf97Rk5oHPUJ9vqSJZOyyFnnadut1pJ8/4Ax9+5
-         yBl6b9su/oxyc0CVvevXiZjVAyQdHi//Lwn+FwMQ4yKHxlm3rl2CHIfS80pB58NZBYRX
-         TDCVpXM9BtFYdA2/zfMO5Bfkj+6xUOwr3Sbh4aGX4RuCr9n6cxVjLAX4s8AlS3TMrME6
-         JFJEhxvS53rUye41wpmi98FPLFy+ALLDUaBiLedLeQ1lmpL30FN53ziXxQxx05CNnJhZ
-         IOag==
+        d=wistron-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FEXPPCK8RfqWIy61SdJSATTm4fO5IDc6+VUaQzEmh4E=;
+        b=Iaoybi9FTzh6C/4Q1uAlBnnpbXHAaChef57PMz+L5CNynKlpOVTV1yvWjcgHGLqLdO
+         GsdRImZTtGpvoveMc5Q+0hD0MiBMi9/qPjfLkxgGrd9VbQ3ZWkO7LABV3eH+H5wr8Mx2
+         xI/dc+0n5Ev0Varn6blZ48V6CSDbiYz+iP+A30M/BwpIwfHkHtJLeItKxus6j9hLd8DX
+         mkIFrnsXKUcO7ybl5xvaqzT21jnAvqjKMQHmH1lMkRKM0EioeKEtN1BpWicIw0vz6+oz
+         ujFisqnfE9cIiCg5swTO1vOnkrV9rW8RaDgpNhL+e972+kSkdQFk9GOuyYlL4+Gl0HTh
+         8KrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oJ1ygPoZcuhkXc7zdPRG9mHdkWlXAbKRlPTRdm1B9Xc=;
-        b=V9SyrRfB5iv0tb3nsbleNRiDe+AOPEohb+NW80P3EEXdppwRengt7c4PzBY2mHHNs+
-         fh7/6mYKaAwJrje06QTYAgmqBdAucjDQrdcw8N0Vr3DrKGFokKbRIVNO80gukTTsVGOm
-         dE7Cy5KU5gV/Vt7HB7XEEwrxhcV1yGtbGe67VY0QxDYdKfK6yvgTXBTxOapr/elgRQ1E
-         qpwDCJv6aD6JmmLyTQGGSDyOiBIIQL/ljLjKoNNKsRJruO1DO8qZpChnuju6QJXVtjwA
-         AJsUk2Xd7XJzFTNuBOtUlF7TyBRwjFZCNy/1BaEpN3Gw5CoIbQaQyRCwBerYk474mAf0
-         MC5g==
-X-Gm-Message-State: AO0yUKUivCEmJh8A0I+tzoF0saYKc9MX1h/fY/dZhpWIXTjboqaPQ2wZ
-        rI4QnLPpIJstY8nglmfcU9uQhwl3GgK8DQ==
-X-Google-Smtp-Source: AK7set/nGRj49Cf562GHxGACRLLQYg6LyJnN/CPthdbKpbAPt2IuqS46yaC4fpQSJSsCTNjal3kAMw==
-X-Received: by 2002:a05:600c:4393:b0:3dc:19d1:3c1f with SMTP id e19-20020a05600c439300b003dc19d13c1fmr2068750wmn.30.1677128222876;
-        Wed, 22 Feb 2023 20:57:02 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k16-20020a7bc410000000b003e21f959453sm4543053wmi.32.2023.02.22.20.57.01
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FEXPPCK8RfqWIy61SdJSATTm4fO5IDc6+VUaQzEmh4E=;
+        b=XpYUsu57A/gu+SMHlKvvHpRhk6DR/pPca3i4PL32J59G9tVrNfZcVf5Bs/gKLsYZD5
+         zl18VIAOp/uB/8LPj1ldq+1agWynPLLBp1Mgry+JBW1SDRAXinVxpxeHgzztke/oREsy
+         MbL0JkeXFahyvT34Up0r2MmkPpjdKPsowtVOdQ2qhG34s5emfq1k4bv6NefReBS285cD
+         fUT786IApOFzeSad7sao9EAAavgdWcUnkEdKideUYFc+8og/ifypTbMP5yE7GaOjx+ob
+         S0LkXVbIZJir/DtA4bnkYbgs7rRGkGPTFSiDDuG9aLVVN2QD89wNMsRsjrLXJWRr3P5o
+         E+AQ==
+X-Gm-Message-State: AO0yUKUPgTJJtQxipVWD23aK6rwz6Zv3yUpuDYNgTXZF9RSMMS2bFWRD
+        FNnbmrcVvNouJ/EXMUmmiyRUSA==
+X-Google-Smtp-Source: AK7set9EfGInk0g9nPYWg1g2YklQ06/aSqmHefF8nH7RZ19edO7NzOiLMGFwQuZ5jFmjjxfAJx84rw==
+X-Received: by 2002:a17:902:e1cc:b0:19c:9420:6236 with SMTP id t12-20020a170902e1cc00b0019c94206236mr6420380pla.22.1677130906465;
+        Wed, 22 Feb 2023 21:41:46 -0800 (PST)
+Received: from localhost.localdomain ([2401:e180:8812:cac3:129e:5c16:92e6:e867])
+        by smtp.gmail.com with ESMTPSA id g12-20020a170902c38c00b0019c90f8c831sm4455256plg.242.2023.02.22.21.41.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 20:57:02 -0800 (PST)
-Date:   Wed, 22 Feb 2023 16:59:51 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: i2c: imx296: fix error checking in
- imx296_read_temperature()
-Message-ID: <Y/Yf19AE78jn5YW7@kili>
+        Wed, 22 Feb 2023 21:41:46 -0800 (PST)
+From:   Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     mchehab@kernel.org, bleung@chromium.org, groeck@chromium.org,
+        scott_chao@wistron.corp-partner.google.com,
+        ajye_huang@compal.corp-partner.google.com,
+        zoey_wu@wistron.corp-partner.google.com,
+        hellojacky0226@hotmail.com, linux-media@vger.kernel.org,
+        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: cros-ec: Add aurash to the match table
+Date:   Thu, 23 Feb 2023 13:41:38 +0800
+Message-Id: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DATE_IN_PAST_12_24,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The "& IMX296_TMDOUT_MASK" means that "tmdout" can't be negative so the
-error checking will not work.
+The Google aurash device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-Fixes: cb33db2b6ccf ("media: i2c: IMX296 camera sensor driver")
-Signed-off-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
 ---
- drivers/media/i2c/imx296.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
-index 3c12b6edeac9..bb0c896f3d67 100644
---- a/drivers/media/i2c/imx296.c
-+++ b/drivers/media/i2c/imx296.c
-@@ -931,10 +931,12 @@ static int imx296_read_temperature(struct imx296 *sensor, int *temp)
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 6ebedc71d67d..e7cb9509e967 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -225,6 +225,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Kinox", "0000:00:02.0", "Port B" },
+ 	/* Google Kuldax */
+ 	{ "Google", "Kuldax", "0000:00:02.0", "Port B" },
++	/* Google Aurash */
++	{ "Google", "Aurash", "0000:00:02.0", "Port B" },
+ };
  
--	tmdout = imx296_read(sensor, IMX296_TMDOUT) & IMX296_TMDOUT_MASK;
-+	tmdout = imx296_read(sensor, IMX296_TMDOUT);
- 	if (tmdout < 0)
- 		return tmdout;
- 
-+	tmdout &= IMX296_TMDOUT_MASK;
-+
- 	/* T(°C) = 246.312 - 0.304 * TMDOUT */;
- 	*temp = 246312 - 304 * tmdout;
- 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
-2.39.1
+2.25.1
 
