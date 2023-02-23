@@ -2,161 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61DF36A037D
-	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 09:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55A716A0383
+	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 09:06:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232802AbjBWIFG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Feb 2023 03:05:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
+        id S233296AbjBWIGN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Feb 2023 03:06:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbjBWIFE (ORCPT
+        with ESMTP id S233394AbjBWIFs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Feb 2023 03:05:04 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98142BF09
-        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 00:05:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677139503; x=1708675503;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jamnxhj/eDrW8YCeWl7BX74Pi/J1+EztoQCkrVoQC68=;
-  b=E1PWYGz6bpSmw/8w2oZBcdV7bildkOyQ0mGh66VgRmxPfzU55468gXVo
-   X95zHHxE93mZybO/n8N+FD2TBTn8WFRVd/DfsEjGRsqRa3PRRQHKCEqgU
-   rovjOY7fXmPpDhWy9P1usTS4V2Jaz/0aBta4Qd3UATziAGc/7FR//myWb
-   QpGFdQnAN0126nJ4ZaLI/2KCdi28xhsCPXokhW3rHpdtA3cvtDxTq5uO0
-   6o1RYXLEx7dMZMV1tX9ev2zUcXAig8d+8NGytVc+X4R/INuQI5F2H0ihJ
-   wWeifBQnJRh/77pLknygzthosvL1SkJC/reoBS40qAbmA/pI5hapYSS8D
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312772343"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="312772343"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 00:05:03 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="704760014"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="704760014"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 00:05:00 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 6F872121357;
-        Thu, 23 Feb 2023 10:04:56 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        "Zou, Xiaohong" <xiaohong.zou@intel.com>,
-        "Chen, Meng J" <meng.j.chen@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, bingbu.cao@intel.com
-Subject: [PATCH 1/1] media: v4l: Support line-based metadata capture
-Date:   Thu, 23 Feb 2023 10:04:54 +0200
-Message-Id: <20230223080454.536139-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 23 Feb 2023 03:05:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072982B634
+        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 00:05:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677139504;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1+ueFbDYI2fCK6KAGkfWDv0qOw1/uXZTIg/vtWRlPiU=;
+        b=adB+W9iy6u6cBXv593m+9LlnTmT1xtIdBo7KvGPFbhVpCBbEI/aULbM3KSljLIijQi3iqT
+        cHizFw9MrpR1gjj5uHs/Sr7VT8YmU+KohhCvYlBEs33kb2poyRKmLw+Cw5xNl3j7Wgp4jY
+        rhpLvBmZXQfoA/cNA2/LXm/tHYqSvLk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-295-G_9KE_lYM_-_BuFhLfXyCw-1; Thu, 23 Feb 2023 03:05:03 -0500
+X-MC-Unique: G_9KE_lYM_-_BuFhLfXyCw-1
+Received: by mail-wm1-f69.google.com with SMTP id s18-20020a7bc392000000b003deaf780ab6so3981582wmj.4
+        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 00:05:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1+ueFbDYI2fCK6KAGkfWDv0qOw1/uXZTIg/vtWRlPiU=;
+        b=aHUVGAU2YLhku/K7emE7Qt4hxvZwoPa8VEuEcoaptxMA8elxIsWNyOm7EwjJtDwoA2
+         bpgPwWhuu0cdkCgNXJeWYeQ1Y7MsICxHuu/VZ34TwuiQZ5z+Drb0aP8BlhwqSI/hWFik
+         o4rKmrapntsi6sRF3RIDWYPlnGQcWEhkKPhGfY6bSkbiYmJ9R+wi0CbqRBVMcttshwOn
+         mQIvPWucbhu60xoyEV7Cgghm8LBAHGnhQMEp/XUWmI49AlAK759s7hZ6YJRzCLrFmoxO
+         NQpi/+H0ZPI78FRJh4aUoB6hedcLIeSRFb17uQA5Wfr2PSFp9Psv70IUl3OZN2/u4iri
+         So6g==
+X-Gm-Message-State: AO0yUKVJsP1VSu9BzocbmFYNLhRl/8VmgwwAwsBGLyagfZ/+hfdbegKq
+        GxAaj8Eb6KKQQNFSCC81RU0BlYM+TO293NpQ8zOhkMZlD5ty+exDLRUW0h6Is4bg9jmjiTbWLeC
+        XdeQo8MX0ZVFHF06VZCD0qcc=
+X-Received: by 2002:a05:600c:3093:b0:3dc:555c:dd30 with SMTP id g19-20020a05600c309300b003dc555cdd30mr1930922wmn.27.1677139502052;
+        Thu, 23 Feb 2023 00:05:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set8C2KkhdFOu+LnX9wVb8yRJ6czYkak4zwJwTlRC59nu1vtOB2+Qi4rT251F92cwGEsPeVo5bw==
+X-Received: by 2002:a05:600c:3093:b0:3dc:555c:dd30 with SMTP id g19-20020a05600c309300b003dc555cdd30mr1930899wmn.27.1677139501762;
+        Thu, 23 Feb 2023 00:05:01 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id o11-20020a05600c510b00b003e1f2e43a1csm10728694wms.48.2023.02.23.00.05.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Feb 2023 00:05:01 -0800 (PST)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     Vikash Garodia <vgarodia@qti.qualcomm.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mka@chromium.org" <mka@chromium.org>,
+        Albert Esteve <aesteve@redhat.com>,
+        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
+        Enric Balletbo i Serra <eballetb@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fritz Koenig <frkoenig@google.com>,
+        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
+        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: RE: [PATCH] Revert "venus: firmware: Correct non-pix start and end
+ addresses"
+In-Reply-To: <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+References: <20230207102254.1446461-1-javierm@redhat.com>
+ <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
+ <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
+ <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
+ <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
+ <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
+ <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
+ <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
+ <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
+ <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+Date:   Thu, 23 Feb 2023 09:05:00 +0100
+Message-ID: <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Many camera sensors, among other devices, transmit embedded data (or other
-metadata) and image data in each CSI-2 frame. This embedded data typically
-contains register configuration of the sensor that has been used to capture
-the image data of the same frame.
+Vikash Garodia <vgarodia@qti.qualcomm.com> writes:
 
-The embedded data is received by the CSI-2 receiver and has the same
-properties as the image data, including that it is line based: it has width,
-height and bytesperline (stride).
+Hello Vikash,
 
-Add these fields to struct v4l2_meta_format and document them.
+> Hi All,
+>
 
-Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is line-based
-i.e. these fields of struct v4l2_meta_format are valid for it.
+[...]
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
- .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
- include/uapi/linux/videodev2.h                    | 10 ++++++++++
- 3 files changed, 32 insertions(+)
+>>
+>>No reply from Mauro and Linus chose to not apply the revert I pointed him to.
+>>That at this point leads to the question:
+>>
+>>Vikash, did you or somebody else make any progress to fix this properly?
+>
+> We tried with different settings for the registers and arrive at a conclusion that
+> the original configuration was proper. There is no need to explicitly configure
+> the secure non-pixel region when there is no support for the usecase. So, in summary,
+> we are good to have the revert.
+>
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-index 0e7e1ee1471a..bafde690d2eb 100644
---- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-@@ -65,3 +65,18 @@ to 0.
-       - ``buffersize``
-       - Maximum buffer size in bytes required for data. The value is set by the
-         driver.
-+    * - __u32
-+      - ``width``
-+      - Width of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
-+	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``height``
-+      - Height of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
-+	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``bytesperlines``
-+      - Offset in bytes between the beginning of two consecutive lines.  Valid
-+	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-+	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-index 000c154b0f98..6d7664345a4e 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-@@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
- 	The application can ask to configure the quantization of the capture
- 	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
- 	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-+    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-+      - 0x0200
-+      - The metadata format is line-based. In this case the ``width``,
-+	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-+	valid. The buffer consists of ``height`` lines, each having ``width``
-+	bytes of data and offset between the beginning of each two consecutive
-+	lines is ``bytesperline``.
- 
- Return Value
- ============
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 1befd181a4cc..44b1bb7ea99f 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -842,6 +842,7 @@ struct v4l2_fmtdesc {
- #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
- #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
- #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-+#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
- 
- 	/* Frame Size and frame rate enumeration */
- /*
-@@ -2374,10 +2375,19 @@ struct v4l2_sdr_format {
-  * struct v4l2_meta_format - metadata format definition
-  * @dataformat:		little endian four character code (fourcc)
-  * @buffersize:		maximum size in bytes required for data
-+ * @width:		number of bytes of data per line (valid for line based
-+ *			formats only, see format documentation)
-+ * @height:		number of lines of data per buffer (valid for line based
-+ *			formats only)
-+ * @bytesperline:	offset between the beginnings of two adjacent lines in
-+ *			bytes (valid for line based formats only)
-  */
- struct v4l2_meta_format {
- 	__u32				dataformat;
- 	__u32				buffersize;
-+	__u32				width;
-+	__u32				height;
-+	__u32				bytesperline;
- } __attribute__ ((packed));
- 
- /**
+Perfect. Thanks a lot for looking at this.
+
+> Stan, could you please help with the revert and a pull request having this revert
+> alongwith other pending changes ?
+>
+
+Other fix posted is "media: venus: dec: Fix capture formats enumeration order":
+
+https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
+
 -- 
-2.30.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
