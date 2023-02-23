@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86DD96A0B52
-	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 14:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 119FB6A0BDA
+	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 15:26:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234644AbjBWN6S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Feb 2023 08:58:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38410 "EHLO
+        id S234765AbjBWO0m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Feb 2023 09:26:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234132AbjBWN6Q (ORCPT
+        with ESMTP id S234338AbjBWO0m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Feb 2023 08:58:16 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EBEF26863;
-        Thu, 23 Feb 2023 05:58:01 -0800 (PST)
-Received: from ideasonboard.com (host-87-16-53-160.retail.telecomitalia.it [87.16.53.160])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82436496;
-        Thu, 23 Feb 2023 14:57:57 +0100 (CET)
+        Thu, 23 Feb 2023 09:26:42 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BC6570BA;
+        Thu, 23 Feb 2023 06:26:40 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52504496;
+        Thu, 23 Feb 2023 15:26:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677160679;
-        bh=hdH16kqTRema0MMj0tyO2YXBotGsrUihXby8h+FLdKo=;
+        s=mail; t=1677162397;
+        bh=eyO7MxCybOC0+Ku099vPpTiosobHKVsxuJwoRBQXDjI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X+PFg4LGyuFyrRNTmP9tYEaxZtXG5SQXiziI/j7cp9CkcghadVs6+bgpJZGTh9Jwy
-         qXOgSY+o8RIxoYZS8xwrOzhf8tCx3PcMKYzFhFbPiPvbeQcCLlmUOEJE26+i1t9Ho2
-         yc1VFfha+8bGi2CwbQi9J/m1j7bLN6lxtmObCAg8=
-Date:   Thu, 23 Feb 2023 14:57:53 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+        b=mL/crQzhXu2Eg8exIM2P5f6Ye93dTNgcmZD9YVyvFlU7ss3sfXz5V9+NYAn1/m6kj
+         k6/G/aQwiutCM3eOt0w1XF52FTIOX4XCZW2m5hF9Vwa9TRYMGhKTW2kyKXpIqJshHa
+         Ls/BzO2kC9zzc+C8B+NNN9ojYF3WWmqRZ87cusbM=
+Date:   Thu, 23 Feb 2023 16:26:35 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
@@ -35,11 +35,10 @@ Cc:     Paul Elder <paul.elder@ideasonboard.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Heiko Stuebner <heiko@sntech.de>,
         Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
-Message-ID: <20230223135753.lubto3ec5vwukkep@uno.localdomain>
+Message-ID: <Y/d3m78NgmuuXOH8@pendragon.ideasonboard.com>
 References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
  <CAHCN7xKbL+g5ZaPe3a50fUEe4AU3a6asCqWFSE8d7DCzWZO=qg@mail.gmail.com>
 MIME-Version: 1.0
@@ -55,10 +54,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam
+Hi Adam,
 
 On Wed, Feb 22, 2023 at 05:39:30PM -0600, Adam Ford wrote:
-> On Fri, Nov 18, 2022 at 3:44 AM Paul Elder <paul.elder@ideasonboard.com> wrote:
+> On Fri, Nov 18, 2022 at 3:44 AM Paul Elder wrote:
 > >
 > > This series depends on v3 of "dt-bindings: media: Add macros for video
 > > interface bus types" [1].
@@ -99,18 +98,17 @@ On Wed, Feb 22, 2023 at 05:39:30PM -0600, Adam Ford wrote:
 > >   media: rkisp1: Support devices without self path
 > >   media: rkisp1: Add YC swap capability
 > >   media: rkisp1: Add UYVY as an output format
-> >
->
+> 
 > Paul / Laurent,
->
+> 
 > I noticed an unexpected behaviour on the imx8mp.
->
+> 
 > If I setup my pipeline for 640x480, it works just fine using an imx219
 > camera configured for SRGGB10_1X10.
->
+> 
 > However, when I try to configure the pipeline to use the same camera
 > at 1920x1080 (no resizing), the ISP source keeps defaulting to 640x480
->
+> 
 > Media device information
 > ------------------------
 > driver          rkisp1
@@ -119,94 +117,74 @@ On Wed, Feb 22, 2023 at 05:39:30PM -0600, Adam Ford wrote:
 > bus info        platform:rkisp1
 > hw revision     0xe
 > driver version  6.2.0
->
+> 
 > Device topology
 > - entity 1: rkisp1_isp (4 pads, 4 links)
 >             type V4L2 subdev subtype Unknown flags 0
 >             device node name /dev/v4l-subdev0
-> pad0: Sink
-> [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none
-> ycbcr:601 quantization:full-range
-> crop.bounds:(0,0)/1920x1080
-> crop:(0,0)/640x480]
+> pad0: Sink [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range crop.bounds:(0,0)/1920x1080 crop:(0,0)/640x480]
+
+You're cropping the image to 640x480 here. You need to set the crop
+rectangle to 1920x1080.
+
+As Jacopo mentioned, I wouldn't recommend exercising the ISP directly.
+Not only do you need to setup the pipeline, but you would also need to
+implement all the imaging algorithms in userspace. libcamera will do all
+this for you.
+
 > <- "csis-32e40000.csi":1 [ENABLED]
-> pad1: Sink
-> [fmt:unknown/0x0 field:none]
+> pad1: Sink [fmt:unknown/0x0 field:none]
 > <- "rkisp1_params":0 [ENABLED,IMMUTABLE]
-> pad2: Source
-> [fmt:YUYV8_2X8/640x480 field:none colorspace:raw xfer:none ycbcr:601
-> quantization:lim-range
-> crop.bounds:(0,0)/640x480
-> crop:(0,0)/640x480]
+> pad2: Source [fmt:YUYV8_2X8/640x480 field:none colorspace:raw xfer:none ycbcr:601 quantization:lim-range crop.bounds:(0,0)/640x480 crop:(0,0)/640x480]
 > -> "rkisp1_resizer_mainpath":0 [ENABLED]
-> pad3: Source
-> [fmt:unknown/0x0 field:none]
+> pad3: Source [fmt:unknown/0x0 field:none]
 > -> "rkisp1_stats":0 [ENABLED,IMMUTABLE]
->
+> 
 > - entity 6: rkisp1_resizer_mainpath (2 pads, 2 links)
 >             type V4L2 subdev subtype Unknown flags 0
 >             device node name /dev/v4l-subdev1
-> pad0: Sink
-> [fmt:YUYV8_2X8/1920x1080 field:none colorspace:srgb xfer:srgb
-> ycbcr:601 quantization:lim-range
-> crop.bounds:(0,0)/1920x1080
-> crop:(0,0)/640x480]
+> pad0: Sink [fmt:YUYV8_2X8/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range crop.bounds:(0,0)/1920x1080 crop:(0,0)/640x480]
 > <- "rkisp1_isp":2 [ENABLED]
-> pad1: Source
-> [fmt:YUYV8_2X8/1920x1080 field:none colorspace:srgb xfer:srgb
-> ycbcr:601 quantization:lim-range]
+> pad1: Source [fmt:YUYV8_2X8/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
 > -> "rkisp1_mainpath":0 [ENABLED,IMMUTABLE]
->
+> 
 > - entity 9: rkisp1_mainpath (1 pad, 1 link)
 >             type Node subtype V4L flags 0
 >             device node name /dev/video0
 > pad0: Sink
 > <- "rkisp1_resizer_mainpath":1 [ENABLED,IMMUTABLE]
->
+> 
 > - entity 13: rkisp1_stats (1 pad, 1 link)
 >              type Node subtype V4L flags 0
 >              device node name /dev/video1
 > pad0: Sink
 > <- "rkisp1_isp":3 [ENABLED,IMMUTABLE]
->
+> 
 > - entity 17: rkisp1_params (1 pad, 1 link)
 >              type Node subtype V4L flags 0
 >              device node name /dev/video2
 > pad0: Source
 > -> "rkisp1_isp":1 [ENABLED,IMMUTABLE]
->
+> 
 > - entity 29: csis-32e40000.csi (2 pads, 2 links)
 >              type V4L2 subdev subtype Unknown flags 0
 >              device node name /dev/v4l-subdev2
-> pad0: Sink
-> [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfer:srgb
-> ycbcr:601 quantization:full-range]
+> pad0: Sink [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
 > <- "imx219 1-0010":0 [ENABLED]
-> pad1: Source
-> [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfer:srgb
-> ycbcr:601 quantization:full-range]
+> pad1: Source [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
 > -> "rkisp1_isp":0 [ENABLED]
->
+> 
 > - entity 34: imx219 1-0010 (1 pad, 1 link)
 >              type V4L2 subdev subtype Sensor flags 0
 >              device node name /dev/v4l-subdev3
-> pad0: Source
-> [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfer:srgb
-> ycbcr:601 quantization:full-range
-> crop.bounds:(8,8)/3280x2464
-> crop:(688,700)/1920x1080]
+> pad0: Source [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range crop.bounds:(8,8)/3280x2464 crop:(688,700)/1920x1080]
 > -> "csis-32e40000.csi":0 [ENABLED]
-
-Not sure if it's my email reader but I'm sorry I can't read this.
-Could you use an online paste service next time if lines are long and
-gets wrapped in this way ?
-
->
+> 
 > It's at this point that everything except the ISP source is 1920x1080.
->
+> 
 > When I try to set the ISP sink to 1080, it ends up being 640x480 and
 > the resizer sink is also changed to 640x480
->
+> 
 > root@beacon-imx8mp-kit:~# media-ctl -v -V "'rkisp1_isp':2
 > [fmt:YUYV8_2X8/1920x1080 field:none]"
 > Opening media device /dev/media0
@@ -224,48 +202,13 @@ gets wrapped in this way ?
 > Format set: YUYV8_2X8 640x480
 > Setting up format YUYV8_2X8 640x480 on pad rkisp1_resizer_mainpath/0
 > Format set: YUYV8_2X8 640x480
->
-
-I'm on https://gitlab.com/ideasonboard/nxp/linux/-/tree/v6.2/merge
-with an additional patch to enable the ISP on the board I'm testing
-with
-
-I've tested capturing YUYV 1920x1080 with the following script
-
-------------------------------------------------------------------------------
-#!/bin/bash -x
-
-media-ctl -r
-
-# Link entities
-media-ctl -l '"ar0521 1-0036":0 -> "csis-32e40000.csi":0'[1]
-media-ctl -l '"csis-32e40000.csi":1 -> "rkisp1_isp":0'[1]
-media-ctl -l '"rkisp1_isp":2 -> "rkisp1_resizer_mainpath":0'[1]
-
-# Setup format
-media-ctl -v -V '"ar0521 1-0036":0 [fmt:SGRBG8_1X8/2592x1944]'
-media-ctl -v -V '"csis-32e40000.csi":1 [fmt:SGRBG8_1X8/2592x1944]'
-media-ctl -v -V '"rkisp1_isp":2 [fmt:YUYV8_2X8/2592x1944]'
-media-ctl  -v -V '"rkisp1_resizer_mainpath":1 [fmt:YUYV8_2X8/1920x1080]'
-
-yavta -f YUYV -s 1920x1080 -c10 /dev/video0 --file=/tmp/frame-#.bin
-------------------------------------------------------------------------------
-
-You will have to adjust it for imx219
-
-Unless you tweak the sensor's exposure and gains manually do not
-expect nice images. You would need an auto-exposure and gain routine
-like the one implemented in libcamera.
-
->
+> 
+> 
 > It's my understanding that the ISP should be able to handle 1920x1080,
 > and the resizer sink should match the ISP source.
->
+> 
 > With the pipeline improperly setup, the capture fails.
->
-> adam
->
->
+> 
 > >  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
 > >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
 > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
@@ -276,7 +219,8 @@ like the one implemented in libcamera.
 > >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
 > >  include/uapi/linux/rkisp1-config.h            |   2 +
 > >  9 files changed, 509 insertions(+), 40 deletions(-)
-> >
-> > --
-> > 2.35.1
-> >
+
+-- 
+Regards,
+
+Laurent Pinchart
