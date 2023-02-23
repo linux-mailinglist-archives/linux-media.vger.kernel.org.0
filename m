@@ -2,159 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D136A089E
-	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 13:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7CF56A09EC
+	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 14:11:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233330AbjBWMaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Feb 2023 07:30:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55706 "EHLO
+        id S234432AbjBWNLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Feb 2023 08:11:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233240AbjBWMaL (ORCPT
+        with ESMTP id S234417AbjBWNLQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Feb 2023 07:30:11 -0500
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2062.outbound.protection.outlook.com [40.107.92.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 023DD3C79D
-        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 04:30:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HozNDxSI97Oc4tV0WbC0UyDQYOmrRbflscZ2liEroK+pSRWo+UYHZYQJ+8GYGITv+OHybb4ISYOBzo3KQ8sG1BpSdj8S4e57z/O5uZNSW54kqFy4peomvsW0/LqwVWmqEgG9C2Q5zrYWFF7IJWOIaroONYj1mhlKXk5OMVlIvog3y0dCT5xkAKou2AvOSFM+Hojr+Tvc17/r2A+PcWSIfOJiGzFUNxX1QnUneIgdv7cGHamh1Im3IA7Axqr0Hln6vKIgAOOKO4C3sMTCQ55gf9EjZfSlvxowq4xYTL57IOgq7yriSMlgpMXtCKt7/hm0ljK9mrIOG7F534h0AGeBkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gK9430EiIM3m+P7HTA0aKcZN//kqAtM4w6gX/ti5ryQ=;
- b=RDQGt7GBi6e+zCogzvftck2azFFXC8wog0HuqTovQMkposgywVD5gn1MzCWTQtmJCgAi980GNPWSXwfnOrvLBtgVYyNb2bVxACnCuCc2gafgEMP2c8QZ4lAkiWX6vrkd5Qcttg0zZF96JxZpHmgaXjsQnDRmZMCt1r3OdkPLpFe+xCZzKNVwdvPMzg/Uc/FrHWAbUjobkgfsSZReE4ugZ9O0Ant9aW1x4teHwlFQrQquzXeCY0V3PWojj43VkJpmoqm/KIaJE+odjCdDh1CEghFNqYPKZ0y4AXrXkSd59mIZrZm+eLny+bs6gGQMmpABIX/vRmVxbY2Omw6vgMB9Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gK9430EiIM3m+P7HTA0aKcZN//kqAtM4w6gX/ti5ryQ=;
- b=ONThDYuCO8pheNV2QfxyhkzzpQIJCyEFs6Vs03rarnekJbma/I6/FErQkv/eO+dPzPh9FhrgFSWq+Qbe/3lEj2+VdfLIGc2ZPPZcmkTEOYK5BrpSt4L/iXoZEd2dikGZHnYuokAsuLvtGRM5XeGceS7I5gkuNxvZpJ/CQBlWjN4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW4PR12MB7468.namprd12.prod.outlook.com (2603:10b6:303:212::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Thu, 23 Feb
- 2023 12:30:07 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
- 12:30:07 +0000
-Message-ID: <df032ad9-d9b7-52ac-1c58-132714676953@amd.com>
-Date:   Thu, 23 Feb 2023 13:29:56 +0100
+        Thu, 23 Feb 2023 08:11:16 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 890D5567B8;
+        Thu, 23 Feb 2023 05:10:54 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2DE52E4;
+        Thu, 23 Feb 2023 14:10:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677157852;
+        bh=WYy+JIwjACK0ewwdjromDn+ooNvg12hqZ611KgIZSg4=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=DAYm/15WuaNLA/s+g6H/W878t69F1Wig+J58dDyvzoEWL26lQLsmwQ8ZG/vf32NzZ
+         Qa1FAXZot+Yyc1o6MzOc14UDNNFtx4v2ltkZgFsAET9UCkT4bghaa4zjc0NA/65CW0
+         MemuTKzhEFi9YV7HF3uI/PRrQ5Jl0L69TSJadiz0=
+Message-ID: <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
+Date:   Thu, 23 Feb 2023 15:10:48 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] dma-buf: Include missing parentheses to documentation
+Subject: Re: [PATCH v3 2/7] media: Add Y210, Y212 and Y216 formats
 Content-Language: en-US
-To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Melissa Wen <mwen@igalia.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20230223121909.149980-1-mcanal@igalia.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230223121909.149980-1-mcanal@igalia.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ming Qian <ming.qian@nxp.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20221221092448.741294-3-tomi.valkeinen+renesas@ideasonboard.com>
+ <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0053.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW4PR12MB7468:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e89ec3c-0564-4e93-455c-08db1599b266
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qCU2aNuDEwq4HMd5XerU7pEx/T2sJPcc3gyQaiQF25iq2nJLKKD1h00AuEr5D40FqKseRWUxsEBjTtD3zJ6uYbeIvJjdMLCWeqFcUQEJPtO6wbMEwtym4nJv8GpEhyDctcQcPtJC5+jrZu+m2dlVmLhLLfmk+pt9Ar/7zXLl5CMUij7XMTmh/Xd/iWTn7uptebygOvTCT6/HNM4qWaO5zYVXouwW6+lElUKJ7yK/e7RrmSkGc7u6e3nLNWSxEkzDy/yJXPytJFKx/asJ+03qrEw3nONw0MaRIXwmScTV7u5Zef5RKJa80nFRs2oIvrKCZswDiWrnmEWo0ihHbJszJU1jbUzqjrPCvbb6H1GM9Lg6+55yy0QVzYXe/KKe6GaEzC3fO6/9m1XzP2h/6ij3Wbly5Fxg3cvvn1BMi9F3yGbcigfer/aGk2W10cjcUZJEGdYirKbWFuIhalg1nLyMDr/kmJv81dtZO2TgkvklDtvCal6DVXSl1baqOhhCVdPNXYJnHwGlir/SFqXXEZcKKhCKxVkBG3Kjxv1TsbC4FdhdMOYAC2SGTL2rgjaQEECp/46iCermpC7YigZ8S4cLQAPOxAgf96qYJTc8WZT7sB+2+Q3YYnGb92K0rNK7DAqgysgyEu5qS0Vai032mr7hd/0KwDaLB4DKa3tuH1PtvKOMMNyd9QQ9F9a4LujywKLbGD+j2YOpFhubonBs6SlOg1PvbThE1wtUhPMEYg/WKBQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(366004)(396003)(376002)(39860400002)(451199018)(2616005)(41300700001)(83380400001)(478600001)(31696002)(5660300002)(186003)(8936002)(26005)(86362001)(38100700002)(110136005)(8676002)(4326008)(4744005)(66946007)(6512007)(6506007)(66574015)(316002)(6486002)(66556008)(36756003)(66476007)(31686004)(2906002)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TC9wVWt6bjV2NXVIekFoT2UvMGx0VkZtMXhPalNZejNuSTZBQ0ZQOHN0R3c0?=
- =?utf-8?B?d1UrV0Q3VkZJelkzMWdTWm1LUHplRUxsa29hQkRkWVhDZWpxbmgwYy93SS8v?=
- =?utf-8?B?ZkRjNnpxaHZITDhnTldYTXJsbGpQcmN5Ri83ZExzQUN3NngrUWxqQ1FJTHVF?=
- =?utf-8?B?ckVLTThFcWd0aGdFS1NaNzczamd1akFoMW85U2tSeDJZYnd5QnVYQmE0YUVQ?=
- =?utf-8?B?YldmTUNFMzF4NU9hMmsrSlhieGszMFE4OERZRVRLOCtmVkNqQkw2VWU1N25Y?=
- =?utf-8?B?RHIrWENyL0kzb1ZBV1h0RU5JdW1vZWI4TFJXL2xaalVCTHpSMVk0L2xNUWYz?=
- =?utf-8?B?Mk4vT1FzR0UvR2luS3E5UUhuemJlMDRid3J3UjdCU1E0djhrdzVaQk84VTAz?=
- =?utf-8?B?OWxGWHpOZERLMjdhcXhrTWZVVnFNVGxZUXBUT2JWU1ZZMmZzTkVtTE9ibjda?=
- =?utf-8?B?V1VBUk1QYnRuYWV5bVRIQjFTMVdMSTkzT25nOGlSSGVPUElYdVI1dEtMQTlz?=
- =?utf-8?B?V3pjRHlUTjJJa2JvTXlDb0xsRnNJbk0vMDk4S0lkTExIaHdxRTNWRFhHcUVl?=
- =?utf-8?B?RnQxb1NMSlpMUU0xNXcyeDY2b1RPVC9URU0wK2M3WThKL2tzeTg5RG5GVDky?=
- =?utf-8?B?YUE2dG1RWUpkNnJBUlh0RENKMGhmT2wyQXk3NGZOMEJkZCtXRXdScWVadDFQ?=
- =?utf-8?B?dHFodVduODRTbTVlZkluaGZlYnNNWVhYa2poNXl5OHZ0TzVMK1J4NUF5Z3ZD?=
- =?utf-8?B?V2t6aC95elBIZWhtZHM5UHYxYUtDUGxjZk83U2RGdmZHVFA5SDVxNE5iTFp3?=
- =?utf-8?B?Vmg0ZU92QWpwcWsvUnREMkpFZGJ0eUFwNGpkRVB1TGx3SkUzRm1MbTYvT2Ri?=
- =?utf-8?B?Z3o2ck1sZERQbERSb000OVk0VXNMRTU5aFdKTFhGb3R6aFBzc0NydkE5Y0Nm?=
- =?utf-8?B?bGh4Zy84ZUVIUDZwaVc4UUl3M0ZCSU16d2NHa3ZWaGhubFIyR3h0VTVjVnRL?=
- =?utf-8?B?TkQzam9UTHh1ekQ2ZFAzdWJEY3p1N0hWMFNVZGdlSEVqV29PbzhxMjN3amlj?=
- =?utf-8?B?K3h5S3lYelY1OTJpbjFLUHdqaUVhalROVmVPSWZMbnF0TmFFYmxXL21mNDF0?=
- =?utf-8?B?Q2hrRkVnSjhITkI4QWpmNFljS2M4a05TdEVZTEY3VldhMmVBamxFZlBzMmM4?=
- =?utf-8?B?L0thaXVqSFdZWkU5d3V2eHkwRDQ5YjNCOHk4by9Ga25qVGdEd0JVNGptUWVk?=
- =?utf-8?B?eXhLWGUySHJtY0hkUFl6dHJQYkxwckNpa0xncWNML2hxcFYyMEFWN0dpam5K?=
- =?utf-8?B?b0xIRno0VENGZ3NDK1grQm40R1VGS0k1UkZQcUJuS3h0RDhNaklpUG1FN21T?=
- =?utf-8?B?cklPVVNidFNBYW1Od1phcTgvQWNUeUlDSmV3V1dSSTZzOXZUWkRjcnhBMkFO?=
- =?utf-8?B?VlczVGVDaENPMjNsZm42bnVLUHlGSHB1WU1IMDJTSlJnT0MvRTU2UlBIOWR0?=
- =?utf-8?B?Mk9SdmJlcS8yUm1zOURmdUdsaHpBN1FRdFMrN1FlZXlWRHJDUFJmQzBELzZQ?=
- =?utf-8?B?Wi9jenpVdDd5TjgxSTFDb053OSsrbURVN2ZRVk4zUk1wakdlZGtNTzVLWDZm?=
- =?utf-8?B?VnVyNDdEN1BGOXpWWG9RelFiV21QMVREVCs1cG5vSHRYeDk2RmV2cndHK3Ji?=
- =?utf-8?B?SnEzRG1BM0xUVTkwM0tWTzZ0b0xUbWd4OWFOL3plb3Y1dDZzNWt3bzNiYmtN?=
- =?utf-8?B?R3lYblBSSFc4UFBpR081RTZjZkJNdFo4K2N1d0JERk5tRWdVWUpRWWoxMXlx?=
- =?utf-8?B?bU9hZ2o5OVg3VjFoS0pzZlBNcDJNcy9nNXJxemVZeXp1dkoxQTJaWEdMc3lv?=
- =?utf-8?B?OUhwZE92TXRkUFk5aVZyMEozdnBRRWQrcWZBSFRjSDJDVFJJSGZidGkvd2FJ?=
- =?utf-8?B?VlkzVy9SWnNGdXFaNDVOcUFibWhSUDYwamVMK1lPbHFqNlcxN0I3eXUwTS9D?=
- =?utf-8?B?blVnb0I2MituRnJ5T245NG00emRtY1RYMzBPMEY1SGJjMGpqSTJQTnphaHNE?=
- =?utf-8?B?RU9HTHhPM1laYktLNVE4QzhGb3k2K0Z3MDJoTlNTd2ZQSmt2RVRKTTNqM2Y5?=
- =?utf-8?Q?nBVvXx3Bc42qTwKJ6bSCnk4rw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e89ec3c-0564-4e93-455c-08db1599b266
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 12:30:07.2627
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l6pHkx65V3kRl9lHa6X5GeAb5nhP9E6oAAlvRE2KR+yC4IuLB+GNimhV4Y/Eaqn4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7468
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 23.02.23 um 13:19 schrieb Maíra Canal:
-> The missing parentheses prevents the function to be rendered as a link
-> in the documentation. So, add the missing parentheses to the function on
-> the documentation.
->
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Hi,
 
-Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
+On 22/02/2023 17:28, Nicolas Dufresne wrote:
+> Hi Tomi,
+> 
+> Le mercredi 21 décembre 2022 à 11:24 +0200, Tomi Valkeinen a écrit :
+>> Add Y210, Y212 and Y216 formats.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   .../media/v4l/pixfmt-packed-yuv.rst           | 49 ++++++++++++++++++-
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
+>>   include/uapi/linux/videodev2.h                |  8 +++
+>>   3 files changed, 58 insertions(+), 2 deletions(-)
+> 
+> It seems you omitted to update v4l2-common.c, Ming Qian had made a suplicated
+> commit for this, I'll ask him if he can keep the -common changes you forgot.
 
-Going to push this to drm-misc-next.
+Ah, I wasn't aware of the format list in that file.
 
-Regards,
-Christian.
+I think you refer to the "media: imx-jpeg: Add support for 12 bit 
+extended jpeg" series. Yes, I'm fine if he can add the -common changes 
+there, but I can also send a separate patch. In fact, maybe a separate 
+fix patch is better, so that we can have it merged in the early 6.3 rcs.
 
-> ---
->   drivers/dma-buf/dma-buf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 757c0fb77a6c..aa4ea8530cb3 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -828,7 +828,7 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
->    *     - dma_buf_attach()
->    *     - dma_buf_dynamic_attach()
->    *     - dma_buf_detach()
-> - *     - dma_buf_export(
-> + *     - dma_buf_export()
->    *     - dma_buf_fd()
->    *     - dma_buf_get()
->    *     - dma_buf_put()
+  Tomi
 
