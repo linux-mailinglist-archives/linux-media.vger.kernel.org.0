@@ -2,113 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 235216A03B0
-	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 09:19:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19A816A066B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Feb 2023 11:39:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233317AbjBWIT4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Feb 2023 03:19:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45828 "EHLO
+        id S233845AbjBWKjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Feb 2023 05:39:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233487AbjBWITu (ORCPT
+        with ESMTP id S233885AbjBWKir (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Feb 2023 03:19:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F3E82332E;
-        Thu, 23 Feb 2023 00:19:49 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 700BE4DE;
-        Thu, 23 Feb 2023 09:19:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677140387;
-        bh=5EOibZQ0HJbQ6x9yMUFp5YDt5+g4o8fKiW3Z+uQtCuU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=GQuSYsy0zR5uyNYtB1IbKCcE9We8ROM9oesyGuEA2ogLVQ+9Cn5jZqsgXWUjo2vsO
-         KtT0EskdmSzw6/N5956nT1omZnnAA0+YAv61+yE9TJBNYatcUIxHetllKMAh7fWOEz
-         Pe8abxdHxgnThV5kw5jl2cvSJNaCQ0vpRalMzglU=
-Message-ID: <e7ab123a-5899-8eba-8255-b0e18bf8944f@ideasonboard.com>
-Date:   Thu, 23 Feb 2023 10:19:43 +0200
+        Thu, 23 Feb 2023 05:38:47 -0500
+X-Greylist: delayed 903 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Feb 2023 02:38:16 PST
+Received: from repostorp01.tmes.trendmicro.com (repostorp01.tmes.trendmicro.com [18.208.22.164])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4BE521DC
+        for <linux-media@vger.kernel.org>; Thu, 23 Feb 2023 02:38:15 -0800 (PST)
+Received: from 189.22.60.132_.trendmicro.com (unknown [192.168.207.191])
+        by repostorp01.tmes.trendmicro.com (Postfix) with SMTP id A56EF100648B4;
+        Thu, 23 Feb 2023 10:23:11 +0000 (UTC)
+X-TM-MAIL-RECEIVED-TIME: 1677147790.686000
+X-TM-MAIL-UUID: 941b105a-d058-446a-b31a-221107b42776
+Received: from zimbra.orquidea.com.br (unknown [189.22.60.132])
+        by repre01.tmes.trendmicro.com (Trend Micro Email Security) with ESMTPS id A7ABA100003C8;
+        Thu, 23 Feb 2023 10:23:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.orquidea.com.br (Postfix) with ESMTP id A080530E27CA;
+        Thu, 23 Feb 2023 01:24:24 -0300 (-03)
+Received: from zimbra.orquidea.com.br ([127.0.0.1])
+        by localhost (zimbra.orquidea.com.br [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id zZAvv5Lnpp8R; Thu, 23 Feb 2023 01:24:24 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.orquidea.com.br (Postfix) with ESMTP id 633EE30E29D8;
+        Thu, 23 Feb 2023 01:24:24 -0300 (-03)
+X-Virus-Scanned: amavisd-new at orquidea.com.br
+Received: from zimbra.orquidea.com.br ([127.0.0.1])
+        by localhost (zimbra.orquidea.com.br [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id PEXzkQzA-arf; Thu, 23 Feb 2023 01:24:24 -0300 (-03)
+Received: from [100.76.143.124] (unknown [223.225.89.75])
+        (Authenticated sender: ariella.santos@orquidea.com.br)
+        by zimbra.orquidea.com.br (Postfix) with ESMTPSA id EAA5830E29CC;
+        Thu, 23 Feb 2023 01:24:09 -0300 (-03)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v10 0/8] i2c-atr and FPDLink
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <Y/YjlW2byyHKamxl@smile.fi.intel.com> <Y/Yj8OnYHLyiinMi@smile.fi.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y/Yj8OnYHLyiinMi@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Quick Loans
+To:     Recipients <ariella.santos@orquidea.com.br>
+From:   Finance Service <ariella.santos@orquidea.com.br>
+Date:   Thu, 23 Feb 2023 09:54:15 +0530
+Reply-To: infoinnoxloanservice@aol.com
+Message-Id: <20230223042409.EAA5830E29CC@zimbra.orquidea.com.br>
+X-TM-AS-ERS: 189.22.60.132-0.0.0.0
+X-TMASE-Version: StarCloud-1.3-9.1.1006-27464.007
+X-TMASE-Result: 12-53.800900-4.000000
+X-TMASE-MatchedRID: x/EPlNU2vY0kpUn4KV5kk2aq3a6nCtxaJnErjswfJxdEnXJ2HVmT7Bpl
+        bnRIZ6aEMlTzREHxncqj5jztyg0VATpMzYSNDf4yDlgxb8s+r0BS4iSOp7XMz4nfBfxGjERMRPj
+        0ugS+6e+u/rcAFbNRnRPeoPt4pp+5jHjzjfPF/mPvrUkoKtp50BSJ9c1rUfiJizymaINGuwPVAe
+        wSBaqoauLzNWBegCW2L+SE9d72B9wZG8PEKSka+jRlbUkdPcbNGWmBUpmMSAsV1dzVKYqrQiGfp
+        s61er1kdnYdrEck9S4QM9B7HlU7k1eZE0kr6VVI7bAXMwnnjTHkwjHXXC/4I+JGF26G8SWy8lP6
+        F/raTZhYJjth/4WO8ViwJprBIi4pD9lBUtwFx0bXfJYR8Nw6fUXfP6IOewSwXwKNxeNd7q1+3Bn
+        dfXUhXQ==
+X-TMASE-XGENCLOUD: d57dbf21-9257-4bb7-8c9e-c84643b9f19e-5-0-200-0
+X-TM-Deliver-Signature: C9F26279A08AC6C2BAE64076CC6B815E
+X-TM-Addin-Auth: 0tql96K3vIkOrXri2cUhZT/osPpUTZot8CzQOQXbsCHQY0l9psXqkH1KR4Z
+        uE1ydWgIrO9ZgBmYRZRkcrcuYojN0iCNO9Xm7um9cSQKjXZx6nPvu6gqXFbgc8rGodn+9BQAedn
+        WPyrYjnxotoyeM2G3GztKxWMOL0+KO4fvF0h33QB4fI3dsSgv0s2tucMDgeNs8R5Qttnse5kfOS
+        2odrHoQSO0RsoJUqQnwWpkh9AQDeH590vx13rWJQxBDXzu0bw6gIfa3i7O7HnRXgEqkZysvcHay
+        E71rLwH35JevtLQ=.INZ2+E+grf6QMrbHfSM8HKbLR//pah9H2cWV/MAyrGNfsGal6+0Qv/SYMt
+        cyWxlLqa6w3Nw2nb3WGG01Rxu+t/vvo2iyoEnS0AZr/CFQ09c7Svn3+ky3aFp0TVbc9WC9w0nNp
+        9oj59580XbMhiFE+ShHCCmYz0FPmn2IX0mCM+NE+PKYirGGkL/Tg5ogeYS0+mkaMySlpQa4Fk/6
+        qxppy7C5Xdc04finzCVikcI8r95DVQ8GJgFe0XbVkoSQy+n6zms5YAYaZIQJ5mFAWYxDzB9geeT
+        GQphUSUhaiYeEM4/G3ZZhvH7ihQrgL6xz5Zq760J7tp5W2dvK6fH/v/wycA==
+X-TM-Addin-ProductCode: EMS
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=orquidea.com.br;
+        s=TM-DKIM-2022090816409; t=1677147791;
+        bh=R3G/tAV3hUAli0vVrdD051TySJS/QOsICnFA7qEgRkQ=; l=406;
+        h=To:From:Date;
+        b=ET9kJk0EmClWJRp+T6ssa1/mNkj3mG2jYkJCbTnkdHvS7UsVJ+1uOURwZXjYk04V2
+         sHb8y4JPxNhRA5nChJ4mmnSEpzTAZHuq2tOXF+K1adkGvuOSO9scC3TaPD2cZ9LgUh
+         dRhmnwTqbcMRk+X9zSUdeJStPBXYVPcm3FXQFPSl3dCc29+yMrGug/tJjtwmOPf68G
+         kSTxoIixV6mzJXb/pRC66DUFFF1yAT8aFI/xbuRXRF9qtdgwaHEVAAcgPYRE7sNMV/
+         YoFE2fBIfrj64YByERTYyfd4kUAWJXBr0On5kD5B+6qsovQrcwUMRLUqDHVzhTaUXK
+         41UiCTMWrlclw==
+X-Spam-Status: No, score=4.2 required=5.0 tests=BAYES_95,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/02/2023 16:17, Andy Shevchenko wrote:
-> On Wed, Feb 22, 2023 at 04:15:50PM +0200, Andy Shevchenko wrote:
->> On Wed, Feb 22, 2023 at 03:28:59PM +0200, Tomi Valkeinen wrote:
->>> Hi,
->>>
->>> You can find v9 from:
->>>
->>> https://lore.kernel.org/all/20230216140747.445477-1-tomi.valkeinen@ideasonboard.com/
->>>
->>> Diff to v9 included below.
->>>
->>> Main changes in v10:
->>> - Switch pre-increments to post-increments
->>> - Add macros for FPD3_RX_ID lengths
->>> - Use regmap_bulk_read in 16 bit reg accessors
->>
->> Thanks!
->> I have no more remarks, nice job!
->>
->> One thing below to just look at and if you want / have time / chance update.
-> 
-> ...
-> 
->>> +	ret = regmap_bulk_read(priv->regmap, reg, &__v, 2);
->>
->> sizeof()
->>
->> ...
->>
->>> +	ret = regmap_bulk_read(priv->regmap, reg, &__v, 2);
->>
->> Ditto.
-> 
-> Here is a formal tag for patches 1, 2, 6, 7, and 8
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Thanks for the thorough reviews!
-
-I'll do the changes above.
-
-I also got kernel test bot mails about the "ID '%.*s'\n" printks (have 
-to typecast the sizeof to int), which I also need to fix.
-
-  Tomi
-
+Innox Finance Company annual New Year loans are offered to local and intern=
+ational customers even in the most remote parts of the world with a minimum=
+ amount of ten thousand ($10,000.00) to a maximum of thirty million ($30,00=
+0,000.00) and a repayment schedule from 1 to 30 years offered with 2% low i=
+nterest. Apply now by sending your(Full Name,Loan Amount,Mob No,Loan Durati=
+on) via email.
