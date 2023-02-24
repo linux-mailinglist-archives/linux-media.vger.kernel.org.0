@@ -2,185 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 080446A1A95
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 11:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9DD6A1A9F
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 11:52:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbjBXKu7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 05:50:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
+        id S229555AbjBXKwK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 05:52:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjBXKu6 (ORCPT
+        with ESMTP id S229975AbjBXKwF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 05:50:58 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 517BA15885;
-        Fri, 24 Feb 2023 02:50:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677235857; x=1708771857;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=noOJVEfLjfjFl/8iEsWqjV4iJjt7i8IK2bqJaCilVlY=;
-  b=OR8VPi5FrAlSThRFuSp5Y9adIXNg7iBF2UqtxcOq1GIbh5mGeAYB1VwE
-   SycYXo+O3CO8LRql0/Wr779re7zuQmr+4P87VcRMFwYFPP5Dqw/kf4MvQ
-   vNQKJZroyj8TkQOb6K+AS5ytyn3eDrUsZWluDQGYWBZrXgBN3A7I9gQs/
-   lOBFSTaOqnXXZ8YcpKWKLFIWFfVqT89mIStoLgOh6OfDU/XzumC9oqrEo
-   0xXYCUR3ysO/qib2Xmu3+0tgEgILKUTUHwIhs3NGK8S1RI+N9nnWQTN6O
-   cJlhAqpxrU6Rsizoqtk84q+ALp+MD/LYbHKwfmf542S7cxlTG9jwVU8Tc
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="313838846"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
-   d="scan'208";a="313838846"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 02:50:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="622674319"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
-   d="scan'208";a="622674319"
-Received: from wmao-mobl.amr.corp.intel.com (HELO [10.212.63.133]) ([10.212.63.133])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 02:50:53 -0800
-Message-ID: <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
-Date:   Fri, 24 Feb 2023 10:50:51 +0000
+        Fri, 24 Feb 2023 05:52:05 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01AB56509;
+        Fri, 24 Feb 2023 02:52:02 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D083E1B1926A;
+        Fri, 24 Feb 2023 12:51:59 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1677235920;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hMX/SvCM5FiDgQ+z11AKxpaUrqr8yS8lrIi2hk5bw1M=;
+        b=P6KQx+QhL9/YOi02zs4UH2p77smt4DhMwgwl5Qd7EfS9eOxBQwCpHfvPaqujVQtJtSgNaR
+        RSqSn1hSpGnRybSvDJ2CR1no2/odeBWiJEbXAyVJNUuee0EEl7/gUR/M6kwji6F8iRCq+w
+        661I8Hcxj/5GESzS+VWjXeYRbmw+Oqfj3fmt4fZGbYwgqkzGwdy3uerMpIBvI6/n7btl4J
+        /FfYArC2WBN8NHvjoI8O9nwC5j4JgDvNbuMXduAgpwEDHi5V0/GrEQgcvk2ZwL2hrtjSN3
+        dkeAkpXu0YtLr2Aib8oA8BPwLZMHgSbKk9cTkeTbi0OxjGBrlkAcC+sOuwmX3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1677235920;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hMX/SvCM5FiDgQ+z11AKxpaUrqr8yS8lrIi2hk5bw1M=;
+        b=PBIvVx/9vUF8QPBmlH/Qcd+Za/ku6MMP41XWpF/vsbbWlNRD5twblSCfJPhSXKJzf9CLtD
+        cNLIsmI321TCFiTz0FK7+sIFsIcuFjcLVUtHeCFsAfHtas1m2Ny71Hpyueif/jupyQ35xL
+        MZm1nSrsyEY1MkRNDj3MSWAWSNFNzu87WHmmdzXjyGG+qUSscuh7HKsXk4y0GevAzWWlVZ
+        SyJzyhcVANYyWLoN9Zp9r2PPb+ql7zmgFmh2HNeCoXKo1gTL6vfLqQVqMeKcCeX8Osxuyt
+        XOja97jGGda03Z78DdDJo6ITe6se4UnnydsRWTr3dNBjSQ1+fhwOugS7keo1Sg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1677235920; a=rsa-sha256;
+        cv=none;
+        b=VuR0sDSN+Di59qrMbxZ9Z40kLyqrUg1JJuqP0CWiiFKCV/ZGHe6zt7AmTkTV5xMWVnTWoi
+        H90TYSm01ScWmiz1ax3W5mcsKJTGx7pQ3wtFsFNyB5mvzNtrXD1SBEc7Iz1MzUlXsPZ2PR
+        JFWIAa9sfxi47JmDT39Gh72BivC2VVdeuUHJMMpB8a4osaTl5S1KN/zRls4xclPXwHF3Jq
+        gbRgKIyR7M8fSxh4B4EAS9gkLw926BPe1IHG3xoOY0KA8qr/gfJqQOGtDh/cLDb7KhREAu
+        g+2x1cvbN2mq24u5AD0mmzHERQ1NSeu0SYOUJJ9FzNutsB0E2/QPHGjbUKKMjw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 687B0634C91;
+        Fri, 24 Feb 2023 12:51:38 +0200 (EET)
+Date:   Fri, 24 Feb 2023 12:51:38 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Shravan.Chippa@microchip.com
+Cc:     Conor.Dooley@microchip.com, paul.j.murphy@intel.com,
+        daniele.alessandrelli@intel.com, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        jacopo.mondi@ideasonboard.com, Prakash.Battu@microchip.com
+Subject: Re: [PATCH v11 3/5] media: i2c: imx334: support lower bandwidth mode
+Message-ID: <Y/iWulpOQl3gG3QI@valkosipuli.retiisi.eu>
+References: <20230208050915.1958183-1-shravan.chippa@microchip.com>
+ <20230208050915.1958183-4-shravan.chippa@microchip.com>
+ <Y/Xc9RCmO8P8eKtL@valkosipuli.retiisi.eu>
+ <Y/XnWOomz2N9fCvc@wendy>
+ <Y/XoXZJUKKGzGVVL@valkosipuli.retiisi.eu>
+ <Y/XpClyi9KMtLKcF@valkosipuli.retiisi.eu>
+ <PH0PR11MB5611D8EE3F896FC0BE9A842E81AA9@PH0PR11MB5611.namprd11.prod.outlook.com>
+ <Y/X9YiLJxDfLPNUX@valkosipuli.retiisi.eu>
+ <PH0PR11MB5611BB17A5DFAB0645D8DEB781A89@PH0PR11MB5611.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Content-Language: en-US
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Rob Clark <robdclark@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell>
- <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230224122403.6a088da1@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,
-        NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PH0PR11MB5611BB17A5DFAB0645D8DEB781A89@PH0PR11MB5611.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Shravan,
 
-On 24/02/2023 10:24, Pekka Paalanen wrote:
-> On Fri, 24 Feb 2023 09:41:46 +0000
-> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+On Fri, Feb 24, 2023 at 10:02:51AM +0000, Shravan.Chippa@microchip.com wrote:
+> Hi Sakari,
 > 
->> On 24/02/2023 09:26, Pekka Paalanen wrote:
->>> On Thu, 23 Feb 2023 10:51:48 -0800
->>> Rob Clark <robdclark@gmail.com> wrote:
->>>    
->>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>>>
->>>>> On Wed, 22 Feb 2023 07:37:26 -0800
->>>>> Rob Clark <robdclark@gmail.com> wrote:
->>>>>      
->>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>
->>> ...
->>>    
->>>>>>> On another matter, if the application uses SET_DEADLINE with one
->>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
->>>>>>> another timestamp, what should happen?
->>>>>>
->>>>>> The expectation is that many deadline hints can be set on a fence.
->>>>>> The fence signaller should track the soonest deadline.
->>>>>
->>>>> You need to document that as UAPI, since it is observable to userspace.
->>>>> It would be bad if drivers or subsystems would differ in behaviour.
->>>>>      
->>>>
->>>> It is in the end a hint.  It is about giving the driver more
->>>> information so that it can make better choices.  But the driver is
->>>> even free to ignore it.  So maybe "expectation" is too strong of a
->>>> word.  Rather, any other behavior doesn't really make sense.  But it
->>>> could end up being dictated by how the hw and/or fw works.
->>>
->>> It will stop being a hint once it has been implemented and used in the
->>> wild long enough. The kernel userspace regression rules make sure of
->>> that.
->>
->> Yeah, tricky and maybe a gray area in this case. I think we eluded
->> elsewhere in the thread that renaming the thing might be an option.
->>
->> So maybe instead of deadline, which is a very strong word, use something
->> along the lines of "present time hint", or "signalled time hint"? Maybe
->> reads clumsy. Just throwing some ideas for a start.
+> > -----Original Message-----
+> > From: Sakari Ailus <sakari.ailus@iki.fi>
+> > Sent: 22 February 2023 05:03 PM
+> > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
+> > Cc: Conor Dooley - M52691 <Conor.Dooley@microchip.com>;
+> > paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
+> > mchehab@kernel.org; robh+dt@kernel.org;
+> > krzysztof.kozlowski+dt@linaro.org; shawnguo@kernel.org;
+> > s.hauer@pengutronix.de; kernel@pengutronix.de; festevam@gmail.com;
+> > linux-imx@nxp.com; linux-media@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-
+> > kernel@lists.infradead.org; jacopo.mondi@ideasonboard.com; Battu
+> > Prakash Reddy - I30399 <Prakash.Battu@microchip.com>
+> > Subject: Re: [PATCH v11 3/5] media: i2c: imx334: support lower bandwidth
+> > mode
+> > 
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the
+> > content is safe
+> > 
+> > On Wed, Feb 22, 2023 at 10:20:56AM +0000, Shravan.Chippa@microchip.com
+> > wrote:
+> > > Hi Sakari,
+> > >
+> > > > -----Original Message-----
+> > > > From: Sakari Ailus <sakari.ailus@iki.fi>
+> > > > Sent: 22 February 2023 03:36 PM
+> > > > To: Conor Dooley - M52691 <Conor.Dooley@microchip.com>
+> > > > Cc: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>;
+> > > > paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
+> > > > mchehab@kernel.org; robh+dt@kernel.org;
+> > > > krzysztof.kozlowski+dt@linaro.org; shawnguo@kernel.org;
+> > > > s.hauer@pengutronix.de; kernel@pengutronix.de;
+> > festevam@gmail.com;
+> > > > linux-imx@nxp.com; linux-media@vger.kernel.org; linux-
+> > > > kernel@vger.kernel.org; devicetree@vger.kernel.org; linux-arm-
+> > > > kernel@lists.infradead.org; Jacopo Mondi
+> > > > <jacopo.mondi@ideasonboard.com>; Battu Prakash Reddy - I30399
+> > > > <Prakash.Battu@microchip.com>
+> > > > Subject: Re: [PATCH v11 3/5] media: i2c: imx334: support lower
+> > > > bandwidth mode
+> > > >
+> > > > EXTERNAL EMAIL: Do not click links or open attachments unless you
+> > > > know the content is safe
+> > > >
+> > > > On Wed, Feb 22, 2023 at 12:03:10PM +0200, Sakari Ailus wrote:
+> > > > > On Wed, Feb 22, 2023 at 09:58:48AM +0000, Conor Dooley wrote:
+> > > > > > On Wed, Feb 22, 2023 at 11:14:29AM +0200, Sakari Ailus wrote:
+> > > > > > > On Wed, Feb 08, 2023 at 10:39:13AM +0530, shravan kumar wrote:
+> > > > > > > > From: Shravan Chippa <shravan.chippa@microchip.com>
+> > > > > >
+> > > > > > > > @@ -666,11 +885,26 @@ static int imx334_init_pad_cfg(struct
+> > > > v4l2_subdev *sd,
+> > > > > > > >         struct v4l2_subdev_format fmt = { 0 };
+> > > > > > > >
+> > > > > > > >         fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY :
+> > > > V4L2_SUBDEV_FORMAT_ACTIVE;
+> > > > > > > > -       imx334_fill_pad_format(imx334, &supported_mode, &fmt);
+> > > > > > > > +       imx334_fill_pad_format(imx334, &supported_modes[0],
+> > > > > > > > + &fmt);
+> > > > > > >
+> > > > > > > Now that there are multiple modes supported, this would appear
+> > > > > > > to get the width, height as well as the other fields (apart
+> > > > > > > from mbus
+> > > > > > > code) from the first mode.
+> > > > > >
+> > > > > > Is this statement supposed to be a request to change something,
+> > > > > > or just a throwaway comment? It's a little hard for me to
+> > > > > > understand your intention here, sorry.
+> > > > >
+> > > > > Just pointing to what looks like a bug.
+> > > >
+> > > > Ah, my bad. Please ignore the comment.
+> > > >
+> > > > This is indeed about init_cfg(), not s_fmt().
+> > > >
+> > >
+> > > I will try to fix init_cfg()
+> > 
+> > There's no problem with it. Please ignore my original comment on this.
 > 
-> You can try, but I fear that if it ever changes behaviour and
-> someone notices that, it's labelled as a kernel regression. I don't
-> think documentation has ever been the authoritative definition of UABI
-> in Linux, it just guides drivers and userspace towards a common
-> understanding and common usage patterns.
-> 
-> So even if the UABI contract is not documented (ugh), you need to be
-> prepared to set the UABI contract through kernel implementation.
+> Just checking, Do I need to do any modifications or the current code is fine?
 
-To be the devil's advocate it probably wouldn't be an ABI regression but 
-just an regression. Same way as what nice(2) priorities mean hasn't 
-always been the same over the years, I don't think there is a strict 
-contract.
+The init_cfg() implementation is, but please see my other e-mail.
 
-Having said that, it may be different with latency sensitive stuff such 
-as UIs though since it is very observable and can be very painful to users.
-
-> If you do not document the UABI contract, then different drivers are
-> likely to implement it differently, leading to differing behaviour.
-> Also userspace will invent wild ways to abuse the UABI if there is no
-> documentation guiding it on proper use. If userspace or end users
-> observe different behaviour, that's bad even if it's not a regression.
-> 
-> I don't like the situation either, but it is what it is. UABI stability
-> trumps everything regardless of whether it was documented or not.
-> 
-> I bet userspace is going to use this as a "make it faster, make it
-> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> library that stamps any and all fences with an expired deadline to
-> just squeeze out a little more through some weird side-effect.
-> 
-> Well, that's hopefully overboard in scaring, but in the end, I would
-> like to see UABI documented so I can have a feeling of what it is for
-> and how it was intended to be used. That's all.
-
-We share the same concern. If you read elsewhere in these threads you 
-will notice I have been calling this an "arms race". If the ability to 
-make yourself go faster does not required additional privilege I also 
-worry everyone will do it at which point it becomes pointless. So yes, I 
-do share this concern about exposing any of this as an unprivileged uapi.
-
-Is it possible to limit access to only compositors in some sane way? 
-Sounds tricky when dma-fence should be disconnected from DRM..
-
+-- 
 Regards,
 
-Tvrtko
+Sakari Ailus
