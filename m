@@ -2,241 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8726A6A2107
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 19:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAFD36A211D
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 19:04:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229701AbjBXSAM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 13:00:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55868 "EHLO
+        id S229584AbjBXSE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 13:04:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjBXSAL (ORCPT
+        with ESMTP id S229520AbjBXSE1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 13:00:11 -0500
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1030D1ACED;
-        Fri, 24 Feb 2023 10:00:10 -0800 (PST)
-Received: by mail-ot1-x332.google.com with SMTP id a14-20020a056830100e00b00690ed91749aso78639otp.7;
-        Fri, 24 Feb 2023 10:00:10 -0800 (PST)
+        Fri, 24 Feb 2023 13:04:27 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3094B23651
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 10:04:22 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id w23so261509qtn.6
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 10:04:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kyu+xR8UZP+pOviljY2ZOXLy8SmJsrO7tgRJDWszETo=;
-        b=SjkHNAwszKfPoMDG+UlfHPNkKG/Ix2fPcqp4jdnqUVpKt434wwURMEDTFjSHECCAKr
-         hgyW7x+gqG7f0SqT40AcMmzxf9xuFm66q1kP/HlfhYPjw3rJRqgisiv6i7hgRj7VAsfO
-         bZlgrYV1hdX6WBOLMt5Xtxj2dvW94xZEXtaFowimRxQWYiItf80r4qt/EYhspbG/ahC4
-         Z/12+jwZtAXxHN5SxToOxmr2EBdirSTR2gOxkVvkhnomly5yQRO+RAxA0L8Red8Uzdio
-         CTV6VdbZBJ+pE3KeflvWBKGzB6tISHg8RsM1oXiyEhSDJn5A45HHmVIephVDE+ywBboV
-         nNDw==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bx+u2jxrWIooKnQnvTZMZQOT03vWJmrOO/mxGamlw3I=;
+        b=utHnK7ViPP8IIEMHObTiU24gYW/MdqOknk0TZGMMqe+MBZkuxxrPwWGvEQOQ3WKiXl
+         1ecUu88H5F0OMaoNuQE7mMfPSTGxvhmmUgxY/+2FDoEsa+rr2At1AgdWG+DkFkxCfOGI
+         kOxKKkb9TKqyfCRMHWj8d1CLflc+R4Pd+Qd6YLmhJVM15PLw447nfz6jmmPH1ILsk7B6
+         6vlteR2wbCnMpkF87b3Hbub4MN27ew2LIZoD0+DGaJ/uGTSxCi414BU7HfltKntrXx5U
+         Qh9VadxG2t1xlCRTzAZhjIJTZw6yG0w5yIgzLztWMadyo/azZBavhFPA0vfJ5pp7cdO9
+         xbKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kyu+xR8UZP+pOviljY2ZOXLy8SmJsrO7tgRJDWszETo=;
-        b=naq6ZHdDYXG6beT4X5zD2EI+NY+dOeJmxnL6Ilrhvx4mBv1SOfgK5ma6h6JA3V9ONB
-         W5MgQzqjNrAaiqLfNy9QfESYq6ElqtBMRTMqcHNqphnJo298DWdah4y7eA9H/VG864iy
-         wPges5GMpvqhUiXqAj8nSWemYQuGjkL5tiqNsGOcmhmU2eJIuJkKX5ZHFQAbkzR4CxD8
-         iaVyzgGyY8MM++J9NEl/avPT32P2mefG/ed3+N/DWZt6U/WiawupLyEDcSnZbCAtVDlz
-         ALKikCtWP5YxhUN61xFIP9dnAJMCo4X9qUnpoMlkMWq+RrX2aMi74Mj8RE/dTUKsY+b5
-         yyHg==
-X-Gm-Message-State: AO0yUKVnweioepokq3w/lCRTF2DBQVqUcHxq0FTicJRuM88ZbvK6JxOh
-        A2/v/9JXen+WCyNuy1XX4KBMWDOKXEfGdechyqs=
-X-Google-Smtp-Source: AK7set/JASt1oqojAXHiDhzXv1JCruI6Psc4ZHESabSlzQPay6v7I4cBgdEY84cuTEJJufR1eLUuocfmK1PT5xVUn28=
-X-Received: by 2002:a05:6830:3359:b0:688:cf52:71c4 with SMTP id
- l25-20020a056830335900b00688cf5271c4mr1780766ott.4.1677261609208; Fri, 24 Feb
- 2023 10:00:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20230218211608.1630586-1-robdclark@gmail.com> <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell> <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com> <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell> <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell> <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell> <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell> <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
- <20230224130053.3f8939e2@eldfell> <c5d046d6-ab8e-2bc7-5110-dba78b91348b@linux.intel.com>
- <74e409dc-b642-779e-a755-b793c378e43a@amd.com>
-In-Reply-To: <74e409dc-b642-779e-a755-b793c378e43a@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 24 Feb 2023 09:59:57 -0800
-Message-ID: <CAF6AEGs_yzEj81yNP3KhmVP9Yo3rwTc5vntEVrm9tHw6+w1G_g@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To:     Luben Tuikov <luben.tuikov@amd.com>
-Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bx+u2jxrWIooKnQnvTZMZQOT03vWJmrOO/mxGamlw3I=;
+        b=xKt9S3RJS/qMZRXbjoL2WboUcy1hUKBitffer4hXP98uYStpdl1fOa8LL0HTbb85q+
+         WB+h7NjukNllXPmyhpjYp+OJZH+Ajp36gsxJ6+cHbmS03RtHPhb0uhDin5o4WjXGnA23
+         tXUO7+vQo5kHDMc0z74y41g19SX1iNQmPK+c5m4DqywN0AIG4qBVGkEAK6uVx5Z748KC
+         JjfQ2016CzK4lc+uUWxk2RgEH9gWGu2saDN+qtsr0MB/NOXBnJhzepYYcFYY8GH5ePjz
+         hVbgi9EfHPiabjfzMS++It0USoGo11kAcQZ4MymzAg/LPQ02Pm1BG0diF+6fupmkqxxp
+         pabA==
+X-Gm-Message-State: AO0yUKUS8SFSpqAmxu8kUzVmFyjEWF7ARGLxfCtOypHmRCpKO4qP+tYg
+        m/X7S75fWpsnLzzZi5s0YHCe2A==
+X-Google-Smtp-Source: AK7set+TXLmLNmj6/nIcApT0F8hLwTPkJ+w+ozZOWX5Ybz7cB63TJJ5jCW2UtLCAXLfgr82GUPX+Yw==
+X-Received: by 2002:a05:622a:410:b0:3bf:b950:f684 with SMTP id n16-20020a05622a041000b003bfb950f684mr6552067qtx.53.1677261861259;
+        Fri, 24 Feb 2023 10:04:21 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id t41-20020a05622a182900b003bfad864e81sm4791266qtc.69.2023.02.24.10.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 10:04:20 -0800 (PST)
+Message-ID: <f4becff94466ca364dc1408f7491de131a36f0c3.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 2/7] media: Add Y210, Y212 and Y216 formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Ming Qian <ming.qian@nxp.com>
+Date:   Fri, 24 Feb 2023 13:04:19 -0500
+In-Reply-To: <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+         <20221221092448.741294-3-tomi.valkeinen+renesas@ideasonboard.com>
+         <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
+         <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 7:27 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
->
-> On 2023-02-24 06:37, Tvrtko Ursulin wrote:
-> >
-> > On 24/02/2023 11:00, Pekka Paalanen wrote:
-> >> On Fri, 24 Feb 2023 10:50:51 +0000
-> >> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>> On 24/02/2023 10:24, Pekka Paalanen wrote:
-> >>>> On Fri, 24 Feb 2023 09:41:46 +0000
-> >>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>
-> >>>>> On 24/02/2023 09:26, Pekka Paalanen wrote:
-> >>>>>> On Thu, 23 Feb 2023 10:51:48 -0800
-> >>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> >>>>>>
-> >>>>>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >>>>>>>>
-> >>>>>>>> On Wed, 22 Feb 2023 07:37:26 -0800
-> >>>>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> >>>>>>>>
-> >>>>>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >>>>>>
-> >>>>>> ...
-> >>>>>>
-> >>>>>>>>>> On another matter, if the application uses SET_DEADLINE with one
-> >>>>>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
-> >>>>>>>>>> another timestamp, what should happen?
-> >>>>>>>>>
-> >>>>>>>>> The expectation is that many deadline hints can be set on a fence.
-> >>>>>>>>> The fence signaller should track the soonest deadline.
-> >>>>>>>>
-> >>>>>>>> You need to document that as UAPI, since it is observable to userspace.
-> >>>>>>>> It would be bad if drivers or subsystems would differ in behaviour.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> It is in the end a hint.  It is about giving the driver more
-> >>>>>>> information so that it can make better choices.  But the driver is
-> >>>>>>> even free to ignore it.  So maybe "expectation" is too strong of a
-> >>>>>>> word.  Rather, any other behavior doesn't really make sense.  But it
-> >>>>>>> could end up being dictated by how the hw and/or fw works.
-> >>>>>>
-> >>>>>> It will stop being a hint once it has been implemented and used in the
-> >>>>>> wild long enough. The kernel userspace regression rules make sure of
-> >>>>>> that.
-> >>>>>
-> >>>>> Yeah, tricky and maybe a gray area in this case. I think we eluded
-> >>>>> elsewhere in the thread that renaming the thing might be an option.
-> >>>>>
-> >>>>> So maybe instead of deadline, which is a very strong word, use something
-> >>>>> along the lines of "present time hint", or "signalled time hint"? Maybe
-> >>>>> reads clumsy. Just throwing some ideas for a start.
-> >>>>
-> >>>> You can try, but I fear that if it ever changes behaviour and
-> >>>> someone notices that, it's labelled as a kernel regression. I don't
-> >>>> think documentation has ever been the authoritative definition of UABI
-> >>>> in Linux, it just guides drivers and userspace towards a common
-> >>>> understanding and common usage patterns.
-> >>>>
-> >>>> So even if the UABI contract is not documented (ugh), you need to be
-> >>>> prepared to set the UABI contract through kernel implementation.
-> >>>
-> >>> To be the devil's advocate it probably wouldn't be an ABI regression but
-> >>> just an regression. Same way as what nice(2) priorities mean hasn't
-> >>> always been the same over the years, I don't think there is a strict
-> >>> contract.
-> >>>
-> >>> Having said that, it may be different with latency sensitive stuff such
-> >>> as UIs though since it is very observable and can be very painful to users.
-> >>>
-> >>>> If you do not document the UABI contract, then different drivers are
-> >>>> likely to implement it differently, leading to differing behaviour.
-> >>>> Also userspace will invent wild ways to abuse the UABI if there is no
-> >>>> documentation guiding it on proper use. If userspace or end users
-> >>>> observe different behaviour, that's bad even if it's not a regression.
-> >>>>
-> >>>> I don't like the situation either, but it is what it is. UABI stability
-> >>>> trumps everything regardless of whether it was documented or not.
-> >>>>
-> >>>> I bet userspace is going to use this as a "make it faster, make it
-> >>>> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> >>>> library that stamps any and all fences with an expired deadline to
-> >>>> just squeeze out a little more through some weird side-effect.
-> >>>>
-> >>>> Well, that's hopefully overboard in scaring, but in the end, I would
-> >>>> like to see UABI documented so I can have a feeling of what it is for
-> >>>> and how it was intended to be used. That's all.
-> >>>
-> >>> We share the same concern. If you read elsewhere in these threads you
-> >>> will notice I have been calling this an "arms race". If the ability to
-> >>> make yourself go faster does not required additional privilege I also
-> >>> worry everyone will do it at which point it becomes pointless. So yes, I
-> >>> do share this concern about exposing any of this as an unprivileged uapi.
-> >>>
-> >>> Is it possible to limit access to only compositors in some sane way?
-> >>> Sounds tricky when dma-fence should be disconnected from DRM..
-> >>
-> >> Maybe it's not that bad in this particular case, because we are talking
-> >> only about boosting GPU clocks which benefits everyone (except
-> >> battery life) and it does not penalize other programs like e.g.
-> >> job priorities do.
-> >
-> > Apart from efficiency that you mentioned, which does not always favor
-> > higher clocks, sometimes thermal budget is also shared between CPU and
-> > GPU. So more GPU clocks can mean fewer CPU clocks. It's really hard to
-> > make optimal choices without the full coordination between both schedulers.
-> >
-> > But that is even not the main point, which is that if everyone sets the
-> > immediate deadline then having the deadline API is a bit pointless. For
-> > instance there is a reason negative nice needs CAP_SYS_ADMIN.
-> >
-> > However Rob has also pointed out the existence of uclamp.min via
-> > sched_setattr which is unprivileged and can influence frequency
-> > selection in the CPU world, so I conceded on that point. If CPU world
-> > has accepted it so can we I guess.
-> >
-> > So IMO we are back to whether we can agree defining it is a hint is good
-> > enough, be in via the name of the ioctl/flag itself or via documentation.
-> >
-> >> Drivers are not going to use the deadline for scheduling priorities,
-> >> right? I don't recall seeing any mention of that.
-> >>
-> >> ...right?
-> >
-> > I wouldn't have thought it would be beneficial to preclude that, or
-> > assume what drivers would do with the info to begin with.
-> >
-> > For instance in i915 we almost had a deadline based scheduler which was
-> > much fairer than the current priority sorted fifo and in an ideal world
-> > we would either revive or re-implement that idea. In which case
-> > considering the fence deadline would naturally slot in and give true
-> > integration with compositor deadlines (not just boost clocks and pray it
-> > helps).
-> How is user-space to decide whether to use ioctl(SET_DEADLINE) or
-> poll(POLLPRI)?
+Le jeudi 23 f=C3=A9vrier 2023 =C3=A0 15:10 +0200, Tomi Valkeinen a =C3=A9cr=
+it=C2=A0:
+> Hi,
+>=20
+> On 22/02/2023 17:28, Nicolas Dufresne wrote:
+> > Hi Tomi,
+> >=20
+> > Le mercredi 21 d=C3=A9cembre 2022 =C3=A0 11:24 +0200, Tomi Valkeinen a =
+=C3=A9crit=C2=A0:
+> > > Add Y210, Y212 and Y216 formats.
+> > >=20
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.co=
+m>
+> > > ---
+> > >   .../media/v4l/pixfmt-packed-yuv.rst           | 49 ++++++++++++++++=
+++-
+> > >   drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
+> > >   include/uapi/linux/videodev2.h                |  8 +++
+> > >   3 files changed, 58 insertions(+), 2 deletions(-)
+> >=20
+> > It seems you omitted to update v4l2-common.c, Ming Qian had made a supl=
+icated
+> > commit for this, I'll ask him if he can keep the -common changes you fo=
+rgot.
+>=20
+> Ah, I wasn't aware of the format list in that file.
+>=20
+> I think you refer to the "media: imx-jpeg: Add support for 12 bit=20
+> extended jpeg" series. Yes, I'm fine if he can add the -common changes=
+=20
+> there, but I can also send a separate patch. In fact, maybe a separate=
+=20
+> fix patch is better, so that we can have it merged in the early 6.3 rcs.
 
-Implementation of blocking gl/vk/cl APIs, like glFinish() would use
-poll(POLLPRI).  It could also set an immediate deadline and then call
-poll() without POLLPRI.
+I don't think we need to worry about backporting this though. I simply care=
+ that
+we keep updating -common and encourage using it. The goal of this lib is to
+provide a common set of helpers to do calculate format related information.=
+ You
+don't have to use it at any cost. Allocation is often the cause of memory
+corruption issues, and is a very recurrent thing we have to debug and fix.
 
-Other than compositors which do frame-pacing I expect the main usage
-of either of these is mesa.
+This was also discussed on IRC yesterday, for Renesas driver, "just porting=
+ it"
+to use that could mean duplicating the lookup, as Renesas driver also needs=
+ its
+own map to get the HW specific formats and other information. This looks li=
+ke a
+valid use case to me, and is definitely something -common could improve on.
 
-BR,
--R
-
-> --
-> Regards,
-> Luben
->
+Nicolas
