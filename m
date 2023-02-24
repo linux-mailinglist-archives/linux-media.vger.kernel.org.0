@@ -2,292 +2,1038 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBD1A6A1E84
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 16:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6326A1EDD
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 16:49:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjBXP1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 10:27:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52336 "EHLO
+        id S229452AbjBXPtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 10:49:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjBXP1H (ORCPT
+        with ESMTP id S229529AbjBXPtF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 10:27:07 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE16F5C163;
-        Fri, 24 Feb 2023 07:27:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L5A2QaH8MfGKuLniApuxIi/nm0wfJU0ArP8T7UcUFjukwK5IgHdJ7goTYXvJtG7tXNc5HwKNKcVarIpoc1tdDtAZ5OogGdGErZilzT6zqvOYRSfgc5WoxIWNH2AtK6E4Tsu5ANQcFIud53pZbr/qzr6RAnk5MfKRx27QbtpGc76+i678Vi+VQa5csUfvVe4jWJnIw2tvce8mFmjwSo7pwvqN1LWs8Tf0IbGpRHi6fhYOTg0tcU85TI6WalXIO32wj0Ne+OHdngD2gZgk9GEyKlfTClfgT82tDoTYITOIhaMhG2N2RXB0JCQxtcA7QIXbfF+wVZHJ6IXa5zVr3xnAqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NtMrzFSv4TSxFdiHTBiz41BYecQhL7PVRiS5AGt+uho=;
- b=MKRSJBBK7b7jP8MFBdDay+BpkCFOi7e5f4w5j+Koq03Y+UkZ3aXatrY/vGthAKevN5D5ie7VTNTzipFZrOQeacEV5nIfJlvI4YhLpEU6ucs/4i3gk5J1Y69BpQrFjTnRvKHq1OkwwV4elGwYLqPNC4YKwyLm7hYhAAWfuPmLswXqHeCcy3W49SqEmU/sXUj2oln4Myl1D2Mt8N6OZu8nAt1iKPys8HjN/FvwLsLpvOc8N9msQYllTsG68j3V1C6j+FLqvcBvp+hrPr09VVPsKV6eulWt1pdeHoovtylyFfr1JQFwnySzlzQjrV5dSKf89aRA3vCWozRLvgOzVJzsTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NtMrzFSv4TSxFdiHTBiz41BYecQhL7PVRiS5AGt+uho=;
- b=4dFuoOhbRpDr1ISHMl0tDXAA2taEpMmwf26m8cOBDj0QZXkMYDIF0tc5QrpkttzsVqQMwLS0OLVpgVlLXgSmsKt7wlU5nLeF634dQZ/PFWw/WZTefBK0fRRQjULgup9yTbRboaNmunhIBqCSpInTQ+W1F3TRqJJj84h/UBuLcMg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- SA0PR12MB7001.namprd12.prod.outlook.com (2603:10b6:806:2c0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Fri, 24 Feb
- 2023 15:27:01 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::4df2:b32a:e628:c57e]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::4df2:b32a:e628:c57e%7]) with mapi id 15.20.6134.021; Fri, 24 Feb 2023
- 15:27:00 +0000
-Message-ID: <74e409dc-b642-779e-a755-b793c378e43a@amd.com>
-Date:   Fri, 24 Feb 2023 10:26:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-CA
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Rob Clark <robdclark@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell>
- <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
- <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
- <20230224130053.3f8939e2@eldfell>
- <c5d046d6-ab8e-2bc7-5110-dba78b91348b@linux.intel.com>
-From:   Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-In-Reply-To: <c5d046d6-ab8e-2bc7-5110-dba78b91348b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0139.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2f::18) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+        Fri, 24 Feb 2023 10:49:05 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79BDB66973
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 07:49:01 -0800 (PST)
+Received: from ideasonboard.com (host-87-16-53-160.retail.telecomitalia.it [87.16.53.160])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB54633F;
+        Fri, 24 Feb 2023 16:48:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677253738;
+        bh=qzS+8262i9gxZKrERXpRJvzfhq0c097T4fTSy3MjR0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EwrkIQWV2fzD64ziUBo2sxzXXP+WrdlqU+BHYxiUMoHUSssiZMzV1tym7Ze+WcvAm
+         saZva/eUD6OqEEcBl7iZWpOgqiRW6HFMUSiQkqPrVgioBq1lHeODUGLRZH290pNFd4
+         BpB5GeAw4i3XWvKKBkScbPOLytiebrMZLrHA7IPw=
+Date:   Fri, 24 Feb 2023 16:48:55 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH v1 3/3] media: ti: cal: add multiplexed streams support
+Message-ID: <20230224154855.kmiwg2h5b3vq272l@uno.localdomain>
+References: <20230222125630.421020-1-tomi.valkeinen@ideasonboard.com>
+ <20230222125630.421020-4-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|SA0PR12MB7001:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6cff8928-2e0c-4c75-309d-08db167b92f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C8JoZ888Oxgh6Aez15P2/dcQAR2dEBJCdYPx5/IPgQWgBhqpnotZgFZaoBJqUrphgE2o1VATaPPQpxAK66RFGk2S+a2A5xHOnuh74bqmkHEAmdCJQoIdENWm058YKjtXeEJleRuc8/u5kkEw1ao9kcb0upTyp1tFHa0whPJzYA8D8yAhdZkHT0kAbkTrby3+JrZ6jLhLLzuTsx1FFNVnszSMB1gNtSE17+EgPxZBlTvtcPzwPaQYe7WtinOdklWZc8+M+M23TS5Ovd1rUKXME9A8zb8KGXzC4KizdFN/8I3MLYVB1H5irZsHrjmM2Qxvzx1iJJdxEm4tj9sBPvZ2F0QNrmz514mS/rsgiwu/mPstLkoP8M7R+9WThhiNJybaglGFZfB9T35XJplXJ2XEBWTl1qTfBBbCHlKk1A3QKJ0oat3QeDhhi4ylfscWBC8kePQ4KqKwkpJ/dX2v19U3av1kg+JwOlvTYxnHc8TVC82geM98f9YIQtXDPLg7vVfyrQlqeforf+yxXKnd0KtqkfAToc9KfQYQb+jyIh82QCdrSntNKDUykngvUmOAaBreWrROcSUx7gBB9TDzlBZr/2YNbgNI+KY5bjZuIrpzYQSz9aNsCRfEaLU65GNCIWmXumdaowsmNEDmbR1X01LKVpZATMKD4m/VUc47lOTjBypCg3nGRmNXXceNp4L3fnnPELOPPO7oNJnkrQMeMo3RGYCGScqfJ4Mi59dfiGdzfoI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(376002)(366004)(396003)(346002)(39860400002)(451199018)(83380400001)(55236004)(5660300002)(7416002)(41300700001)(36756003)(478600001)(31696002)(4326008)(6512007)(316002)(66556008)(54906003)(38100700002)(86362001)(8676002)(8936002)(6506007)(6486002)(186003)(53546011)(2616005)(66476007)(26005)(6666004)(110136005)(66946007)(31686004)(2906002)(44832011)(66899018)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzQ4bjd6T1VBQjB5eFdSVVFmMmI5NmE5aWlhYTJKV2lVZS91ZWwxZzlxRXE2?=
- =?utf-8?B?dUVnakMvN3pLYkRsYytCcHRDd2ZocmtwOWdQdUpMRzZ4V0hoc1RrOWlaUzFF?=
- =?utf-8?B?K0YrNCtiQXJPcG1qM2w3cU1ZRGl3bkZOMFh3OUh6cGRZOUlLdzhXeUNmdDBn?=
- =?utf-8?B?SlJ0MnRCNHd3b1U3b0Vjclp1WmNUMW1iWTd3M28zdlhTcTB0c3Z6Q203cHo1?=
- =?utf-8?B?bFZEaHh6SlNkRHhXUFBoWXdSNTlKbGNrMHlvS2hGb1NZUGI3OEptUnZ0RUFv?=
- =?utf-8?B?M1JYQnMyWTBoOW9aakkxc3JBVVQ0UzBKU2pHbDBRdlkrMU9NZW5mZFdNbGdV?=
- =?utf-8?B?WEdQMDFGZ0lKOWs0a0ZSWjE0RUJjaWtNWitHSG5PUGVaQkd5NmgrMnY3RWQ4?=
- =?utf-8?B?ZlVpT1E5bFlSNWNNUGt4aGhqM1UwTWlNelpnQzZZOGszeVlCWHZEK25RODV3?=
- =?utf-8?B?Zi90SFpISUp3NlFucmZLQmk1YkRucDFWSlFrYlFYaW9lWE14Z3dxZzFPNWJV?=
- =?utf-8?B?bUFab0hoS0w0TnpuMmZBTUNwdHdzWk9mYzRNY1k5YVU4TTBkQm9ic2xRaWZ5?=
- =?utf-8?B?UEZDZllWR3V1SERZU0dqNlpxZEkrUGdKUlo4SVA2NldEaVNiM1RWaHM1ZGYx?=
- =?utf-8?B?NVd4aDBxd0pmWHJjL1E2b0ltUWQwMDFWb3Q4T21KZ1RhMFpza2srZnZuRmZj?=
- =?utf-8?B?QXoxWUdpaWVIRGVvMWs0eHJDOHkwZXRDUStHVXozYlI3NkZNc1c3cFA3VzZ3?=
- =?utf-8?B?SWVZRi94bkxqcTVRRU5XQ2pZY2I3M1lCN2NqTlN0Vi82S1FGaEFvK0tMQUxX?=
- =?utf-8?B?OWhsbHlOMkRrQlE1bFMwSzRHUnNOd2I5YUp2L0xEcnU0T3E2b2E2ZHpIeWd6?=
- =?utf-8?B?YjhEdHJ3YlBPZFFJQ1UwejNEUjFydWpyYWZ1azBSNG1FejlaSjltcXBkTGhl?=
- =?utf-8?B?cE5VOFU0am0ra1R0a1ZwRWF5dlZnd2RGQm9tajQ4R2JRT3BMeHdiaUlyTkpF?=
- =?utf-8?B?cVlITmg3Zk9TWmxCOEdCdWx6N0Vhazl4S3dib3kzd29ITnRISnZsOVBJUUVl?=
- =?utf-8?B?SXpUUFpZQ3BlNWsyNlg2VXdkKzhlS3pMS3IzajByRUF3c2ZEYzU1ekVTc2FZ?=
- =?utf-8?B?Qy9tcm1wb01uQnBrdVhuN3pyaEl1S3N2aW1Nc1F6VWF5aUIzL1phazcxNnE2?=
- =?utf-8?B?c0dObFBIeEdOS1dFYkFrNWJxUVdCdzljSnliK1VlL3ZSYkVSV3NSTnJxSFV3?=
- =?utf-8?B?eVVGQXU5SWphVTkyQTdsVGxoWWovUW9ubTNoV2poeDZpcTBjb2ZJYUQ0NmRs?=
- =?utf-8?B?VCszdkVicnpTR3h2dlRrRmF5SzlCRTY1T1YvZER3MTR5MnJEcGZYUVk0dnUx?=
- =?utf-8?B?WXdqcXdDc0V2WFlVN3RkaXd2ZFdaQ1RLVEtnWml5QTRLWmszZ25MaUlOd0FB?=
- =?utf-8?B?S2UxTmQ0RWFyTUhLZVFXUDJMOW5UYk84RThOTm9lNEx1RmlobXMzeE1GMkNj?=
- =?utf-8?B?NEoyT2tkcEcyRjZadUNsd25Ha3g3dUxneEYvL2g0K2puU0xPNzFqNm9TS1h4?=
- =?utf-8?B?WGVBa2dUTnVnWlk1TFk2V2FpQmt0bVFMajFENkdLdE1lR2NZMy92MnkzUk1j?=
- =?utf-8?B?cFBCT3UyZ3F0MWU1a3JwMXJIMit6dDgzaGJCM3JIMW56Yldlam1vRFcxcWcv?=
- =?utf-8?B?R3RLbFJxTkdOVDJyNTNMQVkyemR5QnBtc3V5TlVjK2xSQmV6L2Q3UTNzRVBQ?=
- =?utf-8?B?TC96NkxjNHBwMHg4WHFGOFNJOHJxQ0F0Syt3YWI1T0JmSXJTSmtUaEpsaU1D?=
- =?utf-8?B?R1BOZzV5ZzlyOE1KMTNYWk8vUVZwVWZRUWE3TXE3Y1lIbmtiRG1DY3IxQ3RO?=
- =?utf-8?B?d2JGTEdrSyt4a1VLWGlFWnd2SVZtTVhuTG0vSTdiOHVqODcwT3pWRmliZnlW?=
- =?utf-8?B?dmpjVFFhbWZiN1VwTjh6eXJhaE53M3dyRlF6aEt2ZG1EQ09EQ0FXL1c4NVVQ?=
- =?utf-8?B?QnhYb2l2UEhDZS9BUTF1NU9ZZU5uKzVXYU5nOEViRTJzaCtkVDVuak5JYUw2?=
- =?utf-8?B?b0F6MHVmUjhhY0FjRk5yd1VYUE54aGk1Zmg0dTJQcS9reVU5alZNZVBtVTNL?=
- =?utf-8?Q?b/nCpw50nmAH8qAu+uY9OkiFv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cff8928-2e0c-4c75-309d-08db167b92f5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 15:27:00.7575
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A/gn2P8lgkVW/lQBW9WX/IpdFDzc9+ewXxEM2PlwGWl8a/yI2xJkfwuMN/vtukQc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7001
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230222125630.421020-4-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-02-24 06:37, Tvrtko Ursulin wrote:
-> 
-> On 24/02/2023 11:00, Pekka Paalanen wrote:
->> On Fri, 24 Feb 2023 10:50:51 +0000
->> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>> On 24/02/2023 10:24, Pekka Paalanen wrote:
->>>> On Fri, 24 Feb 2023 09:41:46 +0000
->>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->>>>    
->>>>> On 24/02/2023 09:26, Pekka Paalanen wrote:
->>>>>> On Thu, 23 Feb 2023 10:51:48 -0800
->>>>>> Rob Clark <robdclark@gmail.com> wrote:
->>>>>>       
->>>>>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>>>>>>
->>>>>>>> On Wed, 22 Feb 2023 07:37:26 -0800
->>>>>>>> Rob Clark <robdclark@gmail.com> wrote:
->>>>>>>>         
->>>>>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>>>>
->>>>>> ...
->>>>>>       
->>>>>>>>>> On another matter, if the application uses SET_DEADLINE with one
->>>>>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
->>>>>>>>>> another timestamp, what should happen?
->>>>>>>>>
->>>>>>>>> The expectation is that many deadline hints can be set on a fence.
->>>>>>>>> The fence signaller should track the soonest deadline.
->>>>>>>>
->>>>>>>> You need to document that as UAPI, since it is observable to userspace.
->>>>>>>> It would be bad if drivers or subsystems would differ in behaviour.
->>>>>>>>         
->>>>>>>
->>>>>>> It is in the end a hint.  It is about giving the driver more
->>>>>>> information so that it can make better choices.  But the driver is
->>>>>>> even free to ignore it.  So maybe "expectation" is too strong of a
->>>>>>> word.  Rather, any other behavior doesn't really make sense.  But it
->>>>>>> could end up being dictated by how the hw and/or fw works.
->>>>>>
->>>>>> It will stop being a hint once it has been implemented and used in the
->>>>>> wild long enough. The kernel userspace regression rules make sure of
->>>>>> that.
->>>>>
->>>>> Yeah, tricky and maybe a gray area in this case. I think we eluded
->>>>> elsewhere in the thread that renaming the thing might be an option.
->>>>>
->>>>> So maybe instead of deadline, which is a very strong word, use something
->>>>> along the lines of "present time hint", or "signalled time hint"? Maybe
->>>>> reads clumsy. Just throwing some ideas for a start.
->>>>
->>>> You can try, but I fear that if it ever changes behaviour and
->>>> someone notices that, it's labelled as a kernel regression. I don't
->>>> think documentation has ever been the authoritative definition of UABI
->>>> in Linux, it just guides drivers and userspace towards a common
->>>> understanding and common usage patterns.
->>>>
->>>> So even if the UABI contract is not documented (ugh), you need to be
->>>> prepared to set the UABI contract through kernel implementation.
->>>
->>> To be the devil's advocate it probably wouldn't be an ABI regression but
->>> just an regression. Same way as what nice(2) priorities mean hasn't
->>> always been the same over the years, I don't think there is a strict
->>> contract.
->>>
->>> Having said that, it may be different with latency sensitive stuff such
->>> as UIs though since it is very observable and can be very painful to users.
->>>
->>>> If you do not document the UABI contract, then different drivers are
->>>> likely to implement it differently, leading to differing behaviour.
->>>> Also userspace will invent wild ways to abuse the UABI if there is no
->>>> documentation guiding it on proper use. If userspace or end users
->>>> observe different behaviour, that's bad even if it's not a regression.
->>>>
->>>> I don't like the situation either, but it is what it is. UABI stability
->>>> trumps everything regardless of whether it was documented or not.
->>>>
->>>> I bet userspace is going to use this as a "make it faster, make it
->>>> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
->>>> library that stamps any and all fences with an expired deadline to
->>>> just squeeze out a little more through some weird side-effect.
->>>>
->>>> Well, that's hopefully overboard in scaring, but in the end, I would
->>>> like to see UABI documented so I can have a feeling of what it is for
->>>> and how it was intended to be used. That's all.
->>>
->>> We share the same concern. If you read elsewhere in these threads you
->>> will notice I have been calling this an "arms race". If the ability to
->>> make yourself go faster does not required additional privilege I also
->>> worry everyone will do it at which point it becomes pointless. So yes, I
->>> do share this concern about exposing any of this as an unprivileged uapi.
->>>
->>> Is it possible to limit access to only compositors in some sane way?
->>> Sounds tricky when dma-fence should be disconnected from DRM..
->>
->> Maybe it's not that bad in this particular case, because we are talking
->> only about boosting GPU clocks which benefits everyone (except
->> battery life) and it does not penalize other programs like e.g.
->> job priorities do.
-> 
-> Apart from efficiency that you mentioned, which does not always favor 
-> higher clocks, sometimes thermal budget is also shared between CPU and 
-> GPU. So more GPU clocks can mean fewer CPU clocks. It's really hard to 
-> make optimal choices without the full coordination between both schedulers.
-> 
-> But that is even not the main point, which is that if everyone sets the 
-> immediate deadline then having the deadline API is a bit pointless. For 
-> instance there is a reason negative nice needs CAP_SYS_ADMIN.
-> 
-> However Rob has also pointed out the existence of uclamp.min via 
-> sched_setattr which is unprivileged and can influence frequency 
-> selection in the CPU world, so I conceded on that point. If CPU world 
-> has accepted it so can we I guess.
-> 
-> So IMO we are back to whether we can agree defining it is a hint is good 
-> enough, be in via the name of the ioctl/flag itself or via documentation.
-> 
->> Drivers are not going to use the deadline for scheduling priorities,
->> right? I don't recall seeing any mention of that.
->>
->> ...right?
-> 
-> I wouldn't have thought it would be beneficial to preclude that, or 
-> assume what drivers would do with the info to begin with.
-> 
-> For instance in i915 we almost had a deadline based scheduler which was 
-> much fairer than the current priority sorted fifo and in an ideal world 
-> we would either revive or re-implement that idea. In which case 
-> considering the fence deadline would naturally slot in and give true 
-> integration with compositor deadlines (not just boost clocks and pray it 
-> helps).
-How is user-space to decide whether to use ioctl(SET_DEADLINE) or
-poll(POLLPRI)?
--- 
-Regards,
-Luben
+Hi Tomi
 
+On Wed, Feb 22, 2023 at 02:56:30PM +0200, Tomi Valkeinen wrote:
+> Add routing and stream_config support to CAL driver.
+>
+> Add multiplexed streams support. CAL has 8 dma-engines and can capture 8
+> separate streams at the same time.
+>
+> Add 8 video device nodes, each representing a single dma-engine, and set
+> the number of source pads on camerarx to 8. Each video node can be
+> connected to any of the source pads on either of the camerarx instances
+> using media links. Camerarx internal routing is used to route the
+> incoming CSI-2 streams to one of the 8 source pads.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti/cal/cal-camerarx.c | 233 ++++++++++++++-----
+>  drivers/media/platform/ti/cal/cal-video.c    | 146 +++++++++---
+>  drivers/media/platform/ti/cal/cal.c          |  65 ++++--
+>  drivers/media/platform/ti/cal/cal.h          |   4 +-
+>  4 files changed, 342 insertions(+), 106 deletions(-)
+>
+> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+> index faafbd0e9240..49ae29065cd1 100644
+> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
+> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+> @@ -49,21 +49,41 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
+>  {
+>  	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2 = &phy->endpoint.bus.mipi_csi2;
+>  	u32 num_lanes = mipi_csi2->num_data_lanes;
+> -	const struct cal_format_info *fmtinfo;
+>  	struct v4l2_subdev_state *state;
+> -	struct v4l2_mbus_framefmt *fmt;
+>  	u32 bpp;
+>  	s64 freq;
+>
+> -	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
+> +	/*
+> +	 * v4l2_get_link_freq() uses V4L2_CID_LINK_FREQ first, and falls back
+> +	 * to V4L2_CID_PIXEL_RATE if V4L2_CID_LINK_FREQ is not available.
+> +	 *
+> +	 * With multistream input there is no single pixel rate, and thus we
+> +	 * cannot use V4L2_CID_PIXEL_RATE, so we pass 0 as the bpp which
+> +	 * causes v4l2_get_link_freq() to return an error if it falls back to
+> +	 * V4L2_CID_PIXEL_RATE.
+> +	 */
+
+To recap a bit of our offline discussion:
+- max9286 GMSL deserializer (as a comparison for a multiplexed
+  transmitter) use PIXEL_RATE to report the cumulative pixel rate of
+  enabled transmitters. This is because the R-Car CSI-2 receiver on
+  which use PIXEL_RATE to compute the link freq [1]
+
+- according to [2]
+  pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample (on D-PHY)
+
+  from which:
+  link_freq = pixel_rate * bits_per_sample / (2 * nr_of_lanes)
+
+  This works as long the reported pixel rate includes visible and
+  blankings, something I'm not sure how many transmitters handle
+  correctly as PIXEL_RATE control is meant to report the visible pixel
+  sampling rate on the pixel array.
+
+I guess we should go towards mandating LINK_FREQ for transmitters.
+
+cc-Niklas for opinions on R-Car CSI-2 rcsi2_calc_mbps()
+
+[1] https://elixir.bootlin.com/linux/v6.2/source/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c#L608
+[2] https://www.kernel.org/doc/html/latest/driver-api/media/tx-rx.html#csi-2-transmitter-drivers
+
+>
+> -	fmt = v4l2_subdev_get_pad_format(&phy->subdev, state, CAL_CAMERARX_PAD_SINK);
+> +	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
+>
+> -	fmtinfo = cal_format_by_code(fmt->code);
+> -	if (!fmtinfo)
+> +	if (state->routing.num_routes == 0)
+>  		return -EINVAL;
+
+This function is in the call path of .enable_streams which if I'm not
+reading the code wrong is called with
+
+int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable)
+{
+
+        ...
+
+	for_each_active_route(&state->routing, route)
+		source_mask |= BIT_ULL(route->source_stream);
+
+	if (enable)
+		return v4l2_subdev_enable_streams(sd, pad_index, source_mask);
+
+        ...
+}
+
+int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+			       u64 streams_mask)
+{
+	struct device *dev = sd->entity.graph_obj.mdev->dev;
+	struct v4l2_subdev_state *state;
+	u64 found_streams = 0;
+	unsigned int i;
+	int ret;
+
+	/* A few basic sanity checks first. */
+	if (pad >= sd->entity.num_pads)
+		return -EINVAL;
+
+	if (!streams_mask)
+		return 0;
+
+        ...
+}
+
+So the question is: can we get to enable_streams without enabled
+routes (sorry I should have tested before asking it but I don't have a
+multiplexed setup easily accessible) ?
+
+>
+> -	bpp = fmtinfo->bpp;
+> +	if (state->routing.num_routes > 1) {
+> +		bpp = 0;
+> +	} else {
+> +		const struct cal_format_info *fmtinfo;
+> +		struct v4l2_subdev_route *route = &state->routing.routes[0];
+
+Nit: if I'm not mistaken along the driver reverse-xmas-tree (I
+know...) is respected. Can you do it here as well ?
+
+> +		struct v4l2_mbus_framefmt *fmt;
+> +
+> +		fmt = v4l2_subdev_state_get_stream_format(
+> +			state, route->sink_pad, route->sink_stream);
+> +
+> +		fmtinfo = cal_format_by_code(fmt->code);
+> +		if (!fmtinfo)
+> +			return -EINVAL;
+> +
+> +		bpp = fmtinfo->bpp;
+> +	}
+>
+>  	freq = v4l2_get_link_freq(phy->source->ctrl_handler, bpp, 2 * num_lanes);
+>  	if (freq < 0) {
+> @@ -284,15 +304,28 @@ static void cal_camerarx_ppi_disable(struct cal_camerarx *phy)
+>  			0, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
+>  }
+>
+> -static int cal_camerarx_start(struct cal_camerarx *phy)
+> +static int cal_camerarx_start(struct cal_camerarx *phy, u32 pad, u32 stream)
+>  {
+> +	struct media_pad *remote_pad;
+>  	s64 link_freq;
+>  	u32 sscounter;
+>  	u32 val;
+>  	int ret;
+>
+> +	remote_pad = media_pad_remote_pad_first(&phy->pads[pad]);
+> +
+
+Would it hurt a comment here to explain that in case it's the first to
+be enabled you need to start the RX and power up the transmitter,
+otherwise it's enough to enable the additional stream ?
+
+>  	if (phy->enable_count > 0) {
+>  		phy->enable_count++;
+> +
+> +		ret = v4l2_subdev_enable_streams(phy->source, remote_pad->index,
+> +						 BIT(stream));
+> +		if (ret) {
+> +			phy->enable_count--;
+
+You can avoid this by enable_count++ after the error check ?
+
+> +
+> +			phy_err(phy, "enable streams failed in source: %d\n", ret);
+> +			return ret;
+> +		}
+> +
+>  		return 0;
+>  	}
+>
+> @@ -394,7 +427,9 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
+>  	 * Start the source to enable the CSI-2 HS clock. We can now wait for
+>  	 * CSI-2 PHY reset to complete.
+>  	 */
+> -	ret = v4l2_subdev_call(phy->source, video, s_stream, 1);
+> +
+
+Intentional additional blank line ?
+
+> +	ret = v4l2_subdev_enable_streams(phy->source, remote_pad->index,
+> +					 BIT(stream));
+>  	if (ret) {
+>  		v4l2_subdev_call(phy->source, core, s_power, 0);
+>  		cal_camerarx_disable_irqs(phy);
+> @@ -425,12 +460,22 @@ static int cal_camerarx_start(struct cal_camerarx *phy)
+>  	return 0;
+>  }
+>
+> -static void cal_camerarx_stop(struct cal_camerarx *phy)
+> +static void cal_camerarx_stop(struct cal_camerarx *phy, u32 pad, u32 stream)
+>  {
+> +	struct media_pad *remote_pad;
+>  	int ret;
+>
+> -	if (--phy->enable_count > 0)
+> +	remote_pad = media_pad_remote_pad_first(&phy->pads[pad]);
+> +
+> +	if (--phy->enable_count > 0) {
+> +		ret = v4l2_subdev_disable_streams(phy->source,
+> +						  remote_pad->index,
+> +						  BIT(stream));
+> +		if (ret)
+> +			phy_err(phy, "stream off failed in subdev\n");
+> +
+>  		return;
+> +	}
+>
+>  	cal_camerarx_ppi_disable(phy);
+>
+> @@ -450,7 +495,9 @@ static void cal_camerarx_stop(struct cal_camerarx *phy)
+>  	/* Disable the phy */
+>  	cal_camerarx_disable(phy);
+>
+> -	if (v4l2_subdev_call(phy->source, video, s_stream, 0))
+> +	ret = v4l2_subdev_disable_streams(phy->source, remote_pad->index,
+> +					  BIT(stream));
+> +	if (ret)
+>  		phy_err(phy, "stream off failed in subdev\n");
+>
+>  	ret = v4l2_subdev_call(phy->source, core, s_power, 0);
+> @@ -626,30 +673,62 @@ static inline struct cal_camerarx *to_cal_camerarx(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct cal_camerarx, subdev);
+>  }
+>
+> -static int cal_camerarx_sd_s_stream(struct v4l2_subdev *sd, int enable)
+> +struct cal_camerarx *
+> +cal_camerarx_get_phy_from_entity(struct media_entity *entity)
+> +{
+> +	struct v4l2_subdev *sd;
+> +
+> +	sd = media_entity_to_v4l2_subdev(entity);
+> +	if (!sd)
+> +		return NULL;
+> +
+> +	return to_cal_camerarx(sd);
+> +}
+> +
+> +static int cal_camerarx_sd_enable_streams(struct v4l2_subdev *sd,
+> +					  struct v4l2_subdev_state *state,
+> +					  u32 pad, u64 streams_mask)
+>  {
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> -	struct v4l2_subdev_state *state;
+> -	int ret = 0;
+> +	u32 other_pad, other_stream;
+> +	int ret;
+>
+> -	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +	if (WARN_ON(streams_mask != 1))
+
+as streams_mask is unsigned and you can't get here if streams_mask ==
+0, I wonder if checking for > 1 isn't more explicit. A detail though.
+
+> +		return -EINVAL;
+>
+> -	if (enable)
+> -		ret = cal_camerarx_start(phy);
+> -	else
+> -		cal_camerarx_stop(phy);
+> +	ret = v4l2_subdev_routing_find_opposite_end(&state->routing, pad, 0,
+> +						    &other_pad, &other_stream);
+> +	if (ret)
+> +		return ret;
+>
+> -	v4l2_subdev_unlock_state(state);
+> +	return cal_camerarx_start(phy, other_pad, other_stream);
+> +}
+>
+> -	return ret;
+> +static int cal_camerarx_sd_disable_streams(struct v4l2_subdev *sd,
+> +					   struct v4l2_subdev_state *state,
+> +					   u32 pad, u64 streams_mask)
+> +{
+> +	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> +	u32 other_pad, other_stream;
+> +	int ret;
+> +
+> +	if (WARN_ON(streams_mask != 1))
+> +		return -EINVAL;
+> +
+> +	ret = v4l2_subdev_routing_find_opposite_end(&state->routing, pad, 0,
+> +						    &other_pad, &other_stream);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cal_camerarx_stop(phy, other_pad, other_stream);
+> +
+> +	return 0;
+>  }
+>
+>  static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+>  					  struct v4l2_subdev_state *state,
+>  					  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> -
+>  	/* No transcoding, source and sink codes must match. */
+>  	if (cal_rx_pad_is_source(code->pad)) {
+>  		struct v4l2_mbus_framefmt *fmt;
+> @@ -657,8 +736,12 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+>  		if (code->index > 0)
+>  			return -EINVAL;
+>
+> -		fmt = v4l2_subdev_get_pad_format(&phy->subdev, state,
+> -						 CAL_CAMERARX_PAD_SINK);
+> +		fmt = v4l2_subdev_state_get_opposite_stream_format(state,
+> +								   code->pad,
+> +								   code->stream);
+> +		if (!fmt)
+> +			return -EINVAL;
+> +
+>  		code->code = fmt->code;
+>  	} else {
+>  		if (code->index >= cal_num_formats)
+> @@ -683,8 +766,12 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>  	if (cal_rx_pad_is_source(fse->pad)) {
+>  		struct v4l2_mbus_framefmt *fmt;
+>
+> -		fmt = v4l2_subdev_get_pad_format(sd, state,
+> -						 CAL_CAMERARX_PAD_SINK);
+> +		fmt = v4l2_subdev_state_get_opposite_stream_format(state,
+> +								   fse->pad,
+> +								   fse->stream);
+> +		if (!fmt)
+> +			return -EINVAL;
+> +
+>  		if (fse->code != fmt->code)
+>  			return -EINVAL;
+>
+> @@ -740,57 +827,96 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>
+>  	/* Store the format and propagate it to the source pad. */
+>
+> -	fmt = v4l2_subdev_get_pad_format(sd, state, CAL_CAMERARX_PAD_SINK);
+> +	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+> +						  format->stream);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+>  	*fmt = format->format;
+>
+> -	fmt = v4l2_subdev_get_pad_format(sd, state,
+> -					 CAL_CAMERARX_PAD_FIRST_SOURCE);
+> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+> +							   format->stream);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+>  	*fmt = format->format;
+>
+>  	return 0;
+>  }
+>
+> +static int _cal_camerarx_sd_set_routing(struct v4l2_subdev *sd,
+> +					struct v4l2_subdev_state *state,
+> +					struct v4l2_subdev_krouting *routing)
+
+Functions starting with _ are a bit unusual :)
+
+> +{
+> +	static const struct v4l2_mbus_framefmt format = {
+> +		.width = 640,
+> +		.height = 480,
+> +		.code = MEDIA_BUS_FMT_UYVY8_2X8,
+> +		.field = V4L2_FIELD_NONE,
+> +		.colorspace = V4L2_COLORSPACE_SRGB,
+> +		.ycbcr_enc = V4L2_YCBCR_ENC_601,
+> +		.quantization = V4L2_QUANTIZATION_LIM_RANGE,
+> +		.xfer_func = V4L2_XFER_FUNC_SRGB,
+> +	};
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_routing_validate(sd, routing, V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int cal_camerarx_sd_set_routing(struct v4l2_subdev *sd,
+> +				       struct v4l2_subdev_state *state,
+> +				       enum v4l2_subdev_format_whence which,
+> +				       struct v4l2_subdev_krouting *routing)
+> +{
+> +	return _cal_camerarx_sd_set_routing(sd, state, routing);
+> +}
+> +
+>  static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
+>  				    struct v4l2_subdev_state *state)
+>  {
+> -	struct v4l2_subdev_format format = {
+> -		.which = state ? V4L2_SUBDEV_FORMAT_TRY
+> -		: V4L2_SUBDEV_FORMAT_ACTIVE,
+> -		.pad = CAL_CAMERARX_PAD_SINK,
+> -		.format = {
+> -			.width = 640,
+> -			.height = 480,
+> -			.code = MEDIA_BUS_FMT_UYVY8_2X8,
+> -			.field = V4L2_FIELD_NONE,
+> -			.colorspace = V4L2_COLORSPACE_SRGB,
+> -			.ycbcr_enc = V4L2_YCBCR_ENC_601,
+> -			.quantization = V4L2_QUANTIZATION_LIM_RANGE,
+> -			.xfer_func = V4L2_XFER_FUNC_SRGB,
+> -		},
+> +	struct v4l2_subdev_route routes[] = { {
+> +		.sink_pad = 0,
+> +		.sink_stream = 0,
+> +		.source_pad = 1,
+> +		.source_stream = 0,
+> +		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +	} };
+> +
+> +	struct v4l2_subdev_krouting routing = {
+> +		.num_routes = 1,
+> +		.routes = routes,
+>  	};
+>
+> -	return cal_camerarx_sd_set_fmt(sd, state, &format);
+> +	/* Initialize routing to single route to the fist source pad */
+> +	return _cal_camerarx_sd_set_routing(sd, state, &routing);
+>  }
+>
+> -static const struct v4l2_subdev_video_ops cal_camerarx_video_ops = {
+> -	.s_stream = cal_camerarx_sd_s_stream,
+> -};
+> -
+>  static const struct v4l2_subdev_pad_ops cal_camerarx_pad_ops = {
+> +	.enable_streams = cal_camerarx_sd_enable_streams,
+> +	.disable_streams = cal_camerarx_sd_disable_streams,
+>  	.init_cfg = cal_camerarx_sd_init_cfg,
+>  	.enum_mbus_code = cal_camerarx_sd_enum_mbus_code,
+>  	.enum_frame_size = cal_camerarx_sd_enum_frame_size,
+>  	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = cal_camerarx_sd_set_fmt,
+> +	.set_routing = cal_camerarx_sd_set_routing,
+>  };
+>
+>  static const struct v4l2_subdev_ops cal_camerarx_subdev_ops = {
+> -	.video = &cal_camerarx_video_ops,
+>  	.pad = &cal_camerarx_pad_ops,
+>  };
+>
+>  static struct media_entity_operations cal_camerarx_media_ops = {
+>  	.link_validate = v4l2_subdev_link_validate,
+> +	.has_pad_interdep = v4l2_subdev_has_pad_interdep,
+>  };
+>
+>  /* ------------------------------------------------------------------
+> @@ -842,11 +968,12 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	sd = &phy->subdev;
+>  	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
+>  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> -	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+>  	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
+>  	sd->dev = cal->dev;
+>
+>  	phy->pads[CAL_CAMERARX_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+> +
+
+Intentional ?
+
+>  	for (i = CAL_CAMERARX_PAD_FIRST_SOURCE; i < CAL_CAMERARX_NUM_PADS; ++i)
+>  		phy->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+>  	sd->entity.ops = &cal_camerarx_media_ops;
+> @@ -879,7 +1006,9 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
+>  		return;
+>
+>  	v4l2_device_unregister_subdev(&phy->subdev);
+> +
+>  	v4l2_subdev_cleanup(&phy->subdev);
+> +
+
+ditto
+
+>  	media_entity_cleanup(&phy->subdev.entity);
+>  	of_node_put(phy->source_ep_node);
+>  	of_node_put(phy->source_node);
+> diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
+> index d363e123d4bb..71578bfc97ba 100644
+> --- a/drivers/media/platform/ti/cal/cal-video.c
+> +++ b/drivers/media/platform/ti/cal/cal-video.c
+> @@ -119,12 +119,13 @@ static int __subdev_get_format(struct cal_ctx *ctx,
+>  {
+>  	struct v4l2_subdev_format sd_fmt;
+>  	struct v4l2_mbus_framefmt *mbus_fmt = &sd_fmt.format;
+> +	struct v4l2_subdev *sd = ctx->phy->source;
+>  	int ret;
+>
+>  	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>  	sd_fmt.pad = 0;
+>
+> -	ret = v4l2_subdev_call(ctx->phy->source, pad, get_fmt, NULL, &sd_fmt);
+> +	ret = v4l2_subdev_call_state_active(sd, pad, get_fmt, &sd_fmt);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -141,13 +142,14 @@ static int __subdev_set_format(struct cal_ctx *ctx,
+>  {
+>  	struct v4l2_subdev_format sd_fmt;
+>  	struct v4l2_mbus_framefmt *mbus_fmt = &sd_fmt.format;
+> +	struct v4l2_subdev *sd = ctx->phy->source;
+>  	int ret;
+>
+>  	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>  	sd_fmt.pad = 0;
+>  	*mbus_fmt = *fmt;
+>
+> -	ret = v4l2_subdev_call(ctx->phy->source, pad, set_fmt, NULL, &sd_fmt);
+> +	ret = v4l2_subdev_call_state_active(sd, pad, set_fmt, &sd_fmt);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -189,6 +191,7 @@ static int cal_legacy_try_fmt_vid_cap(struct file *file, void *priv,
+>  				      struct v4l2_format *f)
+>  {
+>  	struct cal_ctx *ctx = video_drvdata(file);
+> +	struct v4l2_subdev *sd = ctx->phy->source;
+>  	const struct cal_format_info *fmtinfo;
+>  	struct v4l2_subdev_frame_size_enum fse;
+>  	int found;
+> @@ -213,8 +216,8 @@ static int cal_legacy_try_fmt_vid_cap(struct file *file, void *priv,
+>  	for (fse.index = 0; ; fse.index++) {
+>  		int ret;
+>
+> -		ret = v4l2_subdev_call(ctx->phy->source, pad, enum_frame_size,
+> -				       NULL, &fse);
+> +		ret = v4l2_subdev_call_state_active(sd, pad, enum_frame_size,
+> +						    &fse);
+>  		if (ret)
+>  			break;
+>
+> @@ -250,6 +253,7 @@ static int cal_legacy_s_fmt_vid_cap(struct file *file, void *priv,
+>  				    struct v4l2_format *f)
+>  {
+>  	struct cal_ctx *ctx = video_drvdata(file);
+> +	struct v4l2_subdev *sd = &ctx->phy->subdev;
+>  	struct vb2_queue *q = &ctx->vb_vidq;
+>  	struct v4l2_subdev_format sd_fmt = {
+>  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> @@ -289,7 +293,7 @@ static int cal_legacy_s_fmt_vid_cap(struct file *file, void *priv,
+>  	ctx->v_fmt.fmt.pix.field = sd_fmt.format.field;
+>  	cal_calc_format_size(ctx, fmtinfo, &ctx->v_fmt);
+>
+> -	v4l2_subdev_call(&ctx->phy->subdev, pad, set_fmt, NULL, &sd_fmt);
+> +	v4l2_subdev_call_state_active(sd, pad, set_fmt, &sd_fmt);
+>
+>  	ctx->fmtinfo = fmtinfo;
+>  	*f = ctx->v_fmt;
+> @@ -301,6 +305,7 @@ static int cal_legacy_enum_framesizes(struct file *file, void *fh,
+>  				      struct v4l2_frmsizeenum *fsize)
+>  {
+>  	struct cal_ctx *ctx = video_drvdata(file);
+> +	struct v4l2_subdev *sd = ctx->phy->source;
+>  	const struct cal_format_info *fmtinfo;
+>  	struct v4l2_subdev_frame_size_enum fse;
+>  	int ret;
+> @@ -318,8 +323,7 @@ static int cal_legacy_enum_framesizes(struct file *file, void *fh,
+>  	fse.code = fmtinfo->code;
+>  	fse.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>
+> -	ret = v4l2_subdev_call(ctx->phy->source, pad, enum_frame_size, NULL,
+> -			       &fse);
+> +	ret = v4l2_subdev_call_state_active(sd, pad, enum_frame_size, &fse);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -361,6 +365,7 @@ static int cal_legacy_enum_frameintervals(struct file *file, void *priv,
+>  					  struct v4l2_frmivalenum *fival)
+>  {
+>  	struct cal_ctx *ctx = video_drvdata(file);
+> +	struct v4l2_subdev *sd = ctx->phy->source;
+>  	const struct cal_format_info *fmtinfo;
+>  	struct v4l2_subdev_frame_interval_enum fie = {
+>  		.index = fival->index,
+> @@ -375,8 +380,8 @@ static int cal_legacy_enum_frameintervals(struct file *file, void *priv,
+>  		return -EINVAL;
+>
+>  	fie.code = fmtinfo->code;
+> -	ret = v4l2_subdev_call(ctx->phy->source, pad, enum_frame_interval,
+> -			       NULL, &fie);
+> +
+> +	ret = v4l2_subdev_call_state_active(sd, pad, enum_frame_interval, &fie);
+>  	if (ret)
+>  		return ret;
+>  	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+> @@ -694,8 +699,8 @@ static int cal_video_check_format(struct cal_ctx *ctx)
+>  {
+>  	const struct cal_format_info *rx_fmtinfo;
+>  	const struct v4l2_mbus_framefmt *format;
+> -	struct v4l2_subdev_state *state;
+>  	struct media_pad *remote_pad;
+> +	struct v4l2_subdev_state *state;
+>  	int ret = 0;
+>
+>  	remote_pad = media_pad_remote_pad_first(&ctx->pad);
+> @@ -704,7 +709,8 @@ static int cal_video_check_format(struct cal_ctx *ctx)
+>
+>  	state = v4l2_subdev_lock_and_get_active_state(&ctx->phy->subdev);
+>
+> -	format = v4l2_subdev_get_pad_format(&ctx->phy->subdev, state, remote_pad->index);
+> +	format = v4l2_subdev_state_get_stream_format(state, remote_pad->index,
+> +						     0);
+>  	if (!format) {
+>  		ret = -EINVAL;
+>  		goto out;
+> @@ -733,10 +739,52 @@ static int cal_video_check_format(struct cal_ctx *ctx)
+>  static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  {
+>  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+> +	struct media_pad *remote_pad;
+>  	struct cal_buffer *buf;
+>  	dma_addr_t addr;
+>  	int ret;
+>
+> +	remote_pad = media_pad_remote_pad_first(&ctx->pad);
+> +	if (!remote_pad) {
+> +		ctx_err(ctx, "Context not connected\n");
+> +		ret = -ENODEV;
+> +		goto error_release_buffers;
+> +	}
+> +
+> +	if (cal_mc_api) {
+> +		struct v4l2_subdev_route *route = NULL;
+> +		struct v4l2_subdev_route *r;
+> +		struct v4l2_subdev_state *state;
+> +
+> +		/* Find the PHY connected to this video device */
+> +
+> +		ctx->phy = cal_camerarx_get_phy_from_entity(remote_pad->entity);
+> +
+> +		state = v4l2_subdev_lock_and_get_active_state(&ctx->phy->subdev);
+> +
+> +		/* Find the stream */
+> +
+> +		for_each_active_route(&state->routing, r) {
+> +			if (r->source_pad != remote_pad->index)
+> +				continue;
+> +
+> +			route = r;
+> +
+> +			break;
+> +		}
+> +
+> +		if (!route) {
+> +			v4l2_subdev_unlock_state(state);
+> +			ctx_err(ctx, "Failed to find route\n");
+> +			ret = -ENODEV;
+> +			goto error_release_buffers;
+> +		}
+
+If I got it right: we inspect the PHY routing table, pick the route that ends in
+the pad connected to the this video device and store the sink-stream
+id. The sink-stream id is used for... digging into the frame_desc
+handling I have a slightly unrelated question if the PHY shouldn't
+implement .get_frame_desc() instead of filtering what is returned from
+the deser's implementation of .get_frame_desc() which is called by
+cal_camerarx_get_remote_frame_desc(). If I'm not mitaken in that case
+you could just call the PHY's .get_frame_desc() instead of inspecting its
+routing table here. Does it make sense..
+
+> +
+> +		ctx->stream = route->sink_stream;
+> +
+> +		v4l2_subdev_unlock_state(state);
+> +	}
+> +
+>  	ret = video_device_pipeline_alloc_start(&ctx->vdev);
+>  	if (ret < 0) {
+>  		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
+> @@ -775,7 +823,8 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	cal_ctx_set_dma_addr(ctx, addr);
+>  	cal_ctx_start(ctx);
+>
+> -	ret = v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 1);
+> +	ret = v4l2_subdev_enable_streams(&ctx->phy->subdev, remote_pad->index,
+> +					 BIT(0));
+>  	if (ret)
+>  		goto error_stop;
+>
+> @@ -800,10 +849,14 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  static void cal_stop_streaming(struct vb2_queue *vq)
+>  {
+>  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+> +	struct media_pad *remote_pad;
+>
+>  	cal_ctx_stop(ctx);
+>
+> -	v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 0);
+> +	remote_pad = media_pad_remote_pad_first(&ctx->pad);
+> +
+> +	v4l2_subdev_disable_streams(&ctx->phy->subdev, remote_pad->index,
+> +				    BIT(0));
+>
+>  	pm_runtime_put_sync(ctx->cal->dev);
+>
+> @@ -812,6 +865,9 @@ static void cal_stop_streaming(struct vb2_queue *vq)
+>  	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
+>
+>  	video_device_pipeline_stop(&ctx->vdev);
+> +
+> +	if (cal_mc_api)
+> +		ctx->phy = NULL;
+>  }
+>
+>  static const struct vb2_ops cal_video_qops = {
+> @@ -845,6 +901,7 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+>  	const struct cal_format_info *fmtinfo;
+>  	unsigned int i, j, k;
+>  	int ret = 0;
+> +	struct v4l2_subdev *sd = ctx->phy->source;
+
+Move it up ? :P
+
+The rest (for my undestanding) seems right. By dropping the !mc
+support things would look much simpler :)
+
+
+>
+>  	/* Enumerate sub device formats and enable all matching local formats */
+>  	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, cal_num_formats,
+> @@ -859,20 +916,20 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+>  		memset(&mbus_code, 0, sizeof(mbus_code));
+>  		mbus_code.index = j;
+>  		mbus_code.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> -		ret = v4l2_subdev_call(ctx->phy->source, pad, enum_mbus_code,
+> -				       NULL, &mbus_code);
+> +		ret = v4l2_subdev_call_state_active(sd, pad, enum_mbus_code,
+> +						    &mbus_code);
+>  		if (ret == -EINVAL)
+>  			break;
+>
+>  		if (ret) {
+>  			ctx_err(ctx, "Error enumerating mbus codes in subdev %s: %d\n",
+> -				ctx->phy->source->name, ret);
+> +				sd->name, ret);
+>  			return ret;
+>  		}
+>
+>  		ctx_dbg(2, ctx,
+>  			"subdev %s: code: %04x idx: %u\n",
+> -			ctx->phy->source->name, mbus_code.code, j);
+> +			sd->name, mbus_code.code, j);
+>
+>  		for (k = 0; k < cal_num_formats; k++) {
+>  			fmtinfo = &cal_formats[k];
+> @@ -890,7 +947,7 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+>
+>  	if (i == 0) {
+>  		ctx_err(ctx, "No suitable format reported by subdev %s\n",
+> -			ctx->phy->source->name);
+> +			sd->name);
+>  		return -EINVAL;
+>  	}
+>
+> @@ -976,16 +1033,49 @@ int cal_ctx_v4l2_register(struct cal_ctx *ctx)
+>  		return ret;
+>  	}
+>
+> -	ret = media_create_pad_link(&ctx->phy->subdev.entity,
+> -				    CAL_CAMERARX_PAD_FIRST_SOURCE,
+> -				    &vfd->entity, 0,
+> -				    MEDIA_LNK_FL_IMMUTABLE |
+> -				    MEDIA_LNK_FL_ENABLED);
+> -	if (ret) {
+> -		ctx_err(ctx, "Failed to create media link for context %u\n",
+> -			ctx->dma_ctx);
+> -		video_unregister_device(vfd);
+> -		return ret;
+> +	if (cal_mc_api) {
+> +		u16 phy_idx;
+> +		u16 pad_idx;
+> +
+> +		/* Create links from all video nodes to all PHYs */
+> +
+> +		for (phy_idx = 0; phy_idx < ctx->cal->data->num_csi2_phy;
+> +		     ++phy_idx) {
+> +			for (pad_idx = 1; pad_idx < CAL_CAMERARX_NUM_PADS;
+> +			     ++pad_idx) {
+> +				/*
+> +				 * Enable only links from video0 to PHY0 pad 1,
+> +				 * and video1 to PHY1 pad 1.
+> +				 */
+> +				bool enable = (ctx->dma_ctx == 0 &&
+> +					       phy_idx == 0 && pad_idx == 1) ||
+> +					      (ctx->dma_ctx == 1 &&
+> +					       phy_idx == 1 && pad_idx == 1);
+> +
+> +				ret = media_create_pad_link(
+> +					&ctx->cal->phy[phy_idx]->subdev.entity,
+> +					pad_idx, &vfd->entity, 0,
+> +					enable ? MEDIA_LNK_FL_ENABLED : 0);
+> +				if (ret) {
+> +					ctx_err(ctx,
+> +						"Failed to create media link for context %u\n",
+> +						ctx->dma_ctx);
+> +					video_unregister_device(vfd);
+> +					return ret;
+> +				}
+> +			}
+> +		}
+> +	} else {
+> +		ret = media_create_pad_link(&ctx->phy->subdev.entity,
+> +			CAL_CAMERARX_PAD_FIRST_SOURCE, &vfd->entity, 0,
+> +			MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
+> +		if (ret) {
+> +			ctx_err(ctx,
+> +				"Failed to create media link for context %u\n",
+> +				ctx->dma_ctx);
+> +			video_unregister_device(vfd);
+> +			return ret;
+> +		}
+>  	}
+>
+>  	ctx_info(ctx, "V4L2 device registered as %s\n",
+> diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
+> index 053bf1030af0..074bf33c3697 100644
+> --- a/drivers/media/platform/ti/cal/cal.c
+> +++ b/drivers/media/platform/ti/cal/cal.c
+> @@ -495,10 +495,11 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
+>  }
+>
+>  static int
+> -cal_get_remote_frame_desc_entry(struct cal_camerarx *phy,
+> +cal_get_remote_frame_desc_entry(struct cal_camerarx *phy, u32 stream,
+>  				struct v4l2_mbus_frame_desc_entry *entry)
+>  {
+>  	struct v4l2_mbus_frame_desc fd;
+> +	unsigned int i;
+>  	int ret;
+>
+>  	ret = cal_camerarx_get_remote_frame_desc(phy, &fd);
+> @@ -509,20 +510,18 @@ cal_get_remote_frame_desc_entry(struct cal_camerarx *phy,
+>  		return ret;
+>  	}
+>
+> -	if (fd.num_entries == 0) {
+> -		dev_err(phy->cal->dev,
+> -			"No streams found in the remote frame descriptor\n");
+> -
+> -		return -ENODEV;
+> +	for (i = 0; i < fd.num_entries; i++) {
+> +		if (stream == fd.entry[i].stream) {
+> +			*entry = fd.entry[i];
+> +			return 0;
+> +		}
+>  	}
+>
+> -	if (fd.num_entries > 1)
+> -		dev_dbg(phy->cal->dev,
+> -			"Multiple streams not supported in remote frame descriptor, using the first one\n");
+> +	dev_err(phy->cal->dev,
+> +		"Failed to find stream %u from remote frame descriptor\n",
+> +		stream);
+>
+> -	*entry = fd.entry[0];
+> -
+> -	return 0;
+> +	return -ENODEV;
+>  }
+>
+>  int cal_ctx_prepare(struct cal_ctx *ctx)
+> @@ -530,14 +529,15 @@ int cal_ctx_prepare(struct cal_ctx *ctx)
+>  	struct v4l2_mbus_frame_desc_entry entry;
+>  	int ret;
+>
+> -	ret = cal_get_remote_frame_desc_entry(ctx->phy, &entry);
+> +	ret = cal_get_remote_frame_desc_entry(ctx->phy, ctx->stream, &entry);
+>
+>  	if (ret == -ENOIOCTLCMD) {
+>  		ctx->vc = 0;
+>  		ctx->datatype = CAL_CSI2_CTX_DT_ANY;
+>  	} else if (!ret) {
+> -		ctx_dbg(2, ctx, "Framedesc: len %u, vc %u, dt %#x\n",
+> -			entry.length, entry.bus.csi2.vc, entry.bus.csi2.dt);
+> +		ctx_dbg(2, ctx, "Framedesc: stream %u, len %u, vc %u, dt %#x\n",
+> +			entry.stream, entry.length, entry.bus.csi2.vc,
+> +			entry.bus.csi2.dt);
+>
+>  		ctx->vc = entry.bus.csi2.vc;
+>  		ctx->datatype = entry.bus.csi2.dt;
+> @@ -1069,10 +1069,10 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
+>  		return NULL;
+>
+>  	ctx->cal = cal;
+> -	ctx->phy = cal->phy[inst];
+>  	ctx->dma_ctx = inst;
+>  	ctx->csi2_ctx = inst;
+>  	ctx->cport = inst;
+> +	ctx->stream = 0;
+>
+>  	ret = cal_ctx_v4l2_init(ctx);
+>  	if (ret) {
+> @@ -1281,18 +1281,33 @@ static int cal_probe(struct platform_device *pdev)
+>  	}
+>
+>  	/* Create contexts. */
+> -	for (i = 0; i < cal->data->num_csi2_phy; ++i) {
+> -		if (!cal->phy[i]->source_node)
+> -			continue;
+> +	if (!cal_mc_api) {
+> +		for (i = 0; i < cal->data->num_csi2_phy; ++i) {
+> +			if (!cal->phy[i]->source_node)
+> +				continue;
+> +
+> +			cal->ctx[cal->num_contexts] = cal_ctx_create(cal, i);
+> +			if (!cal->ctx[cal->num_contexts]) {
+> +				cal_err(cal, "Failed to create context %u\n", cal->num_contexts);
+> +				ret = -ENODEV;
+> +				goto error_context;
+> +			}
+> +
+> +			cal->ctx[cal->num_contexts]->phy = cal->phy[i];
+>
+> -		cal->ctx[cal->num_contexts] = cal_ctx_create(cal, i);
+> -		if (!cal->ctx[cal->num_contexts]) {
+> -			cal_err(cal, "Failed to create context %u\n", cal->num_contexts);
+> -			ret = -ENODEV;
+> -			goto error_context;
+> +			cal->num_contexts++;
+>  		}
+> +	} else {
+> +		for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+> +			cal->ctx[i] = cal_ctx_create(cal, i);
+> +			if (!cal->ctx[i]) {
+> +				cal_err(cal, "Failed to create context %u\n", i);
+> +				ret = -ENODEV;
+> +				goto error_context;
+> +			}
+>
+> -		cal->num_contexts++;
+> +			cal->num_contexts++;
+> +		}
+>  	}
+>
+>  	/* Register the media device. */
+> diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
+> index 79cd0171e701..e1f693bbeb07 100644
+> --- a/drivers/media/platform/ti/cal/cal.h
+> +++ b/drivers/media/platform/ti/cal/cal.h
+> @@ -45,7 +45,7 @@
+>
+>  #define CAL_CAMERARX_PAD_SINK		0
+>  #define CAL_CAMERARX_PAD_FIRST_SOURCE	1
+> -#define CAL_CAMERARX_NUM_SOURCE_PADS	1
+> +#define CAL_CAMERARX_NUM_SOURCE_PADS	8
+>  #define CAL_CAMERARX_NUM_PADS		(1 + CAL_CAMERARX_NUM_SOURCE_PADS)
+>
+>  static inline bool cal_rx_pad_is_sink(u32 pad)
+> @@ -247,6 +247,7 @@ struct cal_ctx {
+>  	u8			pix_proc;
+>  	u8			vc;
+>  	u8			datatype;
+> +	u32			stream;
+>
+>  	bool			use_pix_proc;
+>  };
+> @@ -322,6 +323,7 @@ void cal_quickdump_regs(struct cal_dev *cal);
+>
+>  int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
+>  				       struct v4l2_mbus_frame_desc *desc);
+> +struct cal_camerarx *cal_camerarx_get_phy_from_entity(struct media_entity *entity);
+>  void cal_camerarx_disable(struct cal_camerarx *phy);
+>  void cal_camerarx_i913_errata(struct cal_camerarx *phy);
+>  struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+> --
+> 2.34.1
+>
