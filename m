@@ -2,131 +2,309 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAFD36A211D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 19:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD326A2165
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 19:25:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbjBXSE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 13:04:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60974 "EHLO
+        id S229797AbjBXSZE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 13:25:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjBXSE1 (ORCPT
+        with ESMTP id S229626AbjBXSZD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 13:04:27 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3094B23651
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 10:04:22 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id w23so261509qtn.6
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 10:04:22 -0800 (PST)
+        Fri, 24 Feb 2023 13:25:03 -0500
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27CD13DCF
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 10:24:51 -0800 (PST)
+Received: by mail-qt1-x830.google.com with SMTP id cf14so292211qtb.10
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 10:24:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bx+u2jxrWIooKnQnvTZMZQOT03vWJmrOO/mxGamlw3I=;
-        b=utHnK7ViPP8IIEMHObTiU24gYW/MdqOknk0TZGMMqe+MBZkuxxrPwWGvEQOQ3WKiXl
-         1ecUu88H5F0OMaoNuQE7mMfPSTGxvhmmUgxY/+2FDoEsa+rr2At1AgdWG+DkFkxCfOGI
-         kOxKKkb9TKqyfCRMHWj8d1CLflc+R4Pd+Qd6YLmhJVM15PLw447nfz6jmmPH1ILsk7B6
-         6vlteR2wbCnMpkF87b3Hbub4MN27ew2LIZoD0+DGaJ/uGTSxCi414BU7HfltKntrXx5U
-         Qh9VadxG2t1xlCRTzAZhjIJTZw6yG0w5yIgzLztWMadyo/azZBavhFPA0vfJ5pp7cdO9
-         xbKA==
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1Fnp0ba5VhlafZVccT2w5j+DOMmZOJytBGzATXCfRD8=;
+        b=gsy94FmB/yD5akZbWO1RHmsYnY7jOABYlgOtGW+dqfUo/RJ/YocCQi3PyiDgw406OM
+         8e5J52NEppx0L0S8P0f27OoShbCoRqvnxPSn/kw10Z8xHHzcOo8j8P2vn5OQl2O0KIkN
+         241S97+5XB5fzrWsuBQ1o6mMXWmLhmC/HvafwEjrzMgg8IMBoNgxCg37s3kuKriuZBsO
+         FI4v+9INha/6ABRTN8iSBytExs9NpvTFcu/zP4YT/7o2JAazVcZ34wSG0mF8l/gWiNhi
+         9uzZw1hLZ7R+uTmuhWg0+FGk7fCWctkGz0vBw6mKs7BvCMp3ke3eg66DI0aLgO6JyS+7
+         2epg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bx+u2jxrWIooKnQnvTZMZQOT03vWJmrOO/mxGamlw3I=;
-        b=xKt9S3RJS/qMZRXbjoL2WboUcy1hUKBitffer4hXP98uYStpdl1fOa8LL0HTbb85q+
-         WB+h7NjukNllXPmyhpjYp+OJZH+Ajp36gsxJ6+cHbmS03RtHPhb0uhDin5o4WjXGnA23
-         tXUO7+vQo5kHDMc0z74y41g19SX1iNQmPK+c5m4DqywN0AIG4qBVGkEAK6uVx5Z748KC
-         JjfQ2016CzK4lc+uUWxk2RgEH9gWGu2saDN+qtsr0MB/NOXBnJhzepYYcFYY8GH5ePjz
-         hVbgi9EfHPiabjfzMS++It0USoGo11kAcQZ4MymzAg/LPQ02Pm1BG0diF+6fupmkqxxp
-         pabA==
-X-Gm-Message-State: AO0yUKUS8SFSpqAmxu8kUzVmFyjEWF7ARGLxfCtOypHmRCpKO4qP+tYg
-        m/X7S75fWpsnLzzZi5s0YHCe2A==
-X-Google-Smtp-Source: AK7set+TXLmLNmj6/nIcApT0F8hLwTPkJ+w+ozZOWX5Ybz7cB63TJJ5jCW2UtLCAXLfgr82GUPX+Yw==
-X-Received: by 2002:a05:622a:410:b0:3bf:b950:f684 with SMTP id n16-20020a05622a041000b003bfb950f684mr6552067qtx.53.1677261861259;
-        Fri, 24 Feb 2023 10:04:21 -0800 (PST)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1Fnp0ba5VhlafZVccT2w5j+DOMmZOJytBGzATXCfRD8=;
+        b=hgxzBLCl6zRwC8jPCal0Y55gJm0wf3ymBXt/+G5MslYIjH7dtAQ2MVmWmEStYljAeG
+         bdhJhlmkxkNW1o+i3/ia+tgU2zUKHCzI9NoTQeivOR43qlmsVkKndSNWUGY3t/HI5hVe
+         kXIzyyT3KqDQyBg7AQD+tXrFq6R9OiPpdTKZnSDUrXvT3cPyS63K1EvibMHm8YOa7Gr/
+         ufmsJPrdyoBRPKhn3eZ0aAfivv4OgThoVzcfrWIM3gk3yEHBoVlgwXUVyvE4Ur0E1YRV
+         OoKTREAzqC2HQTL74kVWeRwZM0FjzXc8MtI1nqrsJhMPENSjK2ncEsBnVVm93CeidzF5
+         uGcg==
+X-Gm-Message-State: AO0yUKUN7hsYB+Z1VXlfcIzAhcGAHuZfEDourJ/njEBu/8L/oEoUe4V4
+        /yghXW68qWXYn2WMozCewkXeKQ==
+X-Google-Smtp-Source: AK7set/BeRHe9RXAinrBHWyLkkp50J5q+OBYt4CtP9mCl04Us2eZ1g2ISTz8oiIeu+G+p4iRan5NbQ==
+X-Received: by 2002:ac8:5f86:0:b0:3bf:a461:e6df with SMTP id j6-20020ac85f86000000b003bfa461e6dfmr23199359qta.25.1677263090595;
+        Fri, 24 Feb 2023 10:24:50 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id t41-20020a05622a182900b003bfad864e81sm4791266qtc.69.2023.02.24.10.04.20
+        by smtp.gmail.com with ESMTPSA id x14-20020ac8018e000000b003bfaae103f6sm5340400qtf.89.2023.02.24.10.24.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 10:04:20 -0800 (PST)
-Message-ID: <f4becff94466ca364dc1408f7491de131a36f0c3.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 2/7] media: Add Y210, Y212 and Y216 formats
+        Fri, 24 Feb 2023 10:24:49 -0800 (PST)
+Message-ID: <12dfd1f511d83bb1a3d9924cb0d09dbba626a699.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ming Qian <ming.qian@nxp.com>
-Date:   Fri, 24 Feb 2023 13:04:19 -0500
-In-Reply-To: <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
-References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
-         <20221221092448.741294-3-tomi.valkeinen+renesas@ideasonboard.com>
-         <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
-         <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
+To:     Adam Ford <aford173@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Fri, 24 Feb 2023 13:24:48 -0500
+In-Reply-To: <CAHCN7xLXz4iSKcTQgyW=E0c4eLZSAYAiuoTKpQBWz8GsfZ2GCA@mail.gmail.com>
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+         <CAHCN7xKbL+g5ZaPe3a50fUEe4AU3a6asCqWFSE8d7DCzWZO=qg@mail.gmail.com>
+         <Y/d3m78NgmuuXOH8@pendragon.ideasonboard.com>
+         <CAHCN7xLXz4iSKcTQgyW=E0c4eLZSAYAiuoTKpQBWz8GsfZ2GCA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 23 f=C3=A9vrier 2023 =C3=A0 15:10 +0200, Tomi Valkeinen a =C3=A9cr=
-it=C2=A0:
-> Hi,
->=20
-> On 22/02/2023 17:28, Nicolas Dufresne wrote:
-> > Hi Tomi,
+Hi Adam,
+
+Le jeudi 23 f=C3=A9vrier 2023 =C3=A0 10:10 -0600, Adam Ford a =C3=A9crit=C2=
+=A0:
+> On Thu, Feb 23, 2023 at 8:26 AM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
 > >=20
-> > Le mercredi 21 d=C3=A9cembre 2022 =C3=A0 11:24 +0200, Tomi Valkeinen a =
-=C3=A9crit=C2=A0:
-> > > Add Y210, Y212 and Y216 formats.
+> > Hi Adam,
+> >=20
+> > On Wed, Feb 22, 2023 at 05:39:30PM -0600, Adam Ford wrote:
+> > > On Fri, Nov 18, 2022 at 3:44 AM Paul Elder wrote:
+> > > >=20
+> > > > This series depends on v3 of "dt-bindings: media: Add macros for vi=
+deo
+> > > > interface bus types" [1].
+> > > >=20
+> > > > This series extends the rkisp1 driver to support the ISP found in t=
+he
+> > > > NXP i.MX8MP SoC.
+> > > >=20
+> > > > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP=
+1")
+> > > > and in the NXP i.MX8MP have the same origin, and have slightly dive=
+rged
+> > > > over time as they are now independently developed (afaik) by Rockch=
+ip
+> > > > and VeriSilicon. The latter is marketed under the name "ISP8000Nano=
+",
+> > > > and is close enough to the RK3399 ISP that it can easily be support=
+ed by
+> > > > the same driver.
+> > > >=20
+> > > > The last two patches add support for UYVY output format, which can =
+be
+> > > > implemented on the ISP version in the i.MX8MP but not in the one in=
+ the
+> > > > RK3399.
+> > > >=20
+> > > > This version of the series specifically has been tested on a Polyhe=
+x
+> > > > Debix model A with an imx219 (Raspberry Pi cam v2).
+> > > >=20
+> > > > [1] https://lore.kernel.org/linux-media/20220615221410.27459-2-laur=
+ent.pinchart@ideasonboard.com/
+> > > >=20
+> > > > Laurent Pinchart (3):
+> > > >   dt-bindings: media: rkisp1: Add i.MX8MP ISP example
+> > > >   media: rkisp1: Add and use rkisp1_has_feature() macro
+> > > >   media: rkisp1: Configure gasket on i.MX8MP
+> > > >=20
+> > > > Paul Elder (11):
+> > > >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+> > > >   media: rkisp1: Add match data for i.MX8MP ISP
+> > > >   media: rkisp1: Add and set registers for crop for i.MX8MP
+> > > >   media: rkisp1: Add and set registers for output size config on i.=
+MX8MP
+> > > >   media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
+> > > >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+> > > >   media: rkisp1: Add register definitions for the test pattern gene=
+rator
+> > > >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+> > > >   media: rkisp1: Support devices without self path
+> > > >   media: rkisp1: Add YC swap capability
+> > > >   media: rkisp1: Add UYVY as an output format
 > > >=20
-> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.co=
-m>
-> > > ---
-> > >   .../media/v4l/pixfmt-packed-yuv.rst           | 49 ++++++++++++++++=
-++-
-> > >   drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
-> > >   include/uapi/linux/videodev2.h                |  8 +++
-> > >   3 files changed, 58 insertions(+), 2 deletions(-)
+> > > Paul / Laurent,
+> > >=20
+> > > I noticed an unexpected behaviour on the imx8mp.
+> > >=20
+> > > If I setup my pipeline for 640x480, it works just fine using an imx21=
+9
+> > > camera configured for SRGGB10_1X10.
+> > >=20
+> > > However, when I try to configure the pipeline to use the same camera
+> > > at 1920x1080 (no resizing), the ISP source keeps defaulting to 640x48=
+0
+> > >=20
+> > > Media device information
+> > > ------------------------
+> > > driver          rkisp1
+> > > model           rkisp1
+> > > serial
+> > > bus info        platform:rkisp1
+> > > hw revision     0xe
+> > > driver version  6.2.0
+> > >=20
+> > > Device topology
+> > > - entity 1: rkisp1_isp (4 pads, 4 links)
+> > >             type V4L2 subdev subtype Unknown flags 0
+> > >             device node name /dev/v4l-subdev0
+> > > pad0: Sink [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer=
+:none ycbcr:601 quantization:full-range crop.bounds:(0,0)/1920x1080 crop:(0=
+,0)/640x480]
 > >=20
-> > It seems you omitted to update v4l2-common.c, Ming Qian had made a supl=
-icated
-> > commit for this, I'll ask him if he can keep the -common changes you fo=
-rgot.
+> > You're cropping the image to 640x480 here. You need to set the crop
+> > rectangle to 1920x1080.
+> >=20
+> > As Jacopo mentioned, I wouldn't recommend exercising the ISP directly.
+> > Not only do you need to setup the pipeline, but you would also need to
+> > implement all the imaging algorithms in userspace. libcamera will do al=
+l
+> > this for you.
 >=20
-> Ah, I wasn't aware of the format list in that file.
->=20
-> I think you refer to the "media: imx-jpeg: Add support for 12 bit=20
-> extended jpeg" series. Yes, I'm fine if he can add the -common changes=
-=20
-> there, but I can also send a separate patch. In fact, maybe a separate=
-=20
-> fix patch is better, so that we can have it merged in the early 6.3 rcs.
+> I'll give that a try.  My current employer has a v4l2src requirement,
+> but I can likely make an argument to switch to libcamera.  I didn't
+> catch the cropping part. Thanks for that.
 
-I don't think we need to worry about backporting this though. I simply care=
- that
-we keep updating -common and encourage using it. The goal of this lib is to
-provide a common set of helpers to do calculate format related information.=
- You
-don't have to use it at any cost. Allocation is often the cause of memory
-corruption issues, and is a very recurrent thing we have to debug and fix.
+I'd hope you can transparently replace v4l2src with libcamerasrc, the plugi=
+ns
+currently lives inside the libcamera project. If not, I'd really like to kn=
+ow
+why. We can work together on adding missing controls (this is something I'm
+starting on soon).
 
-This was also discussed on IRC yesterday, for Renesas driver, "just porting=
- it"
-to use that could mean duplicating the lookup, as Renesas driver also needs=
- its
-own map to get the HW specific formats and other information. This looks li=
-ke a
-valid use case to me, and is definitely something -common could improve on.
-
+regards,
 Nicolas
+
+>=20
+> adam
+> >=20
+> > > <- "csis-32e40000.csi":1 [ENABLED]
+> > > pad1: Sink [fmt:unknown/0x0 field:none]
+> > > <- "rkisp1_params":0 [ENABLED,IMMUTABLE]
+> > > pad2: Source [fmt:YUYV8_2X8/640x480 field:none colorspace:raw xfer:no=
+ne ycbcr:601 quantization:lim-range crop.bounds:(0,0)/640x480 crop:(0,0)/64=
+0x480]
+> > > -> "rkisp1_resizer_mainpath":0 [ENABLED]
+> > > pad3: Source [fmt:unknown/0x0 field:none]
+> > > -> "rkisp1_stats":0 [ENABLED,IMMUTABLE]
+> > >=20
+> > > - entity 6: rkisp1_resizer_mainpath (2 pads, 2 links)
+> > >             type V4L2 subdev subtype Unknown flags 0
+> > >             device node name /dev/v4l-subdev1
+> > > pad0: Sink [fmt:YUYV8_2X8/1920x1080 field:none colorspace:srgb xfer:s=
+rgb ycbcr:601 quantization:lim-range crop.bounds:(0,0)/1920x1080 crop:(0,0)=
+/640x480]
+> > > <- "rkisp1_isp":2 [ENABLED]
+> > > pad1: Source [fmt:YUYV8_2X8/1920x1080 field:none colorspace:srgb xfer=
+:srgb ycbcr:601 quantization:lim-range]
+> > > -> "rkisp1_mainpath":0 [ENABLED,IMMUTABLE]
+> > >=20
+> > > - entity 9: rkisp1_mainpath (1 pad, 1 link)
+> > >             type Node subtype V4L flags 0
+> > >             device node name /dev/video0
+> > > pad0: Sink
+> > > <- "rkisp1_resizer_mainpath":1 [ENABLED,IMMUTABLE]
+> > >=20
+> > > - entity 13: rkisp1_stats (1 pad, 1 link)
+> > >              type Node subtype V4L flags 0
+> > >              device node name /dev/video1
+> > > pad0: Sink
+> > > <- "rkisp1_isp":3 [ENABLED,IMMUTABLE]
+> > >=20
+> > > - entity 17: rkisp1_params (1 pad, 1 link)
+> > >              type Node subtype V4L flags 0
+> > >              device node name /dev/video2
+> > > pad0: Source
+> > > -> "rkisp1_isp":1 [ENABLED,IMMUTABLE]
+> > >=20
+> > > - entity 29: csis-32e40000.csi (2 pads, 2 links)
+> > >              type V4L2 subdev subtype Unknown flags 0
+> > >              device node name /dev/v4l-subdev2
+> > > pad0: Sink [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb xfe=
+r:srgb ycbcr:601 quantization:full-range]
+> > > <- "imx219 1-0010":0 [ENABLED]
+> > > pad1: Source [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb x=
+fer:srgb ycbcr:601 quantization:full-range]
+> > > -> "rkisp1_isp":0 [ENABLED]
+> > >=20
+> > > - entity 34: imx219 1-0010 (1 pad, 1 link)
+> > >              type V4L2 subdev subtype Sensor flags 0
+> > >              device node name /dev/v4l-subdev3
+> > > pad0: Source [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb x=
+fer:srgb ycbcr:601 quantization:full-range crop.bounds:(8,8)/3280x2464 crop=
+:(688,700)/1920x1080]
+> > > -> "csis-32e40000.csi":0 [ENABLED]
+> > >=20
+> > > It's at this point that everything except the ISP source is 1920x1080=
+.
+> > >=20
+> > > When I try to set the ISP sink to 1080, it ends up being 640x480 and
+> > > the resizer sink is also changed to 640x480
+> > >=20
+> > > root@beacon-imx8mp-kit:~# media-ctl -v -V "'rkisp1_isp':2
+> > > [fmt:YUYV8_2X8/1920x1080 field:none]"
+> > > Opening media device /dev/media0
+> > > Enumerating entities
+> > > looking up device: 81:3
+> > > looking up device: 81:4
+> > > looking up device: 81:0
+> > > looking up device: 81:1
+> > > looking up device: 81:2
+> > > looking up device: 81:5
+> > > looking up device: 81:6
+> > > Found 7 entities
+> > > Enumerating pads and links
+> > > Setting up format YUYV8_2X8 1920x1080 on pad rkisp1_isp/2
+> > > Format set: YUYV8_2X8 640x480
+> > > Setting up format YUYV8_2X8 640x480 on pad rkisp1_resizer_mainpath/0
+> > > Format set: YUYV8_2X8 640x480
+> > >=20
+> > >=20
+> > > It's my understanding that the ISP should be able to handle 1920x1080=
+,
+> > > and the resizer sink should match the ISP source.
+> > >=20
+> > > With the pipeline improperly setup, the capture fails.
+> > >=20
+> > > >  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
+> > > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
+> > > >  .../platform/rockchip/rkisp1/rkisp1-debug.c   |  14 +-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  67 +++++++--
+> > > >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 ++++++++++++++=
++++-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  90 ++++++++++++
+> > > >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
+> > > >  include/uapi/linux/rkisp1-config.h            |   2 +
+> > > >  9 files changed, 509 insertions(+), 40 deletions(-)
+> >=20
+> > --
+> > Regards,
+> >=20
+> > Laurent Pinchart
+
