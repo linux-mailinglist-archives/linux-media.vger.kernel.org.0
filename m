@@ -2,97 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2D316A1D5B
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 15:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 989726A1DD1
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 15:52:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbjBXOUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 09:20:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41206 "EHLO
+        id S229936AbjBXOwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 09:52:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjBXOUq (ORCPT
+        with ESMTP id S229543AbjBXOwe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 09:20:46 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929BE14EB4
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 06:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677248444; x=1708784444;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5CzZw8i5jMHkq7oh05Nnn7Uf+D+ZH/fXucwmBdTuIkM=;
-  b=fWacIw+mu2dzhjJS/ll2J5ueDwNYeIk53yeSgANUNU5wunbpB54L7kyD
-   7AXvdV+9waXgNbu5MglzFDKKXVouxmhlu8lhtpK449GT/QE0fmgDttnI2
-   7CuSoAk5Gm9583DvsOt85YfHeT+ob8ZuPpErON6gSwx0rRa8/V1wfuVMd
-   k/HLG/v3o2bjpHzbHun3odOMLHm0YfN23LeIexjTd5qxePxSzKIUtctnP
-   30fMo2/Gk5EabPGyKkqM6HIYhKuzUmfbQwXnMbjH7AXNPuDX93kR9xODH
-   s9NouQrs8zKy7RM77q1vBii1H+Sn9bcVmvbHxJe5b8Eb9DRfHgGtt+rhh
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="332169499"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
-   d="scan'208";a="332169499"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 06:20:44 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="666170679"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
-   d="scan'208";a="666170679"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 06:20:42 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 56A221218D7;
-        Fri, 24 Feb 2023 16:20:39 +0200 (EET)
-Date:   Fri, 24 Feb 2023 16:20:39 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        tomi.valkeinen@ideasonboard.com
-Subject: Re: IPU3 cameras not working with latest kernel code ?
-Message-ID: <Y/jHt9a78xcrLzd0@kekkonen.localdomain>
-References: <441f2951-402b-0f3c-5ea6-8d6df3f3e894@redhat.com>
- <Y/hxyEd/WpRfBQaL@kekkonen.localdomain>
+        Fri, 24 Feb 2023 09:52:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD0951F82
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 06:52:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6D2AEB81C98
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 14:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F95C433D2;
+        Fri, 24 Feb 2023 14:52:29 +0000 (UTC)
+Message-ID: <98e7a971-4a46-8780-1bf0-eb87752af9f2@xs4all.nl>
+Date:   Fri, 24 Feb 2023 15:52:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/hxyEd/WpRfBQaL@kekkonen.localdomain>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Fwd: [git:v4l-utils/master] v4l2-tracer: use __s64 instead of long
+References: <E1pVZNx-007qor-Bf@www.linuxtv.org>
+Content-Language: en-US
+To:     Gregor Jasny <gjasny@googlemail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <E1pVZNx-007qor-Bf@www.linuxtv.org>
+X-Forwarded-Message-Id: <E1pVZNx-007qor-Bf@www.linuxtv.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Gregor,
 
-On Fri, Feb 24, 2023 at 10:14:00AM +0200, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Thu, Feb 23, 2023 at 11:04:12PM +0100, Hans de Goede wrote:
-> > Hi All,
-> > 
-> > While trying to test Kate's tps68470 patches for the privacy LED
-> > on the back of the Surface Go 1/2 I hit this oops when trying
-> > to run qcam:
-> 
-> Thanks for reporting this.
-> 
-> There have been recent changes in how link validation works, also cc Tomi.
+This one should probably go to a 1.24.1 stable release.
 
-It seems link validation is broken in the ImgU driver --- it tries to use
-the default link validator that works between two sub-devices but not
-between a video node and a sub-device. I guess this somehow got ignored
-before Tomi's patches.
+Sorry about that, we didn't try to build on a 32 bit system.
 
-It looks like it's calling v4l2_subdev_get_unlocked_active_state() with
-NULL argument. No idea why the 32nd bit is set though.
+The good news is: people ARE using this, since it was reported within a day.
 
-I'll see how to address this.
+Regards,
 
--- 
-Kind regards,
+	Hans
 
-Sakari Ailus
+-------- Forwarded Message --------
+Subject: [git:v4l-utils/master] v4l2-tracer: use __s64 instead of long
+Date: Fri, 24 Feb 2023 14:49:00 +0000
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reply-To: linux-media@vger.kernel.org
+To: linuxtv-commits@linuxtv.org
+
+This is an automatic generated email to let you know that the following patch were queued at the http://git.linuxtv.org/cgit.cgi/v4l-utils.git tree:
+
+Subject: v4l2-tracer: use __s64 instead of long
+Author:  Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:    Fri Feb 24 15:42:59 2023 +0100
+
+This fixes compiler errors when building on the 32 bit architecture.
+
+They are all of this type:
+
+../../include/linux/videodev2.h:2583:33: error: narrowing conversion of 3222820424 from unsigned int to long int [-Wnarrowing]
+ 2583 | #define VIDIOC_S_EXT_CTRLS      _IOWR('V', 72, struct v4l2_ext_controls)
+      |                                 ^~~~~
+v4l2-tracer-info-gen.h:2069:11: note: in expansion of macro VIDIOC_S_EXT_CTRLS
+ 2069 |         { VIDIOC_S_EXT_CTRLS,   "VIDIOC_S_EXT_CTRLS" },
+      |           ^~~~~~~~~~~~~~~~~~
+
+and:
+
+../../include/linux/videodev2.h:2583:33: error: narrowing conversion of 3222820424 from unsigned int to long int [-Wnarrowing]
+ 2583 | #define VIDIOC_S_EXT_CTRLS      _IOWR('V', 72, struct v4l2_ext_controls)
+      |                                 ^~~~~
+retrace.cpp:1273:14: note: in expansion of macro VIDIOC_S_EXT_CTRLS
+ 1273 |         case VIDIOC_S_EXT_CTRLS:
+      |              ^~~~~~~~~~~~~~~~~~
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+ utils/v4l2-tracer/retrace.cpp          | 2 +-
+ utils/v4l2-tracer/v4l2-tracer-common.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+---
+
+http://git.linuxtv.org/cgit.cgi/v4l-utils.git/commit/?id=5ab5a0ee52d0b96f1750d32e4ed63e2f43d71439
+diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
+index 29ac4a38298a..8667826c0488 100644
+--- a/utils/v4l2-tracer/retrace.cpp
++++ b/utils/v4l2-tracer/retrace.cpp
+@@ -1166,7 +1166,7 @@ void retrace_media_ioc_request_alloc(int fd_retrace, json_object *ioctl_args)
+  void retrace_ioctl(json_object *syscall_obj)
+ {
+-	long cmd = 0;
++	__s64 cmd = 0;
+ 	int fd_retrace = 0;
+  	json_object *fd_trace_obj;
+diff --git a/utils/v4l2-tracer/v4l2-tracer-common.h b/utils/v4l2-tracer/v4l2-tracer-common.h
+index 0bdb125d2135..a8ca68bb21af 100644
+--- a/utils/v4l2-tracer/v4l2-tracer-common.h
++++ b/utils/v4l2-tracer/v4l2-tracer-common.h
+@@ -41,7 +41,7 @@
+ #endif
+  struct val_def {
+-	long val;
++	__s64 val;
+ 	const char *str;
+ };
+
+_______________________________________________
+linuxtv-commits mailing list
+linuxtv-commits@linuxtv.org
+https://www.linuxtv.org/cgi-bin/mailman/listinfo/linuxtv-commits
