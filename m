@@ -2,89 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6087F6A1C57
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 13:41:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D316A1D5B
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 15:20:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbjBXMlv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 07:41:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39974 "EHLO
+        id S229512AbjBXOUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 09:20:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbjBXMlu (ORCPT
+        with ESMTP id S229446AbjBXOUq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 07:41:50 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 531A968284;
-        Fri, 24 Feb 2023 04:41:48 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DE511618D6;
-        Fri, 24 Feb 2023 12:41:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB560C4339B;
-        Fri, 24 Feb 2023 12:41:45 +0000 (UTC)
-Message-ID: <ed37c8c7-92a8-73fe-1451-08695cd4db9f@xs4all.nl>
-Date:   Fri, 24 Feb 2023 13:41:44 +0100
+        Fri, 24 Feb 2023 09:20:46 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929BE14EB4
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 06:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677248444; x=1708784444;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5CzZw8i5jMHkq7oh05Nnn7Uf+D+ZH/fXucwmBdTuIkM=;
+  b=fWacIw+mu2dzhjJS/ll2J5ueDwNYeIk53yeSgANUNU5wunbpB54L7kyD
+   7AXvdV+9waXgNbu5MglzFDKKXVouxmhlu8lhtpK449GT/QE0fmgDttnI2
+   7CuSoAk5Gm9583DvsOt85YfHeT+ob8ZuPpErON6gSwx0rRa8/V1wfuVMd
+   k/HLG/v3o2bjpHzbHun3odOMLHm0YfN23LeIexjTd5qxePxSzKIUtctnP
+   30fMo2/Gk5EabPGyKkqM6HIYhKuzUmfbQwXnMbjH7AXNPuDX93kR9xODH
+   s9NouQrs8zKy7RM77q1vBii1H+Sn9bcVmvbHxJe5b8Eb9DRfHgGtt+rhh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="332169499"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
+   d="scan'208";a="332169499"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 06:20:44 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="666170679"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; 
+   d="scan'208";a="666170679"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 06:20:42 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 56A221218D7;
+        Fri, 24 Feb 2023 16:20:39 +0200 (EET)
+Date:   Fri, 24 Feb 2023 16:20:39 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        tomi.valkeinen@ideasonboard.com
+Subject: Re: IPU3 cameras not working with latest kernel code ?
+Message-ID: <Y/jHt9a78xcrLzd0@kekkonen.localdomain>
+References: <441f2951-402b-0f3c-5ea6-8d6df3f3e894@redhat.com>
+ <Y/hxyEd/WpRfBQaL@kekkonen.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 6/9] media: i2c: ov2685: convert to i2c's .probe_new()
-Content-Language: en-US
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Wolfram Sang <wsa@kernel.org>
-Cc:     kernel@pengutronix.de, Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-References: <20230224120600.1681685-1-u.kleine-koenig@pengutronix.de>
- <20230224120600.1681685-7-u.kleine-koenig@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230224120600.1681685-7-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y/hxyEd/WpRfBQaL@kekkonen.localdomain>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/02/2023 13:05, Uwe Kleine-König wrote:
-> The probe function doesn't make use of the i2c_device_id * parameter so
-> it can be trivially converted.
+Hi Hans,
+
+On Fri, Feb 24, 2023 at 10:14:00AM +0200, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-> Link: https://lore.kernel.org/lkml/20221121102838.16448-1-u.kleine-koenig@pengutronix.de
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/media/i2c/ov2685.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> On Thu, Feb 23, 2023 at 11:04:12PM +0100, Hans de Goede wrote:
+> > Hi All,
+> > 
+> > While trying to test Kate's tps68470 patches for the privacy LED
+> > on the back of the Surface Go 1/2 I hit this oops when trying
+> > to run qcam:
 > 
-> diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-> index a3b524f15d89..1c80b121e7d6 100644
-> --- a/drivers/media/i2c/ov2685.c
-> +++ b/drivers/media/i2c/ov2685.c
-> @@ -707,8 +707,7 @@ static int ov2685_configure_regulators(struct ov2685 *ov2685)
->  				       ov2685->supplies);
->  }
->  
-> -static int ov2685_probe(struct i2c_client *client,
-> -			const struct i2c_device_id *id)
-> +static int ov2685_probe(struct i2c_client *client)
->  {
->  	struct device *dev = &client->dev;
->  	struct ov2685 *ov2685;
-> @@ -830,7 +829,7 @@ static struct i2c_driver ov2685_i2c_driver = {
->  		.pm = &ov2685_pm_ops,
->  		.of_match_table = of_match_ptr(ov2685_of_match),
->  	},
-> -	.probe		= &ov2685_probe,
-> +	.probe_new	= &ov2685_probe,
->  	.remove		= &ov2685_remove,
->  };
->  
+> Thanks for reporting this.
+> 
+> There have been recent changes in how link validation works, also cc Tomi.
 
+It seems link validation is broken in the ImgU driver --- it tries to use
+the default link validator that works between two sub-devices but not
+between a video node and a sub-device. I guess this somehow got ignored
+before Tomi's patches.
+
+It looks like it's calling v4l2_subdev_get_unlocked_active_state() with
+NULL argument. No idea why the 32nd bit is set though.
+
+I'll see how to address this.
+
+-- 
+Kind regards,
+
+Sakari Ailus
