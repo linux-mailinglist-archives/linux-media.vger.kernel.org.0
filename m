@@ -2,166 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31CD86A2021
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 17:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2DB96A206A
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 18:20:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbjBXQ7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 11:59:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
+        id S229716AbjBXRU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 12:20:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjBXQ73 (ORCPT
+        with ESMTP id S229735AbjBXRUz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 11:59:29 -0500
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC435166DC
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 08:59:27 -0800 (PST)
-Received: by mail-il1-x129.google.com with SMTP id i12so76279ila.5
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 08:59:27 -0800 (PST)
+        Fri, 24 Feb 2023 12:20:55 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65ABE43468
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 09:20:52 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id eg37so53695406edb.12
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 09:20:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cgb2Pi/t2+xLmkEYHOFf3TZk2XgRIBjhzG/Zzuc83GQ=;
-        b=Lcofwkl6IObDV6pgHqsiHmpthopPqDn70FpulBH/lBCxg80REwmK4gyivYBg+BGWE3
-         4KUkXVqScsKkjpS6oys7y7lvqIzCsP0bNHrC5alM3eM1A2ee2m6gOKy2TN7gedKhZPBi
-         DMIhEp7lTLj9jJUTSe6rcdvQ7zSc6nZglsPSo=
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=43BdNtqkhRt7ydw1eNLylWAPt+kg2A/KY5UgQrdODn8=;
+        b=E1blK/fxhOAhrdGIqHM4ZCx/aOEz9q+cx7Eam4rYzuWF47VKomm5FISptGN0dZDQkG
+         urMp3VEMCHUCudvoe+ri5DGVL7dRhrwTZT1VCDOZvsPKBmn6jsQTKWtvpzRUZA/r0rKK
+         dvQe9T3HTOFnQ0/tnr5EHZC8MN5RfTWhsTLqwh+rx4q5p18XCQ70/d6bilZx0GIH32MX
+         YhBou+C8RH81QXpPKosR0RzctFVj6Y8R8xnGq44gnhh+NisE0bBr8zXq4VKwAg+zjDj0
+         G5R4Oij6qEr/L+YLqPi5U6N6kJn/uJXRDuRNScpaSiv8faNmc7ZytKyXghEZArtukM9X
+         KzYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cgb2Pi/t2+xLmkEYHOFf3TZk2XgRIBjhzG/Zzuc83GQ=;
-        b=SJ9Ghvinv6GQ5x+BoXMj2Bfbim04zRKFYo8d+UDw1/ZrSIic+sYl2u4U0Kfjrykoci
-         Ux3Y3PBYLzJ9LQ160O4+NJjDK0ETniYrqmtRPGDmGXF+uT9+LPvTs/rmgKnMFuPLePZH
-         wh7oNtDZNLmDxCLP8BSRifbiJTBsupkPDZlmSMn62l3j6mBlOH7RxDeCZSYe6fo/LaK3
-         jQ2cBODuWu7n8wZc184H2fClrt15lVvNMGqmh/DNzaHxdQ5jP0TNhvFSOYXhwWaq7Fl8
-         eawvL+KC+DVyRHuyLrQNfAIx7J942iuaqhhkgbDV+6qdrgZzTyD8u9nyKW1vanh0kaj9
-         NTYQ==
-X-Gm-Message-State: AO0yUKW+dEDemNoBh29+0ZquFqYMVf2OL9ReXA1jymWmu2Ut6zRioCSO
-        VJvTiT3D0s/lll+4tfte8Wy0EjmUCgzBW9iXcwgxLg==
-X-Google-Smtp-Source: AK7set89tPfCiQx1TeTpVE7VEuTTfs2VElYgre0wHA0ER1lxWwV1AVI1CfcLHKiR5eO8MhdmPewkq9q07Mnx5aY4d7U=
-X-Received: by 2002:a05:6e02:1a2e:b0:313:af46:81ba with SMTP id
- g14-20020a056e021a2e00b00313af4681bamr5118495ile.3.1677257967132; Fri, 24 Feb
- 2023 08:59:27 -0800 (PST)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=43BdNtqkhRt7ydw1eNLylWAPt+kg2A/KY5UgQrdODn8=;
+        b=lYZsn46xzpLGGhX0wHW8i9reh3aQiUWbZ5Ug0UJLk//zpyPuNWuHJv4HepI+qqpSn+
+         pqVCLmVFObUtFN0RDaqrYVRv6zUg/inUW3sgU1PwqJNC2W9+WQ3Ce+UK6TYwDinyRGgK
+         cIilq3qBakE9R74Yad+9Ex2cumyW5Fq6toAxdvFlZmB7lAu9rl3zyXwJkUlzZUHngyXX
+         8uIfiLieUHAR6hBMr50Q6E3+lSSCExhQC2iBmzq556t3n2ODTqAKLiZEgrVXanmw7QuA
+         izJI8Yv/SKGcOBBZl6+/5ChNwss8HYINqu6J5D5Ki+wm6acmD/ZwmS5nQay/pgEEhhra
+         9bmg==
+X-Gm-Message-State: AO0yUKUOnuQnRyAANtErBzHES8Fni/n77JwSB7UQlUptzx98cbbFOhwU
+        Y7EilFetA3xMpjXFO0bmG64/IA==
+X-Google-Smtp-Source: AK7set8d98ZV+WnfBZ5UdUXhQhmnPNw2xySvttE9tEK/pWHDzRYH9S1I18eLi6OtcnuC3qxqVDZbDA==
+X-Received: by 2002:a17:906:af1a:b0:880:a42d:dfb4 with SMTP id lx26-20020a170906af1a00b00880a42ddfb4mr23190595ejb.16.1677259250880;
+        Fri, 24 Feb 2023 09:20:50 -0800 (PST)
+Received: from localhost (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
+        by smtp.gmail.com with ESMTPSA id f13-20020a170906738d00b008e6bd130b14sm3503174ejl.64.2023.02.24.09.20.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 09:20:50 -0800 (PST)
+Date:   Fri, 24 Feb 2023 18:20:49 +0100
+From:   niklas soderlund <niklas.soderlund@ragnatech.se>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>
+Subject: Re: [PATCH v1 3/3] media: ti: cal: add multiplexed streams support
+Message-ID: <Y/jx8euxuxg07C08@sleipner.dyn.berto.se>
+References: <20230222125630.421020-1-tomi.valkeinen@ideasonboard.com>
+ <20230222125630.421020-4-tomi.valkeinen@ideasonboard.com>
+ <20230224154855.kmiwg2h5b3vq272l@uno.localdomain>
 MIME-Version: 1.0
-References: <20230218211608.1630586-1-robdclark@gmail.com> <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell> <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com> <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell> <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell> <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell> <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
-In-Reply-To: <20230224122403.6a088da1@eldfell>
-From:   Rob Clark <robdclark@chromium.org>
-Date:   Fri, 24 Feb 2023 08:59:16 -0800
-Message-ID: <CAJs_Fx76a9m02p4XwZpjjpyQ35d621669fL9XPB4T-nwThr7tA@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230224154855.kmiwg2h5b3vq272l@uno.localdomain>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 24, 2023 at 2:24 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Fri, 24 Feb 2023 09:41:46 +0000
-> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->
-> > On 24/02/2023 09:26, Pekka Paalanen wrote:
-> > > On Thu, 23 Feb 2023 10:51:48 -0800
-> > > Rob Clark <robdclark@gmail.com> wrote:
-> > >
-> > >> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > >>>
-> > >>> On Wed, 22 Feb 2023 07:37:26 -0800
-> > >>> Rob Clark <robdclark@gmail.com> wrote:
-> > >>>
-> > >>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > >
-> > > ...
-> > >
-> > >>>>> On another matter, if the application uses SET_DEADLINE with one
-> > >>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
-> > >>>>> another timestamp, what should happen?
-> > >>>>
-> > >>>> The expectation is that many deadline hints can be set on a fence.
-> > >>>> The fence signaller should track the soonest deadline.
-> > >>>
-> > >>> You need to document that as UAPI, since it is observable to userspace.
-> > >>> It would be bad if drivers or subsystems would differ in behaviour.
-> > >>>
-> > >>
-> > >> It is in the end a hint.  It is about giving the driver more
-> > >> information so that it can make better choices.  But the driver is
-> > >> even free to ignore it.  So maybe "expectation" is too strong of a
-> > >> word.  Rather, any other behavior doesn't really make sense.  But it
-> > >> could end up being dictated by how the hw and/or fw works.
-> > >
-> > > It will stop being a hint once it has been implemented and used in the
-> > > wild long enough. The kernel userspace regression rules make sure of
-> > > that.
+Hello,
+
+On 2023-02-24 16:48:55 +0100, Jacopo Mondi wrote:
+> Hi Tomi
+> 
+> On Wed, Feb 22, 2023 at 02:56:30PM +0200, Tomi Valkeinen wrote:
+> > Add routing and stream_config support to CAL driver.
 > >
-> > Yeah, tricky and maybe a gray area in this case. I think we eluded
-> > elsewhere in the thread that renaming the thing might be an option.
+> > Add multiplexed streams support. CAL has 8 dma-engines and can capture 8
+> > separate streams at the same time.
 > >
-> > So maybe instead of deadline, which is a very strong word, use something
-> > along the lines of "present time hint", or "signalled time hint"? Maybe
-> > reads clumsy. Just throwing some ideas for a start.
->
-> You can try, but I fear that if it ever changes behaviour and
-> someone notices that, it's labelled as a kernel regression. I don't
-> think documentation has ever been the authoritative definition of UABI
-> in Linux, it just guides drivers and userspace towards a common
-> understanding and common usage patterns.
->
-> So even if the UABI contract is not documented (ugh), you need to be
-> prepared to set the UABI contract through kernel implementation.
->
-> If you do not document the UABI contract, then different drivers are
-> likely to implement it differently, leading to differing behaviour.
-> Also userspace will invent wild ways to abuse the UABI if there is no
-> documentation guiding it on proper use. If userspace or end users
-> observe different behaviour, that's bad even if it's not a regression.
->
-> I don't like the situation either, but it is what it is. UABI stability
-> trumps everything regardless of whether it was documented or not.
->
-> I bet userspace is going to use this as a "make it faster, make it
-> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> library that stamps any and all fences with an expired deadline to
-> just squeeze out a little more through some weird side-effect.
+> > Add 8 video device nodes, each representing a single dma-engine, and set
+> > the number of source pads on camerarx to 8. Each video node can be
+> > connected to any of the source pads on either of the camerarx instances
+> > using media links. Camerarx internal routing is used to route the
+> > incoming CSI-2 streams to one of the 8 source pads.
+> >
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/ti/cal/cal-camerarx.c | 233 ++++++++++++++-----
+> >  drivers/media/platform/ti/cal/cal-video.c    | 146 +++++++++---
+> >  drivers/media/platform/ti/cal/cal.c          |  65 ++++--
+> >  drivers/media/platform/ti/cal/cal.h          |   4 +-
+> >  4 files changed, 342 insertions(+), 106 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+> > index faafbd0e9240..49ae29065cd1 100644
+> > --- a/drivers/media/platform/ti/cal/cal-camerarx.c
+> > +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+> > @@ -49,21 +49,41 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
+> >  {
+> >  	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2 = &phy->endpoint.bus.mipi_csi2;
+> >  	u32 num_lanes = mipi_csi2->num_data_lanes;
+> > -	const struct cal_format_info *fmtinfo;
+> >  	struct v4l2_subdev_state *state;
+> > -	struct v4l2_mbus_framefmt *fmt;
+> >  	u32 bpp;
+> >  	s64 freq;
+> >
+> > -	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
+> > +	/*
+> > +	 * v4l2_get_link_freq() uses V4L2_CID_LINK_FREQ first, and falls back
+> > +	 * to V4L2_CID_PIXEL_RATE if V4L2_CID_LINK_FREQ is not available.
+> > +	 *
+> > +	 * With multistream input there is no single pixel rate, and thus we
+> > +	 * cannot use V4L2_CID_PIXEL_RATE, so we pass 0 as the bpp which
+> > +	 * causes v4l2_get_link_freq() to return an error if it falls back to
+> > +	 * V4L2_CID_PIXEL_RATE.
+> > +	 */
+> 
+> To recap a bit of our offline discussion:
+> - max9286 GMSL deserializer (as a comparison for a multiplexed
+>   transmitter) use PIXEL_RATE to report the cumulative pixel rate of
+>   enabled transmitters. This is because the R-Car CSI-2 receiver on
+>   which use PIXEL_RATE to compute the link freq [1]
+> 
+> - according to [2]
+>   pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample (on D-PHY)
+> 
+>   from which:
+>   link_freq = pixel_rate * bits_per_sample / (2 * nr_of_lanes)
+> 
+>   This works as long the reported pixel rate includes visible and
+>   blankings, something I'm not sure how many transmitters handle
+>   correctly as PIXEL_RATE control is meant to report the visible pixel
+>   sampling rate on the pixel array.
+> 
+> I guess we should go towards mandating LINK_FREQ for transmitters.
+> 
+> cc-Niklas for opinions on R-Car CSI-2 rcsi2_calc_mbps()
 
-Ok, maybe we can rename the SET_DEADLINE ioctl to SPACEBAR_HEATER ;-)
+Thanks for the ping.
 
-BR,
--R
+The choice to use the PIXEL_RATE instead of the LINK_FREQ control for 
+the R-Car CSI-2 was originally because the ADV748x which was the first 
+CSI-2 transmitter used during development.
 
-> Well, that's hopefully overboard in scaring, but in the end, I would
-> like to see UABI documented so I can have a feeling of what it is for
-> and how it was intended to be used. That's all.
->
->
-> Thanks,
-> pq
+AFIK the ADV748x adjusts the CSI-2 TX link frequency to match the pixel 
+clock. This results in quiet a big range of possible values that need to 
+be communicated between the two sub devices. The V4L2_CID_LINK_FREQ 
+control is a V4L2_CTRL_TYPE_INTEGER_MENU which do not render itself to 
+report the large range of values needed.
+
+When we added MAX9286 and friends to the mix, we built on-top of this by 
+reporting the total pixel rate of all streams being transmitted on the 
+CSI-2 link. IMHO the v4l2_get_link_freq() was an OK middle ground on how 
+to align the two use-cases.
+
+I agree that situation is not ideal. And in a perfect world a control 
+other then PIXEL_RATE would be used for the R-Car CSI-2 driver, but no 
+such control exists. And chancing the control type of LINK_FREQ is not a 
+good idea as that is usually specified in as a list in DT.
+
+Adding a new control DYNAMIC_LINK_FREQ and wire that into 
+v4l2_get_link_freq() ?
+
+> 
+> [1] https://elixir.bootlin.com/linux/v6.2/source/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c#L608
+> [2] https://www.kernel.org/doc/html/latest/driver-api/media/tx-rx.html#csi-2-transmitter-drivers
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
