@@ -2,184 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2DB96A206A
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 18:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 185346A2087
+	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 18:38:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbjBXRU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 12:20:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50348 "EHLO
+        id S229758AbjBXRiD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 12:38:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbjBXRUz (ORCPT
+        with ESMTP id S229720AbjBXRiC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 12:20:55 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65ABE43468
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 09:20:52 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id eg37so53695406edb.12
-        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 09:20:52 -0800 (PST)
+        Fri, 24 Feb 2023 12:38:02 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1970E76A8
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 09:37:56 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id ck15so551328edb.0
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 09:37:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=43BdNtqkhRt7ydw1eNLylWAPt+kg2A/KY5UgQrdODn8=;
-        b=E1blK/fxhOAhrdGIqHM4ZCx/aOEz9q+cx7Eam4rYzuWF47VKomm5FISptGN0dZDQkG
-         urMp3VEMCHUCudvoe+ri5DGVL7dRhrwTZT1VCDOZvsPKBmn6jsQTKWtvpzRUZA/r0rKK
-         dvQe9T3HTOFnQ0/tnr5EHZC8MN5RfTWhsTLqwh+rx4q5p18XCQ70/d6bilZx0GIH32MX
-         YhBou+C8RH81QXpPKosR0RzctFVj6Y8R8xnGq44gnhh+NisE0bBr8zXq4VKwAg+zjDj0
-         G5R4Oij6qEr/L+YLqPi5U6N6kJn/uJXRDuRNScpaSiv8faNmc7ZytKyXghEZArtukM9X
-         KzYg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7MEdBgmANBpRkZ+0ZxmIPnk9WPFddbsw3SMx8Guu9ZQ=;
+        b=eItVrt9tPoqTDkL7rsXhKj1pO6txqHSBb636tJBR+VYmgndgtOUo/kIGq6Dj/mg29N
+         q4Mvbd/3PVxtovQtwSdnDJNPwhpHforjbLTYpXwI8hywNysPhb4nCbOlSdFrmXeCYsDU
+         C81jNGJiindvwvt3pDyU/h6cexYZL3m8lMrJz/He34upUivliMvXJJ4CfU+v/N35Rt2O
+         rC1eDunyjPX1t7IMUN7BUyuOH/mWUUtBLfrHnRrHbLW+uG6cUbasQqIHTmo9e/zD+Prf
+         osmjBRvQzwE/i4rZlC1xTNnTXsaSRIQhqZtufH1EnBsgnf4uAbHyyOMfX230EmUQNm82
+         Mk5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=43BdNtqkhRt7ydw1eNLylWAPt+kg2A/KY5UgQrdODn8=;
-        b=lYZsn46xzpLGGhX0wHW8i9reh3aQiUWbZ5Ug0UJLk//zpyPuNWuHJv4HepI+qqpSn+
-         pqVCLmVFObUtFN0RDaqrYVRv6zUg/inUW3sgU1PwqJNC2W9+WQ3Ce+UK6TYwDinyRGgK
-         cIilq3qBakE9R74Yad+9Ex2cumyW5Fq6toAxdvFlZmB7lAu9rl3zyXwJkUlzZUHngyXX
-         8uIfiLieUHAR6hBMr50Q6E3+lSSCExhQC2iBmzq556t3n2ODTqAKLiZEgrVXanmw7QuA
-         izJI8Yv/SKGcOBBZl6+/5ChNwss8HYINqu6J5D5Ki+wm6acmD/ZwmS5nQay/pgEEhhra
-         9bmg==
-X-Gm-Message-State: AO0yUKUOnuQnRyAANtErBzHES8Fni/n77JwSB7UQlUptzx98cbbFOhwU
-        Y7EilFetA3xMpjXFO0bmG64/IA==
-X-Google-Smtp-Source: AK7set8d98ZV+WnfBZ5UdUXhQhmnPNw2xySvttE9tEK/pWHDzRYH9S1I18eLi6OtcnuC3qxqVDZbDA==
-X-Received: by 2002:a17:906:af1a:b0:880:a42d:dfb4 with SMTP id lx26-20020a170906af1a00b00880a42ddfb4mr23190595ejb.16.1677259250880;
-        Fri, 24 Feb 2023 09:20:50 -0800 (PST)
-Received: from localhost (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.gmail.com with ESMTPSA id f13-20020a170906738d00b008e6bd130b14sm3503174ejl.64.2023.02.24.09.20.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 09:20:50 -0800 (PST)
-Date:   Fri, 24 Feb 2023 18:20:49 +0100
-From:   niklas soderlund <niklas.soderlund@ragnatech.se>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jai Luthra <j-luthra@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>
-Subject: Re: [PATCH v1 3/3] media: ti: cal: add multiplexed streams support
-Message-ID: <Y/jx8euxuxg07C08@sleipner.dyn.berto.se>
-References: <20230222125630.421020-1-tomi.valkeinen@ideasonboard.com>
- <20230222125630.421020-4-tomi.valkeinen@ideasonboard.com>
- <20230224154855.kmiwg2h5b3vq272l@uno.localdomain>
+        bh=7MEdBgmANBpRkZ+0ZxmIPnk9WPFddbsw3SMx8Guu9ZQ=;
+        b=wlQmpw2Vxy3HVVvr4UzNrfoBvZslvy2eFEXqaFRuhj+ZFJ2pTHRnnjquJy/yPbyB9s
+         xQbbKwpf7W5F4WOZxMuEChI3iGE0oGcin2ZP5bfKLO4mJ+vsJKAGui9Wy3k9u89g5ACC
+         m3xv3pvKNMT1l6XL8H/h01UOvMjW7ufK2vmYx1e14CK/SMywnOFTTEHvvN4RdS3x1BkN
+         Cn9aRZ04cM3T6Wvg/bpRPo+2D0yz69B4xBLqGT8UADJjJkeE9meZuUneWlBdWD/om9X7
+         Txay8U8sRImngHnkYUPO6wpKX0WEA7kE622YE4+cDzs1qAx07JP5Ltc+Upm9XgUtNWmB
+         VUYQ==
+X-Gm-Message-State: AO0yUKVkXNeh1iXOobEKGormTCRr2VyYRgnnrHvI8IvoSqaz+FcaamQB
+        AhD28fnHthtztsVfgzbrmGPMlg==
+X-Google-Smtp-Source: AK7set/cDREmya9Zn3hLgYHpUntHzwAqfEKxm7hij/uJqATSUc1F/BwGOZi9ZTODqqmuZcO74+Yjuw==
+X-Received: by 2002:a17:907:7628:b0:8b1:7daf:6285 with SMTP id jy8-20020a170907762800b008b17daf6285mr25679479ejc.35.1677260274530;
+        Fri, 24 Feb 2023 09:37:54 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id wj23-20020a170907051700b008b17aa6afc8sm10354671ejb.30.2023.02.24.09.37.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Feb 2023 09:37:53 -0800 (PST)
+Message-ID: <937f883a-c6da-d121-e6ff-ee925e4fdff0@linaro.org>
+Date:   Fri, 24 Feb 2023 18:37:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230224154855.kmiwg2h5b3vq272l@uno.localdomain>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] dt-bindings: media: s5p-mfc: convert bindings to
+ json-schema
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com
+References: <CGME20230223104649epcas5p260da7a49016c9ef7826ac1fab7567776@epcas5p2.samsung.com>
+ <20230223104614.10954-1-aakarsh.jain@samsung.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230223104614.10954-1-aakarsh.jain@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On 2023-02-24 16:48:55 +0100, Jacopo Mondi wrote:
-> Hi Tomi
+On 23/02/2023 11:46, Aakarsh Jain wrote:
+> Convert s5p-mfc bindings to DT schema format using json-schema.
 > 
-> On Wed, Feb 22, 2023 at 02:56:30PM +0200, Tomi Valkeinen wrote:
-> > Add routing and stream_config support to CAL driver.
-> >
-> > Add multiplexed streams support. CAL has 8 dma-engines and can capture 8
-> > separate streams at the same time.
-> >
-> > Add 8 video device nodes, each representing a single dma-engine, and set
-> > the number of source pads on camerarx to 8. Each video node can be
-> > connected to any of the source pads on either of the camerarx instances
-> > using media links. Camerarx internal routing is used to route the
-> > incoming CSI-2 streams to one of the 8 source pads.
-> >
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/ti/cal/cal-camerarx.c | 233 ++++++++++++++-----
-> >  drivers/media/platform/ti/cal/cal-video.c    | 146 +++++++++---
-> >  drivers/media/platform/ti/cal/cal.c          |  65 ++++--
-> >  drivers/media/platform/ti/cal/cal.h          |   4 +-
-> >  4 files changed, 342 insertions(+), 106 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-> > index faafbd0e9240..49ae29065cd1 100644
-> > --- a/drivers/media/platform/ti/cal/cal-camerarx.c
-> > +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-> > @@ -49,21 +49,41 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
-> >  {
-> >  	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2 = &phy->endpoint.bus.mipi_csi2;
-> >  	u32 num_lanes = mipi_csi2->num_data_lanes;
-> > -	const struct cal_format_info *fmtinfo;
-> >  	struct v4l2_subdev_state *state;
-> > -	struct v4l2_mbus_framefmt *fmt;
-> >  	u32 bpp;
-> >  	s64 freq;
-> >
-> > -	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
-> > +	/*
-> > +	 * v4l2_get_link_freq() uses V4L2_CID_LINK_FREQ first, and falls back
-> > +	 * to V4L2_CID_PIXEL_RATE if V4L2_CID_LINK_FREQ is not available.
-> > +	 *
-> > +	 * With multistream input there is no single pixel rate, and thus we
-> > +	 * cannot use V4L2_CID_PIXEL_RATE, so we pass 0 as the bpp which
-> > +	 * causes v4l2_get_link_freq() to return an error if it falls back to
-> > +	 * V4L2_CID_PIXEL_RATE.
-> > +	 */
-> 
-> To recap a bit of our offline discussion:
-> - max9286 GMSL deserializer (as a comparison for a multiplexed
->   transmitter) use PIXEL_RATE to report the cumulative pixel rate of
->   enabled transmitters. This is because the R-Car CSI-2 receiver on
->   which use PIXEL_RATE to compute the link freq [1]
-> 
-> - according to [2]
->   pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample (on D-PHY)
-> 
->   from which:
->   link_freq = pixel_rate * bits_per_sample / (2 * nr_of_lanes)
-> 
->   This works as long the reported pixel rate includes visible and
->   blankings, something I'm not sure how many transmitters handle
->   correctly as PIXEL_RATE control is meant to report the visible pixel
->   sampling rate on the pixel array.
-> 
-> I guess we should go towards mandating LINK_FREQ for transmitters.
-> 
-> cc-Niklas for opinions on R-Car CSI-2 rcsi2_calc_mbps()
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+> Since, obsolete properties are not part of dt-node so we are not including these properties in dt-schema.
 
-Thanks for the ping.
+This is not a v1, so please include proper versioning and changelog
+after ---.
 
-The choice to use the PIXEL_RATE instead of the LINK_FREQ control for 
-the R-Car CSI-2 was originally because the ADV748x which was the first 
-CSI-2 transmitter used during development.
+(...)
+> diff --git a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> index 000000000000..e82b143086ba
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> @@ -0,0 +1,160 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/samsung,s5p-mfc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung Exynos Multi Format Codec (MFC)
+> +
+> +maintainers:
+> +  - Marek Szyprowski <m.szyprowski@samsung.com>
+> +  - Aakarsh Jain <aakarsh.jain@samsung.com>
+> +
+> +description:
+> +  Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> +  supports high resolution decoding and encoding functionalities.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
 
-AFIK the ADV748x adjusts the CSI-2 TX link frequency to match the pixel 
-clock. This results in quiet a big range of possible values that need to 
-be communicated between the two sub devices. The V4L2_CID_LINK_FREQ 
-control is a V4L2_CTRL_TYPE_INTEGER_MENU which do not render itself to 
-report the large range of values needed.
+No need for items here.
 
-When we added MAX9286 and friends to the mix, we built on-top of this by 
-reporting the total pixel rate of all streams being transmitted on the 
-CSI-2 link. IMHO the v4l2_get_link_freq() was an OK middle ground on how 
-to align the two use-cases.
+> +          - enum:
+> +              - samsung,mfc-v5                  # Exynos4
+> +              - samsung,mfc-v6                  # Exynos5
+> +      - items:
+> +          - enum:
+> +              - samsung,exynos3250-mfc          # Exynos3250
+> +          - const: samsung,mfc-v7               # Fall back Exynos3250
+> +      - items:
 
-I agree that situation is not ideal. And in a perfect world a control 
-other then PIXEL_RATE would be used for the R-Car CSI-2 driver, but no 
-such control exists. And chancing the control type of LINK_FREQ is not a 
-good idea as that is usually specified in as a list in DT.
+and jere
 
-Adding a new control DYNAMIC_LINK_FREQ and wire that into 
-v4l2_get_link_freq() ?
+> +          - enum:
+> +              - samsung,mfc-v7                  # Exynos5420
+> +              - samsung,mfc-v8                  # Exynos5800
+> +              - samsung,exynos5433-mfc          # Exynos5433
+> +              - samsung,mfc-v10                 # Exynos7880
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  iommu-names:
+> +    minItems: 1
+> +    maxItems: 2
 
-> 
-> [1] https://elixir.bootlin.com/linux/v6.2/source/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c#L608
-> [2] https://www.kernel.org/doc/html/latest/driver-api/media/tx-rx.html#csi-2-transmitter-drivers
-> 
+You need to define the items, just like for clocks. If all variants have
+the same names, define them here instead of min/max:
+  items:
+    - const: foo
+    - const: bar
 
--- 
-Kind Regards,
-Niklas Söderlund
+
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v5
+> +              - samsung,exynos3250-mfc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 2
+> +        clock-names:
+> +          items:
+> +            - const: mfc
+> +            - const: sclk_mfc
+> +        iommus:
+> +          minItems: 1
+> +          maxItems: 2
+
+This is the same as top-level, so just skip it. Unless you wanted to say
+minItems: 2? or maxItems: 1?
+
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v6
+> +              - samsung,mfc-v8
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names:
+> +          items:
+> +            - const: mfc
+> +        iommus:
+> +          maxItems: 2
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,exynos5433-mfc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 3
+> +        clock-names:
+> +          items:
+> +            - const: pclk
+> +            - const: aclk
+> +            - const: aclk_xiu
+> +        iommus:
+> +          maxItems: 2
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v7
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 1
+> +          maxItems: 2
+> +        iommus:
+> +          minItems: 1
+> +          maxItems: 2
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/exynos4.h>
+> +    #include <dt-bindings/clock/exynos-audss-clk.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    codec@13400000 {
+> +          compatible = "samsung,mfc-v5";
+> +          reg = <0x13400000 0x10000>;
+> +          interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
+> +          power-domains = <&pd_mfc>;
+> +          clocks = <&clock CLK_MFC>, <&clock CLK_SCLK_MFC>;
+> +          clock-names = "mfc", "sclk_mfc";
+> +          iommus = <&sysmmu_mfc_l>, <&sysmmu_mfc_r>;
+> +          iommu-names = "left", "right";
+> +
+
+Drop blank line.
+
+> +    };
+
+Best regards,
+Krzysztof
+
