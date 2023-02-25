@@ -2,143 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC1586A22FA
-	for <lists+linux-media@lfdr.de>; Fri, 24 Feb 2023 21:04:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC2276A2741
+	for <lists+linux-media@lfdr.de>; Sat, 25 Feb 2023 05:22:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjBXUEW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Feb 2023 15:04:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58730 "EHLO
+        id S229496AbjBYEWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Feb 2023 23:22:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjBXUEV (ORCPT
+        with ESMTP id S229468AbjBYEWg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Feb 2023 15:04:21 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F32231E9;
-        Fri, 24 Feb 2023 12:03:38 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id qa18-20020a17090b4fd200b0023750b675f5so3964323pjb.3;
-        Fri, 24 Feb 2023 12:03:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
-        b=MmJRRhMlaxk2Tg561LzgJumOupNCmYxSqE7V/Ec4vvD7vgC4kK8CHIMXMadg+Xn7fz
-         WRhZENogAOymwJlIY3/ReOiPI0zxW8vspbonbRb93B5Q8kxBWWoBRTQ0MKyVDoVKIJwa
-         ufThHyWP8vkdS6gWl7RjDPFM9yNrIjO5d4yS0b+RG146pN6q8ZO96+XVjSdhRWaZ26+J
-         HHOUr2cqCDB4qy3+aT5idFgJyBcp3zw21dthn2udYd881vQ2HwePLZbEh383xwwMTPEh
-         pKfuNef1SIGCQ65/2/Qh1OPqT+MpiDaAFbfHeeY6gPX9MQA+4ExkN//uxnS462CbtA/O
-         B1Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
-        b=n9p3Cf5p6qQhHhiCuz27cR2A/mNN22tkaVeu7WfchhqVY3oUYhVZjtZsq3gbSY1k65
-         MkEm3nJE+CxuXzUP74n5W8nx6KSqtk8k0IvWHKHOv9aL540AMBzcfM1uRCLqY6NYDyGa
-         Q7jk69b3D1Cj1iVXFGLISOqjwOslWslI9PsQycQNKV+FNKCBJVblaRNSk0Vlo+qD95rl
-         B/463UmW/56mRBZh0j9Y9ndfzivEXE8fpOZBeJkQCGx/uvmb8OjgkbZgbM0uUvY0LZ7+
-         No2tNmKvMzbMBGRiCusJ6ZXg2m756KaBaJ73sDTlTxmq5/uutB/LS8gus2fhDjM+bznf
-         SU5A==
-X-Gm-Message-State: AO0yUKU0BGq+do9bluKDFIF85vBoIYeXEfSKilTUaS0fgKYGffWxR6UA
-        RqYYX+PMJvuQQEjVacagI1Q=
-X-Google-Smtp-Source: AK7set95tBC99k0jthHkFEIkO7gTyH442ymUGtLpwciZhI446KatM88hJ0Xu7olLG076L8fTPf5nTg==
-X-Received: by 2002:a17:902:fa88:b0:19a:a516:ba46 with SMTP id lc8-20020a170902fa8800b0019aa516ba46mr16886185plb.41.1677268992534;
-        Fri, 24 Feb 2023 12:03:12 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id t13-20020a1709028c8d00b0019a96a6543esm8237986plo.184.2023.02.24.12.03.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 12:03:12 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        intel-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH v6 15/15] drm/i915: Add deadline based boost support
-Date:   Fri, 24 Feb 2023 12:01:43 -0800
-Message-Id: <20230224200155.2510320-16-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230224200155.2510320-1-robdclark@gmail.com>
-References: <20230224200155.2510320-1-robdclark@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 24 Feb 2023 23:22:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071B3682AC
+        for <linux-media@vger.kernel.org>; Fri, 24 Feb 2023 20:22:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9135F60765
+        for <linux-media@vger.kernel.org>; Sat, 25 Feb 2023 04:22:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96DDFC433EF
+        for <linux-media@vger.kernel.org>; Sat, 25 Feb 2023 04:22:33 +0000 (UTC)
+Date:   Sat, 25 Feb 2023 05:22:31 +0100
+Message-ID: <a0a34be2ddb5861f403b1c1adfa585d0.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-v2: rebase
+Results of the daily build of media_tree:
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+date:			Sat Feb 25 03:00:12 CET 2023
+media-tree git hash:	5dd1c455130d5b04b2316f3003a9247c276d53cd
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	5ab5a0ee52d0b96f1750d32e4ed63e2f43d71439
+edid-decode git hash:	d740dde3540a257a8974d2250b76049c119a473b
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8250-g3ed42e4c-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7118b386b41c7ddc9937a707027b16ff8308b5aa
+host hardware:		x86_64
+host os:		6.0.0-6-amd64
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 7503dcb9043b..44491e7e214c 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
- 	return i915_request_enable_breadcrumb(to_request(fence));
- }
- 
-+static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	if (i915_request_completed(rq))
-+		return;
-+
-+	if (i915_request_started(rq))
-+		return;
-+
-+	/*
-+	 * TODO something more clever for deadlines that are in the
-+	 * future.  I think probably track the nearest deadline in
-+	 * rq->timeline and set timer to trigger boost accordingly?
-+	 */
-+
-+	intel_rps_boost(rq);
-+}
-+
- static signed long i915_fence_wait(struct dma_fence *fence,
- 				   bool interruptible,
- 				   signed long timeout)
-@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
- 	.signaled = i915_fence_signaled,
- 	.wait = i915_fence_wait,
- 	.release = i915_fence_release,
-+	.set_deadline = i915_fence_set_deadline,
- };
- 
- static void irq_execute_cb(struct irq_work *wrk)
--- 
-2.39.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
