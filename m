@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF196A2F86
-	for <lists+linux-media@lfdr.de>; Sun, 26 Feb 2023 13:59:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A561A6A2F88
+	for <lists+linux-media@lfdr.de>; Sun, 26 Feb 2023 13:59:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbjBZM7C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Feb 2023 07:59:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
+        id S229630AbjBZM73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Feb 2023 07:59:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbjBZM7B (ORCPT
+        with ESMTP id S229574AbjBZM72 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Feb 2023 07:59:01 -0500
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF44BBBD
-        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 04:58:59 -0800 (PST)
-Received: by mail-ot1-x32f.google.com with SMTP id q11-20020a056830440b00b00693c1a62101so2209958otv.0
-        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 04:58:59 -0800 (PST)
+        Sun, 26 Feb 2023 07:59:28 -0500
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5750C16A
+        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 04:59:27 -0800 (PST)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-1720600a5f0so4849842fac.11
+        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 04:59:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112; t=1677416367;
         h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xU2OW9b85rVHMCoQmN+vBOcqQqQ6/K7t9dGl9R42A6I=;
-        b=4fIVpSHDVNIQ0r88f46kz+NnERZrjK9/Nhc/cxBrGIntIe8RjuD3O9v1DCNNFuws8m
-         6H3jRVkyZ7FabGfG0xxoO4bZiO96MZW7zy8+O30cg8+v8NpXgxDVQ2ok/pI819pXjqAV
-         uDrrVweItV1qixLTHxPogaveel567Wr2yahjYbetowht8jzk4DIHfpkkgZ+9DyAX1TpF
-         nDGT/pazv0vMDG/xFccPk9WDDlmOAXHUKw83O6h8AtaTOLnd243wPwz4BupwRqT43HG5
-         IjMHZOJ4vcyW9oq0Hl/gh9SbnzpMHBZJwZEwTYo8b/Zo4GvXQgPxEvwrCvu2gowQq/ZI
-         ziNw==
+        bh=MEEIkfCEKNb+yJat01VLOoIx0jwHxX8KxFsxTv/3AWA=;
+        b=5JV/brtC/PBagCV/s/mJY0JaOjX9a5frBx9rjjhs3gEx+4/C4wrI02ciyPAStBAOum
+         EHKuBPo21xtkjlesjuo+pFCcM87pyOP+A/6HMV3YRoW8km3QQvun3wM6lKRbISJAZfhW
+         FqXM4IKLi4Vki8I8PdUGixXpy41VKkGLiyWH2g52PUiaxyOopz8E7ajvPkGjFgZdJuA6
+         pXetR7sXEs0X2CL0Z6Ex53dgTurtcdUZ0iC4o5+WmSun0Cu2ue2ny0kbfEd3JFZ6H/tF
+         bS5i7mvKOlmqV9/ETi362Z3XEBZJGhMkROVb8s6wZqPhEN8BrtThVJjh3R2aDxegP30P
+         Cecg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
+        d=1e100.net; s=20210112; t=1677416367;
         h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xU2OW9b85rVHMCoQmN+vBOcqQqQ6/K7t9dGl9R42A6I=;
-        b=kpeuR0222bsmP19z/sR5DAQ/cLTzaRnLHb6Al/+LBWBggs5V9K/6eHdGbvc59XWdEW
-         t4j4+aNATuon5ZNt3A1xEvpx0/G7nC5HgUDpGGMyXDfL2hYZqVHGpBxvkmr1KgAXnIyL
-         rh5GgkzBXqPR8hGXLI1YT2r3NjnG7Qk2wZmKlwUVuaJeJnFAAHJtB1U2Y7zwEiJEwzTi
-         JwJsazVO4Uk3O9jSj6WuRjrUB6bWGfgo1vqNEDDR3Z3Jz83SXlbpECyh/sxT4DgvhDfG
-         7OroS4X6gs1nEpWjwc5l1+QL60yFDk5gMlAMLc3nF1/vtyX+AE8cc4dE8zHfuydSJcFo
-         n1dA==
-X-Gm-Message-State: AO0yUKUiGypJqzA6e/KZXeZ6TGgZErTAgyMpY/eAOC7MhprjJ468Y0L1
-        mo6lpIz+cfVDh1IO4ZxTemaHAPM+D0HNMWGk
-X-Google-Smtp-Source: AK7set/8fqgkojKXCsfLPehtswAr1bPNfmLFCKRTN5FsAKnf51p72+FZXgPWNWIkOhGUT60DoFpQiA==
-X-Received: by 2002:a05:6830:2470:b0:686:40e1:2bf3 with SMTP id x48-20020a056830247000b0068640e12bf3mr10316085otr.0.1677416339082;
-        Sun, 26 Feb 2023 04:58:59 -0800 (PST)
+        bh=MEEIkfCEKNb+yJat01VLOoIx0jwHxX8KxFsxTv/3AWA=;
+        b=GKQwwfagcfHueWUYuL1fAeKvNZLVYDWG+zpqptTWM0hdMqOdtx6JZTlU0P7RUn6+hK
+         dCXGJf0KxEdk4L9vSYIwjEqzMG87lQmppr1rcM6Nv8B1eYWn3zuJbWQnKM6twtGT908P
+         tmmJOYFqvXfwhI7VAtXOwsBq45DKu98va4IdZ8+pDbX2ec63HxaABaKL7xcCbh32uJ9s
+         LchVH4Xudo4nW0Fc7n5GdbgH75X48RrmiwzmV/7iXDJbIdn2aYdJUP1Ez1LT0Xu4mTxq
+         tE9ea9wYaLABV2ftKVi7eu3xsbXU5lUzUcGwnkHh7RtB3wuKjc3KdWm6ulYiBAJBXWiE
+         49Hg==
+X-Gm-Message-State: AO0yUKUUw7EhK0Evw7AlJxr1jcsdq0q9TNiU7MFBA4znR9RU+fDSje14
+        ytVWnKHw8VEX8wr9O5fZbodErQ==
+X-Google-Smtp-Source: AK7set+8v7z6Aboy4L5hWmdTsc35qvdCVTbUT1gATzHCTVITOJivrC5DQc8wDB7PLDGXPVo/hsPq6g==
+X-Received: by 2002:a05:6870:e88f:b0:172:8985:95c5 with SMTP id q15-20020a056870e88f00b00172898595c5mr6606295oan.0.1677416367029;
+        Sun, 26 Feb 2023 04:59:27 -0800 (PST)
 Received: from [192.168.10.175] ([190.106.125.26])
-        by smtp.gmail.com with ESMTPSA id w11-20020a9d70cb000000b0068bb3a9e2b9sm1533016otj.77.2023.02.26.04.58.54
+        by smtp.gmail.com with ESMTPSA id q21-20020a056870e89500b0017256ba1fd0sm779737oan.41.2023.02.26.04.59.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 04:58:58 -0800 (PST)
-Date:   Sun, 26 Feb 2023 09:58:47 -0300
+        Sun, 26 Feb 2023 04:59:26 -0800 (PST)
+Date:   Sun, 26 Feb 2023 09:59:14 -0300
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: Re: [PATCH v9 2/6] media: verisilicon: Do not use ctx fields as
- format storage when resetting
+Subject: Re: [PATCH v9 3/6] media: verisilicon: Do not set ctx->bit_depth in
+ hantro_try_ctrl()
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
         s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
@@ -60,10 +60,10 @@ Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel@collabora.com
-Message-Id: <ZPUOQR.4QD6IOKPPRQ@vanguardiasur.com.ar>
-In-Reply-To: <20230220104849.398203-3-benjamin.gaignard@collabora.com>
+Message-Id: <QQUOQR.DDXB801QURT72@vanguardiasur.com.ar>
+In-Reply-To: <20230220104849.398203-4-benjamin.gaignard@collabora.com>
 References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
-        <20230220104849.398203-3-benjamin.gaignard@collabora.com>
+        <20230220104849.398203-4-benjamin.gaignard@collabora.com>
 X-Mailer: geary/43.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
@@ -78,94 +78,100 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On Mon, Feb 20 2023 at 11:48:45 AM +0100, Benjamin Gaignard 
+On Mon, Feb 20 2023 at 11:48:46 AM +0100, Benjamin Gaignard 
 <benjamin.gaignard@collabora.com> wrote:
-> Source and destination pixel formats fields of context structure 
-> should
-> not be used as storage when resetting the format.
-> Use local variables instead and let hantro_set_fmt_out() and
-> hantro_set_fmt_cap() set them correctly later.
+> In hantro_try_ctrl() we should only check the values inside
+> control parameters and not set ctx->bit_depth. That must
+> be done in controls set function.
+> Create a set control function for hevc where ctx->bit_depth is
+> set at the right time.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
 > ---
->  .../media/platform/verisilicon/hantro_v4l2.c  | 40 
-> +++++++++----------
->  1 file changed, 18 insertions(+), 22 deletions(-)
+>  .../media/platform/verisilicon/hantro_drv.c   | 32 
+> ++++++++++++++-----
+>  1 file changed, 24 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c 
-> b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index d8aa42bd4cd4..d94c99f875c8 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -378,47 +378,43 @@ static void
->  hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c 
+> b/drivers/media/platform/verisilicon/hantro_drv.c
+> index b0aeedae7b65..c237253803f4 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -251,11 +251,6 @@ queue_init(void *priv, struct vb2_queue *src_vq, 
+> struct vb2_queue *dst_vq)
+> 
+>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
 >  {
->  	const struct hantro_fmt *vpu_fmt;
-> -	struct v4l2_pix_format_mplane *fmt;
-> +	struct v4l2_pix_format_mplane fmt;
-> 
->  	vpu_fmt = hantro_get_default_fmt(ctx, true);
-> +	if (!vpu_fmt)
-> +		return;
-> 
-> +	hantro_reset_fmt(&fmt, vpu_fmt);
-> +	fmt.width = vpu_fmt->frmsize.min_width;
-> +	fmt.height = vpu_fmt->frmsize.min_height;
->  	if (ctx->is_encoder)
-> -		fmt = &ctx->dst_fmt;
-> -	else
-> -		fmt = &ctx->src_fmt;
+> -	struct hantro_ctx *ctx;
 > -
-> -	hantro_reset_fmt(fmt, vpu_fmt);
-> -	fmt->width = vpu_fmt->frmsize.min_width;
-> -	fmt->height = vpu_fmt->frmsize.min_height;
-> -	if (ctx->is_encoder)
-> -		hantro_set_fmt_cap(ctx, fmt);
-> +		hantro_set_fmt_cap(ctx, &fmt);
->  	else
-> -		hantro_set_fmt_out(ctx, fmt);
-> +		hantro_set_fmt_out(ctx, &fmt);
+> -	ctx = container_of(ctrl->handler,
+> -			   struct hantro_ctx, ctrl_handler);
+> -
+>  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+> 
+> @@ -274,8 +269,6 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 
+> != 2)
+>  			/* Only 8-bit and 10-bit are supported */
+>  			return -EINVAL;
+> -
+> -		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+>  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+>  		const struct v4l2_ctrl_vp9_frame *dec_params = 
+> ctrl->p_new.p_vp9_frame;
+> 
+> @@ -324,6 +317,24 @@ static int hantro_vp9_s_ctrl(struct v4l2_ctrl 
+> *ctrl)
+>  	return 0;
 >  }
 > 
->  static void
->  hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->  {
->  	const struct hantro_fmt *raw_vpu_fmt;
-> -	struct v4l2_pix_format_mplane *raw_fmt, *encoded_fmt;
-> +	struct v4l2_pix_format_mplane raw_fmt, *encoded_fmt;
+> +static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx = container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_STATELESS_HEVC_SPS:
+> +		ctx->bit_depth = ctrl->p_new.p_hevc_sps->bit_depth_luma_minus8 + 8;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>  	.try_ctrl = hantro_try_ctrl,
+>  };
+> @@ -336,6 +347,11 @@ static const struct v4l2_ctrl_ops 
+> hantro_vp9_ctrl_ops = {
+>  	.s_ctrl = hantro_vp9_s_ctrl,
+>  };
 > 
->  	raw_vpu_fmt = hantro_get_default_fmt(ctx, false);
-> +	if (!raw_vpu_fmt)
-> +		return;
-> 
-> -	if (ctx->is_encoder) {
-> -		raw_fmt = &ctx->src_fmt;
-> +	if (ctx->is_encoder)
->  		encoded_fmt = &ctx->dst_fmt;
-> -	} else {
-> -		raw_fmt = &ctx->dst_fmt;
-> +	else
->  		encoded_fmt = &ctx->src_fmt;
-> -	}
-> 
-> -	hantro_reset_fmt(raw_fmt, raw_vpu_fmt);
-> -	raw_fmt->width = encoded_fmt->width;
-> -	raw_fmt->height = encoded_fmt->height;
-> +	hantro_reset_fmt(&raw_fmt, raw_vpu_fmt);
-> +	raw_fmt.width = encoded_fmt->width;
-> +	raw_fmt.height = encoded_fmt->height;
->  	if (ctx->is_encoder)
-> -		hantro_set_fmt_out(ctx, raw_fmt);
-> +		hantro_set_fmt_out(ctx, &raw_fmt);
->  	else
-> -		hantro_set_fmt_cap(ctx, raw_fmt);
-> +		hantro_set_fmt_cap(ctx, &raw_fmt);
->  }
-> 
->  void hantro_reset_fmts(struct hantro_ctx *ctx)
+> +static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+> +	.try_ctrl = hantro_try_ctrl,
+> +	.s_ctrl = hantro_hevc_s_ctrl,
+> +};
+> +
+>  #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+>  					 V4L2_JPEG_ACTIVE_MARKER_COM | \
+>  					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
+> @@ -470,7 +486,7 @@ static const struct hantro_ctrl controls[] = {
+>  		.codec = HANTRO_HEVC_DECODER,
+>  		.cfg = {
+>  			.id = V4L2_CID_STATELESS_HEVC_SPS,
+> -			.ops = &hantro_ctrl_ops,
+> +			.ops = &hantro_hevc_ctrl_ops,
+>  		},
+>  	}, {
+>  		.codec = HANTRO_HEVC_DECODER,
 > --
 > 2.34.1
 > 
