@@ -2,64 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 442E46A34B6
-	for <lists+linux-media@lfdr.de>; Sun, 26 Feb 2023 23:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AA246A34A7
+	for <lists+linux-media@lfdr.de>; Sun, 26 Feb 2023 23:27:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbjBZW3X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Feb 2023 17:29:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45464 "EHLO
+        id S229734AbjBZW1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Feb 2023 17:27:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjBZW3V (ORCPT
+        with ESMTP id S229752AbjBZW1U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Feb 2023 17:29:21 -0500
+        Sun, 26 Feb 2023 17:27:20 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B2DD508
-        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 14:28:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BBBC18B16
+        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 14:27:17 -0800 (PST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pWPU0-0000v4-Cx; Sun, 26 Feb 2023 23:27:04 +0100
+        id 1pWPU0-0000v9-TX; Sun, 26 Feb 2023 23:27:04 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pWPTv-000UbL-A7; Sun, 26 Feb 2023 23:26:59 +0100
+        id 1pWPTw-000Ubf-F9; Sun, 26 Feb 2023 23:27:00 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pWPTu-000YPc-Ii; Sun, 26 Feb 2023 23:26:58 +0100
+        id 1pWPTv-000YPt-N7; Sun, 26 Feb 2023 23:26:59 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Wolfram Sang <wsa@kernel.org>
-Cc:     linux-i2c@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Ajay Gupta <ajayg@nvidia.com>,
-        Peter Senna Tschudin <peter.senna@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        linux-mtd@lists.infradead.org, Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org, Evgeniy Polyakov <zbr@ioremap.net>,
-        Crt Mori <cmo@melexis.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
+Cc:     linux-i2c@vger.kernel.org, Shunqian Zheng <zhengsq@rock-chips.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Peter Rosin <peda@axentia.se>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 0/9] i2c: Switch .probe() to not take an id parameter
-Date:   Sun, 26 Feb 2023 23:26:45 +0100
-Message-Id: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2 5/9] media: i2c: ov5695: convert to i2c's .probe_new()
+Date:   Sun, 26 Feb 2023 23:26:50 +0100
+Message-Id: <20230226222654.1741900-6-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
+References: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1991; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=EenKKdT6RETFmVGwF2CrYShLqN5ZYnH65OR4Oth2DhU=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj+9yIsuD2BffFtVmTLqMLW9+LGg9CrL1S9JEyp A8isju5DgGJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY/vciAAKCRDB/BR4rcrs CVArCACf5Exs+Q2fpw9bhFprBhf8Jn0zdE1HAJWqKw9geHnrqn2c77H0nb4l6za7xknleFOdFjl vT1oJ/Hil7ZZHfjj0Q02CEsZqvCUoh/T4UAse77L1aYyUPrZ0RZsOyTquharTxDIKLoriggp8O7 oibgm8zSD2bY1eFXyPkExlGm+6FBBRW8p3Smjl0DhgJHra46+W71KaqBmYkG1IBl5lrINIPfwRv 3ktxNmDCAgv/OMRMRji9mRAtfbTNBB8fvk22YGZXKc7/Ja9bBtoyWYo0UPM2LwcfDAfOnqJXu0d 8S7iE11b92EW7g3eeBkHU339ye95YJ2KDZ7wmHd7p+WkiVWd
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1261; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=P9qlg6QBcbggriS7J+1m7zrOxMS2j89d2svSwnDX9a8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj+9yb9qyVLGhCTDmI4MWGPl3GHVa1A8vwL+TYH yt/aAeTiMOJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY/vcmwAKCRDB/BR4rcrs CZ6KB/9m76K8RmvWuTkH3BxbfaNA6EyB4Ih+n5yutyJch+tFjH/SHeovzTFfP5wnYW66D4IyW01 AjZ4g2d7U1uBVkFJ8JCkMZb5KusCiNPYqNGEYEdSKgM8CqjsmWG9GlFVOA8B5p1pzEtR2XOZ91H mlwCmNOnGD2FPs44YFzxOGsnV88ZHmDqrBA8mD1XvR5bNQy6wpyk7UdX6EnTWZKXJ9KxxtSTE6f m7lNpjJq1m8artykh+xCPBHDl2ywuV1kPPerc9UVPboJXabgsPCYU4et/0h4mdPcnjr++Zcte3P kdijJmSG6BjGwYZEcVkjENSt5Nz2V4Om0abrGrdQkZN2BeLB
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -75,58 +59,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The probe function doesn't make use of the i2c_device_id * parameter so
+it can be trivially converted.
 
-this is v2 of the series. I send it a bit earlier than I planned to do that
-initially because I failed to send v1 completely to the linux-i2c list.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Link: https://lore.kernel.org/lkml/20221121102705.16092-1-u.kleine-koenig@pengutronix.de
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/media/i2c/ov5695.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Changes since (implicit) v1:
- - Added Acks for patches #5, #6 and #8
- - Fixed kernel doc as pointed out by Luca Ceresoli (patch #7)
- - Send all patches to linux-i2c mailing list
- - Rebased to current Linus' tree.
-   This reduces the list of prerequisite patches to two.
-
-I updated
-
-	https://git.pengutronix.de/git/ukl/linux i2c-probe-new
-
-accordingly.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (9):
-  misc: ad525x_dpot-i2c: Convert to i2c's .probe_new()
-  mtd: maps: pismo: Convert to i2c's .probe_new()
-  serial: sc16is7xx: Convert to i2c's .probe_new()
-  w1: ds2482: Convert to i2c's .probe_new()
-  media: i2c: ov5695: convert to i2c's .probe_new()
-  media: i2c: ov2685: convert to i2c's .probe_new()
-  i2c: Switch .probe() to not take an id parameter
-  i2c: mux: Convert all drivers to new .probe() callback
-  i2c: Convert drivers to new .probe() callback
-
- drivers/i2c/i2c-core-base.c         | 13 +++----------
- drivers/i2c/i2c-slave-eeprom.c      |  2 +-
- drivers/i2c/i2c-slave-testunit.c    |  2 +-
- drivers/i2c/i2c-smbus.c             |  2 +-
- drivers/i2c/muxes/i2c-mux-ltc4306.c |  2 +-
- drivers/i2c/muxes/i2c-mux-pca9541.c |  2 +-
- drivers/i2c/muxes/i2c-mux-pca954x.c |  2 +-
- drivers/media/i2c/ov2685.c          |  5 ++---
- drivers/media/i2c/ov5695.c          |  5 ++---
- drivers/misc/ad525x_dpot-i2c.c      |  6 +++---
- drivers/mtd/maps/pismo.c            |  5 ++---
- drivers/tty/serial/sc16is7xx.c      |  6 +++---
- drivers/w1/masters/ds2482.c         |  5 ++---
- include/linux/i2c.h                 | 18 +++++++++++-------
- 14 files changed, 34 insertions(+), 41 deletions(-)
-
-
-base-commit: f3a2439f20d918930cc4ae8f76fe1c1afd26958f
-prerequisite-patch-id: 256857b4eee79540b271b8d4899b9ba0aa3c4c27
-prerequisite-patch-id: bb49c9c71311ac1f1056c562f20f26aa356c95a6
+diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+index 61906fc54e37..b287c28920a6 100644
+--- a/drivers/media/i2c/ov5695.c
++++ b/drivers/media/i2c/ov5695.c
+@@ -1267,8 +1267,7 @@ static int ov5695_configure_regulators(struct ov5695 *ov5695)
+ 				       ov5695->supplies);
+ }
+ 
+-static int ov5695_probe(struct i2c_client *client,
+-			const struct i2c_device_id *id)
++static int ov5695_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	struct ov5695 *ov5695;
+@@ -1393,7 +1392,7 @@ static struct i2c_driver ov5695_i2c_driver = {
+ 		.pm = &ov5695_pm_ops,
+ 		.of_match_table = of_match_ptr(ov5695_of_match),
+ 	},
+-	.probe		= &ov5695_probe,
++	.probe_new	= &ov5695_probe,
+ 	.remove		= &ov5695_remove,
+ };
+ 
 -- 
 2.39.1
 
