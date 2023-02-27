@@ -2,118 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA7266A4320
-	for <lists+linux-media@lfdr.de>; Mon, 27 Feb 2023 14:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 759876A4328
+	for <lists+linux-media@lfdr.de>; Mon, 27 Feb 2023 14:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbjB0Nmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Feb 2023 08:42:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58870 "EHLO
+        id S230193AbjB0Noi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Feb 2023 08:44:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229948AbjB0Nmx (ORCPT
+        with ESMTP id S230169AbjB0Noh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Feb 2023 08:42:53 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DB721BED;
-        Mon, 27 Feb 2023 05:42:51 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 703AC56A;
-        Mon, 27 Feb 2023 14:42:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677505368;
-        bh=6V+kECN/5jilXYl8XU7eM1D7wrxhKkzVwFcofciVIlk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=EQLvvHl2ZllvdLJsI/JNMroAbMr3zPmzcWIAoK2vXhc1fEktrvs1QdZRrasPGo1hw
-         GO2MzIsoPqb0WMRpPpS86RgUSEix/eTZN50dlcYMcnGLfbsEU3HjC0SUVLBenpNca8
-         UXYG0FKYcun+LM210n56p7cDyVf/I1v4NdkXyaaw=
-Message-ID: <ce545ef3-9299-cf67-88a3-209d8ca9970e@ideasonboard.com>
-Date:   Mon, 27 Feb 2023 15:42:43 +0200
+        Mon, 27 Feb 2023 08:44:37 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4431CF59
+        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 05:44:36 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id y15-20020a17090aa40f00b00237ad8ee3a0so6212421pjp.2
+        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 05:44:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pOQ6LIZpPqWp029mgEzFgiK0UsmaFxpHIGAsyVFnmBQ=;
+        b=AcG/zfPn17PIMn97a7EH03/dCbX/1NPF35xeaPB3W4oSHNjA0oPFomK6tuFNknL+HR
+         eYG5F9jR/LOj7HHWqUXhQ1KW2bsJ51TdD4ao+WvHCh2mfc4GSOvPIPNLtpA6P9Ml/cAX
+         BAv0Ow37WIrRGt5jCUPA8jMGTm+EYsQQeJVA+Es41LbacZOmoR9Ssr5Udro6Y5Yimo1M
+         RXwVP4UfdIzOMZXrfzBnRvjYIGP0S/q7NjBksZtYNM3d6D8jdvrEvBGAewjN3p0ih8jS
+         W2J60HzDgEcVbmKXDG3BVOCE9UGKdkMGvAL0K0V0aLCQ/ySXdoS+IJEqKu0j/qtPpwzy
+         GwXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pOQ6LIZpPqWp029mgEzFgiK0UsmaFxpHIGAsyVFnmBQ=;
+        b=Qs76/8EP9kQh1Y0MQH4w14DR3V5va4SozBgcr0bLTEG95p+XuBR+Gjkhg4TfenmMBa
+         v375IsP1g48DtoZBM9wnPCKItUeww53jMWlqZ6WT5hx2lafFSpzOAW5n8+i8REAM//7t
+         L+5ZqWlQmjjijkt6GWZm/YGrPgWDYn6ZR/xkX5gGgFR3K8SjaqFXvWtPyXI2dNAQ2CDP
+         AP1fOQZd1AaaWd5gF0SXsJBMDka+vKPNhyesY5qsVjdUb9N6UBsxMvSSPytHlx1livEB
+         MVnnt0ceuVGaaTmH4pBi5qvmaJkc4vVFqEOg1/EBafkd0XN1qBjl+F4kgU7CC67EQpSa
+         nCiQ==
+X-Gm-Message-State: AO0yUKXTuf8UcIZR81eF0fyj/qXxTKpuyGEZoHDIfiTP3X975u6cen70
+        pmNvZXUkwYzfaf1/22XW0nyBbbJBIk09cJfZr48lRSOR
+X-Google-Smtp-Source: AK7set8YImyQ68OCPCwqbAeNemblBG+gdayL1jN1fuC2opUoE4g87I7TpQ/3A7Z5efF/Cv3CJiZx6y6RjeUyU8Enpj4=
+X-Received: by 2002:a17:90a:af85:b0:237:cd62:66f7 with SMTP id
+ w5-20020a17090aaf8500b00237cd6266f7mr2192209pjq.6.1677505475559; Mon, 27 Feb
+ 2023 05:44:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] media: Fix building pdfdocs
-Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
- <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
- <20230226114744.7221f460@coco.lan>
- <a0d52b30-265e-056e-0e67-6873d2c3b9ee@gmail.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <a0d52b30-265e-056e-0e67-6873d2c3b9ee@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com>
+In-Reply-To: <Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 27 Feb 2023 07:44:24 -0600
+Message-ID: <CAHCN7xKOvmThMn3mgD_jjRrJvaszgiQdbwDbU+m+zWEZNsgn2Q@mail.gmail.com>
+Subject: Re: [GIT PULL FOR v6.3] NXP i.MX8 ISI driver
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/02/2023 14:06, Akira Yokosawa wrote:
+On Fri, Feb 3, 2023 at 4:03 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
 > Hi Mauro,
-> 
-> On Sun, 26 Feb 2023 11:47:44 +0100, Mauro Carvalho Chehab wrote:
->> Em Sun, 26 Feb 2023 08:39:32 +0900
->> Akira Yokosawa <akiyks@gmail.com> escreveu:
->>
->>> [+CC: Jon, linux-doc]
->>>
->>> On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
->>>> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
->>>> documatation for a few new RGB formats. For some reason these break the
->>>> pdfdocs build, even if the same style seems to work elsewhere in the
->>>> file.
->>>>
->>>> Remove the trailing empty dash lines, which seems to fix the issue.
->>>>
->>>> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
->>>> Reported-by: Akira Yokosawa <akiyks@gmail.com>
->>> Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
->>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>
->>>> Note: the offending patch was merged via drm tree, so we may want to
->>>> apply the fix to the drm tree also.
->>>
->>> So, the offending commit is now in mainline without this fix...
->>> I believe this build regression -- a real build error of "make pdfdocs"
->>> -- should be fixed ASAP.
->>>
->>> Tomi, Laurent has suggested a typo fix in the Changelog.
->>> Can you respin ?
->>>
->>> Or, Laurent, can you do the fix on your own?
->>>
->>> Hopefully, the fix can make v6.3-rc1.
->>
->> Better to wait for media PR to be handled. There were some changes at
->> the documentation that affected the patch. I guess the bug is gone.
-> 
-> You mean the PR at https://lore.kernel.org/lkml/20230226114551.68480d44@coco.lan/ ?
-> Unfortunately, it has had no effect on this issue.
-> 
->> If not, we'll need to rebase the patch.
-> 
-> There was no change in Documentation/userspace-api/media/v4l/pixfmt-rgb.rst,
-> so rebase is not needed.
-> 
-> Should this bug survive v6.3-rc1, I guess this fix could go through
-> media or doc tree.
+>
+> The following changes since commit 7120d6bfd6d0b26b49958f429701996f2d3e2c2a:
+>
+>   media: tm6000: remove deprecated driver (2023-01-22 09:57:19 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-imx-isi-next-20230203
+>
+> for you to fetch changes up to e8126b9f0ee306e784dfa20f5390b97d573986ae:
+>
+>   media: nxp: Add i.MX8 ISI driver (2023-02-03 11:15:18 +0200)
+>
 
-This patch applies fine on top of current Linus' master.
+Please forgive my ignorance.  I've been trying to follow this, but I
+am not sure where this goes after the merge request is complete.
+Can someone point me to the right repo?
 
-As this is a media patch, and the offending commit is now in upstream, 
-maybe it's better to get this fix in via linux-media rather than linux-drm.
+thank you,
 
-Mauro, can you pick this up?
+adam
 
-  Tomi
-
+> This is a new driver for the NXP i.MX8 ISI, found in multiple i.MX8 SoCs
+> including the i.MX8MP (which I have used for testing) and i.MX8MN. The
+> driver uses the V4L2 streams API that you have merged in the media
+> staging tree, so I've based the pull request on the latest master branch
+> of that tree.
+>
+> As the streams API is going to land in v6.3, I think it would be nice to
+> also have one user of the API in the same kernel version. Note that the
+> API isn't exposed to userspace by default, doing so requires flipping a
+> variable in v4l2-subdev.c, so we'll have a few kernel releases to test
+> and stabilize everything with multiple drivers (not that I expect
+> issues, as we've extensively tested that API over the course of multiple
+> years in at least 6 different drivers - which we'll work on upstreaming
+> of course, some of them have already been posted for review).
+>
+> ----------------------------------------------------------------
+> NXP i.MX8 ISI driver
+>
+> ----------------------------------------------------------------
+> Laurent Pinchart (2):
+>       dt-bindings: media: Add i.MX8 ISI DT bindings
+>       media: nxp: Add i.MX8 ISI driver
+>
+>  .../devicetree/bindings/media/nxp,imx8-isi.yaml    |  173 +++
+>  MAINTAINERS                                        |    7 +
+>  drivers/media/platform/nxp/Kconfig                 |    2 +
+>  drivers/media/platform/nxp/Makefile                |    1 +
+>  drivers/media/platform/nxp/imx8-isi/Kconfig        |   22 +
+>  drivers/media/platform/nxp/imx8-isi/Makefile       |    8 +
+>  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    |  645 +++++++++
+>  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  395 +++++
+>  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  529 +++++++
+>  .../media/platform/nxp/imx8-isi/imx8-isi-debug.c   |  109 ++
+>  drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |  651 +++++++++
+>  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c |  858 +++++++++++
+>  .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |  867 +++++++++++
+>  .../media/platform/nxp/imx8-isi/imx8-isi-regs.h    |  418 ++++++
+>  .../media/platform/nxp/imx8-isi/imx8-isi-video.c   | 1512 ++++++++++++++++++++
+>  15 files changed, 6197 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/Kconfig
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/Makefile
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
+>  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
