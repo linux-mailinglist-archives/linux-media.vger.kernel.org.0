@@ -2,97 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87C986A34A5
-	for <lists+linux-media@lfdr.de>; Sun, 26 Feb 2023 23:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71BCC6A37D7
+	for <lists+linux-media@lfdr.de>; Mon, 27 Feb 2023 03:11:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbjBZW1X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Feb 2023 17:27:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41836 "EHLO
+        id S230470AbjB0CLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Feb 2023 21:11:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229751AbjBZW1U (ORCPT
+        with ESMTP id S230471AbjB0CLW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Feb 2023 17:27:20 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA7F15153
-        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 14:27:17 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pWPU0-0000vF-TW; Sun, 26 Feb 2023 23:27:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pWPTw-000Ubj-Md; Sun, 26 Feb 2023 23:27:00 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pWPTv-000YPw-Ur; Sun, 26 Feb 2023 23:26:59 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     linux-i2c@vger.kernel.org, Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 6/9] media: i2c: ov2685: convert to i2c's .probe_new()
-Date:   Sun, 26 Feb 2023 23:26:51 +0100
-Message-Id: <20230226222654.1741900-7-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
-References: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
+        Sun, 26 Feb 2023 21:11:22 -0500
+Received: from mail-il1-x146.google.com (mail-il1-x146.google.com [IPv6:2607:f8b0:4864:20::146])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA7C71C5B4
+        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 18:09:42 -0800 (PST)
+Received: by mail-il1-x146.google.com with SMTP id r13-20020a92c5ad000000b00316ecbf63c9so3031090ilt.13
+        for <linux-media@vger.kernel.org>; Sun, 26 Feb 2023 18:09:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9JYCCskFnp7QyaLNJ6Djjzn0I9pptPSNc5U+/Y/HrfY=;
+        b=P+qI0/2coNWV2uLLgulptDwxFxdqV/qpzCNImHhzczEuNUJfcXZYdnRdslR6C21dg5
+         +DFCnmSMHzztrK4UVEBIwCYAgkNPzcLg0UteW7SULZGZUiA+jHsemxREwmkfpfmmx0d+
+         HcOWWneh/XE71bv7nma7E6JYLYGXzgobxvA8Qs+D9aaxV0w2U44eXTp2r9bV2z+w/nwU
+         qnv+slGCyDgQMxs2+rBvym/bDNUlpdQLjiJe1PMpYp3XVnka3cA6zdw1y/9XwNNDVFVn
+         RGsBTF7GYWPOz+PV4TBU/ssIzcQ8XbMHE4id7Z6WcENV4XtRts7e+1GpUTjowUvLx0Nq
+         QtlA==
+X-Gm-Message-State: AO0yUKVaIqGCKd5h2zfArc43xq57efT8N4l0ltzQDpl/AbKB4V5AHgOx
+        qtaTxP+AhX9jrKJDDagb0ohTGrA5/Gn2IkzoAHeQ2LZTKE7l
+X-Google-Smtp-Source: AK7set8TubHHC8kq376JMKk9Dw/Kj2SbNLReIaLtnw9aCa5Lg4QAdSuM7ghwq2ss7FWKssfzGshuD7m68KYp2OPOLUevvtJuVGYZ
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1257; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=aBqkyIGCTm2IJnMlU0lx7lJGZseSGeJbsq4rjy3NHT0=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj+9yf+EEOctTufsZ+AVtrS5V/hQ02iCoxI9sHo LwqE3N/1QSJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY/vcnwAKCRDB/BR4rcrs CT8xB/9dDdrDQ4k0V2v9HzhpOFt99r0hvaW1wSgeqZv2Ei6woQkuEu0EtV/O85Q5qZkgwZUfNjn wOz4/J7CVT5g4ueVCLtLRqroKOLid+dl5IQKz3ZSL3mq+pINsATKrDj9z2pwU4glj2cZB4ZWTM7 68Rqxgpl7+RRLhV4BNF9ulFoizHgzxWG/2mL4DyqkufK/HlbC2+JeWyFWSmAVQsp9vma+c8Sa5q i7OBfZUCoipmqUdvfDBag5SGoqlQVj60WXZf4dAButl7TP9BaDiZLZDh7L3Nc+EXTfadJ796kdt bB9cnJPJiKUtH0TyFRb8+HUJdGI57Nz1nWmyWeF4MQGtqdap
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a02:a15e:0:b0:3c5:19e6:b532 with SMTP id
+ m30-20020a02a15e000000b003c519e6b532mr9133099jah.6.1677463640054; Sun, 26 Feb
+ 2023 18:07:20 -0800 (PST)
+Date:   Sun, 26 Feb 2023 18:07:20 -0800
+In-Reply-To: <0000000000001c7bf005f549b59d@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000063a01505f5a4f0a6@google.com>
+Subject: Re: [syzbot] [media?] WARNING in smsusb_term_device
+From:   syzbot <syzbot+40ac6e73326e79ee8ecb@syzkaller.appspotmail.com>
+To:     duoming@zju.edu.cn, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The probe function doesn't make use of the i2c_device_id * parameter so
-it can be trivially converted.
+syzbot has bisected this issue to:
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Link: https://lore.kernel.org/lkml/20221121102838.16448-1-u.kleine-koenig@pengutronix.de
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/media/i2c/ov2685.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+commit ebad8e731c1c06adf04621d6fd327b860c0861b5
+Author: Duoming Zhou <duoming@zju.edu.cn>
+Date:   Mon Jan 23 02:04:38 2023 +0000
 
-diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-index a3b524f15d89..1c80b121e7d6 100644
---- a/drivers/media/i2c/ov2685.c
-+++ b/drivers/media/i2c/ov2685.c
-@@ -707,8 +707,7 @@ static int ov2685_configure_regulators(struct ov2685 *ov2685)
- 				       ov2685->supplies);
- }
- 
--static int ov2685_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov2685_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct ov2685 *ov2685;
-@@ -830,7 +829,7 @@ static struct i2c_driver ov2685_i2c_driver = {
- 		.pm = &ov2685_pm_ops,
- 		.of_match_table = of_match_ptr(ov2685_of_match),
- 	},
--	.probe		= &ov2685_probe,
-+	.probe_new	= &ov2685_probe,
- 	.remove		= &ov2685_remove,
- };
- 
--- 
-2.39.1
+    media: usb: siano: Fix use after free bugs caused by do_submit_urb
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1687af1cc80000
+start commit:   8232539f864c Add linux-next specific files for 20230225
+git tree:       linux-next
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1587af1cc80000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1187af1cc80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4fe68735401a6111
+dashboard link: https://syzkaller.appspot.com/bug?extid=40ac6e73326e79ee8ecb
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ba7cb0c80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16734964c80000
+
+Reported-by: syzbot+40ac6e73326e79ee8ecb@syzkaller.appspotmail.com
+Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
