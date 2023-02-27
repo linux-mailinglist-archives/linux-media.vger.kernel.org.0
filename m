@@ -2,355 +2,490 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B58C66A4FCC
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 00:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E586A52CF
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 07:05:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjB0Xs0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Feb 2023 18:48:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
+        id S229563AbjB1GFU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 01:05:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjB0XsZ (ORCPT
+        with ESMTP id S229437AbjB1GFT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Feb 2023 18:48:25 -0500
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059ED1CF78;
-        Mon, 27 Feb 2023 15:48:20 -0800 (PST)
-Received: by mail-oi1-x229.google.com with SMTP id bp19so3891104oib.4;
-        Mon, 27 Feb 2023 15:48:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FKSwno4yMBuKuVi+ZSrCp4LKarUpIQwJn0aROTJSVPk=;
-        b=K6xIqoXZ6FP/ajGp3qSSJ4Yl3u566BiU+rbIovj9i84oH3hdsB8ClIBzNENHKdz6FI
-         w+2FZIU+pxZMLQiC3P5GAO4FdmJSbVRYmgSv500SW0QV0PMj27cX5jAV45jeffNn/KK9
-         uwGgWNZ/F511Q+mjhjRWws10NF1c3FiAg/akkkcjHGQwk8p5CSI82fbhoHg4UzpDtdJk
-         xMIFJssvIqOYtdqnyefqJFPTg3Vu14lRRoQ84SAhWSVAPRSVGzZSnLnPgd/wjkZ1B26Q
-         wYW3FA5ffz0ARuShl5bv+yrJTUJ3vWbDiACDmqIe53YTcBr++8NtONRvxpq9R/cqo4kS
-         ssKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FKSwno4yMBuKuVi+ZSrCp4LKarUpIQwJn0aROTJSVPk=;
-        b=wjuxGGldLuVMyBJK51L/YYtFlX3XYsWmNtAikycq25cjB19OgLMS1Zr98W2VMN8P3B
-         mfx36RtT73VDlOQWIhmJ6PALV/FIlTLJXozWWJ0qLFFND/GLWNzbOTToBtVX2mFVXtOZ
-         kX8KJNkjMozdRoysZhXLXTFmeIKvi+BDtbe6ddrKH9JQxMe8YNk8daTi5Wi46XB6nGe/
-         POAKc0k4UEbada57UyEQ8qZ6G2cK2gqSPfWl4luHiIYetmHR92yD+PK5ozGIRzNwIEpS
-         s+HczB5CjK2dlPRIcUlUwML0taHkoTUcmZ8dYZs+XIRrakJnISUcE5LVIiUuajH746NJ
-         Ud2w==
-X-Gm-Message-State: AO0yUKXX1x28RWubq2Xhad8mRg4eMmCdU2jS/YKAAxiGVOSJUJ3+ICYN
-        O8uVDapldP+I9oyL3td9galcBTcoCeprBJkqfzI=
-X-Google-Smtp-Source: AK7set9BeCESARwhg9B9YCHYV9PwJ6DW0BgtK7IdrrsVF68N42nIyfb0Mo0ZjTXVcd7JG36WHxaYDqm6rTmVVJlmVS0=
-X-Received: by 2002:a05:6808:180b:b0:37f:b1ac:6b90 with SMTP id
- bh11-20020a056808180b00b0037fb1ac6b90mr651474oib.0.1677541699155; Mon, 27 Feb
- 2023 15:48:19 -0800 (PST)
+        Tue, 28 Feb 2023 01:05:19 -0500
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 069F723131
+        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 22:05:15 -0800 (PST)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230228060513epoutp014b74b3ed7d9b15aeacf40379b972d9dc~H59r_F5Xw1200312003epoutp01X
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 06:05:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230228060513epoutp014b74b3ed7d9b15aeacf40379b972d9dc~H59r_F5Xw1200312003epoutp01X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1677564314;
+        bh=464YQvdb/XSIjOJYt9Ni/UD4zizTki95m9YVtDiqviA=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=ArPD8Tp3WQb44dQRV8w5S9+IWj9guSN/4dwaRN+8A/Ahap8bEbyoAmHcslC95/pnp
+         iVBziW9frDhWdADWkt8lel5xMNsTFivW0+aVRayXpdbAfwl7TkaHLCRbLCFo+Oq4QW
+         38iPbAp/36wE1s8lby6I8hMNEuKAnOqGuU3aRxjo=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+        20230228060513epcas5p4caae9543fd0365a4e4346337f5afe82a~H59rTsIiF2448424484epcas5p4_;
+        Tue, 28 Feb 2023 06:05:13 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4PQn071X4sz4x9QL; Tue, 28 Feb
+        2023 06:05:11 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+        epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        55.47.55678.7999DF36; Tue, 28 Feb 2023 15:05:11 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+        20230227113830epcas5p4a46a1faff7a35fb42ac4f55b1aa95022~Hq3YnVA4F0626306263epcas5p4x;
+        Mon, 27 Feb 2023 11:38:30 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230227113830epsmtrp23c849389b6df30164dc0c246ef1648a2~Hq3YmM0GO1907919079epsmtrp2I;
+        Mon, 27 Feb 2023 11:38:30 +0000 (GMT)
+X-AuditID: b6c32a4a-6a3ff7000000d97e-fa-63fd999711b2
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        AD.94.05839.5369CF36; Mon, 27 Feb 2023 20:38:30 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip1.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230227113826epsmtip1a4635f1ff12826e2124cb7e90c7d8e79~Hq3VjxbVd0772607726epsmtip1k;
+        Mon, 27 Feb 2023 11:38:26 +0000 (GMT)
+From:   "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To:     "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Cc:     <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+        <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <ezequiel@vanguardiasur.com.ar>, <jernej.skrabec@gmail.com>,
+        <benjamin.gaignard@collabora.com>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <stanimir.varbanov@linaro.org>, <dillon.minfei@gmail.com>,
+        <david.plowman@raspberrypi.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <krzk+dt@kernel.org>, <andi@etezian.org>,
+        <alim.akhtar@samsung.com>, <aswani.reddy@samsung.com>,
+        <pankaj.dubey@samsung.com>
+In-Reply-To: <ef93fea2-e4db-7c28-b911-13b046352214@linaro.org>
+Subject: RE: [Patch v5] dt-bindings: media: s5p-mfc: convert bindings to
+ json-schema
+Date:   Mon, 27 Feb 2023 17:08:25 +0530
+Message-ID: <021c01d94aa0$03714d00$0a53e700$@samsung.com>
 MIME-Version: 1.0
-References: <20230223113814.3010cedc@eldfell> <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell> <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell> <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
- <20230224130053.3f8939e2@eldfell> <c5d046d6-ab8e-2bc7-5110-dba78b91348b@linux.intel.com>
- <74e409dc-b642-779e-a755-b793c378e43a@amd.com> <CAF6AEGs_yzEj81yNP3KhmVP9Yo3rwTc5vntEVrm9tHw6+w1G_g@mail.gmail.com>
- <Y/0iM+ycUozaVbbC@intel.com> <CAF6AEGtXSEyyjELjGtPvnAN7mX+NwzngmB0PbKHsZqjTm-xYsg@mail.gmail.com>
- <CA+hFU4wtW6wNP2Y0e_iE6NhBSSfVRDxTBUk7kOUNHQPRXpSzrQ@mail.gmail.com>
-In-Reply-To: <CA+hFU4wtW6wNP2Y0e_iE6NhBSSfVRDxTBUk7kOUNHQPRXpSzrQ@mail.gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Mon, 27 Feb 2023 15:48:07 -0800
-Message-ID: <CAF6AEGtaxbJ83sfviVWMic6Q8XoyhLvWCdtYwiSd8A4sV4ZXSQ@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To:     Sebastian Wick <sebastian.wick@redhat.com>
-Cc:     Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        freedreno@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-in
+Thread-Index: AQDV1Pt8NDWrXdQdIVLeYa8OJBqdcQLhSdg4Af7UlIywwpPw0A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xbZRjOd87pacFVj1zkW4ezOW4yMFzKCjudg13YzEExweEas0hqU46A
+        9Ja26JgJQwdjEsZgMA1dZY5rQORSysa4JLWUIEw3kQpeYMCY47JBCJ3aFbbZUlD+Pe/zvk/e
+        5/m+vBzUp5TN46QrdYxGKZWTuDd2tTc4KPTL8seyiHs3cGqy4ipOVTlmEGqiyo5RlrZ2NmWy
+        XUKpun4zi7psvcmirn13B6NaZ13dofJxjJq53ASoOf1tnCqanUKpnvsuhXF6hEUNdxpwqrCl
+        nUV9ax1nUzWjQwhVa1xFqMr2h2wqr8fKpnLPWJEDAXRjRSOgO8arAT1avYzS1/XjbLqqew6h
+        jQ2f4/TYSDdOt1WfovP6nBhdZGoAdIF1FKftxu304F92diL3eMa+NEaawmj4jFKmSklXpsaQ
+        byZJ4iRR0RGCUIGI2kPylVIFE0MeTkgMfT1d7kpP8j+SyjNdVKJUqyXDY/dpVJk6hp+m0upi
+        SEadIlcL1WFaqUKbqUwNUzK6vYKIiMgo1+D7GWnDORVAbX7vxA+OFiQHrMQVAC8OJITQ0VUE
+        3NiH6AKw6byiAHi78DKA7av3cE/xN4B1bc34hsL2y531Rg+AZ/NbEE8xA6D9gZHlnsKJcDgx
+        WMhyN/yIPgAnTVOou0CJfAyW/JyzttGLiIWWiptsN/YlxPCLPDPixhixE86OO107OBwuIYLW
+        07Fumks8DwfK72JujBKvwtor91GPJT589Gcty8MHwL5HhWu8H3EItub2rpmARK8XnL41j3kE
+        h+HZ2/3rYl84329iezAP2hd71nPK4HTl3PqMHDZ3l61r90OzzYC5vaFEMGzuDPfQL8KLg02I
+        x8Oz8NzKXcTDc2FHxQZ+BRrGHCwPDoS939SAYkDqN0XTb4qm3xRH//+2rwHWALYyaq0ildFG
+        qSOVzMf//bhMpTCCtesIeaMDTE0uhVkAwgEWADko6ce98seqzIebIs06yWhUEk2mnNFaQJTr
+        uUtQnr9M5TovpU4iEIoihNHR0ULR7mgBGcANihmQ+RCpUh2TwTBqRrOhQzhevBwk2zmpqt7d
+        mlUaNNZVKf5gsYnDql8NdDQtqmQCnuhIf+myyXrjH/+lMtv+pw/9dr0mSErwL/7Umr/ndPzW
+        XclJfFvywnx1o5N34dL5o9l4/LGU7dbUY4UvXB/ycfzKPbUiGEzfNt0Zpco2iGvOVQ3sCLlQ
+        Utyb88D89oHhAjv43aY/Uf+WyPeTl8zlT7bkzV9bGXp6ZBD7XmhJ4C7mHmfif+S2fChpDJ1+
+        ZzLuzDZSbH156aDktx0G/ojI/yLTbcwNXk70/sp5K3N0TIFtYRUmZ4nrV8fqFhZqExd3/kQP
+        OcvSAiL18KjDa8XUEmgY/uyZ4ufefSy2OE8m6dqfBB/cO1FAYto0qSAE1Wil/wKxpFR8pgQA
+        AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xSYRjG951zOOfook5I8dk9slo3zdblqzUzs3Zy67aKlmsrpmfqEjTo
+        Zlt201pkdDErqLSCtNAuInbFFgg1XFoaYjWxtAgvrVrqhpaVyNr873l/z/s8e/94aVzQS4yi
+        U+Q7OYVcmiomg4n7leJxs+af/50w++9ZgD7m3yeRzufF0AddJ4GsZeUUMjkv4ajoxTMeKrDV
+        8NADSwuBSlv73VqNm0DegjsAtWmbSKRubcZRRUd/wvjJxUNvHl8mUc69ch66bXNT6EZDLYYK
+        jb8xdL28i0LZFTYKZR21YdEitiS/BLAP3XrANuh/4uwjrZtideY2jDUajpNso8tMsmX6A2y2
+        vZdg1SYDYFW2BpLtNI5jq7o7qbX8+ODFiVxqym5OERG1LTjZkzcl3RW/94b+Cn4QZMeoQBAN
+        mbnQWd9CqkAwLWCeAGhv78MCxhj49+hzKqBD4K0/Xiqw5AGwuMAysEQyEfBDVQ7PbwgZB4Cn
+        XmYNDDijIWD96edYIGIBsCyvCvgjQUwUtObX9HfRdAizAf7qnunHBDMZtrp7ST/mMwuh7UiU
+        H/OZ4dCh+Uz4Nc7MgCebs8F/XXitAw9cNwH2eAp5AS6C9p6cAS5kYmBpViXvNAjRDqrSDqrS
+        DqrSDopfBYQBhHLpSlmSTBmZHinn9oQrpTLlLnlSeEKazAgG3mP6tIfggeFHuBVgNLACSONi
+        Ib/R4UsQ8BOlGfs4RdpWxa5UTmkFo2lCLOK/Vjm2Cpgk6U5uO8elc4r/LkYHjTqI1eAjIg8n
+        zXO1576+8l191ZloOfN0wZqbZFM1vb87dY1kWlpNSsPyzsOrRr7DM0dcfP/xbvP4OxnrDMl/
+        hpZUH5PfjFtfappQpImTqKYemtPX9e1adN0Sz5BL0evMMtGkC5n2PfYvLXmm+BN9ZZvxplNb
+        GmO9hNmyVKAZOVES9rlurNYryLmstHo3Ni4wh0b5unYX184Ju/h2kTPCs9kQlKlW1Omr76a4
+        V+qiq9eG9ZrI0LnCBMkO/vcLsXsr1c1cfPEy56bE0a5cXsZEYYXZ2RFjkrZ/8vYI2Hmri86G
+        pcX5vsaKfj0blmmgdO8fye9RxyW+FSVk/XD8XFsucUjjeCUmlMnSyOm4Qin9B+cyaQONAwAA
+X-CMS-MailID: 20230227113830epcas5p4a46a1faff7a35fb42ac4f55b1aa95022
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230227084748epcas5p2602a39017d3366bdfb5af95088ed89dc
+References: <CGME20230227084748epcas5p2602a39017d3366bdfb5af95088ed89dc@epcas5p2.samsung.com>
+        <20230227084736.89361-1-aakarsh.jain@samsung.com>
+        <ef93fea2-e4db-7c28-b911-13b046352214@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 2:44 PM Sebastian Wick
-<sebastian.wick@redhat.com> wrote:
->
-> On Mon, Feb 27, 2023 at 11:20 PM Rob Clark <robdclark@gmail.com> wrote:
+
+
+> -----Original Message-----
+> From: Krzysztof Kozlowski =5Bmailto:krzysztof.kozlowski=40linaro.org=5D
+> Sent: 27 February 2023 15:21
+> To: Aakarsh Jain <aakarsh.jain=40samsung.com>; linux-arm-
+> kernel=40lists.infradead.org; linux-media=40vger.kernel.org; linux-
+> kernel=40vger.kernel.org; devicetree=40vger.kernel.org
+> Cc: m.szyprowski=40samsung.com; andrzej.hajda=40intel.com;
+> mchehab=40kernel.org; hverkuil-cisco=40xs4all.nl;
+> ezequiel=40vanguardiasur.com.ar; jernej.skrabec=40gmail.com;
+> benjamin.gaignard=40collabora.com; krzysztof.kozlowski+dt=40linaro.org;
+> stanimir.varbanov=40linaro.org; dillon.minfei=40gmail.com;
+> david.plowman=40raspberrypi.com; mark.rutland=40arm.com;
+> robh+dt=40kernel.org; krzk+dt=40kernel.org; andi=40etezian.org;
+> alim.akhtar=40samsung.com; aswani.reddy=40samsung.com;
+> pankaj.dubey=40samsung.com
+> Subject: Re: =5BPatch v5=5D dt-bindings: media: s5p-mfc: convert bindings=
+ to json-
+> schema
+>=20
+> On 27/02/2023 09:47, Aakarsh Jain wrote:
+> > Convert s5p-mfc bindings to DT schema format using json-schema.
 > >
-> > On Mon, Feb 27, 2023 at 1:36 PM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> > >
-> > > On Fri, Feb 24, 2023 at 09:59:57AM -0800, Rob Clark wrote:
-> > > > On Fri, Feb 24, 2023 at 7:27 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
-> > > > >
-> > > > > On 2023-02-24 06:37, Tvrtko Ursulin wrote:
-> > > > > >
-> > > > > > On 24/02/2023 11:00, Pekka Paalanen wrote:
-> > > > > >> On Fri, 24 Feb 2023 10:50:51 +0000
-> > > > > >> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> > > > > >>
-> > > > > >>> On 24/02/2023 10:24, Pekka Paalanen wrote:
-> > > > > >>>> On Fri, 24 Feb 2023 09:41:46 +0000
-> > > > > >>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> > > > > >>>>
-> > > > > >>>>> On 24/02/2023 09:26, Pekka Paalanen wrote:
-> > > > > >>>>>> On Thu, 23 Feb 2023 10:51:48 -0800
-> > > > > >>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> > > > > >>>>>>
-> > > > > >>>>>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> On Wed, 22 Feb 2023 07:37:26 -0800
-> > > > > >>>>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> > > > > >>>>>>>>
-> > > > > >>>>>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > > > >>>>>>
-> > > > > >>>>>> ...
-> > > > > >>>>>>
-> > > > > >>>>>>>>>> On another matter, if the application uses SET_DEADLINE with one
-> > > > > >>>>>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
-> > > > > >>>>>>>>>> another timestamp, what should happen?
-> > > > > >>>>>>>>>
-> > > > > >>>>>>>>> The expectation is that many deadline hints can be set on a fence.
-> > > > > >>>>>>>>> The fence signaller should track the soonest deadline.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> You need to document that as UAPI, since it is observable to userspace.
-> > > > > >>>>>>>> It would be bad if drivers or subsystems would differ in behaviour.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>
-> > > > > >>>>>>> It is in the end a hint.  It is about giving the driver more
-> > > > > >>>>>>> information so that it can make better choices.  But the driver is
-> > > > > >>>>>>> even free to ignore it.  So maybe "expectation" is too strong of a
-> > > > > >>>>>>> word.  Rather, any other behavior doesn't really make sense.  But it
-> > > > > >>>>>>> could end up being dictated by how the hw and/or fw works.
-> > > > > >>>>>>
-> > > > > >>>>>> It will stop being a hint once it has been implemented and used in the
-> > > > > >>>>>> wild long enough. The kernel userspace regression rules make sure of
-> > > > > >>>>>> that.
-> > > > > >>>>>
-> > > > > >>>>> Yeah, tricky and maybe a gray area in this case. I think we eluded
-> > > > > >>>>> elsewhere in the thread that renaming the thing might be an option.
-> > > > > >>>>>
-> > > > > >>>>> So maybe instead of deadline, which is a very strong word, use something
-> > > > > >>>>> along the lines of "present time hint", or "signalled time hint"? Maybe
-> > > > > >>>>> reads clumsy. Just throwing some ideas for a start.
-> > > > > >>>>
-> > > > > >>>> You can try, but I fear that if it ever changes behaviour and
-> > > > > >>>> someone notices that, it's labelled as a kernel regression. I don't
-> > > > > >>>> think documentation has ever been the authoritative definition of UABI
-> > > > > >>>> in Linux, it just guides drivers and userspace towards a common
-> > > > > >>>> understanding and common usage patterns.
-> > > > > >>>>
-> > > > > >>>> So even if the UABI contract is not documented (ugh), you need to be
-> > > > > >>>> prepared to set the UABI contract through kernel implementation.
-> > > > > >>>
-> > > > > >>> To be the devil's advocate it probably wouldn't be an ABI regression but
-> > > > > >>> just an regression. Same way as what nice(2) priorities mean hasn't
-> > > > > >>> always been the same over the years, I don't think there is a strict
-> > > > > >>> contract.
-> > > > > >>>
-> > > > > >>> Having said that, it may be different with latency sensitive stuff such
-> > > > > >>> as UIs though since it is very observable and can be very painful to users.
-> > > > > >>>
-> > > > > >>>> If you do not document the UABI contract, then different drivers are
-> > > > > >>>> likely to implement it differently, leading to differing behaviour.
-> > > > > >>>> Also userspace will invent wild ways to abuse the UABI if there is no
-> > > > > >>>> documentation guiding it on proper use. If userspace or end users
-> > > > > >>>> observe different behaviour, that's bad even if it's not a regression.
-> > > > > >>>>
-> > > > > >>>> I don't like the situation either, but it is what it is. UABI stability
-> > > > > >>>> trumps everything regardless of whether it was documented or not.
-> > > > > >>>>
-> > > > > >>>> I bet userspace is going to use this as a "make it faster, make it
-> > > > > >>>> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> > > > > >>>> library that stamps any and all fences with an expired deadline to
-> > > > > >>>> just squeeze out a little more through some weird side-effect.
-> > > > > >>>>
-> > > > > >>>> Well, that's hopefully overboard in scaring, but in the end, I would
-> > > > > >>>> like to see UABI documented so I can have a feeling of what it is for
-> > > > > >>>> and how it was intended to be used. That's all.
-> > > > > >>>
-> > > > > >>> We share the same concern. If you read elsewhere in these threads you
-> > > > > >>> will notice I have been calling this an "arms race". If the ability to
-> > > > > >>> make yourself go faster does not required additional privilege I also
-> > > > > >>> worry everyone will do it at which point it becomes pointless. So yes, I
-> > > > > >>> do share this concern about exposing any of this as an unprivileged uapi.
-> > > > > >>>
-> > > > > >>> Is it possible to limit access to only compositors in some sane way?
-> > > > > >>> Sounds tricky when dma-fence should be disconnected from DRM..
-> > > > > >>
-> > > > > >> Maybe it's not that bad in this particular case, because we are talking
-> > > > > >> only about boosting GPU clocks which benefits everyone (except
-> > > > > >> battery life) and it does not penalize other programs like e.g.
-> > > > > >> job priorities do.
-> > > > > >
-> > > > > > Apart from efficiency that you mentioned, which does not always favor
-> > > > > > higher clocks, sometimes thermal budget is also shared between CPU and
-> > > > > > GPU. So more GPU clocks can mean fewer CPU clocks. It's really hard to
-> > > > > > make optimal choices without the full coordination between both schedulers.
-> > > > > >
-> > > > > > But that is even not the main point, which is that if everyone sets the
-> > > > > > immediate deadline then having the deadline API is a bit pointless. For
-> > > > > > instance there is a reason negative nice needs CAP_SYS_ADMIN.
-> > > > > >
-> > > > > > However Rob has also pointed out the existence of uclamp.min via
-> > > > > > sched_setattr which is unprivileged and can influence frequency
-> > > > > > selection in the CPU world, so I conceded on that point. If CPU world
-> > > > > > has accepted it so can we I guess.
-> > > > > >
-> > > > > > So IMO we are back to whether we can agree defining it is a hint is good
-> > > > > > enough, be in via the name of the ioctl/flag itself or via documentation.
-> > > > > >
-> > > > > >> Drivers are not going to use the deadline for scheduling priorities,
-> > > > > >> right? I don't recall seeing any mention of that.
-> > > > > >>
-> > > > > >> ...right?
-> > > > > >
-> > > > > > I wouldn't have thought it would be beneficial to preclude that, or
-> > > > > > assume what drivers would do with the info to begin with.
-> > > > > >
-> > > > > > For instance in i915 we almost had a deadline based scheduler which was
-> > > > > > much fairer than the current priority sorted fifo and in an ideal world
-> > > > > > we would either revive or re-implement that idea. In which case
-> > > > > > considering the fence deadline would naturally slot in and give true
-> > > > > > integration with compositor deadlines (not just boost clocks and pray it
-> > > > > > helps).
-> > > > > How is user-space to decide whether to use ioctl(SET_DEADLINE) or
-> > > > > poll(POLLPRI)?
-> > > >
-> > > > Implementation of blocking gl/vk/cl APIs, like glFinish() would use
-> > > > poll(POLLPRI).  It could also set an immediate deadline and then call
-> > > > poll() without POLLPRI.
-> > > >
-> > > > Other than compositors which do frame-pacing I expect the main usage
-> > > > of either of these is mesa.
-> > >
-> > > Okay, so it looks like we already agreed that having a way to bump frequency
-> > > from userspace is acceptable. either because there are already other ways
-> > > that you can waste power and because this already acceptable in the CPU
-> > > world.
-> > >
-> > > But why we are doing this in hidden ways then?
-> > >
-> > > Why can't we have this hint per context that is getting executed?
-> > > (either with a boost-context flag or with some low/med/max or '-1' to '1'
-> > > value like the latency priority)?
-> > >
-> > > I don't like the waitboost because this heurisitic fails in some media cases.
-> > > I don't like the global setting because we might be alternating a top-priority
-> > > with low-priority cases...
-> > >
-> > > So, why not something per context in execution?
-> > >
+> > Signed-off-by: Aakarsh Jain <aakarsh.jain=40samsung.com>
+> > ---
+> > changes since v4:
+> > Removed items from oneOf section
+> > dropped black line
+> > defined the iommus names items as
+> > items:
+> > -const left
+> > -const right
 > >
-> > It needs to be finer granularity than per-context, because not all
-> > waits should trigger boosting.  For example, virglrenderer ends up
-> > with a thread polling unsignaled fences to know when to signal an
-> > interrupt to the guest virtgpu.  This alone shouldn't trigger
-> > boosting.  (We also wouldn't want to completely disable boosting for
-> > virglrenderer.)  Or the usermode driver could be waiting on a fence to
-> > know when to do some cleanup.
+> > changes since v3:
+> > fixed dt-schema warnings and errors while running make dtbs_check and
+> > make dt_binding_check for ARMv7 Since, obsolete properties are not part
+> of dt-node so we are not including these properties in dt-schema.
 > >
-> > That is not to say that there isn't room for per-context flags to
-> > disable/enable boosting for fences created by that context, meaning it
-> > could be an AND operation for i915 if it needs to be.
->
-> First of all, I believe that the fence deadline hint is a good idea.
-> With that being said, I also don't think it is sufficient in a lot of
-> cases.
->
-> The one thing I was alluding to before and that Pekka mentioned as
-> well is that mutter for example has a problem where we're missing the
-> deadline consistently because the clocks don't ramp up fast enough and
-> there is a MR which is just trying to keep the GPU busy to avoid this.
+> > changes since v2:
+> > changed Commit message from Adds to Convert Removed text =22This file
+> > has moved to samsung,s5p-mfc.yaml=22 from s5p-mfc.txt fixed dt-schema
+> > warnings and errors while running make dtbs_check and make
+> > dt_binding_check
+> >
+> > changes since v1:
+> > fixed dt-schema warnings and errors while running make dtbs_check and
+> > make dt_binding_check Removed description.
+> > Listed items.
+> > Added allOf:if:then for restricting two items to specific compatible
+> >
+> > This patch is independent from the previous MFC v12 patch series for HW=
+3
+> support.
+> >
+> >  .../devicetree/bindings/media/s5p-mfc.txt     =7C  78 ---------
+> >  .../bindings/media/samsung,s5p-mfc.yaml       =7C 148
+> ++++++++++++++++++
+> >  2 files changed, 148 insertions(+), 78 deletions(-)  create mode
+> > 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > index 8eb90c043d5d..e69de29bb2d1 100644
+> > --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > =40=40 -1,78 +0,0 =40=40
+> > -* Samsung Multi Format Codec (MFC)
+> > -
+> > -Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> > -supports high resolution decoding and encoding functionalities.
+> > -The MFC device driver is a v4l2 driver which can encode/decode -video
+> > raw/elementary streams and has support for all popular -video codecs.
+> > -
+> > -Required properties:
+> > -  - compatible : value should be either one among the following
+> > -	(a) =22samsung,mfc-v5=22 for MFC v5 present in Exynos4 SoCs
+> > -	(b) =22samsung,mfc-v6=22 for MFC v6 present in Exynos5 SoCs
+> > -	(c) =22samsung,exynos3250-mfc=22, =22samsung,mfc-v7=22 for MFC v7
+> > -	     present in Exynos3250 SoC
+> > -	(d) =22samsung,mfc-v7=22 for MFC v7 present in Exynos5420 SoC
+> > -	(e) =22samsung,mfc-v8=22 for MFC v8 present in Exynos5800 SoC
+> > -	(f) =22samsung,exynos5433-mfc=22 for MFC v8 present in Exynos5433 SoC
+> > -	(g) =22samsung,mfc-v10=22 for MFC v10 present in Exynos7880 SoC
+> > -
+> > -  - reg : Physical base address of the IP registers and length of memo=
+ry
+> > -	  mapped region.
+> > -
+> > -  - interrupts : MFC interrupt number to the CPU.
+> > -  - clocks : from common clock binding: handle to mfc clock.
+> > -  - clock-names : from common clock binding: must contain =22mfc=22,
+> > -		  corresponding to entry in the clocks property.
+> > -
+> > -Optional properties:
+> > -  - power-domains : power-domain property defined with a phandle
+> > -			   to respective power domain.
+> > -  - memory-region : from reserved memory binding: phandles to two
+> reserved
+> > -	memory regions, first is for =22left=22 mfc memory bus interfaces,
+> > -	second if for the =22right=22 mfc memory bus, used when no SYSMMU
+> > -	support is available; used only by MFC v5 present in Exynos4 SoCs
+> > -
+> > -Obsolete properties:
+> > -  - samsung,mfc-r, samsung,mfc-l : support removed, please use memory-
+> region
+> > -	property instead
+> > -
+> > -
+> > -Example:
+> > -SoC specific DT entry:
+> > -
+> > -mfc: codec=4013400000 =7B
+> > -	compatible =3D =22samsung,mfc-v5=22;
+> > -	reg =3D <0x13400000 0x10000>;
+> > -	interrupts =3D <0 94 0>;
+> > -	power-domains =3D <&pd_mfc>;
+> > -	clocks =3D <&clock 273>;
+> > -	clock-names =3D =22mfc=22;
+> > -=7D;
+> > -
+> > -Reserved memory specific DT entry for given board (see reserved
+> > memory binding -for more information):
+> > -
+> > -reserved-memory =7B
+> > -	=23address-cells =3D <1>;
+> > -	=23size-cells =3D <1>;
+> > -	ranges;
+> > -
+> > -	mfc_left: region=4051000000 =7B
+> > -		compatible =3D =22shared-dma-pool=22;
+> > -		no-map;
+> > -		reg =3D <0x51000000 0x800000>;
+> > -	=7D;
+> > -
+> > -	mfc_right: region=4043000000 =7B
+> > -		compatible =3D =22shared-dma-pool=22;
+> > -		no-map;
+> > -		reg =3D <0x43000000 0x800000>;
+> > -	=7D;
+> > -=7D;
+> > -
+> > -Board specific DT entry:
+> > -
+> > -codec=4013400000 =7B
+> > -	memory-region =3D <&mfc_left>, <&mfc_right>;
+> > -=7D;
+> > diff --git
+> > a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> > b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> > index 000000000000..b4a289619db0
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> > =40=40 -0,0 +1,148 =40=40
+> > +=23 SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause %YAML 1.2
+> > +---
+> > +=24id:
+> > +https://protect2.fireeye.com/v1/url?k=3D854d051c-e4c61026-854c8e53-
+> 74fe
+> > +4860008a-fcfe16271c217cbf&q=3D1&e=3D3cdd6dac-7b8e-46be-97b0-
+> 8dcfc73fae2d&
+> >
+> +u=3Dhttp%3A%2F%2Fdevicetree.org%2Fschemas%2Fmedia%2Fsamsung%2Cs
+> 5p-mfc.y
+> > +aml%23
+> > +=24schema:
+> > +https://protect2.fireeye.com/v1/url?k=3Dc84eeb37-a9c5fe0d-c84f6078-74f=
+e
+> > +4860008a-c1bfcc6b2d35840d&q=3D1&e=3D3cdd6dac-7b8e-46be-97b0-
+> 8dcfc73fae2d&
+> > +u=3Dhttp%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23
+> > +
+> > +title: Samsung Exynos Multi Format Codec (MFC)
+> > +
+> > +maintainers:
+> > +  - Marek Szyprowski <m.szyprowski=40samsung.com>
+> > +  - Aakarsh Jain <aakarsh.jain=40samsung.com>
+> > +
+> > +description:
+> > +  Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> > +  supports high resolution decoding and encoding functionalities.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - enum:
+> > +          - samsung,mfc-v5              =23 Exynos4
+> > +          - samsung,mfc-v6              =23 Exynos5
+> > +      - items:
+> > +          - enum:
+> > +              - samsung,exynos3250-mfc  =23 Exynos3250
+> > +          - const: samsung,mfc-v7       =23 Fall back for Exynos3250
+> > +      - enum:
+> > +          - samsung,mfc-v7              =23 Exynos5420
+> > +          - samsung,mfc-v8              =23 Exynos5800
+> > +          - samsung,exynos5433-mfc      =23 Exynos5433
+> > +          - samsung,mfc-v10             =23 Exynos7880
+>=20
+> Why this and first enum are separate?  I didn't notice it before...
+> Usually we have only one enum for one-compatible variants. Also, sort the=
+m
+> by compatible.
+>=20
+okay.
+I will keep it in this way
+properties:
+  compatible:
+    oneOf:
+      - const: samsung,mfc-v5              =23 Exynos4
+      - const: samsung,mfc-v6              =23 Exynos5
+      - const: samsung,mfc-v7              =23 Exynos5420
+      - const: samsung,mfc-v8              =23 Exynos5800
+      - const: samsung,exynos5433-mfc      =23 Exynos5433
+      - const: samsung,mfc-v10             =23 Exynos7880
+      - items:
+          - const: samsung,exynos3250-mfc  =23 Exynos3250
+          - const: samsung,mfc-v7          =23 Fall back for Exynos3250
 
-the dynamic double/triple buffer thing?
+Will this be fine?
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    minItems: 1
+> > +    maxItems: 3
+> > +
+> > +  clock-names:
+> > +    minItems: 1
+> > +    maxItems: 3
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  iommus:
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +
+> > +  iommu-names:
+> > +    items:
+> > +      - const: left
+> > +      - const: right
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  memory-region:
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - interrupts
+> > +
+> > +additionalProperties: false
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - samsung,mfc-v5
+> > +              - samsung,exynos3250-mfc
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          maxItems: 2
+> > +        clock-names:
+> > +          items:
+> > +            - const: mfc
+> > +            - const: sclk_mfc
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - samsung,mfc-v6
+> > +              - samsung,mfc-v8
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          maxItems: 1
+> > +        clock-names:
+> > +          items:
+> > +            - const: mfc
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - samsung,exynos5433-mfc
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          maxItems: 3
+> > +        clock-names:
+> > +          items:
+> > +            - const: pclk
+> > +            - const: aclk
+> > +            - const: aclk_xiu
+>=20
+> What happened to iommus? You were requiring two items, but you dropped
+> that requirement. Is it on purpose?
+>=20
+ Actually I thought I defined at top via items so it will cover all scenari=
+os.
+I will add it again iommus : maxItems as 2
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - samsung,mfc-v7
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 1
+> > +          maxItems: 2
+> > +
+> > +examples:
+> > +  - =7C
+> > +    =23include <dt-bindings/clock/exynos4.h>
+> > +    =23include <dt-bindings/clock/exynos-audss-clk.h>
+> > +    =23include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    =23include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    codec=4013400000 =7B
+> > +          compatible =3D =22samsung,mfc-v5=22;
+>=20
+> You sill have here odd indentation. Use 4 spaces for DTS example.
+>=20
+okay will rearrange .
 
-> It would be much better if the kernel could make sure the clocks are
-> all ramped up when we start submitting work. In the compositor we
-> actually have a lot of information that *should* influence clocks. We
-> know when we're going to start submitting work and when the deadline
-> for that work is beforehand. We know which windows are visible, and
-> which one should have the highest priority.
+> > +          reg =3D <0x13400000 0x10000>;
+> > +          interrupts =3D <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
+> > +          power-domains =3D <&pd_mfc>;
+> > +          clocks =3D <&clock CLK_MFC>, <&clock CLK_SCLK_MFC>;
+> > +          clock-names =3D =22mfc=22, =22sclk_mfc=22;
+> > +          iommus =3D <&sysmmu_mfc_l>, <&sysmmu_mfc_r>;
+> > +          iommu-names =3D =22left=22, =22right=22;
+> > +    =7D;
+>=20
+> Best regards,
+> Krzysztof
 
-This sounds like something orthogonal.. something for cgroups?  Ie.
-android moves visible/foreground apps to a different cgroup to given
-them higher priority.  Tvrtko had a patchset to add drm cgroup
-support..
+Thanks for the review.
 
-> We know when there are
-> input events which actually matter.
-
-This I see input as a different boost source for the driver.  (Ie. one
-boost signal is missing fence deadlines, another is input events,
-etc.)
-
-We end up using downstream input-handlers on the kernel side for this.
-Partially for the freq boost (but mostly not, UI interactive workloads
-like touchscreen scrolling don't generally need high GPU freqs, they
-are more memory bandwidth limited if they are limited by anything)..
-really the reason here is to get a head-start on the ~2ms that it
-takes to power up the GPU if it is suspended.
-
-But this is not quite perfect, since for example some keys should be
-handled on key-down but others on key-up.
-
-But again, this is something different from fence deadlines.  I'm
-interested in proposals because we do need something for this.  But I
-think it is something is orthogonal to this series.  For input, we
-want the kernel to know long before userspace is ready to submit
-rendering.
-
-> We know when the deadline for
-> client work is.
->
-> In the future we also want to make sure clients know beforehand when
-> they should start their work and when the deadline is but that's all
-> very much WIP in both wayland and vulkan.
->
-> There are two issues:
->
-> 1. The compositor has no way to communicate any of that information to
-> the kernel.
-> 2. The only connection to client work the compositor has is a fence to
-> the last bit of work that must be done before the deadline after a
-> wl_surface.commit.
-
-If the client isn't using multiple GPUs, a single fence should be
-sufficient.  And even if it is, well we still have all the dependency
-information on the kernel side.  Ie. drm/sched knows what fences it is
-waiting on if it is waiting to schedule the work associated with the
-last fence.  It would otherwise require drm/sched to be a bit more
-tricky than it is so far in this series.
-
-But I think the normal dual-gpu case, the app is only dealing with a single GPU?
-
-> So in both cases a fence is just not the right primitive for us. We
-> need to be able to provide per-context/queue information for work that
-> will happen in the future and we need a way to refer to a
-> context/queue generically and over IPC to boost the clocks of the
-> device that a client is actually using and maybe even give priority.
->
-> But like I said, having a per-fence deadline is probably still a good
-> idea and doesn't conflict with any of the more coarse information.
-
-Yeah, I think the thing is you need multiple things, and this is only
-one of them ;-)
-
-BR,
--R
