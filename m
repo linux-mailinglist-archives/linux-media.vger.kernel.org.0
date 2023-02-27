@@ -2,56 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC836A4EDD
-	for <lists+linux-media@lfdr.de>; Mon, 27 Feb 2023 23:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B58C66A4FCC
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 00:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbjB0WrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Feb 2023 17:47:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
+        id S229904AbjB0Xs0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Feb 2023 18:48:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbjB0Wq7 (ORCPT
+        with ESMTP id S229871AbjB0XsZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Feb 2023 17:46:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F9B4491
-        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 14:45:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677537890;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+pA2l/M+RwgFn7X5RBLShKIcqd1rRLy2xsj8gNSfBQ8=;
-        b=KujMq3b3+fUo8v4/8EeQP4mkSGnCI9L0EvlQ3h1DhDWTlLNaI7PN4B9UhGTcn5gGDwLxjU
-        W4NGGcKtj9UvXhXkGtwVkv58nmAiBVxY4Fu6KbAduRxLDepX0owgRuYKKIG/W52AiHPVY6
-        uUhTY1WDCzjsvFH5HcxlUsDNJhGJ5Jw=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-610-gwewAz13OTehAo36EdnFGw-1; Mon, 27 Feb 2023 17:44:48 -0500
-X-MC-Unique: gwewAz13OTehAo36EdnFGw-1
-Received: by mail-lf1-f70.google.com with SMTP id k7-20020ac257c7000000b004db20d1cf7fso2272826lfo.18
-        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 14:44:48 -0800 (PST)
+        Mon, 27 Feb 2023 18:48:25 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059ED1CF78;
+        Mon, 27 Feb 2023 15:48:20 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id bp19so3891104oib.4;
+        Mon, 27 Feb 2023 15:48:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FKSwno4yMBuKuVi+ZSrCp4LKarUpIQwJn0aROTJSVPk=;
+        b=K6xIqoXZ6FP/ajGp3qSSJ4Yl3u566BiU+rbIovj9i84oH3hdsB8ClIBzNENHKdz6FI
+         w+2FZIU+pxZMLQiC3P5GAO4FdmJSbVRYmgSv500SW0QV0PMj27cX5jAV45jeffNn/KK9
+         uwGgWNZ/F511Q+mjhjRWws10NF1c3FiAg/akkkcjHGQwk8p5CSI82fbhoHg4UzpDtdJk
+         xMIFJssvIqOYtdqnyefqJFPTg3Vu14lRRoQ84SAhWSVAPRSVGzZSnLnPgd/wjkZ1B26Q
+         wYW3FA5ffz0ARuShl5bv+yrJTUJ3vWbDiACDmqIe53YTcBr++8NtONRvxpq9R/cqo4kS
+         ssKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+pA2l/M+RwgFn7X5RBLShKIcqd1rRLy2xsj8gNSfBQ8=;
-        b=th9RQeK/090GdYQ/6GDfy4EmjwroIR1D0jzLPv2QBV9tyIJuq00bQUMzF0Y19ipM1b
-         FTLhnlWziZ3RPt8OxkXTO/MCmLxnGRZXKXTffJRVUFycSFOsoIgjptK5h1V3NW9UMlVL
-         OrjNO0qqh+KwaAvaIv4egJt22xgtxIUnTsheQXez6CGl2EFHrspggW30fk84FIuCHoS7
-         ivY771RpRgm+eA66/4sCH2xIZoe8i503cC/RLIEifm2JRqwiSMBFIq8WTqBVEFFrOrrV
-         NG6AZRzwVYdFNasrNTeDO0YZqRXuGlwG5nP3xE27PKPpi9uiLfcyVyw5HXv6xAui6l4F
-         IM6A==
-X-Gm-Message-State: AO0yUKXD1p21Ao96hgG39hp7YulAP7hA3zPh0GWhPhdZrSh2kIXcEucj
-        nUHzpiBvgLlwLJk9UwI4dm2p9aWHhcMXQgWvrOG1larebocipSbiBPERsmxwFxxSiqDRmSW5Z8u
-        xHDFcJ29IcCon7K06MwOapCtml/QmhiMz3sL22+w=
-X-Received: by 2002:ac2:5197:0:b0:4d5:ca43:7047 with SMTP id u23-20020ac25197000000b004d5ca437047mr56179lfi.10.1677537886880;
-        Mon, 27 Feb 2023 14:44:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set/XIZXBEKvpsT1DavyreZhhrmi5g65E+sU4BmXMfM2wqaggHe7ObCNkJtwLsRuJuwEQGhfvziGslQ+FmjMDdis=
-X-Received: by 2002:ac2:5197:0:b0:4d5:ca43:7047 with SMTP id
- u23-20020ac25197000000b004d5ca437047mr56167lfi.10.1677537886450; Mon, 27 Feb
- 2023 14:44:46 -0800 (PST)
+        bh=FKSwno4yMBuKuVi+ZSrCp4LKarUpIQwJn0aROTJSVPk=;
+        b=wjuxGGldLuVMyBJK51L/YYtFlX3XYsWmNtAikycq25cjB19OgLMS1Zr98W2VMN8P3B
+         mfx36RtT73VDlOQWIhmJ6PALV/FIlTLJXozWWJ0qLFFND/GLWNzbOTToBtVX2mFVXtOZ
+         kX8KJNkjMozdRoysZhXLXTFmeIKvi+BDtbe6ddrKH9JQxMe8YNk8daTi5Wi46XB6nGe/
+         POAKc0k4UEbada57UyEQ8qZ6G2cK2gqSPfWl4luHiIYetmHR92yD+PK5ozGIRzNwIEpS
+         s+HczB5CjK2dlPRIcUlUwML0taHkoTUcmZ8dYZs+XIRrakJnISUcE5LVIiUuajH746NJ
+         Ud2w==
+X-Gm-Message-State: AO0yUKXX1x28RWubq2Xhad8mRg4eMmCdU2jS/YKAAxiGVOSJUJ3+ICYN
+        O8uVDapldP+I9oyL3td9galcBTcoCeprBJkqfzI=
+X-Google-Smtp-Source: AK7set9BeCESARwhg9B9YCHYV9PwJ6DW0BgtK7IdrrsVF68N42nIyfb0Mo0ZjTXVcd7JG36WHxaYDqm6rTmVVJlmVS0=
+X-Received: by 2002:a05:6808:180b:b0:37f:b1ac:6b90 with SMTP id
+ bh11-20020a056808180b00b0037fb1ac6b90mr651474oib.0.1677541699155; Mon, 27 Feb
+ 2023 15:48:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20230223113814.3010cedc@eldfell> <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
  <20230224112630.313d7b76@eldfell> <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
@@ -59,12 +53,13 @@ References: <20230223113814.3010cedc@eldfell> <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-h
  <20230224130053.3f8939e2@eldfell> <c5d046d6-ab8e-2bc7-5110-dba78b91348b@linux.intel.com>
  <74e409dc-b642-779e-a755-b793c378e43a@amd.com> <CAF6AEGs_yzEj81yNP3KhmVP9Yo3rwTc5vntEVrm9tHw6+w1G_g@mail.gmail.com>
  <Y/0iM+ycUozaVbbC@intel.com> <CAF6AEGtXSEyyjELjGtPvnAN7mX+NwzngmB0PbKHsZqjTm-xYsg@mail.gmail.com>
-In-Reply-To: <CAF6AEGtXSEyyjELjGtPvnAN7mX+NwzngmB0PbKHsZqjTm-xYsg@mail.gmail.com>
-From:   Sebastian Wick <sebastian.wick@redhat.com>
-Date:   Mon, 27 Feb 2023 23:44:34 +0100
-Message-ID: <CA+hFU4wtW6wNP2Y0e_iE6NhBSSfVRDxTBUk7kOUNHQPRXpSzrQ@mail.gmail.com>
+ <CA+hFU4wtW6wNP2Y0e_iE6NhBSSfVRDxTBUk7kOUNHQPRXpSzrQ@mail.gmail.com>
+In-Reply-To: <CA+hFU4wtW6wNP2Y0e_iE6NhBSSfVRDxTBUk7kOUNHQPRXpSzrQ@mail.gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 27 Feb 2023 15:48:07 -0800
+Message-ID: <CAF6AEGtaxbJ83sfviVWMic6Q8XoyhLvWCdtYwiSd8A4sV4ZXSQ@mail.gmail.com>
 Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To:     Rob Clark <robdclark@gmail.com>
+To:     Sebastian Wick <sebastian.wick@redhat.com>
 Cc:     Rodrigo Vivi <rodrigo.vivi@intel.com>,
         Rob Clark <robdclark@chromium.org>,
         Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
@@ -84,9 +79,9 @@ Cc:     Rodrigo Vivi <rodrigo.vivi@intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -94,225 +89,268 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 11:20 PM Rob Clark <robdclark@gmail.com> wrote:
+On Mon, Feb 27, 2023 at 2:44 PM Sebastian Wick
+<sebastian.wick@redhat.com> wrote:
 >
-> On Mon, Feb 27, 2023 at 1:36 PM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> On Mon, Feb 27, 2023 at 11:20 PM Rob Clark <robdclark@gmail.com> wrote:
 > >
-> > On Fri, Feb 24, 2023 at 09:59:57AM -0800, Rob Clark wrote:
-> > > On Fri, Feb 24, 2023 at 7:27 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+> > On Mon, Feb 27, 2023 at 1:36 PM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> > >
+> > > On Fri, Feb 24, 2023 at 09:59:57AM -0800, Rob Clark wrote:
+> > > > On Fri, Feb 24, 2023 at 7:27 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+> > > > >
+> > > > > On 2023-02-24 06:37, Tvrtko Ursulin wrote:
+> > > > > >
+> > > > > > On 24/02/2023 11:00, Pekka Paalanen wrote:
+> > > > > >> On Fri, 24 Feb 2023 10:50:51 +0000
+> > > > > >> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> > > > > >>
+> > > > > >>> On 24/02/2023 10:24, Pekka Paalanen wrote:
+> > > > > >>>> On Fri, 24 Feb 2023 09:41:46 +0000
+> > > > > >>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> > > > > >>>>
+> > > > > >>>>> On 24/02/2023 09:26, Pekka Paalanen wrote:
+> > > > > >>>>>> On Thu, 23 Feb 2023 10:51:48 -0800
+> > > > > >>>>>> Rob Clark <robdclark@gmail.com> wrote:
+> > > > > >>>>>>
+> > > > > >>>>>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > > > > >>>>>>>>
+> > > > > >>>>>>>> On Wed, 22 Feb 2023 07:37:26 -0800
+> > > > > >>>>>>>> Rob Clark <robdclark@gmail.com> wrote:
+> > > > > >>>>>>>>
+> > > > > >>>>>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > > > > >>>>>>
+> > > > > >>>>>> ...
+> > > > > >>>>>>
+> > > > > >>>>>>>>>> On another matter, if the application uses SET_DEADLINE with one
+> > > > > >>>>>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
+> > > > > >>>>>>>>>> another timestamp, what should happen?
+> > > > > >>>>>>>>>
+> > > > > >>>>>>>>> The expectation is that many deadline hints can be set on a fence.
+> > > > > >>>>>>>>> The fence signaller should track the soonest deadline.
+> > > > > >>>>>>>>
+> > > > > >>>>>>>> You need to document that as UAPI, since it is observable to userspace.
+> > > > > >>>>>>>> It would be bad if drivers or subsystems would differ in behaviour.
+> > > > > >>>>>>>>
+> > > > > >>>>>>>
+> > > > > >>>>>>> It is in the end a hint.  It is about giving the driver more
+> > > > > >>>>>>> information so that it can make better choices.  But the driver is
+> > > > > >>>>>>> even free to ignore it.  So maybe "expectation" is too strong of a
+> > > > > >>>>>>> word.  Rather, any other behavior doesn't really make sense.  But it
+> > > > > >>>>>>> could end up being dictated by how the hw and/or fw works.
+> > > > > >>>>>>
+> > > > > >>>>>> It will stop being a hint once it has been implemented and used in the
+> > > > > >>>>>> wild long enough. The kernel userspace regression rules make sure of
+> > > > > >>>>>> that.
+> > > > > >>>>>
+> > > > > >>>>> Yeah, tricky and maybe a gray area in this case. I think we eluded
+> > > > > >>>>> elsewhere in the thread that renaming the thing might be an option.
+> > > > > >>>>>
+> > > > > >>>>> So maybe instead of deadline, which is a very strong word, use something
+> > > > > >>>>> along the lines of "present time hint", or "signalled time hint"? Maybe
+> > > > > >>>>> reads clumsy. Just throwing some ideas for a start.
+> > > > > >>>>
+> > > > > >>>> You can try, but I fear that if it ever changes behaviour and
+> > > > > >>>> someone notices that, it's labelled as a kernel regression. I don't
+> > > > > >>>> think documentation has ever been the authoritative definition of UABI
+> > > > > >>>> in Linux, it just guides drivers and userspace towards a common
+> > > > > >>>> understanding and common usage patterns.
+> > > > > >>>>
+> > > > > >>>> So even if the UABI contract is not documented (ugh), you need to be
+> > > > > >>>> prepared to set the UABI contract through kernel implementation.
+> > > > > >>>
+> > > > > >>> To be the devil's advocate it probably wouldn't be an ABI regression but
+> > > > > >>> just an regression. Same way as what nice(2) priorities mean hasn't
+> > > > > >>> always been the same over the years, I don't think there is a strict
+> > > > > >>> contract.
+> > > > > >>>
+> > > > > >>> Having said that, it may be different with latency sensitive stuff such
+> > > > > >>> as UIs though since it is very observable and can be very painful to users.
+> > > > > >>>
+> > > > > >>>> If you do not document the UABI contract, then different drivers are
+> > > > > >>>> likely to implement it differently, leading to differing behaviour.
+> > > > > >>>> Also userspace will invent wild ways to abuse the UABI if there is no
+> > > > > >>>> documentation guiding it on proper use. If userspace or end users
+> > > > > >>>> observe different behaviour, that's bad even if it's not a regression.
+> > > > > >>>>
+> > > > > >>>> I don't like the situation either, but it is what it is. UABI stability
+> > > > > >>>> trumps everything regardless of whether it was documented or not.
+> > > > > >>>>
+> > > > > >>>> I bet userspace is going to use this as a "make it faster, make it
+> > > > > >>>> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
+> > > > > >>>> library that stamps any and all fences with an expired deadline to
+> > > > > >>>> just squeeze out a little more through some weird side-effect.
+> > > > > >>>>
+> > > > > >>>> Well, that's hopefully overboard in scaring, but in the end, I would
+> > > > > >>>> like to see UABI documented so I can have a feeling of what it is for
+> > > > > >>>> and how it was intended to be used. That's all.
+> > > > > >>>
+> > > > > >>> We share the same concern. If you read elsewhere in these threads you
+> > > > > >>> will notice I have been calling this an "arms race". If the ability to
+> > > > > >>> make yourself go faster does not required additional privilege I also
+> > > > > >>> worry everyone will do it at which point it becomes pointless. So yes, I
+> > > > > >>> do share this concern about exposing any of this as an unprivileged uapi.
+> > > > > >>>
+> > > > > >>> Is it possible to limit access to only compositors in some sane way?
+> > > > > >>> Sounds tricky when dma-fence should be disconnected from DRM..
+> > > > > >>
+> > > > > >> Maybe it's not that bad in this particular case, because we are talking
+> > > > > >> only about boosting GPU clocks which benefits everyone (except
+> > > > > >> battery life) and it does not penalize other programs like e.g.
+> > > > > >> job priorities do.
+> > > > > >
+> > > > > > Apart from efficiency that you mentioned, which does not always favor
+> > > > > > higher clocks, sometimes thermal budget is also shared between CPU and
+> > > > > > GPU. So more GPU clocks can mean fewer CPU clocks. It's really hard to
+> > > > > > make optimal choices without the full coordination between both schedulers.
+> > > > > >
+> > > > > > But that is even not the main point, which is that if everyone sets the
+> > > > > > immediate deadline then having the deadline API is a bit pointless. For
+> > > > > > instance there is a reason negative nice needs CAP_SYS_ADMIN.
+> > > > > >
+> > > > > > However Rob has also pointed out the existence of uclamp.min via
+> > > > > > sched_setattr which is unprivileged and can influence frequency
+> > > > > > selection in the CPU world, so I conceded on that point. If CPU world
+> > > > > > has accepted it so can we I guess.
+> > > > > >
+> > > > > > So IMO we are back to whether we can agree defining it is a hint is good
+> > > > > > enough, be in via the name of the ioctl/flag itself or via documentation.
+> > > > > >
+> > > > > >> Drivers are not going to use the deadline for scheduling priorities,
+> > > > > >> right? I don't recall seeing any mention of that.
+> > > > > >>
+> > > > > >> ...right?
+> > > > > >
+> > > > > > I wouldn't have thought it would be beneficial to preclude that, or
+> > > > > > assume what drivers would do with the info to begin with.
+> > > > > >
+> > > > > > For instance in i915 we almost had a deadline based scheduler which was
+> > > > > > much fairer than the current priority sorted fifo and in an ideal world
+> > > > > > we would either revive or re-implement that idea. In which case
+> > > > > > considering the fence deadline would naturally slot in and give true
+> > > > > > integration with compositor deadlines (not just boost clocks and pray it
+> > > > > > helps).
+> > > > > How is user-space to decide whether to use ioctl(SET_DEADLINE) or
+> > > > > poll(POLLPRI)?
 > > > >
-> > > > On 2023-02-24 06:37, Tvrtko Ursulin wrote:
-> > > > >
-> > > > > On 24/02/2023 11:00, Pekka Paalanen wrote:
-> > > > >> On Fri, 24 Feb 2023 10:50:51 +0000
-> > > > >> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> > > > >>
-> > > > >>> On 24/02/2023 10:24, Pekka Paalanen wrote:
-> > > > >>>> On Fri, 24 Feb 2023 09:41:46 +0000
-> > > > >>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> > > > >>>>
-> > > > >>>>> On 24/02/2023 09:26, Pekka Paalanen wrote:
-> > > > >>>>>> On Thu, 23 Feb 2023 10:51:48 -0800
-> > > > >>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> > > > >>>>>>
-> > > > >>>>>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > > >>>>>>>>
-> > > > >>>>>>>> On Wed, 22 Feb 2023 07:37:26 -0800
-> > > > >>>>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> > > > >>>>>>>>
-> > > > >>>>>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > > >>>>>>
-> > > > >>>>>> ...
-> > > > >>>>>>
-> > > > >>>>>>>>>> On another matter, if the application uses SET_DEADLINE with one
-> > > > >>>>>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
-> > > > >>>>>>>>>> another timestamp, what should happen?
-> > > > >>>>>>>>>
-> > > > >>>>>>>>> The expectation is that many deadline hints can be set on a fence.
-> > > > >>>>>>>>> The fence signaller should track the soonest deadline.
-> > > > >>>>>>>>
-> > > > >>>>>>>> You need to document that as UAPI, since it is observable to userspace.
-> > > > >>>>>>>> It would be bad if drivers or subsystems would differ in behaviour.
-> > > > >>>>>>>>
-> > > > >>>>>>>
-> > > > >>>>>>> It is in the end a hint.  It is about giving the driver more
-> > > > >>>>>>> information so that it can make better choices.  But the driver is
-> > > > >>>>>>> even free to ignore it.  So maybe "expectation" is too strong of a
-> > > > >>>>>>> word.  Rather, any other behavior doesn't really make sense.  But it
-> > > > >>>>>>> could end up being dictated by how the hw and/or fw works.
-> > > > >>>>>>
-> > > > >>>>>> It will stop being a hint once it has been implemented and used in the
-> > > > >>>>>> wild long enough. The kernel userspace regression rules make sure of
-> > > > >>>>>> that.
-> > > > >>>>>
-> > > > >>>>> Yeah, tricky and maybe a gray area in this case. I think we eluded
-> > > > >>>>> elsewhere in the thread that renaming the thing might be an option.
-> > > > >>>>>
-> > > > >>>>> So maybe instead of deadline, which is a very strong word, use something
-> > > > >>>>> along the lines of "present time hint", or "signalled time hint"? Maybe
-> > > > >>>>> reads clumsy. Just throwing some ideas for a start.
-> > > > >>>>
-> > > > >>>> You can try, but I fear that if it ever changes behaviour and
-> > > > >>>> someone notices that, it's labelled as a kernel regression. I don't
-> > > > >>>> think documentation has ever been the authoritative definition of UABI
-> > > > >>>> in Linux, it just guides drivers and userspace towards a common
-> > > > >>>> understanding and common usage patterns.
-> > > > >>>>
-> > > > >>>> So even if the UABI contract is not documented (ugh), you need to be
-> > > > >>>> prepared to set the UABI contract through kernel implementation.
-> > > > >>>
-> > > > >>> To be the devil's advocate it probably wouldn't be an ABI regression but
-> > > > >>> just an regression. Same way as what nice(2) priorities mean hasn't
-> > > > >>> always been the same over the years, I don't think there is a strict
-> > > > >>> contract.
-> > > > >>>
-> > > > >>> Having said that, it may be different with latency sensitive stuff such
-> > > > >>> as UIs though since it is very observable and can be very painful to users.
-> > > > >>>
-> > > > >>>> If you do not document the UABI contract, then different drivers are
-> > > > >>>> likely to implement it differently, leading to differing behaviour.
-> > > > >>>> Also userspace will invent wild ways to abuse the UABI if there is no
-> > > > >>>> documentation guiding it on proper use. If userspace or end users
-> > > > >>>> observe different behaviour, that's bad even if it's not a regression.
-> > > > >>>>
-> > > > >>>> I don't like the situation either, but it is what it is. UABI stability
-> > > > >>>> trumps everything regardless of whether it was documented or not.
-> > > > >>>>
-> > > > >>>> I bet userspace is going to use this as a "make it faster, make it
-> > > > >>>> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> > > > >>>> library that stamps any and all fences with an expired deadline to
-> > > > >>>> just squeeze out a little more through some weird side-effect.
-> > > > >>>>
-> > > > >>>> Well, that's hopefully overboard in scaring, but in the end, I would
-> > > > >>>> like to see UABI documented so I can have a feeling of what it is for
-> > > > >>>> and how it was intended to be used. That's all.
-> > > > >>>
-> > > > >>> We share the same concern. If you read elsewhere in these threads you
-> > > > >>> will notice I have been calling this an "arms race". If the ability to
-> > > > >>> make yourself go faster does not required additional privilege I also
-> > > > >>> worry everyone will do it at which point it becomes pointless. So yes, I
-> > > > >>> do share this concern about exposing any of this as an unprivileged uapi.
-> > > > >>>
-> > > > >>> Is it possible to limit access to only compositors in some sane way?
-> > > > >>> Sounds tricky when dma-fence should be disconnected from DRM..
-> > > > >>
-> > > > >> Maybe it's not that bad in this particular case, because we are talking
-> > > > >> only about boosting GPU clocks which benefits everyone (except
-> > > > >> battery life) and it does not penalize other programs like e.g.
-> > > > >> job priorities do.
-> > > > >
-> > > > > Apart from efficiency that you mentioned, which does not always favor
-> > > > > higher clocks, sometimes thermal budget is also shared between CPU and
-> > > > > GPU. So more GPU clocks can mean fewer CPU clocks. It's really hard to
-> > > > > make optimal choices without the full coordination between both schedulers.
-> > > > >
-> > > > > But that is even not the main point, which is that if everyone sets the
-> > > > > immediate deadline then having the deadline API is a bit pointless. For
-> > > > > instance there is a reason negative nice needs CAP_SYS_ADMIN.
-> > > > >
-> > > > > However Rob has also pointed out the existence of uclamp.min via
-> > > > > sched_setattr which is unprivileged and can influence frequency
-> > > > > selection in the CPU world, so I conceded on that point. If CPU world
-> > > > > has accepted it so can we I guess.
-> > > > >
-> > > > > So IMO we are back to whether we can agree defining it is a hint is good
-> > > > > enough, be in via the name of the ioctl/flag itself or via documentation.
-> > > > >
-> > > > >> Drivers are not going to use the deadline for scheduling priorities,
-> > > > >> right? I don't recall seeing any mention of that.
-> > > > >>
-> > > > >> ...right?
-> > > > >
-> > > > > I wouldn't have thought it would be beneficial to preclude that, or
-> > > > > assume what drivers would do with the info to begin with.
-> > > > >
-> > > > > For instance in i915 we almost had a deadline based scheduler which was
-> > > > > much fairer than the current priority sorted fifo and in an ideal world
-> > > > > we would either revive or re-implement that idea. In which case
-> > > > > considering the fence deadline would naturally slot in and give true
-> > > > > integration with compositor deadlines (not just boost clocks and pray it
-> > > > > helps).
-> > > > How is user-space to decide whether to use ioctl(SET_DEADLINE) or
-> > > > poll(POLLPRI)?
+> > > > Implementation of blocking gl/vk/cl APIs, like glFinish() would use
+> > > > poll(POLLPRI).  It could also set an immediate deadline and then call
+> > > > poll() without POLLPRI.
+> > > >
+> > > > Other than compositors which do frame-pacing I expect the main usage
+> > > > of either of these is mesa.
 > > >
-> > > Implementation of blocking gl/vk/cl APIs, like glFinish() would use
-> > > poll(POLLPRI).  It could also set an immediate deadline and then call
-> > > poll() without POLLPRI.
+> > > Okay, so it looks like we already agreed that having a way to bump frequency
+> > > from userspace is acceptable. either because there are already other ways
+> > > that you can waste power and because this already acceptable in the CPU
+> > > world.
 > > >
-> > > Other than compositors which do frame-pacing I expect the main usage
-> > > of either of these is mesa.
+> > > But why we are doing this in hidden ways then?
+> > >
+> > > Why can't we have this hint per context that is getting executed?
+> > > (either with a boost-context flag or with some low/med/max or '-1' to '1'
+> > > value like the latency priority)?
+> > >
+> > > I don't like the waitboost because this heurisitic fails in some media cases.
+> > > I don't like the global setting because we might be alternating a top-priority
+> > > with low-priority cases...
+> > >
+> > > So, why not something per context in execution?
+> > >
 > >
-> > Okay, so it looks like we already agreed that having a way to bump frequency
-> > from userspace is acceptable. either because there are already other ways
-> > that you can waste power and because this already acceptable in the CPU
-> > world.
+> > It needs to be finer granularity than per-context, because not all
+> > waits should trigger boosting.  For example, virglrenderer ends up
+> > with a thread polling unsignaled fences to know when to signal an
+> > interrupt to the guest virtgpu.  This alone shouldn't trigger
+> > boosting.  (We also wouldn't want to completely disable boosting for
+> > virglrenderer.)  Or the usermode driver could be waiting on a fence to
+> > know when to do some cleanup.
 > >
-> > But why we are doing this in hidden ways then?
-> >
-> > Why can't we have this hint per context that is getting executed?
-> > (either with a boost-context flag or with some low/med/max or '-1' to '1'
-> > value like the latency priority)?
-> >
-> > I don't like the waitboost because this heurisitic fails in some media cases.
-> > I don't like the global setting because we might be alternating a top-priority
-> > with low-priority cases...
-> >
-> > So, why not something per context in execution?
-> >
+> > That is not to say that there isn't room for per-context flags to
+> > disable/enable boosting for fences created by that context, meaning it
+> > could be an AND operation for i915 if it needs to be.
 >
-> It needs to be finer granularity than per-context, because not all
-> waits should trigger boosting.  For example, virglrenderer ends up
-> with a thread polling unsignaled fences to know when to signal an
-> interrupt to the guest virtgpu.  This alone shouldn't trigger
-> boosting.  (We also wouldn't want to completely disable boosting for
-> virglrenderer.)  Or the usermode driver could be waiting on a fence to
-> know when to do some cleanup.
+> First of all, I believe that the fence deadline hint is a good idea.
+> With that being said, I also don't think it is sufficient in a lot of
+> cases.
 >
-> That is not to say that there isn't room for per-context flags to
-> disable/enable boosting for fences created by that context, meaning it
-> could be an AND operation for i915 if it needs to be.
+> The one thing I was alluding to before and that Pekka mentioned as
+> well is that mutter for example has a problem where we're missing the
+> deadline consistently because the clocks don't ramp up fast enough and
+> there is a MR which is just trying to keep the GPU busy to avoid this.
 
-First of all, I believe that the fence deadline hint is a good idea.
-With that being said, I also don't think it is sufficient in a lot of
-cases.
+the dynamic double/triple buffer thing?
 
-The one thing I was alluding to before and that Pekka mentioned as
-well is that mutter for example has a problem where we're missing the
-deadline consistently because the clocks don't ramp up fast enough and
-there is a MR which is just trying to keep the GPU busy to avoid this.
+> It would be much better if the kernel could make sure the clocks are
+> all ramped up when we start submitting work. In the compositor we
+> actually have a lot of information that *should* influence clocks. We
+> know when we're going to start submitting work and when the deadline
+> for that work is beforehand. We know which windows are visible, and
+> which one should have the highest priority.
 
-It would be much better if the kernel could make sure the clocks are
-all ramped up when we start submitting work. In the compositor we
-actually have a lot of information that *should* influence clocks. We
-know when we're going to start submitting work and when the deadline
-for that work is beforehand. We know which windows are visible, and
-which one should have the highest priority. We know when there are
-input events which actually matter. We know when the deadline for
-client work is.
+This sounds like something orthogonal.. something for cgroups?  Ie.
+android moves visible/foreground apps to a different cgroup to given
+them higher priority.  Tvrtko had a patchset to add drm cgroup
+support..
 
-In the future we also want to make sure clients know beforehand when
-they should start their work and when the deadline is but that's all
-very much WIP in both wayland and vulkan.
+> We know when there are
+> input events which actually matter.
 
-There are two issues:
+This I see input as a different boost source for the driver.  (Ie. one
+boost signal is missing fence deadlines, another is input events,
+etc.)
 
-1. The compositor has no way to communicate any of that information to
-the kernel.
-2. The only connection to client work the compositor has is a fence to
-the last bit of work that must be done before the deadline after a
-wl_surface.commit.
+We end up using downstream input-handlers on the kernel side for this.
+Partially for the freq boost (but mostly not, UI interactive workloads
+like touchscreen scrolling don't generally need high GPU freqs, they
+are more memory bandwidth limited if they are limited by anything)..
+really the reason here is to get a head-start on the ~2ms that it
+takes to power up the GPU if it is suspended.
 
-So in both cases a fence is just not the right primitive for us. We
-need to be able to provide per-context/queue information for work that
-will happen in the future and we need a way to refer to a
-context/queue generically and over IPC to boost the clocks of the
-device that a client is actually using and maybe even give priority.
+But this is not quite perfect, since for example some keys should be
+handled on key-down but others on key-up.
 
-But like I said, having a per-fence deadline is probably still a good
-idea and doesn't conflict with any of the more coarse information.
+But again, this is something different from fence deadlines.  I'm
+interested in proposals because we do need something for this.  But I
+think it is something is orthogonal to this series.  For input, we
+want the kernel to know long before userspace is ready to submit
+rendering.
 
+> We know when the deadline for
+> client work is.
 >
-> BR,
-> -R
+> In the future we also want to make sure clients know beforehand when
+> they should start their work and when the deadline is but that's all
+> very much WIP in both wayland and vulkan.
 >
+> There are two issues:
+>
+> 1. The compositor has no way to communicate any of that information to
+> the kernel.
+> 2. The only connection to client work the compositor has is a fence to
+> the last bit of work that must be done before the deadline after a
+> wl_surface.commit.
 
+If the client isn't using multiple GPUs, a single fence should be
+sufficient.  And even if it is, well we still have all the dependency
+information on the kernel side.  Ie. drm/sched knows what fences it is
+waiting on if it is waiting to schedule the work associated with the
+last fence.  It would otherwise require drm/sched to be a bit more
+tricky than it is so far in this series.
+
+But I think the normal dual-gpu case, the app is only dealing with a single GPU?
+
+> So in both cases a fence is just not the right primitive for us. We
+> need to be able to provide per-context/queue information for work that
+> will happen in the future and we need a way to refer to a
+> context/queue generically and over IPC to boost the clocks of the
+> device that a client is actually using and maybe even give priority.
+>
+> But like I said, having a per-fence deadline is probably still a good
+> idea and doesn't conflict with any of the more coarse information.
+
+Yeah, I think the thing is you need multiple things, and this is only
+one of them ;-)
+
+BR,
+-R
