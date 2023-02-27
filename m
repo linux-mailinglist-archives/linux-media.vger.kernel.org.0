@@ -2,98 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA4CB6A3F05
-	for <lists+linux-media@lfdr.de>; Mon, 27 Feb 2023 11:00:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 195936A3F88
+	for <lists+linux-media@lfdr.de>; Mon, 27 Feb 2023 11:37:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229595AbjB0KAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Feb 2023 05:00:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
+        id S229830AbjB0KhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Feb 2023 05:37:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbjB0KAl (ORCPT
+        with ESMTP id S229809AbjB0KhH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Feb 2023 05:00:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDF741E1EC
-        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 02:00:39 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8219CB80C9C
-        for <linux-media@vger.kernel.org>; Mon, 27 Feb 2023 10:00:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0789C433D2;
-        Mon, 27 Feb 2023 10:00:36 +0000 (UTC)
-Message-ID: <17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl>
-Date:   Mon, 27 Feb 2023 11:00:34 +0100
+        Mon, 27 Feb 2023 05:37:07 -0500
+X-Greylist: delayed 609 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Feb 2023 02:37:05 PST
+Received: from hust.edu.cn (unknown [202.114.0.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99AA0C14A;
+        Mon, 27 Feb 2023 02:37:05 -0800 (PST)
+Received: from localhost.localdomain ([172.16.0.254])
+        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+        by mx1.hust.edu.cn  with ESMTP id 31RAQYxl018695-31RAQYxo018695
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 27 Feb 2023 18:26:38 +0800
+From:   Dongliang Mu <dzm91@hust.edu.cn>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Duoming Zhou <duoming@zju.edu.cn>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dongliang Mu <dzm91@hust.edu.cn>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers: usb: smsusb: fix error handling code in smsusb_init_device
+Date:   Mon, 27 Feb 2023 18:24:08 +0800
+Message-Id: <20230227102411.3273877-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Andy Walls <awalls@md.metrocast.net>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v6.4] cx18: convert to vb2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch series converts cx18 to vb2. It also fixes a number of
-compliance issues.
+The previous commit 4b208f8b561f moves siano_media_device_register
+before smscore_register_device, and adds corresponding error handling
+code if smscore_register_device fails. However, it misses the following
+error handling code of smsusb_init_device.
 
-The first two patches fix core bugs that only appear with a somewhat weird
-driver like cx18: video0 only supports read() but streaming ioctls were
-incorrectly enabled in the core; also vb2_fop_read had an ownership issue in
-case vb2_read would return an error.
+Fix this by moving error handling code at the end of smsusb_init_device
+and adding a goto statement in the following error handling parts.
 
-cx18 now passes the v4l2-compliance tests.
+Fixes: 4b208f8b561f ("[media] siano: register media controller earlier")
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ drivers/media/usb/siano/smsusb.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-As usual, the vb2 conversion patch is pretty much unreviewable. It's
-impossible to do an incremental vb2 conversion, it's all or nothing.
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index 6f443c542c6d..07c3dd247e48 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -454,12 +454,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 	rc = smscore_register_device(&params, &dev->coredev, 0, mdev);
+ 	if (rc < 0) {
+ 		pr_err("smscore_register_device(...) failed, rc %d\n", rc);
+-		smsusb_term_device(intf);
+-#ifdef CONFIG_MEDIA_CONTROLLER_DVB
+-		media_device_unregister(mdev);
+-#endif
+-		kfree(mdev);
+-		return rc;
++		goto err_unregister_device;
+ 	}
+ 
+ 	smscore_set_board_id(dev->coredev, board_id);
+@@ -476,8 +471,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 	rc = smsusb_start_streaming(dev);
+ 	if (rc < 0) {
+ 		pr_err("smsusb_start_streaming(...) failed\n");
+-		smsusb_term_device(intf);
+-		return rc;
++		goto err_unregister_device;
+ 	}
+ 
+ 	dev->state = SMSUSB_ACTIVE;
+@@ -485,13 +479,20 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 	rc = smscore_start_device(dev->coredev);
+ 	if (rc < 0) {
+ 		pr_err("smscore_start_device(...) failed\n");
+-		smsusb_term_device(intf);
+-		return rc;
++		goto err_unregister_device;
+ 	}
+ 
+ 	pr_debug("device 0x%p created\n", dev);
+ 
+ 	return rc;
++
++err_unregister_device:
++	smsusb_term_device(intf);
++#ifdef CONFIG_MEDIA_CONTROLLER_DVB
++	media_device_unregister(mdev);
++#endif
++	kfree(mdev);
++	return rc;
+ }
+ 
+ static int smsusb_probe(struct usb_interface *intf,
+-- 
+2.39.1
 
-Regards,
-
-	Hans
-
-The following changes since commit 3e62aba8284de0994a669d07983299242e68fe72:
-
-  media: imx-mipi-csis: Check csis_fmt validity before use (2023-02-26 11:21:33 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-cx18
-
-for you to fetch changes up to 9dba815c0cbbd283586b9066f652da32e1a9381b:
-
-  cx18: fix format compliance issues (2023-02-27 10:26:18 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (8):
-      vb2: set owner before calling vb2_read
-      v4l2-dev.c: check for V4L2_CAP_STREAMING to enable streaming ioctls
-      cx18: convert to vb2
-      cx18: fix incorrect input counting
-      cx18: properly report pixelformats
-      cx18: missing CAP_AUDIO for vbi stream
-      cx18: reorder fmt_vid_cap functions in cx18-ioctl.c
-      cx18: fix format compliance issues
-
- drivers/media/common/videobuf2/videobuf2-v4l2.c |   5 +-
- drivers/media/pci/cx18/Kconfig                  |   2 +-
- drivers/media/pci/cx18/cx18-driver.c            |   4 +-
- drivers/media/pci/cx18/cx18-driver.h            |  24 ++--
- drivers/media/pci/cx18/cx18-fileops.c           |  85 +++-----------
- drivers/media/pci/cx18/cx18-fileops.h           |   3 +-
- drivers/media/pci/cx18/cx18-ioctl.c             | 391 ++++++++++++++++++++++++++--------------------------------------
- drivers/media/pci/cx18/cx18-mailbox.c           |  27 ++---
- drivers/media/pci/cx18/cx18-streams.c           | 278 +++++++++++++++++++++++----------------------
- drivers/media/v4l2-core/v4l2-dev.c              |   5 +-
- 10 files changed, 357 insertions(+), 467 deletions(-)
