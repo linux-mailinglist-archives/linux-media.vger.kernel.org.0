@@ -2,93 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D1016A564C
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 11:06:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A436A5671
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 11:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbjB1KGB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 05:06:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
+        id S230000AbjB1KPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 05:15:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbjB1KFv (ORCPT
+        with ESMTP id S229686AbjB1KPV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 05:05:51 -0500
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FAB2BF3E
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 02:05:49 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 1AE25200A1;
-        Tue, 28 Feb 2023 12:05:45 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1677578745;
+        Tue, 28 Feb 2023 05:15:21 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F8510255;
+        Tue, 28 Feb 2023 02:15:20 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4C2BD1C0AB2; Tue, 28 Feb 2023 11:15:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1677579319;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=94ODvRB/ONy0JbeZDJ946d3qlOb3DAApVOi0yGCCezk=;
-        b=PQ5XIvoqDZU18x61oFjCKaMP8iBHXx8M/ZAqKwODuKWkz2T5lGxaXxi8RJZt9toZrGejyr
-        ufU5JEvJHoh2N7R5wztHx5CgHzrNgMYFyNHeHEZ8FpWLz+XOcr5tuBEA3m/2vnOHlAex7q
-        G3LMuJR8bsiOOPw/4X76gzm6pi3kVds=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1677578745; a=rsa-sha256; cv=none;
-        b=j0ce5gTNp7JhVxm7tak1g1qXPIO2NXKDmbfBIfGSk15/0OdwuAJM9Cqi1/Dlg4iaNj3Ldk
-        OgfyUX5e2IwFsomfBs2dC0R6/PJ8RQPl1orAgzU64oZrO8Rjc3+ggkKxaJYA8o5ETxoRRJ
-        6PArf1UnHeEx6QLyGoLKPQ8RojGmCx0=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1677578745;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=94ODvRB/ONy0JbeZDJ946d3qlOb3DAApVOi0yGCCezk=;
-        b=jq7bYhtgXMtf0tWxa0/oTV4ee+63cxk7WdAyyTFGXDk2cjVDM1N+vQj7tFD44D3ItMvTbs
-        RjDj2NeSchSXvFiXVQgpFFGsOpuw3SrGfbA4agkFTIzPkeHY2Oc1V1Cw2Qqsq3FAgCi26Q
-        I4XzsFfQj3LbXqpjkIpux3ZaIJfED88=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id EF3DE634C91;
-        Tue, 28 Feb 2023 12:05:02 +0200 (EET)
-Date:   Tue, 28 Feb 2023 12:05:03 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
+        bh=pIobWVcWKOMktloTIZSETcSZg4B7IPXuWeejBjATNZw=;
+        b=HDheuxhc1hRmJvYXsUf3ccCpxIb68CvBYyMb5YuLB7JYRl5v/lcNUnBKH6syYWIcr5c/8t
+        LrivujR+7M1OybIyrP8N1jrU0g3z1UEwvnDwkIQtadKMUrl+kedPPblUaL9vR75UlsxUHW
+        +oLnbUQSmABMhL2ag1R4GQE0ZE+gb0A=
+Date:   Tue, 28 Feb 2023 11:15:18 +0100
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com
-Subject: Re: [PATCH 1/3] media: Zero-initialize all structures passed to
- subdev pad operations
-Message-ID: <Y/3Rz5DRX9DnLe8E@valkosipuli.retiisi.eu>
-References: <20230215165021.6628-1-laurent.pinchart@ideasonboard.com>
- <20230215165021.6628-2-laurent.pinchart@ideasonboard.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: vsp1: blacklist r8a7795 ES1.*
+Message-ID: <Y/3UNv4a9xmAR+54@duo.ucw.cz>
+References: <20230118122003.132905-1-wsa+renesas@sang-engineering.com>
+ <Y8fpg/WkR4OMrpOu@pendragon.ideasonboard.com>
+ <CAMuHMdUegruzCdP_+_qNuhVvFWp-_8zvdYw=v3kmt6zDU8=w5Q@mail.gmail.com>
+ <Y8f2elExwiwxK2n+@pendragon.ideasonboard.com>
+ <CAMuHMdXYsCN+evJB8idRFQ-v2B4bJ6vi+DSF=Zg6+QSiu+Op5Q@mail.gmail.com>
+ <Y8f88dw/fWfVij/d@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="C8mDkYo+HW8Czfre"
 Content-Disposition: inline
-In-Reply-To: <20230215165021.6628-2-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <Y8f88dw/fWfVij/d@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,62 +57,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-Thanks for the set.
+--C8mDkYo+HW8Czfre
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 15, 2023 at 06:50:19PM +0200, Laurent Pinchart wrote:
-> Several drivers call subdev pad operations, passing structures that are
-> not fully zeroed. While the drivers initialize the fields they care
-> about explicitly, this results in reserved fields having uninitialized
-> values. Future kernel API changes that make use of those fields thus
-> risk breaking proper driver operation in ways that could be hard to
-> detect.
-> 
-> To avoid this, make the code more robust by zero-initializing all the
-> structures passed to subdev pad operation. Maintain a consistent coding
-> style by preferring designated initializers (which zero-initialize all
-> the fields that are not specified) over memset() where possible, and
-> make variable declarations local to inner scopes where applicable. One
-> notable exception to this rule is in the ipu3 driver, where a memset()
-> is needed as the structure is not a local variable but a function
-> parameter provided by the caller.
-> 
-> Not all fields of those structures can be initialized when declaring the
-> variables, as the values for those fields are computed later in the
-> code. Initialize the 'which' field in all cases, and other fields when
-> the variable declaration is so close to the v4l2_subdev_call() call that
-> it keeps all the context easily visible when reading the code, to avoid
-> hindering readability.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi!
 
-...
+> > I prefer blacklisting in the driver, as dropping them from r8a77950.dtsi
+> > wouldn't disable them when used with an older or out-of-tree DTB.
+>=20
+> Is that really a use case we need to care about ? Who will run a recent
+> kernel with an old DTB on a H3 ES1.x, without an easy way to update to a
+> mainline device tree ? It's not like those devices went into production.
 
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> index 3b76a9d0383a..3c84cb121632 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> @@ -1305,6 +1305,7 @@ static int cio2_subdev_link_validate_get_format(struct media_pad *pad,
->  		struct v4l2_subdev *sd =
->  			media_entity_to_v4l2_subdev(pad->entity);
->  
-> +		memset(fmt, 0, sizeof(*fmt));
->  		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
->  		fmt->pad = pad->index;
->  		return v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
+There's some agreement that DTBs are an ABI, and that they should work
+with old and new kernels. Disabling it in the driver seems like right
+solution.
 
-Instead I'd merge this with its only caller.
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-I can submit a patch on top of this one as it's just a small cleanup.
+--C8mDkYo+HW8Czfre
+Content-Type: application/pgp-signature; name="signature.asc"
 
-For the set:
+-----BEGIN PGP SIGNATURE-----
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCY/3UNgAKCRAw5/Bqldv6
+8r5yAKCQhsFBOLk2Za5sOjz+PmJh6YjMrQCfctyb4Gw+Q2kmG1nPpaeCp7xkYU8=
+=Vgwo
+-----END PGP SIGNATURE-----
 
-The second latter of the subject of the 3 patch should be lower case.
-
--- 
-Kind regards,
-
-Sakari Ailus
+--C8mDkYo+HW8Czfre--
