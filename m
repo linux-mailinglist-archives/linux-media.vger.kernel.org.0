@@ -2,79 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC1B96A6216
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 23:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B080D6A62C3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 23:46:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbjB1WDt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 17:03:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55076 "EHLO
+        id S229615AbjB1Wqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 17:46:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjB1WDs (ORCPT
+        with ESMTP id S229579AbjB1Wqj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 17:03:48 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D53C170;
-        Tue, 28 Feb 2023 14:03:46 -0800 (PST)
-Received: from notapiano (unknown [194.36.25.22])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6422166021C4;
-        Tue, 28 Feb 2023 22:03:41 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1677621825;
-        bh=IYU+tKsnp3PIx+wju4+3RcegqJqr5FahXF/+fSaoWRU=;
+        Tue, 28 Feb 2023 17:46:39 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8563D31E15
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 14:46:37 -0800 (PST)
+Received: from pendragon.ideasonboard.com (153.162-64-87.adsl-dyn.isp.belgacom.be [87.64.162.153])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52E1E6F0;
+        Tue, 28 Feb 2023 23:46:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677624395;
+        bh=kyB9j92Sh4eA6au+OR+tzE3xb1/LhEHC6PMCIEKiVeY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y49y19EVKT4U+TdGhA7ZqIo9yqj3uV79sKdd//G8beYwKb/1JGZBvN+7AmgKcHpyL
-         gNc/ib3GCsVNyJnvXrT5Fr/bKqtoQwbAB6D0DRqOMHrs1C8Mhhayf2dUHR7pzFqOY9
-         xkB/DB/jXFwUscJ4G72KfEqBsa2g2pmfPIksYdnDZ48ClpvKpdGzhppEcNQpu6m6B8
-         7Kz3OdKCZgufS+3lBi0HV+ThuXJfsmmu0qj0+/Sj8vshtM6w9RHFev6tsDApvAhU9G
-         A+YhpZQChjGZCppJN+42tyK3dJiJ6B1J1aqJ1mtU+QIlv7ZNekMO8HQ9zdBvI0jsO9
-         eHAkFptw1+3Jg==
-Date:   Tue, 28 Feb 2023 17:03:36 -0500
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Yunfei Dong =?utf-8?B?KOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        Tiffany Lin =?utf-8?B?KOael+aFp+ePiik=?= 
-        <tiffany.lin@mediatek.com>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2] media: mediatek: vcodec: Force capture queue format
- to MM21
-Message-ID: <20230228220336.gnainmcyi42l2a6r@notapiano>
-References: <20230210055518.6017-1-yunfei.dong@mediatek.com>
- <e972c2ac1a7a6f0ce258c8056b82bdc87e4d8ceb.camel@ndufresne.ca>
- <f6148f4c4864d324b52a52cc87b8785d958ceeb5.camel@mediatek.com>
- <20230222211154.mhl7mihycl7eq5v6@notapiano>
- <f3d53cf7bfbaf092e1020c41316668b9f53b890b.camel@mediatek.com>
+        b=wVxOiH3FEENoLjwE75vPb5DXSvZxuLbYMV080bGd4SbTRsnW/qkezPfaeHCRrnfhk
+         DJLwUTdswFbbLFavWIqITPponuJmGkrZ4JQ+OFSQGTVfkLlb+II5vl5nuVjwn4NbSR
+         hB3H8d+DPv4lGaYFiiZ8vTu5QSYS2dNufBDQJAPc=
+Date:   Wed, 1 Mar 2023 00:46:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: Re: [RFC] Remove support for the video overlay interface
+Message-ID: <Y/6ESfbtnbK5nCNJ@pendragon.ideasonboard.com>
+References: <5f1ff21e-557d-0d80-293b-2ecccb9d5e2a@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f3d53cf7bfbaf092e1020c41316668b9f53b890b.camel@mediatek.com>
+In-Reply-To: <5f1ff21e-557d-0d80-293b-2ecccb9d5e2a@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,164 +49,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 27, 2023 at 02:17:08AM +0000, Yunfei Dong (董云飞) wrote:
-> Hi Nicolas,
+On Tue, Feb 28, 2023 at 05:52:22PM +0100, Hans Verkuil wrote:
+> While working on the vb2 conversion of the saa7146 driver I dug a bit deeper into
+> the video capture overlay support of that driver.
 > 
-> Thanks for your suggestion.
-> On Wed, 2023-02-22 at 16:11 -0500, Nícolas F. R. A. Prado wrote:
-> > Hi,
-> > 
-> > On Tue, Feb 14, 2023 at 02:28:04AM +0000, Yunfei Dong (董云飞) wrote:
-> > > Hi Nicolas,
-> > > 
-> > > Thanks for your suggestion.
-> > > On Fri, 2023-02-10 at 10:36 -0500, Nicolas Dufresne wrote:
-> > > > Le vendredi 10 février 2023 à 13:55 +0800, Yunfei Dong a écrit :
-[..]
-> > > > > diff --git
-> > > > > a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > > b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > > index 641f533c417f..4f5e9c20214f 100644
-> > > > > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> > > > > @@ -41,7 +41,7 @@ static bool mtk_vdec_get_cap_fmt(struct
-> > > > > mtk_vcodec_ctx *ctx, int format_index)
-> > > > >  	const struct mtk_video_fmt *fmt;
-> > > > >  	struct mtk_q_data *q_data;
-> > > > >  	int num_frame_count = 0, i;
-> > > > > -	bool ret = true;
-> > > > > +	bool ret = false;
-> > 
-> > This change doesn't do anything, so I'd drop it.
-> > 
-> This change is useful when capture fourcc is MT21 will return false,
-> not support even if scp support mm21 and mt21.
+> For more info of that feature see:
+> 
+> https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-overlay.html
+> 
+> Specifically, video overlay support relies on userspace passing the address of
+> the framebuffer to the driver with VIDIOC_S_FBUF. The PCI driver can then DMA
+> the captured frame straight into the framebuffer. This was useful 20 years ago,
+> but today not so much.
+> 
+> Typically userspace would get the address from the /dev/fbX device using the
+> FBIOGET_FSCREENINFO ioctl.
+> 
+> But drm_fb_helper.c sets the smem_start field explicitly to 0 unless:
+> 
+> 1) CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is set, and
+> 2) CONFIG_EXPERT is set, and
+> 3) set the drm_kms_helper module parameter drm_leak_fbdev_smem to 1.
+> 
+> Actually, even with all that set, I *still* get a 0 value. I probably
+> missed something.
+> 
+> In any case, I think destructive overlay support is effectively dead and it
+> should be removed from the v4l2 drivers.
 
-But you have
+RIP :-)
 
-	default:
-		ret = true;
-		break;
+> This would affect saa7146, bttv, saa7134 and vivid.
+> 
+> Output overlay support is still around (ivtv, omap_vout). There is also a
+> single driver with a non-destructive capture overlay:
+> drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> 
+> No idea what that's doing exactly in the bcm2835 driver.
 
-down below, so you're handling all cases in the switch, and the original value
-doesn't matter. It could even be left uninitialized.
+I'm not sure either, but not that that driver is only used with the
+legacy Raspberry Pi camera stack, not the libcamera-based stack.
 
-> > > > >  
-> > > > >  	for (i = 0; i < *dec_pdata->num_formats; i++) {
-> > > > >  		if (dec_pdata->vdec_formats[i].type !=
-> > > > > MTK_FMT_FRAME)
-> > > > > @@ -63,7 +63,7 @@ static bool mtk_vdec_get_cap_fmt(struct
-> > > > > mtk_vcodec_ctx *ctx, int format_index)
-> > > > >  	case V4L2_PIX_FMT_H264_SLICE:
-> > > > >  	case V4L2_PIX_FMT_VP9_FRAME:
-> > > > >  		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
-> > > > > -			ret = false;
-> > > > > +			ret = true;
-> > > > 
-> > > > This makes the VP8 and the other cases identical, leaving
-> > > > anything
-> > > > that touches
-> > > > MT21 as dead code. I'm not sure, cause I cannot test it, but it
-> > > > should in theory
-> > > > render MT8192 unusable, unless a new firmware has been submitted
-> > > > to
-> > > > linux-
-> > > > firmware with MM21 support ?
-> > > > 
-> > > 
-> > > If the firmware only support MT21 => won't exist for vp8 need to
-> > > use
-> > > MM21.
-> > 
-> > And that's the issue, the scp.img for MT8192 on linux-firmware only
-> > supports
-> > MT21 [1]. Can you please update it to support both MM21 and MT21?
-> > 
-> > For MT8195, only MM21 is supported in scp.img [2], but since the
-> > hardware
-> > supports both MM21 and MT21, the firmware should also support both.
-> > So please
-> > also update it on linux-firmware.
-> > 
-> > [1] 
-> > https://lore.kernel.org/all/20230112204626.ciaff4amseoidybw@notapiano/
-> > [2] 
-> > https://lore.kernel.org/all/20230112205825.wb5qcqhh5kwvyi3y@notapiano/
-> > 
-> > Thanks,
-> > Nícolas
-> > 
-> MT8192 always use MM21 from the beginning, MT21 have not been enabled.
+> Removing support for this has some nice related benefits: the overlay
+> window supports clipping (either a list of rectangles or a bitmap), and
+> that would also disappear. That makes the compat32 code quite a bit easier.
+> A fair amount of code is dedicated to that.
+> 
+> So, I propose to drop destructive overlay support from saa7146, bttv and
+> saa7134 and vivid for the 6.4 kernel. In addition, support for
+> V4L2_FBUF_CAP_LIST_CLIPPING and V4L2_FBUF_CAP_BITMAP_CLIPPING is also
+> dropped. This only affects the vivid driver which is the only driver that
+> supports this for output overlays.
+> 
+> Any objections?
 
-That's not true, and you can verify through the following:
+None from me.
 
-	$ curl https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/mediatek/mt8192/scp.img > /lib/firmware/mediatek/mt8192/scp.img
+-- 
+Regards,
 
-	$ sha256sum /lib/firmware/mediatek/mt8192/scp.img
-	fb9b4727f5e7cd82b2c63a8a2604d02e8c0f390eae2e9fd87aa1ae0797fb01b3  /lib/firmware/mediatek/mt8192/scp.img
-
-	$ v4l2-ctl -d1 --list-formats -D
-	Driver Info:
-		Driver name      : mtk-vcodec-dec
-		Card type        : MT8192 video decoder
-		Bus info         : platform:16000000.video-codec
-		Driver version   : 6.2.0
-		Capabilities     : 0x84204000
-			Video Memory-to-Memory Multiplanar
-			Streaming
-			Extended Pix Format
-			Device Capabilities
-		Device Caps      : 0x04204000
-			Video Memory-to-Memory Multiplanar
-			Streaming
-			Extended Pix Format
-	Media Driver Info:
-		Driver name      : mtk-vcodec-dec
-		Model            : mtk-vcodec-dec
-		Serial           :
-		Bus info         : platform:16000000.video-codec
-		Media version    : 6.2.0
-		Hardware revision: 0x00000000 (0)
-		Driver version   : 6.2.0
-	Interface Info:
-		ID               : 0x0300000c
-		Type             : V4L Video
-	Entity Info:
-		ID               : 0x00000001 (1)
-		Name             : mtk-vcodec-dec-source
-		Function         : V4L2 I/O
-		Pad 0x01000002   : 0: Source
-		 Link 0x02000008: to remote pad 0x1000004 of entity 'mtk-vcodec-dec-proc' (Video Decoder): Data, Enabled, Immutable
-	ioctl: VIDIOC_ENUM_FMT
-		Type: Video Capture Multiplanar
-
-		[0]: 'MT21' (Mediatek Compressed Format, compressed)
-
-
-So the decoder video node is clearly only exposing MT21 in the capture pad.
-
-Furthermore, with
-
-	$ echo module mtk_vcodec_dec +pmf > /sys/kernel/debug/dynamic_debug/control
-
-and re-running the v4l2-ctl command, you'll see
-
-	[ 3164.998781] mtk_vcodec_dec:fops_vcodec_open: fops_vcodec_open(),212: decoder capability 740
-
-and if you check drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h:
-
-	enum mtk_vdec_format_types {
-		MTK_VDEC_FORMAT_MM21 = 0x20,
-		MTK_VDEC_FORMAT_MT21C = 0x40,
-		MTK_VDEC_FORMAT_H264_SLICE = 0x100,
-		MTK_VDEC_FORMAT_VP8_FRAME = 0x200,
-		MTK_VDEC_FORMAT_VP9_FRAME = 0x400,
-		MTK_VCODEC_INNER_RACING = 0x20000,
-	};
-
-meaning the scp.img firmware is exposing the MT21C but not the MM21 format.
-
-So, again, the mt8192 scp.img firmware needs to be fixed.
-
-Thanks,
-Nícolas
+Laurent Pinchart
