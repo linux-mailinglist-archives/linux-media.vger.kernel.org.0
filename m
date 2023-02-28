@@ -2,125 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13ECC6A5C66
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB3566A5C68
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbjB1PwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 10:52:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47430 "EHLO
+        id S229948AbjB1PxJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:53:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbjB1Pv7 (ORCPT
+        with ESMTP id S229779AbjB1PxH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:51:59 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D747931E08
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:51:56 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id g3so1384625wri.6
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:51:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677599515;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6A9koUtSxkvOPXoTwoFJv5+lwij6TAhz4sZy3lYRVO8=;
-        b=GpQIAc/ysBWf3K/yhn5pvQb6GXC8R2i2cT5wFR1MKp9dJkV+qX8ST2aJ06wabfw169
-         7y3lXZ5urh0gqvApa1hZ0g/0UK1pohu3JcNnZd+Vs7hlksKqUI4Hnbklq65GmNqrbV1B
-         KemfzosE/fmOc6cbljoGRPb2lmwnQ0UclkqASXNK32ZM14er55WIsZZwYDENj3ROrbox
-         qY7tceM8rptBfyDI3H97g8SLUcBBeWWTEgTRqMI0DFef87ek8CB4/qeIqp6q6q14CxoX
-         M/HMa46nCAA3xPLTXh1BWl2qKbkvRs/ePHZ0TBmOJubAJhEvJOQWx3c8dMfjJgvYiLDo
-         F5wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677599515;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6A9koUtSxkvOPXoTwoFJv5+lwij6TAhz4sZy3lYRVO8=;
-        b=0PxVZDle8uDgd5I9q6LzSaRY0GbemsHcn18Ex6ev+VJR5aBCXvtdp+GTnT3hNOto1w
-         b/n2KXiRBbyQRgxLgyF8xFYebAxQ023kuCvy+0TeEPkgGG8/WLAsH6jrRm9lmShMgVSo
-         g6OppUDoP/8H6VGJcrzsGAEJF2G4PfVVngBMlfVB+iZDQ1IELjZn8GoRjx3Qo9kf3y66
-         xN/cXYvaFjMyOJ8c6J+RteIgrnsMFwmqR9gTAnDjUpXuXa52bI/JFgKYiWY+psMh/f0R
-         7lxlinsszKIkvgOPELoO/xEtBmrREYqKez6J30BxA9AfN77GtDmU0tfGyvIaAqEqRqrR
-         6KSQ==
-X-Gm-Message-State: AO0yUKX/5Mca9y4HH7IDVkJbCR2ihHnmbbFyWaQJYBgU29Blj2LTRspZ
-        ygax1qshhfDnCTqMJoqo3J1WDQ==
-X-Google-Smtp-Source: AK7set+KUj4CCdEC/cxgXOjkd7nViTKY9szj4PwxqUmwpakEG+V+cnw7lLXDrCvvfwOOlFl9bI/Fow==
-X-Received: by 2002:adf:e790:0:b0:2cb:c370:77f9 with SMTP id n16-20020adfe790000000b002cbc37077f9mr2830676wrm.9.1677599515350;
-        Tue, 28 Feb 2023 07:51:55 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id t3-20020a5d49c3000000b002c5804b6afasm10393793wrs.67.2023.02.28.07.51.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 07:51:54 -0800 (PST)
-Message-ID: <f215d875-4871-4d24-84ed-0703a28509d2@linaro.org>
-Date:   Tue, 28 Feb 2023 15:51:54 +0000
+        Tue, 28 Feb 2023 10:53:07 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01679E04E
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:53:05 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 182C756A;
+        Tue, 28 Feb 2023 16:53:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677599583;
+        bh=nRRX93wK7SzRy56s8q0FxZ0H+j0bWtfSzQbq55xfwac=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=LJ7Z9OPbkK9ODjXi5kNBAptlokCADtx1OECZQhdmir2/E2BVOZlJX2zwC6Dz3fcTY
+         dCHQFg3ZXp/EEQTYNh4wKPsJUm0yeU3RFLgfI5d8lSjaAjCa48mRXSRFb8tPjCTz5q
+         gIGlQJ5mxF8wjdw/pjd46l4HlZW/hBYgmcjjyMks=
+Message-ID: <7fa4508b-471c-e348-e4b9-9d46918b21e1@ideasonboard.com>
+Date:   Tue, 28 Feb 2023 17:52:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 15/18] media: venus: Remap bufreq fields on HFI6XX
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 0/3] media: Zero-initialize structures passed to subdev
+ pad ops
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        kernel@pengutronix.de, linux-imx@nxp.com
+References: <20230215165021.6628-1-laurent.pinchart@ideasonboard.com>
 Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
-References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-15-58c2c88384e9@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230228-topic-venus-v1-15-58c2c88384e9@linaro.org>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230215165021.6628-1-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/02/2023 15:24, Konrad Dybcio wrote:
-> Similarly to HFI4XX, the fields are remapped on 6XX as well. Fix it.
+On 15/02/2023 18:50, Laurent Pinchart wrote:
+> Hello,
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->   drivers/media/platform/qcom/venus/hfi_helper.h | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
+> This patch series fixes a (surprisingly large) number of drivers that
+> don't zero-initialize structures passed to subdev pad operations.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index d2d6719a2ba4..8d683a6e07af 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -1152,11 +1152,14 @@ struct hfi_buffer_display_hold_count_actual {
->   
->   /* HFI 4XX reorder the fields, use these macros */
->   #define HFI_BUFREQ_HOLD_COUNT(bufreq, ver)	\
-> -	((ver) == HFI_VERSION_4XX ? 0 : (bufreq)->hold_count)
-> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
-> +	? 0 : (bufreq)->hold_count)
->   #define HFI_BUFREQ_COUNT_MIN(bufreq, ver)	\
-> -	((ver) == HFI_VERSION_4XX ? (bufreq)->hold_count : (bufreq)->count_min)
-> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
-> +	? (bufreq)->hold_count : (bufreq)->count_min)
->   #define HFI_BUFREQ_COUNT_MIN_HOST(bufreq, ver)	\
-> -	((ver) == HFI_VERSION_4XX ? (bufreq)->count_min : 0)
-> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
-> +	? (bufreq)->count_min : 0)
->   
->   struct hfi_buffer_requirements {
->   	u32 type;
+> The rationale is explained in patch 1/3, which fixes the issue: while
+> this doesn't cause any immediate problem, it leaves reserved fields
+> uninitialized, and any future change of in-kernel APIs that make use of
+> some of the reserved fields may introduce hard to catch breakages.
 > 
+> Patches 2/3 and 3/3 are not strictly required to fix the problem, but
+> they address coding style consistency issues that bothered me when
+> developing 1/3.
+> 
+> Laurent Pinchart (3):
+>    media: Zero-initialize all structures passed to subdev pad operations
+>    media: Prefer designated initializers over memset for subdev pad ops
+>    media: USe designated initializers for all subdev pad ops
 
-Doesn't this need a Fixes ?
+For the three patches:
 
----
-bod
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
