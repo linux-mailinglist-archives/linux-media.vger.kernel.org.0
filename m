@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A78B6A6332
-	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 00:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE9BA6A6397
+	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 00:03:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjB1W76 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 17:59:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53296 "EHLO
+        id S229509AbjB1XDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 18:03:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbjB1W7h (ORCPT
+        with ESMTP id S229789AbjB1XD3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 17:59:37 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E427537B76;
-        Tue, 28 Feb 2023 14:59:10 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id ce7so6799431pfb.9;
-        Tue, 28 Feb 2023 14:59:10 -0800 (PST)
+        Tue, 28 Feb 2023 18:03:29 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DDF165A6;
+        Tue, 28 Feb 2023 15:03:11 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id c23so11443116pjo.4;
+        Tue, 28 Feb 2023 15:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677625145;
+        d=gmail.com; s=20210112; t=1677625390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uqyHMdEv/I4h+kB4S5EmXwyYyPXw9FA0QD7a4XeiZZ4=;
-        b=ASyM6HGFDlpQDFwDyarGaC63fQeqhSxvZkkcec4sWmvH3/9z5wsbGhgQjWJWP6EAMQ
-         dpDIzr6yJLPn3lZwYv2HuMvxLTSGZlavn26tDEX6bPQGZxoSDZdyHUm/BgKNfIjpEQUH
-         lSu27zpNTtKbLOdTgkV6X8LyjghLG9ViX5VPO+DAIMPhCUjYtG5hqtPqJlAQrGsOdkTa
-         LthaRsb5sMojOySLOgvbKxV6dw1W7Mdiq5jVkiELgv0DRySbrRNalEO+5QMd9kKCs836
-         meAXUNXhTWRkIIemiGoOYmIWwjR1f8HwflYkK55dj3AsA5HJ0lTr+Yi5aw9y7vMdUWVL
-         bLKA==
+        bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
+        b=j/ogsyjdQRA5zYnsXBpsNkXEvSmQoeBfNg6XeRt0KkElPbyzUKxGr8RwmSl86o4DMN
+         ztLh7LsVCV+uaNjSNr7UOPriKIqPZgohUBS1K9WRnqz6MiLI0M6xfpzkxFrbp3D/lDur
+         inZxwhFCKjIR5uryIkhxHHCHK0472BvmeDRdGKeRo068Tu+fwjEGlfJPRakzpVDuX2eA
+         RSdRj47f3t31B0tjaZjiMGBpJGQz4jmEwFNCJc0pQ2DkaOY9EJXSzRMjshuEtbL/Rfrk
+         buQHwrWLMfVQCmOW7uWpYyHwV+//irPDNH2euzWduAGbAbpYtkZS5Jau2HfkMZBBv44d
+         AXKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677625145;
+        d=1e100.net; s=20210112; t=1677625390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uqyHMdEv/I4h+kB4S5EmXwyYyPXw9FA0QD7a4XeiZZ4=;
-        b=y8AsRMreaq2T4nYDm8WEDZ9mSPxbdPSkxkWqhuM4fwO5fyDEtSRmddfYZp6gkX6loP
-         lUonFIiL6F/TlC3FkhovVBIDSTro+BIL2drBKFs25KZjazEuTbqLUQeWFpZ99RurF0gM
-         S5242QkvuWBrV3vxVQ+gkf4korp5gqlH5vKKJ0TkJIYxRWkz03t8croyeOBuBqxWhhLk
-         CSadWohEtGNgbmrXO1sziVYJjXiP7/B5emcuzeI8MZM2yRHFf16V4hkpWB9oDnMY2bJ/
-         HdZBra5Pb5kXoD/HmbJjVa7yt9vVzdn20K2PC8d/Gre61ih6qTeI4pKFVLD85WjH5KnQ
-         gEcA==
-X-Gm-Message-State: AO0yUKVdCPAtd1fzO3XRMKhe8olQTu2gsxtp7lUShspy19fLXH4lfX5W
-        ZMBdnd45qAn1epdFW6lbDgo=
-X-Google-Smtp-Source: AK7set+3UcPcI0nFviK0e4ferwQ88N65B/jZoDaHIwDRCP37f6WIy+qIweLs7z/i0m7l6FlgdarUpA==
-X-Received: by 2002:a62:6286:0:b0:5a9:bcf7:ea75 with SMTP id w128-20020a626286000000b005a9bcf7ea75mr3610819pfb.10.1677625145641;
-        Tue, 28 Feb 2023 14:59:05 -0800 (PST)
+        bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
+        b=lz7m3SvpUW9a4/ZlD6z2hGhB9mkJs8sZ395fc+Cn2Ex53lMfSZoT4RuCTfOxFDhg0C
+         7JiQSYaxmAZEKzgzGhqjqisrmN63fIh+Y7Q8ZS3sFhGw3/HpUAccNCCmfZO1ONkylgW5
+         u3NY1h/Kb+3xotac32GYiVV50JteANPBlpv1hOm9L34+X8CgcxyXrQ+KZLwrQHzcXDSC
+         JjMrqfe4FLPqNCZoXTGaxztqkUAfQV3b62FBF82ecjmuHi0WfWKvwX12WHFmz1FPNpES
+         bbtrIJbU9tBJ33rC2QmeuJcTRcT+OpU/bJKna28aXverxl6OetU7TN33o2P2ekge04kl
+         3Jjw==
+X-Gm-Message-State: AO0yUKX4zqkPf2ANH0BPJ3TMG8x8wd5LcSt8eVTEO/yZYeeSATC23DFg
+        8xQTRgKZIRdHMZQjubh5ibFrbi76UKhvZg==
+X-Google-Smtp-Source: AK7set+uhL3oAEBWRGfMU0kz/dsgPtKf8mVqXm9u6mnBtkUHEgwo3uBk0J4jg6vnUxxbgGVMP/FFbg==
+X-Received: by 2002:a17:903:41c1:b0:19c:d550:8cd4 with SMTP id u1-20020a17090341c100b0019cd5508cd4mr5350380ple.7.1677625390440;
+        Tue, 28 Feb 2023 15:03:10 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id n2-20020a62e502000000b005a8c92f7c27sm6471198pff.212.2023.02.28.14.59.04
+        by smtp.gmail.com with ESMTPSA id e9-20020a170902d38900b0019251e959b1sm7004856pld.262.2023.02.28.15.03.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 14:59:05 -0800 (PST)
+        Tue, 28 Feb 2023 15:03:10 -0800 (PST)
 From:   Rob Clark <robdclark@gmail.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
@@ -63,20 +63,20 @@ Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
         Simon Ser <contact@emersion.fr>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Rob Clark <robdclark@chromium.org>,
-        Rob Clark <robdclark@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        intel-gfx@lists.freedesktop.org,
         linux-kernel@vger.kernel.org (open list),
         linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
         linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
         FRAMEWORK)
-Subject: [PATCH v8 13/16] drm/msm: Add deadline based boost support
-Date:   Tue, 28 Feb 2023 14:58:17 -0800
-Message-Id: <20230228225833.2920879-14-robdclark@gmail.com>
+Subject: [PATCH v8 16/16] drm/i915: Add deadline based boost support
+Date:   Tue, 28 Feb 2023 14:58:20 -0800
+Message-Id: <20230228225833.2920879-17-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230228225833.2920879-1-robdclark@gmail.com>
 References: <20230228225833.2920879-1-robdclark@gmail.com>
@@ -94,158 +94,51 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Rob Clark <robdclark@chromium.org>
 
-Track the nearest deadline on a fence timeline and set a timer to expire
-shortly before to trigger boost if the fence has not yet been signaled.
-
 v2: rebase
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_fence.c | 74 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_fence.h | 20 +++++++++
- 2 files changed, 94 insertions(+)
+ drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index 56641408ea74..51b461f32103 100644
---- a/drivers/gpu/drm/msm/msm_fence.c
-+++ b/drivers/gpu/drm/msm/msm_fence.c
-@@ -8,6 +8,35 @@
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 7503dcb9043b..44491e7e214c 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
+ 	return i915_request_enable_breadcrumb(to_request(fence));
+ }
  
- #include "msm_drv.h"
- #include "msm_fence.h"
-+#include "msm_gpu.h"
-+
-+static struct msm_gpu *fctx2gpu(struct msm_fence_context *fctx)
++static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
 +{
-+	struct msm_drm_private *priv = fctx->dev->dev_private;
-+	return priv->gpu;
-+}
++	struct i915_request *rq = to_request(fence);
 +
-+static enum hrtimer_restart deadline_timer(struct hrtimer *t)
-+{
-+	struct msm_fence_context *fctx = container_of(t,
-+			struct msm_fence_context, deadline_timer);
-+
-+	kthread_queue_work(fctx2gpu(fctx)->worker, &fctx->deadline_work);
-+
-+	return HRTIMER_NORESTART;
-+}
-+
-+static void deadline_work(struct kthread_work *work)
-+{
-+	struct msm_fence_context *fctx = container_of(work,
-+			struct msm_fence_context, deadline_work);
-+
-+	/* If deadline fence has already passed, nothing to do: */
-+	if (msm_fence_completed(fctx, fctx->next_deadline_fence))
++	if (i915_request_completed(rq))
 +		return;
 +
-+	msm_devfreq_boost(fctx2gpu(fctx), 2);
-+}
- 
- 
- struct msm_fence_context *
-@@ -36,6 +65,13 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
- 	fctx->completed_fence = fctx->last_fence;
- 	*fctx->fenceptr = fctx->last_fence;
- 
-+	hrtimer_init(&fctx->deadline_timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
-+	fctx->deadline_timer.function = deadline_timer;
-+
-+	kthread_init_work(&fctx->deadline_work, deadline_work);
-+
-+	fctx->next_deadline = ktime_get();
-+
- 	return fctx;
- }
- 
-@@ -62,6 +98,8 @@ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
- 	spin_lock_irqsave(&fctx->spinlock, flags);
- 	if (fence_after(fence, fctx->completed_fence))
- 		fctx->completed_fence = fence;
-+	if (msm_fence_completed(fctx, fctx->next_deadline_fence))
-+		hrtimer_cancel(&fctx->deadline_timer);
- 	spin_unlock_irqrestore(&fctx->spinlock, flags);
- }
- 
-@@ -92,10 +130,46 @@ static bool msm_fence_signaled(struct dma_fence *fence)
- 	return msm_fence_completed(f->fctx, f->base.seqno);
- }
- 
-+static void msm_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct msm_fence *f = to_msm_fence(fence);
-+	struct msm_fence_context *fctx = f->fctx;
-+	unsigned long flags;
-+	ktime_t now;
-+
-+	spin_lock_irqsave(&fctx->spinlock, flags);
-+	now = ktime_get();
-+
-+	if (ktime_after(now, fctx->next_deadline) ||
-+			ktime_before(deadline, fctx->next_deadline)) {
-+		fctx->next_deadline = deadline;
-+		fctx->next_deadline_fence =
-+			max(fctx->next_deadline_fence, (uint32_t)fence->seqno);
-+
-+		/*
-+		 * Set timer to trigger boost 3ms before deadline, or
-+		 * if we are already less than 3ms before the deadline
-+		 * schedule boost work immediately.
-+		 */
-+		deadline = ktime_sub(deadline, ms_to_ktime(3));
-+
-+		if (ktime_after(now, deadline)) {
-+			kthread_queue_work(fctx2gpu(fctx)->worker,
-+					&fctx->deadline_work);
-+		} else {
-+			hrtimer_start(&fctx->deadline_timer, deadline,
-+					HRTIMER_MODE_ABS);
-+		}
-+	}
-+
-+	spin_unlock_irqrestore(&fctx->spinlock, flags);
-+}
-+
- static const struct dma_fence_ops msm_fence_ops = {
- 	.get_driver_name = msm_fence_get_driver_name,
- 	.get_timeline_name = msm_fence_get_timeline_name,
- 	.signaled = msm_fence_signaled,
-+	.set_deadline = msm_fence_set_deadline,
- };
- 
- struct dma_fence *
-diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
-index 7f1798c54cd1..cdaebfb94f5c 100644
---- a/drivers/gpu/drm/msm/msm_fence.h
-+++ b/drivers/gpu/drm/msm/msm_fence.h
-@@ -52,6 +52,26 @@ struct msm_fence_context {
- 	volatile uint32_t *fenceptr;
- 
- 	spinlock_t spinlock;
++	if (i915_request_started(rq))
++		return;
 +
 +	/*
-+	 * TODO this doesn't really deal with multiple deadlines, like
-+	 * if userspace got multiple frames ahead.. OTOH atomic updates
-+	 * don't queue, so maybe that is ok
++	 * TODO something more clever for deadlines that are in the
++	 * future.  I think probably track the nearest deadline in
++	 * rq->timeline and set timer to trigger boost accordingly?
 +	 */
 +
-+	/** next_deadline: Time of next deadline */
-+	ktime_t next_deadline;
++	intel_rps_boost(rq);
++}
 +
-+	/**
-+	 * next_deadline_fence:
-+	 *
-+	 * Fence value for next pending deadline.  The deadline timer is
-+	 * canceled when this fence is signaled.
-+	 */
-+	uint32_t next_deadline_fence;
-+
-+	struct hrtimer deadline_timer;
-+	struct kthread_work deadline_work;
+ static signed long i915_fence_wait(struct dma_fence *fence,
+ 				   bool interruptible,
+ 				   signed long timeout)
+@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
+ 	.signaled = i915_fence_signaled,
+ 	.wait = i915_fence_wait,
+ 	.release = i915_fence_release,
++	.set_deadline = i915_fence_set_deadline,
  };
  
- struct msm_fence_context * msm_fence_context_alloc(struct drm_device *dev,
+ static void irq_execute_cb(struct irq_work *wrk)
 -- 
 2.39.1
 
