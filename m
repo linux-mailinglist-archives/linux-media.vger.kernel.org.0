@@ -2,72 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A13126A5FC0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 20:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7566A5FC7
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 20:38:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbjB1Tgf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 14:36:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37750 "EHLO
+        id S229753AbjB1TiN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 14:38:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjB1Tgd (ORCPT
+        with ESMTP id S229593AbjB1TiM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 14:36:33 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A01CC271C
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 11:36:24 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id c3so7569197qtc.8
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 11:36:24 -0800 (PST)
+        Tue, 28 Feb 2023 14:38:12 -0500
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545D49EC9;
+        Tue, 28 Feb 2023 11:38:09 -0800 (PST)
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1755e639b65so641494fac.3;
+        Tue, 28 Feb 2023 11:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WVI54ty1dVB2FShThWqr5QDeMD0Drsni5MzTQ5/3ohk=;
-        b=DaesGovpBmy7zYmtJlMYKsGKoevofybApEkGvqtubTpWGdQ87UP+zQs3rueeveMupT
-         whIVteRVIzBKR/hP/RkyWmCaxRkJfRJWVPhjw/K0su1JrA7R4sOUacmqJyddiA1uu2Kn
-         UCm89k8GkssZ4OT0yCKRdZVzuDxVReNl8zOfs0ZM+sNebzyMVxrHwbHIo/cU5E3kvO60
-         hDJfroyrLh2sQYnrl13fHRpB7niIukYxFFZxEBOzgjuoT4rmFggqyHW3Rd/iHLX5IGtW
-         BxuDOb+KrosCe00/OcMiIUtmvEpgb987jFZ4f82YxYmL1XjLGupRYvnSmkSWI7vgHK+V
-         f4tQ==
+        d=gmail.com; s=20210112; t=1677613088;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PVieRPuEMOm+nHzPuq4QMxD7wCV7l2uEG4OOeeLhgTo=;
+        b=YtdcuiZxfo3pvq1EBxEjMVDJt7xsOjpqKK7yjHlMcKGm6zRNFa8DLgbRUNG4TbT9y8
+         XBtvslNJByhKIrCLCJ23dQtmvnnfDLVDIhXj9f4NY/5OOBLv/Ytd1iSF79T3BzW5W7gf
+         RyWZgAVw7X/hmAyac+viOivzUgUIbQfEsDOripCar4FpJ2USzdD75I/gsz34YJuJsqKd
+         zfv+jcd7iZL9mLzhuXjg9fWxY8yszD6D0pDwdFXqwUcZQ9RUrilpBISJTAytSXVEF2Mo
+         vsBsKEdDYIyfnZXBwZPog4D0jmkYANALCDhl7UVWnQDtkfLNVfzJXZ/SzceH9dd0BMUJ
+         cojA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WVI54ty1dVB2FShThWqr5QDeMD0Drsni5MzTQ5/3ohk=;
-        b=HQAmbVuwdm9IwEcs1pkk9d19iBz/9ldMIXBZLu887SXOwMIOnmi79cKJnO1PZJRZAn
-         MSmoPybE06iB03l1aHXYI6ByrMSNcnU4SZ5hNPpKp7CnYNT2WwRlp/1973YZX1hqtmwE
-         WrBr/eAzWlWseTPSu3EeGcGNit453M8UVvbYOB8fbHiMkJe8iE6AdACOQK+pSY+GyuSh
-         0TybVe24kFw1skrsUkNLVroy1nbueqqU8BQwrkM6+BLVzirHcDP4lb9Zz8h3eoUIQLYB
-         4Lo+zr+zw1G0pOGe5HwbPPVzCVg5hwX+LmPDdpCBHXp3dEpfybX3SbdK6XfpIshkp6S8
-         wLOg==
-X-Gm-Message-State: AO0yUKV+vl9EScaRtUZYZopDoG3+6+iNE94ycKh+Xj6nHPguUVmGhzu7
-        eao/MpjzWtqFDMMAO1jvBr4neg==
-X-Google-Smtp-Source: AK7set/AIEbMVcaBMMSneJTnmFn+q5vuvBjDYbtG5RjYMWWDdXcKj15LiX7/Mz79/uNImRW7aXY+3w==
-X-Received: by 2002:ac8:5bc4:0:b0:3bf:d4dc:7058 with SMTP id b4-20020ac85bc4000000b003bfd4dc7058mr7124047qtb.11.1677612983768;
-        Tue, 28 Feb 2023 11:36:23 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id o134-20020a37418c000000b007429ee9482dsm5299108qka.134.2023.02.28.11.36.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 11:36:23 -0800 (PST)
-Message-ID: <33e75f6710da0c6bc281265f3c85f2334eccb4f4.camel@ndufresne.ca>
-Subject: Re: [RFC] Remove support for the video overlay interface
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Date:   Tue, 28 Feb 2023 14:36:21 -0500
-In-Reply-To: <5f1ff21e-557d-0d80-293b-2ecccb9d5e2a@xs4all.nl>
-References: <5f1ff21e-557d-0d80-293b-2ecccb9d5e2a@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+        d=1e100.net; s=20210112; t=1677613088;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PVieRPuEMOm+nHzPuq4QMxD7wCV7l2uEG4OOeeLhgTo=;
+        b=wvmvYe+/n9xE8FVt0WuHyxanfLFuUUnCp/GGpXzXAc/rCQ0GPAwBqOjYNT4v1++3rY
+         UqZoC1OGwv6GDOShFbUTqAjFVI78MqwmR3Uu37iyGFZgmJw9TvCxUvRrCSLw63FqtOLW
+         BJWSBt4vM8ztzliwL3wz5LOCiX7FX6oE1U7/otAP1XT25xla9bNmFYFD89csCe4D6sh7
+         kMerxd8aGTPg6rYDL9Qk+aj7fDzbzQDiPTOCrMmVuAm0m8FEFgEC1UQd0ASdHsePLy0u
+         mJ352GarI+1bfXtmn5Nnmzh/xoaGQIQfFMHxu7YwOzFU4ZNRREcEPrnZtQUzq+X0hv8z
+         joLg==
+X-Gm-Message-State: AO0yUKVukHodzhnPOAcv02JS9VR53HcMkXlfazWsFi3vSnbdNt9UJZ+6
+        5ffUre9gB6Ynv0RRww3q+1a+EVAcD92fOfKSGTE=
+X-Google-Smtp-Source: AK7set8/X1E/XPetbsmctxmF0pvmxBCTcKKMQYCtY5r6xSJk5qanEEVUtccQFCDLkVD6xABYiPhsKBl7fbBep2x+JN4=
+X-Received: by 2002:a05:6871:6a9e:b0:16e:873e:b06b with SMTP id
+ zf30-20020a0568716a9e00b0016e873eb06bmr869979oab.3.1677613088636; Tue, 28 Feb
+ 2023 11:38:08 -0800 (PST)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+References: <20230227193535.2822389-1-robdclark@gmail.com> <20230227193535.2822389-6-robdclark@gmail.com>
+ <20230228112215.6d3f1f3d@eldfell>
+In-Reply-To: <20230228112215.6d3f1f3d@eldfell>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 28 Feb 2023 11:37:57 -0800
+Message-ID: <CAF6AEGt01HQ7kJmTWrycwDG=Rc_vy1dQ+SPFeX7vD19e+69hBw@mail.gmail.com>
+Subject: Re: [PATCH v7 05/15] dma-buf/sync_file: Add SET_DEADLINE ioctl
+To:     Pekka Paalanen <ppaalanen@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,76 +83,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 28 f=C3=A9vrier 2023 =C3=A0 17:52 +0100, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> While working on the vb2 conversion of the saa7146 driver I dug a bit dee=
-per into
-> the video capture overlay support of that driver.
->=20
-> For more info of that feature see:
->=20
-> https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-over=
-lay.html
->=20
-> Specifically, video overlay support relies on userspace passing the addre=
-ss of
-> the framebuffer to the driver with VIDIOC_S_FBUF. The PCI driver can then=
- DMA
-> the captured frame straight into the framebuffer. This was useful 20 year=
-s ago,
-> but today not so much.
->=20
-> Typically userspace would get the address from the /dev/fbX device using =
-the
-> FBIOGET_FSCREENINFO ioctl.
->=20
-> But drm_fb_helper.c sets the smem_start field explicitly to 0 unless:
->=20
-> 1) CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is set, and
-> 2) CONFIG_EXPERT is set, and
-> 3) set the drm_kms_helper module parameter drm_leak_fbdev_smem to 1.
->=20
-> Actually, even with all that set, I *still* get a 0 value. I probably
-> missed something.
->=20
-> In any case, I think destructive overlay support is effectively dead and =
-it
-> should be removed from the v4l2 drivers.
->=20
-> This would affect saa7146, bttv, saa7134 and vivid.
->=20
-> Output overlay support is still around (ivtv, omap_vout). There is also a
-> single driver with a non-destructive capture overlay:
-> drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
->=20
-> No idea what that's doing exactly in the bcm2835 driver.
+On Tue, Feb 28, 2023 at 1:22 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Mon, 27 Feb 2023 11:35:11 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > The initial purpose is for igt tests, but this would also be useful for
+> > compositors that wait until close to vblank deadline to make decisions
+> > about which frame to show.
+> >
+> > The igt tests can be found at:
+> >
+> > https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-deadline
+> >
+> > v2: Clarify the timebase, add link to igt tests
+> > v3: Use u64 value in ns to express deadline.
+> > v4: More doc
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/dma-buf/dma-fence.c    |  3 ++-
+> >  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
+> >  include/uapi/linux/sync_file.h | 22 ++++++++++++++++++++++
+> >  3 files changed, 43 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index e103e821d993..7761ceeae620 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -933,7 +933,8 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> >   *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
+> >   *   needed.
+> >   *
+> > - * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
+> > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline
+> > + * (or indirectly via userspace facing ioctls like &SYNC_IOC_SET_DEADLINE).
+> >   * The deadline hint provides a way for the waiting driver, or userspace, to
+> >   * convey an appropriate sense of urgency to the signaling driver.
+>
+> Hi,
+>
+> when the kernel HTML doc is generated, I assume the above becomes a
+> link to "DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence", right?
 
-On the Pi, the firmware implements arbitrary number of graphic layers. It w=
-ill
-start rendering the camera on a layer on top. It is non-destructive, but on
-newer code base, using libcamera, they replaced that with a QT popup window=
-. So
-maybe they also consider this as their legacy.
+Heh, kernel docs completely miss the sync_file uABI.. I'll add a patch
+to correct that in order to make these links work properly.
 
-Note this is CAPTURE overlay, they don't do OUTPUT overlay in any drivers t=
-here.
+BR,
+-R
 
->=20
-> Removing support for this has some nice related benefits: the overlay
-> window supports clipping (either a list of rectangles or a bitmap), and
-> that would also disappear. That makes the compat32 code quite a bit easie=
-r.
-> A fair amount of code is dedicated to that.
->=20
-> So, I propose to drop destructive overlay support from saa7146, bttv and
-> saa7134 and vivid for the 6.4 kernel. In addition, support for
-> V4L2_FBUF_CAP_LIST_CLIPPING and V4L2_FBUF_CAP_BITMAP_CLIPPING is also
-> dropped. This only affects the vivid driver which is the only driver that
-> supports this for output overlays.
->=20
-> Any objections?
->=20
-> Regards,
->=20
-> 	Hans
-
+> >   *
+> > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> > index af57799c86ce..418021cfb87c 100644
+> > --- a/drivers/dma-buf/sync_file.c
+> > +++ b/drivers/dma-buf/sync_file.c
+> > @@ -350,6 +350,22 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
+> >       return ret;
+> >  }
+> >
+> > +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
+> > +                                     unsigned long arg)
+> > +{
+> > +     struct sync_set_deadline ts;
+> > +
+> > +     if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
+> > +             return -EFAULT;
+> > +
+> > +     if (ts.pad)
+> > +             return -EINVAL;
+> > +
+> > +     dma_fence_set_deadline(sync_file->fence, ns_to_ktime(ts.deadline_ns));
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static long sync_file_ioctl(struct file *file, unsigned int cmd,
+> >                           unsigned long arg)
+> >  {
+> > @@ -362,6 +378,9 @@ static long sync_file_ioctl(struct file *file, unsigned int cmd,
+> >       case SYNC_IOC_FILE_INFO:
+> >               return sync_file_ioctl_fence_info(sync_file, arg);
+> >
+> > +     case SYNC_IOC_SET_DEADLINE:
+> > +             return sync_file_ioctl_set_deadline(sync_file, arg);
+> > +
+> >       default:
+> >               return -ENOTTY;
+> >       }
+> > diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+> > index ee2dcfb3d660..49325cf6749b 100644
+> > --- a/include/uapi/linux/sync_file.h
+> > +++ b/include/uapi/linux/sync_file.h
+> > @@ -67,6 +67,21 @@ struct sync_file_info {
+> >       __u64   sync_fence_info;
+> >  };
+> >
+> > +/**
+> > + * struct sync_set_deadline - set a deadline hint on a fence
+> > + * @deadline_ns: absolute time of the deadline
+>
+> Is it legal to pass zero as deadline_ns?
+>
+> > + * @pad:     must be zero
+> > + *
+> > + * The timebase for the deadline is CLOCK_MONOTONIC (same as vblank)
+>
+> Does something here provide doc links to "DOC: SYNC_IOC_SET_DEADLINE -
+> set a deadline on a fence" and to the "DOC: deadline hints"?
+>
+> > + */
+> > +struct sync_set_deadline {
+> > +     __u64   deadline_ns;
+> > +     /* Not strictly needed for alignment but gives some possibility
+> > +      * for future extension:
+> > +      */
+> > +     __u64   pad;
+> > +};
+> > +
+> >  #define SYNC_IOC_MAGIC               '>'
+> >
+> >  /**
+> > @@ -95,4 +110,11 @@ struct sync_file_info {
+> >   */
+> >  #define SYNC_IOC_FILE_INFO   _IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
+> >
+> > +/**
+> > + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
+> > + *
+> > + * Allows userspace to set a deadline on a fence, see dma_fence_set_deadline()
+>
+> Does something here provide doc links to struct sync_set_deadline and
+> to the "DOC: deadline hints"?
+>
+> > + */
+> > +#define SYNC_IOC_SET_DEADLINE        _IOW(SYNC_IOC_MAGIC, 5, struct sync_set_deadline)
+> > +
+> >  #endif /* _UAPI_LINUX_SYNC_H */
+>
+> With all those links added:
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>
+>
+> Thanks,
+> pq
