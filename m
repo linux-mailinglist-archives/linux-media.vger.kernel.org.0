@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AC816A5C5F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13ECC6A5C66
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:52:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbjB1Pu4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 10:50:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
+        id S230203AbjB1PwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229796AbjB1Pux (ORCPT
+        with ESMTP id S230169AbjB1Pv7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:50:53 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3DA32524
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:50:46 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id h14so10263948wru.4
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:50:46 -0800 (PST)
+        Tue, 28 Feb 2023 10:51:59 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D747931E08
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:51:56 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id g3so1384625wri.6
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:51:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677599445;
+        d=linaro.org; s=google; t=1677599515;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uP+9At6GRqRbV5g3WePvbaYZr3DR0X3+cVJk1OqsfkU=;
-        b=TCxUrd/8wEEghTc4H6dMhsbfLyjeuKs5LSuGK3uhWTZC1DHXHKLrLGZABVNK0HczGQ
-         hDdQPbnllfrd27TvZuUTmxTPUchSQgLn+XY20BMjtB636bBiHZ3u7txzQsauQUrmV4vw
-         iKbYFc5G2w9TTB/7a3aHLsd4DMfIUma7Ih1KY57aCl6MOVQtPlixgRV9EBwfn6nedxwH
-         Bp4AnFLoo20TP7ahrtw2Lu+CSspoo+jYHi8sSIJ4sAtLunn/+Ge6kZbGNMgtPFmqgtdf
-         BdU1c7C6NMOjWkmXH5swz6wfAnZAIUzmlyZvf6A0wBpMZV9jCI2C535UYf0TtGBTOZeQ
-         34zQ==
+        bh=6A9koUtSxkvOPXoTwoFJv5+lwij6TAhz4sZy3lYRVO8=;
+        b=GpQIAc/ysBWf3K/yhn5pvQb6GXC8R2i2cT5wFR1MKp9dJkV+qX8ST2aJ06wabfw169
+         7y3lXZ5urh0gqvApa1hZ0g/0UK1pohu3JcNnZd+Vs7hlksKqUI4Hnbklq65GmNqrbV1B
+         KemfzosE/fmOc6cbljoGRPb2lmwnQ0UclkqASXNK32ZM14er55WIsZZwYDENj3ROrbox
+         qY7tceM8rptBfyDI3H97g8SLUcBBeWWTEgTRqMI0DFef87ek8CB4/qeIqp6q6q14CxoX
+         M/HMa46nCAA3xPLTXh1BWl2qKbkvRs/ePHZ0TBmOJubAJhEvJOQWx3c8dMfjJgvYiLDo
+         F5wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677599445;
+        d=1e100.net; s=20210112; t=1677599515;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uP+9At6GRqRbV5g3WePvbaYZr3DR0X3+cVJk1OqsfkU=;
-        b=XQgK5cWQ/9DHTujPjxCQnvWDvNJwj595JJiKYoYzp/a4s8b650lGXFLtf98TvwraPj
-         4WlK/AnDDJypPfLxzUNw+AUHIiXXSuoAzxpSXOaVUdpaqovGWhp4V+DSZJn2G7umlJO9
-         3tQ1gQEj1x+S8R6+1+aH3sOwBD3KzN4zXwBDVeinGeayWlgNV40wCy2IT78QkT44SPJL
-         Ben5l6SIShC7X3jSfrUVV6msdpZUmaMTDrElQ0f+4yDGjGsBZLEGAXrwMzRDOGm3zj8s
-         Kt4av35kvHCIBDgalDMQsfRHJjqwnoDRxUAnrFtf5fRYqTPle8P0AggqTCaBXbUOfyLr
-         L10A==
-X-Gm-Message-State: AO0yUKXQhLUKy4OiAR5guYi0SNRpzOpa3RwKrY7sfn48O0In2GBRgUjd
-        QWWA4Wil5LiVvSRPTGdJJU87/A==
-X-Google-Smtp-Source: AK7set88A2avuov2X0L8NoZ6Yip/SKWznsJzO+pwK41MFJy/SKhO7qb2+lZmlP61JyFfi5b6SE9DnA==
-X-Received: by 2002:a05:6000:789:b0:2c5:3fce:423b with SMTP id bu9-20020a056000078900b002c53fce423bmr2453124wrb.4.1677599445445;
-        Tue, 28 Feb 2023 07:50:45 -0800 (PST)
+        bh=6A9koUtSxkvOPXoTwoFJv5+lwij6TAhz4sZy3lYRVO8=;
+        b=0PxVZDle8uDgd5I9q6LzSaRY0GbemsHcn18Ex6ev+VJR5aBCXvtdp+GTnT3hNOto1w
+         b/n2KXiRBbyQRgxLgyF8xFYebAxQ023kuCvy+0TeEPkgGG8/WLAsH6jrRm9lmShMgVSo
+         g6OppUDoP/8H6VGJcrzsGAEJF2G4PfVVngBMlfVB+iZDQ1IELjZn8GoRjx3Qo9kf3y66
+         xN/cXYvaFjMyOJ8c6J+RteIgrnsMFwmqR9gTAnDjUpXuXa52bI/JFgKYiWY+psMh/f0R
+         7lxlinsszKIkvgOPELoO/xEtBmrREYqKez6J30BxA9AfN77GtDmU0tfGyvIaAqEqRqrR
+         6KSQ==
+X-Gm-Message-State: AO0yUKX/5Mca9y4HH7IDVkJbCR2ihHnmbbFyWaQJYBgU29Blj2LTRspZ
+        ygax1qshhfDnCTqMJoqo3J1WDQ==
+X-Google-Smtp-Source: AK7set+KUj4CCdEC/cxgXOjkd7nViTKY9szj4PwxqUmwpakEG+V+cnw7lLXDrCvvfwOOlFl9bI/Fow==
+X-Received: by 2002:adf:e790:0:b0:2cb:c370:77f9 with SMTP id n16-20020adfe790000000b002cbc37077f9mr2830676wrm.9.1677599515350;
+        Tue, 28 Feb 2023 07:51:55 -0800 (PST)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id e9-20020a5d5309000000b002c70d269b4esm10033439wrv.91.2023.02.28.07.50.44
+        by smtp.gmail.com with ESMTPSA id t3-20020a5d49c3000000b002c5804b6afasm10393793wrs.67.2023.02.28.07.51.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 07:50:45 -0800 (PST)
-Message-ID: <4e0f94cd-c076-4fda-f2c9-19294664a7e5@linaro.org>
-Date:   Tue, 28 Feb 2023 15:50:44 +0000
+        Tue, 28 Feb 2023 07:51:54 -0800 (PST)
+Message-ID: <f215d875-4871-4d24-84ed-0703a28509d2@linaro.org>
+Date:   Tue, 28 Feb 2023 15:51:54 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 14/18] media: venus: vdec: Fix version check in
- vdec_set_work_route()
+Subject: Re: [PATCH 15/18] media: venus: Remap bufreq fields on HFI6XX
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -74,9 +73,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org,
         Vikash Garodia <vgarodia@codeaurora.org>
 References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-14-58c2c88384e9@linaro.org>
+ <20230228-topic-venus-v1-15-58c2c88384e9@linaro.org>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230228-topic-venus-v1-14-58c2c88384e9@linaro.org>
+In-Reply-To: <20230228-topic-venus-v1-15-58c2c88384e9@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -90,30 +89,38 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 28/02/2023 15:24, Konrad Dybcio wrote:
-> This is not so much V6-dependent as it's IRIS(1|2|2_1). Fix it.
+> Similarly to HFI4XX, the fields are remapped on 6XX as well. Fix it.
 > 
-> Fixes: 6483a8cbea54 ("media: venus: vdec: set work route to fw")
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/media/platform/qcom/venus/vdec.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/media/platform/qcom/venus/hfi_helper.h | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4ceaba37e2e5..f55d6cce163c 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -688,7 +688,7 @@ static int vdec_set_work_route(struct venus_inst *inst)
->   	u32 ptype = HFI_PROPERTY_PARAM_WORK_ROUTE;
->   	struct hfi_video_work_route wr;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index d2d6719a2ba4..8d683a6e07af 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -1152,11 +1152,14 @@ struct hfi_buffer_display_hold_count_actual {
 >   
-> -	if (!IS_V6(inst->core))
-> +	if (!(IS_IRIS1(inst->core) || IS_IRIS2(inst->core) || IS_IRIS2_1(inst->core)))
->   		return 0;
+>   /* HFI 4XX reorder the fields, use these macros */
+>   #define HFI_BUFREQ_HOLD_COUNT(bufreq, ver)	\
+> -	((ver) == HFI_VERSION_4XX ? 0 : (bufreq)->hold_count)
+> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
+> +	? 0 : (bufreq)->hold_count)
+>   #define HFI_BUFREQ_COUNT_MIN(bufreq, ver)	\
+> -	((ver) == HFI_VERSION_4XX ? (bufreq)->hold_count : (bufreq)->count_min)
+> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
+> +	? (bufreq)->hold_count : (bufreq)->count_min)
+>   #define HFI_BUFREQ_COUNT_MIN_HOST(bufreq, ver)	\
+> -	((ver) == HFI_VERSION_4XX ? (bufreq)->count_min : 0)
+> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
+> +	? (bufreq)->count_min : 0)
 >   
->   	wr.video_work_route = inst->core->res->num_vpp_pipes;
+>   struct hfi_buffer_requirements {
+>   	u32 type;
 > 
 
-Assuming you make it possible and explicit to bring in the macros's that 
-enable the cherry-picking.
+Doesn't this need a Fixes ?
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+bod
