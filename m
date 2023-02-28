@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3F66A5BFF
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C340F6A5C12
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:37:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbjB1Pdp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 10:33:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54632 "EHLO
+        id S230051AbjB1PhE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:37:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbjB1Pdn (ORCPT
+        with ESMTP id S230001AbjB1PhD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:33:43 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F802FCEB
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:33:29 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id p16so6690880wmq.5
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:33:28 -0800 (PST)
+        Tue, 28 Feb 2023 10:37:03 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C60F902F
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:37:01 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id q16so10229306wrw.2
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677598407;
+        d=linaro.org; s=google; t=1677598619;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9nv9JNtDlCNdtDLRBoEfNQRumarktclBfrFr5F3k7E8=;
-        b=bMu5ay0c51WoE+NUEQb+duROsc8eq0IELqCZ4lPXk8hzWns/Tnde6Ss1GglVTUCWCg
-         nGIsimZlVgTollaFCtjotqgD14tpS2X/5T9IG7dL7MQGVjqu2KZOPg1ycRef2iJ/9DCe
-         CoOd+KvWlYjSSAdH3/+dXBMceTIZ7MzgGpBpSe4oW02FXRWSh04/rLs2NyT2eaVOR/JV
-         jUtOJ8204uu8ATG1R2Gcc9OtMErMZRGU75FaEBiBQgJl4hA8HmU8gzF+Y8osYrCLRac0
-         vRJfe+Vq8UslgPsi+TTZqpZICXz38dJVtQHgdmUPqp5EvAyQQfHMs+S9jgZXqFsuDPO9
-         A7lQ==
+        bh=eQH1DUy39Ewg6ybie4WvlnpQSNvOs/GRqL+VeodO82E=;
+        b=idjbpNpZmgW3geUl/3/PPsXJw7cgWxH651DaQMeA7Fy0SlGOg368wXbN1qD1UJwtm7
+         AYVChfUxqAWaRGYkkfpZBeFandVVHpDzNQfPPhAOAUz2g2oLsuUSI/ftKcxgpn8sBnMP
+         SoDtJWg4Kgg32MH5/a075S+3b9kf+XbMz8YVOhlhkb6tbrptt8RgneQj4+EaawT0wLH8
+         UATjxNOkX2pZgR9OllSdX4aah/Pj5IRlOVr8hCVnJ2jcMlZZ9bR3rlKMqBpfcZjgphii
+         YW5HKrSd0xocCE3cxRolvtWfNy4h3SCjr9VUIoKMzEd4AmeRAlinhxn7AVT3RgbkZYSn
+         qGqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677598407;
+        d=1e100.net; s=20210112; t=1677598619;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9nv9JNtDlCNdtDLRBoEfNQRumarktclBfrFr5F3k7E8=;
-        b=DEXPSBRNM3aK4lw+YX+gnUFnJc/AdmiMXZVc/BZPBA7+XNXUOXDswNFzzwF7ePpqXN
-         XVwKQT490urVOkjZA6vbx7MbQCz8oKkAtvijfaJ76OBRb5bzThOvQzOleC6+qXmz8yd4
-         /3o07VRagsrBEz9llLzHROdel//58Ib20hU7B5glClulBybAm2+n8X7wtvwyYJJVqwYu
-         wTeD51whyAo7L99XQ4VfmHq7RV7JnEGnqwuiTyQXVt9jSPR3piTzE9Q8OGP2EflHWqTv
-         DvhBOhQdeveruXtfxbxbSBTSg/bkvpm+CXvEgkLnfDFerzj+rI/7NrUdOpF32M3eNXvS
-         rNRw==
-X-Gm-Message-State: AO0yUKV4SOvpxTlfE73jXE6Z4WlToZHpprrG6lkRagKQ37qoFQqm6mhT
-        NuQ95JvPmKBAWl9L4gQYheqfyA==
-X-Google-Smtp-Source: AK7set8wq1PJum4pWy19ypA8LxCBU2liGpV1nyFqRuNVz1Djx5bVEeSFVDn7ExYe4bqelqqqJo5RFg==
-X-Received: by 2002:a05:600c:164a:b0:3eb:4cb5:dfa with SMTP id o10-20020a05600c164a00b003eb4cb50dfamr2471202wmn.31.1677598407489;
-        Tue, 28 Feb 2023 07:33:27 -0800 (PST)
+        bh=eQH1DUy39Ewg6ybie4WvlnpQSNvOs/GRqL+VeodO82E=;
+        b=vUBGP/Wp3xo19l4BrEFyKNFj+lfM2rab5u5lgiizRjXeD9zMEoXTkTy321Q0hmdDhQ
+         Szx3wSUz0N8QZwlLxrRQX2PoBE+Y9+lXXpNWgLth3Y4susORqRkLgd0bGhhHWF10vVHk
+         o9KOIga3736XgOHn71VdjWdXNg2cxVliJInWqDxaxnjY0hSPQbA9R3CUP1rX1SVxuJYy
+         mnOzd375ng+mzpx2v5AMeiOsg6iAvdrvlX3mjZj+dhDWOL55sqlg+B5LKhrBayD+CxLy
+         zTGbjdMZH7cXy2e45fyCoAPofCaLN18QYyqCBmIg5APx3cnZ1B2H0vKGPkyEO3RQmV+S
+         xLhg==
+X-Gm-Message-State: AO0yUKWe04B6fJ0C9gS++gV1whBhL9Lzc2IWj2fTfhvwdyANM080OWw1
+        lM53pgOprmYpIEJimwnVYfNP1L/s8u4NGO2F
+X-Google-Smtp-Source: AK7set+CIo+8e+ZNITl4Ec2jPQyLBQhPXiP5EU0Aof1CizbcsL235lOg/bbk34raISs3EV2rZeOoXA==
+X-Received: by 2002:a5d:6d45:0:b0:2c7:851:c0bf with SMTP id k5-20020a5d6d45000000b002c70851c0bfmr2561946wri.0.1677598619729;
+        Tue, 28 Feb 2023 07:36:59 -0800 (PST)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id az11-20020a05600c600b00b003e1202744f2sm16169728wmb.31.2023.02.28.07.33.26
+        by smtp.gmail.com with ESMTPSA id ay31-20020a05600c1e1f00b003e209186c07sm15322119wmb.19.2023.02.28.07.36.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 07:33:27 -0800 (PST)
-Message-ID: <54bd7d0b-b47b-dfae-f62e-9393162d79a7@linaro.org>
-Date:   Tue, 28 Feb 2023 15:33:26 +0000
+        Tue, 28 Feb 2023 07:36:59 -0800 (PST)
+Message-ID: <a5fe6f7d-d410-9903-789c-d8c760ce6f1b@linaro.org>
+Date:   Tue, 28 Feb 2023 15:36:58 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 06/18] media: venus: hfi_venus: Write to VIDC_CTRL_INIT
- after unmasking interrupts
+Subject: Re: [PATCH 08/18] media: venus: hfi_venus: Fix version checks in
+ venus_halt_axi()
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -74,9 +74,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org,
         Vikash Garodia <vgarodia@codeaurora.org>
 References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-6-58c2c88384e9@linaro.org>
+ <20230228-topic-venus-v1-8-58c2c88384e9@linaro.org>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230228-topic-venus-v1-6-58c2c88384e9@linaro.org>
+In-Reply-To: <20230228-topic-venus-v1-8-58c2c88384e9@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -90,38 +90,38 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 28/02/2023 15:24, Konrad Dybcio wrote:
-> The downstream driver signals the hardware to be enabled only after the
-> interrupts are unmasked, which... makes sense. Follow suit.
+> Only IRIS2(_1) should enter the until-now-IS_V6() path and the
+> condition for skipping part of it should be IS_IRIS2_1 and not the
+> number of VPP pipes. Fix that.
 > 
+> Fixes: 4b0b6e147dc9 ("media: venus: hfi: Add 6xx AXI halt logic")
+> Fixes: 78d434ba8659 ("media: venus: hfi: Skip AON register programming for V6 1pipe")
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/media/platform/qcom/venus/hfi_venus.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 772e5e9cf127..4d785e53aa0b 100644
+> index 4d785e53aa0b..0d137e070407 100644
 > --- a/drivers/media/platform/qcom/venus/hfi_venus.c
 > +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -454,7 +454,6 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->   	void __iomem *wrapper_base = hdev->core->wrapper_base;
->   	int ret = 0;
+> @@ -550,10 +550,10 @@ static int venus_halt_axi(struct venus_hfi_device *hdev)
+>   	u32 mask_val;
+>   	int ret;
 >   
-> -	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
->   	if (IS_IRIS1(hdev->core) || IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
->   		mask_val = readl(wrapper_base + WRAPPER_INTR_MASK);
->   		mask_val &= ~(WRAPPER_INTR_MASK_A2HWD_BASK_V6 |
-> @@ -466,6 +465,7 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->   	writel(mask_val, wrapper_base + WRAPPER_INTR_MASK);
->   	writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
+> -	if (IS_V6(hdev->core)) {
+> +	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
+>   		writel(0x3, cpu_cs_base + CPU_CS_X2RPMH_V6);
 >   
-> +	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
->   	while (!ctrl_status && count < max_tries) {
->   		ctrl_status = readl(cpu_cs_base + CPU_CS_SCIACMDARG0);
->   		if ((ctrl_status & CPU_CS_SCIACMDARG0_ERROR_STATUS_MASK) == 4) {
+> -		if (hdev->core->res->num_vpp_pipes == 1)
+> +		if (IS_IRIS2_1(hdev->core))
+>   			goto skip_aon_mvp_noc;
+>   
+>   		writel(0x1, aon_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
 > 
 
-This should go before you add your new macros in-place of IS_V6() and it 
-should have a fixes.
+If you want to denote these as fixes, you need your patch 02/18 as a 
+depend...
 
 ---
 bod
