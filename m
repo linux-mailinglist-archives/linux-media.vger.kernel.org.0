@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA5FB6A5BA5
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:24:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DADB6A5BAA
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:25:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjB1PYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 10:24:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
+        id S229629AbjB1PYr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:24:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjB1PYi (ORCPT
+        with ESMTP id S229589AbjB1PYl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:24:38 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26B4323DAB
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:37 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id m7so13684644lfj.8
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:37 -0800 (PST)
+        Tue, 28 Feb 2023 10:24:41 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4D923C7E
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:38 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id k14so13674495lfj.7
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677597875;
+        d=linaro.org; s=google; t=1677597877;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qXugSA6r2tV+X0iFO+lGhptFx82s88fjNq0jEwrsdR0=;
-        b=RPRIrotIE+koozd7vn/zocKpX5RSWm/6VDAD2UGrFh0IctGRRyHRnEGh+sSpoDTvRW
-         ksd+hq83BAcnNyvyyxR8mcsHaW5kTw/hPn4rRjxpwpe74lDJvyKE5XReeUYZE3shedp/
-         FuNQw5+aYrryJlzGHXh+uUgxQvl2+MQpfSdpBNzfZX0nL3d6mwJI+J/Bd+gZUSVEUP2U
-         VvrFr+johfkEaj7kJ0rmBFYyB+dj2egWh1mSU3QbsPC1ZMeft4JFzA/GQePiQc0GzxFP
-         0mi71GPNpc+ULpMi7owlLwbtBaG3rHwr9lYsUy/dRKxNpoDIVSg7E42CWllIVB4d2OA8
-         9BZw==
+        bh=rc6RN3xd6zhAOa0UniFbQ5+ZDyipjjg8if7hSJwNayQ=;
+        b=VUwBjh2ERF8LYTz+KF9QEFEOZzDW4X95x4kirUH5CoxXjYou/BYrh+qs+0dkDl1+LZ
+         ri4Sb6uofUt+ZcXScmzAImUBg21KWjSlcP+19N3XS4CMn7ekBWROgoxPW+u4WrKDnCAd
+         UgZi/MNSDGUJUJTaNuXTpjgvQh/HAKAjw+T1XE/2gQGlGR1cN7+cBpzro2bolDhivDth
+         nMv+3HUeWc+iv8Dfc2AkKBE/6PyXiQPPli3DxPlFkap5HIu8QYQggH0dpcfyBtNv4vxG
+         20PmCzCuXw+fUNBnjhFctW9ehUEdDzdfOTTatauE1WL2LOea3poz7Jsr9ic5l9OgFD7x
+         FMug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677597875;
+        d=1e100.net; s=20210112; t=1677597877;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qXugSA6r2tV+X0iFO+lGhptFx82s88fjNq0jEwrsdR0=;
-        b=eqwAJhTG29l7qm8brepG82DqrHTl5gU1d8zFWDGv4uXHm6H1stMA/V4vbdDY9/ZkOH
-         gfyZNFvFm7dCodADxyiTa7jG57c50TFQUI49bpYj/5U5ob3JrfLbKiEbSw9YsHRW45P/
-         QXuAcEwIAA8cXNxUD6Ta2/ftVnPBPGUM/gUj3pTVf1aGKdVqVOIlElp6kFEs/wFzGgl8
-         OqH8Iltq4q/YQTbRuV9hMIMbP53Ki9hsH7CdBHLHZG0WWx3iaLWrAuJv55im9Iq4ihSJ
-         SWLRbU/Zb28du/Lu9aoYXcA9HWRNi5apUqeaJLdYboCXfHkEtEA7gKSIy5KwwJix/aSX
-         0n3A==
-X-Gm-Message-State: AO0yUKVUSiDhv9TMF9v69HAjshRAezyZRIlcykRldt9VoHfgY/dOVvPu
-        JUj1uRWirp+nbVCBT4vWMpymTA==
-X-Google-Smtp-Source: AK7set/ETuGKMpQpJ4OQLtd/G98Lx8jAQPHrQ5KgigYJm1favsWQ3qmU/avdWBaWD5bBi2H3RAmQxg==
-X-Received: by 2002:ac2:5df8:0:b0:4df:998d:79d7 with SMTP id z24-20020ac25df8000000b004df998d79d7mr771300lfq.8.1677597875450;
-        Tue, 28 Feb 2023 07:24:35 -0800 (PST)
+        bh=rc6RN3xd6zhAOa0UniFbQ5+ZDyipjjg8if7hSJwNayQ=;
+        b=5sOHvGI9NjZvlUX0oA39BkUnb2zVAvQY97PdFt22nh2sdJJsQSHmYFegBIW8uhjYtY
+         GHc+U5n6hYJANXJik2XtTraSn+X0Lh4Dqx7R/5xMQbpQI77bbPm3DUDIfrqBpyKZ4+R7
+         jKhoubDT+zxTgzGrWkD0snyxna2hgnCdBxHHhY2lXamFpuOLngAIY4ZYq3JHCyKbIe7O
+         9nx7e+SQbmQb6jvngNOkL1hE3GZ2ZE2AnBr4BZg0Gc4+uJ08Lq4DgtUOe11mm12eWKsh
+         tHKjdUgWSIabJB2wWFjdgxbGZ1Y9v9aX+6x4oO/htZbIdapRsLo2zgdJk7/obcI52ycJ
+         py0Q==
+X-Gm-Message-State: AO0yUKXhqb9dO4pQQx+l507GeUJ6zigSBYMw/xJJ+WIiDMRuzH7QVO3v
+        JmbQ29QIJtPMao2JjB7UC2sqEA==
+X-Google-Smtp-Source: AK7set/94+7THEHG/Uoy/IIGa7hBayT2hRAQTaPQxuruESoN15XU0e29HiCzJl+bYW+hIALrsNPohQ==
+X-Received: by 2002:ac2:5ecc:0:b0:4dd:b479:1ca1 with SMTP id d12-20020ac25ecc000000b004ddb4791ca1mr742982lfq.3.1677597876978;
+        Tue, 28 Feb 2023 07:24:36 -0800 (PST)
 Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
-        by smtp.gmail.com with ESMTPSA id h17-20020ac250d1000000b004db3aa3c542sm1363688lfm.47.2023.02.28.07.24.33
+        by smtp.gmail.com with ESMTPSA id h17-20020ac250d1000000b004db3aa3c542sm1363688lfm.47.2023.02.28.07.24.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 07:24:35 -0800 (PST)
+        Tue, 28 Feb 2023 07:24:36 -0800 (PST)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 28 Feb 2023 16:24:25 +0100
-Subject: [PATCH 01/18] media: venus: hfi_venus: Set
- venus_sys_idle_indicator to false on V6
+Date:   Tue, 28 Feb 2023 16:24:26 +0100
+Subject: [PATCH 02/18] media: venus: Introduce VPU version distinction
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v1-1-58c2c88384e9@linaro.org>
+Message-Id: <20230228-topic-venus-v1-2-58c2c88384e9@linaro.org>
 References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
 In-Reply-To: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -77,11 +76,11 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Vikash Garodia <vgarodia@codeaurora.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677597872; l=1210;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677597872; l=2018;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=l21Hj3clKvJ5WDgOnhsicYzRTtdql9epuJV12nTy5r8=;
- b=WE/7f4vV02g5I5rmyHXeuw4wZOzwD2LPxcq1Q+IVLDzZ+6E2EdCHTjVF6JVDiYpFBH2ghcDOvGJx
- 1Bj0zUymCybQ0fyG7CTW50knq8ZpeeEk14URBba4rDbYpJ6L6gOl
+ bh=8+CFl9UOfZsXychZVCS3rhjkRarB22qAKqY/ChcPXRU=;
+ b=/uwB4DFOETcB67/k2z90ex27AHGQnuTnuzVYnJjmQb4G1VKhbXJoyIL3r8ugZdXoBuqgEAOWZlVG
+ ZxaI8QmcCNjHc58ohhSRUoD+IZgchgbpqvB+42Xmp/618gcsL2u3
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -94,30 +93,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This call does not seem to have been cast on any kernel with support
-for VPU-1.0 or newer (and by extension, HFI6 and newer). Restrict it
-to V4 only, as it seems to have been enabled by mistake and causes a
-hang & reboot to EDL on at least one occasion with SM6115 / AR50L
+The Video Processing Unit hardware version is the differentiator,
+based on which we should decide which code paths to take in hw
+init. Up until now, we've relied on HFI versions, but that was
+just a happy accident between recent SoCs. Add a field in the
+res struct and add correlated definitions that will be used to
+account for the aforementioned differences.
 
-Fixes: 7ed9e0b3393c ("media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/hfi_venus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/core.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index 2ad40b3945b0..4ccf31147c2a 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus.c
-+++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -952,7 +952,7 @@ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
- 	 * enable it explicitly in order to make suspend functional by checking
- 	 * WFI (wait-for-interrupt) bit.
- 	 */
--	if (IS_V4(hdev->core) || IS_V6(hdev->core))
-+	if (IS_V4(hdev->core))
- 		venus_sys_idle_indicator = true;
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 32551c2602a9..4b785205c5b1 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -48,6 +48,14 @@ struct bw_tbl {
+ 	u32 peak_10bit;
+ };
  
- 	ret = venus_sys_set_idle_message(hdev, venus_sys_idle_indicator);
++enum vpu_version {
++	VPU_VERSION_AR50, /* VPU4 */
++	VPU_VERSION_AR50_LITE, /* VPU4.4 */
++	VPU_VERSION_IRIS1, /* VPU5 */
++	VPU_VERSION_IRIS2,
++	VPU_VERSION_IRIS2_1,
++};
++
+ struct venus_resources {
+ 	u64 dma_mask;
+ 	const struct freq_tbl *freq_tbl;
+@@ -71,6 +79,7 @@ struct venus_resources {
+ 	const char * const resets[VIDC_RESETS_NUM_MAX];
+ 	unsigned int resets_num;
+ 	enum hfi_version hfi_version;
++	enum vpu_version vpu_version;
+ 	u8 num_vpp_pipes;
+ 	u32 max_load;
+ 	unsigned int vmem_id;
+@@ -473,6 +482,12 @@ struct venus_inst {
+ #define IS_V4(core)	((core)->res->hfi_version == HFI_VERSION_4XX)
+ #define IS_V6(core)	((core)->res->hfi_version == HFI_VERSION_6XX)
+ 
++#define IS_AR50(core)		((core)->res->vpu_version == VPU_VERSION_AR50)
++#define IS_AR50_LITE(core)	((core)->res->vpu_version == VPU_VERSION_AR50_LITE)
++#define IS_IRIS1(core)		((core)->res->vpu_version == VPU_VERSION_IRIS1)
++#define IS_IRIS2(core)		((core)->res->vpu_version == VPU_VERSION_IRIS2)
++#define IS_IRIS2_1(core)	((core)->res->vpu_version == VPU_VERSION_IRIS2_1)
++
+ #define ctrl_to_inst(ctrl)	\
+ 	container_of((ctrl)->handler, struct venus_inst, ctrl_handler)
+ 
 
 -- 
 2.39.2
