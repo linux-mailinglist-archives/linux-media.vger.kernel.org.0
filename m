@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F886A5BC9
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAC546A5BC5
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:25:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230085AbjB1PZZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 10:25:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40652 "EHLO
+        id S230098AbjB1PZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:25:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbjB1PY6 (ORCPT
+        with ESMTP id S229947AbjB1PY6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 28 Feb 2023 10:24:58 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CB02594E
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B96F2CC77
         for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:52 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id s20so13653776lfb.11
+Received: by mail-lf1-x12c.google.com with SMTP id f41so13646571lfv.13
         for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677597890;
+        d=linaro.org; s=google; t=1677597892;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q2YOQCGUDR6LVZWl352w6X7jU8EvLQncBoIP/WOJkXQ=;
-        b=DjaJv76Zk4rCmcRuGunlj0ep9NWS6zyfIYu7YtftiZRp9XSogaZWIrjwLSBkqKBrSY
-         UwHRP4KC1Wuf8utc5VwOjbDOJXafiQoTunnMuCtvTfp1vuGGM6zIabUcVhJs+u+Vhh8e
-         PxnsfrecdvR79S7DuFsFmBs6KTLFMBCTlh7bdm1FndrJVrOeloyLJmcl+Y8Njpx+ODJ+
-         fLerzZeHBUFc+TSzuFQCj2QYEha4IX772QEUCsUIAA4pJ8DgxdkJM+Ba+lKyHEViKsdy
-         X/cRjUTCqTEh38M0HFqE/d0BMmKTSum3srfh5G9FnuwDxm7Yr2Kr6ODogfYyW4+epu65
-         72LA==
+        bh=ZJKby1etsQJsllCrJh6jNuq7BGyySsQgLQcWxf9td0M=;
+        b=FNAAp+L1mjP7wXirSyAnaA+f+qxBmWL+t6LCR1PQ77rO+N0YBedv9B9b834hLtkfOc
+         zJxBpLFILWTMK0q3fviIYARGqxedttKeH2+Zd9Juw/Mgf9EwHmGMT2ryqEYdikBVUJF9
+         xf35aPKyROPrUdrbURlyimSj35XPGCGP86iZenLYVoGqdVAwpTeKN7lOR9PRzG1D/joJ
+         jcjhfta8IUwLoG9kxX6U3vczWgfBsHNPSRHK8ZvV0mD+3a7XU3MFBs8mh+St6EbsmV3c
+         srS5ipHLSL5QHJNWurzy+nblDFQ7cwKniM4Z/DP9R9h0U8/V8kbU38nj+HO8+d0aFoh3
+         1AXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677597890;
+        d=1e100.net; s=20210112; t=1677597892;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q2YOQCGUDR6LVZWl352w6X7jU8EvLQncBoIP/WOJkXQ=;
-        b=EPm4kKCXqNzTZID5g8IXYUZQmN5UCtfkzVxl5e1A3bHOSkxRFODZxxVBL0SJtCPML0
-         pmQRD26IXzvXl+Kvx39t++p4a6B3OFD2j8Wdr1KdkU56iDwuwWLvgXOllK/r9V9w7Rc8
-         R/ErK2GHhVglVNvic1s+sJofK+mb2Lqt+jN34C6SHV3DHaQEU3RiNZNX6ZmfIYJCcGWw
-         c2AYfm/WgnDKctafV2HoGA8Kw33MNlrYAHqAUEFgPRGBDfMe9JTqoZkeY5oj0QCuV182
-         2KnNNqqgcyIZUaiBZHb8DzxnJl7q0i+bOdxK2UGer14rdQCG3lWq6qnjJpxdJ7oN5kFC
-         +wXw==
-X-Gm-Message-State: AO0yUKVPeYK+NQWvlbUjudmQr3rvgTwXN4HEtzdv3mJ9vZPINh9HBKYO
-        HhPJm3Iv6xlO5wtd0q2i5LPJcQ==
-X-Google-Smtp-Source: AK7set/a1fp1jeDKrc0EDY1QxtskC/0PyKb2F5C8WAhtnjPc02nxuFJ7jF7xX9Obt2MUyfSZhNGAmg==
-X-Received: by 2002:ac2:4c89:0:b0:4dc:84b3:bc5f with SMTP id d9-20020ac24c89000000b004dc84b3bc5fmr853961lfl.30.1677597890509;
-        Tue, 28 Feb 2023 07:24:50 -0800 (PST)
+        bh=ZJKby1etsQJsllCrJh6jNuq7BGyySsQgLQcWxf9td0M=;
+        b=6aWvgdptJb9ua/Ejhi4o7AyiUXYRje04AH6VkqkaA9diy7rjsIofARpDmdXQPPI0B4
+         e27j8rgF7OagsZRJ4Tw4XdNMDblM/W20vJjNuS8UJvoCOvyDtN08L1fGbZ8vyCl3ohQx
+         gd7HXiMHpZBboZDYYcL+llAC18QGUfGHZa1ERc6xh5wTc6GI9IHYOL4bBbFupTYLR40d
+         KshG8l7996njERe3QtHttUGqdnaFdE1mbPJjy43dcyhCpz6ik6jte2RYVPl8TYJAK9xA
+         vC1bsiZ9Lc6UltrHr+jy7yED0cZ6abag/aWBeQbU2q7JnoUm5vMrUV6zvD4HAmC6H6Dc
+         DhdA==
+X-Gm-Message-State: AO0yUKWCsuk3Fipd8FbEC7oQ4CATY0wAG9NQ8fylNVkJfsHminP1+ud7
+        RvuB9nlV7cOrUlKYwCW+uuGRQ8Ml9tKqGAmw
+X-Google-Smtp-Source: AK7set/AQ6YZAiURXkQvm9aWq/Uoeu0gY7URJDbOH5dKAUBFUMn8XKel8bpY4nppr3hNtxX+gTlJbQ==
+X-Received: by 2002:ac2:4347:0:b0:4cc:a107:82f4 with SMTP id o7-20020ac24347000000b004cca10782f4mr722161lfl.64.1677597891979;
+        Tue, 28 Feb 2023 07:24:51 -0800 (PST)
 Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
-        by smtp.gmail.com with ESMTPSA id h17-20020ac250d1000000b004db3aa3c542sm1363688lfm.47.2023.02.28.07.24.49
+        by smtp.gmail.com with ESMTPSA id h17-20020ac250d1000000b004db3aa3c542sm1363688lfm.47.2023.02.28.07.24.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 07:24:50 -0800 (PST)
+        Tue, 28 Feb 2023 07:24:51 -0800 (PST)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 28 Feb 2023 16:24:34 +0100
-Subject: [PATCH 10/18] media: venus: hfi_venus: Fix version check in
- venus_cpu_and_video_core_idle()
+Date:   Tue, 28 Feb 2023 16:24:35 +0100
+Subject: [PATCH 11/18] media: venus: hfi_venus: Fix version check in
+ venus_cpu_idle_and_pc_ready()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v1-10-58c2c88384e9@linaro.org>
+Message-Id: <20230228-topic-venus-v1-11-58c2c88384e9@linaro.org>
 References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
 In-Reply-To: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -77,11 +77,11 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Vikash Garodia <vgarodia@codeaurora.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677597872; l=1023;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677597872; l=1021;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=xcjWJ5FvVHrRZk+7AUmASQ5Umxw+WM1469ajK0AMX5Q=;
- b=NT8sLJ0hPyGLMNFmZj3Ojb+rbgBq3CUiqsTP0/kwI+y700b2+PK9Qo/SpgBYegJnTPFoDLaRNmKt
- DlKPUMFSCO6P/lFTSi9XBfd45L5VyOjnFiJkaKQKjLJc+m2GV0vn
+ bh=NAz9W7wy6ZAwlY7CWxe3uTkj0TQJe8T3RoBED0bE9S8=;
+ b=qtjNKvtA0yoqyrxQM0xDnZpRdingZm2zdMqL9NlB53Shbi1eO7NMqR/X3sZ9Mk+VEEGmYonr/kM1
+ nbVgOYKuB+sFfAJsOZ9f7Jc2AR72I4wjhXfuhh4Tllov3iBHKjs+
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -103,10 +103,10 @@ Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index ecfbac36de20..584c84125887 100644
+index 584c84125887..c2d134e04c30 100644
 --- a/drivers/media/platform/qcom/venus/hfi_venus.c
 +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -1543,7 +1543,7 @@ static bool venus_cpu_and_video_core_idle(struct venus_hfi_device *hdev)
+@@ -1563,7 +1563,7 @@ static bool venus_cpu_idle_and_pc_ready(struct venus_hfi_device *hdev)
  	void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
  	u32 ctrl_status, cpu_status;
  
