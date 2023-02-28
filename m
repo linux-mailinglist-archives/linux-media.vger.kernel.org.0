@@ -2,141 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2922F6A5C2B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B9526A5C38
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:45:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230073AbjB1PlW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 10:41:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36458 "EHLO
+        id S229948AbjB1PpM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:45:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbjB1PlV (ORCPT
+        with ESMTP id S229672AbjB1PpK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:41:21 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EF3199EC
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:41:19 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id f41so13716774lfv.13
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:41:18 -0800 (PST)
+        Tue, 28 Feb 2023 10:45:10 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA7730B3E;
+        Tue, 28 Feb 2023 07:45:07 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id r23-20020a05683001d700b00690eb18529fso5836576ota.1;
+        Tue, 28 Feb 2023 07:45:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677598877;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o0oSgh79dT4BwHorcu4cOKoy0Ow/ZznwbgklRDRu1oI=;
-        b=DS1vDN4ANBGoA83nXmkMioB5k5jbyFbCQwLBa21/NiGfTLei+j5AWJSkIIhKiioaD6
-         /+1jav2hwaG002/lMwDMVhjm399pqGtxzaQiZS14sjA9xNfsdY7Q6r4RKRGqGR5rrZ27
-         CyKV2YPmLXXvwzlUH0xebECCyvWeOsjdcyfTeKQUToVTXxMG+g2R0+PtoreW6XZWpGks
-         LxOqnht0f8MXHon5V6eQoAMCDR5BF2QzDodk2HJIAudJ+w1/ccGkSOQP8u5skOElKw4G
-         LmOIt8gqcS7cPVSE8ynxL7ycKQKiJRU/2bKB4zhySo/b4rUDP5WqDku/kN2xFR0yFChs
-         XzyA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=47Io8bjBgTfpx9irLzQIk7kc2k6GPp2PZ97i5J/VsnU=;
+        b=cmBSfjVhL11B7Tk2kzeIA9iNdYDewp+Lj2BTbbj6UDcbnNNnGRKEG9iCWQZ+Zn3g9m
+         +0Zx+GlqRizxRKPwVVA4/JaFtaKfoHx9z08Qt2aL2jYElbluHU/qNXZSmld3edT7vPer
+         mqK5c2oWjXhedR1BJv6EXjMqwSeGb6qxBliUPUwERul1AYJ+81hovh17DHIbCSD5cK5w
+         9gwm8dkKVD7UCQUidLDzlT+m/No89gMZlEDYYGUWzhhwiazV+8nn9uut0WCqrLE6UV/g
+         tafJgCdHGRGVm9NWQqu21rdJz8b0ivr1k0uKj14YYV/O5qMTtismWvnVbWfVfSc1EyjJ
+         t6OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677598877;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o0oSgh79dT4BwHorcu4cOKoy0Ow/ZznwbgklRDRu1oI=;
-        b=pVnRm7OmC930It1pS7/73MCwvYPvumT7BVI22TlwT+CzAaMhEBbOzqM1CK4dLzU7tS
-         YmHox6+tRCsLnKHR5Ak61zHqE2eq1dOlkqsJkhC6tBhyvdHJc4m/uLcykVsQIELMA+p2
-         k8L8v1cGGOoocjVvTOOAefUhGanFe3mIWNggux38X1NLIapDPrPGjX+4H+9cw7FVAlbF
-         oXqruQtfiUWkaW+xzOPS5uddVae8zkzBMJkyLNoIPC0IpUFLjDXQGxXitmGJTDb5b8NU
-         vTCLTROVbV1rR3D6jgLpi0Wk2Lt2ZNbQniVHLZgh4p3/5fbN6f5iw2vvw0U5RQaXNOva
-         o02Q==
-X-Gm-Message-State: AO0yUKWmdDHMt7RaXakRQPlrTrkxFJarLHV354UJ8U9tXeYbdCMKDtdN
-        J1DESdH13YEeYQKkU/vaHrWYGY42zg8uE3A8
-X-Google-Smtp-Source: AK7set9GsnKLQmZvi1EI42Kuf4fQXweX0TVas8vb7ohjCdBBF/7lr7xMAdrXNr2J30rocg7gCVS12g==
-X-Received: by 2002:a05:6512:ea7:b0:4db:25bb:ff0b with SMTP id bi39-20020a0565120ea700b004db25bbff0bmr2954320lfb.2.1677598877358;
-        Tue, 28 Feb 2023 07:41:17 -0800 (PST)
-Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
-        by smtp.gmail.com with ESMTPSA id r7-20020ac252a7000000b004dc4d26c324sm1372910lfm.143.2023.02.28.07.41.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 07:41:16 -0800 (PST)
-Message-ID: <1091d8b4-3dd3-427b-2fcb-c3e0d32b0a3b@linaro.org>
-Date:   Tue, 28 Feb 2023 16:41:15 +0100
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=47Io8bjBgTfpx9irLzQIk7kc2k6GPp2PZ97i5J/VsnU=;
+        b=1CWJxt/w4tQEzawmcrvTAGCwa51RqUs+FRwDNro+vJ0RFNOANO5gGGcRRSi24/gx5b
+         yhlLhDoI8geb5ZNeTLLOfHUoBaiznTaMFdu+k4WRbx7L9+j4B1403/QCIG7kP7YYubeI
+         TAgu7z3U8x/9/Si3ZQqwb6sLshcn8Tvz52l2zN9GfjGNedR6YDoukSW0k0JD/uPmKZfz
+         5sw1wPkKEkGNV1aMwLgqHAJ9Swa0f8oi6XE0Wfx1nwXgWH0zcw1H9y8GSQTk9BrZ+oc/
+         XfHeqLPuvt2rMfE37ZYVjGQ0gv9mPqphjNWLTA8YTHc/tzC3C9NELumsGKLXnqjUTSjh
+         v80g==
+X-Gm-Message-State: AO0yUKU9Dsm2swe+CdCDI0GCW44hejovqMqY5OOgTIYlchwCLn+gcgJK
+        DitYB9aVXkmNu7SMl/QjwbscE+flktTkL9SJZWU=
+X-Google-Smtp-Source: AK7set84ZiKu/x5bhuHzdqKQUv7sjdjnKY8F7kTvWRv1lYoh5z8jZHyiBzPqCGMtJV4jXTtlMVk45nk6MjMvbYL6vxQ=
+X-Received: by 2002:a9d:128e:0:b0:688:cf52:6e18 with SMTP id
+ g14-20020a9d128e000000b00688cf526e18mr1074144otg.4.1677599106749; Tue, 28 Feb
+ 2023 07:45:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 01/18] media: venus: hfi_venus: Set
- venus_sys_idle_indicator to false on V6
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
-References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-1-58c2c88384e9@linaro.org>
- <99eeebc6-69aa-c6ba-139b-92672c299747@linaro.org>
- <893851c9-c8be-ed7f-ebde-5d90b9313f6d@linaro.org>
- <48ac4272-0e11-d943-e950-0be8d93fb036@linaro.org>
- <b7f0c568-72b7-3342-decc-784cd5f68b1a@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <b7f0c568-72b7-3342-decc-784cd5f68b1a@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230227193535.2822389-1-robdclark@gmail.com> <Y/320d96QmbLe1J8@debian.me>
+In-Reply-To: <Y/320d96QmbLe1J8@debian.me>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 28 Feb 2023 07:44:55 -0800
+Message-ID: <CAF6AEGuqHDDQS22qcp8sk+5bj16XFiBarCLvpX=qNc2r2euMUw@mail.gmail.com>
+Subject: Re: [PATCH v7 00/15] dma-fence: Deadline awareness
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        intel-gfx@lists.freedesktop.org,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>,
+        Sean Paul <sean@poorly.run>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Vinod Polimera <quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Feb 28, 2023 at 4:43 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On Mon, Feb 27, 2023 at 11:35:06AM -0800, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > This series adds a deadline hint to fences, so realtime deadlines
+> > such as vblank can be communicated to the fence signaller for power/
+> > frequency management decisions.
+> >
+> > This is partially inspired by a trick i915 does, but implemented
+> > via dma-fence for a couple of reasons:
+> >
+> > 1) To continue to be able to use the atomic helpers
+> > 2) To support cases where display and gpu are different drivers
+> >
+> > This iteration adds a dma-fence ioctl to set a deadline (both to
+> > support igt-tests, and compositors which delay decisions about which
+> > client buffer to display), and a sw_sync ioctl to read back the
+> > deadline.  IGT tests utilizing these can be found at:
+> >
+> >   https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-deadline
+> >
+> >
+> > v1: https://patchwork.freedesktop.org/series/93035/
+> > v2: Move filtering out of later deadlines to fence implementation
+> >     to avoid increasing the size of dma_fence
+> > v3: Add support in fence-array and fence-chain; Add some uabi to
+> >     support igt tests and userspace compositors.
+> > v4: Rebase, address various comments, and add syncobj deadline
+> >     support, and sync_file EPOLLPRI based on experience with perf/
+> >     freq issues with clvk compute workloads on i915 (anv)
+> > v5: Clarify that this is a hint as opposed to a more hard deadline
+> >     guarantee, switch to using u64 ns values in UABI (still absolute
+> >     CLOCK_MONOTONIC values), drop syncobj related cap and driver
+> >     feature flag in favor of allowing count_handles==0 for probing
+> >     kernel support.
+> > v6: Re-work vblank helper to calculate time of _start_ of vblank,
+> >     and work correctly if the last vblank event was more than a
+> >     frame ago.  Add (mostly unrelated) drm/msm patch which also
+> >     uses the vblank helper.  Use dma_fence_chain_contained().  More
+> >     verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> > v7: Fix kbuild complaints about vblank helper.  Add more docs.
+> >
+>
+> I want to apply this series for testing, but it can't be applied cleanly
+> on current drm-misc tree. On what tree (and commit) is this series based
+> on?
 
+You can find my branch here:
 
-On 28.02.2023 16:38, Bryan O'Donoghue wrote:
-> On 28/02/2023 15:37, Konrad Dybcio wrote:
->>
->>
->> On 28.02.2023 16:31, Bryan O'Donoghue wrote:
->>> On 28/02/2023 15:26, Bryan O'Donoghue wrote:
->>>> On 28/02/2023 15:24, Konrad Dybcio wrote:
->>>>> This call does not seem to have been cast on any kernel with support
->>>>> for VPU-1.0 or newer (and by extension, HFI6 and newer).
->>>>
->>>> We tested this on sm8250
->>>>
->>>> Restrict it
->>>>> to V4 only, as it seems to have been enabled by mistake and causes a
->>>>> hang & reboot to EDL on at least one occasion with SM6115 / AR50L
->>>>>
->>>>> Fixes: 7ed9e0b3393c ("media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations")
->>>>> Signed-off-by: Konrad Dybcio<konrad.dybcio@linaro.org>
->>>>
->>>> Right. This may indeed fix it for you on SM6115, could you test it on RB5 and verify the above statement ?
->>>>
->>>> ---
->>>> bod
->>>
->>> For example.
->>>
->>> Doesn't your later patch take account of VPU h/w version ? IRIS_1, IRIS_2 etc.
->>>
->>> When we added for V6 here, we meant for current tested V6 hardware at that point - at least sm8250.
->>>
->>> Can you not differentiate sm6115 based on VPU hardware identifier ? We want to retain this logic for 8250 and then assuming your patch is correct, not do this for sm6115.
->> As far as my only source of information (msm-4.19 techpack) goes, this is
->> unnecessary/incorrect on 8250 as well. I doubt downstream would ship Venus
->> with no/broken low-power modes..
-> 
-> Can you test it and make sure ?
-As I mentioned in the cover letter, 8250 still seems to work with this
-patchset. I have no idea how one would go about validating the
-functionality enabled through this call.
+https://gitlab.freedesktop.org/robclark/msm/-/commits/dma-fence/deadline
 
-Konrad
-> 
-> ---
-> bod
-> 
+BR,
+-R
