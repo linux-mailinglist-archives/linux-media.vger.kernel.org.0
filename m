@@ -2,124 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E94C36A581E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 12:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 455BA6A5946
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 13:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjB1Lck (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 06:32:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57882 "EHLO
+        id S229944AbjB1Mn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 07:43:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231409AbjB1Lcj (ORCPT
+        with ESMTP id S230491AbjB1MnY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 06:32:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B778C163;
-        Tue, 28 Feb 2023 03:32:37 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E503161040;
-        Tue, 28 Feb 2023 11:32:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3B3C433D2;
-        Tue, 28 Feb 2023 11:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677583956;
-        bh=RCpz0KRyu2TfZM95YSx8sZTwRQ7CMmq0oGwTIdQKEdw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rsnOSmt2mnIQ3ytA9kF0L6Ul6hXudzrHpfivYSdnX3E224xJ+oR1Q0uU1y7y38xSA
-         oIcupSoXOcAd3g/tdWhvfkvqUDpZMk8zc5u5znbucRcBmKkbTAVrQWxlsUxmLM65uT
-         POaVfX/VAEMn0lZtBiPqtE5CVHAonZKeoiRSTQ+zW3yK6JGT/xkOs2pr5xWXO+XBUd
-         Waa7LhwX8usGKFyYqFQYug40r+kkWjs66QuFDkb/ne3wnNdhvcR9FGS9Wuxn2OiXJq
-         tu3Qmpg+7YGwUoMzg4qNHCkcE2o1oJW/01u47Z56rMJXw+HyjTxy3RVJDCYMlq0Trs
-         4cOl5xoKQHkQQ==
-Date:   Tue, 28 Feb 2023 11:32:31 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Hyunwoo Kim <imv4bel@gmail.com>, mchehab@kernel.org,
-        kernel@tuxforce.de, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, cai.huoqing@linux.dev
-Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
- dvb-core and device driver
-Message-ID: <Y/3mT9uSsuviT+sa@google.com>
-References: <20221117045925.14297-1-imv4bel@gmail.com>
- <87lema8ocn.wl-tiwai@suse.de>
- <Y/YXbNgBhhWhfjwS@google.com>
+        Tue, 28 Feb 2023 07:43:24 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F2BA8A46;
+        Tue, 28 Feb 2023 04:43:03 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id qa18-20020a17090b4fd200b0023750b675f5so13517784pjb.3;
+        Tue, 28 Feb 2023 04:43:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677588182;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GNoSdXiAy4Hnpx4GSmf9v1s/TnoJ2Easnzikmce7RFo=;
+        b=Df7zrRz22eg8YZi+bpqjSJPlYpN8eIwr9o77wJ4OIQ+4kuTEVXpnUz/mPubCGdCkzm
+         wB0GhDQXs3xOQYDpZ9TG3khGJT4x7Ps3f8Vj0npRhk0C4oSB96tMQoW50c51EZ3lfU6+
+         vFMlcXzfaK3nk76iyyHVvUt22CWre9Kuihg8DdAXM83Q0NBTYhnQ9e1mcv7ZaGj3nj6C
+         DWIlEvKfO56rW78AV5SO5ICvqhDgv2GTFKuLLPU+zrXAXmgq0Z3G0wNqW6+IdX6MRcKc
+         JC/a+Zbq22en8EaGBqwiunzxOiXmQHaNTUI4tKBNSby2zUAc3XWf8SlBzOOJfcD8IlKJ
+         SM5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677588182;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GNoSdXiAy4Hnpx4GSmf9v1s/TnoJ2Easnzikmce7RFo=;
+        b=FBDohP3fu3kQLytahyhOvYTIj72q4/9UJrAxCkl3mmAnomevTHmr3nclTXlGdUmM8P
+         OhnakrWnAMFJAM2OL3rS/V+DxRVIiL3WuF5stbCLF9kwRy0Q8cf/3Yb9cW6DiLyO+lfw
+         goa1EVOVD3maW3PsGSds+yjbCRvckigrXS5xW9vLw5tg82T6SI48/rnIVS0XFxA+tpvk
+         y52bvQ3vfSTfx1/ee12pe3UVET0KRAiGctIXLXHC7zNR2dn05hviK5lv6W4zATvy+NT8
+         zvhqd+scZL2atbNQXPYBM6il+lYEWz84dLZYUSPoN2kqlk3JvIHNZXFNG/O7XJI6dvRP
+         dlmg==
+X-Gm-Message-State: AO0yUKV2seuGNnS5LdA318lpsTVq5hp6nWui9PgGrzYWaURXIj0c/fez
+        aHyBcGq6ICP8VeuMxGNFyL0=
+X-Google-Smtp-Source: AK7set9OdAQjCkCpgdCiYZHKKMRQTrLw3bEzWK8cbf3O+nNoqA5K32bwW9Ij9MRpVcAkVdH7hRxAQg==
+X-Received: by 2002:a05:6a20:47d7:b0:cc:68a1:5033 with SMTP id ey23-20020a056a2047d700b000cc68a15033mr3052844pzb.16.1677588182510;
+        Tue, 28 Feb 2023 04:43:02 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-83.three.co.id. [180.214.232.83])
+        by smtp.gmail.com with ESMTPSA id y18-20020aa78052000000b005a909290425sm6172405pfm.172.2023.02.28.04.43.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 04:43:01 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 24D0210105C; Tue, 28 Feb 2023 19:42:57 +0700 (WIB)
+Date:   Tue, 28 Feb 2023 19:42:57 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        intel-gfx@lists.freedesktop.org,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>,
+        Sean Paul <sean@poorly.run>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Vinod Polimera <quic_vpolimer@quicinc.com>
+Subject: Re: [PATCH v7 00/15] dma-fence: Deadline awareness
+Message-ID: <Y/320d96QmbLe1J8@debian.me>
+References: <20230227193535.2822389-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wAv6Jr7MZqhKVbDV"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y/YXbNgBhhWhfjwS@google.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230227193535.2822389-1-robdclark@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 22 Feb 2023, Lee Jones wrote:
 
-> On Tue, 10 Jan 2023, Takashi Iwai wrote:
-> 
-> > On Thu, 17 Nov 2022 05:59:21 +0100,
-> > Hyunwoo Kim wrote:
-> > > 
-> > > Dear,
-> > > 
-> > > This patch set is a security patch for various race condition vulnerabilities that occur
-> > > in 'dvb-core' and 'ttusb_dec', a dvb-based device driver.
-> > > 
-> > > 
-> > > # 1. media: dvb-core: Fix use-after-free due to race condition occurring in dvb_frontend
-> > > This is a security patch for a race condition that occurs in the dvb_frontend system of dvb-core.
-> > > 
-> > > The race condition that occurs here will occur with _any_ device driver using dvb_frontend.
-> > > 
-> > > The race conditions that occur in dvb_frontend are as follows
-> 
-> [...]
-> 
-> > > # 4. media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
-> > > This is a patch for a memory leak that occurs in the ttusb_dec_exit_dvb() function.
-> > > 
-> > > Because ttusb_dec_exit_dvb() does not call dvb_frontend_detach(),
-> > > several fe related structures are not kfree()d.
-> > > 
-> > > Users can trigger a memory leak just by repeating connecting and disconnecting
-> > > the ttusb_dec device.
-> > > 
-> > > 
-> > > Finally, most of these patches are similar to this one, the security patch for
-> > > CVE-2022-41218 that I reported:
-> > > https://lore.kernel.org/linux-media/20221031100245.23702-1-tiwai@suse.de/
-> > > 
-> > > 
-> > > Regards,
-> > > Hyunwoo Kim
-> > 
-> > Are those issues still seen with the latest 6.2-rc kernel?
-> > I'm asking because there have been a few fixes in dvb-core to deal
-> > with some UAFs.
-> > 
-> > BTW, Mauro, the issues are tagged with several CVE's:
-> > CVE-2022-45884, CVE-2022-45886, CVE-2022-45885, CVE-2022-45887.
-> 
-> Was there an answer to this question?
-> 
-> Rightly or wrongly this patch is still being touted as the fix for some
-> reported CVEs [0].
-> 
-> Is this patch still required or has it been superseded?  If the later,
-> which patch superseded it?
-> 
-> Thanks.
-> 
-> [0] https://nvd.nist.gov/vuln/detail/CVE-2022-45886
+--wAv6Jr7MZqhKVbDV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Have these issues been fixed already?
+On Mon, Feb 27, 2023 at 11:35:06AM -0800, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+>=20
+> This series adds a deadline hint to fences, so realtime deadlines
+> such as vblank can be communicated to the fence signaller for power/
+> frequency management decisions.
+>=20
+> This is partially inspired by a trick i915 does, but implemented
+> via dma-fence for a couple of reasons:
+>=20
+> 1) To continue to be able to use the atomic helpers
+> 2) To support cases where display and gpu are different drivers
+>=20
+> This iteration adds a dma-fence ioctl to set a deadline (both to
+> support igt-tests, and compositors which delay decisions about which
+> client buffer to display), and a sw_sync ioctl to read back the
+> deadline.  IGT tests utilizing these can be found at:
+>=20
+>   https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-d=
+eadline
+>=20
+>=20
+> v1: https://patchwork.freedesktop.org/series/93035/
+> v2: Move filtering out of later deadlines to fence implementation
+>     to avoid increasing the size of dma_fence
+> v3: Add support in fence-array and fence-chain; Add some uabi to
+>     support igt tests and userspace compositors.
+> v4: Rebase, address various comments, and add syncobj deadline
+>     support, and sync_file EPOLLPRI based on experience with perf/
+>     freq issues with clvk compute workloads on i915 (anv)
+> v5: Clarify that this is a hint as opposed to a more hard deadline
+>     guarantee, switch to using u64 ns values in UABI (still absolute
+>     CLOCK_MONOTONIC values), drop syncobj related cap and driver
+>     feature flag in favor of allowing count_handles=3D=3D0 for probing
+>     kernel support.
+> v6: Re-work vblank helper to calculate time of _start_ of vblank,
+>     and work correctly if the last vblank event was more than a
+>     frame ago.  Add (mostly unrelated) drm/msm patch which also
+>     uses the vblank helper.  Use dma_fence_chain_contained().  More
+>     verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> v7: Fix kbuild complaints about vblank helper.  Add more docs.
+>=20
 
-If not, is this patch set due to be merged or reviewed?
+I want to apply this series for testing, but it can't be applied cleanly
+on current drm-misc tree. On what tree (and commit) is this series based
+on?
 
--- 
-Lee Jones [李琼斯]
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--wAv6Jr7MZqhKVbDV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/32zQAKCRD2uYlJVVFO
+o1TBAQCAHLKqy5NdumoKS+DbOAOm+KfhLK93EKYDC8UmiebsRAEA+JAK75T6QTDt
+aHxaJFTZKkVfK7+Eq1MfYn2ZeBgJXgU=
+=jpg1
+-----END PGP SIGNATURE-----
+
+--wAv6Jr7MZqhKVbDV--
