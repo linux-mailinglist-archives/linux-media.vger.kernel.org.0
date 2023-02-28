@@ -1,175 +1,152 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B9066A5B19
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 15:51:29 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 6F7EF6A5BA8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 16:24:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbjB1Our (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 09:50:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41022 "EHLO
+        id S229941AbjB1PYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 10:24:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjB1Oup (ORCPT
+        with ESMTP id S229600AbjB1PYk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 09:50:45 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1D4113CF
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 06:50:25 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C5C2B56A;
-        Tue, 28 Feb 2023 15:50:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677595823;
-        bh=IwxJ7eB1FcXXRrJSWHiFKbzCfkc9gg9wdOupqGBrvPY=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=PTn0t2rEWuWGOvs1wiF+uhEo9iXrBFV8+fJkGy5je4UnJSS1E7T8a5+/RxkSlKmOR
-         Ze3XSPuUIEjwIxYmgX3Ho6LV7atonWQyhenQrBQWZlhfZeQeZMxh7m+hLwOov94k+u
-         CCHdfot5FZmjhxpBIWZ5xCWOblVX1/ph1kviPwMM=
-Message-ID: <fd5dbba3-f267-1c1f-8b98-075459aef629@ideasonboard.com>
-Date:   Tue, 28 Feb 2023 16:50:19 +0200
+        Tue, 28 Feb 2023 10:24:40 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 928F723D94
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:36 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id f18so13727339lfa.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 07:24:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677597874;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aI56kuSWxT4TrsLktrCrgX22+GnDNJwi2SymVz5W1rM=;
+        b=CKRKEOazx9RYMP3ZHh9CuU4bkfKJxVlXG6s1tkT3XzB6Fkpo+u232E9v1VrqQ/+1mL
+         lncAZfYrZQCD40Cdwn8PD5tJm73OwXr9Zpys1jcriNvFCJiwJ2mYDCcPXNcXB2NHDY2n
+         edoTxN7lISaYgqgcv+9dpnRxfUIaz9DCzqKZTfp46TPcm8F2MGfXV5U/wCcESyn/SaVz
+         MntmPvtM90TYb/GRXvMzOeX6y8feRlSVRwt0lWR+2ZstdeOWNF03clcyxEbm/D3KLMml
+         onSE/4v4XxywBfHMp3M0WOSPA48+bq18Tdk+qSy9QUn970aaj0kKBm9dm4/eWKCqh95h
+         qlkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677597874;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aI56kuSWxT4TrsLktrCrgX22+GnDNJwi2SymVz5W1rM=;
+        b=0NEqIKgC2nc2qFq+fiC2MHFwbgGSkU824wY9WDQxprWNTOGzM0YLD6uNnzaX9IYx9r
+         ihI81le13kHQEs4K71gsEuIfC9NCZmaDoP4jNJf/8AmNdE13Wvh79JSZayiGoZqPVvGZ
+         d1CxtQC6pTNON5TR0ZDJOHRHl/mVBtU5HbGu22vNZrIRCwZ7bPM8ro/5lb6HDkm5K7Rw
+         dZwLAdt4JZz59taNZUKmPDWQANpzRTzpF7H39Ds0uDWt23kRSg6W9MNgDU1Hkilwvk+E
+         7BduOIUqqNjf7TrsnY19jDuP2xoHIldAxfMstEem1dawF1ed0vghkG+RwldLjMM3Jbdd
+         CEkQ==
+X-Gm-Message-State: AO0yUKXaLaKyUJsOgOjpjzCJc88/TQbHFUPyVdI4c/5FMcPn8vu/B+Rc
+        xHdykjBUJvaxTliLcSe1Ghel6g==
+X-Google-Smtp-Source: AK7set8DRZKi9ihH+cPAgVxlOU5aLACvrdDluRPzRkzKIxnXdJqurdaHmBpL+VVM8gdHkIEQnGTv+g==
+X-Received: by 2002:ac2:4827:0:b0:4df:51a7:a92 with SMTP id 7-20020ac24827000000b004df51a70a92mr739011lft.11.1677597873874;
+        Tue, 28 Feb 2023 07:24:33 -0800 (PST)
+Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
+        by smtp.gmail.com with ESMTPSA id h17-20020ac250d1000000b004db3aa3c542sm1363688lfm.47.2023.02.28.07.24.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 07:24:33 -0800 (PST)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH 00/18] Venus QoL / maintainability fixes
+Date:   Tue, 28 Feb 2023 16:24:24 +0100
+Message-Id: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] media: subdev: Add
- V4L2_SUBDEV_ROUTING_NO_MULTIPLEXING
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20230228092346.101105-1-tomi.valkeinen@ideasonboard.com>
- <20230228092346.101105-2-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230228092346.101105-2-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-B4-Tracking: v=1; b=H4sIAKgc/mMC/x2N0QqDMAwAf0XybKCrYMt+Zeyh7bI1IFEaFUH8d
+ 8Me7+C4E5Qak8KzO6HRzsqzGDz6DkpN8iPkjzF45wfnfcR1XrjgTrIpBkdpyCWMY4xgRU5KmFu
+ SUq2RbZpMLo2+fPwXr/d13Xw07GRyAAAA
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677597872; l=3038;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=8AvVVQF7f0Tqu+/GJiDr3Nyrd59p4wMcFcXD+zOKav0=;
+ b=ZBD9ff3RDBest+K5oqwkr1GqvYmkJ11ewLwwYbPOl78YiIU4kgPZhIx/SfaKC2pYAreIIGr5AJsI
+ U/Mn2MxwBLYwPCfys7+mZ7lh11RmBpYFlHL/wIm4csGJHirVmqY6
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/02/2023 11:23, Tomi Valkeinen wrote:
-> A common case with subdev routing is that on the subdevice just before
-> the DMA engines (video nodes), no multiplexing is allowed on the source
-> pads, as the DMA engine can only handle a single stream.
-> 
-> In some other situations one might also want to do the same check on the
-> sink side.
-> 
-> Add new routing validation flags to check these:
-> V4L2_SUBDEV_ROUTING_NO_SINK_MULTIPLEXING and
-> V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 36 ++++++++++++++++++++++++---
->   include/media/v4l2-subdev.h           |  9 +++++++
->   2 files changed, 42 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index bc3678337048..ae74a48dd2ba 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1664,7 +1664,8 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->   	unsigned int i, j;
->   	int ret = -EINVAL;
->   
-> -	if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
-> +	if (disallow & (V4L2_SUBDEV_ROUTING_NO_STREAM_MIX |
-> +			V4L2_SUBDEV_ROUTING_NO_MULTIPLEXING)) {
->   		remote_pads = kcalloc(sd->entity.num_pads, sizeof(*remote_pads),
->   				      GFP_KERNEL);
->   		if (!remote_pads)
-> @@ -1705,8 +1706,6 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->   					i, "sink");
->   				goto out;
->   			}
-> -
-> -			remote_pads[route->sink_pad] = route->source_pad;
->   		}
->   
->   		/*
-> @@ -1722,7 +1721,38 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->   					i, "source");
->   				goto out;
->   			}
-> +		}
-> +
-> +		/*
-> +		 * V4L2_SUBDEV_ROUTING_NO_SINK_MULTIPLEXING: Pads on the sink
-> +		 * side can not do stream multiplexing, i.e. there can be only
-> +		 * a single stream in a sink pad.
-> +		 */
-> +		if (disallow & V4L2_SUBDEV_ROUTING_NO_SINK_MULTIPLEXING) {
-> +			if (remote_pads[route->sink_pad] != U32_MAX) {
-> +				dev_dbg(sd->dev,
-> +					"route %u attempts to multiplex on %s pad %u\n",
-> +					i, "sink", route->sink_pad);
-> +				goto out;
-> +			}
-> +		}
->   
-> +		/*
-> +		 * V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING: Pads on the
-> +		 * source side can not do stream multiplexing, i.e. there can
-> +		 * be only a single stream in a source pad.
-> +		 */
-> +		if (disallow & V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING) {
-> +			if (remote_pads[route->source_pad] != U32_MAX) {
-> +				dev_dbg(sd->dev,
-> +					"route %u attempts to multiplex on %s pad %u\n",
-> +					i, "source", route->source_pad);
-> +				goto out;
-> +			}
-> +		}
-> +
-> +		if (remote_pads) {
-> +			remote_pads[route->sink_pad] = route->source_pad;
->   			remote_pads[route->source_pad] = route->sink_pad;
->   		}
->   
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index a4331e0a5aeb..4a8d45e2c804 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1649,6 +1649,10 @@ u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
->    * @V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX:
->    *	streams on the same source pad may not be routed to streams on different
->    *	sink pads
-> + * @V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING:
-> + *	source pads may not contain multiplexed streams
-> + * @V4L2_SUBDEV_ROUTING_NO_SINK_MULTIPLEXING:
-> + *	sink pads may not contain multiplexed streams
->    * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
->    *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
->    *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
-> @@ -1660,12 +1664,17 @@ enum v4l2_subdev_routing_restriction {
->   	V4L2_SUBDEV_ROUTING_NO_N_TO_1 = BIT(1),
->   	V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX = BIT(2),
->   	V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX = BIT(3),
-> +	V4L2_SUBDEV_ROUTING_NO_SINK_MULTIPLEXING = BIT(4),
-> +	V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING = BIT(5),
->   	V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 =
->   		V4L2_SUBDEV_ROUTING_NO_1_TO_N |
->   		V4L2_SUBDEV_ROUTING_NO_N_TO_1,
->   	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX =
->   		V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX |
->   		V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX,
-> +	V4L2_SUBDEV_ROUTING_NO_MULTIPLEXING =
-> +		V4L2_SUBDEV_ROUTING_NO_SINK_MULTIPLEXING |
-> +		V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING,
->   };
->   
->   /**
+Currently upstream assumes all (well, almost all - see 7280 or CrOS
+specific checks) Venus implementations using the same version of the
+Hardware Firmware Interface can be treated the same way. This is
+however not the case.
 
-I missed the V4L2_SUBDEV_ROUTING_NO_MULTIPLEXING value in the kdocs. I 
-will add that.
+This series tries to introduce the groundwork to start differentiating
+them based on the VPU (Video Processing Unit) hardware type, fixes a
+couple of issues that were an effect of that generalized assumption
+and lays the foundation for supporting 8150 (IRIS1) and SM6115/QCM2290
+(AR50 Lite), which will hopefully come soon.
 
-  Tomi
+Tested on 8250, but pretty please test it on your boards too!
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (18):
+      media: venus: hfi_venus: Set venus_sys_idle_indicator to false on V6
+      media: venus: Introduce VPU version distinction
+      media: venus: Add vpu_version to most SoCs
+      media: venus: firmware: Leave a clue for homegrown porters
+      media: venus: hfi_venus: Sanitize venus_boot_core() per-VPU-version
+      media: venus: hfi_venus: Write to VIDC_CTRL_INIT after unmasking interrupts
+      media: venus: core: Assign registers based on VPU version
+      media: venus: hfi_venus: Fix version checks in venus_halt_axi()
+      media: venus: hfi_venus: Fix version checks in venus_isr()
+      media: venus: hfi_venus: Fix version check in venus_cpu_and_video_core_idle()
+      media: venus: hfi_venus: Fix version check in venus_cpu_idle_and_pc_ready()
+      media: venus: firmware: Correct IS_V6() checks
+      media: venus: hfi_platform: Check vpu_version instead of device compatible
+      media: venus: vdec: Fix version check in vdec_set_work_route()
+      media: venus: Remap bufreq fields on HFI6XX
+      media: venus: Introduce accessors for remapped hfi_buffer_reqs members
+      media: venus: Use newly-introduced hfi_buffer_requirements accessors
+      media: venus: hfi_venus: Restrict writing SCIACMDARG3 to Venus V1/V2
+
+ drivers/media/platform/qcom/venus/core.c           |  7 ++-
+ drivers/media/platform/qcom/venus/core.h           | 15 ++++++
+ drivers/media/platform/qcom/venus/firmware.c       | 20 +++++--
+ drivers/media/platform/qcom/venus/helpers.c        |  7 +--
+ drivers/media/platform/qcom/venus/hfi_helper.h     | 61 +++++++++++++++++++---
+ drivers/media/platform/qcom/venus/hfi_msgs.c       |  2 +-
+ .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   | 22 ++++----
+ drivers/media/platform/qcom/venus/hfi_platform.c   |  2 +-
+ drivers/media/platform/qcom/venus/hfi_venus.c      | 29 +++++-----
+ drivers/media/platform/qcom/venus/vdec.c           | 10 ++--
+ drivers/media/platform/qcom/venus/vdec_ctrls.c     |  2 +-
+ drivers/media/platform/qcom/venus/venc.c           |  4 +-
+ drivers/media/platform/qcom/venus/venc_ctrls.c     |  2 +-
+ 13 files changed, 132 insertions(+), 51 deletions(-)
+---
+base-commit: 058f4df42121baadbb8a980c06011e912784dbd2
+change-id: 20230228-topic-venus-70ea3bc76688
+
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
