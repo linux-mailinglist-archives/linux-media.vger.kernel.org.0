@@ -2,91 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C4D36A5DB6
-	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 17:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FDD56A5DC7
+	for <lists+linux-media@lfdr.de>; Tue, 28 Feb 2023 17:56:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbjB1Qyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Feb 2023 11:54:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48030 "EHLO
+        id S229520AbjB1Q44 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Feb 2023 11:56:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjB1Qyi (ORCPT
+        with ESMTP id S229769AbjB1Q4w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Feb 2023 11:54:38 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588C13A90
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 08:54:12 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id t15so10474598wrz.7
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 08:54:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xYp2p3X93FeaEj7oEUGNtbHjsSB1NBY4xkEV8MTn+HA=;
-        b=zQXQRE51CrDrBo29vO1Tc5fTWXPSm2IxiCK7swYieR+p8LZ9HmM5fU3n8M0kcUe9Nd
-         bLBf0u8CD5Iu+TMQ/b+vMdHcZ4uzYsN1R2/WT5t20eyKieynuW6y67BUyP68Eb72QPv1
-         WKVeXgb1nKdiHateM0XSZNG/AFFaGik+qiGFQZ9ZxILrIAxlOICl62RQqf3X49XSmj8V
-         IV/d1p4FhqktIWeGvE7YbrfkKZtKq8EECm5+VPeb7RoKmzTYhm+Xdp0qBMklotytQ/tH
-         luIzG76/BjgrKK4zc7TqplA4zsUUgy3i2vd8Tce4z0vsn2iuY5jE4ArDDFtyderm3U0j
-         usQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xYp2p3X93FeaEj7oEUGNtbHjsSB1NBY4xkEV8MTn+HA=;
-        b=2uMjWDJBM5mE9unbD+aiLfZEl4osGJGUzck+KWPEkPdURYZpyykbAgMqKp3K33Llzm
-         km+OCKrNBrwm7bWsoYADfp3V0kXUjnVJk2PJ1JwUVCBwKmz8oJRizuJHUGCuGPrRcrOQ
-         SiM3fWALj5v7xcMmCuEqmsRMfEsYou8TUqvtxHFfBTTDDUFkuWKVsNXrxdYQJnUH9jv6
-         NbJTFuCaEjdjDCqzEfSa3TB4XjNqoqT1WvIKmeSYkP9fFE/GoqxIt6gmruFLrrQBDYyn
-         p980XN+SOGDqUTif+92mlALoe9up6hPyvKqVGtzt8guioSecX5sUd1eJDv6N5zRs8qgj
-         Za8w==
-X-Gm-Message-State: AO0yUKXsMediQ2QotH6s4+vciLchHNBdmcexdODpTGZtyGojjwB8mF61
-        f/qlfIdAfvQ4ix0Cl6lCWA+sLg==
-X-Google-Smtp-Source: AK7set9O1W8IF9/4cQ+nKRo+YTR7FO1qRItxfIH2oXmuYMagy2Ku0heeyAaJCNf8HhzveTSSwdXUig==
-X-Received: by 2002:a5d:4e0c:0:b0:2c5:5234:882c with SMTP id p12-20020a5d4e0c000000b002c55234882cmr2670053wrt.7.1677603215619;
-        Tue, 28 Feb 2023 08:53:35 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id i15-20020adffdcf000000b002c58ca558b6sm10357018wrs.88.2023.02.28.08.53.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 08:53:35 -0800 (PST)
-Message-ID: <aa8db9a1-ac11-acbe-1a05-b60c39989bc1@nexus-software.ie>
-Date:   Tue, 28 Feb 2023 16:53:33 +0000
+        Tue, 28 Feb 2023 11:56:52 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11743367C0
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 08:56:24 -0800 (PST)
+Received: from ideasonboard.com (host-87-18-61-24.retail.telecomitalia.it [87.18.61.24])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA6C956A;
+        Tue, 28 Feb 2023 17:56:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677603382;
+        bh=lIdlWM92SGbYDyzalAbmirEcmTdlvpc1Bci9pTJ4mEU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PG2hh5Gf6sdUpylE/GM2KCQ6D2s+7mwbcrDYs5cPpumjTU01Jm675hH/4zatS9DoM
+         qJ1+YlKNjhDc04j0efpxOgpLHL+UzNwINJBy2Ys02chxjLKlTlotOc0u4dF4a2Z5Ge
+         fKhb8uVF9akmJxQM8lVXULnV+Gg5EW71acjElfO4=
+Date:   Tue, 28 Feb 2023 17:56:18 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     niklas soderlund <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>
+Subject: Re: [PATCH v1 3/3] media: ti: cal: add multiplexed streams support
+Message-ID: <20230228165618.ugfnpcwmykgkt2v6@uno.localdomain>
+References: <20230222125630.421020-1-tomi.valkeinen@ideasonboard.com>
+ <20230222125630.421020-4-tomi.valkeinen@ideasonboard.com>
+ <20230224154855.kmiwg2h5b3vq272l@uno.localdomain>
+ <Y/jx8euxuxg07C08@sleipner.dyn.berto.se>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 01/18] media: venus: hfi_venus: Set
- venus_sys_idle_indicator to false on V6
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
-References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-1-58c2c88384e9@linaro.org>
- <99eeebc6-69aa-c6ba-139b-92672c299747@linaro.org>
- <893851c9-c8be-ed7f-ebde-5d90b9313f6d@linaro.org>
- <48ac4272-0e11-d943-e950-0be8d93fb036@linaro.org>
- <b7f0c568-72b7-3342-decc-784cd5f68b1a@linaro.org>
- <1091d8b4-3dd3-427b-2fcb-c3e0d32b0a3b@linaro.org>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <1091d8b4-3dd3-427b-2fcb-c3e0d32b0a3b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y/jx8euxuxg07C08@sleipner.dyn.berto.se>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -94,19 +57,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/02/2023 15:41, Konrad Dybcio wrote:
->> Can you test it and make sure ?
-> As I mentioned in the cover letter, 8250 still seems to work with this
-> patchset. I have no idea how one would go about validating the
-> functionality enabled through this call.
+Hi Niklas
 
-We offlined about this.
+On Fri, Feb 24, 2023 at 06:20:49PM +0100, niklas soderlund wrote:
+> Hello,
+>
+> On 2023-02-24 16:48:55 +0100, Jacopo Mondi wrote:
+> > Hi Tomi
+> >
+> > On Wed, Feb 22, 2023 at 02:56:30PM +0200, Tomi Valkeinen wrote:
+> > > Add routing and stream_config support to CAL driver.
+> > >
+> > > Add multiplexed streams support. CAL has 8 dma-engines and can capture 8
+> > > separate streams at the same time.
+> > >
+> > > Add 8 video device nodes, each representing a single dma-engine, and set
+> > > the number of source pads on camerarx to 8. Each video node can be
+> > > connected to any of the source pads on either of the camerarx instances
+> > > using media links. Camerarx internal routing is used to route the
+> > > incoming CSI-2 streams to one of the 8 source pads.
+> > >
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > ---
+> > >  drivers/media/platform/ti/cal/cal-camerarx.c | 233 ++++++++++++++-----
+> > >  drivers/media/platform/ti/cal/cal-video.c    | 146 +++++++++---
+> > >  drivers/media/platform/ti/cal/cal.c          |  65 ++++--
+> > >  drivers/media/platform/ti/cal/cal.h          |   4 +-
+> > >  4 files changed, 342 insertions(+), 106 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+> > > index faafbd0e9240..49ae29065cd1 100644
+> > > --- a/drivers/media/platform/ti/cal/cal-camerarx.c
+> > > +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+> > > @@ -49,21 +49,41 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
+> > >  {
+> > >  	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2 = &phy->endpoint.bus.mipi_csi2;
+> > >  	u32 num_lanes = mipi_csi2->num_data_lanes;
+> > > -	const struct cal_format_info *fmtinfo;
+> > >  	struct v4l2_subdev_state *state;
+> > > -	struct v4l2_mbus_framefmt *fmt;
+> > >  	u32 bpp;
+> > >  	s64 freq;
+> > >
+> > > -	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
+> > > +	/*
+> > > +	 * v4l2_get_link_freq() uses V4L2_CID_LINK_FREQ first, and falls back
+> > > +	 * to V4L2_CID_PIXEL_RATE if V4L2_CID_LINK_FREQ is not available.
+> > > +	 *
+> > > +	 * With multistream input there is no single pixel rate, and thus we
+> > > +	 * cannot use V4L2_CID_PIXEL_RATE, so we pass 0 as the bpp which
+> > > +	 * causes v4l2_get_link_freq() to return an error if it falls back to
+> > > +	 * V4L2_CID_PIXEL_RATE.
+> > > +	 */
+> >
+> > To recap a bit of our offline discussion:
+> > - max9286 GMSL deserializer (as a comparison for a multiplexed
+> >   transmitter) use PIXEL_RATE to report the cumulative pixel rate of
+> >   enabled transmitters. This is because the R-Car CSI-2 receiver on
+> >   which use PIXEL_RATE to compute the link freq [1]
+> >
+> > - according to [2]
+> >   pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample (on D-PHY)
+> >
+> >   from which:
+> >   link_freq = pixel_rate * bits_per_sample / (2 * nr_of_lanes)
+> >
+> >   This works as long the reported pixel rate includes visible and
+> >   blankings, something I'm not sure how many transmitters handle
+> >   correctly as PIXEL_RATE control is meant to report the visible pixel
+> >   sampling rate on the pixel array.
+> >
+> > I guess we should go towards mandating LINK_FREQ for transmitters.
+> >
+> > cc-Niklas for opinions on R-Car CSI-2 rcsi2_calc_mbps()
+>
+> Thanks for the ping.
+>
+> The choice to use the PIXEL_RATE instead of the LINK_FREQ control for
+> the R-Car CSI-2 was originally because the ADV748x which was the first
+> CSI-2 transmitter used during development.
+>
+> AFIK the ADV748x adjusts the CSI-2 TX link frequency to match the pixel
+> clock. This results in quiet a big range of possible values that need to
+> be communicated between the two sub devices. The V4L2_CID_LINK_FREQ
+> control is a V4L2_CTRL_TYPE_INTEGER_MENU which do not render itself to
+> report the large range of values needed.
 
-I think it is correct to say you don't have access to a display to test 
-this on sm8250.
+I see the HDMI and analog front-end adjusting the value of PIXEL_RATE
+control through adv748x_csi2_set_pixelrate() which however only update
+the value of the control. The ADV748x automatically adjusts the "MIPI
+output frequency" (Chapter 9.6 of the chip manual) according to the
+pixel rate, so I concur it is not possible/resonable to express all
+the possible values as menu control items.
 
-I do so, I will try this out for you, though I'll wait for your V2 for 
-this series.
+To be honest I always had troubles with LINK_FREQ being a menu
+control, as it requires to pre-calculate all of the possible values it
+can assume when the bus link frequency varies according to the pixel
+rate or to the image format and output size.
 
----
-bod
+>
+> When we added MAX9286 and friends to the mix, we built on-top of this by
+> reporting the total pixel rate of all streams being transmitted on the
+> CSI-2 link. IMHO the v4l2_get_link_freq() was an OK middle ground on how
+> to align the two use-cases.
+>
+> I agree that situation is not ideal. And in a perfect world a control
+> other then PIXEL_RATE would be used for the R-Car CSI-2 driver, but no
+> such control exists. And chancing the control type of LINK_FREQ is not a
+> good idea as that is usually specified in as a list in DT.
+>
+
+I agree with most of this. I'm also concerned changing a control type
+which userspace has access to might be considered a regression, so I
+guess we have to live with LINK_FREQ as a menu control.
+
+> Adding a new control DYNAMIC_LINK_FREQ and wire that into
+> v4l2_get_link_freq() ?
+>
+
+I wonder if we shouldn't instead move away from controls and report
+the CSI-2 link frequency between the transmitter and the receiver
+drivers through the .get_mbus_config pad operation..
+
+> >
+> > [1] https://elixir.bootlin.com/linux/v6.2/source/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c#L608
+> > [2] https://www.kernel.org/doc/html/latest/driver-api/media/tx-rx.html#csi-2-transmitter-drivers
+> >
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
