@@ -2,170 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEEDE6A69A2
-	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 10:17:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 772736A69E4
+	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 10:38:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbjCAJRo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Mar 2023 04:17:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41674 "EHLO
+        id S229750AbjCAJiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Mar 2023 04:38:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjCAJRn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 04:17:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FE1D16313
-        for <linux-media@vger.kernel.org>; Wed,  1 Mar 2023 01:17:42 -0800 (PST)
-Received: from ideasonboard.com (host-87-18-61-24.retail.telecomitalia.it [87.18.61.24])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADBD5890;
-        Wed,  1 Mar 2023 10:17:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677662259;
-        bh=/kRYmRS9KcxvsjmYM+aezyNc3RUi4SWPWqIOhcQCQsg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vhtmtHrl99ktAa87UKNCKiOiD+rXWiqUE9u6eJohFePdXEnCL4sAJbGcF9mPFLpdL
-         Hu3LiDa3yxs22yArDEU2VjMHS+iYgc2qNmLuyg3MF2nPN4QFwyo9F7f3DHIULNoZig
-         NZ/CXJdQzmkZu6/hUKTPGgw95hkjSzq8d8aS05hs=
-Date:   Wed, 1 Mar 2023 10:17:36 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jai Luthra <j-luthra@ti.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>
-Subject: Re: [PATCH v2 1/4] media: ti: cal: Clean up mbus formats uses
-Message-ID: <20230301091736.jo2gjm7uu34dcbfp@uno.localdomain>
-References: <20230228171620.330978-1-tomi.valkeinen@ideasonboard.com>
- <20230228171620.330978-2-tomi.valkeinen@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230228171620.330978-2-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229511AbjCAJix (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 04:38:53 -0500
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.232.28.96])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 1E12C2412B;
+        Wed,  1 Mar 2023 01:38:51 -0800 (PST)
+Received: from ubuntu.localdomain (unknown [106.117.98.179])
+        by mail-app3 (Coremail) with SMTP id cC_KCgCHCLVWGP9jxVKcDQ--.89S2;
+        Wed, 01 Mar 2023 17:18:25 +0800 (CST)
+From:   Duoming Zhou <duoming@zju.edu.cn>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] media: usb: siano: Fix warning due to null work_func_t function pointer
+Date:   Wed,  1 Mar 2023 17:18:13 +0800
+Message-Id: <20230301091813.82543-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgCHCLVWGP9jxVKcDQ--.89S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAry8JFyDtFyDXrW5uFWxZwb_yoW5CFW3pw
+        18XrWjkFW8JF1Yyrn8Ar1UG3W5J3WxZa48GrW7Wr1rWF1rG3W7Xa48KFWjkryUtr4UZrya
+        yF90q34xtr1jgaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUka14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFWl
+        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+        4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+        6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUIhFcUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgsBAVZdtd2CmAAIs4
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi
+The previous commit ebad8e731c1c ("media: usb: siano: Fix use after
+free bugs caused by do_submit_urb") adds cancel_work_sync() in
+smsusb_stop_streaming(). But smsusb_stop_streaming() may be called,
+even if the work_struct surb->wq has not been initialized. As a result,
+the warning will occur. One of the processes that could lead to warning
+is shown below:
 
-On Tue, Feb 28, 2023 at 07:16:17PM +0200, Tomi Valkeinen wrote:
-> Clean up the CAL drivers uses of mbus formats:
->
-> - Switch all YUV formats from 2X8 formats to 1X16, as those are what
->   should be used for CSI-2 bus.
->
-> - Drop 24 and 32 bit formats, as the driver doesn't support them (see
->   cal_ctx_pix_proc_config()).
->
-> - Switch RGB565_2X8_LE to RGB565_1X16 (for the same reason as for the
->   YUV formats) and drop RGB565_2X8_BE as it cannot be supported with
->   CSI-2.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/platform/ti/cal/cal-camerarx.c |  2 +-
->  drivers/media/platform/ti/cal/cal-video.c    |  2 +-
->  drivers/media/platform/ti/cal/cal.c          | 34 +++-----------------
->  3 files changed, 7 insertions(+), 31 deletions(-)
->
-> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-> index 16ae52879a79..267089b0fea0 100644
-> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
-> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-> @@ -817,7 +817,7 @@ static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
->  		.format = {
->  			.width = 640,
->  			.height = 480,
-> -			.code = MEDIA_BUS_FMT_UYVY8_2X8,
-> +			.code = MEDIA_BUS_FMT_UYVY8_1X16,
->  			.field = V4L2_FIELD_NONE,
->  			.colorspace = V4L2_COLORSPACE_SRGB,
->  			.ycbcr_enc = V4L2_YCBCR_ENC_601,
-> diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
-> index ca906a9e4222..ed92e23d4b16 100644
-> --- a/drivers/media/platform/ti/cal/cal-video.c
-> +++ b/drivers/media/platform/ti/cal/cal-video.c
-> @@ -894,7 +894,7 @@ static int cal_ctx_v4l2_init_mc_format(struct cal_ctx *ctx)
->  	const struct cal_format_info *fmtinfo;
->  	struct v4l2_pix_format *pix_fmt = &ctx->v_fmt.fmt.pix;
->
-> -	fmtinfo = cal_format_by_code(MEDIA_BUS_FMT_UYVY8_2X8);
-> +	fmtinfo = cal_format_by_code(MEDIA_BUS_FMT_UYVY8_1X16);
->  	if (!fmtinfo)
->  		return -EINVAL;
->
-> diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-> index 1236215ec70e..760c58cb3b3e 100644
-> --- a/drivers/media/platform/ti/cal/cal.c
-> +++ b/drivers/media/platform/ti/cal/cal.c
-> @@ -61,48 +61,24 @@ MODULE_PARM_DESC(mc_api, "activates the MC API");
->  const struct cal_format_info cal_formats[] = {
->  	{
->  		.fourcc		= V4L2_PIX_FMT_YUYV,
-> -		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
-> +		.code		= MEDIA_BUS_FMT_YUYV8_1X16,
->  		.bpp		= 16,
->  	}, {
->  		.fourcc		= V4L2_PIX_FMT_UYVY,
-> -		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
-> +		.code		= MEDIA_BUS_FMT_UYVY8_1X16,
->  		.bpp		= 16,
->  	}, {
->  		.fourcc		= V4L2_PIX_FMT_YVYU,
-> -		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
-> +		.code		= MEDIA_BUS_FMT_YVYU8_1X16,
->  		.bpp		= 16,
->  	}, {
->  		.fourcc		= V4L2_PIX_FMT_VYUY,
-> -		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
-> +		.code		= MEDIA_BUS_FMT_VYUY8_1X16,
->  		.bpp		= 16,
->  	}, {
->  		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+smsusb_probe()
+  smsusb_init_device()
+    if (!dev->in_ep || !dev->out_ep || align < 0) {
+         smsusb_term_device(intf);
+           smsusb_stop_streaming()
+             cancel_work_sync(&dev->surbs[i].wq);
+               __cancel_work_timer()
+                 __flush_work()
+                   if (WARN_ON(!work->func)) // work->func is null
 
-I would drop the comment as it's confusing. As far as I understand it
-the RGB565 transmission/reception mode is define uniquely by the CSI-2
-specification and the comment here does not match "Figure 112 RGB565
-Data Format Reception"
+The log reported by syzbot is shown below:
 
-Otherwise
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+WARNING: CPU: 0 PID: 897 at kernel/workqueue.c:3066 __flush_work+0x798/0xa80 kernel/workqueue.c:3063
+Modules linked in:
+CPU: 0 PID: 897 Comm: kworker/0:2 Not tainted 6.2.0-rc1-syzkaller #0
+RIP: 0010:__flush_work+0x798/0xa80 kernel/workqueue.c:3066
+...
+RSP: 0018:ffffc9000464ebf8 EFLAGS: 00010246
+RAX: 1ffff11002dbb420 RBX: 0000000000000021 RCX: 1ffffffff204fa4e
+RDX: dffffc0000000000 RSI: 0000000000000001 RDI: ffff888016dda0e8
+RBP: ffffc9000464ed98 R08: 0000000000000001 R09: ffffffff90253b2f
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888016dda0e8
+R13: ffff888016dda0e8 R14: ffff888016dda100 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffd4331efe8 CR3: 000000000b48e000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __cancel_work_timer+0x315/0x460 kernel/workqueue.c:3160
+ smsusb_stop_streaming drivers/media/usb/siano/smsusb.c:182 [inline]
+ smsusb_term_device+0xda/0x2d0 drivers/media/usb/siano/smsusb.c:344
+ smsusb_init_device+0x400/0x9ce drivers/media/usb/siano/smsusb.c:419
+ smsusb_probe+0xbbd/0xc55 drivers/media/usb/siano/smsusb.c:567
+...
 
-> -		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
-> +		.code		= MEDIA_BUS_FMT_RGB565_1X16,
->  		.bpp		= 16,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_RGB565X, /* rrrrrggg gggbbbbb */
-> -		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
-> -		.bpp		= 16,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_RGB555, /* gggbbbbb arrrrrgg */
-> -		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
-> -		.bpp		= 16,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_RGB555X, /* arrrrrgg gggbbbbb */
-> -		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
-> -		.bpp		= 16,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
-> -		.code		= MEDIA_BUS_FMT_RGB888_2X12_LE,
-> -		.bpp		= 24,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
-> -		.code		= MEDIA_BUS_FMT_RGB888_2X12_BE,
-> -		.bpp		= 24,
-> -	}, {
-> -		.fourcc		= V4L2_PIX_FMT_RGB32, /* argb */
-> -		.code		= MEDIA_BUS_FMT_ARGB8888_1X32,
-> -		.bpp		= 32,
->  	}, {
->  		.fourcc		= V4L2_PIX_FMT_SBGGR8,
->  		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
-> --
-> 2.34.1
->
+This patch adds check before cancel_work_sync(). If surb->wq has not
+been initialized, the cancel_work_sync() will not be executed.
+
+Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+ drivers/media/usb/siano/smsusb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index 6f443c542c6..640737d3b8a 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -179,7 +179,8 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
+ 
+ 	for (i = 0; i < MAX_URBS; i++) {
+ 		usb_kill_urb(&dev->surbs[i].urb);
+-		cancel_work_sync(&dev->surbs[i].wq);
++		if (dev->surbs[i].wq.func)
++			cancel_work_sync(&dev->surbs[i].wq);
+ 
+ 		if (dev->surbs[i].cb) {
+ 			smscore_putbuffer(dev->coredev, dev->surbs[i].cb);
+-- 
+2.17.1
+
