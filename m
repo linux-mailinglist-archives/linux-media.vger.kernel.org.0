@@ -2,48 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 283196A6AE7
-	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 11:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CFD6A6AF9
+	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 11:42:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjCAKiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Mar 2023 05:38:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53656 "EHLO
+        id S229826AbjCAKmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Mar 2023 05:42:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbjCAKiI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 05:38:08 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82C3A2703
-        for <linux-media@vger.kernel.org>; Wed,  1 Mar 2023 02:38:02 -0800 (PST)
-Received: from ideasonboard.com (host-87-18-61-24.retail.telecomitalia.it [87.18.61.24])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FE7C890;
-        Wed,  1 Mar 2023 11:38:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677667080;
-        bh=rwOYfYf4EzjQvTvfQRHjf1kGkAmSYXs0KX9VHJq1l84=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FXWmCIP93wSiRzhdX1K7M0/DasymQdbYvOX3W/TOx1fJmreZ01WJQmS4trKugTTi9
-         xWw4F8tmDzV7x9OX8sHQLZNbAAFoECRs5WO+wiuAFOByTKFUqkyI6519XPGr0m/lX6
-         sZ1pgB38WHIl3t8kcqTm5L6e24s6Q5FYNNUb8VR4=
-Date:   Wed, 1 Mar 2023 11:37:56 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 1/2] media: subdev: Split
- V4L2_SUBDEV_ROUTING_NO_STREAM_MIX
-Message-ID: <20230301103756.ynkivjauuqgpnanl@uno.localdomain>
-References: <20230228092346.101105-1-tomi.valkeinen@ideasonboard.com>
+        with ESMTP id S229445AbjCAKme (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 05:42:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 546D931E17
+        for <linux-media@vger.kernel.org>; Wed,  1 Mar 2023 02:41:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677667307;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8HxbAZdFTdnp0zkdCbvj3RZFLfW7S0PsSk1ODrPqPrk=;
+        b=c+rydkEFPFoAwkNVF8FxPqUMe7ioXU2xXOPYC0tutIPHTg0TgFVeziJx7htj4MbVFgKbzg
+        5LpD/i0lTyTrFY2Z86v1a8QxMaE0pcoeWrq+tZeQD55LxmUNymJV5bYhgDPOUVL/DWLlKb
+        DBtcXCuNn0EigCBPxYgIvt1t2Q6h2QE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-489-1fzr715HPeOGb_LeCcXtTg-1; Wed, 01 Mar 2023 05:41:45 -0500
+X-MC-Unique: 1fzr715HPeOGb_LeCcXtTg-1
+Received: by mail-ed1-f71.google.com with SMTP id h13-20020a0564020e8d00b004a26ef05c34so18577791eda.16
+        for <linux-media@vger.kernel.org>; Wed, 01 Mar 2023 02:41:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8HxbAZdFTdnp0zkdCbvj3RZFLfW7S0PsSk1ODrPqPrk=;
+        b=f0qhIa5GEdN8EMIT6cBPWg4SCdXWiwnpUiUlLdaYlPtMUNKP4vyr8VMoLJ0rpvgDnr
+         5jxtYwQvtypip5zQ43Pne5+67b1ByWHenlUKguTFjmxnwoR+b/0FJNADhdcdqv9jSYeP
+         Wsln9EGewPraBE7xSyjGyUNkBWFZWbSl6b/VJoWoVZh8yizK6k/cHDACprjvk8+HKU5w
+         pQHOs5s+uVVKP1uh3qH8OMfDm/It2S6CO57NkD2EVlYhI/pKsDhnzHCa01sLQfyDdB64
+         eV3cSNkxSfoCebv0e3Fng5MuhK6eNqEgsyE4C0FEFbeuH5rPbZup0z1bfkbNrRCWN9rE
+         v2tA==
+X-Gm-Message-State: AO0yUKVcLut85gmD1/Co+R+OW7rDqULvvImIbpW3quaDT9FWNGm34Clo
+        d7/SKEqw7A8wU6829xup0GYAWj4x1lKicdi7QySLmwR2Awuf9AZ9VhJgmC8OmKrFqjBaY4A4fWq
+        Ar0L5DWD9sXrvTh6l1zYjy6I=
+X-Received: by 2002:a17:907:a090:b0:8a5:3d1e:6302 with SMTP id hu16-20020a170907a09000b008a53d1e6302mr8328955ejc.56.1677667304601;
+        Wed, 01 Mar 2023 02:41:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set9uUypKyMfmYd9MswS9i2cF1QytAOp5wk1WXq1QOr6zLSfsuR9Tau9OoLJEhBxNnyTofSUqEQ==
+X-Received: by 2002:a17:907:a090:b0:8a5:3d1e:6302 with SMTP id hu16-20020a170907a09000b008a53d1e6302mr8328929ejc.56.1677667304283;
+        Wed, 01 Mar 2023 02:41:44 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id f2-20020a170906824200b008f0143dfa9dsm5702009ejx.33.2023.03.01.02.41.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Mar 2023 02:41:43 -0800 (PST)
+Message-ID: <ae28faf8-c8a4-3f75-08d0-8e5233f2fa5d@redhat.com>
+Date:   Wed, 1 Mar 2023 11:41:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230228092346.101105-1-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Content-Language: en-US, nl
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wentong Wu <wentong.wu@intel.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        srinivas.pandruvada@intel.com,
+        pierre-louis.bossart@linux.intel.com, zhifeng.wang@intel.com,
+        xiang.ye@intel.com, tian.shu.qiu@intel.com, bingbu.cao@intel.com,
+        linux-kernel@vger.kernel.org
+References: <20230213022347.2480307-1-wentong.wu@intel.com>
+ <Y/8qJzScTfFucpP9@kekkonen.localdomain>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y/8qJzScTfFucpP9@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,136 +86,99 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi
+Hi,
 
-On Tue, Feb 28, 2023 at 11:23:45AM +0200, Tomi Valkeinen wrote:
-> V4L2_SUBDEV_ROUTING_NO_STREAM_MIX routing validation flag means that all
-> routes from a sink pad must go to the same source pad and all routes
-> going to the same source pad must originate from the same sink pad.
->
-> This does not cover all use cases. For example, if a device routes
-> all streams from a single sink pad to any of the source pads, but
-> streams from multiple sink pads can go to the same source pad, the
-> current flag is too restrictive.
->
-> Split the flag into two parts, V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX
-> and V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX, which add the restriction
-> only on one side of the device. Together they mean the same as
-> V4L2_SUBDEV_ROUTING_NO_STREAM_MIX.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 17 +++++++++++++----
->  include/media/v4l2-subdev.h           | 16 +++++++++++++---
->  2 files changed, 26 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index dff1d9be7841..bc3678337048 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1693,10 +1693,11 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->  		}
->
->  		/*
-> -		 * V4L2_SUBDEV_ROUTING_NO_STREAM_MIX: Streams on the same pad
-> -		 * may not be routed to streams on different pads.
-> +		 * V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX: Streams on the same
-> +		 * sink pad may not be routed to streams on different source
+On 3/1/23 11:34, Sakari Ailus wrote:
+> Hi Wentong,
+> 
+> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
+>> Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
+>> companion chip designed to provide secure and low power vision capability
+>> to IA platforms. IVSC is available in existing commercial platforms from
+>> multiple OEMs.
+>>
+>> The primary use case of IVSC is to bring in context awareness. IVSC
+>> interfaces directly with the platform main camera sensor via a CSI-2 link
+>> and processes the image data with the embedded AI engine. The detected
+>> events are sent over I2C to ISH (Intel Sensor Hub) for additional data
+>> fusion from multiple sensors. The fusion results are used to implement
+>> advanced use cases like:
+>>  - Face detection to unlock screen
+>>  - Detect user presence to manage backlight setting or waking up system
+>>
+>> Since the Image Processing Unit(IPU) used on the host processor needs to
+>> configure the CSI-2 link in normal camera usages, the CSI-2 link and
+>> camera sensor can only be used in mutually-exclusive ways by host IPU and
+>> IVSC. By default the IVSC owns the CSI-2 link and camera sensor. The IPU
+>> driver can take ownership of the CSI-2 link and camera sensor using
+>> interfaces provided by this IVSC driver.
+>>
+>> Switching ownership requires an interface with two different hardware
+>> modules inside IVSC. The software interface to these modules is via Intel
+>> MEI (The Intel Management Engine) commands. These two hardware modules
+>> have two different MEI UUIDs to enumerate. These hardware modules are:
+>>  - ACE (Algorithm Context Engine): This module is for algorithm computing
+>> when IVSC owns camera sensor. Also ACE module controls camera sensor's
+>> ownership. This hardware module is used to set ownership of camera sensor.
+>>  - CSI (Camera Serial Interface): This module is used to route camera
+>> sensor data either to IVSC or to host for IPU driver and application.
+>>
+>> IVSC also provides a privacy mode. When privacy mode is turned on,
+>> camera sensor can't be used. This means that both ACE and host IPU can't
+>> get image data. And when this mode is turned on, host IPU driver is
+>> informed via a registered callback, so that user can be notified.
+>>
+>> In summary, to acquire ownership of camera by IPU driver, first ACE
+>> module needs to be informed of ownership and then to setup MIPI CSI-2
+>> link for the camera sensor and IPU.
+> 
+> I thought this for a while and did some research, and I can suggest the
+> following:
+> 
+> - The IVSC sub-device implements a control for privacy (V4L2_CID_PRIVACY
+>   is a good fit).
+> 
+> - Camera sensor access needs to be requested from IVSC before accessing the
+>   sensor via I²C. The IVSC ownership control needs to be in the right
+>   setting for this to work, and device links can be used for that purpose
+>   (see device_link_add()). With DL_FLAG_PM_RUNTIME and DL_FLAG_RPM_ACTIVE,
+>   the supplier devices will be PM runtime resumed before the consumer
+>   (camera sensor). As these devices are purely virtual on host side and has
+>   no power state as such, you can use runtime PM callbacks to transfer the
+>   ownership.
 
-nit: it was already like this, but as the flag checks for a condition
-that is forbidden I would use "Streams on the same sink pad -shall-
-not be routed to streams on -a- different source pad"
+Interesting proposal to use device-links + runtime-pm for this instead
+of modelling this as an i2c-mux. FWIW I'm fine with going this route instead
+of using an i2c-mux approach.
 
-> +		 * pads.
->  		 */
-> -		if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
-> +		if (disallow & V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX) {
->  			if (remote_pads[route->sink_pad] != U32_MAX &&
->  			    remote_pads[route->sink_pad] != route->source_pad) {
->  				dev_dbg(sd->dev,
-> @@ -1705,6 +1706,15 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->  				goto out;
->  			}
->
-> +			remote_pads[route->sink_pad] = route->source_pad;
-> +		}
-> +
-> +		/*
-> +		 * V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX: Streams on the same
-> +		 * source pad may not be routed to streams on different sink
-> +		 * pads.
-> +		 */
-> +		if (disallow & V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX) {
->  			if (remote_pads[route->source_pad] != U32_MAX &&
->  			    remote_pads[route->source_pad] != route->sink_pad) {
->  				dev_dbg(sd->dev,
-> @@ -1713,7 +1723,6 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->  				goto out;
->  			}
->
-> -			remote_pads[route->sink_pad] = route->source_pad;
->  			remote_pads[route->source_pad] = route->sink_pad;
->  		}
->
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 17773be4a4ee..a4331e0a5aeb 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1643,19 +1643,29 @@ u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
->   * @V4L2_SUBDEV_ROUTING_NO_N_TO_1:
->   *	multiple input streams may not be routed to the same output stream
->   *	(stream merging)
-> - * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
-> - *	streams on the same pad may not be routed to streams on different pads
-> + * @V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX:
-> + *	streams on the same sink pad may not be routed to streams on different
-> + *	source pads
+I have been thinking about the i2c-mux approach a bit and the problem is
+that we are not really muxing but want to turn on/off control and AFAIK
+the i2c-mux framework simply leaves the mux muxed to the last used i2c-chain,
+so control will never be released when the i2c transfers are done.
 
-Same comment on s/may not/shall not/
-Up to you, really
+And if were to somehow modify things (or maybe there already is some
+release callback) then the downside becomes that the i2c-mux core code
+operates at the i2c transfer level. So each i2c read/write would then
+enable + disavle control.
 
-> + * @V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX:
-> + *	streams on the same source pad may not be routed to streams on different
-> + *	sink pads
+Modelling this using something like runtime pm as such is a much better
+fit because then we request control once on probe / stream-on and
+release it once we are fully done, rather then requesting + releasing
+control once per i2c-transfer.
 
-I would prefer the way it is described in the commit message:
+Regards,
 
-        streams on the same source pad must originate from the same
-        sink pad
+Hans
 
 
->   * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
->   *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
->   *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
-> + * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
-> + *	streams on the same pad may not be routed to streams on different pads
 
-        streams on a pad shall all be routed to the same opposite pad
+> 
+> - The CSI-2 configuration should take place when streaming starts on the
+>   sensor (as well as IVSC).
+> 
+> - Device links need to be set up via IPU bridge which now is called  CIO2
+>   bridge (cio2-bridge.c).
+> 
+> Any questions, comments?
+> 
 
-All suggestions, take whatever you like the most
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
->   */
->  enum v4l2_subdev_routing_restriction {
->  	V4L2_SUBDEV_ROUTING_NO_1_TO_N = BIT(0),
->  	V4L2_SUBDEV_ROUTING_NO_N_TO_1 = BIT(1),
-> -	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX = BIT(2),
-> +	V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX = BIT(2),
-> +	V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX = BIT(3),
->  	V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 =
->  		V4L2_SUBDEV_ROUTING_NO_1_TO_N |
->  		V4L2_SUBDEV_ROUTING_NO_N_TO_1,
-> +	V4L2_SUBDEV_ROUTING_NO_STREAM_MIX =
-> +		V4L2_SUBDEV_ROUTING_NO_SINK_STREAM_MIX |
-> +		V4L2_SUBDEV_ROUTING_NO_SOURCE_STREAM_MIX,
->  };
->
->  /**
-> --
-> 2.34.1
->
