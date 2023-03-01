@@ -2,170 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EB016A6853
-	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 08:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D4E6A6877
+	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 08:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjCAHnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Mar 2023 02:43:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50338 "EHLO
+        id S229824AbjCAHzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Mar 2023 02:55:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbjCAHm7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 02:42:59 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839AF8A60
-        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 23:42:56 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1pXH6G-0008PW-07; Wed, 01 Mar 2023 08:42:08 +0100
-Received: from pengutronix.de (hardanger-7.fritz.box [IPv6:2a03:f580:87bc:d400:23fb:f67d:29a6:be20])
+        with ESMTP id S229613AbjCAHzt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 02:55:49 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BB4332E55
+        for <linux-media@vger.kernel.org>; Tue, 28 Feb 2023 23:55:22 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 923BE1866E1;
-        Wed,  1 Mar 2023 07:42:03 +0000 (UTC)
-Date:   Wed, 1 Mar 2023 08:42:03 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 998CC1B002E0;
+        Wed,  1 Mar 2023 09:55:19 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1677657319;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QNgyeGNbIakVmUaNTjzSwd5abaEgLpphKY3AKMb7PrA=;
+        b=KYUSTIUqSWHhS2ZvEtGNGkof5IRAg7xaxvU9nRy40X3ymjyAXVQ3wzzZN+KjuMhN+E2bhN
+        rbGLqUcHonwDykIrZI3t+OONWjbdprlYabNH4ME02B/X/WVC/TI68e/LwEFn1UWt7lpvid
+        gZDVnzSPM8aSl/yRPHmlWwa/qlUYAa3nwghuhpleNpqz8gp+i+IVw0rOZEoRkZZ31UV4R7
+        PovAlB/+aSJT4VjLPixBrf1ofT+mv8p2xCiyDHszB0dOYleXm5h9Vn24Lu+C0ISNRbnZCk
+        b5wk97eSe+hPN7A/A7uuGkFmItzcs+tGW4KrQTvQl6a2PG/aMdpiRelPp1nU8w==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1677657319; a=rsa-sha256;
+        cv=none;
+        b=tL9p089BX4qFRu23nFBg1M1n3CQPRf9lrXE0Sq0d4uwRtXf5vuj9wUybRCgq1J2U7Ht7XU
+        Rb0bhs5GQ3bL931sSY4IjaiAYZkxVrTJ0nvd+9Ta8JZAE4UNYCwRacG6ydbyMZXrGwD1xg
+        ODB2nAqBI+sTnC280N20mHynCP/2nUua9QQTwA+RKHd+oUianvcgtBtFV/2bFfe2RxGhzM
+        v26vLr68cGYVKW4h6PaHfRVE/o2EaAG7qH/NGBFyCizf/tX2c2Pmq5O2Vsq/OJy7J57yPn
+        Qxmz6UjwBnqZijRY3fJERmm80ExlFK9ej9sDn4svB1buARq6+HuRjuv9gDt72w==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1677657319;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QNgyeGNbIakVmUaNTjzSwd5abaEgLpphKY3AKMb7PrA=;
+        b=Il//jLq1Gd48VojdutBxASabPg7wrpkR7vHRXly2PwOLgEuR8+tja8P7sjgitKSr7kEkVg
+        SHT3VjabEFqq1qYpjz4zDlIyyUbYWVPzHo4yOj2+ROsFlTopika4KisBaSpwDDJlRCoSPm
+        d8bkhyfvPJ+O5Ol1w74SrCZb05bOo8sPhmfEXvwzI4NO7QgNaWQz7x3mNuTj0qlnSlWaWQ
+        2++M6810GnQcd/WihAgPxn29ld/7p/YzSyz5OarkkDvvdRJrsuHmGhxoHJHv++/Mf9kcBJ
+        9H2gONCFWFSqS0OfbHkATdBd2IG9NNeVSapWYUNacxHqOD/5py6h9zjPc/fDjg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 73285634C91;
+        Wed,  1 Mar 2023 09:55:12 +0200 (EET)
+Date:   Wed, 1 Mar 2023 09:55:12 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
         Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
-Message-ID: <87lekgrk9v.fsf@hardanger.mail-host-address-is-not-set>
-References: <20230228215433.3944508-1-robh@kernel.org>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        kernel@pengutronix.de, linux-imx@nxp.com
+Subject: Re: [PATCH 1/3] media: Zero-initialize all structures passed to
+ subdev pad operations
+Message-ID: <Y/8E4Ds+EOfYKsXi@valkosipuli.retiisi.eu>
+References: <20230215165021.6628-1-laurent.pinchart@ideasonboard.com>
+ <20230215165021.6628-2-laurent.pinchart@ideasonboard.com>
+ <Y/3Rz5DRX9DnLe8E@valkosipuli.retiisi.eu>
+ <Y/6Ugu86FDL0Cv1s@pendragon.ideasonboard.com>
+ <Y/6VInMEEPhpMlxd@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6qigqggvs4mi6q4z"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <Y/6VInMEEPhpMlxd@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Mar 01, 2023 at 01:58:26AM +0200, Laurent Pinchart wrote:
+> On Wed, Mar 01, 2023 at 01:55:49AM +0200, Laurent Pinchart wrote:
+> > On Tue, Feb 28, 2023 at 12:05:03PM +0200, Sakari Ailus wrote:
+> > > The second latter of the subject of the 3 patch should be lower case.
+> 
+> What ? :-)
 
---6qigqggvs4mi6q4z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+s/a/e/
 
-On 28.02.2023 15:54:33, Rob Herring wrote:
-> SPI and I2C bus node names are expected to be "spi" or "i2c",
-> respectively, with nothing else, a unit-address, or a '-N' index. A
-> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
-> cases. Mostly scripted with the following commands:
->=20
-> git grep -l '\si2c[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's=
-/i2c[0-9] {/i2c {/'
-> git grep -l '\sspi[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's=
-/spi[0-9] {/spi {/'
->=20
-> With this, a few errors in examples were exposed and fixed.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
-> Cc: Chanwoo Choi <cw00.choi@samsung.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Kalle Valo <kvalo@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-can@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-usb@vger.kernel.org
-> ---
-
->  .../bindings/net/can/microchip,mcp251xfd.yaml     |  2 +-
-
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de> # for the microchip,mcp251=
-xfd.yaml
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---6qigqggvs4mi6q4z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmP/AcgACgkQvlAcSiqK
-BOi6Sgf+JKpaaA+WNPAITJwHhJ6KXpNOhPUfPrEJugitHdIDb6xJeU+KLdpQRHpT
-q3SPi/g56vowFbK8p+8n5g77heG7OjMB2fANmHb+AkMg1Cor8h0cXk+hsKmErvcx
-by+P11OhFxZEVk1lwfMmL9gRHWEvllRcEldvKGZ8cBE5/Wa0yrjRMP50Ocf+cZLT
-11GsPq6kGYbkC8zuIIVCVKZCpfAiLDZiMn3fXwFNELYwb336yBEi98pfAeCdiEWi
-Ko7HE8RwUjZP911rwg6b2eaN/qFHnQ48Rd353T5GUz36nC/+dktJ+V3qMnygq918
-wG5da/tbojnXrBmOBeLNZIqvIJc3pg==
-=0CPB
------END PGP SIGNATURE-----
-
---6qigqggvs4mi6q4z--
+-- 
+Sakari Ailus
