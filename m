@@ -2,121 +2,443 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 772736A69E4
-	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 10:38:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC6CB6A69D3
+	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 10:31:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbjCAJiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Mar 2023 04:38:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54188 "EHLO
+        id S229732AbjCAJbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Mar 2023 04:31:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjCAJix (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 04:38:53 -0500
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.232.28.96])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 1E12C2412B;
-        Wed,  1 Mar 2023 01:38:51 -0800 (PST)
-Received: from ubuntu.localdomain (unknown [106.117.98.179])
-        by mail-app3 (Coremail) with SMTP id cC_KCgCHCLVWGP9jxVKcDQ--.89S2;
-        Wed, 01 Mar 2023 17:18:25 +0800 (CST)
-From:   Duoming Zhou <duoming@zju.edu.cn>
-To:     linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] media: usb: siano: Fix warning due to null work_func_t function pointer
-Date:   Wed,  1 Mar 2023 17:18:13 +0800
-Message-Id: <20230301091813.82543-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgCHCLVWGP9jxVKcDQ--.89S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAry8JFyDtFyDXrW5uFWxZwb_yoW5CFW3pw
-        18XrWjkFW8JF1Yyrn8Ar1UG3W5J3WxZa48GrW7Wr1rWF1rG3W7Xa48KFWjkryUtr4UZrya
-        yF90q34xtr1jgaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUka14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFWl
-        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-        4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-        6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUIhFcUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgsBAVZdtd2CmAAIs4
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229660AbjCAJbN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 04:31:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8795039CF6
+        for <linux-media@vger.kernel.org>; Wed,  1 Mar 2023 01:31:09 -0800 (PST)
+Received: from ideasonboard.com (host-87-18-61-24.retail.telecomitalia.it [87.18.61.24])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6B5AA890;
+        Wed,  1 Mar 2023 10:31:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677663067;
+        bh=kugaqmTjO60Aj+gtmCN5MjuPrNdGsXTupdu+E5BH01w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hFPzR/E9G87luooEcftaOX2ShAE5U06Clk5lNnIrMNA2kaqMPEx3cPTYFuGRG+AgD
+         lGWRsMYwxo1f8VwEui4NiFvsmq90HYGAnxtqnr8f3NkIgUtrLHH1/wLkKYlWXbGT/x
+         RM9TiyJp9Z7f8XJIK91cBvEd+gw7+EvHjcy0NxBE=
+Date:   Wed, 1 Mar 2023 10:31:04 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>
+Subject: Re: [PATCH v2 2/4] media: ti: cal: Use subdev state
+Message-ID: <20230301093104.s3xqw2t7x26dzydr@uno.localdomain>
+References: <20230228171620.330978-1-tomi.valkeinen@ideasonboard.com>
+ <20230228171620.330978-3-tomi.valkeinen@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230228171620.330978-3-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The previous commit ebad8e731c1c ("media: usb: siano: Fix use after
-free bugs caused by do_submit_urb") adds cancel_work_sync() in
-smsusb_stop_streaming(). But smsusb_stop_streaming() may be called,
-even if the work_struct surb->wq has not been initialized. As a result,
-the warning will occur. One of the processes that could lead to warning
-is shown below:
+Hi Tomi
 
-smsusb_probe()
-  smsusb_init_device()
-    if (!dev->in_ep || !dev->out_ep || align < 0) {
-         smsusb_term_device(intf);
-           smsusb_stop_streaming()
-             cancel_work_sync(&dev->surbs[i].wq);
-               __cancel_work_timer()
-                 __flush_work()
-                   if (WARN_ON(!work->func)) // work->func is null
+On Tue, Feb 28, 2023 at 07:16:18PM +0200, Tomi Valkeinen wrote:
+> Change TI CAL driver to use subdev state. No functional changes
+> (intended).
+>
+> This allows us to get rid of the 'formats' field, as the formats are
+> kept in the state, and also the 'mutex' as we already have state locking.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti/cal/cal-camerarx.c | 134 ++++++-------------
+>  drivers/media/platform/ti/cal/cal-video.c    |  21 ++-
+>  drivers/media/platform/ti/cal/cal.h          |   8 --
+>  3 files changed, 56 insertions(+), 107 deletions(-)
+>
+> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+> index 267089b0fea0..3dfcb276d367 100644
+> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
+> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+> @@ -50,10 +50,16 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
+>  	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2 = &phy->endpoint.bus.mipi_csi2;
+>  	u32 num_lanes = mipi_csi2->num_data_lanes;
+>  	const struct cal_format_info *fmtinfo;
+> +	struct v4l2_subdev_state *state;
+> +	struct v4l2_mbus_framefmt *fmt;
+>  	u32 bpp;
+>  	s64 freq;
+>
+> -	fmtinfo = cal_format_by_code(phy->formats[CAL_CAMERARX_PAD_SINK].code);
+> +	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
+> +
+> +	fmt = v4l2_subdev_get_pad_format(&phy->subdev, state, CAL_CAMERARX_PAD_SINK);
+> +
+> +	fmtinfo = cal_format_by_code(fmt->code);
+>  	if (!fmtinfo)
+>  		return -EINVAL;
+>
+> @@ -620,34 +626,20 @@ static inline struct cal_camerarx *to_cal_camerarx(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct cal_camerarx, subdev);
+>  }
+>
+> -static struct v4l2_mbus_framefmt *
+> -cal_camerarx_get_pad_format(struct cal_camerarx *phy,
+> -			    struct v4l2_subdev_state *state,
+> -			    unsigned int pad, u32 which)
+> -{
+> -	switch (which) {
+> -	case V4L2_SUBDEV_FORMAT_TRY:
+> -		return v4l2_subdev_get_try_format(&phy->subdev, state, pad);
+> -	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> -		return &phy->formats[pad];
+> -	default:
+> -		return NULL;
+> -	}
+> -}
+> -
+>  static int cal_camerarx_sd_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> +	struct v4l2_subdev_state *state;
+>  	int ret = 0;
+>
+> -	mutex_lock(&phy->mutex);
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+>
+>  	if (enable)
+>  		ret = cal_camerarx_start(phy);
+>  	else
+>  		cal_camerarx_stop(phy);
+>
+> -	mutex_unlock(&phy->mutex);
+> +	v4l2_subdev_unlock_state(state);
+>
+>  	return ret;
+>  }
+> @@ -657,62 +649,44 @@ static int cal_camerarx_sd_enum_mbus_code(struct v4l2_subdev *sd,
+>  					  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+>  	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> -	int ret = 0;
+> -
+> -	mutex_lock(&phy->mutex);
+>
+>  	/* No transcoding, source and sink codes must match. */
+>  	if (cal_rx_pad_is_source(code->pad)) {
+>  		struct v4l2_mbus_framefmt *fmt;
+>
+> -		if (code->index > 0) {
+> -			ret = -EINVAL;
+> -			goto out;
+> -		}
+> +		if (code->index > 0)
+> +			return -EINVAL;
+>
+> -		fmt = cal_camerarx_get_pad_format(phy, state,
+> -						  CAL_CAMERARX_PAD_SINK,
+> -						  code->which);
+> +		fmt = v4l2_subdev_get_pad_format(&phy->subdev, state,
+> +						 CAL_CAMERARX_PAD_SINK);
+>  		code->code = fmt->code;
+>  	} else {
+> -		if (code->index >= cal_num_formats) {
+> -			ret = -EINVAL;
+> -			goto out;
+> -		}
+> +		if (code->index >= cal_num_formats)
+> +			return -EINVAL;
+>
+>  		code->code = cal_formats[code->index].code;
+>  	}
+>
+> -out:
+> -	mutex_unlock(&phy->mutex);
+> -
+> -	return ret;
+> +	return 0;
+>  }
+>
+>  static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>  					   struct v4l2_subdev_state *state,
+>  					   struct v4l2_subdev_frame_size_enum *fse)
+>  {
+> -	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>  	const struct cal_format_info *fmtinfo;
+> -	int ret = 0;
+>
+>  	if (fse->index > 0)
+>  		return -EINVAL;
+>
+> -	mutex_lock(&phy->mutex);
+> -
+>  	/* No transcoding, source and sink formats must match. */
+>  	if (cal_rx_pad_is_source(fse->pad)) {
+>  		struct v4l2_mbus_framefmt *fmt;
+>
+> -		fmt = cal_camerarx_get_pad_format(phy, state,
+> -						  CAL_CAMERARX_PAD_SINK,
+> -						  fse->which);
+> -		if (fse->code != fmt->code) {
+> -			ret = -EINVAL;
+> -			goto out;
+> -		}
+> +		fmt = v4l2_subdev_get_pad_format(sd, state,
+> +						 CAL_CAMERARX_PAD_SINK);
+> +		if (fse->code != fmt->code)
+> +			return -EINVAL;
+>
+>  		fse->min_width = fmt->width;
+>  		fse->max_width = fmt->width;
+> @@ -720,10 +694,8 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>  		fse->max_height = fmt->height;
+>  	} else {
+>  		fmtinfo = cal_format_by_code(fse->code);
+> -		if (!fmtinfo) {
+> -			ret = -EINVAL;
+> -			goto out;
+> -		}
+> +		if (!fmtinfo)
+> +			return -EINVAL;
+>
+>  		fse->min_width = CAL_MIN_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+>  		fse->max_width = CAL_MAX_WIDTH_BYTES * 8 / ALIGN(fmtinfo->bpp, 8);
+> @@ -731,27 +703,6 @@ static int cal_camerarx_sd_enum_frame_size(struct v4l2_subdev *sd,
+>  		fse->max_height = CAL_MAX_HEIGHT_LINES;
+>  	}
+>
+> -out:
+> -	mutex_unlock(&phy->mutex);
+> -
+> -	return ret;
+> -}
+> -
+> -static int cal_camerarx_sd_get_fmt(struct v4l2_subdev *sd,
+> -				   struct v4l2_subdev_state *state,
+> -				   struct v4l2_subdev_format *format)
+> -{
+> -	struct cal_camerarx *phy = to_cal_camerarx(sd);
+> -	struct v4l2_mbus_framefmt *fmt;
+> -
+> -	mutex_lock(&phy->mutex);
+> -
+> -	fmt = cal_camerarx_get_pad_format(phy, state, format->pad,
+> -					  format->which);
+> -	format->format = *fmt;
+> -
+> -	mutex_unlock(&phy->mutex);
+> -
+>  	return 0;
+>  }
+>
+> @@ -759,14 +710,13 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>  				   struct v4l2_subdev_state *state,
+>  				   struct v4l2_subdev_format *format)
+>  {
+> -	struct cal_camerarx *phy = to_cal_camerarx(sd);
+>  	const struct cal_format_info *fmtinfo;
+>  	struct v4l2_mbus_framefmt *fmt;
+>  	unsigned int bpp;
+>
+>  	/* No transcoding, source and sink formats must match. */
+>  	if (cal_rx_pad_is_source(format->pad))
+> -		return cal_camerarx_sd_get_fmt(sd, state, format);
+> +		return v4l2_subdev_get_fmt(sd, state, format);
+>
+>  	/*
+>  	 * Default to the first format if the requested media bus code isn't
+> @@ -790,20 +740,13 @@ static int cal_camerarx_sd_set_fmt(struct v4l2_subdev *sd,
+>
+>  	/* Store the format and propagate it to the source pad. */
+>
+> -	mutex_lock(&phy->mutex);
+> -
+> -	fmt = cal_camerarx_get_pad_format(phy, state,
+> -					  CAL_CAMERARX_PAD_SINK,
+> -					  format->which);
+> +	fmt = v4l2_subdev_get_pad_format(sd, state, CAL_CAMERARX_PAD_SINK);
+>  	*fmt = format->format;
+>
+> -	fmt = cal_camerarx_get_pad_format(phy, state,
+> -					  CAL_CAMERARX_PAD_FIRST_SOURCE,
+> -					  format->which);
+> +	fmt = v4l2_subdev_get_pad_format(sd, state,
+> +					 CAL_CAMERARX_PAD_FIRST_SOURCE);
+>  	*fmt = format->format;
+>
+> -	mutex_unlock(&phy->mutex);
+> -
+>  	return 0;
+>  }
+>
+> @@ -837,7 +780,7 @@ static const struct v4l2_subdev_pad_ops cal_camerarx_pad_ops = {
+>  	.init_cfg = cal_camerarx_sd_init_cfg,
+>  	.enum_mbus_code = cal_camerarx_sd_enum_mbus_code,
+>  	.enum_frame_size = cal_camerarx_sd_enum_frame_size,
+> -	.get_fmt = cal_camerarx_sd_get_fmt,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = cal_camerarx_sd_set_fmt,
+>  };
+>
+> @@ -872,7 +815,6 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	phy->instance = instance;
+>
+>  	spin_lock_init(&phy->vc_lock);
+> -	mutex_init(&phy->mutex);
+>
+>  	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>  						(instance == 0) ?
+> @@ -882,7 +824,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	if (IS_ERR(phy->base)) {
+>  		cal_err(cal, "failed to ioremap\n");
+>  		ret = PTR_ERR(phy->base);
+> -		goto error;
+> +		goto err_entity_cleanup;
 
-The log reported by syzbot is shown below:
+Am I mistaken or media entities are initialized later and you should
+here jump to "kfree(phy)" ?
 
-WARNING: CPU: 0 PID: 897 at kernel/workqueue.c:3066 __flush_work+0x798/0xa80 kernel/workqueue.c:3063
-Modules linked in:
-CPU: 0 PID: 897 Comm: kworker/0:2 Not tainted 6.2.0-rc1-syzkaller #0
-RIP: 0010:__flush_work+0x798/0xa80 kernel/workqueue.c:3066
-...
-RSP: 0018:ffffc9000464ebf8 EFLAGS: 00010246
-RAX: 1ffff11002dbb420 RBX: 0000000000000021 RCX: 1ffffffff204fa4e
-RDX: dffffc0000000000 RSI: 0000000000000001 RDI: ffff888016dda0e8
-RBP: ffffc9000464ed98 R08: 0000000000000001 R09: ffffffff90253b2f
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff888016dda0e8
-R13: ffff888016dda0e8 R14: ffff888016dda100 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffd4331efe8 CR3: 000000000b48e000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- __cancel_work_timer+0x315/0x460 kernel/workqueue.c:3160
- smsusb_stop_streaming drivers/media/usb/siano/smsusb.c:182 [inline]
- smsusb_term_device+0xda/0x2d0 drivers/media/usb/siano/smsusb.c:344
- smsusb_init_device+0x400/0x9ce drivers/media/usb/siano/smsusb.c:419
- smsusb_probe+0xbbd/0xc55 drivers/media/usb/siano/smsusb.c:567
-...
+>  	}
+>
+>  	cal_dbg(1, cal, "ioresource %s at %pa - %pa\n",
+> @@ -890,11 +832,11 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>
+>  	ret = cal_camerarx_regmap_init(cal, phy);
+>  	if (ret)
+> -		goto error;
+> +		goto err_entity_cleanup;
+>
+>  	ret = cal_camerarx_parse_dt(phy);
+>  	if (ret)
+> -		goto error;
+> +		goto err_entity_cleanup;
 
-This patch adds check before cancel_work_sync(). If surb->wq has not
-been initialized, the cancel_work_sync() will not be executed.
+Same for this two ?
 
-Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/media/usb/siano/smsusb.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The rest looks good to me!
 
-diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
-index 6f443c542c6..640737d3b8a 100644
---- a/drivers/media/usb/siano/smsusb.c
-+++ b/drivers/media/usb/siano/smsusb.c
-@@ -179,7 +179,8 @@ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
- 
- 	for (i = 0; i < MAX_URBS; i++) {
- 		usb_kill_urb(&dev->surbs[i].urb);
--		cancel_work_sync(&dev->surbs[i].wq);
-+		if (dev->surbs[i].wq.func)
-+			cancel_work_sync(&dev->surbs[i].wq);
- 
- 		if (dev->surbs[i].cb) {
- 			smscore_putbuffer(dev->coredev, dev->surbs[i].cb);
--- 
-2.17.1
 
+>
+>  	/* Initialize the V4L2 subdev and media entity. */
+>  	sd = &phy->subdev;
+> @@ -911,19 +853,21 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(phy->pads),
+>  				     phy->pads);
+>  	if (ret)
+> -		goto error;
+> +		goto err_entity_cleanup;
+>
+> -	ret = cal_camerarx_sd_init_cfg(sd, NULL);
+> +	ret = v4l2_subdev_init_finalize(sd);
+>  	if (ret)
+> -		goto error;
+> +		goto err_entity_cleanup;
+>
+>  	ret = v4l2_device_register_subdev(&cal->v4l2_dev, sd);
+>  	if (ret)
+> -		goto error;
+> +		goto err_free_state;
+>
+>  	return phy;
+>
+> -error:
+> +err_free_state:
+> +	v4l2_subdev_cleanup(sd);
+> +err_entity_cleanup:
+>  	media_entity_cleanup(&phy->subdev.entity);
+>  	kfree(phy);
+>  	return ERR_PTR(ret);
+> @@ -935,9 +879,9 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
+>  		return;
+>
+>  	v4l2_device_unregister_subdev(&phy->subdev);
+> +	v4l2_subdev_cleanup(&phy->subdev);
+>  	media_entity_cleanup(&phy->subdev.entity);
+>  	of_node_put(phy->source_ep_node);
+>  	of_node_put(phy->source_node);
+> -	mutex_destroy(&phy->mutex);
+>  	kfree(phy);
+>  }
+> diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
+> index ed92e23d4b16..a8abcd0fee17 100644
+> --- a/drivers/media/platform/ti/cal/cal-video.c
+> +++ b/drivers/media/platform/ti/cal/cal-video.c
+> @@ -687,21 +687,34 @@ static void cal_release_buffers(struct cal_ctx *ctx,
+>  static int cal_video_check_format(struct cal_ctx *ctx)
+>  {
+>  	const struct v4l2_mbus_framefmt *format;
+> +	struct v4l2_subdev_state *state;
+>  	struct media_pad *remote_pad;
+> +	int ret = 0;
+>
+>  	remote_pad = media_pad_remote_pad_first(&ctx->pad);
+>  	if (!remote_pad)
+>  		return -ENODEV;
+>
+> -	format = &ctx->phy->formats[remote_pad->index];
+> +	state = v4l2_subdev_lock_and_get_active_state(&ctx->phy->subdev);
+> +
+> +	format = v4l2_subdev_get_pad_format(&ctx->phy->subdev, state, remote_pad->index);
+> +	if (!format) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+>
+>  	if (ctx->fmtinfo->code != format->code ||
+>  	    ctx->v_fmt.fmt.pix.height != format->height ||
+>  	    ctx->v_fmt.fmt.pix.width != format->width ||
+> -	    ctx->v_fmt.fmt.pix.field != format->field)
+> -		return -EPIPE;
+> +	    ctx->v_fmt.fmt.pix.field != format->field) {
+> +		ret = -EPIPE;
+> +		goto out;
+> +	}
+>
+> -	return 0;
+> +out:
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+>  }
+>
+>  static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+> diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
+> index de73d6d21b6f..55d4736fed18 100644
+> --- a/drivers/media/platform/ti/cal/cal.h
+> +++ b/drivers/media/platform/ti/cal/cal.h
+> @@ -177,7 +177,6 @@ struct cal_camerarx {
+>
+>  	struct v4l2_subdev	subdev;
+>  	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
+> -	struct v4l2_mbus_framefmt	formats[CAL_CAMERARX_NUM_PADS];
+>
+>  	/* protects the vc_* fields below */
+>  	spinlock_t		vc_lock;
+> @@ -185,13 +184,6 @@ struct cal_camerarx {
+>  	u16			vc_frame_number[4];
+>  	u32			vc_sequence[4];
+>
+> -	/*
+> -	 * Lock for camerarx ops. Protects:
+> -	 * - formats
+> -	 * - enable_count
+> -	 */
+> -	struct mutex		mutex;
+> -
+>  	unsigned int		enable_count;
+>  };
+>
+> --
+> 2.34.1
+>
