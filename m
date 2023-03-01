@@ -2,190 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E226A6940
-	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 09:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A0D6A696D
+	for <lists+linux-media@lfdr.de>; Wed,  1 Mar 2023 10:04:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbjCAI5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Mar 2023 03:57:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50784 "EHLO
+        id S229706AbjCAJEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Mar 2023 04:04:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbjCAI5W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 03:57:22 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD89360A8;
-        Wed,  1 Mar 2023 00:57:21 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id b13so13191149ljf.6;
-        Wed, 01 Mar 2023 00:57:21 -0800 (PST)
+        with ESMTP id S229470AbjCAJEn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Mar 2023 04:04:43 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFCA7287
+        for <linux-media@vger.kernel.org>; Wed,  1 Mar 2023 01:04:42 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id oj5so8694653pjb.5
+        for <linux-media@vger.kernel.org>; Wed, 01 Mar 2023 01:04:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677661039;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fsdu2Eb3blGInGskJjm04MPUGM6r3/+cVPR317kKk+A=;
-        b=AHfQcnnf7rLS73J/+l/ZkiNI0HgDJ8xVO8BYpbgEwVnvuJLTkTbqWEvwn6XOmQJgtU
-         o7wjiR7ilWaqA6nVr8C52CnO6UJ6zu0PvU8uWzqzOyVXnQ8LI4zjstNVo6rMKlc/ibnT
-         xNrA1/133hRRIzOWlysNfOXvYlwXk5p3WD9vGcWUBUowIkYqEIOAf+WQEV6/Wm+81oxE
-         W7xPTUZPs/9uFHI5cpQHN0HRjOCMPvbdzQwgBacAKrsALIzikjiOWw8yTgD8Wx7ziFGV
-         XGUJ08pccGAQDlRT2xQnLWYXl9W4xA2EoZURQFBORuULMvNN6lv/Z6TCpsqzoMjOMZ0d
-         RHcw==
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=L8tn/v4aC2ukEl0jonB4oe0ZECIANi8VW58t3+cYdus=;
+        b=ZrrzLbNzuFqJ1Qm1WsDrm7SmRVdW2i6BRFAKgIfedUQcQ43CKj/IiGCVpRVQu8OkjN
+         F4qGw8sJCk4CKMbsuylpcHbSuyLl0BpffF7GlJv4O3Ix5crYwnARr5Kr0oAQzTwgbCTB
+         83ff7P1WqThaYcCriNbMD85FbXE1HV+tu+wYE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677661039;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fsdu2Eb3blGInGskJjm04MPUGM6r3/+cVPR317kKk+A=;
-        b=DuGzHmduK1AInvVqZWNn6alcJH+yCKNuRcCm5TCMxkCpBrBJFvHNWz2vSuw28qSo1V
-         iz6RgpfGVAMN7KE7mUP1aooaAtAbUG6XxCtyt+sBsLWzpClDubAHlBuISdUjin5J7OIp
-         yiJEaig+cHzeJWgznbUpEqbQwcBzyz86+KmrDT0YjYdk3lywnllqgDzw4Eqz0rJXM3XD
-         Pj41ACu7QuboP8JPUR9rxDhRtGv8KUrfUcLwfzbjJ/gXZzmQprSL18h71bE82Aw3I5eg
-         PMC7u9xhX11IRUGVNfUJvdIa9n7M0VKcdgtNPNBdtlwRrbAiIZWy/gevwx4YRjC4VpHO
-         vJDg==
-X-Gm-Message-State: AO0yUKXhVuZ27l3WqCZO/nyJcuVVO7qCeKEPOjK8TAdB1P5N0psrhRON
-        qLGZqak7dVHfdb/ty0GVcLo=
-X-Google-Smtp-Source: AK7set82/gI/ZiXCynTzPaOgWHLc7EeaoJaCL3F3vziWTQUzlK+NQgg2VxzJCzl53/JaLICRBGUtmQ==
-X-Received: by 2002:a2e:9e14:0:b0:295:b2a0:498a with SMTP id e20-20020a2e9e14000000b00295b2a0498amr1900824ljk.13.1677661039052;
-        Wed, 01 Mar 2023 00:57:19 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id n15-20020a2e86cf000000b00293530f5765sm1556622ljj.113.2023.03.01.00.57.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 00:57:18 -0800 (PST)
-Date:   Wed, 1 Mar 2023 10:57:15 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK), linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v8 08/16] dma-buf/sw_sync: Add fence deadline support
-Message-ID: <20230301105716.75136952@eldfell>
-In-Reply-To: <20230228225833.2920879-9-robdclark@gmail.com>
-References: <20230228225833.2920879-1-robdclark@gmail.com>
-        <20230228225833.2920879-9-robdclark@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L8tn/v4aC2ukEl0jonB4oe0ZECIANi8VW58t3+cYdus=;
+        b=bWIOMpBCOFVetKiB+FzhBlvFwylye3QKbo2WagOkxHpSVtwP3PEZnJrqLyB6a4/Plp
+         gtdUdYVPbqsn4pNM3bzma4uRcHpqnXsbUyl4TuOW0qjuZAEUhKn0J3wnRtxTapDhpC2z
+         eiemm7JMQ8ch3cIb9hIGLC1nvGvg193DrbbrIUUmHY92VH8xig9VdEeeXq2zHWVd6JBh
+         jeWTVUKP0SjBHzhVGH1IyWb0wPr2qpAwjS0ISAesgqIYyi60lTC4MXARiCOdutZXRd3V
+         eEiI3NTyDr9mXPo28XdE73rgw7iAYNJN89syq3BblXH2kS+ki0q+2bIpomM2/5uCH545
+         zUJw==
+X-Gm-Message-State: AO0yUKWXaIqe9FJ//yhzMqj5MuAtMDpNLzM1kDH0yUOItbnJLY3E0wQq
+        kd3bO/Sn4BamtBbYkdqmOHq8yeK2bp8V7q2E
+X-Google-Smtp-Source: AK7set+kU47aNtkwrT5BejJr6WX5O57dRMPdovFtlL9ZMEYr7Ivt1MaVBLCF3Q9ngkVthgQQgHUpmA==
+X-Received: by 2002:a17:903:1250:b0:19a:9406:b234 with SMTP id u16-20020a170903125000b0019a9406b234mr6776658plh.45.1677661481625;
+        Wed, 01 Mar 2023 01:04:41 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com. [209.85.214.182])
+        by smtp.gmail.com with ESMTPSA id q6-20020a170902a3c600b0019cb6222691sm7906302plb.133.2023.03.01.01.04.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Mar 2023 01:04:41 -0800 (PST)
+Received: by mail-pl1-f182.google.com with SMTP id z2so13250621plf.12
+        for <linux-media@vger.kernel.org>; Wed, 01 Mar 2023 01:04:40 -0800 (PST)
+X-Received: by 2002:a17:90a:668d:b0:230:80d7:2158 with SMTP id
+ m13-20020a17090a668d00b0023080d72158mr2307984pjj.4.1677661480192; Wed, 01 Mar
+ 2023 01:04:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/MU0/wWEPl4MipdcOND2ij7s";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221101-instal-v1-0-d13d1331c4b5@chromium.org> <Y6z55cXTt5yXjIZj@pendragon.ideasonboard.com>
+In-Reply-To: <Y6z55cXTt5yXjIZj@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 1 Mar 2023 10:04:28 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvbQ7uMgoxDsXDOphjANNZ2EuoV-Dra+wtT9LLL6USstQ@mail.gmail.com>
+Message-ID: <CANiDSCvbQ7uMgoxDsXDOphjANNZ2EuoV-Dra+wtT9LLL6USstQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND] media: uvcvideo: Disable autosuspend for Insta360 Link
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yunke Cao <yunkec@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/MU0/wWEPl4MipdcOND2ij7s
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Laurent
 
-On Tue, 28 Feb 2023 14:58:12 -0800
-Rob Clark <robdclark@gmail.com> wrote:
-
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> This consists of simply storing the most recent deadline, and adding an
-> ioctl to retrieve the deadline.  This can be used in conjunction with
-> the SET_DEADLINE ioctl on a fence fd for testing.  Ie. create various
-> sw_sync fences, merge them into a fence-array, set deadline on the
-> fence-array and confirm that it is propagated properly to each fence.
->=20
-> v2: Switch UABI to express deadline as u64
-> v3: More verbose UAPI docs, show how to convert from timespec
-> v4: Better comments, track the soonest deadline, as a normal fence
->     implementation would, return an error if no deadline set.
->=20
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/sw_sync.c    | 81 ++++++++++++++++++++++++++++++++++++
->  drivers/dma-buf/sync_debug.h |  2 +
->  2 files changed, 83 insertions(+)
->=20
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index 348b3a9170fa..f53071bca3af 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -52,12 +52,33 @@ struct sw_sync_create_fence_data {
->  	__s32	fence; /* fd of new fence */
->  };
-> =20
-> +/**
-> + * struct sw_sync_get_deadline - get the deadline hint of a sw_sync fence
-> + * @deadline_ns: absolute time of the deadline
-> + * @pad:	must be zero
-> + * @fence_fd:	the sw_sync fence fd (in)
-> + *
-> + * Return the earliest deadline set on the fence.  The timebase for the
-> + * deadline is CLOCK_MONOTONIC (same as vblank).  If there is no deadline
-> + * set on the fence, this ioctl will return -ENOENT.
-> + */
-> +struct sw_sync_get_deadline {
-> +	__u64	deadline_ns;
-> +	__u32	pad;
-> +	__s32	fence_fd;
-> +};
-
-Sounds good.
-
-> diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
-> index 6176e52ba2d7..2e0146d0bdbb 100644
-> --- a/drivers/dma-buf/sync_debug.h
-> +++ b/drivers/dma-buf/sync_debug.h
-> @@ -55,11 +55,13 @@ static inline struct sync_timeline *dma_fence_parent(=
-struct dma_fence *fence)
->   * @base: base fence object
->   * @link: link on the sync timeline's list
->   * @node: node in the sync timeline's tree
-> + * @deadline: the most recently set fence deadline
-
-Now it's the earliest deadline.
-
->   */
->  struct sync_pt {
->  	struct dma_fence base;
->  	struct list_head link;
->  	struct rb_node node;
-> +	ktime_t deadline;
->  };
-> =20
->  extern const struct file_operations sw_sync_debugfs_fops;
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+We are back to this issue.
 
 
-Thanks,
-pq
+On Thu, 29 Dec 2022 at 03:22, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Fri, Dec 02, 2022 at 05:48:52PM +0100, Ricardo Ribalda wrote:
+> > When the device suspends, it keeps power-cycling.
+> >
+> > The user notices it because the LED constanct oscillate between
+> > blue (ready) and no LED (off).
+> >
+> > <6>[95202.128542] usb 3-3-port4: attempt power cycle
+> > <6>[95206.070120] usb 3-3.4: new high-speed USB device number 49 using xhci_hcd
+> > <6>[95206.212027] usb 3-3.4: New USB device found, idVendor=2e1a, idProduct=4c01, bcdDevice= 2.00
+> > <6>[95206.212044] usb 3-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=<Serial: 1>
+> > <6>[95206.212050] usb 3-3.4: Product: Insta360 Link
+> > <6>[95206.212075] usb 3-3.4: Manufacturer: Amba
+> > <7>[95206.214862] usb 3-3.4: GPIO lookup for consumer privacy
+> > <7>[95206.214866] usb 3-3.4: using lookup tables for GPIO lookup
+> > <7>[95206.214869] usb 3-3.4: No GPIO consumer privacy found
+> > <6>[95206.214871] usb 3-3.4: Found UVC 1.10 device Insta360 Link (2e1a:4c01)
+> > <3>[95206.217113] usb 3-3.4: Failed to query (GET_INFO) UVC control 14 on unit 1: -32 (exp. 1).
+> > <3>[95206.217733] usb 3-3.4: Failed to query (GET_INFO) UVC control 16 on unit 1: -32 (exp. 1).
+> > <4>[95206.223544] usb 3-3.4: Warning! Unlikely big volume range (=32767), cval->res is probably wrong.
+> > <4>[95206.223554] usb 3-3.4: [9] FU [Mic Capture Volume] ch = 1, val = -32768/-1/1
+> > <6>[95210.698990] usb 3-3.4: USB disconnect, device number 49
+> > <6>[95211.963090] usb 3-3.4: new high-speed USB device number 50 using xhci_hcd
+> > <6>[95212.657061] usb 3-3.4: new full-speed USB device number 51 using xhci_hcd
+> > <3>[95212.783119] usb 3-3.4: device descriptor read/64, error -32
+> > <3>[95213.015076] usb 3-3.4: device descriptor read/64, error -32
+> > <6>[95213.120358] usb 3-3-port4: attempt power cycle
+> >
+> > Bus 001 Device 009: ID 2e1a:4c01 Amba Insta360 Link
+> > Device Descriptor:
+> >   bLength                18
+> >   bDescriptorType         1
+> >   bcdUSB               2.00
+> >   bDeviceClass          239 Miscellaneous Device
+> >   bDeviceSubClass         2
+> >   bDeviceProtocol         1 Interface Association
+> >   bMaxPacketSize0        64
+> >   idVendor           0x2e1a
+> >   idProduct          0x4c01
+> >   bcdDevice            2.00
+> >   iManufacturer           1 Amba
+> >   iProduct                2 Insta360 Link
+> >   iSerial                 0
+> >   bNumConfigurations      1
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > media: uvcvideo: Disable autosuspend for Insta360
+> >
+> > The device does not handle properly the USB suspend and makes it barely usable.
+>
+> Isn't this best handled with a quirk in the USB core ? Autosuspend is a
+> device feature, not an interface feature, so if the USB sound driver is
+> loaded but uvcvideo isn't, the kernel may still attempt to autosuspend
+> the device.
+>
 
---Sig_/MU0/wWEPl4MipdcOND2ij7s
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Seems like USB_QUIRK_NO_AUTOSUSPEND was gone for a long time
 
------BEGIN PGP SIGNATURE-----
+https://lore.kernel.org/lkml/20071115064457.GU19218@kroah.com/
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP/E2wACgkQI1/ltBGq
-qqecHRAAjhjC3dSJPLKHaSsAI7cQzzt5Abml2ibr0Hei5R3tGeGmDsNslkWJiczW
-/gh9o8CnyF9qlqm9gddyeVoOyRmIv6g7VeP2NWPC/QafUPLZs9cDatt581PhPWty
-yHDgpksmTJmoOr+SoyrcIJLJiLv6+a22VycokaxFfIsIYXmG6PJxkFcFHRf030c9
-QllXKDA2kPgCOy2df7cNasmwvirmScRaK/FqJr83xVx0CndUyc0uj3KUZl183whQ
-r5mNQ2uphXXX4ceFdoFLoDpD3fc2+nO0q1Z+i+/+C7sZIglJi7wxCyfV5Qtw4vrW
-qpxE+D8Oo+bRRtsofNJmran3RnPWeG6XCJ1z6ZlkP38hhaTxU3BIUZmkoaYM1of4
-es+Q+f7gzf7BJNWcgAjs7bJecBr/H19eGWIg+zh+1MlfrdtqAIA1OlzPZc78JMt5
-59IZx6k23ESS1g9Rfiw/9J2feQa1ZCO2oON3tqpbi/hgXUsTyR3V8x1Qu91898aR
-YZSXIidMH3GV8phN5m1oht/3KU2U482zZ35O+u+dlkJ04v+Aimx/UDsA5r74P5lN
-C+WkRYhlbBYCnqz9bgm1Xo8moXDuQi7u+9sABhIRIrywUm2JQ28LU/4UnsRK+epf
-DNEY/D0KQO4hZ1J4zUBN2G0t1u+XTbpBHBwaFj5HKki4QAnFDNU=
-=7DNe
------END PGP SIGNATURE-----
+under the assumption that autosuspend was off by default and user
+space should only enable autosuspend on the devices that support it
+(if I understand it correctly).
 
---Sig_/MU0/wWEPl4MipdcOND2ij7s--
+There are two other quirks still available: USB_QUIRK_RESET_RESUME and
+USB_QUIRK_DISCONNECT_SUSPEND, but they do not seem to work for this
+device (Yunke, thanks for looking into this)
+
+If we are explicitly enabling autosuspend on the driver, shouldn't we
+make sure that the device supports it?
+
+Regards!
+
+> > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c | 13 ++++++++++++-
+> >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+> >  2 files changed, 13 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 215fb483efb0..ad95c7599863 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -2223,7 +2223,9 @@ static int uvc_probe(struct usb_interface *intf,
+> >       }
+> >
+> >       uvc_dbg(dev, PROBE, "UVC device initialized\n");
+> > -     usb_enable_autosuspend(udev);
+> > +     if (!(dev->quirks & UVC_QUIRK_DISABLE_AUTOSUSPEND))
+> > +             usb_enable_autosuspend(udev);
+> > +
+> >       return 0;
+> >
+> >  error:
+> > @@ -2967,6 +2969,15 @@ static const struct usb_device_id uvc_ids[] = {
+> >         .bInterfaceSubClass   = 1,
+> >         .bInterfaceProtocol   = 0,
+> >         .driver_info          = (kernel_ulong_t)&uvc_quirk_force_y8 },
+> > +     /* Insta360 Link */
+> > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > +       .idVendor             = 0x2e1a,
+> > +       .idProduct            = 0x4c01,
+> > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > +       .bInterfaceSubClass   = 1,
+> > +       .bInterfaceProtocol   = 0,
+> > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_DISABLE_AUTOSUSPEND) },
+> >       /* GEO Semiconductor GC6500 */
+> >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index df93db259312..47c86c7c6346 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -74,6 +74,7 @@
+> >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
+> >  #define UVC_QUIRK_FORCE_Y8           0x00000800
+> >  #define UVC_QUIRK_FORCE_BPP          0x00001000
+> > +#define UVC_QUIRK_DISABLE_AUTOSUSPEND        0x00002000
+> >
+> >  /* Format flags */
+> >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+> >
+> > ---
+> > base-commit: 23758867219c8d84c8363316e6dd2f9fd7ae3049
+> > change-id: 20221101-instal-9a77ba1cc448
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
