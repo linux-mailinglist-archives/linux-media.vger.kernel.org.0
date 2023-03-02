@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1596D6A82FD
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEEA6A82F6
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:58:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbjCBM6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 07:58:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57036 "EHLO
+        id S229509AbjCBM60 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 07:58:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229760AbjCBM6b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 07:58:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA714FA9D
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 04:57:42 -0800 (PST)
+        with ESMTP id S229540AbjCBM6Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 07:58:24 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF737EEF
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 04:57:39 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0CF4CB81219
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 12:57:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 098CEC4339B;
-        Thu,  2 Mar 2023 12:57:34 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2B8C9B8121F
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 12:57:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D11C433D2;
+        Thu,  2 Mar 2023 12:57:36 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/9] saa7146: drop overlay support
-Date:   Thu,  2 Mar 2023 13:57:23 +0100
-Message-Id: <20230302125731.1124945-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/9] saa7134: drop overlay support
+Date:   Thu,  2 Mar 2023 13:57:24 +0100
+Message-Id: <20230302125731.1124945-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302125731.1124945-1-hverkuil-cisco@xs4all.nl>
 References: <20230302125731.1124945-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,728 +54,225 @@ So drop support for this.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/common/saa7146/saa7146_fops.c  |  26 +-
- drivers/media/common/saa7146/saa7146_hlp.c   | 296 -----------------
- drivers/media/common/saa7146/saa7146_video.c | 326 +------------------
- drivers/staging/media/av7110/av7110_v4l.c    |  17 +-
- include/media/drv-intf/saa7146_vv.h          |  21 --
- 5 files changed, 7 insertions(+), 679 deletions(-)
+ drivers/media/pci/saa7134/saa7134-cards.c |   1 -
+ drivers/media/pci/saa7134/saa7134-core.c  |  32 --
+ drivers/media/pci/saa7134/saa7134-video.c | 411 +---------------------
+ drivers/media/pci/saa7134/saa7134.h       |  13 -
+ 4 files changed, 4 insertions(+), 453 deletions(-)
 
-diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
-index e9a15de6126e..08c8e73cef2c 100644
---- a/drivers/media/common/saa7146/saa7146_fops.c
-+++ b/drivers/media/common/saa7146/saa7146_fops.c
-@@ -516,28 +516,10 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
- 	   configuration data) */
- 	dev->ext_vv_data = ext_vv;
+diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
+index 99be59af3560..1280696f65f2 100644
+--- a/drivers/media/pci/saa7134/saa7134-cards.c
++++ b/drivers/media/pci/saa7134/saa7134-cards.c
+@@ -2116,7 +2116,6 @@ struct saa7134_board saa7134_boards[] = {
+ 		- Remote control doesn't initialize properly.
+ 		- Audio volume starts muted,
+ 		then gradually increases after channel change.
+-		- Overlay scaling problems (application error?)
+ 		- Composite S-Video untested.
+ 		From: Konrad Rzepecki <hannibal@megapolis.pl>
+ 		*/
+diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
+index cf2871306987..ea0585e43abb 100644
+--- a/drivers/media/pci/saa7134/saa7134-core.c
++++ b/drivers/media/pci/saa7134/saa7134-core.c
+@@ -51,10 +51,6 @@ static unsigned int latency = UNSET;
+ module_param(latency, int, 0444);
+ MODULE_PARM_DESC(latency,"pci latency timer");
  
--	vv->d_clipping.cpu_addr =
--		dma_alloc_coherent(&dev->pci->dev, SAA7146_CLIPPING_MEM,
--				   &vv->d_clipping.dma_handle, GFP_KERNEL);
--	if( NULL == vv->d_clipping.cpu_addr ) {
--		ERR("out of memory. aborting.\n");
--		kfree(vv);
--		v4l2_ctrl_handler_free(hdl);
--		v4l2_device_unregister(&dev->v4l2_dev);
--		return -ENOMEM;
+-int saa7134_no_overlay=-1;
+-module_param_named(no_overlay, saa7134_no_overlay, int, 0444);
+-MODULE_PARM_DESC(no_overlay, "allow override overlay default (0 disables, 1 enables) [some VIA/SIS chipsets are known to have problem with overlay]");
+-
+ bool saa7134_userptr;
+ module_param(saa7134_userptr, bool, 0644);
+ MODULE_PARM_DESC(saa7134_userptr, "enable page-aligned userptr support");
+@@ -400,13 +396,6 @@ int saa7134_set_dmabits(struct saa7134_dev *dev)
+ 			SAA7134_MAIN_CTRL_TE5;
+ 	}
+ 
+-	/* screen overlay -- dma 0 + video task B */
+-	if (dev->ovenable) {
+-		task |= 0x10;
+-		ctrl |= SAA7134_MAIN_CTRL_TE1;
+-		ov = dev->ovfield;
 -	}
 -
- 	saa7146_video_uops.init(dev,vv);
- 	if (dev->ext_vv_data->capabilities & V4L2_CAP_VBI_CAPTURE)
- 		saa7146_vbi_uops.init(dev,vv);
- 
--	vv->ov_fb.fmt.width = vv->standard->h_max_out;
--	vv->ov_fb.fmt.height = vv->standard->v_max_out;
--	vv->ov_fb.fmt.pixelformat = V4L2_PIX_FMT_RGB565;
--	vv->ov_fb.fmt.bytesperline = 2 * vv->ov_fb.fmt.width;
--	vv->ov_fb.fmt.sizeimage = vv->ov_fb.fmt.bytesperline * vv->ov_fb.fmt.height;
--	vv->ov_fb.fmt.colorspace = V4L2_COLORSPACE_SRGB;
--
- 	fmt = &vv->video_fmt;
- 	fmt->width = 384;
- 	fmt->height = 288;
-@@ -561,8 +543,6 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
- 
- 	timer_setup(&vv->vbi_read_timeout, NULL, 0);
- 
--	vv->ov_fb.capability = V4L2_FBUF_CAP_LIST_CLIPPING;
--	vv->ov_fb.flags = V4L2_FBUF_FLAG_PRIMARY;
- 	dev->vv_data = vv;
- 	dev->vv_callback = &vv_callback;
- 
-@@ -577,8 +557,6 @@ int saa7146_vv_release(struct saa7146_dev* dev)
- 	DEB_EE("dev:%p\n", dev);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	dma_free_coherent(&dev->pci->dev, SAA7146_CLIPPING_MEM,
--			  vv->d_clipping.cpu_addr, vv->d_clipping.dma_handle);
- 	v4l2_ctrl_handler_free(&dev->ctrl_handler);
- 	kfree(vv);
- 	dev->vv_data = NULL;
-@@ -608,7 +586,7 @@ int saa7146_register_device(struct video_device *vfd, struct saa7146_dev *dev,
- 	for (i = 0; i < dev->ext_vv_data->num_stds; i++)
- 		vfd->tvnorms |= dev->ext_vv_data->stds[i].id;
- 	strscpy(vfd->name, name, sizeof(vfd->name));
--	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OVERLAY |
-+	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE |
- 			   V4L2_CAP_READWRITE | V4L2_CAP_STREAMING;
- 	vfd->device_caps |= dev->ext_vv_data->capabilities;
- 	if (type == VFL_TYPE_VIDEO)
-@@ -616,7 +594,7 @@ int saa7146_register_device(struct video_device *vfd, struct saa7146_dev *dev,
- 			~(V4L2_CAP_VBI_CAPTURE | V4L2_CAP_SLICED_VBI_OUTPUT);
- 	else
- 		vfd->device_caps &=
--			~(V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OVERLAY | V4L2_CAP_AUDIO);
-+			~(V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_AUDIO);
- 	video_set_drvdata(vfd, dev);
- 
- 	err = video_register_device(vfd, type, -1);
-diff --git a/drivers/media/common/saa7146/saa7146_hlp.c b/drivers/media/common/saa7146/saa7146_hlp.c
-index 6c9946a402ee..6792a96d0ba3 100644
---- a/drivers/media/common/saa7146/saa7146_hlp.c
-+++ b/drivers/media/common/saa7146/saa7146_hlp.c
-@@ -306,221 +306,6 @@ static int calculate_v_scale_registers(struct saa7146_dev *dev, enum v4l2_field
- }
- 
- /* simple bubble-sort algorithm with duplicate elimination */
--static int sort_and_eliminate(u32* values, int* count)
--{
--	int low = 0, high = 0, top = 0;
--	int cur = 0, next = 0;
--
--	/* sanity checks */
--	if( (0 > *count) || (NULL == values) ) {
--		return -EINVAL;
--	}
--
--	/* bubble sort the first @count items of the array @values */
--	for( top = *count; top > 0; top--) {
--		for( low = 0, high = 1; high < top; low++, high++) {
--			if( values[low] > values[high] )
--				swap(values[low], values[high]);
--		}
--	}
--
--	/* remove duplicate items */
--	for( cur = 0, next = 1; next < *count; next++) {
--		if( values[cur] != values[next])
--			values[++cur] = values[next];
--	}
--
--	*count = cur + 1;
--
--	return 0;
--}
--
--static void calculate_clipping_registers_rect(struct saa7146_dev *dev, struct saa7146_fh *fh,
--	struct saa7146_video_dma *vdma2, u32* clip_format, u32* arbtr_ctrl, enum v4l2_field field)
--{
--	struct saa7146_vv *vv = dev->vv_data;
--	__le32 *clipping = vv->d_clipping.cpu_addr;
--
--	int width = vv->ov.win.w.width;
--	int height =  vv->ov.win.w.height;
--	int clipcount = vv->ov.nclips;
--
--	u32 line_list[32];
--	u32 pixel_list[32];
--	int numdwords = 0;
--
--	int i = 0, j = 0;
--	int cnt_line = 0, cnt_pixel = 0;
--
--	int x[32], y[32], w[32], h[32];
--
--	/* clear out memory */
--	memset(&line_list[0],  0x00, sizeof(u32)*32);
--	memset(&pixel_list[0], 0x00, sizeof(u32)*32);
--	memset(clipping,  0x00, SAA7146_CLIPPING_MEM);
--
--	/* fill the line and pixel-lists */
--	for(i = 0; i < clipcount; i++) {
--		int l = 0, r = 0, t = 0, b = 0;
--
--		x[i] = vv->ov.clips[i].c.left;
--		y[i] = vv->ov.clips[i].c.top;
--		w[i] = vv->ov.clips[i].c.width;
--		h[i] = vv->ov.clips[i].c.height;
--
--		if( w[i] < 0) {
--			x[i] += w[i]; w[i] = -w[i];
--		}
--		if( h[i] < 0) {
--			y[i] += h[i]; h[i] = -h[i];
--		}
--		if( x[i] < 0) {
--			w[i] += x[i]; x[i] = 0;
--		}
--		if( y[i] < 0) {
--			h[i] += y[i]; y[i] = 0;
--		}
--		if( 0 != vv->vflip ) {
--			y[i] = height - y[i] - h[i];
--		}
--
--		l = x[i];
--		r = x[i]+w[i];
--		t = y[i];
--		b = y[i]+h[i];
--
--		/* insert left/right coordinates */
--		pixel_list[ 2*i   ] = min_t(int, l, width);
--		pixel_list[(2*i)+1] = min_t(int, r, width);
--		/* insert top/bottom coordinates */
--		line_list[ 2*i   ] = min_t(int, t, height);
--		line_list[(2*i)+1] = min_t(int, b, height);
--	}
--
--	/* sort and eliminate lists */
--	cnt_line = cnt_pixel = 2*clipcount;
--	sort_and_eliminate( &pixel_list[0], &cnt_pixel );
--	sort_and_eliminate( &line_list[0], &cnt_line );
--
--	/* calculate the number of used u32s */
--	numdwords = max_t(int, (cnt_line+1), (cnt_pixel+1))*2;
--	numdwords = max_t(int, 4, numdwords);
--	numdwords = min_t(int, 64, numdwords);
--
--	/* fill up cliptable */
--	for(i = 0; i < cnt_pixel; i++) {
--		clipping[2*i] |= cpu_to_le32(pixel_list[i] << 16);
--	}
--	for(i = 0; i < cnt_line; i++) {
--		clipping[(2*i)+1] |= cpu_to_le32(line_list[i] << 16);
--	}
--
--	/* fill up cliptable with the display infos */
--	for(j = 0; j < clipcount; j++) {
--
--		for(i = 0; i < cnt_pixel; i++) {
--
--			if( x[j] < 0)
--				x[j] = 0;
--
--			if( pixel_list[i] < (x[j] + w[j])) {
--
--				if ( pixel_list[i] >= x[j] ) {
--					clipping[2*i] |= cpu_to_le32(1 << j);
--				}
+ 	/* vbi capture -- dma 0 + vbi task A+B */
+ 	if (dev->vbi_q.curr) {
+ 		task |= 0x22;
+@@ -1066,18 +1055,6 @@ static int saa7134_initdev(struct pci_dev *pci_dev,
+ 			latency = 0x0A;
+ 		}
+ #endif
+-		if (pci_pci_problems & (PCIPCI_FAIL|PCIAGP_FAIL)) {
+-			pr_info("%s: quirk: this driver and your chipset may not work together in overlay mode.\n",
+-				dev->name);
+-			if (!saa7134_no_overlay) {
+-				pr_info("%s: quirk: overlay mode will be disabled.\n",
+-						dev->name);
+-				saa7134_no_overlay = 1;
+-			} else {
+-				pr_info("%s: quirk: overlay mode will be forced. Use this option at your own risk.\n",
+-						dev->name);
 -			}
 -		}
--		for(i = 0; i < cnt_line; i++) {
--
--			if( y[j] < 0)
--				y[j] = 0;
--
--			if( line_list[i] < (y[j] + h[j]) ) {
--
--				if( line_list[i] >= y[j] ) {
--					clipping[(2*i)+1] |= cpu_to_le32(1 << j);
--				}
--			}
--		}
--	}
--
--	/* adjust arbitration control register */
--	*arbtr_ctrl &= 0xffff00ff;
--	*arbtr_ctrl |= 0x00001c00;
--
--	vdma2->base_even	= vv->d_clipping.dma_handle;
--	vdma2->base_odd		= vv->d_clipping.dma_handle;
--	vdma2->prot_addr	= vv->d_clipping.dma_handle+((sizeof(u32))*(numdwords));
--	vdma2->base_page	= 0x04;
--	vdma2->pitch		= 0x00;
--	vdma2->num_line_byte	= (0 << 16 | (sizeof(u32))*(numdwords-1) );
--
--	/* set clipping-mode. this depends on the field(s) used */
--	*clip_format &= 0xfffffff7;
--	if (V4L2_FIELD_HAS_BOTH(field)) {
--		*clip_format |= 0x00000008;
--	} else {
--		*clip_format |= 0x00000000;
--	}
--}
--
--/* disable clipping */
--static void saa7146_disable_clipping(struct saa7146_dev *dev)
--{
--	u32 clip_format	= saa7146_read(dev, CLIP_FORMAT_CTRL);
--
--	/* mask out relevant bits (=lower word)*/
--	clip_format &= MASK_W1;
--
--	/* upload clipping-registers*/
--	saa7146_write(dev, CLIP_FORMAT_CTRL,clip_format);
--	saa7146_write(dev, MC2, (MASK_05 | MASK_21));
--
--	/* disable video dma2 */
--	saa7146_write(dev, MC1, MASK_21);
--}
--
--static void saa7146_set_clipping_rect(struct saa7146_fh *fh)
--{
--	struct saa7146_dev *dev = fh->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--	enum v4l2_field field = vv->ov.win.field;
--	struct	saa7146_video_dma vdma2;
--	u32 clip_format;
--	u32 arbtr_ctrl;
--
--	/* check clipcount, disable clipping if clipcount == 0*/
--	if (vv->ov.nclips == 0) {
--		saa7146_disable_clipping(dev);
--		return;
--	}
--
--	clip_format = saa7146_read(dev, CLIP_FORMAT_CTRL);
--	arbtr_ctrl = saa7146_read(dev, PCI_BT_V1);
--
--	calculate_clipping_registers_rect(dev, fh, &vdma2, &clip_format, &arbtr_ctrl, field);
--
--	/* set clipping format */
--	clip_format &= 0xffff0008;
--	clip_format |= (SAA7146_CLIPPING_RECT << 4);
--
--	/* prepare video dma2 */
--	saa7146_write(dev, BASE_EVEN2,		vdma2.base_even);
--	saa7146_write(dev, BASE_ODD2,		vdma2.base_odd);
--	saa7146_write(dev, PROT_ADDR2,		vdma2.prot_addr);
--	saa7146_write(dev, BASE_PAGE2,		vdma2.base_page);
--	saa7146_write(dev, PITCH2,		vdma2.pitch);
--	saa7146_write(dev, NUM_LINE_BYTE2,	vdma2.num_line_byte);
--
--	/* prepare the rest */
--	saa7146_write(dev, CLIP_FORMAT_CTRL,clip_format);
--	saa7146_write(dev, PCI_BT_V1, arbtr_ctrl);
--
--	/* upload clip_control-register, clipping-registers, enable video dma2 */
--	saa7146_write(dev, MC2, (MASK_05 | MASK_21 | MASK_03 | MASK_19));
--	saa7146_write(dev, MC1, (MASK_05 | MASK_21));
--}
--
- static void saa7146_set_window(struct saa7146_dev *dev, int width, int height, enum v4l2_field field)
- {
- 	struct saa7146_vv *vv = dev->vv_data;
-@@ -556,62 +341,6 @@ static void saa7146_set_window(struct saa7146_dev *dev, int width, int height, e
- 	saa7146_write(dev, MC2, (MASK_05 | MASK_06 | MASK_21 | MASK_22) );
- }
- 
--/* calculate the new memory offsets for a desired position */
--static void saa7146_set_position(struct saa7146_dev *dev, int w_x, int w_y, int w_height, enum v4l2_field field, u32 pixelformat)
--{
--	struct saa7146_vv *vv = dev->vv_data;
--	struct saa7146_format *sfmt = saa7146_format_by_fourcc(dev, pixelformat);
--
--	int b_depth = vv->ov_fmt->depth;
--	int b_bpl = vv->ov_fb.fmt.bytesperline;
--	/* The unsigned long cast is to remove a 64-bit compile warning since
--	   it looks like a 64-bit address is cast to a 32-bit value, even
--	   though the base pointer is really a 32-bit physical address that
--	   goes into a 32-bit DMA register.
--	   FIXME: might not work on some 64-bit platforms, but see the FIXME
--	   in struct v4l2_framebuffer (videodev2.h) for that.
--	 */
--	u32 base = (u32)(unsigned long)vv->ov_fb.base;
--
--	struct	saa7146_video_dma vdma1;
--
--	/* calculate memory offsets for picture, look if we shall top-down-flip */
--	vdma1.pitch	= 2*b_bpl;
--	if ( 0 == vv->vflip ) {
--		vdma1.base_even = base + (w_y * (vdma1.pitch/2)) + (w_x * (b_depth / 8));
--		vdma1.base_odd  = vdma1.base_even + (vdma1.pitch / 2);
--		vdma1.prot_addr = vdma1.base_even + (w_height * (vdma1.pitch / 2));
--	}
--	else {
--		vdma1.base_even = base + ((w_y+w_height) * (vdma1.pitch/2)) + (w_x * (b_depth / 8));
--		vdma1.base_odd  = vdma1.base_even - (vdma1.pitch / 2);
--		vdma1.prot_addr = vdma1.base_odd - (w_height * (vdma1.pitch / 2));
--	}
--
--	if (V4L2_FIELD_HAS_BOTH(field)) {
--	} else if (field == V4L2_FIELD_ALTERNATE) {
--		/* fixme */
--		vdma1.base_odd = vdma1.prot_addr;
--		vdma1.pitch /= 2;
--	} else if (field == V4L2_FIELD_TOP) {
--		vdma1.base_odd = vdma1.prot_addr;
--		vdma1.pitch /= 2;
--	} else if (field == V4L2_FIELD_BOTTOM) {
--		vdma1.base_odd = vdma1.base_even;
--		vdma1.base_even = vdma1.prot_addr;
--		vdma1.pitch /= 2;
--	}
--
--	if ( 0 != vv->vflip ) {
--		vdma1.pitch *= -1;
--	}
--
--	vdma1.base_page = sfmt->swap;
--	vdma1.num_line_byte = (vv->standard->v_field<<16)+vv->standard->h_pixels;
--
--	saa7146_write_out_dma(dev, 1, &vdma1);
--}
--
- static void saa7146_set_output_format(struct saa7146_dev *dev, unsigned long palette)
- {
- 	u32 clip_format = saa7146_read(dev, CLIP_FORMAT_CTRL);
-@@ -645,30 +374,6 @@ void saa7146_set_hps_source_and_sync(struct saa7146_dev *dev, int source, int sy
- }
- EXPORT_SYMBOL_GPL(saa7146_set_hps_source_and_sync);
- 
--int saa7146_enable_overlay(struct saa7146_fh *fh)
--{
--	struct saa7146_dev *dev = fh->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--
--	saa7146_set_window(dev, vv->ov.win.w.width, vv->ov.win.w.height, vv->ov.win.field);
--	saa7146_set_position(dev, vv->ov.win.w.left, vv->ov.win.w.top, vv->ov.win.w.height, vv->ov.win.field, vv->ov_fmt->pixelformat);
--	saa7146_set_output_format(dev, vv->ov_fmt->trans);
--	saa7146_set_clipping_rect(fh);
--
--	/* enable video dma1 */
--	saa7146_write(dev, MC1, (MASK_06 | MASK_22));
--	return 0;
--}
--
--void saa7146_disable_overlay(struct saa7146_fh *fh)
--{
--	struct saa7146_dev *dev = fh->dev;
--
--	/* disable clipping + video dma1 */
--	saa7146_disable_clipping(dev);
--	saa7146_write(dev, MC1, MASK_22);
--}
--
- void saa7146_write_out_dma(struct saa7146_dev* dev, int which, struct saa7146_video_dma* vdma)
- {
- 	int where = 0;
-@@ -1011,7 +716,6 @@ void saa7146_set_capture(struct saa7146_dev *dev, struct saa7146_buf *buf, struc
- 
- 	saa7146_set_window(dev, buf->fmt->width, buf->fmt->height, buf->fmt->field);
- 	saa7146_set_output_format(dev, sfmt->trans);
--	saa7146_disable_clipping(dev);
- 
- 	if ( vv->last_field == V4L2_FIELD_INTERLACED ) {
- 	} else if ( vv->last_field == V4L2_FIELD_TOP ) {
-diff --git a/drivers/media/common/saa7146/saa7146_video.c b/drivers/media/common/saa7146/saa7146_video.c
-index 2296765079a4..27c97218ee53 100644
---- a/drivers/media/common/saa7146/saa7146_video.c
-+++ b/drivers/media/common/saa7146/saa7146_video.c
-@@ -14,9 +14,6 @@ MODULE_PARM_DESC(max_memory, "maximum memory usage for capture buffers (default:
- #define IS_CAPTURE_ACTIVE(fh) \
- 	(((vv->video_status & STATUS_CAPTURE) != 0) && (vv->video_fh == fh))
- 
--#define IS_OVERLAY_ACTIVE(fh) \
--	(((vv->video_status & STATUS_OVERLAY) != 0) && (vv->video_fh == fh))
--
- /* format descriptions for capture and preview */
- static struct saa7146_format formats[] = {
- 	{
-@@ -91,105 +88,6 @@ struct saa7146_format* saa7146_format_by_fourcc(struct saa7146_dev *dev, int fou
- 	return NULL;
- }
- 
--static int vidioc_try_fmt_vid_overlay(struct file *file, void *fh, struct v4l2_format *f);
--
--int saa7146_start_preview(struct saa7146_fh *fh)
--{
--	struct saa7146_dev *dev = fh->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--	struct v4l2_format fmt;
--	int ret = 0, err = 0;
--
--	DEB_EE("dev:%p, fh:%p\n", dev, fh);
--
--	/* check if we have overlay information */
--	if (vv->ov.fh == NULL) {
--		DEB_D("no overlay data available. try S_FMT first.\n");
--		return -EAGAIN;
--	}
--
--	/* check if streaming capture is running */
--	if (IS_CAPTURE_ACTIVE(fh) != 0) {
--		DEB_D("streaming capture is active\n");
--		return -EBUSY;
--	}
--
--	/* check if overlay is running */
--	if (IS_OVERLAY_ACTIVE(fh) != 0) {
--		if (vv->video_fh == fh) {
--			DEB_D("overlay is already active\n");
--			return 0;
--		}
--		DEB_D("overlay is already active in another open\n");
--		return -EBUSY;
--	}
--
--	if (0 == saa7146_res_get(fh, RESOURCE_DMA1_HPS|RESOURCE_DMA2_CLP)) {
--		DEB_D("cannot get necessary overlay resources\n");
--		return -EBUSY;
--	}
--
--	fmt.fmt.win = vv->ov.win;
--	err = vidioc_try_fmt_vid_overlay(NULL, fh, &fmt);
--	if (0 != err) {
--		saa7146_res_free(vv->video_fh, RESOURCE_DMA1_HPS|RESOURCE_DMA2_CLP);
--		return -EBUSY;
--	}
--	vv->ov.win = fmt.fmt.win;
--
--	DEB_D("%dx%d+%d+%d 0x%08x field=%s\n",
--	      vv->ov.win.w.width, vv->ov.win.w.height,
--	      vv->ov.win.w.left, vv->ov.win.w.top,
--	      vv->ov_fmt->pixelformat, v4l2_field_names[vv->ov.win.field]);
--
--	if (0 != (ret = saa7146_enable_overlay(fh))) {
--		DEB_D("enabling overlay failed: %d\n", ret);
--		saa7146_res_free(vv->video_fh, RESOURCE_DMA1_HPS|RESOURCE_DMA2_CLP);
--		return ret;
--	}
--
--	vv->video_status = STATUS_OVERLAY;
--	vv->video_fh = fh;
--
--	return 0;
--}
--EXPORT_SYMBOL_GPL(saa7146_start_preview);
--
--int saa7146_stop_preview(struct saa7146_fh *fh)
--{
--	struct saa7146_dev *dev = fh->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--
--	DEB_EE("dev:%p, fh:%p\n", dev, fh);
--
--	/* check if streaming capture is running */
--	if (IS_CAPTURE_ACTIVE(fh) != 0) {
--		DEB_D("streaming capture is active\n");
--		return -EBUSY;
--	}
--
--	/* check if overlay is running at all */
--	if ((vv->video_status & STATUS_OVERLAY) == 0) {
--		DEB_D("no active overlay\n");
--		return 0;
--	}
--
--	if (vv->video_fh != fh) {
--		DEB_D("overlay is active, but in another open\n");
--		return -EBUSY;
--	}
--
--	vv->video_status = 0;
--	vv->video_fh = NULL;
--
--	saa7146_disable_overlay(fh);
--
--	saa7146_res_free(fh, RESOURCE_DMA1_HPS|RESOURCE_DMA2_CLP);
--
--	return 0;
--}
--EXPORT_SYMBOL_GPL(saa7146_stop_preview);
--
- /********************************************************************************/
- /* common pagetable functions */
- 
-@@ -319,7 +217,7 @@ static int video_begin(struct saa7146_fh *fh)
- 	struct saa7146_vv *vv = dev->vv_data;
- 	struct saa7146_format *fmt = NULL;
- 	unsigned int resource;
--	int ret = 0, err = 0;
-+	int ret = 0;
- 
- 	DEB_EE("dev:%p, fh:%p\n", dev, fh);
- 
-@@ -332,16 +230,6 @@ static int video_begin(struct saa7146_fh *fh)
- 		return -EBUSY;
  	}
+ 	if (UNSET != latency) {
+ 		pr_info("%s: setting pci latency timer to %d\n",
+@@ -1198,9 +1175,6 @@ static int saa7134_initdev(struct pci_dev *pci_dev,
+ 		saa_call_all(dev, core, s_power, 0);
  
--	if ((vv->video_status & STATUS_OVERLAY) != 0) {
--		DEB_S("warning: suspending overlay video for streaming capture\n");
--		vv->ov_suspend = vv->video_fh;
--		err = saa7146_stop_preview(vv->video_fh); /* side effect: video_status is now 0, video_fh is NULL */
--		if (0 != err) {
--			DEB_D("suspending video failed. aborting\n");
--			return err;
--		}
--	}
+ 	/* register v4l devices */
+-	if (saa7134_no_overlay > 0)
+-		pr_info("%s: Overlay support disabled.\n", dev->name);
 -
- 	fmt = saa7146_format_by_fourcc(dev, vv->video_fmt.pixelformat);
- 	/* we need to have a valid format set here */
- 	if (!fmt)
-@@ -356,10 +244,6 @@ static int video_begin(struct saa7146_fh *fh)
- 	ret = saa7146_res_get(fh, resource);
- 	if (0 == ret) {
- 		DEB_S("cannot get capture resource %d\n", resource);
--		if (vv->ov_suspend != NULL) {
--			saa7146_start_preview(vv->ov_suspend);
--			vv->ov_suspend = NULL;
--		}
- 		return -EBUSY;
- 	}
+ 	dev->video_dev = vdev_init(dev,&saa7134_video_template,"video");
+ 	dev->video_dev->ctrl_handler = &dev->ctrl_handler;
+ 	dev->video_dev->lock = &dev->lock;
+@@ -1210,9 +1184,6 @@ static int saa7134_initdev(struct pci_dev *pci_dev,
+ 	if (dev->tuner_type != TUNER_ABSENT && dev->tuner_type != UNSET)
+ 		dev->video_dev->device_caps |= V4L2_CAP_TUNER;
  
-@@ -429,11 +313,6 @@ static int video_end(struct saa7146_fh *fh, struct file *file)
- 
- 	saa7146_res_free(fh, resource);
- 
--	if (vv->ov_suspend != NULL) {
--		saa7146_start_preview(vv->ov_suspend);
--		vv->ov_suspend = NULL;
--	}
+-	if (saa7134_no_overlay <= 0)
+-		dev->video_dev->device_caps |= V4L2_CAP_VIDEO_OVERLAY;
 -
- 	return 0;
- }
+ 	err = video_register_device(dev->video_dev,VFL_TYPE_VIDEO,
+ 				    video_nr[dev->nr]);
+ 	if (err < 0) {
+@@ -1403,9 +1374,6 @@ static int __maybe_unused saa7134_suspend(struct device *dev_d)
+ 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
+ 	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
  
-@@ -443,64 +322,13 @@ static int vidioc_querycap(struct file *file, void *fh, struct v4l2_capability *
+-	/* disable overlay - apps should enable it explicitly on resume*/
+-	dev->ovenable = 0;
+-
+ 	/* Disable interrupts, DMA, and rest of the chip*/
+ 	saa_writel(SAA7134_IRQ1, 0);
+ 	saa_writel(SAA7134_IRQ2, 0);
+diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+index 4d8974c9fcc9..c5e68f33640f 100644
+--- a/drivers/media/pci/saa7134/saa7134-video.c
++++ b/drivers/media/pci/saa7134/saa7134-video.c
+@@ -571,193 +571,6 @@ static void set_size(struct saa7134_dev *dev, int task,
  
- 	strscpy((char *)cap->driver, "saa7146 v4l2", sizeof(cap->driver));
- 	strscpy((char *)cap->card, dev->ext->name, sizeof(cap->card));
--	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OVERLAY |
-+	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE |
- 			    V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
- 			    V4L2_CAP_DEVICE_CAPS;
- 	cap->capabilities |= dev->ext_vv_data->capabilities;
- 	return 0;
- }
+ /* ------------------------------------------------------------------ */
  
--static int vidioc_g_fbuf(struct file *file, void *fh, struct v4l2_framebuffer *fb)
+-struct cliplist {
+-	__u16 position;
+-	__u8  enable;
+-	__u8  disable;
+-};
+-
+-static void set_cliplist(struct saa7134_dev *dev, int reg,
+-			struct cliplist *cl, int entries, char *name)
 -{
--	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
--	struct saa7146_vv *vv = dev->vv_data;
+-	__u8 winbits = 0;
+-	int i;
 -
--	*fb = vv->ov_fb;
--	fb->capability = V4L2_FBUF_CAP_LIST_CLIPPING;
--	fb->flags = V4L2_FBUF_FLAG_PRIMARY;
+-	for (i = 0; i < entries; i++) {
+-		winbits |= cl[i].enable;
+-		winbits &= ~cl[i].disable;
+-		if (i < 15 && cl[i].position == cl[i+1].position)
+-			continue;
+-		saa_writeb(reg + 0, winbits);
+-		saa_writeb(reg + 2, cl[i].position & 0xff);
+-		saa_writeb(reg + 3, cl[i].position >> 8);
+-		video_dbg("clip: %s winbits=%02x pos=%d\n",
+-			name,winbits,cl[i].position);
+-		reg += 8;
+-	}
+-	for (; reg < 0x400; reg += 8) {
+-		saa_writeb(reg+ 0, 0);
+-		saa_writeb(reg + 1, 0);
+-		saa_writeb(reg + 2, 0);
+-		saa_writeb(reg + 3, 0);
+-	}
+-}
+-
+-static int clip_range(int val)
+-{
+-	if (val < 0)
+-		val = 0;
+-	return val;
+-}
+-
+-/* Sort into smallest position first order */
+-static int cliplist_cmp(const void *a, const void *b)
+-{
+-	const struct cliplist *cla = a;
+-	const struct cliplist *clb = b;
+-	if (cla->position < clb->position)
+-		return -1;
+-	if (cla->position > clb->position)
+-		return 1;
 -	return 0;
 -}
 -
--static int vidioc_s_fbuf(struct file *file, void *fh, const struct v4l2_framebuffer *fb)
+-static int setup_clipping(struct saa7134_dev *dev, struct v4l2_clip *clips,
+-			  int nclips, int interlace)
 -{
--	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--	struct saa7146_format *fmt;
+-	struct cliplist col[16], row[16];
+-	int cols = 0, rows = 0, i;
+-	int div = interlace ? 2 : 1;
 -
--	DEB_EE("VIDIOC_S_FBUF\n");
--
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
--		return -EPERM;
--
--	/* check args */
--	fmt = saa7146_format_by_fourcc(dev, fb->fmt.pixelformat);
--	if (NULL == fmt)
--		return -EINVAL;
--
--	/* planar formats are not allowed for overlay video, clipping and video dma would clash */
--	if (fmt->flags & FORMAT_IS_PLANAR)
--		DEB_S("planar pixelformat '%4.4s' not allowed for overlay\n",
--		      (char *)&fmt->pixelformat);
--
--	/* check if overlay is running */
--	if (IS_OVERLAY_ACTIVE(fh) != 0) {
--		if (vv->video_fh != fh) {
--			DEB_D("refusing to change framebuffer information while overlay is active in another open\n");
--			return -EBUSY;
--		}
+-	memset(col, 0, sizeof(col));
+-	memset(row, 0, sizeof(row));
+-	for (i = 0; i < nclips && i < 8; i++) {
+-		col[cols].position = clip_range(clips[i].c.left);
+-		col[cols].enable   = (1 << i);
+-		cols++;
+-		col[cols].position = clip_range(clips[i].c.left+clips[i].c.width);
+-		col[cols].disable  = (1 << i);
+-		cols++;
+-		row[rows].position = clip_range(clips[i].c.top / div);
+-		row[rows].enable   = (1 << i);
+-		rows++;
+-		row[rows].position = clip_range((clips[i].c.top + clips[i].c.height)
+-						/ div);
+-		row[rows].disable  = (1 << i);
+-		rows++;
 -	}
--
--	/* ok, accept it */
--	vv->ov_fb = *fb;
--	vv->ov_fmt = fmt;
--
--	if (vv->ov_fb.fmt.bytesperline < vv->ov_fb.fmt.width) {
--		vv->ov_fb.fmt.bytesperline = vv->ov_fb.fmt.width * fmt->depth / 8;
--		DEB_D("setting bytesperline to %d\n", vv->ov_fb.fmt.bytesperline);
--	}
+-	sort(col, cols, sizeof col[0], cliplist_cmp, NULL);
+-	sort(row, rows, sizeof row[0], cliplist_cmp, NULL);
+-	set_cliplist(dev,0x380,col,cols,"cols");
+-	set_cliplist(dev,0x384,row,rows,"rows");
 -	return 0;
 -}
 -
- static int vidioc_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- {
- 	if (f->index >= ARRAY_SIZE(formats))
-@@ -557,13 +385,6 @@ int saa7146_s_ctrl(struct v4l2_ctrl *ctrl)
- 	default:
- 		return -EINVAL;
- 	}
--
--	if ((vv->video_status & STATUS_OVERLAY) != 0) { /* CHECK: && (vv->video_fh == fh)) */
--		struct saa7146_fh *fh = vv->video_fh;
--
--		saa7146_stop_preview(fh);
--		saa7146_start_preview(fh);
--	}
- 	return 0;
- }
- 
-@@ -590,15 +411,6 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format
- 	return 0;
- }
- 
--static int vidioc_g_fmt_vid_overlay(struct file *file, void *fh, struct v4l2_format *f)
+-static int verify_preview(struct saa7134_dev *dev, struct v4l2_window *win, bool try)
 -{
--	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--
--	f->fmt.win = vv->ov.win;
--	return 0;
--}
--
- static int vidioc_g_fmt_vbi_cap(struct file *file, void *fh, struct v4l2_format *f)
- {
- 	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
-@@ -673,66 +485,6 @@ static int vidioc_try_fmt_vid_cap(struct file *file, void *fh, struct v4l2_forma
- 	return 0;
- }
- 
--
--static int vidioc_try_fmt_vid_overlay(struct file *file, void *fh, struct v4l2_format *f)
--{
--	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
--	struct saa7146_vv *vv = dev->vv_data;
--	struct v4l2_window *win = &f->fmt.win;
 -	enum v4l2_field field;
 -	int maxw, maxh;
 -
--	DEB_EE("dev:%p\n", dev);
+-	if (!try && (dev->ovbuf.base == NULL || dev->ovfmt == NULL))
+-		return -EINVAL;
+-	if (win->w.width < 48)
+-		win->w.width = 48;
+-	if (win->w.height < 32)
+-		win->w.height = 32;
+-	if (win->clipcount > 8)
+-		win->clipcount = 8;
 -
--	if (NULL == vv->ov_fb.base) {
--		DEB_D("no fb base set\n");
--		return -EINVAL;
--	}
--	if (NULL == vv->ov_fmt) {
--		DEB_D("no fb fmt set\n");
--		return -EINVAL;
--	}
--	if (win->w.width < 48 || win->w.height < 32) {
--		DEB_D("min width/height. (%d,%d)\n",
--		      win->w.width, win->w.height);
--		return -EINVAL;
--	}
--	if (win->clipcount > 16) {
--		DEB_D("clipcount too big\n");
--		return -EINVAL;
--	}
--
+-	win->chromakey = 0;
+-	win->global_alpha = 0;
 -	field = win->field;
--	maxw  = vv->standard->h_max_out;
--	maxh  = vv->standard->v_max_out;
+-	maxw  = dev->crop_current.width;
+-	maxh  = dev->crop_current.height;
 -
 -	if (V4L2_FIELD_ANY == field) {
--		field = (win->w.height > maxh / 2)
+-		field = (win->w.height > maxh/2)
 -			? V4L2_FIELD_INTERLACED
 -			: V4L2_FIELD_TOP;
--		}
+-	}
 -	switch (field) {
 -	case V4L2_FIELD_TOP:
 -	case V4L2_FIELD_BOTTOM:
--	case V4L2_FIELD_ALTERNATE:
 -		maxh = maxh / 2;
 -		break;
--	case V4L2_FIELD_INTERLACED:
--		break;
 -	default:
--		DEB_D("no known field mode '%d'\n", field);
--		return -EINVAL;
+-		field = V4L2_FIELD_INTERLACED;
+-		break;
 -	}
 -
 -	win->field = field;
@@ -783,261 +280,474 @@ index 2296765079a4..27c97218ee53 100644
 -		win->w.width = maxw;
 -	if (win->w.height > maxh)
 -		win->w.height = maxh;
--
 -	return 0;
 -}
 -
- static int vidioc_s_fmt_vid_cap(struct file *file, void *__fh, struct v4l2_format *f)
- {
- 	struct saa7146_fh *fh = __fh;
-@@ -754,35 +506,6 @@ static int vidioc_s_fmt_vid_cap(struct file *file, void *__fh, struct v4l2_forma
- 	return 0;
- }
- 
--static int vidioc_s_fmt_vid_overlay(struct file *file, void *__fh, struct v4l2_format *f)
+-static int start_preview(struct saa7134_dev *dev)
 -{
--	struct saa7146_fh *fh = __fh;
--	struct saa7146_dev *dev = fh->dev;
--	struct saa7146_vv *vv = dev->vv_data;
+-	unsigned long base,control,bpl;
 -	int err;
 -
--	DEB_EE("V4L2_BUF_TYPE_VIDEO_OVERLAY: dev:%p, fh:%p\n", dev, fh);
--	err = vidioc_try_fmt_vid_overlay(file, fh, f);
+-	err = verify_preview(dev, &dev->win, false);
 -	if (0 != err)
 -		return err;
--	vv->ov.win    = f->fmt.win;
--	vv->ov.nclips = f->fmt.win.clipcount;
--	if (vv->ov.nclips > 16)
--		vv->ov.nclips = 16;
--	memcpy(vv->ov.clips, f->fmt.win.clips,
--	       sizeof(struct v4l2_clip) * vv->ov.nclips);
 -
--	/* vv->ov.fh is used to indicate that we have valid overlay information, too */
--	vv->ov.fh = fh;
+-	dev->ovfield = dev->win.field;
+-	video_dbg("%s %dx%d+%d+%d 0x%08x field=%s\n", __func__,
+-		  dev->win.w.width, dev->win.w.height,
+-		  dev->win.w.left, dev->win.w.top,
+-		  dev->ovfmt->fourcc, v4l2_field_names[dev->ovfield]);
 -
--	/* check if our current overlay is active */
--	if (IS_OVERLAY_ACTIVE(fh) != 0) {
--		saa7146_stop_preview(fh);
--		saa7146_start_preview(fh);
+-	/* setup window + clipping */
+-	set_size(dev, TASK_B, dev->win.w.width, dev->win.w.height,
+-		 V4L2_FIELD_HAS_BOTH(dev->ovfield));
+-	setup_clipping(dev, dev->clips, dev->nclips,
+-		       V4L2_FIELD_HAS_BOTH(dev->ovfield));
+-	if (dev->ovfmt->yuv)
+-		saa_andorb(SAA7134_DATA_PATH(TASK_B), 0x3f, 0x03);
+-	else
+-		saa_andorb(SAA7134_DATA_PATH(TASK_B), 0x3f, 0x01);
+-	saa_writeb(SAA7134_OFMT_VIDEO_B, dev->ovfmt->pm | 0x20);
+-
+-	/* dma: setup channel 1 (= Video Task B) */
+-	base  = (unsigned long)dev->ovbuf.base;
+-	base += dev->ovbuf.fmt.bytesperline * dev->win.w.top;
+-	base += dev->ovfmt->depth/8         * dev->win.w.left;
+-	bpl   = dev->ovbuf.fmt.bytesperline;
+-	control = SAA7134_RS_CONTROL_BURST_16;
+-	if (dev->ovfmt->bswap)
+-		control |= SAA7134_RS_CONTROL_BSWAP;
+-	if (dev->ovfmt->wswap)
+-		control |= SAA7134_RS_CONTROL_WSWAP;
+-	if (V4L2_FIELD_HAS_BOTH(dev->ovfield)) {
+-		saa_writel(SAA7134_RS_BA1(1),base);
+-		saa_writel(SAA7134_RS_BA2(1),base+bpl);
+-		saa_writel(SAA7134_RS_PITCH(1),bpl*2);
+-		saa_writel(SAA7134_RS_CONTROL(1),control);
+-	} else {
+-		saa_writel(SAA7134_RS_BA1(1),base);
+-		saa_writel(SAA7134_RS_BA2(1),base);
+-		saa_writel(SAA7134_RS_PITCH(1),bpl);
+-		saa_writel(SAA7134_RS_CONTROL(1),control);
+-	}
+-
+-	/* start dma */
+-	dev->ovenable = 1;
+-	saa7134_set_dmabits(dev);
+-
+-	return 0;
+-}
+-
+-static int stop_preview(struct saa7134_dev *dev)
+-{
+-	dev->ovenable = 0;
+-	saa7134_set_dmabits(dev);
+-	return 0;
+-}
+-
+ /*
+  * Media Controller helper functions
+  */
+@@ -1042,8 +855,6 @@ static const struct vb2_ops vb2_qops = {
+ static int saa7134_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct saa7134_dev *dev = container_of(ctrl->handler, struct saa7134_dev, ctrl_handler);
+-	unsigned long flags;
+-	int restart_overlay = 0;
+ 
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_BRIGHTNESS:
+@@ -1081,15 +892,12 @@ static int saa7134_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		break;
+ 	case V4L2_CID_HFLIP:
+ 		dev->ctl_mirror = ctrl->val;
+-		restart_overlay = 1;
+ 		break;
+ 	case V4L2_CID_PRIVATE_Y_EVEN:
+ 		dev->ctl_y_even = ctrl->val;
+-		restart_overlay = 1;
+ 		break;
+ 	case V4L2_CID_PRIVATE_Y_ODD:
+ 		dev->ctl_y_odd = ctrl->val;
+-		restart_overlay = 1;
+ 		break;
+ 	case V4L2_CID_PRIVATE_AUTOMUTE:
+ 	{
+@@ -1112,12 +920,6 @@ static int saa7134_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	default:
+ 		return -EINVAL;
+ 	}
+-	if (restart_overlay && dev->overlay_owner) {
+-		spin_lock_irqsave(&dev->slock, flags);
+-		stop_preview(dev);
+-		start_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock, flags);
+-	}
+ 	return 0;
+ }
+ 
+@@ -1150,21 +952,11 @@ static int video_release(struct file *file)
+ {
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct saa7134_dev *dev = video_drvdata(file);
+-	struct v4l2_fh *fh = file->private_data;
+ 	struct saa6588_command cmd;
+-	unsigned long flags;
+ 
+ 	mutex_lock(&dev->lock);
+ 	saa7134_tvaudio_close(dev);
+ 
+-	/* turn off overlay */
+-	if (fh == dev->overlay_owner) {
+-		spin_lock_irqsave(&dev->slock,flags);
+-		stop_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock,flags);
+-		dev->overlay_owner = NULL;
+-	}
+-
+ 	if (vdev->vfl_type == VFL_TYPE_RADIO)
+ 		v4l2_fh_release(file);
+ 	else
+@@ -1261,34 +1053,6 @@ static int saa7134_g_fmt_vid_cap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int saa7134_g_fmt_vid_overlay(struct file *file, void *priv,
+-				struct v4l2_format *f)
+-{
+-	struct saa7134_dev *dev = video_drvdata(file);
+-	u32 clipcount = f->fmt.win.clipcount;
+-	int i;
+-
+-	if (saa7134_no_overlay > 0) {
+-		pr_err("V4L2_BUF_TYPE_VIDEO_OVERLAY: no_overlay\n");
+-		return -EINVAL;
+-	}
+-	f->fmt.win = dev->win;
+-	if (!f->fmt.win.clips) {
+-		f->fmt.win.clipcount = 0;
+-		return 0;
+-	}
+-	if (dev->nclips < clipcount)
+-		clipcount = dev->nclips;
+-	f->fmt.win.clipcount = clipcount;
+-
+-	for (i = 0; i < clipcount; i++) {
+-		memcpy(&f->fmt.win.clips[i].c, &dev->clips[i].c,
+-		       sizeof(struct v4l2_rect));
+-	}
+-
+-	return 0;
+-}
+-
+ static int saa7134_try_fmt_vid_cap(struct file *file, void *priv,
+ 						struct v4l2_format *f)
+ {
+@@ -1342,21 +1106,6 @@ static int saa7134_try_fmt_vid_cap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int saa7134_try_fmt_vid_overlay(struct file *file, void *priv,
+-						struct v4l2_format *f)
+-{
+-	struct saa7134_dev *dev = video_drvdata(file);
+-
+-	if (saa7134_no_overlay > 0) {
+-		pr_err("V4L2_BUF_TYPE_VIDEO_OVERLAY: no_overlay\n");
+-		return -EINVAL;
+-	}
+-
+-	if (f->fmt.win.clips == NULL)
+-		f->fmt.win.clipcount = 0;
+-	return verify_preview(dev, &f->fmt.win, true);
+-}
+-
+ static int saa7134_s_fmt_vid_cap(struct file *file, void *priv,
+ 					struct v4l2_format *f)
+ {
+@@ -1374,39 +1123,6 @@ static int saa7134_s_fmt_vid_cap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int saa7134_s_fmt_vid_overlay(struct file *file, void *priv,
+-					struct v4l2_format *f)
+-{
+-	struct saa7134_dev *dev = video_drvdata(file);
+-	int err;
+-	unsigned long flags;
+-
+-	if (saa7134_no_overlay > 0) {
+-		pr_err("V4L2_BUF_TYPE_VIDEO_OVERLAY: no_overlay\n");
+-		return -EINVAL;
+-	}
+-	if (f->fmt.win.clips == NULL)
+-		f->fmt.win.clipcount = 0;
+-	err = verify_preview(dev, &f->fmt.win, true);
+-	if (0 != err)
+-		return err;
+-
+-	dev->win    = f->fmt.win;
+-	dev->nclips = f->fmt.win.clipcount;
+-
+-	memcpy(dev->clips, f->fmt.win.clips,
+-	       sizeof(struct v4l2_clip) * dev->nclips);
+-
+-	if (priv == dev->overlay_owner) {
+-		spin_lock_irqsave(&dev->slock, flags);
+-		stop_preview(dev);
+-		start_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock, flags);
+-	}
+-
+-	return 0;
+-}
+-
+ int saa7134_enum_input(struct file *file, void *priv, struct v4l2_input *i)
+ {
+ 	struct saa7134_dev *dev = video_drvdata(file);
+@@ -1482,8 +1198,6 @@ int saa7134_querycap(struct file *file, void *priv,
+ 		cap->capabilities |= V4L2_CAP_TUNER;
+ 	if (dev->has_rds)
+ 		cap->capabilities |= V4L2_CAP_RDS_CAPTURE;
+-	if (saa7134_no_overlay <= 0)
+-		cap->capabilities |= V4L2_CAP_VIDEO_OVERLAY;
+ 
+ 	return 0;
+ }
+@@ -1492,17 +1206,9 @@ EXPORT_SYMBOL_GPL(saa7134_querycap);
+ int saa7134_s_std(struct file *file, void *priv, v4l2_std_id id)
+ {
+ 	struct saa7134_dev *dev = video_drvdata(file);
+-	struct v4l2_fh *fh = priv;
+-	unsigned long flags;
+ 	unsigned int i;
+ 	v4l2_std_id fixup;
+ 
+-	if (is_empress(file) && dev->overlay_owner) {
+-		/* Don't change the std from the mpeg device
+-		   if overlay is active. */
+-		return -EBUSY;
+-	}
+-
+ 	for (i = 0; i < TVNORMS; i++)
+ 		if (id == tvnorms[i].id)
+ 			break;
+@@ -1534,18 +1240,7 @@ int saa7134_s_std(struct file *file, void *priv, v4l2_std_id id)
+ 			return -EINVAL;
+ 	}
+ 
+-	if (!is_empress(file) && fh == dev->overlay_owner) {
+-		spin_lock_irqsave(&dev->slock, flags);
+-		stop_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock, flags);
+-
+-		set_tvnorm(dev, &tvnorms[i]);
+-
+-		spin_lock_irqsave(&dev->slock, flags);
+-		start_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock, flags);
+-	} else
+-		set_tvnorm(dev, &tvnorms[i]);
++	set_tvnorm(dev, &tvnorms[i]);
+ 
+ 	saa7134_tvaudio_do_scan(dev);
+ 	return 0;
+@@ -1595,8 +1290,7 @@ static int saa7134_g_pixelaspect(struct file *file, void *priv,
+ {
+ 	struct saa7134_dev *dev = video_drvdata(file);
+ 
+-	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
+-	    type != V4L2_BUF_TYPE_VIDEO_OVERLAY)
++	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+ 
+ 	if (dev->tvnorm->id & V4L2_STD_525_60) {
+@@ -1614,8 +1308,7 @@ static int saa7134_g_selection(struct file *file, void *f, struct v4l2_selection
+ {
+ 	struct saa7134_dev *dev = video_drvdata(file);
+ 
+-	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
+-	    sel->type != V4L2_BUF_TYPE_VIDEO_OVERLAY)
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+ 
+ 	switch (sel->target) {
+@@ -1640,15 +1333,12 @@ static int saa7134_s_selection(struct file *file, void *f, struct v4l2_selection
+ 	struct v4l2_rect *b = &dev->crop_bounds;
+ 	struct v4l2_rect *c = &dev->crop_current;
+ 
+-	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
+-	    sel->type != V4L2_BUF_TYPE_VIDEO_OVERLAY)
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+ 
+ 	if (sel->target != V4L2_SEL_TGT_CROP)
+ 		return -EINVAL;
+ 
+-	if (dev->overlay_owner)
+-		return -EBUSY;
+ 	if (vb2_is_streaming(&dev->video_vbq))
+ 		return -EBUSY;
+ 
+@@ -1764,85 +1454,6 @@ static int saa7134_enum_fmt_vid_cap(struct file *file, void  *priv,
+ 	return 0;
+ }
+ 
+-static int saa7134_enum_fmt_vid_overlay(struct file *file, void  *priv,
+-					struct v4l2_fmtdesc *f)
+-{
+-	if (saa7134_no_overlay > 0) {
+-		pr_err("V4L2_BUF_TYPE_VIDEO_OVERLAY: no_overlay\n");
+-		return -EINVAL;
+-	}
+-
+-	if ((f->index >= FORMATS) || formats[f->index].planar)
+-		return -EINVAL;
+-
+-	f->pixelformat = formats[f->index].fourcc;
+-
+-	return 0;
+-}
+-
+-static int saa7134_g_fbuf(struct file *file, void *f,
+-				struct v4l2_framebuffer *fb)
+-{
+-	struct saa7134_dev *dev = video_drvdata(file);
+-
+-	*fb = dev->ovbuf;
+-	fb->capability = V4L2_FBUF_CAP_LIST_CLIPPING;
+-
+-	return 0;
+-}
+-
+-static int saa7134_s_fbuf(struct file *file, void *f,
+-					const struct v4l2_framebuffer *fb)
+-{
+-	struct saa7134_dev *dev = video_drvdata(file);
+-	struct saa7134_format *fmt;
+-
+-	if (!capable(CAP_SYS_ADMIN) &&
+-	   !capable(CAP_SYS_RAWIO))
+-		return -EPERM;
+-
+-	/* check args */
+-	fmt = format_by_fourcc(fb->fmt.pixelformat);
+-	if (NULL == fmt)
+-		return -EINVAL;
+-
+-	/* ok, accept it */
+-	dev->ovbuf = *fb;
+-	dev->ovfmt = fmt;
+-	if (0 == dev->ovbuf.fmt.bytesperline)
+-		dev->ovbuf.fmt.bytesperline =
+-			dev->ovbuf.fmt.width*fmt->depth/8;
+-	return 0;
+-}
+-
+-static int saa7134_overlay(struct file *file, void *priv, unsigned int on)
+-{
+-	struct saa7134_dev *dev = video_drvdata(file);
+-	unsigned long flags;
+-
+-	if (on) {
+-		if (saa7134_no_overlay > 0) {
+-			video_dbg("no_overlay\n");
+-			return -EINVAL;
+-		}
+-
+-		if (dev->overlay_owner && priv != dev->overlay_owner)
+-			return -EBUSY;
+-		dev->overlay_owner = priv;
+-		spin_lock_irqsave(&dev->slock, flags);
+-		start_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock, flags);
+-	} else {
+-		if (priv != dev->overlay_owner)
+-			return -EINVAL;
+-		spin_lock_irqsave(&dev->slock, flags);
+-		stop_preview(dev);
+-		spin_unlock_irqrestore(&dev->slock, flags);
+-		dev->overlay_owner = NULL;
 -	}
 -	return 0;
 -}
 -
- static int vidioc_g_std(struct file *file, void *fh, v4l2_std_id *norm)
- {
- 	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
-@@ -815,7 +538,7 @@ static int vidioc_s_std(struct file *file, void *fh, v4l2_std_id id)
- 	struct saa7146_dev *dev = ((struct saa7146_fh *)fh)->dev;
- 	struct saa7146_vv *vv = dev->vv_data;
- 	int found = 0;
--	int err, i;
-+	int i;
+ #ifdef CONFIG_VIDEO_ADV_DEBUG
+ static int vidioc_g_register (struct file *file, void *priv,
+ 			      struct v4l2_dbg_register *reg)
+@@ -1912,10 +1523,6 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+ 	.vidioc_g_fmt_vid_cap		= saa7134_g_fmt_vid_cap,
+ 	.vidioc_try_fmt_vid_cap		= saa7134_try_fmt_vid_cap,
+ 	.vidioc_s_fmt_vid_cap		= saa7134_s_fmt_vid_cap,
+-	.vidioc_enum_fmt_vid_overlay	= saa7134_enum_fmt_vid_overlay,
+-	.vidioc_g_fmt_vid_overlay	= saa7134_g_fmt_vid_overlay,
+-	.vidioc_try_fmt_vid_overlay	= saa7134_try_fmt_vid_overlay,
+-	.vidioc_s_fmt_vid_overlay	= saa7134_s_fmt_vid_overlay,
+ 	.vidioc_g_fmt_vbi_cap		= saa7134_try_get_set_fmt_vbi_cap,
+ 	.vidioc_try_fmt_vbi_cap		= saa7134_try_get_set_fmt_vbi_cap,
+ 	.vidioc_s_fmt_vbi_cap		= saa7134_try_get_set_fmt_vbi_cap,
+@@ -1937,9 +1544,6 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+ 	.vidioc_s_tuner			= saa7134_s_tuner,
+ 	.vidioc_g_selection		= saa7134_g_selection,
+ 	.vidioc_s_selection		= saa7134_s_selection,
+-	.vidioc_g_fbuf			= saa7134_g_fbuf,
+-	.vidioc_s_fbuf			= saa7134_s_fbuf,
+-	.vidioc_overlay			= saa7134_overlay,
+ 	.vidioc_g_frequency		= saa7134_g_frequency,
+ 	.vidioc_s_frequency		= saa7134_s_frequency,
+ #ifdef CONFIG_VIDEO_ADV_DEBUG
+@@ -2086,13 +1690,6 @@ int saa7134_video_init1(struct saa7134_dev *dev)
+ 	dev->width    = 720;
+ 	dev->height   = 576;
+ 	dev->field = V4L2_FIELD_INTERLACED;
+-	dev->win.w.width = dev->width;
+-	dev->win.w.height = dev->height;
+-	dev->win.field = V4L2_FIELD_INTERLACED;
+-	dev->ovbuf.fmt.width = dev->width;
+-	dev->ovbuf.fmt.height = dev->height;
+-	dev->ovbuf.fmt.pixelformat = dev->fmt->fourcc;
+-	dev->ovbuf.fmt.colorspace = V4L2_COLORSPACE_SMPTE170M;
  
- 	DEB_EE("VIDIOC_S_STD\n");
+ 	if (saa7134_boards[dev->board].video_out)
+ 		saa7134_videoport_init(dev);
+diff --git a/drivers/media/pci/saa7134/saa7134.h b/drivers/media/pci/saa7134/saa7134.h
+index 5c9b2912a9d1..9f27e3775c27 100644
+--- a/drivers/media/pci/saa7134/saa7134.h
++++ b/drivers/media/pci/saa7134/saa7134.h
+@@ -429,7 +429,6 @@ struct saa7134_board {
+ /* ----------------------------------------------------------- */
+ /* device / file handle status                                 */
  
-@@ -824,15 +547,6 @@ static int vidioc_s_std(struct file *file, void *fh, v4l2_std_id id)
- 		return -EBUSY;
- 	}
- 
--	if ((vv->video_status & STATUS_OVERLAY) != 0) {
--		vv->ov_suspend = vv->video_fh;
--		err = saa7146_stop_preview(vv->video_fh); /* side effect: video_status is now 0, video_fh is NULL */
--		if (0 != err) {
--			DEB_D("suspending video failed. aborting\n");
--			return err;
--		}
--	}
--
- 	for (i = 0; i < dev->ext_vv_data->num_stds; i++)
- 		if (id & dev->ext_vv_data->stds[i].id)
- 			break;
-@@ -843,11 +557,6 @@ static int vidioc_s_std(struct file *file, void *fh, v4l2_std_id id)
- 		found = 1;
- 	}
- 
--	if (vv->ov_suspend != NULL) {
--		saa7146_start_preview(vv->ov_suspend);
--		vv->ov_suspend = NULL;
--	}
--
- 	if (!found) {
- 		DEB_EE("VIDIOC_S_STD: standard not found\n");
- 		return -EINVAL;
-@@ -857,18 +566,6 @@ static int vidioc_s_std(struct file *file, void *fh, v4l2_std_id id)
- 	return 0;
- }
- 
--static int vidioc_overlay(struct file *file, void *fh, unsigned int on)
--{
--	int err;
--
--	DEB_D("VIDIOC_OVERLAY on:%d\n", on);
--	if (on)
--		err = saa7146_start_preview(fh);
--	else
--		err = saa7146_stop_preview(fh);
--	return err;
--}
--
- static int vidioc_reqbufs(struct file *file, void *__fh, struct v4l2_requestbuffers *b)
- {
- 	struct saa7146_fh *fh = __fh;
-@@ -969,17 +666,10 @@ static int vidioc_streamoff(struct file *file, void *__fh, enum v4l2_buf_type ty
- const struct v4l2_ioctl_ops saa7146_video_ioctl_ops = {
- 	.vidioc_querycap             = vidioc_querycap,
- 	.vidioc_enum_fmt_vid_cap     = vidioc_enum_fmt_vid_cap,
--	.vidioc_enum_fmt_vid_overlay = vidioc_enum_fmt_vid_cap,
- 	.vidioc_g_fmt_vid_cap        = vidioc_g_fmt_vid_cap,
- 	.vidioc_try_fmt_vid_cap      = vidioc_try_fmt_vid_cap,
- 	.vidioc_s_fmt_vid_cap        = vidioc_s_fmt_vid_cap,
--	.vidioc_g_fmt_vid_overlay    = vidioc_g_fmt_vid_overlay,
--	.vidioc_try_fmt_vid_overlay  = vidioc_try_fmt_vid_overlay,
--	.vidioc_s_fmt_vid_overlay    = vidioc_s_fmt_vid_overlay,
- 
--	.vidioc_overlay		     = vidioc_overlay,
--	.vidioc_g_fbuf		     = vidioc_g_fbuf,
--	.vidioc_s_fbuf		     = vidioc_s_fbuf,
- 	.vidioc_reqbufs              = vidioc_reqbufs,
- 	.vidioc_querybuf             = vidioc_querybuf,
- 	.vidioc_qbuf                 = vidioc_qbuf,
-@@ -1096,7 +786,7 @@ static int buffer_prepare(struct videobuf_queue *q,
- 			saa7146_pgtable_alloc(dev->pci, &buf->pt[0]);
- 		}
- 
--		err = videobuf_iolock(q,&buf->vb, &vv->ov_fb);
-+		err = videobuf_iolock(q, &buf->vb, NULL);
- 		if (err)
- 			goto oops;
- 		err = saa7146_pgtable_build(dev,buf);
-@@ -1211,8 +901,6 @@ static void video_close(struct saa7146_dev *dev, struct file *file)
- 
- 	if (IS_CAPTURE_ACTIVE(fh) != 0)
- 		video_end(fh, file);
--	else if (IS_OVERLAY_ACTIVE(fh) != 0)
--		saa7146_stop_preview(fh);
- 
- 	videobuf_stop(q);
- 	/* hmm, why is this function declared void? */
-@@ -1268,12 +956,6 @@ static ssize_t video_read(struct file *file, char __user *data, size_t count, lo
- 		ret = video_end(fh, file);
- 	}
- out:
--	/* restart overlay if it was active before */
--	if (vv->ov_suspend != NULL) {
--		saa7146_start_preview(vv->ov_suspend);
--		vv->ov_suspend = NULL;
--	}
--
- 	return ret;
- }
- 
-diff --git a/drivers/staging/media/av7110/av7110_v4l.c b/drivers/staging/media/av7110/av7110_v4l.c
-index c89f536f699c..374f78b84c04 100644
---- a/drivers/staging/media/av7110/av7110_v4l.c
-+++ b/drivers/staging/media/av7110/av7110_v4l.c
-@@ -216,22 +216,12 @@ static const struct v4l2_audio msp3400_v4l2_audio = {
- static int av7110_dvb_c_switch(struct saa7146_fh *fh)
- {
- 	struct saa7146_dev *dev = fh->dev;
--	struct saa7146_vv *vv = dev->vv_data;
- 	struct av7110 *av7110 = (struct av7110*)dev->ext_priv;
- 	u16 adswitch;
--	int source, sync, err;
-+	int source, sync;
- 
- 	dprintk(4, "%p\n", av7110);
- 
--	if ((vv->video_status & STATUS_OVERLAY) != 0) {
--		vv->ov_suspend = vv->video_fh;
--		err = saa7146_stop_preview(vv->video_fh); /* side effect: video_status is now 0, video_fh is NULL */
--		if (err != 0) {
--			dprintk(2, "suspending video failed\n");
--			vv->ov_suspend = NULL;
--		}
--	}
--
- 	if (0 != av7110->current_input) {
- 		dprintk(1, "switching to analog TV:\n");
- 		adswitch = 1;
-@@ -300,11 +290,6 @@ static int av7110_dvb_c_switch(struct saa7146_fh *fh)
- 
- 	saa7146_set_hps_source_and_sync(dev, source, sync);
- 
--	if (vv->ov_suspend != NULL) {
--		saa7146_start_preview(vv->ov_suspend);
--		vv->ov_suspend = NULL;
--	}
--
- 	return 0;
- }
- 
-diff --git a/include/media/drv-intf/saa7146_vv.h b/include/media/drv-intf/saa7146_vv.h
-index 635805fb35e8..932961e8f5ab 100644
---- a/include/media/drv-intf/saa7146_vv.h
-+++ b/include/media/drv-intf/saa7146_vv.h
-@@ -76,13 +76,6 @@ struct saa7146_dmaqueue {
- 	struct timer_list	timeout;
- };
- 
--struct saa7146_overlay {
--	struct saa7146_fh	*fh;
--	struct v4l2_window	win;
--	struct v4l2_clip	clips[16];
--	int			nclips;
--};
--
- /* per open data */
- struct saa7146_fh {
- 	/* Must be the first field! */
-@@ -98,7 +91,6 @@ struct saa7146_fh {
- 	unsigned int resources;	/* resource management for device open */
- };
- 
--#define STATUS_OVERLAY	0x01
- #define STATUS_CAPTURE	0x02
- 
- struct saa7146_vv
-@@ -116,12 +108,6 @@ struct saa7146_vv
- 	int				video_status;
- 	struct saa7146_fh		*video_fh;
+-#define RESOURCE_OVERLAY       1
+ #define RESOURCE_VIDEO         2
+ #define RESOURCE_VBI           4
+ #define RESOURCE_EMPRESS       8
+@@ -589,17 +588,6 @@ struct saa7134_dev {
+ 	unsigned char              eedata[256];
+ 	int			   has_rds;
  
 -	/* video overlay */
--	struct saa7146_overlay		ov;
--	struct v4l2_framebuffer		ov_fb;
--	struct saa7146_format		*ov_fmt;
--	struct saa7146_fh		*ov_suspend;
+-	struct v4l2_framebuffer    ovbuf;
+-	struct saa7134_format      *ovfmt;
+-	unsigned int               ovenable;
+-	enum v4l2_field            ovfield;
+-	struct v4l2_window         win;
+-	struct v4l2_clip           clips[8];
+-	unsigned int               nclips;
+-	struct v4l2_fh		   *overlay_owner;
 -
- 	/* video capture */
- 	struct saa7146_dmaqueue		video_dmaq;
- 	struct v4l2_pix_format		video_fmt;
-@@ -140,8 +126,6 @@ struct saa7146_vv
- 	int	current_hps_source;
- 	int	current_hps_sync;
- 
--	struct saa7146_dma	d_clipping;	/* pointer to clipping memory */
 -
- 	unsigned int resources;	/* resource management for device */
- };
+ 	/* video+ts+vbi capture */
+ 	struct saa7134_dmaqueue    video_q;
+ 	struct vb2_queue           video_vbq;
+@@ -745,7 +733,6 @@ static inline bool is_empress(struct file *file)
  
-@@ -192,9 +176,6 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv);
- int saa7146_vv_release(struct saa7146_dev* dev);
+ extern struct list_head  saa7134_devlist;
+ extern struct mutex saa7134_devlist_lock;
+-extern int saa7134_no_overlay;
+ extern bool saa7134_userptr;
  
- /* from saa7146_hlp.c */
--int saa7146_enable_overlay(struct saa7146_fh *fh);
--void saa7146_disable_overlay(struct saa7146_fh *fh);
--
- void saa7146_set_capture(struct saa7146_dev *dev, struct saa7146_buf *buf, struct saa7146_buf *next);
- void saa7146_write_out_dma(struct saa7146_dev* dev, int which, struct saa7146_video_dma* vdma) ;
- void saa7146_set_hps_source_and_sync(struct saa7146_dev *saa, int source, int sync);
-@@ -204,8 +185,6 @@ void saa7146_set_gpio(struct saa7146_dev *saa, u8 pin, u8 data);
- extern const struct v4l2_ioctl_ops saa7146_video_ioctl_ops;
- extern const struct v4l2_ioctl_ops saa7146_vbi_ioctl_ops;
- extern const struct saa7146_use_ops saa7146_video_uops;
--int saa7146_start_preview(struct saa7146_fh *fh);
--int saa7146_stop_preview(struct saa7146_fh *fh);
- long saa7146_video_do_ioctl(struct file *file, unsigned int cmd, void *arg);
- int saa7146_s_ctrl(struct v4l2_ctrl *ctrl);
- 
+ void saa7134_track_gpio(struct saa7134_dev *dev, const char *msg);
 -- 
 2.39.1
 
