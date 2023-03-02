@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 583BA6A7FA3
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 11:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3C756A7FA5
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 11:08:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbjCBKIU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 05:08:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57118 "EHLO
+        id S229897AbjCBKIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 05:08:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbjCBKIG (ORCPT
+        with ESMTP id S230078AbjCBKIG (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 05:08:06 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457FA10CD
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBABB3582
         for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 02:08:04 -0800 (PST)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F46356A;
-        Thu,  2 Mar 2023 11:08:01 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7EDD98C;
+        Thu,  2 Mar 2023 11:08:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677751682;
-        bh=HV/5POmbIYTSuu9fFAfCd74pRWqSxFhTi6J41mluWaI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=j16qi0wP0XC3TSEdb6nMJ6AWCAzie//k6RYU9s3bPT5N4otMdLSPfC46VugjbCSl+
-         6+deZOUI07MROBXm4/0wHCKkXnEdOl1jRbtgOTXAuy3LZ8T1huBy8quxeOz9ZBdAf3
-         k6QTRu/4bmRMYuntLwoH/dWbmNv3ZgXCxSEy1bPQ=
+        s=mail; t=1677751683;
+        bh=6bPNx9PLAZlq+iAcjoeLEjrJIvJsN+G7HX0SmYbhcwY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=WSjegdrEcLqPm3aZk53708j11e8YjquEZe8Wa9//CP+ZfxFoQBfvl33HFGVsZwkGM
+         JNsuw8eXDbGdcqzujFOAY6IUN63VE60TquDrnNxPq+zJY9CYrGsoxajG+s4vW5jSCu
+         D2I46keMjVi826Bhl08rBgdBGVxnokQKRqwb6Uc8=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         linux-media@vger.kernel.org,
@@ -33,10 +33,12 @@ Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Jai Luthra <j-luthra@ti.com>,
         Vaishnav Achath <vaishnav.a@ti.com>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 0/5] media: ti: cal: Streams support
-Date:   Thu,  2 Mar 2023 12:07:50 +0200
-Message-Id: <20230302100755.191164-1-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 1/5] media: ti: cal: Clean up mbus formats uses
+Date:   Thu,  2 Mar 2023 12:07:51 +0200
+Message-Id: <20230302100755.191164-2-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230302100755.191164-1-tomi.valkeinen@ideasonboard.com>
+References: <20230302100755.191164-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -48,135 +50,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Clean up the CAL drivers uses of mbus formats:
 
-v2 can be found from:
+- Switch all YUV formats from 2X8 formats to 1X16, as those are what
+  should be used for CSI-2 bus.
 
-https://lore.kernel.org/all/20230228171620.330978-1-tomi.valkeinen@ideasonboard.com/
+- Drop 24 and 32 bit formats, as the driver doesn't support them (see
+  cal_ctx_pix_proc_config()).
 
-This series is based on Laurent's "media: Zero-initialize structures
-passed to subdev pad ops" series and my two patches adding
-V4L2_SUBDEV_ROUTING_* flags (v1 of that series).
+- Switch RGB565_2X8_LE to RGB565_1X16 (for the same reason as for the
+  YUV formats) and drop RGB565_2X8_BE as it cannot be supported with
+  CSI-2.
 
-Only minor changes in v3. Diff to v2 included below.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+ drivers/media/platform/ti/cal/cal-camerarx.c |  2 +-
+ drivers/media/platform/ti/cal/cal-video.c    |  2 +-
+ drivers/media/platform/ti/cal/cal.c          | 36 ++++----------------
+ 3 files changed, 8 insertions(+), 32 deletions(-)
 
- Tomi
-
-Tomi Valkeinen (5):
-  media: ti: cal: Clean up mbus formats uses
-  media: ti: cal: Fix cal_camerarx_create() error handling
-  media: ti: cal: Use subdev state
-  media: ti: cal: Implement get_frame_desc for camera-rx
-  media: ti: cal: Add multiplexed streams support
-
- drivers/media/platform/ti/cal/cal-camerarx.c | 415 ++++++++++++-------
- drivers/media/platform/ti/cal/cal-video.c    | 142 +++++--
- drivers/media/platform/ti/cal/cal.c          | 109 +++--
- drivers/media/platform/ti/cal/cal.h          |  13 +-
- 4 files changed, 416 insertions(+), 263 deletions(-)
-
-Interdiff against v2:
 diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-index 8e373c817cdf..957aefcacbbc 100644
+index 16ae52879a79..267089b0fea0 100644
 --- a/drivers/media/platform/ti/cal/cal-camerarx.c
 +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-@@ -899,7 +899,7 @@ static int cal_camerarx_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 		goto out_unlock;
+@@ -817,7 +817,7 @@ static int cal_camerarx_sd_init_cfg(struct v4l2_subdev *sd,
+ 		.format = {
+ 			.width = 640,
+ 			.height = 480,
+-			.code = MEDIA_BUS_FMT_UYVY8_2X8,
++			.code = MEDIA_BUS_FMT_UYVY8_1X16,
+ 			.field = V4L2_FIELD_NONE,
+ 			.colorspace = V4L2_COLORSPACE_SRGB,
+ 			.ycbcr_enc = V4L2_YCBCR_ENC_601,
+diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
+index ca906a9e4222..ed92e23d4b16 100644
+--- a/drivers/media/platform/ti/cal/cal-video.c
++++ b/drivers/media/platform/ti/cal/cal-video.c
+@@ -894,7 +894,7 @@ static int cal_ctx_v4l2_init_mc_format(struct cal_ctx *ctx)
+ 	const struct cal_format_info *fmtinfo;
+ 	struct v4l2_pix_format *pix_fmt = &ctx->v_fmt.fmt.pix;
  
- 	if (remote_desc.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
--		dev_err(phy->cal->dev,
-+		cal_err(phy->cal,
- 			"Frame descriptor does not describe CSI-2 link");
- 		ret = -EINVAL;
- 		goto out_unlock;
-@@ -911,6 +911,8 @@ static int cal_camerarx_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 	}
+-	fmtinfo = cal_format_by_code(MEDIA_BUS_FMT_UYVY8_2X8);
++	fmtinfo = cal_format_by_code(MEDIA_BUS_FMT_UYVY8_1X16);
+ 	if (!fmtinfo)
+ 		return -EINVAL;
  
- 	if (i == remote_desc.num_entries) {
-+		cal_err(phy->cal, "Stream %u not found in remote frame desc\n",
-+			sink_stream);
- 		ret = -EINVAL;
- 		goto out_unlock;
- 	}
-@@ -960,7 +962,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 	unsigned int i;
- 	int ret;
- 
--	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
-+	phy = devm_kzalloc(cal->dev, sizeof(*phy), GFP_KERNEL);
- 	if (!phy)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -976,8 +978,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 	phy->base = devm_ioremap_resource(cal->dev, phy->res);
- 	if (IS_ERR(phy->base)) {
- 		cal_err(cal, "failed to ioremap\n");
--		ret = PTR_ERR(phy->base);
--		goto err_entity_cleanup;
-+		return ERR_CAST(phy->base);
- 	}
- 
- 	cal_dbg(1, cal, "ioresource %s at %pa - %pa\n",
-@@ -985,11 +986,11 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 
- 	ret = cal_camerarx_regmap_init(cal, phy);
- 	if (ret)
--		goto err_entity_cleanup;
-+		return ERR_PTR(ret);
- 
- 	ret = cal_camerarx_parse_dt(phy);
- 	if (ret)
--		goto err_entity_cleanup;
-+		return ERR_PTR(ret);
- 
- 	/* Initialize the V4L2 subdev and media entity. */
- 	sd = &phy->subdev;
-@@ -1006,7 +1007,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(phy->pads),
- 				     phy->pads);
- 	if (ret)
--		goto err_entity_cleanup;
-+		goto err_node_put;
- 
- 	ret = v4l2_subdev_init_finalize(sd);
- 	if (ret)
-@@ -1022,7 +1023,9 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 	v4l2_subdev_cleanup(sd);
- err_entity_cleanup:
- 	media_entity_cleanup(&phy->subdev.entity);
--	kfree(phy);
-+err_node_put:
-+	of_node_put(phy->source_ep_node);
-+	of_node_put(phy->source_node);
- 	return ERR_PTR(ret);
- }
- 
-@@ -1036,5 +1039,4 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
- 	media_entity_cleanup(&phy->subdev.entity);
- 	of_node_put(phy->source_ep_node);
- 	of_node_put(phy->source_node);
--	kfree(phy);
- }
 diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-index 983323a109ac..26ea9134f8ed 100644
+index 1236215ec70e..cea6ba54024f 100644
 --- a/drivers/media/platform/ti/cal/cal.c
 +++ b/drivers/media/platform/ti/cal/cal.c
-@@ -76,7 +76,7 @@ const struct cal_format_info cal_formats[] = {
- 		.code		= MEDIA_BUS_FMT_VYUY8_1X16,
+@@ -61,48 +61,24 @@ MODULE_PARM_DESC(mc_api, "activates the MC API");
+ const struct cal_format_info cal_formats[] = {
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_YUYV,
+-		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
++		.code		= MEDIA_BUS_FMT_YUYV8_1X16,
+ 		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_UYVY,
+-		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
++		.code		= MEDIA_BUS_FMT_UYVY8_1X16,
+ 		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_YVYU,
+-		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
++		.code		= MEDIA_BUS_FMT_YVYU8_1X16,
+ 		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_VYUY,
+-		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
++		.code		= MEDIA_BUS_FMT_VYUY8_1X16,
  		.bpp		= 16,
  	}, {
 -		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+-		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
 +		.fourcc		= V4L2_PIX_FMT_RGB565,
- 		.code		= MEDIA_BUS_FMT_RGB565_1X16,
++		.code		= MEDIA_BUS_FMT_RGB565_1X16,
  		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB565X, /* rrrrrggg gggbbbbb */
+-		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB555, /* gggbbbbb arrrrrgg */
+-		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB555X, /* arrrrrgg gggbbbbb */
+-		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
+-		.code		= MEDIA_BUS_FMT_RGB888_2X12_LE,
+-		.bpp		= 24,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
+-		.code		= MEDIA_BUS_FMT_RGB888_2X12_BE,
+-		.bpp		= 24,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB32, /* argb */
+-		.code		= MEDIA_BUS_FMT_ARGB8888_1X32,
+-		.bpp		= 32,
  	}, {
-
-base-commit: 83e0f265aa8d0e37cc8e15d318b64da0ec03ff41
-prerequisite-patch-id: e800a6da6afee40be8a946ccf63518f6109749dd
-prerequisite-patch-id: eb409cc6ffb895128d98b3fa664dcdcafd5e7dfc
-prerequisite-patch-id: dedc1c09e4cff1dc58ce909e469bae30a3778a07
-prerequisite-patch-id: 1e85d833252748e723b59f90788019fdeca92884
-prerequisite-patch-id: bb4f7477e206ed1936e4632e7baa6514f7d957f4
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+ 		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
 -- 
 2.34.1
 
