@@ -2,46 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DD0F6A8012
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 11:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79A016A8046
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 11:50:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjCBKlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 05:41:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56956 "EHLO
+        id S229746AbjCBKuk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 05:50:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbjCBKlW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 05:41:22 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DDD3524C
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 02:41:20 -0800 (PST)
+        with ESMTP id S229513AbjCBKui (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 05:50:38 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD20231DE
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 02:50:37 -0800 (PST)
 Received: from ideasonboard.com (host-87-18-61-24.retail.telecomitalia.it [87.18.61.24])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92BFE56A;
-        Thu,  2 Mar 2023 11:41:18 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E420456A;
+        Thu,  2 Mar 2023 11:50:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677753679;
-        bh=V7Gw3+UX4UgVQsudZqNfsrGcz9Z8uN0X9EZLC/LOP68=;
+        s=mail; t=1677754236;
+        bh=sLZ/mBsETammO5YiYqMRkm24DdZqN0HG3L4f/AOthQ4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L11KOXy1F0Sse+rk9LZ89wJv9+1QZiiDDEwqLIQjyRmH5o6kDuOE1VDJN2n1PNDbt
-         Q3oDjKz0eax7GB9gjbTuZDNS0n6HIqLHVFzrgwoTZ+lOSoe55Q2QFtHBgHMyYj6hGQ
-         y+WqL9lOAUhDIHmpfH103/7ZPGdE6KfrxmlD3l4Y=
-Date:   Thu, 2 Mar 2023 11:41:15 +0100
+        b=PPyw+2JCYhIG5UtW3hSTctcwNx1PaIXFvZKYxGS5X21FK+b7oAAPC3amVO3YRHbUL
+         tFrLGkyYlD8K3JkGWs1+2swmRe0ozk86GPJmMZz4lqvTvQ0qpEaqUkZd1iUtSkldcW
+         4c6lX8S2oPjp8fk5sDcb3he7qJtoE5mrQWERYHyE=
+Date:   Thu, 2 Mar 2023 11:50:31 +0100
 From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] media: subdev: Use 'shall' instead of 'may' in
- route validation
-Message-ID: <20230302104115.npffi5av4g7v25l3@uno.localdomain>
-References: <20230302095748.100898-1-tomi.valkeinen@ideasonboard.com>
- <20230302095748.100898-2-tomi.valkeinen@ideasonboard.com>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>
+Subject: Re: [PATCH v3 2/5] media: ti: cal: Fix cal_camerarx_create() error
+ handling
+Message-ID: <20230302105031.chuvor4zjk4li6vi@uno.localdomain>
+References: <20230302100755.191164-1-tomi.valkeinen@ideasonboard.com>
+ <20230302100755.191164-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230302095748.100898-2-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230302100755.191164-3-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -51,56 +52,104 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-   thanks!
+Hi Tomi
 
-On Thu, Mar 02, 2023 at 11:57:46AM +0200, Tomi Valkeinen wrote:
-> Route validation docs use the word 'may'. Change that to 'shall' for
-> emphasis.
+On Thu, Mar 02, 2023 at 12:07:52PM +0200, Tomi Valkeinen wrote:
+> We don't do a proper job at freeing resources in cal_camerarx_create's
+> error paths.
+>
+> Fix these, and also switch the phy allcation from kzalloc to
+> devm_kzalloc to simplify the code further.
 >
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti/cal/cal-camerarx.c | 23 +++++++++++---------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+> index 267089b0fea0..97208d542f9e 100644
+> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
+> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+> @@ -864,7 +864,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	unsigned int i;
+>  	int ret;
+>
+> -	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
+> +	phy = devm_kzalloc(cal->dev, sizeof(*phy), GFP_KERNEL);
+>  	if (!phy)
+>  		return ERR_PTR(-ENOMEM);
+>
+> @@ -882,7 +882,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	if (IS_ERR(phy->base)) {
+>  		cal_err(cal, "failed to ioremap\n");
+>  		ret = PTR_ERR(phy->base);
+> -		goto error;
+> +		goto err_destroy_mutex;
 
+I have your previous version applied, I'm probably on a different base
+as I don't see any phy->mutex at all!
+
+>  	}
+>
+>  	cal_dbg(1, cal, "ioresource %s at %pa - %pa\n",
+> @@ -890,11 +890,11 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>
+>  	ret = cal_camerarx_regmap_init(cal, phy);
+>  	if (ret)
+> -		goto error;
+> +		goto err_destroy_mutex;
+>
+>  	ret = cal_camerarx_parse_dt(phy);
+>  	if (ret)
+> -		goto error;
+> +		goto err_destroy_mutex;
+>
+>  	/* Initialize the V4L2 subdev and media entity. */
+>  	sd = &phy->subdev;
+> @@ -911,21 +911,25 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(phy->pads),
+>  				     phy->pads);
+>  	if (ret)
+> -		goto error;
+> +		goto err_node_put;
+>
+>  	ret = cal_camerarx_sd_init_cfg(sd, NULL);
+>  	if (ret)
+> -		goto error;
+> +		goto err_entity_cleanup;
+>
+>  	ret = v4l2_device_register_subdev(&cal->v4l2_dev, sd);
+>  	if (ret)
+> -		goto error;
+> +		goto err_entity_cleanup;
+>
+>  	return phy;
+>
+> -error:
+> +err_entity_cleanup:
+>  	media_entity_cleanup(&phy->subdev.entity);
+> -	kfree(phy);
+> +err_node_put:
+> +	of_node_put(phy->source_ep_node);
+> +	of_node_put(phy->source_node);
+
+good, these where leaked indeed!
+
+Missing mutex apart the patch is good to me
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 2 +-
->  include/media/v4l2-subdev.h           | 6 +++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
+
+> +err_destroy_mutex:
+> +	mutex_destroy(&phy->mutex);
+>  	return ERR_PTR(ret);
+>  }
 >
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index dff1d9be7841..8308d20f1bd1 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1694,7 +1694,7 @@ int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
->
->  		/*
->  		 * V4L2_SUBDEV_ROUTING_NO_STREAM_MIX: Streams on the same pad
-> -		 * may not be routed to streams on different pads.
-> +		 * shall not be routed to streams on different pads.
->  		 */
->  		if (disallow & V4L2_SUBDEV_ROUTING_NO_STREAM_MIX) {
->  			if (remote_pads[route->sink_pad] != U32_MAX &&
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 17773be4a4ee..3649f11a4c35 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1638,13 +1638,13 @@ u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
->   * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
->   *
->   * @V4L2_SUBDEV_ROUTING_NO_1_TO_N:
-> - *	an input stream may not be routed to multiple output streams (stream
-> + *	an input stream shall not be routed to multiple output streams (stream
->   *	duplication)
->   * @V4L2_SUBDEV_ROUTING_NO_N_TO_1:
-> - *	multiple input streams may not be routed to the same output stream
-> + *	multiple input streams shall not be routed to the same output stream
->   *	(stream merging)
->   * @V4L2_SUBDEV_ROUTING_NO_STREAM_MIX:
-> - *	streams on the same pad may not be routed to streams on different pads
-> + *	streams on the same pad shall not be routed to streams on different pads
->   * @V4L2_SUBDEV_ROUTING_ONLY_1_TO_1:
->   *	only non-overlapping 1-to-1 stream routing is allowed (a combination of
->   *	@V4L2_SUBDEV_ROUTING_NO_1_TO_N and @V4L2_SUBDEV_ROUTING_NO_N_TO_1)
+> @@ -939,5 +943,4 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
+>  	of_node_put(phy->source_ep_node);
+>  	of_node_put(phy->source_node);
+>  	mutex_destroy(&phy->mutex);
+> -	kfree(phy);
+>  }
 > --
 > 2.34.1
 >
