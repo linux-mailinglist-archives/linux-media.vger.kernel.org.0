@@ -2,123 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1603A6A835B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 14:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A5C6A859E
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 16:52:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229982AbjCBNSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 08:18:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49642 "EHLO
+        id S229668AbjCBPwf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 10:52:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbjCBNSe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 08:18:34 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057631E1FA
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 05:18:28 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id q189so9733953pga.9
-        for <linux-media@vger.kernel.org>; Thu, 02 Mar 2023 05:18:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1677763107;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=E166X9hjpFg3mdEW6iD+dySuMT8kiQ1PL60Qkh8UwsI=;
-        b=TG5uXivyNeE/uoFeSDp+u5QoerHsyjFLS7lek+Tf1ikHN52gtt0elSpqkLtCPZW6ii
-         W9CAReiVFbYFHVv+l7tSM7T26G7D7eRK5DYrTLuHGSw9CexbtpUHtZmti+kD/mvHiTb6
-         mWvv4X7tHbBuKoClb79/qw+aiqm/2uT0784MQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677763107;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E166X9hjpFg3mdEW6iD+dySuMT8kiQ1PL60Qkh8UwsI=;
-        b=KHiRIAuB1MFkqNF+H76Mbb2zffiKl2ljYl7+ae+mu4pc34r0TObZWKcmRVXem/A4Xe
-         8GVcL+HsdE5ta19EFxYeoToLLJ/7kTKrLFnX9eVPXdEtx8wMiYsu20/ZC5/P99ilHi4T
-         S87nvLM/+72fNzpfRnyGVqEaCrsYLkPwKerxWknZjIFY4G7LUyccERgQbp5+LeSL/qxQ
-         9+HdbQ8mrow/SuP0CPpwzAf22yhU8HOBLpNvqebYRC9Z/QdQAlH+rVvMWtpDLZhrYt7N
-         6IwHlDu5R+5UHIhQDT4tcFNBLph6a0VC7RyFeqSK49e74j3KTMeNhuSUqFXflM22xX3Q
-         GAFg==
-X-Gm-Message-State: AO0yUKXeT7Yw4CS0S/QYrOBTgNzlYMmvf0SS9ev6ayEVD4zzktKiaqRA
-        b42m6ybTU4rC2gC+cpSqmfFMVw==
-X-Google-Smtp-Source: AK7set8K94g2rR6EFJDYXdaB7Du5j026byxnZEvzejgfLdVXgs+t85RvFhpPuQA9xTO2WjR7dpu7AA==
-X-Received: by 2002:a62:4ec8:0:b0:5cb:eecd:387b with SMTP id c191-20020a624ec8000000b005cbeecd387bmr7538411pfb.33.1677763107334;
-        Thu, 02 Mar 2023 05:18:27 -0800 (PST)
-Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:739f:8bcf:3d43:dae5])
-        by smtp.gmail.com with ESMTPSA id s15-20020aa7828f000000b005905d2fe760sm9840086pfm.155.2023.03.02.05.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 05:18:26 -0800 (PST)
-From:   Pin-yen Lin <treapking@chromium.org>
-To:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH] media: mediatek: vcodec: Use 4K frame size when supported by stateful decoder
-Date:   Thu,  2 Mar 2023 21:18:21 +0800
-Message-Id: <20230302131821.2060936-1-treapking@chromium.org>
-X-Mailer: git-send-email 2.39.2.722.g9855ee24e9-goog
+        with ESMTP id S229453AbjCBPwe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 10:52:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FDD442BCC;
+        Thu,  2 Mar 2023 07:52:31 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAE1656A;
+        Thu,  2 Mar 2023 16:52:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677772349;
+        bh=B3YUBYx+IdonkuytCXScmef79tJe7ktce0HB6tmAONA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=wjKJCeAJKwqc91icmw7y9i1YYuYFcLuWX+/Xq9wA36DUhh296ewxd50r8jYhdy6ui
+         iaCehT/I+9qmyQzwyOEX9lqREbu3jQP43q6eVSb1gBCJomtxxfvufgTX+GHOWfaceW
+         Nam91YstjMKgiEAFQfAUhU0Tfpxeg1T7sa8S41e0=
+Message-ID: <96f8e0f9-d8cf-fa9b-a224-a5caad445992@ideasonboard.com>
+Date:   Thu, 2 Mar 2023 17:52:24 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v9 0/8] i2c-atr and FPDLink
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>
+References: <20230216140747.445477-1-tomi.valkeinen@ideasonboard.com>
+ <Y+5Rb17FTG4IxcE0@smile.fi.intel.com>
+ <e4141652-53c0-fce1-dac7-5da5368e2240@ideasonboard.com>
+ <Y+9j3cYOG+Z0zmyC@smile.fi.intel.com>
+ <9f3f0744-f771-cd2c-3b8e-5b79f7a430c7@ideasonboard.com>
+ <Y++E+Rr54p3vd8Jn@smile.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y++E+Rr54p3vd8Jn@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After commit b018be06f3c7 ("media: mediatek: vcodec: Read max resolution
-from dec_capability"), the stateful video decoder driver never really
-sets its output frame size to 4K.
+On 17/02/2023 15:45, Andy Shevchenko wrote:
+> On Fri, Feb 17, 2023 at 02:57:02PM +0200, Tomi Valkeinen wrote:
+>> On 17/02/2023 13:24, Andy Shevchenko wrote:
+>>> On Fri, Feb 17, 2023 at 08:57:32AM +0200, Tomi Valkeinen wrote:
+>>>> On 16/02/2023 17:53, Andy Shevchenko wrote:
+>>>>> On Thu, Feb 16, 2023 at 04:07:39PM +0200, Tomi Valkeinen wrote:
+> 
+> ...
+> 
+>>>>>>     	struct i2c_board_info ser_info = {
+>>>>>> -		.of_node = to_of_node(rxport->remote_fwnode),
+>>>>>> -		.fwnode = rxport->remote_fwnode,
+>>>>>
+>>>>>> +		.of_node = to_of_node(rxport->ser.fwnode),
+>>>>>> +		.fwnode = rxport->ser.fwnode,
+>>>>>
+>>>>> Why do you need to have both?!
+>>>>
+>>>> I didn't debug it, but having only fwnode there will break the probing (no
+>>>> match).
+>>>
+>>> This needs to be investigated. The whole fwnode approach, when we have both
+>>> fwnode and legacy of_node fields in the same data structure, is that fwnode
+>>> _OR_ of_node initialization is enough, when both are defined the fwnode
+>>> should take precedence.
+>>>
+>>> If your testing is correct (and I have no doubts) it means we have a serious
+>>> bug lurking somewhere.
+>>
+>> Having both defined or only of_node defined works for me.
+> 
+> But of_node is _legacy_ stuff. We should not really consider this option in the
+> new code.
+> 
+>> Perhaps the issue is that these drivers only add of_match_table, and thus
+>> having only .fwnode above is not enough.
+> 
+> No, the code should work with fwnode that carrying DT node or another.
+> The matching table shouldn't affect this either.
+> 
+>> Looking at i2c_device_match(), i2c_of_match_device() only uses of_node, so
+>> perhaps I would need CONFIG_ACPI for acpi_driver_match_device to do matching
+>> with of_node? Although I don't see the acpi code using fwnode, just of_node.
+>> Well, I have to say I have no idea without spending more time on this.
+> 
+> Again, there is a bug and that bug seems nasty one as it would allow to
+> work the device in one environment and not in another.
+> 
+> Since it's about I²C board files, I believe that an issue is in I²C core.
 
-Parse the decoder capability reported by the firmware, and update the
-output frame size in mtk_init_vdec_params to enable 4K frame size when
-available.
+I don't know if this is related in any way, but I see these when probing:
 
-Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution from dec_capability")
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
+[   36.952697] i2c 4-0044: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/links/link@0/serializer/i2c/sensor@21/port/endpoint
+[   36.969268] i2c 4-0044: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/ports/port@0/endpoint
+[   36.983001] i2c 4-0044: Failed to create device link with 4-0044
+[   36.992828] ds90ub953 4-0044: Found ub953 rev/mask 0x20
+[   37.017761] i2c 5-0021: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/links/link@0/serializer/ports/port@0/endpoint
+[   37.033843] i2c 5-0021: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/links/link@0/serializer
+[   37.117492] i2c 4-0045: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/links/link@1/serializer/i2c/sensor@21/port/endpoint
+[   37.134033] i2c 4-0045: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/ports/port@1/endpoint
+[   37.147735] i2c 4-0045: Failed to create device link with 4-0045
+[   37.156097] ds90ub953 4-0045: Found ub953 rev/mask 0x20
+[   37.186584] i2c 6-0021: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/links/link@1/serializer/ports/port@0/endpoint
+[   37.202636] i2c 6-0021: Fixed dependency cycle(s) with /ocp/interconnect@48000000/segment@0/target-module@7c000/i2c@0/deser@3d/links/link@1/serializer
 
- .../mediatek/vcodec/mtk_vcodec_dec_stateful.c        | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Then again, I see similar warnings/errors for some other devices too, when booting up (TI's DRA76 EVM).
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-index 035c86e7809f..679f4dc9acfb 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-@@ -11,7 +11,7 @@
- #include "mtk_vcodec_dec_pm.h"
- #include "vdec_drv_if.h"
- 
--static const struct mtk_video_fmt mtk_video_formats[] = {
-+static struct mtk_video_fmt mtk_video_formats[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264,
- 		.type = MTK_FMT_DEC,
-@@ -580,6 +580,16 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- 
- static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
- {
-+	unsigned int i;
-+
-+	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) {
-+		for (i = 0; i < num_supported_formats; i++) {
-+			mtk_vdec_framesizes[i].stepwise.max_width =
-+				VCODEC_DEC_4K_CODED_WIDTH;
-+			mtk_vdec_framesizes[i].stepwise.max_height =
-+				VCODEC_DEC_4K_CODED_HEIGHT;
-+		}
-+	}
- }
- 
- static struct vb2_ops mtk_vdec_frame_vb2_ops = {
--- 
-2.39.2.722.g9855ee24e9-goog
+  Tomi
 
