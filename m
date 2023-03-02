@@ -2,147 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C586A832B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 14:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1603A6A835B
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 14:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbjCBNDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 08:03:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35142 "EHLO
+        id S229982AbjCBNSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 08:18:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbjCBNDy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 08:03:54 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ECA2136DA
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 05:03:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 56A89B8121D
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 13:03:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6706BC433A0;
-        Thu,  2 Mar 2023 13:03:49 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 17/17] media: pci: saa7146: advertise only those TV standard that are supported
-Date:   Thu,  2 Mar 2023 14:03:30 +0100
-Message-Id: <20230302130330.1125172-18-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230302130330.1125172-1-hverkuil-cisco@xs4all.nl>
-References: <20230302130330.1125172-1-hverkuil-cisco@xs4all.nl>
+        with ESMTP id S229752AbjCBNSe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 08:18:34 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057631E1FA
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 05:18:28 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id q189so9733953pga.9
+        for <linux-media@vger.kernel.org>; Thu, 02 Mar 2023 05:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1677763107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E166X9hjpFg3mdEW6iD+dySuMT8kiQ1PL60Qkh8UwsI=;
+        b=TG5uXivyNeE/uoFeSDp+u5QoerHsyjFLS7lek+Tf1ikHN52gtt0elSpqkLtCPZW6ii
+         W9CAReiVFbYFHVv+l7tSM7T26G7D7eRK5DYrTLuHGSw9CexbtpUHtZmti+kD/mvHiTb6
+         mWvv4X7tHbBuKoClb79/qw+aiqm/2uT0784MQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677763107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E166X9hjpFg3mdEW6iD+dySuMT8kiQ1PL60Qkh8UwsI=;
+        b=KHiRIAuB1MFkqNF+H76Mbb2zffiKl2ljYl7+ae+mu4pc34r0TObZWKcmRVXem/A4Xe
+         8GVcL+HsdE5ta19EFxYeoToLLJ/7kTKrLFnX9eVPXdEtx8wMiYsu20/ZC5/P99ilHi4T
+         S87nvLM/+72fNzpfRnyGVqEaCrsYLkPwKerxWknZjIFY4G7LUyccERgQbp5+LeSL/qxQ
+         9+HdbQ8mrow/SuP0CPpwzAf22yhU8HOBLpNvqebYRC9Z/QdQAlH+rVvMWtpDLZhrYt7N
+         6IwHlDu5R+5UHIhQDT4tcFNBLph6a0VC7RyFeqSK49e74j3KTMeNhuSUqFXflM22xX3Q
+         GAFg==
+X-Gm-Message-State: AO0yUKXeT7Yw4CS0S/QYrOBTgNzlYMmvf0SS9ev6ayEVD4zzktKiaqRA
+        b42m6ybTU4rC2gC+cpSqmfFMVw==
+X-Google-Smtp-Source: AK7set8K94g2rR6EFJDYXdaB7Du5j026byxnZEvzejgfLdVXgs+t85RvFhpPuQA9xTO2WjR7dpu7AA==
+X-Received: by 2002:a62:4ec8:0:b0:5cb:eecd:387b with SMTP id c191-20020a624ec8000000b005cbeecd387bmr7538411pfb.33.1677763107334;
+        Thu, 02 Mar 2023 05:18:27 -0800 (PST)
+Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:739f:8bcf:3d43:dae5])
+        by smtp.gmail.com with ESMTPSA id s15-20020aa7828f000000b005905d2fe760sm9840086pfm.155.2023.03.02.05.18.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Mar 2023 05:18:26 -0800 (PST)
+From:   Pin-yen Lin <treapking@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Pin-yen Lin <treapking@chromium.org>
+Subject: [PATCH] media: mediatek: vcodec: Use 4K frame size when supported by stateful decoder
+Date:   Thu,  2 Mar 2023 21:18:21 +0800
+Message-Id: <20230302131821.2060936-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.39.2.722.g9855ee24e9-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        UPPERCASE_50_75 autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2_STD_ALL advertises more standards than these boards
-actually support. This causes a V4L2 compliance issue. Limit
-the supported standards to those that are actually implemented.
+After commit b018be06f3c7 ("media: mediatek: vcodec: Read max resolution
+from dec_capability"), the stateful video decoder driver never really
+sets its output frame size to 4K.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Parse the decoder capability reported by the firmware, and update the
+output frame size in mtk_init_vdec_params to enable 4K frame size when
+available.
+
+Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution from dec_capability")
+Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 ---
- drivers/media/pci/saa7146/hexium_gemini.c | 19 ++++++++++---------
- drivers/media/pci/saa7146/hexium_orion.c  | 19 ++++++++++---------
- drivers/media/pci/saa7146/mxb.c           |  7 ++++---
- 3 files changed, 24 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/pci/saa7146/hexium_gemini.c b/drivers/media/pci/saa7146/hexium_gemini.c
-index 7dead0dfcc9f..40b35098f3ea 100644
---- a/drivers/media/pci/saa7146/hexium_gemini.c
-+++ b/drivers/media/pci/saa7146/hexium_gemini.c
-@@ -27,17 +27,18 @@ static int hexium_num;
- #define HEXIUM_GEMINI			4
- #define HEXIUM_GEMINI_DUAL		5
+ .../mediatek/vcodec/mtk_vcodec_dec_stateful.c        | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+index 035c86e7809f..679f4dc9acfb 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+@@ -11,7 +11,7 @@
+ #include "mtk_vcodec_dec_pm.h"
+ #include "vdec_drv_if.h"
  
-+#define HEXIUM_STD (V4L2_STD_PAL | V4L2_STD_SECAM | V4L2_STD_NTSC)
- #define HEXIUM_INPUTS	9
- static struct v4l2_input hexium_inputs[HEXIUM_INPUTS] = {
--	{ 0, "CVBS 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 1, "CVBS 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 2, "CVBS 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 3, "CVBS 4",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 4, "CVBS 5",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 5, "CVBS 6",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 6, "Y/C 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 7, "Y/C 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 8, "Y/C 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
-+	{ 0, "CVBS 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 1, "CVBS 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 2, "CVBS 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 3, "CVBS 4",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 4, "CVBS 5",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 5, "CVBS 6",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 6, "Y/C 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 7, "Y/C 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 8, "Y/C 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
- };
+-static const struct mtk_video_fmt mtk_video_formats[] = {
++static struct mtk_video_fmt mtk_video_formats[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_H264,
+ 		.type = MTK_FMT_DEC,
+@@ -580,6 +580,16 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_ctx *ctx)
  
- #define HEXIUM_AUDIOS	0
-diff --git a/drivers/media/pci/saa7146/hexium_orion.c b/drivers/media/pci/saa7146/hexium_orion.c
-index a83fd5d19add..8c26fe554986 100644
---- a/drivers/media/pci/saa7146/hexium_orion.c
-+++ b/drivers/media/pci/saa7146/hexium_orion.c
-@@ -28,17 +28,18 @@ static int hexium_num;
- #define HEXIUM_ORION_1SVHS_3BNC		2
- #define HEXIUM_ORION_4BNC		3
+ static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
+ {
++	unsigned int i;
++
++	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) {
++		for (i = 0; i < num_supported_formats; i++) {
++			mtk_vdec_framesizes[i].stepwise.max_width =
++				VCODEC_DEC_4K_CODED_WIDTH;
++			mtk_vdec_framesizes[i].stepwise.max_height =
++				VCODEC_DEC_4K_CODED_HEIGHT;
++		}
++	}
+ }
  
-+#define HEXIUM_STD (V4L2_STD_PAL | V4L2_STD_SECAM | V4L2_STD_NTSC)
- #define HEXIUM_INPUTS	9
- static struct v4l2_input hexium_inputs[HEXIUM_INPUTS] = {
--	{ 0, "CVBS 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 1, "CVBS 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 2, "CVBS 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 3, "CVBS 4",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 4, "CVBS 5",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 5, "CVBS 6",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 6, "Y/C 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 7, "Y/C 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
--	{ 8, "Y/C 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
-+	{ 0, "CVBS 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 1, "CVBS 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 2, "CVBS 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 3, "CVBS 4",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 4, "CVBS 5",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 5, "CVBS 6",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 6, "Y/C 1",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 7, "Y/C 2",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
-+	{ 8, "Y/C 3",	V4L2_INPUT_TYPE_CAMERA,	0, 0, HEXIUM_STD, 0, V4L2_IN_CAP_STD },
- };
- 
- #define HEXIUM_AUDIOS	0
-diff --git a/drivers/media/pci/saa7146/mxb.c b/drivers/media/pci/saa7146/mxb.c
-index 8f1843baa732..a14b839098b8 100644
---- a/drivers/media/pci/saa7146/mxb.c
-+++ b/drivers/media/pci/saa7146/mxb.c
-@@ -48,6 +48,7 @@ static int debug;
- module_param(debug, int, 0644);
- MODULE_PARM_DESC(debug, "Turn on/off device debugging (default:off).");
- 
-+#define MXB_STD (V4L2_STD_PAL_BG | V4L2_STD_PAL_I | V4L2_STD_SECAM | V4L2_STD_NTSC)
- #define MXB_INPUTS 4
- enum { TUNER, AUX1, AUX3, AUX3_YC };
- 
-@@ -55,11 +56,11 @@ static struct v4l2_input mxb_inputs[MXB_INPUTS] = {
- 	{ TUNER,   "Tuner",          V4L2_INPUT_TYPE_TUNER,  0x3f, 0,
- 		V4L2_STD_PAL_BG | V4L2_STD_PAL_I, 0, V4L2_IN_CAP_STD },
- 	{ AUX1,	   "AUX1",           V4L2_INPUT_TYPE_CAMERA, 0x3f, 0,
--		V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
-+		MXB_STD, 0, V4L2_IN_CAP_STD },
- 	{ AUX3,	   "AUX3 Composite", V4L2_INPUT_TYPE_CAMERA, 0x3f, 0,
--		V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
-+		MXB_STD, 0, V4L2_IN_CAP_STD },
- 	{ AUX3_YC, "AUX3 S-Video",   V4L2_INPUT_TYPE_CAMERA, 0x3f, 0,
--		V4L2_STD_ALL, 0, V4L2_IN_CAP_STD },
-+		MXB_STD, 0, V4L2_IN_CAP_STD },
- };
- 
- /* this array holds the information, which port of the saa7146 each
+ static struct vb2_ops mtk_vdec_frame_vb2_ops = {
 -- 
-2.39.1
+2.39.2.722.g9855ee24e9-goog
 
