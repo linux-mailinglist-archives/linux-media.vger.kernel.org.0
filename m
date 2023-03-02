@@ -2,38 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C5766A82FE
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA6D26A831B
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 14:03:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbjCBM6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 07:58:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        id S229854AbjCBNDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 08:03:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbjCBM6e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 07:58:34 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5594C6CF
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 04:57:50 -0800 (PST)
+        with ESMTP id S229868AbjCBNDi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 08:03:38 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED9D18175
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 05:03:36 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 18163B81227
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 12:57:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 480B5C433AC;
-        Thu,  2 Mar 2023 12:57:43 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id A1C53CE1F14
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 13:03:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 889B7C433D2
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 13:03:32 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 9/9] Documentation: userspace-api: media: drop clipping, destructive overlays
-Date:   Thu,  2 Mar 2023 13:57:31 +0100
-Message-Id: <20230302125731.1124945-10-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 00/17] saa7146: convert to vb2
+Date:   Thu,  2 Mar 2023 14:03:13 +0100
+Message-Id: <20230302130330.1125172-1-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230302125731.1124945-1-hverkuil-cisco@xs4all.nl>
-References: <20230302125731.1124945-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,188 +38,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Support for clipping for overlays has been removed, update the
-documentation.
+This series converts the saa7146 driver to vb2.
 
-Support for destructive overlay support has been removed as well,
-also update the documentation for this.
+This sits on top of the overlay removal patch:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- .../userspace-api/media/v4l/dev-overlay.rst   | 10 +++-
- .../userspace-api/media/v4l/vidioc-g-fbuf.rst | 52 ++++++-------------
- 2 files changed, 24 insertions(+), 38 deletions(-)
+https://patchwork.linuxtv.org/project/linux-media/patch/20230302125731.1124945-2-hverkuil-cisco@xs4all.nl/
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-overlay.rst b/Documentation/userspace-api/media/v4l/dev-overlay.rst
-index 4f4b23b95b9b..d52977120b41 100644
---- a/Documentation/userspace-api/media/v4l/dev-overlay.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-overlay.rst
-@@ -67,6 +67,7 @@ ioctls must be supported by all video overlay devices.
- Setup
- =====
- 
-+*Note: support for this has been removed.*
- Before overlay can commence applications must program the driver with
- frame buffer parameters, namely the address and size of the frame buffer
- and the image format, for example RGB 5:6:5. The
-@@ -92,11 +93,13 @@ A driver may support any (or none) of five clipping/blending methods:
- 1. Chroma-keying displays the overlaid image only where pixels in the
-    primary graphics surface assume a certain color.
- 
--2. A bitmap can be specified where each bit corresponds to a pixel in
-+2. *Note: support for this has been removed.*
-+   A bitmap can be specified where each bit corresponds to a pixel in
-    the overlaid image. When the bit is set, the corresponding video
-    pixel is displayed, otherwise a pixel of the graphics surface.
- 
--3. A list of clipping rectangles can be specified. In these regions *no*
-+3. *Note: support for this has been removed.*
-+   A list of clipping rectangles can be specified. In these regions *no*
-    video is displayed, so the graphics surface can be seen here.
- 
- 4. The framebuffer has an alpha channel that can be used to clip or
-@@ -185,6 +188,7 @@ struct v4l2_window
-     be 0xRRGGBB on a little endian, 0xBBGGRR on a big endian host.
- 
- ``struct v4l2_clip * clips``
-+    *Note: support for this has been removed.*
-     When chroma-keying has *not* been negotiated and
-     :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>` indicated this capability,
-     applications can set this field to point to an array of clipping
-@@ -201,6 +205,7 @@ struct v4l2_window
-     are undefined.
- 
- ``__u32 clipcount``
-+    *Note: support for this has been removed.*
-     When the application set the ``clips`` field, this field must
-     contain the number of clipping rectangles in the list. When clip
-     lists are not supported the driver ignores this field, its contents
-@@ -208,6 +213,7 @@ struct v4l2_window
-     supported but no clipping is desired this field must be set to zero.
- 
- ``void * bitmap``
-+    *Note: support for this has been removed.*
-     When chroma-keying has *not* been negotiated and
-     :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>` indicated this capability,
-     applications can set this field to point to a clipping bit mask.
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-fbuf.rst b/Documentation/userspace-api/media/v4l/vidioc-g-fbuf.rst
-index b6cc1a823207..b651e53643dd 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-fbuf.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-fbuf.rst
-@@ -49,6 +49,9 @@ of a graphics card. A non-destructive overlay blends video images into a
- VGA signal or graphics into a video signal. *Video Output Overlays* are
- always non-destructive.
- 
-+Destructive overlay support has been removed: with modern GPUs and CPUs
-+this is no longer needed, and it was always a very dangerous feature.
-+
- To get the current parameters applications call the :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`
- ioctl with a pointer to a struct :c:type:`v4l2_framebuffer`
- structure. The driver fills all fields of the structure or returns an
-@@ -63,18 +66,12 @@ this structure, the driver prepares for the overlay and returns the
- framebuffer parameters as :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>` does, or it returns an error
- code.
- 
--To set the parameters for a *non-destructive Video Overlay*,
-+To set the parameters for a *Video Capture Overlay*
- applications must initialize the ``flags`` field, the ``fmt``
- substructure, and call :ref:`VIDIOC_S_FBUF <VIDIOC_G_FBUF>`. Again the driver prepares for
- the overlay and returns the framebuffer parameters as :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`
- does, or it returns an error code.
- 
--For a *destructive Video Overlay* applications must additionally provide
--a ``base`` address. Setting up a DMA to a random memory location can
--jeopardize the system security, its stability or even damage the
--hardware, therefore only the superuser can set the parameters for a
--destructive video overlay.
--
- .. tabularcolumns:: |p{3.5cm}|p{3.5cm}|p{3.5cm}|p{6.6cm}|
- 
- .. c:type:: v4l2_framebuffer
-@@ -100,17 +97,14 @@ destructive video overlay.
-       - ``base``
-       -
-       - Physical base address of the framebuffer, that is the address of
--	the pixel in the top left corner of the framebuffer. [#f1]_
--    * -
--      -
--      -
--      - This field is irrelevant to *non-destructive Video Overlays*. For
--	*destructive Video Overlays* applications must provide a base
--	address. The driver may accept only base addresses which are a
--	multiple of two, four or eight bytes. For *Video Output Overlays*
--	the driver must return a valid base address, so applications can
-+	the pixel in the top left corner of the framebuffer.
-+	For :ref:`VIDIOC_S_FBUF <VIDIOC_G_FBUF>` this field is no longer supported
-+	and the kernel will always set this to NULL.
-+	For *Video Output Overlays*
-+	the driver will return a valid base address, so applications can
- 	find the corresponding Linux framebuffer device (see
--	:ref:`osd`).
-+	:ref:`osd`). For *Video Capture Overlays* this field will always be
-+	NULL.
-     * - struct
-       - ``fmt``
-       -
-@@ -136,8 +130,7 @@ destructive video overlay.
-     * -
-       -
-       -
--      - For *destructive Video Overlays* applications must initialize this
--	field. For *Video Output Overlays* the driver must return a valid
-+      - For *Video Output Overlays* the driver must return a valid
- 	format.
-     * -
-       -
-@@ -165,13 +158,6 @@ destructive video overlay.
- 
- 	This field is irrelevant to *non-destructive Video Overlays*.
- 
--	For *destructive Video Overlays* both applications and drivers can
--	set this field to request padding bytes at the end of each line.
--	Drivers however may ignore the requested value, returning
--	``width`` times bytes-per-pixel or a larger value required by the
--	hardware. That implies applications can just set this field to
--	zero to get a reasonable default.
--
- 	For *Video Output Overlays* the driver must return a valid value.
- 
- 	Video hardware may access padding bytes, therefore they must
-@@ -190,9 +176,8 @@ destructive video overlay.
-     * -
-       - __u32
-       - ``sizeimage``
--      - This field is irrelevant to *non-destructive Video Overlays*. For
--	*destructive Video Overlays* applications must initialize this
--	field. For *Video Output Overlays* the driver must return a valid
-+      - This field is irrelevant to *non-destructive Video Overlays*.
-+	For *Video Output Overlays* the driver must return a valid
- 	format.
- 
- 	Together with ``base`` it defines the framebuffer memory
-@@ -232,9 +217,11 @@ destructive video overlay.
-     * - ``V4L2_FBUF_CAP_LIST_CLIPPING``
-       - 0x0004
-       - The device supports clipping using a list of clip rectangles.
-+        Note that this is no longer supported.
-     * - ``V4L2_FBUF_CAP_BITMAP_CLIPPING``
-       - 0x0008
-       - The device supports clipping using a bit mask.
-+        Note that this is no longer supported.
-     * - ``V4L2_FBUF_CAP_LOCAL_ALPHA``
-       - 0x0010
-       - The device supports clipping/blending using the alpha channel of
-@@ -342,10 +329,3 @@ EPERM
- 
- EINVAL
-     The :ref:`VIDIOC_S_FBUF <VIDIOC_G_FBUF>` parameters are unsuitable.
--
--.. [#f1]
--   A physical base address may not suit all platforms. GK notes in
--   theory we should pass something like PCI device + memory region +
--   offset instead. If you encounter problems please discuss on the
--   linux-media mailing list:
--   `https://linuxtv.org/lists.php <https://linuxtv.org/lists.php>`__.
+Tested with my mxb board and limited testing with a Hexium Orion board.
+
+Note: the av7110 has sliced VBI output support, I suspect that might
+no longer work. I do have an av7110 board, but it has no analog HW.
+
+I'll try to find someone to test this for me.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (17):
+  media: saa7146: drop 'dev' and 'resources' from struct saa7146_fh
+  media: common: saa7146: drop 'fmt' from struct saa7146_buf
+  media: common: saa7146: replace BUG_ON by WARN_ON
+  staging: media: av7110: replace BUG_ON by WARN_ON
+  media: common: saa7146: fix broken V4L2_PIX_FMT_YUV422P support
+  media: common: saa7146: use for_each_sg_dma_page
+  media: saa7146: convert to vb2
+  media: common: saa7146: fix compliance problems with field handling
+  media: common: saa7146: check minimum video format size
+  media: common: saa7146: fall back to V4L2_PIX_FMT_BGR24
+  media: common: saa7146: allow S_STD(G_STD)
+  media: mxb: update the tvnorms when changing input
+  media: common: saa7146: add support for missing
+    .vidioc_try_fmt_vbi_cap
+  media: mxb: allow tuner/input/audio ioctls for vbi
+  media: common: saa7146: allow AUDIO ioctls for the vbi stream
+  media: common: saa7146: drop USERPTR support
+  media: pci: saa7146: advertise only those TV standard that are
+    supported
+
+ drivers/media/common/saa7146/Kconfig         |   2 +-
+ drivers/media/common/saa7146/saa7146_core.c  |  40 +-
+ drivers/media/common/saa7146/saa7146_fops.c  | 342 ++--------
+ drivers/media/common/saa7146/saa7146_hlp.c   |  44 +-
+ drivers/media/common/saa7146/saa7146_vbi.c   | 286 ++++-----
+ drivers/media/common/saa7146/saa7146_video.c | 637 ++++++-------------
+ drivers/media/pci/saa7146/hexium_gemini.c    |  23 +-
+ drivers/media/pci/saa7146/hexium_orion.c     |  23 +-
+ drivers/media/pci/saa7146/mxb.c              |  53 +-
+ drivers/media/pci/ttpci/budget-av.c          |   4 +-
+ drivers/staging/media/av7110/av7110.c        |   6 +-
+ drivers/staging/media/av7110/av7110_hw.c     |   3 +-
+ drivers/staging/media/av7110/av7110_v4l.c    |  35 +-
+ include/media/drv-intf/saa7146_vv.h          |  38 +-
+ 14 files changed, 505 insertions(+), 1031 deletions(-)
+
 -- 
 2.39.1
 
