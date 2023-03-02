@@ -2,134 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8CF86A8721
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 17:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 784E16A8A1E
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 21:22:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230026AbjCBQpN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 11:45:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53556 "EHLO
+        id S229619AbjCBUW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 15:22:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbjCBQpL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 11:45:11 -0500
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A151322A3B
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 08:45:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa2;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
-        b=kDFUay36skYmps2/wdqt4fAH3ooPZbYWVp4pqBqM961wiZduj7P0xLgJw2P+NpMGf7kg1DoicLT6s
-         g6l09K8HwL4RYQ8zGGoaFGn4km6zQYbAroP+EN+9HlyJrhV1W8t5cDqTAwscYUwdLDpYbIiHboO9rZ
-         aMzoAa0S/vUdoj1kf/OGdJTZUpW+MrjaNGUTQavNWIRuYfGMKTi7Tl3hROfbZVtoTWtbKeUCJQ2L0I
-         vgAjzdLxgJIXjLXCeRFb3ZpkshGAWy49N0muwOqA6SWUqwPx0aPY3DSGC5+6RFk99RSbDSFXHj01s6
-         xLMWjzebL84uGzeen8v31LzBEjuhwEg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed2;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
-        b=dTZtzyqF/jIMi0Zr3bfFJbyk3/PAmHQdX/XPn81EeMGXIgD+hYOJ9q2VlxqlJBJy6Rr6S2UsHglzv
-         pur80rgBQ==
-X-HalOne-ID: 943971d9-b919-11ed-babc-11abd97b9443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-        by mailrelay1 (Halon) with ESMTPSA
-        id 943971d9-b919-11ed-babc-11abd97b9443;
-        Thu, 02 Mar 2023 16:45:06 +0000 (UTC)
-Date:   Thu, 2 Mar 2023 17:45:04 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
-Message-ID: <ZADSkGa6dK4H9p75@ravnborg.org>
-References: <20230228215433.3944508-1-robh@kernel.org>
+        with ESMTP id S229447AbjCBUW0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 15:22:26 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B090451F97
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 12:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677788545; x=1709324545;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HFELZ9btV69DHFEm1chUjpxuZH+3MJ7sjTsFzkKxq/E=;
+  b=njmoV/8Hx6hIjbi9/4Igedeu+DBuzfifM7vSKGe2ngKHztY6pE06eTVz
+   WqvlcsyA8ljVAU0X27ALptieTDsQb898Sb7cGLzolMMZl+5Mx5G8WHfmC
+   r4VW19VUxvw1cv20/+CEBncrXjgZaag9rWRu84Med2Bk1iDRXTLQlgsAn
+   p5tgJFnzXnN1z8hXKzpyrkb0Qxe2uGfWP0qohSI6QN5QwnW03Nq39biRi
+   G09ghZKqIXgflAT88okmKb6BHi5Ktmt8ZO3PTPfJt0so4dBo9hQlCGHo2
+   fHjkZqoDnjILrOs+bGBiEn8wST6T+PTsJrYhqLLJAxaRnAMCefZ2DMxZ6
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="334871294"
+X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
+   d="scan'208";a="334871294"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 12:22:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="705398150"
+X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
+   d="scan'208";a="705398150"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 12:22:23 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id BFABA1223BA;
+        Thu,  2 Mar 2023 22:22:19 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org, hdegoede@redhat.com
+Cc:     tomi.valkeinen@ideasonboard.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH 1/1] media: v4l: subdev: Make link validation safer
+Date:   Thu,  2 Mar 2023 22:22:19 +0200
+Message-Id: <20230302202219.846011-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <441f2951-402b-0f3c-5ea6-8d6df3f3e894@redhat.com>
+References: <441f2951-402b-0f3c-5ea6-8d6df3f3e894@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob.
+Link validation currently accesses invalid pointers if the link passed to it
+is not between two sub-devices. This is of course a driver bug.
 
->  .../bindings/display/bridge/analogix,anx7625.yaml |  2 +-
->  .../bindings/display/bridge/anx6345.yaml          |  2 +-
->  .../bindings/display/bridge/lontium,lt8912b.yaml  |  2 +-
->  .../bindings/display/bridge/nxp,ptn3460.yaml      |  2 +-
->  .../bindings/display/bridge/ps8640.yaml           |  2 +-
->  .../bindings/display/bridge/sil,sii9234.yaml      |  2 +-
->  .../bindings/display/bridge/ti,dlpc3433.yaml      |  2 +-
->  .../bindings/display/bridge/toshiba,tc358762.yaml |  2 +-
->  .../bindings/display/bridge/toshiba,tc358768.yaml |  2 +-
->  .../bindings/display/panel/nec,nl8048hl11.yaml    |  2 +-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Ignore the error but print a debug message, as this is how it used to work
+previously.
 
+Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+Reported-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+Hi Hans,
 
+Could you test this?
 
-> index 669f70b1b4c4..8bd58913804a 100644
-> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> @@ -226,7 +226,7 @@ unevaluatedProperties: false
->  
->  examples:
->    - |
-> -    i2c1 {
-> +    i2c {
->              #address-cells = <1>;
->              #size-cells = <0>;
->  
-> @@ -239,7 +239,7 @@ examples:
->  
->              ssd1306_i2c: oled@3d {
->                      compatible = "solomon,ssd1306";
-> -                    reg = <0x3c>;
-> +                    reg = <0x3d>;
->                      pwms = <&pwm 4 3000>;
->                      reset-gpios = <&gpio2 7>;
->                      solomon,com-lrremap;
+The bug is of course in the ImgU driver and this reverts to the old
+pre-streams behaviour. It silently fails instead of oopsing. The ImgU driver
+needs to be fixed and I think we could make this return an error at the same
+time. Right now I can't be sure the ImgU driver is the only one suffering
+from this, but if so, it's likely to be broken anyway.
 
-I can see this align the example with i2c-mux-gpio.yaml so the change
-should be fine. I am just positive surprised the tooling caught it.
+- Sakari
 
-The change is
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+ drivers/media/v4l2-core/v4l2-subdev.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-the above was just me thinking loud.
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index dff1d9be7841..a6c80096586e 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1224,6 +1224,17 @@ int v4l2_subdev_link_validate(struct media_link *link)
+ 	struct v4l2_subdev_state *source_state, *sink_state;
+ 	int ret;
+ 
++	if (!is_media_entity_v4l2_subdev(link->sink->entity)) {
++		pr_debug("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
++			 link->sink->entity->name);
++		return 0;
++	}
++	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
++		pr_debug("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
++			 link->source->entity->name);
++		return 0;
++	}
++
+ 	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
+ 	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
+ 
+-- 
+2.30.2
 
-	Sam
