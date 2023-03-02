@@ -2,148 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D3FC6A825C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:36:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC5366A8269
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:39:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbjCBMgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 07:36:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34344 "EHLO
+        id S229830AbjCBMjZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 07:39:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjCBMgp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 07:36:45 -0500
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DDBA301A4;
-        Thu,  2 Mar 2023 04:36:44 -0800 (PST)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 322AD2tm024258;
-        Thu, 2 Mar 2023 12:36:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ik4MkDp+5de9ERY4gWJP4ao+AH0xhJotFGitbqYlW8g=;
- b=JN8LwIVMya8YyKYiRND/RACCBusDXptvODHkVQov2iIXEe7/Hls5FZfmcyTYNPh5Gk7r
- +mAtDHxALUNPzgSA44owVKZPLLgxajJ+ek9lchwLw5ZAstuW8Oxmuw502FCysyf6BS/V
- QqhAP59iKdnmoiJrdQGlXX40G4IIc0Q2sh8/vwm5T/gFHgwgasYv8GTK2U61WZvSnNTH
- Lse/DTZOg7fAQ5HjUwuED1/mkF4SHBb6kxoy+rIkd552EG/czayWmZY2oQuIh5IVUGd2
- c8T4mALjwo9Kh777fmt4TF+pNkn01jQ3IqiCwyBEQAoPv9N3LW2j2CiRML6dDeCjGuq/ 2w== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p2ar12mjh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 02 Mar 2023 12:36:08 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 322Ca7Zr014391
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 2 Mar 2023 12:36:07 GMT
-Received: from [10.50.55.202] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 2 Mar 2023
- 04:36:02 -0800
-Message-ID: <7b88b9c5-24cb-eca3-94f8-0592cb2348f1@quicinc.com>
-Date:   Thu, 2 Mar 2023 18:05:58 +0530
+        with ESMTP id S229925AbjCBMjW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 07:39:22 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEA3515541;
+        Thu,  2 Mar 2023 04:39:13 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id p6so16538658plf.0;
+        Thu, 02 Mar 2023 04:39:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677760753;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+LXlqIeNp8LEupB8hKVZMY8i9ZwtQRmL/aw5lsfFuKU=;
+        b=VIaN60ZkgYiUYRl03IfK7KUvb5pOpEQ95QxUoFaxXLGl58dE+V5v/+D90jOyLrN6iF
+         uwmRjTccr+mNAWQPMtyi5XKZZhQBYmP4RQ/Y41Oy/ftk4g6wqAv76QzrKKHtCtIq3Whi
+         iDSTRdqC1CzTUvqFMWzj0mRu0/+LxSpJrBiiJaLNrxXFDy68HJKcI5bhHq6m9+WDLJuJ
+         oEjH2iWE4iWlq3CBal4xIamHSt5wquBsFzD/POr05zlv6lqJbRWCmYlbX3ofBNprdjtm
+         2sVnmGCCv3rAU635CaEGWskTcjxC8PIZvlDQI5i6jO8OQV2QhHjmzlc1AaZ74CDl4f2P
+         8vaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677760753;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+LXlqIeNp8LEupB8hKVZMY8i9ZwtQRmL/aw5lsfFuKU=;
+        b=Lfr2mn1PmD3FJ68NM4F8C5GHOsuFE5EM0RZtC1JxC9zU+tU61UM7GJDqNUadycAqeE
+         MDWNyUQbrlQHnawEEV//TFkRQmYvb5ZOXj9DOalUzZ/OGP+cu8igjXbDd0OFeHbKwNJX
+         XgPhvplreBEiV2lY41xcyVUB6cdaJ9Y9wIN9kpiAB6RulXKBWW900Z458hUQxI6Bj8xe
+         5AD7YEHvrkAX8iBcAHbUMB3xTIqvDtfDNxmTLEPto/gbZHeWeOV08Adugt9AxK2Velsi
+         8xW/Q5byvOrR+bkE5+uLO+iSOBVIREYoP6Kl0Z9AgNHLFFPYGkM4VqKUAGOizEbxhx2H
+         X1Ag==
+X-Gm-Message-State: AO0yUKVTTjI7DztC7FVivrHglTOzeKc+Pm+pjefkuJCCswYvWoOWMJzH
+        UBEnLdW8C2VCogfjz0la6mZpA9N6qm4ZBw==
+X-Google-Smtp-Source: AK7set/A8EbzED/MWzofxxiKkcgIO7/nyw90AJEsO4XYL6NG/5MAWINHprbSrqjRiHdbW+W9O7Tq/Q==
+X-Received: by 2002:a17:902:db04:b0:19d:f7e:9864 with SMTP id m4-20020a170902db0400b0019d0f7e9864mr12108322plx.57.1677760753284;
+        Thu, 02 Mar 2023 04:39:13 -0800 (PST)
+Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk. [143.89.191.119])
+        by smtp.gmail.com with ESMTPSA id v8-20020a170902b7c800b001948ff5cc32sm10236881plz.215.2023.03.02.04.39.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Mar 2023 04:39:13 -0800 (PST)
+From:   harperchen <harperchen1110@gmail.com>
+To:     mchehab@kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, daniel.lee.kruse@proton.me,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        harperchen <harperchen1110@gmail.com>
+Subject: [PATCH] media: cx23885: Fix a null-ptr-deref bug in buffer_prepare() and buffer_finish()
+Date:   Thu,  2 Mar 2023 12:39:05 +0000
+Message-Id: <20230302123905.762755-1-harperchen1110@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 08/18] media: venus: hfi_venus: Fix version checks in
- venus_halt_axi()
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>
-CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Vikash Garodia" <vgarodia@codeaurora.org>
-References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-8-58c2c88384e9@linaro.org>
- <a5fe6f7d-d410-9903-789c-d8c760ce6f1b@linaro.org>
- <3d424869-dcdb-5ef7-5cba-0025924e2f50@linaro.org>
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <3d424869-dcdb-5ef7-5cba-0025924e2f50@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: dS8AQ0bOsVglZmrRrcaTH8jKcNh82KhS
-X-Proofpoint-ORIG-GUID: dS8AQ0bOsVglZmrRrcaTH8jKcNh82KhS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-02_06,2023-03-02_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- bulkscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303020109
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+When the driver calls cx23885_risc_buffer() to prepare the buffer, the
+function call dma_alloc_coherent may fail, resulting in a empty buffer
+risc->cpu. Later when we free the buffer or access the buffer, null ptr
+deref is triggered.
 
-On 2/28/2023 9:31 PM, Konrad Dybcio wrote:
->
-> On 28.02.2023 16:36, Bryan O'Donoghue wrote:
->> On 28/02/2023 15:24, Konrad Dybcio wrote:
->>> Only IRIS2(_1) should enter the until-now-IS_V6() path and the
->>> condition for skipping part of it should be IS_IRIS2_1 and not the
->>> number of VPP pipes. Fix that.
->>>
->>> Fixes: 4b0b6e147dc9 ("media: venus: hfi: Add 6xx AXI halt logic")
->>> Fixes: 78d434ba8659 ("media: venus: hfi: Skip AON register programming for V6 1pipe")
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>    drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
->>> index 4d785e53aa0b..0d137e070407 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
->>> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
->>> @@ -550,10 +550,10 @@ static int venus_halt_axi(struct venus_hfi_device *hdev)
->>>        u32 mask_val;
->>>        int ret;
->>>    -    if (IS_V6(hdev->core)) {
->>> +    if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
->>>            writel(0x3, cpu_cs_base + CPU_CS_X2RPMH_V6);
->>>    -        if (hdev->core->res->num_vpp_pipes == 1)
->>> +        if (IS_IRIS2_1(hdev->core))
->>>                goto skip_aon_mvp_noc;
->>>              writel(0x1, aon_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
->>>
->> If you want to denote these as fixes, you need your patch 02/18 as a depend...
-> The main purpose of the Fixes tag is to mark commits that fix bugs in
-> existing code and it only assists in autoselecting stable patches.
-> Backporting this makes little sense, as we only support IRIS2 (8250)
-> and IRIS2_1 (7280) HFI6 platforms and new additions won't be backported.
->
-> Konrad
+This bug is similar to the following one:
+https://git.linuxtv.org/media_stage.git/commit/?id=2b064d91440b33fba5b452f2d1b31f13ae911d71.
 
-IRIS2_1 is nothing but IRIS2 with 1 VPP pipe (just a downstream notation 
-to differentiate between two IRIS2 based chips).
+We believe the bug can be also dynamically triggered from user side.
+Similarly, we fix this by checking the return value of cx23885_risc_buffer()
+and the value of risc->cpu before buffer free.
 
-So having the num_vpp_pipes check was fine, nothing wrong with that.
+Signed-off-by: harperchen <harperchen1110@gmail.com>
+---
+ drivers/media/pci/cx23885/cx23885-core.c  |  4 +++-
+ drivers/media/pci/cx23885/cx23885-video.c | 13 +++++++------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-but since now you are introducing new VPU based check, it can be 
-replaced with IRIS2_1 check.
+diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
+index 9232a966bcab..2ce2914576cf 100644
+--- a/drivers/media/pci/cx23885/cx23885-core.c
++++ b/drivers/media/pci/cx23885/cx23885-core.c
+@@ -1325,7 +1325,9 @@ void cx23885_free_buffer(struct cx23885_dev *dev, struct cx23885_buffer *buf)
+ {
+ 	struct cx23885_riscmem *risc = &buf->risc;
+ 
+-	dma_free_coherent(&dev->pci->dev, risc->size, risc->cpu, risc->dma);
++	if (risc->cpu)
++		dma_free_coherent(&dev->pci->dev, risc->size, risc->cpu, risc->dma);
++	memset(risc, 0, sizeof(*risc));
+ }
+ 
+ static void cx23885_tsport_reg_dump(struct cx23885_tsport *port)
+diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/cx23885/cx23885-video.c
+index 3d03f5e95786..671fc0588e43 100644
+--- a/drivers/media/pci/cx23885/cx23885-video.c
++++ b/drivers/media/pci/cx23885/cx23885-video.c
+@@ -342,6 +342,7 @@ static int queue_setup(struct vb2_queue *q,
+ 
+ static int buffer_prepare(struct vb2_buffer *vb)
+ {
++	int ret;
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct cx23885_dev *dev = vb->vb2_queue->drv_priv;
+ 	struct cx23885_buffer *buf =
+@@ -358,12 +359,12 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 
+ 	switch (dev->field) {
+ 	case V4L2_FIELD_TOP:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl, 0, UNSET,
+ 				buf->bpl, 0, dev->height);
+ 		break;
+ 	case V4L2_FIELD_BOTTOM:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl, UNSET, 0,
+ 				buf->bpl, 0, dev->height);
+ 		break;
+@@ -391,21 +392,21 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 			line0_offset = 0;
+ 			line1_offset = buf->bpl;
+ 		}
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl, line0_offset,
+ 				line1_offset,
+ 				buf->bpl, buf->bpl,
+ 				dev->height >> 1);
+ 		break;
+ 	case V4L2_FIELD_SEQ_TB:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl,
+ 				0, buf->bpl * (dev->height >> 1),
+ 				buf->bpl, 0,
+ 				dev->height >> 1);
+ 		break;
+ 	case V4L2_FIELD_SEQ_BT:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl,
+ 				buf->bpl * (dev->height >> 1), 0,
+ 				buf->bpl, 0,
+@@ -418,7 +419,7 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 		buf, buf->vb.vb2_buf.index,
+ 		dev->width, dev->height, dev->fmt->depth, dev->fmt->fourcc,
+ 		(unsigned long)buf->risc.dma);
+-	return 0;
++	return ret;
+ }
+ 
+ static void buffer_finish(struct vb2_buffer *vb)
+-- 
+2.25.1
 
-Thanks,
-
-Dikshita
-
->> ---
->> bod
