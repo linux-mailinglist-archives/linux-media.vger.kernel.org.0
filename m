@@ -2,90 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E68666A809B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 12:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EAAA6A80C1
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 12:10:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229987AbjCBLBg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 06:01:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
+        id S230025AbjCBLKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 06:10:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbjCBLBW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 06:01:22 -0500
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1164615C;
-        Thu,  2 Mar 2023 03:01:10 -0800 (PST)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3229f6nO031824;
-        Thu, 2 Mar 2023 11:00:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=cYOzM4JlJ8Njrd6UKUPZEMT9RhwG+is1Yriby3JZYa0=;
- b=W92gM6yEADlpAnyeZYAFW+zQtOSV+8bdC2FRkwJrdDYvS9tNwFS3KHcqDCnRWMIR244/
- DipMVbBwPlLoyIvcdttfCJtW3UPSEV49v6rMtXIGFkAI6XpY754pTxwndxVov/yy+V6T
- bJu7VPrYRWFDlnLtqy7aTpzqEwSg4Deg1E2xJ4yWfyeSaIwpWM2vwKV1W2c9F3mCZeWd
- n6K9jAIcEbEXQaTXiWY55qpXsc2KymE0W02h8/jfGWzcVbWa6da9axq/IGP8Tf0SF30w
- NrIqzQO9V6m1o2aRfMcrSgIvqc7j/96wQmwskCjZRYXI+6/q1myYXIsJKqzZE400LZe7 eg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p2cur1wgw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 02 Mar 2023 11:00:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 322B0XAk025111
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 2 Mar 2023 11:00:33 GMT
-Received: from [10.50.55.202] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 2 Mar 2023
- 03:00:27 -0800
-Message-ID: <769b4971-aed8-ce6a-b77a-29660957ec38@quicinc.com>
-Date:   Thu, 2 Mar 2023 16:30:23 +0530
+        with ESMTP id S229773AbjCBLKV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 06:10:21 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F87C457E4
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 03:10:09 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id i28so8876485lfv.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Mar 2023 03:10:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677755407;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jLx9avxHWMFo9m8Cakwwu6IFkI8mC4mkh3EVnergYg4=;
+        b=dZw7muzgxk8EM4xDFHV4hoezFshmjMP5rFI6qRXc+B5qVko8we6VCj+px00AUcMGRw
+         NiKXc2z7me/7c5wkpxtxfN+U7CywK4IcKGv4bFdQARcqMbsqlTOuKV0oDJEuu3OYbPiz
+         OvkT9zATPyx0aPMiJ7XGQUroVX2VJk5XHLD+gOZ9RNSa/Uu8MA9tvC+G8Zq0FlSaFTde
+         ATy/wgmmbJy+uLSCy4U/LHB2Caht4Sj1G3C2DOku4Tw16kQBOp7EyffZDnFvm+nplcq2
+         Bd8X62Lskv3Jk69nIcMmx7LMS/xpL/NL/V05FlC4F2lxipa5SW7HBjzn9d3RuAHWWNF/
+         d9fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677755407;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jLx9avxHWMFo9m8Cakwwu6IFkI8mC4mkh3EVnergYg4=;
+        b=Thzpuz6BwBJAIY+MCkZJ0ujqiQALEzGEzobjvXcnOvouQ0qsdpF62/xA2zAPbdmCx+
+         SM7/NaCCZo/SvuMKslk0/vFKX1h0rawlN1W5Ita+P8jssaqr2dEtSr3gkbvAsmJCrKsU
+         8qP7pckIX/lvC1+LY0VjJh8fh6rDRiNgUrq+d3g+EMCcsvJkhzUhy2s9W0LBtZ/Nqey6
+         30RL7n2AUvgHkNjLVp/N2IX/tfnOeF3Qbh/ZUBz1Rm+JPKIY7x/FU56fylWJosVXK9sK
+         WC0D9PKZE9t7F5O9Sp07FUNdzNgNpsv5LsjVl6W/CgAU9kWbkeQUDqn9gZ/p1NS/TMmN
+         zdgQ==
+X-Gm-Message-State: AO0yUKWyV2r5lx+K4od5P+DU16VJEc1YGm1zh7FdWeXql+ka/8n481q8
+        lW/WlXT0SSQs9CJml3YNXV8Ysg==
+X-Google-Smtp-Source: AK7set8pREw9qmKUJyVQ4OQ6gBffpOoMg0smm5pEVnZ+i57S3X8MyumqQvPvO9DYd09iNVvK2NHkaQ==
+X-Received: by 2002:ac2:4c25:0:b0:4a4:68b7:deab with SMTP id u5-20020ac24c25000000b004a468b7deabmr420289lfq.7.1677755407399;
+        Thu, 02 Mar 2023 03:10:07 -0800 (PST)
+Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
+        by smtp.gmail.com with ESMTPSA id q20-20020ac24a74000000b004d5a6dcb94fsm2097650lfp.33.2023.03.02.03.10.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Mar 2023 03:10:07 -0800 (PST)
+Message-ID: <5f23ddc7-1bbf-320b-cb5a-9b1bfde3dfff@linaro.org>
+Date:   Thu, 2 Mar 2023 12:10:05 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 Subject: Re: [PATCH 05/18] media: venus: hfi_venus: Sanitize venus_boot_core()
  per-VPU-version
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Vikash Garodia <quic_vgarodia@quicinc.com>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Dikshita Agarwal <dikshita@qti.qualcomm.com>,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Dikshita Agarwal <dikshita@codeaurora.org>,
         Mansur Alisha Shaik <mansur@codeaurora.org>,
         Jonathan Marek <jonathan@marek.ca>
-CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Vikash Garodia" <vgarodia@codeaurora.org>
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>
 References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
  <20230228-topic-venus-v1-5-58c2c88384e9@linaro.org>
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20230228-topic-venus-v1-5-58c2c88384e9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: uaAQz_rp76XZGY104KjEjraiJUnOMu2d
-X-Proofpoint-ORIG-GUID: uaAQz_rp76XZGY104KjEjraiJUnOMu2d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-02_06,2023-03-02_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 adultscore=0 bulkscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303020094
+ <769b4971-aed8-ce6a-b77a-29660957ec38@quicinc.com>
+Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <769b4971-aed8-ce6a-b77a-29660957ec38@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -93,66 +91,69 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 2/28/2023 8:54 PM, Konrad Dybcio wrote:
-> The current assumption of IS_V6 is overgeneralized. Adjust the logic
-> to take the VPU hardware version into account.
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->   drivers/media/platform/qcom/venus/hfi_venus.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 4ccf31147c2a..772e5e9cf127 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -448,20 +448,21 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->   {
->   	struct device *dev = hdev->core->dev;
->   	static const unsigned int max_tries = 100;
-> -	u32 ctrl_status = 0, mask_val;
-> +	u32 ctrl_status = 0, mask_val = 0;
->   	unsigned int count = 0;
->   	void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
->   	void __iomem *wrapper_base = hdev->core->wrapper_base;
->   	int ret = 0;
->   
->   	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
-> -	if (IS_V6(hdev->core)) {
-> +	if (IS_IRIS1(hdev->core) || IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
 
-I think the IRIS1 check can be removed from here as we are not handling 
-IRIS1 related things at other places.
+On 2.03.2023 12:00, Dikshita Agarwal wrote:
+> 
+> On 2/28/2023 8:54 PM, Konrad Dybcio wrote:
+>> The current assumption of IS_V6 is overgeneralized. Adjust the logic
+>> to take the VPU hardware version into account.
+>>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/venus/hfi_venus.c | 10 ++++++----
+>>   1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+>> index 4ccf31147c2a..772e5e9cf127 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+>> @@ -448,20 +448,21 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
+>>   {
+>>       struct device *dev = hdev->core->dev;
+>>       static const unsigned int max_tries = 100;
+>> -    u32 ctrl_status = 0, mask_val;
+>> +    u32 ctrl_status = 0, mask_val = 0;
+>>       unsigned int count = 0;
+>>       void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
+>>       void __iomem *wrapper_base = hdev->core->wrapper_base;
+>>       int ret = 0;
+>>         writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
+>> -    if (IS_V6(hdev->core)) {
+>> +    if (IS_IRIS1(hdev->core) || IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
+> 
+> I think the IRIS1 check can be removed from here as we are not handling IRIS1 related things at other places.
+> 
+> we can add the required checks for IRIS1 when we add support for any IRIS1 based chipset.
+Up to you really, I plan on getting IRIS1 (SM8150) supported and have
+some mumbling going on for that on my local branch. FWIW these checks
+are logically correct and I would personally prefer not to have to go
+through each one of them and remove them just to bring them back soon.
 
-we can add the required checks for IRIS1 when we add support for any 
-IRIS1 based chipset.
-
-Thanks,
-
-Dikshita
-
->   		mask_val = readl(wrapper_base + WRAPPER_INTR_MASK);
->   		mask_val &= ~(WRAPPER_INTR_MASK_A2HWD_BASK_V6 |
->   			      WRAPPER_INTR_MASK_A2HCPU_MASK);
->   	} else {
->   		mask_val = WRAPPER_INTR_MASK_A2HVCODEC_MASK;
->   	}
-> +
->   	writel(mask_val, wrapper_base + WRAPPER_INTR_MASK);
->   	writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
->   
-> @@ -480,10 +481,11 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->   	if (count >= max_tries)
->   		ret = -ETIMEDOUT;
->   
-> -	if (IS_V6(hdev->core)) {
-> +	if (IS_AR50_LITE(hdev->core) || IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
->   		writel(0x1, cpu_cs_base + CPU_CS_H2XSOFTINTEN_V6);
-> +
-> +	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
->   		writel(0x0, cpu_cs_base + CPU_CS_X2RPMH_V6);
-> -	}
->   
->   	return ret;
->   }
->
+Konrad
+> 
+> Thanks,
+> 
+> Dikshita
+> 
+>>           mask_val = readl(wrapper_base + WRAPPER_INTR_MASK);
+>>           mask_val &= ~(WRAPPER_INTR_MASK_A2HWD_BASK_V6 |
+>>                     WRAPPER_INTR_MASK_A2HCPU_MASK);
+>>       } else {
+>>           mask_val = WRAPPER_INTR_MASK_A2HVCODEC_MASK;
+>>       }
+>> +
+>>       writel(mask_val, wrapper_base + WRAPPER_INTR_MASK);
+>>       writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
+>>   @@ -480,10 +481,11 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
+>>       if (count >= max_tries)
+>>           ret = -ETIMEDOUT;
+>>   -    if (IS_V6(hdev->core)) {
+>> +    if (IS_AR50_LITE(hdev->core) || IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
+>>           writel(0x1, cpu_cs_base + CPU_CS_H2XSOFTINTEN_V6);
+>> +
+>> +    if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
+>>           writel(0x0, cpu_cs_base + CPU_CS_X2RPMH_V6);
+>> -    }
+>>         return ret;
+>>   }
+>>
