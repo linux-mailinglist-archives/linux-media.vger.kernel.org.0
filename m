@@ -2,94 +2,379 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D696A7C93
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 09:27:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FAF96A7CE5
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 09:37:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbjCBI1c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 03:27:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35444 "EHLO
+        id S229734AbjCBIhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 03:37:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjCBI1b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 03:27:31 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E3538656
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 00:27:30 -0800 (PST)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pXeHg-0003NJ-JS; Thu, 02 Mar 2023 09:27:28 +0100
-Message-ID: <cb03d97f-ae48-4090-e14b-354373a2ebe3@leemhuis.info>
-Date:   Thu, 2 Mar 2023 09:27:28 +0100
+        with ESMTP id S229600AbjCBIhm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 03:37:42 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC16D16896
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 00:37:25 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id a25so1984334edb.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Mar 2023 00:37:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677746244;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6talumXK2uMHhQXk9Ozx4A/KVBVKmEQwXmevjpT/aWQ=;
+        b=daXv/RAD3pTBtQuSn3rWRwSy2KenXxp9z1jQ753estabbztN1I4TuHoAZeEZaYVuY8
+         C/9+5nrsyx2tw+2MkshxUyuubpVpEZzNkHI9ezwjtKgQHOhtsAvjXqJa+3ajNufVQ5xP
+         cGbLW2GUJS4kf0OduNznN1E6g0Qv+/rss/qUfGhINTLhecshxv8WUAvIM9bGRowlZZry
+         gLRLxA3iiT+eLRKOv5q3p05llSF3pdeGK+z2wzNfTVAAHqDnS3ZMSBlERzB4PD4VPXj5
+         BjN/3LCIu68KCa3JPsvaB6XTobrWVCAoz50/HMcemERK6AXzPt8ngZvq0cMgT1Itk8CK
+         lrAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677746244;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6talumXK2uMHhQXk9Ozx4A/KVBVKmEQwXmevjpT/aWQ=;
+        b=GH3MM0O8Jh+uYsjHVBeej2sYD7Cv4f+KcJIVGOGSiYON1SadTx/IeKRuN8x3HU2+kT
+         zSpZNgnV8jVoHODqoleSN6jqlTDWNQhPvjyNkyo60/AR1mWj+AjqfpoxuVRa27RcwsUO
+         TQ8Lp6gjRtIn8aE7kjKxjuLaqVBqnGa1pyOlSX3cicFO0LLA9jPvk2PQ719CiyYpfWb3
+         4oDTYzdhSnGkLvHqq1FZo+nE/kj1hrP9XE+2webKdP2BdNTdRx6znI9oiGBwQZdypfN+
+         HyR+ozkJ3L+DWMBUY9cqu+L4fLKYxJKJgjiFUrm0581igMQviuDETWZsBne4XARTFkUM
+         Cgtg==
+X-Gm-Message-State: AO0yUKUVIUr9Et7l+pdz8Oem15m5DTP6+CVmK3nhXTfcTI6WGvZFsHBC
+        Ig8NH5n1uV8bpsCboWVHrUA5HQ==
+X-Google-Smtp-Source: AK7set97fBpL6H42gYlUxVUXNAa5KOqEFcoLVnbLCsNCoalgkJr0oOLpkdMBPHkzwy+SNaRvquhCww==
+X-Received: by 2002:a17:906:784f:b0:8b2:8876:2a11 with SMTP id p15-20020a170906784f00b008b288762a11mr9150260ejm.28.1677746244373;
+        Thu, 02 Mar 2023 00:37:24 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id k1-20020a170906680100b008b17de9d1f2sm6928653ejr.15.2023.03.02.00.37.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Mar 2023 00:37:23 -0800 (PST)
+Message-ID: <8b5bea40-6f7b-1d00-ac23-83a28c7dacbc@linaro.org>
+Date:   Thu, 2 Mar 2023 09:37:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [GIT FIXES FOR v6.3] Venus fixes
-Content-Language: en-US, de-DE
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        linux-media@vger.kernel.org
-References: <20230302060413.67239-1-stanimir.k.varbanov@gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20230302060413.67239-1-stanimir.k.varbanov@gmail.com>
+Subject: Re: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to
+ json-schema
+Content-Language: en-US
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com
+References: <CGME20230301035153epcas5p40f576188a9a69835c1050135219a3720@epcas5p4.samsung.com>
+ <20230301035144.8645-1-aakarsh.jain@samsung.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230301035144.8645-1-aakarsh.jain@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1677745650;0a88d297;
-X-HE-SMSGID: 1pXeHg-0003NJ-JS
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02.03.23 07:04, Stanimir Varbanov wrote:
+On 01/03/2023 04:51, Aakarsh Jain wrote:
+> Convert s5p-mfc bindings to DT schema format using json-schema.
 > 
-> This pull request includes a fix for regression in venus hardware reset.
-> The reverted commit has been merged in v6.2. 
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+> changes since v5:
+> kept compatible strings under enum
+> sorted compatible strings
+> added iommu maxItems:2
+> Added indentation with 4 spaces in dts example
 > 
-> Please pull.
+> changes since v4:
+> Removed items from oneOf section
+> dropped black line
+> defined the iommus names items as
+> items:
+> -const left
+> -const right
 > 
-> regards,
-> Stan
+> changes since v3:
+> fixed dt-schema warnings and errors while running make dtbs_check and make dt_binding_check for ARMv7
+> Since, obsolete properties are not part of dt-node so we are not including these properties in dt-schema.
 > 
-> The following changes since commit 3e62aba8284de0994a669d07983299242e68fe72:
+> changes since v2:
+> changed Commit message from Adds to Convert
+> Removed text "This file has moved to samsung,s5p-mfc.yaml" from s5p-mfc.txt
+> fixed dt-schema warnings and errors while running make dtbs_check and make dt_binding_check
 > 
->   media: imx-mipi-csis: Check csis_fmt validity before use (2023-02-26 11:21:33 +0100)
+> changes since v1:
+> fixed dt-schema warnings and errors while running make dtbs_check and make dt_binding_check
+> Removed description.
+> Listed items.
+> Added allOf:if:then for restricting two items to specific compatible
 > 
-> are available in the Git repository at:
+> This patch is independent from the previous MFC v12 patch series for HW3 support.
 > 
->   git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-fixes-for-v6.3
+>  .../devicetree/bindings/media/s5p-mfc.txt     |  78 ---------
+>  .../bindings/media/samsung,s5p-mfc.yaml       | 151 ++++++++++++++++++
+>  2 files changed, 151 insertions(+), 78 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
 > 
-> for you to fetch changes up to 1440cfcf24db8c50d929d3c35ab6f87f868fa628:
-> 
->   Revert "venus: firmware: Correct non-pix start and end addresses" (2023-03-02 07:52:10 +0200)
-> 
-> ----------------------------------------------------------------
-> Venus fixes for v6.3
-> 
-> ----------------------------------------------------------------
-> Javier Martinez Canillas (1):
->       Revert "venus: firmware: Correct non-pix start and end addresses"
+> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> index 8eb90c043d5d..e69de29bb2d1 100644
+> --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> @@ -1,78 +0,0 @@
+> -* Samsung Multi Format Codec (MFC)
+> -
+> -Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> -supports high resolution decoding and encoding functionalities.
+> -The MFC device driver is a v4l2 driver which can encode/decode
+> -video raw/elementary streams and has support for all popular
+> -video codecs.
+> -
+> -Required properties:
+> -  - compatible : value should be either one among the following
+> -	(a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+> -	(b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+> -	(c) "samsung,exynos3250-mfc", "samsung,mfc-v7" for MFC v7
+> -	     present in Exynos3250 SoC
+> -	(d) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+> -	(e) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+> -	(f) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+> -	(g) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+> -
+> -  - reg : Physical base address of the IP registers and length of memory
+> -	  mapped region.
+> -
+> -  - interrupts : MFC interrupt number to the CPU.
+> -  - clocks : from common clock binding: handle to mfc clock.
+> -  - clock-names : from common clock binding: must contain "mfc",
+> -		  corresponding to entry in the clocks property.
+> -
+> -Optional properties:
+> -  - power-domains : power-domain property defined with a phandle
+> -			   to respective power domain.
+> -  - memory-region : from reserved memory binding: phandles to two reserved
+> -	memory regions, first is for "left" mfc memory bus interfaces,
+> -	second if for the "right" mfc memory bus, used when no SYSMMU
+> -	support is available; used only by MFC v5 present in Exynos4 SoCs
+> -
+> -Obsolete properties:
+> -  - samsung,mfc-r, samsung,mfc-l : support removed, please use memory-region
+> -	property instead
+> -
+> -
+> -Example:
+> -SoC specific DT entry:
+> -
+> -mfc: codec@13400000 {
+> -	compatible = "samsung,mfc-v5";
+> -	reg = <0x13400000 0x10000>;
+> -	interrupts = <0 94 0>;
+> -	power-domains = <&pd_mfc>;
+> -	clocks = <&clock 273>;
+> -	clock-names = "mfc";
+> -};
+> -
+> -Reserved memory specific DT entry for given board (see reserved memory binding
+> -for more information):
+> -
+> -reserved-memory {
+> -	#address-cells = <1>;
+> -	#size-cells = <1>;
+> -	ranges;
+> -
+> -	mfc_left: region@51000000 {
+> -		compatible = "shared-dma-pool";
+> -		no-map;
+> -		reg = <0x51000000 0x800000>;
+> -	};
+> -
+> -	mfc_right: region@43000000 {
+> -		compatible = "shared-dma-pool";
+> -		no-map;
+> -		reg = <0x43000000 0x800000>;
+> -	};
+> -};
+> -
+> -Board specific DT entry:
+> -
+> -codec@13400000 {
+> -	memory-region = <&mfc_left>, <&mfc_right>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> index 000000000000..da48d0493cdd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> @@ -0,0 +1,151 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/samsung,s5p-mfc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung Exynos Multi Format Codec (MFC)
+> +
+> +maintainers:
+> +  - Marek Szyprowski <m.szyprowski@samsung.com>
+> +  - Aakarsh Jain <aakarsh.jain@samsung.com>
+> +
+> +description:
+> +  Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> +  supports high resolution decoding and encoding functionalities.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - samsung,exynos5433-mfc        # Exynos5433
+> +          - samsung,mfc-v5                # Exynos4
+> +          - samsung,mfc-v6                # Exynos5
+> +          - samsung,mfc-v7                # Exynos5420
+> +          - samsung,mfc-v8                # Exynos5800
+> +          - samsung,mfc-v10               # Exynos7880
+> +      - items:
+> +          - enum:
+> +              - samsung,exynos3250-mfc    # Exynos3250
+> +          - const: samsung,mfc-v7         # Fall back for Exynos3250
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  iommu-names:
+> +    items:
+> +      - const: left
+> +      - const: right
 
-Good to see that this finally is heading towards mainline, thx.
+That's confusing now... The iommu-names above says it requires two
+iommus, but your iommus property says one item is enough. You need here
+minItems: 1... but then why one IOMMU (for such variants) is always
+"left"? Probably then the meaning of first IOMMU changes, right? If
+that's correct, then I propose to leave it as minItems:1/maxItems:2
+without defining the items here and...
 
-What about the other venus regression[1] Javier provided this patch for:
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v5
+> +              - samsung,exynos3250-mfc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 2
+> +        clock-names:
+> +          items:
+> +            - const: mfc
+> +            - const: sclk_mfc
 
-https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
+iommus:
+  maxItems: 1
+iommu-names: false
 
-[1] as pointed out earlier in
-https://lore.kernel.org/all/87edq9hj4w.fsf@minerva.mail-host-address-is-not-set/
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v6
+> +              - samsung,mfc-v8
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names:
+> +          items:
+> +            - const: mfc
+> +        iommus:
+> +          maxItems: 2
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+... and here:
+iommu-names:
+  items:
+    - const: left
+    - const: right
 
-#regzbot ^backmonitor:
-https://lore.kernel.org/all/20230207102254.1446461-1-javierm@redhat.com/
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,exynos5433-mfc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 3
+> +        clock-names:
+> +          items:
+> +            - const: pclk
+> +            - const: aclk
+> +            - const: aclk_xiu
+> +        iommus:
+> +          maxItems: 2
+
+the same here
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v7
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 1
+> +          maxItems: 2
+
+iommus:
+  maxItems: 1
+iommu-names: false
+
+
+Best regards,
+Krzysztof
+
