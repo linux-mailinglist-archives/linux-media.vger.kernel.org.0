@@ -2,276 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B7426A82FA
-	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EB496A82F9
+	for <lists+linux-media@lfdr.de>; Thu,  2 Mar 2023 13:58:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229801AbjCBM6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 07:58:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
+        id S229727AbjCBM6a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 07:58:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjCBM63 (ORCPT
+        with ESMTP id S229694AbjCBM63 (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 07:58:29 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42D4E4E5ED
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 04:57:44 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731534FA9E
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 04:57:43 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A1EE7615C5
-        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 12:57:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52911C433EF;
-        Thu,  2 Mar 2023 12:57:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B9D32615C7
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 12:57:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50079C433D2;
+        Thu,  2 Mar 2023 12:57:40 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 5/9] vivid: drop bitmap and clipping output overlay support
-Date:   Thu,  2 Mar 2023 13:57:27 +0100
-Message-Id: <20230302125731.1124945-6-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 6/9] v4l2-core: drop v4l2_window clipping and bitmap support
+Date:   Thu,  2 Mar 2023 13:57:28 +0100
+Message-Id: <20230302125731.1124945-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302125731.1124945-1-hverkuil-cisco@xs4all.nl>
 References: <20230302125731.1124945-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_PDS_OTHER_BAD_TLD autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This test driver is the only remaining driver still using
-the clipping and bitmap method. Drop support for this so
-we can remove this in the V4L2 API as well.
+There are no longer any drivers that support clipping and bitmap
+support for the capture or output overlay interfaces, so drop
+this.
+
+Always set the bitmap, clips and clipcount fields to 0, and
+remove the compat32 support.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c |  1 -
- drivers/media/test-drivers/vivid/vivid-core.h |  6 --
- .../test-drivers/vivid/vivid-kthread-cap.c    | 23 +-----
- .../media/test-drivers/vivid/vivid-vid-out.c  | 74 -------------------
- 4 files changed, 1 insertion(+), 103 deletions(-)
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 78 +++----------------
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 65 ++++------------
+ 2 files changed, 25 insertions(+), 118 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 31d8c34495cb..bdabf7671011 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -834,7 +834,6 @@ static void vivid_dev_release(struct v4l2_device *v4l2_dev)
- 	vfree(dev->scaled_line);
- 	vfree(dev->blended_line);
- 	vfree(dev->edid);
--	vfree(dev->bitmap_out);
- 	tpg_free(&dev->tpg);
- 	kfree(dev->query_dv_timings_qmenu);
- 	kfree(dev->query_dv_timings_qmenu_strings);
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
-index 02a75d04ff8a..cfb8e66083f6 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.h
-+++ b/drivers/media/test-drivers/vivid/vivid-core.h
-@@ -22,8 +22,6 @@
- #define dprintk(dev, level, fmt, arg...) \
- 	v4l2_dbg(level, vivid_debug, &dev->v4l2_dev, fmt, ## arg)
+diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+index 55c26e7d370e..e7baa2880eeb 100644
+--- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
++++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+@@ -38,18 +38,13 @@
+  * data to the routine.
+  */
  
--/* The maximum number of clip rectangles */
--#define MAX_CLIPS  16
- /* The maximum number of inputs */
- #define MAX_INPUTS 16
- /* The maximum number of outputs */
-@@ -372,10 +370,6 @@ struct vivid_dev {
- 	void				*fb_vbase_out;
- 	bool				overlay_out_enabled;
- 	int				overlay_out_top, overlay_out_left;
--	void				*bitmap_out;
--	struct v4l2_clip		clips_out[MAX_CLIPS];
--	struct v4l2_clip		try_clips_out[MAX_CLIPS];
--	unsigned			clipcount_out;
- 	unsigned			fbuf_out_flags;
- 	u32				chromakey_out;
- 	u8				global_alpha_out;
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-index 177c73979325..42048727d7ff 100644
---- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-@@ -53,31 +53,10 @@ static void copy_pix(struct vivid_dev *dev, int win_y, int win_x,
- 			u16 *cap, const u16 *osd)
- {
- 	u16 out;
--	int left = dev->overlay_out_left;
--	int top = dev->overlay_out_top;
--	int fb_x = win_x + left;
--	int fb_y = win_y + top;
--	int i;
- 
- 	out = *cap;
- 	*cap = *osd;
--	if (dev->bitmap_out) {
--		const u8 *p = dev->bitmap_out;
--		unsigned stride = (dev->compose_out.width + 7) / 8;
- 
--		win_x -= dev->compose_out.left;
--		win_y -= dev->compose_out.top;
--		if (!(p[stride * win_y + win_x / 8] & (1 << (win_x & 7))))
--			return;
--	}
+-struct v4l2_clip32 {
+-	struct v4l2_rect        c;
+-	compat_caddr_t		next;
+-};
 -
--	for (i = 0; i < dev->clipcount_out; i++) {
--		struct v4l2_rect *r = &dev->clips_out[i].c;
+ struct v4l2_window32 {
+ 	struct v4l2_rect        w;
+ 	__u32			field;	/* enum v4l2_field */
+ 	__u32			chromakey;
+-	compat_caddr_t		clips; /* actually struct v4l2_clip32 * */
+-	__u32			clipcount;
+-	compat_caddr_t		bitmap;
++	compat_caddr_t		clips; /* always NULL */
++	__u32			clipcount; /* always 0 */
++	compat_caddr_t		bitmap; /* always NULL */
+ 	__u8                    global_alpha;
+ };
+ 
+@@ -65,17 +60,12 @@ static int get_v4l2_window32(struct v4l2_window *p64,
+ 		.w		= w32.w,
+ 		.field		= w32.field,
+ 		.chromakey	= w32.chromakey,
+-		.clips		= (void __force *)compat_ptr(w32.clips),
+-		.clipcount	= w32.clipcount,
+-		.bitmap		= compat_ptr(w32.bitmap),
++		.clips		= NULL,
++		.clipcount	= 0,
++		.bitmap		= NULL,
+ 		.global_alpha	= w32.global_alpha,
+ 	};
+ 
+-	if (p64->clipcount > 2048)
+-		return -EINVAL;
+-	if (!p64->clipcount)
+-		p64->clips = NULL;
 -
--		if (fb_y >= r->top && fb_y < r->top + r->height &&
--		    fb_x >= r->left && fb_x < r->left + r->width)
--			return;
--	}
- 	if ((dev->fbuf_out_flags & V4L2_FBUF_FLAG_CHROMAKEY) &&
- 	    *osd != dev->chromakey_out)
- 		return;
-@@ -251,7 +230,7 @@ static noinline_for_stack int vivid_copy_buffer(struct vivid_dev *dev, unsigned
- 	u8 *voutbuf;
- 	u8 *vosdbuf = NULL;
- 	unsigned y;
--	bool blend = dev->bitmap_out || dev->clipcount_out || dev->fbuf_out_flags;
-+	bool blend = dev->fbuf_out_flags;
- 	/* Coarse scaling with Bresenham */
- 	unsigned vid_out_int_part;
- 	unsigned vid_out_fract_part;
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-index 9f731f085179..184a6df2c29f 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-@@ -793,11 +793,6 @@ int vivid_vid_out_s_selection(struct file *file, void *fh, struct v4l2_selection
- 		}
- 		s->r.top *= factor;
- 		s->r.height *= factor;
--		if (dev->bitmap_out && (compose->width != s->r.width ||
--					compose->height != s->r.height)) {
--			vfree(dev->bitmap_out);
--			dev->bitmap_out = NULL;
+ 	return 0;
+ }
+ 
+@@ -89,16 +79,13 @@ static int put_v4l2_window32(struct v4l2_window *p64,
+ 		.w		= p64->w,
+ 		.field		= p64->field,
+ 		.chromakey	= p64->chromakey,
+-		.clips		= (uintptr_t)p64->clips,
+-		.clipcount	= p64->clipcount,
+-		.bitmap		= ptr_to_compat(p64->bitmap),
++		.clips		= 0,
++		.clipcount	= 0,
++		.bitmap		= 0,
+ 		.global_alpha	= p64->global_alpha,
+ 	};
+ 
+-	/* copy everything except the clips pointer */
+-	if (copy_to_user(p32, &w32, offsetof(struct v4l2_window32, clips)) ||
+-	    copy_to_user(&p32->clipcount, &w32.clipcount,
+-			 sizeof(w32) - offsetof(struct v4l2_window32, clipcount)))
++	if (copy_to_user(p32, &w32, sizeof(w32)))
+ 		return -EFAULT;
+ 
+ 	return 0;
+@@ -1043,29 +1030,6 @@ int v4l2_compat_get_array_args(struct file *file, void *mbuf,
+ 	memset(mbuf, 0, array_size);
+ 
+ 	switch (cmd) {
+-	case VIDIOC_G_FMT32:
+-	case VIDIOC_S_FMT32:
+-	case VIDIOC_TRY_FMT32: {
+-		struct v4l2_format *f64 = arg;
+-		struct v4l2_clip *c64 = mbuf;
+-		struct v4l2_clip32 __user *c32 = user_ptr;
+-		u32 clipcount = f64->fmt.win.clipcount;
+-
+-		if ((f64->type != V4L2_BUF_TYPE_VIDEO_OVERLAY &&
+-		     f64->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY) ||
+-		    clipcount == 0)
+-			return 0;
+-		if (clipcount > 2048)
+-			return -EINVAL;
+-		while (clipcount--) {
+-			if (copy_from_user(c64, c32, sizeof(c64->c)))
+-				return -EFAULT;
+-			c64->next = NULL;
+-			c64++;
+-			c32++;
 -		}
- 		*compose = s->r;
+-		break;
+-	}
+ #ifdef CONFIG_COMPAT_32BIT_TIME
+ 	case VIDIOC_QUERYBUF32_TIME32:
+ 	case VIDIOC_QBUF32_TIME32:
+@@ -1136,28 +1100,6 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
+ 	int err = 0;
+ 
+ 	switch (cmd) {
+-	case VIDIOC_G_FMT32:
+-	case VIDIOC_S_FMT32:
+-	case VIDIOC_TRY_FMT32: {
+-		struct v4l2_format *f64 = arg;
+-		struct v4l2_clip *c64 = mbuf;
+-		struct v4l2_clip32 __user *c32 = user_ptr;
+-		u32 clipcount = f64->fmt.win.clipcount;
+-
+-		if ((f64->type != V4L2_BUF_TYPE_VIDEO_OVERLAY &&
+-		     f64->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY) ||
+-		    clipcount == 0)
+-			return 0;
+-		if (clipcount > 2048)
+-			return -EINVAL;
+-		while (clipcount--) {
+-			if (copy_to_user(c32, c64, sizeof(c64->c)))
+-				return -EFAULT;
+-			c64++;
+-			c32++;
+-		}
+-		break;
+-	}
+ #ifdef CONFIG_COMPAT_32BIT_TIME
+ 	case VIDIOC_QUERYBUF32_TIME32:
+ 	case VIDIOC_QBUF32_TIME32:
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index b26da2650289..ed595c450278 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -310,14 +310,10 @@ static void v4l_print_format(const void *arg, bool write_only)
+ 	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY:
+ 		win = &p->fmt.win;
+-		/* Note: we can't print the clip list here since the clips
+-		 * pointer is a userspace pointer, not a kernelspace
+-		 * pointer. */
+-		pr_cont(", wxh=%dx%d, x,y=%d,%d, field=%s, chromakey=0x%08x, clipcount=%u, clips=%p, bitmap=%p, global_alpha=0x%02x\n",
++		pr_cont(", wxh=%dx%d, x,y=%d,%d, field=%s, chromakey=0x%08x, global_alpha=0x%02x\n",
+ 			win->w.width, win->w.height, win->w.left, win->w.top,
+ 			prt_names(win->field, v4l2_field_names),
+-			win->chromakey, win->clipcount, win->clips,
+-			win->bitmap, win->global_alpha);
++			win->chromakey, win->global_alpha);
  		break;
- 	default:
-@@ -836,7 +831,6 @@ int vidioc_g_fmt_vid_out_overlay(struct file *file, void *priv,
- 	struct vivid_dev *dev = video_drvdata(file);
- 	const struct v4l2_rect *compose = &dev->compose_out;
- 	struct v4l2_window *win = &f->fmt.win;
--	unsigned clipcount = win->clipcount;
- 
- 	if (!dev->has_fb)
- 		return -EINVAL;
-@@ -844,22 +838,9 @@ int vidioc_g_fmt_vid_out_overlay(struct file *file, void *priv,
- 	win->w.left = dev->overlay_out_left;
- 	win->w.width = compose->width;
- 	win->w.height = compose->height;
--	win->clipcount = dev->clipcount_out;
- 	win->field = V4L2_FIELD_ANY;
- 	win->chromakey = dev->chromakey_out;
- 	win->global_alpha = dev->global_alpha_out;
--	if (clipcount > dev->clipcount_out)
--		clipcount = dev->clipcount_out;
--	if (dev->bitmap_out == NULL)
--		win->bitmap = NULL;
--	else if (win->bitmap) {
--		if (copy_to_user(win->bitmap, dev->bitmap_out,
--		    ((dev->compose_out.width + 7) / 8) * dev->compose_out.height))
--			return -EFAULT;
--	}
--	if (clipcount && win->clips)
--		memcpy(win->clips, dev->clips_out,
--		       clipcount * sizeof(dev->clips_out[0]));
- 	return 0;
- }
- 
-@@ -869,7 +850,6 @@ int vidioc_try_fmt_vid_out_overlay(struct file *file, void *priv,
- 	struct vivid_dev *dev = video_drvdata(file);
- 	const struct v4l2_rect *compose = &dev->compose_out;
- 	struct v4l2_window *win = &f->fmt.win;
--	int i, j;
- 
- 	if (!dev->has_fb)
- 		return -EINVAL;
-@@ -884,38 +864,6 @@ int vidioc_try_fmt_vid_out_overlay(struct file *file, void *priv,
- 	 * so always set this to ANY.
- 	 */
- 	win->field = V4L2_FIELD_ANY;
--	if (win->clipcount && !win->clips)
--		win->clipcount = 0;
--	if (win->clipcount > MAX_CLIPS)
--		win->clipcount = MAX_CLIPS;
--	if (win->clipcount) {
--		memcpy(dev->try_clips_out, win->clips,
--		       win->clipcount * sizeof(dev->clips_out[0]));
--		for (i = 0; i < win->clipcount; i++) {
--			struct v4l2_rect *r = &dev->try_clips_out[i].c;
--
--			r->top = clamp_t(s32, r->top, 0, dev->display_height - 1);
--			r->height = clamp_t(s32, r->height, 1, dev->display_height - r->top);
--			r->left = clamp_t(u32, r->left, 0, dev->display_width - 1);
--			r->width = clamp_t(u32, r->width, 1, dev->display_width - r->left);
--		}
--		/*
--		 * Yeah, so sue me, it's an O(n^2) algorithm. But n is a small
--		 * number and it's typically a one-time deal.
--		 */
--		for (i = 0; i < win->clipcount - 1; i++) {
--			struct v4l2_rect *r1 = &dev->try_clips_out[i].c;
--
--			for (j = i + 1; j < win->clipcount; j++) {
--				struct v4l2_rect *r2 = &dev->try_clips_out[j].c;
--
--				if (v4l2_rect_overlap(r1, r2))
--					return -EINVAL;
--			}
--		}
--		memcpy(win->clips, dev->try_clips_out,
--		       win->clipcount * sizeof(dev->clips_out[0]));
--	}
- 	return 0;
- }
- 
-@@ -923,34 +871,14 @@ int vidioc_s_fmt_vid_out_overlay(struct file *file, void *priv,
- 					struct v4l2_format *f)
- {
- 	struct vivid_dev *dev = video_drvdata(file);
--	const struct v4l2_rect *compose = &dev->compose_out;
- 	struct v4l2_window *win = &f->fmt.win;
- 	int ret = vidioc_try_fmt_vid_out_overlay(file, priv, f);
--	unsigned bitmap_size = ((compose->width + 7) / 8) * compose->height;
--	unsigned clips_size = win->clipcount * sizeof(dev->clips_out[0]);
--	void *new_bitmap = NULL;
- 
+ 	case V4L2_BUF_TYPE_VBI_CAPTURE:
+ 	case V4L2_BUF_TYPE_VBI_OUTPUT:
+@@ -1612,29 +1608,7 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
  	if (ret)
  		return ret;
  
--	if (win->bitmap) {
--		new_bitmap = vzalloc(bitmap_size);
+-	/*
+-	 * fmt can't be cleared for these overlay types due to the 'clips'
+-	 * 'clipcount' and 'bitmap' pointers in struct v4l2_window.
+-	 * Those are provided by the user. So handle these two overlay types
+-	 * first, and then just do a simple memset for the other types.
+-	 */
+-	switch (p->type) {
+-	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
+-	case V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY: {
+-		struct v4l2_clip *clips = p->fmt.win.clips;
+-		u32 clipcount = p->fmt.win.clipcount;
+-		void __user *bitmap = p->fmt.win.bitmap;
 -
--		if (!new_bitmap)
--			return -ENOMEM;
--		if (copy_from_user(new_bitmap, win->bitmap, bitmap_size)) {
--			vfree(new_bitmap);
--			return -EFAULT;
--		}
+-		memset(&p->fmt, 0, sizeof(p->fmt));
+-		p->fmt.win.clips = clips;
+-		p->fmt.win.clipcount = clipcount;
+-		p->fmt.win.bitmap = bitmap;
+-		break;
 -	}
--
- 	dev->overlay_out_top = win->w.top;
- 	dev->overlay_out_left = win->w.left;
--	vfree(dev->bitmap_out);
--	dev->bitmap_out = new_bitmap;
--	dev->clipcount_out = win->clipcount;
--	if (dev->clipcount_out)
--		memcpy(dev->clips_out, dev->try_clips_out, clips_size);
- 	dev->chromakey_out = win->chromakey;
- 	dev->global_alpha_out = win->global_alpha;
- 	return ret;
-@@ -975,8 +903,6 @@ int vivid_vid_out_g_fbuf(struct file *file, void *fh,
- 	struct vivid_dev *dev = video_drvdata(file);
+-	default:
+-		memset(&p->fmt, 0, sizeof(p->fmt));
+-		break;
+-	}
++	memset(&p->fmt, 0, sizeof(p->fmt));
  
- 	a->capability = V4L2_FBUF_CAP_EXTERNOVERLAY |
--			V4L2_FBUF_CAP_BITMAP_CLIPPING |
--			V4L2_FBUF_CAP_LIST_CLIPPING |
- 			V4L2_FBUF_CAP_CHROMAKEY |
- 			V4L2_FBUF_CAP_SRC_CHROMAKEY |
- 			V4L2_FBUF_CAP_GLOBAL_ALPHA |
+ 	switch (p->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+@@ -1722,6 +1696,9 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+ 		if (unlikely(!ops->vidioc_s_fmt_vid_overlay))
+ 			break;
+ 		memset_after(p, 0, fmt.win);
++		p->fmt.win.clips = NULL;
++		p->fmt.win.clipcount = 0;
++		p->fmt.win.bitmap = NULL;
+ 		return ops->vidioc_s_fmt_vid_overlay(file, fh, arg);
+ 	case V4L2_BUF_TYPE_VBI_CAPTURE:
+ 		if (unlikely(!ops->vidioc_s_fmt_vbi_cap))
+@@ -1753,6 +1730,9 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+ 		if (unlikely(!ops->vidioc_s_fmt_vid_out_overlay))
+ 			break;
+ 		memset_after(p, 0, fmt.win);
++		p->fmt.win.clips = NULL;
++		p->fmt.win.clipcount = 0;
++		p->fmt.win.bitmap = NULL;
+ 		return ops->vidioc_s_fmt_vid_out_overlay(file, fh, arg);
+ 	case V4L2_BUF_TYPE_VBI_OUTPUT:
+ 		if (unlikely(!ops->vidioc_s_fmt_vbi_out))
+@@ -1824,6 +1804,9 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+ 		if (unlikely(!ops->vidioc_try_fmt_vid_overlay))
+ 			break;
+ 		memset_after(p, 0, fmt.win);
++		p->fmt.win.clips = NULL;
++		p->fmt.win.clipcount = 0;
++		p->fmt.win.bitmap = NULL;
+ 		return ops->vidioc_try_fmt_vid_overlay(file, fh, arg);
+ 	case V4L2_BUF_TYPE_VBI_CAPTURE:
+ 		if (unlikely(!ops->vidioc_try_fmt_vbi_cap))
+@@ -1855,6 +1838,9 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+ 		if (unlikely(!ops->vidioc_try_fmt_vid_out_overlay))
+ 			break;
+ 		memset_after(p, 0, fmt.win);
++		p->fmt.win.clips = NULL;
++		p->fmt.win.clipcount = 0;
++		p->fmt.win.bitmap = NULL;
+ 		return ops->vidioc_try_fmt_vid_out_overlay(file, fh, arg);
+ 	case V4L2_BUF_TYPE_VBI_OUTPUT:
+ 		if (unlikely(!ops->vidioc_try_fmt_vbi_out))
+@@ -3128,27 +3114,6 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+ 		}
+ 		break;
+ 	}
+-	case VIDIOC_G_FMT:
+-	case VIDIOC_S_FMT:
+-	case VIDIOC_TRY_FMT: {
+-		struct v4l2_format *fmt = parg;
+-
+-		if (fmt->type != V4L2_BUF_TYPE_VIDEO_OVERLAY &&
+-		    fmt->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY)
+-			break;
+-		if (fmt->fmt.win.clipcount > 2048)
+-			return -EINVAL;
+-		if (!fmt->fmt.win.clipcount)
+-			break;
+-
+-		*user_ptr = (void __user *)fmt->fmt.win.clips;
+-		*kernel_ptr = (void **)&fmt->fmt.win.clips;
+-		*array_size = sizeof(struct v4l2_clip)
+-				* fmt->fmt.win.clipcount;
+-
+-		ret = 1;
+-		break;
+-	}
+ 
+ 	case VIDIOC_SUBDEV_G_ROUTING:
+ 	case VIDIOC_SUBDEV_S_ROUTING: {
 -- 
 2.39.1
 
