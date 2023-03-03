@@ -2,156 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68C4B6A99A2
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 15:36:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54E276A99C3
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 15:49:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjCCOgl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 09:36:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
+        id S231169AbjCCOs7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 09:48:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231222AbjCCOg3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 09:36:29 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A937043D
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 06:35:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677854144; x=1709390144;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dwCgSh9mJfoPu+QZkrGPzIR7Z0d4mSZASdK/NYnbOsw=;
-  b=nPY4WwmitLuyUfHV7rQY2sfpV8UB4mhjX+G4xIVrN7o2UCPj/uj357Jo
-   N2H3eEQdGqbw9yNVpl9dYxM3vlIX5gfe1VNZ1aLVMPV+kJVhnHEFsOmpQ
-   GgURrAQGsVsSHrQ6XSbg2rouP7wF4gMnR6FxQwz8DU0ykTon9NTlTdHHx
-   /Jkb2D3wMtJWCSugTSshW7hr7uMlK+BHxItiYraDMab2p3BVsy3roHxfE
-   xeinpe9NpldHFURW671Q2LjJD8nbK9G8bbDRmhxlBTMxREirwaxuoXohe
-   zSSQ1419KVf3+p1SOiFw/bAa7K1cpUvgVXpbqTSBNCN4H7Nz2hOPdQq3d
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="315452982"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="315452982"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 06:35:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="818491149"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="818491149"
-Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2023 06:35:17 -0800
-From:   bingbu.cao@intel.com
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, djrscally@gmail.com
-Cc:     bingbu.cao@linux.intel.com, bingbu.cao@intel.com
-Subject: [PATCH] media: ipu3-cio2: support multiple sensors and VCMs with HID name
-Date:   Fri,  3 Mar 2023 22:44:32 +0800
-Message-Id: <20230303144432.2108677-1-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.39.1
+        with ESMTP id S230158AbjCCOs6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 09:48:58 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA913D919;
+        Fri,  3 Mar 2023 06:48:57 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id bi17so1968343oib.3;
+        Fri, 03 Mar 2023 06:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677854936;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=95fD1OMocm4n8bJJC6tFnFtkplpEQySvwjBizvI/Tpo=;
+        b=H8QbelVEw4Vh8BarvpWGCoSzGSZZvuUsFbB+c82/q20vffUTswfFY2u+Tl0R3sXrbW
+         cFKl8/7P2yLWoKR1UV5jhiJfMbPITDEreXyy3XUd3Bx+EePTrtoW9mrK6wscRkoJ+2aJ
+         5fjoNNJzTeh5EoCDXG3GysgWY338xt4aBazpADFEOOpjcX08urE7ZuZGcrmHjRu/uNll
+         6wekbPxRCxNR6/RU2Jo+llW1KSCE+U/RMRtNk1Bjv+Ogrl1ILAEF4/5YyQNmzXZeqBGb
+         +m066zgXiE7fg+2WBqFBzKeXmpaWIPJHHVW6knXxmSiKugJXUMdzE/fK+fI6SYy+sDv7
+         YpWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677854936;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=95fD1OMocm4n8bJJC6tFnFtkplpEQySvwjBizvI/Tpo=;
+        b=Bt8kIWxOcjV2/VYhD0cMc21nJQYs8fADk/y3OwQ/dsy1ymjMBh+7Qo9v9YJWTcDmFY
+         BxkOzDR3jhjCTZGMyAR5dk0ZlEOUkqs3wWr5PVcXD3Zb5ObNA7nsZchPkTb8KUoiKFA/
+         89H05vTHlPhhXWUpd+Qiq1NKDi07Kj0V+zNOW2vxN9MkyCkns5TP6gdzNwsv9jhUNISk
+         UcJBQ5Kst/EQtDMZq9rYwYaGb/e8aaXlNKlMwuaSWV8XgEfChaRKFn6wSQwRevzrsEze
+         j8Ovn1GFNF97loD2DmOaZkmZBxkvY0zvVtITkf9fJHKiHzWKrmRdnKOlL65uf46eRPdI
+         VeJQ==
+X-Gm-Message-State: AO0yUKXL0CmDUcZxQqYdk7fYh1wsXXbXd7YN87Z4O4XEynf18vvKLhnR
+        zAxSUO0bZ+x99P1LDDw6gO48rwpqedMGq38mZ0U=
+X-Google-Smtp-Source: AK7set+3e72I1aKOy6TuglUkJuSkxFy00dwwauEHhVb/G5t4QUiLGNGQh5N5d5lD2/Blvvsq/7AIUvcQeTiZih4TE1k=
+X-Received: by 2002:a05:6808:354:b0:384:692c:56c9 with SMTP id
+ j20-20020a056808035400b00384692c56c9mr624924oie.3.1677854936419; Fri, 03 Mar
+ 2023 06:48:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230302235356.3148279-1-robdclark@gmail.com> <20230302235356.3148279-16-robdclark@gmail.com>
+ <ZAFnqbycMleLmRe9@intel.com> <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
+In-Reply-To: <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Fri, 3 Mar 2023 06:48:43 -0800
+Message-ID: <CAF6AEGs6QYTESuwB8E9cTbv9LqQX16tz6-geeu9BCyFos9=sOA@mail.gmail.com>
+Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
+To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc:     Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Simon Ser <contact@emersion.fr>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        intel-gfx@lists.freedesktop.org,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Matt Turner <mattst88@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+On Fri, Mar 3, 2023 at 1:58 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 03/03/2023 03:21, Rodrigo Vivi wrote:
+> > On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
+> >> From: Rob Clark <robdclark@chromium.org>
+> >>
+> >
+> > missing some wording here...
+> >
+> >> v2: rebase
+> >>
+> >> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >> ---
+> >>   drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
+> >>   1 file changed, 20 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> >> index 7503dcb9043b..44491e7e214c 100644
+> >> --- a/drivers/gpu/drm/i915/i915_request.c
+> >> +++ b/drivers/gpu/drm/i915/i915_request.c
+> >> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
+> >>      return i915_request_enable_breadcrumb(to_request(fence));
+> >>   }
+> >>
+> >> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+> >> +{
+> >> +    struct i915_request *rq = to_request(fence);
+> >> +
+> >> +    if (i915_request_completed(rq))
+> >> +            return;
+> >> +
+> >> +    if (i915_request_started(rq))
+> >> +            return;
+> >
+> > why do we skip the boost if already started?
+> > don't we want to boost the freq anyway?
+>
+> I'd wager Rob is just copying the current i915 wait boost logic.
 
-In current cio2-bridge, it is using the hid as node name to register
-software node and swnode will create kobject and sysfs entry with
-the node name, if there are multiple sensors and VCMs which are sharing
-same HID name, it will cause the software nodes registration failure:
+Yup, and probably incorrectly.. Matt reported fewer boosts/sec
+compared to your RFC, this could be the bug
 
-[ 7.142311] sysfs: cannot create duplicate filename '/kernel/software_nodes/dw9714'
-...
-[ 7.142328] Call Trace:
-[ 7.142330]  <TASK>
-[ 7.142336]  dump_stack_lvl+0x49/0x63
-[ 7.142341]  dump_stack+0x10/0x16
-[ 7.142343]  sysfs_warn_dup.cold+0x17/0x2b
-[ 7.142346]  sysfs_create_dir_ns+0xbc/0xd0
-[ 7.142351]  kobject_add_internal+0xb1/0x2b0
-[ 7.142356]  kobject_init_and_add+0x71/0xa0
-[ 7.142360]  swnode_register+0x136/0x210
-[ 7.142363]  software_node_register+0xd2/0x120
-[ 7.142364]  software_node_register_nodes+0x83/0xf0
-[ 7.142366]  ? acpi_get_physical_device_location+0x65/0xc0
-[ 7.142371]  cio2_bridge_init+0x82a/0xb5e
-...
-[ 7.142448] kobject_add_internal failed for dw9714 with -EEXIST,
-don't try to register things with the same name in the same directory.
+> >> +
+> >> +    /*
+> >> +     * TODO something more clever for deadlines that are in the
+> >> +     * future.  I think probably track the nearest deadline in
+> >> +     * rq->timeline and set timer to trigger boost accordingly?
+> >> +     */
+> >
+> > I'm afraid it will be very hard to find some heuristics of what's
+> > late enough for the boost no?
+> > I mean, how early to boost the freq on an upcoming deadline for the
+> > timer?
+>
+> We can off load this patch from Rob and deal with it separately, or
+> after the fact?
 
-One solution is appending the sensor link(Mipi Port) in SSDB as suffix
-of the node name to fix this problem.
+That is completely my intention, I expect you to replace my i915 patch ;-)
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/media/pci/intel/ipu3/cio2-bridge.c | 14 ++++++++++----
- drivers/media/pci/intel/ipu3/cio2-bridge.h |  2 +-
- 2 files changed, 11 insertions(+), 5 deletions(-)
+Rough idea when everyone is happy with the core bits is to setup an
+immutable branch without the driver specific patches, which could be
+merged into drm-next and $driver-next and then each driver team can
+add there own driver patches on top
 
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-index dfefe0d8aa95..1ce1acb18f3f 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-+++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-@@ -212,6 +212,7 @@ static void cio2_bridge_create_connection_swnodes(struct cio2_bridge *bridge,
- 						  struct cio2_sensor *sensor)
- {
- 	struct software_node *nodes = sensor->swnodes;
-+	char vcm_name[ACPI_ID_LEN + 4];
- 
- 	cio2_bridge_init_swnode_names(sensor);
- 
-@@ -229,9 +230,12 @@ static void cio2_bridge_create_connection_swnodes(struct cio2_bridge *bridge,
- 						sensor->node_names.endpoint,
- 						&nodes[SWNODE_CIO2_PORT],
- 						sensor->cio2_properties);
--	if (sensor->ssdb.vcmtype)
--		nodes[SWNODE_VCM] =
--			NODE_VCM(cio2_vcm_types[sensor->ssdb.vcmtype - 1]);
-+	if (sensor->ssdb.vcmtype) {
-+		scnprintf(vcm_name, sizeof(vcm_name), "%s-%u",
-+			  cio2_vcm_types[sensor->ssdb.vcmtype - 1],
-+			  sensor->ssdb.link);
-+		nodes[SWNODE_VCM] = NODE_VCM(vcm_name);
-+	}
- 
- 	cio2_bridge_init_swnode_group(sensor);
- }
-@@ -295,7 +299,6 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
- 		}
- 
- 		sensor = &bridge->sensors[bridge->n_sensors];
--		strscpy(sensor->name, cfg->hid, sizeof(sensor->name));
- 
- 		ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
- 						   &sensor->ssdb,
-@@ -303,6 +306,9 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
- 		if (ret)
- 			goto err_put_adev;
- 
-+		scnprintf(sensor->name, sizeof(sensor->name), "%s-%u",
-+			  cfg->hid, sensor->ssdb.link);
-+
- 		if (sensor->ssdb.vcmtype > ARRAY_SIZE(cio2_vcm_types)) {
- 			dev_warn(&adev->dev, "Unknown VCM type %d\n",
- 				 sensor->ssdb.vcmtype);
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
-index b93b749c65bd..820ff518ef2b 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
-+++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
-@@ -113,7 +113,7 @@ struct cio2_sensor_config {
- };
- 
- struct cio2_sensor {
--	char name[ACPI_ID_LEN];
-+	char name[ACPI_ID_LEN + 4];
- 	struct acpi_device *adev;
- 	struct i2c_client *vcm_i2c_client;
- 
--- 
-2.39.1
+BR,
+-R
 
+> It's a half solution without a smarter scheduler too. Like
+> https://lore.kernel.org/all/20210208105236.28498-10-chris@chris-wilson.co.uk/,
+> or if GuC plans to do something like that at any point.
+>
+> Or bump the priority too if deadline is looming?
+>
+> IMO it is not very effective to fiddle with the heuristic on an ad-hoc
+> basis. For instance I have a new heuristics which improves the
+> problematic OpenCL cases for further 5% (relative to the current
+> waitboost improvement from adding missing syncobj waitboost). But I
+> can't really test properly for regressions over platforms, stacks,
+> workloads.. :(
+>
+> Regards,
+>
+> Tvrtko
+>
+> >
+> >> +
+> >> +    intel_rps_boost(rq);
+> >> +}
+> >> +
+> >>   static signed long i915_fence_wait(struct dma_fence *fence,
+> >>                                 bool interruptible,
+> >>                                 signed long timeout)
+> >> @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
+> >>      .signaled = i915_fence_signaled,
+> >>      .wait = i915_fence_wait,
+> >>      .release = i915_fence_release,
+> >> +    .set_deadline = i915_fence_set_deadline,
+> >>   };
+> >>
+> >>   static void irq_execute_cb(struct irq_work *wrk)
+> >> --
+> >> 2.39.1
+> >>
