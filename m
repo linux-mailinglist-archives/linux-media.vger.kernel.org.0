@@ -2,92 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E1296A967A
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 12:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 786456A9837
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 14:18:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbjCCLgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 06:36:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54698 "EHLO
+        id S229728AbjCCNSH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 08:18:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbjCCLgr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 06:36:47 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DF94C16
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 03:36:21 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24D82735;
-        Fri,  3 Mar 2023 12:36:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1677843370;
-        bh=sgreV33hiIyAeUcL4NE0wjb5H4YItzySF3qfUxynSNM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XXJqfjACfc4KyA86oXMRTXQqehKpjLs5qNLMGsrmtcxwbWtUuVaY5mUdBrKOwnAob
-         4WzvI6i8qhcwbi3H8jdUzVfiHU/yWlv6IGXj9JCypEJFDDbdqL4uvcMeg4nuaUO3sP
-         L2kY3RRTDa1EqkcjzcQTU3OEQNMD9f17eCRYF0Ho=
-Message-ID: <311809d5-8fd1-1514-dd7c-670cfda0c5b4@ideasonboard.com>
-Date:   Fri, 3 Mar 2023 13:36:07 +0200
+        with ESMTP id S229563AbjCCNSG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 08:18:06 -0500
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B548B75C
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 05:18:04 -0800 (PST)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 412EA5FD18;
+        Fri,  3 Mar 2023 16:18:02 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1677849482;
+        bh=PohEVBJpaCq/s8VczFxlHVqki7Sv8xD8pAL7OoD88sM=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+        b=D+6XsxQ9Z6nsis6X2br/imhZAMU1v3op2ZvV7GReVh4zxrcoMlA5gi+mcUUdte6gH
+         3PbD3ob/UnA027YBo78CLg+x0Q1HxX8glsLO6wktTxTdi9TnloOHdva/3ZGhR6T34w
+         6Xhc+djVvgNFQHN0fwl+y2eLVtBErry9mhYksDX2t4VCfnbBdMCVT8Mq6R6b56uCOK
+         a1B41IQc34hgTO+yucYY47Ss3vorksiQNrJxC/TPXXVut7u6Z8IbNG2/QCAL73KsPZ
+         1/93XssUs5UYJeAjHyvysL+cuFetM9wjMwlQU0TUbDwPfBwAnSRbGcHVQ6kv1LLNrI
+         GNlOSE7ZT54Yw==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Fri,  3 Mar 2023 16:18:01 +0300 (MSK)
+Date:   Fri, 3 Mar 2023 16:18:00 +0300
+From:   Dmitry Rokosov <ddrokosov@sberdevices.ru>
+To:     zelong dong <zelong.dong@amlogic.com>
+CC:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        <linux-media@vger.kernel.org>, <linux-amlogic@lists.infradead.org>
+Subject: Re: [PATCH 3/3] arm64: dts: meson: add IR controller for Meson-S4 SoC
+Message-ID: <20230303131800.aegeaz7syyuwosw3@CAB-WSD-L081021>
+References: <20230302063402.42708-1-zelong.dong@amlogic.com>
+ <20230302063402.42708-4-zelong.dong@amlogic.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, hdegoede@redhat.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>
-References: <441f2951-402b-0f3c-5ea6-8d6df3f3e894@redhat.com>
- <20230302202219.846011-1-sakari.ailus@linux.intel.com>
- <12e3fcc5-1a54-1313-8d52-5618b87f09d1@ideasonboard.com>
- <ZAHaOY6m864mEL0e@kekkonen.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <ZAHaOY6m864mEL0e@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230302063402.42708-4-zelong.dong@amlogic.com>
+User-Agent: NeoMutt/20220415
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/03/03 09:42:00 #20911747
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/03/2023 13:30, Sakari Ailus wrote:
-> Hi Tomi,
+On Thu, Mar 02, 2023 at 02:34:02PM +0800, zelong dong wrote:
+> From: Zelong Dong <zelong.dong@amlogic.com>
 > 
-> On Fri, Mar 03, 2023 at 10:41:27AM +0200, Tomi Valkeinen wrote:
->> On 02/03/2023 22:22, Sakari Ailus wrote:
->>> Link validation currently accesses invalid pointers if the link passed to it
->>> is not between two sub-devices. This is of course a driver bug.
->>>
->>> Ignore the error but print a debug message, as this is how it used to work
->>> previously.
->>>
->>> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
->>> Reported-by: Hans de Goede <hdegoede@redhat.com>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>> Hi Hans,
->>>
->>> Could you test this?
->>>
->>> The bug is of course in the ImgU driver and this reverts to the old
->>> pre-streams behaviour. It silently fails instead of oopsing. The ImgU driver
->>> needs to be fixed and I think we could make this return an error at the same
->>> time. Right now I can't be sure the ImgU driver is the only one suffering
->>> from this, but if so, it's likely to be broken anyway.
->>
->> Maybe it should be at least a warn? How do we catch other broken drivers
->> otherwise?
+> Add the IR controller device of Meson-S4 SoC family, and enable
+> hardware IR decoder.
 > 
-> The purpose of this patch is just to restore the old behaviour, and merge
-> it as a fix to v6.3 (via Cc'ing stable). I agree this should be made an
-> error but I'd like that change to be present in the media tree for some
-> time first.
+> Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
+> ---
+>  .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts   |  6 ++++++
+>  arch/arm64/boot/dts/amlogic/meson-s4.dtsi        | 16 ++++++++++++++++
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+> index 8ffbcb2b1ac5..4d3a81b3b762 100644
+> --- a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+> +++ b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+> @@ -28,3 +28,9 @@ memory@0 {
+>  &uart_B {
+>  	status = "okay";
+>  };
+> +
+> +&ir {
+> +	status = "disabled";
+> +	pinctrl-0 = <&remote_pins>;
+> +	pinctrl-names = "default";
+> +};
 
-I meant that keep it returning 0 (no error), but instead of a debug 
-print, use pr_warn. Or maybe pr_warn_once for now.
+I think dts and dtsi changes should be splitted to two different
+patchsets.
 
-  Tomi
+Why do we need dts changes if ir node is disabled by default and you
+don't enable it here?
 
+[...]
+
+-- 
+Thank you,
+Dmitry
