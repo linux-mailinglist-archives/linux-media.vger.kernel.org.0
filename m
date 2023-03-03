@@ -2,120 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69A4F6A9222
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 09:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6DA96A9250
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 09:22:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229948AbjCCIGb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 03:06:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58784 "EHLO
+        id S230038AbjCCIWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 03:22:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbjCCIGa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 03:06:30 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A728B559E6;
-        Fri,  3 Mar 2023 00:06:23 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id h17-20020a17090aea9100b0023739b10792so1514851pjz.1;
-        Fri, 03 Mar 2023 00:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677830783;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2GNgFypKn/0hc5Isav8O5f3I0hf4LLGb3YNTok/vC30=;
-        b=Ux8u3jgY4xPsXvtIDLngtm6THaaqQKr8ISSap3TtA42a9SIGaO7kOXmvJtURJTC7eU
-         ucpvgT3jdlM5QrvkTUaWCkj/ksmrJtpcp9sbpGb25MGQQ32ucJSJtaVBUnV+zGoSaOMU
-         qdLfegpB4yjaX0JZE+a+Ke4gCVS00j3fmQAIoEX0OkimEozc3WaldkliB+2TfcxlD/TT
-         b1fXh0LRXeaC/PKaECznitkJj4H8qUzZ4i9RWNUGCTUQlOhPhueSOEs86QjHHAwn6oop
-         NLMCDRiHxdXEHxN40O9Km1m23oE3XntsDCWjxh7Z1Do6zWaNmt3DTnOnd6rJ7BKJj0+K
-         qRuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677830783;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2GNgFypKn/0hc5Isav8O5f3I0hf4LLGb3YNTok/vC30=;
-        b=3yDu5pJHcmw0/k9bobJFv+2iDGzKP1lctxQC0SFDh1/5mam1GYUbowTruDwBm1PcnF
-         U2476+Zp8uUUj7k3zBOky5HkB4gqiFjnoQkhxc/MNtNOKozbIZEJf0c7v8w2hG5nl2ZT
-         m9S1N9943uJa3cDpiSJzMJko+w5tRPlWTc048KlGmJlP9PlFQ+8HzB7+MYKdpxJTnUL2
-         jLhSBHqhiZA74VjvSWsO1jVNdqRfTYuWnv8oGxEC5YapZDAOWQg9QveLldduTXuXq31J
-         opXH48mny6T81+g4kUfd1U3Obszo0eKrlT/M2n7hAgVSuxucuvSdcOUysRfX9ANn3Dvz
-         a1lg==
-X-Gm-Message-State: AO0yUKW4i+3jE3YbSMC5+NcoVEjuSXEiM7OMquiVa0Lr0QGdvKVOYed+
-        WUG/TiG371+a8qmHBBW9AUg=
-X-Google-Smtp-Source: AK7set/y0ZWmbann7eE3oSNJgm0cy1BGxnKo48BhulCfaGdm1imER6hOYVoRuA6vUXdoT5U9GtHDhw==
-X-Received: by 2002:a05:6a20:8c97:b0:c7:5cb6:2ff7 with SMTP id k23-20020a056a208c9700b000c75cb62ff7mr1397114pzh.22.1677830782975;
-        Fri, 03 Mar 2023 00:06:22 -0800 (PST)
-Received: from debian.me (subs32-116-206-28-31.three.co.id. [116.206.28.31])
-        by smtp.gmail.com with ESMTPSA id r7-20020a634407000000b005038291e5cbsm918858pga.35.2023.03.03.00.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 00:06:22 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 267F1106180; Fri,  3 Mar 2023 15:06:18 +0700 (WIB)
-Date:   Fri, 3 Mar 2023 15:06:18 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
-        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
- ffff88811b4af298->next is NULL)
-Message-ID: <ZAGqet3U8AMm4Uf1@debian.me>
-References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
+        with ESMTP id S229596AbjCCIWf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 03:22:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360E559E5E
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 00:21:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 805B461760
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 08:21:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442C3C433EF;
+        Fri,  3 Mar 2023 08:21:06 +0000 (UTC)
+Message-ID: <c180080e-c4b9-3cbe-558d-ca97b1d2456d@xs4all.nl>
+Date:   Fri, 3 Mar 2023 09:21:03 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SfEzHmcCPaMIkdPc"
-Content-Disposition: inline
-In-Reply-To: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 21/26] media: ipu3-cio2: Don't use devm_request_irq()
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
+ <20230201214535.347075-22-sakari.ailus@linux.intel.com>
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230201214535.347075-22-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 01/02/2023 22:45, Sakari Ailus wrote:
+> Use request_irq() instead of devm_request_irq(), as a handler set using
+> devm_request_irq() may still be called once the driver's remove() callback
+> has been called.
+> 
+> Also register the IRQ earlier on.
 
---SfEzHmcCPaMIkdPc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Why register it earlier? You do not explain the reason.
 
-On Fri, Mar 03, 2023 at 03:46:56AM +0700, Ammar Faizi wrote:
-> Hi,
->=20
-> Linux 6.2.1 hits a display driver bug (list_del corruption, ffff88811b4af=
-298->next is NULL).
->=20
-> Unfortunately, I don't know the last good commit and the first bad commit.
+Also, does this patch (and also 18/26) belong in this patch series?
+It seems more like a normal bug fix and not related to life-time management.
 
-Can you please try v6.1?
+And isn't it the responsibility of the driver to ensure that the irqs are
+masked in the remove() callback to prevent the irq from being called?
 
---=20
-An old man doll... just what I always wanted! - Clara
+devm_request_irq() is used a lot in the kernel, so if this is a
+common issue, then just fixing it in two drivers isn't going to make
+much of a difference.
 
---SfEzHmcCPaMIkdPc
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+	Hans
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAGqdAAKCRD2uYlJVVFO
-o6tYAPsHUCjEZzvaAnu5vqweP64uXu3vAHJpeX3chmv8QC747QD9FtDdYRCRW/a6
-ed37mcnX36rkPmyFZayYgbJln2MDjgg=
-=8ymv
------END PGP SIGNATURE-----
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> index d1bfcfba112f..9fdfb2a794db 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> @@ -1773,6 +1773,12 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+>  	if (r)
+>  		return r;
+>  
+> +	r = request_irq(pci_dev->irq, cio2_irq, IRQF_SHARED, CIO2_NAME, cio2);
+> +	if (r) {
+> +		dev_err(dev, "failed to request IRQ (%d)\n", r);
+> +		goto fail_mutex_destroy;
+> +	}
+> +
+>  	mutex_init(&cio2->lock);
+>  
+>  	cio2->media_dev.dev = dev;
+> @@ -1783,7 +1789,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+>  	media_device_init(&cio2->media_dev);
+>  	r = media_device_register(&cio2->media_dev);
+>  	if (r < 0)
+> -		goto fail_mutex_destroy;
+> +		goto fail_free_irq;
+>  
+>  	cio2->v4l2_dev.mdev = &cio2->media_dev;
+>  	r = v4l2_device_register(dev, &cio2->v4l2_dev);
+> @@ -1803,13 +1809,6 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+>  	if (r)
+>  		goto fail_clean_notifier;
+>  
+> -	r = devm_request_irq(dev, pci_dev->irq, cio2_irq, IRQF_SHARED,
+> -			     CIO2_NAME, cio2);
+> -	if (r) {
+> -		dev_err(dev, "failed to request IRQ (%d)\n", r);
+> -		goto fail_clean_notifier;
+> -	}
+> -
+>  	pm_runtime_put_noidle(dev);
+>  	pm_runtime_allow(dev);
+>  
+> @@ -1824,6 +1823,8 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+>  fail_media_device_unregister:
+>  	media_device_unregister(&cio2->media_dev);
+>  	media_device_cleanup(&cio2->media_dev);
+> +fail_free_irq:
+> +	free_irq(pci_dev->irq, cio2);
+>  fail_mutex_destroy:
+>  	mutex_destroy(&cio2->lock);
+>  	cio2_fbpt_exit_dummy(cio2);
+> @@ -1837,6 +1838,7 @@ static void cio2_pci_remove(struct pci_dev *pci_dev)
+>  
+>  	media_device_unregister(&cio2->media_dev);
+>  	v4l2_device_unregister(&cio2->v4l2_dev);
+> +	free_irq(pci_dev->irq, cio2);
+>  	v4l2_async_nf_unregister(&cio2->notifier);
+>  	v4l2_async_nf_cleanup(&cio2->notifier);
+>  	cio2_queues_exit(cio2);
 
---SfEzHmcCPaMIkdPc--
