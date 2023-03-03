@@ -2,50 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CAFC6AA1D3
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 22:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE54B6AA2A8
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 22:49:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232195AbjCCVnV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 16:43:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54928 "EHLO
+        id S232796AbjCCVt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 16:49:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbjCCVmz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 16:42:55 -0500
+        with ESMTP id S232646AbjCCVsb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 16:48:31 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3E04B806;
-        Fri,  3 Mar 2023 13:42:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D65267020;
+        Fri,  3 Mar 2023 13:45:34 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2ED3261923;
-        Fri,  3 Mar 2023 21:41:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2029C43323;
-        Fri,  3 Mar 2023 21:41:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 49930618CB;
+        Fri,  3 Mar 2023 21:43:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340A4C433B0;
+        Fri,  3 Mar 2023 21:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677879716;
-        bh=WQ/AFTgJmQr/mPiSgZxL3KFvJ3Y/Dj8btyJ8583Tz6Y=;
+        s=k20201202; t=1677879802;
+        bh=f+LvyHlOGKyqPsk5/PQRUb7Qh3vD1phxX0BJKeT/fo4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=poGMy3zDZMMWDPKvjnFobfAdvRxS4ay8Pcm1yxEKXJWSBuR7DCojvJ3SwK0swDSHK
-         MJTeRevR2xdZWLH2HwpSKKIUMnulMrmYrP48Ok9zfzmOL6Au/nU9kacKXTgKZJaHdD
-         tIuhI2J2gAWAAionGXIcJuCXjMxB3fHB6f/UL4rh8nGvf4Ah3mqKLrePKy4GieDtyN
-         EPQJsfuP9jk508HXuGT+4+D0okUgzWXeiJjK2+BuRug4QcrKpwDQVcO3cRWpo8Ydrf
-         tIvDQVBqfc0utayxgDmjK+RREiDG9+Qxhif5GbQqHPEYuTIG7LIKNewiAIEpu1g/lc
-         j+DZJOgAGZ8zg==
+        b=jIH78MrKIC0YdPnQX4jjlaf4PKzoIURbTopES8CaaRo/nL4PBZZ6RNvwGQurIgJ45
+         QIfuaFBRIYMT9Z+u7drF4G/+XL7//aMcIIwyD/Lw04m1QlAW3Ab04y14hmiEgaQu7A
+         WFr0LZkFwVI+O9i/ayi93TTgFT0CeBSUtB4dNCENB8QT72R/w8xtSDzv+jxrHcftIV
+         ElrbkhKJrIWx578bVRlEfGwMcXAhK/ustDshJXdtcrFgNSWlAzoOXKAFcT6UZKUAIj
+         tU+IH6Fj6lzbZlvwkTJ4W7VoEhW8ACQePO9I/QejB6PC2NC+/qmt1JFUftMqG23xeH
+         4Cf5MIjmiagIQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ricardo@ribalda.com>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
         Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 24/64] media: uvcvideo: Add GUID for BGRA/X 8:8:8:8
-Date:   Fri,  3 Mar 2023 16:40:26 -0500
-Message-Id: <20230303214106.1446460-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 04/60] media: uvcvideo: Remove format descriptions
+Date:   Fri,  3 Mar 2023 16:42:18 -0500
+Message-Id: <20230303214315.1447666-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
-References: <20230303214106.1446460-1-sashal@kernel.org>
+In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
+References: <20230303214315.1447666-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,69 +57,134 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Marek Vasut <marex@denx.de>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit 015d44c2b700ba9639dd29672ba362796cc0be54 ]
+[ Upstream commit 50459f103edfe47c9a599d766a850ef6014936c5 ]
 
-The Cypress EZUSB FX3 UVC example can be configured to report pixel
-format "e436eb7e-524f-11ce-9f53-0020af0ba770". This is its GUID for
-BGRA/X 8:8:8:8.
+The V4L2 core overwrites format descriptions in v4l_fill_fmtdesc(),
+there's no need to manually set the descriptions in the driver. This
+prepares for removal of the format descriptions from the uvc_fmts table.
 
-The UVC 1.5 spec [1] only defines GUIDs for YUY2, NV12, M420 and I420.
-This seems to be an extension documented in the Microsoft Windows Media
-Format SDK[2]. This Media Format SDK defines this GUID as corresponding
-to `MEDIASUBTYPE_RGB32`, which is confirmed by [4] as `MEDIASUBTYPE_ARGB32`
-has different GUID.
+Unlike V4L2, UVC makes a distinction between the SD-DV, SDL-DV and HD-DV
+formats. It also indicates whether the DV format uses 50Hz or 60Hz. This
+information is parsed by the driver to construct a format name string
+that is printed in a debug message, but serves no other purpose as V4L2
+has a single V4L2_PIX_FMT_DV pixel format that covers all those cases.
 
-Note that in my case, the FX3 UVC can output either channel order,
-BGR or RGB or any other mix for that matter. Since Linux commit
-1b8dc32286a1a ("[media] uvcvideo: Add GUID for BGR 8:8:8")
-defined a GUID for `MEDIASUBTYPE_RGB24` channel order as BGR, keep
-this change consistent and define `MEDIASUBTYPE_RGB32` as BGR as well.
-Document [3] also indicates the channel order is BGR.
+As the information is available in the UVC descriptors, and thus
+accessible to users with lsusb if they really care, don't log it in a
+debug message and drop the format name string to simplify the code.
 
-[1] https://www.usb.org/document-library/video-class-v15-document-set
-[2] https://learn.microsoft.com/en-us/windows/win32/wmformat/media-type-identifiers
-[3] https://learn.microsoft.com/en-us/windows/win32/directshow/uncompressed-rgb-video-subtypes
-[4] https://gix.github.io/media-types/
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ricardo@ribalda.com>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Link: https://lore.kernel.org/r/20230126231456.3402323-2-m.grzeschik@pengutronix.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/media/v4l2-uvc.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 24 ++----------------------
+ drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
+ drivers/media/usb/uvc/uvcvideo.h   |  2 --
+ 3 files changed, 2 insertions(+), 26 deletions(-)
 
-diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
-index f83e31661333b..b010a36fc1d95 100644
---- a/include/media/v4l2-uvc.h
-+++ b/include/media/v4l2-uvc.h
-@@ -99,6 +99,9 @@
- #define UVC_GUID_FORMAT_BGR3 \
- 	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
- 	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
-+#define UVC_GUID_FORMAT_BGR4 \
-+	{ 0x7e, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
-+	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
- #define UVC_GUID_FORMAT_M420 \
- 	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-@@ -266,6 +269,11 @@ static struct uvc_format_desc uvc_fmts[] = {
- 		.guid		= UVC_GUID_FORMAT_BGR3,
- 		.fcc		= V4L2_PIX_FMT_BGR24,
- 	},
-+	{
-+		.name		= "BGRA/X 8:8:8:8 (BGR4)",
-+		.guid		= UVC_GUID_FORMAT_BGR4,
-+		.fcc		= V4L2_PIX_FMT_XBGR32,
-+	},
- 	{
- 		.name		= "H.264",
- 		.guid		= UVC_GUID_FORMAT_H264,
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 215fb483efb00..cfc18fbeaf6b6 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -251,14 +251,10 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		fmtdesc = uvc_format_by_guid(&buffer[5]);
+ 
+ 		if (fmtdesc != NULL) {
+-			strscpy(format->name, fmtdesc->name,
+-				sizeof(format->name));
+ 			format->fcc = fmtdesc->fcc;
+ 		} else {
+ 			dev_info(&streaming->intf->dev,
+ 				 "Unknown video format %pUl\n", &buffer[5]);
+-			snprintf(format->name, sizeof(format->name), "%pUl\n",
+-				&buffer[5]);
+ 			format->fcc = 0;
+ 		}
+ 
+@@ -270,8 +266,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		 */
+ 		if (dev->quirks & UVC_QUIRK_FORCE_Y8) {
+ 			if (format->fcc == V4L2_PIX_FMT_YUYV) {
+-				strscpy(format->name, "Greyscale 8-bit (Y8  )",
+-					sizeof(format->name));
+ 				format->fcc = V4L2_PIX_FMT_GREY;
+ 				format->bpp = 8;
+ 				width_multiplier = 2;
+@@ -312,7 +306,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		strscpy(format->name, "MJPEG", sizeof(format->name));
+ 		format->fcc = V4L2_PIX_FMT_MJPEG;
+ 		format->flags = UVC_FMT_FLAG_COMPRESSED;
+ 		format->bpp = 0;
+@@ -328,17 +321,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		switch (buffer[8] & 0x7f) {
+-		case 0:
+-			strscpy(format->name, "SD-DV", sizeof(format->name));
+-			break;
+-		case 1:
+-			strscpy(format->name, "SDL-DV", sizeof(format->name));
+-			break;
+-		case 2:
+-			strscpy(format->name, "HD-DV", sizeof(format->name));
+-			break;
+-		default:
++		if ((buffer[8] & 0x7f) > 2) {
+ 			uvc_dbg(dev, DESCR,
+ 				"device %d videostreaming interface %d: unknown DV format %u\n",
+ 				dev->udev->devnum,
+@@ -346,9 +329,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		strlcat(format->name, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
+-			sizeof(format->name));
+-
+ 		format->fcc = V4L2_PIX_FMT_DV;
+ 		format->flags = UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
+ 		format->bpp = 0;
+@@ -375,7 +355,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		return -EINVAL;
+ 	}
+ 
+-	uvc_dbg(dev, DESCR, "Found format %s\n", format->name);
++	uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
+ 
+ 	buflen -= buffer[0];
+ 	buffer += buffer[0];
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index f4d4c33b6dfbd..dcd178d249b6b 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -660,8 +660,6 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+ 	fmt->flags = 0;
+ 	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+ 		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+-	strscpy(fmt->description, format->name, sizeof(fmt->description));
+-	fmt->description[sizeof(fmt->description) - 1] = 0;
+ 	fmt->pixelformat = format->fcc;
+ 	return 0;
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312e..b60e4ae95e815 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -264,8 +264,6 @@ struct uvc_format {
+ 	u32 fcc;
+ 	u32 flags;
+ 
+-	char name[32];
+-
+ 	unsigned int nframes;
+ 	struct uvc_frame *frame;
+ };
 -- 
 2.39.2
 
