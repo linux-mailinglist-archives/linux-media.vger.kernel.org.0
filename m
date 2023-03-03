@@ -2,160 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15FCA6A9E58
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 19:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A436AA19B
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 22:41:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231566AbjCCSUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 13:20:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
+        id S231993AbjCCVlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 16:41:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231550AbjCCSUv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 13:20:51 -0500
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D88EC79;
-        Fri,  3 Mar 2023 10:20:49 -0800 (PST)
-Received: by mail-il1-x12c.google.com with SMTP id z5so2251479ilq.0;
-        Fri, 03 Mar 2023 10:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=axdACOpDgX4dqbHNbIgw6l/7ldg/vQEmMI8fQauJgl8=;
-        b=QczMEiEgQw99JTo6idDjCmdUY+sExwLtJY3/KxeKkvYdy0yKmdUEPD0dgjI7WTlutJ
-         tdoXP8gPcHCyv03Mt3F59SccC5tXpCy4xMbgV/Va1gbe1xpd7QRnEuJeCjvKLDCVnxiy
-         GTAst35/hfaVx/jtfzPmqmH2i3H7VA6+h6eACYF+gFiKRcy6SHcNGVuCKb632mAE5FFD
-         jyMD/rneQS2DLsvlGqrApDw2hWb5Wei9gvmhqogPv1qmFtOkgQ/Wsze9U8yuRtejB+l+
-         Al2mUiQ0CI6j6QyECn0Tmf0ZM/+uervRLoZ9A7RtA3ORLXu8ei5N1WedxMbhvS36QH8Q
-         2FCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=axdACOpDgX4dqbHNbIgw6l/7ldg/vQEmMI8fQauJgl8=;
-        b=volTYS2s52JX9k841D/3xL34NI9/077AJKsUZDbW1xUOU8DapPPnAGYpfNvE+J1EI5
-         HYP2ieyMj9L6MZ7jdsetUMpQTaMmk5Q4BdsYkBYOQqO2UuvyGIxGDSxKbV5p9fWn39bp
-         2M8+Qiqstbs5Hh/b/DV2ihopV4k5mMO3m3Xno8RjlT/LNMZEh/GZYfCDSZVX1sVurneH
-         euaOvUa7gxzD/C47QKCaAR1/9xto0qKATA110cDl1zds2kiESSCwh0knktl6FAxTHUE6
-         g1rqf59NEPTxL4EyK298EluJB5h8gKwkU0A37r4kjUEvqQCedZDD/iLc7Zwam0b+/RU/
-         jVtw==
-X-Gm-Message-State: AO0yUKXnMrYddHQ+l5eTLxk6gmAQb62bH4jJPgEPEkEeb9jPuNr8TtJ/
-        WzsK21Eoiyw6VfSYXJr8O19lurFJP+/9EDP1L0s=
-X-Google-Smtp-Source: AK7set8Qed7nPAs7RH0XEMozjccCh754nLRwreSB3nR6IUtV2hYZym8/5UTUtz+kyz5kn3EXFUYQKPVWknxcgmIQOPA=
-X-Received: by 2002:a05:6e02:130f:b0:315:9761:6965 with SMTP id
- g15-20020a056e02130f00b0031597616965mr1232665ilr.5.1677867649207; Fri, 03 Mar
- 2023 10:20:49 -0800 (PST)
+        with ESMTP id S231968AbjCCVlZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 16:41:25 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B42B462D95;
+        Fri,  3 Mar 2023 13:41:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5132861924;
+        Fri,  3 Mar 2023 21:41:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D197CC433B4;
+        Fri,  3 Mar 2023 21:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677879675;
+        bh=MnO25NQocJUNOpC1Ct+asHRrKRSUSG6lxX6orxqjOE0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RKDTapaOwgl+MDZL99lGorE5tB9qomCqxVuYELyGisf+lkg+Ki4jvIBBax/f7Mrgz
+         uhfsoBX+iyR/HzQ20BhtKz9xdVR0d3A9jUvFuxPtCV3/rGuau6Gyg5ZFVM5epihBmJ
+         hKuXeUTW3NKbNjlXVaNMn4Bpnzmkm4qhoNI9GlmONlhjiMpQzNLJvKLjkMzgulDqn/
+         l+VgMXfDdHpcT+l81qjG5OvxbY+eOToOWRtneRF/2Y4wjeYn1dtkkozvit3PS4yHva
+         KHFYF7xb6m/WK/fknKGa68b0UfJxCL4PO14Iig8FhP1ME4rVaOVszXZZJVRBoRedYV
+         tKhwcnNc8c4aw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.2 05/64] media: uvcvideo: Remove format descriptions
+Date:   Fri,  3 Mar 2023 16:40:07 -0500
+Message-Id: <20230303214106.1446460-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
+References: <20230303214106.1446460-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20230302235356.3148279-1-robdclark@gmail.com> <20230302235356.3148279-16-robdclark@gmail.com>
- <ZAFnqbycMleLmRe9@intel.com> <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
- <CAF6AEGs6QYTESuwB8E9cTbv9LqQX16tz6-geeu9BCyFos9=sOA@mail.gmail.com> <a5ced581-4060-0fa2-d2fc-d18beee6fdb5@linux.intel.com>
-In-Reply-To: <a5ced581-4060-0fa2-d2fc-d18beee6fdb5@linux.intel.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Fri, 3 Mar 2023 13:20:38 -0500
-Message-ID: <CAEdQ38FLf0jX6oWCkmx+xwgF8YAH8xSwhw5RUGC3xwdDBr7NVQ@mail.gmail.com>
-Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     Rob Clark <robdclark@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        intel-gfx@lists.freedesktop.org,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 3, 2023 at 10:08=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 03/03/2023 14:48, Rob Clark wrote:
-> > On Fri, Mar 3, 2023 at 1:58 AM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>
-> >> On 03/03/2023 03:21, Rodrigo Vivi wrote:
-> >>> On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
-> >>>> From: Rob Clark <robdclark@chromium.org>
-> >>>>
-> >>>
-> >>> missing some wording here...
-> >>>
-> >>>> v2: rebase
-> >>>>
-> >>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>>> ---
-> >>>>    drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
-> >>>>    1 file changed, 20 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i=
-915/i915_request.c
-> >>>> index 7503dcb9043b..44491e7e214c 100644
-> >>>> --- a/drivers/gpu/drm/i915/i915_request.c
-> >>>> +++ b/drivers/gpu/drm/i915/i915_request.c
-> >>>> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dm=
-a_fence *fence)
-> >>>>       return i915_request_enable_breadcrumb(to_request(fence));
-> >>>>    }
-> >>>>
-> >>>> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_=
-t deadline)
-> >>>> +{
-> >>>> +    struct i915_request *rq =3D to_request(fence);
-> >>>> +
-> >>>> +    if (i915_request_completed(rq))
-> >>>> +            return;
-> >>>> +
-> >>>> +    if (i915_request_started(rq))
-> >>>> +            return;
-> >>>
-> >>> why do we skip the boost if already started?
-> >>> don't we want to boost the freq anyway?
-> >>
-> >> I'd wager Rob is just copying the current i915 wait boost logic.
-> >
-> > Yup, and probably incorrectly.. Matt reported fewer boosts/sec
-> > compared to your RFC, this could be the bug
->
-> Hm, there I have preserved this same !i915_request_started logic.
->
-> Presumably it's not just fewer boosts but lower performance. How is he
-> setting the deadline? Somehow from clFlush or so?
->
-> Regards,
->
-> Tvrtko
->
-> P.S. Take note that I did not post the latest version of my RFC. The one
-> where I fix the fence chain and array misses you pointed out. I did not
-> think it would be worthwhile given no universal love for it, but if
-> people are testing with it more widely that I was aware perhaps I should.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Yep, that would be great. We're interested in it for ChromeOS. Please
-Cc me on the series when you send it.
+[ Upstream commit 50459f103edfe47c9a599d766a850ef6014936c5 ]
+
+The V4L2 core overwrites format descriptions in v4l_fill_fmtdesc(),
+there's no need to manually set the descriptions in the driver. This
+prepares for removal of the format descriptions from the uvc_fmts table.
+
+Unlike V4L2, UVC makes a distinction between the SD-DV, SDL-DV and HD-DV
+formats. It also indicates whether the DV format uses 50Hz or 60Hz. This
+information is parsed by the driver to construct a format name string
+that is printed in a debug message, but serves no other purpose as V4L2
+has a single V4L2_PIX_FMT_DV pixel format that covers all those cases.
+
+As the information is available in the UVC descriptors, and thus
+accessible to users with lsusb if they really care, don't log it in a
+debug message and drop the format name string to simplify the code.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 24 ++----------------------
+ drivers/media/usb/uvc/uvc_v4l2.c   |  2 --
+ drivers/media/usb/uvc/uvcvideo.h   |  2 --
+ 3 files changed, 2 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index e4bcb50113607..0a35d7c0d0a0a 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -251,14 +251,10 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		fmtdesc = uvc_format_by_guid(&buffer[5]);
+ 
+ 		if (fmtdesc != NULL) {
+-			strscpy(format->name, fmtdesc->name,
+-				sizeof(format->name));
+ 			format->fcc = fmtdesc->fcc;
+ 		} else {
+ 			dev_info(&streaming->intf->dev,
+ 				 "Unknown video format %pUl\n", &buffer[5]);
+-			snprintf(format->name, sizeof(format->name), "%pUl\n",
+-				&buffer[5]);
+ 			format->fcc = 0;
+ 		}
+ 
+@@ -270,8 +266,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		 */
+ 		if (dev->quirks & UVC_QUIRK_FORCE_Y8) {
+ 			if (format->fcc == V4L2_PIX_FMT_YUYV) {
+-				strscpy(format->name, "Greyscale 8-bit (Y8  )",
+-					sizeof(format->name));
+ 				format->fcc = V4L2_PIX_FMT_GREY;
+ 				format->bpp = 8;
+ 				width_multiplier = 2;
+@@ -312,7 +306,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		strscpy(format->name, "MJPEG", sizeof(format->name));
+ 		format->fcc = V4L2_PIX_FMT_MJPEG;
+ 		format->flags = UVC_FMT_FLAG_COMPRESSED;
+ 		format->bpp = 0;
+@@ -328,17 +321,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		switch (buffer[8] & 0x7f) {
+-		case 0:
+-			strscpy(format->name, "SD-DV", sizeof(format->name));
+-			break;
+-		case 1:
+-			strscpy(format->name, "SDL-DV", sizeof(format->name));
+-			break;
+-		case 2:
+-			strscpy(format->name, "HD-DV", sizeof(format->name));
+-			break;
+-		default:
++		if ((buffer[8] & 0x7f) > 2) {
+ 			uvc_dbg(dev, DESCR,
+ 				"device %d videostreaming interface %d: unknown DV format %u\n",
+ 				dev->udev->devnum,
+@@ -346,9 +329,6 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		strlcat(format->name, buffer[8] & (1 << 7) ? " 60Hz" : " 50Hz",
+-			sizeof(format->name));
+-
+ 		format->fcc = V4L2_PIX_FMT_DV;
+ 		format->flags = UVC_FMT_FLAG_COMPRESSED | UVC_FMT_FLAG_STREAM;
+ 		format->bpp = 0;
+@@ -375,7 +355,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		return -EINVAL;
+ 	}
+ 
+-	uvc_dbg(dev, DESCR, "Found format %s\n", format->name);
++	uvc_dbg(dev, DESCR, "Found format %p4cc", &format->fcc);
+ 
+ 	buflen -= buffer[0];
+ 	buffer += buffer[0];
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index f4d4c33b6dfbd..dcd178d249b6b 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -660,8 +660,6 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+ 	fmt->flags = 0;
+ 	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+ 		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+-	strscpy(fmt->description, format->name, sizeof(fmt->description));
+-	fmt->description[sizeof(fmt->description) - 1] = 0;
+ 	fmt->pixelformat = format->fcc;
+ 	return 0;
+ }
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index df93db259312e..b60e4ae95e815 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -264,8 +264,6 @@ struct uvc_format {
+ 	u32 fcc;
+ 	u32 flags;
+ 
+-	char name[32];
+-
+ 	unsigned int nframes;
+ 	struct uvc_frame *frame;
+ };
+-- 
+2.39.2
+
