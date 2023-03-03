@@ -2,77 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B6B96A99BE
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 15:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C4B6A99A2
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 15:36:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbjCCOoG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 09:44:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59064 "EHLO
+        id S229561AbjCCOgl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 09:36:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbjCCOoF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 09:44:05 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26046A5D3
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 06:44:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB82961828
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 14:44:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D149EC433D2
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 14:44:02 +0000 (UTC)
-Message-ID: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
-Date:   Fri, 3 Mar 2023 15:44:00 +0100
+        with ESMTP id S231222AbjCCOg3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 09:36:29 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A937043D
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 06:35:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677854144; x=1709390144;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dwCgSh9mJfoPu+QZkrGPzIR7Z0d4mSZASdK/NYnbOsw=;
+  b=nPY4WwmitLuyUfHV7rQY2sfpV8UB4mhjX+G4xIVrN7o2UCPj/uj357Jo
+   N2H3eEQdGqbw9yNVpl9dYxM3vlIX5gfe1VNZ1aLVMPV+kJVhnHEFsOmpQ
+   GgURrAQGsVsSHrQ6XSbg2rouP7wF4gMnR6FxQwz8DU0ykTon9NTlTdHHx
+   /Jkb2D3wMtJWCSugTSshW7hr7uMlK+BHxItiYraDMab2p3BVsy3roHxfE
+   xeinpe9NpldHFURW671Q2LjJD8nbK9G8bbDRmhxlBTMxREirwaxuoXohe
+   zSSQ1419KVf3+p1SOiFw/bAa7K1cpUvgVXpbqTSBNCN4H7Nz2hOPdQq3d
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="315452982"
+X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
+   d="scan'208";a="315452982"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 06:35:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="818491149"
+X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
+   d="scan'208";a="818491149"
+Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2023 06:35:17 -0800
+From:   bingbu.cao@intel.com
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, djrscally@gmail.com
+Cc:     bingbu.cao@linux.intel.com, bingbu.cao@intel.com
+Subject: [PATCH] media: ipu3-cio2: support multiple sensors and VCMs with HID name
+Date:   Fri,  3 Mar 2023 22:44:32 +0800
+Message-Id: <20230303144432.2108677-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Request for Topics for a Media Summit June 26th
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+From: Bingbu Cao <bingbu.cao@intel.com>
 
-I am planning to organize another Media Summit on June 26th, co-located
-with the Embedded Open Source Summit in Prague:
+In current cio2-bridge, it is using the hid as node name to register
+software node and swnode will create kobject and sysfs entry with
+the node name, if there are multiple sensors and VCMs which are sharing
+same HID name, it will cause the software nodes registration failure:
 
-https://events.linuxfoundation.org/embedded-open-source-summit/
+[ 7.142311] sysfs: cannot create duplicate filename '/kernel/software_nodes/dw9714'
+...
+[ 7.142328] Call Trace:
+[ 7.142330]  <TASK>
+[ 7.142336]  dump_stack_lvl+0x49/0x63
+[ 7.142341]  dump_stack+0x10/0x16
+[ 7.142343]  sysfs_warn_dup.cold+0x17/0x2b
+[ 7.142346]  sysfs_create_dir_ns+0xbc/0xd0
+[ 7.142351]  kobject_add_internal+0xb1/0x2b0
+[ 7.142356]  kobject_init_and_add+0x71/0xa0
+[ 7.142360]  swnode_register+0x136/0x210
+[ 7.142363]  software_node_register+0xd2/0x120
+[ 7.142364]  software_node_register_nodes+0x83/0xf0
+[ 7.142366]  ? acpi_get_physical_device_location+0x65/0xc0
+[ 7.142371]  cio2_bridge_init+0x82a/0xb5e
+...
+[ 7.142448] kobject_add_internal failed for dw9714 with -EEXIST,
+don't try to register things with the same name in the same directory.
 
-I've put in a request for a room with the Linux Foundation and I am waiting
-for the result of that. For once I was early with my request, so I have good
-hope we'll get a room. Expect the format to be similar to what we did in
-Dublin last year.
+One solution is appending the sensor link(Mipi Port) in SSDB as suffix
+of the node name to fix this problem.
 
-I'm a bit early with this 'Request for Topics' as well, but this allows
-everyone who plans to be in Prague to take this into account.
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 14 ++++++++++----
+ drivers/media/pci/intel/ipu3/cio2-bridge.h |  2 +-
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-So if you have a topic that you want to discuss, just reply. It would be
-very much appreciated if you can also add a guesstimate of the time you
-need for your topic.
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index dfefe0d8aa95..1ce1acb18f3f 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -212,6 +212,7 @@ static void cio2_bridge_create_connection_swnodes(struct cio2_bridge *bridge,
+ 						  struct cio2_sensor *sensor)
+ {
+ 	struct software_node *nodes = sensor->swnodes;
++	char vcm_name[ACPI_ID_LEN + 4];
+ 
+ 	cio2_bridge_init_swnode_names(sensor);
+ 
+@@ -229,9 +230,12 @@ static void cio2_bridge_create_connection_swnodes(struct cio2_bridge *bridge,
+ 						sensor->node_names.endpoint,
+ 						&nodes[SWNODE_CIO2_PORT],
+ 						sensor->cio2_properties);
+-	if (sensor->ssdb.vcmtype)
+-		nodes[SWNODE_VCM] =
+-			NODE_VCM(cio2_vcm_types[sensor->ssdb.vcmtype - 1]);
++	if (sensor->ssdb.vcmtype) {
++		scnprintf(vcm_name, sizeof(vcm_name), "%s-%u",
++			  cio2_vcm_types[sensor->ssdb.vcmtype - 1],
++			  sensor->ssdb.link);
++		nodes[SWNODE_VCM] = NODE_VCM(vcm_name);
++	}
+ 
+ 	cio2_bridge_init_swnode_group(sensor);
+ }
+@@ -295,7 +299,6 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 		}
+ 
+ 		sensor = &bridge->sensors[bridge->n_sensors];
+-		strscpy(sensor->name, cfg->hid, sizeof(sensor->name));
+ 
+ 		ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
+ 						   &sensor->ssdb,
+@@ -303,6 +306,9 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 		if (ret)
+ 			goto err_put_adev;
+ 
++		scnprintf(sensor->name, sizeof(sensor->name), "%s-%u",
++			  cfg->hid, sensor->ssdb.link);
++
+ 		if (sensor->ssdb.vcmtype > ARRAY_SIZE(cio2_vcm_types)) {
+ 			dev_warn(&adev->dev, "Unknown VCM type %d\n",
+ 				 sensor->ssdb.vcmtype);
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+index b93b749c65bd..820ff518ef2b 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+@@ -113,7 +113,7 @@ struct cio2_sensor_config {
+ };
+ 
+ struct cio2_sensor {
+-	char name[ACPI_ID_LEN];
++	char name[ACPI_ID_LEN + 4];
+ 	struct acpi_device *adev;
+ 	struct i2c_client *vcm_i2c_client;
+ 
+-- 
+2.39.1
 
-Once I have the details of the room and how many people it can hold, then
-I will send out a second email asking people to register with me if you
-want to join.
-
-Regarding remote participation: only if there is really no other way.
-Meeting face-to-face once a year is important IMHO, and attending remotely
-is a poor substitute. That said, if it is really necessary to set something
-up, then I can do the same I did in Dublin, setting up a Webex meeting.
-That worked reasonably well, except that I will need to bring a better
-speaker since I learned that the laptop speaker was pretty bad.
-
-So, if you have topics for the meeting, just reply!
-
-Regards,
-
-	Hans
