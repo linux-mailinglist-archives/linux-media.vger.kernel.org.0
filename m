@@ -2,76 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A846AA406
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 23:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6B0A6AA446
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 23:25:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233672AbjCCWRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 17:17:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36514 "EHLO
+        id S233720AbjCCWZy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 17:25:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233621AbjCCWRX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 17:17:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDA43D09E;
-        Fri,  3 Mar 2023 14:08:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 026D261912;
-        Fri,  3 Mar 2023 21:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5195C433EF;
-        Fri,  3 Mar 2023 21:51:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1677880281;
-        bh=Br50V+ZnNhKeUVmf1H88XflaSYA3zbjNUSaOrfbHpWM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L0Wgj2qDMYr7AQFFunxAnGexnwRXj41XfheavwO4sQNH9ThQWN7YWlj2Dp73Ahdw/
-         2uXKlv/22ez+DVr7ejBSi69+v/MiAkOp+L5BIU6bdV3QorAgVbad15r3DUWG3n/DEN
-         M10p5eVyq7bMRTBYHiwIAV7dwH08VMMfs8aaRdkMd/hoae6WtB50Y8/GEMWE9hfPsr
-         X7GJJ+ZO9cmyRf0HO7C4myHQ+bm9TdwZkTHEpy9iYruGmrWIunUXZc3w5CkIZpxxYi
-         kXKl6tYBhJNPTsNy5u9kGPM7Uf/kIR6xDR/XGWpONnVXpZwWkjJ02fE/UU6YbDF9O8
-         LSMB76p+PtvfA==
-Date:   Fri, 3 Mar 2023 21:51:12 +0000
-From:   Conor Dooley <conor@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Clark <robdclark@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
+        with ESMTP id S232829AbjCCWZj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 17:25:39 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 110B33BD8E
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 14:18:20 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pYDaM-0007X5-7q; Fri, 03 Mar 2023 23:09:06 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pYDaF-001eHQ-77; Fri, 03 Mar 2023 23:08:59 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pYDaE-001xZG-GT; Fri, 03 Mar 2023 23:08:58 +0100
+Date:   Fri, 3 Mar 2023 23:08:56 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Wolfram Sang <wsa@kernel.org>
+Cc:     linux-i2c@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Ajay Gupta <ajayg@nvidia.com>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        linux-mtd@lists.infradead.org, Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial@vger.kernel.org, Evgeniy Polyakov <zbr@ioremap.net>,
+        Crt Mori <cmo@melexis.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-riscv@lists.infradead.org,
-        linux-spi@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: yamllint: Require a space after a comment
- '#'
-Message-ID: <cdad5aa0-bd94-4137-9063-af45e94a25b7@spud>
-References: <20230303214223.49451-1-robh@kernel.org>
+        linux-media@vger.kernel.org,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Peter Rosin <peda@axentia.se>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v2 0/9] i2c: Switch .probe() to not take an id parameter
+Message-ID: <20230303220856.ebloz7kjw7sskxym@pengutronix.de>
+References: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mffVr3k4EP4yfp2t"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="jphhkeygsgtmhvzu"
 Content-Disposition: inline
-In-Reply-To: <20230303214223.49451-1-robh@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20230226222654.1741900-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,52 +73,61 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---mffVr3k4EP4yfp2t
-Content-Type: text/plain; charset=us-ascii
+--jphhkeygsgtmhvzu
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 03, 2023 at 03:42:23PM -0600, Rob Herring wrote:
-> Enable yamllint to check the prefered commenting style of requiring a
-> space after a comment character '#'. Fix the cases in the tree which
-> have a warning with this enabled. Most cases just need a space after the
-> '#'. A couple of cases with comments which were not intended to be
-> comments are revealed. Those were in ti,sa2ul.yaml, ti,cal.yaml, and
-> brcm,bcmgenet.yaml.
+Hello,
+
+On Sun, Feb 26, 2023 at 11:26:45PM +0100, Uwe Kleine-K=F6nig wrote:
+> this is v2 of the series. I send it a bit earlier than I planned to do th=
+at
+> initially because I failed to send v1 completely to the linux-i2c list.
 >=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+> Changes since (implicit) v1:
+>  - Added Acks for patches #5, #6 and #8
+>  - Fixed kernel doc as pointed out by Luca Ceresoli (patch #7)
+>  - Send all patches to linux-i2c mailing list
+>  - Rebased to current Linus' tree.
+>    This reduces the list of prerequisite patches to two.
+>=20
+> I updated
+>=20
+> 	https://git.pengutronix.de/git/ukl/linux i2c-probe-new
+>=20
+> accordingly.
 
-> Cc: Conor Dooley <conor.dooley@microchip.com>
+Linus tree now contains all patches that are a prerequisite for this
+series. I rebased the above branch again on top of linus/master and now
+it contains only the change sets included in this series.
 
-> diff --git a/Documentation/devicetree/bindings/spi/microchip,mpfs-spi.yam=
-l b/Documentation/devicetree/bindings/spi/microchip,mpfs-spi.yaml
-> index 1051690e3753..74a817cc7d94 100644
-> --- a/Documentation/devicetree/bindings/spi/microchip,mpfs-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/microchip,mpfs-spi.yaml
-> @@ -22,7 +22,7 @@ properties:
->        - items:
->            - const: microchip,mpfs-qspi
->            - const: microchip,coreqspi-rtl-v2
-> -      - const: microchip,coreqspi-rtl-v2 #FPGA QSPI
-> +      - const: microchip,coreqspi-rtl-v2 # FPGA QSPI
->        - const: microchip,mpfs-spi
+Also no unexpected new usages of .probe() appeared in Linus's tree (nor
+in next). Also there are no changes to any of the files touched by this
+series in next.
 
-I had to think for a minute as to what that comment even meant...
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+So this series is ready to be applied once Linus cuts -rc1.
 
-Thanks,
-Conor.
+Best regards
+Uwe
 
---mffVr3k4EP4yfp2t
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jphhkeygsgtmhvzu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZAJr0AAKCRB4tDGHoIJi
-0rHgAP9euC+7Ztk0BIMgxdrJzAjogpoZQH6UzawtcdI6SIq2nQD/d5Bvci5DVqMV
-DWn8X2un+KM/vLbl8yUpHlGFB4QKwQY=
-=v1U9
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQCb/UACgkQwfwUeK3K
+7AkuXgf/SMwWwnMqZjGgBPUDM9VgxnIlfQtagDo9nbprjQzoh3Ib5rPoV0hS3hvB
+47qsOgOL5iA240b8zcxn8IatQDJaPiDl7F06lLmWFEvMrhA233m84hU/U/O/0xbY
+0WuHom/ABjZwJ2JEl+qFUiE1Cm5r89LhYCw4UEXTG6Wn1dtuUb5Roq+uVAVjQxSS
+0aAP77IklhKDSPlpdnGXgiY1NrMiWmJWpFEyTLhNeqI7l9djO5tHLbezUcb2E4nU
+Xsz0eWpOmh85Eq8BhIFPY8CigES8ePIragUO4rxneI1ewhYWpvjEklysWIC0SO98
+Z9CJvnehDyeveIhwgTJsgtK21N7mxA==
+=QY8V
 -----END PGP SIGNATURE-----
 
---mffVr3k4EP4yfp2t--
+--jphhkeygsgtmhvzu--
