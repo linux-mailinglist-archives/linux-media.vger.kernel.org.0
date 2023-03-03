@@ -2,58 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62DCD6A95B6
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 11:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0944E6A95E3
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 12:17:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbjCCK7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 05:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41912 "EHLO
+        id S230181AbjCCLRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 06:17:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230363AbjCCK7K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 05:59:10 -0500
+        with ESMTP id S230356AbjCCLRX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 06:17:23 -0500
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B342166F0
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 02:59:07 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F0EA60ABA
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 03:17:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677841147; x=1709377147;
+  t=1677842241; x=1709378241;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wAqnfqPKS+48InwH/grVfi8TJeITJsLeey8nazHRdbc=;
-  b=iSgjsqxiHdHjVrt04EdWjNchQi1zyMfRCOFOSrvVn6HYNBX7PP02hyat
-   Kpix7k5A+uxxxgVcAOhnKc34H3Scyvzxpi4jldqai5B7zBOo9PLI9n1Vj
-   s7t79rNQcIpOSIAhuy5pnajczTzkbL/OJfxBumV2PXODgC24+ReWie4v8
-   XkrfFz77hN0jqPTVFd+0mJE0AFib6rHrmLDwSsQ8v4gGXoD/mZzl4Uq3P
-   wl/959LG6o91qMQW81bBiPJsiVGXhtuOy8Kas6S4DQllUB3XSwT4cAlOb
-   nFlbTlKKLaopeRpgkwyH4/7W5DWic03KVlRyKTrS8K8+hPdgyjhP1qp9o
+  bh=A2VU430YKPdceRYx+V9nw1BVwnVmkLrcevD+inBQK8A=;
+  b=LiAeS08YryUcRWvdsJgEvG9V48PmrSdMD8K0aT4gnxT9ZEw3HPvb5IeH
+   1Bxk/93SY3sZcfAmFF5kLhiEJYSoU6nGUtkPMA2FuXXtx/oXngJ7A+138
+   Y9fBzVutwMNg3JStcIt3tute5UZutUKzqGwTob/tR790aHugAQX6K9mGz
+   VwZd4hwBwuYyOc+9GaP278bfZFTI4GvI3ssqg0Z4qkGczdHcgqBqSAlsD
+   w4GDCJ2BToKLyp5Ltajpq4rXFV3RnyEd0gSq+xaEhKnBvnj/GIYEFg2Hi
+   /YI+JGq740peXdqXYEI0pn0k179NMcEh/K2Y6zt84dxcecQEKFrq8so/O
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="314673889"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="314676858"
 X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="314673889"
+   d="scan'208";a="314676858"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 02:58:56 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 03:17:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="849424183"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="849430383"
 X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; 
-   d="scan'208";a="849424183"
+   d="scan'208";a="849430383"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 02:58:55 -0800
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 03:17:19 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 507941207E1;
-        Fri,  3 Mar 2023 12:58:52 +0200 (EET)
-Date:   Fri, 3 Mar 2023 12:58:52 +0200
+        by kekkonen.fi.intel.com (Postfix) with SMTP id D69EE1207E1;
+        Fri,  3 Mar 2023 13:06:47 +0200 (EET)
+Date:   Fri, 3 Mar 2023 13:06:47 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 21/26] media: ipu3-cio2: Don't use devm_request_irq()
-Message-ID: <ZAHS7NOCJyhb7RtN@kekkonen.localdomain>
+Subject: Re: [PATCH 25/26] media: Implement best effort media device removal
+ safety sans refcounting
+Message-ID: <ZAHUx/kn/hCVW1k4@kekkonen.localdomain>
 References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
- <20230201214535.347075-22-sakari.ailus@linux.intel.com>
- <c180080e-c4b9-3cbe-558d-ca97b1d2456d@xs4all.nl>
+ <20230201214535.347075-26-sakari.ailus@linux.intel.com>
+ <a3a8c0ec-f13e-2473-78d6-f454790467be@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c180080e-c4b9-3cbe-558d-ca97b1d2456d@xs4all.nl>
+In-Reply-To: <a3a8c0ec-f13e-2473-78d6-f454790467be@xs4all.nl>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
         SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
@@ -65,38 +66,74 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans,
 
-Thanks for the review!
-
-On Fri, Mar 03, 2023 at 09:21:03AM +0100, Hans Verkuil wrote:
+On Fri, Mar 03, 2023 at 09:39:46AM +0100, Hans Verkuil wrote:
 > On 01/02/2023 22:45, Sakari Ailus wrote:
-> > Use request_irq() instead of devm_request_irq(), as a handler set using
-> > devm_request_irq() may still be called once the driver's remove() callback
-> > has been called.
+> > Add a new helper data structure media_devnode_compat_ref, which is used to
+> > prevent user space from calling IOCTLs or other system calls to the media
+> > device that has been already unregistered.
 > > 
-> > Also register the IRQ earlier on.
+> > The media device's memory may of course still be released during the call
+> > but there is only so much that can be done to this without the driver
+> > managing the lifetime of the resources it needs somehow.
+> > 
+> > This patch should be reverted once all drivers have been converted to manage
+> > their resources' lifetime.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/mc/mc-device.c  | 60 ++++++++++++++++++++++++++++++-----
+> >  drivers/media/mc/mc-devnode.c | 21 ++++++++----
+> >  include/media/media-devnode.h | 29 +++++++++++++++++
+> >  3 files changed, 96 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> > index 3a1db5fdbba7..22fdaa6370ea 100644
+> > --- a/drivers/media/mc/mc-device.c
+> > +++ b/drivers/media/mc/mc-device.c
+> > @@ -45,18 +45,34 @@ static inline void __user *media_get_uptr(__u64 arg)
+> >  	return (void __user *)(uintptr_t)arg;
+> >  }
+> >  
+> > +static void compat_ref_release(struct kref *kref)
+> > +{
+> > +	struct media_devnode_compat_ref *ref =
+> > +		container_of_const(kref, struct media_devnode_compat_ref, kref);
+> > +
+> > +	kfree(ref);
+> > +}
+> > +
+> >  static int media_device_open(struct media_devnode *devnode, struct file *filp)
+> >  {
+> >  	struct media_device *mdev = to_media_device(devnode);
+> >  	struct media_device_fh *fh;
+> >  	unsigned long flags;
+> >  
+> > +	if (devnode->ref && (!atomic_read(&devnode->ref->registered) ||
+> > +			     !kref_get_unless_zero(&devnode->ref->kref)))
+> > +		return -ENXIO;
+> > +
 > 
-> Why register it earlier? You do not explain the reason.
-
-The device nodes are created before the interrupt handler is registered. It
-should happen in the other way around. I'll change tha patch description.
-
+> This seems pointless: if the media device is unregistered, then the device
+> node disappears and it can't be opened anymore.
 > 
-> Also, does this patch (and also 18/26) belong in this patch series?
-> It seems more like a normal bug fix and not related to life-time management.
-> 
-> And isn't it the responsibility of the driver to ensure that the irqs are
-> masked in the remove() callback to prevent the irq from being called?
-> 
-> devm_request_irq() is used a lot in the kernel, so if this is a
-> common issue, then just fixing it in two drivers isn't going to make
-> much of a difference.
+> I'm confused by this patch in general: when media_device_unregister() is
+> called, it is no longer possible to call ioctls and basically do anything
+> except close the open fh.
 
-I came to think of this after sending the patch as well. It's memory that
-is the problem, any hardware access needs to end before remove is called.
+That is true.
 
-I'll drop the devm removal.
+However for drivers that don't manage media device lifetime, the devnode
+is released right at the time the driver's remove callback is called. This
+means that for all the open file handles the private_data is pointing to
+released memory.
+
+With this patch, the devnode compat ref will remain as long as any file
+handle is open, and the devnode registered status is maintained there.
+
+This certainly is risky but it reduces the time of danger to a very small
+moment. Just as it was before this patchset.
 
 -- 
-Kind regrads,
+Kind regards,
 
 Sakari Ailus
