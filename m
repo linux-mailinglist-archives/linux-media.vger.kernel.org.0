@@ -2,161 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A493F6A9AE1
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 16:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 721ED6A9B3A
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 16:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231302AbjCCPne (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 10:43:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55824 "EHLO
+        id S231152AbjCCPxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 10:53:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230502AbjCCPnd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 10:43:33 -0500
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7F912BF7;
-        Fri,  3 Mar 2023 07:43:31 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id bh20so2072615oib.9;
-        Fri, 03 Mar 2023 07:43:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677858210;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TQxH8ZWizGhpLpVMGBCg+glmrgZwdkg8RYT2oJUwuiw=;
-        b=SIS1TIhc+zb2C/l6aPGRZ4hDRWoIWQFGxXdRmasAggox5NmdQ65LymIRkCBSqUqdkF
-         LVf/hMHn+k1O1PcYaoU6HAsadpLfo/q1/zD455OpSnrEwIBuoZg0G8xC2rryAFF1H0ZS
-         29ExCFQgTjQOIEqe/PC9dS6IF7EtXC1q/QCT9XnBsq2qTZ0hxQ4GOZhUTKZdNbuTqW/b
-         wvQDiL8qf+8yv1Emg2y1wneFOItSOsVs0R3B9jpmhOOFzWtuv3muaV23xHXbGuI7CvTl
-         ZxDw7LuNWt/LK3M58w6ACdzYekyUtu3zxIQsQ5b3u6bEHyIngPRgMu2vlJ+JbMl7lmE/
-         F4Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677858210;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TQxH8ZWizGhpLpVMGBCg+glmrgZwdkg8RYT2oJUwuiw=;
-        b=N69qHByyi1lPitQiIAH17TYGRHLMA9xdZ+CxWsw6RUR9vrtwDpaRU8LzMhE8lErF5C
-         h+jZ63DQhDxFk7taS9/7YRbqUR1Q6+iHs5N6qreLnzArJ9PwpBL0WfyTKYk0wi2kHEyY
-         oGzKwzpfpv/E0wc5NpQfmTCvJpS+eH0hBtFfqi50DbdiHwLvsQmfG9iC7ILtNX7WRhiY
-         rf4YKaJENSW6cwcPvgvQm3UixZHUfSpvwoAD1LDT0LCN83yvsjSpoHzvDWHpE5En/JoW
-         8KxM7bBK7tImmUiRBW0k4osrd1NZV9ZHSZ5999/syIEvJIyzPeRYBMpz0R766D0Y4e3H
-         X+kw==
-X-Gm-Message-State: AO0yUKXT43MFo8WZmMA1jR3/vDI2tejKHkSdBfC8u7yPEw2ruemrOQ+L
-        RmhjO1SkDi5/fDJPY4pX+y+DRkXk1KgnttrZCts=
-X-Google-Smtp-Source: AK7set8WYj13njQ4eDzBoQOY2+mFeBIknWmbCTDY5/hj5Jb/TlKVYgvOi3ICKaHC5TUQE9KdMML0MYqsYHIsEMqs3jI=
-X-Received: by 2002:a05:6808:b21:b0:37f:b1ac:6b90 with SMTP id
- t1-20020a0568080b2100b0037fb1ac6b90mr671799oij.0.1677858210555; Fri, 03 Mar
- 2023 07:43:30 -0800 (PST)
+        with ESMTP id S231234AbjCCPxJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 10:53:09 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D9A86B6
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 07:53:07 -0800 (PST)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F701735;
+        Fri,  3 Mar 2023 16:53:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1677858785;
+        bh=tnltT6vjXGjrZRRCDnNKn+1X2zU3c88sI3DzYd1aFVM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=W+cLeDs6bkZgBTbaEJrrHy0GxrvQc3eAD0jS8LDovumU8cYGm5rOI0jdz+a5fxQu2
+         vlVRrcFeyCuknLk1tQK9pB2fIxrlt+5FAgL0FBS2xJDugR9RhF/jn9ygTrzh9/CxLL
+         rjUTmTcd2xr4FGsNfIUbWrr6iTRUjq0xnuNvHAl4=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] media: subdev: Fix validation state lockdep issue
+Date:   Fri,  3 Mar 2023 17:52:49 +0200
+Message-Id: <20230303155249.140929-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230302235356.3148279-1-robdclark@gmail.com> <20230302235356.3148279-16-robdclark@gmail.com>
- <ZAFnqbycMleLmRe9@intel.com> <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
- <CAF6AEGs6QYTESuwB8E9cTbv9LqQX16tz6-geeu9BCyFos9=sOA@mail.gmail.com>
- <ZAILc/fxzBqLv1OF@intel.com> <ZAIQDBD+HPbQA5sr@intel.com>
-In-Reply-To: <ZAIQDBD+HPbQA5sr@intel.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 3 Mar 2023 07:43:19 -0800
-Message-ID: <CAF6AEGuvrZs6+9c+bUPaUpZx85Xa-R-oDjFNbC8XRbMd7rvGpA@mail.gmail.com>
-Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
-To:     =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 3, 2023 at 7:20 AM Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
->
-> On Fri, Mar 03, 2023 at 05:00:03PM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
-> > On Fri, Mar 03, 2023 at 06:48:43AM -0800, Rob Clark wrote:
-> > > On Fri, Mar 3, 2023 at 1:58 AM Tvrtko Ursulin
-> > > <tvrtko.ursulin@linux.intel.com> wrote:
-> > > >
-> > > >
-> > > > On 03/03/2023 03:21, Rodrigo Vivi wrote:
-> > > > > On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
-> > > > >> From: Rob Clark <robdclark@chromium.org>
-> > > > >>
-> > > > >
-> > > > > missing some wording here...
-> > > > >
-> > > > >> v2: rebase
-> > > > >>
-> > > > >> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > >> ---
-> > > > >>   drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
-> > > > >>   1 file changed, 20 insertions(+)
-> > > > >>
-> > > > >> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/d=
-rm/i915/i915_request.c
-> > > > >> index 7503dcb9043b..44491e7e214c 100644
-> > > > >> --- a/drivers/gpu/drm/i915/i915_request.c
-> > > > >> +++ b/drivers/gpu/drm/i915/i915_request.c
-> > > > >> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struc=
-t dma_fence *fence)
-> > > > >>      return i915_request_enable_breadcrumb(to_request(fence));
-> > > > >>   }
-> > > > >>
-> > > > >> +static void i915_fence_set_deadline(struct dma_fence *fence, kt=
-ime_t deadline)
-> > > > >> +{
-> > > > >> +    struct i915_request *rq =3D to_request(fence);
-> > > > >> +
-> > > > >> +    if (i915_request_completed(rq))
-> > > > >> +            return;
-> > > > >> +
-> > > > >> +    if (i915_request_started(rq))
-> > > > >> +            return;
-> > > > >
-> > > > > why do we skip the boost if already started?
-> > > > > don't we want to boost the freq anyway?
-> > > >
-> > > > I'd wager Rob is just copying the current i915 wait boost logic.
-> > >
-> > > Yup, and probably incorrectly.. Matt reported fewer boosts/sec
-> > > compared to your RFC, this could be the bug
-> >
-> > I don't think i915 calls drm_atomic_helper_wait_for_fences()
-> > so that could explain something.
->
-> Oh, I guess this wasn't even supposed to take over the current
-> display boost stuff since you didn't remove the old one.
+The new subdev state code has a possible deadlock scenario during link
+validation when the pipeline contains subdevs that support state and
+that do not support state.
 
-Right, I didn't try to replace the current thing.. but hopefully at
-least make it possible for i915 to use more of the atomic helpers in
-the future
+The current code locks the states of the subdevs on both ends of the
+link when starting the link validation, locking the sink side first,
+then the source. If either (or both) of the subdevs does not support
+state, nothing is done for that subdev at this point, and instead the
+locking is handled the old way, i.e. the subdev's ops do the locking
+internally.
 
-BR,
--R
+The issue arises when the sink doesn't support state, but source does,
+so the validation code locks the source for the duration of the
+validation, and then the sink is locked only when the get_fmt op is
+called. So lockdep sees the source locked first, then the sink.
 
-> The current one just boosts after a missed vblank. The deadline
-> could use your timer approach I suppose and boost already a bit
-> earlier in the hopes of not missing the vblank.
->
-> --
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
+Later, when the streaming is started, the sink's s_stream op is called,
+which probably takes the subdev's lock. The op then calls the source's
+s_stream, which takes the source's lock. So, the sink is locked first,
+then the source.
+
+Note that link validation and stream starting is not done at the same
+time, so an actual deadlock should never happen. However, it's still a
+clear bug.
+
+Fix this by locking the subdev states only if both subdevs support
+state. In other words, we have two scenarios:
+
+1. Both subdevs support state. Lock sink first, then source, and keep
+   the locks while validating the link.
+2. At least one of the subdevs do not support state. Take the lock only
+   for the duration of the operation (get_fmt or looking at the
+   routing), and release after the op is done.
+
+Obviously 1. is better, as we have a more consistent view of the states
+of the subdevs during validation. 2. is how it has been so far, so it's
+no worse than this used to be.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 82 +++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index dff1d9be7841..ceee50694c24 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1057,32 +1057,45 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
+ 
+ static int
+ v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
+-				     struct v4l2_subdev_format *fmt)
++				     struct v4l2_subdev_format *fmt,
++				     bool states_locked)
+ {
+-	if (is_media_entity_v4l2_subdev(pad->entity)) {
+-		struct v4l2_subdev *sd =
+-			media_entity_to_v4l2_subdev(pad->entity);
++	struct v4l2_subdev_state *state;
++	struct v4l2_subdev *sd;
++	int ret;
+ 
+-		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+-		fmt->pad = pad->index;
+-		fmt->stream = stream;
++	if (!is_media_entity_v4l2_subdev(pad->entity)) {
++		WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
++		     "Driver bug! Wrong media entity type 0x%08x, entity %s\n",
++		     pad->entity->function, pad->entity->name);
+ 
+-		return v4l2_subdev_call(sd, pad, get_fmt,
+-					v4l2_subdev_get_locked_active_state(sd),
+-					fmt);
++		return -EINVAL;
+ 	}
+ 
+-	WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
+-	     "Driver bug! Wrong media entity type 0x%08x, entity %s\n",
+-	     pad->entity->function, pad->entity->name);
++	sd = media_entity_to_v4l2_subdev(pad->entity);
+ 
+-	return -EINVAL;
++	fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
++	fmt->pad = pad->index;
++	fmt->stream = stream;
++
++	if (states_locked)
++		state = v4l2_subdev_get_locked_active_state(sd);
++	else
++		state = v4l2_subdev_lock_and_get_active_state(sd);
++
++	ret = v4l2_subdev_call(sd, pad, get_fmt, state, fmt);
++
++	if (!states_locked && state)
++		v4l2_subdev_unlock_state(state);
++
++	return ret;
+ }
+ 
+ #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+ 
+ static void __v4l2_link_validate_get_streams(struct media_pad *pad,
+-					     u64 *streams_mask)
++					     u64 *streams_mask,
++					     bool states_locked)
+ {
+ 	struct v4l2_subdev_route *route;
+ 	struct v4l2_subdev_state *state;
+@@ -1092,7 +1105,11 @@ static void __v4l2_link_validate_get_streams(struct media_pad *pad,
+ 
+ 	*streams_mask = 0;
+ 
+-	state = v4l2_subdev_get_locked_active_state(subdev);
++	if (states_locked)
++		state = v4l2_subdev_get_locked_active_state(subdev);
++	else
++		state = v4l2_subdev_lock_and_get_active_state(subdev);
++
+ 	if (WARN_ON(!state))
+ 		return;
+ 
+@@ -1113,12 +1130,16 @@ static void __v4l2_link_validate_get_streams(struct media_pad *pad,
+ 
+ 		*streams_mask |= BIT_ULL(route_stream);
+ 	}
++
++	if (!states_locked)
++		v4l2_subdev_unlock_state(state);
+ }
+ 
+ #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+ 
+ static void v4l2_link_validate_get_streams(struct media_pad *pad,
+-					   u64 *streams_mask)
++					   u64 *streams_mask,
++					   bool states_locked)
+ {
+ 	struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(pad->entity);
+ 
+@@ -1129,14 +1150,14 @@ static void v4l2_link_validate_get_streams(struct media_pad *pad,
+ 	}
+ 
+ #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+-	__v4l2_link_validate_get_streams(pad, streams_mask);
++	__v4l2_link_validate_get_streams(pad, streams_mask, states_locked);
+ #else
+ 	/* This shouldn't happen */
+ 	*streams_mask = 0;
+ #endif
+ }
+ 
+-static int v4l2_subdev_link_validate_locked(struct media_link *link)
++static int v4l2_subdev_link_validate_locked(struct media_link *link, bool states_locked)
+ {
+ 	struct v4l2_subdev *sink_subdev =
+ 		media_entity_to_v4l2_subdev(link->sink->entity);
+@@ -1151,8 +1172,8 @@ static int v4l2_subdev_link_validate_locked(struct media_link *link)
+ 		link->source->entity->name, link->source->index,
+ 		link->sink->entity->name, link->sink->index);
+ 
+-	v4l2_link_validate_get_streams(link->source, &source_streams_mask);
+-	v4l2_link_validate_get_streams(link->sink, &sink_streams_mask);
++	v4l2_link_validate_get_streams(link->source, &source_streams_mask, states_locked);
++	v4l2_link_validate_get_streams(link->sink, &sink_streams_mask, states_locked);
+ 
+ 	/*
+ 	 * It is ok to have more source streams than sink streams as extra
+@@ -1180,7 +1201,7 @@ static int v4l2_subdev_link_validate_locked(struct media_link *link)
+ 			link->sink->entity->name, link->sink->index, stream);
+ 
+ 		ret = v4l2_subdev_link_validate_get_format(link->source, stream,
+-							   &source_fmt);
++							   &source_fmt, states_locked);
+ 		if (ret < 0) {
+ 			dev_dbg(dev,
+ 				"Failed to get format for \"%s\":%u:%u (but that's ok)\n",
+@@ -1190,7 +1211,7 @@ static int v4l2_subdev_link_validate_locked(struct media_link *link)
+ 		}
+ 
+ 		ret = v4l2_subdev_link_validate_get_format(link->sink, stream,
+-							   &sink_fmt);
++							   &sink_fmt, states_locked);
+ 		if (ret < 0) {
+ 			dev_dbg(dev,
+ 				"Failed to get format for \"%s\":%u:%u (but that's ok)\n",
+@@ -1222,6 +1243,7 @@ int v4l2_subdev_link_validate(struct media_link *link)
+ {
+ 	struct v4l2_subdev *source_sd, *sink_sd;
+ 	struct v4l2_subdev_state *source_state, *sink_state;
++	bool states_locked;
+ 	int ret;
+ 
+ 	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
+@@ -1230,19 +1252,19 @@ int v4l2_subdev_link_validate(struct media_link *link)
+ 	sink_state = v4l2_subdev_get_unlocked_active_state(sink_sd);
+ 	source_state = v4l2_subdev_get_unlocked_active_state(source_sd);
+ 
+-	if (sink_state)
+-		v4l2_subdev_lock_state(sink_state);
++	states_locked = sink_state && source_state;
+ 
+-	if (source_state)
++	if (states_locked) {
++		v4l2_subdev_lock_state(sink_state);
+ 		v4l2_subdev_lock_state(source_state);
++	}
+ 
+-	ret = v4l2_subdev_link_validate_locked(link);
++	ret = v4l2_subdev_link_validate_locked(link, states_locked);
+ 
+-	if (sink_state)
++	if (states_locked) {
+ 		v4l2_subdev_unlock_state(sink_state);
+-
+-	if (source_state)
+ 		v4l2_subdev_unlock_state(source_state);
++	}
+ 
+ 	return ret;
+ }
+-- 
+2.34.1
+
