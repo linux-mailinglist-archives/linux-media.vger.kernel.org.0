@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC866A92AB
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 09:35:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7436A92AE
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 09:36:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbjCCIfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 03:35:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59568 "EHLO
+        id S230164AbjCCIgl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 03:36:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230326AbjCCIfa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 03:35:30 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DE3136E1
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 00:34:54 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id da10so7327352edb.3
-        for <linux-media@vger.kernel.org>; Fri, 03 Mar 2023 00:34:54 -0800 (PST)
+        with ESMTP id S229714AbjCCIgk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 03:36:40 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CC8357D37
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 00:36:00 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id u9so7351348edd.2
+        for <linux-media@vger.kernel.org>; Fri, 03 Mar 2023 00:36:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677832490;
+        d=linaro.org; s=google; t=1677832531;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qDoB5UWMvvhNqF0wgTmnzNlgB1BlgJyJ3cSmjAuYaOI=;
-        b=yK6n2n20iufKpSsuEliT1MWEFiyS4gR75wIU7EYtqqQ6NbJ5y7lsIeP587ADjvoQlr
-         YOWmPUEJ8EpXrNsbGAUBQ42Jh+k2JR+dDzmX/enB7j1L0YYmZVuqFiu2jTrCI9dgEn+b
-         EFB3qrcHu+4iZ2yci9sgJ7GFbf96kAv/JBvI1O4e1SeMgu95QM8l7LWNddRNX5wUwh5U
-         rlEuIYxrFZQOd1demti85V7JshcjkNrk6+I8xsGiAIQp+gInFiLloTdEbiJvV3hPoQUW
-         adSXoFNmrjbLEmOtgmcP3tZMHP9TwT0+spth3ZjfUE/7hPWQmzLBs2A3iOeuDvafAdAS
-         QKiw==
+        bh=45hLfdXjorzUYhr9af9cUsgdq6LcBS1WmZTgzmvAu7o=;
+        b=QjBrJaV+mpJ2WyDB9RD0VMdTTz/SWjIGRdOMHNvr7yJfkCHkQ/jIqFVRbyL5v3GRfY
+         /AgcwO6luBsouTTIYRWNth/w8a5QnLbCDWscb9zU5IsuqRbG9rMO9qg+M4lwzmWO8j8X
+         ildBmkMnYXdHXDWa2FgcC0UcCovenaKErUgcKcxzhMeJiM9UySaxykEoVw3ABhwi8Pgj
+         AUD/YkRXWjguH7fjdH6XVPl6LbA2b6GjSW92NN3ZlXu9uhVjx+xtgqYoPTrQGYXwLk+U
+         zWnuBYYqCoObIL9fpyKHveBdTTD1B3Pa3WSkjYNY7TPrbs86RIi2Kmv5FYVaOaGSLuxM
+         T/BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677832490;
+        d=1e100.net; s=20210112; t=1677832531;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qDoB5UWMvvhNqF0wgTmnzNlgB1BlgJyJ3cSmjAuYaOI=;
-        b=k86zYUvlSPr0KFLBkYUZYh8dQ4NxmOJ1yt8InQJOqO/f0V/RVHWpkTobV/zKzXl5b4
-         sdDP9wjo+A2sJVO3Yz7JqMI6cNCurKvgEVLfjBqsexbmTDXoY1cTAjy5hFXAUWayORKO
-         Svi13Ef3zPJsMgjsBVMuEUCdqSK5TGUOk+JxbpiZLCL/oIo+nGBEYXNAOIOiE9eNMChF
-         h0Y36RUZatJEe2/6NyPqpUvjqVhmHYmZ8P19wIdBVGzTeG5EwDBFnJyt1A+CZLjMY/yi
-         QRyN1P581KlW4U5WSvLcw2pw9w4mxUht1vZrfSh3Wlh39PKJCL0YaisOC/UULRAzxLFm
-         n2ig==
-X-Gm-Message-State: AO0yUKXzRIAmIo+Q+JKSthcGG0Ye3JekuH9YYcVEdM0PqSHYThQVBAAf
-        8VcfRLJpxvEYJkHIgmV9F9ALlw==
-X-Google-Smtp-Source: AK7set/VwnOv5s/WNv9aTbwy3eFyQZ1UobEdURnclq1E2VoZ9yPlgcAmzt3vyf8Dn28U350ydppQuA==
-X-Received: by 2002:a17:906:a042:b0:8b1:7b54:a013 with SMTP id bg2-20020a170906a04200b008b17b54a013mr844962ejb.57.1677832489858;
-        Fri, 03 Mar 2023 00:34:49 -0800 (PST)
+        bh=45hLfdXjorzUYhr9af9cUsgdq6LcBS1WmZTgzmvAu7o=;
+        b=2HnZX8k9ZfEgHALQh3bk72KQ15OHkInyKF43YBBIINh7f2ARKaAjltMoTnhN8VQV3t
+         e3JFTJvd81N5E37P7DoaZuyF12nLqAYqHDOaKwjZvuuI8tNP6VdILDpbY8k8fWxFoU31
+         +mFx+UwI1k1l6g+IauzX9dVkt0/vELPnM0i/aG5njBAX+14gGr3s7NqeU7+oDly3EO70
+         lfgq5GMstcANobhNlZ6YhfooWkCPCjpb203+xTiD3BxlILUewwB4UV2jho/FKK7dtoJ5
+         3PG6r9RELXWX9ZzMIJv5KohHwwv9aGW32nGcF78VdJDUdbSWiuWRfkjYBxX0stGD3fW0
+         P6oA==
+X-Gm-Message-State: AO0yUKUV64NXZm6q0omtEe32wY7bK2D1RntY0N1gR3Yst5WosGvArOPx
+        TqEaD1Ea17eUaqkWLE4pbCg2+L37J06y2Ec8
+X-Google-Smtp-Source: AK7set8d2Q0EwBHWa3/v/x58sFAMvn69ooUjKD+cUroGILHDVX8OrZEoA2EBVd2lDRPjzr4dFRADPg==
+X-Received: by 2002:a17:906:dd0:b0:8af:5154:ff8e with SMTP id p16-20020a1709060dd000b008af5154ff8emr871595eji.15.1677832531497;
+        Fri, 03 Mar 2023 00:35:31 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id k12-20020a50ce4c000000b004c0459c20f9sm856380edj.66.2023.03.03.00.34.48
+        by smtp.gmail.com with ESMTPSA id h30-20020a50cdde000000b004c10b4f9ebesm871150edj.15.2023.03.03.00.35.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Mar 2023 00:34:49 -0800 (PST)
-Message-ID: <10e4ac1e-5c4d-4d6d-53e6-fbc1142940f9@linaro.org>
-Date:   Fri, 3 Mar 2023 09:34:47 +0100
+        Fri, 03 Mar 2023 00:35:31 -0800 (PST)
+Message-ID: <af7b3c56-b9b1-7eab-2c73-2ae7d945f548@linaro.org>
+Date:   Fri, 3 Mar 2023 09:35:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -87,214 +87,12 @@ On 02/03/2023 10:19, jack.zhu wrote:
 > Add DT binding document for Starfive Camera subsystem driver
 > 
 > Signed-off-by: jack.zhu <jack.zhu@starfivetech.com>
-> ---
->  .../bindings/media/starfive,jh7110-camss.yaml | 150 ++++++++++++++++++
->  1 file changed, 150 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> new file mode 100644
-> index 000000000000..9a34944ca0ab
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> @@ -0,0 +1,150 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 
-Drop quotes from both.
+Also:
 
-> +
-> +title: Starfive SoC CAMSS ISP
-> +
-> +maintainers:
-> +  - Jack Zhu <jack.zhu@starfivetech.com>
-> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
-> +
-> +description: |
-
-No need for '|'
-
-> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC.It
-> +  consists of a VIN controller(Video In Controller, a top-level control until)
-> +  and a ISP.
-
-"an ISP", I think
-
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-camss
-> +
-> +  reg:
-> +    minItems: 2
-
-Drop minItems, no need.
-
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: syscon
-> +      - const: isp
-> +
-> +  clocks:
-> +    minItems: 7
-
-Drop mintems
-
-> +    maxItems: 7
-> +
-> +  clock-names:
-> +    items:
-> +      - const: clk_apb_func
-> +      - const: clk_wrapper_clk_c
-> +      - const: clk_dvp_inv
-> +      - const: clk_axiwr
-> +      - const: clk_mipi_rx0_pxl
-> +      - const: clk_ispcore_2x
-> +      - const: clk_isp_axi
-
-Drop "clk" prefix
-
-> +
-> +  resets:
-> +    minItems: 6
-
-Drop
-
-> +    maxItems: 6
-> +
-> +  reset-names:
-> +    items:
-> +      - const: rst_wrapper_p
-
-Drop rst prefix
-
-> +      - const: rst_wrapper_c
-> +      - const: rst_axird
-> +      - const: rst_axiwr
-> +      - const: rst_isp_top_n
-> +      - const: rst_isp_top_axi
-> +
-> +  power-domains:
-> +    items:
-> +      - description: JH7110 PD ISP - ISP Power Domain Switch Controller.
-
-Drop redundant pieces, e.g. "PD ISP"
-
-> +
-> +  interrupts:
-> +    minItems: 4
-
-Drop
-
-> +    maxItems: 4
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@1:
-
-And what about port@0?
-
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port for receiving CSI data.
-> +
-> +        properties:
-> +          endpoint@1:
-
-Hm, do you have more than one endpoint in this port? Why unit address?
-
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +    required:
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-
-Drop blank line
-
-> +    stfcamss: camss@19840000 {
-
-isp@
-
-> +        compatible = "starfive,jh7110-camss";
-> +        reg = <0x19840000 0x10000>,
-> +            <0x19870000 0x30000>;
-
-All this looks misaligned
-> +        reg-names = "syscon", "isp";
-> +        clocks = <&ispcrg 0>,
-> +            <&ispcrg 13>,
-
-Looks even worse...
-
-> +            <&ispcrg 2>,
-> +            <&ispcrg 12>,
-> +            <&ispcrg 1>,
-> +            <&syscrg 51>,
-> +            <&syscrg 52>;
-> +        clock-names = "clk_apb_func",
-> +            "clk_wrapper_clk_c",
-> +            "clk_dvp_inv",
-> +            "clk_axiwr",
-> +            "clk_mipi_rx0_pxl",
-> +            "clk_ispcore_2x",
-> +            "clk_isp_axi";
-> +        resets = <&ispcrg 0>,
-> +            <&ispcrg 1>,
-> +            <&ispcrg 10>,
-> +            <&ispcrg 11>,
-> +            <&syscrg 41>,
-> +            <&syscrg 42>;
-> +        reset-names = "rst_wrapper_p",
-> +            "rst_wrapper_c",
-> +            "rst_axird",
-> +            "rst_axiwr",
-> +            "rst_isp_top_n",
-> +            "rst_isp_top_axi";
-> +        power-domains = <&pwrc 5>;
-> +        interrupts = <92>, <87>, <88>, <90>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                vin_from_csi2rx: endpoint@1 {
-> +                    reg = <1>;
-> +                    remote-endpoint = <&csi2rx_to_vin>;
-> +                };
-> +            };
-> +        };
-> +    };
+Subject: drop second/last, redundant "add binding document". The
+"dt-bindings" prefix is already stating that these are bindings and it
+is a document. Write something useful instead.
 
 Best regards,
 Krzysztof
