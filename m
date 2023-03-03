@@ -2,163 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB45C6A8FD5
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 04:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C81D06A9024
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 05:16:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjCCDV0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Mar 2023 22:21:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42292 "EHLO
+        id S229621AbjCCEQS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Mar 2023 23:16:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjCCDVY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 22:21:24 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C942DE4E;
-        Thu,  2 Mar 2023 19:21:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677813683; x=1709349683;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=yGAVmQFLftsBVjoGRZ731DoB6VglmhE2iMIWUwlXq/c=;
-  b=XUr6u/+3NDpLDy70XwUl/iJUc56IOBW8ids+4S+aeMlks2bjhAjDwRfS
-   AKay5lGi2Pen+vHiz87ey7PRXjQzPlazCkuDKNOf4ZN85/JMlWkrAtxa1
-   GFVAVKHiHCUDWPvVNi4J61HOF7RJznISpa0LwP3q9jUGzOKoVfnlLrIY3
-   57erk9XjQLL4SVQEH5GPxY//DCxvd2p9ulFk/x54zm7Lo0oWJmm4j04Hj
-   EMqFJMf9ntzvwenvh7pQdcYnGz82hl3AlIPfuop3+7m7f+BxvuyQgIO9i
-   wxMqXmHQwukHvgbc+z1UvFofMfPCzbJzJcfVWZU3LqeefKKli8B74xklr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="323236506"
-X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="323236506"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 19:21:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="799087956"
-X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; 
-   d="scan'208";a="799087956"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga004.jf.intel.com with ESMTP; 02 Mar 2023 19:21:23 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 2 Mar 2023 19:21:22 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 2 Mar 2023 19:21:22 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 2 Mar 2023 19:21:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y3obz2uAwlz3ylIxFBZvuwBnm4Q2F8E6mQfme5EWdsr8iSlLAZLModyNiqH2hVoT7x4nYrlB/EpRCTjPfjrFWwo4PJZ/ujguiH+vEPS8DbkoWN2k37UldJirh1GSZDsoqlG3WaRQ/WwUWzOJls+mtER5eu1PVKr0U878otUuGSfB01F3Ve7cespCMxkG4TK3rQpzmz31ORMNlKjtWQRf3DwdaGLTmgdQ9dB6HH2MVmvJFD++/lSLJDyJ1+vr/OOMkhu6c7TK1cN3qrVbQjRcVpHy6VonCOi6Ix+zbCBhjzjrf5Hx74qI6Cnj5AOiQaML+/QwJWBadB9nWTASvv+vsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jjva57Z52G3dXE6ON8HxfeZ2zS+FJb3IV8p00AbgBz4=;
- b=i3060JZNCG90he/42tEG4ZnS80/9nf4k2/lNCI9fM3b5q4BcPIw9kiHPlgXJw7B+I98XAsAvRaKZkslLbT9lzCPE0MBZMtKarsaTrLz41Ab8sjaQVG3cy+GU7EfMTOgGToQQMSSJB8SBLN3FieGAVLEFKimk5Y8mgcnantn9TlbAMDerPzPvHi9qNAo11XDXyBVQL/pYj6A7n1kN8JSmWF4CmMYJmWCLamFRIWTvQIUXfIfUR1zQeXpzpZJNAVwdv4wSxj2GThi6ztX59uspdoAVCxWltcOnKPt0hq6r72wFKsXzckf4Iphm4Ic86FTylO2yw4xTwn4U5cA7rE4iAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by MN2PR11MB4600.namprd11.prod.outlook.com (2603:10b6:208:26e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Fri, 3 Mar
- 2023 03:21:21 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::3bd5:710c:ebab:6158]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::3bd5:710c:ebab:6158%8]) with mapi id 15.20.6156.019; Fri, 3 Mar 2023
- 03:21:20 +0000
-Date:   Thu, 2 Mar 2023 22:21:13 -0500
-From:   Rodrigo Vivi <rodrigo.vivi@intel.com>
-To:     Rob Clark <robdclark@gmail.com>
-CC:     <dri-devel@lists.freedesktop.org>,
-        <freedreno@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        <intel-gfx@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
-Message-ID: <ZAFnqbycMleLmRe9@intel.com>
-References: <20230302235356.3148279-1-robdclark@gmail.com>
- <20230302235356.3148279-16-robdclark@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230302235356.3148279-16-robdclark@gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0176.namprd05.prod.outlook.com
- (2603:10b6:a03:339::31) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MN2PR11MB4600:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d18d276-ab59-4eb0-4525-08db1b965be8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ksXDrIENKngoyq1F5LykBTiuq7wxil5AQiC5UQb+/nsISOlGSKnZmCgOfeIJmGnfF2E/I30PXEAHlfjEoEwWIXJPDvTuRTpfYaYyjASCASKa7/8JqrzYtbTWQPgej2SDzBDgTzjJe/28PI2sGKNXBsEpMq6C9BNrmcqQqvS8N+NGhHcDBtKUTY9FHSFRsrDqqYz6ecwlMUgrV272rQLqNUZgEKoQaDdnealNqth6hv5is77/9fhRpMgZluqQFfkpgUNflvIiWFsHzV6ZFVKsCbAgce0sdQ9NpasgiOwulRfJ1JBYx+y4IIlpI54ntAiLyYUo0U+kkjsgqzxPgfNTpLsxLDKcqiB76zjDbnQcogAFrC4wI0XwuPxjUDscNEZV6c08B1o0sSfMlCtfnYDBi9ExKBJXsYroksQtieC8/jnfnjw0pbjZGL87aOqw/jBsOgKGwHctHYszmmxHl609udu2FUT/ene0cJEi/hxiKMMDMHUHhC2EOlX/lPTj7JEyF2JY/z7mUS48ICQgmZSwgTMdroJixV4L0I4DXnZdsOrqR3piq2wUXG3xbfw9JvSwOFZjSgGYlNKjBhYz5fwZZKeZx4gy99Mjo6EGRVEuspFKJuA0l2owfQp1UAuVVX8eivOVAziDRw4S461bOgoojA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6059.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(396003)(366004)(39860400002)(376002)(136003)(451199018)(36756003)(41300700001)(8936002)(6512007)(2616005)(54906003)(4326008)(6916009)(66556008)(8676002)(66476007)(186003)(66946007)(86362001)(2906002)(7416002)(44832011)(83380400001)(26005)(5660300002)(6506007)(478600001)(6666004)(6486002)(316002)(38100700002)(82960400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EeryyZM4FOeVrO02bMW0NPubwNDrNWW8c8o5mTuhpYG25HQ0wEOb8POi/Fy/?=
- =?us-ascii?Q?zc3ayeBTOpTw6oH2CloAVu8QclTf/QfXtFlcntWw4oIEjE3LOQjOPY4OM/Qp?=
- =?us-ascii?Q?b8U8Cvhs2wd2lS+pWQeIdjlihQf5PMf4/1TvxmWUVkEprmxFvQw7T2T8lCJB?=
- =?us-ascii?Q?8KlrEj5OJjH2yUgEj551V524zjcIyFcuodTpg3zWwHkzc2Ye1RtP27jbVvuT?=
- =?us-ascii?Q?PRNi4Vr+KsI1qsZkxA/2K3+Bq0AiJvGfuB6bdq6R1wCch3bKBDY8EaK3We3J?=
- =?us-ascii?Q?o1mLsVuengPbyF4hG/gM6O6fl+Zm1tkEAKO+a5ZAsOLoddhK8OAlDvP5QPs3?=
- =?us-ascii?Q?Jnugvf/XMrzYdA/5K6X7/mJfJF4bRPtHP0FF8YEvr70PbvCvl0Rjfl762JCm?=
- =?us-ascii?Q?13bcZSgIw7uisbBGk2RB8HvgAVXv6Wl1LJ6GEkH6CPFfvRL5i0ZF6LonFbmU?=
- =?us-ascii?Q?x4dsssDlOQruzwVMpCc9Dn46PjOlOgtd/408Wey5osXHgx1nY3O54Ny0xiN1?=
- =?us-ascii?Q?++e5ls1ooMrlNYvSy/UGNVlnx/xbayAh8kIUZ0fePrNDLRBL1gWwTxeJ7L0X?=
- =?us-ascii?Q?aiQOLjh9jfNuApnAxELJP/Uk1qF/fMcE2of1kG+NDLvrxSQJaBY9HdCH8Lay?=
- =?us-ascii?Q?+ldsKB8Mzb+5D9rkl1+GA9Ou5bWLxUNNoS/SHPyLz74Qi4rrC/MH4OotaJRq?=
- =?us-ascii?Q?1Q8n+1QIzgoZlj6pA46IBEMimhxqdZBmdfOIx8AKz9AOsy2WA43Sft9if1iy?=
- =?us-ascii?Q?Ms4457kyuCEDtaWe4aYc4CWFgCjEvigR0VdN8gamnGMVhjHWqd0tX/8UMc1+?=
- =?us-ascii?Q?zECZoqA8VmfSq9ME5a6ioVCn8uJe4bp2z89P5km8/qIZw9YPMmyfMGNQWzFD?=
- =?us-ascii?Q?RGnV1XAr2/AdZ90y0/rYCzMfPBsZivNpRlYIP0UnVNjH/uxNTkSsJ5J2uUtK?=
- =?us-ascii?Q?lhvJ70i+6ecJTv3LOmkzGvYeQdXHiTwisjnNKQiqhy6i31Vg29cnjBNF++jG?=
- =?us-ascii?Q?eWvZxkHP+TxscRZQw4y7efNJbMzOx6p2yougbmNTO3cgHqfr8xaseBV0jIUC?=
- =?us-ascii?Q?3zU+dISOQKIhDuQrXgodhFyE6JDZ+7Bu8Y/Ppb+3XpXC54r5sTHltobi8CkT?=
- =?us-ascii?Q?jR76FaY/S1TETowYiwVX33jrJuS6fiwtSJhOxYY5CNUlTTE6HFI5MqUzjRqK?=
- =?us-ascii?Q?nsV66P2B3cUF3+c+dZ+Yr96bCQuJ3RaIJOz9CLuuU/LJ10WTMOgruWfr+3Pa?=
- =?us-ascii?Q?VaYB4OKfNakP27t8Xy7kmvYtCjN8mVAjHQmoZ6LLictXYct5DC6xZBtpOG89?=
- =?us-ascii?Q?qGaPqoA609mXSdX5jeds66z7GosbR6kp9MHwQeyyLv7BppPLDwo/DAUK+6Xy?=
- =?us-ascii?Q?slCDkJZlsigqtmZJNag4PHg9pHzVbZ2yhQaTjNC2w6pOmv2yWxNWmnlLvafO?=
- =?us-ascii?Q?4ACYva4PjjTzWntIQp8hTOORaYB86fyuLksAVrnLW+GVivuE+mm7PS7GOtYz?=
- =?us-ascii?Q?wVOI9Aclvj2iGCjO5JKALV+KLubXeaoak6epVLZYLB6hDb4A1ZzGyXV556Is?=
- =?us-ascii?Q?xMRMWZobK8/KrARdvNQDN1t40t8XawamvSE72oTQHaxBMXZtfp/IfAtVADW0?=
- =?us-ascii?Q?Og=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d18d276-ab59-4eb0-4525-08db1b965be8
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2023 03:21:20.8580
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yFqqQh0/V5ALCslhNRKGS4PDn2sNzMRGwumB/0ag778fatcMPMDmdOn9crqN/oDa4NpW7Rn6sYMPdDu4JoenYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4600
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        with ESMTP id S229744AbjCCEP6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Mar 2023 23:15:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6655551A
+        for <linux-media@vger.kernel.org>; Thu,  2 Mar 2023 20:15:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B5A661729
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 04:15:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22C71C433EF
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 04:15:50 +0000 (UTC)
+Date:   Fri, 03 Mar 2023 05:15:49 +0100
+Message-ID: <e4e05024543fa5ff817e577e2d727a62.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -166,67 +35,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
->
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-missing some wording here...
+Results of the daily build of media_tree:
 
-> v2: rebase
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 7503dcb9043b..44491e7e214c 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
->  	return i915_request_enable_breadcrumb(to_request(fence));
->  }
->  
-> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> +{
-> +	struct i915_request *rq = to_request(fence);
-> +
-> +	if (i915_request_completed(rq))
-> +		return;
-> +
-> +	if (i915_request_started(rq))
-> +		return;
+date:			Fri Mar  3 03:00:11 CET 2023
+media-tree git hash:	3e62aba8284de0994a669d07983299242e68fe72
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	8a38aa266797c55927cff648d454f6314e303b8b
+edid-decode git hash:	d740dde3540a257a8974d2250b76049c119a473b
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8250-g3ed42e4c-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7118b386b41c7ddc9937a707027b16ff8308b5aa
+host hardware:		x86_64
+host os:		6.0.0-6-amd64
 
-why do we skip the boost if already started?
-don't we want to boost the freq anyway?
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 1
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
-> +
-> +	/*
-> +	 * TODO something more clever for deadlines that are in the
-> +	 * future.  I think probably track the nearest deadline in
-> +	 * rq->timeline and set timer to trigger boost accordingly?
-> +	 */
+Detailed results are available here:
 
-I'm afraid it will be very hard to find some heuristics of what's
-late enough for the boost no?
-I mean, how early to boost the freq on an upcoming deadline for the
-timer?
+https://hverkuil.home.xs4all.nl/logs/Friday.log
 
-> +
-> +	intel_rps_boost(rq);
-> +}
-> +
->  static signed long i915_fence_wait(struct dma_fence *fence,
->  				   bool interruptible,
->  				   signed long timeout)
-> @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
->  	.signaled = i915_fence_signaled,
->  	.wait = i915_fence_wait,
->  	.release = i915_fence_release,
-> +	.set_deadline = i915_fence_set_deadline,
->  };
->  
->  static void irq_execute_cb(struct irq_work *wrk)
-> -- 
-> 2.39.1
-> 
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
