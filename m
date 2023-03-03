@@ -2,134 +2,300 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DA96A9250
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 09:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC866A92AB
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 09:35:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230038AbjCCIWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 03:22:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43334 "EHLO
+        id S230327AbjCCIfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 03:35:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjCCIWf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 03:22:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360E559E5E
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 00:21:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 805B461760
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 08:21:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442C3C433EF;
-        Fri,  3 Mar 2023 08:21:06 +0000 (UTC)
-Message-ID: <c180080e-c4b9-3cbe-558d-ca97b1d2456d@xs4all.nl>
-Date:   Fri, 3 Mar 2023 09:21:03 +0100
+        with ESMTP id S230326AbjCCIfa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 03:35:30 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DE3136E1
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 00:34:54 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id da10so7327352edb.3
+        for <linux-media@vger.kernel.org>; Fri, 03 Mar 2023 00:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1677832490;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qDoB5UWMvvhNqF0wgTmnzNlgB1BlgJyJ3cSmjAuYaOI=;
+        b=yK6n2n20iufKpSsuEliT1MWEFiyS4gR75wIU7EYtqqQ6NbJ5y7lsIeP587ADjvoQlr
+         YOWmPUEJ8EpXrNsbGAUBQ42Jh+k2JR+dDzmX/enB7j1L0YYmZVuqFiu2jTrCI9dgEn+b
+         EFB3qrcHu+4iZ2yci9sgJ7GFbf96kAv/JBvI1O4e1SeMgu95QM8l7LWNddRNX5wUwh5U
+         rlEuIYxrFZQOd1demti85V7JshcjkNrk6+I8xsGiAIQp+gInFiLloTdEbiJvV3hPoQUW
+         adSXoFNmrjbLEmOtgmcP3tZMHP9TwT0+spth3ZjfUE/7hPWQmzLBs2A3iOeuDvafAdAS
+         QKiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677832490;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qDoB5UWMvvhNqF0wgTmnzNlgB1BlgJyJ3cSmjAuYaOI=;
+        b=k86zYUvlSPr0KFLBkYUZYh8dQ4NxmOJ1yt8InQJOqO/f0V/RVHWpkTobV/zKzXl5b4
+         sdDP9wjo+A2sJVO3Yz7JqMI6cNCurKvgEVLfjBqsexbmTDXoY1cTAjy5hFXAUWayORKO
+         Svi13Ef3zPJsMgjsBVMuEUCdqSK5TGUOk+JxbpiZLCL/oIo+nGBEYXNAOIOiE9eNMChF
+         h0Y36RUZatJEe2/6NyPqpUvjqVhmHYmZ8P19wIdBVGzTeG5EwDBFnJyt1A+CZLjMY/yi
+         QRyN1P581KlW4U5WSvLcw2pw9w4mxUht1vZrfSh3Wlh39PKJCL0YaisOC/UULRAzxLFm
+         n2ig==
+X-Gm-Message-State: AO0yUKXzRIAmIo+Q+JKSthcGG0Ye3JekuH9YYcVEdM0PqSHYThQVBAAf
+        8VcfRLJpxvEYJkHIgmV9F9ALlw==
+X-Google-Smtp-Source: AK7set/VwnOv5s/WNv9aTbwy3eFyQZ1UobEdURnclq1E2VoZ9yPlgcAmzt3vyf8Dn28U350ydppQuA==
+X-Received: by 2002:a17:906:a042:b0:8b1:7b54:a013 with SMTP id bg2-20020a170906a04200b008b17b54a013mr844962ejb.57.1677832489858;
+        Fri, 03 Mar 2023 00:34:49 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id k12-20020a50ce4c000000b004c0459c20f9sm856380edj.66.2023.03.03.00.34.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Mar 2023 00:34:49 -0800 (PST)
+Message-ID: <10e4ac1e-5c4d-4d6d-53e6-fbc1142940f9@linaro.org>
+Date:   Fri, 3 Mar 2023 09:34:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 21/26] media: ipu3-cio2: Don't use devm_request_irq()
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com
-References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
- <20230201214535.347075-22-sakari.ailus@linux.intel.com>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 01/11] media: dt-bindings: starfive,jh7110-camss: add
+ binding document
 Content-Language: en-US
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230201214535.347075-22-sakari.ailus@linux.intel.com>
+To:     "jack.zhu" <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+References: <20230302091921.43309-1-jack.zhu@starfivetech.com>
+ <20230302091921.43309-2-jack.zhu@starfivetech.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230302091921.43309-2-jack.zhu@starfivetech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/02/2023 22:45, Sakari Ailus wrote:
-> Use request_irq() instead of devm_request_irq(), as a handler set using
-> devm_request_irq() may still be called once the driver's remove() callback
-> has been called.
+On 02/03/2023 10:19, jack.zhu wrote:
+> Add DT binding document for Starfive Camera subsystem driver
 > 
-> Also register the IRQ earlier on.
-
-Why register it earlier? You do not explain the reason.
-
-Also, does this patch (and also 18/26) belong in this patch series?
-It seems more like a normal bug fix and not related to life-time management.
-
-And isn't it the responsibility of the driver to ensure that the irqs are
-masked in the remove() callback to prevent the irq from being called?
-
-devm_request_irq() is used a lot in the kernel, so if this is a
-common issue, then just fixing it in two drivers isn't going to make
-much of a difference.
-
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: jack.zhu <jack.zhu@starfivetech.com>
 > ---
->  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+>  .../bindings/media/starfive,jh7110-camss.yaml | 150 ++++++++++++++++++
+>  1 file changed, 150 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
 > 
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> index d1bfcfba112f..9fdfb2a794db 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> @@ -1773,6 +1773,12 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
->  	if (r)
->  		return r;
->  
-> +	r = request_irq(pci_dev->irq, cio2_irq, IRQF_SHARED, CIO2_NAME, cio2);
-> +	if (r) {
-> +		dev_err(dev, "failed to request IRQ (%d)\n", r);
-> +		goto fail_mutex_destroy;
-> +	}
+> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> new file mode 100644
+> index 000000000000..9a34944ca0ab
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> @@ -0,0 +1,150 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 > +
->  	mutex_init(&cio2->lock);
->  
->  	cio2->media_dev.dev = dev;
-> @@ -1783,7 +1789,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
->  	media_device_init(&cio2->media_dev);
->  	r = media_device_register(&cio2->media_dev);
->  	if (r < 0)
-> -		goto fail_mutex_destroy;
-> +		goto fail_free_irq;
->  
->  	cio2->v4l2_dev.mdev = &cio2->media_dev;
->  	r = v4l2_device_register(dev, &cio2->v4l2_dev);
-> @@ -1803,13 +1809,6 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
->  	if (r)
->  		goto fail_clean_notifier;
->  
-> -	r = devm_request_irq(dev, pci_dev->irq, cio2_irq, IRQF_SHARED,
-> -			     CIO2_NAME, cio2);
-> -	if (r) {
-> -		dev_err(dev, "failed to request IRQ (%d)\n", r);
-> -		goto fail_clean_notifier;
-> -	}
-> -
->  	pm_runtime_put_noidle(dev);
->  	pm_runtime_allow(dev);
->  
-> @@ -1824,6 +1823,8 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
->  fail_media_device_unregister:
->  	media_device_unregister(&cio2->media_dev);
->  	media_device_cleanup(&cio2->media_dev);
-> +fail_free_irq:
-> +	free_irq(pci_dev->irq, cio2);
->  fail_mutex_destroy:
->  	mutex_destroy(&cio2->lock);
->  	cio2_fbpt_exit_dummy(cio2);
-> @@ -1837,6 +1838,7 @@ static void cio2_pci_remove(struct pci_dev *pci_dev)
->  
->  	media_device_unregister(&cio2->media_dev);
->  	v4l2_device_unregister(&cio2->v4l2_dev);
-> +	free_irq(pci_dev->irq, cio2);
->  	v4l2_async_nf_unregister(&cio2->notifier);
->  	v4l2_async_nf_cleanup(&cio2->notifier);
->  	cio2_queues_exit(cio2);
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+
+Drop quotes from both.
+
+> +
+> +title: Starfive SoC CAMSS ISP
+> +
+> +maintainers:
+> +  - Jack Zhu <jack.zhu@starfivetech.com>
+> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
+> +
+> +description: |
+
+No need for '|'
+
+> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC.It
+> +  consists of a VIN controller(Video In Controller, a top-level control until)
+> +  and a ISP.
+
+"an ISP", I think
+
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,jh7110-camss
+> +
+> +  reg:
+> +    minItems: 2
+
+Drop minItems, no need.
+
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: syscon
+> +      - const: isp
+> +
+> +  clocks:
+> +    minItems: 7
+
+Drop mintems
+
+> +    maxItems: 7
+> +
+> +  clock-names:
+> +    items:
+> +      - const: clk_apb_func
+> +      - const: clk_wrapper_clk_c
+> +      - const: clk_dvp_inv
+> +      - const: clk_axiwr
+> +      - const: clk_mipi_rx0_pxl
+> +      - const: clk_ispcore_2x
+> +      - const: clk_isp_axi
+
+Drop "clk" prefix
+
+> +
+> +  resets:
+> +    minItems: 6
+
+Drop
+
+> +    maxItems: 6
+> +
+> +  reset-names:
+> +    items:
+> +      - const: rst_wrapper_p
+
+Drop rst prefix
+
+> +      - const: rst_wrapper_c
+> +      - const: rst_axird
+> +      - const: rst_axiwr
+> +      - const: rst_isp_top_n
+> +      - const: rst_isp_top_axi
+> +
+> +  power-domains:
+> +    items:
+> +      - description: JH7110 PD ISP - ISP Power Domain Switch Controller.
+
+Drop redundant pieces, e.g. "PD ISP"
+
+> +
+> +  interrupts:
+> +    minItems: 4
+
+Drop
+
+> +    maxItems: 4
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@1:
+
+And what about port@0?
+
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint@1:
+
+Hm, do you have more than one endpoint in this port? Why unit address?
+
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +    required:
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+> +  - power-domains
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +
+
+Drop blank line
+
+> +    stfcamss: camss@19840000 {
+
+isp@
+
+> +        compatible = "starfive,jh7110-camss";
+> +        reg = <0x19840000 0x10000>,
+> +            <0x19870000 0x30000>;
+
+All this looks misaligned
+> +        reg-names = "syscon", "isp";
+> +        clocks = <&ispcrg 0>,
+> +            <&ispcrg 13>,
+
+Looks even worse...
+
+> +            <&ispcrg 2>,
+> +            <&ispcrg 12>,
+> +            <&ispcrg 1>,
+> +            <&syscrg 51>,
+> +            <&syscrg 52>;
+> +        clock-names = "clk_apb_func",
+> +            "clk_wrapper_clk_c",
+> +            "clk_dvp_inv",
+> +            "clk_axiwr",
+> +            "clk_mipi_rx0_pxl",
+> +            "clk_ispcore_2x",
+> +            "clk_isp_axi";
+> +        resets = <&ispcrg 0>,
+> +            <&ispcrg 1>,
+> +            <&ispcrg 10>,
+> +            <&ispcrg 11>,
+> +            <&syscrg 41>,
+> +            <&syscrg 42>;
+> +        reset-names = "rst_wrapper_p",
+> +            "rst_wrapper_c",
+> +            "rst_axird",
+> +            "rst_axiwr",
+> +            "rst_isp_top_n",
+> +            "rst_isp_top_axi";
+> +        power-domains = <&pwrc 5>;
+> +        interrupts = <92>, <87>, <88>, <90>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                vin_from_csi2rx: endpoint@1 {
+> +                    reg = <1>;
+> +                    remote-endpoint = <&csi2rx_to_vin>;
+> +                };
+> +            };
+> +        };
+> +    };
+
+Best regards,
+Krzysztof
 
