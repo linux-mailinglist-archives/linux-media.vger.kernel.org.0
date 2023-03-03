@@ -2,282 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D90DF6A9CA3
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 18:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 324566A9D00
+	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 18:18:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231504AbjCCREB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 12:04:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49554 "EHLO
+        id S231397AbjCCRSV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 12:18:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230353AbjCCRD7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 12:03:59 -0500
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBF09EFF;
-        Fri,  3 Mar 2023 09:03:57 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id bm20so2277329oib.7;
-        Fri, 03 Mar 2023 09:03:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677863037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RZgVkTuvYky6LMx4NxO2XF22XxAb0kNEaLo11LroAxw=;
-        b=aOGeJ1/EH6Ky1XYhaXU0TsJT+zNZhRX4i75gv50jJxzyk5yPx96UkyKWieOtkzVY3O
-         hN8ODxeP1XYPMPf7SwNu4MHejDwj4TXGS127Jgd7gJ6noMxOwL8c8hhRkD0xL8fiHfqw
-         4Yn6kAQgFlodlvPaDknI06aIebmEk6VzQYnaal/4mCm9/a6wm7kZvsf0YFFcluYALTgS
-         hVPGHecfZ+8fmgoD1vBDQinhxKudGHCO+NGkek7Kz4ezJUXRP9zfBHKAKnrlnxw6V9nf
-         BqbKqMBGuwUM5XnAs+Tpf8v1vFBCE2qnZK4SAiwcPR7VcM1Jpf7gTqK7EMOg7C15qs/9
-         pOSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677863037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RZgVkTuvYky6LMx4NxO2XF22XxAb0kNEaLo11LroAxw=;
-        b=qKVK8JKB7j/cdHfhS5NtHACjTucZoRdNytP7P56l3fh2qaADrlxMIndKnMv2f3i1j4
-         NTGBypS5gEhhoXsEoT+EKY8/zW9cI0VHEcb+ZYetpg3CGDjRDZgn/pt3xr7rcFtsDZ8c
-         5PI6kOJpwvObjzjY6BQ6y48Q8aSDlmXtN/KhtCyeAoA9Xb+pbP39AWT99/89our2ZrEU
-         4FZmC+8MbBhTLZa/KBoAy2nJ1qvkbvQKXQRIn8ZamApuU0zy6xbwU8FEaFVLcnYANDwu
-         otOnayiLcUspqt/v1NuHP9pFU4xO1GAvISfae1G1FKWv0Fq1PeCJK9xBZh6qSzmVscHH
-         vJ8g==
-X-Gm-Message-State: AO0yUKVOwBb6fSVOBgkKBe1S3pc2MX1LpJePcTxIXVUPph2rv4bPbrh/
-        rBAdevUH40pkmiguX7XJZOwRuq1sX1ATSbTKtho=
-X-Google-Smtp-Source: AK7set8d1sH5CmkMtOZYFe3qHdkCNvFUCNh5IhHFhDkZUbzvMmuXQitmVFSmai3PhsUO/xlXcU4veEoq/pdQ4K3B4B8=
-X-Received: by 2002:a05:6808:913:b0:384:253:642d with SMTP id
- w19-20020a056808091300b003840253642dmr796082oih.3.1677863036851; Fri, 03 Mar
- 2023 09:03:56 -0800 (PST)
+        with ESMTP id S231549AbjCCRSI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 12:18:08 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460D026BC
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 09:18:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677863886; x=1709399886;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J1I5CKDV+SZQ91g+j2ifXe8hMJKLIy7RRMluUxv+DAI=;
+  b=aXJNixdK3Yo8zkrt7hksnbE1xWFx8xoBOiQ2uApERe+7swKZfYBm/eGB
+   paRoxKDYrWKry8CHx4g+cmZadb7EHn/FU+0E+Cw16Su3qb9jgm2WziQhY
+   jMrMJiIQibCDFeCaN/j6F50Ut6fvqXLSJ2+sSAb840UJcgmeJI4wpw/80
+   ft8lNTOzaktWsZs2HI6i35cguaSQWMbWpiopQz+2ZpLbN1ZVz7x9mZ5WF
+   jDzvszdLY6JXdp7bAy+YiIwwctAXN3LoEKLWuJ5lO/jejr9I1gNenszcO
+   /QBx3Cfe+AhLrPgKR7rttlDXYhAbFh6MzPdOwHGzm1R7KNNmhG/bMSF1m
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="399909666"
+X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
+   d="scan'208";a="399909666"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 09:18:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="739569650"
+X-IronPort-AV: E=Sophos;i="5.98,231,1673942400"; 
+   d="scan'208";a="739569650"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 09:18:03 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id C12EB121389;
+        Fri,  3 Mar 2023 19:18:00 +0200 (EET)
+Date:   Fri, 3 Mar 2023 19:18:00 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
+Message-ID: <ZAIryJV7XNpW8lbY@kekkonen.localdomain>
+References: <441f2951-402b-0f3c-5ea6-8d6df3f3e894@redhat.com>
+ <20230302202219.846011-1-sakari.ailus@linux.intel.com>
+ <12e3fcc5-1a54-1313-8d52-5618b87f09d1@ideasonboard.com>
+ <ZAHaOY6m864mEL0e@kekkonen.localdomain>
+ <311809d5-8fd1-1514-dd7c-670cfda0c5b4@ideasonboard.com>
+ <49f77774-b34b-130d-a761-9a087c1d4ea8@redhat.com>
 MIME-Version: 1.0
-References: <20230302235356.3148279-1-robdclark@gmail.com> <20230302235356.3148279-13-robdclark@gmail.com>
- <a5249009-0bec-61a5-4dd2-5728ee3017e3@linaro.org>
-In-Reply-To: <a5249009-0bec-61a5-4dd2-5728ee3017e3@linaro.org>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 3 Mar 2023 09:03:45 -0800
-Message-ID: <CAF6AEGtmQu-8LEdm68vXJJSpssXq2AShEdexqTGVW0WO5VmtDQ@mail.gmail.com>
-Subject: Re: [PATCH v9 12/15] drm/msm: Add deadline based boost support
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49f77774-b34b-130d-a761-9a087c1d4ea8@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 3, 2023 at 2:10=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 03/03/2023 01:53, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Track the nearest deadline on a fence timeline and set a timer to expir=
-e
-> > shortly before to trigger boost if the fence has not yet been signaled.
-> >
-> > v2: rebase
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_fence.c | 74 ++++++++++++++++++++++++++++++++=
-+
-> >   drivers/gpu/drm/msm/msm_fence.h | 20 +++++++++
-> >   2 files changed, 94 insertions(+)
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> A small question: do we boost to fit into the deadline or to miss the
-> deadline for as little as possible? If the former is the case, we might
-> need to adjust 3ms depending on the workload.
+Hi,
 
-The goal is as much to run with higher clock on the next frame as it
-is to not miss a deadline.  Ie. we don't want devfreq to come to the
-conclusion that running at <50% clks is best due to the amount of
-utilization caused by missing ever other vblank.
+On Fri, Mar 03, 2023 at 04:06:11PM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 3/3/23 12:36, Tomi Valkeinen wrote:
+> > On 03/03/2023 13:30, Sakari Ailus wrote:
+> >> Hi Tomi,
+> >>
+> >> On Fri, Mar 03, 2023 at 10:41:27AM +0200, Tomi Valkeinen wrote:
+> >>> On 02/03/2023 22:22, Sakari Ailus wrote:
+> >>>> Link validation currently accesses invalid pointers if the link passed to it
+> >>>> is not between two sub-devices. This is of course a driver bug.
+> >>>>
+> >>>> Ignore the error but print a debug message, as this is how it used to work
+> >>>> previously.
+> >>>>
+> >>>> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+> >>>> Reported-by: Hans de Goede <hdegoede@redhat.com>
+> >>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>>> ---
+> >>>> Hi Hans,
+> >>>>
+> >>>> Could you test this?
+> >>>>
+> >>>> The bug is of course in the ImgU driver and this reverts to the old
+> >>>> pre-streams behaviour. It silently fails instead of oopsing. The ImgU driver
+> >>>> needs to be fixed and I think we could make this return an error at the same
+> >>>> time. Right now I can't be sure the ImgU driver is the only one suffering
+> >>>> from this, but if so, it's likely to be broken anyway.
+> >>>
+> >>> Maybe it should be at least a warn? How do we catch other broken drivers
+> >>> otherwise?
+> >>
+> >> The purpose of this patch is just to restore the old behaviour, and merge
+> >> it as a fix to v6.3 (via Cc'ing stable). I agree this should be made an
+> >> error but I'd like that change to be present in the media tree for some
+> >> time first.
+> > 
+> > I meant that keep it returning 0 (no error), but instead of a debug print, use pr_warn. Or maybe pr_warn_once for now.
+> 
+> Switching to pr_warn_once() sounds reasonable to me.
 
-But 3ms is mostly just "seems like a good compromise" value.  It might chan=
-ge.
+I'll send v2 with that.
 
-BR,
--R
-
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_=
-fence.c
-> > index 56641408ea74..51b461f32103 100644
-> > --- a/drivers/gpu/drm/msm/msm_fence.c
-> > +++ b/drivers/gpu/drm/msm/msm_fence.c
-> > @@ -8,6 +8,35 @@
-> >
-> >   #include "msm_drv.h"
-> >   #include "msm_fence.h"
-> > +#include "msm_gpu.h"
-> > +
-> > +static struct msm_gpu *fctx2gpu(struct msm_fence_context *fctx)
-> > +{
-> > +     struct msm_drm_private *priv =3D fctx->dev->dev_private;
-> > +     return priv->gpu;
-> > +}
-> > +
-> > +static enum hrtimer_restart deadline_timer(struct hrtimer *t)
-> > +{
-> > +     struct msm_fence_context *fctx =3D container_of(t,
-> > +                     struct msm_fence_context, deadline_timer);
-> > +
-> > +     kthread_queue_work(fctx2gpu(fctx)->worker, &fctx->deadline_work);
-> > +
-> > +     return HRTIMER_NORESTART;
-> > +}
-> > +
-> > +static void deadline_work(struct kthread_work *work)
-> > +{
-> > +     struct msm_fence_context *fctx =3D container_of(work,
-> > +                     struct msm_fence_context, deadline_work);
-> > +
-> > +     /* If deadline fence has already passed, nothing to do: */
-> > +     if (msm_fence_completed(fctx, fctx->next_deadline_fence))
-> > +             return;
-> > +
-> > +     msm_devfreq_boost(fctx2gpu(fctx), 2);
-> > +}
-> >
-> >
-> >   struct msm_fence_context *
-> > @@ -36,6 +65,13 @@ msm_fence_context_alloc(struct drm_device *dev, vola=
-tile uint32_t *fenceptr,
-> >       fctx->completed_fence =3D fctx->last_fence;
-> >       *fctx->fenceptr =3D fctx->last_fence;
-> >
-> > +     hrtimer_init(&fctx->deadline_timer, CLOCK_MONOTONIC, HRTIMER_MODE=
-_ABS);
-> > +     fctx->deadline_timer.function =3D deadline_timer;
-> > +
-> > +     kthread_init_work(&fctx->deadline_work, deadline_work);
-> > +
-> > +     fctx->next_deadline =3D ktime_get();
-> > +
-> >       return fctx;
-> >   }
-> >
-> > @@ -62,6 +98,8 @@ void msm_update_fence(struct msm_fence_context *fctx,=
- uint32_t fence)
-> >       spin_lock_irqsave(&fctx->spinlock, flags);
-> >       if (fence_after(fence, fctx->completed_fence))
-> >               fctx->completed_fence =3D fence;
-> > +     if (msm_fence_completed(fctx, fctx->next_deadline_fence))
-> > +             hrtimer_cancel(&fctx->deadline_timer);
-> >       spin_unlock_irqrestore(&fctx->spinlock, flags);
-> >   }
-> >
-> > @@ -92,10 +130,46 @@ static bool msm_fence_signaled(struct dma_fence *f=
-ence)
-> >       return msm_fence_completed(f->fctx, f->base.seqno);
-> >   }
-> >
-> > +static void msm_fence_set_deadline(struct dma_fence *fence, ktime_t de=
-adline)
-> > +{
-> > +     struct msm_fence *f =3D to_msm_fence(fence);
-> > +     struct msm_fence_context *fctx =3D f->fctx;
-> > +     unsigned long flags;
-> > +     ktime_t now;
-> > +
-> > +     spin_lock_irqsave(&fctx->spinlock, flags);
-> > +     now =3D ktime_get();
-> > +
-> > +     if (ktime_after(now, fctx->next_deadline) ||
-> > +                     ktime_before(deadline, fctx->next_deadline)) {
-> > +             fctx->next_deadline =3D deadline;
-> > +             fctx->next_deadline_fence =3D
-> > +                     max(fctx->next_deadline_fence, (uint32_t)fence->s=
-eqno);
-> > +
-> > +             /*
-> > +              * Set timer to trigger boost 3ms before deadline, or
-> > +              * if we are already less than 3ms before the deadline
-> > +              * schedule boost work immediately.
-> > +              */
-> > +             deadline =3D ktime_sub(deadline, ms_to_ktime(3));
-> > +
-> > +             if (ktime_after(now, deadline)) {
-> > +                     kthread_queue_work(fctx2gpu(fctx)->worker,
-> > +                                     &fctx->deadline_work);
-> > +             } else {
-> > +                     hrtimer_start(&fctx->deadline_timer, deadline,
-> > +                                     HRTIMER_MODE_ABS);
-> > +             }
-> > +     }
-> > +
-> > +     spin_unlock_irqrestore(&fctx->spinlock, flags);
-> > +}
-> > +
-> >   static const struct dma_fence_ops msm_fence_ops =3D {
-> >       .get_driver_name =3D msm_fence_get_driver_name,
-> >       .get_timeline_name =3D msm_fence_get_timeline_name,
-> >       .signaled =3D msm_fence_signaled,
-> > +     .set_deadline =3D msm_fence_set_deadline,
-> >   };
-> >
-> >   struct dma_fence *
-> > diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_=
-fence.h
-> > index 7f1798c54cd1..cdaebfb94f5c 100644
-> > --- a/drivers/gpu/drm/msm/msm_fence.h
-> > +++ b/drivers/gpu/drm/msm/msm_fence.h
-> > @@ -52,6 +52,26 @@ struct msm_fence_context {
-> >       volatile uint32_t *fenceptr;
-> >
-> >       spinlock_t spinlock;
-> > +
-> > +     /*
-> > +      * TODO this doesn't really deal with multiple deadlines, like
-> > +      * if userspace got multiple frames ahead.. OTOH atomic updates
-> > +      * don't queue, so maybe that is ok
-> > +      */
-> > +
-> > +     /** next_deadline: Time of next deadline */
-> > +     ktime_t next_deadline;
-> > +
-> > +     /**
-> > +      * next_deadline_fence:
-> > +      *
-> > +      * Fence value for next pending deadline.  The deadline timer is
-> > +      * canceled when this fence is signaled.
-> > +      */
-> > +     uint32_t next_deadline_fence;
-> > +
-> > +     struct hrtimer deadline_timer;
-> > +     struct kthread_work deadline_work;
-> >   };
-> >
-> >   struct msm_fence_context * msm_fence_context_alloc(struct drm_device =
-*dev,
->
-> --
-> With best wishes
-> Dmitry
->
+-- 
+Sakari Ailus
