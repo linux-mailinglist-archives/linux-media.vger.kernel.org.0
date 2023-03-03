@@ -2,55 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AD7F6AA451
-	for <lists+linux-media@lfdr.de>; Fri,  3 Mar 2023 23:29:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CD1C6AA54E
+	for <lists+linux-media@lfdr.de>; Sat,  4 Mar 2023 00:04:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232819AbjCCW3l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 17:29:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57774 "EHLO
+        id S232470AbjCCXDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 18:03:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231916AbjCCW32 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 17:29:28 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436F86A06D;
-        Fri,  3 Mar 2023 14:23:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Ta8NbV6xh96XFRK6QkpcNvtsb8leATV9ZUMVK/pqiW4=; b=MN0nz4mv3XiN3vGUGBw9DHBLZz
-        KgGZsmYGI4gJH98GtS7DF6I/ejfGDDijv/FOEdzfG0vnXdxK9qFr+mXYZlJxEIsb5qhf1Qqqpauo7
-        QOVL1zMs/tNpXfeXKiCWbVtHV6Fl3yk9diWpt7mB5AkYIXNL87POBOz5bDqx3g5vaWXSRDoAhPzFG
-        VV8WVJA0RHTpMSZ+iDUdol+nE6R+EtBvIIaEnvKlfONEX5kscP97pbSHbi+e89uZlO4lViTylh4Bs
-        QaFu9XRdiHTi1BjidybX3zaOvW6SQmGokeI0Ie5ZyEVKzU5OFHwG5GCNvwrYq25hun5D7wCtblcZo
-        E89cFSHw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pYDms-007iaP-4c; Fri, 03 Mar 2023 22:22:02 +0000
-Date:   Fri, 3 Mar 2023 14:22:02 -0800
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Nick Alcock <nick.alcock@oracle.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-modules@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/17] MODULE_LICENSE removals, sixth tranche
-Message-ID: <ZAJzCvTI67NgbJiY@bombadil.infradead.org>
-References: <20230302211759.30135-1-nick.alcock@oracle.com>
+        with ESMTP id S232302AbjCCXDu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 18:03:50 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AF8199D;
+        Fri,  3 Mar 2023 15:03:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 26BEBB81A09;
+        Fri,  3 Mar 2023 21:47:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14060C433AC;
+        Fri,  3 Mar 2023 21:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677880040;
+        bh=ICUo+3AoOR3DSqV/0peJ+lnKr4GOBjTwhw8DibwD7nE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Bclq/PvwG0v2EnGLcQFtTOe0TXJgUq1QutciKks1Fsfcx133TJGaaaeg6gdCXjA+z
+         LMFjJXH4d8nlgNWARFZb2OmQFKZnRfWVlJs5fs5kJf524g0wfOPwCMLRIG0U80Lh+f
+         aoW5Foq16AN58uYdWgTlUSu2tv87hdXWbcTRJzIxwt0b4lQCPOdjHtqLFoO2tAyhzV
+         ECL/lIPCV00qYQf1r91NoyWNVPheNspK+H/xLuA0SkhRFcJoz/RpLQ6C/dFi2cZADg
+         P0DjODDIyaypWTiYvz5Shq2Wq5NsinCwUEhO3Xt70+qRwqqvxZ5fC/yPb2/caB5egq
+         dFKeTeYWAF6bw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        syzbot <syzkaller@googlegroups.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 03/30] media: uvcvideo: Handle cameras with invalid descriptors
+Date:   Fri,  3 Mar 2023 16:46:48 -0500
+Message-Id: <20230303214715.1452256-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230303214715.1452256-1-sashal@kernel.org>
+References: <20230303214715.1452256-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230302211759.30135-1-nick.alcock@oracle.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Stupid question, if you're removing MODULE_LICENSE() than why keep the
-other stupid MODULE_*() crap too? If its of no use, be gone!
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-  Luis
+[ Upstream commit 41ddb251c68ac75c101d3a50a68c4629c9055e4c ]
+
+If the source entity does not contain any pads, do not create a link.
+
+Reported-by: syzbot <syzkaller@googlegroups.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/usb/uvc/uvc_entity.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
+index ca3a9c2eec271..7c9895377118c 100644
+--- a/drivers/media/usb/uvc/uvc_entity.c
++++ b/drivers/media/usb/uvc/uvc_entity.c
+@@ -37,7 +37,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
+ 			continue;
+ 
+ 		remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
+-		if (remote == NULL)
++		if (remote == NULL || remote->num_pads == 0)
+ 			return -EINVAL;
+ 
+ 		source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
+-- 
+2.39.2
+
