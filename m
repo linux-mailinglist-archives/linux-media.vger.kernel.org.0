@@ -2,286 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 756ED6AA5EF
-	for <lists+linux-media@lfdr.de>; Sat,  4 Mar 2023 00:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D616AA7F9
+	for <lists+linux-media@lfdr.de>; Sat,  4 Mar 2023 05:20:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229833AbjCCXxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Mar 2023 18:53:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58234 "EHLO
+        id S229794AbjCDEUA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Mar 2023 23:20:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjCCXxi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 18:53:38 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0505AC67B
-        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 15:53:31 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id x3so16543790edb.10
-        for <linux-media@vger.kernel.org>; Fri, 03 Mar 2023 15:53:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gnDZ9x2blH5V8YINfT6XOEOEFytwM5xt/JuAKzXCEWU=;
-        b=CysvhjzJrWfpzLbmZMuln5F1LZXgBzBu4oR3PEjQqN/OQMt+Zh8GTxeYL9ZXR3QmSE
-         tyHKB8gKDZRKXHxB0zBebHIXxH0FX3fNke1AHBevQacjZXOEyvedakh+rWEEdRE4HHAe
-         D4Ci9kbvYC4wulP/eArIu7vNgMtZjjWcZG0OxuRi2gIxsqyFVj0ZZQobqXhgjoKFfcct
-         dCLOTpYmzE01SHLQTatMXTNpuCNlej00nsQS+PVyBCgfb2manXjYDA12QXhAEfjSWtW+
-         MqITV/TCHiEoJQJ3W9K4EGzf/rysfbK1CP/4eeauBSBf8P4A9s0zp9pktLwVtUGIyWIk
-         +JtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gnDZ9x2blH5V8YINfT6XOEOEFytwM5xt/JuAKzXCEWU=;
-        b=J7XZK41dQhXEXbvwHtS1/rwg7IhyeIngGSD8qZCqL5/hp/4/v3TdiHj5c10w6e2JZ+
-         cI2+xl4WAu4G+e1T3Q7VX8yB9kWaI0Utp3cGcg5gvJERnraQdgg9TuaElB2abWiJ8lSV
-         DGNJKvEmb6/ZYzJZuUS5pZCo1mjh2STcmNEez5Yvn4j7oujdWoKfDK3xO3EAcO9K5X0/
-         mnOp8LQiQMPGMG0yQbz+SprRZMcGic+I976tScNMrOHHnQApWtlk96znFcPQ6X9ZgqlK
-         Uq21tduYv28Ctd4WL7Jt9zhpnWBzS1C6jY3JbBWTh/O/MKUBjjc6e7AgS/PzRsR4mnFq
-         0WhA==
-X-Gm-Message-State: AO0yUKVHaHSs9GuoMeOvA3Bah69D2FI2orW8BU6iAkkPoBO9yvTizs3G
-        0K4lk37TXTDU9l9EJeEPwdVW1w==
-X-Google-Smtp-Source: AK7set9JmLUWJX+fB3FtuG1918iXvCOsgAoXJ70x5Nw9+h8/nbjmxtRgVk16QJDub3WUOofqGBZIpQ==
-X-Received: by 2002:a17:907:70e:b0:878:955e:b4a4 with SMTP id xb14-20020a170907070e00b00878955eb4a4mr4595666ejb.33.1677887610406;
-        Fri, 03 Mar 2023 15:53:30 -0800 (PST)
-Received: from [10.203.3.194] ([185.202.34.81])
-        by smtp.gmail.com with ESMTPSA id h17-20020a17090634d100b008ee5356801dsm1463032ejb.187.2023.03.03.15.53.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Mar 2023 15:53:30 -0800 (PST)
-Message-ID: <b9a5778c-0eae-28c1-1806-33550345e619@linaro.org>
-Date:   Sat, 4 Mar 2023 01:53:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v9 12/15] drm/msm: Add deadline based boost support
-Content-Language: en-GB
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Rob Clark <robdclark@chromium.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-References: <20230302235356.3148279-1-robdclark@gmail.com>
- <20230302235356.3148279-13-robdclark@gmail.com>
- <a5249009-0bec-61a5-4dd2-5728ee3017e3@linaro.org>
- <CAF6AEGtmQu-8LEdm68vXJJSpssXq2AShEdexqTGVW0WO5VmtDQ@mail.gmail.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAF6AEGtmQu-8LEdm68vXJJSpssXq2AShEdexqTGVW0WO5VmtDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229668AbjCDETu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Mar 2023 23:19:50 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 193A010416
+        for <linux-media@vger.kernel.org>; Fri,  3 Mar 2023 20:19:48 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 564DA6068E
+        for <linux-media@vger.kernel.org>; Sat,  4 Mar 2023 04:19:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D91CC433EF
+        for <linux-media@vger.kernel.org>; Sat,  4 Mar 2023 04:19:47 +0000 (UTC)
+Date:   Sat, 04 Mar 2023 05:19:45 +0100
+Message-ID: <cd298ab9a8e99a6807c05641c631af9f.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/03/2023 19:03, Rob Clark wrote:
-> On Fri, Mar 3, 2023 at 2:10 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On 03/03/2023 01:53, Rob Clark wrote:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> Track the nearest deadline on a fence timeline and set a timer to expire
->>> shortly before to trigger boost if the fence has not yet been signaled.
->>>
->>> v2: rebase
->>>
->>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>> ---
->>>    drivers/gpu/drm/msm/msm_fence.c | 74 +++++++++++++++++++++++++++++++++
->>>    drivers/gpu/drm/msm/msm_fence.h | 20 +++++++++
->>>    2 files changed, 94 insertions(+)
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> A small question: do we boost to fit into the deadline or to miss the
->> deadline for as little as possible? If the former is the case, we might
->> need to adjust 3ms depending on the workload.
-> 
-> The goal is as much to run with higher clock on the next frame as it
-> is to not miss a deadline.  Ie. we don't want devfreq to come to the
-> conclusion that running at <50% clks is best due to the amount of
-> utilization caused by missing ever other vblank.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Ack, thanks for the explanation.
+Results of the daily build of media_tree:
 
-> 
-> But 3ms is mostly just "seems like a good compromise" value.  It might change.
-> 
-> BR,
-> -R
-> 
->>>
->>> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
->>> index 56641408ea74..51b461f32103 100644
->>> --- a/drivers/gpu/drm/msm/msm_fence.c
->>> +++ b/drivers/gpu/drm/msm/msm_fence.c
->>> @@ -8,6 +8,35 @@
->>>
->>>    #include "msm_drv.h"
->>>    #include "msm_fence.h"
->>> +#include "msm_gpu.h"
->>> +
->>> +static struct msm_gpu *fctx2gpu(struct msm_fence_context *fctx)
->>> +{
->>> +     struct msm_drm_private *priv = fctx->dev->dev_private;
->>> +     return priv->gpu;
->>> +}
->>> +
->>> +static enum hrtimer_restart deadline_timer(struct hrtimer *t)
->>> +{
->>> +     struct msm_fence_context *fctx = container_of(t,
->>> +                     struct msm_fence_context, deadline_timer);
->>> +
->>> +     kthread_queue_work(fctx2gpu(fctx)->worker, &fctx->deadline_work);
->>> +
->>> +     return HRTIMER_NORESTART;
->>> +}
->>> +
->>> +static void deadline_work(struct kthread_work *work)
->>> +{
->>> +     struct msm_fence_context *fctx = container_of(work,
->>> +                     struct msm_fence_context, deadline_work);
->>> +
->>> +     /* If deadline fence has already passed, nothing to do: */
->>> +     if (msm_fence_completed(fctx, fctx->next_deadline_fence))
->>> +             return;
->>> +
->>> +     msm_devfreq_boost(fctx2gpu(fctx), 2);
->>> +}
->>>
->>>
->>>    struct msm_fence_context *
->>> @@ -36,6 +65,13 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
->>>        fctx->completed_fence = fctx->last_fence;
->>>        *fctx->fenceptr = fctx->last_fence;
->>>
->>> +     hrtimer_init(&fctx->deadline_timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
->>> +     fctx->deadline_timer.function = deadline_timer;
->>> +
->>> +     kthread_init_work(&fctx->deadline_work, deadline_work);
->>> +
->>> +     fctx->next_deadline = ktime_get();
->>> +
->>>        return fctx;
->>>    }
->>>
->>> @@ -62,6 +98,8 @@ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
->>>        spin_lock_irqsave(&fctx->spinlock, flags);
->>>        if (fence_after(fence, fctx->completed_fence))
->>>                fctx->completed_fence = fence;
->>> +     if (msm_fence_completed(fctx, fctx->next_deadline_fence))
->>> +             hrtimer_cancel(&fctx->deadline_timer);
->>>        spin_unlock_irqrestore(&fctx->spinlock, flags);
->>>    }
->>>
->>> @@ -92,10 +130,46 @@ static bool msm_fence_signaled(struct dma_fence *fence)
->>>        return msm_fence_completed(f->fctx, f->base.seqno);
->>>    }
->>>
->>> +static void msm_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
->>> +{
->>> +     struct msm_fence *f = to_msm_fence(fence);
->>> +     struct msm_fence_context *fctx = f->fctx;
->>> +     unsigned long flags;
->>> +     ktime_t now;
->>> +
->>> +     spin_lock_irqsave(&fctx->spinlock, flags);
->>> +     now = ktime_get();
->>> +
->>> +     if (ktime_after(now, fctx->next_deadline) ||
->>> +                     ktime_before(deadline, fctx->next_deadline)) {
->>> +             fctx->next_deadline = deadline;
->>> +             fctx->next_deadline_fence =
->>> +                     max(fctx->next_deadline_fence, (uint32_t)fence->seqno);
->>> +
->>> +             /*
->>> +              * Set timer to trigger boost 3ms before deadline, or
->>> +              * if we are already less than 3ms before the deadline
->>> +              * schedule boost work immediately.
->>> +              */
->>> +             deadline = ktime_sub(deadline, ms_to_ktime(3));
->>> +
->>> +             if (ktime_after(now, deadline)) {
->>> +                     kthread_queue_work(fctx2gpu(fctx)->worker,
->>> +                                     &fctx->deadline_work);
->>> +             } else {
->>> +                     hrtimer_start(&fctx->deadline_timer, deadline,
->>> +                                     HRTIMER_MODE_ABS);
->>> +             }
->>> +     }
->>> +
->>> +     spin_unlock_irqrestore(&fctx->spinlock, flags);
->>> +}
->>> +
->>>    static const struct dma_fence_ops msm_fence_ops = {
->>>        .get_driver_name = msm_fence_get_driver_name,
->>>        .get_timeline_name = msm_fence_get_timeline_name,
->>>        .signaled = msm_fence_signaled,
->>> +     .set_deadline = msm_fence_set_deadline,
->>>    };
->>>
->>>    struct dma_fence *
->>> diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
->>> index 7f1798c54cd1..cdaebfb94f5c 100644
->>> --- a/drivers/gpu/drm/msm/msm_fence.h
->>> +++ b/drivers/gpu/drm/msm/msm_fence.h
->>> @@ -52,6 +52,26 @@ struct msm_fence_context {
->>>        volatile uint32_t *fenceptr;
->>>
->>>        spinlock_t spinlock;
->>> +
->>> +     /*
->>> +      * TODO this doesn't really deal with multiple deadlines, like
->>> +      * if userspace got multiple frames ahead.. OTOH atomic updates
->>> +      * don't queue, so maybe that is ok
->>> +      */
->>> +
->>> +     /** next_deadline: Time of next deadline */
->>> +     ktime_t next_deadline;
->>> +
->>> +     /**
->>> +      * next_deadline_fence:
->>> +      *
->>> +      * Fence value for next pending deadline.  The deadline timer is
->>> +      * canceled when this fence is signaled.
->>> +      */
->>> +     uint32_t next_deadline_fence;
->>> +
->>> +     struct hrtimer deadline_timer;
->>> +     struct kthread_work deadline_work;
->>>    };
->>>
->>>    struct msm_fence_context * msm_fence_context_alloc(struct drm_device *dev,
->>
->> --
->> With best wishes
->> Dmitry
->>
+date:			Sat Mar  4 03:00:10 CET 2023
+media-tree git hash:	3e62aba8284de0994a669d07983299242e68fe72
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	c7823a3f5f8846561d91e7ae77fea82fab63fff1
+edid-decode git hash:	d740dde3540a257a8974d2250b76049c119a473b
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8250-g3ed42e4c-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7118b386b41c7ddc9937a707027b16ff8308b5aa
+host hardware:		x86_64
+host os:		6.0.0-6-amd64
 
--- 
-With best wishes
-Dmitry
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
