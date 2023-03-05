@@ -2,101 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC18E6AAE8F
-	for <lists+linux-media@lfdr.de>; Sun,  5 Mar 2023 09:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4FB36AB228
+	for <lists+linux-media@lfdr.de>; Sun,  5 Mar 2023 21:52:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229642AbjCEIUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Mar 2023 03:20:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
+        id S229489AbjCEUvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Mar 2023 15:51:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjCEIUu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Mar 2023 03:20:50 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A4883C9
-        for <linux-media@vger.kernel.org>; Sun,  5 Mar 2023 00:20:48 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id ay14so22840817edb.11
-        for <linux-media@vger.kernel.org>; Sun, 05 Mar 2023 00:20:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678004447;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=x50Qlw1MrbKfPc5Y3tqZO5+1c26Aew+5oqPX3JirLAY=;
-        b=eHXA8pVDliWIbb1r2a0N52DTxiIayaflfCLNyqZh0HzUTfE29506nW4k7ShufovRhP
-         8/UB/NaXMdQ6UeuySEsnJVApEH+zhdTh83sU2c9zktoOJJeWOZnX7sKj1n/7XQUHhjpo
-         a376Ty8xPj0I9bNA4oDeRE22cmGFA+Ef3hqYBdlDyjOwo00ou7e4usbrBTyXrCcu1a92
-         Dtrn/2hPg5z5RIAUFhVbP3WgpbwrBJDOy3yhFkQhqzaT0kq4y/SlCXmmVo/87vRt7rt7
-         XnE8GYhoKCUjdcLNDcm0Sf9YYqTrSV2YB95/UtaXZUSLbR6WBClkHClsEL8FLKbqn6iB
-         c40Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678004447;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x50Qlw1MrbKfPc5Y3tqZO5+1c26Aew+5oqPX3JirLAY=;
-        b=vJB44FY74O8CAAMDCwyy+WU6DnJvK5onRvsNRP/Ej/b64UpbsNxV/3vAjppa3Axu1w
-         SXwGKEdGOgk9DnWsB8Ocnlg2ms2B5juIyYhDscEv8Wt/5YjNWvBwGCbu1yFuXkA3sG/f
-         NH2WAZGZ7OJQJthnKhSAvR/Qp9+cedWWO3vMZuJ3PGLf51wzBbox9IdFeXNiqlGfxMkg
-         KFUD0Hr0WOTb7Apz0xBWYHSTroGfDIDBGmXaaeu6WFizYjwVVqIfiTfrFWFsLnYwXcGB
-         gHIYvR0NAt0fw33oP704AH3ixP9UAvs3TxWX6MNAmQQASBo05wJzVW9SP39sVpOiZJOx
-         gRfg==
-X-Gm-Message-State: AO0yUKWDC6OA0PP0RuBNQpnDBSyxzoJkfYxWBcUWN19nPrtq6qDwhCdN
-        cM0KH+5DcgI5orUjeusKoRLat2pYFdJ6UhzXr24=
-X-Google-Smtp-Source: AK7set9uJSc3KcKr7oA2CZN9oLrfpNigbb6rgPG6vHurVAnfTbex4bLPZdFQ4uL/Q1DTfEkmwuqdEflcEqJNYtZHZ9c=
-X-Received: by 2002:a17:906:388d:b0:877:e539:810b with SMTP id
- q13-20020a170906388d00b00877e539810bmr3369286ejd.2.1678004446923; Sun, 05 Mar
- 2023 00:20:46 -0800 (PST)
+        with ESMTP id S229461AbjCEUvX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Mar 2023 15:51:23 -0500
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7294D32F
+        for <linux-media@vger.kernel.org>; Sun,  5 Mar 2023 12:51:21 -0800 (PST)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 16AA585A1F;
+        Sun,  5 Mar 2023 21:51:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1678049479;
+        bh=1IIZ5cXT9MjyR4m8kfZh5MLkgJE2lkLpDwB+TkI3y0Y=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YkLzueQasv7qLjavzVqEITMfHl1saqCyf3udKNeSCggAACg+jtf0czHeCUV+zg8Fm
+         JjRVE1dAdGR2ZOIjOjyHOb5dYMw/UC4PejWZdMnc/DCuOSG0xc7EV0Z3VEyVANr6Rr
+         Q/rdykJl6so42S7bZsB9pQa3TivCtHlGPhMM/hCLYCdkyDmAoFuAkWrP57FCke3mEt
+         e6mcwOCTs8kq6YCsdEmn3+mkQdPsxoSVScPsz8hNHaT6IZSdJ8HditB/r2NzOvOqwg
+         5VytB3U2pLL7Sd5LD2SGnuu8TG1jApGERkRFf+ic7RHJWvQJlZPVAh51Dk+dpdEyUl
+         zssuffYUD9pqA==
+From:   Marek Vasut <marex@denx.de>
+To:     linux-media@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH] media: stm32-dcmi: Enable incoherent buffer allocation
+Date:   Sun,  5 Mar 2023 21:51:07 +0100
+Message-Id: <20230305205107.772931-1-marex@denx.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Reply-To: vandekujohmaria@outlook.com
-Sender: xzcvxc289@gmail.com
-Received: by 2002:a05:7412:a90f:b0:c1:1578:494d with HTTP; Sun, 5 Mar 2023
- 00:20:46 -0800 (PST)
-From:   Gerhardus Maria <vandekujohmaria@gmail.com>
-Date:   Sun, 5 Mar 2023 08:20:46 +0000
-X-Google-Sender-Auth: kN4ZuyAi5GXd_FC46xEuaOTcbPA
-Message-ID: <CAJD_Hb45zwEmW4FimuUjUyAQh8_pS+9MEc3p4fCXDWA79GND8Q@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.1 required=5.0 tests=BAYES_80,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,HK_RANDOM_ENVFROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:52f listed in]
-        [list.dnswl.org]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.9121]
-        *  0.0 HK_RANDOM_ENVFROM Envelope sender username looks random
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [xzcvxc289[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [xzcvxc289[at]gmail.com]
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  3.0 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: ******
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello, how are you?  My name is van der kuil Johannes gerhardus Maria.
-I am a lawyer from the Netherlands who reside in Belgium and I am
-working on the donation file of my client, Mr. Bartos Pierre
-Nationality of Belgium.  I would like to know if you will accept my
-client's donation Mr. Bartos Pierre?
+Set allow_cache_hints to 1 for the vb2_queue capture queue in the
+STM32MP15xx DCMI V4L2 driver. This allows us to allocate buffers
+with the V4L2_MEMORY_FLAG_NON_COHERENT set. On STM32MP15xx SoCs,
+this enables caching for this memory, which improves performance
+when being read from CPU.
 
-Waiting to hear from you soon
+This change should be safe from race conditions since videobuf2
+already invalidates or flushes the appropriate cache lines in
+its prepare() and finish() methods.
+
+Tested on a STM32MP157F SoC. Resulted in 4x buffer access speedup.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+---
+ drivers/media/platform/st/stm32/stm32-dcmi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index ad8e9742e1ae7..2ac508da5ba36 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -2084,6 +2084,7 @@ static int dcmi_probe(struct platform_device *pdev)
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	q->min_buffers_needed = 2;
++	q->allow_cache_hints = 1;
+ 	q->dev = &pdev->dev;
+ 
+ 	ret = vb2_queue_init(q);
+-- 
+2.39.2
+
