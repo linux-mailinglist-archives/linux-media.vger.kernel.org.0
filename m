@@ -2,94 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89B626AB9EF
-	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 10:34:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE3B46ABB26
+	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 11:10:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbjCFJeb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 04:34:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
+        id S230423AbjCFKKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 05:10:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjCFJea (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 04:34:30 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09B5C676
-        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 01:34:27 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23A5E308;
-        Mon,  6 Mar 2023 10:34:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678095265;
-        bh=DfI09nm7k0sGrMQ8DwQmdBWStUFBWHXYRHI2HmIPYH8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=WIG65f/YwXcF+em4n6n8q2Lkc4tF893OphTLdaEQe1i/+cKg7RDyGG2mNhCAhGdfB
-         xtLt5JcH+Gy0B6xZcMLF0N/ki3wVcoDW8tKBGJHakf7Ym5IXjJbY+8uNqRx3xeaDQb
-         iLCAJxMARy/ixhe/2OeX9mGSFYgj5LUvEuMNVv2Y=
-Message-ID: <f5ce2815-a875-25a4-269d-69b30ce534b7@ideasonboard.com>
-Date:   Mon, 6 Mar 2023 09:34:22 +0000
+        with ESMTP id S230506AbjCFKJ4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 05:09:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE574B768
+        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 02:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678097336;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EVDDDoseFSlsJ/yOtuOcTrCu0OwrB7nkSCuo1rxDF3U=;
+        b=SkrtgG0fI3ujsPvBFBIT6T2hhxdWljHz4POj0OL3pIycJJKDOH2deXK95/BdqlOI6+AxaK
+        AZ62qq7GmCcZg4zId1PZYtJeHrN021fMIn5L3pVBbjwqSKtuj5diQdR9XfLdJXMsfWIHeU
+        an9OegiLOTaM1vNtf4EN1DIteJ4ames=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-425-mzfalFzFPLOKqkKHD1AC1Q-1; Mon, 06 Mar 2023 05:08:52 -0500
+X-MC-Unique: mzfalFzFPLOKqkKHD1AC1Q-1
+Received: by mail-wr1-f69.google.com with SMTP id x3-20020a5d6503000000b002c8c421fdfaso1337207wru.15
+        for <linux-media@vger.kernel.org>; Mon, 06 Mar 2023 02:08:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678097331;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EVDDDoseFSlsJ/yOtuOcTrCu0OwrB7nkSCuo1rxDF3U=;
+        b=WR0cg/Fw0PBrjemGBIx3fl+SvaMSYR98/8ZTvIOte7c2gOmHrVoUby9s5VEoh7tm2h
+         WFaqx8tCcGXPRaXKy4chYWjeVd6lwJvaQsp/beIMCIYuqGM0Bt7HDJMzNhVyjmK3XCwz
+         SM3mBLg+GoCXnpFPbTAoNtW8btwBG5DmDLkAPWfSyiy7l4u0zxxW+0mNO1Hdh+onICGj
+         Fox9+ibqz8IwN77AR3aqxPKd+qGtCl8XeWROpTBBFk7yizOtDJNKVIzvSOJM0lSJg4rq
+         C/F+9d3Omh1zaBke1DD3odpDiORsoQRNGW5hAHrEqzhbTyTmhJQV+SOqZgw3jl+YfYvb
+         sOxw==
+X-Gm-Message-State: AO0yUKUp1XYnDGUUztSq+F/GHyPLC1D00+4ShrLvfQfcTdrTZ9ill3SB
+        l6R5AkSP+14xuyuSl8Bpz+rnAqWQ+YIJHY0sUjS7XH5OnCfFo5tXVPfxwK5Le+ACO1LP2yQkV4e
+        EOu4Zq5mZvQDGRhCZ8bl01eU=
+X-Received: by 2002:adf:decf:0:b0:2c7:70c:2d8c with SMTP id i15-20020adfdecf000000b002c7070c2d8cmr6513234wrn.35.1678097331763;
+        Mon, 06 Mar 2023 02:08:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set9WQWU0/AqjGpjnwlp1W3nHk7FeTxUleAEXtUTLlVYgpYALebFQhOUiiq8oeFfaCx0vUYOFtQ==
+X-Received: by 2002:adf:decf:0:b0:2c7:70c:2d8c with SMTP id i15-20020adfdecf000000b002c7070c2d8cmr6513224wrn.35.1678097331467;
+        Mon, 06 Mar 2023 02:08:51 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id u18-20020a5d6ad2000000b002c5539171d1sm9161401wrw.41.2023.03.06.02.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 02:08:51 -0800 (PST)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     Jordan Crouse <jorcrous@amazon.com>
+Cc:     linux-kernel@vger.kernel.org, Albert Esteve <aesteve@redhat.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sergio Lopez <slp@redhat.com>,
+        Enric Balletbo i Serra <eballetb@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: venus: dec: Fix capture formats enumeration order
+In-Reply-To: <20230303220918.qr5ydbin3nye3qtz@amazon.com>
+References: <20230210081835.2054482-1-javierm@redhat.com>
+ <20230303220918.qr5ydbin3nye3qtz@amazon.com>
+Date:   Mon, 06 Mar 2023 11:08:50 +0100
+Message-ID: <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2] media: ipu3-cio2: support more camera sensors in
- cio2-bridge
-To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        djrscally@gmail.com
-Cc:     bingbu.cao@linux.intel.com
-References: <20230303181504.1813469-1-bingbu.cao@intel.com>
-Content-Language: en-US
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230303181504.1813469-1-bingbu.cao@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good morning Bingbu
+Jordan Crouse <jorcrous@amazon.com> writes:
 
-On 03/03/2023 18:15, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
+Hello Jordan,
+
+> On Fri, Feb 10, 2023 at 09:18:35AM +0100, Javier Martinez Canillas wrote:
+>> Commit 9593126dae3e ("media: venus: Add a handling of QC08C compressed
+>> format") and commit cef92b14e653 ("media: venus: Add a handling of QC10C
+>> compressed format") added support for the QC08C and QC10C compressed
+>> formats respectively.
+>> 
+>> But these also caused a regression, because the new formats where added
+>> at the beginning of the vdec_formats[] array and the vdec_inst_init()
+>> function sets the default format output and capture using fixed indexes
+>> of that array:
+>> 
+>> static void vdec_inst_init(struct venus_inst *inst)
+>> {
+>> ...
+>> 	inst->fmt_out = &vdec_formats[8];
+>> 	inst->fmt_cap = &vdec_formats[0];
+>> ...
+>> }
+>> 
+>> Since now V4L2_PIX_FMT_NV12 is not the first entry in the array anymore,
+>> the default capture format is not set to that as it was done before.
+>> 
+>> Both commits changed the first index to keep inst->fmt_out default format
+>> set to V4L2_PIX_FMT_H264, but did not update the latter to keep .fmt_out
+>> default format set to V4L2_PIX_FMT_NV12.
+>> 
+>> Rather than updating the index to the current V4L2_PIX_FMT_NV12 position,
+>> let's reorder the entries so that this format is the first entry again.
+>> 
+>> This would also make VIDIOC_ENUM_FMT report the V4L2_PIX_FMT_NV12 format
+>> with an index 0 as it did before the QC08C and QC10C formats were added.
+>> 
+>> Fixes: 9593126dae3e ("media: venus: Add a handling of QC08C compressed format")
+>> Fixes: cef92b14e653 ("media: venus: Add a handling of QC10C compressed format")
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 >
-> Add more camera sensors into the supported camera sensors list
-> to make cio2-bridge to support more camera sensors.
+> I just came across this issue independently and can confirm this patch fixes
+> the GStreamer V4L2 decoder on QRB5165.
 >
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-
-Thanks; this looks ok to me now:
-
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-> ---
-> Changes from v1:
->   - remove some sensors without available drivers
->   - add .link_frequencies for each sensor
+> Tested-by: Jordan Crouse <jorcrous@amazon.com>
 >
-> ---
->   drivers/media/pci/intel/ipu3/cio2-bridge.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> index dfefe0d8aa95..d59bec8a94e2 100644
-> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-> @@ -29,6 +29,14 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
->   	CIO2_SENSOR_CONFIG("INT347E", 1, 319200000),
->   	/* Omnivision OV2680 */
->   	CIO2_SENSOR_CONFIG("OVTI2680", 0),
-> +	/* Omnivision ov8856 */
-> +	CIO2_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
-> +	/* Omnivision ov2740 */
-> +	CIO2_SENSOR_CONFIG("INT3474", 1, 360000000),
-> +	/* Hynix hi556 */
-> +	CIO2_SENSOR_CONFIG("INT3537", 1, 437000000),
-> +	/* Omnivision ov13b10 */
-> +	CIO2_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
->   };
->   
->   static const struct cio2_property_names prop_names = {
+
+Thanks for testing it!
+
+Stanimir, can we please get this for v6.3 as well?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
