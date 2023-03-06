@@ -2,163 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B776AB863
-	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 09:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B4A6AB8A5
+	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 09:43:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbjCFIdo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 03:33:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34904 "EHLO
+        id S230009AbjCFInO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 03:43:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbjCFIdm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 03:33:42 -0500
-X-Greylist: delayed 965 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 06 Mar 2023 00:33:02 PST
-Received: from smtp16.bhosted.nl (smtp16.bhosted.nl [IPv6:2a02:9e0:8000::27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3321CAE5
-        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 00:33:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=protonic.nl; s=202111;
-        h=message-id:references:in-reply-to:reply-to:subject:cc:to:from:date:
-         content-transfer-encoding:content-type:mime-version:from;
-        bh=iGJBerep9CUnwc0kKc070FLg5wgjahdY5flMGzZYQMs=;
-        b=oDYibHiF3QQbdSnLfVFRXWqS6z3NQmb6kugL8YV+AzvXesLHyr5JzoQv36TlUtoc6W5KCotN1l9wN
-         9LSOB4Bu9Yfgb0XpMplMCVfXibebalo7a5aESxI1lFy0L3DA6RZo6UFgR79W8gl98jQrxQ/tLvd2T2
-         0xEQnuRgzH1ORWF+wpRq+raboR/TqFqi3nosbBYytoNMkARO5GE2FASMRvbgozacXT968pNevzID08
-         kd2Bb6hh7pzuv819gTpRFHFjwmhc4+RnlmqnZW8aNjXY3z24ty79Y1uQG7spYocRbf484LhNNLEwf4
-         6CAVA7hl0v6jQA7FXN1mdH2h85/uHYw==
-X-MSG-ID: 412d5329-bbf7-11ed-829c-0050569d2c73
+        with ESMTP id S230032AbjCFInF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 03:43:05 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3026EB5
+        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 00:43:00 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:b745:671d:a946:57fa])
+        by albert.telenet-ops.be with bizsmtp
+        id Uwiy2900F4LuvSS06wiyHW; Mon, 06 Mar 2023 09:42:59 +0100
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pZ6Qs-00AzRe-ER;
+        Mon, 06 Mar 2023 09:42:58 +0100
+Date:   Mon, 6 Mar 2023 09:42:58 +0100 (CET)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     linux-kernel@vger.kernel.org
+cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-um@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-sh@vger.kernel.org
+Subject: Re: Build regressions/improvements in v6.3-rc1
+In-Reply-To: <20230306082035.3709036-1-geert@linux-m68k.org>
+Message-ID: <148a4a5f-d228-e289-f333-8d5df6cad4f5@linux-m68k.org>
+References: <CAHk-=wgr1D8hb75Z+nn+4LXUnosp0HM+gP+YJEcEav1DgTC=Cw@mail.gmail.com> <20230306082035.3709036-1-geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Mon, 06 Mar 2023 09:16:54 +0100
-From:   Robin van der Gracht <robin@protonic.nl>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
-Organization: Protonic Holland
-Reply-To: robin@protonic.nl
-Mail-Reply-To: robin@protonic.nl
-In-Reply-To: <CANiq72mm9qX8uuS2y_vvtcza2hAgG3zFEy24koQTfSEOWkKDYQ@mail.gmail.com>
-References: <20230228215433.3944508-1-robh@kernel.org>
- <CANiq72mm9qX8uuS2y_vvtcza2hAgG3zFEy24koQTfSEOWkKDYQ@mail.gmail.com>
-Message-ID: <61190cb766083d73ef3b1455dcf3ff61@protonic.nl>
-X-Sender: robin@protonic.nl
-User-Agent: Roundcube Webmail/1.3.1 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> From: Rob Herring <robh@kernel.org>
-> Date: Tue, Feb 28, 2023 at 10:54 PM
-> Subject: [PATCH] dt-bindings: Fix SPI and I2C bus node names in 
-> examples
-> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: <devicetree@vger.kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-> Benson Leung <bleung@chromium.org>, Guenter Roeck
-> <groeck@chromium.org>, Stephen Boyd <sboyd@kernel.org>, Andrzej Hajda
-> <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
-> Robert Foss <rfoss@kernel.org>, Thierry Reding
-> <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, MyungJoo
-> Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,
-> Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
-> <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>, Lee Jones
-> <lee@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, David S.
-> Miller <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-> Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-> Wolfgang Grandegger <wg@grandegger.com>, Kalle Valo
-> <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, Mark Brown
-> <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-> <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-> <linux-gpio@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-> <linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
-> <netdev@vger.kernel.org>, <linux-can@vger.kernel.org>,
-> <linux-wireless@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-> <alsa-devel@alsa-project.org>, <linux-usb@vger.kernel.org>
-> 
-> 
-> SPI and I2C bus node names are expected to be "spi" or "i2c",
-> respectively, with nothing else, a unit-address, or a '-N' index. A
-> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
-> cases. Mostly scripted with the following commands:
-> 
-> git grep -l '\si2c[0-9] {' Documentation/devicetree/ | xargs sed -i -e
-> 's/i2c[0-9] {/i2c {/'
-> git grep -l '\sspi[0-9] {' Documentation/devicetree/ | xargs sed -i -e
-> 's/spi[0-9] {/spi {/'
-> 
-> With this, a few errors in examples were exposed and fixed.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
-> Cc: Chanwoo Choi <cw00.choi@samsung.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Kalle Valo <kvalo@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-can@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-usb@vger.kernel.org
-> ---
->  .../bindings/auxdisplay/holtek,ht16k33.yaml       |  2 +-
+On Mon, 6 Mar 2023, Geert Uytterhoeven wrote:
+> Below is the list of build error/warning regressions/improvements in
+> v6.3-rc1[1] compared to v6.2[2].
+>
+> Summarized:
+>  - build errors: +9/-14
+>  - build warnings: +4/-1447
+>
+> Happy fixing! ;-)
+>
+> Thanks to the linux-next team for providing the build service.
+>
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fe15c26ee26efa11741a7b632e9f23b01aca4cc6/ (all 152 configs)
+> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/c9c3395d5e3dcc6daee66c6908354d47bf98cb0c/ (all 152 configs)
+>
+>
+> *** ERRORS ***
+>
+> 9 error regressions:
+>  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: 'struct cpuinfo_um' has no member named 'apicid':  => 2157:41, 2157:48
 
-....
+um-x86_64/um-all{mod,yes}config
+um-x86_64-gcc12/um-all{mod,yes}config
 
->  86 files changed, 110 insertions(+), 103 deletions(-)
-> 
-> diff --git 
-> a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-> b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-> index fc4873deb76f..286e726cd052 100644
-> --- a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-> +++ b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-> @@ -72,7 +72,7 @@ examples:
->      #include <dt-bindings/interrupt-controller/irq.h>
->      #include <dt-bindings/input/input.h>
->      #include <dt-bindings/leds/common.h>
-> -    i2c1 {
-> +    i2c {
->              #address-cells = <1>;
->              #size-cells = <0>;
+>  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c: error: the frame size of 2208 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]:  => 7086:1
 
-Acked-by: Robin van der Gracht <robin@protonic.nl>
+arm64-gcc5/arm64-allmodconfig
+
+(Already improved from 2224 to 2208 bytes)
+
+>  + /kisskb/src/drivers/gpu/drm/msm/msm_mdss.c: error: case label does not reduce to an integer constant:  => 299:2, 300:2, 296:2
+
+powerpc-gcc5/{ppc32,ppc64_book3e,ppc64le}_allmodconfig
+powerpc-gcc5/powerpc-all{mod,yes}config
+arm64-gcc5/arm64-allmodconfig
+
+>  + /kisskb/src/drivers/media/i2c/imx290.c: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]:  => 1082:12
+>  + /kisskb/src/drivers/media/i2c/imx290.c: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]:  => 1090:12
+
+m68k-gcc{8,11}/m68k-allmodconfig
+parisc-gcc{8,11}/parisc-allmodconfig
+s390x-gcc11/s390-all{mod,yes}config
+
+Fix available since Feb 7.
+
+>  + /kisskb/src/fs/btrfs/inode.c: error: 'location.type' may be used uninitialized [-Werror=maybe-uninitialized]:  => 5730:21
+
+sparc64-gcc11/sparc{,64}-allmodconfig
+parisc-gcc11/parisc-allmodconfig
+
+>  + /kisskb/src/fs/btrfs/send.c: error: 'right_gen' may be used uninitialized in this function [-Werror=maybe-uninitialized]:  => 1909:13, 1902:23
+
+powerpc-gcc5/powerpc-all{mod,yes}config
+powerpc-gcc5/{ppc32,ppc64_book3e,ppc64le}_allmodconfig
+powerpc-gcc5/{ppc64,ppc64le,pseries,pseries_le,skiroot}_defconfig
+
+>  + /opt/cross/kisskb/fe-x86-64-core-i7-2017.05/x86_64-buildroot-linux-gnu/sysroot/usr/include/bits/stdlib-float.h: error: SSE register return with SSE disabled:  => 27:1
+
+um-x86_64/um-allyesconfig
+
+>  + {standard input}: Error: unknown pseudo-op: `.':  => 1118
+
+sh4-gcc11/sh-all{mod,yes}config (ICE)
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
