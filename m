@@ -2,90 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF1BD6AB444
-	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 02:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18EDB6AB64E
+	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 07:28:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbjCFBT5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Mar 2023 20:19:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50786 "EHLO
+        id S229613AbjCFG2N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 01:28:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjCFBTx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Mar 2023 20:19:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4791BBDFE;
-        Sun,  5 Mar 2023 17:19:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B4FDA60AE4;
-        Mon,  6 Mar 2023 01:19:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545C1C433D2;
-        Mon,  6 Mar 2023 01:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678065587;
-        bh=MREzbXPpvfZe6cFJBJSi/CffhAuZMALG7DM5ZmXxOy8=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=jq/YnJQ+8T3AoCrXqHr07OaLhCYSYtgTjuubgDyaNsDalzp+U5+81FkF7W7OySle5
-         //RrdaGklJtfLBZemPxSuhZ0mBfwo+H2Dseeusth7WL+07MtC9+8ZCSW+25ChC1H5I
-         7mM291WyrQFSbLA3ZQ8FS0VrfQJz0QZyKQUc9z4e2zkRpdKhDF5eTB4y857/5Id8JX
-         YGV4onxZKw89V4h4UpZ1UeEoRnn67nHmqDXYYnDn10j8YHUBv9yaXo7FTaufj8k0BH
-         46H0pDSXEvbm8VZbGnNl67JoXkvuqTn9UhSftSGWcFbg7zbH3VLdEYCtdzvqHBrZ71
-         cK3fwS4VFgN6g==
-Date:   Mon, 6 Mar 2023 09:19:34 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 08/16] ARM: dts: imx7d: add node for PXP
-Message-ID: <20230306011934.GA143566@dragon>
-References: <20230112-imx-pxp-v2-0-e2281da1db55@pengutronix.de>
- <20230112-imx-pxp-v2-8-e2281da1db55@pengutronix.de>
- <Y8V6yU8bZoVt32wN@pendragon.ideasonboard.com>
- <20230120090609.GB13264@pengutronix.de>
- <Y8pc2IZl09iNaUiR@pendragon.ideasonboard.com>
- <20230209140225.GC30549@pengutronix.de>
+        with ESMTP id S229510AbjCFG2M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 01:28:12 -0500
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5FD90A5C4;
+        Sun,  5 Mar 2023 22:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=y+5KY
+        JiUtormz/jrT3bvfPhN0fTpLqDXBrS1X7+kgf8=; b=QRs+RFmtFj29262cuJfm3
+        qnUZvbSvRH5p6riP5bN+xrPl5/Efefk8ywOtw3yP/shz+JFzx8TE0l5IMN0biQWP
+        nZ0/AsSiiMaWawwXCZA5n+Rnl/rsVmZf9/O3Jp1DaBa85YLdVaa7MBHtWcEBLg51
+        drWq+xyBTDn5UEEEL2ADkA=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by zwqz-smtp-mta-g0-1 (Coremail) with SMTP id _____wBHf_OahwVk540ZCQ--.40472S2;
+        Mon, 06 Mar 2023 14:26:34 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     mchehab@kernel.org
+Cc:     bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com,
+        Zheng Wang <zyytlz.wz@163.com>
+Subject: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to uncanceled work
+Date:   Mon,  6 Mar 2023 14:26:33 +0800
+Message-Id: <20230306062633.200427-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230209140225.GC30549@pengutronix.de>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wBHf_OahwVk540ZCQ--.40472S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uF17uw15Jr4xtw4xCFy7trb_yoW8Xry7pr
+        ZxK3yDCrWUWrs0qr1UJ3WUAF1rCw1rKa1xWr17uw4Iv3y3Jrs7JryFya48tFWIyF92k3Wr
+        Jr10q3s7GrWDZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi-6pkUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgIqU2I0Xi19SAAAsl
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 09, 2023 at 03:02:25PM +0100, Michael Tretter wrote:
-> Hi Shawn,
-> 
-> On Fri, 20 Jan 2023 11:20:24 +0200, Laurent Pinchart wrote:
-> > On Fri, Jan 20, 2023 at 10:06:09AM +0100, Michael Tretter wrote:
-> > > On Mon, 16 Jan 2023 18:26:49 +0200, Laurent Pinchart wrote:
-> > > > On Fri, Jan 13, 2023 at 10:54:14AM +0100, Michael Tretter wrote:
-> > > > > The i.MX7d contains a Pixel Pipeline in version 3.0. Add the device tree
-> > > > > node to make it available.
-> > > > > 
-> > > > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > > > 
-> > > > Should this go through Shawn's tree ? If so, how would you like to
-> > > > handle the dependency on the DT bindings in patch 01/16 ?
-> > > 
-> > > There is no actual dependency. The binding was already specified as a txt,
-> > > just not as a yaml, and the added node matches both.
-> > 
-> > Good point. I'll send a pull request for the series then, without this
-> > patch, which can be picked by Shawn separately.
-> 
-> Can you pick this patch or should I resend it as a separate series?
+In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
+mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
+and mtk_jpeg_enc_device_run may be called to start the
+work.
+If we remove the module which will call mtk_jpeg_remove
+to make cleanup, there may be a unfinished work. The
+possible sequence is as follows, which will cause a
+typical UAF bug.
 
-Applied, thanks!
+Fix it by canceling the work before cleanup in the mtk_jpeg_remove
+
+CPU0                  CPU1
+
+                    |mtk_jpeg_job_timeout_work
+mtk_jpeg_remove     |
+  v4l2_m2m_release  |
+    kfree(m2m_dev); |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev->curr_ctx //use
+
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 969516a940ba..364513e7897e 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+ static int mtk_jpeg_remove(struct platform_device *pdev)
+ {
+ 	struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
+-
++	cancel_delayed_work(&jpeg->job_timeout_work);
+ 	pm_runtime_disable(&pdev->dev);
+ 	video_unregister_device(jpeg->vdev);
+ 	v4l2_m2m_release(jpeg->m2m_dev);
+-- 
+2.25.1
+
