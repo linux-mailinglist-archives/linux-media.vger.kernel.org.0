@@ -2,118 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8B4A6AB8A5
-	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 09:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 457B86AB8EA
+	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 09:57:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbjCFInO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 03:43:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45714 "EHLO
+        id S229771AbjCFI5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 03:57:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230032AbjCFInF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 03:43:05 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3026EB5
-        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 00:43:00 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:b745:671d:a946:57fa])
-        by albert.telenet-ops.be with bizsmtp
-        id Uwiy2900F4LuvSS06wiyHW; Mon, 06 Mar 2023 09:42:59 +0100
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pZ6Qs-00AzRe-ER;
-        Mon, 06 Mar 2023 09:42:58 +0100
-Date:   Mon, 6 Mar 2023 09:42:58 +0100 (CET)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     linux-kernel@vger.kernel.org
-cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-um@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-sh@vger.kernel.org
-Subject: Re: Build regressions/improvements in v6.3-rc1
-In-Reply-To: <20230306082035.3709036-1-geert@linux-m68k.org>
-Message-ID: <148a4a5f-d228-e289-f333-8d5df6cad4f5@linux-m68k.org>
-References: <CAHk-=wgr1D8hb75Z+nn+4LXUnosp0HM+gP+YJEcEav1DgTC=Cw@mail.gmail.com> <20230306082035.3709036-1-geert@linux-m68k.org>
+        with ESMTP id S229564AbjCFI5k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 03:57:40 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34ACF2200C
+        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 00:57:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E3191B80D14
+        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 08:57:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE2FC433D2
+        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 08:57:32 +0000 (UTC)
+Message-ID: <9d7133b0-185f-a38f-7b24-1c7a847aacc7@xs4all.nl>
+Date:   Mon, 6 Mar 2023 09:57:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [ANN] Request for Topics for a Media Summit June 26th
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
+In-Reply-To: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 6 Mar 2023, Geert Uytterhoeven wrote:
-> Below is the list of build error/warning regressions/improvements in
-> v6.3-rc1[1] compared to v6.2[2].
->
-> Summarized:
->  - build errors: +9/-14
->  - build warnings: +4/-1447
->
-> Happy fixing! ;-)
->
-> Thanks to the linux-next team for providing the build service.
->
-> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fe15c26ee26efa11741a7b632e9f23b01aca4cc6/ (all 152 configs)
-> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/c9c3395d5e3dcc6daee66c6908354d47bf98cb0c/ (all 152 configs)
->
->
-> *** ERRORS ***
->
-> 9 error regressions:
->  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: 'struct cpuinfo_um' has no member named 'apicid':  => 2157:41, 2157:48
+On 03/03/2023 15:44, Hans Verkuil wrote:
+> Hi all,
+> 
+> I am planning to organize another Media Summit on June 26th, co-located
+> with the Embedded Open Source Summit in Prague:
+> 
+> https://events.linuxfoundation.org/embedded-open-source-summit/
+> 
+> I've put in a request for a room with the Linux Foundation and I am waiting
+> for the result of that. For once I was early with my request, so I have good
+> hope we'll get a room. Expect the format to be similar to what we did in
+> Dublin last year.
+> 
+> I'm a bit early with this 'Request for Topics' as well, but this allows
+> everyone who plans to be in Prague to take this into account.
+> 
+> So if you have a topic that you want to discuss, just reply. It would be
+> very much appreciated if you can also add a guesstimate of the time you
+> need for your topic.
+> 
+> Once I have the details of the room and how many people it can hold, then
+> I will send out a second email asking people to register with me if you
+> want to join.
+> 
+> Regarding remote participation: only if there is really no other way.
+> Meeting face-to-face once a year is important IMHO, and attending remotely
+> is a poor substitute. That said, if it is really necessary to set something
+> up, then I can do the same I did in Dublin, setting up a Webex meeting.
+> That worked reasonably well, except that I will need to bring a better
+> speaker since I learned that the laptop speaker was pretty bad.
+> 
+> So, if you have topics for the meeting, just reply!
+> 
+> Regards,
+> 
+> 	Hans
 
-um-x86_64/um-all{mod,yes}config
-um-x86_64-gcc12/um-all{mod,yes}config
+I have one:
 
->  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c: error: the frame size of 2208 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]:  => 7086:1
+Review the subsystem development process: what can be improved?
+Are there media developers who are interested in becoming maintainers?
+Given the amount of traffic I would definitely like to see one or two
+additional maintainers.
 
-arm64-gcc5/arm64-allmodconfig
-
-(Already improved from 2224 to 2208 bytes)
-
->  + /kisskb/src/drivers/gpu/drm/msm/msm_mdss.c: error: case label does not reduce to an integer constant:  => 299:2, 300:2, 296:2
-
-powerpc-gcc5/{ppc32,ppc64_book3e,ppc64le}_allmodconfig
-powerpc-gcc5/powerpc-all{mod,yes}config
-arm64-gcc5/arm64-allmodconfig
-
->  + /kisskb/src/drivers/media/i2c/imx290.c: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]:  => 1082:12
->  + /kisskb/src/drivers/media/i2c/imx290.c: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]:  => 1090:12
-
-m68k-gcc{8,11}/m68k-allmodconfig
-parisc-gcc{8,11}/parisc-allmodconfig
-s390x-gcc11/s390-all{mod,yes}config
-
-Fix available since Feb 7.
-
->  + /kisskb/src/fs/btrfs/inode.c: error: 'location.type' may be used uninitialized [-Werror=maybe-uninitialized]:  => 5730:21
-
-sparc64-gcc11/sparc{,64}-allmodconfig
-parisc-gcc11/parisc-allmodconfig
-
->  + /kisskb/src/fs/btrfs/send.c: error: 'right_gen' may be used uninitialized in this function [-Werror=maybe-uninitialized]:  => 1909:13, 1902:23
-
-powerpc-gcc5/powerpc-all{mod,yes}config
-powerpc-gcc5/{ppc32,ppc64_book3e,ppc64le}_allmodconfig
-powerpc-gcc5/{ppc64,ppc64le,pseries,pseries_le,skiroot}_defconfig
-
->  + /opt/cross/kisskb/fe-x86-64-core-i7-2017.05/x86_64-buildroot-linux-gnu/sysroot/usr/include/bits/stdlib-float.h: error: SSE register return with SSE disabled:  => 27:1
-
-um-x86_64/um-allyesconfig
-
->  + {standard input}: Error: unknown pseudo-op: `.':  => 1118
-
-sh4-gcc11/sh-all{mod,yes}config (ICE)
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+Guesstimate: 45 minutes
