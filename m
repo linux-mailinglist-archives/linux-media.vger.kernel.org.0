@@ -2,98 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18EDB6AB64E
-	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 07:28:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A13886AB662
+	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 07:37:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbjCFG2N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 01:28:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43874 "EHLO
+        id S229576AbjCFGhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 01:37:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjCFG2M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 01:28:12 -0500
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5FD90A5C4;
-        Sun,  5 Mar 2023 22:28:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=y+5KY
-        JiUtormz/jrT3bvfPhN0fTpLqDXBrS1X7+kgf8=; b=QRs+RFmtFj29262cuJfm3
-        qnUZvbSvRH5p6riP5bN+xrPl5/Efefk8ywOtw3yP/shz+JFzx8TE0l5IMN0biQWP
-        nZ0/AsSiiMaWawwXCZA5n+Rnl/rsVmZf9/O3Jp1DaBa85YLdVaa7MBHtWcEBLg51
-        drWq+xyBTDn5UEEEL2ADkA=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
-        by zwqz-smtp-mta-g0-1 (Coremail) with SMTP id _____wBHf_OahwVk540ZCQ--.40472S2;
-        Mon, 06 Mar 2023 14:26:34 +0800 (CST)
-From:   Zheng Wang <zyytlz.wz@163.com>
-To:     mchehab@kernel.org
-Cc:     bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        Zheng Wang <zyytlz.wz@163.com>
-Subject: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to uncanceled work
-Date:   Mon,  6 Mar 2023 14:26:33 +0800
-Message-Id: <20230306062633.200427-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229706AbjCFGhN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 01:37:13 -0500
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505F3D515;
+        Sun,  5 Mar 2023 22:37:12 -0800 (PST)
+Received: from toolbox.int.toradex.com ([213.55.225.231]) by
+ mrelay.perfora.net (mreueus002 [74.208.5.2]) with ESMTPSA (Nemesis) id
+ 0MDiGW-1pnxup1YiM-00HA0v; Mon, 06 Mar 2023 07:36:58 +0100
+From:   Marcel Ziswiler <marcel@ziswiler.com>
+To:     linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
+Date:   Mon,  6 Mar 2023 07:36:49 +0100
+Message-Id: <20230306063649.7387-1-marcel@ziswiler.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBHf_OahwVk540ZCQ--.40472S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uF17uw15Jr4xtw4xCFy7trb_yoW8Xry7pr
-        ZxK3yDCrWUWrs0qr1UJ3WUAF1rCw1rKa1xWr17uw4Iv3y3Jrs7JryFya48tFWIyF92k3Wr
-        Jr10q3s7GrWDZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi-6pkUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgIqU2I0Xi19SAAAsl
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:U5q3Uzpu7O0mLu2MHa+N3aU6TzuolB/G+0u48wmiI71QRmt2rVf
+ FczmGewXuqOKGed/nKo1KZ0J6qv5fd+KkgfrzwUo91Vgh9Kf5PHIc9LsN+w2aXa7O2rffBz
+ JgrVqoqiicTp5h93slLp1cWuS4WklL4Cyk3s+S3jJG4EauW8phOjVQGT3Oqj8nXiunH+yX8
+ rjWvYEsfMixgdU0ulIbgg==
+UI-OutboundReport: notjunk:1;M01:P0:HAgWnUUvlSQ=;rNGwRX+DE7mdzFWkYDWnNzmB04t
+ DMCyQorcQaqeXoHS+pUB0eU8cCI443lUMQe8PXHqFCyigfH2gAXnXkwJgQjkkkoD8fp0IZpKl
+ 7bYd7WIox/bTR2j1VQBqkWmslysUTQEVjptJZzs6zwC33QcI4T9zP45dp8p+A5/vwl2ljRaTM
+ 1LEW8Cf8nutrikxEhwkjRYG1jpTUJMY8y2/c4qHYprDEKbi/VBPB7USLZYtnwE4CvJxwvVGUc
+ kfewNPIaQCOlUj6oCEsqHpSm1XhxM2tmWp/I7Mbc+vp4237j9r35GtLnirCiozm6/IA0GNj91
+ ZbuBuUhsFPCuExSerxjA0yjPXM3xAPC65RVopEoX6Ck07lv8IITBlGeyvEjGQnNJmhSpxOqIJ
+ Atz66QBuKNs4jwVi/23PUKY4ox0CPqmVq8dsooOBnFatozwTVEKM7lM/HB5IFq6z8FmjJpmif
+ vEq/BTlpavkAm8T1U4vV2tV+dumB7JCGipxZmtlSeqqIntLKw+8SQnPTxrEO3VgfflC3yho/k
+ /+VXIsoysjkySoevlWL0Rndds2jSCjZVAZBMmcEWNFI4AjsFh1tdeoEMSTh9hcrZG7ITR0+DH
+ V9J++LJKsa3TvAfbQH0PDshm6VnXMXn1LbcUZS2JsDFkJu7Yv0rsbEhno0TayQ6ok1iO02W+X
+ 3Oo/FabfSTXxx6zROhIrPdmXiBAhNYFGjvupZRzH5Q==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
-and mtk_jpeg_enc_device_run may be called to start the
-work.
-If we remove the module which will call mtk_jpeg_remove
-to make cleanup, there may be a unfinished work. The
-possible sequence is as follows, which will cause a
-typical UAF bug.
+From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
 
-Fix it by canceling the work before cleanup in the mtk_jpeg_remove
+Implement the introduced get_mbus_config operation to report the
+config of the MIPI CSI-2, BT.656 and Parallel interface.
 
-CPU0                  CPU1
+Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-                    |mtk_jpeg_job_timeout_work
-mtk_jpeg_remove     |
-  v4l2_m2m_release  |
-    kfree(m2m_dev); |
-                    |
-                    | v4l2_m2m_get_curr_priv
-                    |   m2m_dev->curr_ctx //use
-
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 969516a940ba..364513e7897e 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
- static int mtk_jpeg_remove(struct platform_device *pdev)
- {
- 	struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
--
-+	cancel_delayed_work(&jpeg->job_timeout_work);
- 	pm_runtime_disable(&pdev->dev);
- 	video_unregister_device(jpeg->vdev);
- 	v4l2_m2m_release(jpeg->m2m_dev);
+Changes in v2:
+- Take care of MIPI CSI-2, BT.656 and Parallel interface as
+  pointed out by Jacopo. Thanks!
+
+ drivers/media/i2c/ov5640.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 1536649b9e90..43373416fcba 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -3774,6 +3774,24 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
++static int ov5640_get_mbus_config(struct v4l2_subdev *sd,
++				   unsigned int pad,
++				   struct v4l2_mbus_config *cfg)
++{
++	struct ov5640_dev *sensor = to_ov5640_dev(sd);
++
++	cfg->type = sensor->ep.bus_type;
++	if (ov5640_is_csi2(sensor)) {
++		cfg->bus.mipi_csi2.num_data_lanes =
++			sensor->ep.bus.mipi_csi2.num_data_lanes;
++		cfg->bus.mipi_csi2.flags = sensor->ep.bus.mipi_csi2.flags;
++	} else {
++		cfg->bus.parallel.flags = sensor->ep.bus.parallel.flags;
++	}
++
++	return 0;
++}
++
+ static const struct v4l2_subdev_core_ops ov5640_core_ops = {
+ 	.log_status = v4l2_ctrl_subdev_log_status,
+ 	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+@@ -3794,6 +3812,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
+ 	.get_selection = ov5640_get_selection,
+ 	.enum_frame_size = ov5640_enum_frame_size,
+ 	.enum_frame_interval = ov5640_enum_frame_interval,
++	.get_mbus_config = ov5640_get_mbus_config,
+ };
+ 
+ static const struct v4l2_subdev_ops ov5640_subdev_ops = {
 -- 
-2.25.1
+2.36.1
 
