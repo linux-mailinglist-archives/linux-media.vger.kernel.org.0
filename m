@@ -2,92 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C9DA6ABE69
-	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 12:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD8296ABEBB
+	for <lists+linux-media@lfdr.de>; Mon,  6 Mar 2023 12:52:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbjCFLj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 06:39:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
+        id S230008AbjCFLwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 06:52:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjCFLjW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 06:39:22 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C3126861
-        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 03:39:20 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id o12so37148896edb.9
-        for <linux-media@vger.kernel.org>; Mon, 06 Mar 2023 03:39:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678102759;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cm1yYv6PwNcfTuc6RLRT1JagKFtdluR/CBnlVVN7Nuo=;
-        b=CvDsRcHiP0S6OeAHKqhq7BwYHXrHHZeMhmGrVnRWSGktF5U3I5Q0mwKIAviG/fQBW2
-         atKiF9+NNzsAF7rUhLBqVZ1bEyDYulgy9xtxf+Gtmh6Ywi/4Z2nOqhr88fFU/zcUnP+2
-         kaSZ8gpKSWbdfD65Q2NXcueguQgAfHDzWS+Z8te3wn57+qbds6GxDyX04+h9qUc+pkaa
-         3EAWd04tUhtoKqQUq35VZK/VrPUvwyyAiOqtgO7yjKRfAda4Qo+5vveoEY7lYBusYi9n
-         wntlP925K6xS0qW0kk3TEwkbPYhggdhZqc+PKZ84ynjyd48PCpsGXbP46GWcYwsY2qrM
-         bDcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678102759;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cm1yYv6PwNcfTuc6RLRT1JagKFtdluR/CBnlVVN7Nuo=;
-        b=7Nyn1xAM9wNiZ87LtBMpwfttY1Q4OWfGKFdsI3npp2qdQYaKpSMwC4scBQH4JsYVBE
-         0iBJ+hlwFbI5+uKVjM6rahzNLALIlKcKqIE4qcRFE+6j9aMWnyebyV02Xp45lI808aHZ
-         aaWtzrqZh6yGK0NR1h+KrEynl5D6D2ae/dDLOUvvarwqj7XhwgUWC5GyT10zpVpCnxnG
-         +EPW0xaAMgRefdLJrkaocwp4OWnpLIW7mbf2lRkbJbVCbWWQUzvNsjMdBl6u7Z6c7vul
-         H6KxwTXpZgHgpzkIS3H3S7zxuFuzLqVCJ2KKxvfzB6YjxclVKuX/xOGld1gwlWFiyVLm
-         41zw==
-X-Gm-Message-State: AO0yUKU0JWDrDS1eF2wPCL9zqC+T/D61M12n0dT50lsK5vgea/w9E6rX
-        wZS7yEmmUQbjFvH/d4xGnpGqAQ==
-X-Google-Smtp-Source: AK7set9/1jGBVnlHcB4wPEcu1EWHvxazivhejdpvar3ANC+iIdka6WPhPbZFfqHwm21dYIdRA/nILA==
-X-Received: by 2002:a17:906:ca5a:b0:8b2:abc7:1ef9 with SMTP id jx26-20020a170906ca5a00b008b2abc71ef9mr10750344ejb.68.1678102759662;
-        Mon, 06 Mar 2023 03:39:19 -0800 (PST)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:d85d:5a4b:9830:fcfe])
-        by smtp.gmail.com with ESMTPSA id ch10-20020a170906c2ca00b008cf8c6f5c43sm4411936ejb.83.2023.03.06.03.39.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 03:39:19 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     linux-samsung-soc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH 3/3] ARM: dts: exynos: drop unused samsung,camclk-out property in Midas
-Date:   Mon,  6 Mar 2023 12:39:08 +0100
-Message-Id: <167810274095.82312.4920507037861037087.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230211134731.85957-3-krzysztof.kozlowski@linaro.org>
-References: <20230211134731.85957-1-krzysztof.kozlowski@linaro.org> <20230211134731.85957-3-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S229982AbjCFLwB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 06:52:01 -0500
+Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9839128227;
+        Mon,  6 Mar 2023 03:51:59 -0800 (PST)
+Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.183.169])
+        by gnuweeb.org (Postfix) with ESMTPSA id 93F598314F;
+        Mon,  6 Mar 2023 11:51:52 +0000 (UTC)
+X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+        s=default; t=1678103518;
+        bh=7mp2IVJ+mYOWVTN/6Ljscq5f7jZl+nO1fDzxD+/mR7c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=B0xJQah7pjDgMM/+kwBLX8mlew7B9eLbWu8sc7emjX1hXKrNhB3TkrduSJID4sB42
+         AIW/ZVP9N8RtpJi0a/8v6yDhwTjbX6T4dWHOwwPPVv9SZyHyJJMrnDkgVtmzRDCcn2
+         HqqoD/MI5raOfTvTC6WUaq/VH/GlhgeW6p0Tc4LT8d84vIJFFKOMARe4Ahb3ywN9IB
+         mRCXfKfG29XOoTYwkCSoXuRGzGqikswnXIAJJjQFLQ/R7BH5a99RtxX1znauRvAuBi
+         8t7U4A6XaF1lhGMRZ3hPx8ChNpfhhbP+kigP7HDaYlhL+Psv45wzc0jSheNIZUY+mr
+         rx2NDiKNG9xcg==
+Date:   Mon, 6 Mar 2023 18:51:48 +0700
+From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>,
+        Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+        Manasi Navare <manasi.d.navare@intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
+ ffff88811b4af298->next is NULL)
+Message-ID: <ZAXT1B1GTlmA78Ld@biznet-home.integral.gnuweeb.org>
+References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
+ <ZAGqet3U8AMm4Uf1@debian.me>
+ <ZAOTU5CRwdEC1lGH@biznet-home.integral.gnuweeb.org>
+ <87v8jetaik.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v8jetaik.fsf@intel.com>
+X-Bpl:  hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 11 Feb 2023 14:47:31 +0100, Krzysztof Kozlowski wrote:
-> The S5K6A3 camera sensor does not use nor allow samsung,camclk-out
-> property.
+On Mon, Mar 06, 2023 at 12:54:59PM +0200, Jani Nikula wrote:
+> Please file a bug at fdo gitlab:
 > 
-> 
+> https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bugs
 
-Applied, thanks!
+OK, I posted it here https://gitlab.freedesktop.org/drm/intel/-/issues/8274
 
-[3/3] ARM: dts: exynos: drop unused samsung,camclk-out property in Midas
-      https://git.kernel.org/krzk/linux/c/cb8d0fcc5024981e1aed2516921f8bfb3476ffa7
+Thanks,
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Ammar Faizi
+
+P.S:
+I had to create a new account because I forgot my previous freedesktop
+GitLab account password. I tried to use the forgot password feature but
+didn't get any email to reset my password. My old GitLab email address
+is ammarfaizi2@gmail.com.
+
+Just in case someone can tell what goes wrong with the forgot password
+feature on there...
+
