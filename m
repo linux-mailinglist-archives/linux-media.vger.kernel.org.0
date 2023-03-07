@@ -2,129 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF886ADA51
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 10:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 706C26ADAD2
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 10:47:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbjCGJ17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 04:27:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
+        id S230168AbjCGJrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 04:47:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbjCGJ14 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 04:27:56 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174763C21;
-        Tue,  7 Mar 2023 01:27:54 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id h8so13373586plf.10;
-        Tue, 07 Mar 2023 01:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678181273;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yhS9WuvDVLCH/07BDFe4S3wnXC3MatfvUcLm7rOWzPU=;
-        b=IIwvrYveZMftYjvctthjlBYZfsacrBWVljfA/5J0vr0PcgbCGnOfcnJRU27qrxTv93
-         DyiWrvJX9sGIHdz5xjFCQ8fzBQB9qp0Z537ErAGFhX8eA1OBDHJBrRFR/iEqk9XbnCdy
-         q078ee9CfLzrFWHGO29KJCwSa0PIXTWBDIDjhKQC+R1dWN77mXOxTSg5G6yEd3KQY7wn
-         La9hh5KbolMEXhOodflYLfQTM2GQRnPGr9FQ36cT5QmW1+K2g2TU+kQdsIQBclodnJl4
-         W/XVTYkxEvweelFcBWZaF8+KJKeByx1Zv4p8CjlvWmDBUJPFzqqHGIJgboaIqAOr1xwr
-         h7hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678181273;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yhS9WuvDVLCH/07BDFe4S3wnXC3MatfvUcLm7rOWzPU=;
-        b=xp0cJmQexbElRNoqaTlaZ2ZVs7O7n1ov5jPa8B+HifOwa+a7uOzqdxD6WLsZruaJl7
-         J6DQkxCyeiYOqnBUM44J/dEif6twF+nj+O8Z5F9PrxePsJRXoxcZDNGbOQS3yFvd24Ls
-         RfzNiq1/v1d8tExVgWsYReY/JAcUmTDFQfMKCbCoeC86d5f7Pc0iEflEa+WjL7hwNpIu
-         A6S3IJXHBCn5ytW1HPKahjzxK54jbfTMD4OSFp9zf4+J9yHlh2VA0z1T4JzDFjrV84uP
-         B+aBWol3ErofVrNW1refbsEg3GmEuPrx6ELou7FUs6RYlGk+iW5CSO9qB6Co3tA78wao
-         VstA==
-X-Gm-Message-State: AO0yUKXj6tuMBSSPaTgMxWWxP4ZjeCzvj/mgNPQ91/JsagnUAUP7omeD
-        ZxVXwlczQJLkPB4RL+EK15lua29GWBUCpOsJqIw=
-X-Google-Smtp-Source: AK7set/cJsa7T6lRnhe3AOvYaVAEX3dOwNKizDvDRu5d9q0M5oZM2coLOWPB9DeQoaPW9yb4Q+CgVIpU3/LV3N7Km6k=
-X-Received: by 2002:a17:902:ef92:b0:19a:8259:c754 with SMTP id
- iz18-20020a170902ef9200b0019a8259c754mr5338648plb.0.1678181273514; Tue, 07
- Mar 2023 01:27:53 -0800 (PST)
+        with ESMTP id S229556AbjCGJrU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 04:47:20 -0500
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F11198B31A;
+        Tue,  7 Mar 2023 01:47:03 -0800 (PST)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 2D27724E252;
+        Tue,  7 Mar 2023 17:46:57 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Mar
+ 2023 17:46:57 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Mar
+ 2023 17:46:56 +0800
+Message-ID: <15b29a5b-29a1-8440-2b46-0c201c20defd@starfivetech.com>
+Date:   Tue, 7 Mar 2023 17:46:56 +0800
 MIME-Version: 1.0
-References: <20230306062633.200427-1-zyytlz.wz@163.com>
-In-Reply-To: <20230306062633.200427-1-zyytlz.wz@163.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Tue, 7 Mar 2023 17:27:41 +0800
-Message-ID: <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
-Subject: Re: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
- uncanceled work
-To:     Zheng Wang <zyytlz.wz@163.com>
-Cc:     mchehab@kernel.org, bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 11/11] media: starfive: enable building
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230302091921.43309-1-jack.zhu@starfivetech.com>
+ <20230302091921.43309-12-jack.zhu@starfivetech.com>
+ <bd6c9135-e12c-a6ac-db46-416403850751@linaro.org>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <bd6c9135-e12c-a6ac-db46-416403850751@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-Is there anyone who can help with this? I can provide more details
-like invoking chain if needed.
 
-Thanks,
-Zheng
+On 2023/3/3 16:43, Krzysztof Kozlowski wrote:
+> On 02/03/2023 10:19, jack.zhu wrote:
+>> Add Kconfig and Makefie, update platform/Kconfig and platform/Makefile
+>> to enable building of the Starfive Camera subsystem driver.
+>> 
+>> Signed-off-by: jack.zhu <jack.zhu@starfivetech.com>
+>> ---
+>>  drivers/media/platform/Kconfig           |  1 +
+>>  drivers/media/platform/Makefile          |  1 +
+>>  drivers/media/platform/starfive/Kconfig  | 18 ++++++++++++++++++
+>>  drivers/media/platform/starfive/Makefile | 14 ++++++++++++++
+> 
+> This is not a separate commit. If it were, it would mean you just added
+> dead code in previous commits, so why adding dead code in first place?
+> 
 
-Zheng Wang <zyytlz.wz@163.com> =E4=BA=8E2023=E5=B9=B43=E6=9C=886=E6=97=A5=
-=E5=91=A8=E4=B8=80 14:28=E5=86=99=E9=81=93=EF=BC=9A
->
-> In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-> mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
-> and mtk_jpeg_enc_device_run may be called to start the
-> work.
-> If we remove the module which will call mtk_jpeg_remove
-> to make cleanup, there may be a unfinished work. The
-> possible sequence is as follows, which will cause a
-> typical UAF bug.
->
-> Fix it by canceling the work before cleanup in the mtk_jpeg_remove
->
-> CPU0                  CPU1
->
->                     |mtk_jpeg_job_timeout_work
-> mtk_jpeg_remove     |
->   v4l2_m2m_release  |
->     kfree(m2m_dev); |
->                     |
->                     | v4l2_m2m_get_curr_priv
->                     |   m2m_dev->curr_ctx //use
->
-> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> ---
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drive=
-rs/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 969516a940ba..364513e7897e 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device *p=
-dev)
->  static int mtk_jpeg_remove(struct platform_device *pdev)
->  {
->         struct mtk_jpeg_dev *jpeg =3D platform_get_drvdata(pdev);
-> -
-> +       cancel_delayed_work(&jpeg->job_timeout_work);
->         pm_runtime_disable(&pdev->dev);
->         video_unregister_device(jpeg->vdev);
->         v4l2_m2m_release(jpeg->m2m_dev);
-> --
-> 2.25.1
->
+The previous patches are made according to the module function.I think
+it is helpful to explain the composition of the code file. 
+
+stf_camss[patch 9] as a platform device manages all resources including
+ISP and VIN. ISP/VIN [patch 7/8]as a sub-device needs to access other
+resources managed by stf_camss.There is mutual reference between them.
+Therefore, this patch is used for the overall compilation of the starfive
+directory.
+
+> Squash it.
+> 
+> Best regards,
+> Krzysztof
+> 
