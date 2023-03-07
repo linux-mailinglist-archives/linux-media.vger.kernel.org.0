@@ -2,176 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 156626ADCEA
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 12:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0EE96ADD1E
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 12:19:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbjCGLLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 06:11:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60782 "EHLO
+        id S229750AbjCGLS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 06:18:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230410AbjCGLKs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 06:10:48 -0500
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA4D3C03;
-        Tue,  7 Mar 2023 03:08:22 -0800 (PST)
-Received: by mail-vs1-xe35.google.com with SMTP id s1so11952408vsk.5;
-        Tue, 07 Mar 2023 03:08:22 -0800 (PST)
+        with ESMTP id S230407AbjCGLSh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 06:18:37 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E013E63E
+        for <linux-media@vger.kernel.org>; Tue,  7 Mar 2023 03:18:33 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id b10so12824748ljr.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Mar 2023 03:18:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678187302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Eav3advogQ0nYvVmpeSRoGYuZChj7MY5XbLAOLiRmU=;
-        b=EAyxR1Xujr0zty5VMrixSooIKibQuqP0StWq2IagYvWNG3lt0NZsHrwscS9sWLI+J3
-         a7sEuB2gvOdxE+AbjIFf2tnQKfSpgR7qQJK0/SgbEEI3uALjDSEfNXZOh3Kq5kFGbWXA
-         B9dZZHLJzSCh2GcGW+3Q8q7SVXrRiON0pjlIMswaGR5YbaIuxf/if6waI5egXrnKgMWT
-         SXUEjXGtKDxaNGTGn2i8bEWuJJVIQLUoXrLpB040qFixC6RXZphDYqLjZM4c8zMlYuL6
-         8PQQSYLo/ZoVyo9CWVH98ht1jrtsVCERI0I7kZWp5V2VIT4MneOExI54liJBVpaNeRBX
-         2lzA==
+        d=linaro.org; s=google; t=1678187912;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kEJH2oPkbi1+iJDHn1rP4D2o13uzAezWWeXGGiglOnA=;
+        b=QXV5F31hp/CbDr8oy2zdsTE5WwhxjRPnx51w4/9yWPm0uBeR46c9+9h1eX9kKtAJGI
+         E+EcjkFBN2shyjHFFNIVK4ud0xBoVawDoqXj+GK99mgSglQjgghoXn3mzYC6ZeKcYB4z
+         tsXpS3Hrrp341UO9+ahGtCHBaY+2bveECG3utFb2Hp0RFlDNBuWFsixS4fqQvR9Yjzsd
+         gYxQUmRVp33Wcex8Fivdt5vFLasXpoc/1MUX+cJeSqZsHYnuA/9w4Dxubq02ZxIgByvK
+         63/L1XEa9dJfIj8WRbJU51KWLW/Ux6lOV9lPY42t0Zf5gYSPF0lX6SoE4GgfOQM9X4pq
+         otMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678187302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1Eav3advogQ0nYvVmpeSRoGYuZChj7MY5XbLAOLiRmU=;
-        b=g5fa5KWzkZrm12HavEeI/rkMwLC5JSN6uxZdYsxtvC8vG+Z2pRPSpdgn1mxokzZtUP
-         ywG+WoSZC1Dw9TEE/F5edspDj8m+uq1DHJMzSJLCySzgfEC/GoBkKjcA41zdTLUCGGzN
-         +8Ea+XCJpypJ0mdJB7eQuCPGccUyK9oQURyp/ohHfvBtyfteARA56yt39/ughwJm0SSp
-         MlSU0m8WL2YyEbvzQTmBLQLbNc2JHVuBErczsEwnG2DD2bQX11yjG++zobWOo5YnEnni
-         yiLTzSJRSkBk2ntByEpewO22S4ekbWcIELXoDjzGowyIuz2u23MBe9er6skS4IZf86ia
-         Gr3Q==
-X-Gm-Message-State: AO0yUKVczNdZnFCYvsXYDkm8ppEvJmqF65A8OP4gSkWgX557bmTG06zd
-        yafhkS/Jyirt4ZaRWolN8ONYyTsRxKH+8gkETI8=
-X-Google-Smtp-Source: AK7set/OumrnkvhmuFiKYFc0Wbi5u1tUSOJ4dOkchw5iWH3l7TaOt2ET2Dbd/AAAZguiCriJKKL2ImvPIdnDE+4MzxI=
-X-Received: by 2002:a05:6102:2146:b0:411:c07e:f666 with SMTP id
- h6-20020a056102214600b00411c07ef666mr9358130vsg.0.1678187301903; Tue, 07 Mar
- 2023 03:08:21 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678187912;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kEJH2oPkbi1+iJDHn1rP4D2o13uzAezWWeXGGiglOnA=;
+        b=AjkLwhyxnocbZXeJ7CO6vWzh+mkAqRINo2D1hF5ekVihLx9gapYF25niufH4IQJj2U
+         guNHUaoQnrTxmNmrxGxPFOdEmz3wVKQQDEgXwiiAoCbHtwUev/G5WihUJ/wmxYf4vDsN
+         dp0k2Tvsi0jbnz4bfSNGfGqCjNMSm4lqXlYBCHMYGz6oI9BFfPhkvG57i7iZ6qXM4MrD
+         tCrZbf1bU0hqWFCKXuywv3iBY5kAngK9PtasSPyuBeu+UoulDftTcHDpe/Za4fYTKhpE
+         JQ0Z+ExjxoThTXVVrpRYkPhbsX7vNuIkyW9SkqoN0+LnUnsr3loRMY7Xl6Yd/7WMF8Jm
+         pRzg==
+X-Gm-Message-State: AO0yUKXxMFTaXxhfMxk109qZbPIiL5u38RqIe5OyRkpQxGxKsg+OTbfN
+        Bcobg01sFKh//8p/V2km3JeNYg==
+X-Google-Smtp-Source: AK7set+Ex4pJbRG4CQNBxxBBHsApvu6Oe1P+M6XD1BdlbnHPo+Fzz61dmlFW8f0MPwzp3MTYjk5Chg==
+X-Received: by 2002:a2e:998c:0:b0:295:aca0:8205 with SMTP id w12-20020a2e998c000000b00295aca08205mr3893351lji.52.1678187911960;
+        Tue, 07 Mar 2023 03:18:31 -0800 (PST)
+Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
+        by smtp.gmail.com with ESMTPSA id g10-20020ac2538a000000b004ddaea30ba6sm1993150lfh.235.2023.03.07.03.18.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Mar 2023 03:18:31 -0800 (PST)
+Message-ID: <9cb64f82-b6d0-44fa-4851-2cb1a5c2c94c@linaro.org>
+Date:   Tue, 7 Mar 2023 12:18:29 +0100
 MIME-Version: 1.0
-References: <20221117045925.14297-1-imv4bel@gmail.com> <87lema8ocn.wl-tiwai@suse.de>
- <Y/YXbNgBhhWhfjwS@google.com> <Y/3mT9uSsuviT+sa@google.com> <20230307103659.GA347928@google.com>
-In-Reply-To: <20230307103659.GA347928@google.com>
-From:   V4bel <imv4bel@gmail.com>
-Date:   Tue, 7 Mar 2023 20:08:10 +0900
-Message-ID: <CADUEyCwiddMq+4e9yhZS=-0t1BZktvmd1J-mZFBM5uzg-0kgHg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
- dvb-core and device driver
-To:     Lee Jones <lee@kernel.org>
-Cc:     Takashi Iwai <tiwai@suse.de>, mchehab@kernel.org,
-        kernel@tuxforce.de, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, cai.huoqing@linux.dev,
-        "v4bel@theori.io" <v4bel@theori.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 07/18] media: venus: core: Assign registers based on VPU
+ version
+Content-Language: en-US
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>
+References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
+ <20230228-topic-venus-v1-7-58c2c88384e9@linaro.org>
+ <a93a16ec-2e56-1d0b-c326-25f490d8f5b5@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <a93a16ec-2e56-1d0b-c326-25f490d8f5b5@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_SORBS_HTTP,RCVD_IN_SORBS_SOCKS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear,
 
-Sorry for the late reply.
-This patch hasn't been reviewed in a long time, and I had completely
-forgotten about it.
 
-I no longer have the emulating environment I was debugging this in at
-the time, but from looking at the code it appears that the
-vulnerability still exists.
-This means that this patch should be reviewed by the DVB maintainers,
-but my guess is that, as it has been, it's unlikely to get reviewed.
+On 7.03.2023 05:57, Dikshita Agarwal wrote:
+> 
+> On 2/28/2023 8:54 PM, Konrad Dybcio wrote:
+>> IRIS2(_1) has a different register map compared to other HFI6XX-
+>> using VPUs. Take care of it.
+>>
+>> Signed-off-by: Konrad Dybcio<konrad.dybcio@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/venus/core.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>> index c13436d58ed3..bdc14acc8399 100644
+>> --- a/drivers/media/platform/qcom/venus/core.c
+>> +++ b/drivers/media/platform/qcom/venus/core.c
+>> @@ -246,7 +246,7 @@ static int venus_enumerate_codecs(struct venus_core *core, u32 type)
+>>     static void venus_assign_register_offsets(struct venus_core *core)
+>>   {
+>> -    if (IS_V6(core)) {
+>> +    if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
+>>           core->vbif_base = core->base + VBIF_BASE;
+>>           core->cpu_base = core->base + CPU_BASE_V6;
+>>           core->cpu_cs_base = core->base + CPU_CS_BASE_V6;
+> 
+> AR50_LITE also should be added here, as I see you have added the same to places where we are using V6 based registers.
+> 
+> if the base addresses are not assigned here properly. the register writing at other places will be wrong, ex: patch 05/18
+I have a separate patch set which specifically adds AR50L data,
+and they're not 1:1, vbif_base and aon_base are gone (at least
+according to techpack/video). I intend to push it when I get it
+all working, but here's what it looks like right now:
 
-Regards,
-Hyunwoo Kim
 
-2023=EB=85=84 3=EC=9B=94 7=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 7:37, Le=
-e Jones <lee@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Tue, 28 Feb 2023, Lee Jones wrote:
->
-> > On Wed, 22 Feb 2023, Lee Jones wrote:
-> >
-> > > On Tue, 10 Jan 2023, Takashi Iwai wrote:
-> > >
-> > > > On Thu, 17 Nov 2022 05:59:21 +0100,
-> > > > Hyunwoo Kim wrote:
-> > > > >
-> > > > > Dear,
-> > > > >
-> > > > > This patch set is a security patch for various race condition vul=
-nerabilities that occur
-> > > > > in 'dvb-core' and 'ttusb_dec', a dvb-based device driver.
-> > > > >
-> > > > >
-> > > > > # 1. media: dvb-core: Fix use-after-free due to race condition oc=
-curring in dvb_frontend
-> > > > > This is a security patch for a race condition that occurs in the =
-dvb_frontend system of dvb-core.
-> > > > >
-> > > > > The race condition that occurs here will occur with _any_ device =
-driver using dvb_frontend.
-> > > > >
-> > > > > The race conditions that occur in dvb_frontend are as follows
-> > >
-> > > [...]
-> > >
-> > > > > # 4. media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
-> > > > > This is a patch for a memory leak that occurs in the ttusb_dec_ex=
-it_dvb() function.
-> > > > >
-> > > > > Because ttusb_dec_exit_dvb() does not call dvb_frontend_detach(),
-> > > > > several fe related structures are not kfree()d.
-> > > > >
-> > > > > Users can trigger a memory leak just by repeating connecting and =
-disconnecting
-> > > > > the ttusb_dec device.
-> > > > >
-> > > > >
-> > > > > Finally, most of these patches are similar to this one, the secur=
-ity patch for
-> > > > > CVE-2022-41218 that I reported:
-> > > > > https://lore.kernel.org/linux-media/20221031100245.23702-1-tiwai@=
-suse.de/
-> > > > >
-> > > > >
-> > > > > Regards,
-> > > > > Hyunwoo Kim
-> > > >
-> > > > Are those issues still seen with the latest 6.2-rc kernel?
-> > > > I'm asking because there have been a few fixes in dvb-core to deal
-> > > > with some UAFs.
-> > > >
-> > > > BTW, Mauro, the issues are tagged with several CVE's:
-> > > > CVE-2022-45884, CVE-2022-45886, CVE-2022-45885, CVE-2022-45887.
-> > >
-> > > Was there an answer to this question?
-> > >
-> > > Rightly or wrongly this patch is still being touted as the fix for so=
-me
-> > > reported CVEs [0].
-> > >
-> > > Is this patch still required or has it been superseded?  If the later=
-,
-> > > which patch superseded it?
-> > >
-> > > Thanks.
-> > >
-> > > [0] https://nvd.nist.gov/vuln/detail/CVE-2022-45886
-> >
-> > Have these issues been fixed already?
-> >
-> > If not, is this patch set due to be merged or reviewed?
->
-> Still nothing heard from the author or any maintainer.
->
-> I'd take this as a hint if I had any social skills!
->
-> Please could someone provide me with a status report on these patches?
->
-> They appear to have CVEs associated with them.  Have they been fixed?
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index fd9ecb1f7a05..f88b4781c5d0 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -254,6 +254,14 @@ static void venus_assign_register_offsets(struct venus_core *core)
+                core->wrapper_base = core->base + WRAPPER_BASE_V6;
+                core->wrapper_tz_base = core->base + WRAPPER_TZ_BASE_V6;
+                core->aon_base = core->base + AON_BASE_V6;
++       } else if (IS_AR50_LITE(core)) {
++               core->vbif_base = NULL;
++               core->cpu_base = core->base + CPU_BASE_V6;
++               core->cpu_cs_base = core->base + CPU_CS_BASE_V6;
++               core->cpu_ic_base = core->base + CPU_IC_BASE_V6;
++               core->wrapper_base = core->base + WRAPPER_BASE_V6;
++               core->wrapper_tz_base = core->base + WRAPPER_TZ_BASE_V6;
++               core->aon_base = NULL;
+        } else {
+                core->vbif_base = core->base + VBIF_BASE;
+                core->cpu_base = core->base + CPU_BASE;
+-- 
+2.39.2
+
+
+Konrad
+
+> 
+> Thanks,
+> 
+> Dikshita
+> 
