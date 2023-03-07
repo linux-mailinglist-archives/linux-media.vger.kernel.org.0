@@ -2,407 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9DB6AE3D2
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 16:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 726DD6AE3E4
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 16:06:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbjCGPE3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 10:04:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38332 "EHLO
+        id S230400AbjCGPGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 10:06:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229840AbjCGPDb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 10:03:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7B911175
-        for <linux-media@vger.kernel.org>; Tue,  7 Mar 2023 06:52:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678200719;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eQLIh/Cix5QOii3XYpIvlQN/MMjutNMBL3ReviHOavo=;
-        b=O4sNRE+WJedvKwdJVYUwdHPMJ6nSdnmphVFHmoPhvlgfANRbSf7s+xqIuFGIk9Hkz3Usgz
-        0LaIzsdGafIzHV6Y6i/Rb4n3kj8oLz6oHlW75D4k1lm2IfGMmB1nGhUEdOLrh5rzCZHfpM
-        nEloJpPDES466Z2dftVuJkpwzBPPUg8=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-Cn6rdNCEPuCeZI_KljsHig-1; Tue, 07 Mar 2023 09:51:58 -0500
-X-MC-Unique: Cn6rdNCEPuCeZI_KljsHig-1
-Received: by mail-vs1-f70.google.com with SMTP id h6-20020a67f886000000b0041f5449c4a7so4658604vso.21
-        for <linux-media@vger.kernel.org>; Tue, 07 Mar 2023 06:51:58 -0800 (PST)
+        with ESMTP id S229927AbjCGPFm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 10:05:42 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4919C8C0D7;
+        Tue,  7 Mar 2023 06:59:44 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id z10so7740391pgr.8;
+        Tue, 07 Mar 2023 06:59:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678201184;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UNHKxNT0c5JC0gPj8eQAxc4/vh0SceOoVMKlv96e3CE=;
+        b=KUOmHD41UyLUET01uAguKq9lIpNeVGT+6YWm0lrLNXVWQ5okoY4rWa1FiMGKT2Rj44
+         0o8kaMb979rpYjEUsgrhmfC6hh5yr3Qgq/KoMgC2enCe2oWHohtOBsrKpGXysvOTvSoK
+         kFbItxEcRxvage51y7RyYkaIdmdKApWpIXIBPL8i38OjkVhqidf8Bx92F8gn4IFed5yz
+         +3bipw/8nq98xaqtZqGl4w3GR08TgNUSQ0EB0TDj5E3W9hT8cTHkhD60sB2KCtsHTtwU
+         B1sazMCEacCEeDBlzVM3N0vzvT5GNyGX6ggez2Q/CNgNda04HnH+d6Ko8PoIzi6GjtUK
+         ABxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678200713;
+        d=1e100.net; s=20210112; t=1678201184;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eQLIh/Cix5QOii3XYpIvlQN/MMjutNMBL3ReviHOavo=;
-        b=UnUwnKPnOjrgrHltCWHCBT5QHpoP7yQRwZ+rl4lwo17RW/bEtTwMdiALD8GimKg6zP
-         th9pQg+B2qc0F2Wg9ex7RmweVsbehawxzzBzk23A+jhhIgDhE28vDh40bXfKruXpClzt
-         Gh470qCLQYVL8VnVGZWtvWmyHkIYJGS+aiNeUKgmqSH5whOKekKVhFfF33bUmtB/DOZs
-         fGq5mJ26nQ8srteOAi4y2803fZEpvni+5XXDTxDC9xVkEn8IBh3/5Juna8ApOqgRO6qf
-         3U9/eLB678oYaJFhF6glb69iRSjl2FOtqgXJVKa68a5ZyVlhXgpX30E+sIT5L7xun5WO
-         U0xA==
-X-Gm-Message-State: AO0yUKUk0lEgZ04Mtw5LdJkxCyxzYx97QC26nU+T577hKUOHZ1S8ks/J
-        /MhUdu5wyMXqxzUm1QE9K2IiFZDMUzO8qBKTVZf1cJXxYM7i2hhBDyD6b45kWFHzDirnbKrWmAW
-        INCwTtXjckg/mfzoOwfAtLXYO6FyDmiQ1XB63C9o=
-X-Received: by 2002:ab0:5402:0:b0:68a:6c1e:1aab with SMTP id n2-20020ab05402000000b0068a6c1e1aabmr9127405uaa.2.1678200713391;
-        Tue, 07 Mar 2023 06:51:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set8RAg43eB7NRCPNnAxV9AL0iDNad0ox/ir9KVGoz+bLDAjmmw8FmfZk+RTJiEvTe2T/nrTETcqlKuOtDPmhovE=
-X-Received: by 2002:ab0:5402:0:b0:68a:6c1e:1aab with SMTP id
- n2-20020ab05402000000b0068a6c1e1aabmr9127379uaa.2.1678200712962; Tue, 07 Mar
- 2023 06:51:52 -0800 (PST)
+        bh=UNHKxNT0c5JC0gPj8eQAxc4/vh0SceOoVMKlv96e3CE=;
+        b=ExgdTSu6Pt5SEI3IIo07+r8vZTMscFH8YYS2f1YY2hM79OLSHbg9SSBDI21QOfyMhe
+         N8vLfOHoVeEC7kBFfYcgR9zYMrE4UZTa49063uRxQJmDWQvKeyf6hFE1plBoc2ZqG22G
+         1B7WNiYuMfW2EIrq9jkxiOjNo5oPZSWcgyX+74zCFXG6u5HqCqOZ2ZF18Aghi20FMZzp
+         0gzVn6G9mYQfjwFPqsqDNxxUxaVnFTp3g3FFMXkxRO7gKp64XsW6xGxRE5CUSa+FN2LG
+         ZQOKQouK6su7PpNNu16tMwRSpfskqWVbtnP50AcUmuEGM3W8L5oO2dupDSTnJ01LjoRS
+         NmSA==
+X-Gm-Message-State: AO0yUKVVyql0GGRr22QtApIx5BevRymcCKBPnnKHxgdUTnw1ZltOZMjL
+        5tmG5me9gMlTURkws/uEcBRqPW8AZPPK8o9FEfM=
+X-Google-Smtp-Source: AK7set/WOQxv8H/7aV+F946wAXqf7ORNX6U+xFFccQrhIqEOQdhoG7L7xRrbc2tm4bdT5SrOksNQ6CSe3plvbg/RNCA=
+X-Received: by 2002:a62:8245:0:b0:590:3182:9341 with SMTP id
+ w66-20020a628245000000b0059031829341mr6135030pfd.0.1678201183659; Tue, 07 Mar
+ 2023 06:59:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net> <CACO55tt7NQASBq=G08h6nZBGk-5DOpzPZ3_wBVfEWBfdyydaAA@mail.gmail.com>
-In-Reply-To: <CACO55tt7NQASBq=G08h6nZBGk-5DOpzPZ3_wBVfEWBfdyydaAA@mail.gmail.com>
-From:   Karol Herbst <kherbst@redhat.com>
-Date:   Tue, 7 Mar 2023 15:51:40 +0100
-Message-ID: <CACO55ttOrj+AaS+ozKQ+vvnbmneP9K5Zx-nLLN7Va8Us=jdRGg@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
-To:     Asahi Lina <lina@asahilina.net>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
-        asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Mary <mary@mary.zone>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        linux-media@vger.kernel.org
+References: <20230306062633.200427-1-zyytlz.wz@163.com> <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
+In-Reply-To: <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
+From:   Zheng Hacker <hackerzheng666@gmail.com>
+Date:   Tue, 7 Mar 2023 22:59:31 +0800
+Message-ID: <CAJedcCwf4st_KBxYA1dTNT3TNpyyZ_5-2o0oBP7h6kQt7Nzv3Q@mail.gmail.com>
+Subject: Re: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
+ uncanceled work
+To:     Zheng Wang <zyytlz.wz@163.com>
+Cc:     mchehab@kernel.org, bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, 1395428693sheep@gmail.com,
+        alex000young@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 3:48=E2=80=AFPM Karol Herbst <kherbst@redhat.com> wr=
-ote:
+The timer function was inited in mtk_jpeg_probe with
+mtk_jpeg_job_timeout_work function.
+And the worker is started in mtk_jpeg_dec_device_run.
+There are two functions (mtk_jpeg_enc_irq and mtk_jpeg_dec_irq) which
+may cancel the worker.
+They are used as IRQ handler function which is saved as function
+pointer in a variable.
+In mtk_jpeg_probe, they are registered by devm_request_irq:
+
+ret =3D devm_request_irq(&pdev->dev,
+               jpeg_irq,
+               jpeg->variant->irq_handler,
+               0,
+               pdev->name, jpeg);
+    if (ret) {
+      dev_err(&pdev->dev, "Failed to request jpeg_irq %d (%d)\n",
+        jpeg_irq, ret);
+      return ret;
+    }
+
+However, if we remove the module without triigering the irq, the
+worker will never be removed.
+
+As for the schedule, mtk_jpeg_dec_device_run and
+mtk_jpeg_enc_device_run will start the worker.
+The schedule invoking is quite complicated. As far as I know, the
+invoking chain is as follows:
+
+v4l2_m2m_init->v4l2_m2m_device_run_work->v4l2_m2m_try_run
+
+the v4l2_m2m_device_run_work is also a worker which is inited in
+v4l2_m2m_init and started in
+v4l2_m2m_schedule_next_job.
+
+Before calling remove function, the  mtk_jpeg_release was invoked to
+release the related resource.
+
+v4l2_m2m_cancel_job will cancel the job by calling
+m2m_dev->m2m_ops->job_abort(m2m_ctx->priv).
+
+But this will only cancel the current queue by
+list_del(&m2m_dev->curr_ctx->queue);
+
+I think this can not cancel the posted task mentioned before. So I
+think if mtk_jpeg_job_timeout_work
+
+is working on, and use jpeg->m2m_dev after freeing it in
+mtk_jpeg_remove, it wll cause UAF bug.
+
+static int mtk_jpeg_release(struct file *file)
+{
+  struct mtk_jpeg_dev *jpeg =3D video_drvdata(file);
+  struct mtk_jpeg_ctx *ctx =3D mtk_jpeg_fh_to_ctx(file->private_data);
+
+  mutex_lock(&jpeg->lock);
+  v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+  [1] v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+  v4l2_fh_del(&ctx->fh);
+  v4l2_fh_exit(&ctx->fh);
+  kfree(ctx);
+  mutex_unlock(&jpeg->lock);
+  return 0;
+}
+
+void v4l2_m2m_ctx_release(struct v4l2_m2m_ctx *m2m_ctx)
+{
+  /* wait until the current context is dequeued from job_queue */
+  [2] v4l2_m2m_cancel_job(m2m_ctx);
+
+  vb2_queue_release(&m2m_ctx->cap_q_ctx.q);
+  vb2_queue_release(&m2m_ctx->out_q_ctx.q);
+
+  kfree(m2m_ctx);
+}
+
+Note that, all of this is static analysis, which may be false positive.
+Feel free to tell me if there is something I've missed.
+
+Regard,
+Zheng
+
+Zheng Hacker <hackerzheng666@gmail.com> =E4=BA=8E2023=E5=B9=B43=E6=9C=887=
+=E6=97=A5=E5=91=A8=E4=BA=8C 17:27=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Tue, Mar 7, 2023 at 3:27=E2=80=AFPM Asahi Lina <lina@asahilina.net> wr=
-ote:
+> Hi,
+>
+> Is there anyone who can help with this? I can provide more details
+> like invoking chain if needed.
+>
+> Thanks,
+> Zheng
+>
+> Zheng Wang <zyytlz.wz@163.com> =E4=BA=8E2023=E5=B9=B43=E6=9C=886=E6=97=A5=
+=E5=91=A8=E4=B8=80 14:28=E5=86=99=E9=81=93=EF=BC=9A
 > >
-> > DRM drivers need to be able to declare which driver-specific ioctls the=
-y
-> > support. This abstraction adds the required types and a helper macro to
-> > generate the ioctl definition inside the DRM driver.
+> > In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
+> > mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
+> > and mtk_jpeg_enc_device_run may be called to start the
+> > work.
+> > If we remove the module which will call mtk_jpeg_remove
+> > to make cleanup, there may be a unfinished work. The
+> > possible sequence is as follows, which will cause a
+> > typical UAF bug.
 > >
-> > Note that this macro is not usable until further bits of the
-> > abstraction are in place (but it will not fail to compile on its own, i=
-f
-> > not called).
+> > Fix it by canceling the work before cleanup in the mtk_jpeg_remove
 > >
-> > Signed-off-by: Asahi Lina <lina@asahilina.net>
+> > CPU0                  CPU1
+> >
+> >                     |mtk_jpeg_job_timeout_work
+> > mtk_jpeg_remove     |
+> >   v4l2_m2m_release  |
+> >     kfree(m2m_dev); |
+> >                     |
+> >                     | v4l2_m2m_get_curr_priv
+> >                     |   m2m_dev->curr_ctx //use
+> >
+> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 > > ---
-> >  drivers/gpu/drm/Kconfig         |   7 ++
-> >  rust/bindings/bindings_helper.h |   2 +
-> >  rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++=
-++++++++
-> >  rust/kernel/drm/mod.rs          |   5 ++
-> >  rust/kernel/lib.rs              |   2 +
-> >  5 files changed, 163 insertions(+)
+> >  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > index dc0f94f02a82..dab8f0f9aa96 100644
-> > --- a/drivers/gpu/drm/Kconfig
-> > +++ b/drivers/gpu/drm/Kconfig
-> > @@ -27,6 +27,13 @@ menuconfig DRM
-> >           details.  You should also select and configure AGP
-> >           (/dev/agpgart) support if it is available for your platform.
-> >
-> > +# Rust abstractions cannot be built as modules currently, so force the=
-m as
-> > +# bool by using these intermediate symbols. In the future these could =
-be
-> > +# tristate once abstractions themselves can be built as modules.
-> > +config RUST_DRM
-> > +       bool "Rust support for the DRM subsystem"
-> > +       depends on DRM=3Dy
-> > +
-> >  config DRM_MIPI_DBI
-> >         tristate
-> >         depends on DRM
-> > diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_h=
-elper.h
-> > index 91bb7906ca5a..2687bef1676f 100644
-> > --- a/rust/bindings/bindings_helper.h
-> > +++ b/rust/bindings/bindings_helper.h
-> > @@ -6,6 +6,7 @@
-> >   * Sorted alphabetically.
-> >   */
-> >
-> > +#include <drm/drm_ioctl.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/device.h>
-> >  #include <linux/dma-mapping.h>
-> > @@ -23,6 +24,7 @@
-> >  #include <linux/sysctl.h>
-> >  #include <linux/timekeeping.h>
-> >  #include <linux/xarray.h>
-> > +#include <uapi/drm/drm.h>
-> >
->
-> might make more sense to add this chunk to the patch actually needing it
->
-
-ehh, ignore this comment please :)
-
-> >  /* `bindgen` gets confused at certain things. */
-> >  const gfp_t BINDINGS_GFP_KERNEL =3D GFP_KERNEL;
-> > diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
-> > new file mode 100644
-> > index 000000000000..10304efbd5f1
-> > --- /dev/null
-> > +++ b/rust/kernel/drm/ioctl.rs
-> > @@ -0,0 +1,147 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +#![allow(non_snake_case)]
-> > +
-> > +//! DRM IOCTL definitions.
-> > +//!
-> > +//! C header: [`include/linux/drm/drm_ioctl.h`](../../../../include/li=
-nux/drm/drm_ioctl.h)
-> > +
-> > +use crate::ioctl;
-> > +
-> > +const BASE: u32 =3D bindings::DRM_IOCTL_BASE as u32;
-> > +
-> > +/// Construct a DRM ioctl number with no argument.
-> > +pub const fn IO(nr: u32) -> u32 {
-> > +    ioctl::_IO(BASE, nr)
-> > +}
-> > +
-> > +/// Construct a DRM ioctl number with a read-only argument.
-> > +pub const fn IOR<T>(nr: u32) -> u32 {
-> > +    ioctl::_IOR::<T>(BASE, nr)
-> > +}
-> > +
-> > +/// Construct a DRM ioctl number with a write-only argument.
-> > +pub const fn IOW<T>(nr: u32) -> u32 {
-> > +    ioctl::_IOW::<T>(BASE, nr)
-> > +}
-> > +
-> > +/// Construct a DRM ioctl number with a read-write argument.
-> > +pub const fn IOWR<T>(nr: u32) -> u32 {
-> > +    ioctl::_IOWR::<T>(BASE, nr)
-> > +}
-> > +
-> > +/// Descriptor type for DRM ioctls. Use the `declare_drm_ioctls!{}` ma=
-cro to construct them.
-> > +pub type DrmIoctlDescriptor =3D bindings::drm_ioctl_desc;
-> > +
-> > +/// This is for ioctl which are used for rendering, and require that t=
-he file descriptor is either
-> > +/// for a render node, or if it=E2=80=99s a legacy/primary node, then =
-it must be authenticated.
-> > +pub const AUTH: u32 =3D bindings::drm_ioctl_flags_DRM_AUTH;
-> > +
-> > +/// This must be set for any ioctl which can change the modeset or dis=
-play state. Userspace must
-> > +/// call the ioctl through a primary node, while it is the active mast=
-er.
-> > +///
-> > +/// Note that read-only modeset ioctl can also be called by unauthenti=
-cated clients, or when a
-> > +/// master is not the currently active one.
-> > +pub const MASTER: u32 =3D bindings::drm_ioctl_flags_DRM_MASTER;
-> > +
-> > +/// Anything that could potentially wreak a master file descriptor nee=
-ds to have this flag set.
-> > +///
-> > +/// Current that=E2=80=99s only for the SETMASTER and DROPMASTER ioctl=
-, which e.g. logind can call to force
-> > +/// a non-behaving master (display compositor) into compliance.
-> > +///
-> > +/// This is equivalent to callers with the SYSADMIN capability.
-> > +pub const ROOT_ONLY: u32 =3D bindings::drm_ioctl_flags_DRM_ROOT_ONLY;
-> > +
-> > +/// Whether drm_ioctl_desc.func should be called with the DRM BKL held=
- or not. Enforced as the
-> > +/// default for all modern drivers, hence there should never be a need=
- to set this flag.
-> > +///
-> > +/// Do not use anywhere else than for the VBLANK_WAIT IOCTL, which is =
-the only legacy IOCTL which
-> > +/// needs this.
-> > +pub const UNLOCKED: u32 =3D bindings::drm_ioctl_flags_DRM_UNLOCKED;
-> > +
-> > +/// This is used for all ioctl needed for rendering only, for drivers =
-which support render nodes.
-> > +/// This should be all new render drivers, and hence it should be alwa=
-ys set for any ioctl with
-> > +/// `AUTH` set. Note though that read-only query ioctl might have this=
- set, but have not set
-> > +/// DRM_AUTH because they do not require authentication.
-> > +pub const RENDER_ALLOW: u32 =3D bindings::drm_ioctl_flags_DRM_RENDER_A=
-LLOW;
-> > +
-> > +/// Declare the DRM ioctls for a driver.
-> > +///
-> > +/// Each entry in the list should have the form:
-> > +///
-> > +/// `(ioctl_number, argument_type, flags, user_callback),`
-> > +///
-> > +/// `argument_type` is the type name within the `bindings` crate.
-> > +/// `user_callback` should have the following prototype:
-> > +///
-> > +/// ```
-> > +/// fn foo(device: &kernel::drm::device::Device<Self>,
-> > +///        data: &mut bindings::argument_type,
-> > +///        file: &kernel::drm::file::File<Self::File>,
-> > +/// )
-> > +/// ```
-> > +/// where `Self` is the drm::drv::Driver implementation these ioctls a=
-re being declared within.
-> > +///
-> > +/// # Examples
-> > +///
-> > +/// ```
-> > +/// kernel::declare_drm_ioctls! {
-> > +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get=
-_param_handler),
-> > +/// }
->
-> I am wondering.. couldn't we make it a proc_macro and just tag all the
-> functions instead? Though I also see the point of having a central
-> list of all ioctls... Maybe we should have some higher level
-> discussions around on _how_ we want things to look like.
->
-> > +/// ```
-> > +///
-> > +#[macro_export]
-> > +macro_rules! declare_drm_ioctls {
-> > +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? =
-) =3D> {
-> > +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor=
-] =3D {
-> > +            const _:() =3D {
-> > +                let i: u32 =3D $crate::bindings::DRM_COMMAND_BASE;
-> > +                // Assert that all the IOCTLs are in the right order a=
-nd there are no gaps,
-> > +                // and that the sizeof of the specified type is correc=
-t.
-> > +                $(
-> > +                    let cmd: u32 =3D $crate::macros::concat_idents!($c=
-rate::bindings::DRM_IOCTL_, $cmd);
-> > +                    ::core::assert!(i =3D=3D $crate::ioctl::_IOC_NR(cm=
-d));
-> > +                    ::core::assert!(core::mem::size_of::<$crate::bindi=
-ngs::$struct>() =3D=3D $crate::ioctl::_IOC_SIZE(cmd));
->
-> ::core::mem::size_of
->
-> > +                    let i: u32 =3D i + 1;
-> > +                )*
-> > +            };
-> > +
-> > +            let ioctls =3D &[$(
-> > +                $crate::bindings::drm_ioctl_desc {
-> > +                    cmd: $crate::macros::concat_idents!($crate::bindin=
-gs::DRM_IOCTL_, $cmd) as u32,
-> > +                    func: {
-> > +                        #[allow(non_snake_case)]
-> > +                        unsafe extern "C" fn $cmd(
-> > +                                raw_dev: *mut $crate::bindings::drm_de=
-vice,
-> > +                                raw_data: *mut ::core::ffi::c_void,
-> > +                                raw_file_priv: *mut $crate::bindings::=
-drm_file,
-> > +                        ) -> core::ffi::c_int {
->
-> ::core
->
-> > +                            // SAFETY: We never drop this, and the DRM=
- core ensures the device lives
-> > +                            // while callbacks are being called.
-> > +                            //
-> > +                            // FIXME: Currently there is nothing enfor=
-cing that the types of the
-> > +                            // dev/file match the current driver these=
- ioctls are being declared
-> > +                            // for, and it's not clear how to enforce =
-this within the type system.
-> > +                            let dev =3D ::core::mem::ManuallyDrop::new=
-(unsafe {
-> > +                                $crate::drm::device::Device::from_raw(=
-raw_dev)
-> > +                            });
-> > +                            // SAFETY: This is just the ioctl argument=
-, which hopefully has the right type
-> > +                            // (we've done our best checking the size)=
-.
-> > +                            let data =3D unsafe { &mut *(raw_data as *=
-mut $crate::bindings::$struct) };
-> > +                            // SAFETY: This is just the DRM file struc=
-ture
-> > +                            let file =3D unsafe { $crate::drm::file::F=
-ile::from_raw(raw_file_priv) };
-> > +
-> > +                            match $func(&*dev, data, &file) {
-> > +                                Err(e) =3D> e.to_kernel_errno(),
-> > +                                Ok(i) =3D> i.try_into().unwrap_or(ERAN=
-GE.to_kernel_errno()),
->
-> need to specify the namespace on ERANGE, no?
->
-> > +                            }
-> > +                        }
-> > +                        Some($cmd)
-> > +                    },
-> > +                    flags: $flags,
-> > +                    name: $crate::c_str!(::core::stringify!($cmd)).as_=
-char_ptr(),
-> > +                }
-> > +            ),*];
-> > +            ioctls
-> > +        };
-> > +    };
-> > +}
-> > diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> > new file mode 100644
-> > index 000000000000..9ec6d7cbcaf3
-> > --- /dev/null
-> > +++ b/rust/kernel/drm/mod.rs
-> > @@ -0,0 +1,5 @@
-> > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > +
-> > +//! DRM subsystem abstractions.
-> > +
-> > +pub mod ioctl;
-> > diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> > index 7903490816bf..cb23d24c6718 100644
-> > --- a/rust/kernel/lib.rs
-> > +++ b/rust/kernel/lib.rs
-> > @@ -37,6 +37,8 @@ mod build_assert;
-> >  pub mod delay;
-> >  pub mod device;
-> >  pub mod driver;
-> > +#[cfg(CONFIG_RUST_DRM)]
-> > +pub mod drm;
-> >  pub mod error;
-> >  pub mod io_buffer;
-> >  pub mod io_mem;
-> >
+> > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/dri=
+vers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> > index 969516a940ba..364513e7897e 100644
+> > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> > @@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device =
+*pdev)
+> >  static int mtk_jpeg_remove(struct platform_device *pdev)
+> >  {
+> >         struct mtk_jpeg_dev *jpeg =3D platform_get_drvdata(pdev);
+> > -
+> > +       cancel_delayed_work(&jpeg->job_timeout_work);
+> >         pm_runtime_disable(&pdev->dev);
+> >         video_unregister_device(jpeg->vdev);
+> >         v4l2_m2m_release(jpeg->m2m_dev);
 > > --
-> > 2.35.1
+> > 2.25.1
 > >
-
