@@ -2,110 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F2DA6AD418
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 02:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7878A6AD4BB
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 03:35:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbjCGBgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 20:36:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36156 "EHLO
+        id S230006AbjCGCfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 21:35:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjCGBgl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 20:36:41 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4FE33C788;
-        Mon,  6 Mar 2023 17:36:39 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id a2so12565809plm.4;
-        Mon, 06 Mar 2023 17:36:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678152999;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JOYQlgcH4lD1Ha4i8w6bRHjoNTM7YfPZ9WX5HZ9QO3I=;
-        b=WaTSDjMCZBclEN8svJcq9Pmi6JcG+tKiz00sPCtEyk7uTzRSZJAJnijU2VlOya9vmP
-         FoBiwEd58sL8cAsMjOL0W2CD1dQzqC1LAYHwTXgfJIKBjWwwCjsE9VzmjqxFq0zOES8F
-         mMv5hlD7kaK3SOmyej8qjhaGXidp2hwJnFNvunBAjc8McjE75AHz7dsoFHXcf+O3XAbZ
-         xirvX8OLJ9ehz0FXt+AHD0jS55AYRminnBrs2CPGAz3as9e5925AVmFvjeow+SdoJ1+4
-         jOnYwyolUyItxekQqRECZXxKAbUpKGiOb37g0la+5ORFtKbQCRWUuWxOfB10OEuc0Llm
-         tN1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678152999;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JOYQlgcH4lD1Ha4i8w6bRHjoNTM7YfPZ9WX5HZ9QO3I=;
-        b=ubpNSxZHBSujlIhtgWdJ0JKUG8kRQKJy5Ahul8v3C8rKHCjt+/zLchcRJcYWmS7Dnp
-         tspJocnDOoz8GPOCyx1vQaVQvkX/SVsD2tEJEHZlOPotDB3RyEvVt/akyeZf0sTHdPNR
-         pT3EuG4TcAY62cXgGBvWeS+y0oybTth1ZQxUwciC2Jq61Q2XM/gsprJga1Kbgbo9L0eN
-         AX7XiyLBqDJwZgQGaAjM9fimz17sxE+acfAWnrmyv7NFbYXiYsJB55HUKh+cLsMh5Ywt
-         fXs0L0mf/XSItxYJdeE4nnTTYivonuIOyS4JF4qsiKkR/FSIPVMebSgtvNQ6GACp4uDu
-         yuDA==
-X-Gm-Message-State: AO0yUKXkl642kD2KsYeCwdyX7ADNTI5ZHxQpsM/MfL7Fsn7ppRgrzh2Q
-        T7OpitFTRPBHpjM9ZP20LqlOdjKjsKgcgQ==
-X-Google-Smtp-Source: AK7set9TNDTtw5wgGGIsWh6Oli4TjGs+OdUfBpBXy+tm8dWZa7Cute5zIaKXRlix9l0CLbc/IYdq4Q==
-X-Received: by 2002:a17:903:11cc:b0:19c:aa09:c455 with SMTP id q12-20020a17090311cc00b0019caa09c455mr15955641plh.25.1678152999128;
-        Mon, 06 Mar 2023 17:36:39 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id l19-20020a170902f69300b0019956488546sm7311718plg.277.2023.03.06.17.36.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Mar 2023 17:36:38 -0800 (PST)
-Message-ID: <f94e3ada-212c-eef7-9e7b-03760bb29521@gmail.com>
-Date:   Tue, 7 Mar 2023 10:36:34 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: [PATCH v2 2/2] media: Adjust column width for pdfdocs
-Content-Language: en-US
-To:     linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S229953AbjCGCfn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 21:35:43 -0500
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF8D0311F5;
+        Mon,  6 Mar 2023 18:35:37 -0800 (PST)
+X-UUID: b8e548e6bc9011ed945fc101203acc17-20230307
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=lf+PVZFQWI6nZ5SzPH7f9NR7S7VT6l6jo9uDdU0cP8s=;
+        b=g79rJyjY0eVzaAu8pmLSfTEP05X9A4Q3QqasstR7ysm5COiozcrvNwReJvkc1hrq+KURkFkVyITC53BfAc7dzdDkwG2tq6NQ+1hZtLuABX1Qs1KnKpF7xIgs9UkXeZ4/tmfABxh40XuGFYjutcQSIScBwFGqXoFyO8/YMlvmY5U=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.20,REQID:e6e54902-298a-4a5d-8455-ae961af1e0de,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:70
+X-CID-INFO: VERSION:1.1.20,REQID:e6e54902-298a-4a5d-8455-ae961af1e0de,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:70
+X-CID-META: VersionHash:25b5999,CLOUDID:41ca8827-564d-42d9-9875-7c868ee415ec,B
+        ulkID:230307103529G618LALZ,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-UUID: b8e548e6bc9011ed945fc101203acc17-20230307
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <yong.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 445458080; Tue, 07 Mar 2023 10:35:28 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Tue, 7 Mar 2023 10:35:26 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Tue, 7 Mar 2023 10:35:25 +0800
+From:   Yong Wu <yong.wu@mediatek.com>
+To:     Joerg Roedel <joro@8bytes.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, Akira Yokosawa <akiyks@gmail.com>
-References: <29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>
+CC:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, <nfraprado@collabora.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <mingyuan.ma@mediatek.com>, <yf.wang@mediatek.com>,
+        <jianjiao.zeng@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
+        <chengci.xu@mediatek.com>, <youlin.pei@mediatek.com>,
+        <anan.sun@mediatek.com>
+Subject: [PATCH v5 00/11] Adjust the dma-ranges for MTK IOMMU
+Date:   Tue, 7 Mar 2023 10:34:56 +0800
+Message-ID: <20230307023507.13306-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,RDNS_NONE,
+        SPF_HELO_PASS,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The column width specifiers added in commit 8d0e3fc61abd ("media:
-Add 2-10-10-10 RGB formats") don't suffice for column 1 and too
-wide for column 2.
+After commit f1ad5338a4d5 ("of: Fix "dma-ranges" handling for bus
+controllers"), the dma-ranges is not allowed for dts leaf node.
+but we still would like to separate the different masters into
+different iova regions. Thus we adjust the internal flow, separate
+the 16GB iova range by the master HW larbid/portid and add the
+dma-ranges property in the parent "soc" node. This also could avoid
+the users forget/abuse the iova regions.
 
-Adjust them to get a good looking table.
+The commit f1ad5338a4d5 did affect the mt8195 venc, But it is not
+a fatal issue, it could also work well at 0-4GB iova. thus I don't
+add "Fixes:" tag.
 
-Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-new to v2
+In this series, I add functions for mt8192/mt8195/mt8186, mt8188 will
+be in its special patchset. and the previous mt8173/mt8183...support
+0-4GB only, no need this function.
 
- Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Change note:
+v5: Nothing change. Just rebase on v6.3-rc1.
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-index ea545ed1aeaa..d9d7b7621d8c 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-@@ -778,7 +778,7 @@ number of bits for each component.
-     \tiny
-     \setlength{\tabcolsep}{2pt}
- 
--.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-+.. tabularcolumns:: |p{3.2cm}|p{0.8cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
- 
- 
- .. flat-table:: RGB Formats 10 Bits Per Color Component
+v4: https://lore.kernel.org/linux-mediatek/20230215062544.8677-1-yong.wu@mediatek.com/
+    Improve the comment in the code from AngeloGioacchino.
+
+v3: https://lore.kernel.org/linux-mediatek/20230214031114.926-1-yong.wu@mediatek.com/
+   Add a new patch only for comment more in the code.
+
+v2: https://lore.kernel.org/linux-mediatek/20230208053643.28249-1-yong.wu@mediatek.com/
+   a) Base on next-20230206 since mt8195 jpeg node is applied which affect
+      this patch.
+   b) Reword the commit message [1/10][2/10] to explain effect.
+
+v1: https://lore.kernel.org/linux-mediatek/20230113060133.9394-1-yong.wu@mediatek.com/
+   Base on v6.2-rc3.
+
+Yong Wu (11):
+  dt-bindings: media: mediatek,vcodec: Remove dma-ranges property
+  dt-bindings: media: mediatek,jpeg: Remove dma-ranges property
+  iommu/mediatek: Improve comment for the current region/bank
+  iommu/mediatek: Get regionid from larb/port id
+  iommu/mediatek: mt8192: Add iova_region_larb_msk
+  iommu/mediatek: mt8195: Add iova_region_larb_msk
+  iommu/mediatek: mt8186: Add iova_region_larb_msk
+  iommu/mediatek: Add a gap for the iova regions
+  arm64: dts: mt8195: Add dma-ranges for the parent "soc" node
+  arm64: dts: mt8195: Remove the unnecessary dma-ranges
+  arm64: dts: mt8186: Add dma-ranges for the parent "soc" node
+
+ .../media/mediatek,mt8195-jpegdec.yaml        |   7 -
+ .../media/mediatek,mt8195-jpegenc.yaml        |   7 -
+ .../media/mediatek,vcodec-decoder.yaml        |   5 -
+ .../media/mediatek,vcodec-encoder.yaml        |   5 -
+ .../media/mediatek,vcodec-subdev-decoder.yaml |   7 -
+ .../bindings/media/mediatek-jpeg-encoder.yaml |   5 -
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi      |   1 +
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      |   4 +-
+ drivers/iommu/mtk_iommu.c                     | 143 ++++++++++++++----
+ 9 files changed, 114 insertions(+), 70 deletions(-)
+
 -- 
-2.25.1
+2.18.0
 
 
