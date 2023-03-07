@@ -2,124 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FC0C6AD4EE
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 03:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 295DC6AD688
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 05:47:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjCGCnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 21:43:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47780 "EHLO
+        id S229619AbjCGErg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 23:47:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230036AbjCGCni (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 21:43:38 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA0F3B878
-        for <linux-media@vger.kernel.org>; Mon,  6 Mar 2023 18:43:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678157014; x=1709693014;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=eYoh8cogwlP7opflh9To5P9HempUd0bhePwaCdg/n08=;
-  b=PZB0sbE2BRBymBtGjGBryt5w89MuqJfT/F8bqRjui5wnUtrS49OH2FH1
-   NOXo7fUX9qCpkQYbhyt4mPRbPzKS1kfkUbhvkiigbnsVEw0XnrcflyPdx
-   RHxO+fVwX6Yv9kny6dxKAYtjZjceOzN5wTBQXBN4IEldmbSwvvWJbylhj
-   0L7FY7etq89PUFdo5lPXAhM7K3g5I+xM3xer6lBK4vXb1Q4KbWYnrsUog
-   GeEtz0VkTH7yq+W+vAfp78x9WvnRfHdDoIMXfI/o/kcaoC/V2aiMbN1yh
-   evszzommusSW8WseX9yZ83i6wJbiDEGWBYa8gSbkIbTj4Xi533SbAGTtO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="335765824"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="335765824"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 18:43:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="669703719"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="669703719"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
-  by orsmga007.jf.intel.com with ESMTP; 06 Mar 2023 18:43:32 -0800
-Subject: Re: [PATCH] media: ipu3-cio2: support multiple sensors and VCMs with
- HID name
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "djrscally@gmail.com" <djrscally@gmail.com>
-References: <20230303144432.2108677-1-bingbu.cao@intel.com>
- <ZAXN9EszoxHt+F7w@smile.fi.intel.com>
- <DM8PR11MB565375ACA9BECCB175EE931199B69@DM8PR11MB5653.namprd11.prod.outlook.com>
- <ZAYWPpcjOghZ5L33@smile.fi.intel.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <154730c6-1a60-af92-8125-d7d1c51ff711@linux.intel.com>
-Date:   Tue, 7 Mar 2023 10:43:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S230211AbjCGEre (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 23:47:34 -0500
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7227337F3E;
+        Mon,  6 Mar 2023 20:47:11 -0800 (PST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3272TPTg011713;
+        Tue, 7 Mar 2023 04:46:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=DKvqvzb5WzxlmzYw8eEdTTMow8wfzTGqnqd88w9RdPQ=;
+ b=AWPH2CqvNANYZlAmFyh/l7tPJ4CU1yTBqCuOvoA9V+4CXMCG4GXrIsDgDoZ/ukukGXku
+ TZ8dkIn+PxnsMpTK2cIBdxuECevnYgwPE7I7V7eu2HAFFIg4VN+VG7vgagvFWM9YT3hg
+ uGZ6HS6QVECq3OSYUublYgOpWTSB+jguxYmBfCiiRpgfNRzWwqNA6gkfllJiRrtM4RPj
+ mYYI4EDex4i70YlXUKoPiFgpizTLxuF3WSHLACWhYIYmvfS5wS+ZN2wRZiA/VwaAUhdY
+ g/MllHEX9uc6kyJNBM1aw041GVeXy3OPrE8xuNb/ARjlaD5O69Olf7nMGPd3d370SXGa 1A== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p5rqjrr8y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 07 Mar 2023 04:46:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3274k1Mj020082
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 7 Mar 2023 04:46:01 GMT
+Received: from [10.50.8.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 6 Mar 2023
+ 20:45:55 -0800
+Message-ID: <3d0315fa-14ca-dc34-81ae-467d9ed5133d@quicinc.com>
+Date:   Tue, 7 Mar 2023 10:15:45 +0530
 MIME-Version: 1.0
-In-Reply-To: <ZAYWPpcjOghZ5L33@smile.fi.intel.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: venus: dec: Fix capture formats enumeration order
 Content-Language: en-US
+To:     Javier Martinez Canillas <javierm@redhat.com>,
+        Jordan Crouse <jorcrous@amazon.com>
+CC:     <linux-kernel@vger.kernel.org>, Albert Esteve <aesteve@redhat.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sergio Lopez <slp@redhat.com>,
+        Enric Balletbo i Serra <eballetb@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>
+References: <20230210081835.2054482-1-javierm@redhat.com>
+ <20230303220918.qr5ydbin3nye3qtz@amazon.com>
+ <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0bLYU3qYMLhLGdt-CXXjJfU1If5MXsqK
+X-Proofpoint-GUID: 0bLYU3qYMLhLGdt-CXXjJfU1If5MXsqK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-06_14,2023-03-06_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ priorityscore=1501 clxscore=1011 lowpriorityscore=0 adultscore=0
+ mlxscore=0 spamscore=0 suspectscore=0 bulkscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303070042
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Andy,
 
-On 3/7/23 12:35 AM, Andy Shevchenko wrote:
-> On Mon, Mar 06, 2023 at 01:33:30PM +0000, Cao, Bingbu wrote:
->>> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>> Sent: Monday, March 6, 2023 19:27
->>> On Fri, Mar 03, 2023 at 10:44:32PM +0800, bingbu.cao@intel.com wrote:
-> 
-> ...
-> 
->>>> +	if (sensor->ssdb.vcmtype) {
->>>> +		scnprintf(vcm_name, sizeof(vcm_name), "%s-%u",
->>>> +			  cio2_vcm_types[sensor->ssdb.vcmtype - 1],
->>>> +			  sensor->ssdb.link);
+On 3/6/2023 3:38 PM, Javier Martinez Canillas wrote:
+> Jordan Crouse <jorcrous@amazon.com> writes:
+>
+> Hello Jordan,
+>
+>> On Fri, Feb 10, 2023 at 09:18:35AM +0100, Javier Martinez Canillas wrote:
+>>> Commit 9593126dae3e ("media: venus: Add a handling of QC08C compressed
+>>> format") and commit cef92b14e653 ("media: venus: Add a handling of QC10C
+>>> compressed format") added support for the QC08C and QC10C compressed
+>>> formats respectively.
 >>>
->>> Is using 'c' variant a cargo cult? Otherwise explain, why dropping the
->>> last part of the number is not a problem.
->>
->> Sorry, I can't understand. What is cargo cult?
-> 
-> Use of sCnprintf(). I.o.w. can you explain the point of using it instead of
-> simply snprintf()?
-
-Thanks, I see and will use simply snprintf() instead in v2.
-
-> 
->>>> +		nodes[SWNODE_VCM] = NODE_VCM(vcm_name);
->>>> +	}
-> 
-> ...
-> 
->>>> +		scnprintf(sensor->name, sizeof(sensor->name), "%s-%u",
->>>> +			  cfg->hid, sensor->ssdb.link);
-> 
-> Ditto.
-> 
-> ...
-> 
->>>> -	char name[ACPI_ID_LEN];
->>>> +	char name[ACPI_ID_LEN + 4];
+>>> But these also caused a regression, because the new formats where added
+>>> at the beginning of the vdec_formats[] array and the vdec_inst_init()
+>>> function sets the default format output and capture using fixed indexes
+>>> of that array:
 >>>
->>> Why 4 is chosen? This needs an explanation.
+>>> static void vdec_inst_init(struct venus_inst *inst)
+>>> {
+>>> ...
+>>> 	inst->fmt_out = &vdec_formats[8];
+>>> 	inst->fmt_cap = &vdec_formats[0];
+>>> ...
+>>> }
+>>>
+>>> Since now V4L2_PIX_FMT_NV12 is not the first entry in the array anymore,
+>>> the default capture format is not set to that as it was done before.
+>>>
+>>> Both commits changed the first index to keep inst->fmt_out default format
+>>> set to V4L2_PIX_FMT_H264, but did not update the latter to keep .fmt_out
+>>> default format set to V4L2_PIX_FMT_NV12.
+>>>
+>>> Rather than updating the index to the current V4L2_PIX_FMT_NV12 position,
+>>> let's reorder the entries so that this format is the first entry again.
+>>>
+>>> This would also make VIDIOC_ENUM_FMT report the V4L2_PIX_FMT_NV12 format
+>>> with an index 0 as it did before the QC08C and QC10C formats were added.
+>>>
+>>> Fixes: 9593126dae3e ("media: venus: Add a handling of QC08C compressed format")
+>>> Fixes: cef92b14e653 ("media: venus: Add a handling of QC10C compressed format")
+>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> I just came across this issue independently and can confirm this patch fixes
+>> the GStreamer V4L2 decoder on QRB5165.
 >>
->> 'link' is u8, so it is supposed to be max 4 characters along with '-'.
-> 
-> It should be mentioned somewhere.
+>> Tested-by: Jordan Crouse <jorcrous@amazon.com>
+>>
+> Thanks for testing it!
+>
+> Stanimir, can we please get this for v6.3 as well?
 
-Will add a comment.
+Hi Javier, Jordan
 
-> 
+Could you please explain what regression/issue you see with patch?
 
--- 
-Best regards,
-Bingbu Cao
+venus hardware supports QC08C which provides better performance hence 
+driver is publishing it as preferred color format.
+
+if client doesn't support this or want to use any other format, they can 
+set the desired format with s_fmt.
+
+Thanks,
+
+Dikshita
+
