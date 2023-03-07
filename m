@@ -2,78 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F10E16AF4C3
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 20:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6EA36AF55F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 20:24:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231577AbjCGTTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 14:19:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48818 "EHLO
+        id S234014AbjCGTYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 14:24:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230295AbjCGTTZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 14:19:25 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFC831E17;
-        Tue,  7 Mar 2023 11:03:05 -0800 (PST)
+        with ESMTP id S234001AbjCGTYL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 14:24:11 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D9299669
+        for <linux-media@vger.kernel.org>; Tue,  7 Mar 2023 11:10:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678215785; x=1709751785;
+  t=1678216204; x=1709752204;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/qHYNPrtnGNUaJtPWZh2fXlUM4FK8sV2UsH360n0VB0=;
-  b=AhLgQQZ2rzGIcwX0kLphdrKIjIjUruoJ3OMTPbU9DrTBxtAPfH8IZiXQ
-   hi8+xVti3uCW7PoUQtzsn9Dw7EZJRzb8KyQFMMRs9jRBat119gxeUi9jj
-   w4lyjYnC9GEVtyZ1uxA8utg3UUlAzakkFl5A+cMa/1ulRo1xqR/S5ooeZ
-   AU/Zkn9tw5cIRG+Zpvv9nZNoj8K3UtcnlLrOk0GC3UusUIste22Cj0SHq
-   gdfl6pWHvELhXfzCDALn1EVPfqjb1rTqz+P2TTUXhdFB6+/wLwbzPKasl
-   rEmHBeqPoXPgdNGuUS0b9kIbm+nWm5ccUdzbrbqnJrp8bMCAMNwkyAbh6
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="319772496"
+  bh=SgX+ORzViweruM0UBDV4TzHP5kR0lPy4Eer7/TB47k4=;
+  b=mxZBcg2QfqWpwWJM9qnTflMJTsRQhtKdZxDhQFrA5SaLXzvty0MkATNl
+   nH2UA28KU4pVwSH4X5JCC4pdmDLnuieoWn5rl5hZ2Sx7DoRrc0+0fL/Fy
+   UWSAuI4LXRwTw/y3PkT3mnNx7514Dnk5ifMiy7+cW1OwYYtcjAlpNnCmy
+   z+AU5si7ebQecoQJY/RbYpWsLZE/jvR4BiBOTr63yFQuFDufhrga3wuX6
+   +NFbBRt2FfFGRuVJMnsWcqJmHe2veTqW8U4Xl6A1k8M7FikoNcZ9LXbYn
+   FsRlqTBlchOjMOjsrcoZfBjK43b9jrtL7zqEtKNxoYJ1msQAqptXonvus
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="335968449"
 X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="319772496"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:02:47 -0800
+   d="scan'208";a="335968449"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:10:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="850812332"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="922477367"
 X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
-   d="scan'208";a="850812332"
+   d="scan'208";a="922477367"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:02:45 -0800
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:10:02 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 33A4912160F;
-        Tue,  7 Mar 2023 21:02:40 +0200 (EET)
-Date:   Tue, 7 Mar 2023 21:02:40 +0200
+        by kekkonen.fi.intel.com (Postfix) with SMTP id BA5DF12160F;
+        Tue,  7 Mar 2023 21:09:59 +0200 (EET)
+Date:   Tue, 7 Mar 2023 21:09:59 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v5 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <ZAeKUDOx3+19gWXH@kekkonen.localdomain>
-References: <20230208212712.3184953-1-sakari.ailus@linux.intel.com>
- <20230208212712.3184953-3-sakari.ailus@linux.intel.com>
- <CAJZ5v0gcdYN51O7JkuWrY=hjiovGpMNO=ootp147hFqUwb1CXQ@mail.gmail.com>
- <ZAeJznmM3pPQ/Oga@kekkonen.localdomain>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: subdev: Fix validation state lockdep issue
+Message-ID: <ZAeMB+yjuEf8zWb0@kekkonen.localdomain>
+References: <20230303155249.140929-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZAeJznmM3pPQ/Oga@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230303155249.140929-1-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 09:00:30PM +0200, Sakari Ailus wrote:
-> Hi Rafael,
-> 
-> On Tue, Mar 07, 2023 at 02:38:43PM +0100, Rafael J. Wysocki wrote:
-> > Note: The report from Dan Carpenter has not been addressed.
-> 
-> I'll reply to Dan --- it's a false positive.
+Moi,
 
-Ah, it isn't. I'll address it for v6.
+On Fri, Mar 03, 2023 at 05:52:49PM +0200, Tomi Valkeinen wrote:
+> The new subdev state code has a possible deadlock scenario during link
+> validation when the pipeline contains subdevs that support state and
+> that do not support state.
+> 
+> The current code locks the states of the subdevs on both ends of the
+> link when starting the link validation, locking the sink side first,
+> then the source. If either (or both) of the subdevs does not support
+> state, nothing is done for that subdev at this point, and instead the
+> locking is handled the old way, i.e. the subdev's ops do the locking
+> internally.
+> 
+> The issue arises when the sink doesn't support state, but source does,
+> so the validation code locks the source for the duration of the
+> validation, and then the sink is locked only when the get_fmt op is
+> called. So lockdep sees the source locked first, then the sink.
+> 
+> Later, when the streaming is started, the sink's s_stream op is called,
+> which probably takes the subdev's lock. The op then calls the source's
+> s_stream, which takes the source's lock. So, the sink is locked first,
+> then the source.
+> 
+> Note that link validation and stream starting is not done at the same
+> time, so an actual deadlock should never happen. However, it's still a
+> clear bug.
+> 
+> Fix this by locking the subdev states only if both subdevs support
+> state. In other words, we have two scenarios:
+> 
+> 1. Both subdevs support state. Lock sink first, then source, and keep
+>    the locks while validating the link.
+> 2. At least one of the subdevs do not support state. Take the lock only
+>    for the duration of the operation (get_fmt or looking at the
+>    routing), and release after the op is done.
+> 
+> Obviously 1. is better, as we have a more consistent view of the states
+> of the subdevs during validation. 2. is how it has been so far, so it's
+> no worse than this used to be.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Thanks for the patch, Tomi!
+
+I'll add this to my next fixes PR, probably tomorrow, unless there are
+objections. I don't think this is a false positive: the same locks may well
+be used for the same purpose in different video nodes.
 
 -- 
+Terveisin,
+
 Sakari Ailus
