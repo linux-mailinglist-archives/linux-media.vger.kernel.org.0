@@ -2,94 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 706C26ADAD2
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 10:47:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0D06ADAE8
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 10:50:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbjCGJrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 04:47:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
+        id S229906AbjCGJuj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 04:50:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjCGJrU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 04:47:20 -0500
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F11198B31A;
-        Tue,  7 Mar 2023 01:47:03 -0800 (PST)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id 2D27724E252;
-        Tue,  7 Mar 2023 17:46:57 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Mar
- 2023 17:46:57 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Mar
- 2023 17:46:56 +0800
-Message-ID: <15b29a5b-29a1-8440-2b46-0c201c20defd@starfivetech.com>
-Date:   Tue, 7 Mar 2023 17:46:56 +0800
+        with ESMTP id S229850AbjCGJud (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 04:50:33 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37CE456173;
+        Tue,  7 Mar 2023 01:50:08 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 834976602FE5;
+        Tue,  7 Mar 2023 09:49:31 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678182572;
+        bh=bFdUBSoZid4noEejpjbjSQLY78Rr8UCoRauX0ECcyZA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kcggbC72pydIcHkWby/ACFWWdCiqdOuN0UM0dY+WlDJcji32m0LSpuaHeJQzMfqID
+         SNZU4O4gOX9VBuV1AY0lgnanwvNp0V+VctHE+4BMgDQb2WBzH0YfV5IcomBGeTSLI7
+         qGZvfX5i/1+Jta4RCeH+0eUmB2T+03z01JP0TZgV6MRUCnBLjaOVX6X+mKQNsa6YgF
+         KatpFW1/mYXcuW3vv7gk4fyuFQCm7y4LLzeu5P8bwYRGZMzQpJ5NNtdVhL3sotm3aG
+         9gVq7W2vOtuNlI21Sw9WYPaLBbdmsRJP3cBrHmal8Ymjbuhg4GiALNL/TsSeV/3rIB
+         zhrED7sSSTScg==
+Message-ID: <57c17bfd-83f3-fcce-0eab-e28469fb0ced@collabora.com>
+Date:   Tue, 7 Mar 2023 10:49:28 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v1 11/11] media: starfive: enable building
+Subject: Re: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
+ uncanceled work
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
-References: <20230302091921.43309-1-jack.zhu@starfivetech.com>
- <20230302091921.43309-12-jack.zhu@starfivetech.com>
- <bd6c9135-e12c-a6ac-db46-416403850751@linaro.org>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <bd6c9135-e12c-a6ac-db46-416403850751@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+To:     Zheng Hacker <hackerzheng666@gmail.com>,
+        Zheng Wang <zyytlz.wz@163.com>,
+        Irui Wang <irui.wang@mediatek.com>
+Cc:     mchehab@kernel.org, bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, 1395428693sheep@gmail.com,
+        alex000young@gmail.com
+References: <20230306062633.200427-1-zyytlz.wz@163.com>
+ <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Il 07/03/23 10:27, Zheng Hacker ha scritto:
+> Hi,
+> 
+> Is there anyone who can help with this? I can provide more details
+> like invoking chain if needed.
+> 
 
+Providing more details is always good. Please do.
 
-On 2023/3/3 16:43, Krzysztof Kozlowski wrote:
-> On 02/03/2023 10:19, jack.zhu wrote:
->> Add Kconfig and Makefie, update platform/Kconfig and platform/Makefile
->> to enable building of the Starfive Camera subsystem driver.
->> 
->> Signed-off-by: jack.zhu <jack.zhu@starfivetech.com>
+Meanwhile, adding Irui Wang to the loop: he's doing mtk-jpeg.
+
+Regards,
+Angelo
+
+> Thanks,
+> Zheng
+> 
+> Zheng Wang <zyytlz.wz@163.com> 于2023年3月6日周一 14:28写道：
+>>
+>> In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
+>> mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
+>> and mtk_jpeg_enc_device_run may be called to start the
+>> work.
+>> If we remove the module which will call mtk_jpeg_remove
+>> to make cleanup, there may be a unfinished work. The
+>> possible sequence is as follows, which will cause a
+>> typical UAF bug.
+>>
+>> Fix it by canceling the work before cleanup in the mtk_jpeg_remove
+>>
+>> CPU0                  CPU1
+>>
+>>                      |mtk_jpeg_job_timeout_work
+>> mtk_jpeg_remove     |
+>>    v4l2_m2m_release  |
+>>      kfree(m2m_dev); |
+>>                      |
+>>                      | v4l2_m2m_get_curr_priv
+>>                      |   m2m_dev->curr_ctx //use
+>>
+>> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 >> ---
->>  drivers/media/platform/Kconfig           |  1 +
->>  drivers/media/platform/Makefile          |  1 +
->>  drivers/media/platform/starfive/Kconfig  | 18 ++++++++++++++++++
->>  drivers/media/platform/starfive/Makefile | 14 ++++++++++++++
-> 
-> This is not a separate commit. If it were, it would mean you just added
-> dead code in previous commits, so why adding dead code in first place?
-> 
+>>   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> index 969516a940ba..364513e7897e 100644
+>> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> @@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+>>   static int mtk_jpeg_remove(struct platform_device *pdev)
+>>   {
+>>          struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
+>> -
+>> +       cancel_delayed_work(&jpeg->job_timeout_work);
+>>          pm_runtime_disable(&pdev->dev);
+>>          video_unregister_device(jpeg->vdev);
+>>          v4l2_m2m_release(jpeg->m2m_dev);
+>> --
+>> 2.25.1
+>>
 
-The previous patches are made according to the module function.I think
-it is helpful to explain the composition of the code file. 
 
-stf_camss[patch 9] as a platform device manages all resources including
-ISP and VIN. ISP/VIN [patch 7/8]as a sub-device needs to access other
-resources managed by stf_camss.There is mutual reference between them.
-Therefore, this patch is used for the overall compilation of the starfive
-directory.
 
-> Squash it.
-> 
-> Best regards,
-> Krzysztof
-> 
