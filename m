@@ -2,65 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CA3A6AE4B5
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 16:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5E16AE4D6
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 16:34:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230422AbjCGPaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 10:30:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54426 "EHLO
+        id S231274AbjCGPeE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 10:34:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231355AbjCGP3x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 10:29:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CF226BF
-        for <linux-media@vger.kernel.org>; Tue,  7 Mar 2023 07:29:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678202943;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1mpdpmI7KgcjNXVU4fScFD2Vn3ilLXHnksYiTvVI2i8=;
-        b=NxTey6O4Jmv3L+mI5ArCvUzMSCUE1OJj8GkZmoTgeeuOFMBoehcyZtAUgemrhl7OKAHGbw
-        UoYgpzG/PkNTAm1dQ5QVzY0FCRr9kn49MSINzB0jo9FumdtUT0vVcfGpU5fiB4FCF2R/M7
-        dvBf75FehlhdE5fux9oMhLxEF1suREU=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-263-71FTXHUVPWSI3llsZ3v7vg-1; Tue, 07 Mar 2023 10:28:54 -0500
-X-MC-Unique: 71FTXHUVPWSI3llsZ3v7vg-1
-Received: by mail-lf1-f69.google.com with SMTP id n7-20020a056512310700b004cae66ea2bfso3752719lfb.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Mar 2023 07:28:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678202932;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1mpdpmI7KgcjNXVU4fScFD2Vn3ilLXHnksYiTvVI2i8=;
-        b=iaggjQnB73/WrKfS7hx721FLgcsuLIkbijRJcgpC+dDnuPoYU6+b61XWOYDj9ONV2K
-         GTPemGElldp8kkx9K7BgSq2atknzSajT97zBU/IE3H+4nDO0N1DZIjPShVSMPoVbUZVG
-         iUFgKogquDi8IwXKM3UG4Ni0kZ6vBoHKiVadn7HzEcprYCtyVDere6FC7YrEA14YDwU6
-         h8VdPDtcorYTZoD1Yk+t8WpZJdr8B1kr7PoLXx7KYTmFcDjrceAlGoRLdNhTHSTcHLfm
-         TgWyboBoi5RRU6zFx4LH+zMIFo/6jmIG9D+c6C0PYbK13Lf/HOE9ZX63/C4jzbGOVAyp
-         hkEQ==
-X-Gm-Message-State: AO0yUKWrRbyV7IaWW5tqmdBqYKpFoJ2bmg5CPKKjqpBUSIKJf1VFSkiw
-        xNkNNU01EghcOYsozp1vYbiic6UEPmEvJRLlQInLmqZz0dtzmK19MjFqd9eiB4z4NcuBUq4MZf/
-        PcHXlZDlMDk0eAQhzgBWzbmh1vshSwFAhOoso5Ig=
-X-Received: by 2002:a2e:8341:0:b0:293:4ba5:f626 with SMTP id l1-20020a2e8341000000b002934ba5f626mr7451547ljh.2.1678202932385;
-        Tue, 07 Mar 2023 07:28:52 -0800 (PST)
-X-Google-Smtp-Source: AK7set9N5WjGggkPxbsbAgzfNZEHbaEHwXQQjFnG03FVWmAfqGB3+4trqu/vFiXfRDCxwNViYOm3r6wdYBYHckvXM2g=
-X-Received: by 2002:a2e:8341:0:b0:293:4ba5:f626 with SMTP id
- l1-20020a2e8341000000b002934ba5f626mr7451530ljh.2.1678202932054; Tue, 07 Mar
- 2023 07:28:52 -0800 (PST)
+        with ESMTP id S231217AbjCGPdr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 10:33:47 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D0DF7C959;
+        Tue,  7 Mar 2023 07:33:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=S/GRqk3YGMUri3X2GMvTfD9C6AMJhY+Iwb0CAG3dS+8=; b=dR+aCNSTGOVgRf5dumaPu489Xy
+        tbDe/0XI4jsnTyAjymPM69Qob5JUPUta+FptlFezAEm1fZL9POPQqeaROY+9LWp9dVBFVHQ4bTXrm
+        5NlpIPUEEj3r//QkBndNdTLXP4LDiM6/uHCiucTfZGXjzYa858NFMkHAvJ7/4cGHOP9CEu55uYIie
+        +gU1ekppajOQIYsxsjpE2z9m2ndnnrFcnrEUKhAHsvXZgLNYGB4mQLN8KUskb1dUYi9e6ZfMnkuUB
+        gWEb0hMyhZ3cjv2XP+Gin6387IQzi+Z8grafdGA/WuW4U/8veQwWNMDQLLQVMRf/+Y1sjhv8I679e
+        CGMTijSQ==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1pZZJ6-007s1R-GE; Tue, 07 Mar 2023 16:32:52 +0100
+Message-ID: <c047e11f-33d0-6af4-21c3-adb384b68d8b@igalia.com>
+Date:   Tue, 7 Mar 2023 12:32:39 -0300
 MIME-Version: 1.0
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net> <20230307-rust-drm-v1-15-917ff5bc80a8@asahilina.net>
-In-Reply-To: <20230307-rust-drm-v1-15-917ff5bc80a8@asahilina.net>
-From:   Karol Herbst <kherbst@redhat.com>
-Date:   Tue, 7 Mar 2023 16:28:39 +0100
-Message-ID: <CACO55tu8KZp0M0s5OycRgMjr+Aba=TmNfHfj6H-sOh00QMUuWg@mail.gmail.com>
-Subject: Re: [PATCH RFC 15/18] drm/asahi: Add the Asahi driver UAPI [DO NOT MERGE]
-To:     Asahi Lina <lina@asahilina.net>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
+To:     Asahi Lina <lina@asahilina.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
@@ -69,642 +46,177 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Ella Stanforth <ella@iglunix.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+        Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
         Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+Content-Language: en-US
+From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 7, 2023 at 3:28=E2=80=AFPM Asahi Lina <lina@asahilina.net> wrot=
-e:
->
-> Adds the Asahi GPU driver UAPI. Note: this API is not yet stable and
-> therefore not ready for merging!
->
+On 3/7/23 11:25, Asahi Lina wrote:
+> DRM drivers need to be able to declare which driver-specific ioctls they
+> support. This abstraction adds the required types and a helper macro to
+> generate the ioctl definition inside the DRM driver.
+> 
+> Note that this macro is not usable until further bits of the
+> abstraction are in place (but it will not fail to compile on its own, if
+> not called).
+> 
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  include/uapi/drm/asahi_drm.h | 556 +++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 556 insertions(+)
->
-> diff --git a/include/uapi/drm/asahi_drm.h b/include/uapi/drm/asahi_drm.h
-> new file mode 100644
-> index 000000000000..7b15b486d03d
-> --- /dev/null
-> +++ b/include/uapi/drm/asahi_drm.h
-> @@ -0,0 +1,556 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright (C) The Asahi Linux Contributors
-> + *
-> + * Heavily inspired by xe_drm.h.
-> + */
-> +#ifndef _ASAHI_DRM_H_
-> +#define _ASAHI_DRM_H_
-> +
-> +#include "drm.h"
-> +
-> +#if defined(__cplusplus)
-> +extern "C" {
-> +#endif
-> +
-> +#define DRM_ASAHI_UNSTABLE_UABI_VERSION                10006
-> +
-> +#define DRM_ASAHI_GET_PARAMS                   0x00
-> +#define DRM_ASAHI_VM_CREATE                    0x01
-> +#define DRM_ASAHI_VM_DESTROY                   0x02
-> +#define DRM_ASAHI_GEM_CREATE                   0x03
-> +#define DRM_ASAHI_GEM_MMAP_OFFSET              0x04
-> +#define DRM_ASAHI_GEM_BIND                     0x05
-> +#define DRM_ASAHI_QUEUE_CREATE                 0x06
-> +#define DRM_ASAHI_QUEUE_DESTROY                        0x07
-> +#define DRM_ASAHI_SUBMIT                       0x08
-> +#define DRM_ASAHI_GET_TIME                     0x09
-> +
-> +#define DRM_ASAHI_MAX_CLUSTERS 32
-> +
-> +struct drm_asahi_params_global {
-> +       __u32 unstable_uabi_version;
-> +       __u32 pad0;
-> +
-> +       __u64 feat_compat;
-> +       __u64 feat_incompat;
-> +
-> +       __u32 gpu_generation;
-> +       __u32 gpu_variant;
-> +       __u32 gpu_revision;
-> +       __u32 chip_id;
-> +
-> +       __u32 num_dies;
-> +       __u32 num_clusters_total;
-> +       __u32 num_cores_per_cluster;
-> +       __u32 num_frags_per_cluster;
-> +       __u32 num_gps_per_cluster;
-> +       __u32 num_cores_total_active;
-> +       __u64 core_masks[DRM_ASAHI_MAX_CLUSTERS];
-> +
-> +       __u32 vm_page_size;
-> +       __u32 pad1;
-> +       __u64 vm_user_start;
-> +       __u64 vm_user_end;
-> +       __u64 vm_shader_start;
-> +       __u64 vm_shader_end;
-> +
-> +       __u32 max_syncs_per_submission;
-> +       __u32 max_commands_per_submission;
-> +       __u32 max_commands_in_flight;
-> +       __u32 max_attachments;
-> +
-> +       __u32 timer_frequency_hz;
-> +       __u32 min_frequency_khz;
-> +       __u32 max_frequency_khz;
-> +       __u32 max_power_mw;
-> +
-> +       __u32 result_render_size;
-> +       __u32 result_compute_size;
-> +};
-> +
-> +/*
-> +enum drm_asahi_feat_compat {
-> +};
-> +*/
-> +
-> +enum drm_asahi_feat_incompat {
-> +       DRM_ASAHI_FEAT_MANDATORY_ZS_COMPRESSION =3D (1UL) << 0,
-> +};
-> +
-> +struct drm_asahi_get_params {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @param: Parameter group to fetch (MBZ) */
-> +       __u32 param_group;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +
-> +       /** @value: User pointer to write parameter struct */
-> +       __u64 pointer;
-> +
-> +       /** @value: Size of user buffer, max size supported on return */
-> +       __u64 size;
-> +};
-> +
-> +struct drm_asahi_vm_create {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @value: Returned VM ID */
-> +       __u32 vm_id;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +struct drm_asahi_vm_destroy {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @value: VM ID to be destroyed */
-> +       __u32 vm_id;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +#define ASAHI_GEM_WRITEBACK    (1L << 0)
-> +#define ASAHI_GEM_VM_PRIVATE   (1L << 1)
-> +
-> +struct drm_asahi_gem_create {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @size: Size of the BO */
-> +       __u64 size;
-> +
-> +       /** @flags: BO creation flags */
-> +       __u32 flags;
-> +
-> +       /** @handle: VM ID to assign to the BO, if ASAHI_GEM_VM_PRIVATE i=
-s set. */
-> +       __u32 vm_id;
-> +
-> +       /** @handle: Returned GEM handle for the BO */
-> +       __u32 handle;
-> +};
-> +
-> +struct drm_asahi_gem_mmap_offset {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @handle: Handle for the object being mapped. */
-> +       __u32 handle;
-> +
-> +       /** @flags: Must be zero */
-> +       __u32 flags;
-> +
-> +       /** @offset: The fake offset to use for subsequent mmap call */
-> +       __u64 offset;
-> +};
-> +
-> +enum drm_asahi_bind_op {
-> +       ASAHI_BIND_OP_BIND =3D 0,
-> +       ASAHI_BIND_OP_UNBIND =3D 1,
-> +       ASAHI_BIND_OP_UNBIND_ALL =3D 2,
-> +};
-> +
-> +#define ASAHI_BIND_READ                (1L << 0)
-> +#define ASAHI_BIND_WRITE       (1L << 1)
-> +
-> +struct drm_asahi_gem_bind {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @obj: Bind operation */
-> +       __u32 op;
-> +
-> +       /** @flags: One or more of ASAHI_BIND_* */
-> +       __u32 flags;
-> +
-> +       /** @obj: GEM object to bind */
-> +       __u32 handle;
-> +
-> +       /** @vm_id: The ID of the VM to bind to */
-> +       __u32 vm_id;
-> +
-> +       /** @offset: Offset into the object */
-> +       __u64 offset;
-> +
-> +       /** @range: Number of bytes from the object to bind to addr */
-> +       __u64 range;
-> +
-> +       /** @addr: Address to bind to */
-> +       __u64 addr;
-> +};
-> +
-> +enum drm_asahi_cmd_type {
-> +       DRM_ASAHI_CMD_RENDER =3D 0,
-> +       DRM_ASAHI_CMD_BLIT =3D 1,
-> +       DRM_ASAHI_CMD_COMPUTE =3D 2,
-> +};
-> +
-> +/* Note: this is an enum so that it can be resolved by Rust bindgen. */
-> +enum drm_asahi_queue_cap {
-> +       DRM_ASAHI_QUEUE_CAP_RENDER      =3D (1UL << DRM_ASAHI_CMD_RENDER)=
-,
-> +       DRM_ASAHI_QUEUE_CAP_BLIT        =3D (1UL << DRM_ASAHI_CMD_BLIT),
-> +       DRM_ASAHI_QUEUE_CAP_COMPUTE     =3D (1UL << DRM_ASAHI_CMD_COMPUTE=
-),
-> +};
-> +
-> +struct drm_asahi_queue_create {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @flags: MBZ */
-> +       __u32 flags;
-> +
-> +       /** @vm_id: The ID of the VM this queue is bound to */
-> +       __u32 vm_id;
-> +
-> +       /** @type: Bitmask of DRM_ASAHI_QUEUE_CAP_* */
-> +       __u32 queue_caps;
-> +
-> +       /** @priority: Queue priority, 0-3 */
-> +       __u32 priority;
-> +
-> +       /** @queue_id: The returned queue ID */
-> +       __u32 queue_id;
-> +};
-> +
-> +struct drm_asahi_queue_destroy {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @queue_id: The queue ID to be destroyed */
-> +       __u32 queue_id;
-> +};
-> +
-> +enum drm_asahi_sync_type {
-> +       DRM_ASAHI_SYNC_SYNCOBJ =3D 0,
-> +       DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ =3D 1,
-> +};
-> +
-> +struct drm_asahi_sync {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @sync_type: One of drm_asahi_sync_type */
-> +       __u32 sync_type;
-> +
-> +       /** @handle: The sync object handle */
-> +       __u32 handle;
-> +
-> +       /** @timeline_value: Timeline value for timeline sync objects */
-> +       __u64 timeline_value;
-> +};
-> +
-> +enum drm_asahi_subqueue {
-> +       DRM_ASAHI_SUBQUEUE_RENDER =3D 0, /* Also blit */
-> +       DRM_ASAHI_SUBQUEUE_COMPUTE =3D 1,
-> +       DRM_ASAHI_SUBQUEUE_COUNT =3D 2,
-> +};
-> +
-> +#define DRM_ASAHI_BARRIER_NONE ~(0U)
-> +
-> +struct drm_asahi_command {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @type: One of drm_asahi_cmd_type */
-> +       __u32 cmd_type;
-> +
-> +       /** @flags: Flags for command submission */
-> +       __u32 flags;
-> +
-> +       /** @cmdbuf: Pointer to the appropriate command buffer structure =
-*/
-> +       __u64 cmd_buffer;
-> +
-> +       /** @cmdbuf: Size of the command buffer structure */
-> +       __u64 cmd_buffer_size;
-> +
-> +       /** @cmdbuf: Offset into the result BO to return information abou=
-t this command */
-> +       __u64 result_offset;
-> +
-> +       /** @cmdbuf: Size of the result data structure */
-> +       __u64 result_size;
-> +
-> +       /** @barriers: Array of command indices per subqueue to wait on *=
-/
-> +       __u32 barriers[DRM_ASAHI_SUBQUEUE_COUNT];
-> +};
-> +
-> +struct drm_asahi_submit {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @in_syncs: An optional array of drm_asahi_sync to wait on bef=
-ore starting this job. */
-> +       __u64 in_syncs;
-> +
-> +       /** @in_syncs: An optional array of drm_asahi_sync objects to sig=
-nal upon completion. */
-> +       __u64 out_syncs;
-> +
-> +       /** @commands: Pointer to the drm_asahi_command array of commands=
- to submit. */
-> +       __u64 commands;
-> +
-> +       /** @flags: Flags for command submission (MBZ) */
-> +       __u32 flags;
-> +
-> +       /** @queue_id: The queue ID to be submitted to */
-> +       __u32 queue_id;
-> +
-> +       /** @result_handle: An optional BO handle to place result data in=
- */
-> +       __u32 result_handle;
-> +
-> +       /** @in_sync_count: Number of sync objects to wait on before star=
-ting this job. */
-> +       __u32 in_sync_count;
-> +
-> +       /** @in_sync_count: Number of sync objects to signal upon complet=
-ion of this job. */
-> +       __u32 out_sync_count;
-> +
-> +       /** @pad: Number of commands to be submitted */
-> +       __u32 command_count;
-> +};
-> +
-> +/* FIXME: This doesn't make any sense, figure out exactly what the attac=
-hment flags are */
-> +#define ASAHI_ATTACHMENT_C    0
-> +#define ASAHI_ATTACHMENT_Z    1
-> +#define ASAHI_ATTACHMENT_S    2
-> +
-> +struct drm_asahi_attachment {
-> +       __u32 type;
-> +       __u32 size;
-> +       __u64 pointer;
-> +};
-> +
-> +#define ASAHI_RENDER_NO_CLEAR_PIPELINE_TEXTURES (1UL << 0)
-> +#define ASAHI_RENDER_SET_WHEN_RELOADING_Z_OR_S (1UL << 1)
-> +#define ASAHI_RENDER_MEMORYLESS_RTS_USED (1UL << 2) /* Not yet implement=
-ed */
-> +#define ASAHI_RENDER_PROCESS_EMPTY_TILES (1UL << 3)
-> +#define ASAHI_RENDER_NO_VERTEX_CLUSTERING (1UL << 4)
-> +
-> +struct drm_asahi_cmd_render {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       __u64 flags;
-> +
-> +       __u64 encoder_ptr;
-> +
-> +       __u64 attachments;
-> +       __u32 attachment_count;
-> +       __u32 pad;
-> +
-> +       __u64 depth_buffer_1;
-> +       __u64 depth_buffer_2;
-> +       __u64 depth_buffer_3;
-> +       __u64 depth_meta_buffer_1;
-> +       __u64 depth_meta_buffer_2;
-> +       __u64 depth_meta_buffer_3;
-> +
-> +       __u64 stencil_buffer_1;
-> +       __u64 stencil_buffer_2;
-> +       __u64 stencil_buffer_3;
-> +       __u64 stencil_meta_buffer_1;
-> +       __u64 stencil_meta_buffer_2;
-> +       __u64 stencil_meta_buffer_3;
-> +
-> +       __u64 scissor_array;
-> +       __u64 depth_bias_array;
-> +       __u64 visibility_result_buffer;
-> +
-> +       __u64 zls_ctrl;
-> +       __u64 ppp_multisamplectl;
-> +       __u32 ppp_ctrl;
-> +
-> +       __u32 fb_width;
-> +       __u32 fb_height;
-> +
-> +       __u32 utile_width;
-> +       __u32 utile_height;
-> +
-> +       __u32 samples;
-> +       __u32 layers;
-> +
-> +       __u32 encoder_id;
-> +       __u32 cmd_ta_id;
-> +       __u32 cmd_3d_id;
-> +
-> +       __u32 iogpu_unk_49;
-> +       __u32 iogpu_unk_212;
-> +       __u32 iogpu_unk_214;
-> +
-> +       __u32 merge_upper_x;
-> +       __u32 merge_upper_y;
-> +
-> +       __u32 load_pipeline;
-> +       __u32 load_pipeline_bind;
-> +
-> +       __u32 store_pipeline;
-> +       __u32 store_pipeline_bind;
-> +
-> +       __u32 partial_reload_pipeline;
-> +       __u32 partial_reload_pipeline_bind;
-> +
-> +       __u32 partial_store_pipeline;
-> +       __u32 partial_store_pipeline_bind;
-> +
-> +       __u32 depth_dimensions;
-> +       __u32 isp_bgobjdepth;
-> +       __u32 isp_bgobjvals;
-> +};
-> +
-> +struct drm_asahi_cmd_compute {
-> +       __u64 flags;
-> +
-> +       __u64 encoder_ptr;
-> +       __u64 encoder_end;
-> +
-> +       __u64 attachments;
-> +       __u32 attachment_count;
-> +       __u32 pad;
-> +
-> +       __u64 buffer_descriptor;
-> +
-> +       __u32 buffer_descriptor_size; /* ? */
-> +       __u32 ctx_switch_prog;
-> +
-> +       __u32 encoder_id;
-> +       __u32 cmd_id;
-> +
-> +       __u32 iogpu_unk_40;
-> +       __u32 iogpu_unk_44;
-> +};
-> +
-> +enum drm_asahi_status {
-> +       DRM_ASAHI_STATUS_PENDING =3D 0,
-> +       DRM_ASAHI_STATUS_COMPLETE,
-> +       DRM_ASAHI_STATUS_UNKNOWN_ERROR,
-> +       DRM_ASAHI_STATUS_TIMEOUT,
-> +       DRM_ASAHI_STATUS_FAULT,
-> +       DRM_ASAHI_STATUS_KILLED,
-> +       DRM_ASAHI_STATUS_NO_DEVICE,
-> +};
-> +
-> +enum drm_asahi_fault {
-> +       DRM_ASAHI_FAULT_NONE =3D 0,
-> +       DRM_ASAHI_FAULT_UNKNOWN,
-> +       DRM_ASAHI_FAULT_UNMAPPED,
-> +       DRM_ASAHI_FAULT_AF_FAULT,
-> +       DRM_ASAHI_FAULT_WRITE_ONLY,
-> +       DRM_ASAHI_FAULT_READ_ONLY,
-> +       DRM_ASAHI_FAULT_NO_ACCESS,
-> +};
-> +
-> +struct drm_asahi_result_info {
-> +       /** @status: One of enum drm_asahi_status */
-> +       __u32 status;
-> +
-> +       /** @reason: One of drm_asahi_fault_type */
-> +       __u32 fault_type;
-> +
-> +       /** @unit: Unit number, hardware dependent */
-> +       __u32 unit;
-> +
-> +       /** @sideband: Sideband information, hardware dependent */
-> +       __u32 sideband;
-> +
-> +       /** @level: Page table level at which the fault occurred, hardwar=
-e dependent */
-> +       __u8 level;
-> +
-> +       /** @read: Fault was a read */
-> +       __u8 is_read;
-> +
-> +       /** @pad: MBZ */
-> +       __u16 pad;
-> +
-> +       /** @unk_5: Extra bits, hardware dependent */
-> +       __u32 extra;
-> +
-> +       /** @address: Fault address, cache line aligned */
-> +       __u64 address;
-> +};
-> +
-> +#define DRM_ASAHI_RESULT_RENDER_TVB_GROW_OVF (1UL << 0)
-> +#define DRM_ASAHI_RESULT_RENDER_TVB_GROW_MIN (1UL << 1)
-> +#define DRM_ASAHI_RESULT_RENDER_TVB_OVERFLOWED (1UL << 2)
-> +
-> +struct drm_asahi_result_render {
-> +       /** @address: Common result information */
-> +       struct drm_asahi_result_info info;
-> +
-> +       /** @flags: Zero or more of of DRM_ASAHI_RESULT_RENDER_* */
-> +       __u64 flags;
-> +
-> +       /** @vertex_ts_start: Timestamp of the start of vertex processing=
- */
-> +       __u64 vertex_ts_start;
-> +
-> +       /** @vertex_ts_end: Timestamp of the end of vertex processing */
-> +       __u64 vertex_ts_end;
-> +
-> +       /** @fragment_ts_start: Timestamp of the start of fragment proces=
-sing */
-> +       __u64 fragment_ts_start;
-> +
-> +       /** @fragment_ts_end: Timestamp of the end of fragment processing=
- */
-> +       __u64 fragment_ts_end;
-> +
-> +       /** @tvb_size_bytes: TVB size at the start of this render */
-> +       __u64 tvb_size_bytes;
-> +
-> +       /** @tvb_usage_bytes: Total TVB usage in bytes for this render */
-> +       __u64 tvb_usage_bytes;
-> +
-> +       /** @num_tvb_overflows: Number of TVB overflows that occurred for=
- this render */
-> +       __u32 num_tvb_overflows;
-> +};
-> +
-> +struct drm_asahi_result_compute {
-> +       /** @address: Common result information */
-> +       struct drm_asahi_result_info info;
-> +
-> +       /** @flags: Zero or more of of DRM_ASAHI_RESULT_COMPUTE_* */
-> +       __u64 flags;
-> +
-> +       /** @ts_start: Timestamp of the start of this compute command */
-> +       __u64 ts_start;
-> +
-> +       /** @vertex_ts_end: Timestamp of the end of this compute command =
-*/
-> +       __u64 ts_end;
-> +};
-> +
-> +struct drm_asahi_get_time {
-> +       /** @extensions: Pointer to the first extension struct, if any */
-> +       __u64 extensions;
-> +
-> +       /** @flags: MBZ. */
-> +       __u64 flags;
-> +
-> +       /** @tv_sec: On return, seconds part of a point in time */
-> +       __s64 tv_sec;
-> +
-> +       /** @tv_nsec: On return, nanoseconds part of a point in time */
-> +       __s64 tv_nsec;
-> +
-> +       /** @gpu_timestamp: On return, the GPU timestamp at that point in=
- time */
-> +       __u64 gpu_timestamp;
-> +};
-> +
-> +/* Note: this is an enum so that it can be resolved by Rust bindgen. */
-> +enum {
-> +   DRM_IOCTL_ASAHI_GET_PARAMS       =3D DRM_IOWR(DRM_COMMAND_BASE + DRM_=
-ASAHI_GET_PARAMS, struct drm_asahi_get_params),
-> +   DRM_IOCTL_ASAHI_VM_CREATE        =3D DRM_IOWR(DRM_COMMAND_BASE + DRM_=
-ASAHI_VM_CREATE, struct drm_asahi_vm_create),
-> +   DRM_IOCTL_ASAHI_VM_DESTROY       =3D DRM_IOW(DRM_COMMAND_BASE + DRM_A=
-SAHI_VM_DESTROY, struct drm_asahi_vm_destroy),
-> +   DRM_IOCTL_ASAHI_GEM_CREATE       =3D DRM_IOWR(DRM_COMMAND_BASE + DRM_=
-ASAHI_GEM_CREATE, struct drm_asahi_gem_create),
-> +   DRM_IOCTL_ASAHI_GEM_MMAP_OFFSET  =3D DRM_IOWR(DRM_COMMAND_BASE + DRM_=
-ASAHI_GEM_MMAP_OFFSET, struct drm_asahi_gem_mmap_offset),
-> +   DRM_IOCTL_ASAHI_GEM_BIND         =3D DRM_IOW(DRM_COMMAND_BASE + DRM_A=
-SAHI_GEM_BIND, struct drm_asahi_gem_bind),
-> +   DRM_IOCTL_ASAHI_QUEUE_CREATE     =3D DRM_IOWR(DRM_COMMAND_BASE + DRM_=
-ASAHI_QUEUE_CREATE, struct drm_asahi_queue_create),
-> +   DRM_IOCTL_ASAHI_QUEUE_DESTROY    =3D DRM_IOW(DRM_COMMAND_BASE + DRM_A=
-SAHI_QUEUE_DESTROY, struct drm_asahi_queue_destroy),
-> +   DRM_IOCTL_ASAHI_SUBMIT           =3D DRM_IOW(DRM_COMMAND_BASE + DRM_A=
-SAHI_SUBMIT, struct drm_asahi_submit),
-> +   DRM_IOCTL_ASAHI_GET_TIME         =3D DRM_IOWR(DRM_COMMAND_BASE + DRM_=
-ASAHI_GET_TIME, struct drm_asahi_get_time),
-> +};
+>   drivers/gpu/drm/Kconfig         |   7 ++
+>   rust/bindings/bindings_helper.h |   2 +
+>   rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++++++++++
+>   rust/kernel/drm/mod.rs          |   5 ++
+>   rust/kernel/lib.rs              |   2 +
+>   5 files changed, 163 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index dc0f94f02a82..dab8f0f9aa96 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -27,6 +27,13 @@ menuconfig DRM
+>   	  details.  You should also select and configure AGP
+>   	  (/dev/agpgart) support if it is available for your platform.
+>   
 
-heh.. I had the same issue in mesa and wasn't thinking of doing this instea=
-d
+[...]
 
 > +
-> +#if defined(__cplusplus)
+> +/// Declare the DRM ioctls for a driver.
+> +///
+> +/// Each entry in the list should have the form:
+> +///
+> +/// `(ioctl_number, argument_type, flags, user_callback),`
+> +///
+> +/// `argument_type` is the type name within the `bindings` crate.
+> +/// `user_callback` should have the following prototype:
+> +///
+> +/// ```
+> +/// fn foo(device: &kernel::drm::device::Device<Self>,
+> +///        data: &mut bindings::argument_type,
+> +///        file: &kernel::drm::file::File<Self::File>,
+> +/// )
+> +/// ```
+> +/// where `Self` is the drm::drv::Driver implementation these ioctls are being declared within.
+> +///
+> +/// # Examples
+> +///
+> +/// ```
+> +/// kernel::declare_drm_ioctls! {
+> +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
+> +/// }
+> +/// ```
+> +///
+> +#[macro_export]
+> +macro_rules! declare_drm_ioctls {
+> +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? ) => {
+> +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor] = {
+> +            const _:() = {
+> +                let i: u32 = $crate::bindings::DRM_COMMAND_BASE;
+> +                // Assert that all the IOCTLs are in the right order and there are no gaps,
+> +                // and that the sizeof of the specified type is correct.
+
+I believe that not necessarily the IOCTLs need to be in the right order and
+with no gaps. For example, armada_drm.h has a gap in between 0x00 and
+0x02 and exynos_drm.h also have gaps. Moreover, some drivers, like vgem and
+virtgpu, start their IOCTLs with 0x01.
+
+Best Regards,
+- Maíra Canal
+
+> +                $(
+> +                    let cmd: u32 = $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd);
+> +                    ::core::assert!(i == $crate::ioctl::_IOC_NR(cmd));
+> +                    ::core::assert!(core::mem::size_of::<$crate::bindings::$struct>() == $crate::ioctl::_IOC_SIZE(cmd));
+> +                    let i: u32 = i + 1;
+> +                )*
+> +            };
+> +
+> +            let ioctls = &[$(
+> +                $crate::bindings::drm_ioctl_desc {
+> +                    cmd: $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd) as u32,
+> +                    func: {
+> +                        #[allow(non_snake_case)]
+> +                        unsafe extern "C" fn $cmd(
+> +                                raw_dev: *mut $crate::bindings::drm_device,
+> +                                raw_data: *mut ::core::ffi::c_void,
+> +                                raw_file_priv: *mut $crate::bindings::drm_file,
+> +                        ) -> core::ffi::c_int {
+> +                            // SAFETY: We never drop this, and the DRM core ensures the device lives
+> +                            // while callbacks are being called.
+> +                            //
+> +                            // FIXME: Currently there is nothing enforcing that the types of the
+> +                            // dev/file match the current driver these ioctls are being declared
+> +                            // for, and it's not clear how to enforce this within the type system.
+> +                            let dev = ::core::mem::ManuallyDrop::new(unsafe {
+> +                                $crate::drm::device::Device::from_raw(raw_dev)
+> +                            });
+> +                            // SAFETY: This is just the ioctl argument, which hopefully has the right type
+> +                            // (we've done our best checking the size).
+> +                            let data = unsafe { &mut *(raw_data as *mut $crate::bindings::$struct) };
+> +                            // SAFETY: This is just the DRM file structure
+> +                            let file = unsafe { $crate::drm::file::File::from_raw(raw_file_priv) };
+> +
+> +                            match $func(&*dev, data, &file) {
+> +                                Err(e) => e.to_kernel_errno(),
+> +                                Ok(i) => i.try_into().unwrap_or(ERANGE.to_kernel_errno()),
+> +                            }
+> +                        }
+> +                        Some($cmd)
+> +                    },
+> +                    flags: $flags,
+> +                    name: $crate::c_str!(::core::stringify!($cmd)).as_char_ptr(),
+> +                }
+> +            ),*];
+> +            ioctls
+> +        };
+> +    };
 > +}
-> +#endif
+> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+> new file mode 100644
+> index 000000000000..9ec6d7cbcaf3
+> --- /dev/null
+> +++ b/rust/kernel/drm/mod.rs
+> @@ -0,0 +1,5 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
 > +
-> +#endif /* _ASAHI_DRM_H_ */
->
-> --
-> 2.35.1
->
-
+> +//! DRM subsystem abstractions.
+> +
+> +pub mod ioctl;
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 7903490816bf..cb23d24c6718 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -37,6 +37,8 @@ mod build_assert;
+>   pub mod delay;
+>   pub mod device;
+>   pub mod driver;
+> +#[cfg(CONFIG_RUST_DRM)]
+> +pub mod drm;
+>   pub mod error;
+>   pub mod io_buffer;
+>   pub mod io_mem;
+> 
