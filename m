@@ -2,67 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 295DC6AD688
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 05:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE59D6AD69E
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 05:58:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbjCGErg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Mar 2023 23:47:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34786 "EHLO
+        id S230280AbjCGE6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Mar 2023 23:58:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjCGEre (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 23:47:34 -0500
+        with ESMTP id S230311AbjCGE6m (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Mar 2023 23:58:42 -0500
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7227337F3E;
-        Mon,  6 Mar 2023 20:47:11 -0800 (PST)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3272TPTg011713;
-        Tue, 7 Mar 2023 04:46:02 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D8723A844;
+        Mon,  6 Mar 2023 20:58:40 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3274K9mO029171;
+        Tue, 7 Mar 2023 04:58:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
+ mime-version : from : subject : to : cc : references : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DKvqvzb5WzxlmzYw8eEdTTMow8wfzTGqnqd88w9RdPQ=;
- b=AWPH2CqvNANYZlAmFyh/l7tPJ4CU1yTBqCuOvoA9V+4CXMCG4GXrIsDgDoZ/ukukGXku
- TZ8dkIn+PxnsMpTK2cIBdxuECevnYgwPE7I7V7eu2HAFFIg4VN+VG7vgagvFWM9YT3hg
- uGZ6HS6QVECq3OSYUublYgOpWTSB+jguxYmBfCiiRpgfNRzWwqNA6gkfllJiRrtM4RPj
- mYYI4EDex4i70YlXUKoPiFgpizTLxuF3WSHLACWhYIYmvfS5wS+ZN2wRZiA/VwaAUhdY
- g/MllHEX9uc6kyJNBM1aw041GVeXy3OPrE8xuNb/ARjlaD5O69Olf7nMGPd3d370SXGa 1A== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p5rqjrr8y-1
+ bh=vFjE5xOnMxVr7p3UiclRPXyqsU9qOGNnIi+3kPQ1UJc=;
+ b=mfd0nOA+TwkHBhK5aZypywWXqTgX0sfUGUhpkdQz81ph8q7Fh4/vWz5OodkL5DpSHcGJ
+ KFB1IWhd6na1Oxsfatg77t2VEh+LMFA789VLx0YZECTC+pue8gIe0E7rBthpm3MP0xtU
+ 3nyyKBNCI9IN+Kp3f7ZYgD46wm2AzPsOfC1lL9Dpi43ohKTagk3vnzAL5cGaRvnEZ3Na
+ CEPa6RWy0EpujbHF/IXf2PxG5e2JMpojlgfQP3VfN0u8pVfWa4PsDv54ER+uEY824aQ4
+ wlCzY168YgoeN2BgJpXvGm0OE+YEJyxXbTSphzUzZ19n/8LVAYc8FXjJCsSaAmoejBGV 8Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p5x5c81wk-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Mar 2023 04:46:02 +0000
+        Tue, 07 Mar 2023 04:58:05 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3274k1Mj020082
+        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3274w39i011614
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 7 Mar 2023 04:46:01 GMT
+        Tue, 7 Mar 2023 04:58:03 GMT
 Received: from [10.50.8.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 6 Mar 2023
- 20:45:55 -0800
-Message-ID: <3d0315fa-14ca-dc34-81ae-467d9ed5133d@quicinc.com>
-Date:   Tue, 7 Mar 2023 10:15:45 +0530
+ 20:57:58 -0800
+Message-ID: <a93a16ec-2e56-1d0b-c326-25f490d8f5b5@quicinc.com>
+Date:   Tue, 7 Mar 2023 10:27:54 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] media: venus: dec: Fix capture formats enumeration order
-Content-Language: en-US
-To:     Javier Martinez Canillas <javierm@redhat.com>,
-        Jordan Crouse <jorcrous@amazon.com>
-CC:     <linux-kernel@vger.kernel.org>, Albert Esteve <aesteve@redhat.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Sergio Lopez <slp@redhat.com>,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: Re: [PATCH 07/18] media: venus: core: Assign registers based on VPU
+ version
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Vikash Garodia <quic_vgarodia@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>
-References: <20230210081835.2054482-1-javierm@redhat.com>
- <20230303220918.qr5ydbin3nye3qtz@amazon.com>
- <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>
+CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Vikash Garodia" <vgarodia@codeaurora.org>
+References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
+ <20230228-topic-venus-v1-7-58c2c88384e9@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20230228-topic-venus-v1-7-58c2c88384e9@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -70,16 +73,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 0bLYU3qYMLhLGdt-CXXjJfU1If5MXsqK
-X-Proofpoint-GUID: 0bLYU3qYMLhLGdt-CXXjJfU1If5MXsqK
+X-Proofpoint-ORIG-GUID: OXgYLx-no7SvEyF_4F2i-TjGuwa8TpYM
+X-Proofpoint-GUID: OXgYLx-no7SvEyF_4F2i-TjGuwa8TpYM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-06_14,2023-03-06_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- priorityscore=1501 clxscore=1011 lowpriorityscore=0 adultscore=0
- mlxscore=0 spamscore=0 suspectscore=0 bulkscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303070042
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
+ phishscore=0 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303070043
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -90,64 +93,34 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 3/6/2023 3:38 PM, Javier Martinez Canillas wrote:
-> Jordan Crouse <jorcrous@amazon.com> writes:
+On 2/28/2023 8:54 PM, Konrad Dybcio wrote:
+> IRIS2(_1) has a different register map compared to other HFI6XX-
+> using VPUs. Take care of it.
 >
-> Hello Jordan,
+> Signed-off-by: Konrad Dybcio<konrad.dybcio@linaro.org>
+> ---
+>   drivers/media/platform/qcom/venus/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
->> On Fri, Feb 10, 2023 at 09:18:35AM +0100, Javier Martinez Canillas wrote:
->>> Commit 9593126dae3e ("media: venus: Add a handling of QC08C compressed
->>> format") and commit cef92b14e653 ("media: venus: Add a handling of QC10C
->>> compressed format") added support for the QC08C and QC10C compressed
->>> formats respectively.
->>>
->>> But these also caused a regression, because the new formats where added
->>> at the beginning of the vdec_formats[] array and the vdec_inst_init()
->>> function sets the default format output and capture using fixed indexes
->>> of that array:
->>>
->>> static void vdec_inst_init(struct venus_inst *inst)
->>> {
->>> ...
->>> 	inst->fmt_out = &vdec_formats[8];
->>> 	inst->fmt_cap = &vdec_formats[0];
->>> ...
->>> }
->>>
->>> Since now V4L2_PIX_FMT_NV12 is not the first entry in the array anymore,
->>> the default capture format is not set to that as it was done before.
->>>
->>> Both commits changed the first index to keep inst->fmt_out default format
->>> set to V4L2_PIX_FMT_H264, but did not update the latter to keep .fmt_out
->>> default format set to V4L2_PIX_FMT_NV12.
->>>
->>> Rather than updating the index to the current V4L2_PIX_FMT_NV12 position,
->>> let's reorder the entries so that this format is the first entry again.
->>>
->>> This would also make VIDIOC_ENUM_FMT report the V4L2_PIX_FMT_NV12 format
->>> with an index 0 as it did before the QC08C and QC10C formats were added.
->>>
->>> Fixes: 9593126dae3e ("media: venus: Add a handling of QC08C compressed format")
->>> Fixes: cef92b14e653 ("media: venus: Add a handling of QC10C compressed format")
->>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> I just came across this issue independently and can confirm this patch fixes
->> the GStreamer V4L2 decoder on QRB5165.
->>
->> Tested-by: Jordan Crouse <jorcrous@amazon.com>
->>
-> Thanks for testing it!
->
-> Stanimir, can we please get this for v6.3 as well?
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index c13436d58ed3..bdc14acc8399 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -246,7 +246,7 @@ static int venus_enumerate_codecs(struct venus_core *core, u32 type)
+>   
+>   static void venus_assign_register_offsets(struct venus_core *core)
+>   {
+> -	if (IS_V6(core)) {
+> +	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
+>   		core->vbif_base = core->base + VBIF_BASE;
+>   		core->cpu_base = core->base + CPU_BASE_V6;
+>   		core->cpu_cs_base = core->base + CPU_CS_BASE_V6;
 
-Hi Javier, Jordan
+AR50_LITE also should be added here, as I see you have added the same to 
+places where we are using V6 based registers.
 
-Could you please explain what regression/issue you see with patch?
-
-venus hardware supports QC08C which provides better performance hence 
-driver is publishing it as preferred color format.
-
-if client doesn't support this or want to use any other format, they can 
-set the desired format with s_fmt.
+if the base addresses are not assigned here properly. the register 
+writing at other places will be wrong, ex: patch 05/18
 
 Thanks,
 
