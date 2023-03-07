@@ -2,52 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 701A06AE246
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 15:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28F806AE272
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 15:31:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbjCGO0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 09:26:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50052 "EHLO
+        id S229734AbjCGObb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 09:31:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229947AbjCGO0e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 09:26:34 -0500
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6B78B063;
-        Tue,  7 Mar 2023 06:22:04 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 4A2C1FDA32;
-        Tue,  7 Mar 2023 06:21:34 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ZqnTiE5Y3381; Tue,  7 Mar 2023 06:21:32 -0800 (PST)
-Message-ID: <41417ffce644975b3be0d52fb7ac584b3a7c3b1b.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-        t=1678198892; bh=PXg1g9DbHfRAU2wFYxadouVQpnzufg0hm5gUPdHVCkM=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=IsN1PgOXYo9Inr1/urcREMcFvYS8wiavLIFD0sShda/JwjrCBCTiqDB6aaqjTTf/r
-         Gy3+iamkWrCbAWLzT5uBMVKGFXZViuPq/ROfLTFuLWjkXulGYYh+SlIKN4KUJoGhSf
-         p9wmRyNGrNFFAK1YuuTrNHOIzNtOV7Vz7cHY8M46al92ZFxgQRPaBdW8bMv3dtSjFY
-         pHI4BmK98WkfDX8sWM1fxl2VK13yDkkKZLspv+ziHgMJtX6teaSy5KgK7UrgF3YHIn
-         gPkxb/9bNNWRQC2lZRvFNzYO3mEpkNjG/Ev8rg+5FE0usJIJPve1zOFxt4XOYBgnY1
-         TvVyagRhh7lGQ==
-Subject: Re: [PATCH] media: imx: imx8mq-mipi-csi2: Use V4L2 subdev active
- state
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, shawnguo@kernel.org,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm
-Date:   Tue, 07 Mar 2023 15:21:25 +0100
-In-Reply-To: <20230307132536.GG22827@pendragon.ideasonboard.com>
-References: <20230307121729.1419120-1-martin.kepplinger@puri.sm>
-         <20230307132536.GG22827@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u1 
+        with ESMTP id S229737AbjCGOa4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 09:30:56 -0500
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB78C8537E;
+        Tue,  7 Mar 2023 06:26:42 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: linasend@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id C88A5419B4;
+        Tue,  7 Mar 2023 14:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1678199200;
+        bh=Zh472oEns45I3auQGGAub96i2Eo0aX5dy5UEbHNgwh8=;
+        h=From:Subject:Date:To:Cc;
+        b=Vr3HugTVzjYPu/pscvNRhlL5lDvANsIW7+6JUGgYTsF4Qdxeeb7rTxlLX6CPVIXS+
+         2MqSZ5I01M4mSekqQKwrWhM7yPlf+vr2RH0WXZScRYpON6RaceIg3qk4UNNe9deANr
+         2+ZsmhxR0zZUJwLgkyojr5otnQDfvNMlgBZZ5OZunPaupldjzvgtOt42uYCXhjOzMj
+         Gnxfzc8oJHj/C6lPBK/+TNg9Rh44yC5UrH9fvuV1JS6h69yXclTWTnJNs226OWyUma
+         THD23ESxIHbaa54QkLaQTKpAc4hoqAQ4PLsoqwDEcsuS9/7H2xnJOOKdJv5WAvPzHr
+         YPgcse123OZ0w==
+From:   Asahi Lina <lina@asahilina.net>
+Subject: [PATCH RFC 00/18] Rust DRM subsystem abstractions (& preview AGX
+ driver)
+Date:   Tue, 07 Mar 2023 23:25:25 +0900
+Message-Id: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFVJB2QC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDYwNz3aLS4hLdlKJc3STTxDTjZKNEy1RTUyWg8qTE4lTdpKLEvOQMkIb
+ 0glJ9sDKgMEi6oCg1LbMCbFO0UpCbs1JsbS0A1/N9534AAAA=
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev,
+        Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678199191; l=13772;
+ i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
+ bh=Zh472oEns45I3auQGGAub96i2Eo0aX5dy5UEbHNgwh8=;
+ b=0m1ZfeAnDyAmGhfyfYHyLLSd6Ka7nJJcraf46q+s5n2YSyjiuBak+v+E2PFMfn/FGBjRFXPjk
+ +j7SWAkA/gWDAK5gPcxNtorKB2jh1ZRsEQVlZUWKUllYpZCgT1gFp3x
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -57,373 +83,272 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 07.03.2023 um 15:25 +0200 schrieb Laurent Pinchart:
-> Hi Martin,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Mar 07, 2023 at 01:17:29PM +0100, Martin Kepplinger wrote:
-> > Simplify the driver by using the V4L2 subdev active state API to
-> > store
-> > the active format.
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > ---
-> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 108 +++++++--------
-> > ----
-> >  1 file changed, 37 insertions(+), 71 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > index c0d0bf770096..066409782058 100644
-> > --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > @@ -119,9 +119,7 @@ struct csi_state {
-> >  
-> >         struct v4l2_mbus_config_mipi_csi2 bus;
-> >  
-> > -       struct mutex lock; /* Protect csi2_fmt, format_mbus, state,
-> > hs_settle */
-> > -       const struct csi2_pix_format *csi2_fmt;
-> > -       struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
-> > +       struct mutex lock; /* Protect state and hs_settle */
-> 
-> The hs_settle value is computed in imx8mq_mipi_csi_calc_hs_settle()
-> and
-> used in imx8mq_mipi_csi_system_enable(), both called from
-> imx8mq_mipi_csi_start_stream(). You could return it from the first
-> function, pass it to the second one, and drop it from the structure.
-> That can be done in a separate patch.
-> 
-> I think the state variable could also be dropped, which would allow
-> dropping the lock.
+Hi everyone!
 
-yes, I plan to do get rid of the driver state and lock later.
+This is my first take on the Rust abstractions for the DRM
+subsystem. It includes the abstractions themselves, some minor
+prerequisite changes to the C side, as well as the drm-asahi GPU driver
+(for reference on how the abstractions are used, but not necessarily
+intended to land together).
 
-> 
-> >         u32 state;
-> >         u32 hs_settle;
-> >  
-> > @@ -328,10 +326,18 @@ static int
-> > imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
-> >         u32 lane_rate;
-> >         unsigned long esc_clk_rate;
-> >         u32 min_ths_settle, max_ths_settle, ths_settle_ns,
-> > esc_clk_period_ns;
-> > +       const struct v4l2_mbus_framefmt *fmt;
-> > +       const struct csi2_pix_format *csi2_fmt;
-> > +       struct v4l2_subdev_state *sd_state;
-> >  
-> >         /* Calculate the line rate from the pixel rate. */
-> > +
-> > +       sd_state = v4l2_subdev_lock_and_get_active_state(&state-
-> > >sd);
-> 
-> You need to unlock the state when you're done with it. I would call
-> v4l2_subdev_lock_and_get_active_state() in
-> imx8mq_mipi_csi_start_stream() and unlock it there, and pass the
-> state
-> to imx8mq_mipi_csi_calc_hs_settle(). This will prepare for the future
-> when the V4L2 core will pass the state to the .s_stream() handler.
+These patches apply on top of the tree at [1], which is based on
+6.3-rc1 with a large number of Rust abstraction/support commits added on
+top. Most of these are not prerequisites for the DRM abstractions
+themselves, but rather only of the driver.
 
-thanks! will do and send a v2 early in this case.
+* #1-12 introduce the abstractions, module by module, with minor C
+  changes before the dependent abstraction.
+  * Patch 10 is a little addition to drm_sched that I ended up needing,
+    but I can pull it out of the abstraction into its own patch if
+    needed.
+* #13-14 add a minor feature to drm/gem and its abstraction used
+  by the driver.
+* #15-16 introduce the (unstable) asahi UAPI. This is obviously not
+  ready for merge yet, but comments are welcome!
+* #17 adds a Rust helper macro to handle GPU core/firmware differences.
+  This probably belongs in the driver at this point, but right now it
+  has to live in rust/macros since there is no mechanism for per-driver
+  proc macros.
+* #18 adds the driver proper, in one big commit, for reference purposes.
 
-> 
-> Another candidate for a separate patch would be to rename the state
-> variables to csi, to avoid confusion with the subdev state.
-> 
-> > +       fmt = v4l2_subdev_get_pad_format(&state->sd, sd_state,
-> > MIPI_CSI2_PAD_SINK);
-> > +       csi2_fmt = find_csi2_format(fmt->code);
-> > +
-> >         link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-> > -                                      state->csi2_fmt->width,
-> > +                                      csi2_fmt->width,
-> >                                        state->bus.num_data_lanes *
-> > 2);
-> >         if (link_freq < 0) {
-> >                 dev_err(state->dev, "Unable to obtain link
-> > frequency: %d\n",
-> > @@ -455,29 +461,14 @@ static int imx8mq_mipi_csi_s_stream(struct
-> > v4l2_subdev *sd, int enable)
-> >         return ret;
-> >  }
-> >  
-> > -static struct v4l2_mbus_framefmt *
-> > -imx8mq_mipi_csi_get_format(struct csi_state *state,
-> > -                          struct v4l2_subdev_state *sd_state,
-> > -                          enum v4l2_subdev_format_whence which,
-> > -                          unsigned int pad)
-> > -{
-> > -       if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > -               return v4l2_subdev_get_try_format(&state->sd,
-> > sd_state, pad);
-> > -
-> > -       return &state->format_mbus[pad];
-> > -}
-> > -
-> >  static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
-> >                                     struct v4l2_subdev_state
-> > *sd_state)
-> >  {
-> > -       struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> >         struct v4l2_mbus_framefmt *fmt_sink;
-> >         struct v4l2_mbus_framefmt *fmt_source;
-> > -       enum v4l2_subdev_format_whence which;
-> >  
-> > -       which = sd_state ? V4L2_SUBDEV_FORMAT_TRY :
-> > V4L2_SUBDEV_FORMAT_ACTIVE;
-> > -       fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state,
-> > which,
-> > -                                             MIPI_CSI2_PAD_SINK);
-> > +       fmt_sink = v4l2_subdev_get_pad_format(sd, sd_state,
-> > MIPI_CSI2_PAD_SINK);
-> > +       fmt_source = v4l2_subdev_get_pad_format(sd, sd_state,
-> > MIPI_CSI2_PAD_SOURCE);
-> >  
-> >         fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> >         fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
-> > @@ -491,38 +482,15 @@ static int imx8mq_mipi_csi_init_cfg(struct
-> > v4l2_subdev *sd,
-> >                 V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink-
-> > >colorspace,
-> >                                               fmt_sink->ycbcr_enc);
-> >  
-> > -       fmt_source = imx8mq_mipi_csi_get_format(state, sd_state,
-> > which,
-> > -
-> >                                                MIPI_CSI2_PAD_SOURCE)
-> > ;
-> >         *fmt_source = *fmt_sink;
-> >  
-> >         return 0;
-> >  }
-> >  
-> > -static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
-> > -                                  struct v4l2_subdev_state
-> > *sd_state,
-> > -                                  struct v4l2_subdev_format
-> > *sdformat)
-> > -{
-> > -       struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > -       struct v4l2_mbus_framefmt *fmt;
-> > -
-> > -       fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat-
-> > >which,
-> > -                                        sdformat->pad);
-> > -
-> > -       mutex_lock(&state->lock);
-> > -
-> > -       sdformat->format = *fmt;
-> > -
-> > -       mutex_unlock(&state->lock);
-> > -
-> > -       return 0;
-> > -}
-> > -
-> >  static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
-> >                                           struct v4l2_subdev_state
-> > *sd_state,
-> >                                           struct
-> > v4l2_subdev_mbus_code_enum *code)
-> >  {
-> > -       struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > -
-> >         /*
-> >          * We can't transcode in any way, the source format is
-> > identical
-> >          * to the sink format.
-> > @@ -533,8 +501,7 @@ static int
-> > imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
-> >                 if (code->index > 0)
-> >                         return -EINVAL;
-> >  
-> > -               fmt = imx8mq_mipi_csi_get_format(state, sd_state,
-> > code->which,
-> > -                                                code->pad);
-> > +               fmt = v4l2_subdev_get_pad_format(sd, sd_state,
-> > code->pad);
-> >                 code->code = fmt->code;
-> >                 return 0;
-> >         }
-> > @@ -554,8 +521,7 @@ static int imx8mq_mipi_csi_set_fmt(struct
-> > v4l2_subdev *sd,
-> >                                    struct v4l2_subdev_state
-> > *sd_state,
-> >                                    struct v4l2_subdev_format
-> > *sdformat)
-> >  {
-> > -       struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > -       struct csi2_pix_format const *csi2_fmt;
-> > +       const struct csi2_pix_format *csi2_fmt;
-> >         struct v4l2_mbus_framefmt *fmt;
-> >  
-> >         /*
-> > @@ -563,7 +529,7 @@ static int imx8mq_mipi_csi_set_fmt(struct
-> > v4l2_subdev *sd,
-> >          * modified.
-> >          */
-> >         if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
-> > -               return imx8mq_mipi_csi_get_fmt(sd, sd_state,
-> > sdformat);
-> > +               return v4l2_subdev_get_fmt(sd, sd_state, sdformat);
-> >  
-> >         if (sdformat->pad != MIPI_CSI2_PAD_SINK)
-> >                 return -EINVAL;
-> > @@ -572,10 +538,7 @@ static int imx8mq_mipi_csi_set_fmt(struct
-> > v4l2_subdev *sd,
-> >         if (!csi2_fmt)
-> >                 csi2_fmt = &imx8mq_mipi_csi_formats[0];
-> >  
-> > -       fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat-
-> > >which,
-> > -                                        sdformat->pad);
-> > -
-> > -       mutex_lock(&state->lock);
-> > +       fmt = v4l2_subdev_get_pad_format(sd, sd_state, sdformat-
-> > >pad);
-> >  
-> >         fmt->code = csi2_fmt->code;
-> >         fmt->width = sdformat->format.width;
-> > @@ -584,16 +547,9 @@ static int imx8mq_mipi_csi_set_fmt(struct
-> > v4l2_subdev *sd,
-> >         sdformat->format = *fmt;
-> >  
-> >         /* Propagate the format from sink to source. */
-> > -       fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat-
-> > >which,
-> > -                                        MIPI_CSI2_PAD_SOURCE);
-> > +       fmt = v4l2_subdev_get_pad_format(sd, sd_state,
-> > MIPI_CSI2_PAD_SOURCE);
-> >         *fmt = sdformat->format;
-> >  
-> > -       /* Store the CSI2 format descriptor for active formats. */
-> > -       if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > -               state->csi2_fmt = csi2_fmt;
-> > -
-> > -       mutex_unlock(&state->lock);
-> > -
-> >         return 0;
-> >  }
-> >  
-> > @@ -604,7 +560,7 @@ static const struct v4l2_subdev_video_ops
-> > imx8mq_mipi_csi_video_ops = {
-> >  static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops =
-> > {
-> >         .init_cfg               = imx8mq_mipi_csi_init_cfg,
-> >         .enum_mbus_code         = imx8mq_mipi_csi_enum_mbus_code,
-> > -       .get_fmt                = imx8mq_mipi_csi_get_fmt,
-> > +       .get_fmt                = v4l2_subdev_get_fmt,
-> >         .set_fmt                = imx8mq_mipi_csi_set_fmt,
-> >  };
-> >  
-> > @@ -821,6 +777,7 @@ static const struct dev_pm_ops
-> > imx8mq_mipi_csi_pm_ops = {
-> >  static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
-> >  {
-> >         struct v4l2_subdev *sd = &state->sd;
-> > +       int ret;
-> >  
-> >         v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
-> >         sd->owner = THIS_MODULE;
-> > @@ -834,15 +791,22 @@ static int imx8mq_mipi_csi_subdev_init(struct
-> > csi_state *state)
-> >  
-> >         sd->dev = state->dev;
-> >  
-> > -       state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
-> > -       imx8mq_mipi_csi_init_cfg(sd, NULL);
-> > -
-> >         state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
-> >                                          |
-> > MEDIA_PAD_FL_MUST_CONNECT;
-> >         state->pads[MIPI_CSI2_PAD_SOURCE].flags =
-> > MEDIA_PAD_FL_SOURCE
-> >                                            |
-> > MEDIA_PAD_FL_MUST_CONNECT;
-> > -       return media_entity_pads_init(&sd->entity,
-> > MIPI_CSI2_PADS_NUM,
-> > -                                     state->pads);
-> > +       ret = media_entity_pads_init(&sd->entity,
-> > MIPI_CSI2_PADS_NUM,
-> > +                                    state->pads);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       ret = v4l2_subdev_init_finalize(sd);
-> > +       if (ret) {
-> > +               media_entity_cleanup(&sd->entity);
-> > +               return ret;
-> > +       }
-> > +
-> > +       return 0;
-> >  }
-> >  
-> >  static void imx8mq_mipi_csi_release_icc(struct platform_device
-> > *pdev)
-> > @@ -949,6 +913,10 @@ static int imx8mq_mipi_csi_probe(struct
-> > platform_device *pdev)
-> >         if (ret)
-> >                 goto mutex;
-> >  
-> > +       ret = imx8mq_mipi_csi_async_register(state);
-> > +       if (ret < 0)
-> > +               goto cleanup;
-> > +
-> >         /* Enable runtime PM. */
-> >         pm_runtime_enable(dev);
-> >         if (!pm_runtime_enabled(dev)) {
-> 
-> You should still enable runtime PM after registering the subdev,
-> otherwise someone may get hold of the subdev and call an operation
-> that
-> depending on runtime PM being enabled before you get a chance to
-> enable
-> it.
+I've been working since mid last year on an Apple AGX GPU driver for
+Linux, using the (at the time) out-of-tree Rust support. As part of this
+effort, I've been writing safe Rust abstractions for portions of the DRM
+subsystem.
 
-oh that slipped in, sorry.
+Now that Rust itself is upstream, I'd like to get all the abstractions
+upstreamed so we can eventually get the driver upstreamed!
 
-> 
-> It would also be nice to suspend the device at the end of probe
-> (using
-> pm runtime autosuspend), that's a candidate for another patch.
-> 
+These abstractions have been used by the driver since our release in
+December [2], in a simpler synchronous-submission form:
 
-thanks for the quick feedback!
+* drm::ioctl
+* drm::device
+* drm::drv
+* drm::file
+* drm::{gem, gem::shmem}
+* drm::mm
 
-                          martin
+This series adds these too, which are used by the explicit sync refactor
+of the driver (the version in this series):
 
+* drm::syncobj
+* drm::sched
+* dma_fence
 
-> > @@ -957,10 +925,6 @@ static int imx8mq_mipi_csi_probe(struct
-> > platform_device *pdev)
-> >                         goto icc;
-> >         }
-> >  
-> > -       ret = imx8mq_mipi_csi_async_register(state);
-> > -       if (ret < 0)
-> > -               goto cleanup;
-> > -
-> >         return 0;
-> >  
-> >  cleanup:
-> > @@ -968,6 +932,7 @@ static int imx8mq_mipi_csi_probe(struct
-> > platform_device *pdev)
-> >         imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
-> >  
-> >         media_entity_cleanup(&state->sd.entity);
-> > +       v4l2_subdev_cleanup(&state->sd);
-> >         v4l2_async_nf_unregister(&state->notifier);
-> >         v4l2_async_nf_cleanup(&state->notifier);
-> >         v4l2_async_unregister_subdev(&state->sd);
-> > @@ -991,6 +956,7 @@ static int imx8mq_mipi_csi_remove(struct
-> > platform_device *pdev)
-> >         pm_runtime_disable(&pdev->dev);
-> >         imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
-> >         media_entity_cleanup(&state->sd.entity);
-> > +       v4l2_subdev_cleanup(&state->sd);
-> >         mutex_destroy(&state->lock);
-> >         pm_runtime_set_suspended(&pdev->dev);
-> >         imx8mq_mipi_csi_release_icc(pdev);
-> 
+The major dependencies for the DRM abstractions themselves are:
 
+* [3] rust: error: Add missing wrappers to convert to/from kernel error codes
+* [4] rust: Miscellaneous macro improvements
+* [5] rust: Add a Sealed trait
+* [6] rust: device: Add a minimal RawDevice trait
+* [7] rust: Enable the new_uninit feature for kernel and driver crates
+* [8] rust: ioctl: Add ioctl number manipulation functions
+* [9] rust: sync: Arc: Any downcasting and assume_init()
+*     rust: Add `container_of` and `offset_of` macros
+*     kernel::sync::mutex and dependencies
+
+Most of these (the ones with links) have already been submitted, and I
+expect all of them to land for 6.4 (the mutex one will likely be last,
+since there is some refactoring that will happen over the current state
+to make it more ergonomic to use). The mutex dep is only necessary for
+drm::mm and dma_fence, and transitively drm::syncobj and drm::sched.
+
+Things work! We've had most of the abstractions in production edge
+kernels with the driver, and the new explicit sync stuff has passed
+quite a few torture tests (this is how we found the drm_sched issue,
+patch 11).
+
+The abstractions are intended to be safe (safety review very welcome!).
+While writing them, I tried to avoid making any changes to the C side
+unless absolutely necessary. I understand that it will probably make
+sense to adjust the C side to make some things easier, but I wanted to
+start from this as a baseline.
+
+Known issues:
+
+- The existing Rust integration does not currently allow building
+  abstractions as modules, so the Rust abstractions are only available
+  for DRM components that are built in. I added some extra Kconfig
+  symbols to deal with this, so a driver built as a module can depende
+  on having those built in. This should go away in the future (but may
+  not be ready in time for submission... I understand this probably
+  shouldn't be a blocker though?).
+
+- DRM relies heavily on the "subclassing" pattern for driver objects,
+  and this doesn't map well to Rust. I tried several approaches for
+  various bits, so we can see how they work out. In particular, whether
+  wrapper types should pretend to be smart pointers and Deref to their
+  inner driver-specific types, and whether they should be marked as
+  method receivers (Yuck, internal rustc implementation hacks! But
+  Arc<T> already does the same thing and it makes usage in
+  driver-implemented callbacks as `self` possible) are things I'd love
+  to discuss ^^.
+
+- Only what I need for my driver is implemented (plus a small amount of
+  obvious extras where better API completeness makes sense). I think the
+  general idea with Rust abstractions is that we add things as they
+  become necessary.
+
+- The plain GEM vs. GEM-shmem duality ended up with quite a hairy type
+  hierarchy. I'd love to figure out how to make this simpler...
+
+- drm::mm ends up requiring a built-in mutex in the abstraction, instead
+  of delegating that to the user with the usual Rust mutability rules.
+  This is because nodes can be dropped at any time, and those operations
+  need to be synchronized. We could try to avoid forbidding those drops
+  or mark the node type !Send, but that would make it a lot less
+  ergonomic to use...
+
+I'm looking for feedback on the abstractions of all kinds, so we can
+move towards an upstreamable version. Optimistically, I'd love to get
+this upstream for 6.5, and the driver for 6.6.
+
+Please feel free to ask any questions about the Rust bits, since I know
+a lot of this is new to many of the C folks!
+
+This is a fairly complete driver for Apple AGX G13 and G14 series GPUs.
+
+The driver today supports the Apple M1, M1 Pro, M1 Max, M1 Ultra, and M2
+SoCs, across two firmware revisions each. It has an explicit sync UAPI
+heavily inspired by the upcoming Intel Xe UAPI, designed with Vulkan
+support in mind. On the Mesa side we currently have a Gallium driver
+that is mostly already upstream (missing the UAPI bits mostly) and
+passes the dEQP GLES2/EGL tests, with most of GLES3.0 passing in
+downstream work-in-progress branches. This is a reverse engineered
+community driver (we have no hardware documentation of any kind, other
+than some hints from aspects shared with PowerVR).
+
+While developing the driver, I tried to make use of Rust's safety and
+lifetime features to provide not just CPU-side safety, but also
+partial firmware-ABI safety. Thanks to this, it has turned out to be
+a very stable driver even though GPU firmware crashes are fatal (no
+restart capability, need to reboot!) and the FW/driver interface is a
+huge mess of unsafe shared memory structures with complex pointer
+chains. There are over 70 ABI types and 3000+ lines of firmware ABI type
+definitions that vary between firmware builds and GPU cores...
+
+In a simpler blocking-submission form, it has been shipping in Asahi
+Linux edge kernels since December [2], with lots of users and zero (!)
+reported oopses (and only a couple reports of GPU firmware crashes,
+though that issue should now be fixed). It has survived OOM scenarios
+(Rust makes error cleanup easy!), UAPI-level fuzzing, countless broken
+Mesa builds, uptimes of 40+ days, and more.
+
+The explicit sync refactor significantly increases performance (and
+potential problems), but this version has survived a lot of torture
+with dEQP/piglit tests and some manual corner case testing.
+
+In other words, Rust works! ^^
+
+There are some design notes on the driver and further links at [10].
+
+[1] https://github.com/AsahiLinux/linux.git drm-rfc-base-20230307
+[2] https://asahilinux.org/2022/12/gpu-drivers-now-in-asahi-linux/
+[3] https://lore.kernel.org/rust-for-linux/20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net/T/
+[4] https://lore.kernel.org/rust-for-linux/20230224-rust-macros-v1-0-b39fae46e102@asahilina.net/T/
+[5] https://lore.kernel.org/rust-for-linux/20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net/T/#m515bad2cff7f5a46f55897e6b73c6c2f1fb2c638
+[6] https://lore.kernel.org/rust-for-linux/20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net/T/#m4c64e390c43b3ff1b8470fc8b37eaf87f6e12c94
+[7] https://lore.kernel.org/rust-for-linux/CQV7ZNT6LMXI.1XG4YXSH8I7JK@vincent-arch/T/
+[8] https://lore.kernel.org/rust-for-linux/61f734d6-1497-755f-3632-3f261b890846@asahilina.net/T/
+[9] https://lore.kernel.org/rust-for-linux/20230224-rust-arc-v1-0-568eea613a41@asahilina.net/T/
+[10] https://github.com/AsahiLinux/docs/wiki/SW:AGX-driver-notes
+
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+Asahi Lina (18):
+      rust: drm: ioctl: Add DRM ioctl abstraction
+      rust: drm: Add Device and Driver abstractions
+      rust: drm: file: Add File abstraction
+      rust: drm: gem: Add GEM object abstraction
+      drm/gem-shmem: Export VM ops functions
+      rust: drm: gem: shmem: Add DRM shmem helper abstraction
+      rust: drm: mm: Add DRM MM Range Allocator abstraction
+      rust: dma_fence: Add DMA Fence abstraction
+      rust: drm: syncobj: Add DRM Sync Object abstraction
+      drm/scheduler: Add can_run_job callback
+      drm/scheduler: Clean up jobs when the scheduler is torn down
+      rust: drm: sched: Add GPU scheduler abstraction
+      drm/gem: Add a flag to control whether objects can be exported
+      rust: drm: gem: Add set_exportable() method
+      drm/asahi: Add the Asahi driver UAPI [DO NOT MERGE]
+      rust: bindings: Bind the Asahi DRM UAPI
+      rust: macros: Add versions macro
+      drm/asahi: Add the Asahi driver for Apple AGX GPUs
+ drivers/gpu/drm/Kconfig                |   19 +
+ drivers/gpu/drm/Makefile               |    1 +
+ drivers/gpu/drm/asahi/Kconfig          |   35 +
+ drivers/gpu/drm/asahi/Makefile         |    3 +
+ drivers/gpu/drm/asahi/alloc.rs         | 1046 ++++++++++++++++++++++++++
+ drivers/gpu/drm/asahi/asahi.rs         |   53 ++
+ drivers/gpu/drm/asahi/buffer.rs        |  694 ++++++++++++++++++
+ drivers/gpu/drm/asahi/channel.rs       |  542 ++++++++++++++
+ drivers/gpu/drm/asahi/debug.rs         |  129 ++++
+ drivers/gpu/drm/asahi/driver.rs        |  166 +++++
+ drivers/gpu/drm/asahi/event.rs         |  229 ++++++
+ drivers/gpu/drm/asahi/file.rs          |  718 ++++++++++++++++++
+ drivers/gpu/drm/asahi/float.rs         |  381 ++++++++++
+ drivers/gpu/drm/asahi/fw/buffer.rs     |  170 +++++
+ drivers/gpu/drm/asahi/fw/channels.rs   |  385 ++++++++++
+ drivers/gpu/drm/asahi/fw/compute.rs    |  107 +++
+ drivers/gpu/drm/asahi/fw/event.rs      |  100 +++
+ drivers/gpu/drm/asahi/fw/fragment.rs   |  276 +++++++
+ drivers/gpu/drm/asahi/fw/initdata.rs   | 1264 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/asahi/fw/job.rs        |   56 ++
+ drivers/gpu/drm/asahi/fw/microseq.rs   |  384 ++++++++++
+ drivers/gpu/drm/asahi/fw/mod.rs        |   15 +
+ drivers/gpu/drm/asahi/fw/types.rs      |  233 ++++++
+ drivers/gpu/drm/asahi/fw/vertex.rs     |  177 +++++
+ drivers/gpu/drm/asahi/fw/workqueue.rs  |  168 +++++
+ drivers/gpu/drm/asahi/gem.rs           |  301 ++++++++
+ drivers/gpu/drm/asahi/gpu.rs           | 1088 +++++++++++++++++++++++++++
+ drivers/gpu/drm/asahi/hw/mod.rs        |  522 +++++++++++++
+ drivers/gpu/drm/asahi/hw/t600x.rs      |  140 ++++
+ drivers/gpu/drm/asahi/hw/t8103.rs      |   80 ++
+ drivers/gpu/drm/asahi/hw/t8112.rs      |   82 +++
+ drivers/gpu/drm/asahi/initdata.rs      |  777 ++++++++++++++++++++
+ drivers/gpu/drm/asahi/mem.rs           |  133 ++++
+ drivers/gpu/drm/asahi/microseq.rs      |   61 ++
+ drivers/gpu/drm/asahi/mmu.rs           | 1249 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/asahi/object.rs        |  704 ++++++++++++++++++
+ drivers/gpu/drm/asahi/place.rs         |  343 +++++++++
+ drivers/gpu/drm/asahi/queue/common.rs  |   52 ++
+ drivers/gpu/drm/asahi/queue/compute.rs |  371 ++++++++++
+ drivers/gpu/drm/asahi/queue/mod.rs     |  725 ++++++++++++++++++
+ drivers/gpu/drm/asahi/queue/render.rs  | 1173 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/asahi/regs.rs          |  387 ++++++++++
+ drivers/gpu/drm/asahi/slotalloc.rs     |  292 ++++++++
+ drivers/gpu/drm/asahi/util.rs          |   44 ++
+ drivers/gpu/drm/asahi/workqueue.rs     |  880 ++++++++++++++++++++++
+ drivers/gpu/drm/drm_gem.c              |    1 +
+ drivers/gpu/drm/drm_gem_shmem_helper.c |    9 +-
+ drivers/gpu/drm/drm_prime.c            |    5 +
+ drivers/gpu/drm/scheduler/sched_main.c |   37 +-
+ include/drm/drm_gem.h                  |    8 +
+ include/drm/drm_gem_shmem_helper.h     |    3 +
+ include/drm/gpu_scheduler.h            |    8 +
+ include/uapi/drm/asahi_drm.h           |  556 ++++++++++++++
+ rust/bindings/bindings_helper.h        |   14 +
+ rust/helpers.c                         |  168 +++++
+ rust/kernel/dma_fence.rs               |  532 ++++++++++++++
+ rust/kernel/drm/device.rs              |   76 ++
+ rust/kernel/drm/drv.rs                 |  342 +++++++++
+ rust/kernel/drm/file.rs                |  113 +++
+ rust/kernel/drm/gem/mod.rs             |  384 ++++++++++
+ rust/kernel/drm/gem/shmem.rs           |  381 ++++++++++
+ rust/kernel/drm/ioctl.rs               |  147 ++++
+ rust/kernel/drm/mm.rs                  |  309 ++++++++
+ rust/kernel/drm/mod.rs                 |   13 +
+ rust/kernel/drm/sched.rs               |  358 +++++++++
+ rust/kernel/drm/syncobj.rs             |   77 ++
+ rust/kernel/lib.rs                     |    4 +
+ rust/macros/lib.rs                     |    7 +
+ rust/macros/versions.rs                |  267 +++++++
+ 69 files changed, 20569 insertions(+), 5 deletions(-)
+---
+base-commit: c9eb15274c9861026682a6b3e645891fccf88e07
+change-id: 20230307-rust-drm-b5af3c2a9e55
+
+Thank you,
+~~ Lina
 
