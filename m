@@ -2,70 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2132B6ADB41
-	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 11:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06A476ADB68
+	for <lists+linux-media@lfdr.de>; Tue,  7 Mar 2023 11:08:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbjCGKAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 05:00:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35456 "EHLO
+        id S229636AbjCGKIZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 05:08:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbjCGKAb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 05:00:31 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E433B23C;
-        Tue,  7 Mar 2023 02:00:29 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id o12so49904109edb.9;
-        Tue, 07 Mar 2023 02:00:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678183228;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bW3imLrGp8WnT6vZrMOHCljPinwG95AEioNHWio/7vQ=;
-        b=L8FEZOA8koMilcVz3cjTV/TbCnAocXh7L/8qUd1x16qbmEZzfksfcMY1XtBXiszSMV
-         MutxCKvuzckqOVVh4ZNkhEzZr/Hnl3LQvJ9SxQ1jcGi7AAxWE+VbF3SdHeqnMTvbs/y7
-         S3jvNl/i0tSg+nQUGYU+8AcLss+SEWBu4wh9ihDpSbqC7qNAUL6JSmw3DPmzi+RSUIYV
-         YWig7z7jztccm3jvIWLisKb3qvLNMib/gYjlAik6f9P809Y9qWQcmbobGPPhE10oOzwq
-         4a6wFnRSnMLcKJ8vfumWJT7y3U5/3cYXbhERoS7wmRm4+NfvB5mWDJDNT5hfoDJMCVx8
-         I3NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678183228;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bW3imLrGp8WnT6vZrMOHCljPinwG95AEioNHWio/7vQ=;
-        b=KvTsDL0Fnhf3d6K10aj2ShFDia9Mhgoo0S75pHr88K/P2rT6eq/1cymBkBjF8twEwH
-         lAJyFuF5Kbs+euRyrAV9I0YwzpunKbHa+xUqX41z9chVaRbQKShrIkXdGnJyFmpK9+0H
-         C9h+Xx2cLEL6dflvAWyShaQyzWKkR2qkSkvUHhWcnDBRyM/SsyFBOA+kShnEllev4z3h
-         WL52UXFlM3INlgxcBGDvq6OVp/Akf3B5LFghglmNxbTh8CEF/MlqBrljeX1TTRWjMz89
-         MNekbmvlnPyMqxIEggsr/WAJqLYpDOkwkOCrW+urhhMyeDsZXcvQyPijZuTht0SWzWA4
-         AdUg==
-X-Gm-Message-State: AO0yUKU3lBC11dW5WtX2kQhAc7eMF1vNPfIV1EBaSRyKr8WiTOW0XMnx
-        9Oai+kzXxK/Cp3ZTgpqGczw=
-X-Google-Smtp-Source: AK7set+Mu0sSz5kh5LcUFRENpxc7AFUW6iMQai3ePX6vLZBpQmKw5SrwMprhdA8xotXGanAeNWGcwg==
-X-Received: by 2002:a17:906:1410:b0:8f6:76da:90dd with SMTP id p16-20020a170906141000b008f676da90ddmr12794941ejc.64.1678183228457;
-        Tue, 07 Mar 2023 02:00:28 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m26-20020a50999a000000b004af73333d6esm6502618edb.53.2023.03.07.02.00.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 02:00:28 -0800 (PST)
-Date:   Tue, 7 Mar 2023 13:00:23 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Oliver Endriss <o.endriss@gmx.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Husni Faiz <ahamedhusni73@gmail.com>,
-        Li zeming <zeming@nfschina.com>,
-        Oliver Endriss <o.endriss@gmx.de>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-        lwn@lwn.net, smatch@ver.kernel.org
-Subject: [PATCH] media: av7110: prevent underflow in write_ts_to_decoder()
-Message-ID: <9dbe6804-7fac-4ee1-9e70-c3648cb60ec8@kili.mountain>
+        with ESMTP id S229525AbjCGKIW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 05:08:22 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F07103CE34;
+        Tue,  7 Mar 2023 02:08:20 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 6CF4D24E350;
+        Tue,  7 Mar 2023 18:08:18 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Mar
+ 2023 18:08:01 +0800
+Received: from [192.168.60.139] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Mar
+ 2023 18:08:01 +0800
+Message-ID: <d2b7207c-9dab-958b-58f0-5a3c28202470@starfivetech.com>
+Date:   Tue, 7 Mar 2023 18:08:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 02/11] media: dt-bindings: starfive,jh7110-mipi-csi2:
+ add binding docmuent
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230302091921.43309-1-jack.zhu@starfivetech.com>
+ <20230302091921.43309-3-jack.zhu@starfivetech.com>
+ <11e7c986-e6cc-ee57-b36e-816af8cc11a7@linaro.org>
+ <30000009-cf05-988a-9817-97a7af36db37@starfivetech.com>
+ <6aeaa895-7f99-3598-2490-88eb48735a15@linaro.org>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <6aeaa895-7f99-3598-2490-88eb48735a15@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,41 +65,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The buf[4] value comes from the user via ts_play().  It is a value in
-the u8 range.  The final length we pass to av7110_ipack_instant_repack()
-is "len - (buf[4] + 1) - 4" so add a check to ensure that the length is
-not negative.  It's not clear that passing a negative len value does
-anything bad necessarily, but it's not best practice.
 
-With the new bounds checking the "if (!len)" condition is no longer
-possible or required so remove that.
 
-Fixes: fd46d16d602a ("V4L/DVB (11759): dvb-ttpci: Add TS replay capability")
-Signed-off-by: Dan Carpenter <error27@gmail.com>
----
-This is from static analysis and not tested.  I debated whether to
-return 0 or -1.
+On 2023/3/7 15:53, Krzysztof Kozlowski wrote:
+> On 07/03/2023 07:41, Jack Zhu wrote:
+>> 
+>> 
+>> On 2023/3/3 16:47, Krzysztof Kozlowski wrote:
+>>> On 02/03/2023 10:19, jack.zhu wrote:
+>>>> Add DT binding document for Starfive MIPI CSI2 receiver
+>>>
+>>> Ehh... you have entire commit msg to explain what you do here. Yet there
+>>> is nothing mentioning that you actually have Cadence MIPI CSI here.
+>>>
+>>> Since you decided to add new bindings, you receive review matching new
+>>> bindings. I don't think this is correct approach (duplicated bindings),
+>>> but could work for me. However how are you going to solve all the points
+>>> of my review?
+>> 
+>> Maybe I don't need to add the CSI yaml file, since it already exists on the Linux mainline.
+> 
+> If you add *only* new compatible, you do not need new binding. If you
+> add any new properties, then depends, but old binding anyway would need
+> conversion from TXT.
 
- drivers/staging/media/av7110/av7110_av.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+have some new properties, this means that
+need to convert cdns,csi2rx.txt to cdns,csi2rx.yaml and add my new attributes?
 
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-index 0bf513c26b6b..a5c5bebad306 100644
---- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -823,10 +823,10 @@ static int write_ts_to_decoder(struct av7110 *av7110, int type, const u8 *buf, s
- 		av7110_ipack_flush(ipack);
- 
- 	if (buf[3] & ADAPT_FIELD) {
-+		if (buf[4] > len - 1 - 4)
-+			return 0;
- 		len -= buf[4] + 1;
- 		buf += buf[4] + 1;
--		if (!len)
--			return 0;
- 	}
- 
- 	av7110_ipack_instant_repack(buf + 4, len - 4, ipack);
--- 
-2.39.1
-
+> 
+> Best regards,
+> Krzysztof
+> 
