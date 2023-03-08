@@ -2,139 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FABD6B0DCB
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 16:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B68A96B0F1D
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 17:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232251AbjCHP4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 10:56:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36878 "EHLO
+        id S229736AbjCHQpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 11:45:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231270AbjCHPzp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 10:55:45 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B220CB669;
-        Wed,  8 Mar 2023 07:54:34 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id d6so9901424pgu.2;
-        Wed, 08 Mar 2023 07:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678290870;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qRQ1dHdIY/cau10a8E821pdOJBm+YYqmFlRisJrtcpU=;
-        b=VInRsevL5hoOa24Y230bcVyeMLhH1aYIW9bUbR0nGfdeB6sMlUDfsB/IW5G+fFUrdS
-         xq6loIUgrztEsywE69ZAUqsW/L7mtKOytKAxltZ3p9YKFi2P++DogG9K8Wzc4VJz9IkR
-         eIWO7Ytce4BgJ/1k5T/PIexTpPW9HU/10m6MSvCYXZGAWm6rKl2YTRWJh9dj9zV/5Xcm
-         ECw0NTffFqx4DWlIb59auEPRrYN6tUrv0DAG1fPg6lIXMqGtWwUlR9x0+Muci1Ohe032
-         oiCRyrQ7zikzViwwCe93VCwvd/UimZPs2bcwJ5HysU/y6zbQohofGorhDeC9UnlH4d6l
-         t5jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678290870;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qRQ1dHdIY/cau10a8E821pdOJBm+YYqmFlRisJrtcpU=;
-        b=AL+1/5qAacdiRvUGx3GwRelhGcaYxwcS2k/ohYwmuct3xFvSbD3UlOBWNV6qZCfN0s
-         uKyz5w2EXj0oc7SJJ9Y13pp5pC5wEx5YrK+ThE7slCAfHTTAcxSw8VEOaReKCJOqre+w
-         2DJv7UwqJzj5Uk2OBa8cjUpWgCjti35TiuBvWZjS2C9af2SrazAaaR/4DCaqBp8QrQmX
-         wU18ISQn/FrshlYv7sgd7HNl1bcTo/Yq4n9bhqPncHliwK04dztCnPYs0cK+Z1fCtSu6
-         c52KRprwpxrDOYPaEqSpa3w1jjU7wEzhx2jg9A/ccbkkNhgsruzzc4No7NCT4FqPYVBZ
-         +XWw==
-X-Gm-Message-State: AO0yUKUueO3ha+qaZww+D4FMDvlfQKzq0LQjOyVIm2iPHlOEvZdcB4aT
-        PZzs2BLGZ9dDhZJP5RstToo=
-X-Google-Smtp-Source: AK7set/qurbajmx0drbw1A0UnfJ3nB9Otb6mpv7CbrkCjVlUVasHmbmab9vdSeIaq9fwrT8DYoD/PA==
-X-Received: by 2002:a62:7bc4:0:b0:5e2:62b7:f785 with SMTP id w187-20020a627bc4000000b005e262b7f785mr15546331pfc.29.1678290870363;
-        Wed, 08 Mar 2023 07:54:30 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id u5-20020aa78385000000b005a91d570972sm9486660pfm.41.2023.03.08.07.54.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 07:54:29 -0800 (PST)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Rob Clark <robdclark@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        with ESMTP id S229477AbjCHQpF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 11:45:05 -0500
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B61BB8607;
+        Wed,  8 Mar 2023 08:45:01 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id C825E41F78;
+        Wed,  8 Mar 2023 16:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1678293899;
+        bh=29Ql9uS0dOj1yvIkv0GVQh4AYL/oVB298bp+u+P9JTo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=IbIQf0PDYFghhHZMzyX70pEtfpIIh8ebh/ASlD0gXlzpq8Zhn7JeWxp2YDjeFa9/0
+         QpUH02RH5KiZpp0jGxAWQE68jfPP1xGlwYI0Zv3EYCNtmvlSlCir2uSF9iAEVY3NKk
+         uo+xoSqbDWIvtXz8BYqsWSSqz2voHveOsmpgGlpLA7l6fErEtNBjswxb9MxuZxxnYn
+         aV0DKhYHGPVzQoqbJ/v6Gcv10dU2v9omqmZzxpFrRgxJunH6KIpUiUy9yCiCyHXgNc
+         Xotalcp7YEqBZlgQsWtGGSs3I0SIQx3x0ep2HONZf7YpaENikJ67g78v5wUrhWbxQ4
+         TQuORWWa07OVg==
+Message-ID: <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
+Date:   Thu, 9 Mar 2023 01:44:50 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH v10 15/15] drm/i915: Add deadline based boost support
-Date:   Wed,  8 Mar 2023 07:53:06 -0800
-Message-Id: <20230308155322.344664-16-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230308155322.344664-1-robdclark@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
-MIME-Version: 1.0
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+ <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+ <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+ <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+ <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On 09/03/2023 00.30, Christian König wrote:
+> Am 08.03.23 um 15:53 schrieb Asahi Lina:
+>> [SNIP]
+>>> The background is that core memory management requires that signaling a
+>>> fence only depends on signaling other fences and hardware progress and
+>>> nothing else. Otherwise you immediately run into problems because of
+>>> circle dependencies or what we call infinite fences.
+>> And hardware progress is exactly the only dependency here...
+> 
+> Well then you should have a fence for that hardware progress.
 
-I expect this patch to be replaced by someone who knows i915 better.
+I do, it's the prior job hardware completion fences that drm_sched
+already knows about!
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Yes, I could return those in the prepare callback, it just means I need
+to start stashing fence references in the underlying firmware job queue
+command objects so I can find out what is the oldest pending fence is,
+and return it when a queue is full. As long as drm_sched doesn't mind if
+I keep giving it fences (since multiple commands can have to complete
+before there is space) or the occasional already signaled fence (because
+this process is inherently racy), it should work fine.
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 7503dcb9043b..44491e7e214c 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
- 	return i915_request_enable_breadcrumb(to_request(fence));
- }
- 
-+static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	if (i915_request_completed(rq))
-+		return;
-+
-+	if (i915_request_started(rq))
-+		return;
-+
-+	/*
-+	 * TODO something more clever for deadlines that are in the
-+	 * future.  I think probably track the nearest deadline in
-+	 * rq->timeline and set timer to trigger boost accordingly?
-+	 */
-+
-+	intel_rps_boost(rq);
-+}
-+
- static signed long i915_fence_wait(struct dma_fence *fence,
- 				   bool interruptible,
- 				   signed long timeout)
-@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
- 	.signaled = i915_fence_signaled,
- 	.wait = i915_fence_wait,
- 	.release = i915_fence_release,
-+	.set_deadline = i915_fence_set_deadline,
- };
- 
- static void irq_execute_cb(struct irq_work *wrk)
--- 
-2.39.2
+If you think this is the better way, I'll do it that way and drop this
+patch. It just seemed simpler to do it with another callback, since
+drm_sched is already tracking those fences and doing a hardware queue
+limit check anyway, and that way I can avoid tracking the fences down
+into the hardware queue code... *
 
+(But I still maintain what I'm trying to do here is entirely correct and
+deadlock-free! If you prefer I use prepare_job and return prior job
+fences from that instead, that's very different from NAKing the patch
+saying it's broken...)
+
+* If you're wondering how the fences get signaled at all then: callback
+closures that capture a reference to the fence when firmware commands
+are constructed and submitted. I know, I know, fancy Rust stuff... ^^
+If you'd rather have me use the fences for the blocking, I'll probably
+just drop the signaling bit from the closures so we don't need to keep
+two redundant fence references in different places per command. I still
+need the closures for command completion processing though, since I use
+them to process statistics too...
+
+>>> Jason Ekstrand gave a create presentation on that problem a few years
+>>> ago on LPC. I strongly suggest you google that one up.
+>> Faith Ekstrand (it looks like you mistyped that name...)
+> 
+> My fault I was really just mistyping that :)
+
+It's all good ^^
+
+> 
+> I see that we have a disconnection here. As far as I can see you can use 
+> the can_run callback in only three ways:
+> 
+> 1. To check for some userspace dependency (We don't need to discuss 
+> that, it's evil and we both know it).
+> 
+> 2. You check for some hw resource availability. Similar to VMID on 
+> amdgpu hw.
+> 
+>      This is what I think you do here (but I might be wrong).
+
+It isn't... I agree, it would be problematic. It doesn't make any sense
+to check for global resources this way, not just because you might
+deadlock but also because there might be nothing to signal to the
+scheduler that a resource was freed at all once it is!
+
+> But this 
+> would be extremely problematic because you can then live lock.
+>      E.g. queue A keeps submitting jobs which take only a few resources 
+> and by doing so delays submitting jobs from queue B indefinitely.
+
+This particular issue aside, fairness in global resource allocation is a
+conversation I'd love to have! Right now the driver doesn't try to
+ensure that, a queue can easily monopolize certain hardware resources
+(though one queue can only monopolize one of each, so you'd need
+something like 63 queues with 63 distinct VMs all submitting
+free-running jobs back to back in order to starve other queues of
+resources forever). For starters, one thing I'm thinking of doing is
+reserving certain subsets of hardware resources for queues with a given
+priority, so you can at least guarantee forward progress of
+higher-priority queues when faced with misbehaving lower-priority
+queues. But if we want to guarantee proper fairness, I think I'll have
+to start doing things like switching to a CPU-roundtrip submission model
+when resources become scarce (to guarantee that queues actually release
+the resources once in a while) and then figure out how to add fairness
+to the allocation code...
+
+But let's have that conversation when we talk about the driver (or maybe
+on IRC or something?), right now I'm more interested in getting the
+abstractions reviewed ^^
+
+> 3. You have an intra queue dependency. E.g. you have jobs which take X 
+> amount of resources, you can submit only to a specific limit.
+>      But in this case you should be able to return fences from the same 
+> queue as dependency and won't need that callback.
+
+Yes, I can do this. I can just do the same check can_run_job() does and
+if it fails, pick the oldest job in the full firmware queue and return
+its fence (it just means I need to keep track of those fences there, as
+I said above).
+
+>      We would just need to adjust drm_sched_entity_add_dependency_cb() a 
+> bit because dependencies from the same queue are currently filtered out 
+> because it assumes a pipeline nature of submission (e.g. previous 
+> submissions are finished before new submissions start).
+
+Actually that should be fine, because I'd be returning the underlying
+hardware completion fences (what the run() callback returns) which the
+driver owns, and wouldn't be recognized as belonging to the sched.
+
+>> I actually know I have a different theoretical deadlock issue along
+>> these lines in the driver because right now we grab actually global
+>> resources (including a VMID) before job submission to drm_sched. This is
+>> a known issue, and to fix it without reducing performance I need to
+>> introduce some kind of "patching/fixup" system for firmware commands
+>> (because we need to inject those identifiers in dozens of places, but we
+>> don't want to construct those commands from scratch at job run time
+>> because that introduces latency at the wrong time and makes error
+>> handling/validation more complicated and error-prone), and that is
+>> exactly what should happen in prepare_job, as you say. And yes, at that
+>> point that should use fences to block when those resources are
+>> exhausted. But that's a different discussion we should have when
+>> reviewing the driver, it has nothing to do with the DRM abstractions nor
+>> the can_run_job callback I'm adding here nor the firmware queue length
+>> limit issue! (And also the global hardware devices are plentiful enough
+>> that I would be very surprised if anyone ever deadlocks it in practice
+>> even with the current code, so I honestly don't think that should be a
+>> blocker for driver submission either, I can and will fix it later...)
+> 
+> Well this is what I thought about those problems in amdgpu as well and 
+> it totally shipwrecked.
+> 
+> We still have memory allocations in the VMID code path which I'm still 
+> not sure how to remove.
+
+We don't even have a shrinker yet, and I'm sure that's going to be a lot
+of fun when we add it too... but yes, if we can't do any memory
+allocations in some of these callbacks (is this documented anywhere?),
+that's going to be interesting...
+
+It's not all bad news though! All memory allocations are fallible in
+kernel Rust (and therefore explicit, and also failures have to be
+explicitly handled or propagated), so it's pretty easy to point out
+where they are, and there are already discussions of higher-level
+tooling to enforce rules like that (and things like wait contexts).
+Also, Rust makes it a lot easier to refactor code in general and not be
+scared that you're going to regress everything, so I'm not really
+worried if I need to turn a chunk of the driver on its head to solve
+some of these problems in the future ^^ (I already did that when I
+switched it from the "demo" synchronous submission model to the proper
+explicit sync + fences one.)
+
+~~ Lina
