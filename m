@@ -2,187 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0E96B1470
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 22:46:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAF196B1562
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 23:43:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjCHVqp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 16:46:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        id S229659AbjCHWnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 17:43:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbjCHVqc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 16:46:32 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AF2DD49C8;
-        Wed,  8 Mar 2023 13:46:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678311981; x=1709847981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CYtLrclcsUPbmZzfRccyQP2tLDDi2ZL/pL8AHy1pWGs=;
-  b=KQ2wu0iaipgaTaLlEWdp1/+WfIWo75fOPqXZaTkNamBMqr2pT+7s4htK
-   YVkXyhMN9Jfnr8fbSz++rmsJGfehV+P3XsK2dvnjRgsVFm+D1+U9QMw5z
-   q9LA5xrByHd3lcu6UEjdCyigr7EtfIBiwcy8FwqQV+XbZFzRkQaFx8JTs
-   Zm9+Za0ThYnKveUEPRzcX5sZ0SsQHs1zNpr99S0Dh60BFtmS6XdulfTHc
-   lILUCplLuLKQjHJ+yKKs2tAVPGV/vBDApRCOc7s7ktMtsCYTZlghYS3Ob
-   hL4mkfZ5Y/mwxkNBpxjTyyQD2ROu/mt6asDLJtqq0piAaHyIam4wLv3Lp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324600131"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="324600131"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 13:42:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709592466"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="709592466"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 08 Mar 2023 13:41:59 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pa1Xq-0002Pt-2A;
-        Wed, 08 Mar 2023 21:41:58 +0000
-Date:   Thu, 9 Mar 2023 05:41:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/marvell/mmp-driver.c:364:34: warning: unused
- variable 'mmpcam_of_match'
-Message-ID: <202303090557.mLLxrNKE-lkp@intel.com>
+        with ESMTP id S229475AbjCHWna (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 17:43:30 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1216B61533
+        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 14:43:24 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id x20-20020a17090a8a9400b00233ba727724so4426440pjn.1
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 14:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1678315403;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oeSJi/JhqyhSZobbEu0GSssyICYVXoFtP/TkEhEwrxU=;
+        b=OU03rvbfMFoPcQ41fqslYKhqz6FF+nZuikMi2ghtb+tJnnBS4pUcgzCSwygsq9sv2j
+         cnqIcEiQhxUdcSG2WdKzHuRECBx6oifw6iF25nLA/WDHyYivAk3UavLgoBVo2HCqWPiq
+         7MSzX+LuDwUMKe5D5R3NbRWRUhXAr6KI9e9DE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678315403;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oeSJi/JhqyhSZobbEu0GSssyICYVXoFtP/TkEhEwrxU=;
+        b=ly/2BHUFWoEFScup4z0MSsg9LqCh6SYdZJkK87zvTCWCzqIVbBoJInIgiF9xut8sGW
+         G2KuTSBN0h9qloARl2VpIYYhHLWk6KTS+XWA482flSMR9/3BaUD8QJaewsB0IpQE0zOV
+         w/IabncZkfeLQFJZXM0qqztp9jOdp5+7l6Njd6T1BA+k25/CpKm4MRAy/E4eghQBQqRo
+         qYRCCvJ7FMaAQ38n5kifab09pa+saMHm3jfqnW66+ELdUol+rtdEf0EFyi2XWSPF2fXe
+         7qVbw6oXPf53qJAeinq2f3OVCE367RnN+EDCOSLft89UT6kDwOv8BWWQZlA/xz4gUFIO
+         STyQ==
+X-Gm-Message-State: AO0yUKWE2jaZW/7Z5+/sWXxNJTwnCGA970jkTbBJNti9XWdTj3dFCkMS
+        XCNGqiyRTi2KC9iPwwuY0+hNMFWAtYxnpTF3fyY=
+X-Google-Smtp-Source: AK7set9RHe1MxY8nSACYMSxfl20KCgrFzdcrrOZPiN/TGAyKVPIQ3T/2a0kfTcWpgp5RzzfpYAu+Ww==
+X-Received: by 2002:a17:902:b786:b0:19d:7a4:4073 with SMTP id e6-20020a170902b78600b0019d07a44073mr17214561pls.59.1678315403226;
+        Wed, 08 Mar 2023 14:43:23 -0800 (PST)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com. [209.85.214.177])
+        by smtp.gmail.com with ESMTPSA id u4-20020a170902a60400b00198f73f9d54sm10252323plq.117.2023.03.08.14.43.22
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 14:43:22 -0800 (PST)
+Received: by mail-pl1-f177.google.com with SMTP id i10so49765plr.9
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 14:43:22 -0800 (PST)
+X-Received: by 2002:a17:90b:11c9:b0:22c:3ee1:db3b with SMTP id
+ gv9-20020a17090b11c900b0022c3ee1db3bmr7358221pjb.3.1678315401399; Wed, 08 Mar
+ 2023 14:43:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20221101-instal-v1-0-d13d1331c4b5@chromium.org>
+ <Y6z55cXTt5yXjIZj@pendragon.ideasonboard.com> <CANiDSCvbQ7uMgoxDsXDOphjANNZ2EuoV-Dra+wtT9LLL6USstQ@mail.gmail.com>
+In-Reply-To: <CANiDSCvbQ7uMgoxDsXDOphjANNZ2EuoV-Dra+wtT9LLL6USstQ@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 8 Mar 2023 23:43:09 +0100
+X-Gmail-Original-Message-ID: <CANiDSCveK6QRbYM==XN9jggy8DHfS3QJawDWpFLy0jcmmHeduA@mail.gmail.com>
+Message-ID: <CANiDSCveK6QRbYM==XN9jggy8DHfS3QJawDWpFLy0jcmmHeduA@mail.gmail.com>
+Subject: Re: [PATCH RESEND] media: uvcvideo: Disable autosuspend for Insta360 Link
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Yunke Cao <yunkec@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Wed, 1 Mar 2023 at 10:04, Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Hi Laurent
+>
+> We are back to this issue.
+>
+>
+> On Thu, 29 Dec 2022 at 03:22, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Ricardo,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Dec 02, 2022 at 05:48:52PM +0100, Ricardo Ribalda wrote:
+> > > When the device suspends, it keeps power-cycling.
+> > >
+> > > The user notices it because the LED constanct oscillate between
+> > > blue (ready) and no LED (off).
+> > >
+> > > <6>[95202.128542] usb 3-3-port4: attempt power cycle
+> > > <6>[95206.070120] usb 3-3.4: new high-speed USB device number 49 using xhci_hcd
+> > > <6>[95206.212027] usb 3-3.4: New USB device found, idVendor=2e1a, idProduct=4c01, bcdDevice= 2.00
+> > > <6>[95206.212044] usb 3-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=<Serial: 1>
+> > > <6>[95206.212050] usb 3-3.4: Product: Insta360 Link
+> > > <6>[95206.212075] usb 3-3.4: Manufacturer: Amba
+> > > <7>[95206.214862] usb 3-3.4: GPIO lookup for consumer privacy
+> > > <7>[95206.214866] usb 3-3.4: using lookup tables for GPIO lookup
+> > > <7>[95206.214869] usb 3-3.4: No GPIO consumer privacy found
+> > > <6>[95206.214871] usb 3-3.4: Found UVC 1.10 device Insta360 Link (2e1a:4c01)
+> > > <3>[95206.217113] usb 3-3.4: Failed to query (GET_INFO) UVC control 14 on unit 1: -32 (exp. 1).
+> > > <3>[95206.217733] usb 3-3.4: Failed to query (GET_INFO) UVC control 16 on unit 1: -32 (exp. 1).
+> > > <4>[95206.223544] usb 3-3.4: Warning! Unlikely big volume range (=32767), cval->res is probably wrong.
+> > > <4>[95206.223554] usb 3-3.4: [9] FU [Mic Capture Volume] ch = 1, val = -32768/-1/1
+> > > <6>[95210.698990] usb 3-3.4: USB disconnect, device number 49
+> > > <6>[95211.963090] usb 3-3.4: new high-speed USB device number 50 using xhci_hcd
+> > > <6>[95212.657061] usb 3-3.4: new full-speed USB device number 51 using xhci_hcd
+> > > <3>[95212.783119] usb 3-3.4: device descriptor read/64, error -32
+> > > <3>[95213.015076] usb 3-3.4: device descriptor read/64, error -32
+> > > <6>[95213.120358] usb 3-3-port4: attempt power cycle
+> > >
+> > > Bus 001 Device 009: ID 2e1a:4c01 Amba Insta360 Link
+> > > Device Descriptor:
+> > >   bLength                18
+> > >   bDescriptorType         1
+> > >   bcdUSB               2.00
+> > >   bDeviceClass          239 Miscellaneous Device
+> > >   bDeviceSubClass         2
+> > >   bDeviceProtocol         1 Interface Association
+> > >   bMaxPacketSize0        64
+> > >   idVendor           0x2e1a
+> > >   idProduct          0x4c01
+> > >   bcdDevice            2.00
+> > >   iManufacturer           1 Amba
+> > >   iProduct                2 Insta360 Link
+> > >   iSerial                 0
+> > >   bNumConfigurations      1
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > > media: uvcvideo: Disable autosuspend for Insta360
+> > >
+> > > The device does not handle properly the USB suspend and makes it barely usable.
+> >
+> > Isn't this best handled with a quirk in the USB core ? Autosuspend is a
+> > device feature, not an interface feature, so if the USB sound driver is
+> > loaded but uvcvideo isn't, the kernel may still attempt to autosuspend
+> > the device.
+> >
+>
+> Seems like USB_QUIRK_NO_AUTOSUSPEND was gone for a long time
+>
+> https://lore.kernel.org/lkml/20071115064457.GU19218@kroah.com/
+>
+> under the assumption that autosuspend was off by default and user
+> space should only enable autosuspend on the devices that support it
+> (if I understand it correctly).
+>
+> There are two other quirks still available: USB_QUIRK_RESET_RESUME and
+> USB_QUIRK_DISCONNECT_SUSPEND, but they do not seem to work for this
+> device (Yunke, thanks for looking into this)
+>
+> If we are explicitly enabling autosuspend on the driver, shouldn't we
+> make sure that the device supports it?
+>
 
-FYI, the error/warning still remains.
+Alan, Greg, any idea about what is the best way to proceed here from a
+USB perspective?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a98c9cae232800c319ed69e1063480d31430887
-commit: dc7bbea90075b57772e9a28043061bf71d96f06f media: platform: rename marvell-ccic/ to marvell/
-date:   12 months ago
-config: s390-buildonly-randconfig-r003-20230308 (https://download.01.org/0day-ci/archive/20230309/202303090557.mLLxrNKE-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dc7bbea90075b57772e9a28043061bf71d96f06f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout dc7bbea90075b57772e9a28043061bf71d96f06f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/media/platform/
+Thanks!
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303090557.mLLxrNKE-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/media/platform/marvell/mmp-driver.c:17:
-   In file included from include/media/v4l2-device.h:13:
-   In file included from include/media/v4l2-subdev.h:15:
-   In file included from include/media/v4l2-common.h:270:
-   In file included from include/linux/spi/spi.h:15:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/media/platform/marvell/mmp-driver.c:17:
-   In file included from include/media/v4l2-device.h:13:
-   In file included from include/media/v4l2-subdev.h:15:
-   In file included from include/media/v4l2-common.h:270:
-   In file included from include/linux/spi/spi.h:15:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/media/platform/marvell/mmp-driver.c:17:
-   In file included from include/media/v4l2-device.h:13:
-   In file included from include/media/v4l2-subdev.h:15:
-   In file included from include/media/v4l2-common.h:270:
-   In file included from include/linux/spi/spi.h:15:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/media/platform/marvell/mmp-driver.c:364:34: warning: unused variable 'mmpcam_of_match' [-Wunused-const-variable]
-   static const struct of_device_id mmpcam_of_match[] = {
-                                    ^
-   13 warnings generated.
+>
+> > > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > Cc: linux-media@vger.kernel.org
+> > > Cc: linux-kernel@vger.kernel.org
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c | 13 ++++++++++++-
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+> > >  2 files changed, 13 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index 215fb483efb0..ad95c7599863 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2223,7 +2223,9 @@ static int uvc_probe(struct usb_interface *intf,
+> > >       }
+> > >
+> > >       uvc_dbg(dev, PROBE, "UVC device initialized\n");
+> > > -     usb_enable_autosuspend(udev);
+> > > +     if (!(dev->quirks & UVC_QUIRK_DISABLE_AUTOSUSPEND))
+> > > +             usb_enable_autosuspend(udev);
+> > > +
+> > >       return 0;
+> > >
+> > >  error:
+> > > @@ -2967,6 +2969,15 @@ static const struct usb_device_id uvc_ids[] = {
+> > >         .bInterfaceSubClass   = 1,
+> > >         .bInterfaceProtocol   = 0,
+> > >         .driver_info          = (kernel_ulong_t)&uvc_quirk_force_y8 },
+> > > +     /* Insta360 Link */
+> > > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > +       .idVendor             = 0x2e1a,
+> > > +       .idProduct            = 0x4c01,
+> > > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > > +       .bInterfaceSubClass   = 1,
+> > > +       .bInterfaceProtocol   = 0,
+> > > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_DISABLE_AUTOSUSPEND) },
+> > >       /* GEO Semiconductor GC6500 */
+> > >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index df93db259312..47c86c7c6346 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -74,6 +74,7 @@
+> > >  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT      0x00000400
+> > >  #define UVC_QUIRK_FORCE_Y8           0x00000800
+> > >  #define UVC_QUIRK_FORCE_BPP          0x00001000
+> > > +#define UVC_QUIRK_DISABLE_AUTOSUSPEND        0x00002000
+> > >
+> > >  /* Format flags */
+> > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+> > >
+> > > ---
+> > > base-commit: 23758867219c8d84c8363316e6dd2f9fd7ae3049
+> > > change-id: 20221101-instal-9a77ba1cc448
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
+>
+>
+> --
+> Ricardo Ribalda
 
 
-vim +/mmpcam_of_match +364 drivers/media/platform/marvell/mmp-driver.c
-
-bb0a896e3d5083 drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Corbet 2011-12-30  363  
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28 @364  static const struct of_device_id mmpcam_of_match[] = {
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  365  	{ .compatible = "marvell,mmp2-ccic", },
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  366  	{},
-83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  367  };
-08aac0e32fe44b drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-07-22  368  MODULE_DEVICE_TABLE(of, mmpcam_of_match);
-67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Corbet 2011-06-11  369  
-
-:::::: The code at line 364 was first introduced by commit
-:::::: 83c40e6611ec1e548ece34f6940f516333abc16a media: marvell-ccic/mmp: add devicetree support
-
-:::::: TO: Lubomir Rintel <lkundrak@v3.sk>
-:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Ricardo Ribalda
