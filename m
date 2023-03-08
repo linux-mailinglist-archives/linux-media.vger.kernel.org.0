@@ -2,236 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18F786B03A6
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 11:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 229CE6B0470
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 11:33:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbjCHKDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 05:03:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59056 "EHLO
+        id S231204AbjCHKdm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 05:33:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjCHKDv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 05:03:51 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2070.outbound.protection.outlook.com [40.107.237.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661F731E15;
-        Wed,  8 Mar 2023 02:03:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NT5Kj2rcwakiF+ocNm4x72JNFZrVMZ8xtATuRldKlRMfVzlq7lSDZTb4TeJY1hbnA0MR76Wn8qHxbnq7O39L48Uum7q5JEg8mO01iKHB0hw9huUdLX/GYqZWMqEqjnXeB/PkWfn9+YtQ3JK8uWRpq180AtUJdzFBZtPhA/bSeW5lgEykv2yE5z27RVwgr74tPNeGjK186yubHp+cl4BO0vgSKXtSjbUFPLUObdEi/DhPb08MM3fTyzuzYg/7g33Y8K2e3YR/1Q70/LXqW9rGUXNlLW0QbAc539fLJlg8S46UQdBV0Cg3y1vpXiSw6SzoDSUrsESCWyYoPSiPx41asQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FtGQQioFZY3WnVYG8MwM/oAfTmRdHiEFvZGhESpeido=;
- b=isLlGpYX+KZmCFn2yeK3hVNdhDj+ilho+VMuKnC5Ws+bHTMzkAW3ayfi0PE90lxii26AZJkIvz9A5GSGRgAykK/A1OvpWSqjoDpU6L2O5Dd5x4oOoBtrGy/UKWImRS1f5eHIxyg4pjKDZBpkJOvshPjzznDvbmlWTROGo0XhDE7a4bHC7VmKnnl3xzXyoUACLN83jPOWRVKmWPSO3JCVsDW5A8vAYZcPGE8tJ2ysqnWY2BhLATuP+ZhOjxaS1R9WNFzayxH6CxwE/yzOBadvIPeGbopzl4cQSytjK4lhF198elI6JGjB2H0VExbQ2Dp1PAY9A3FAol5xLq/pgfRzcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FtGQQioFZY3WnVYG8MwM/oAfTmRdHiEFvZGhESpeido=;
- b=HFsLbOnaTIaBUy28zW+seFiXcyYuGkzyE+/fCWiTi8FWuVA7/oZYYd4wp/ODu2QNZYZHFtXBXFSyN2vWJGGU42b/DoGR2MU5UHBAL2sKw8ZMg58HvuHP2D+g6qsRTIGfuKRAOuVnOrVJyRoTl3DI/WcOVTnQDsKPQEENVFKdEko=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CO6PR12MB5428.namprd12.prod.outlook.com (2603:10b6:5:35c::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Wed, 8 Mar
- 2023 10:03:43 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 10:03:43 +0000
-Message-ID: <585fa052-4eff-940e-b307-2415c315686a@amd.com>
-Date:   Wed, 8 Mar 2023 11:03:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Asahi Lina <lina@asahilina.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0148.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:96::9) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S231259AbjCHKdO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 05:33:14 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2822559FA
+        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 02:32:41 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id a25so63964675edb.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 02:32:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678271560;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vchNl3NuLhSOPZeKiU1gSl3ELxe4d2/LRXwBMhHatCE=;
+        b=c3b/ytXrzqtoZMZbteML1kksyXHt7G3JBmRsn0THDAawWXoEFPXtctrz45Rnp7KCH0
+         UwHJCYJZtR0VWZT1nsmAU/U/WDx51Fw9GD9BHbz9MQb5NFJZjeu0i02GfCG3xeecS/08
+         d7XbqOMzR6m5uP+Bafbu+5lNv28yo8CUpFXAg/eP5s43IdnvY+cWAjF+iylHqspM7zeU
+         R2UNBhHFDMD+mVE+KwIK2f+YOIU4UHzSCTeB28npv7M0zuvcalFtxe7/DO9GfbAT1OOq
+         vchjBtAuYyn4hZx2NoC4IrGv9/7EGLayWhV7UHGW859QFizGEr0aG0yB/eC6VQEVTcbR
+         LMbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678271560;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vchNl3NuLhSOPZeKiU1gSl3ELxe4d2/LRXwBMhHatCE=;
+        b=MG/t24DIS/OrGClBT8vjB2gwqqdfYKXLN1zqWWv0ZX4qzs2Wu0tJqMSMV21Q45i3fL
+         VXePKvy9DUEq0GEuv8GANlz3JitpxhTe40qk6Hp2O4X2ec9uC6u7cGPaAZN8bm0pf9kS
+         TQBSTj8L64GQ8lhugegY/wcrWlvqLJ96uC5n1WYDter7kicaPSU/vnYqoKVAW/5tj5fD
+         qxcjqe7QKpLZNgULhvuiiODpaxVBrBL1+j2Oin6yBsvGZjPmKjnF5tXegWy4grQXfIg5
+         9EFqamViOjMOqo/oQGxWQ5mSaNiwHSMCHRiq+uzB5NSZBwIHKUv7RQRwDrUZIL/96lux
+         EMiQ==
+X-Gm-Message-State: AO0yUKVtYQwf+AK/XvxbfmP76vSxbHFmUcIs/ZmmRepc6MVwINkYxNoG
+        kawzNejCVU7Ta44lp7k4PcRrJA==
+X-Google-Smtp-Source: AK7set/sZuccI6EulJ89r5oNlDdrNB+PTCG9d7eavd9khNgw2OTMOpXtyhZgv3mhT81ah0sRRicbPQ==
+X-Received: by 2002:a17:906:5857:b0:878:81d7:9f77 with SMTP id h23-20020a170906585700b0087881d79f77mr16132740ejs.34.1678271560455;
+        Wed, 08 Mar 2023 02:32:40 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:ff33:9b14:bdd2:a3da? ([2a02:810d:15c0:828:ff33:9b14:bdd2:a3da])
+        by smtp.gmail.com with ESMTPSA id o6-20020a17090611c600b008b17eb06282sm7304614eja.213.2023.03.08.02.32.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 02:32:40 -0800 (PST)
+Message-ID: <c1758867-c768-6c00-613d-14dc59d5b092@linaro.org>
+Date:   Wed, 8 Mar 2023 11:32:39 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CO6PR12MB5428:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae63679b-9ba6-4deb-425e-08db1fbc6620
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XJc1G3LZMO8nOZ673xXspa1p6jg1at0s5UDnG1sf0cVsVqAEkid0Eq5ZY90tj0l1jZLvcoBAgsxOtLbatmCermB1vwPyZzAh2ZPYm2Xw+B4T60vYkBmHCuqdk/IiqT1MQWiH0KUlSuZSHWRWnaw3MjnCk8JYEugHra+h8xQlCUjstInPS1DoPb16HarED23hP24Hw1lkbTxnyjYGZX17Mftg9Yn6YPRDGnbRE1lL3ZPoXp5YqmkfTlDppV5VW9KX6COHUweSzgyBBK/2EoFzsTyA1TZ3/p/jlKXQUG6t4/mxFYf/bc6zW2u5M2j2FgkBCxU9Tx5xca1qDVixLIscnGWIRyUqN+ZDNoADNT6MmSTsUteHwgjOp4lxrR5s0EaFGRIW3Nxo347YHOOXAkAmn2gSd9rgdq+ieGYeLu9j0y6kDthDO25wDH6+o8J6DEJUhEHpgWj/Xs27ruUxWiMt6FgYhyelTf/F4aoj9zaiZeonbYfOvDwd/GoDTo2X6+pnzq8XG4S4gXFxD8IEp5iojq8h850EwDxbUWJRf283JBuNGUsp7k3kjuz1MC5u11QSo3eqzMMaTOvcYLbR1m6BeQDLTPkQFG12oVtpbYRp89PuKgPn4Azsr56NBegxwOvGDo7RQOnT5dDNR+xuFFf9LWVdvQzL6QYHnK5+Z0towUjZdVM97xjK1KwyvQNXXKVaPMO3l8+3zVJQChDl2QetBX18pswXxDVePAirAyoqr9XicBMqdIXQFLUgTG/n/w0P
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(39860400002)(396003)(376002)(346002)(451199018)(6666004)(110136005)(31696002)(54906003)(41300700001)(8676002)(86362001)(83380400001)(4326008)(36756003)(316002)(8936002)(66946007)(66476007)(478600001)(66556008)(7416002)(6486002)(5660300002)(186003)(921005)(2906002)(38100700002)(2616005)(31686004)(6512007)(53546011)(6506007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YlU2VlViYnZ5SWF2Zk1ZU0QyZFBndjEvbGNaTDJhOGU1VVNGUWZ0N2gzNU5M?=
- =?utf-8?B?dDhleHZRcC9GZm1hZlFnaVpFckllN250Z3VRYW9IRmljLzIrLzdJL3g5ckYz?=
- =?utf-8?B?V0NhNXh0d3RXQ2JSTVlza09XY1dOVGpuL1BHUmZCamFDa2J5YVptL0tSV05p?=
- =?utf-8?B?Ym8yYmd1cGhmY3o4RDRnSHlaZDRvTFhnRVZjUU1zVG1QNXJNd3V4dldxM0d2?=
- =?utf-8?B?RndNVnE5TWVCL0tDaE5EenF6dnh1ZHhqaFNMSW1WSkVXVFJDckdLVE4xTVpa?=
- =?utf-8?B?YW5xaDEybE8rT0FMeDJ0eFArb1BuVVdEYkFUUVpaSVpub09rM2kwdTVCc0g3?=
- =?utf-8?B?NDdqZ1hMZ1lkdGhsZzRFQlNXUlNRRmNkNW80dkFYYUo2NXBkUUE2Znl6ZkVS?=
- =?utf-8?B?Y1kwaUNhM3VqU1lyWjdzdUNqdlRIS3BlU1h2cGowMFRMUys2dWxxNEhlYUgr?=
- =?utf-8?B?VWdpNTVKbVpEOFN2STFUNExZNnZ1dzNzcmNoeHBXd1N1ODlhNnlpNklESGF4?=
- =?utf-8?B?VU92ZVRzaXZET1FwVUJOeWl4cmZIMFBkQ0hHSUNhQU9qK3NEbVJneFlyc1pF?=
- =?utf-8?B?YXZnUm1NamhrdU9yL0kwKzRDb1dVbUVnMGZESDFjNlVBQ1NJS3lRUW4zaUxY?=
- =?utf-8?B?aERkdE11RWpoTlNBQ0lZcGY3MFZIaHZPMmxlek1DV0IyQS9zN245SEJad2du?=
- =?utf-8?B?VzZ5d1lKWW1jZ0tuNHJLRWF4MHdmWUR2OENGU2ExTjl4ZDJjUG9FRDZwd0FO?=
- =?utf-8?B?ZmtiYXJGc2k1YUpCcEpnYTVzOVhxUlJxUmxnRXEyekRtRTJrdTdmaVczNGlX?=
- =?utf-8?B?bUtobkZlbEFMS2xCa1NRRTB5SXYyWlVuTE1vSGJpeXFXV1l6WExWSFRhRm80?=
- =?utf-8?B?d2h4SnNvVjNLQkt5SnViMXdxdEdyTXlkdCtjeWRQRGNuallPK2VmK2o4UW9F?=
- =?utf-8?B?dnN5UVZrYVVpVk1YTjVSV3BrVkFCVUxKNThPMlpucVdPV1BVRzh5bnFNZml5?=
- =?utf-8?B?azM2dm5SWSthdjh3bDR4T1JsTXZrREFKTU5SQk03eU5JcHI1VERnMW4wT2NO?=
- =?utf-8?B?RXpTQTRpeE5BVVZJc0dYQnkrQ3ZSNWlGOVI3ZXczMTU0a3E5WUJpQUVyT0Fq?=
- =?utf-8?B?Zmpzc3ZhRTVINEZlenp0ejhnK2t4ZURCY0xJTktSQlgwWUJQVUwxS3Q5QXJI?=
- =?utf-8?B?c20xVTJ4Yk4wL0JDVGQ2a0hjaXZQS2p0R24vODVVOGQxbmM3RU5MQkQ3VkhX?=
- =?utf-8?B?QzNaamJCcUFIbnYyeXgrYkd3aXhXNHhHcmR6NUdrS2thZmxCa2RnNGxWRmdO?=
- =?utf-8?B?UXZoTVpNWkh6RFNyUXVyYVpHMVUwU0dCNXRWZDhoU1orTmxja251Yzg0MWJL?=
- =?utf-8?B?NmRuaytPOVFhVDU4OTN0M1AxWGRuSnJubHFNMk1naW9oN3doNUlRR3JVaGcv?=
- =?utf-8?B?VWhNYTdPM2hYcTJ2NlNZa3NqUW1qYkRSbGgvRjhWeFR3VnIrS2tsc2Q0QTRt?=
- =?utf-8?B?a2ZtdXZKdTlrV2hIb3hkdjFKVVVpaWxDc1NCaGYzOWtTUGJsUDRhWEgxQ3Nt?=
- =?utf-8?B?bVhRSlhJdHR6MjF4bUFPMnlKWmp3eFlrU3g5M0tUZTh2b1VNcUNkKzNvOTE1?=
- =?utf-8?B?VlZ5RWVoK25RelcxRjB4ZDFEVDlrY2daN2pTcXR6OEdSaXZMVEIrSm1NZjZD?=
- =?utf-8?B?WGd5VzcrdW51SDVIWTczUlBmM1pFUTYzeGg0djlSbWxXUGQrcWtqeTYvQVFn?=
- =?utf-8?B?UmUzT3hJRE5acU5LaXU2ajNUdTNlamQ4M0pBS0orcjkvVDgzSnhtNFlhVXZs?=
- =?utf-8?B?RTJwdTY0WFZNSHFwd1lDM2pmeHNBUWE1Zi9aL2FSZzRuNlQybVhaK3VWdzVK?=
- =?utf-8?B?djgrTHhOWXhqSjhpQzNaaG9pZ1ljU0IxV1RkaURxL3dyNmo1YjIzS2Y5dWdM?=
- =?utf-8?B?SE05YldhdGZjU0hhU01xcTVkOUVCd2VKZFZoQnlTK2h4UzdyVDBGc25iWkdu?=
- =?utf-8?B?Y3M5UjJkQXl5ZFNhSXpub21qaVNLbjduMC9VcmR1RzFiLzlzL25FclpxSXB2?=
- =?utf-8?B?WExZUjlvK2FNdVJ3NGk4UFZjcmF5MHV3dkRBdEtrdDdNTzVDNHZMQXI1UTd4?=
- =?utf-8?B?TUhXNllDb1RCSCtscjRuSnVJVUtXVXJBUzQyVVpDaG9SNTVMdjBTU1ZzNFg3?=
- =?utf-8?Q?mk9RBqtfTLcv+PJl3LnYPqL1zWMSt4HpbfvCLLbJID7l?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae63679b-9ba6-4deb-425e-08db1fbc6620
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 10:03:43.3416
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KbG/BPxCVsUuU+KCrLKjYUjqpvXH1ocAgT9JtQosCvJtf0z3vsgpB3QjJZwVk2NI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5428
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 02/11] media: dt-bindings: starfive,jh7110-mipi-csi2:
+ add binding docmuent
+Content-Language: en-US
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+References: <20230302091921.43309-1-jack.zhu@starfivetech.com>
+ <20230302091921.43309-3-jack.zhu@starfivetech.com>
+ <11e7c986-e6cc-ee57-b36e-816af8cc11a7@linaro.org>
+ <30000009-cf05-988a-9817-97a7af36db37@starfivetech.com>
+ <6aeaa895-7f99-3598-2490-88eb48735a15@linaro.org>
+ <d2b7207c-9dab-958b-58f0-5a3c28202470@starfivetech.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <d2b7207c-9dab-958b-58f0-5a3c28202470@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 08.03.23 um 10:57 schrieb Maarten Lankhorst:
->
-> On 2023-03-07 15:25, Asahi Lina wrote:
->> drm_sched_fini() currently leaves any pending jobs dangling, which
->> causes segfaults and other badness when job completion fences are
->> signaled after the scheduler is torn down.
+On 07/03/2023 11:08, Jack Zhu wrote:
+> 
+> 
+> On 2023/3/7 15:53, Krzysztof Kozlowski wrote:
+>> On 07/03/2023 07:41, Jack Zhu wrote:
+>>>
+>>>
+>>> On 2023/3/3 16:47, Krzysztof Kozlowski wrote:
+>>>> On 02/03/2023 10:19, jack.zhu wrote:
+>>>>> Add DT binding document for Starfive MIPI CSI2 receiver
+>>>>
+>>>> Ehh... you have entire commit msg to explain what you do here. Yet there
+>>>> is nothing mentioning that you actually have Cadence MIPI CSI here.
+>>>>
+>>>> Since you decided to add new bindings, you receive review matching new
+>>>> bindings. I don't think this is correct approach (duplicated bindings),
+>>>> but could work for me. However how are you going to solve all the points
+>>>> of my review?
+>>>
+>>> Maybe I don't need to add the CSI yaml file, since it already exists on the Linux mainline.
 >>
->> Explicitly detach all jobs from their completion callbacks and free
->> them. This makes it possible to write a sensible safe abstraction for
->> drm_sched, without having to externally duplicate the tracking of
->> in-flight jobs.
->>
->> This shouldn't regress any existing drivers, since calling
->> drm_sched_fini() with any pending jobs is broken and this change should
->> be a no-op if there are no pending jobs.
->>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 27 
->> +++++++++++++++++++++++++--
->>   1 file changed, 25 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index 5c0add2c7546..0aab1e0aebdd 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1119,10 +1119,33 @@ EXPORT_SYMBOL(drm_sched_init);
->>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>   {
->>       struct drm_sched_entity *s_entity;
->> +    struct drm_sched_job *s_job, *tmp;
->>       int i;
->>   -    if (sched->thread)
->> -        kthread_stop(sched->thread);
->> +    if (!sched->thread)
->> +        return;
->> +
->> +    /*
->> +     * Stop the scheduler, detaching all jobs from their hardware 
->> callbacks
->> +     * and cleaning up complete jobs.
->> +     */
->> +    drm_sched_stop(sched, NULL);
->> +
->> +    /*
->> +     * Iterate through the pending job list and free all jobs.
->> +     * This assumes the driver has either guaranteed jobs are 
->> already stopped, or that
->> +     * otherwise it is responsible for keeping any necessary data 
->> structures for
->> +     * in-progress jobs alive even when the free_job() callback is 
->> called early (e.g. by
->> +     * putting them in its own queue or doing its own refcounting).
->> +     */
->> +    list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
->> +        spin_lock(&sched->job_list_lock);
->> +        list_del_init(&s_job->list);
->> +        spin_unlock(&sched->job_list_lock);
->> +        sched->ops->free_job(s_job);
->> +    }
->
-> I would stop the kthread first, then delete all jobs without spinlock 
-> since nothing else can race against sched_fini?
->
-> If you do need the spinlock, It would need to guard 
-> list_for_each_entry too.
+>> If you add *only* new compatible, you do not need new binding. If you
+>> add any new properties, then depends, but old binding anyway would need
+>> conversion from TXT.
+> 
+> have some new properties, this means that
+> need to convert cdns,csi2rx.txt to cdns,csi2rx.yaml and add my new attributes?
 
-Well this case here actually should not happen in the first place.
+Yes.
 
-Jobs depend on their device, so as long as there are jobs there should 
-also be a reference to the scheduler.
-
-What could be is that you have allocated a scheduler instance 
-dynamically, but even then you should first tear down all entities and 
-then the scheduler.
-
-Regards,
-Christian.
-
->
->> +
->> +    kthread_stop(sched->thread);
->>         for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= 
->> DRM_SCHED_PRIORITY_MIN; i--) {
->>           struct drm_sched_rq *rq = &sched->sched_rq[i];
->>
+Best regards,
+Krzysztof
 
