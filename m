@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B68A96B0F1D
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 17:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56D0A6B103A
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 18:33:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbjCHQpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 11:45:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
+        id S229708AbjCHRdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 12:33:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjCHQpF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 11:45:05 -0500
+        with ESMTP id S229513AbjCHRdD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 12:33:03 -0500
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B61BB8607;
-        Wed,  8 Mar 2023 08:45:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AD22685B;
+        Wed,  8 Mar 2023 09:32:53 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id C825E41F78;
-        Wed,  8 Mar 2023 16:44:52 +0000 (UTC)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 96794419B4;
+        Wed,  8 Mar 2023 17:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1678293899;
-        bh=29Ql9uS0dOj1yvIkv0GVQh4AYL/oVB298bp+u+P9JTo=;
+        s=default; t=1678296770;
+        bh=HWkpUzg9UwVOHkBiXvlyUXvsTrcBh6j30MRpGAK5nWo=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=IbIQf0PDYFghhHZMzyX70pEtfpIIh8ebh/ASlD0gXlzpq8Zhn7JeWxp2YDjeFa9/0
-         QpUH02RH5KiZpp0jGxAWQE68jfPP1xGlwYI0Zv3EYCNtmvlSlCir2uSF9iAEVY3NKk
-         uo+xoSqbDWIvtXz8BYqsWSSqz2voHveOsmpgGlpLA7l6fErEtNBjswxb9MxuZxxnYn
-         aV0DKhYHGPVzQoqbJ/v6Gcv10dU2v9omqmZzxpFrRgxJunH6KIpUiUy9yCiCyHXgNc
-         Xotalcp7YEqBZlgQsWtGGSs3I0SIQx3x0ep2HONZf7YpaENikJ67g78v5wUrhWbxQ4
-         TQuORWWa07OVg==
-Message-ID: <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
-Date:   Thu, 9 Mar 2023 01:44:50 +0900
+        b=KDeScRTHTqtyIsgxWn4/K8+dzXSWrtJ0Fz7SbUfNJ6ndPrmKN420iXzRNPSNYfT0X
+         P5otNSSfHyom4zIDXDNnAZ89F40It8vG178z9Y5Jm77TW5TUgXhfmGiz9UfjmZKd+b
+         cCmlNTdTi4OFHOlIDUUxO9Hxf3qUXI4KLeNZPVNCS1xCyxUHyYe2+ZnnwxGZqo/c9D
+         aDkfNQ86zRTjA1WSJ8PrMy5SzMGDwKKvuk307JmGUVk4vThwKu08XA0O6HFylAIfsK
+         zI3yjnXbEvvZlJVKYBP3dICi32ELGQhAXvFTr1a3giLkp1jhTVhL8JhhbP6mmt4fyx
+         NUMW1j4faWDdw==
+Message-ID: <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
+Date:   Thu, 9 Mar 2023 02:32:41 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
+ is torn down
 Content-Language: en-US
 To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -62,14 +63,13 @@ Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
- <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
- <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
- <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
- <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+ <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+ <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
+ <585fa052-4eff-940e-b307-2415c315686a@amd.com>
+ <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
+ <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
 From:   Asahi Lina <lina@asahilina.net>
-In-Reply-To: <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+In-Reply-To: <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -81,157 +81,238 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/03/2023 00.30, Christian König wrote:
-> Am 08.03.23 um 15:53 schrieb Asahi Lina:
->> [SNIP]
->>> The background is that core memory management requires that signaling a
->>> fence only depends on signaling other fences and hardware progress and
->>> nothing else. Otherwise you immediately run into problems because of
->>> circle dependencies or what we call infinite fences.
->> And hardware progress is exactly the only dependency here...
+On 09/03/2023 00.42, Christian König wrote:
+> Am 08.03.23 um 16:18 schrieb Asahi Lina:
+>> On 08/03/2023 19.03, Christian König wrote:
+>>> Am 08.03.23 um 10:57 schrieb Maarten Lankhorst:
+>>>> On 2023-03-07 15:25, Asahi Lina wrote:
+>>>>> drm_sched_fini() currently leaves any pending jobs dangling, which
+>>>>> causes segfaults and other badness when job completion fences are
+>>>>> signaled after the scheduler is torn down.
+>>>>>
+>>>>> Explicitly detach all jobs from their completion callbacks and free
+>>>>> them. This makes it possible to write a sensible safe abstraction for
+>>>>> drm_sched, without having to externally duplicate the tracking of
+>>>>> in-flight jobs.
+>>>>>
+>>>>> This shouldn't regress any existing drivers, since calling
+>>>>> drm_sched_fini() with any pending jobs is broken and this change should
+>>>>> be a no-op if there are no pending jobs.
+>>>>>
+>>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>>> ---
+>>>>>    drivers/gpu/drm/scheduler/sched_main.c | 27
+>>>>> +++++++++++++++++++++++++--
+>>>>>    1 file changed, 25 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> index 5c0add2c7546..0aab1e0aebdd 100644
+>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> @@ -1119,10 +1119,33 @@ EXPORT_SYMBOL(drm_sched_init);
+>>>>>    void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>>>>>    {
+>>>>>        struct drm_sched_entity *s_entity;
+>>>>> +    struct drm_sched_job *s_job, *tmp;
+>>>>>        int i;
+>>>>>    -    if (sched->thread)
+>>>>> -        kthread_stop(sched->thread);
+>>>>> +    if (!sched->thread)
+>>>>> +        return;
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Stop the scheduler, detaching all jobs from their hardware
+>>>>> callbacks
+>>>>> +     * and cleaning up complete jobs.
+>>>>> +     */
+>>>>> +    drm_sched_stop(sched, NULL);
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Iterate through the pending job list and free all jobs.
+>>>>> +     * This assumes the driver has either guaranteed jobs are
+>>>>> already stopped, or that
+>>>>> +     * otherwise it is responsible for keeping any necessary data
+>>>>> structures for
+>>>>> +     * in-progress jobs alive even when the free_job() callback is
+>>>>> called early (e.g. by
+>>>>> +     * putting them in its own queue or doing its own refcounting).
+>>>>> +     */
+>>>>> +    list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
+>>>>> +        spin_lock(&sched->job_list_lock);
+>>>>> +        list_del_init(&s_job->list);
+>>>>> +        spin_unlock(&sched->job_list_lock);
+>>>>> +        sched->ops->free_job(s_job);
+>>>>> +    }
+>>>> I would stop the kthread first, then delete all jobs without spinlock
+>>>> since nothing else can race against sched_fini?
+>>>>
+>>>> If you do need the spinlock, It would need to guard
+>>>> list_for_each_entry too.
+>>> Well this case here actually should not happen in the first place.
+>> "This should not happen in the first place" is how you end up with C
+>> APIs that have corner cases that lead to kernel oopses...
+>>
+>> The idea with Rust abstractions is that it needs to be actually
+>> impossible to create memory safety problems for the user of the
+>> abstraction, you can't impose arbitrary constraints like "you must wait
+>> for all jobs to finish before destroying the scheduler"... it needs to
+>> be intrinsically safe.
+>>
+>>> Jobs depend on their device, so as long as there are jobs there should
+>>> also be a reference to the scheduler.
+>> These schedulers are created dynamically per userspace queue. The memory
+>> management and reference counting involved make it safe to destroy the
+>> scheduler even when behind the scenes hardware jobs are still running,
+>> as long as drm_sched itself doesn't crash on fences firing without a
+>> scheduler (which is what this patch fixes).
 > 
-> Well then you should have a fence for that hardware progress.
-
-I do, it's the prior job hardware completion fences that drm_sched
-already knows about!
-
-Yes, I could return those in the prepare callback, it just means I need
-to start stashing fence references in the underlying firmware job queue
-command objects so I can find out what is the oldest pending fence is,
-and return it when a queue is full. As long as drm_sched doesn't mind if
-I keep giving it fences (since multiple commands can have to complete
-before there is space) or the occasional already signaled fence (because
-this process is inherently racy), it should work fine.
-
-If you think this is the better way, I'll do it that way and drop this
-patch. It just seemed simpler to do it with another callback, since
-drm_sched is already tracking those fences and doing a hardware queue
-limit check anyway, and that way I can avoid tracking the fences down
-into the hardware queue code... *
-
-(But I still maintain what I'm trying to do here is entirely correct and
-deadlock-free! If you prefer I use prepare_job and return prior job
-fences from that instead, that's very different from NAKing the patch
-saying it's broken...)
-
-* If you're wondering how the fences get signaled at all then: callback
-closures that capture a reference to the fence when firmware commands
-are constructed and submitted. I know, I know, fancy Rust stuff... ^^
-If you'd rather have me use the fences for the blocking, I'll probably
-just drop the signaling bit from the closures so we don't need to keep
-two redundant fence references in different places per command. I still
-need the closures for command completion processing though, since I use
-them to process statistics too...
-
->>> Jason Ekstrand gave a create presentation on that problem a few years
->>> ago on LPC. I strongly suggest you google that one up.
->> Faith Ekstrand (it looks like you mistyped that name...)
+> We have originally rejected that approach, but I still think it might 
+> work if done right.
 > 
-> My fault I was really just mistyping that :)
+>> This is the power of Rust: it forces you to architect your code in a way
+>> that you don't have complex high-level dependencies that span the entire
+>> driver and are difficult to prove hold. In my driver, you can kill a
+>> process and that destroys the drm_sched, closes all GEM objects,
+>> everything, even if the GPU is still running jobs from that process. The
+>> worst that can happen is that the GPU faults as in-use userspace buffers
+>> are unmapped out from under the running user job, but that's fine (GPU
+>> faults are recoverable). The actual firmware resources, queues, etc. in
+>> use are all kept alive until the commands finish executing (or fault,
+>> which is just an abnormal completion), even if the userspace process
+>> that owned them is long gone. I've tested this extensively by doing
+>> things like large-resolution glmark runs in a loop that get `kill -9`'d
+>> repeatedly, and it works very well! Tons of GPU faults but no firmware
+>> crashes, no oopses, nothing. And the firmware *will* crash irrecoverably
+>> if anything goes wrong with its shared memory structures, so that it
+>> doesn't is pretty good evidence that all this works!
+> 
+> Well testing is no prove at all of a correct design.
 
-It's all good ^^
+Well, I'm guessing you don't have a formal correctness proof for amdgpu
+either... ^^
+
+There's actually no way to prove my design is correct, since this is a
+reverse engineered driver that talks to proprietary firmware and I don't
+have the benefit of both open and internal docs like you AMD people
+have, never mind access to firmware source code... all I can do is try
+to understand how it should work based on how macOS does things and
+running tests, and then design something that should work with it. I
+spent months writing a prototype Python driver before even starting on
+the real DRM driver (long story...), and I keep going back to it to test
+little details of the firmware interface. There's over 3300 lines of
+just firmware structure definitions, it's kind of crazy...
+
+But even with all that... this driver has no right to be as stable as it
+is, considering I wrote it in just a few months. It hasn't even been a
+year since I started working on AGX at all! As I mentioned in the cover
+letter, we've gotten zero reports of oopses in production. I tried
+fuzzing the UAPI and all I managed to do was crash the firmware after a
+lot of GPU faults (that was a subtle firmware data cache coherency
+issue, now fixed), the driver itself was fine. I didn't have to debug
+the OOM error codepaths when we first started running Xonotic on 8GB RAM
+machines with no texture compression support on high quality texture
+settings (bad combination...), it all just worked even though all those
+error/cleanup paths had never been tested before at all. The only memory
+leaks I managed to cause were due to circular references between VMs and
+GEM objects (tricky to avoid, I did manage to miss one special case
+object in the first driver release...), everything else just cleans
+itself up by design. And it's not because I'm a genius or anything like
+that... it's because Rust just makes getting all this right *so* much
+easier than C.
+
+So I can at least say I'm quite confident that, as long as my
+understanding of the firmware structure lifetimes is correct and I
+encode it in the Rust object model the driver uses to represent them,
+things will work without crashing without relying on high-level
+invariants like "you must wait for all job completions before tearing
+down the top-level scheduler for a user queue" ^^
+
+>>> What could be is that you have allocated a scheduler instance
+>>> dynamically, but even then you should first tear down all entities and
+>>> then the scheduler.
+>> This is about creating a safe Rust abstraction, so we can't impose
+>> requirements on users like that, the abstraction has to take care of it.
+>> Unfortunately, the jobs cannot depend on the scheduler at the
+>> abstraction level. I tried that (putting a reference counted reference
+>> to the scheduler in the job abstraction), but it doesn't work because a
+>> job completing can end up dropping the last reference to the scheduler,
+>> and then you end up trying to stop and clean up the scheduler from a
+>> callback called from the scheduler kthread itself, which deadlocks. We
+>> could throw those cleanups into a workqueue or something, but that's
+>> just adding bandages around the problem that the drm_sched interface
+>> today is just not safe without this patch...
+> 
+> Well that won't work like this. The scheduler has a pretty clear tear 
+> down procedure.
+
+Well... I wouldn't call it "clear". I had to reverse engineer this from
+reading drm_sched source code, the docs don't tell you. The entire
+documentation of "drm_sched_fini()" is as follows:
+
+"Tears down and cleans up the scheduler."
+
+That's it.
+
+This is why I had so much trouble writing this abstraction, and I spent
+hours reading the drm_sched code to understand how it worked in order to
+use the API correctly... and yet...
 
 > 
-> I see that we have a disconnection here. As far as I can see you can use 
-> the can_run callback in only three ways:
+> And that procedure implies that all entities which might provide jobs 
+> are destroyed before the scheduler is destroyed.
+
+Yes, I do this: the entity abstraction holds a reference to the
+scheduler for this reason, so the scheduler can only be destroyed once
+all entities are destroyed. But...
+> Destroying the entities in turn cleans up the pending jobs inside of 
+> them.
+
+Yes but... none of this cleans up jobs that are already submitted by the
+scheduler and in its pending list, with registered completion callbacks,
+which were already popped off of the entities.
+
+*That* is the problem this patch fixes!
+
+> We could add a warning when users of this API doesn't do this 
+> correctly, but cleaning up incorrect API use is clearly something we 
+> don't want here.
+
+It is the job of the Rust abstractions to make incorrect API use that
+leads to memory unsafety impossible. So even if you don't want that in
+C, it's my job to do that for Rust... and right now, I just can't
+because drm_sched doesn't provide an API that can be safely wrapped
+without weird bits of babysitting functionality on top (like tracking
+jobs outside or awkwardly making jobs hold a reference to the scheduler
+and defer dropping it to another thread).
+
+>> Right now, it is not possible to create a safe Rust abstraction for
+>> drm_sched without doing something like duplicating all job tracking in
+>> the abstraction, or the above backreference + deferred cleanup mess, or
+>> something equally silly. So let's just fix the C side please ^^
 > 
-> 1. To check for some userspace dependency (We don't need to discuss 
-> that, it's evil and we both know it).
-> 
-> 2. You check for some hw resource availability. Similar to VMID on 
-> amdgpu hw.
-> 
->      This is what I think you do here (but I might be wrong).
+> Nope, as far as I can see this is just not correctly tearing down the 
+> objects in the right order.
 
-It isn't... I agree, it would be problematic. It doesn't make any sense
-to check for global resources this way, not just because you might
-deadlock but also because there might be nothing to signal to the
-scheduler that a resource was freed at all once it is!
+There's no API to clean up in-flight jobs in a drm_sched at all.
+Destroying an entity won't do it. So there is no reasonable way to do
+this at all...
 
-> But this 
-> would be extremely problematic because you can then live lock.
->      E.g. queue A keeps submitting jobs which take only a few resources 
-> and by doing so delays submitting jobs from queue B indefinitely.
+> So you are trying to do something which is not supposed to work in the 
+> first place.
 
-This particular issue aside, fairness in global resource allocation is a
-conversation I'd love to have! Right now the driver doesn't try to
-ensure that, a queue can easily monopolize certain hardware resources
-(though one queue can only monopolize one of each, so you'd need
-something like 63 queues with 63 distinct VMs all submitting
-free-running jobs back to back in order to starve other queues of
-resources forever). For starters, one thing I'm thinking of doing is
-reserving certain subsets of hardware resources for queues with a given
-priority, so you can at least guarantee forward progress of
-higher-priority queues when faced with misbehaving lower-priority
-queues. But if we want to guarantee proper fairness, I think I'll have
-to start doing things like switching to a CPU-roundtrip submission model
-when resources become scarce (to guarantee that queues actually release
-the resources once in a while) and then figure out how to add fairness
-to the allocation code...
+I need to make things that aren't supposed to work impossible to do in
+the first place, or at least fail gracefully instead of just oopsing
+like drm_sched does today...
 
-But let's have that conversation when we talk about the driver (or maybe
-on IRC or something?), right now I'm more interested in getting the
-abstractions reviewed ^^
-
-> 3. You have an intra queue dependency. E.g. you have jobs which take X 
-> amount of resources, you can submit only to a specific limit.
->      But in this case you should be able to return fences from the same 
-> queue as dependency and won't need that callback.
-
-Yes, I can do this. I can just do the same check can_run_job() does and
-if it fails, pick the oldest job in the full firmware queue and return
-its fence (it just means I need to keep track of those fences there, as
-I said above).
-
->      We would just need to adjust drm_sched_entity_add_dependency_cb() a 
-> bit because dependencies from the same queue are currently filtered out 
-> because it assumes a pipeline nature of submission (e.g. previous 
-> submissions are finished before new submissions start).
-
-Actually that should be fine, because I'd be returning the underlying
-hardware completion fences (what the run() callback returns) which the
-driver owns, and wouldn't be recognized as belonging to the sched.
-
->> I actually know I have a different theoretical deadlock issue along
->> these lines in the driver because right now we grab actually global
->> resources (including a VMID) before job submission to drm_sched. This is
->> a known issue, and to fix it without reducing performance I need to
->> introduce some kind of "patching/fixup" system for firmware commands
->> (because we need to inject those identifiers in dozens of places, but we
->> don't want to construct those commands from scratch at job run time
->> because that introduces latency at the wrong time and makes error
->> handling/validation more complicated and error-prone), and that is
->> exactly what should happen in prepare_job, as you say. And yes, at that
->> point that should use fences to block when those resources are
->> exhausted. But that's a different discussion we should have when
->> reviewing the driver, it has nothing to do with the DRM abstractions nor
->> the can_run_job callback I'm adding here nor the firmware queue length
->> limit issue! (And also the global hardware devices are plentiful enough
->> that I would be very surprised if anyone ever deadlocks it in practice
->> even with the current code, so I honestly don't think that should be a
->> blocker for driver submission either, I can and will fix it later...)
-> 
-> Well this is what I thought about those problems in amdgpu as well and 
-> it totally shipwrecked.
-> 
-> We still have memory allocations in the VMID code path which I'm still 
-> not sure how to remove.
-
-We don't even have a shrinker yet, and I'm sure that's going to be a lot
-of fun when we add it too... but yes, if we can't do any memory
-allocations in some of these callbacks (is this documented anywhere?),
-that's going to be interesting...
-
-It's not all bad news though! All memory allocations are fallible in
-kernel Rust (and therefore explicit, and also failures have to be
-explicitly handled or propagated), so it's pretty easy to point out
-where they are, and there are already discussions of higher-level
-tooling to enforce rules like that (and things like wait contexts).
-Also, Rust makes it a lot easier to refactor code in general and not be
-scared that you're going to regress everything, so I'm not really
-worried if I need to turn a chunk of the driver on its head to solve
-some of these problems in the future ^^ (I already did that when I
-switched it from the "demo" synchronous submission model to the proper
-explicit sync + fences one.)
+If you're convinced there's a way to do this, can you tell me exactly
+what code sequence I need to run to safely shut down a scheduler
+assuming all entities are already destroyed? You can't ask me for a list
+of pending jobs (the scheduler knows this, it doesn't make any sense to
+duplicate that outside), and you can't ask me to just not do this until
+all jobs complete execution (because then we either end up with the
+messy deadlock situation I described if I take a reference, or more
+duplicative in-flight job count tracking and blocking in the free path
+of the Rust abstraction, which doesn't make any sense either).
 
 ~~ Lina
