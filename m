@@ -2,88 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 570826B077A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 13:55:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 458D16B08BD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 14:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbjCHMz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 07:55:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60284 "EHLO
+        id S231518AbjCHN3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 08:29:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjCHMz3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 07:55:29 -0500
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D86185F53A
-        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 04:55:26 -0800 (PST)
-Received: from ubuntu.localdomain (unknown [10.181.231.123])
-        by mail-app3 (Coremail) with SMTP id cC_KCgA3uLSzhQhkHKv8DQ--.28372S2;
-        Wed, 08 Mar 2023 20:55:22 +0800 (CST)
-From:   Duoming Zhou <duoming@zju.edu.cn>
-To:     linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] media: netup_unidvb: fix use-after-free bug caused by del_timer()
-Date:   Wed,  8 Mar 2023 20:55:14 +0800
-Message-Id: <20230308125514.4208-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgA3uLSzhQhkHKv8DQ--.28372S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF4kAF45Cw13CF47Gw48WFg_yoW8XFyxpr
-        WkuF1qyFykJ3y2yw10kw1DWr95X34fJry8Ga48Ca93Ars3Wr18Gw4jk347ZFs7C3WDAFs3
-        Gr1rXFy3JF17GrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkI1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
-        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
-        6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
-        1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYIAVZdtd-V3AAWsz
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231217AbjCHN2q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 08:28:46 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7CB521CA
+        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 05:27:35 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id j3so9815441wms.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 05:27:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678282054;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OdwwU4SZN57jLYc65t0m5q4ozMpywaQn61AKlSTUX90=;
+        b=IclhcuJS4r1Wj2ehrUiQszZVBZTK9pO+Jzz3ws3adJeDGl9owEEGIiGcVUW13/SMxq
+         LbouAPpbFGidcW3e55BFNSbWPG/Dqd/Ax3JiNEdSHzOZx3W2/8Cpnu7hApu9W/YmYlv2
+         oCF7VvOGQXSmcAnxFI0hv07Utk4sy4minVn62OUM8YGlovGBi+B+3uPn3NCBVznwBiYX
+         OVEsTdXyXtu8tDSzoa8dnDfCp9kxs+2XxY9UmYHCvFuMIYe8QaQOBqJml1LqL6C/DDBw
+         +qHs3BWrtNrutM/e9SZDIyKsi33nVgzO65wAkLrlLvQ8t/ADACMb1wFu3EU90cCovQ6Q
+         AxCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678282054;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OdwwU4SZN57jLYc65t0m5q4ozMpywaQn61AKlSTUX90=;
+        b=2npzsmmZeiXVCrzFq93CAutPHedIP5YJcGutdsLnlD6kCA2RswbeEbC7GUTQCddpaB
+         kaToErxPvtpn8mQee5OJqchousB9X33e7pKpIGx/RRPzqqcZ9PQVrKOqIHrIdOBta3Do
+         J4JCToTRDoKza5PCiHII2IDEKris2eecCvPUaxNBqbPmHzY3n/z+a8u97JKwkHfRabAE
+         2SmF6iFTLWZBMrD43x1kNo8o11dAORcFxgUMdkApdhzPrZO8wXWtU1pf3TMEEP7DJlm5
+         4t6CCWJYoyHm3gmHhwrHUZ2GOdcpD9cNA2E7oXRW4aMA4tGcyZ9+2MvD84bOL22OT0pr
+         9oSA==
+X-Gm-Message-State: AO0yUKUfBIqaWmttAe2Q2YqCEKK+eBy3LBmg3Dn8bVs3dQZ73sbk6UWb
+        vwBHajWIbg1+Ik+eIFV6Ur2SFA==
+X-Google-Smtp-Source: AK7set/Soq1Fvcc7qflRPe93eB2KPEmH/FcDQNhIB1coy2br5SfxGWWl32ofzfkJtiUodMwJmk65YA==
+X-Received: by 2002:a05:600c:4509:b0:3eb:32ff:da8 with SMTP id t9-20020a05600c450900b003eb32ff0da8mr17310245wmo.16.1678282054125;
+        Wed, 08 Mar 2023 05:27:34 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b003daffc2ecdesm20631491wmo.13.2023.03.08.05.27.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 05:27:33 -0800 (PST)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v4 0/5] dt-bindings: first batch of dt-schema conversions
+ for Amlogic Meson bindings
+Date:   Wed, 08 Mar 2023 14:27:28 +0100
+Message-Id: <20221117-b4-amlogic-bindings-convert-v4-0-34e623dbf789@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAECNCGQC/5XNwWrDMBAE0F8JOneDtLIcO6f8R+hB8m7sBVcCy
+ RGE4H+v2lvpJTkNM4c3T1U4Cxd1PjxV5ipFUmyl+zioafFxZhBqXaFGNMacIHTgv9Y0ywRBIkm
+ cC0wpVs4bDHwzdHLUYU+qCcEXhpB9nJZmxPu6tnGRsqX8+H2spsX1Nbwa0GBvGp0bxzD2w2WV6
+ HM6pjyrzwZXfAPDH6z3pJ0OoUf3D7NvYLZhjAORNWwD0x9s3/dvD0BBOWYBAAA=
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.12.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When Universal DVB card is detaching, netup_unidvb_dma_fini()
-uses del_timer() to stop dma->timeout timer. But when timer
-handler netup_unidvb_dma_timeout() is running, del_timer()
-could not stop it. As a result, the use-after-free bug could
-happen. The process is shown below:
+Batch conversion of the following bindings:
+- amlogic-efuse.txt
+- amlogic-meson-mx-efuse.txt
+- meson-wdt.txt
+- meson-ir.txt
+- rtc-meson.txt
+- amlogic,meson6-timer.txt
+- amlogic,meson-pcie.txt
 
-    (cleanup routine)          |        (timer routine)
-                               | mod_timer(&dev->tx_sim_timer, ..)
-netup_unidvb_finidev()         | (wait a time)
-  netup_unidvb_dma_fini()      | netup_unidvb_dma_timeout()
-    del_timer(&dma->timeout);  |
-      kfree(ndev); //FREE      |
-                               |   ndev->pci_dev->dev //USE
+Martin Blumenstingl was also added as bindings maintainer for Meson6/8/8b
+related bindings.
 
-Fix by changing del_timer() to del_timer_sync().
+Remaining conversions:
+- meson,pinctrl.txt
+- pwm-meson.txt
+- amlogic,meson-gpio-intc.txt
+- amlogic,meson-mx-sdio.txt
+- rtc-meson-vrtc.txt
+- amlogic,axg-sound-card.txt
+- amlogic,axg-fifo.txt
+- amlogic,axg-pdm.txt
+- amlogic,axg-spdifout.txt
+- amlogic,axg-tdm-formatters.txt
+- amlogic,axg-spdifin.txt
+- amlogic,axg-tdm-iface.txt
+- amlogic,g12a-tohdmitx.txt
+- amlogic,axg-audio-clkc.txt
+- amlogic,gxbb-clkc.txt
+- amlogic,gxbb-aoclkc.txt
+- amlogic,meson8b-clkc.txt
 
-Fixes: 52b1eaf4c59a ("[media] netup_unidvb: NetUP Universal DVB-S/S2/T/T2/C PCI-E card driver")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
- drivers/media/pci/netup_unidvb/netup_unidvb_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v4:
+- Rebased on v6.3-rc1
+- Added Reviewed-by
+- Removed applied patch
+- Link to v3: https://lore.kernel.org/r/20221117-b4-amlogic-bindings-convert-v3-0-e28dd31e3bed@linaro.org
 
-diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-index 8287851b5ff..aaa1d2dedeb 100644
---- a/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-+++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-@@ -697,7 +697,7 @@ static void netup_unidvb_dma_fini(struct netup_unidvb_dev *ndev, int num)
- 	netup_unidvb_dma_enable(dma, 0);
- 	msleep(50);
- 	cancel_work_sync(&dma->work);
--	del_timer(&dma->timeout);
-+	del_timer_sync(&dma->timeout);
- }
- 
- static int netup_unidvb_dma_setup(struct netup_unidvb_dev *ndev)
+Changes in v3:
+- Dropped applied patches
+- Added acked/reviewed-by tags
+- patch 3: removed invalid secure-monitor property
+- patch 4: added a note on the commit message about the meson8 compatible
+- patch 9: fixed mmc compatible bindings
+- patch 1-: unified PCIe instead on PCIE + PCIe
+- Link to v2: https://lore.kernel.org/r/20221117-b4-amlogic-bindings-convert-v2-0-36ad050bb625@linaro.org
+
+Changes in v2:
+- rebased on v6.2-rc1
+- patch 1: fixed power-controller, added const: amlogic,meson-gx-sm
+- patch 2: added const: amlogic,meson-gx-efuse, fixed secure-monitor type
+- patch 3: updated example subnodes to match reality
+- patch 4: added reviewed-by, added interrupts, added const: amlogic,meson8m2-wdt
+- patch 5: added reviewed-by, added const: amlogic,meson-gx-ir
+- patch 6: dropped applied
+- patch 7: dropped patch, replaced with deprecated in the title of the TXt bindings
+- patch 8: fixed title, added reviewed-by, added interrupt description
+- patch 9: fixed example indent, added reviewed-by
+- patch 10: fixed const: amlogic,meson-gx-mmc case, fixed indentation
+- patch 11: added reviewed-by, fixed title, fixed bindings after rebase, added clocks/clock-names as required
+- patch 12: added reviewed-by
+- Link to v1: https://lore.kernel.org/r/20221117-b4-amlogic-bindings-convert-v1-0-3f025599b968@linaro.org
+
+---
+Neil Armstrong (5):
+      dt-bindings: nvmem: convert amlogic-efuse.txt to dt-schema
+      dt-bindings: nvmem: convert amlogic-meson-mx-efuse.txt to dt-schema
+      dt-bindings: media: convert meson-ir.txt to dt-schema
+      dt-bindings: timer: convert timer/amlogic,meson6-timer.txt to dt-schema
+      dt-bindings: PCI: convert amlogic,meson-pcie.txt to dt-schema
+
+ .../bindings/media/amlogic,meson6-ir.yaml          |  47 ++++++++
+ .../devicetree/bindings/media/meson-ir.txt         |  20 ---
+ .../bindings/nvmem/amlogic,meson-gxbb-efuse.yaml   |  57 +++++++++
+ .../bindings/nvmem/amlogic,meson6-efuse.yaml       |  57 +++++++++
+ .../devicetree/bindings/nvmem/amlogic-efuse.txt    |  48 --------
+ .../bindings/nvmem/amlogic-meson-mx-efuse.txt      |  22 ----
+ .../devicetree/bindings/pci/amlogic,axg-pcie.yaml  | 134 +++++++++++++++++++++
+ .../devicetree/bindings/pci/amlogic,meson-pcie.txt |  70 -----------
+ .../bindings/timer/amlogic,meson6-timer.txt        |  22 ----
+ .../bindings/timer/amlogic,meson6-timer.yaml       |  54 +++++++++
+ 10 files changed, 349 insertions(+), 182 deletions(-)
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20221117-b4-amlogic-bindings-convert-8ef1d75d426d
+
+Best regards,
 -- 
-2.17.1
+Neil Armstrong <neil.armstrong@linaro.org>
 
