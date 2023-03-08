@@ -2,69 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A68166B0C7A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 16:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECA516B0CB6
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 16:31:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232148AbjCHPU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 10:20:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60030 "EHLO
+        id S232076AbjCHPbJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 10:31:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231952AbjCHPUb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 10:20:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AA6CD671
-        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 07:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678288776;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZgwktT8M+kuZL3ds+rvp4biP/Gs8JikDQD7POfmJAag=;
-        b=GE9eMPDRSHcHTPazoeplCgn7BIlUAkUlOaMRButkidIDZvAoO91eAnQK/rp3ohGen+Oqyt
-        NtCIcqrSnJeNZWhADg+RJlY35UxPBlrDtwyg/ebmDsLxDHSNU4Aj0rD4yUvc6nKJlhF55F
-        BM3vy0bNEDEtJNvKAGeWBnRt5mkhG+o=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-119-Yfk66B1SNbOnLQ69e1b6pg-1; Wed, 08 Mar 2023 10:19:35 -0500
-X-MC-Unique: Yfk66B1SNbOnLQ69e1b6pg-1
-Received: by mail-ua1-f69.google.com with SMTP id x9-20020ab03809000000b006cbf9e340e2so8027357uav.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 07:19:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678288770;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZgwktT8M+kuZL3ds+rvp4biP/Gs8JikDQD7POfmJAag=;
-        b=bkYCWcCnI9NpRTB1v8wFHiP87D5msjyOp1yRe2Q5sw5c4GmkFtABIrhE6j3ivghpgl
-         ott79JIlljDy7rT7/KT+YBfExJCsZ20kt6vbJ7Zj6sE5sxTx3lR3utRLVYel0d3LeNmL
-         3WXPMU8uOeC+vNvUXi4iRT2mausIA8oFxCFfJBI61o4jCsD6RlGidtCM2IHdeinG1wMD
-         h+1Sjc8DqoKKPriNkbFdDNUBogN2nIQGUjhsGdwgOqmiFRnpDbceyym1NX7zKUVQEnXz
-         a9QUznCbQinEvagHqjGoH3Q3gHkoLaSz4VI0Mdt6wiZtEimHVnsinMIc8p16/2ijdrsg
-         bgZw==
-X-Gm-Message-State: AO0yUKWnZXo7l9hwr8BHvnwLas6IHng+n5XCWd3yUd2ZWS4JtnK+aqby
-        3A9ydPsQsYdevqAQWAdYWfe19LXfjbkyF0VWHEBXPAeqgiOTx7JMxzVySI/j2qDtFxYESfrGTC8
-        4CdURy+9agdOhPcJeYPJG0Gy3jgUAgPnA5oI4X4k=
-X-Received: by 2002:a67:e94c:0:b0:421:c4a7:872b with SMTP id p12-20020a67e94c000000b00421c4a7872bmr9893524vso.6.1678288770288;
-        Wed, 08 Mar 2023 07:19:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set+LFkvKeeVI3ttwm6kpFUQRkNGkfJ8qbDCG4jHcdwVIQ4SiuFcDQxKvoIfsyVYsxcEJcY4MnTcZLVjC63cvuTo=
-X-Received: by 2002:a67:e94c:0:b0:421:c4a7:872b with SMTP id
- p12-20020a67e94c000000b00421c4a7872bmr9893505vso.6.1678288769989; Wed, 08 Mar
- 2023 07:19:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net> <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
- <CACO55tsnCMQt8UW5_UCY139kpZOdNXbMkBkFfUiB12jW5UgVmA@mail.gmail.com>
- <0d6cd23b-8c9e-067d-97ff-aa35dbbcf9bf@amd.com> <CACO55tumNMYrcJ0LhnLfTK4DmGLHD-bt3xpXyoPe98V2wmgXQg@mail.gmail.com>
- <269c4fb7-60f6-6778-444d-15703febea58@amd.com>
-In-Reply-To: <269c4fb7-60f6-6778-444d-15703febea58@amd.com>
-From:   Karol Herbst <kherbst@redhat.com>
-Date:   Wed, 8 Mar 2023 16:19:17 +0100
-Message-ID: <CACO55tuVVnC-_iVmX=SGGVF=0t6kqqr0Cy0pGe3YoppBgUbiXw@mail.gmail.com>
+        with ESMTP id S230071AbjCHPbH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 10:31:07 -0500
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2063.outbound.protection.outlook.com [40.107.96.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40A99E652;
+        Wed,  8 Mar 2023 07:31:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hYBrw4zbtzBMOuje8kydezBfgUUNStYdmVaL/ShIXvXNTYm7V6IHkX3gAKeEIEilE8r4R121lWOsrDD2iZ5zAGtpHhy/vdrUTfCY8XpI5S3bCbrNxheqg4DdVk0dDGSI9f+UOY6dfCGtRHE7PNpoU2UoibE9eu5dxgGGOakuZekRl7qxf0kT7SO9oz/egDSwBH7IxKJ4w37DEXNyCkZZAogK8QHltQPvhFT/4cWCsc77v0iyZtYC2LvLgG1ZuztGxN5qC2rBQSgoaC2Grfkdoa35NRhM4CcxYixaZ2JHTOT98hADt4y2u3RZaSGcMyNdsvOuWY/4tX0MBrpOem7cfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GfuZ66LaKqYQjvrnTukAgaLwN2aON/CmOarHxNTNg7Q=;
+ b=XPRFa6NfcUYpRmZAU/bXnJN2KJrXpwqtQ6S6yhYNe0dgsMNw+wYbOFcElIbYI0DkwqWuztd/tjW44wY1E/Aqk9+6fTfJEU25KWHnc/Wrmsv1RtuIeE5a2Qz6kmdgQLdOHfIDj0qwT3ETQ/qGHniuYD3mLRE1t2sBgAME72RkBLjJICQJ/jIzV1/4ZjHO05l7VP59JAahGN/8xo150NdSmWfPPq+tgCdWnjqvzO1fKS/CSpZUbJ1JalvvUPB3kmENCl+n3VSFb3se4myZO/+0jiRjfFlksekjpdzBpAZzL2JL1Bc0UrAQIfO9KMunkpzZHe/sxqvs95+2oV9Auo8W8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GfuZ66LaKqYQjvrnTukAgaLwN2aON/CmOarHxNTNg7Q=;
+ b=Ah0XUlpWMCb1CwKZTIfJzk4pv1GOedO/A67+WEyqiUX4iyvy8JDLqRMm/I3ZUKGRHI/K9X9MRUgrF+EiworhzkiAdqMI7a607avLlPy4GE9u8f/ALgyGpgqdgprqE5qykBUwx2n5uzw4zipbl9Ap1nCAubozxTJNmC1EwEIPkUg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB5982.namprd12.prod.outlook.com (2603:10b6:8:7d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.22; Wed, 8 Mar
+ 2023 15:31:00 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
+ 15:31:00 +0000
+Message-ID: <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+Date:   Wed, 8 Mar 2023 16:30:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
 Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Asahi Lina <lina@asahilina.net>,
+Content-Language: en-US
+To:     Asahi Lina <lina@asahilina.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -74,182 +55,270 @@ Cc:     Asahi Lina <lina@asahilina.net>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
         Ella Stanforth <ella@iglunix.org>,
         Faith Ekstrand <faith.ekstrand@collabora.com>,
         Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
         dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+ <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+ <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+ <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0169.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::8) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB5982:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ecdc8e0-858d-477f-da04-08db1fea1efd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eMOumGSTG1BUxU75ALZqxv2UNlgxHNoFcGZu8k4tZ/ZiXF03rtoE4A1hvQAQlq8d7GYjOsG5jLdaEhoiLOofGsv21bzOanN6ff0xPrpUoq6fZqv8JOjZca/5AVG9QMH2SkQanfbEabXnPQT4U/luejWRZTDROPuzSJoicV5MlYcOJxUxImARk0OwbvyEPczEXZHwMxsquH0qW9RUqf1JqbPU3ZvFDAS1fwmgXNrP+nsMHj7BRhRFRpy2rMJxUbvt/bkdmCTmPqo7ancG7nVZxZkYu2dcdhS3XAyRqY02FIfXh1zAUHng2Tc46XZtT2x6XP0hFhMS8xZCbfY+5x8W/yovpDHqTYcqhMvu/bt0+AHddREDSreio6oiPK0+sBJycrtTVj08GtO+1GDFDA5pf1G11YwDjTrSOaEAnNUrA4JzQRnuzUhoXnHCWtEe9FQ7Hsl7cEt0qIGzvz+u0T9HkhOhz1rQTagieSLBFperYn67MqG8I46p9P6lygaM2an5Giv0vdHifPXS/tHQCI1f/7a5T3nSH+MbMkIuWY4iDcpipIh7Vh4y7CytOc8sJA6qAovi3GB8O53DE7nsbwbLRvsuK3MWHhVv83bp+wNwvY8Mdf5nh55V1PDEa7ZVdb5U03bdtCQdsifoI6X+FnkFz1ZVTA0bAnD5fp2QF7IHOlTreyQHeCjtq02SPGZFMft85fj6dTfyb5V9382AeI94+5ahG4SVyJz+dnqfJXfv2muke1dolK5k0APSNfKIz32T
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(451199018)(6506007)(186003)(2906002)(38100700002)(921005)(66476007)(41300700001)(4326008)(8936002)(66556008)(66946007)(8676002)(6512007)(6666004)(5660300002)(2616005)(478600001)(966005)(54906003)(110136005)(36756003)(31696002)(86362001)(7416002)(83380400001)(316002)(6486002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2VzZzRjSVVTa0VhQ0tpQXRpc3ozVTk1a3FvSkhjVkM3bVAxSjJPdzVhMDl0?=
+ =?utf-8?B?aEp5NVdEWlkwUXpsVVdGUkVLTkJPZU1BZWhjdFJUK1dxTEJzQ2hBcFo2akky?=
+ =?utf-8?B?a0xnYVdnVm1ua3dmTkN3R09vWWhxYmUyWDhzNHNJdUNMc0pEZXg5WEpLZk5S?=
+ =?utf-8?B?anVoNkR2dUxoUkwyY2RQVTVXMEkxdkFCRERmNTJPbGdxZ0ZYUFZ6cUZyZktS?=
+ =?utf-8?B?YXQyQ3oxMGR2V2VLTjhXbXNjZ1ZXN25zZkpzcjdiVFFZUEViWnBsMjVORHRZ?=
+ =?utf-8?B?c20vdkhXRjRLSGtUN1NFMFJuMWtUYlFhL2hpUFV3UmZmTlF4VXNqRFlrSTRv?=
+ =?utf-8?B?WmZqUWtUVG1CeTI5dm5MN0k5UkJqcjJSYjFmUXJyWTRtaGJkTkFDQXE2LzdJ?=
+ =?utf-8?B?cGhRcmplWU82MzArcENNUURYaTUxTHM2MkJvRFVQdTNNMWVCR0RXcGV5M3JU?=
+ =?utf-8?B?QzZSWEpkNXVFdk5nOWdEVzVGMkROamNBUitqeUQ1dksrOXZ4T3A5SEVGU2NQ?=
+ =?utf-8?B?cUx5dUJhc3k4UEh3WkZ4Znl1aXZuREY3aDRLZjQ4ZzNFNENFZmkvVWUranZy?=
+ =?utf-8?B?cG0zRkdZS2tyNmJkK05adDZQNGE5VVFuRC9CSk1LS2NDUDN3Y3ZweGVBSmVj?=
+ =?utf-8?B?YW5pWUdKWlA2WEh2YkJ5N3hrZFphQ2ltaW10b0pvbWVXM08ya3k1dTFVYmpW?=
+ =?utf-8?B?bERxWE5lRGR6Z2hRK0Y1aHlXYjN3RVhmSnVtRk8yVU1oRHF3bHZaREFIOVI5?=
+ =?utf-8?B?ZFdUb3c1VE1LMHluY083VXJ6R3lnNWRWbXNwcWt1L2dkNXhFcjlBVTNpV2RT?=
+ =?utf-8?B?ckVDRVpVaEdUK3hsMVczTm1WYmdBVFpRNnJGZlhxcU9QendLcmw0RGRmZDZx?=
+ =?utf-8?B?c0xqTWhXWVdUanhqZGk4ZXpiTm0yZ1laaXZJSE1ubldJK2xsR1VYbUZhSW41?=
+ =?utf-8?B?dGRTUUx5VGV3RHBuckorb0wrOXJCODAyZk43QnRuZzhpVFU5cTFwbU9LbWxK?=
+ =?utf-8?B?dm9vcU40K2RnNFFjYVlJZTVrOWNRNGdPY3F6RGUzS0I3ZWNLSUcxTzVSV1BI?=
+ =?utf-8?B?NmRKNFhYc0RsTDE4eU44YlpHcWwrdXBheFdvcmJnTURERCtPcmdpL1BZWlhS?=
+ =?utf-8?B?a3VoSDBuQkFYWTJDdi9IQVVubFc1RU5LakZ6Y1I3clY5UFRza1JlL2NzL1Rv?=
+ =?utf-8?B?V0Y0Wkh1a1Ivb2dlMm52NktuS2srVEdXU3hKMWY2Y1N0SFdUeUtoMEpPcjI2?=
+ =?utf-8?B?c3ZhbWh6WnZGc0Rtd3FRcjRnbmlMSDhLVDV2L2dWVFRKWUMvcmExMnpPWTRK?=
+ =?utf-8?B?MCtYNlJyQzdPanFoUlBFc3NDUVVFOEhwUUF3KytoUEo3M1gxMDdGZ2IvdWJv?=
+ =?utf-8?B?QXY3N0hTOXBzVFo0YnFnbU5IK29yTmhKZnhtM3JtamJVZUx6T2NmNnViQ1NC?=
+ =?utf-8?B?Uk5BZzBVcVVySlNsd1FJejhqRHdKTFhUUDJEbTBYYW9iakNQMFptU2hYVlpl?=
+ =?utf-8?B?Z3h3TFNTSVI5UFU0SjlWdmZpcjVORHliUHQvSUh2Q1krNjJQOTB6RmYzdGdy?=
+ =?utf-8?B?eXRTYnVQMmNqNDBuVzBWTUo2cFV2NytFZkRUOW1mNUo1R2tKUnNpMXJaVk5y?=
+ =?utf-8?B?Nmx2WXA4Q2ZVdG9IYVljRVVTZ2lJeUMzblEzV1VpRDQrMHNLWlZrMWNOc2Zx?=
+ =?utf-8?B?NGVrSXdpc0J1ZEc2dkNyazBmcFVHZ2RWSWh2TVppejZhOXVPVDg4WnN0KzRn?=
+ =?utf-8?B?cVIyZXpOcTNReG1zV3hkdy9RM3RrVzZBOUxQb002eXRlek1mM2lmWWlzb2dr?=
+ =?utf-8?B?b0pqakRNMGVZTVV5OHFsMGtjVm5tRVY4MGRjYldxeENqQmx5d2h2K0lNSGVC?=
+ =?utf-8?B?aGJ5Mm9QZVdKcTVWWjlYalQ0d041UjJKWFl6N3BqV1B6REdZeGRrb3haU3pE?=
+ =?utf-8?B?Qnk5cXBpNk1uaFJYb1VaU2gzSWNXQnc3QzlOcnBQTGgweWdSRG81L1NlREU1?=
+ =?utf-8?B?ZVZ2dEp2QXM1VXJCaDRPQTR2Q2krVTBjQzU2dER0cUxudFJaemx2aFVJckJ1?=
+ =?utf-8?B?K0ExMmJabnFIR3FhVGtPUzgxaHp0eDRJZ284K2gyS25GMzdYcllJcGNEeDdz?=
+ =?utf-8?B?TVF1OTZpNFZ5T2JtaWpFSStQK05PQko3MWtEUm5XZHZMTklnMS9JT1NqbUJm?=
+ =?utf-8?Q?rp1Wnx8FFy4/4TfI6CavtnYY1VOEtlBywjXtFKXrdNJh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ecdc8e0-858d-477f-da04-08db1fea1efd
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 15:31:00.8161
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Sy4pARu52vC8op5GDy+M8KYGN/MZ2Ygjp9NZ4rtyOkohSac3beK5C7cmnZ/9zPw3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5982
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 8, 2023 at 4:09=E2=80=AFPM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
->
-> Am 08.03.23 um 15:43 schrieb Karol Herbst:
-> > [SNIP]
-> > "further"? There was no discussion at all,
->
-> Yeah, well that is exactly what I wanted to archive.
->
-> >   you just started off like
-> > that. If you think somebody misses that connection, you can point out
-> > to documentation/videos whatever so the contributor can understand
-> > what's wrong with an approach. You did that, so that's fine. It's just
-> > starting off _any_ discussion with a "Well complete NAK" is terrible
-> > style. I'd feel uncomfortable if that happened to me and I'm sure
-> > there are enough people like that that we should be more reasonable
-> > with our replies. Just.. don't.
-> >
-> > We are all humans here and people react negatively to such things. And
-> > if people do it on purpose it just makes it worse.
->
-> I completely see your point, I just don't know how to improve it.
->
-> I don't stop people like this because I want to make them uncomfortable
-> but because I want to prevent further discussions on that topic.
->
-> In other words how can I make people notice that this is something
-> fundamental while still being polite?
->
+Am 08.03.23 um 15:53 schrieb Asahi Lina:
+> [SNIP]
+>> The background is that core memory management requires that signaling a
+>> fence only depends on signaling other fences and hardware progress and
+>> nothing else. Otherwise you immediately run into problems because of
+>> circle dependencies or what we call infinite fences.
+> And hardware progress is exactly the only dependency here...
 
-I think a little improvement over this would be to at least wait a few
-replies before resorting to those strong statements. Just before it
-becomes a risk in just wasting time.
+Well then you should have a fence for that hardware progress.
 
-> >>>> This is clearly going against the idea of having jobs only depend on
-> >>>> fences and nothing else which is mandatory for correct memory manage=
-ment.
-> >>>>
-> >>> I'm sure it's all documented and there is a design document on how
-> >>> things have to look like you can point out? Might help to get a bette=
-r
-> >>> understanding on how things should be.
-> >> Yeah, that's the problematic part. We have documented this very
-> >> extensively:
-> >> https://www.kernel.org/doc/html/v5.9/driver-api/dma-buf.html#indefinit=
-e-dma-fences
-> >>
-> >> And both Jason and Daniel gave talks about the underlying problem and
-> > fyi:
-> > s/Jason/Faith/g
+>> Jason Ekstrand gave a create presentation on that problem a few years
+>> ago on LPC. I strongly suggest you google that one up.
+> Faith Ekstrand (it looks like you mistyped that name...)
+
+My fault I was really just mistyping that :)
+
+>   is the person
+> who proposed that I should use drm_sched in this way (see below), we've
+> had a few private meetings about this design ^^
 >
-> +1. I wasn't aware of that.
+>>> You can see the driver implementation of that callback in
+>>> drivers/gpu/drm/asahi/queue/mod.rs (QueueJob::can_run()), which then
+>>> calls into drivers/gpu/drm/asahi/workqueue.rs (Job::can_submit()) that
+>>> does the actual available slot count checks.
+>>>
+>>> The can_run_job logic is written to mirror the hw_submission_limit logic
+>>> (just a bit later in the sched main loop since we need to actually pick
+>>> a job to do the check), and just like for that case, completion of any
+>>> job in the same scheduler will cause another run of the main loop and
+>>> another check (which is exactly what we want here).
+>> Yeah and that hw_submission_limit is based on a fence signaling again.
+> I don't think so...? It's just an atomic that gets checked in
+> drm_sched_ready(). There are no extra fences involved (other than the
+> job completion fences that trigger another scheduler run). The idea is
+> that when the hardware queue makes forward progress you check against
+> the limit again and submit more jobs as needed. I'm doing the same exact
+> thing, I'm just using more complex logic for the notion of in-flight
+> queue limits!
+
+Then why can't you express that logic in a dependency fence?
+
+>> When you have some firmware limitation that a job needs resources which
+>> are currently in use by other submissions then those other submissions
+>> have fences as well and you can return those in the prepare_job callback.
+>>
+>> If those other submissions don't have fences, then you have a major
+>> design problem inside your driver and we need to get back to square one
+>> and talk about that dependency handling.
+> I think we have a disconnect in our views of what is going on here...
 >
-> >> try to come up with patches to raise warnings when that happens, but
-> >> people still keep coming up with the same idea over and over again.
-> >>
-> > Yes, and we'll have to tell them over and over again. Nothing wrong
-> > with that. That's just part of maintaining such a big subsystem. And
-> > that's definitely not a valid reason to phrase things like above.
-> >
-> >> It's just that the technical relationship between preventing jobs from
-> >> running and with that preventing dma_fences from signaling and the cor=
-e
-> >> memory management with page faults and shrinkers waiting for those
-> >> fences is absolutely not obvious.
-> >>
-> >> We had at least 10 different teams from different companies falling in=
-to
-> >> the same trap already and either the patches were rejected of hand or
-> >> had to painfully reverted or mitigated later on.
-> >>
-> > Sure, but that's just part of the job. And pointing out fundamental
-> > mistakes early on is important, but the situation won't get any better
-> > by being like that. Yes, we'll have to repeat the same words over and
-> > over again, and yes that might be annoying, but that's just how it is.
+> This hardware has firmware-side scheduling with an arbitrary (as far as
+> I know) number of queues. There is one scheduler instance and one entity
+> per userspace queue (not global!). These queues process jobs in some
+> logical sequence, though at the firmware level they get split into up to
+> three queues each (and there is some parallelism allowed). The
+> limitation here is in the number of in-flight jobs per firmware queue,
+> not global.
+
+So far I'm familiar with that design.
+
+> There is no way for things to deadlock. If jobs have been submitted to
+> the firmware queue, that means their dependencies were signaled already.
+> Jobs have intra-job dependencies via driver barriers (which drm_sched
+> knows nothing about), but the submission code in the driver guarantees
+> that they are deadlock-free since you can only barrier on past commands,
+> which by definition submit first.
 >
-> Well I have no problem explaining people why a solution doesn't work.
+> If a firmware queue is full, drm_sched blocks. Since it is full, that
+> means it will run those commands (since they have no outside
+> dependencies and they are already queued and ready to run by the
+> firmware), eventually space will be freed, and each time a job completes
+> drm_sched will do the can_run_job check again and decide whether to run
+> a new job.
 >
-> But what usually happens is that people don't realize that they need to
-> back of from a design and completely start over.
+> Since the firmware queues contain commands which only have past-facing
+> barriers on other already submitted commands, by definition they will
+> become empty at some point as long as the firmware is making forward
+> progress. And therefore, by definition, can_run_job will eventually
+> return true at some point after a job completion fence is signaled (the
+> one for the last job submitted prior). There is a check in the driver to
+> ensure that we do not allow submissions which, by themselves, would
+> exceed the queued command limit (we actually just limit to 64 commands
+> overall right now, which is conservative but seems reasonable given the
+> 128-per-firmware-queue limit).
+
+Well then again why don't you give that fence out as dependency? Is it 
+because the scheduler tries to optimize those away?
+
+> I get the feeling that you are conflating pending jobs with submitted
+> jobs. This isn't about how many jobs you can have pending in drm_sched
+> before running them or anything like that. Of course, at that point,
+> arbitrary dependencies come into play and you can end up with deadlocks
+> on dependency fences. But that's not the case here. What can_run_job is
+> waiting on is guaranteed to make forward progress.
+
+I see that we have a disconnection here. As far as I can see you can use 
+the can_run callback in only three ways:
+
+1. To check for some userspace dependency (We don't need to discuss 
+that, it's evil and we both know it).
+
+2. You check for some hw resource availability. Similar to VMID on 
+amdgpu hw.
+
+     This is what I think you do here (but I might be wrong). But this 
+would be extremely problematic because you can then live lock.
+     E.g. queue A keeps submitting jobs which take only a few resources 
+and by doing so delays submitting jobs from queue B indefinitely.
+
+3. You have an intra queue dependency. E.g. you have jobs which take X 
+amount of resources, you can submit only to a specific limit.
+     But in this case you should be able to return fences from the same 
+queue as dependency and won't need that callback.
+
+     We would just need to adjust drm_sched_entity_add_dependency_cb() a 
+bit because dependencies from the same queue are currently filtered out 
+because it assumes a pipeline nature of submission (e.g. previous 
+submissions are finished before new submissions start).
+
+>>> This case (potentially scheduling more than the FW job limit) is rare
+>>> but handling it is necessary, since otherwise the entire job
+>>> completion/tracking logic gets screwed up on the firmware end and queues
+>>> end up stuck (I've managed to trigger this before).
+>> Actually that's a pretty normal use case. I've have rejected similar
+>> requirements like this before as well.
+>>
+>> For an example how this can work see amdgpu_job_prepare_job():
+>> https://elixir.bootlin.com/linux/v6.3-rc1/source/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c#L251
+>>
+>> The gang submit gives and example of a global fence lock and the VMIDs
+>> are an example of a global shared firmware resource.
+> But the resource can_run_job is checking on isn't globally shared! It's
+> specific to this scheduler instance, just like hw_submission_limit is,
+> so as long as the firmware behind the scheduler is making forward
+> progress, the resource will be guaranteed to be freed until another job
+> can run.
+
+Well either it should be globally shared because it is a shared resource 
+(similar to our VMID or gangs) or it is an intra queue limitation in 
+which case you could just use the fences previously submitted on the 
+queue as dependency.
+
+> I actually know I have a different theoretical deadlock issue along
+> these lines in the driver because right now we grab actually global
+> resources (including a VMID) before job submission to drm_sched. This is
+> a known issue, and to fix it without reducing performance I need to
+> introduce some kind of "patching/fixup" system for firmware commands
+> (because we need to inject those identifiers in dozens of places, but we
+> don't want to construct those commands from scratch at job run time
+> because that introduces latency at the wrong time and makes error
+> handling/validation more complicated and error-prone), and that is
+> exactly what should happen in prepare_job, as you say. And yes, at that
+> point that should use fences to block when those resources are
+> exhausted. But that's a different discussion we should have when
+> reviewing the driver, it has nothing to do with the DRM abstractions nor
+> the can_run_job callback I'm adding here nor the firmware queue length
+> limit issue! (And also the global hardware devices are plentiful enough
+> that I would be very surprised if anyone ever deadlocks it in practice
+> even with the current code, so I honestly don't think that should be a
+> blocker for driver submission either, I can and will fix it later...)
+
+Well this is what I thought about those problems in amdgpu as well and 
+it totally shipwrecked.
+
+We still have memory allocations in the VMID code path which I'm still 
+not sure how to remove.
+
+Regards,
+Christian.
+
 >
-> Regards,
-> Christian.
->
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>>> If the hw is busy with something you need to return the fence for th=
-is
-> >>>> from the prepare_job callback so that the scheduler can be notified =
-when
-> >>>> the hw is available again.
-> >>>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> >>>>> ---
-> >>>>>     drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
-> >>>>>     include/drm/gpu_scheduler.h            |  8 ++++++++
-> >>>>>     2 files changed, 18 insertions(+)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
-rm/scheduler/sched_main.c
-> >>>>> index 4e6ad6e122bc..5c0add2c7546 100644
-> >>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>>>> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
-> >>>>>                 if (!entity)
-> >>>>>                         continue;
-> >>>>>
-> >>>>> +             if (sched->ops->can_run_job) {
-> >>>>> +                     sched_job =3D to_drm_sched_job(spsc_queue_pee=
-k(&entity->job_queue));
-> >>>>> +                     if (!sched_job) {
-> >>>>> +                             complete_all(&entity->entity_idle);
-> >>>>> +                             continue;
-> >>>>> +                     }
-> >>>>> +                     if (!sched->ops->can_run_job(sched_job))
-> >>>>> +                             continue;
-> >>>>> +             }
-> >>>>> +
-> >>>>>                 sched_job =3D drm_sched_entity_pop_job(entity);
-> >>>>>
-> >>>>>                 if (!sched_job) {
-> >>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_schedule=
-r.h
-> >>>>> index 9db9e5e504ee..bd89ea9507b9 100644
-> >>>>> --- a/include/drm/gpu_scheduler.h
-> >>>>> +++ b/include/drm/gpu_scheduler.h
-> >>>>> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
-> >>>>>         struct dma_fence *(*prepare_job)(struct drm_sched_job *sche=
-d_job,
-> >>>>>                                          struct drm_sched_entity *s=
-_entity);
-> >>>>>
-> >>>>> +     /**
-> >>>>> +      * @can_run_job: Called before job execution to check whether=
- the
-> >>>>> +      * hardware is free enough to run the job.  This can be used =
-to
-> >>>>> +      * implement more complex hardware resource policies than the
-> >>>>> +      * hw_submission limit.
-> >>>>> +      */
-> >>>>> +     bool (*can_run_job)(struct drm_sched_job *sched_job);
-> >>>>> +
-> >>>>>         /**
-> >>>>>              * @run_job: Called to execute the job once all of the =
-dependencies
-> >>>>>              * have been resolved.  This may be called multiple tim=
-es, if
-> >>>>>
->
+> ~~ Lina
 
