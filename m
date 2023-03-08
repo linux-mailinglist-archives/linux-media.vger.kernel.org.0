@@ -2,127 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE2D6B0338
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 10:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF7F6B0362
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 10:52:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbjCHJmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 04:42:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53036 "EHLO
+        id S229778AbjCHJwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 04:52:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230199AbjCHJmC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 04:42:02 -0500
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3CCB56D9;
-        Wed,  8 Mar 2023 01:41:44 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id C77F841DF4;
-        Wed,  8 Mar 2023 09:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1678268501;
-        bh=vBxMB571C2rYbZLVgeBfcGW/6kjKGp2NbaNwD343XB8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=CZvuPPNTVPZ5UeTvxDAPbq9istc0FQHAa695VyMpBbgJYwBKq3BYCxH5vGYEznwtD
-         UsWvCb0Ck28/YE43ouuknNNtGFuJNUkPqCqzeTq0B0WPCl3ukEFiPQ6YtGUBmgH6FP
-         JVxP/pFvVRc7toKHMIxyf/6IBkguOIsyZLC3baI8xwmQVvp2ZAZUWBaWDGdY7Lp2u8
-         7NRARO6WbHzFBDxxIcKxob80EOdD2n5kb7qWnM6/OipZBy36VF9gJQUUpOm8fOOoFw
-         6pGiB0Lx3DCNA5Xv/Xq8ckvcr4AF7O0bnR2ObjTc6cxxhcJXFAYmvJlvCXiMctnt6v
-         nxYUr1kjdPP2g==
-Message-ID: <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
-Date:   Wed, 8 Mar 2023 18:41:32 +0900
+        with ESMTP id S229468AbjCHJwV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 04:52:21 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6796798873;
+        Wed,  8 Mar 2023 01:52:19 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id o12so63235114edb.9;
+        Wed, 08 Mar 2023 01:52:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678269138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9fGQKKxWePBgtAu1PyWT3YZ6ScQV2tPn02GMb8I55bc=;
+        b=mBhAw6oLvvleh6eJgbOS6wHeKDdLZdyAyaIphVeItu53m331p/9u9np3us4+q1HvrA
+         3ipQ1Bv3HIGGTjjWoN2POzNKtcrKUK8XmPVIruybWhttScgPW4GZoeqHrozLVtc5bV5G
+         MYWBvrZj2uzXreinHQ2J3qV7oitrvSRWRBPb4u/rHLg6ojJ214ilyP4NFKQPZY7blQQI
+         4m1PuNfFTXGZ/o+m/u60/foen1VScuWLcFNxQ1P5NUjGhrK4mhH5ASL2wUzNC96pMGiC
+         1BCXzOddrMSr2RWHVfoGQN59FWXzsqEWrNrcDUKw3CJXW3bdMZRuu1p4Pe2CPWSOKpB/
+         EB0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678269138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9fGQKKxWePBgtAu1PyWT3YZ6ScQV2tPn02GMb8I55bc=;
+        b=5HY8dObuENKnUZa+gO6jzQUSWfvuMaspMi/NES6hMBHfcFRkcRsm0z3mp12a99f1QO
+         7P//GCd/at7tKPkNLJsGxMbz9xxfN9sElJKOXDAg2EM8zEn6vmJW50+wbjrgn5FCXaco
+         4P7ScEU86LD2PVCyXkQdZn6FAVgvuSeUIDNQ1u1mN0qvSszxRMVhWcylIRG4Ab2OJf4a
+         hfWxw6Jkr3Ratwv+fecuCS2tdkVIAjgS4XtLT1EbVqEPfEJhiMYRzBmbHhvevhvk6Y5l
+         VOMgnu3TgFLNzECK8nKtEV/GCL0yNhWGQbTRUiA+L/sHwQmxcOdzgUN8OlB+biruldvC
+         AZtQ==
+X-Gm-Message-State: AO0yUKXOsTta7auan9bgFbd6BCQrNvqqqlNdrwycDfhfRhAKxaj8OlDE
+        y87KmkRCYKp+QhsnZXSbM7A=
+X-Google-Smtp-Source: AK7set8SDLMd/irQQE0sU6gZhxP+XSR5vgSRWJe5+J0sEnyryADK8bGZn0AdNfvMNW/Y0Y5UWr5w4Q==
+X-Received: by 2002:a17:907:70e:b0:8f5:8da0:a482 with SMTP id xb14-20020a170907070e00b008f58da0a482mr18683260ejb.25.1678269137928;
+        Wed, 08 Mar 2023 01:52:17 -0800 (PST)
+Received: from xeon.. ([188.163.112.76])
+        by smtp.gmail.com with ESMTPSA id s15-20020a170906454f00b008d8f1b238fdsm7369177ejq.149.2023.03.08.01.52.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 01:52:17 -0800 (PST)
+From:   Svyatoslav Ryhel <clamor95@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Svyatoslav Ryhel <clamor95@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Daniel Jeong <gshark.jeong@gmail.com>,
+        Ldd-Mlp <ldd-mlp@list.ti.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] Add OF support for LM3560
+Date:   Wed,  8 Mar 2023 11:52:07 +0200
+Message-Id: <20230308095209.14700-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
-From:   Asahi Lina <lina@asahilina.net>
-In-Reply-To: <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/03/2023 17.46, Christian König wrote:
-> Am 07.03.23 um 15:25 schrieb Asahi Lina:
->> Some hardware may require more complex resource utilization accounting
->> than the simple job count supported by drm_sched internally. Add a
->> can_run_job callback to allow drivers to implement more logic before
->> deciding whether to run a GPU job.
-> 
-> Well complete NAK.
-> 
-> This is clearly going against the idea of having jobs only depend on 
-> fences and nothing else which is mandatory for correct memory management.
-> 
-> If the hw is busy with something you need to return the fence for this 
-> from the prepare_job callback so that the scheduler can be notified when 
-> the hw is available again.
+Implement device tree support to lm3560 and make some 
+minor style adjustmets.
 
-I think you misunderstood the intent here... This isn't about job
-dependencies, it's about in-flight resource limits.
+Svyatoslav Ryhel (2):
+  dt-bindings: media: i2c: add lm3560 binding
+  media: lm3560: convent to OF
 
-drm_sched already has a hw_submission_limit that specifies the number of
-submissions that can be in flight, but that doesn't work for us because
-each job from drm_sched's point of view consists of multiple commands
-split among 3 firmware queues. The firmware can only support up to 128
-work commands in flight per queue (barriers don't count), otherwise it
-overflows a fixed-size buffer.
+ .../bindings/media/i2c/ti,lm3560.yaml         | 130 ++++++++++++++++++
+ drivers/media/i2c/lm3560.c                    | 128 ++++++++++++-----
+ 2 files changed, 223 insertions(+), 35 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,lm3560.yaml
 
-So we need more complex accounting of how many underlying commands are
-in flight per queue to determine whether it is safe to run a new job,
-and that is what this callback accomplishes. This has to happen even
-when individual jobs have no buffer/resource dependencies between them
-(which is what the fences would express).
+-- 
+2.37.2
 
-You can see the driver implementation of that callback in
-drivers/gpu/drm/asahi/queue/mod.rs (QueueJob::can_run()), which then
-calls into drivers/gpu/drm/asahi/workqueue.rs (Job::can_submit()) that
-does the actual available slot count checks.
-
-The can_run_job logic is written to mirror the hw_submission_limit logic
-(just a bit later in the sched main loop since we need to actually pick
-a job to do the check), and just like for that case, completion of any
-job in the same scheduler will cause another run of the main loop and
-another check (which is exactly what we want here).
-
-This case (potentially scheduling more than the FW job limit) is rare
-but handling it is necessary, since otherwise the entire job
-completion/tracking logic gets screwed up on the firmware end and queues
-end up stuck (I've managed to trigger this before).
-
-~~ Lina
