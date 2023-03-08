@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 515696AFDDE
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 05:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE4C86AFEBC
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 07:11:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbjCHEdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 23:33:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42682 "EHLO
+        id S229629AbjCHGK5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 01:10:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjCHEdD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 23:33:03 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CCEF93C4;
-        Tue,  7 Mar 2023 20:32:59 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id n5so9468179pfv.11;
-        Tue, 07 Mar 2023 20:32:59 -0800 (PST)
+        with ESMTP id S229484AbjCHGKz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 01:10:55 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 118A795465;
+        Tue,  7 Mar 2023 22:10:53 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id z11so9564327pfh.4;
+        Tue, 07 Mar 2023 22:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678249979;
+        d=gmail.com; s=20210112; t=1678255852;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fnlnWFbORRUW7WotUUBNStj9+HXnlgPod90NeKp1RSA=;
-        b=FJ+IUjhXNOO8+G+be8rJmlTEtFsEBVXy8Yc53e6jSgEtpmPme/oBlrtOmlT3HdW3Tm
-         7l09AtBr9+5I/NWCWLt1dZVDRq3eCqLquT6Rp563QocYBPR9lEuO8084mPj1f77IdtBJ
-         HrKyHMMPIqE0gvEYK83Oj4TR7z3+M0d2WKR++tQVx1taYiAkirHou160XeFYVVVI0ypI
-         kv/+D3c28xlZTf91X78JGCWY0Q2Z+gYyCfuHk048PclUNd6ugxZqB2cW6Nk+Bs+UP6QI
-         WjSw4mE3ISNurhQ3wyFc7u8C1EwFgeHNnfxwIRuALFJEZdI6q7NBfYwcfahSmSTfc3ue
-         PrCg==
+        bh=JcMP5vlPRx03oWddxmNQBtShzXd//qFHNzh0RraWFD4=;
+        b=WbiI1I2Jcr+3kClatEccOoL7DfYJvCaqlmxfHZa3rLQa/Ww9qcPhk/1jzwdp9cLc7K
+         JAfoOzJPW22Pk3VWX21GYAKUY8cSLJqT6uFYrgMJvB0FERjRQ6pbw3ZPrzcGdt9/ONRm
+         T/2IKrDBcSvHWh6MWg8GRewUsXoCrOD4p46JUFCOEKDiwAQH41wTs8uZmY2JST8yStia
+         PrFTlmK6YUPXTUixuNPDht/e7JRo/MvXgkB+X6lNiImqUikG5Lyhkd1hwSQLu1J7zdqp
+         Ed+FAELIv2xjMkOaByoDzFNZkfxpxPfua8MIbPVW3wyPUzPDrq8wwRzdmQQq4Ivzt28w
+         N3Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678249979;
+        d=1e100.net; s=20210112; t=1678255852;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fnlnWFbORRUW7WotUUBNStj9+HXnlgPod90NeKp1RSA=;
-        b=5Q0BiM4VHqO6jRYBzVEyuOl8cnf3+RLC7VJZbyAVF6DeuS5OmGQR1w3Q9quGOE1/+U
-         ToZsDSCyUND+5L8OR83MfZegDjTmcNpCwuqmvJoKyaq/PWOY7FiEhWmzWXGc7LvgDzK1
-         wK6ysTvwW7KWZbJNyC0oL4Fm9oNwzQTVT3BBnJuYgyySqH6PG2ty0xc0rXPFCAXeUeE/
-         WNBEkpZ8fjanHHdVlJ+NbmS3kN6XYYWrF9eZFk+eQbMvQzsVJDTObSXny11UjCtZqVDq
-         gkex4XUznYjuJVFgfLqXibz9MY7lB656gGB0ol/hersjBBLnzZJdHT5uIs3sLu42MbLa
-         3eGw==
-X-Gm-Message-State: AO0yUKUFuZWXFMVI9WpKDqBNwoGAVrmH0aFMzU4xFnMOE+3IjeC/CnW5
-        7wfM4pBLYr5YyH4c7z+WFEfqaddCn4HEEX+ZS3w=
-X-Google-Smtp-Source: AK7set82TysaLAqeDmXsG1fbDnyaC/PXgRmq9+k8PphsiSF8ywjhc76iouhmrHSpB3HbUL6ZpXYZc0pmxH6HqsCJx90=
-X-Received: by 2002:a63:5508:0:b0:502:fd71:d58c with SMTP id
- j8-20020a635508000000b00502fd71d58cmr6236376pgb.9.1678249978831; Tue, 07 Mar
- 2023 20:32:58 -0800 (PST)
+        bh=JcMP5vlPRx03oWddxmNQBtShzXd//qFHNzh0RraWFD4=;
+        b=LiDGpdjBgjJSNZIEttiAgi0qBYGT6yyIJFmiFP5jB8qYPtzsy2m5Vif6ymOv/miB9o
+         7XMR4Bgq3nE+0w4/hy5GLh9XkhLvA6NRa+0hQgO9gQSa9nWilVbaWhjb1wK5bJH4bYvb
+         b1Zuio8/GuAD+4e2vTvoBk23okr0IIKqkjuv3aMFMIBGZOmEsAiPia/4n1hLYQaW06IN
+         XnA3p4VcWoeYER2hJdB8IWI7JiGLnfcsMN1vBR7MOPmDX1LFv+r4hZwsyWw/XppcLHQu
+         vtLOE9tjlwk18WaHAbnh12gIR8u+mI3cCEiiaPbPRCLPrd6pBV0EG4s9AlHAc6+zxUSP
+         Bx7A==
+X-Gm-Message-State: AO0yUKUTJ049OPCeFvOO65sx+N8EiFJZbTX4sS3voF0FkGtgc+2cgZKK
+        3U8CtjKQ9i8+wAKG7KVd3cJvOZof5iTTAIwKhXw=
+X-Google-Smtp-Source: AK7set+qSEXNWRTh6oONCdq0pECNPcAH7otxC9LGn1nI3uzuJWbi/8510iMYahKIlHFdJJCrBdI7C8B4L17n9zEe2eE=
+X-Received: by 2002:a63:2918:0:b0:503:77c9:45aa with SMTP id
+ bt24-20020a632918000000b0050377c945aamr5771378pgb.9.1678255852381; Tue, 07
+ Mar 2023 22:10:52 -0800 (PST)
 MIME-Version: 1.0
 References: <20230306062633.200427-1-zyytlz.wz@163.com> <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
  <57c17bfd-83f3-fcce-0eab-e28469fb0ced@collabora.com> <11c2bce1e5286ad3a9a5be2ee59c2beac168f135.camel@mediatek.com>
@@ -54,8 +54,8 @@ References: <20230306062633.200427-1-zyytlz.wz@163.com> <CAJedcCzeVwwi9SkkwouFXU
  <CAJedcCwhk_XuMF8keGZGBTVBZSMuoQeyV_7L1H2VeT2x_vj-ZQ@mail.gmail.com> <86c98d73b0d294e143014ea5e15d0a5d065e1a66.camel@mediatek.com>
 In-Reply-To: <86c98d73b0d294e143014ea5e15d0a5d065e1a66.camel@mediatek.com>
 From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Wed, 8 Mar 2023 12:32:45 +0800
-Message-ID: <CAJedcCzdwAFGK1U56AQ-iXLgBmbnNcc3i4428RMd4WHR1cJZsQ@mail.gmail.com>
+Date:   Wed, 8 Mar 2023 14:10:40 +0800
+Message-ID: <CAJedcCyiczZiKm=zQyYwJCszmEHKYX+sVEBx7UC082pS5K5Oww@mail.gmail.com>
 Subject: Re: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
  uncanceled work
 To:     =?UTF-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
@@ -78,8 +78,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -88,26 +88,41 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kyrie,
 
-Thanks for your quick response and detailed information. I understand
-more about the design with your explanation. As you say,  there
-shouldn't be any issues with the normal flow. And if the attacker use
-some tricks to enhance the race window and call remove function
-directly as [1] mentioned, this might trigger uaf bug unexpectedly.
+After reviewing the code, I found anothe possible code path. As I am
+not familiar with the module. It has high possibility it's wrong.
+Could please help me check this? Very much appreciated for your
+valuable time.
 
-Besides, I found another code path which may call v4l2_m2m_cancel_job
-and finally make the situation looks safe. The invoking chain is
+In summary, mtk_jpegdec_worker was set in mtk_jpeg_open and started in
+mtk_jpeg_multicore_dec_device_run, which made it running on cpu1.
+Inside the mtk_jpeg_multicore_dec_device_run, it will call
+schedule_delayed_work  to start the timeout_work, which will make it
+running on cpu2. Meanwhile, we can call
+mtk_jpeg_release to cancel the job. But there might be a race between
+mtk_jpegdec_worker and v4l2_m2m_cancel_job. It may call
+v4l2_m2m_job_finish too early to wake up the event.
+The remove will go on, the other race is as described earlier.
 
-mtk_jpeg_release
-  v4l2_m2m_ctx_release
-    v4l2_m2m_cancel_job
+cpu0                         cpu1                  cpu2
+(1)->device_run
+mtk_jpeg_multicore
+_dec_device_run
+queue_work
+(jpeg->workqueue,
+&ctx->jpeg_work);
+                      (2)mtk_jpegdec_worker
+(3)mtk_jpeg_release
+v4l2_m2m_cancel_job
+wait event
 
-If the attacker have to call mtk_jpeg_release function before the
-remove function, it might be harmless. But I'm not sure about that.
-
-[1]  https://www.usenix.org/system/files/sec21-lee-yoochan.pdf
-
-Best regards,
-Zheng
+                      schedule_delayed_work
+                                            (4)mtk_jpeg_job_timeout_work
+                      (5)v4l2_m2m_job_finish
+                      wake up
+(6)mtk_jpeg_remove
+v4l2_m2m_release
+kfree(m2m_dev)
+                                            (7)v4l2_m2m_get_curr_priv
 
 Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com> =E4=BA=8E2023=E5=B9=
 =B43=E6=9C=888=E6=97=A5=E5=91=A8=E4=B8=89 11:32=E5=86=99=E9=81=93=EF=BC=9A
