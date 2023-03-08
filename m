@@ -2,88 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E27AC6AFCE5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 03:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0D06AFD59
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 04:24:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbjCHC0V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Mar 2023 21:26:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49782 "EHLO
+        id S229937AbjCHDY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Mar 2023 22:24:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjCHC0U (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 21:26:20 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A967521D7;
-        Tue,  7 Mar 2023 18:26:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D80CB6153D;
-        Wed,  8 Mar 2023 02:26:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60965C433D2;
-        Wed,  8 Mar 2023 02:26:17 +0000 (UTC)
-Date:   Tue, 7 Mar 2023 21:26:15 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Subject: Re: [BUG 6.3-rc1] Bad lock in ttm_bo_delayed_delete()
-Message-ID: <20230307212615.7a099103@gandalf.local.home>
-In-Reply-To: <20230307212223.7e49384a@gandalf.local.home>
-References: <20230307212223.7e49384a@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229918AbjCHDY2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Mar 2023 22:24:28 -0500
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DE5C79EF44;
+        Tue,  7 Mar 2023 19:24:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ntwhd
+        jE/sHLAxtS+ZiRSctZFsw4NJ79vU/OFPfulIjI=; b=VNWeQte1QssCEBc7lDlJ5
+        zLJ1gAnOqZQhj9IM04BGP29hgBrPD5mYgLyYM8DnFBhSJh0CTJGXGLkSWP+0JmPH
+        Q6kC4vV5WakrC9nIh/yMW5ppc5jbXs0pHhgJ+KW7ncJCFuuTwWm5olAeepN0Ghig
+        HQSnwlaqKtdX/QgNll/sf0=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by zwqz-smtp-mta-g0-4 (Coremail) with SMTP id _____wCn1V22_wdkytYmCg--.7170S2;
+        Wed, 08 Mar 2023 11:23:34 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     mchehab@kernel.org
+Cc:     wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com,
+        Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH] media: cedrus: fix use after free bug in cedrus_remove due to race condition
+Date:   Wed,  8 Mar 2023 11:23:33 +0800
+Message-Id: <20230308032333.1893394-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wCn1V22_wdkytYmCg--.7170S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw15uF4fAw45Wry5GF45KFg_yoW8JFykpa
+        y5Ka4UCayUtF4Yg3y7Ar18ZF15W34I93WSg34xJwn2qas5Jr1xXr1rta47Jw1DZa9Ykw4a
+        vF15J340qws7AF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziaZXrUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXRcsU1WBo1oioQAAsb
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 7 Mar 2023 21:22:23 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+In cedrus_probe, dev->watchdog_work is bound with cedrus_watchdog function.
+In cedrus_device_run, it will started by schedule_delayed_work. If there is
+unfinished work in cedrus_remove, there may be a race condition and trigger
+UAF bug.
 
-> Looks like there was a lock possibly used after free. But as commit
-> 9bff18d13473a9fdf81d5158248472a9d8ecf2bd ("drm/ttm: use per BO cleanup
-> workers") changed a lot of this code, I figured it may be the culprit.
+CPU0                  CPU1
 
-If I bothered to look at the second warning after this one (I usually stop
-after the first), it appears to state there was a use after free issue.
+                    |cedrus_watchdog
+cedrus_remove       |
+  v4l2_m2m_release  |
+  kfree(m2m_dev)    |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev //use
 
-[  206.692285] ------------[ cut here ]------------
-[  206.706333] refcount_t: underflow; use-after-free.
-[  206.720577] WARNING: CPU: 0 PID: 332 at lib/refcount.c:28 refcount_warn_saturate+0xb6/0xfc
-[  206.735810] Modules linked in:
-[  206.749493] CPU: 0 PID: 332 Comm: kworker/0:13H Tainted: G        W          6.3.0-rc1-test-00001-ga98bd42762ed-dirty #965
-[  206.765833] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
-[  206.781767] Workqueue: ttm ttm_bo_delayed_delete
-[  206.796500] EIP: refcount_warn_saturate+0xb6/0xfc
-[  206.811121] Code: 68 50 1c 0d cf e8 66 b3 a9 ff 0f 0b 58 c9 c3 90 80 3d 57 c6 38 cf 00 75 8a c6 05 57 c6 38 cf 01 68 7c 1c 0d cf e8 46 b3 a9 ff <0f> 0b 59 c9 c3 80 3d 55 c6 38 cf 00 0f 85 67 ff ff ff c6 05 55 c6
-[  206.844560] EAX: 00000026 EBX: c2d5f150 ECX: c3ae5e40 EDX: 00000002
-[  206.862109] ESI: c2d5f0bc EDI: f6f91200 EBP: c3ae5f18 ESP: c3ae5f14
-[  206.878773] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010246
-[  206.895665] CR0: 80050033 CR2: ff9ff000 CR3: 0f512000 CR4: 00150ef0
-[  206.912303] Call Trace:
-[  206.927940]  ttm_bo_delayed_delete+0x8c/0x94
-[  206.944179]  process_one_work+0x21a/0x538
-[  206.960605]  worker_thread+0x146/0x398
-[  206.976839]  kthread+0xea/0x10c
-[  206.992696]  ? process_one_work+0x538/0x538
-[  207.008827]  ? kthread_complete_and_exit+0x1c/0x1c
-[  207.025150]  ret_from_fork+0x1c/0x28
-[  207.041307] irq event stamp: 4219
-[  207.056883] hardirqs last  enabled at (4219): [<ced2a039>] _raw_spin_unlock_irqrestore+0x2d/0x58
-[  207.074298] hardirqs last disabled at (4218): [<ce1d3a65>] kvfree_call_rcu+0x155/0x2ec
-[  207.091461] softirqs last  enabled at (3570): [<ced2b113>] __do_softirq+0x2f3/0x48b
-[  207.107979] softirqs last disabled at (3565): [<ce0c84e9>] call_on_stack+0x45/0x4c
-[  207.123827] ---[ end trace 0000000000000000 ]---
+Fix it by canceling the worker in cedrus_remove.
 
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- Steve
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index a43d5ff66716..c95d011c0817 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -546,7 +546,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ static int cedrus_remove(struct platform_device *pdev)
+ {
+ 	struct cedrus_dev *dev = platform_get_drvdata(pdev);
+-
++	cancel_delayed_work(&dev->watchdog_work);
+ 	if (media_devnode_is_registered(dev->mdev.devnode)) {
+ 		media_device_unregister(&dev->mdev);
+ 		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+-- 
+2.25.1
+
