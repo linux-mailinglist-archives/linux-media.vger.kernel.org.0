@@ -2,306 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 285B56B0367
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 10:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F1556B038B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 10:58:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjCHJwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 04:52:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40464 "EHLO
+        id S230210AbjCHJ6e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 04:58:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbjCHJwX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 04:52:23 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C535498873;
-        Wed,  8 Mar 2023 01:52:21 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id i34so63283234eda.7;
-        Wed, 08 Mar 2023 01:52:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678269140;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sXCB+oYW4zw2V6U49JxzpNXli13gSy/i91Jkb3XU6Fk=;
-        b=EiJrP86dqDxICaiHjpt0FwCpWlRiaNZglDtvcDTiGUoF4LhEGr3G6hEOy7AenHYMZX
-         Ky4VBdYK9/49NcskdAZw9qTSQGBCYwwmoQRDpmKIBpoyhxpsD5Mkcrr+84ble/bSBvGh
-         XLp6H9vFRNzmqUlMBzDsCVsdh/cZjVy7YCznA2kI5GBsQSEBG2TwMHRsx5ic+WHvyHeL
-         bEOHJa36OLSVB0MYjrJPvJEvNlF8jqzARsAyg9GtC4UPWfljSVsimur8BIN66xUVPMJL
-         Aw60EkHbdbhUbJf51T6wNa7nIztPMPeVLe1cgk407MQCehlBmaDruovoNtSV3u0m7WgU
-         Mrfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678269140;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sXCB+oYW4zw2V6U49JxzpNXli13gSy/i91Jkb3XU6Fk=;
-        b=i9CrVgXuBsyHPFI2N0XFK1EJzX0lfpLQkt3V9tvE12Wo7BPBt9Yz9bF62NarW+LTu+
-         WCf75oUqxMVCBXNrFzo++nA9HMFE6+S0Wqh5vZA6g4nZ3SN6Ew9B5QhVinLz9XfdYmu8
-         KW72HYF9u1k8nDmMFkmJQi58BA+tTMMrtdzTDfbEQKBKVQpHrNr93KnaXYAyBjO8sWeR
-         7CeCZdZ+Y9xiAChF0UWkHBJDyXUTUF2lJJy24cLtF9C3Q9rUri29x9PBilwSBtC/Rg/g
-         SDoNFJhJpQJXdjFiOUs6D7hfIeptJKJnSuRGv/YZrfTW+0XLXJdEJdl6h6wFy/1virFH
-         w1lg==
-X-Gm-Message-State: AO0yUKXj6m0lcJJazB3Myoz4YVD5WpP6UJGsmqLZCNOCNKhLnjZQBaUR
-        s15weKUUcsKHLYGzZHI9dlo=
-X-Google-Smtp-Source: AK7set9cee6gVfTjgYnaqK00TdNPS55TVloEReQQho9gqYV6+9Q3SG1IFo7LXFA/cTtUT3d+2vqCQQ==
-X-Received: by 2002:a17:907:e8d:b0:8af:5752:691f with SMTP id ho13-20020a1709070e8d00b008af5752691fmr21189100ejc.76.1678269139972;
-        Wed, 08 Mar 2023 01:52:19 -0800 (PST)
-Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id s15-20020a170906454f00b008d8f1b238fdsm7369177ejq.149.2023.03.08.01.52.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 01:52:19 -0800 (PST)
-From:   Svyatoslav Ryhel <clamor95@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Daniel Jeong <gshark.jeong@gmail.com>,
-        Ldd-Mlp <ldd-mlp@list.ti.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] media: lm3560: convent to OF
-Date:   Wed,  8 Mar 2023 11:52:09 +0200
-Message-Id: <20230308095209.14700-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230308095209.14700-1-clamor95@gmail.com>
-References: <20230308095209.14700-1-clamor95@gmail.com>
+        with ESMTP id S230063AbjCHJ6X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 04:58:23 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0031A970;
+        Wed,  8 Mar 2023 01:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678269498; x=1709805498;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=pZyVPEEWN847EU+VtMs2axVi8WRcs92TdSJoLK4IpVI=;
+  b=fRj1IzWttEPMeUfunFSeMQLnNDyy0H4WaKmtJAxybsWFSWgF0CkP+XXX
+   y7o0mir8IWFb2QbECVfaPg+2j7PahS9dP8oKjtumDshTMiB/ZuuIY4Vn3
+   V5DofzSIDiIqRF/MLhzDT/UyAbolynXPTKNJqyIHMp5VnfaWh72xlB6d/
+   i8G+zqv2QXba81wdQ02CsrWI/sTZaPgItKcooN79mtEBurA79K6KZn7bP
+   ky+ARgOAwGKFA5OLIh88ZWRJ7CU8lC+ku6jmOeG1LFp7aDoZ/7hhMSiL6
+   i9AXXHMum8W2plRtBqIuuTaSzfzY8WtbSefzuhtlee5al81d4iiS6xoTM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398693153"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
+   d="scan'208";a="398693153"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 01:58:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="787059832"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; 
+   d="scan'208";a="787059832"
+Received: from lcojocar-mobl.ger.corp.intel.com (HELO [10.251.219.243]) ([10.251.219.243])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 01:57:49 -0800
+Message-ID: <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
+Date:   Wed, 8 Mar 2023 10:57:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
+ is torn down
+Content-Language: en-US
+To:     Asahi Lina <lina@asahilina.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If no pdata is available, try to read from device tree.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/media/i2c/lm3560.c | 128 +++++++++++++++++++++++++++----------
- 1 file changed, 93 insertions(+), 35 deletions(-)
+On 2023-03-07 15:25, Asahi Lina wrote:
+> drm_sched_fini() currently leaves any pending jobs dangling, which
+> causes segfaults and other badness when job completion fences are
+> signaled after the scheduler is torn down.
+>
+> Explicitly detach all jobs from their completion callbacks and free
+> them. This makes it possible to write a sensible safe abstraction for
+> drm_sched, without having to externally duplicate the tracking of
+> in-flight jobs.
+>
+> This shouldn't regress any existing drivers, since calling
+> drm_sched_fini() with any pending jobs is broken and this change should
+> be a no-op if there are no pending jobs.
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 27 +++++++++++++++++++++++++--
+>   1 file changed, 25 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 5c0add2c7546..0aab1e0aebdd 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1119,10 +1119,33 @@ EXPORT_SYMBOL(drm_sched_init);
+>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   {
+>   	struct drm_sched_entity *s_entity;
+> +	struct drm_sched_job *s_job, *tmp;
+>   	int i;
+>   
+> -	if (sched->thread)
+> -		kthread_stop(sched->thread);
+> +	if (!sched->thread)
+> +		return;
+> +
+> +	/*
+> +	 * Stop the scheduler, detaching all jobs from their hardware callbacks
+> +	 * and cleaning up complete jobs.
+> +	 */
+> +	drm_sched_stop(sched, NULL);
+> +
+> +	/*
+> +	 * Iterate through the pending job list and free all jobs.
+> +	 * This assumes the driver has either guaranteed jobs are already stopped, or that
+> +	 * otherwise it is responsible for keeping any necessary data structures for
+> +	 * in-progress jobs alive even when the free_job() callback is called early (e.g. by
+> +	 * putting them in its own queue or doing its own refcounting).
+> +	 */
+> +	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
+> +		spin_lock(&sched->job_list_lock);
+> +		list_del_init(&s_job->list);
+> +		spin_unlock(&sched->job_list_lock);
+> +		sched->ops->free_job(s_job);
+> +	}
 
-diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index 5ef613604be7..5541051616b7 100644
---- a/drivers/media/i2c/lm3560.c
-+++ b/drivers/media/i2c/lm3560.c
-@@ -11,6 +11,7 @@
- 
- #include <linux/delay.h>
- #include <linux/module.h>
-+#include <linux/gpio.h>
- #include <linux/i2c.h>
- #include <linux/slab.h>
- #include <linux/mutex.h>
-@@ -22,16 +23,16 @@
- 
- /* registers definitions */
- #define REG_ENABLE		0x10
--#define REG_TORCH_BR	0xa0
--#define REG_FLASH_BR	0xb0
--#define REG_FLASH_TOUT	0xc0
-+#define REG_TORCH_BR		0xa0
-+#define REG_FLASH_BR		0xb0
-+#define REG_FLASH_TOUT		0xc0
- #define REG_FLAG		0xd0
- #define REG_CONFIG1		0xe0
- 
- /* fault mask */
--#define FAULT_TIMEOUT	(1<<0)
--#define FAULT_OVERTEMP	(1<<1)
--#define FAULT_SHORT_CIRCUIT	(1<<2)
-+#define FAULT_TIMEOUT		BIT(0)
-+#define FAULT_OVERTEMP		BIT(1)
-+#define FAULT_SHORT_CIRCUIT	BIT(2)
- 
- enum led_enable {
- 	MODE_SHDN = 0x0,
-@@ -54,6 +55,7 @@ struct lm3560_flash {
- 	struct device *dev;
- 	struct lm3560_platform_data *pdata;
- 	struct regmap *regmap;
-+	struct gpio_desc *hwen_gpio;
- 	struct mutex lock;
- 
- 	enum v4l2_flash_led_mode led_mode;
-@@ -356,12 +358,19 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
- 	flash->subdev_led[led_no].flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	strscpy(flash->subdev_led[led_no].name, led_name,
- 		sizeof(flash->subdev_led[led_no].name));
-+
- 	rval = lm3560_init_controls(flash, led_no);
--	if (rval)
-+	if (rval) {
-+		dev_err(flash->dev, "failed to init controls: %d\n", rval);
- 		goto err_out;
-+	}
-+
- 	rval = media_entity_pads_init(&flash->subdev_led[led_no].entity, 0, NULL);
--	if (rval < 0)
-+	if (rval < 0) {
-+		dev_err(flash->dev, "failed to init media entity pads: %d\n", rval);
- 		goto err_out;
-+	}
-+
- 	flash->subdev_led[led_no].entity.function = MEDIA_ENT_F_FLASH;
- 
- 	return rval;
-@@ -391,6 +400,49 @@ static int lm3560_init_device(struct lm3560_flash *flash)
- 	return rval;
- }
- 
-+static int lm3560_of_probe(struct lm3560_flash *flash)
-+{
-+	struct lm3560_platform_data *pdata;
-+	struct fwnode_handle *node;
-+	int ret, reg;
-+
-+	pdata = devm_kzalloc(flash->dev, sizeof(*pdata), GFP_KERNEL);
-+	if (!pdata)
-+		return -ENODEV;
-+
-+	ret = device_property_read_u32(flash->dev,
-+				       "ti,peak-current", &pdata->peak);
-+	if (ret)
-+		pdata->peak = LM3560_PEAK_3600mA;
-+
-+	ret = device_property_read_u32(flash->dev,
-+				       "ti,max-flash-timeout",
-+				       &pdata->max_flash_timeout);
-+	if (ret)
-+		pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
-+
-+	device_for_each_child_node(flash->dev, node) {
-+		fwnode_property_read_u32(node, "reg", &reg);
-+
-+		if (reg == LM3560_LED0 || reg == LM3560_LED1) {
-+			ret = device_property_read_u32(flash->dev,
-+						       "ti,max-flash-current",
-+						       &pdata->max_flash_brt[reg]);
-+			if (ret)
-+				pdata->max_flash_brt[reg] = LM3560_FLASH_TOUT_MAX;
-+
-+			ret = device_property_read_u32(flash->dev,
-+						       "ti,max-torch-current",
-+						       &pdata->max_torch_brt[reg]);
-+			if (ret)
-+				pdata->max_torch_brt[reg] = LM3560_TORCH_BRT_MAX;
-+		}
-+	}
-+	flash->pdata = pdata;
-+
-+	return 0;
-+}
-+
- static int lm3560_probe(struct i2c_client *client)
- {
- 	struct lm3560_flash *flash;
-@@ -398,44 +450,41 @@ static int lm3560_probe(struct i2c_client *client)
- 	int rval;
- 
- 	flash = devm_kzalloc(&client->dev, sizeof(*flash), GFP_KERNEL);
--	if (flash == NULL)
-+	if (!flash)
- 		return -ENOMEM;
- 
- 	flash->regmap = devm_regmap_init_i2c(client, &lm3560_regmap);
--	if (IS_ERR(flash->regmap)) {
--		rval = PTR_ERR(flash->regmap);
--		return rval;
--	}
-+	if (IS_ERR(flash->regmap))
-+		return dev_err_probe(&client->dev, PTR_ERR(flash->regmap),
-+				     "failed to init regmap\n");
- 
--	/* if there is no platform data, use chip default value */
--	if (pdata == NULL) {
--		pdata = devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERNEL);
--		if (pdata == NULL)
--			return -ENODEV;
--		pdata->peak = LM3560_PEAK_3600mA;
--		pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
--		/* led 1 */
--		pdata->max_flash_brt[LM3560_LED0] = LM3560_FLASH_BRT_MAX;
--		pdata->max_torch_brt[LM3560_LED0] = LM3560_TORCH_BRT_MAX;
--		/* led 2 */
--		pdata->max_flash_brt[LM3560_LED1] = LM3560_FLASH_BRT_MAX;
--		pdata->max_torch_brt[LM3560_LED1] = LM3560_TORCH_BRT_MAX;
--	}
--	flash->pdata = pdata;
- 	flash->dev = &client->dev;
- 	mutex_init(&flash->lock);
- 
-+	/* if there is no platform data, try to read from device tree */
-+	if (!pdata)
-+		lm3560_of_probe(flash);
-+
-+	flash->hwen_gpio = devm_gpiod_get_optional(flash->dev, "enable",
-+						   GPIOD_OUT_HIGH);
-+	if (IS_ERR(flash->hwen_gpio))
-+		return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
-+				     "failed to get hwen gpio\n");
-+
- 	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
- 	if (rval < 0)
--		return rval;
-+		return dev_err_probe(&client->dev, rval,
-+				     "failed to init led0 subdev\n");
- 
- 	rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
- 	if (rval < 0)
--		return rval;
-+		return dev_err_probe(&client->dev, rval,
-+				     "failed to init led1 subdev\n");
- 
- 	rval = lm3560_init_device(flash);
- 	if (rval < 0)
--		return rval;
-+		return dev_err_probe(&client->dev, rval,
-+				     "failed to init device\n");
- 
- 	i2c_set_clientdata(client, flash);
- 
-@@ -452,21 +501,30 @@ static void lm3560_remove(struct i2c_client *client)
- 		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
- 		media_entity_cleanup(&flash->subdev_led[i].entity);
- 	}
-+
-+	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
- }
- 
-+static const struct of_device_id lm3560_match[] = {
-+	{ .compatible = "ti,lm3559" },
-+	{ .compatible = "ti,lm3560" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, lm3560_match);
-+
- static const struct i2c_device_id lm3560_id_table[] = {
- 	{LM3559_NAME, 0},
- 	{LM3560_NAME, 0},
- 	{}
- };
--
- MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
- 
- static struct i2c_driver lm3560_i2c_driver = {
- 	.driver = {
--		   .name = LM3560_NAME,
--		   .pm = NULL,
--		   },
-+		.name = LM3560_NAME,
-+		.pm = NULL,
-+		.of_match_table = lm3560_match,
-+	},
- 	.probe_new = lm3560_probe,
- 	.remove = lm3560_remove,
- 	.id_table = lm3560_id_table,
--- 
-2.37.2
+I would stop the kthread first, then delete all jobs without spinlock 
+since nothing else can race against sched_fini?
 
+If you do need the spinlock, It would need to guard list_for_each_entry too.
+
+> +
+> +	kthread_stop(sched->thread);
+>   
+>   	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+>   		struct drm_sched_rq *rq = &sched->sched_rq[i];
+>
