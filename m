@@ -2,221 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B11536B10BD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 19:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8962D6B10CA
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 19:13:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbjCHSMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 13:12:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53468 "EHLO
+        id S230100AbjCHSNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 13:13:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230095AbjCHSMZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 13:12:25 -0500
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D97CE979;
-        Wed,  8 Mar 2023 10:12:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bq8FuZo4qoc19PJ9vj4K3Og+4u0oab0kUFI02LQh7AxINnJjD4ldwYgWUEMNUeojriSutCvFjFswbGyNTyNEuFptsHK/wZAGSJ/vhzuIP1AzL/L9kJbnaAztp56q31LGeg5sg4DXEnc0LjdRw4CtU4f/5Uy4SPrZ5mm7+Dx+dV5P678ZPVlHc/85dw0/WjhC0rHocOG5mCgBr0hw/z+QYQO9zFzoSRmJFI8IHrrhB6TEQEv6J0Czv6ljXQXN7z8aYFdXEX88ec2/cfK+MBKZ3eai+OOGZAlVPAtJ6R0/CVcwfA6E8CS1dFYiMBypzMi6W7oZxC5ERx4MPrQ0zf85wQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OqjJQ7LG7Y1wtHz5kKh6yITz2E3fdXLUKI4tl63gbXs=;
- b=GEijw0fmPWvnGN9OeyfvcDP13dAOnYFf31lYMrf/MbQAMClQ+Jdt+zqtuGDeZzDCR15QQPGqYcWu2flJe/OSKoLxZNdaNpoPP8Lj/9OPobMvjef/4TKrxp38Jf9IXGOspBEi4MUo4x+fE+YCmMcybBpbsjq882pLSF5343v5vkVUwm4L7292xNa3iTdMKfsT8f5ANzpsiZ6uZlN3XHZsihJ5Q0GKmNS1cKJxrdVhwIH4u/KAKfb9Bao9XfJz6MoIGK6QY2PkUEVA9njXf8J5cO8O9g0SygWF4enJgGeWcPMXTiJkVH2ABFAp/LdmKnlQR3I0EVQxYPbSRCnn+jkVZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OqjJQ7LG7Y1wtHz5kKh6yITz2E3fdXLUKI4tl63gbXs=;
- b=oQUoWMGJQlrt4XGMDMVYOBhHRXvEFSUk35nTy6Zt9hu+Kd+LbClRqTFxsXhiiD65//XgVgUlXB4AciRNF7I1Lc3Wq62jRO1uXYX2Bi4dI+UvM0I9OIHbJnhQryv8w2Lc/rQ+k6KWENO6hBrzJ90XSdhcVQEnJ29RYr9IaL/3CYc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY5PR12MB6348.namprd12.prod.outlook.com (2603:10b6:930:f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Wed, 8 Mar
- 2023 18:12:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 18:12:08 +0000
-Message-ID: <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
-Date:   Wed, 8 Mar 2023 19:12:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To:     Asahi Lina <lina@asahilina.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0181.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S230062AbjCHSNP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 13:13:15 -0500
+Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF0112BD2;
+        Wed,  8 Mar 2023 10:12:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1678299177; x=1709835177;
+  h=date:from:to:cc:message-id:references:mime-version:
+   content-transfer-encoding:in-reply-to:subject;
+  bh=XPPM5cG1Lc8BsmZVegn83SYjFbU765xkniaab9xstAw=;
+  b=jsk9bG+VLj4zCW4VEQsLkiOpSb2Qd9yvoC/OgmmCSXxI71Yx/2efhxp0
+   FDQS66VRqB71d2mD1yQL4i6xkyRMsWF26WJq7nIjNvfvFlDDMHhpwVGTJ
+   jc1328bvQ2vgpMldNN3WeP+NTOrCTMMYMS22k8uTmpMonMMB0ipuLB4y+
+   U=;
+X-IronPort-AV: E=Sophos;i="5.98,244,1673913600"; 
+   d="scan'208";a="268068705"
+Subject: Re: [PATCH] media: venus: dec: Fix capture formats enumeration order
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1a-m6i4x-366646a6.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 18:12:55 +0000
+Received: from EX13MTAUWB002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-iad-1a-m6i4x-366646a6.us-east-1.amazon.com (Postfix) with ESMTPS id 97F6DA2702;
+        Wed,  8 Mar 2023 18:12:49 +0000 (UTC)
+Received: from EX19D047UWB002.ant.amazon.com (10.13.138.34) by
+ EX13MTAUWB002.ant.amazon.com (10.43.161.202) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.45; Wed, 8 Mar 2023 18:12:48 +0000
+Received: from amazon.com (10.187.170.17) by EX19D047UWB002.ant.amazon.com
+ (10.13.138.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.24; Wed, 8 Mar
+ 2023 18:12:47 +0000
+Date:   Wed, 8 Mar 2023 11:12:45 -0700
+From:   Jordan Crouse <jorcrous@amazon.com>
+To:     Enric Balletbo i Serra <eballetb@redhat.com>
+CC:     Javier Martinez Canillas <javierm@redhat.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        <linux-kernel@vger.kernel.org>, Albert Esteve <aesteve@redhat.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sergio Lopez <slp@redhat.com>, Andy Gross <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>
+Message-ID: <20230308181245.nbnwkdtdnsldd65l@amazon.com>
+References: <20230210081835.2054482-1-javierm@redhat.com>
+ <20230303220918.qr5ydbin3nye3qtz@amazon.com>
+ <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
+ <3d0315fa-14ca-dc34-81ae-467d9ed5133d@quicinc.com>
+ <87sfeh0yjn.fsf@minerva.mail-host-address-is-not-set>
+ <CALE0LRvR=DjUp2_DBuPQkEr9jvzGH4Mx4-7=rc6zOw1APQdyeQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY5PR12MB6348:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b57cfc6-bf04-44be-93e5-08db2000a123
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /lyiHdIcocy63gO8Ko/NqkmPDCh4XWqGz3EPoCehfb6Fceu1aM26AIvwsEJ1OoJ/sUwNBIcq4bF5alYB/L3FLtqOeVRNBIFvZxTAOzha85IE8Z4knoEWQigJOQmpKLlZy1+cNDjKy4ZPUnWJAXQu9+0PMjK3+xMwEj+mpenMjCvsKytI6FOglV6su2Hj0qbcawWwOAxnay8QEcpjAbvLgtyhwtuYc54ay6sv8XNUWRntjJvlQ4EctxSdnwg4ICOa8onP0CSGaOT8P+RiA9L7WPJNpvyZqvZIL5f/jT5+o3ueq1fw8JIti8mEoLxEG7o7eMN0bsEd9xAB8xCscGwsfaYuzOCW+dvVX45linAufD1sCfSDCgdrUvfJpynRcnQQwWJpeQAmGPSCVzghfSYxnn5AEeF6IflTVenDqVnSoN6e5H6ntUQ32LiFYNhUC2A03rHyp8jcu08f/Oixk6YUR71Vy7aaaXdMedDvAflwagwSBXCNlnZEyAynfwlVLfSvrs8bEcgtelPOBkRx/Or6LQPUlQ/5mJSzRvftuna7PRjLVQ/suLMvUPkAOuSr3srxQBr1d++tsdq5IkOU/YU9A3V8+YTRpsepFJGLzFD+zZxK0tUuKqUGXAV88WJO/p6tlAXVVouqMLwgVJHyga6sTMqjZBRDEr32zJjJLl9mEgorinA3wx2r8AnBZHFRb9zQL0vtwb+ovlY1sbtkoQuvQ6LLogHm2NJO3Ee2SqiWzoshzl0fwpfr+3QDS3Ul7hPE
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(451199018)(6512007)(6486002)(36756003)(6666004)(6506007)(921005)(86362001)(38100700002)(83380400001)(31696002)(186003)(41300700001)(2616005)(66476007)(66556008)(8676002)(2906002)(4326008)(8936002)(31686004)(7416002)(5660300002)(110136005)(478600001)(66946007)(54906003)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RGxkTFRudTZiaTNqWG9OT0ptL0NXTW4vQVhkeVZybDRaUVljR3Jjekk5Yits?=
- =?utf-8?B?YjFpUk5RQzMyOFRZSlBPRFYwUlpxUnBVK2drVE84dC9qbnNaRFlmYlJrbG5U?=
- =?utf-8?B?aTB4Rm1mREJlZzJkTmNEemM4VE9KaWhXUldvSGoxWEY5QUhCZ0Q0UzRVV1Fo?=
- =?utf-8?B?RW1FeENTUmVaTmhGUlRMZmpUS3hCRTdBL0Y2MVhUelFNQ2JXSG9xTTRzSDVW?=
- =?utf-8?B?NHR0Vk1tRFhFQmtSVnhNTGZXTzZKeFVaWmZWRFQ5NVowR3YrWEtZZjUrUS9w?=
- =?utf-8?B?UW9pZ2tMd0x0NUJHRzdyVFN6Z3JnNUVySGdRV2Q1Tkk5STcwRFJjNTlBUmFl?=
- =?utf-8?B?alFOWTcvTSt1aXY5N0FuK000eG1ad0ZkUGpMRmtxVFlUL3ZGbXhldWloNnlZ?=
- =?utf-8?B?Z3ZDY3NWWm15RmdJcE5PdktKZW9hSms4aUVuZVUzcndYSDhPNklMcExGTHZ1?=
- =?utf-8?B?SjN4bUF2S0w3ZkgvYXdySFFHejlyblNremFUUS8yd1VrNkw5TjkzRTFLa0hK?=
- =?utf-8?B?TzBDL0RiRmVsaW9Fd1l0blg3YklxSjdqV1RmQS94bUcrR1VQUnAxZGJJZVJp?=
- =?utf-8?B?VEZldGx4MWhvM3lQMTUyd1JDcDdCMk1TUk5mOWZLWm5SejJGNzNlc0tqeURT?=
- =?utf-8?B?NlVZRENmUjgyWEx2Ri9ReVdhNnh5Zy9YYjkxeW9iYitlRWJFSW0zTFFQZ29L?=
- =?utf-8?B?V3BqREI3Y1lmeEpJMHo1L1BRa2c5WUZLNmJKaFRsWmZxd0V1VnU2dXBXOUxZ?=
- =?utf-8?B?ZS9SUndsWFFXaStSOXJ6ejR0bXZJZWp5MlY5UkNzV1ZUUzRVYTZ5MzIxY1Vl?=
- =?utf-8?B?MDlZa2s4eFF0Rk9PWlV1TXluUWNUM1hFekV4dkp0ZDdvSGdsZGZsNjhieTVm?=
- =?utf-8?B?Z1l5c1NEMUZPVUxCd0RWTW9KdHhrcGV5bEtOdjFPRGt5dDJDWm1qVDVrSHda?=
- =?utf-8?B?Q3ZuNFRSY2lnVGd1NllXZkJheU1WRlljYXRoTVA0Rm9SN3VZTzlLejRQMTF1?=
- =?utf-8?B?WG0rQSszcXVTL0QyeWJ2RlFtVGJKbUI5aXM3RVNuZnovUXhJc1BzbWRTWnZ4?=
- =?utf-8?B?dzZ0T3JkRmcwMVM4MytRZTdTN0JWSUJQTCtKM1F4S29TRFZhdmxXd0FkUjVC?=
- =?utf-8?B?czh0Z2ZYRHN5Rk5kU1lCUTFIRUxkZGFqb29IVG9DaFR0UyttZXZ0UDZlYWts?=
- =?utf-8?B?NWdjS0lrVkJSSnpMaFcxaDhYdkZYRVpLNmJOT2QvK285YkdkS3c3bWJiOVU3?=
- =?utf-8?B?L2NrRFFiOFRmV1ZOSHM1bjIvb2lZSEF4djA0MmZnQjBIQjBiK21qMmhiWEd5?=
- =?utf-8?B?UWxSdG9nblptMkpYOUpFaWZZT1BCTDh2aVRtMnBWS1JmSWZQemdFejdZelpC?=
- =?utf-8?B?RThNOEUrSEZPdWV3NnJiU210aUpEZ3k0NlU1NUY4aVIwWG9lUVJNbWo4OVpU?=
- =?utf-8?B?ZWpXSUhBMXlJMWU5TWVhZlE1THVxdTgzdDhuZUVNYmUzc2dZQTRDb29valNa?=
- =?utf-8?B?YUtzTmtwNTBnRkpseWtPSUNWR2dncTFMNWlZZlJNWFA4bFZaS1JQQUg4cDlG?=
- =?utf-8?B?bHV4OTRrYXNDM3F2eXozc3BPY1RWcWxUeTNMNXJlMFFRREx6VVhWaUZGSFdh?=
- =?utf-8?B?OGN2eHZiWmpKdEN4T1ZQOXl5T1NxZkxIYlZabEp6Lyt4eFU3SC94N3o2THlO?=
- =?utf-8?B?NTVRZjdUUWFNMklrWVdGSGVZWkEzT09JejJJd0d5bFJUUTd4bEhLNS8rNVNJ?=
- =?utf-8?B?dEl2OWNSV09aWDQ1T0RvTk8wcDZrQkl5TlJ2YUNKNmV5ZG5hTk9HQkFibko1?=
- =?utf-8?B?NTE0Vkt5dTlwU3p5ZThZczA1UDlnQkhnUkwrL21pU3M0MVdOMXVvQ2l0ZHc2?=
- =?utf-8?B?VzdlcExmcEZnNWhQUFlaQXNLakJGN0E3Ykd6YTJVOUxubzhyQzA2bFViUUxx?=
- =?utf-8?B?RXB3VzN3UytxaUVQeVl4RlhVVC9zZ2NIZWRrQTMra3p4Ni9oYkNrekZobGdr?=
- =?utf-8?B?N214dElPR3lra25WajZFRGMvVDhmTUx2eHU1TTlvSkVOVi9pekhvNjRwWHRr?=
- =?utf-8?B?bUZSZldCTElmczhCc2t0cUVha3Q4cHVvTGFNaW9KVEY3OEk3cmNyc0xFUnlQ?=
- =?utf-8?B?VDROUSttYzQ3aCt4UURjMHBuN3JEMUZXYmJ0M1Y4NU01bmhlQjBYajVIcSsv?=
- =?utf-8?Q?4fLH3ZdbIyS6ZShzM9T6QEsO2Vpmdczr6J3tGZTiMRgm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b57cfc6-bf04-44be-93e5-08db2000a123
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 18:12:08.1265
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/m4wt0MqguVwT1+ys3Rl+2tDDR3/KYhvN9+FmTLzg2DWyg5rNUOiDZIljazPCsA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6348
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALE0LRvR=DjUp2_DBuPQkEr9jvzGH4Mx4-7=rc6zOw1APQdyeQ@mail.gmail.com>
+X-Originating-IP: [10.187.170.17]
+X-ClientProxiedBy: EX19D046UWA001.ant.amazon.com (10.13.139.112) To
+ EX19D047UWB002.ant.amazon.com (10.13.138.34)
+X-Spam-Status: No, score=-11.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 08.03.23 um 18:32 schrieb Asahi Lina:
-> [SNIP]
-> Yes but... none of this cleans up jobs that are already submitted by the
-> scheduler and in its pending list, with registered completion callbacks,
-> which were already popped off of the entities.
->
-> *That* is the problem this patch fixes!
+On Tue, Mar 07, 2023 at 05:20:18PM +0100, Enric Balletbo i Serra wrote:
+> Hi all,
+> 
+> On Tue, Mar 7, 2023 at 9:13 AM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+> >
+> > Dikshita Agarwal <quic_dikshita@quicinc.com> writes:
+> >
+> > Hello Dikshita,
+> >
+> > > On 3/6/2023 3:38 PM, Javier Martinez Canillas wrote:
+> > >> Jordan Crouse <jorcrous@amazon.com> writes:
+> > >>
+> > >> Hello Jordan,
+> > >>
+> > >>> On Fri, Feb 10, 2023 at 09:18:35AM +0100, Javier Martinez Canillas wrote:
+> > >>>> Commit 9593126dae3e ("media: venus: Add a handling of QC08C compressed
+> > >>>> format") and commit cef92b14e653 ("media: venus: Add a handling of QC10C
+> > >>>> compressed format") added support for the QC08C and QC10C compressed
+> > >>>> formats respectively.
+> > >>>>
+> > >>>> But these also caused a regression, because the new formats where added
+> > >>>> at the beginning of the vdec_formats[] array and the vdec_inst_init()
+> > >>>> function sets the default format output and capture using fixed indexes
+> > >>>> of that array:
+> > >>>>
+> > >>>> static void vdec_inst_init(struct venus_inst *inst)
+> > >>>> {
+> > >>>> ...
+> > >>>>    inst->fmt_out = &vdec_formats[8];
+> > >>>>    inst->fmt_cap = &vdec_formats[0];
+> > >>>> ...
+> > >>>> }
+> > >>>>
+> > >>>> Since now V4L2_PIX_FMT_NV12 is not the first entry in the array anymore,
+> > >>>> the default capture format is not set to that as it was done before.
+> > >>>>
+> > >>>> Both commits changed the first index to keep inst->fmt_out default format
+> > >>>> set to V4L2_PIX_FMT_H264, but did not update the latter to keep .fmt_out
+> > >>>> default format set to V4L2_PIX_FMT_NV12.
+> > >>>>
+> > >>>> Rather than updating the index to the current V4L2_PIX_FMT_NV12 position,
+> > >>>> let's reorder the entries so that this format is the first entry again.
+> > >>>>
+> > >>>> This would also make VIDIOC_ENUM_FMT report the V4L2_PIX_FMT_NV12 format
+> > >>>> with an index 0 as it did before the QC08C and QC10C formats were added.
+> > >>>>
+> > >>>> Fixes: 9593126dae3e ("media: venus: Add a handling of QC08C compressed format")
+> > >>>> Fixes: cef92b14e653 ("media: venus: Add a handling of QC10C compressed format")
+> > >>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> > >>> I just came across this issue independently and can confirm this patch fixes
+> > >>> the GStreamer V4L2 decoder on QRB5165.
+> > >>>
+> > >>> Tested-by: Jordan Crouse <jorcrous@amazon.com>
+> > >>>
+> 
+> This patch also fixes an issue running a V4L2 based decoder on Acer
+> Chromebook Spin 513 which is very similar to the HP X2 Chromebook, not
+> surprising as both platforms are basically the same, but anyway:
+> 
+> Tested-by: Enric Balletbo i Serra <eballetbo@redhat.com>
+> 
+> >
+> > >> Thanks for testing it!
+> > >>
+> > >> Stanimir, can we please get this for v6.3 as well?
+> > >
+> > > Hi Javier, Jordan
+> > >
+> > > Could you please explain what regression/issue you see with patch?
+> > >
+> > > venus hardware supports QC08C which provides better performance hence
+> > > driver is publishing it as preferred color format.
+> > >
+> > > if client doesn't support this or want to use any other format, they can
+> > > set the desired format with s_fmt.
+> > >
+> 
+> I guess general clients are unlikely to support this format as it is
+> an opaque intermediate format used by Qualcomm platforms, and the
+> purpose of that format is to be used for other Qualcomm hardware
+> blocks that know about this format. So I'd say that returning by
+> default a more common format is more reliable. Using your argument if
+> someone wants to use QC08C (because he knows it can use it) set with
+> s_fmt will do the trick too.
+> 
+> In any case, the problem here seems to be that s_fmt is not working,
+> so it would be nice to have a solution for that first and meanwhile do
+> not change the old behaviour. Just my two cents.
+> 
+> Best regards,
+>  Enric Balletbo
+> 
+> >
+> > VIDIOC_S_FMT is currently broken for venus, at least on the HP X2
+> > Chromebook and only the default works. I'm still investigating why
+> > vdec_s_fmt() is not working.
+> >
+> > But basically, if VIDIOC_S_FMT is called for the capture queue,
+> > then later the VIDIOC_G_FMT ioctl fails with -EINVAL. This is due
+> > the following condition checked in vdec_check_src_change():
+> >
+> > static int vdec_check_src_change(struct venus_inst *inst)
+> > {
+> > ...
+> >         if (inst->subscriptions & V4L2_EVENT_SOURCE_CHANGE &&
+> >             inst->codec_state == VENUS_DEC_STATE_INIT &&
+> >             !inst->reconfig)
+> >                 return -EINVAL;
+> > ...
+> > }
+> >
+> > But regardless, I think that it would be better for a driver to
+> > not change the order of advertised VIDIOC_ENUM_FMT pixel formats.
+> >
+> > Because what happens now is that a decoding that was previously
+> > working by default is not working anymore due a combination of
+> > the default being changed and S_FMT not working as expected.
 
-Ah! Yes that makes more sense now.
+For my part, I was using the gstreamer v4l2 decoder which for some reason tries
+to verify it can support whatever format it gets with G_FMT *before*
+trying a S_FMT. I can't confirm or deny if S_FMT currently works or not.
 
->> We could add a warning when users of this API doesn't do this
->> correctly, but cleaning up incorrect API use is clearly something we
->> don't want here.
-> It is the job of the Rust abstractions to make incorrect API use that
-> leads to memory unsafety impossible. So even if you don't want that in
-> C, it's my job to do that for Rust... and right now, I just can't
-> because drm_sched doesn't provide an API that can be safely wrapped
-> without weird bits of babysitting functionality on top (like tracking
-> jobs outside or awkwardly making jobs hold a reference to the scheduler
-> and defer dropping it to another thread).
+That said, I entirely agree with Javier. While it might be more
+bandwidth efficient, QC08C is a obscure format. It is far more likely that the
+average open source user would rather use a well known output format and, as
+has been mentioned, once S_FMT is fixed those in the know can use the other
+formats if they are working with other Qualcomm hardware blocks.
 
-Yeah, that was discussed before but rejected.
-
-The argument was that upper layer needs to wait for the hw to become 
-idle before the scheduler can be destroyed anyway.
-
->>> Right now, it is not possible to create a safe Rust abstraction for
->>> drm_sched without doing something like duplicating all job tracking in
->>> the abstraction, or the above backreference + deferred cleanup mess, or
->>> something equally silly. So let's just fix the C side please ^^
->> Nope, as far as I can see this is just not correctly tearing down the
->> objects in the right order.
-> There's no API to clean up in-flight jobs in a drm_sched at all.
-> Destroying an entity won't do it. So there is no reasonable way to do
-> this at all...
-
-Yes, this was removed.
-
->> So you are trying to do something which is not supposed to work in the
->> first place.
-> I need to make things that aren't supposed to work impossible to do in
-> the first place, or at least fail gracefully instead of just oopsing
-> like drm_sched does today...
->
-> If you're convinced there's a way to do this, can you tell me exactly
-> what code sequence I need to run to safely shut down a scheduler
-> assuming all entities are already destroyed? You can't ask me for a list
-> of pending jobs (the scheduler knows this, it doesn't make any sense to
-> duplicate that outside), and you can't ask me to just not do this until
-> all jobs complete execution (because then we either end up with the
-> messy deadlock situation I described if I take a reference, or more
-> duplicative in-flight job count tracking and blocking in the free path
-> of the Rust abstraction, which doesn't make any sense either).
-
-Good question. We don't have anybody upstream which uses the scheduler 
-lifetime like this.
-
-Essentially the job list in the scheduler is something we wanted to 
-remove because it causes tons of race conditions during hw recovery.
-
-When you tear down the firmware queue how do you handle already 
-submitted jobs there?
-
-Regards,
-Christian.
-
->
-> ~~ Lina
-
+Jordan
