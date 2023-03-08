@@ -2,154 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1388F6B157C
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 23:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 431156B15AD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 23:57:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbjCHWqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 17:46:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44624 "EHLO
+        id S229905AbjCHW5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 17:57:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229943AbjCHWpv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 17:45:51 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0B0D08D0
-        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 14:45:48 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id s11so71915955edy.8
-        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 14:45:48 -0800 (PST)
+        with ESMTP id S229845AbjCHW5S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 17:57:18 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD8ACCEB6
+        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 14:57:17 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso371915pjs.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 14:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678315547;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5nAAE1hEWYCr5Pmk00qC9NxfHeEjmY265EAWnttnUqA=;
-        b=DrRi816pfrsFJZsHdqlKl9NY/Ojqj53zXsA6juTnL7As94dK+3MfqUGe6pNg5IcoAM
-         QXjmOU3i4zOGv+E6dUaJ2Pd3o3UL1d1Ci2CLhso8Lfh+RHEzjVGnh8VSWO1oXadNysXW
-         jn8JG32Fc/63Zm7VB+0xDTPmCHCy0jxMgQjDg=
+        d=chromium.org; s=google; t=1678316236;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dAK9CzL+zrevBUMkpokUm3TFCKwT1+VpG+72EOhUpw4=;
+        b=PYk53ijBC97VpoEV2dqmf6xQpnC+MN1CDULqjxExB4rX2qXKFLCXRKi7w/vRZl3cd9
+         rRlFh9+bA9MdpRILUNPVDv3kV8iA4y1nlQPBGSVgKPkAUDCHbYQz0LT+ur0NBBuXW+78
+         mGJYzl+Fx/o6Fj5Jc4etvYg1Y8a/LDfNeBhPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678315547;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5nAAE1hEWYCr5Pmk00qC9NxfHeEjmY265EAWnttnUqA=;
-        b=sn4G+cpJiuA5yOmS93c/SSce/ztMthMwScx7wOKfpl0b9fU4QE9z9TQm/3bq5Mw660
-         kAfPc1lLeHWzaXm2cXF6DNrmYr+Gb0BJJTDmvTRdrfHf8nFk6jUvS3FXF+ttGKT2ZB7p
-         NL30t0xoNljGi1OhCVJmxsZcnStWFI13PMY51k1QmWmnzqs6XYFH5/s6YTvlPBD5BvEA
-         43jQq7iUrXdzxVmvgmqkrifCo1JRqVXFi5OWllGCSVTN860XOlJlaCB8yO1yaASPjK+f
-         AIfIkALBtoHaismeMw2YEh7qH8jgBK0jcuFiwIHCHjQIZFYsbqGRGtSQDgd3VEoM5Uiv
-         se1Q==
-X-Gm-Message-State: AO0yUKXQEyAMBtdiCRxP7IIS2IHvW9/pS2UiHhfbcrdQNyYWXrlcT8Jj
-        B2sCj3VjOPr3QwjqQhsYBhsFyQ==
-X-Google-Smtp-Source: AK7set9obC+TPt3MhU2dsJ75Dc72DIClOFTLEl3termnv2GIo96iQ+aDeb6mOTTHQX/76o5Wcw5RZA==
-X-Received: by 2002:a17:906:6c84:b0:8aa:33c4:87d5 with SMTP id s4-20020a1709066c8400b008aa33c487d5mr18188780ejr.10.1678315547309;
-        Wed, 08 Mar 2023 14:45:47 -0800 (PST)
-Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id ot18-20020a170906ccd200b008e40853a712sm8040167ejb.97.2023.03.08.14.45.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 14:45:47 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 08 Mar 2023 23:45:36 +0100
-Subject: [PATCH RESEND v5 5/5] media: uvcvideo: Fix hw timestamp handling for slow FPS
+        d=1e100.net; s=20210112; t=1678316236;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dAK9CzL+zrevBUMkpokUm3TFCKwT1+VpG+72EOhUpw4=;
+        b=lKA7dbj2fRdQKSMiue0iZZTTBYQmthViFjWve7wAGc1PneyhkvZxZgx9sbvJ9tMBoI
+         NPvaopmLD9EHR8PRGIP5xq9ApJy47RxYvtkW2Bzs8Z+kpO50UAcFqnlGb4o8NaanTQ0J
+         i34rq/BldY82l/15QUwIeH1KngS5LC9LqYmuzDfm9fr1AQkRIsginRJoU414E94O0b5c
+         GY6vCE17XUIKXQszBf8DtgUk3isUTzM3Bwgzn/EPu7pm9YeACQmY65D9qMTBpJqr7CPV
+         vL/kJJqrmoDdgnuy3NLclXWv+BYQxNYQFQDy7ZQJQ/0upycYj0y+cpPOI8UCRF5p5anh
+         7wdA==
+X-Gm-Message-State: AO0yUKWLBsJy/qToNWnrfFYC4osJO55QtC6sCifcuV1X9sxcjzv0jyRI
+        EBQe7qct6kgrW3c9dmq15lXZsT6nIlbsPD3K/St5WA==
+X-Google-Smtp-Source: AK7set+3aTrCL4gZbaueDtGGrqf+AugyQEIifXdPU931VIlTIfFPqHsxsrTkOC2tBxMfJRjQxdIqvA==
+X-Received: by 2002:a17:90b:4b04:b0:234:656d:2366 with SMTP id lx4-20020a17090b4b0400b00234656d2366mr19827340pjb.42.1678316236269;
+        Wed, 08 Mar 2023 14:57:16 -0800 (PST)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com. [209.85.210.182])
+        by smtp.gmail.com with ESMTPSA id kx1-20020a17090b228100b00231227781d5sm277165pjb.2.2023.03.08.14.57.15
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 14:57:15 -0800 (PST)
+Received: by mail-pf1-f182.google.com with SMTP id a7so279075pfx.10
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 14:57:15 -0800 (PST)
+X-Received: by 2002:a63:5847:0:b0:4eb:1c07:e5d7 with SMTP id
+ i7-20020a635847000000b004eb1c07e5d7mr7049690pgm.6.1678316235129; Wed, 08 Mar
+ 2023 14:57:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v5-5-139d1a144614@chromium.org>
-References: <20220920-resend-hwtimestamp-v5-0-139d1a144614@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v5-0-139d1a144614@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     "hn.chen" <hn.chen@sunplusit.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2432; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=8oy5jraGEK21FgogoPTHRpnEBLvJaCndlyuKgZhZ4ZM=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCRAWwM+vnZz8D7hi2QHfLJNIXdM2uj8xqqrGEuM8
- GWfHQ0WJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZAkQFgAKCRDRN9E+zzrEiGVnD/
- 0ZZz+qXtOEMfCgF5HlAwc1Q+RLZCxf4ZO1YCYRL8HAtJRfGzegNQnua+/fEJDCLoroLU/vgRHINUw+
- ev/eB7oK2cab4EFihmX1Lwu1F5VbMpMmgkGK1FjScREm2180fNAzYdfM6gh4c2B/iz5cKKWkfgljwP
- GnlZdnQ2mhu8VJj3URRAwNBtG6qDujoqq6e0Gf116eJPThgv5MK6KwH95gIO89xz35Lhy6kckvJF1K
- 4QxFFq21iP4+zogTXqKxwJOsfbPSLy7smLy/gv8uC2+AkK9Z7nC0XZJKpeCOP8Bqp7v6EMgYmCRpXV
- lnJ/t6z2r5jTazn3SHFqq+gtQQBNxZqVkFGTdTY4JqV7nxlEzxGFimwJmK315PO4mjYgyNB33myuM4
- sGaOBYl8MyjzD8yDupsokZhCP5d4g64MO4Xe6zs3HlfEl7FJcniTvsdMtNq9omiRnvw4gkgw8EzzE4
- kcMqamAOB8gcP5xuaimAKMFppqQknbymb+jFW2wPDzOd48qA8+jA3vw4PkRpQF1fWejvoX7aDV6Yop
- EmBYeitH54ZLLtZmAGzhVomyHEnr/uWFqGgM4ETNNX51/4tr6RLjmMRbtoQOjc3EfoGvD5vRvHdpHJ
- t2OMLBjrJuj2oIgK4b14TYNJ4LT7CRlOhgQCaJ/runUpCIEFrb9sSFn0Y6GQ==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+References: <20230111-uvc_privacy_subdev-v1-0-f859ac9a01e3@chromium.org>
+ <CANiDSCuq483Eha-KfUM_1y4zb0sC8rNgf-yki5SjiUo3czaKBw@mail.gmail.com> <CAEDqmY7XqqFrQCEMFe3kmOFJkgOcHoJcUH5bJAueyH0oQivzmw@mail.gmail.com>
+In-Reply-To: <CAEDqmY7XqqFrQCEMFe3kmOFJkgOcHoJcUH5bJAueyH0oQivzmw@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 8 Mar 2023 23:57:04 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtdx2URrXCy+T5VOWejqP8V-jVLqa2P9RXNbc2vbZnzog@mail.gmail.com>
+Message-ID: <CANiDSCtdx2URrXCy+T5VOWejqP8V-jVLqa2P9RXNbc2vbZnzog@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] meida: uvcvideo: reimplement privacy gpio as a
+ separate subdevice
+To:     Yunke Cao <yunkec@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+On Tue, 14 Feb 2023 at 06:46, Yunke Cao <yunkec@chromium.org> wrote:
+>
+> Hi!
+>
+> On Fri, Jan 13, 2023 at 5:26 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >
+> > Hi Yunke
+> >
+> > Thank you very much for the patchset :)
+> >
+> > On Wed, 11 Jan 2023 at 09:52, Yunke Cao <yunkec@chromium.org> wrote:
+> > >
+> > > privacy_gpio in uvc were added as V4L2_CID_PRIVACY in uvc video node in
+> > > https://lore.kernel.org/all/20201223133528.55014-1-ribalda@chromium.org/
+> > >
+> > > Userspace applications often require to constantly poll privacy control.
+> > > Currently, polling privacy control requires keeping the video node open,
+> > > which prevents the camera from autosuspending.
+> > >
+> > > This patchset adds a separate v4l2 subdevice. Userspace access the gpio
+> > > via V4L2_CID_PRIVACY in the new subdevice. Applications can poll the
+> > > privacy control status without opening the video node and activate the
+> > > camera.
+> > >
+> > > The non-gpio V4L2_CID_PRIVACY in uvc is not affected.
+> >
+> > Since this is a RFC, lets focus on the idea and not on the code itself.
+> >
+> > - I am missing a reference to the subdevice from the media device. How
+> > will a user figure out that /dev/v4l-subdev0 is the privacy gpio of
+> > /dev/media0 and not /dev/media1?. Thake a look to the "ancillary
+> > links"
+> > - We have already exposed the control as part of the main video
+> > device, that means that we need to keep that API. The control on
+> > /dev/v4l-subdev0 should "mirror" the control on /dev/video0
+> > - There is no need to v4l2_ctrl_fill_event(), if you modify the
+> > control with a set controll function, the media controller should take
+> > care of everything
+>
+> Thanks! I will fix these in the next version if we decide to proceed.
+>
+> >
+> > @Sakari Ailus @Hans Verkuil : Assuming a correct implementation, how
+> > would you feel about exposing a privacy gpio as a subdevice?
+> >
+>
+> Sakari, Hans, do you think this idea makes sense?
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
+Friendly ping
 
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
+>
+> Best,
+> Yunke
+>
+> >
+> > Thanks!!!
+> >
+> >
+> > >
+> > > Suggested-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > Signed-off-by: Yunke Cao <yunkec@chromium.org>
+> > > ---
+> > > Yunke Cao (3):
+> > >       media: v4l2-ctrls: Expose v4l2_ctrl_fill_event()
+> > >       media: uvcvideo: remove entity privacy control in the uvc video node
+> > >       media: uvcvideo: reimplement privacy GPIO as a separate subdevice
+> > >
+> > >  drivers/media/usb/uvc/uvc_ctrl.c          | 17 -------
+> > >  drivers/media/usb/uvc/uvc_driver.c        | 44 ++----------------
+> > >  drivers/media/usb/uvc/uvc_entity.c        | 76 +++++++++++++++++++++++++++++++
+> > >  drivers/media/usb/uvc/uvcvideo.h          | 19 +++++---
+> > >  drivers/media/v4l2-core/v4l2-ctrls-core.c |  9 ++--
+> > >  include/media/v4l2-ctrls.h                | 12 +++++
+> > >  6 files changed, 111 insertions(+), 66 deletions(-)
+> > > ---
+> > > base-commit: 7dd4b804e08041ff56c88bdd8da742d14b17ed25
+> > > change-id: 20230111-uvc_privacy_subdev-1e7a167e86eb
+> > >
+> > > Best regards,
+> > > --
+> > > Yunke Cao <yunkec@chromium.org>
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
 
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 16 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 22255bfa7db9..ae692122d5dc 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -473,6 +473,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1)
-+			clock->count = (clock->head - clock->last_sof_overflow)
-+								% clock->count;
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->head = (clock->head + 1) % clock->size;
- 	clock->count = min(clock->count + 1, clock->size);
-@@ -600,6 +614,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 699c33bc24ed..f2a7e1507492 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -501,6 +501,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
 
 -- 
-2.40.0.rc0.216.gc4246ad0f0-goog-b4-0.11.0-dev-696ae
+Ricardo Ribalda
