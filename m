@@ -2,147 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0BAF6B0A15
-	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 14:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A696B0A83
+	for <lists+linux-media@lfdr.de>; Wed,  8 Mar 2023 15:08:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231733AbjCHNzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 08:55:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55196 "EHLO
+        id S232157AbjCHOIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 09:08:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231717AbjCHNym (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 08:54:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB837C080C;
-        Wed,  8 Mar 2023 05:53:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 012ECB81CE5;
-        Wed,  8 Mar 2023 13:53:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA0F7C433D2;
-        Wed,  8 Mar 2023 13:53:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678283605;
-        bh=MU5EXANTWSsAxrH9VDoE9T6jLGfx/q/yU3e3ldMitrc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=i/3wkZl5nmVgMvW2S8rVgbbpo8g8Q1+JH8S0zsVOqiIdkSeqVqmZyl6udhULFfY+Z
-         1rgW5Irn1evUONLDFWHjHwo6paZYmoQKKLcuyNoIgY/2GJMdayxiFOt8E5AD3r54Tn
-         XoH08ESj8KXSbfZkLiCR2or6d4xeJBBUkbVSqobPVbMMJu1VkPZ9RBsFYTQgs9uHrk
-         gsbs8fzHh5ZGjUouI9uEauvue2hD/3OddFah8EccdSaugXhwaxuTgfE5WBCdbJCU4P
-         n59m/kw75Kx0RRhyoS+KRLeAUs010/hEBwMgwRvIMyEYF/MQlvf4nDfFUiT3z6BDku
-         AHAayjBxY86KQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Jai Luthra <j-luthra@ti.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14] media: ov5640: Fix analogue gain control
-Date:   Wed,  8 Mar 2023 08:53:22 -0500
-Message-Id: <20230308135322.2927564-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+        with ESMTP id S231936AbjCHOHw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 09:07:52 -0500
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88F4521F8;
+        Wed,  8 Mar 2023 06:06:33 -0800 (PST)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-176eae36feaso8068691fac.6;
+        Wed, 08 Mar 2023 06:06:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678284393;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oxgkrPx+GT1CZkfZ5/WiXENKk4kTVmkKWF9GsEdsJ5Y=;
+        b=Yz3ZJQQJGjIiprI6zAxlQ4p5seH2yb8hFqu7vHQXPMIQ/jLrJan77WMj5190ddJOHe
+         49BbwJ3NMNqgvbq1kXmGnA7uv9a+b6LCIqLmDqt2Pwdhd2RcupdRXZ4ujSYUTJERwmXL
+         qDaRjs6/NixLJeDvrsFO1E6MGPAYSJN6OuGQhe33/rYeA0DxiW/qQd7ALckiZAsxmztc
+         2sLxtleiGZd4p6beju4saEshe6In7D0LdZLY6h14gDQe2pD9CC0QNnaV5GsKHnXgEeeH
+         uFnvnLihVxSilesEwtIQYoz7Myo1atxuRL/Vp8+LosHDQ+2SOR50JoPUgoPdmD8LkalI
+         PR+w==
+X-Gm-Message-State: AO0yUKXl/XIsc72Vu9JsWRO78de6/WIFZ2UcSIARMRsCR+kJIeU87vQN
+        2HpMJbGNkuQ2nrfjlbbYKw==
+X-Google-Smtp-Source: AK7set/HkdLMFQ9Tad0ddCcyExnPUvCLXXfIw9IIgZBgi6e47Y7G6aGMR9sDcD51hu8Z/QSdiyx/+Q==
+X-Received: by 2002:a05:6870:b525:b0:172:8941:f360 with SMTP id v37-20020a056870b52500b001728941f360mr12151211oap.4.1678284392883;
+        Wed, 08 Mar 2023 06:06:32 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x38-20020a4a97e9000000b005251f71250dsm6135080ooi.37.2023.03.08.06.06.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 06:06:32 -0800 (PST)
+Received: (nullmailer pid 2666467 invoked by uid 1000);
+        Wed, 08 Mar 2023 14:06:21 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Svyatoslav Ryhel <clamor95@gmail.com>
+Cc:     linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Ldd-Mlp <ldd-mlp@list.ti.com>,
+        Daniel Jeong <gshark.jeong@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+In-Reply-To: <20230308095209.14700-2-clamor95@gmail.com>
+References: <20230308095209.14700-1-clamor95@gmail.com>
+ <20230308095209.14700-2-clamor95@gmail.com>
+Message-Id: <167828360220.2613154.17895980579184472148.robh@kernel.org>
+Subject: Re: [PATCH v1 1/2] dt-bindings: media: i2c: add lm3560 binding
+Date:   Wed, 08 Mar 2023 08:06:21 -0600
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Paul Elder <paul.elder@ideasonboard.com>
 
-[ Upstream commit afa4805799c1d332980ad23339fdb07b5e0cf7e0 ]
+On Wed, 08 Mar 2023 11:52:08 +0200, Svyatoslav Ryhel wrote:
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../bindings/media/i2c/ti,lm3560.yaml         | 130 ++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,lm3560.yaml
+> 
 
-Gain control is badly documented in publicly available (including
-leaked) documentation.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-There is an AGC pre-gain in register 0x3a13, expressed as a 6-bit value
-(plus an enable bit in bit 6). The driver hardcodes it to 0x43, which
-one application note states is equal to x1.047. The documentation also
-states that 0x40 is equel to x1.000. The pre-gain thus seems to be
-expressed as in 1/64 increments, and thus ranges from x1.00 to x1.984.
-What the pre-gain does is however unspecified.
+yamllint warnings/errors:
 
-There is then an AGC gain limit, in registers 0x3a18 and 0x3a19,
-expressed as a 10-bit "real gain format" value. One application note
-sets it to 0x00f8 and states it is equal to x15.5, so it appears to be
-expressed in 1/16 increments, up to x63.9375.
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/media/i2c/ti,lm3560.example.dts:26.43-44 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/media/i2c/ti,lm3560.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1512: dt_binding_check] Error 2
 
-The manual gain is stored in registers 0x350a and 0x350b, also as a
-10-bit "real gain format" value. It is documented in the application
-note as a Q6.4 values, up to x63.9375.
+doc reference errors (make refcheckdocs):
 
-One version of the datasheet indicates that the sensor supports a
-digital gain:
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230308095209.14700-2-clamor95@gmail.com
 
-  The OV5640 supports 1/2/4 digital gain. Normally, the gain is
-  controlled automatically by the automatic gain control (AGC) block.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-It isn't clear how that would be controlled manually.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-There appears to be no indication regarding whether the gain controlled
-through registers 0x350a and 0x350b is an analogue gain only or also
-includes digital gain. The words "real gain" don't necessarily mean
-"combined analogue and digital gains". Some OmniVision sensors (such as
-the OV8858) are documented as supoprting different formats for the gain
-values, selectable through a register bit, and they are called "real
-gain format" and "sensor gain format". For that sensor, we have (one of)
-the gain registers documented as
+pip3 install dtschema --upgrade
 
-  0x3503[2]=0, gain[7:0] is real gain format, where low 4 bits are
-  fraction bits, for example, 0x10 is 1x gain, 0x28 is 2.5x gain
-
-  If 0x3503[2]=1, gain[7:0] is sensor gain format, gain[7:4] is coarse
-  gain, 00000: 1x, 00001: 2x, 00011: 4x, 00111: 8x, gain[7] is 1,
-  gain[3:0] is fine gain. For example, 0x10 is 1x gain, 0x30 is 2x gain,
-  0x70 is 4x gain
-
-(The second part of the text makes little sense)
-
-"Real gain" may thus refer to the combination of the coarse and fine
-analogue gains as a single value.
-
-The OV5640 0x350a and 0x350b registers thus appear to control analogue
-gain. The driver incorrectly uses V4L2_CID_GAIN as V4L2 has a specific
-control for analogue gain, V4L2_CID_ANALOGUE_GAIN. Use it.
-
-If registers 0x350a and 0x350b are later found to control digital gain
-as well, the driver could then restrict the range of the analogue gain
-control value to lower than x64 and add a separate digital gain control.
-
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Jai Luthra <j-luthra@ti.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/i2c/ov5640.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index eb0331b8a5833..b78e35425d14f 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -2002,7 +2002,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 	/* Auto/manual gain */
- 	ctrls->auto_gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_AUTOGAIN,
- 					     0, 1, 1, 1);
--	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
-+	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
- 					0, 1023, 1, 0);
- 
- 	ctrls->saturation = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_SATURATION,
--- 
-2.39.2
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
