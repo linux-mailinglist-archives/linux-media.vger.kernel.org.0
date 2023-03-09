@@ -2,134 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B0F66B2473
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEB76B24A9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:57:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbjCIMom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 07:44:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
+        id S231239AbjCIM5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 07:57:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbjCIMoi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:44:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D6775D8BA
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:43:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678365836;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VUO1ZoejbT14VIcDXM49iok3zwufVC87o5YMbxbo9wQ=;
-        b=eCIOAtDwxIED6ZkkeSt49z58NBT5XZRJSgLh7ApBL3Qzz/UeALZzgTg6donIPE3oOl8cOS
-        nm17zcB+seQpxxB0a7L3NqJ2FnveCFNn257zX/+GVaPuH4dzqcYAeF/V6+OcXt3Y+k5Syq
-        iUZgJ5lvbYuo/fVLNWY4Zl6GCAnU6NE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-166-87e6AwuzP0uENELeET4TmA-1; Thu, 09 Mar 2023 07:43:53 -0500
-X-MC-Unique: 87e6AwuzP0uENELeET4TmA-1
-Received: by mail-ed1-f72.google.com with SMTP id z14-20020a05640235ce00b004e07ddbc2f8so2754207edc.7
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 04:43:53 -0800 (PST)
+        with ESMTP id S230432AbjCIM5Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:57:16 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4A9EE77D
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:56:32 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id cy23so6475206edb.12
+        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 04:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1678366565;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=3hEN9kfNj9gTKEH0LlSIu6oz8mSE87xpVl3u2NmGO2g=;
+        b=FWLNUjd+Ynbth6x89rL+ykVLkpMYbVkpCp3HSaxo6CbqO5QQe4+PXxbwbZpFxkjWDJ
+         43JE15NPIwUml8t4w1DvGgUjf+eoBnjy/OfhTQbRHn8sYHMaTz6E4YK4eyA6FIRyOGH8
+         EzkGTdhx85Ue7GRIF+eIZeJK2dhZUgtS8jJ6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678365831;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VUO1ZoejbT14VIcDXM49iok3zwufVC87o5YMbxbo9wQ=;
-        b=haVXBpLtWUBGMnRndoLiBQ+F8hHiXgHswQpB8Q8gvl72yuN2UC7a29LxJXU0V+mqRd
-         1Menr/nWevnJUqzkpsUXA5TYPmimfEVIDiyhp0mYGrf647EwZ2PRJMOLSMb4qfIqrReO
-         rvmmTX3TkP8GcrSR24Lf2/0c6qotaGYSlMqHr6cjnm5oNzB+mJK2N4bRbDozGJpDoUdG
-         1PCM7roJpsznI4OPfhxvqNsZdlZtQN8wjeL/5OUqEKKBDuqwvWDOiLHpsZrc6w4fMguQ
-         ToX4Kot5nqUZpj9W4SgQJG7JQhIB41gBNRJf9miBUGIVuLCIXaBqWbhwJdkcLs6WDRex
-         h5eA==
-X-Gm-Message-State: AO0yUKVDSQRgBIEOOCescLNPdB1U6uKuoQah/2hQQlZTAfL8i7F03c6M
-        WBlT1OMXQAYX97m2lDer38tZWf984VJT60hOhtGb+Am2Nhw7DyCWf3CYZ5Flz0Yn+dlDmDGTril
-        YTIw3FUctF/4vuMQ2qdq6SWx9PBaLRUc=
-X-Received: by 2002:a05:6402:18c:b0:4ef:9bf0:7177 with SMTP id r12-20020a056402018c00b004ef9bf07177mr8004336edv.9.1678365831869;
-        Thu, 09 Mar 2023 04:43:51 -0800 (PST)
-X-Google-Smtp-Source: AK7set90GwL+kTBS8y4Kd3C7yx+LeV5peJ3FqiMq/YcGzV8L/G2vTlHngrwJoZPDsEgFyP60D1zKeg==
-X-Received: by 2002:a05:6402:18c:b0:4ef:9bf0:7177 with SMTP id r12-20020a056402018c00b004ef9bf07177mr8004322edv.9.1678365831633;
-        Thu, 09 Mar 2023 04:43:51 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id lt21-20020a170906fa9500b008e267d7ec18sm8795186ejb.50.2023.03.09.04.43.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Mar 2023 04:43:51 -0800 (PST)
-Message-ID: <89823804-7d23-334a-91b2-ea3c819232fd@redhat.com>
-Date:   Thu, 9 Mar 2023 13:43:50 +0100
+        d=1e100.net; s=20210112; t=1678366565;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3hEN9kfNj9gTKEH0LlSIu6oz8mSE87xpVl3u2NmGO2g=;
+        b=vobCg/znDar1oxCvBV1J6R6NCgXiGR4eMO2fKCUD/+n+eNGg3TNlD7Oqyh0MYvcYtc
+         M4Z2tQm8DjN/Ahcxb1xHzLDGHrrspDHjrE48Fz16teFvsuTpWB5lUmaH+8QVLyH7TTV+
+         3PzxPneVHhx/G5+V4rXVLP7xp51iI4W+Lvf4M9B6HUdsRKkMJK/01L0lFZxvJeDXxNWn
+         IpCCzESj6b9a70AlhgS16m2dGo9fIOFV9+epK2HbMI6OrHNZyWMVN+MHBn70Xrvl+tqS
+         jXleP/EviY6KtaKnCY66Xe9X0lpSVgoie4lkOwtLEYZxzLXlFVORkepgFUY8ec7WcK4l
+         iF0Q==
+X-Gm-Message-State: AO0yUKUUC4W7v8997ScqcYIN/atkIEKhOUNlNVCs2YNsUCmvIFW1GFSW
+        vjMIZ8xsOuQryPOTW82RoWqq3A==
+X-Google-Smtp-Source: AK7set+xYtytCIou91jM3HL21244bqhv9iytfgk58tmFByebgnjvXPymi04RHL9NV4smKhyJw+Y4PQ==
+X-Received: by 2002:a05:6402:1347:b0:4ab:1c69:5c4 with SMTP id y7-20020a056402134700b004ab1c6905c4mr20419573edw.26.1678366565719;
+        Thu, 09 Mar 2023 04:56:05 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:1645:7aa4:a765:1966])
+        by smtp.gmail.com with ESMTPSA id hy26-20020a1709068a7a00b008d92897cc29sm8799523ejc.37.2023.03.09.04.56.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 04:56:05 -0800 (PST)
+Subject: [PATCH v6 0/5] uvcvideo: Fixes for hw timestamping
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>
-References: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADLXCWQC/4XNTWrDMBAF4KsErasgjWVZ6qr3KFnoZxIJYrlIjk
+ MJvnsnWQZTr4b34H3zYA1rxsY+Dw9WccktT4WC/jiwkFy5IM+RMgMBICwIXrFhiTzd5zxim934w3
+ 2HAANYMCoyGnrXkPvqSkg0LbfrlcqU2zzV39ejRdL5/tdcJBccbZDKQ2+UUF8h1WnMt/E41Qs7kb
+ jAvgKkRBOFltp7LWFD6faV7ql4e3aIw1kNcUNR+4oixZkYg+x648BuKP2+0pOitdCDDRqlMm/Kuq
+ 5/1LiNKtQBAAA=
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 09 Mar 2023 13:55:14 +0100
+Message-Id: <20220920-resend-hwtimestamp-v6-0-c7a99299ec35@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3076; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=vFDd6F/oQe7T08+5tHLxWw+TIQKM46tu1jJzBD35has=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCddIaY0laEbtS5YjEMwM17StDsQcgYqu4iPMa2So
+ pnxu8ZOJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZAnXSAAKCRDRN9E+zzrEiDtID/
+ 9oYFOnO/M9vyMucuEO2OaxJMvXLBhLbKizVB6nvvKcZm0q/3ZdxTEtaE327Y6nMqI75UlNU7VTcEHg
+ 2cFUJIAtnA/egh08Ln30OlHH4PMiOjEinQaXMSkgHVFZle4gcMiHsL76eLbywmrz60Ji4izHjBrVpE
+ TwXlsPcJ9vejsPacXblOIhI05bx+AGckhfnLVS/FeoUUKV5k4yLB/h7FqWl7iGocC8Sw8v/XrxCxm6
+ qi1BpUdCG7LO6bpsDI7T+KfQuiWhnq56EtJMVHsrwlqAbjzi7XrQmpOkua8ug58qXeqNg9EhYeiSX9
+ bnR1cgAI+gOxNyF0+pwQ6jfbpfherFQt6NIYncIIkbcfc7O0/A3hnq34gB0e+6WCKLt2+PefbzD8WJ
+ fn8Kdtw09YVyjVSPqj66uPmg7paDnSt1ymKQmmq2ysMn7pgMv5imQZspEt0gZr2k2BjYebwuwGCxN5
+ kttAspOUB3ILWaq7L+fcShez9zV1a70iyBdcF2ur3hht9eIUkclSpg/AAbli4R76fShsSAiJ6uDmMt
+ LOWaC/SD0xMAWvdBgA4q1oFgxgdlGloOaGQCiI15kgbsxHJXUJLTS21kDQ7SkQ+PGa6CIW51s95uno
+ z3dpAoDTwZg6csVtMIu1caetSGklBYK/xUC/5oG60YHKDprYeFjU8IeArtpQ==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari, 
+Add some fixes for fixing hw timestamp on some Logitech and SunplusIT
+cameras. The issues have been previously reported to the manufacturers.
 
-On 3/9/23 13:27, Sakari Ailus wrote:
-> Link validation currently accesses invalid pointers if the link passed to it
-> is not between two sub-devices. This is of course a driver bug.
-> 
-> Ignore the error but print a debug message, as this is how it used to work
-> previously.
-> 
-> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
-> Reported-by: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reported-and-tested-by: Hans de Goede <hdegoede@redhat.com>
+Also include a patch to fix the current hw timestamping logic for ANY
+uvc 1.5 model running at under 16 fps.
 
-FWIW you have my Reported-by in there twice now ...
+@HungNien, the logic for empty_ts has slightly changed since v4, would
+be great if you could test it on your end.
 
-Regards,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: hn.chen <hn.chen@sunplusit.com>
+Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Hans
+---
+Changes in v6 (Thanks Sergey!):
+- Rebase on top of linus/master
+- Add missing host_sof assignment, ups :(. Sorry about that!
+- Improve comments for empty TS quirk
+- Link to v5: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v5-0-660679c6e148@chromium.org
 
+Changes in v5: Thanks Dan
+- Check for !buf on empty TS packets.
+- Link to v4: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v4-0-a8ddc1358a29@chromium.org
 
+Changes in v4 (Thanks Laurent!):
+- Rebase on top of pinchart/next/uvc
+- Use heuristic for UVC_QUIRK_IGNORE_EMPTY_TS
+- Link to v3: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org
 
+Changes in v3 (Thanks Laurent!):
+- Rebase on top of pinchart/uvc/next
+- Fix hw timestampt handling for slow FPS
+  - Improve commit message
+- Quirk for invalid dev_sof in Logi C922
+  - Improve commit message
+- Allow hw clock updates with buffers not full
+  - Fix typo and improve messages
+- Refactor clock circular buffer
+  - Improve commit message
+- Quirk for autosuspend in Logi C910
+  - Improve commit message
+  - Add comments around the quirk
+- Create UVC_QUIRK_IGNORE_EMPTY_TS quirk
+  - Improve comments
+- Allow quirking by entity guid
+   - unsinged int
+- Extend documentation of uvc_video_clock_decode()
+   - uvcvideo on commit message
+   - Improve comment
+- Link to v2: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v2-0-d8d0616bb612@chromium.org
 
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 1bebcda2bd20c..dd911180ec899 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1209,6 +1209,17 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  	struct v4l2_subdev_state *source_state, *sink_state;
->  	int ret;
->  
-> +	if (!is_media_entity_v4l2_subdev(link->sink->entity)) {
-> +		pr_warn_once("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
-> +			     link->sink->entity->name);
-> +		return 0;
-> +	}
-> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> +		pr_warn_once("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
-> +			     link->source->entity->name);
-> +		return 0;
-> +	}
-> +
->  	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
->  	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
->  
+Changes in v2:
+- Require 1/4 sec of data before using the hw timestamps
+- Add Tested-by SunplusIT
+- Link to v1: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v1-0-e9c14b258404@chromium.org
 
+---
+Ricardo Ribalda (5):
+      media: uvcvideo: Ignore empty TS packets
+      media: uvcvideo: Quirk for invalid dev_sof in Logitech C922
+      media: uvcvideo: Allow hw clock updates with buffers not full
+      media: uvcvideo: Refactor clock circular buffer
+      media: uvcvideo: Fix hw timestamp handling for slow FPS
+
+ drivers/media/usb/uvc/uvc_driver.c |   9 +++
+ drivers/media/usb/uvc/uvc_video.c  | 128 ++++++++++++++++++++++++-------------
+ drivers/media/usb/uvc/uvcvideo.h   |   2 +
+ 3 files changed, 96 insertions(+), 43 deletions(-)
+---
+base-commit: 63355b9884b3d1677de6bd1517cd2b8a9bf53978
+change-id: 20220920-resend-hwtimestamp-b3e22729284d
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
