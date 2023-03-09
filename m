@@ -2,88 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17BE76B24BA
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 451F26B24BB
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:58:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231263AbjCIM6p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 07:58:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33210 "EHLO
+        id S230514AbjCIM6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 07:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbjCIM6K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:58:10 -0500
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4533AF05F0
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:57:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678366658; x=1709902658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nOCg+Q7868A1gyw4mgeQy85HkuiARmJByNrSNOfCNbE=;
-  b=AzmSoRQ8CS+YbiShZL2N0VQPlOezzpUsjXdDR/BEjlItBX4Zvv/S9Nbr
-   5qVUg1RBnhpQsayOow4g0bbEZyODpUjbqTdWTVpZJ/JZ9HHtnwdVq4/Fg
-   f1PcK2dz99jVjR1LH9fqmSQ8IChtf/kvvwOeXvzcdyn/wAH4jPpVJ85nF
-   bitGc1g2OS/mY4pP3KwFTLWw7nA8B9e5WsoUP4rrlY9Lg5Bcb6gTn98Fq
-   smM9kFuO4XPgpbxrtgPsd4JIKqhyGGC+PThSxzaUMRyP38fNmX3weLCVZ
-   7/cr3Nd50LdaB9cXx2CB+wD9wnkPqO3bVf/H1CRBTbqN0OGBsIHW0uccZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="399012710"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="399012710"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:56:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709835536"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
-   d="scan'208";a="709835536"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:56:29 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 2E690120C21;
-        Thu,  9 Mar 2023 14:56:27 +0200 (EET)
-Date:   Thu, 9 Mar 2023 14:56:27 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
-Message-ID: <ZAnXe9H3xg3g/f55@kekkonen.localdomain>
-References: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
- <89823804-7d23-334a-91b2-ea3c819232fd@redhat.com>
+        with ESMTP id S231192AbjCIM63 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:58:29 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D27DF1687
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:57:46 -0800 (PST)
+Received: from localhost.localdomain (unknown [194.146.248.75])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C2E476602FE7;
+        Thu,  9 Mar 2023 12:57:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678366624;
+        bh=Fa+K5mx43H80PRxNz8HGFdjywzLARrxyM7AGivxbkmM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eop0JHHVRbR2cemyFzYWv12A3q9MNdjNt3rzrRbPizk5Mlcqx+EHcTm6kGLNdXhoz
+         ESfuq8UAz5PUQgibHuCIg96U3xKfeLOPFcHup7aTan1gnc8kVLJhz0C1OT2F8XiQBW
+         hkbC11Qh+pBRM1L7FW5s7SujC5oookzK/xmxtkc/6jnYRZyGowS1Nn2ixd3n5CaPLo
+         rh+4I5woJSfNa+bVPo9knDITeJElECBJpIgPz8u80S44ZrSPAKvzcFKS+toNl0iFpW
+         ExL3klAwlWSv/i1JvvPncxeSzh+NRJqbG9s3HYmTyFKnlxRsA3RYphQ30HHbR0kuLT
+         V2/DwWLTxh75Q==
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        kernel@collabora.com
+Subject: [RFC 0/2] VP8 stateless V4L2 encoding uAPI + driver
+Date:   Thu,  9 Mar 2023 13:56:49 +0100
+Message-Id: <20230309125651.23911-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <89823804-7d23-334a-91b2-ea3c819232fd@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 09, 2023 at 01:43:50PM +0100, Hans de Goede wrote:
-> Hi Sakari, 
-> 
-> On 3/9/23 13:27, Sakari Ailus wrote:
-> > Link validation currently accesses invalid pointers if the link passed to it
-> > is not between two sub-devices. This is of course a driver bug.
-> > 
-> > Ignore the error but print a debug message, as this is how it used to work
-> > previously.
-> > 
-> > Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
-> > Reported-by: Hans de Goede <hdegoede@redhat.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reported-and-tested-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> FWIW you have my Reported-by in there twice now ...
+Dear All,
 
-Ah, thanks. I'll drop the first tag.
+This two-patch series adds uAPI for stateless VP8 encoding
+and an accompanying driver using it.
 
+It has been tested on an rk3399 board and there exists
+a gstreamer user:
+
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3736
+
+example pipeline:
+
+gst-launch-1.0 videotestsrc num-buffers=500 ! video/x-raw,width=640,height=480 \
+! v4l2slvp8enc ! queue ! matroskamux ! filesink location=test_vp8.mkv
+
+I kindly ask for comments.
+
+Notably, the documentation for the added uAPI is missing,
+that is to be addressed when sending a patch series proper (not RFC).
+
+For the RFC I also did not care to replace a BUG_ON() in the boolean encoder.
+
+Rebased onto v6.2.
+
+Regards,
+
+Andrzej
+
+Andrzej Pietrasiewicz (2):
+  media: uapi: Add VP8 stateless encoder controls
+  media: rkvdec: Add VP8 encoder
+
+ drivers/media/platform/verisilicon/Makefile   |    2 +
+ drivers/media/platform/verisilicon/hantro.h   |   10 +
+ .../platform/verisilicon/hantro_boolenc.c     |   69 +
+ .../platform/verisilicon/hantro_boolenc.h     |   21 +
+ .../media/platform/verisilicon/hantro_drv.c   |   18 +-
+ .../media/platform/verisilicon/hantro_hw.h    |   90 +
+ .../media/platform/verisilicon/hantro_v4l2.c  |    5 +-
+ .../media/platform/verisilicon/hantro_vp8.c   |  118 ++
+ .../verisilicon/rockchip_vpu2_hw_vp8_enc.c    | 1574 +++++++++++++++++
+ .../platform/verisilicon/rockchip_vpu2_regs.h |    1 +
+ .../platform/verisilicon/rockchip_vpu_hw.c    |   23 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |   16 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    5 +
+ include/media/v4l2-ctrls.h                    |    1 +
+ include/uapi/linux/v4l2-controls.h            |   91 +
+ include/uapi/linux/videodev2.h                |    3 +
+ 16 files changed, 2041 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/media/platform/verisilicon/hantro_boolenc.c
+ create mode 100644 drivers/media/platform/verisilicon/hantro_boolenc.h
+ create mode 100644 drivers/media/platform/verisilicon/rockchip_vpu2_hw_vp8_enc.c
+
+
+base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
 -- 
-Sakari Ailus
+2.25.1
+
