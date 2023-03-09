@@ -2,182 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3C36B2810
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 16:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C54856B288D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 16:19:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232220AbjCIPBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 10:01:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58252 "EHLO
+        id S230248AbjCIPTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 10:19:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232222AbjCIPBM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 10:01:12 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A684D50B;
-        Thu,  9 Mar 2023 06:57:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 786758B1;
-        Thu,  9 Mar 2023 15:57:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678373874;
-        bh=4tUk+33kPiCk1+bL4NC4sgOTjs0IM6b95xiNWBvw28c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uVKMGDrj8Yxn3uJbT7pUZ9LO3Lz9PFkWn7yg2El9IYGR6DYm2rFSBf4ucDjUN/NKI
-         3/zKwHpqhh3IsMySTviYnMHlVjW2fWQxG1xfyTNgR62PsR2AARN7ZiVE0ywOGZnI+e
-         uSVtElQJlBfZXLt8gNAZN8RK9k3zAmJ9RAya6pYw=
-Date:   Thu, 9 Mar 2023 16:57:57 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Max Staudt <mstaudt@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sean Paul <seanpaul@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 1/3] media: uvcvideo: Cancel async worker earlier
-Message-ID: <20230309145757.GB1088@pendragon.ideasonboard.com>
-References: <20230309-guenter-mini-v2-0-e6410d590d43@chromium.org>
- <20230309-guenter-mini-v2-1-e6410d590d43@chromium.org>
+        with ESMTP id S229827AbjCIPTq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 10:19:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009B0DDF34
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 07:18:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678375137;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/9yFC6UG6Qb69zCObh92ltCysfwKAZhk1RaD2VUDs0U=;
+        b=dH8PZj1ac1/EgN/32jsjQRyEc0AS8hMJEkbrJWg8PI2ezdP6/4k8YsR3YVksLSoYIKUqWm
+        u+6OxWQjk3AiKINxkkLY0McOKpIQvUxXf+qVm/+G6YnWvjreI2Xd8XnOL/3xS1m4q82Fcm
+        dbdbKWozIjRWJeJt/TxI0rKgyuDp4HQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-548-evjD9TIbPwu7NSFvWijfaw-1; Thu, 09 Mar 2023 10:18:56 -0500
+X-MC-Unique: evjD9TIbPwu7NSFvWijfaw-1
+Received: by mail-wr1-f72.google.com with SMTP id by11-20020a056000098b00b002ce45687cbdso537160wrb.12
+        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 07:18:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678375135;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9yFC6UG6Qb69zCObh92ltCysfwKAZhk1RaD2VUDs0U=;
+        b=Hb3YRpcklpOlfnqOVkYUlsotGCP9mifKnaae7ItwL+ocI92OfJozxCje+DlZ6DQJzI
+         RSG4T4ARw06p1pdF8V2Qy3zJL996KomRce0UQZl57Bs08Arqw/CBUUKIzvTULbIlHuyT
+         tuSajxqrjgh3Deh04JcgstXUTC3TO5knN9meQxN7UYVk7RPGkUUqFa4+smQ1/nJCyC1X
+         qAU533aYyWQauunDDbb7EoEIfRh4mUwg/uVQ/KYt/I8LqA4t/r91zXbpxLy/E0YZLeRX
+         YVy6uUjYZFuVFnEFWbKXnIzdKo7z2Asb2qcztsWXh3Y3HG9FHawOl2gfWZ3wcxYwT5BE
+         pBtw==
+X-Gm-Message-State: AO0yUKXSS5SCmEowF9HkSOSdPPU//vxjweluf7/b8cVB7P6uS/dtysEY
+        bNwjL0tkVqfPN0iwvZ7BNgSGuMjRan9D/zqWZKnmEccN8kbaCkHL3yIzkHSmP1F2fypAvOw3nyk
+        s9/bD2x8stT7S/+myrtZVQlQ8TC0YjQcNtw==
+X-Received: by 2002:a05:600c:198e:b0:3eb:36fa:b78d with SMTP id t14-20020a05600c198e00b003eb36fab78dmr19471523wmq.23.1678375135004;
+        Thu, 09 Mar 2023 07:18:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set/hSS1pZuG+MnQuREyxGPFkGYBqTYNoS6/zwRI22k5tqtoTJHGML2449NbBIDvfKh+VFM7Fmw==
+X-Received: by 2002:a05:600c:198e:b0:3eb:36fa:b78d with SMTP id t14-20020a05600c198e00b003eb36fab78dmr19471510wmq.23.1678375134671;
+        Thu, 09 Mar 2023 07:18:54 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id l13-20020adfe58d000000b002c569acab1esm18202922wrm.73.2023.03.09.07.18.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 07:18:54 -0800 (PST)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     Jordan Crouse <jorcrous@amazon.com>,
+        Enric Balletbo i Serra <eballetb@redhat.com>
+Cc:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-kernel@vger.kernel.org, Albert Esteve <aesteve@redhat.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sergio Lopez <slp@redhat.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: venus: dec: Fix capture formats enumeration order
+In-Reply-To: <20230308181245.nbnwkdtdnsldd65l@amazon.com>
+References: <20230210081835.2054482-1-javierm@redhat.com>
+ <20230303220918.qr5ydbin3nye3qtz@amazon.com>
+ <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
+ <3d0315fa-14ca-dc34-81ae-467d9ed5133d@quicinc.com>
+ <87sfeh0yjn.fsf@minerva.mail-host-address-is-not-set>
+ <CALE0LRvR=DjUp2_DBuPQkEr9jvzGH4Mx4-7=rc6zOw1APQdyeQ@mail.gmail.com>
+ <20230308181245.nbnwkdtdnsldd65l@amazon.com>
+Date:   Thu, 09 Mar 2023 16:18:53 +0100
+Message-ID: <87ttyu54wy.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230309-guenter-mini-v2-1-e6410d590d43@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo and Guenter,
+Jordan Crouse <jorcrous@amazon.com> writes:
 
-Thank you for the patch.
+> On Tue, Mar 07, 2023 at 05:20:18PM +0100, Enric Balletbo i Serra wrote:
 
-On Thu, Mar 09, 2023 at 03:44:05PM +0100, Ricardo Ribalda wrote:
-> From: Guenter Roeck <linux@roeck-us.net>
-> 
-> So far the asynchronous control worker was canceled only in
-> uvc_ctrl_cleanup_device. This is much later than the call to
-> uvc_disconnect. However, after the call to uvc_disconnect returns,
-> there must be no more USB activity. This can result in all kinds
-> of problems in the USB code. One observed example:
-> 
-> URB ffff993e83d0bc00 submitted while active
-> WARNING: CPU: 0 PID: 4046 at drivers/usb/core/urb.c:364 usb_submit_urb+0x4ba/0x55e
-> Modules linked in: <...>
-> CPU: 0 PID: 4046 Comm: kworker/0:35 Not tainted 4.19.139 #18
-> Hardware name: Google Phaser/Phaser, BIOS Google_Phaser.10952.0.0 08/09/2018
-> Workqueue: events uvc_ctrl_status_event_work [uvcvideo]
-> RIP: 0010:usb_submit_urb+0x4ba/0x55e
-> Code: <...>
-> RSP: 0018:ffffb08d471ebde8 EFLAGS: 00010246
-> RAX: a6da85d923ea5d00 RBX: ffff993e71985928 RCX: 0000000000000000
-> RDX: ffff993f37a1de90 RSI: ffff993f37a153d0 RDI: ffff993f37a153d0
-> RBP: ffffb08d471ebe28 R08: 000000000000003b R09: 001424bf85822e96
-> R10: 0000001000000000 R11: ffffffff975a4398 R12: ffff993e83d0b000
-> R13: ffff993e83d0bc00 R14: 0000000000000000 R15: 00000000fffffff0
-> FS:  0000000000000000(0000) GS:ffff993f37a00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00000000ec9c0000 CR3: 000000025b160000 CR4: 0000000000340ef0
-> Call Trace:
->  uvc_ctrl_status_event_work+0xd6/0x107 [uvcvideo]
->  process_one_work+0x19b/0x4c5
->  worker_thread+0x10d/0x286
->  kthread+0x138/0x140
->  ? process_one_work+0x4c5/0x4c5
->  ? kthread_associate_blkcg+0xc1/0xc1
->  ret_from_fork+0x1f/0x40
-> 
-> Introduce new function uvc_ctrl_stop_device() to cancel the worker
-> and call it from uvc_unregister_video() to solve the problem.
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-> Reviewed-by: Sean Paul <seanpaul@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c   | 11 +++++++----
->  drivers/media/usb/uvc/uvc_driver.c |  1 +
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  3 files changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 5e9d3da862dd..769c1d2a2f45 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -2757,14 +2757,17 @@ static void uvc_ctrl_cleanup_mappings(struct uvc_device *dev,
->  	}
->  }
->  
-> -void uvc_ctrl_cleanup_device(struct uvc_device *dev)
-> +void uvc_ctrl_stop_device(struct uvc_device *dev)
->  {
-> -	struct uvc_entity *entity;
-> -	unsigned int i;
-> -
->  	/* Can be uninitialized if we are aborting on probe error. */
->  	if (dev->async_ctrl.work.func)
->  		cancel_work_sync(&dev->async_ctrl.work);
-> +}
+[...]
 
-There may be an opportunity for refactoring, as we have
-uvc_status_stop() that stops the work queue, but I think this is good
-enough for now. I'm wondering, though, if there could be a race
-condition here similar to the one that the recent changes to
-uvc_status_stop() have fixed ? As uvc_ctrl_stop_device() is called at
-release time I assume that URBs have been cancelled, so there should be
-no race, but a second pair of eyeballs to confirm this would be
-appreciated.
+>> >
+>> > But regardless, I think that it would be better for a driver to
+>> > not change the order of advertised VIDIOC_ENUM_FMT pixel formats.
+>> >
+>> > Because what happens now is that a decoding that was previously
+>> > working by default is not working anymore due a combination of
+>> > the default being changed and S_FMT not working as expected.
+>
+> For my part, I was using the gstreamer v4l2 decoder which for some reason tries
+> to verify it can support whatever format it gets with G_FMT *before*
+> trying a S_FMT. I can't confirm or deny if S_FMT currently works or not.
+>
+> That said, I entirely agree with Javier. While it might be more
+> bandwidth efficient, QC08C is a obscure format. It is far more likely that the
+> average open source user would rather use a well known output format and, as
+> has been mentioned, once S_FMT is fixed those in the know can use the other
+> formats if they are working with other Qualcomm hardware blocks.
+>
 
-Other than that, the patch looks good to me, and fixes an issue
-independent from the rest of the series, so
+Agreed. The rule is that the kernel shouldn't regress user-space and the
+patches that changed the default format certainly did that. So from that
+point of view I think that this patch should land.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I will wait for a reply regarding the race condition before queuing this
-up though.
-
-> +
-> +void uvc_ctrl_cleanup_device(struct uvc_device *dev)
-> +{
-> +	struct uvc_entity *entity;
-> +	unsigned int i;
->  
->  	/* Free controls and control mappings for all entities. */
->  	list_for_each_entry(entity, &dev->entities, list) {
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7aefa76a42b3..4be6dfeaa295 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1893,6 +1893,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
->  	}
->  
->  	uvc_status_unregister(dev);
-> +	uvc_ctrl_stop_device(dev);
->  
->  	if (dev->vdev.dev)
->  		v4l2_device_unregister(&dev->vdev);
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 9a596c8d894a..50f171e7381b 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -760,6 +760,7 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
->  int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
->  			 const struct uvc_control_mapping *mapping);
->  int uvc_ctrl_init_device(struct uvc_device *dev);
-> +void uvc_ctrl_stop_device(struct uvc_device *dev);
->  void uvc_ctrl_cleanup_device(struct uvc_device *dev);
->  int uvc_ctrl_restore_values(struct uvc_device *dev);
->  bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
+There's also Enric's point that NV12 is a more common format and supported
+by more user-space programs. That's why think that regardless of the S_FMT
+situation, makes sense to revert to the previous default behaviour.
 
 -- 
-Regards,
+Best regards,
 
-Laurent Pinchart
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
