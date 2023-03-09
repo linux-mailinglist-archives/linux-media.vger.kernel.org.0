@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28F566B25D9
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 14:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD03C6B268A
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 15:17:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230376AbjCINuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 08:50:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38864 "EHLO
+        id S231263AbjCIOQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 09:16:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231458AbjCINtg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 08:49:36 -0500
+        with ESMTP id S231389AbjCIOQj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 09:16:39 -0500
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54A1FE2526;
-        Thu,  9 Mar 2023 05:48:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB4E92CC42;
+        Thu,  9 Mar 2023 06:16:36 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 0EE6F42037;
-        Thu,  9 Mar 2023 13:48:38 +0000 (UTC)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 8735242037;
+        Thu,  9 Mar 2023 14:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1678369725;
-        bh=AE3z/Hbuidfh0VnEdFu5MrRvC3cGbJJCXqEsPKkKv1I=;
+        s=default; t=1678371395;
+        bh=tUUTZQN+QgD1rn1cHyCzhI7aFoqTUUMz0V4QKuTRQe4=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=KTG/4UqJc8WfavSUh7tqLucA9Wp0OzX4DyjTmJUOp0sRWjLxntOHlni3Y7XaywGDd
-         hU4uXroyp55O6O1tp6qYAIxz+d8FeMIxLBPltCQDvMDCPDO11JEXrxE97V9VaoDS2N
-         JXflI7UOyImooOYtVzFxbWaF3BGr5UNDZFXoGWpcURhEzBPFGOXzZstYOndJg7wJu9
-         o3zByU3WOc1Ihx4z7svazX+2gQOlWDYn5sacZcA4MLiiP9AsOfzTjfi7Bd36YumoOJ
-         6aVufEmspdikuXAb6yavwZ2tJ5pzEC4mrfqcvUBqMQeJM0LXdYFW523hFD7GDmEmuG
-         dd2HP9y7U3aBw==
-Message-ID: <e517dc90-0289-7339-e36e-54ba2635ed1f@asahilina.net>
-Date:   Thu, 9 Mar 2023 22:48:37 +0900
+        b=HjY8oRPlc2CKr20/2jvE1xNtj9x6nJjr9+b1EGdHtTJOh8GMnTUNULcz049Y2BCc7
+         zNix/c/l5q04IeQPfaE8EacKG/v3bkO1C4SDe4Jv7CEVNPvuAENth2GdoDWRBxvPpm
+         SjDtPv89trwUCLVxH/2a6sSJAcw36eKjpLq+W1zVWssd5HHEEbEesEeRj2qGgp5Fn2
+         XbHgR14z2/1bmxa1zbiQSjiiCh4OkRUc4zj6AHT3MvQv4VN384RsyrlOMLi9KEzZM5
+         oPddH7HwLjDPcE+kPmXoSXwheMydufOcxaKPxmTTHE6plTgfpKPVlVOSusvbcQcuSG
+         TsFvLK+TY0Uxg==
+Message-ID: <ac5a748a-bd1c-1076-a17f-42367494976c@asahilina.net>
+Date:   Thu, 9 Mar 2023 23:16:25 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
+Subject: Re: [PATCH RFC 06/18] rust: drm: gem: shmem: Add DRM shmem helper
+ abstraction
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -51,31 +51,24 @@ To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
         =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Jarkko Sakkinen <jarkko@kernel.org>,
         Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
+Cc:     linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+        Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
         Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+        linux-media@vger.kernel.org
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
- <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
- <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
- <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
- <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
- <ac92cea6-89e7-6147-a8fb-8b76e89cdcb6@amd.com>
+ <20230307-rust-drm-v1-6-917ff5bc80a8@asahilina.net>
+ <ff51483e-2d72-3a7b-0632-58ea36cc3d8e@igalia.com>
+ <488728fc-ada2-20a3-79be-8109d891a8cb@asahilina.net>
+ <8e091158-7826-1215-e717-081b25f48108@igalia.com>
 From:   Asahi Lina <lina@asahilina.net>
-In-Reply-To: <ac92cea6-89e7-6147-a8fb-8b76e89cdcb6@amd.com>
+In-Reply-To: <8e091158-7826-1215-e717-081b25f48108@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -87,86 +80,131 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/03/2023 20.47, Christian König wrote:
-> Am 09.03.23 um 10:43 schrieb Asahi Lina:
->> On 09/03/2023 17.42, Christian König wrote:
->>> Am 08.03.23 um 20:37 schrieb Asahi Lina:
->>>> On 09/03/2023 03.12, Christian König wrote:
->>>>> Am 08.03.23 um 18:32 schrieb Asahi Lina:
->>>>>> [SNIP]
->>>>>> Yes but... none of this cleans up jobs that are already submitted by the
->>>>>> scheduler and in its pending list, with registered completion callbacks,
->>>>>> which were already popped off of the entities.
->>>>>>
->>>>>> *That* is the problem this patch fixes!
->>>>> Ah! Yes that makes more sense now.
->>>>>
->>>>>>> We could add a warning when users of this API doesn't do this
->>>>>>> correctly, but cleaning up incorrect API use is clearly something we
->>>>>>> don't want here.
->>>>>> It is the job of the Rust abstractions to make incorrect API use that
->>>>>> leads to memory unsafety impossible. So even if you don't want that in
->>>>>> C, it's my job to do that for Rust... and right now, I just can't
->>>>>> because drm_sched doesn't provide an API that can be safely wrapped
->>>>>> without weird bits of babysitting functionality on top (like tracking
->>>>>> jobs outside or awkwardly making jobs hold a reference to the scheduler
->>>>>> and defer dropping it to another thread).
->>>>> Yeah, that was discussed before but rejected.
->>>>>
->>>>> The argument was that upper layer needs to wait for the hw to become
->>>>> idle before the scheduler can be destroyed anyway.
->>>> Unfortunately, that's not a requirement you can encode in the Rust type
->>>> system easily as far as I know, and Rust safety rules mean we need to
->>>> make it safe even if the upper layer doesn't do this... (or else we have
->>>> to mark the entire drm_sched abstraction unsafe, but that would be a pity).
->>> Yeah, that should really not be something we should do.
+On 09/03/2023 20.47, Maíra Canal wrote:
+> On 3/9/23 02:25, Asahi Lina wrote:
+>> On 08/03/2023 22.38, Maíra Canal wrote:
+>>> On 3/7/23 11:25, Asahi Lina wrote:
+>>>> The DRM shmem helper includes common code useful for drivers which
+>>>> allocate GEM objects as anonymous shmem. Add a Rust abstraction for
+>>>> this. Drivers can choose the raw GEM implementation or the shmem layer,
+>>>> depending on their needs.
+>>>>
+>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>> ---
+>>>>    drivers/gpu/drm/Kconfig         |   5 +
+>>>>    rust/bindings/bindings_helper.h |   2 +
+>>>>    rust/helpers.c                  |  67 +++++++
+>>>>    rust/kernel/drm/gem/mod.rs      |   3 +
+>>>>    rust/kernel/drm/gem/shmem.rs    | 381 ++++++++++++++++++++++++++++++++++++++++
+>>>>    5 files changed, 458 insertions(+)
+>>>>
 >>>
->>> But you could make the scheduler depend on your fw context object, don't
->>> you?
->> Yes, and that would fix the problem for this driver, but it wouldn't
->> make the abstraction safe. The thing is we have to make it *impossible*
->> to misuse drm_sched in such a way that it crashes, at the Rust
->> abstraction level. If we start depending on the driver following rules
->> like that, that means the drm_sched abstraction has to be marked unsafe.
+>>> [...]
+>>>
+>>>> +unsafe extern "C" fn gem_create_object<T: DriverObject>(
+>>>> +    raw_dev: *mut bindings::drm_device,
+>>>> +    size: usize,
+>>>> +) -> *mut bindings::drm_gem_object {
+>>>> +    // SAFETY: GEM ensures the device lives as long as its objects live,
+>>>> +    // so we can conjure up a reference from thin air and never drop it.
+>>>> +    let dev = ManuallyDrop::new(unsafe { device::Device::from_raw(raw_dev) });
+>>>> +
+>>>> +    let inner = match T::new(&*dev, size) {
+>>>> +        Ok(v) => v,
+>>>> +        Err(e) => return e.to_ptr(),
+>>>> +    };
+>>>> +
+>>>> +    let p = unsafe {
+>>>> +        bindings::krealloc(
+>>>> +            core::ptr::null(),
+>>>> +            Object::<T>::SIZE,
+>>>> +            bindings::GFP_KERNEL | bindings::__GFP_ZERO,
+>>>> +        ) as *mut Object<T>
+>>>> +    };
+>>>> +
+>>>> +    if p.is_null() {
+>>>> +        return ENOMEM.to_ptr();
+>>>> +    }
+>>>> +
+>>>> +    // SAFETY: p is valid as long as the alloc succeeded
+>>>> +    unsafe {
+>>>> +        addr_of_mut!((*p).dev).write(dev);
+>>>> +        addr_of_mut!((*p).inner).write(inner);
+>>>> +    }
+>>>> +
+>>>> +    // SAFETY: drm_gem_shmem_object is safe to zero-init, and
+>>>> +    // the rest of Object has been initialized
+>>>> +    let new: &mut Object<T> = unsafe { &mut *(p as *mut _) };
+>>>> +
+>>>> +    new.obj.base.funcs = &Object::<T>::VTABLE;
+>>>> +    &mut new.obj.base
+>>>> +}
+>>>
+>>> It would be nice to allow to set wc inside the gem_create_object callback,
+>>> as some drivers do it so, like v3d, vc4, panfrost, lima...
 >>
->>> Detaching the scheduler from the underlying hw fences is certainly
->>> possible, but we removed that functionality because some people people
->>> tried to force push some Windows recovery module into Linux. We are in
->>> the process of reverting that and cleaning things up once more, but that
->>> will take a while.
->> Okay, but I don't see why that should block the Rust abstractions...
+>> This is actually a bit tricky to do safely, because we can't just have a
+>> callback that takes the drm_gem_shmem_object instance inside
+>> gem_create_object because it is not fully initialized yet from the point
+>> of view of the gem shmem API. Maybe we could have some sort of temporary
+>> proxy object that only lets you do safe things like set map_wc? Or maybe
+>> the new() callback could return something like a ShmemTemplate<T> type
+>> that contains both the inner data and some miscellaneous fields like the
+>> initial map_wc state?
 > 
-> Because even with removing the fence callback this is inherently unsafe.
+> I see that most drivers use this hook to set map_wc and set funcs. What
+> are your thoughts on something like this?
 > 
-> You not only need to remove the callback, but also make sure that no 
-> parallel timeout handling is running.
+> Best Regards,
+> - Maíra Canal
+> 
+>  From 61f23f4a39028c9d34d3df58d7640bfcd64e9af9 Mon Sep 17 00:00:00 2001
+> From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+> Date: Thu, 9 Mar 2023 08:24:09 -0300
+> Subject: [PATCH] rust: drm: gem: shmem: Set map_wc on gem_create_object
+>   callback
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=UTF-8
+> Content-Transfer-Encoding: 8bit
+> 
+> Some drivers use the gem_create_object callback to define the mapping of
+> the object write-combined (map_wc). Currently, the DRM Rust abstractions
+> doesn't allow such operation. So, add a method to the DriverObject trait
+> to allow drivers to set map_wc on the gem_create_object callback. By
+> default, the method returns false, which is the shmem default value.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   rust/kernel/drm/gem/shmem.rs | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+> index 8f17eba0be99..a7f33b66f60a 100644
+> --- a/rust/kernel/drm/gem/shmem.rs
+> +++ b/rust/kernel/drm/gem/shmem.rs
+> @@ -24,6 +24,11 @@ use gem::BaseObject;
+>   pub trait DriverObject: gem::BaseDriverObject<Object<Self>> {
+>       /// Parent `Driver` for this object.
+>       type Driver: drv::Driver;
+> +
+> +    /// Define the map object write-combined
+> +    fn set_wc() -> bool {
+> +        false
+> +    }
+>   }
 
-If by that you mean that the timeout handling functions aren't being
-called by the driver, then that's implied. If the scheduler is being
-dropped, by definition there are no references left to call into the
-scheduler directly from the Rust side. So we only need to worry about
-what drm_sched itself does.
+I think if you're going to make it a static function like that, we might
+as well just make it an associated constant like `DEFAULT_WC`? After all
+there is no information gem_create_object gets other than the size so we
+can't really do anything more useful, and `set_wc()` can't do much other
+than return a constant ^^
 
-Right now the cleanup function tears down the timeout work at the end,
-but it probably makes sense to do it at the start? Then if we do that
-and stop the kthread, we can be really sure nothing else is accessing
-the scheduler and we can clean up without taking any locks:
-
-Roughly:
-
-void drm_sched_fini(struct drm_gpu_scheduler *sched)
-{
-    sched->ready = false; /* Should probably do this first? */
-    kthread_stop(sched->thread);
-    cancel_delayed_work_sync(&sched->work_tdr);
-
-    /* Clean up the pending_list here */
-}
-
-I'm also not sure what the rest of the drm_sched_fini() function is
-doing right now. It's going through all entities and removing them, and
-then wakes up entities stuck in drm_sched_entity_flush()... but didn't
-we just agree that the API requires users to tear down entities before
-tearing down the scheduler anyway?
+The only corner case I can think of is cases where the WC mode depends
+on the device (for example, if some devices want to enable it or not
+depending on whether the particular hardware variant is cache-coherent),
+but then it should probably just be part of the return value for T::new
+since that function already gets all available information (device and
+size). But I think a constant works for now, we can always extend it
+when a use case comes for doing more.
 
 ~~ Lina
