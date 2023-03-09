@@ -2,160 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 490556B164D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 00:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5FF56B17BB
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 01:15:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229951AbjCHXM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 18:12:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56568 "EHLO
+        id S229605AbjCIAPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 19:15:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230093AbjCHXMs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 18:12:48 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A10CC33C
-        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 15:12:40 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id p6so193722plf.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 15:12:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678317160;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nYgUfU5eUuS244oNJIEgy02v0P9DMsR50rggjkoPoJQ=;
-        b=V+OpMeSSrLWwiixcwV41uEs2XW1WHel6ThlTfqxqcxxAeT6b2BtMilA69I0nqGK8OR
-         ILY/pl5y1QuabBjU0pgPUXSgtZTvt1UqV6J/GDOFjjCoA1gJYoUd4tSQoXTdmBvHWj3M
-         q+2YHxaj8jJVs4XmX5beRPpw6QZ7rVhbVkQGk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678317160;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nYgUfU5eUuS244oNJIEgy02v0P9DMsR50rggjkoPoJQ=;
-        b=gcLStxYNvyQiRsWlBQuNizYUECA1shgqiay8WhhvAtulxBRGyFbCy4gjwE5cQgjKzW
-         xb/PrjEutO07ZRIYyTn78X9BFa/4ZpyBaBY7Yt4p7OhUfoOlUBcXLGvPP79thMWb57dw
-         i1qfx7jSM72FQBWl6VGzm8ytSt/f30l4KyIYJmpdF7zmZga+gtkIaJ6UEAMvaUurgLLt
-         UxhlDpgh7Z7Kr/YOTJyLI73J6aME9ngsjqxqTeEFSlDukfc3P7vzvvKcrHuZiB9lUOLs
-         B0j18uzwtG34VZaHmnvR39bDqIAXSvdbJ5FOnIN91WswG3RJUjk7pKN5+6jUr3KAXCYr
-         lpUA==
-X-Gm-Message-State: AO0yUKUBiiMITh/joZYDG1ojz2DIldrqB7kOPtj+I8wuUybJQnLdhTOC
-        slzHKTriv3V2TxyUBm7pjLc7bnnLKIt1K/L7OXj0AA==
-X-Google-Smtp-Source: AK7set/cX4ufYudGUAlEc42/Tlu3sQzL2Zsgm0riCHNycWcrzrcUaklQq6Ww778cVyGo6ZhMzAldsA==
-X-Received: by 2002:a17:90a:190d:b0:230:7a31:b9a6 with SMTP id 13-20020a17090a190d00b002307a31b9a6mr20792001pjg.7.1678317159712;
-        Wed, 08 Mar 2023 15:12:39 -0800 (PST)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com. [209.85.216.49])
-        by smtp.gmail.com with ESMTPSA id hi15-20020a17090b30cf00b002311ae14a01sm282178pjb.11.2023.03.08.15.12.39
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 15:12:39 -0800 (PST)
-Received: by mail-pj1-f49.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso401217pjs.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 15:12:39 -0800 (PST)
-X-Received: by 2002:a17:903:26d6:b0:19b:fe3:c948 with SMTP id
- jg22-20020a17090326d600b0019b0fe3c948mr7460103plb.12.1678317158600; Wed, 08
- Mar 2023 15:12:38 -0800 (PST)
+        with ESMTP id S229475AbjCIAPe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 19:15:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440941A965;
+        Wed,  8 Mar 2023 16:15:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AA031B81E28;
+        Thu,  9 Mar 2023 00:15:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 995EDC433EF;
+        Thu,  9 Mar 2023 00:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678320930;
+        bh=hHC0B1GeaM0iKkWhoKBNByKouv+fx7hiMggxFL1Bf88=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eoF1rdNR2OR8vJyryOQTxPz5YQ/SLnsSYNj3+qM0XdSUxLnhkCp9TQ/eFlGuOnCiy
+         nPDxBdFF8maGabhDAxcW+EsEr2VpIv0QGpd82dGSWu16kQhvRIZmQ7dqthnlPZ3qj4
+         hr8rjc73zYt7GVnjqM1R510jcQ2LWMWJ55BieVDaIQXqJ+eV7GhiehdfM+AKMp5ljp
+         OuwFR+f085eUzVrezZ/IdVsJK3zes3iLtz575ZBhurg1eelqMZgFLHsX4Ubrxb9/vz
+         zCUcZKJpq9fTNTGPY6duB0jFSuCWah1AZHOub98Imxq1C5T5KZBbLHsd4QWjS6vmnA
+         HWcgnYpujunmg==
+Date:   Thu, 9 Mar 2023 01:15:25 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Takashi Iwai <tiwai@suse.de>, Hyunwoo Kim <imv4bel@gmail.com>,
+        kernel@tuxforce.de, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, cai.huoqing@linux.dev
+Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
+ dvb-core and device driver
+Message-ID: <20230309011525.49ac3399@coco.lan>
+In-Reply-To: <20230307103659.GA347928@google.com>
+References: <20221117045925.14297-1-imv4bel@gmail.com>
+        <87lema8ocn.wl-tiwai@suse.de>
+        <Y/YXbNgBhhWhfjwS@google.com>
+        <Y/3mT9uSsuviT+sa@google.com>
+        <20230307103659.GA347928@google.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20221101-instal-v1-0-d13d1331c4b5@chromium.org>
- <Y6z55cXTt5yXjIZj@pendragon.ideasonboard.com> <CANiDSCvbQ7uMgoxDsXDOphjANNZ2EuoV-Dra+wtT9LLL6USstQ@mail.gmail.com>
- <CANiDSCveK6QRbYM==XN9jggy8DHfS3QJawDWpFLy0jcmmHeduA@mail.gmail.com> <1298c83f-695a-4356-aa2e-22b0e6629610@rowland.harvard.edu>
-In-Reply-To: <1298c83f-695a-4356-aa2e-22b0e6629610@rowland.harvard.edu>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 9 Mar 2023 00:12:27 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtfPO+O=uLTAAiLDrmvcRigi1weAih_+et5iwFy5Joamw@mail.gmail.com>
-Message-ID: <CANiDSCtfPO+O=uLTAAiLDrmvcRigi1weAih_+et5iwFy5Joamw@mail.gmail.com>
-Subject: Re: [PATCH RESEND] media: uvcvideo: Disable autosuspend for Insta360 Link
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Yunke Cao <yunkec@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alan
+Em Tue, 7 Mar 2023 10:36:59 +0000
+Lee Jones <lee@kernel.org> escreveu:
 
-On Thu, 9 Mar 2023 at 00:02, Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Wed, Mar 08, 2023 at 11:43:09PM +0100, Ricardo Ribalda wrote:
-> > On Wed, 1 Mar 2023 at 10:04, Ricardo Ribalda <ribalda@chromium.org> wrote:
-> > >
-> > > Hi Laurent
-> > >
-> > > We are back to this issue.
-> > >
-> > >
-> > > On Thu, 29 Dec 2022 at 03:22, Laurent Pinchart
-> > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > >
-> > > > Hi Ricardo,
-> > > >
-> > > > Thank you for the patch.
-> > > >
-> > > > On Fri, Dec 02, 2022 at 05:48:52PM +0100, Ricardo Ribalda wrote:
-> > > > > When the device suspends, it keeps power-cycling.
+> On Tue, 28 Feb 2023, Lee Jones wrote:
+>=20
+> > On Wed, 22 Feb 2023, Lee Jones wrote:
+> > =20
+> > > On Tue, 10 Jan 2023, Takashi Iwai wrote:
+> > > =20
+> > > > On Thu, 17 Nov 2022 05:59:21 +0100,
+> > > > Hyunwoo Kim wrote: =20
 > > > > >
-> > > > > The user notices it because the LED constanct oscillate between
-> > > > > blue (ready) and no LED (off).
->
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > > media: uvcvideo: Disable autosuspend for Insta360
+> > > > > Dear,
 > > > > >
-> > > > > The device does not handle properly the USB suspend and makes it barely usable.
+> > > > > This patch set is a security patch for various race condition vul=
+nerabilities that occur
+> > > > > in 'dvb-core' and 'ttusb_dec', a dvb-based device driver.
+> > > > >
+> > > > >
+> > > > > # 1. media: dvb-core: Fix use-after-free due to race condition oc=
+curring in dvb_frontend
+> > > > > This is a security patch for a race condition that occurs in the =
+dvb_frontend system of dvb-core.
+> > > > >
+> > > > > The race condition that occurs here will occur with _any_ device =
+driver using dvb_frontend.
+> > > > >
+> > > > > The race conditions that occur in dvb_frontend are as follows =20
+> > >
+> > > [...]
+> > > =20
+> > > > > # 4. media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
+> > > > > This is a patch for a memory leak that occurs in the ttusb_dec_ex=
+it_dvb() function.
+> > > > >
+> > > > > Because ttusb_dec_exit_dvb() does not call dvb_frontend_detach(),
+> > > > > several fe related structures are not kfree()d.
+> > > > >
+> > > > > Users can trigger a memory leak just by repeating connecting and =
+disconnecting
+> > > > > the ttusb_dec device.
+> > > > >
+> > > > >
+> > > > > Finally, most of these patches are similar to this one, the secur=
+ity patch for
+> > > > > CVE-2022-41218 that I reported:
+> > > > > https://lore.kernel.org/linux-media/20221031100245.23702-1-tiwai@=
+suse.de/
+> > > > >
+> > > > >
+> > > > > Regards,
+> > > > > Hyunwoo Kim =20
 > > > >
-> > > > Isn't this best handled with a quirk in the USB core ? Autosuspend is a
-> > > > device feature, not an interface feature, so if the USB sound driver is
-> > > > loaded but uvcvideo isn't, the kernel may still attempt to autosuspend
-> > > > the device.
+> > > > Are those issues still seen with the latest 6.2-rc kernel?
+> > > > I'm asking because there have been a few fixes in dvb-core to deal
+> > > > with some UAFs.
 > > > >
+> > > > BTW, Mauro, the issues are tagged with several CVE's:
+> > > > CVE-2022-45884, CVE-2022-45886, CVE-2022-45885, CVE-2022-45887. =20
 > > >
-> > > Seems like USB_QUIRK_NO_AUTOSUSPEND was gone for a long time
+> > > Was there an answer to this question?
 > > >
-> > > https://lore.kernel.org/lkml/20071115064457.GU19218@kroah.com/
+> > > Rightly or wrongly this patch is still being touted as the fix for so=
+me
+> > > reported CVEs [0].
 > > >
-> > > under the assumption that autosuspend was off by default and user
-> > > space should only enable autosuspend on the devices that support it
-> > > (if I understand it correctly).
+> > > Is this patch still required or has it been superseded?  If the later,
+> > > which patch superseded it?
 > > >
-> > > There are two other quirks still available: USB_QUIRK_RESET_RESUME and
-> > > USB_QUIRK_DISCONNECT_SUSPEND, but they do not seem to work for this
-> > > device (Yunke, thanks for looking into this)
+> > > Thanks.
 > > >
-> > > If we are explicitly enabling autosuspend on the driver, shouldn't we
-> > > make sure that the device supports it?
-> > >
+> > > [0] https://nvd.nist.gov/vuln/detail/CVE-2022-45886 =20
 > >
-> > Alan, Greg, any idea about what is the best way to proceed here from a
-> > USB perspective?
->
-> How is autosuspend getting enabled for this device?  It is disabled by
-> default for non-hub USB devices.
+> > Have these issues been fixed already?
+> >
+> > If not, is this patch set due to be merged or reviewed? =20
+>=20
+> Still nothing heard from the author or any maintainer.
 
-It is enabled on the driver via usb_enable_autosuspend()
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_driver.c#n2211
+We're currently lacking a sub-maintainer for dvb. Changes at the
+DVB mutexes have been problematic and require tests on some
+devices, specially on those with multiple frontends.=20
 
->
-> If the uvcvideo or USB sound driver is enabling autosuspend, the driver
-> should be fixed.  Perhaps by adding a quirk bit for this purpose.
-
-This is what I tried with this patch :). Laurent, could you please
-take a second look to it?
-Thanks!
-
-
->
-> If userspace is enabling autosuspend, then any misbehavior isn't the
-> kernel's fault.  :-)
->
-> Alan Stern
+I'll try to find some time to review and test those patches.
+>=20
+> I'd take this as a hint if I had any social skills!
+>=20
+> Please could someone provide me with a status report on these patches?
+>=20
+> They appear to have CVEs associated with them.  Have they been fixed?
+>=20
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
 
 
 
--- 
-Ricardo Ribalda
+Thanks,
+Mauro
