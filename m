@@ -2,125 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1055D6B1BBA
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 07:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9237E6B1C2B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 08:19:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230191AbjCIGpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 01:45:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47932 "EHLO
+        id S229747AbjCIHTH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 02:19:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbjCIGpd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 01:45:33 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8468362857
-        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 22:45:27 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id a25so3159913edb.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 22:45:27 -0800 (PST)
+        with ESMTP id S229549AbjCIHTF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 02:19:05 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975FE5C9FB;
+        Wed,  8 Mar 2023 23:19:04 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id c10so867754pfv.13;
+        Wed, 08 Mar 2023 23:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678344326;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VrAxCqO0uv24h0ZyB1Ik7eA7Hcze8cmWOkDY6T7bQkE=;
-        b=PD8A+McklAjSk/Em1P0s9EsrgRCIrTvlrMNwsyaKaeUKcB5VCg77YitM38n3iSnBNw
-         WVE7jRvl8oITEWBW3zubjaYooO3nJJGRDW93NcswpyfsgJQLa4vNTGRc0FBiiEzNYgu+
-         ZBKag4HGc1NogmgPrNpoG47jTMz4JSHeixnDQbBxFXI50P15Sar/X1hmc0n+qcnDrCjF
-         kut9n6aTdjizU+8tyIiFUMPV0mHHxaITEw/7NCp/dTWsCFTBS7Ic+dcHpvoRIa0UKOE3
-         pkTv6QmE40yerUahNyQCueB0ORTNdhYxmi0SuYT8+SeIltWYPnmWYtF6IuyjG0j8m9Vr
-         xjQQ==
+        d=gmail.com; s=20210112; t=1678346339;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QfbJWUJGHH8nwSfPSekGj2SZwrexl9k35Jou//imJw0=;
+        b=SRZq3YHPj7/9HEc5G/hdmOiAH/cKObd8ba0wfRV07PEPjCoUEUxJUHeBohmZbHAvv7
+         r5ZigLdDFmjuKch3qWx86Y1QVVbigO95zw1uRzfUJ1AqGh0Sggu9a6HEkmLheAtE1/5N
+         bUXhmMGToE1NeGe6GJwh7I0QkD/c1BynyUFvBY7+NDmKVUwyinHY37ZztWmfPg9tGb5D
+         gDeBwBvBwv8mfMbe4aFtjdOR+V8cqdWKsGJJIyFYI80vz0/KM8PIAApY/sYAphhEbT4k
+         9Ei7DTpGftHhyfolQ/08Akg1Ocbec7C8nuxPZnWAt/0v9o13EGlMu8Pg6WnSWsk5tqr/
+         fIuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678344326;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VrAxCqO0uv24h0ZyB1Ik7eA7Hcze8cmWOkDY6T7bQkE=;
-        b=C5VygT53un71brliWdk4wE3boxLLzVCa6EzXhXD40jW4RE115HceWqhAPssbMg3wR4
-         AR1DdShzzLmA4iByms0kAWs4PLYTGO4kRKQMc9mjP9qC5xH7+hWDNum7/T2uFHFNRaHD
-         kweO7+EjM2xoNHEUtOYqZO5yH8komI0e9DB5tm8lNaR4JgJ3TqtHBTPpNgYM21GXX3Aa
-         efSVHDPF/xGZ2EogZ7G7Rf7GyHJdmVTyPro8PrnVLBP2xFu97GCQuaVPqg5AkcwPmsIm
-         UxlcKDAwmfAkpHcNnuIGVHpddIroDkvnBJuJx7iz2j3M/p1WWKIsghPO7vL1y59UHKT/
-         DaCA==
-X-Gm-Message-State: AO0yUKWGfUfPTBp2oV1oEc5lYUWVF0HJCCa1dFPV5pYBpodqjahJ3Wd9
-        aMcRd/Zh2kz28am+pWgGibWZSA==
-X-Google-Smtp-Source: AK7set9d+R03e+gnXpiwuG02e0liY3UBmtfcL5qUnkSURkUjCoBP5YvZQA0UrjfgO/RZ3LoD+Icrlg==
-X-Received: by 2002:aa7:d6c6:0:b0:4af:59c0:d303 with SMTP id x6-20020aa7d6c6000000b004af59c0d303mr18327898edr.26.1678344326057;
-        Wed, 08 Mar 2023 22:45:26 -0800 (PST)
-Received: from ?IPV6:2a02:810d:15c0:828:7ee2:e73e:802e:45c1? ([2a02:810d:15c0:828:7ee2:e73e:802e:45c1])
-        by smtp.gmail.com with ESMTPSA id k26-20020a508ada000000b004af6b93f00asm9063997edk.23.2023.03.08.22.45.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 22:45:25 -0800 (PST)
-Message-ID: <9b93849d-d4a4-67ba-e8a0-ee6c7209bd65@linaro.org>
-Date:   Thu, 9 Mar 2023 07:45:23 +0100
+        d=1e100.net; s=20210112; t=1678346339;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QfbJWUJGHH8nwSfPSekGj2SZwrexl9k35Jou//imJw0=;
+        b=cy16nK8TjCHZENc/Fz6CsJgEmcMtwk0BFGlLRmpz6Jmwwzj+3BZe8Pelgi3wGWr/Uo
+         Hd1lx2RK2rthndYsCuLoYeSA7pVem3k1YjJtqBWm1AZVS8GYXqKIgRsI1AuM8WfexUkj
+         ZxwN6CvGXwhJfWSbdAxCZcA43GhoU7rloT9SkqPGkzgbLd+AWoqmYyRrOichM/UkvVHS
+         aIIj2rFItDk5G9gtMwn4rShxoCXPlx4kLMJozEYvXPQl18ZcDH4p7FF3A1SY9b9jD1VH
+         niE9uXdgJd5JXj86tbfRWEqXe5hqyDpdzhmRyCgR2mSTLoSsOdVlnyx5oePmp5vG+r+p
+         3NtA==
+X-Gm-Message-State: AO0yUKW8krAjTONFj4NOzUU5DmcM/Dvf7vi+6mkeu6/YXmn09XP2OB6i
+        5HCAuv7VTg8f1M0wNleeeLJOCGyNW2CFBAvqn8o=
+X-Google-Smtp-Source: AK7set/YWz7gZWkSMgyWc4wK6u9AzoqdFmwidNxJTC2APdBlFoKugVHoojpe26sybxvLybjN3eFc6dIyeU9+EBx9Q8w=
+X-Received: by 2002:a62:824b:0:b0:61d:d277:e077 with SMTP id
+ w72-20020a62824b000000b0061dd277e077mr1678177pfd.0.1678346339043; Wed, 08 Mar
+ 2023 23:18:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to
- json-schema
-Content-Language: en-US
-To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com
-References: <CGME20230301035153epcas5p40f576188a9a69835c1050135219a3720@epcas5p4.samsung.com>
- <20230301035144.8645-1-aakarsh.jain@samsung.com>
- <8b5bea40-6f7b-1d00-ac23-83a28c7dacbc@linaro.org>
- <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,T_SPF_TEMPERROR autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230302093715.811758-1-zyytlz.wz@163.com> <d27127a1-2572-4ad4-b69c-8a6f53384009@roeck-us.net>
+ <CAJedcCxYQYmORfnqcdudFKwy9hhU=mZh_d9MM7x+37ies2S-MA@mail.gmail.com> <e03134f9-9433-ab6b-170a-8ce752fccdeb@roeck-us.net>
+In-Reply-To: <e03134f9-9433-ab6b-170a-8ce752fccdeb@roeck-us.net>
+From:   Zheng Hacker <hackerzheng666@gmail.com>
+Date:   Thu, 9 Mar 2023 15:18:45 +0800
+Message-ID: <CAJedcCy_cXh1jH4HT0hzG1NnQR5Gz9fTodAT_2trRRd=BWp57w@mail.gmail.com>
+Subject: Re: [PATCH] media: mtk-jpeg: Fix use after free bug due to uncanceled work
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Zheng Wang <zyytlz.wz@163.com>, mchehab@kernel.org,
+        bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, 1395428693sheep@gmail.com,
+        alex000young@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/03/2023 16:18, Aakarsh Jain wrote:
->>
->> iommus:
->>   maxItems: 1
->> iommu-names: false
->>
-> I am getting compilation errors with above property set and its breaking the bindings.
-> If we see these two nodes in dtsi files.
->                mfc: codec@13400000 {
->                         compatible = "samsung,mfc-v5";
-> ..
->                         iommus = <&sysmmu_mfc_l>, <&sysmmu_mfc_r>;
->                         iommu-names = "left", "right";
-> }
-> And 
->               mfc: codec@13400000 {
->                         compatible = "samsung,exynos3250-mfc", "samsung,mfc-v7";
->                         reg = <0x13400000 0x10000>;
-> ...
->                         iommus = <&sysmmu_mfc>;
->                 };
-> There is no iommu-names property for compatible "samsung,exynos3250-mfc, samsung,mfc-v7", that’s why I kept
->         iommus:
->           minItems: 1
->           maxItems: 2
-> I would even go with below if you agree?
->         iommus:
->           minItems: 1
->           maxItems: 2
->         iommus-names: false
+Guenter Roeck <linux@roeck-us.net> =E4=BA=8E2023=E5=B9=B43=E6=9C=889=E6=97=
+=A5=E5=91=A8=E5=9B=9B 13:30=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 3/8/23 19:58, Zheng Hacker wrote:
+> > Hi,
+> >
+> > Thanks for your reply. I think you're right. I don't know if there is
+> > other method to stop new work from enqueing. Could you please give me
+> > some advice about the fix?
+> >
+>
+> Top-posting is discouraged.
+>
 
-No, I don't agree. Why do you need two IOMMUs for Exynos3250?
-> 
+Sorry I forgot that. Thanks for the kind reminder.
+
+> Anyway -
+> I don't know the code well enough to suggest a solution.
+> It all depends on the driver architecture. The maintainers might
+> have a better idea.
+>
+
+Yes, some related developers have reached out to me and discussed fixes wit=
+h me.
+
+> A worse problem appears to be that the worker is also canceled
+> from mtk_jpeg_enc_irq() and mtk_jpeg_dec_irq(). Those are non-threaded
+> interrupt handlers which, as far as I know, must not sleep and thus
+> can not call cancel_delayed_work_sync(). I have no idea how to solve
+> that problem either.
+>
+
+I'd be glad to pass along your thoughts and recommendations to the
+relevant parties.
 
 Best regards,
-Krzysztof
-
+Zheng
