@@ -2,96 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E6056B2443
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0F66B2473
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:44:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjCIMg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 07:36:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
+        id S230036AbjCIMom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 07:44:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230243AbjCIMg0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:36:26 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7BF6EDB64
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:36:25 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PXTFM64Gjz49Q1v;
-        Thu,  9 Mar 2023 14:36:23 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678365384;
+        with ESMTP id S230037AbjCIMoi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:44:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D6775D8BA
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678365836;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LVeYaVk+e536IkPO1JM3+ifA78jwwRhshbkGregUoaI=;
-        b=Gy/yEv0kS0SCSb8ZjChyuiJSBT5tzvaslxUxjzN71shecU2nExch7HZqSOKh/1uJZoIA3e
-        +Wfo7N5kfTZsbKoViCh/ksHQc69e3US3stWLlToTwEcWgvHVzuNxZbrA02Qrtiy7n9ybkO
-        EMlEUB2hZeHMe7ZGTNqUh1StDSs+n1ApLJHYk17YcsCLO+z5FvGvmtatcQFbPLg+/q9HFp
-        QAtcg1VvJZBcSFU0ZscAUcIdkVMMYimhGJgyapS1K2B5XsBMW+vbl1nQSFJZxPczNRtoL9
-        6jIZgJiGD34yC1sGtio5XxtUGY+ElTUMlQuQ9DoA3/BJqQ6ENZ3/ANTADo5W7g==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678365384; a=rsa-sha256;
-        cv=none;
-        b=VMjJzO1GNbx2NL9BBwHEYirJ8xVcqYauoSCczd1M0H2diuxXGckXaMRfdbacwlkmBo6nWL
-        gfBLIyiG4k6ohW7GuA0r4AUz5XuLb0btr6B6Yz9DuaC8yjMZ3+VzlUSZMGa5UCxnk+kKFO
-        qU8aI7eWQKSZWCmYCOkKXyY9NMaOn8RckUn8EoSTt7L/zFw7/XAbFwTb9l+iNV8kGIOzqi
-        Gwn3fYx6Wrl4Oq0NHLi0egjXQ7hPmgwYmSxBBc+IJpcsQxSi0vmru+FIdF8lH8z1AI6Wcn
-        ScztQ5qJpikTFJsyyswY34+pcrgKewwzKrLVO+YGreTpnvsXtz5M4P8XnUiGoQ==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1678365384;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LVeYaVk+e536IkPO1JM3+ifA78jwwRhshbkGregUoaI=;
-        b=NgXlF7MNPVOKEOfpq9Qf+t3VjUwHPjydtEQV0gsnKTjQlIHhDWP2PeJaz5SfQ3Ae+UixDd
-        wT/Zwh8lQeqIO1nf1AFQglxkmHc0g4UUiePkRZ7CTMLz/ZGSfUG5QlWMD/H7e9FCrWUP0A
-        2Ptsa3UK5/cVA62GgcSvV1S/3Uw5MNPPL7/4+PsXbeLEt4ButF3Qu72IaBIBYuQXA8uOxp
-        76512d24VkW0qPqQFZqnUmBG7egxZ59Q0PA2yiwGVBczqq+Eq1s6XpcHGzOFe3zyXNT+9Y
-        3zBuou07nzeuaW3mPUZbzggtdlp+FkYIwCxIY/nCU/fkjJHVz3DgTGr2+M897A==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E3CCF634C91;
-        Thu,  9 Mar 2023 14:35:43 +0200 (EET)
-Date:   Thu, 9 Mar 2023 14:35:43 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, hdegoede@redhat.com,
+        bh=VUO1ZoejbT14VIcDXM49iok3zwufVC87o5YMbxbo9wQ=;
+        b=eCIOAtDwxIED6ZkkeSt49z58NBT5XZRJSgLh7ApBL3Qzz/UeALZzgTg6donIPE3oOl8cOS
+        nm17zcB+seQpxxB0a7L3NqJ2FnveCFNn257zX/+GVaPuH4dzqcYAeF/V6+OcXt3Y+k5Syq
+        iUZgJ5lvbYuo/fVLNWY4Zl6GCAnU6NE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-166-87e6AwuzP0uENELeET4TmA-1; Thu, 09 Mar 2023 07:43:53 -0500
+X-MC-Unique: 87e6AwuzP0uENELeET4TmA-1
+Received: by mail-ed1-f72.google.com with SMTP id z14-20020a05640235ce00b004e07ddbc2f8so2754207edc.7
+        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 04:43:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678365831;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VUO1ZoejbT14VIcDXM49iok3zwufVC87o5YMbxbo9wQ=;
+        b=haVXBpLtWUBGMnRndoLiBQ+F8hHiXgHswQpB8Q8gvl72yuN2UC7a29LxJXU0V+mqRd
+         1Menr/nWevnJUqzkpsUXA5TYPmimfEVIDiyhp0mYGrf647EwZ2PRJMOLSMb4qfIqrReO
+         rvmmTX3TkP8GcrSR24Lf2/0c6qotaGYSlMqHr6cjnm5oNzB+mJK2N4bRbDozGJpDoUdG
+         1PCM7roJpsznI4OPfhxvqNsZdlZtQN8wjeL/5OUqEKKBDuqwvWDOiLHpsZrc6w4fMguQ
+         ToX4Kot5nqUZpj9W4SgQJG7JQhIB41gBNRJf9miBUGIVuLCIXaBqWbhwJdkcLs6WDRex
+         h5eA==
+X-Gm-Message-State: AO0yUKVDSQRgBIEOOCescLNPdB1U6uKuoQah/2hQQlZTAfL8i7F03c6M
+        WBlT1OMXQAYX97m2lDer38tZWf984VJT60hOhtGb+Am2Nhw7DyCWf3CYZ5Flz0Yn+dlDmDGTril
+        YTIw3FUctF/4vuMQ2qdq6SWx9PBaLRUc=
+X-Received: by 2002:a05:6402:18c:b0:4ef:9bf0:7177 with SMTP id r12-20020a056402018c00b004ef9bf07177mr8004336edv.9.1678365831869;
+        Thu, 09 Mar 2023 04:43:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set90GwL+kTBS8y4Kd3C7yx+LeV5peJ3FqiMq/YcGzV8L/G2vTlHngrwJoZPDsEgFyP60D1zKeg==
+X-Received: by 2002:a05:6402:18c:b0:4ef:9bf0:7177 with SMTP id r12-20020a056402018c00b004ef9bf07177mr8004322edv.9.1678365831633;
+        Thu, 09 Mar 2023 04:43:51 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id lt21-20020a170906fa9500b008e267d7ec18sm8795186ejb.50.2023.03.09.04.43.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Mar 2023 04:43:51 -0800 (PST)
+Message-ID: <89823804-7d23-334a-91b2-ea3c819232fd@redhat.com>
+Date:   Thu, 9 Mar 2023 13:43:50 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
+Content-Language: en-US, nl
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Kate Hsuan <hpa@redhat.com>
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
-Message-ID: <ZAnSnzqm3LHf/AGv@valkosipuli.retiisi.eu>
 References: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
- <93679d76-1817-f9b9-3683-f96de55dc13d@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <93679d76-1817-f9b9-3683-f96de55dc13d@ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 09, 2023 at 02:34:28PM +0200, Tomi Valkeinen wrote:
-> I think this is supposed to be v2. You missed my RB, but here it is again:
-> 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> Also, the commit message says "debug message", but it's a warn now.
+Hi Sakari, 
 
-Thanks, I'll address this while applying it.
+On 3/9/23 13:27, Sakari Ailus wrote:
+> Link validation currently accesses invalid pointers if the link passed to it
+> is not between two sub-devices. This is of course a driver bug.
+> 
+> Ignore the error but print a debug message, as this is how it used to work
+> previously.
+> 
+> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+> Reported-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reported-and-tested-by: Hans de Goede <hdegoede@redhat.com>
 
--- 
-Sakari Ailus
+FWIW you have my Reported-by in there twice now ...
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 1bebcda2bd20c..dd911180ec899 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1209,6 +1209,17 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>  	struct v4l2_subdev_state *source_state, *sink_state;
+>  	int ret;
+>  
+> +	if (!is_media_entity_v4l2_subdev(link->sink->entity)) {
+> +		pr_warn_once("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
+> +			     link->sink->entity->name);
+> +		return 0;
+> +	}
+> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
+> +		pr_warn_once("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
+> +			     link->source->entity->name);
+> +		return 0;
+> +	}
+> +
+>  	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
+>  	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
+>  
+
