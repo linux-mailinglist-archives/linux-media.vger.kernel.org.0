@@ -2,139 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3E26B1A3D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 04:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 908E66B1AAD
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 06:25:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjCID63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 22:58:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
+        id S229730AbjCIFZ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 00:25:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjCID61 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 22:58:27 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2C255053;
-        Wed,  8 Mar 2023 19:58:26 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id s17so312207pgv.4;
-        Wed, 08 Mar 2023 19:58:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678334306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dmCxRJAwty6b/2EGqOb1mSmCTea85Ex1MqYRon3VirM=;
-        b=PQDsKeYQ0FvqjtrJ3LGUtbdrCu24FAps1LQEeOwYDV8sGffspl6yyyTZOmEchFlbh2
-         pIYHlHModyAUY/FhgFVS9CE2IGvayNNTTyFUNOIulUs/tcU1cQh3L0zn/IyHLTZk+jUu
-         +hN5UQT9TXT3YJGM+rJS1AKQZz8VVc1czsHUUgro/Zy3FTx6aqTVg+FSYqfi+u9fkPpu
-         NCT8kV8cxDnPkvsP6LgO/ce8h94VU/7g5q2PbbEoiiuxWzld3qTNoivoZblLOc/sCwXP
-         SnzzdoP7NquhUF62FHpyqQFtbaMZoIGx3DbERxiYuQq26Yb+FB5Zpr9Gvaopjt6p4hCW
-         jDLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678334306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dmCxRJAwty6b/2EGqOb1mSmCTea85Ex1MqYRon3VirM=;
-        b=bOmdI0A5bg+fhM7SsvolxS9BonBAiLTwc+nD/tiEosqSvwMtq9taMjt9QmOQQVZ2ZN
-         ofBftxBRrh5jb1GMkLZTlxupofmNrAiHm6vjzq/JFUK3+CduvdePAHRlyHdfnpbZ9usl
-         JqxUm2d7H4NiswwTFKddX3ex6xGWedxsAeguadufBEPfpkkEnpvVeW0zaSTJ/wHylKvO
-         ZvvQeTYOKbb9PWr5hQ/qDb8Go+WuKDw33KjQSeoWNZOu5+LidCWmcJySOny7eip1eGaS
-         nM+3hiClqhEElzrIe5uM7tleji24msfk/SDiQlMuYJSlclMRy/6exRWxjXKyb9fpSNFC
-         mh8A==
-X-Gm-Message-State: AO0yUKWC/HPd/ZkZFvPCdzsDI3MgatCVPOemgdWD/ahsKOccyqwX6xms
-        dkmfw+70aJvQ4zVKlWniwEGg+9YBjiiA0U8wsz53o61WeZZ40rSR
-X-Google-Smtp-Source: AK7set/euvZgnXAe7GlvSz/eRYCPls6/DK2w/wRld8xz6VWJXHmDQ7EO0SQsPXGR2mZDG+XiOx06YqhJdxG3dqPep1c=
-X-Received: by 2002:a63:8c17:0:b0:503:7be0:ea51 with SMTP id
- m23-20020a638c17000000b005037be0ea51mr7172255pgd.9.1678334305713; Wed, 08 Mar
- 2023 19:58:25 -0800 (PST)
+        with ESMTP id S229558AbjCIFZ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 00:25:28 -0500
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9531D82A8E;
+        Wed,  8 Mar 2023 21:25:23 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id DD45542037;
+        Thu,  9 Mar 2023 05:25:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1678339521;
+        bh=AqKhfVbrCgFD4lko5eegMh8R3NTuYq179Kx+ape/AUw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=Wx2g6hHKeCsXfkUgKO1J8pnackR4HNu+sLnMeFYf24PIEcG3Dr33trh9lN1i7NCYH
+         iBXJX4d1fX4S9wXV87qH+AvPl3dzcsbiKtejK806oWJHYyRm1eGW50G8xuSxHfHI90
+         OGepcjoxSmmGebCwmACxpon1dVMSfoC3C63+EZv+4Vm3TnKk2IvwKX6Q2qTyJYsz/t
+         5+dvsMlkXmq1LOhoNPBODzISgSa4rqkkMhvr0r+Dbc3br4rSjTAL1uL1RdnjAHCiq4
+         Yn/+w25IH6X8rrPCfs/hGRb5U4eY46B8GERplcPGPsP0U1EjoPg7u5myHLU5UtvHHY
+         zV/fpXAc/uWlA==
+Message-ID: <488728fc-ada2-20a3-79be-8109d891a8cb@asahilina.net>
+Date:   Thu, 9 Mar 2023 14:25:10 +0900
 MIME-Version: 1.0
-References: <20230302093715.811758-1-zyytlz.wz@163.com> <d27127a1-2572-4ad4-b69c-8a6f53384009@roeck-us.net>
-In-Reply-To: <d27127a1-2572-4ad4-b69c-8a6f53384009@roeck-us.net>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Thu, 9 Mar 2023 11:58:12 +0800
-Message-ID: <CAJedcCxYQYmORfnqcdudFKwy9hhU=mZh_d9MM7x+37ies2S-MA@mail.gmail.com>
-Subject: Re: [PATCH] media: mtk-jpeg: Fix use after free bug due to uncanceled work
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, mchehab@kernel.org,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 06/18] rust: drm: gem: shmem: Add DRM shmem helper
+ abstraction
+Content-Language: en-US
+To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+        Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        linux-media@vger.kernel.org
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-6-917ff5bc80a8@asahilina.net>
+ <ff51483e-2d72-3a7b-0632-58ea36cc3d8e@igalia.com>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ff51483e-2d72-3a7b-0632-58ea36cc3d8e@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 08/03/2023 22.38, Maíra Canal wrote:
+> On 3/7/23 11:25, Asahi Lina wrote:
+>> The DRM shmem helper includes common code useful for drivers which
+>> allocate GEM objects as anonymous shmem. Add a Rust abstraction for
+>> this. Drivers can choose the raw GEM implementation or the shmem layer,
+>> depending on their needs.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>   drivers/gpu/drm/Kconfig         |   5 +
+>>   rust/bindings/bindings_helper.h |   2 +
+>>   rust/helpers.c                  |  67 +++++++
+>>   rust/kernel/drm/gem/mod.rs      |   3 +
+>>   rust/kernel/drm/gem/shmem.rs    | 381 ++++++++++++++++++++++++++++++++++++++++
+>>   5 files changed, 458 insertions(+)
+>>
+> 
+> [...]
+> 
+>> +unsafe extern "C" fn gem_create_object<T: DriverObject>(
+>> +    raw_dev: *mut bindings::drm_device,
+>> +    size: usize,
+>> +) -> *mut bindings::drm_gem_object {
+>> +    // SAFETY: GEM ensures the device lives as long as its objects live,
+>> +    // so we can conjure up a reference from thin air and never drop it.
+>> +    let dev = ManuallyDrop::new(unsafe { device::Device::from_raw(raw_dev) });
+>> +
+>> +    let inner = match T::new(&*dev, size) {
+>> +        Ok(v) => v,
+>> +        Err(e) => return e.to_ptr(),
+>> +    };
+>> +
+>> +    let p = unsafe {
+>> +        bindings::krealloc(
+>> +            core::ptr::null(),
+>> +            Object::<T>::SIZE,
+>> +            bindings::GFP_KERNEL | bindings::__GFP_ZERO,
+>> +        ) as *mut Object<T>
+>> +    };
+>> +
+>> +    if p.is_null() {
+>> +        return ENOMEM.to_ptr();
+>> +    }
+>> +
+>> +    // SAFETY: p is valid as long as the alloc succeeded
+>> +    unsafe {
+>> +        addr_of_mut!((*p).dev).write(dev);
+>> +        addr_of_mut!((*p).inner).write(inner);
+>> +    }
+>> +
+>> +    // SAFETY: drm_gem_shmem_object is safe to zero-init, and
+>> +    // the rest of Object has been initialized
+>> +    let new: &mut Object<T> = unsafe { &mut *(p as *mut _) };
+>> +
+>> +    new.obj.base.funcs = &Object::<T>::VTABLE;
+>> +    &mut new.obj.base
+>> +}
+> 
+> It would be nice to allow to set wc inside the gem_create_object callback,
+> as some drivers do it so, like v3d, vc4, panfrost, lima...
 
-Thanks for your reply. I think you're right. I don't know if there is
-other method to stop new work from enqueing. Could you please give me
-some advice about the fix?
+This is actually a bit tricky to do safely, because we can't just have a
+callback that takes the drm_gem_shmem_object instance inside
+gem_create_object because it is not fully initialized yet from the point
+of view of the gem shmem API. Maybe we could have some sort of temporary
+proxy object that only lets you do safe things like set map_wc? Or maybe
+the new() callback could return something like a ShmemTemplate<T> type
+that contains both the inner data and some miscellaneous fields like the
+initial map_wc state?
 
-Regards,
-Zheng
+I think we can also just wait until the first user before we do this
+though... the goal of the abstractions is to support the APIs we
+actually use. I know you need this for vgem, so please feel free to
+implement it as a separate patch! I think it's best if you get credit
+for the abstraction changes you need, so we can all work together on the
+design so it works for everyone's use cases instead of just having me
+make all the decisions ^^ (and it's fine if we have to refactor the APIs!)
 
-Guenter Roeck <linux@roeck-us.net> =E4=BA=8E2023=E5=B9=B43=E6=9C=889=E6=97=
-=A5=E5=91=A8=E5=9B=9B 08:27=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Mar 02, 2023 at 05:37:15PM +0800, Zheng Wang wrote:
-> > In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-> > mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
-> > and mtk_jpeg_enc_device_run may be called to start the
-> > work.
-> > If we remove the module which will call mtk_jpeg_remove
-> > to make cleanup, there may be a unfinished work. The
-> > possible sequence is as follows, which will cause a
-> > typical UAF bug.
-> >
-> > Fix it by canceling the work before cleanup in the mtk_jpeg_remove
-> >
-> > CPU0                  CPU1
-> >
-> >                     |mtk_jpeg_job_timeout_work
-> > mtk_jpeg_remove     |
-> >   v4l2_m2m_release  |
-> >     kfree(m2m_dev); |
-> >                     |
-> >                     | v4l2_m2m_get_curr_priv
-> >                     |   m2m_dev->curr_ctx //use
-> >
-> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > ---
-> >  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/dri=
-vers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > index 969516a940ba..364513e7897e 100644
-> > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > @@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device =
-*pdev)
-> >  static int mtk_jpeg_remove(struct platform_device *pdev)
-> >  {
-> >       struct mtk_jpeg_dev *jpeg =3D platform_get_drvdata(pdev);
-> > -
-> > +     cancel_delayed_work(&jpeg->job_timeout_work);
->
-> The empty line is needed (coding style). Also, this doesn't cancel
-> the worker if it is already running. This should probably be
-> cancel_delayed_work_sync(). Even then the question is if it is
-> possible that new work is queued before the device is unregistered.
->
-> Guenter
->
-> >       pm_runtime_disable(&pdev->dev);
-> >       video_unregister_device(jpeg->vdev);
-> >       v4l2_m2m_release(jpeg->m2m_dev);
-> > --
-> > 2.25.1
-> >
+~~ Lina
