@@ -2,142 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B4D6B2BE3
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 18:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C6856B2CCB
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 19:19:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229645AbjCIRUI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 12:20:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34228 "EHLO
+        id S230259AbjCISTA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 13:19:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbjCIRTo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 12:19:44 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAC15E827D;
-        Thu,  9 Mar 2023 09:18:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7284661C99;
-        Thu,  9 Mar 2023 17:18:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39CCFC433D2;
-        Thu,  9 Mar 2023 17:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678382312;
-        bh=VDUvCKXgdlfmi5khxJG01i6LsiSo+RszP4yfbG/org0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gIfx8jTrIcPKt4/viA1fAZz/3j860WMYLxO0QADRarWV3i0LAwpLUCozVg/L/TgQj
-         0wT+3i06gPoy5TXBMk4NoFnm4GoI8vD/P72Bze1srOk8SDgve5ie0Kzo+g289DW/rn
-         4Q0fh99fnKfrBmUq/0PPVqXosknUMOa3T17jREKN6UdPFRDQ3BxnJXQZA1LGyaASe6
-         sY3iwXu52Prx4yvTGMa8BRurnkv3qGzAUaKodx/f1pkdkyNCmLCzY0X0QEy0GhTYQN
-         I1nDSm0AC31PgZwbsJjHbtycaisIrU4jTnu/9udir6YAVRMS8urxGVXTCjUNU8JFkH
-         QKWJhULgOFQoA==
-Date:   Thu, 9 Mar 2023 17:18:27 +0000
-From:   Lee Jones <lee@kernel.org>
-To:     Hyunwoo Kim <v4bel@theori.io>
-Cc:     mchehab@kernel.org, cai.huoqing@linux.dev, kernel@tuxforce.de,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        tiwai@suse.de, imv4bel@gmail.com
-Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
- dvb-core and device driver
-Message-ID: <20230309171827.GT9667@google.com>
-References: <20221117045925.14297-1-imv4bel@gmail.com>
- <20230307134131.3a005bdb@coco.lan>
- <CADUEyCz=xuYjNQohgOi86vm4P4YyfO86AbM0cWdFrs1Y_6276g@mail.gmail.com>
- <20230309020650.GA47209@ubuntu>
+        with ESMTP id S230144AbjCISSz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 13:18:55 -0500
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929EDDDF12
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 10:18:45 -0800 (PST)
+Received: by mail-ed1-x541.google.com with SMTP id i34so10570523eda.7
+        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 10:18:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678385924;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3vtIQJgbAqYVFrKRDt53NZIcLU46fTuOZj8Pktv++Ns=;
+        b=CQpdqMeCkaA/z738+UU2fGaN5/xdqU2BEwjNW3UtdOo0fjGYRWL+8yQRIJrvSOSsAY
+         FE0fu04hYzhYHlRBePo7orOcrHQptX4fpyl/B+k6Ea7+qVO7CekGGV1XVIWW1C9RbFAV
+         AQLdewzdyWSJQ1LwbOPDkWE79Ea3CfHFvfv2TA2OH8SfdnZBvxZHVdnFPGJNa0IL7VYR
+         S2XW/RwFXi2x10DXo3bYFOKYjz8ddhwKSZyhYO5JOgFBEfTMcTO1eZBkao8pbXbPVuX3
+         fkhAt/dlcPaHdpz2NBR2/cEVD4KW6hpG9/2Ux2HDqjuRZDisBYPR43UE9hq7/GHFqPip
+         nnmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678385924;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3vtIQJgbAqYVFrKRDt53NZIcLU46fTuOZj8Pktv++Ns=;
+        b=PnhydkD4xVTKhI3e2ihA634irSuNeCNXrUAWYJTy3czVedzlKLL4nS2cc7ocNaEqH8
+         b5IAYw+hZWADu+sYO33De3s2wPhgJpNhOXtRnUGyCQcqyt6qPov6afxEJtHDxS+3/7F5
+         A4fMs0E/uVIE3VPMH5fKzR3ukXnZOP8jsZuX/2B4R5qQW7xb1rKzJvGuYOnc3gFqZlzB
+         O+70txkjE9rm1WofNEmzSgSrGwJJMQXSJbcasWQo2kb0SistpkAr1JMXPKPbjVD5yjUT
+         tqBM6zJ/GLR9PyH293Kixu7NTh7pThx7KybthLMjtvPW4IxeznQq4VqlEU34QtTccs3W
+         OBwQ==
+X-Gm-Message-State: AO0yUKXlLzwtJnWzJc48cuQRZuk0xb18MxdHoCx+bavPXGdDnMKD0fFJ
+        IWw95+l2jQVjZLiL8blFpVtVw2/BR1O/kuIU45s=
+X-Google-Smtp-Source: AK7set8RsXIuhe+zqZlcmtgoO5ZNtkK2QN4WkgIrvcPHsX6Yw2MRHrie00YvsaWtcVMBMY11kWDdTDnMDlmrGjiv/x4=
+X-Received: by 2002:a17:906:5910:b0:8b1:78b8:4207 with SMTP id
+ h16-20020a170906591000b008b178b84207mr11837569ejq.3.1678385924251; Thu, 09
+ Mar 2023 10:18:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230309020650.GA47209@ubuntu>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Lara Geni <larasecuredata@gmail.com>
+Date:   Thu, 9 Mar 2023 23:48:31 +0530
+Message-ID: <CAKDenP309B-vZN5AJRTRZ+PNDTwmOKhGEz9FnFPvw3C5E0GJBQ@mail.gmail.com>
+Subject: RE: NTI - American Association of Critical-Care Nurses Attendees
+ Email List-2023
+To:     Lara Geni <larasecuredata@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
+        FILL_THIS_FORM_LONG,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 08 Mar 2023, Hyunwoo Kim wrote:
+Hi,
 
-> On Tue, Mar 07, 2023 at 09:57:13PM +0900, Hyunwoo Kim wrote:
-> > ttusb_dec is a comment for patch #4 in the series.
-> > And as102 is the #1 patch.
-> >
-> >
-> > Regards,
-> > Hyunwoo Kim
->
-> I was using the wrong email client and the mailing list didn't get sent, sorry.
->
-> Resend the mail for the mailing list.
+Would you be interested in acquiring the American Association of
+Critical-Care Nurses  Attendees Email List-2023?
 
-Please can you reply in-line - below the quote(s) you are replying to.
+List Includes: Company Name, First Name, Last Name, Full Name, Contact
+Job Title, Verified Email Address, Website URL, Mailing address, Phone
+ number, Industry and many more=E2=80=A6
 
-Then snip the rest.
+Number of Contacts: 12,639 Verified Contacts.
+Cost : $ 1,638
 
-> > 2023년 3월 7일 (화) 오후 9:41, Mauro Carvalho Chehab <mchehab@kernel.org>님이 작성:
-> >
-> > > Em Wed, 16 Nov 2022 20:59:21 -0800
-> > > Hyunwoo Kim <imv4bel@gmail.com> escreveu:
-> > >
-> > > > Dear,
-> > > >
-> > > > This patch set is a security patch for various race condition
-> > > vulnerabilities that occur
-> > > > in 'dvb-core' and 'ttusb_dec', a dvb-based device driver.
-> > > >
-> > > >
-> > > > # 1. media: dvb-core: Fix use-after-free due to race condition occurring
-> > > in dvb_frontend
-> > > > This is a security patch for a race condition that occurs in the
-> > > dvb_frontend system of dvb-core.
-> > > >
-> > > > The race condition that occurs here will occur with _any_ device driver
-> > > using dvb_frontend.
-> > > >
-> > > > The race conditions that occur in dvb_frontend are as follows
-> > > > (Description is based on drivers/media/usb/as102/as102_drv.c using
-> > > dvb_frontend):
-> > > > ```
-> > > >                 cpu0                                                cpu1
-> > > >        1. open()
-> > > >           dvb_frontend_open()
-> > > >           dvb_frontend_get()    // kref : 3
-> > > >
-> > > >
-> > > >                                                              2.
-> > > as102_usb_disconnect()
-> > > >
-> > >  as102_dvb_unregister()
-> > > >
-> > >  dvb_unregister_frontend()
-> > > >
-> > >  dvb_frontend_put()    // kref : 2
-> > > >
-> > >  dvb_frontend_detach()
-> > > >
-> > >  dvb_frontend_put()    // kref : 1
-> > > >        3. close()
-> > > >           __fput()
-> > > >           dvb_frontend_release()
-> > > >           dvb_frontend_put()    // kref : 0
-> > > >           dvb_frontend_free()
-> > > >           __dvb_frontend_free()
-> > > >           dvb_free_device()
-> > > >           kfree (dvbdev->fops);
-> > > >           ...
-> > > >           fops_put(file->f_op);    // UAF!!
-> > >
-> > > Hmm... you're mentioning ttusb_dec at the comment, but here you're showing
-> > > the race for as102, which is a different driver.
-> > >
-> > > I'm confused.
-> > >
-> > >
-> > > Thanks,
-> > > Mauro
-> > >
+If you=E2=80=99re interested please let me know I will assist you with furt=
+her details.
 
---
-Lee Jones [李琼斯]
+Kind Regards,
+Lara Geni
+Marketing Coordinators
