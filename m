@@ -2,165 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02B426B1AC2
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 06:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0247F6B1AD5
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 06:35:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229907AbjCIFba (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 00:31:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34142 "EHLO
+        id S229958AbjCIFfS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 00:35:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbjCIFax (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 00:30:53 -0500
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22FE5D26A;
-        Wed,  8 Mar 2023 21:30:37 -0800 (PST)
-Received: by mail-ot1-x32a.google.com with SMTP id g6-20020a056830308600b0068d4b30536aso447450ots.9;
-        Wed, 08 Mar 2023 21:30:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678339837;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rBx6cp7gHlzzyiw50Fcm4ZihmX1Tn6O8/g1KToDdjpU=;
-        b=pJgTx2ACTWq9Vi/m6xTr+0eLA15KWrFy5Cc+PrMjqyBtghSnyA16i58Diq5jTPrX5N
-         NCNugpWvgFqQZo/Tp7uA4T4WGJR/WGSPzW1gqTjhNYRyidWm7hOtWDLxA7fCTCYFBZ8A
-         nN05OOFR5JRTYyACfyec5V2qrqBKe79RfsTlaeuBLCSwn5QHIxBsKaKX1kanbr5kVDB/
-         +zaBAFHYlokSm0PBilee6sh8OC4UW0qShhRPhzv9Y1gh2/gVP/quAVc9seNK8q9Dw4/x
-         MwPbkffTAZbVNXS/w8FE6MzmDp2wywrDABknElejDNX8RrwsDVg60QkSJQxW+bvgvFmE
-         2cEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678339837;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rBx6cp7gHlzzyiw50Fcm4ZihmX1Tn6O8/g1KToDdjpU=;
-        b=KxFx9nm+F2dE5BkPlVeGDJLqv3C9mKNLBXo8RnlFvomHqV13FoEBwF1yzUBiGuqzoj
-         Ah2VUjCRV1VnGsNOJD4Yfo+JRlrjfZfqzWZy2zIMl9IY53oRGFsQfypsaEgqVQJDtLdv
-         3ZmDLEEdIXsOB8E03Hh5xu6xpKqxZB+4QI0F2QWaKCtihG28j1OAeRe8AcS6DN7sPaOG
-         SWk8/8KoywdbX4Sd7+1thvajLNe1jXcLxwM+1uOBisjNDtphSEC/LNVl+EOTdYpiDRlO
-         qGXJaMEXX8Xp7RNVmkiPPGn2AmsSzjbt6++MUkWDM1bhj5KrWb8xIlBuI184SuKeyzK3
-         s0Hw==
-X-Gm-Message-State: AO0yUKXx6ixDbmZQSm1kbI5kKebyMpqknXngu30nVI5DL3foigRrZ528
-        GtaEJJBxjbkMc1gHLsWqJ1Q=
-X-Google-Smtp-Source: AK7set//aNvXJL2L9m465QciZubMY9vK0At6lO6HMUcqeWjKBotFOmPUl7XA1eJJBAKKOrROfAFZJg==
-X-Received: by 2002:a9d:378:0:b0:68b:c06f:5e67 with SMTP id 111-20020a9d0378000000b0068bc06f5e67mr1920117otv.37.1678339837297;
-        Wed, 08 Mar 2023 21:30:37 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i10-20020a9d4a8a000000b0068bcb290a38sm7146004otf.55.2023.03.08.21.30.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 21:30:36 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e03134f9-9433-ab6b-170a-8ce752fccdeb@roeck-us.net>
-Date:   Wed, 8 Mar 2023 21:30:33 -0800
+        with ESMTP id S229702AbjCIFer (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 00:34:47 -0500
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96E53599;
+        Wed,  8 Mar 2023 21:32:55 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id E169542037;
+        Thu,  9 Mar 2023 05:32:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1678339974;
+        bh=vxS54uTlGMR5PzLTnPcns+95VipCQ+Izczvmh+Eu4cc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=r1C05zelm2ip3ely1YRxB+0WCulNo9AUwrUESJxQv2yj7gW7cyqSVF5NJf0d9LtGP
+         zBOVwJVY6yoLBsYWmKSu7CEyZojI9S42pTyme0FnYLoUVXFizgjoHE2PynxMbZsFpS
+         Ntl9VZwbrUCyrmruackUcRXRfZh+ZhVsETUxLtKY+rXYUEmUjrgWL9NfoosLLPoYeL
+         6ZrufQazfcWRHnkMRbvvwde5y4FCVBWa1rbnbqAMiVpi0TDBSNGCq3blEmhtQ489se
+         SYJ9MTtHZLNIiXGQAWvAbGG5mXxhTztPoEdiF+uOUmV7VNA709JYANjos6FWlkOwcU
+         meO9fF+DG6/Ng==
+Message-ID: <93a57598-9deb-85f2-ebd9-8605404c1ef8@asahilina.net>
+Date:   Thu, 9 Mar 2023 14:32:45 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
 Content-Language: en-US
-To:     Zheng Hacker <hackerzheng666@gmail.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, mchehab@kernel.org,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com
-References: <20230302093715.811758-1-zyytlz.wz@163.com>
- <d27127a1-2572-4ad4-b69c-8a6f53384009@roeck-us.net>
- <CAJedcCxYQYmORfnqcdudFKwy9hhU=mZh_d9MM7x+37ies2S-MA@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] media: mtk-jpeg: Fix use after free bug due to uncanceled
- work
-In-Reply-To: <CAJedcCxYQYmORfnqcdudFKwy9hhU=mZh_d9MM7x+37ies2S-MA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+        Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        linux-media@vger.kernel.org
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+ <c047e11f-33d0-6af4-21c3-adb384b68d8b@igalia.com>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <c047e11f-33d0-6af4-21c3-adb384b68d8b@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/8/23 19:58, Zheng Hacker wrote:
-> Hi,
+On 08/03/2023 00.32, Maíra Canal wrote:
+> On 3/7/23 11:25, Asahi Lina wrote:
+>> DRM drivers need to be able to declare which driver-specific ioctls they
+>> support. This abstraction adds the required types and a helper macro to
+>> generate the ioctl definition inside the DRM driver.
+>>
+>> Note that this macro is not usable until further bits of the
+>> abstraction are in place (but it will not fail to compile on its own, if
+>> not called).
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>   drivers/gpu/drm/Kconfig         |   7 ++
+>>   rust/bindings/bindings_helper.h |   2 +
+>>   rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++++++++++
+>>   rust/kernel/drm/mod.rs          |   5 ++
+>>   rust/kernel/lib.rs              |   2 +
+>>   5 files changed, 163 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index dc0f94f02a82..dab8f0f9aa96 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -27,6 +27,13 @@ menuconfig DRM
+>>   	  details.  You should also select and configure AGP
+>>   	  (/dev/agpgart) support if it is available for your platform.
+>>   
 > 
-> Thanks for your reply. I think you're right. I don't know if there is
-> other method to stop new work from enqueing. Could you please give me
-> some advice about the fix?
+> [...]
 > 
-
-Top-posting is discouraged.
-
-Anyway -
-I don't know the code well enough to suggest a solution.
-It all depends on the driver architecture. The maintainers might
-have a better idea.
-
-A worse problem appears to be that the worker is also canceled
-from mtk_jpeg_enc_irq() and mtk_jpeg_dec_irq(). Those are non-threaded
-interrupt handlers which, as far as I know, must not sleep and thus
-can not call cancel_delayed_work_sync(). I have no idea how to solve
-that problem either.
-
-Guenter
-
-> Regards,
-> Zheng
+>> +
+>> +/// Declare the DRM ioctls for a driver.
+>> +///
+>> +/// Each entry in the list should have the form:
+>> +///
+>> +/// `(ioctl_number, argument_type, flags, user_callback),`
+>> +///
+>> +/// `argument_type` is the type name within the `bindings` crate.
+>> +/// `user_callback` should have the following prototype:
+>> +///
+>> +/// ```
+>> +/// fn foo(device: &kernel::drm::device::Device<Self>,
+>> +///        data: &mut bindings::argument_type,
+>> +///        file: &kernel::drm::file::File<Self::File>,
+>> +/// )
+>> +/// ```
+>> +/// where `Self` is the drm::drv::Driver implementation these ioctls are being declared within.
+>> +///
+>> +/// # Examples
+>> +///
+>> +/// ```
+>> +/// kernel::declare_drm_ioctls! {
+>> +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
+>> +/// }
+>> +/// ```
+>> +///
+>> +#[macro_export]
+>> +macro_rules! declare_drm_ioctls {
+>> +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? ) => {
+>> +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor] = {
+>> +            const _:() = {
+>> +                let i: u32 = $crate::bindings::DRM_COMMAND_BASE;
+>> +                // Assert that all the IOCTLs are in the right order and there are no gaps,
+>> +                // and that the sizeof of the specified type is correct.
 > 
-> Guenter Roeck <linux@roeck-us.net> 于2023年3月9日周四 08:27写道：
->>
->> On Thu, Mar 02, 2023 at 05:37:15PM +0800, Zheng Wang wrote:
->>> In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
->>> mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
->>> and mtk_jpeg_enc_device_run may be called to start the
->>> work.
->>> If we remove the module which will call mtk_jpeg_remove
->>> to make cleanup, there may be a unfinished work. The
->>> possible sequence is as follows, which will cause a
->>> typical UAF bug.
->>>
->>> Fix it by canceling the work before cleanup in the mtk_jpeg_remove
->>>
->>> CPU0                  CPU1
->>>
->>>                      |mtk_jpeg_job_timeout_work
->>> mtk_jpeg_remove     |
->>>    v4l2_m2m_release  |
->>>      kfree(m2m_dev); |
->>>                      |
->>>                      | v4l2_m2m_get_curr_priv
->>>                      |   m2m_dev->curr_ctx //use
->>>
->>> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
->>> ---
->>>   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
->>> index 969516a940ba..364513e7897e 100644
->>> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
->>> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
->>> @@ -1793,7 +1793,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
->>>   static int mtk_jpeg_remove(struct platform_device *pdev)
->>>   {
->>>        struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
->>> -
->>> +     cancel_delayed_work(&jpeg->job_timeout_work);
->>
->> The empty line is needed (coding style). Also, this doesn't cancel
->> the worker if it is already running. This should probably be
->> cancel_delayed_work_sync(). Even then the question is if it is
->> possible that new work is queued before the device is unregistered.
->>
->> Guenter
->>
->>>        pm_runtime_disable(&pdev->dev);
->>>        video_unregister_device(jpeg->vdev);
->>>        v4l2_m2m_release(jpeg->m2m_dev);
->>> --
->>> 2.25.1
->>>
+> I believe that not necessarily the IOCTLs need to be in the right order and
+> with no gaps. For example, armada_drm.h has a gap in between 0x00 and
+> 0x02 and exynos_drm.h also have gaps. Moreover, some drivers, like vgem and
+> virtgpu, start their IOCTLs with 0x01.
 
+Yeah, we talked about this a bit... do you have any ideas about how to
+design this? I think it should be possible with a const function
+initializing an array entry by entry, we just need a two-pass macro
+(once to determine the max ioctl number, then again to actually output
+the implementation).
+
+I'm not sure why drivers would have gaps in the ioctl numbers though...
+my idea was that new drivers shouldn't need that as far as I can tell
+(you can't remove APIs after the fact due to UAPI stability guarantees,
+so as long as you don't have gaps to begin with...). But I guess if
+we're reimplementing existing drivers in Rust we'll need this... though
+maybe it makes sense to just say it's not supported and require
+reimplementations that have holes to just explicitly add dummy ioctls
+that return EINVAL? We could even provide such a dummy generic ioctl
+handler on the abstraction side, so drivers just have to add it to the
+list, or make the macro take a special token that is used for
+placeholder ioctls that don't exist (which then creates the NULL
+function pointer that the drm core interprets as invalid)...
+
+Basically I'm not sure if it makes sense to fully support noncontiguous
+ioctl numbers automagically, or just say drivers need to explicitly list
+gaps. I'd love to hear the opinion of other DRM folks about this!
+
+~~ Lina
