@@ -2,130 +2,427 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C54856B288D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 16:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD3396B28CE
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 16:25:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbjCIPTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 10:19:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37522 "EHLO
+        id S231146AbjCIPZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 10:25:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbjCIPTq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 10:19:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009B0DDF34
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 07:18:58 -0800 (PST)
+        with ESMTP id S231540AbjCIPZe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 10:25:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB7A252BF
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 07:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678375137;
+        s=mimecast20190719; t=1678375444;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=/9yFC6UG6Qb69zCObh92ltCysfwKAZhk1RaD2VUDs0U=;
-        b=dH8PZj1ac1/EgN/32jsjQRyEc0AS8hMJEkbrJWg8PI2ezdP6/4k8YsR3YVksLSoYIKUqWm
-        u+6OxWQjk3AiKINxkkLY0McOKpIQvUxXf+qVm/+G6YnWvjreI2Xd8XnOL/3xS1m4q82Fcm
-        dbdbKWozIjRWJeJt/TxI0rKgyuDp4HQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=RHSIy80tPlZgIm21u41/6EPHaSH/57IxQqd96D5EzOM=;
+        b=Qgihsj01wcDE6qaHF8rTKB9/Jfi2XnSG9YKxerTlfKHFDhpCDcTb+TSz+L11eaqr9upI4X
+        FpQ+i5LvA7+rL/DJtB689YYBjUUwtpO5NQZYxvhKYTLk0bu4cdooC5giLNsIumfyQ5IQMo
+        L0OC1CeZLVL24f0FjJQZ5BKPsFWoO8E=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-548-evjD9TIbPwu7NSFvWijfaw-1; Thu, 09 Mar 2023 10:18:56 -0500
-X-MC-Unique: evjD9TIbPwu7NSFvWijfaw-1
-Received: by mail-wr1-f72.google.com with SMTP id by11-20020a056000098b00b002ce45687cbdso537160wrb.12
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 07:18:56 -0800 (PST)
+ us-mta-339-b5SXIF8TPLWcmG2dvDQV6g-1; Thu, 09 Mar 2023 10:24:03 -0500
+X-MC-Unique: b5SXIF8TPLWcmG2dvDQV6g-1
+Received: by mail-ed1-f71.google.com with SMTP id h15-20020a056402280f00b004bf9e193c23so3461224ede.11
+        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 07:24:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678375135;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/9yFC6UG6Qb69zCObh92ltCysfwKAZhk1RaD2VUDs0U=;
-        b=Hb3YRpcklpOlfnqOVkYUlsotGCP9mifKnaae7ItwL+ocI92OfJozxCje+DlZ6DQJzI
-         RSG4T4ARw06p1pdF8V2Qy3zJL996KomRce0UQZl57Bs08Arqw/CBUUKIzvTULbIlHuyT
-         tuSajxqrjgh3Deh04JcgstXUTC3TO5knN9meQxN7UYVk7RPGkUUqFa4+smQ1/nJCyC1X
-         qAU533aYyWQauunDDbb7EoEIfRh4mUwg/uVQ/KYt/I8LqA4t/r91zXbpxLy/E0YZLeRX
-         YVy6uUjYZFuVFnEFWbKXnIzdKo7z2Asb2qcztsWXh3Y3HG9FHawOl2gfWZ3wcxYwT5BE
-         pBtw==
-X-Gm-Message-State: AO0yUKXSS5SCmEowF9HkSOSdPPU//vxjweluf7/b8cVB7P6uS/dtysEY
-        bNwjL0tkVqfPN0iwvZ7BNgSGuMjRan9D/zqWZKnmEccN8kbaCkHL3yIzkHSmP1F2fypAvOw3nyk
-        s9/bD2x8stT7S/+myrtZVQlQ8TC0YjQcNtw==
-X-Received: by 2002:a05:600c:198e:b0:3eb:36fa:b78d with SMTP id t14-20020a05600c198e00b003eb36fab78dmr19471523wmq.23.1678375135004;
-        Thu, 09 Mar 2023 07:18:55 -0800 (PST)
-X-Google-Smtp-Source: AK7set/hSS1pZuG+MnQuREyxGPFkGYBqTYNoS6/zwRI22k5tqtoTJHGML2449NbBIDvfKh+VFM7Fmw==
-X-Received: by 2002:a05:600c:198e:b0:3eb:36fa:b78d with SMTP id t14-20020a05600c198e00b003eb36fab78dmr19471510wmq.23.1678375134671;
-        Thu, 09 Mar 2023 07:18:54 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l13-20020adfe58d000000b002c569acab1esm18202922wrm.73.2023.03.09.07.18.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 07:18:54 -0800 (PST)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Jordan Crouse <jorcrous@amazon.com>,
-        Enric Balletbo i Serra <eballetb@redhat.com>
-Cc:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-kernel@vger.kernel.org, Albert Esteve <aesteve@redhat.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Sergio Lopez <slp@redhat.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: venus: dec: Fix capture formats enumeration order
-In-Reply-To: <20230308181245.nbnwkdtdnsldd65l@amazon.com>
-References: <20230210081835.2054482-1-javierm@redhat.com>
- <20230303220918.qr5ydbin3nye3qtz@amazon.com>
- <87h6uydwel.fsf@minerva.mail-host-address-is-not-set>
- <3d0315fa-14ca-dc34-81ae-467d9ed5133d@quicinc.com>
- <87sfeh0yjn.fsf@minerva.mail-host-address-is-not-set>
- <CALE0LRvR=DjUp2_DBuPQkEr9jvzGH4Mx4-7=rc6zOw1APQdyeQ@mail.gmail.com>
- <20230308181245.nbnwkdtdnsldd65l@amazon.com>
-Date:   Thu, 09 Mar 2023 16:18:53 +0100
-Message-ID: <87ttyu54wy.fsf@minerva.mail-host-address-is-not-set>
+        d=1e100.net; s=20210112; t=1678375442;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RHSIy80tPlZgIm21u41/6EPHaSH/57IxQqd96D5EzOM=;
+        b=aNhVEmfZ8kKEDyIz6AiTfcBA++aAc1/EPnSJZtkOUfKpXVzaIuUlPRKKF/KtZUbZx8
+         lJOHQFCqHAl0dMK5guOMqHd1Ctj8QBTv1juf9+T8ynfRCnk/yE0p6wEwiaQdNxxg7lE7
+         9AcCw46AXw7Itp7/60zTc81xJ28JBkK5IaceEv7hohj196uMtY+bqyqC6gQAQqT1HNFd
+         teBh1ruAs5ZfGwFYz/O0P3kF8HSeFSqPZKbzka/GYJdia5jTuZnaoU7K/vbJ5A5iadk4
+         kvTT+C/5jIV15kGLPXnPNTc5QQr8xCm68c5L9/1vthrYSsQsTMg9O4WrVgvztbC30m/M
+         po1A==
+X-Gm-Message-State: AO0yUKW4D2TGY935G6gpoTDU01NqPqQHhewSJWqZxhTVPdAI0QnuGqj6
+        KvwMLeJNnccGOw+M/IBmYomlooUpJeUOtacmY2MbzAeAdGJUou1CPW5QDGQGbQbPNg75UZkDioK
+        KWJaJwKDTzZraZsNPuDZ86SM=
+X-Received: by 2002:aa7:d6d8:0:b0:4a0:af87:b3ab with SMTP id x24-20020aa7d6d8000000b004a0af87b3abmr17529436edr.36.1678375442306;
+        Thu, 09 Mar 2023 07:24:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set+mj92fCW/749BRM9cKhjGHVpdFLW+CVsrua4bDUcOWYM6KMRsPvYBbCHP1HtMywgTenINpxw==
+X-Received: by 2002:aa7:d6d8:0:b0:4a0:af87:b3ab with SMTP id x24-20020aa7d6d8000000b004a0af87b3abmr17529419edr.36.1678375442004;
+        Thu, 09 Mar 2023 07:24:02 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id t25-20020a50c259000000b004efd65452a5sm3734172edf.70.2023.03.09.07.24.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Mar 2023 07:24:01 -0800 (PST)
+Message-ID: <bb608934-23a6-213b-ab28-5dd66afd88e5@redhat.com>
+Date:   Thu, 9 Mar 2023 16:24:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Content-Language: en-US, nl
+To:     "Wu, Wentong" <wentong.wu@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
+        "Ye, Xiang" <xiang.ye@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "Cao, Bingbu" <bingbu.cao@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230213022347.2480307-1-wentong.wu@intel.com>
+ <Y/8qJzScTfFucpP9@kekkonen.localdomain>
+ <ae28faf8-c8a4-3f75-08d0-8e5233f2fa5d@redhat.com>
+ <DM6PR11MB4316F4B72F98ADBF577412378DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <ZAb2G7kqsEvrBhpG@kekkonen.localdomain>
+ <DM6PR11MB4316B4F865472CA998E696FC8DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <4c3ba301-6241-f2f4-f139-b4f4a0cd6223@redhat.com>
+ <DM6PR11MB43166ADFA7D0775BA2C223C78DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <e12fe65e-0b1f-a058-75e6-fa3e0a292c5b@redhat.com>
+ <DM6PR11MB4316B02E112305F411B1A5158DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <DM6PR11MB4316B02E112305F411B1A5158DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jordan Crouse <jorcrous@amazon.com> writes:
+<re-added the previous Cc list, which I dropped because of the large attachments>
 
-> On Tue, Mar 07, 2023 at 05:20:18PM +0100, Enric Balletbo i Serra wrote:
+Hi Wentong,
 
-[...]
+On 3/9/23 15:29, Wu, Wentong wrote:
+> Hi Hans,
+> 
+> Thanks
+> 
+> And AFAICT, there is no IVSC device on your Dell Latitude 9420 where the platform is based on TGL instead of ADL, and I have never heard IVSC runs on TGL,  if no IVSC, INT3472 will control sensor's power.
+> And I will double confirm with people who know dell product well tomorrow.
 
->> >
->> > But regardless, I think that it would be better for a driver to
->> > not change the order of advertised VIDIOC_ENUM_FMT pixel formats.
->> >
->> > Because what happens now is that a decoding that was previously
->> > working by default is not working anymore due a combination of
->> > the default being changed and S_FMT not working as expected.
->
-> For my part, I was using the gstreamer v4l2 decoder which for some reason tries
-> to verify it can support whatever format it gets with G_FMT *before*
-> trying a S_FMT. I can't confirm or deny if S_FMT currently works or not.
->
-> That said, I entirely agree with Javier. While it might be more
-> bandwidth efficient, QC08C is a obscure format. It is far more likely that the
-> average open source user would rather use a well known output format and, as
-> has been mentioned, once S_FMT is fixed those in the know can use the other
-> formats if they are working with other Qualcomm hardware blocks.
->
+Ah, I was under the impression that there was an IVSC there because:
 
-Agreed. The rule is that the kernel shouldn't regress user-space and the
-patches that changed the default format certainly did that. So from that
-point of view I think that this patch should land.
+1. The sensor driver for the used sensor (tries to) poke the IVSC
+2. Things did not work without building the IVSC drivers, but that might
+   be due to a dependency on the LCJA GPIO expander instead
 
-There's also Enric's point that NV12 is a more common format and supported
-by more user-space programs. That's why think that regardless of the S_FMT
-situation, makes sense to revert to the previous default behaviour.
+But you might very well be right, that would also explain the
+"intel vsc not ready" messages in dmesg.
 
--- 
-Best regards,
+If with the IVSC case the IVSC controls the power to the sensor too,
+then another option might be to model the I2C-switch + the power-control
+as a powerdown GPIO for the sensor, which most sensor drivers already
+try to use. The advantage of doing this would be that GPIO lookups
+can reference the GPIO provider + consumer by device-name so then
+we don't need to have both devices instantiated at the time of
+adding the GPIO lookup.   And in that case we could e.g. add the lookup
+before registering the I2C controller.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Sakari, what do you think of instead of using runtime-pm + devlinks
+having the IVSC code export a powerdown GPIO to the sensor ?
+
+This also decouples the ivsc powerstate from the sensor power-state
+which might be useful if we ever want to use some of the more
+advanced ivsc features, where AFAICT the ivsc fully controls the sensor.
+
+Regards,
+
+Hans
+
+
+
+
+>> -----Original Message-----
+>> From: Hans de Goede <hdegoede@redhat.com>
+>> Sent: Thursday, March 9, 2023 9:30 PM
+>> To: Wu, Wentong <wentong.wu@intel.com>
+>> Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel Visual
+>> Sensing Controller(IVSC)
+>>
+>> Hi Wentong,
+>>
+>> Attached are the requested dmesg + acpidump for the Dell Latitude 9420.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>
+>>
+>> On 3/9/23 14:21, Wu, Wentong wrote:
+>>> Hi
+>>>
+>>>> -----Original Message-----
+>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>> Sent: Thursday, March 9, 2023 5:28 PM
+>>>>
+>>>> Hi,
+>>>>
+>>>> On 3/9/23 02:08, Wu, Wentong wrote:
+>>>>>
+>>>>>
+>>>>>> -----Original Message-----
+>>>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>>>> Sent: Tuesday, March 7, 2023 5:10 PM
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 3/7/23 09:40, Wu, Wentong wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>>> -----Original Message-----
+>>>>>>>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>>>>>> Sent: Tuesday, March 7, 2023 4:30 PM
+>>>>>>>>
+>>>>>>>> Hi Wentong,
+>>>>>>>>
+>>>>>>>> On Tue, Mar 07, 2023 at 08:17:04AM +0000, Wu, Wentong wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> -----Original Message-----
+>>>>>>>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>>>>>>>> Sent: Wednesday, March 1, 2023 6:42 PM
+>>>>>>>>>>
+>>>>>>>>>> Hi,
+>>>>>>>>>>
+>>>>>>>>>> On 3/1/23 11:34, Sakari Ailus wrote:
+>>>>>>>>>>> Hi Wentong,
+>>>>>>>>>>>
+>>>>>>>>>>> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
+>>>>>>>>>>>> Intel Visual Sensing Controller (IVSC), codenamed "Clover
+>>>>>>>>>>>> Falls", is a companion chip designed to provide secure and
+>>>>>>>>>>>> low power vision capability to IA platforms. IVSC is
+>>>>>>>>>>>> available in existing commercial platforms from multiple OEMs.
+>>>>>>>>>>>>
+>>>>>>>>>>>> The primary use case of IVSC is to bring in context awareness.
+>>>>>>>>>>>> IVSC interfaces directly with the platform main camera sensor
+>>>>>>>>>>>> via a CSI-2 link and processes the image data with the
+>>>>>>>>>>>> embedded AI engine. The detected events are sent over I2C to
+>>>>>>>>>>>> ISH (Intel Sensor Hub) for additional data fusion from multiple
+>> sensors.
+>>>>>>>>>>>> The fusion results are used to implement advanced use cases like:
+>>>>>>>>>>>>  - Face detection to unlock screen
+>>>>>>>>>>>>  - Detect user presence to manage backlight setting or waking
+>>>>>>>>>>>> up system
+>>>>>>>>>>>>
+>>>>>>>>>>>> Since the Image Processing Unit(IPU) used on the host
+>>>>>>>>>>>> processor needs to configure the CSI-2 link in normal camera
+>>>>>>>>>>>> usages, the
+>>>>>>>>>>>> CSI-2 link and camera sensor can only be used in
+>>>>>>>>>>>> mutually-exclusive ways by host IPU and IVSC. By default the
+>>>>>>>>>>>> IVSC owns the CSI-2 link and camera sensor. The IPU driver
+>>>>>>>>>>>> can take ownership of the CSI-2 link and camera sensor using
+>>>>>>>>>>>> interfaces provided
+>>>>>>>> by this IVSC driver.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Switching ownership requires an interface with two different
+>>>>>>>>>>>> hardware modules inside IVSC. The software interface to these
+>>>>>>>>>>>> modules is via Intel MEI (The Intel Management Engine) commands.
+>>>>>>>>>>>> These two hardware modules have two different MEI UUIDs to
+>>>>>>>>>>>> enumerate. These hardware
+>>>>>>>>>> modules are:
+>>>>>>>>>>>>  - ACE (Algorithm Context Engine): This module is for
+>>>>>>>>>>>> algorithm computing when IVSC owns camera sensor. Also ACE
+>>>>>>>>>>>> module controls camera sensor's ownership. This hardware
+>>>>>>>>>>>> module is used to set ownership
+>>>>>>>>>> of camera sensor.
+>>>>>>>>>>>>  - CSI (Camera Serial Interface): This module is used to
+>>>>>>>>>>>> route camera sensor data either to IVSC or to host for IPU
+>>>>>>>>>>>> driver and
+>>>>>>>> application.
+>>>>>>>>>>>>
+>>>>>>>>>>>> IVSC also provides a privacy mode. When privacy mode is
+>>>>>>>>>>>> turned on, camera sensor can't be used. This means that both
+>>>>>>>>>>>> ACE and host IPU can't get image data. And when this mode is
+>>>>>>>>>>>> turned on, host IPU driver is informed via a registered
+>>>>>>>>>>>> callback, so that user can be
+>>>>>>>> notified.
+>>>>>>>>>>>>
+>>>>>>>>>>>> In summary, to acquire ownership of camera by IPU driver,
+>>>>>>>>>>>> first ACE module needs to be informed of ownership and then
+>>>>>>>>>>>> to setup MIPI CSI-2 link for the camera sensor and IPU.
+>>>>>>>>>>>
+>>>>>>>>>>> I thought this for a while and did some research, and I can
+>>>>>>>>>>> suggest the
+>>>>>>>>>>> following:
+>>>>>>>>>>>
+>>>>>>>>>>> - The IVSC sub-device implements a control for privacy
+>>>>>> (V4L2_CID_PRIVACY
+>>>>>>>>>>>   is a good fit).
+>>>>>>>>>>>
+>>>>>>>>>>> - Camera sensor access needs to be requested from IVSC before
+>>>>>>>>>>> accessing
+>>>>>>>> the
+>>>>>>>>>>>   sensor via I²C. The IVSC ownership control needs to be in the right
+>>>>>>>>>>>   setting for this to work, and device links can be used for that
+>> purpose
+>>>>>>>>>>>   (see device_link_add()). With DL_FLAG_PM_RUNTIME and
+>>>>>>>>>> DL_FLAG_RPM_ACTIVE,
+>>>>>>>>>>>   the supplier devices will be PM runtime resumed before the
+>> consumer
+>>>>>>>>>>>   (camera sensor). As these devices are purely virtual on host
+>>>>>>>>>>> side and
+>>>> has
+>>>>>>>>>>>   no power state as such, you can use runtime PM callbacks to
+>>>>>>>>>>> transfer
+>>>>>> the
+>>>>>>>>>>>   ownership.
+>>>>>>>>>>
+>>>>>>>>>> Interesting proposal to use device-links + runtime-pm for this
+>>>>>>>>>> instead of modelling this as an i2c-mux. FWIW I'm fine with
+>>>>>>>>>> going this route instead of using an i2c-mux approach.
+>>>>>>>>>>
+>>>>>>>>>> I have been thinking about the i2c-mux approach a bit and the
+>>>>>>>>>> problem is that we are not really muxing but want to turn
+>>>>>>>>>> on/off control and AFAIK the i2c-mux framework simply leaves
+>>>>>>>>>> the mux muxed to the last used i2c-chain, so control will never
+>>>>>>>>>> be released when the i2c
+>>>>>>>> transfers are done.
+>>>>>>>>>>
+>>>>>>>>>> And if were to somehow modify things (or maybe there already is
+>>>>>>>>>> some release
+>>>>>>>>>> callback) then the downside becomes that the i2c-mux core code
+>>>>>>>>>> operates at the i2c transfer level. So each i2c read/write
+>>>>>>>>>> would then enable +
+>>>>>>>> disavle control.
+>>>>>>>>>>
+>>>>>>>>>> Modelling this using something like runtime pm as such is a
+>>>>>>>>>> much better fit because then we request control once on probe /
+>>>>>>>>>> stream-on and release it once we are fully done, rather then
+>>>>>>>>>> requesting + releasing control once per i2c- transfer.
+>>>>>>>>>
+>>>>>>>>> Seems runtime pm can't fix the problem of initial i2c transfer
+>>>>>>>>> during sensor driver probe, probably we have to switch to
+>>>>>>>>> i2c-mux modeling
+>>>>>> way.
+>>>>>>>>
+>>>>>>>> What do you mean? The supplier devices are resumed before the
+>>>>>>>> driver's probe is called.
+>>>>>>>
+>>>>>>> But we setup the link with device_link_add during IVSC driver's
+>>>>>>> probe, we can't guarantee driver probe's sequence.
+>>>>>>
+>>>>>> Then maybe we need to do the device_link_add somewhere else.
+>>>>>
+>>>>> sensor's parent is the LJCA I2C device whose driver is being
+>>>>> upstream https://www.spinics.net/lists/kernel/msg4702552.htmland and
+>>>>> sensor's power is controlled by IVSC instead of INT3472 if IVSC enabled.
+>>>>
+>>>> I believe that the INT3472 code is still involved at least on a Dell
+>>>> Latitude 9420 the INT3472 code still needs to set the clock-enable
+>>>> and the privacy-LED GPIOs otherwise the main camera won't work.
+>>>>
+>>>> So I'm not sure what you mean with "sensor's power is controlled by
+>>>> IVSC instead of INT3472" ?
+>>>
+>>> Could you please share your kernel log and DSDT? Thanks
+>>>
+>>> BR,
+>>> Wentong
+>>>>
+>>>>
+>>>>> struct device_link *device_link_add(struct device *consumer,
+>>>>>                                     struct device *supplier, u32
+>>>>> flags)
+>>>>>
+>>>>> So probably we have to add above device_link_add in LJCA I2C's
+>>>>> driver, and we can find the consumer(camera sensor) with ACPI API,
+>>>>> but the supplier, mei_ace, is mei client device under mei framework
+>>>>> and it's dynamically allocated device instead of ACPI device,
+>>>>> probably I can find its parent with some ACPI lookup from this LJCA
+>>>>> I2C device, but unfortunately mei framework doesn't export the API
+>>>>> to find mei client device with its parent bus device(struct mei_device).
+>>>>>
+>>>>> I'm not sure if modeling this mei_ace as LJCA I2C's runtime power
+>>>>> control is acceptable, if yes, probably this mei_ace driver have to
+>>>>> go with LJCA I2C device driver.
+>>>>
+>>>> Looking at the ACPI table the sensor ACPI device has 2 _DEP-s listed
+>>>> the I2C controller and the INT3472 device. Since we are already doing
+>>>> similar setup in the INT3472 device that seems like a good place to
+>>>> add the device_link()-s (it can return -EPROBE_DEFER to wait for the mei_ace
+>> to show up).
+>>>>
+>>>> But when the INT3472 code runs, the consumer device does not exist
+>>>> yet and AFAICT the same is true when the LCJA i2c-controller driver is getting
+>> registered.
+>>>> The consumer only exists when the i2c_client is instantiated and at
+>>>> that point the sensor drivers probe() method can run immediately and
+>>>> we are too late to add the device_link.
+>>>>
+>>>> As a hobby project I have been working on atomisp2 support and I have
+>>>> a similar issue there. There is no INT3472 device there, but there is
+>>>> a _DSM method which needs to be used to figure out which ACPI GPIO
+>>>> resource is reset / powerdown and if the GPIOs are active-low or active high.
+>>>>
+>>>> I have written a little helper function to call the _DSM and to then
+>>>> turn this into lookups and call devm_acpi_dev_add_driver_gpios().
+>>>>
+>>>> Since on atomisp2 we cannot use the INT3472 driver to delay the
+>>>> sensor-driver probe and have the INT3472 driver setup the GPIO
+>>>> lookup, at least for the sensor drivers used with
+>>>> atomisp2 there is going to be a need to add a single line to probe() like this:
+>>>>
+>>>> 	v4l2_get_acpi_sensor_info(&i2c_client->dev, NULL);
+>>>>
+>>>> To me it sounds like we need to do something similar here and extend
+>>>> the helper function which I have written (but not yet submitted upstream) :
+>>>>
+>>>> https://github.com/jwrdegoede/linux-
+>>>> sunxi/commit/e2287979db43d46fa7d354c1bde92eb6219b613d
+>>>>
+>>>> To also setup the device-links needed for the runtime-pm solution to
+>>>> getting the i2c passed through to the sensor.
+>>>>
+>>>> Ideally v4l2_get_acpi_sensor_info() should return void (easier to use
+>>>> in the sensor drivers) but I think it should return an int, so that
+>>>> it can e.g. return - EPROBE_DEFER to wait for the mei_ace.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Hans
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>>> The mainline kernel delays probing of camera sensors on Intel
+>>>>>> platforms until the INT3472 driver has probed the INT3472 device on
+>>>>>> which the sensors have an ACPI _DEP.
+>>>>>>
+>>>>>> This is already used to make sure that clock lookups and regulator
+>>>>>> info is in place before the sensor's probe() function runs.
+>>>>>>
+>>>>>> So that when the driver does clk_get() it succeeds and so that
+>>>>>> regulator_get() does not end up returning a dummy regulator.
+>>>>>>
+>>>>>> So I think the code adding the device_link-s for the IVSC should be
+>>>>>> added
+>>>>>> to: drivers/platform/x86/intel/int3472/discrete.c and then the
+>>>>>> runtime-resume will happen before the sensor's probe() function runs.
+>>>>>>
+>>>>>> Likewise drivers/platform/x86/intel/int3472/discrete.c should also
+>>>>>> ensure that the ivsc driver's probe() has run before it calls
+>>>> acpi_dev_clear_dependencies().
+>>>>>>
+>>>>>> The acpi_dev_clear_dependencies() call in discrete.c tells the ACPI
+>>>>>> subsystem to go ahead and create the i2c-clients for the sensors
+>>>>>> and allow the sensor drivers to get loaded and probe the sensor.
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Hans
+>>>>>
+>>>
 
