@@ -2,160 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3C286B1D9E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 09:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEEF36B1DBD
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 09:21:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbjCIIO0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 03:14:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56996 "EHLO
+        id S229926AbjCIIVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 03:21:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbjCIINq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 03:13:46 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6A620A38
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 00:11:16 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id u9so3726575edd.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 00:11:15 -0800 (PST)
+        with ESMTP id S229914AbjCIIUb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 03:20:31 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003D5E842B;
+        Thu,  9 Mar 2023 00:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678349458;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qWwFcvr8CYS9x7eu+AX7lV27dybm+PN7rmq0Um54zgc=;
-        b=fNt1HMX9e7Tr2Wufz5QMXuS0SWHUiHY/ICwZUu0ABlVjvm6sK/ZCl/DErkKEeGhpH7
-         opdJZx1kXf72EY4AwvURa5O4Ph1uD6DfCgkOrJlRtzuDhVTtbsM+HhAK4l5fAe7DzlN/
-         p0p216RgCzwm5Sxj7NmJvOThOLUPmRxLbNLnVg48GOsnwbxA1rvHUlC8WrXcyesG0sSo
-         gysl53CDBSCNdzs/fpqBE3WCTa59z5gimYTJPe+pzuIukaeJ0oyl4DqF4Y3aTVgQZLoK
-         I7rn3/WErlervfGweF1qIRNcknPaBngNm4qoByvtRpzJ6HtZ1YU8QP77OAX/psm4AS/i
-         ca7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678349458;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qWwFcvr8CYS9x7eu+AX7lV27dybm+PN7rmq0Um54zgc=;
-        b=XB68b3nTdEptmLB0CGhKspNz32KHksVyxQNVYdT7nWad7iCJY3Mv4Ptrke6HgU9WEE
-         GRa7LsJ7GL9KLOAr/ySdPyyRbnhClgb0Zgjq89rqCsJEA0yV5L3PzwLPZwCk5Nheg0GK
-         bhfkzncjLXMWkadODj3CI2jBYtuEfY3FbUYpLo0Ho3v+VRv65okaseIDnT0BF5A/GKLu
-         734LEjQiOk162b7g2xTVVQIsErlnxXv5V2fwmnoNn3vCoToPXxlgEt7PxMWZabmAgJdN
-         rGeFJsbBpMvJZrcTDMMdDpGQ3FnZowkEX30H3wIAFp9YridUzplStN9ekX0ZUGEy9FYL
-         e/fw==
-X-Gm-Message-State: AO0yUKVYdMUCPem1k6al1JUaQ/uSoUYT6X3TzZ0rdpVcgXZBpsfRqmf7
-        8uXY3Ib+nWNpFVNOq/tj02rSILsv/eZ1aCGFPuw=
-X-Google-Smtp-Source: AK7set997XHuAz2ObJtEeg4cEWUbuHa9zooJbdrvbLmmA4XuCSdBEeouSX504F0gyymqyY4hfHMsjA==
-X-Received: by 2002:a17:906:2da2:b0:8ae:f1cd:9551 with SMTP id g2-20020a1709062da200b008aef1cd9551mr21108905eji.76.1678349458561;
-        Thu, 09 Mar 2023 00:10:58 -0800 (PST)
-Received: from ?IPV6:2a02:810d:15c0:828:7ee2:e73e:802e:45c1? ([2a02:810d:15c0:828:7ee2:e73e:802e:45c1])
-        by smtp.gmail.com with ESMTPSA id u2-20020a170906c40200b008e2dfc6382asm8487895ejz.125.2023.03.09.00.10.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Mar 2023 00:10:58 -0800 (PST)
-Message-ID: <81e78cf6-b8b3-0cab-d190-aa22abbc5c2d@linaro.org>
-Date:   Thu, 9 Mar 2023 09:10:56 +0100
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1678349813; x=1709885813;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=o2rhiM4rdYbnFdFUIMb47/y94qMgtRImYwSoikHwQEM=;
+  b=iw3Fh7WECtk+u3EP72qD0EMrblSC75k2Z0iAuBgLL/nVKFHhja6n6aoE
+   eMB1aW2KgEIsAwF/oIF59jr8cSsfeH3bON5wKBWZrrNs8QEIOzMCb8V3O
+   pCpOpZdZK6plvZ5l5knslGbg7WsNbwh2xCfe3/GGPCL+aaS23UhM/3ED6
+   89mYZ9Irt1v9++NYuy5NdhOk+GGexX4v5P7MZME1KfFq0qFkoaFgfjSFN
+   FyRlQRq/ofxAlSosjLP2K/ClU7GIV4pLeE2t9ps50GiF7s1RUIPFidS/M
+   L2Ar0ie5jS4XXQoD98hTDZcm9p/VnXn5IuI/UkP2UUT1E2cv7xTQdQ6mk
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,245,1673910000"; 
+   d="scan'208";a="29567374"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 09 Mar 2023 09:16:51 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 09 Mar 2023 09:16:51 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 09 Mar 2023 09:16:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1678349811; x=1709885811;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=o2rhiM4rdYbnFdFUIMb47/y94qMgtRImYwSoikHwQEM=;
+  b=EW7xECHu4etDpVRaw4Xd+jevfMbu306WiV282aRIzAsHwY8rPzS8pMxP
+   qll9+OOV1F9FV5spZ113Mf47PpqVMH6s/ZiCOLznZzVVRPCMzaV94Sy+P
+   GqePI91tPmKD9+rrKxL0p+uQkePndpHBng3RiKtxxJaCH+3yv6X5ySive
+   y7LgYcfBpmTEnAik5tRhGlj11HIeOi8kguwLh1F8MddNqmJvDLvCVW5A2
+   A6TtmR5vVypqv5dbiHJTpS2bUprpj4y/VvBfmhVkTq3mV2PNuDh0VoV8F
+   3wxV3rsHyBYL7ulRWgidwBmZhX1S9LeOHFABKV2zQiae8162UyNmqza6s
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.98,245,1673910000"; 
+   d="scan'208";a="29567372"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 09 Mar 2023 09:16:51 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BF2FB280056;
+        Thu,  9 Mar 2023 09:16:50 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 00/15] media: i2c: imx290: Mono support, minor fixes, alternate INCK, and more controls
+Date:   Thu, 09 Mar 2023 09:16:47 +0100
+Message-ID: <5017997.GXAFRqVoOG@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
+References: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to
- json-schema
-Content-Language: en-US
-To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com
-References: <CGME20230301035153epcas5p40f576188a9a69835c1050135219a3720@epcas5p4.samsung.com>
- <20230301035144.8645-1-aakarsh.jain@samsung.com>
- <8b5bea40-6f7b-1d00-ac23-83a28c7dacbc@linaro.org>
- <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
- <9b93849d-d4a4-67ba-e8a0-ee6c7209bd65@linaro.org>
- <000701d95257$e97ebd50$bc7c37f0$@samsung.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <000701d95257$e97ebd50$bc7c37f0$@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/03/2023 08:22, Aakarsh Jain wrote:
-> 
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
->> Sent: 09 March 2023 12:15
->> To: Aakarsh Jain <aakarsh.jain@samsung.com>; linux-arm-
->> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org
->> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
->> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
->> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
->> benjamin.gaignard@collabora.com; krzysztof.kozlowski+dt@linaro.org;
->> stanimir.varbanov@linaro.org; dillon.minfei@gmail.com;
->> david.plowman@raspberrypi.com; mark.rutland@arm.com;
->> robh+dt@kernel.org; krzk+dt@kernel.org; andi@etezian.org;
->> alim.akhtar@samsung.com; aswani.reddy@samsung.com;
->> pankaj.dubey@samsung.com
->> Subject: Re: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to json-
->> schema
->>
->> On 02/03/2023 16:18, Aakarsh Jain wrote:
->>>>
->>>> iommus:
->>>>   maxItems: 1
->>>> iommu-names: false
->>>>
->>> I am getting compilation errors with above property set and its breaking the
->> bindings.
->>> If we see these two nodes in dtsi files.
->>>                mfc: codec@13400000 {
->>>                         compatible = "samsung,mfc-v5"; ..
->>>                         iommus = <&sysmmu_mfc_l>, <&sysmmu_mfc_r>;
->>>                         iommu-names = "left", "right"; } And
->>>               mfc: codec@13400000 {
->>>                         compatible = "samsung,exynos3250-mfc", "samsung,mfc-v7";
->>>                         reg = <0x13400000 0x10000>; ...
->>>                         iommus = <&sysmmu_mfc>;
->>>                 };
->>> There is no iommu-names property for compatible "samsung,exynos3250-
->> mfc, samsung,mfc-v7", that’s why I kept
->>>         iommus:
->>>           minItems: 1
->>>           maxItems: 2
->>> I would even go with below if you agree?
->>>         iommus:
->>>           minItems: 1
->>>           maxItems: 2
->>>         iommus-names: false
->>
->> No, I don't agree. Why do you need two IOMMUs for Exynos3250?
->>>
-> Here IOMMUs minItems:1 is meant for Exynos3250 while IOMMUs maxItems:2 meant for samsung,mfc-v5(Exynos 4).
-> As you suggested 
-> iommus:
->   maxItems: 1
-> iommu-names: false
-> 
-> won't fit here.
-> Since IOMMUs maxItems is 2 here for Exynos4. Giving maxItems:2 alone will also break the bindings. Thanks why suggested
->          iommus:
->            minItems: 1
->            maxItems: 2
+Hi everyone,
 
-Are you sure you are putting this in correct place? This is if:then for
-Exynos3250, isn't it?
+Am Mittwoch, 15. Februar 2023, 23:29:48 CET schrieb Laurent Pinchart:
+> Hello,
+>=20
+> This patch series combines the "[PATCH v2 0/2] Add support for mono
+> version of Sony IMX290 sensor" ([1]) and "[PATCH v2 00/13] imx290: Minor
+> fixes, support for alternate INCK, and more ctrls" ([2]) previously
+> submitted by Dave into a single series.
+>=20
+> As promised in my review of v2 of both series, I have tested the changes
+> with my IMX327 camera sensor, connected to the i.MX8MP ISP, with
+> libcamera. I haven't noticed any regression (but, full disclaimer, I
+> haven't tested all the newly features). I think we're thus good to go.
+
+What is the status of this series? Will it be picked up?
 
 Best regards,
-Krzysztof
+Alexander
+
+>=20
+> This version handles all review comments from v2, resulting in the
+> following changes:
+>=20
+> - Deprecate the sony,imx290 compatible
+> - Update the DT example to use the new sony,imx290lqr compatible
+> - Drop unneeded pointer cast
+> - Don't move imx290_of_match table
+> - Fix typos
+>=20
+> The code has also been rebased on top of the latest media master branch,
+> with rebase conflicts and rebase-induced compilation breakages fixed.
+>=20
+> The patches are available from
+>=20
+> git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
+> next/media/sensors/imx290
+>=20
+> [1]
+> https://lore.kernel.org/linux-media/20230203191644.947643-1-dave.stevenso=
+n@
+> raspberrypi.com [2]
+> https://lore.kernel.org/linux-media/20230203191811.947697-1-dave.stevenso=
+n@
+> raspberrypi.com
+>=20
+> Dave Stevenson (15):
+>   media: dt-bindings: media: i2c: Add mono version to IMX290 bindings
+>   media: i2c: imx290: Add support for the mono sensor variant
+>   media: i2c: imx290: Match kernel coding style on whitespace
+>   media: i2c: imx290: Set the colorspace fields in the format
+>   media: i2c: imx290: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+>   media: i2c: imx290: Fix the pixel rate at 148.5Mpix/s
+>   media: i2c: imx290: Support 60fps in 2 lane operation
+>   media: i2c: imx290: Use CSI timings as per datasheet
+>   media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
+>   media: i2c: imx290: Convert V4L2_CID_VBLANK to read/write
+>   media: i2c: imx290: VMAX is mode dependent
+>   media: i2c: imx290: Remove duplicated write to IMX290_CTRL_07
+>   media: i2c: imx290: Add support for 74.25MHz external clock
+>   media: i2c: imx290: Add support for H & V Flips
+>   media: i2c: imx290: Add the error code to logs in start_streaming
+>=20
+>  .../bindings/media/i2c/sony,imx290.yaml       |  24 +-
+>  drivers/media/i2c/imx290.c                    | 537 ++++++++++++++----
+>  2 files changed, 442 insertions(+), 119 deletions(-)
+>=20
+>=20
+> base-commit: 83e0f265aa8d0e37cc8e15d318b64da0ec03ff41
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
