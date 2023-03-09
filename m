@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DA56B1B14
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 07:04:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 364CF6B1B22
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 07:11:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbjCIGE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 01:04:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47828 "EHLO
+        id S229675AbjCIGLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 01:11:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbjCIGE0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 01:04:26 -0500
+        with ESMTP id S229468AbjCIGLG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 01:11:06 -0500
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B9987D8B;
-        Wed,  8 Mar 2023 22:04:24 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2A4C3628;
+        Wed,  8 Mar 2023 22:11:04 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id E42A342037;
-        Thu,  9 Mar 2023 06:04:15 +0000 (UTC)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id BF1D142118;
+        Thu,  9 Mar 2023 06:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1678341862;
-        bh=yXH1tZdsDmO++xIlBpu0JLuAAbte1OW7AlybHK5hIBg=;
+        s=default; t=1678342262;
+        bh=B+9nPUAyV8RcIjHdZiRtvBHrm1qUoJ2YnUJI9mL8OU8=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=L26euRJ0eRSChLfBBV+IWoJpXejfXnHpxYL7EKKxQNfNY3MHWKaHrZ0sXQwYPrYjl
-         j0hAICH5fd0yIi9MUnBCGQJ2J/6Qbc2vaFXhPzja0rtJkPaOT0D6BVUaDh2KleQjJb
-         V9Q8BguecZBBMPvATXnO5AmpObEALYXxJDP4XlSvevTfXkmhlRxHWnw8QuunLcXUOm
-         YrZoEGe/la+xsrlvECQsvt7d+kil4hHLFigx8YmCEzkKb1Y6ouadywOXrPImwCCfU5
-         EkNVKQwuFJFHWt9UWr30hoU/WCszEJG2VRApZSuCsQz88fGHJUdoD9Yew/iCxUuDC7
-         BTptPp5MzKzeg==
-Message-ID: <11ce9291-c17f-e73d-fb5d-13d5386fe6be@asahilina.net>
-Date:   Thu, 9 Mar 2023 15:04:13 +0900
+        b=PlvUU7AChMN+y2uSDSmhUq9MNe+rf6C0ZtCgSk8xWkohNRj8+AyB3wr36ek6paNek
+         RiQBVRMogoYUk74mPqQnlLlVUmWj9nxyFm2F+Z4kMItrty/YfZ/AsxRmAqrPd2Sg4E
+         Q+5Mps+qnDRYVKtcv/q51vubggpiDtTCB8dVe91p6uBvaAdwhg6i9Kj3C1tawnxOPh
+         v93PGOH4x1lR1wVdsLQFREJ3WFtdSb4BoENJX7+st1wqSranqShTxvK7/pgH7lLPfb
+         IUd8fUVWqVnyfIbWo2NICrP9hSEh1gRFIbwzsB9NpGu6/qMhiTfDbyNoj0LddnTdfC
+         Vq0jJdU85h8Iw==
+Message-ID: <dfbed5a2-9ec5-5cd0-c992-27f4dd6c8808@asahilina.net>
+Date:   Thu, 9 Mar 2023 15:10:54 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
+Subject: Re: [PATCH RFC 02/18] rust: drm: Add Device and Driver abstractions
 Content-Language: en-US
 To:     =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
 Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -62,10 +62,10 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
- <D9Cyx-9kbjaeb8QVBFqapDyctoDdVyu5uXEJDR41sdXUDXM1VgdRicV5huJDwfC3-T2J-R_DYHH8JZ1_aRdgbeYZFT78J9QveeeYbiTq4yU=@protonmail.com>
+ <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
+ <LgJBjn9Sl_vEeMPI8yvQkT5yQzZGk3eC8zdazRRupvjTuysDp8AJU1KY937LoPXugI78XH35UbTxn5tQzunr_pnr63bV_4HC_Ft6VW_mRL8=@protonmail.com>
 From:   Asahi Lina <lina@asahilina.net>
-In-Reply-To: <D9Cyx-9kbjaeb8QVBFqapDyctoDdVyu5uXEJDR41sdXUDXM1VgdRicV5huJDwfC3-T2J-R_DYHH8JZ1_aRdgbeYZFT78J9QveeeYbiTq4yU=@protonmail.com>
+In-Reply-To: <LgJBjn9Sl_vEeMPI8yvQkT5yQzZGk3eC8zdazRRupvjTuysDp8AJU1KY937LoPXugI78XH35UbTxn5tQzunr_pnr63bV_4HC_Ft6VW_mRL8=@protonmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -77,52 +77,120 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/03/2023 02.34, Björn Roy Baron wrote:
->> +                            // SAFETY: This is just the ioctl argument, which hopefully has the right type
->> +                            // (we've done our best checking the size).
+On 08/03/2023 03.19, Björn Roy Baron wrote:
+> ------- Original Message -------
+> On Tuesday, March 7th, 2023 at 15:25, Asahi Lina <lina@asahilina.net> wrote:
 > 
-> In the rust tree there is the ReadableFromBytes [1] trait which indicates that it is safe to read arbitrary bytes into the type. Maybe you could add it as bound on the argument type when it lands in rust-next? This way you can't end up with for example a struct containing a bool with the byte value 2, which is UB.
+>> Add the initial abstractions for DRM drivers and devices. These go
+>> together in one commit since they are fairly tightly coupled types.
+>>
+>> A few things have been stubbed out, to be implemented as further bits of
+>> the DRM subsystem are introduced.
+>>
+>> Signed-off-by: Asahi Lina lina@asahilina.net
+>>
+>> ---
+[...]
 
-There's actually a much bigger story here, because that trait isn't
-really very useful without a way to auto-derive it. I need the same kind
-of guarantee for all the GPU firmware structs...
-
-There's one using only declarative macros [1] and one using proc macros
-[2]. And then, since ioctl arguments are declared in C UAPI header
-files, we need a way to be able to derive those traits for them... which
-I guess means bindgen changes?
-
-For now though, I don't think this is something we need to worry about
-too much for this particular use case because the macro forces all
-struct types to be part of `bindings`, and any driver UAPI should
-already follow these constraints if it is well-formed (and UAPIs are
-going to already attract a lot of scrutiny anyway). Technically you
-could try taking a random kernel struct containing a `bool` in an ioctl
-list, but that would stand out as nonsense just as much as trying to
-unsafe impl ReadableFromBytes for it so... it's kind of an academic
-problem ^^
-
-Actually, I think we talked of moving UAPI types to a separate crate (so
-drivers can get access to those types and only those types, not the main
-bindings crate). Then maybe we could just say that if the macro forces
-the type to be from that crate, it's inherently safe since all UAPIs
-should already be castable to/from bytes if properly designed.
-
-Aside: I'm not sure the ReadableFromBytes/WritableToBytes distinction is
-very useful. I know it exists (padding bytes, uninit fields, and
-technically bool should be WritableToBytes but not ReadableFromBytes),
-but I can't think of a good use case for it... I think I'd rather start
-with a single trait and just always enforce the union of the rules,
-because pretty much any time you're casting to/from bytes you want
-well-defined "bag of bytes" struct layouts anyway. ioctls can be R/W/RW
-so having separate traits depending on ioctl type complicates the code...
-
-[1]
-https://github.com/QubesOS/qubes-gui-rust/blob/940754bfefb7325548eece658c307a0c41c9bc7c/qubes-castable/src/lib.rs
-[2] https://docs.rs/pkbuffer/latest/pkbuffer/derive.Castable.html
-
+>> +/// Information data for a DRM Driver.
+>> +pub struct DriverInfo {
+>> +    /// Driver major version.
+>> +    pub major: i32,
+>> +    /// Driver minor version.
+>> +    pub minor: i32,
+>> +    /// Driver patchlevel version.
+>> +    pub patchlevel: i32,
+>> +    /// Driver name.
+>> +    pub name: &'static CStr,
+>> +    /// Driver description.
+>> +    pub desc: &'static CStr,
+>> +    /// Driver date.
+>> +    pub date: &'static CStr,
+>> +}
+>> +
 > 
-> https://rust-for-linux.github.io/docs/kernel/io_buffer/trait.ReadableFromBytes.html [1]
-> 
+> Could you please add an Invariants section to the doc comments indicating what requirements these function pointers must satisfy?
+
+I can try (as much as I can divine from the C side anyway...). I guess
+you want interface docs for each callback, so like what it must do and
+what invariants each one must uphold?
+
+Note that this is a kernel crate-only struct (the fields are not public)
+so users can't create their own AllocOps variants anyway (plus AllocImpl
+is sealed, on top of that), but I guess it makes sense to document for
+internal kernel crate purposes. At some point it might make sense to
+allow drivers to override these with proper Rust callbacks (and then the
+wrappers need to ensure safety), but right now that's not implemented.
+
+>> +/// Internal memory management operation set, normally created by memory managers (e.g. GEM).
+>> +///
+>> +/// See `kernel::drm::gem` and `kernel::drm::gem::shmem`.
+>> +pub struct AllocOps {
+>> +    pub(crate) gem_create_object: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            size: usize,
+>> +        ) -> *mut bindings::drm_gem_object,
+>> +    >,
+>> +    pub(crate) prime_handle_to_fd: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            file_priv: *mut bindings::drm_file,
+>> +            handle: u32,
+>> +            flags: u32,
+>> +            prime_fd: *mut core::ffi::c_int,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) prime_fd_to_handle: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            file_priv: *mut bindings::drm_file,
+>> +            prime_fd: core::ffi::c_int,
+>> +            handle: *mut u32,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) gem_prime_import: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            dma_buf: *mut bindings::dma_buf,
+>> +        ) -> *mut bindings::drm_gem_object,
+>> +    >,
+>> +    pub(crate) gem_prime_import_sg_table: Option<
+>> +        unsafe extern "C" fn(
+>> +            dev: *mut bindings::drm_device,
+>> +            attach: *mut bindings::dma_buf_attachment,
+>> +            sgt: *mut bindings::sg_table,
+>> +        ) -> *mut bindings::drm_gem_object,
+>> +    >,
+>> +    pub(crate) gem_prime_mmap: Option<
+>> +        unsafe extern "C" fn(
+>> +            obj: *mut bindings::drm_gem_object,
+>> +            vma: *mut bindings::vm_area_struct,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) dumb_create: Option<
+>> +        unsafe extern "C" fn(
+>> +            file_priv: *mut bindings::drm_file,
+>> +            dev: *mut bindings::drm_device,
+>> +            args: *mut bindings::drm_mode_create_dumb,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) dumb_map_offset: Option<
+>> +        unsafe extern "C" fn(
+>> +            file_priv: *mut bindings::drm_file,
+>> +            dev: *mut bindings::drm_device,
+>> +            handle: u32,
+>> +            offset: *mut u64,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +    pub(crate) dumb_destroy: Option<
+>> +        unsafe extern "C" fn(
+>> +            file_priv: *mut bindings::drm_file,
+>> +            dev: *mut bindings::drm_device,
+>> +            handle: u32,
+>> +        ) -> core::ffi::c_int,
+>> +    >,
+>> +}
+>> +
 
 ~~ Lina
