@@ -2,164 +2,326 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEEF36B1DBD
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 09:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C4D56B1E76
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 09:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbjCIIVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 03:21:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50148 "EHLO
+        id S230185AbjCIInT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 03:43:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbjCIIUb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 03:20:31 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003D5E842B;
-        Thu,  9 Mar 2023 00:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1678349813; x=1709885813;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=o2rhiM4rdYbnFdFUIMb47/y94qMgtRImYwSoikHwQEM=;
-  b=iw3Fh7WECtk+u3EP72qD0EMrblSC75k2Z0iAuBgLL/nVKFHhja6n6aoE
-   eMB1aW2KgEIsAwF/oIF59jr8cSsfeH3bON5wKBWZrrNs8QEIOzMCb8V3O
-   pCpOpZdZK6plvZ5l5knslGbg7WsNbwh2xCfe3/GGPCL+aaS23UhM/3ED6
-   89mYZ9Irt1v9++NYuy5NdhOk+GGexX4v5P7MZME1KfFq0qFkoaFgfjSFN
-   FyRlQRq/ofxAlSosjLP2K/ClU7GIV4pLeE2t9ps50GiF7s1RUIPFidS/M
-   L2Ar0ie5jS4XXQoD98hTDZcm9p/VnXn5IuI/UkP2UUT1E2cv7xTQdQ6mk
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,245,1673910000"; 
-   d="scan'208";a="29567374"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 09 Mar 2023 09:16:51 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 09 Mar 2023 09:16:51 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 09 Mar 2023 09:16:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1678349811; x=1709885811;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=o2rhiM4rdYbnFdFUIMb47/y94qMgtRImYwSoikHwQEM=;
-  b=EW7xECHu4etDpVRaw4Xd+jevfMbu306WiV282aRIzAsHwY8rPzS8pMxP
-   qll9+OOV1F9FV5spZ113Mf47PpqVMH6s/ZiCOLznZzVVRPCMzaV94Sy+P
-   GqePI91tPmKD9+rrKxL0p+uQkePndpHBng3RiKtxxJaCH+3yv6X5ySive
-   y7LgYcfBpmTEnAik5tRhGlj11HIeOi8kguwLh1F8MddNqmJvDLvCVW5A2
-   A6TtmR5vVypqv5dbiHJTpS2bUprpj4y/VvBfmhVkTq3mV2PNuDh0VoV8F
-   3wxV3rsHyBYL7ulRWgidwBmZhX1S9LeOHFABKV2zQiae8162UyNmqza6s
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.98,245,1673910000"; 
-   d="scan'208";a="29567372"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 09 Mar 2023 09:16:51 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BF2FB280056;
-        Thu,  9 Mar 2023 09:16:50 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 00/15] media: i2c: imx290: Mono support, minor fixes, alternate INCK, and more controls
-Date:   Thu, 09 Mar 2023 09:16:47 +0100
-Message-ID: <5017997.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
-References: <20230215223003.30170-1-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S230420AbjCIImw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 03:42:52 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 610E45D26B;
+        Thu,  9 Mar 2023 00:42:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dH/mpeoqEJSaLA4gLS0tPKG6T4uzHrqPd5hX00iqCIu99jDFSwnEAT9BTtbXXmXPgsSoLRh+W4AsPU9wspQntDIQnUxpTGE79GQeOu4sI0V5k9GrRxMcTgdjwWhZfzOeLQGJJivJbms39jkfNjkoOSbkvePGBklfKwOObRAhsC1w1BOdVoaXcSx8a1Xl+yVpor9CM/qPH6TQrZxfPf1bmHt8+ebKSmry/jq1QzdCHK/K1YAPMXvAq1pgxCwmMEMcPcYDCX2LiS/PMY6Rp3XARqhURYnYxi5AoM+FrNMGfhYoCsyk+OruwCSdEbXS80WLTjAG90bBGdsNk/1nynx43Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UVfIyq6qIMm629iteLYQtt8WFq9Wy7paTlapuJXCgXE=;
+ b=S+xQaF1FhTB7tjVjCBq4wiSTaos3bwVMQuoPqmt4Ghzw7+3AOaV4KDbdFXLdtBRktBv26pKgns9TPTYntY6f7UWxf/4QK4qpN1s671EPBA41F/nZiv9pwb8LMtgK+0AQkyrX1gn2Hh9zQAVZg29pOXrbOcwDr8l5b504QN2Aax6q0rDuQvbhTlcIwcY42eoY0XryGQRmuWpfAyoEoM0im1JtuMmIhxkAN0mAGP1Ikce2gWEkkbTs+niV5ypKEp2Y7Lg9wLG6HMN9LEstwmb9+Thfp8l9rqHv1YrfDEGJLgidVDlVATzr6TlL7g/jv49pvKU8rO9bvdVAaq7shSU5HA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UVfIyq6qIMm629iteLYQtt8WFq9Wy7paTlapuJXCgXE=;
+ b=1+2k2I8SbZl2tBvioK8KDv4Yt+PIY2xMdH8ywKEPxITCQjOerKy2758XeunhOz4pFq4WC5p/oM8TuwOEdv1pvI9Z8iE+fEcYebhG1I+eqgkiJAmY6rRgGfcP6kG569DQpo0Tg4sru0gQc9hB6sbVtfAgvrIy0ql9+Q/hnzLB4OM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH0PR12MB7816.namprd12.prod.outlook.com (2603:10b6:510:28c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.18; Thu, 9 Mar
+ 2023 08:42:41 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Thu, 9 Mar 2023
+ 08:42:40 +0000
+Message-ID: <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
+Date:   Thu, 9 Mar 2023 09:42:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
+ is torn down
+Content-Language: en-US
+To:     Asahi Lina <lina@asahilina.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+ <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
+ <585fa052-4eff-940e-b307-2415c315686a@amd.com>
+ <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
+ <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
+ <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
+ <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
+ <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0138.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB7816:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7543d69-0e96-4b6a-731a-08db207a3e3d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Bn/koooPM8RY1zLUC5Ty4PDo94gMsTn9tfXIMG/QRWeuqj+oLyAnrBYGRDg5wpR470yuUc0wBBMLa8mf69lHCe7la1DnnJRRr+wseoafziAIXRjz8RyB1mgKPL/t5XQ8PGUCqxtyChBr5Qh0xO6ZrKwsghDhmdVXoFbkH244CbCO/aCJvhtTR6oLkhW3yt5pJpotrUR9aadfLQWWe6oVtJX+7DNVul/eIwHrp8eSeZmVRj9XGSa41gf1nX4W2aVhW1IfzDIurRMstkE6/Ch9YOMkNGjFadKD7H4+mqyqlc9e20k7Ko6xKzNQol0KJqjRyE57tJ/G8llD1oquqFY2Z5ynekBX6+LYqTOgnZdfqK7vP+/aydCtpSvHfTbe3vwDKVrxZyS4PTFNXzB/ZP/1dHG1b6AgF2WJKaJyghG0hxiDTg6DAsMk33ntbRNoaWuXyCA71it7k8EA7E/85PbXp3drP/GUiw7t5+Z9A/d6BxxY/B5Xh7Z0yboAA35PZH+dDHRjQ1iISnDnfTKBzFHwQ6ve4sdjlqbKadYQtA+UIMnhAHhdrrRPHgWo2XDcXHeid9y4bV9Pa2is7vlLHV89Ss7zuc4g9jZj3BFNAHAuheZLpDhdYtvCDx9bX3nFb6XJkvTyzokZi2K3D1mf79MV79BpoNyDX6TV901/jTkR5zcZo04KThXRwmcg7vZhnQbi4RQ0FNgelk+Ol2OEkFKp+YR4tt/wWm8KQtIygM5PFwIYGXqWYDqvK1uKj7FR5tkq
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(136003)(366004)(39860400002)(396003)(451199018)(36756003)(54906003)(110136005)(6486002)(478600001)(7416002)(316002)(5660300002)(66556008)(66476007)(2906002)(66946007)(8676002)(41300700001)(4326008)(8936002)(26005)(921005)(31696002)(86362001)(38100700002)(6506007)(6512007)(2616005)(186003)(6666004)(83380400001)(66574015)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGxEeGExbHpWOWtwT1VrS1QvOEJidXJlY3E1M0tSM0hoa2JWcnlHZU9NbU9o?=
+ =?utf-8?B?bk5KOFdsTHQ3TzFQUmxZMVhEOXFkb3l4M2RQR2wvVEh0citDaU92b25ZUGVm?=
+ =?utf-8?B?TlBvZSthOVpLQUFoTFpQMGYyM014a3Q1K1RNalhNRldpN3NXUWswaUpLVmVp?=
+ =?utf-8?B?Q3pjakJoRXJwSEZxZllDQjU5MldDWVRXR25KMytjVkRST3NXbHl3OUZUR25o?=
+ =?utf-8?B?U1dlUit4TkpPaE1VeDNacDFYNWpOK2xDNGZzQTBHR0pKWWpjVTJzZzF2WEth?=
+ =?utf-8?B?VzU2YUNzSlBDbEpteURFWHRvUEpLSGJLaElCWkFRN1JYMHc2ekFLaEZ4bUJn?=
+ =?utf-8?B?blBBbmFEVytNaXJ0dmJOQzJrMDByUTRHOEd2KzJxZHBHcTU1cElRTjZMOU5X?=
+ =?utf-8?B?WTBISmJzTUhPSFdEZlRhcXd5VDkzWXNWN3lTUVRuSHdJTkpvek1vTmFqWVRO?=
+ =?utf-8?B?ZFpRNHE2cmdYbFhxcUVjR1Z0VnM2Mjdwb2tuY2c4SmNPNGdMRFpSZno0OUhH?=
+ =?utf-8?B?N3ZsVy9iN0ZtaGJsZU0zSEsxTTBXK0RId2UyWTBFNXFqMG8rVnJzSFN4T2ls?=
+ =?utf-8?B?T0pINjE5RXU2dnRxU3lGekVjMEFUTDBvVzU1VklMblFpRVBnRmdFNHovTVdt?=
+ =?utf-8?B?cDM4MDlwY3ZmTUpZQTZmQzN6U2h2WlhGVUZkZ1B5a2t3UlNPdzhsR0pnOTVY?=
+ =?utf-8?B?WlhnUGdrM2M2VVAwa1ZQdWw5OUxSMmdHUEJNSkJpR0hvbkxaWnRmb1JoZG9j?=
+ =?utf-8?B?VS9BUE9pVTBrQmpyak9iZFp5R2UySHNCeVhKRDVZMndmdlVIQ0ZWcTI0QjlY?=
+ =?utf-8?B?TmRMYlJsTHhHUmE2N3Q0WDMxT3o1TmZLQlZCYURjdFZXM0xEQ2x0Zm1YQjRq?=
+ =?utf-8?B?L2NqRk85Z1Rlai9pTzg3WG1sd1E1bU1BaC9jMzBiWVlhODgraDM5YmNyN2JI?=
+ =?utf-8?B?S3RDcWhiay83andsVndkcUNKdkR4ZXpCNm5ZRWZrcWR0NDV1d3lmR2Fzb1Q3?=
+ =?utf-8?B?dHBjc05LYVlob3dlSXVUamkvRDAwQnA5cFNkWUMzNkt0MkFFN0ZJS2RKeU5v?=
+ =?utf-8?B?RDEzUmZrbVRJR0hYN1lGOEhZY0tKTHZIN1RPNGE1cjU1cFV2eURLUDZWYnJy?=
+ =?utf-8?B?ZkJFZjJVUG5PSldKUFlPV3JPelBnSDBzVGNra0VGUllmTUp6cUVqRWxPUnRF?=
+ =?utf-8?B?TnUxZGFMZGpSMEVtakUydTBhQlAycHNrUmduc1NMLzB4enlNOEpmYkF4NnpX?=
+ =?utf-8?B?bU40b3ozSk9VMXFpZHpITzhpNUtWWVh0YWNFYkpCY0NxNkZDQ2UyaTdITTNF?=
+ =?utf-8?B?TXN1bG96V2NMS3ZrL2NhRkFFL09ZUXpJNGFyRDBoNlgrZlo5RXhYUGVJYjhy?=
+ =?utf-8?B?ZmF5RnBqcmVJQU9JYlIvdW15ME9oK0hKdGJTSkNLRzZHS2d5eWs2SWs5K1hq?=
+ =?utf-8?B?cjRUK281c09LblZjTW5zaE1oMGdkUy80TUpxc0t5L1k1VzRGM3NEbHpmOFJs?=
+ =?utf-8?B?R213NWhuV1NSMU9MVDNuODNqbVVlT1F2MHJsSHNUL3hOZ3haQkpwVFF1cnc4?=
+ =?utf-8?B?cCtJNUx2TUlnYjN3dktKK01GSzBFWVdURVZ4VVgzQUFwYU84dFJjYXgvY0M2?=
+ =?utf-8?B?b1l0R3ErVU52QW15S2ZCeHc2ekFRWlBDUjdJRytDZWJNWUd3L2cwVzk5R0pZ?=
+ =?utf-8?B?WVRCbVA1bE9jampOM2JkSDJ2U09QQXVjUlNMeTJQU2FwbDdlOUNEQ2pMdmV4?=
+ =?utf-8?B?OC85ZFIrK1daamFQNUpRTHY5VUw4QXNpUXZrKzc2YmFwWFcvQ2ZhbG9zK3p1?=
+ =?utf-8?B?QWdyUVlBdE91dnlKTnQvQ0hyeXBHSnVGRit0WmNKRDU2VmlGUjBUUjlFWTFt?=
+ =?utf-8?B?aGRaTEhHck5QWEJtSzQ4VGtwdUtVUWtyUklUblcyVWt2S20rcnkwQzFpbHFx?=
+ =?utf-8?B?RFZURzFoR0hGOVorRnRKVGZ3VW5Ld1N0enVra0lhTkF0QWgrV1NKVUN4VzVU?=
+ =?utf-8?B?ZDZtTHRnck4wUzErWjAvKzFuckxab2RwYzMxV2QzWnRReFJsU08rVndVNldn?=
+ =?utf-8?B?S2FWTzJqNFRRTHFTNGxGWXlHUVFyamdqTEhZeExheWppTTBMS1kyVHBlSnND?=
+ =?utf-8?Q?C6LdbTnXc28mtcd1aVqxXx7J9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7543d69-0e96-4b6a-731a-08db207a3e3d
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 08:42:40.7089
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KmnVtAFqDFbHf4WgjdNhpXaXQ9zWLshYghO809tke04KrXjWz6d21ZWyPe6c/lN1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7816
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everyone,
+Am 08.03.23 um 20:37 schrieb Asahi Lina:
+> On 09/03/2023 03.12, Christian König wrote:
+>> Am 08.03.23 um 18:32 schrieb Asahi Lina:
+>>> [SNIP]
+>>> Yes but... none of this cleans up jobs that are already submitted by the
+>>> scheduler and in its pending list, with registered completion callbacks,
+>>> which were already popped off of the entities.
+>>>
+>>> *That* is the problem this patch fixes!
+>> Ah! Yes that makes more sense now.
+>>
+>>>> We could add a warning when users of this API doesn't do this
+>>>> correctly, but cleaning up incorrect API use is clearly something we
+>>>> don't want here.
+>>> It is the job of the Rust abstractions to make incorrect API use that
+>>> leads to memory unsafety impossible. So even if you don't want that in
+>>> C, it's my job to do that for Rust... and right now, I just can't
+>>> because drm_sched doesn't provide an API that can be safely wrapped
+>>> without weird bits of babysitting functionality on top (like tracking
+>>> jobs outside or awkwardly making jobs hold a reference to the scheduler
+>>> and defer dropping it to another thread).
+>> Yeah, that was discussed before but rejected.
+>>
+>> The argument was that upper layer needs to wait for the hw to become
+>> idle before the scheduler can be destroyed anyway.
+> Unfortunately, that's not a requirement you can encode in the Rust type
+> system easily as far as I know, and Rust safety rules mean we need to
+> make it safe even if the upper layer doesn't do this... (or else we have
+> to mark the entire drm_sched abstraction unsafe, but that would be a pity).
 
-Am Mittwoch, 15. Februar 2023, 23:29:48 CET schrieb Laurent Pinchart:
-> Hello,
->=20
-> This patch series combines the "[PATCH v2 0/2] Add support for mono
-> version of Sony IMX290 sensor" ([1]) and "[PATCH v2 00/13] imx290: Minor
-> fixes, support for alternate INCK, and more ctrls" ([2]) previously
-> submitted by Dave into a single series.
->=20
-> As promised in my review of v2 of both series, I have tested the changes
-> with my IMX327 camera sensor, connected to the i.MX8MP ISP, with
-> libcamera. I haven't noticed any regression (but, full disclaimer, I
-> haven't tested all the newly features). I think we're thus good to go.
+Yeah, that should really not be something we should do.
 
-What is the status of this series? Will it be picked up?
+But you could make the scheduler depend on your fw context object, don't 
+you?
 
-Best regards,
-Alexander
+Detaching the scheduler from the underlying hw fences is certainly 
+possible, but we removed that functionality because some people people 
+tried to force push some Windows recovery module into Linux. We are in 
+the process of reverting that and cleaning things up once more, but that 
+will take a while.
 
->=20
-> This version handles all review comments from v2, resulting in the
-> following changes:
->=20
-> - Deprecate the sony,imx290 compatible
-> - Update the DT example to use the new sony,imx290lqr compatible
-> - Drop unneeded pointer cast
-> - Don't move imx290_of_match table
-> - Fix typos
->=20
-> The code has also been rebased on top of the latest media master branch,
-> with rebase conflicts and rebase-induced compilation breakages fixed.
->=20
-> The patches are available from
->=20
-> git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
-> next/media/sensors/imx290
->=20
-> [1]
-> https://lore.kernel.org/linux-media/20230203191644.947643-1-dave.stevenso=
-n@
-> raspberrypi.com [2]
-> https://lore.kernel.org/linux-media/20230203191811.947697-1-dave.stevenso=
-n@
-> raspberrypi.com
->=20
-> Dave Stevenson (15):
->   media: dt-bindings: media: i2c: Add mono version to IMX290 bindings
->   media: i2c: imx290: Add support for the mono sensor variant
->   media: i2c: imx290: Match kernel coding style on whitespace
->   media: i2c: imx290: Set the colorspace fields in the format
->   media: i2c: imx290: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
->   media: i2c: imx290: Fix the pixel rate at 148.5Mpix/s
->   media: i2c: imx290: Support 60fps in 2 lane operation
->   media: i2c: imx290: Use CSI timings as per datasheet
->   media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
->   media: i2c: imx290: Convert V4L2_CID_VBLANK to read/write
->   media: i2c: imx290: VMAX is mode dependent
->   media: i2c: imx290: Remove duplicated write to IMX290_CTRL_07
->   media: i2c: imx290: Add support for 74.25MHz external clock
->   media: i2c: imx290: Add support for H & V Flips
->   media: i2c: imx290: Add the error code to logs in start_streaming
->=20
->  .../bindings/media/i2c/sony,imx290.yaml       |  24 +-
->  drivers/media/i2c/imx290.c                    | 537 ++++++++++++++----
->  2 files changed, 442 insertions(+), 119 deletions(-)
->=20
->=20
-> base-commit: 83e0f265aa8d0e37cc8e15d318b64da0ec03ff41
+Instead of detaching you could also block for the hw to become idle, but 
+if you do that synchronous on process termination you run into trouble 
+as well.
 
+> I know it's a different way of thinking, but it has pretty clear
+> benefits since with Rust you can actually guarantee that things are safe
+> overall by just auditing explicitly unsafe code. If we just mark all of
+> drm_sched unsafe, that means we now need to audit all details about how
+> the driver uses it for safety. It makes more sense to just make the
+> abstraction safe, which is much easier to audit.
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+I'm pretty familiar with that approach.
 
+>
+>>>>> Right now, it is not possible to create a safe Rust abstraction for
+>>>>> drm_sched without doing something like duplicating all job tracking in
+>>>>> the abstraction, or the above backreference + deferred cleanup mess, or
+>>>>> something equally silly. So let's just fix the C side please ^^
+>>>> Nope, as far as I can see this is just not correctly tearing down the
+>>>> objects in the right order.
+>>> There's no API to clean up in-flight jobs in a drm_sched at all.
+>>> Destroying an entity won't do it. So there is no reasonable way to do
+>>> this at all...
+>> Yes, this was removed.
+>>
+>>>> So you are trying to do something which is not supposed to work in the
+>>>> first place.
+>>> I need to make things that aren't supposed to work impossible to do in
+>>> the first place, or at least fail gracefully instead of just oopsing
+>>> like drm_sched does today...
+>>>
+>>> If you're convinced there's a way to do this, can you tell me exactly
+>>> what code sequence I need to run to safely shut down a scheduler
+>>> assuming all entities are already destroyed? You can't ask me for a list
+>>> of pending jobs (the scheduler knows this, it doesn't make any sense to
+>>> duplicate that outside), and you can't ask me to just not do this until
+>>> all jobs complete execution (because then we either end up with the
+>>> messy deadlock situation I described if I take a reference, or more
+>>> duplicative in-flight job count tracking and blocking in the free path
+>>> of the Rust abstraction, which doesn't make any sense either).
+>> Good question. We don't have anybody upstream which uses the scheduler
+>> lifetime like this.
+>>
+>> Essentially the job list in the scheduler is something we wanted to
+>> remove because it causes tons of race conditions during hw recovery.
+>>
+>> When you tear down the firmware queue how do you handle already
+>> submitted jobs there?
+> The firmware queue is itself reference counted and any firmware queue
+> that has acquired an event notification resource (that is, which is busy
+> with running or upcoming jobs) hands off a reference to itself into the
+> event subsystem, so it can get notified of job completions by the
+> firmware. Then once it becomes idle it unregisters itself, and at that
+> point if it has no owning userspace queue, that would be the last
+> reference and it gets dropped. So we don't tear down firmware queues
+> until they are idle.
+
+And could those fw queue not reference the scheduler?
+
+>
+> (There is a subtle deadlock break in the event module to make this work
+> out, where we clone a reference to the queue and drop the event
+> subsystem lock before signaling it of completions, so it can call back
+> in and take the lock as it unregisters itself if needed. Then the actual
+> teardown happens when the signaling is complete and that reference clone
+> is the last one to get dropped.)
+>
+> If a queue is idle at the firmware level but has upcoming jobs queued in
+> drm_sched, when those get deleted as part of an explicit drm_sched
+> teardown (free_job()) the queue notices it lost its upcoming jobs and
+> relinquishes the event resource if there are no running jobs. I'm not
+> even sure exactly what order this all happens in in practice (it depends
+> on structure field order in Rust!), but it doesn't really matter because
+> either way everything gets cleaned up one way or another.
+>
+> I actually don't know of any way to actively abort jobs on the firmware,
+> so this is pretty much the only option I have. I've even seen
+> long-running compute jobs on macOS run to completion even if you kill
+> the submitting process, so there might be no way to do this at all.
+> Though in practice since we unmap everything from the VM anyway when the
+> userspace stuff gets torn down, almost any normal GPU work is going to
+> immediately fault at that point (macOS doesn't do this because macOS
+> effectively does implicit sync with BO tracking at the kernel level...).
+
+Oh, that is an interesting information. How does macOS do explicit sync 
+then or isn't that supported at all?
+
+> By the way, I don't really use the hardware recovery stuff right now.
+> I'm not even sure if there is a sensible way I could use it, since as I
+> said we can't exactly abort jobs. I know there are ways to lock up the
+> firmware/GPU, but so far those have all been things the kernel driver
+> can prevent, and I'm not even sure if there is any way to recover from
+> that anyway. The firmware itself has its own timeouts and recovery for
+> "normal" problems. From the point of view of the driver and everything
+> above it, in-flight commands during a GPU fault or timeout are just
+> marked complete by the firmware, after a firmware recovery cycle where
+> the driver gets notified of the problem (that's when we mark the
+> commands failed so we can propagate the error).
+
+Yeah, that's exactly what we are telling our fw people for years that we 
+need this as well.
+
+> There is no re-submission or anything, userspace just gets told of the problem but
+> the queue survives.
+
+> In the future it might be possible to re-submit innocent commands
+
+Long story short: Don't do this! This is what the Windows drivers have 
+been doing and it creates tons of problems.
+
+Just signal the problem back to userspace and let the user space driver 
+decide what to do.
+
+The background is that most graphics applications (games etc..) then 
+rather start on the next frame instead of submitting the current one 
+again while compute applications make sure that the abort and tell the 
+user that the calculations might be corrupted and need to be redone.
+
+Regards,
+Christian.
+
+>   (it is possible for a GPU fault to break another
+> process running concurrently, and this is a problem macOS has too...),
+> which is still not perfect due to side effects but might work most of
+> the time, but that depends on the "command patching" stuff I mentioned,
+> and I'm still not even sure if it will be possible to do safely. There's
+> a lot of subtlety around what we can and can't do during a firmware
+> recovery cycle that I haven't even started to investigate yet (the
+> answer could be "nothing" even).
+>
+> ~~ Lina
 
