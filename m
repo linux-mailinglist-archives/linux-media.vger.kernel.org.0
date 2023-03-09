@@ -2,153 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 548A46B1B8A
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 07:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1055D6B1BBA
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 07:45:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbjCIGac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 01:30:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57976 "EHLO
+        id S230191AbjCIGpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 01:45:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbjCIGaa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 01:30:30 -0500
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C7F8C0D5;
-        Wed,  8 Mar 2023 22:30:28 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 346EA42037;
-        Thu,  9 Mar 2023 06:30:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1678343426;
-        bh=/hhFWpC+hto8GAX0pJh+P6OQkNm/8ab+JjGGIX4mhlg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=P6/7ZSEeWqAst+e/b9Q/j9CQZQ/8ZVEuqr7EW67BxjeMhzgYAVhb4Lqg2rGGw6mMN
-         K7gyGOyxcEa8LvgGCcfexFaGyA7NDqDRv5eqrCHYT0dosQP1+bQzr+vP++WmmQq/6A
-         3h70p1rPUjAoUog3DU7vldubJmJNBoMg16jPo3ft9xgaQ1DrcAiKF1gdnxpzmvafCw
-         BYr6a2c9/eo8t/Rj5u8+VJnAggjM4/RxHoRfhH9vTwfbYazvHAA+qEEPPh5fUmNuob
-         ul2RrpYuijhMUjrlwH6W44l0HYbiVNcAohS/tkdvPlupsDS10YITpFEENn0d2DFDk5
-         ZQ+n7HgLXEaEA==
-Message-ID: <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
-Date:   Thu, 9 Mar 2023 15:30:17 +0900
+        with ESMTP id S230153AbjCIGpd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 01:45:33 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8468362857
+        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 22:45:27 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id a25so3159913edb.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 22:45:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678344326;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VrAxCqO0uv24h0ZyB1Ik7eA7Hcze8cmWOkDY6T7bQkE=;
+        b=PD8A+McklAjSk/Em1P0s9EsrgRCIrTvlrMNwsyaKaeUKcB5VCg77YitM38n3iSnBNw
+         WVE7jRvl8oITEWBW3zubjaYooO3nJJGRDW93NcswpyfsgJQLa4vNTGRc0FBiiEzNYgu+
+         ZBKag4HGc1NogmgPrNpoG47jTMz4JSHeixnDQbBxFXI50P15Sar/X1hmc0n+qcnDrCjF
+         kut9n6aTdjizU+8tyIiFUMPV0mHHxaITEw/7NCp/dTWsCFTBS7Ic+dcHpvoRIa0UKOE3
+         pkTv6QmE40yerUahNyQCueB0ORTNdhYxmi0SuYT8+SeIltWYPnmWYtF6IuyjG0j8m9Vr
+         xjQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678344326;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VrAxCqO0uv24h0ZyB1Ik7eA7Hcze8cmWOkDY6T7bQkE=;
+        b=C5VygT53un71brliWdk4wE3boxLLzVCa6EzXhXD40jW4RE115HceWqhAPssbMg3wR4
+         AR1DdShzzLmA4iByms0kAWs4PLYTGO4kRKQMc9mjP9qC5xH7+hWDNum7/T2uFHFNRaHD
+         kweO7+EjM2xoNHEUtOYqZO5yH8komI0e9DB5tm8lNaR4JgJ3TqtHBTPpNgYM21GXX3Aa
+         efSVHDPF/xGZ2EogZ7G7Rf7GyHJdmVTyPro8PrnVLBP2xFu97GCQuaVPqg5AkcwPmsIm
+         UxlcKDAwmfAkpHcNnuIGVHpddIroDkvnBJuJx7iz2j3M/p1WWKIsghPO7vL1y59UHKT/
+         DaCA==
+X-Gm-Message-State: AO0yUKWGfUfPTBp2oV1oEc5lYUWVF0HJCCa1dFPV5pYBpodqjahJ3Wd9
+        aMcRd/Zh2kz28am+pWgGibWZSA==
+X-Google-Smtp-Source: AK7set9d+R03e+gnXpiwuG02e0liY3UBmtfcL5qUnkSURkUjCoBP5YvZQA0UrjfgO/RZ3LoD+Icrlg==
+X-Received: by 2002:aa7:d6c6:0:b0:4af:59c0:d303 with SMTP id x6-20020aa7d6c6000000b004af59c0d303mr18327898edr.26.1678344326057;
+        Wed, 08 Mar 2023 22:45:26 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:7ee2:e73e:802e:45c1? ([2a02:810d:15c0:828:7ee2:e73e:802e:45c1])
+        by smtp.gmail.com with ESMTPSA id k26-20020a508ada000000b004af6b93f00asm9063997edk.23.2023.03.08.22.45.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 22:45:25 -0800 (PST)
+Message-ID: <9b93849d-d4a4-67ba-e8a0-ee6c7209bd65@linaro.org>
+Date:   Thu, 9 Mar 2023 07:45:23 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to
+ json-schema
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
- <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
- <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
- <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
- <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
- <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
- <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
- <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
- <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
- <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
- <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
-From:   Asahi Lina <lina@asahilina.net>
-In-Reply-To: <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com
+References: <CGME20230301035153epcas5p40f576188a9a69835c1050135219a3720@epcas5p4.samsung.com>
+ <20230301035144.8645-1-aakarsh.jain@samsung.com>
+ <8b5bea40-6f7b-1d00-ac23-83a28c7dacbc@linaro.org>
+ <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,T_SPF_TEMPERROR autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/03/2023 05.14, Christian König wrote:
->> I think you mean wake_up_interruptible(). That would be
->> drm_sched_job_done(), on the fence callback when a job completes, which
->> as I keep saying is the same logic used for
->> hw_rq_count/hw_submission_limit tracking.
+On 02/03/2023 16:18, Aakarsh Jain wrote:
+>>
+>> iommus:
+>>   maxItems: 1
+>> iommu-names: false
+>>
+> I am getting compilation errors with above property set and its breaking the bindings.
+> If we see these two nodes in dtsi files.
+>                mfc: codec@13400000 {
+>                         compatible = "samsung,mfc-v5";
+> ..
+>                         iommus = <&sysmmu_mfc_l>, <&sysmmu_mfc_r>;
+>                         iommu-names = "left", "right";
+> }
+> And 
+>               mfc: codec@13400000 {
+>                         compatible = "samsung,exynos3250-mfc", "samsung,mfc-v7";
+>                         reg = <0x13400000 0x10000>;
+> ...
+>                         iommus = <&sysmmu_mfc>;
+>                 };
+> There is no iommu-names property for compatible "samsung,exynos3250-mfc, samsung,mfc-v7", that’s why I kept
+>         iommus:
+>           minItems: 1
+>           maxItems: 2
+> I would even go with below if you agree?
+>         iommus:
+>           minItems: 1
+>           maxItems: 2
+>         iommus-names: false
+
+No, I don't agree. Why do you need two IOMMUs for Exynos3250?
 > 
-> As the documentation to wait_event says:
-> 
->   * wake_up() has to be called after changing any variable that could
->   * change the result of the wait condition.
-> 
-> So what you essentially try to do here is to skip that and say 
-> drm_sched_job_done() would call that anyway, but when you read any 
-> variable to determine that state then as far as I can see nothing is 
-> guarantying that order.
 
-The driver needs to guarantee that any changes to that state precede a
-job completion fence signal of course, that's the entire idea of the
-API. It's supposed to represent a check for per-scheduler (or more
-specific, but not more global) resources that are released on job
-completion. Of course if you misuse the API you could cause a problem,
-but what I'm trying to say is that the API as designed and when used as
-intended does work properly.
+Best regards,
+Krzysztof
 
-Put another way: job completions always need to cause the sched main
-loop to run an iteration anyway (otherwise we wouldn't make forward
-progress), and job completions are exactly the signal that the
-can_run_job() condition may have changed.
-
-> The only other possibility how you could use the callback correctly 
-> would be to call drm_fence_is_signaled() to query the state of your hw 
-> submission from the same fence which is then signaled. But then the 
-> question is once more why you don't give that fence directly to the 
-> scheduler?
-
-But the driver is supposed to guarantee that the ordering is always 1.
-resources freed, 2. fence signaled. So you don't need to check for the
-fence, you can just check for the resource state. If the callback
-returns false then by definition the fence wasn't yet signaled at some
-point during its execution (because the resources weren't yet freed),
-and since it would be in the wait_event_interruptible() check path, by
-definition the fence signaling at any point during or after the check
-would cause the thread to wake up again and re-check.
-
-Thread 1                                          Thread 2
-1. wait_event_interruptible() arms wq             1. Free resources
-2. can_run_job() checks resources                 2. Signal fence
-3. wait_event_interruptible() sleeps on wq        3. Fence wakes up wq
-4. loop
-
-There is no possible interleaving of those sequences that leads to a
-lost event and the thread not waking up:
-- If T2.3 happens before T1.1, that means T2.1 happened earlier and T1.2
-must return true.
-- If T2.3 happens after T1.1 but before T1.3, the wq code will ensure
-the wq does not sleep (or immediately wakes up) at T1.3 since it was
-signaled during the condition check, after the wq was armed. At the next
-check loop, T1.2 will then return true, since T2.1 already happened
-before T2.3.
-- If T2.3 happens during T1.3, the wq wakes up normally and does another
-check, and at that point T1.2 returns true.
-
-QED.
-
-~~ Lina
