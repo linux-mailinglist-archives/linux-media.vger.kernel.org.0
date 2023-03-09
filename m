@@ -2,341 +2,267 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 653366B1FFF
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 10:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B756B207D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 10:45:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbjCIJ3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 04:29:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35310 "EHLO
+        id S230337AbjCIJpM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 04:45:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230207AbjCIJ3A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 04:29:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC122313F
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 01:28:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678354093;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VMW5hwC6HC6dArngY2midPA7q9IEMSNo48mdSfV3d7k=;
-        b=G0bl+nyqwjCt76A/2uAEpCUn2yclmXk9a+h2k4RoUwd1+m19tDZaYzXQ2/YsxC3gxiJCVz
-        gfwEgr2nqhjTqaR3GD3gDWpuRVapLY2eRTe1ntJJxTibOmXyIsPIF5qQDyg9hYDhpqBVFw
-        7EoNDHjULV5xV66BNDzJpYTdKwnLzDw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-381-p9vAlGLlOy-_jDaqiQ_roQ-1; Thu, 09 Mar 2023 04:28:11 -0500
-X-MC-Unique: p9vAlGLlOy-_jDaqiQ_roQ-1
-Received: by mail-ed1-f70.google.com with SMTP id u10-20020a056402064a00b004c689813557so2063621edx.10
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 01:28:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678354090;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMW5hwC6HC6dArngY2midPA7q9IEMSNo48mdSfV3d7k=;
-        b=qMwu4gSAs4kcqxG94kQIY34uX91o/RfhbY7iwYLEAa+pPlQb/+i8q4DBjda0tLaNGq
-         Of4yRk/S9nZutGFXRoBR5t3JenV9BBb0PRCn7i/G+symtUmrGK1ZXMbNI0oVV2ibd+Cn
-         MzorBm9DbzGFh25fg8g4abSY53Rxb639GURftrpuXYoekxnG/UeIystoD2MeorfdCTtn
-         lkSIpnuHRP5lBmXHBZG2p9/DtuRnxlO2LgQGMK27gBbhbxQtaRLtdr2Op9go9peJ545O
-         cvt96nK/OyB/LT/ufO1pPjomcsfHMYX1FpWqMAMLHEB5jumpymANsWnWCNU5tz6VSIZc
-         +/2w==
-X-Gm-Message-State: AO0yUKV0CUIDmrYrnIjspbldZ/coUrhuEm7P8ucl+u8xsZllSPYI9J2j
-        HgO13xF7b/GZjLFiNJR0eQAU+/QDEQ9IO984bjToYTZ8R8Vi80oOyMHsMQkSRFRlBxJiEhToNS7
-        IQtoM9Fhtg1ok5xcbgpK7jc4=
-X-Received: by 2002:a17:906:fe08:b0:881:23a:aba5 with SMTP id wy8-20020a170906fe0800b00881023aaba5mr27731565ejb.11.1678354090640;
-        Thu, 09 Mar 2023 01:28:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set+8g+H2OKXwjUA1+Snhl7sS0ncXF5f4QcIXMWkB/UX63q9FqevpstwVpmmcsk8oVyx5eH7w9A==
-X-Received: by 2002:a17:906:fe08:b0:881:23a:aba5 with SMTP id wy8-20020a170906fe0800b00881023aaba5mr27731544ejb.11.1678354090334;
-        Thu, 09 Mar 2023 01:28:10 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 21-20020a170906309500b008b1779ba3c1sm8544502ejv.115.2023.03.09.01.28.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Mar 2023 01:28:09 -0800 (PST)
-Message-ID: <e12fe65e-0b1f-a058-75e6-fa3e0a292c5b@redhat.com>
-Date:   Thu, 9 Mar 2023 10:28:09 +0100
+        with ESMTP id S231370AbjCIJo0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 04:44:26 -0500
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5384CE4DA4;
+        Thu,  9 Mar 2023 01:44:10 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 3E0B042037;
+        Thu,  9 Mar 2023 09:44:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1678355048;
+        bh=r/f0kwzIUzQc4guiLm2MeOcHgerUPhPdEcBDwL8JCok=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=DrVFocyAP2o3v1LJypWk5YdWooZAL0/BxJ85CaJflk0WH9/S5lp4HfdBhJJgb9+oa
+         G0ie5fFvCNP6nWH7IDUsUlXqkDwRAV89ziWYc113CtAQN/zz/2Ewy+KUCeUd53VEpQ
+         gEejUaQWIo7oEi39ONfemuTfWTm3tfRQVgKq9FrkFTrCc/xHx5UWTaNnKj8UZDFrAR
+         Tc+WFzknmT5Fx+FLirAjQQQL3k1wsYhb4I90ZJiD5Ln9qbr9gJYIv26GK36Fo+mbaO
+         1VQ+BFDYKONjUzZOTOQzxS41KAv4+D8mrIg0fqlw62RRV9tCtjB8lKrTHy35j7fX4q
+         BPBWOo88t1BmQ==
+Message-ID: <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
+Date:   Thu, 9 Mar 2023 18:43:59 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Content-Language: en-US, nl
-To:     "Wu, Wentong" <wentong.wu@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230213022347.2480307-1-wentong.wu@intel.com>
- <Y/8qJzScTfFucpP9@kekkonen.localdomain>
- <ae28faf8-c8a4-3f75-08d0-8e5233f2fa5d@redhat.com>
- <DM6PR11MB4316F4B72F98ADBF577412378DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
- <ZAb2G7kqsEvrBhpG@kekkonen.localdomain>
- <DM6PR11MB4316B4F865472CA998E696FC8DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
- <4c3ba301-6241-f2f4-f139-b4f4a0cd6223@redhat.com>
- <DM6PR11MB43166ADFA7D0775BA2C223C78DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <DM6PR11MB43166ADFA7D0775BA2C223C78DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
+ is torn down
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+ <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
+ <585fa052-4eff-940e-b307-2415c315686a@amd.com>
+ <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
+ <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
+ <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
+ <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
+ <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
+ <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 3/9/23 02:08, Wu, Wentong wrote:
-> 
-> 
->> -----Original Message-----
->> From: Hans de Goede <hdegoede@redhat.com>
->> Sent: Tuesday, March 7, 2023 5:10 PM
->>
->> Hi,
->>
->> On 3/7/23 09:40, Wu, Wentong wrote:
->>>
->>>
->>>> -----Original Message-----
->>>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>> Sent: Tuesday, March 7, 2023 4:30 PM
+On 09/03/2023 17.42, Christian König wrote:
+> Am 08.03.23 um 20:37 schrieb Asahi Lina:
+>> On 09/03/2023 03.12, Christian König wrote:
+>>> Am 08.03.23 um 18:32 schrieb Asahi Lina:
+>>>> [SNIP]
+>>>> Yes but... none of this cleans up jobs that are already submitted by the
+>>>> scheduler and in its pending list, with registered completion callbacks,
+>>>> which were already popped off of the entities.
 >>>>
->>>> Hi Wentong,
->>>>
->>>> On Tue, Mar 07, 2023 at 08:17:04AM +0000, Wu, Wentong wrote:
->>>>>
->>>>>
->>>>>> -----Original Message-----
->>>>>> From: Hans de Goede <hdegoede@redhat.com>
->>>>>> Sent: Wednesday, March 1, 2023 6:42 PM
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> On 3/1/23 11:34, Sakari Ailus wrote:
->>>>>>> Hi Wentong,
->>>>>>>
->>>>>>> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
->>>>>>>> Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls",
->>>>>>>> is a companion chip designed to provide secure and low power
->>>>>>>> vision capability to IA platforms. IVSC is available in existing
->>>>>>>> commercial platforms from multiple OEMs.
->>>>>>>>
->>>>>>>> The primary use case of IVSC is to bring in context awareness.
->>>>>>>> IVSC interfaces directly with the platform main camera sensor via
->>>>>>>> a CSI-2 link and processes the image data with the embedded AI
->>>>>>>> engine. The detected events are sent over I2C to ISH (Intel
->>>>>>>> Sensor Hub) for additional data fusion from multiple sensors. The
->>>>>>>> fusion results are used to implement advanced use cases like:
->>>>>>>>  - Face detection to unlock screen
->>>>>>>>  - Detect user presence to manage backlight setting or waking up
->>>>>>>> system
->>>>>>>>
->>>>>>>> Since the Image Processing Unit(IPU) used on the host processor
->>>>>>>> needs to configure the CSI-2 link in normal camera usages, the
->>>>>>>> CSI-2 link and camera sensor can only be used in
->>>>>>>> mutually-exclusive ways by host IPU and IVSC. By default the IVSC
->>>>>>>> owns the CSI-2 link and camera sensor. The IPU driver can take
->>>>>>>> ownership of the CSI-2 link and camera sensor using interfaces
->>>>>>>> provided
->>>> by this IVSC driver.
->>>>>>>>
->>>>>>>> Switching ownership requires an interface with two different
->>>>>>>> hardware modules inside IVSC. The software interface to these
->>>>>>>> modules is via Intel MEI (The Intel Management Engine) commands.
->>>>>>>> These two hardware modules have two different MEI UUIDs to
->>>>>>>> enumerate. These hardware
->>>>>> modules are:
->>>>>>>>  - ACE (Algorithm Context Engine): This module is for algorithm
->>>>>>>> computing when IVSC owns camera sensor. Also ACE module controls
->>>>>>>> camera sensor's ownership. This hardware module is used to set
->>>>>>>> ownership
->>>>>> of camera sensor.
->>>>>>>>  - CSI (Camera Serial Interface): This module is used to route
->>>>>>>> camera sensor data either to IVSC or to host for IPU driver and
->>>> application.
->>>>>>>>
->>>>>>>> IVSC also provides a privacy mode. When privacy mode is turned
->>>>>>>> on, camera sensor can't be used. This means that both ACE and
->>>>>>>> host IPU can't get image data. And when this mode is turned on,
->>>>>>>> host IPU driver is informed via a registered callback, so that
->>>>>>>> user can be
->>>> notified.
->>>>>>>>
->>>>>>>> In summary, to acquire ownership of camera by IPU driver, first
->>>>>>>> ACE module needs to be informed of ownership and then to setup
->>>>>>>> MIPI CSI-2 link for the camera sensor and IPU.
->>>>>>>
->>>>>>> I thought this for a while and did some research, and I can
->>>>>>> suggest the
->>>>>>> following:
->>>>>>>
->>>>>>> - The IVSC sub-device implements a control for privacy
->> (V4L2_CID_PRIVACY
->>>>>>>   is a good fit).
->>>>>>>
->>>>>>> - Camera sensor access needs to be requested from IVSC before
->>>>>>> accessing
->>>> the
->>>>>>>   sensor via I²C. The IVSC ownership control needs to be in the right
->>>>>>>   setting for this to work, and device links can be used for that purpose
->>>>>>>   (see device_link_add()). With DL_FLAG_PM_RUNTIME and
->>>>>> DL_FLAG_RPM_ACTIVE,
->>>>>>>   the supplier devices will be PM runtime resumed before the consumer
->>>>>>>   (camera sensor). As these devices are purely virtual on host side and has
->>>>>>>   no power state as such, you can use runtime PM callbacks to transfer
->> the
->>>>>>>   ownership.
->>>>>>
->>>>>> Interesting proposal to use device-links + runtime-pm for this
->>>>>> instead of modelling this as an i2c-mux. FWIW I'm fine with going
->>>>>> this route instead of using an i2c-mux approach.
->>>>>>
->>>>>> I have been thinking about the i2c-mux approach a bit and the
->>>>>> problem is that we are not really muxing but want to turn on/off
->>>>>> control and AFAIK the i2c-mux framework simply leaves the mux muxed
->>>>>> to the last used i2c-chain, so control will never be released when
->>>>>> the i2c
->>>> transfers are done.
->>>>>>
->>>>>> And if were to somehow modify things (or maybe there already is
->>>>>> some release
->>>>>> callback) then the downside becomes that the i2c-mux core code
->>>>>> operates at the i2c transfer level. So each i2c read/write would
->>>>>> then enable +
->>>> disavle control.
->>>>>>
->>>>>> Modelling this using something like runtime pm as such is a much
->>>>>> better fit because then we request control once on probe /
->>>>>> stream-on and release it once we are fully done, rather then
->>>>>> requesting + releasing control once per i2c- transfer.
->>>>>
->>>>> Seems runtime pm can't fix the problem of initial i2c transfer
->>>>> during sensor driver probe, probably we have to switch to i2c-mux modeling
->> way.
->>>>
->>>> What do you mean? The supplier devices are resumed before the
->>>> driver's probe is called.
+>>>> *That* is the problem this patch fixes!
+>>> Ah! Yes that makes more sense now.
 >>>
->>> But we setup the link with device_link_add during IVSC driver's probe,
->>> we can't guarantee driver probe's sequence.
->>
->> Then maybe we need to do the device_link_add somewhere else.
+>>>>> We could add a warning when users of this API doesn't do this
+>>>>> correctly, but cleaning up incorrect API use is clearly something we
+>>>>> don't want here.
+>>>> It is the job of the Rust abstractions to make incorrect API use that
+>>>> leads to memory unsafety impossible. So even if you don't want that in
+>>>> C, it's my job to do that for Rust... and right now, I just can't
+>>>> because drm_sched doesn't provide an API that can be safely wrapped
+>>>> without weird bits of babysitting functionality on top (like tracking
+>>>> jobs outside or awkwardly making jobs hold a reference to the scheduler
+>>>> and defer dropping it to another thread).
+>>> Yeah, that was discussed before but rejected.
+>>>
+>>> The argument was that upper layer needs to wait for the hw to become
+>>> idle before the scheduler can be destroyed anyway.
+>> Unfortunately, that's not a requirement you can encode in the Rust type
+>> system easily as far as I know, and Rust safety rules mean we need to
+>> make it safe even if the upper layer doesn't do this... (or else we have
+>> to mark the entire drm_sched abstraction unsafe, but that would be a pity).
 > 
-> sensor's parent is the LJCA I2C device whose driver is being upstream 
-> https://www.spinics.net/lists/kernel/msg4702552.htmland and sensor's
-> power is controlled by IVSC instead of INT3472 if IVSC enabled.
-
-I believe that the INT3472 code is still involved at least on
-a Dell Latitude 9420 the INT3472 code still needs to set the
-clock-enable and the privacy-LED GPIOs otherwise the main camera won't
-work.
-
-So I'm not sure what you mean with "sensor's power is controlled
-by IVSC instead of INT3472" ?
-
-
-> struct device_link *device_link_add(struct device *consumer,
->                                     struct device *supplier, u32 flags)
+> Yeah, that should really not be something we should do.
 > 
-> So probably we have to add above device_link_add in LJCA I2C's driver,
-> and we can find the consumer(camera sensor) with ACPI API, but the 
-> supplier, mei_ace, is mei client device under mei framework and it's
-> dynamically allocated device instead of ACPI device, probably I can find
-> its parent with some ACPI lookup from this LJCA I2C device, but
-> unfortunately mei framework doesn't export the API to find mei client
-> device with its parent bus device(struct mei_device).
+> But you could make the scheduler depend on your fw context object, don't 
+> you?
+
+Yes, and that would fix the problem for this driver, but it wouldn't
+make the abstraction safe. The thing is we have to make it *impossible*
+to misuse drm_sched in such a way that it crashes, at the Rust
+abstraction level. If we start depending on the driver following rules
+like that, that means the drm_sched abstraction has to be marked unsafe.
+
+> Detaching the scheduler from the underlying hw fences is certainly 
+> possible, but we removed that functionality because some people people 
+> tried to force push some Windows recovery module into Linux. We are in 
+> the process of reverting that and cleaning things up once more, but that 
+> will take a while.
+
+Okay, but I don't see why that should block the Rust abstractions... I
+don't even need a new API to do that, all I need is to know that
+drm_sched_fini() will do it so it won't crash when the hw fences
+complete later, as this patch does.
+
+> Instead of detaching you could also block for the hw to become idle, but 
+> if you do that synchronous on process termination you run into trouble 
+> as well.
+
+Yes, but again this something that can only be done at the driver level
+so it doesn't solve the safe abstraction problem...
+
+>> The firmware queue is itself reference counted and any firmware queue
+>> that has acquired an event notification resource (that is, which is busy
+>> with running or upcoming jobs) hands off a reference to itself into the
+>> event subsystem, so it can get notified of job completions by the
+>> firmware. Then once it becomes idle it unregisters itself, and at that
+>> point if it has no owning userspace queue, that would be the last
+>> reference and it gets dropped. So we don't tear down firmware queues
+>> until they are idle.
 > 
-> I'm not sure if modeling this mei_ace as LJCA I2C's runtime power
-> control is acceptable, if yes, probably this mei_ace driver have to go with
-> LJCA I2C device driver.
+> And could those fw queue not reference the scheduler?
 
-Looking at the ACPI table the sensor ACPI device has 2 _DEP-s listed
-the I2C controller and the INT3472 device. Since we are already doing
-similar setup in the INT3472 device that seems like a good place
-to add the device_link()-s (it can return -EPROBE_DEFER to wait
-for the mei_ace to show up).
+Yes but again, that rule can't be encoded in the abstraction... so that
+makes it unsafe. The goal is to have a safe abstraction, which means
+that all the rules that you need to follow to avoid memory safety issues
+are checked by the Rust compiler.
 
-But when the INT3472 code runs, the consumer device does not exist
-yet and AFAICT the same is true when the LCJA i2c-controller driver
-is getting registered. The consumer only exists when the i2c_client
-is instantiated and at that point the sensor drivers probe() method
-can run immediately and we are too late to add the device_link.
-
-As a hobby project I have been working on atomisp2 support and
-I have a similar issue there. There is no INT3472 device there,
-but there is a _DSM method which needs to be used to figure out
-which ACPI GPIO resource is reset / powerdown and if the GPIOs
-are active-low or active high.
-
-I have written a little helper function to call the _DSM and
-to then turn this into lookups and call devm_acpi_dev_add_driver_gpios().
-
-Since on atomisp2 we cannot use the INT3472 driver to delay
-the sensor-driver probe and have the INT3472 driver setup
-the GPIO lookup, at least for the sensor drivers used with
-atomisp2 there is going to be a need to add a single line
-to probe() like this:
-
-	v4l2_get_acpi_sensor_info(&i2c_client->dev, NULL);
-
-To me it sounds like we need to do something similar here
-and extend the helper function which I have written
-(but not yet submitted upstream) :
-
-https://github.com/jwrdegoede/linux-sunxi/commit/e2287979db43d46fa7d354c1bde92eb6219b613d
-
-To also setup the device-links needed for the runtime-pm
-solution to getting the i2c passed through to the sensor.
-
-Ideally v4l2_get_acpi_sensor_info() should return void
-(easier to use in the sensor drivers) but I think it should return
-an int, so that it can e.g. return -EPROBE_DEFER to wait for
-the mei_ace.
-
-Regards,
-
-Hans
-
-
-
-
->> The mainline kernel delays probing of camera sensors on Intel platforms until
->> the INT3472 driver has probed the INT3472 device on which the sensors have an
->> ACPI _DEP.
->>
->> This is already used to make sure that clock lookups and regulator info is in place
->> before the sensor's probe() function runs.
->>
->> So that when the driver does clk_get() it succeeds and so that regulator_get()
->> does not end up returning a dummy regulator.
->>
->> So I think the code adding the device_link-s for the IVSC should be added
->> to: drivers/platform/x86/intel/int3472/discrete.c and then the runtime-resume
->> will happen before the sensor's probe() function runs.
->>
->> Likewise drivers/platform/x86/intel/int3472/discrete.c should also ensure that
->> the ivsc driver's probe() has run before it calls acpi_dev_clear_dependencies().
->>
->> The acpi_dev_clear_dependencies() call in discrete.c tells the ACPI subsystem to
->> go ahead and create the i2c-clients for the sensors and allow the sensor drivers
->> to get loaded and probe the sensor.
->>
->> Regards,
->>
->> Hans
+>> I actually don't know of any way to actively abort jobs on the firmware,
+>> so this is pretty much the only option I have. I've even seen
+>> long-running compute jobs on macOS run to completion even if you kill
+>> the submitting process, so there might be no way to do this at all.
+>> Though in practice since we unmap everything from the VM anyway when the
+>> userspace stuff gets torn down, almost any normal GPU work is going to
+>> immediately fault at that point (macOS doesn't do this because macOS
+>> effectively does implicit sync with BO tracking at the kernel level...).
 > 
+> Oh, that is an interesting information. How does macOS do explicit sync 
+> then or isn't that supported at all?
 
+They have the equivalent of sync objects at the UAPI level, but they
+also have the implicit stuff and their UAPI seems to always pass a BO
+list to the kernel as far as we could tell, even though it still works
+without it. I think it's a weird hybrid of explicit+implicit sync. From
+the Metal docs:
+
+> By default, Metal tracks the write hazards and synchronizes the resources
+> (see Resource Fundamentals) you create from an MTLDevice and directly bind
+> to a pipeline. However, Metal doesn’t, by default, track resources you
+> allocate from an MTLHeap (see Memory Heaps).
+
+So it's both, and you can override it...
+
+At the firmware level, I've never seen Metal use queue barriers yet like
+I do (other than the vertex->fragment ones), so either they always do
+CPU round trips for cross-subqueue sync (render<->compute) or we just
+haven't figured out the magic combination to get it to do that yet.
+Honestly, I suspect they just always do it on the CPU. macOS is pretty
+ugly behind the scenes and it's pretty obvious a lot of their own driver
+was rushed (the firmware seems to support quite a few features the
+driver doesn't... maybe it even has a job abort mechanism, we just
+haven't found it yet).
+
+Of course, our goal is to do things better than macOS (and we already do
+some things better!) but getting confident enough about firmware/HW
+details to diverge from what macOS does is tricky and a slow process...
+
+>> By the way, I don't really use the hardware recovery stuff right now.
+>> I'm not even sure if there is a sensible way I could use it, since as I
+>> said we can't exactly abort jobs. I know there are ways to lock up the
+>> firmware/GPU, but so far those have all been things the kernel driver
+>> can prevent, and I'm not even sure if there is any way to recover from
+>> that anyway. The firmware itself has its own timeouts and recovery for
+>> "normal" problems. From the point of view of the driver and everything
+>> above it, in-flight commands during a GPU fault or timeout are just
+>> marked complete by the firmware, after a firmware recovery cycle where
+>> the driver gets notified of the problem (that's when we mark the
+>> commands failed so we can propagate the error).
+> 
+> Yeah, that's exactly what we are telling our fw people for years that we 
+> need this as well.
+
+Yeah, the ugly bit is that the firmware does a full GPU recovery even on
+simple page faults (which could be handled more gracefully) so even
+stuff like that can possibly break concurrent GPU work.
+
+On the other hand, macOS configures things so page faults are ignored
+and silently return all-00 on reads for shader accesses, which is how
+they implement sparse buffers/textures... and we'll probably have to do
+that to improve reliability against app faults if nothing else. But
+right now the driver enables explicit page faults for everything so we
+can debug Mesa (it's a kernel module param, GPU global and I haven't
+found a way to change it after initial load unfortunately, but it might
+be possible).
+
+I think there's also a way to do actual page fault handling (like swap
+in pages and resume the GPU), but that's one of those firmware features
+Apple's driver just never uses as far as I can tell. There's so much
+unexplored territory...
+
+> 
+>> There is no re-submission or anything, userspace just gets told of the problem but
+>> the queue survives.
+> 
+>> In the future it might be possible to re-submit innocent commands
+> 
+> Long story short: Don't do this! This is what the Windows drivers have 
+> been doing and it creates tons of problems.
+> 
+> Just signal the problem back to userspace and let the user space driver 
+> decide what to do.
+> 
+> The background is that most graphics applications (games etc..) then 
+> rather start on the next frame instead of submitting the current one 
+> again while compute applications make sure that the abort and tell the 
+> user that the calculations might be corrupted and need to be redone.
+
+Then we're good with what we're currently doing, since we already notify
+userspace like that!
+
+Actually I wanted to ask about error notifications. Right now we have an
+out-of-band mechanism to provide detailed fault info to userspace which
+works fine, but in principle it's optional. However, I also mark the hw
+ fences as errored when a fault happens (with an errno that describes
+the overall situation), but that never makes it into the drm_sched job
+complete fence. I looked at the drm_sched code and I didn't see any
+error propagation. Is that supposed to work, or am I supposed to
+directly mark the drm_sched side fence as complete, or did I
+misunderstand all this? I get the feeling maybe existing drivers just
+rely on the recovery/timeout/etc paths to mark jobs as errored (since
+those do it explicitly) and never need error forwarding from the hw fence?
+
+~~ Lina
