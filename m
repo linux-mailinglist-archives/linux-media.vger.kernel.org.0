@@ -2,84 +2,325 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C6856B2CCB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 19:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A172C6B2D29
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 19:51:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbjCISTA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 13:19:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42758 "EHLO
+        id S231171AbjCISvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 13:51:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230144AbjCISSz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 13:18:55 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929EDDDF12
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 10:18:45 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id i34so10570523eda.7
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 10:18:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678385924;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3vtIQJgbAqYVFrKRDt53NZIcLU46fTuOZj8Pktv++Ns=;
-        b=CQpdqMeCkaA/z738+UU2fGaN5/xdqU2BEwjNW3UtdOo0fjGYRWL+8yQRIJrvSOSsAY
-         FE0fu04hYzhYHlRBePo7orOcrHQptX4fpyl/B+k6Ea7+qVO7CekGGV1XVIWW1C9RbFAV
-         AQLdewzdyWSJQ1LwbOPDkWE79Ea3CfHFvfv2TA2OH8SfdnZBvxZHVdnFPGJNa0IL7VYR
-         S2XW/RwFXi2x10DXo3bYFOKYjz8ddhwKSZyhYO5JOgFBEfTMcTO1eZBkao8pbXbPVuX3
-         fkhAt/dlcPaHdpz2NBR2/cEVD4KW6hpG9/2Ux2HDqjuRZDisBYPR43UE9hq7/GHFqPip
-         nnmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678385924;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3vtIQJgbAqYVFrKRDt53NZIcLU46fTuOZj8Pktv++Ns=;
-        b=PnhydkD4xVTKhI3e2ihA634irSuNeCNXrUAWYJTy3czVedzlKLL4nS2cc7ocNaEqH8
-         b5IAYw+hZWADu+sYO33De3s2wPhgJpNhOXtRnUGyCQcqyt6qPov6afxEJtHDxS+3/7F5
-         A4fMs0E/uVIE3VPMH5fKzR3ukXnZOP8jsZuX/2B4R5qQW7xb1rKzJvGuYOnc3gFqZlzB
-         O+70txkjE9rm1WofNEmzSgSrGwJJMQXSJbcasWQo2kb0SistpkAr1JMXPKPbjVD5yjUT
-         tqBM6zJ/GLR9PyH293Kixu7NTh7pThx7KybthLMjtvPW4IxeznQq4VqlEU34QtTccs3W
-         OBwQ==
-X-Gm-Message-State: AO0yUKXlLzwtJnWzJc48cuQRZuk0xb18MxdHoCx+bavPXGdDnMKD0fFJ
-        IWw95+l2jQVjZLiL8blFpVtVw2/BR1O/kuIU45s=
-X-Google-Smtp-Source: AK7set8RsXIuhe+zqZlcmtgoO5ZNtkK2QN4WkgIrvcPHsX6Yw2MRHrie00YvsaWtcVMBMY11kWDdTDnMDlmrGjiv/x4=
-X-Received: by 2002:a17:906:5910:b0:8b1:78b8:4207 with SMTP id
- h16-20020a170906591000b008b178b84207mr11837569ejq.3.1678385924251; Thu, 09
- Mar 2023 10:18:44 -0800 (PST)
-MIME-Version: 1.0
-From:   Lara Geni <larasecuredata@gmail.com>
-Date:   Thu, 9 Mar 2023 23:48:31 +0530
-Message-ID: <CAKDenP309B-vZN5AJRTRZ+PNDTwmOKhGEz9FnFPvw3C5E0GJBQ@mail.gmail.com>
-Subject: RE: NTI - American Association of Critical-Care Nurses Attendees
- Email List-2023
-To:     Lara Geni <larasecuredata@gmail.com>
+        with ESMTP id S231174AbjCISvR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 13:51:17 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506ABFAD54;
+        Thu,  9 Mar 2023 10:51:08 -0800 (PST)
+Received: from 2603-8080-2102-63d7-c4a8-7e10-0391-f3ff.res6.spectrum.com (2603-8080-2102-63d7-c4a8-7e10-0391-f3ff.res6.spectrum.com [IPv6:2603:8080:2102:63d7:c4a8:7e10:391:f3ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: gfxstrand)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DDC18660301A;
+        Thu,  9 Mar 2023 18:51:00 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678387866;
+        bh=zPXp5AMyM+LyVyVsVhwqeE/YMpO/1h91SWBCIwbGY8Y=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=hzY5Xjqq1Ff801e1gA3d/buyz5enJc/g8Vg3GpDS6VuqP0XbQZv2nYxReUBY2qhWY
+         X/qOcyu99DpWfIXFZ1k3qpsBbEn5CLglj4Uma2rMdDXlIdX6dfyFPFSVLpEkLtwB2e
+         P9q2DqIPMtKF6Ux/76WjJomnvNO/NCoGFxxRX1SJyivPx9rUVLIgJEYdghbBqv4vBV
+         QTadMP3uCKZ2BKDskNWWmWrCz2iNgWGnUDow1rgYMCA7k7CfY9Ud9cG+qfUVQkI3jy
+         /Mjvt5wuxamF6Hq/t3mWJAmuyLkHSQiPICPn39ftcc5T6dKnCfUoUCUl7AFIJbTdH9
+         vprKfebsi0aVw==
+Message-ID: <f89fad4d05bc1e603fb166569e20102ceb09fb4c.camel@collabora.com>
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+From:   Faith Ekstrand <faith.ekstrand@collabora.com>
+To:     Asahi Lina <lina@asahilina.net>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>, Mary <mary@mary.zone>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
+        asahi@lists.linux.dev
+Date:   Thu, 09 Mar 2023 12:50:57 -0600
+In-Reply-To: <d36046e6-acf5-89a3-46b4-1c813ca925c8@asahilina.net>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+         <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+         <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+         <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+         <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+         <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+         <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+         <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
+         <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
+         <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
+         <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
+         <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
+         <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
+         <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+         <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
+         <d36046e6-acf5-89a3-46b4-1c813ca925c8@asahilina.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
-        FILL_THIS_FORM_LONG,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Jumping in here quick... (Sorry, I was out yesterday and was ignoring
+my e-mail on Tuesday so I could finally type some compiler code.)
 
-Would you be interested in acquiring the American Association of
-Critical-Care Nurses  Attendees Email List-2023?
+On Thu, 2023-03-09 at 18:14 +0900, Asahi Lina wrote:
+> On 09/03/2023 17.05, Christian K=C3=B6nig wrote:
+> > Am 09.03.23 um 07:30 schrieb Asahi Lina:
+> > > On 09/03/2023 05.14, Christian K=C3=B6nig wrote:
+> > > > > I think you mean wake_up_interruptible(). That would be
+> > > > > drm_sched_job_done(), on the fence callback when a job
+> > > > > completes, which
+> > > > > as I keep saying is the same logic used for
+> > > > > hw_rq_count/hw_submission_limit tracking.
+> > > > As the documentation to wait_event says:
+> > > >=20
+> > > > =C2=A0 =C2=A0* wake_up() has to be called after changing any variab=
+le
+> > > > that could
+> > > > =C2=A0 =C2=A0* change the result of the wait condition.
+> > > >=20
+> > > > So what you essentially try to do here is to skip that and say
+> > > > drm_sched_job_done() would call that anyway, but when you read
+> > > > any
+> > > > variable to determine that state then as far as I can see
+> > > > nothing is
+> > > > guarantying that order.
+> > > The driver needs to guarantee that any changes to that state
+> > > precede a
+> > > job completion fence signal of course, that's the entire idea of
+> > > the
+> > > API. It's supposed to represent a check for per-scheduler (or
+> > > more
+> > > specific, but not more global) resources that are released on job
+> > > completion. Of course if you misuse the API you could cause a
+> > > problem,
+> > > but what I'm trying to say is that the API as designed and when
+> > > used as
+> > > intended does work properly.
+> > >=20
+> > > Put another way: job completions always need to cause the sched
+> > > main
+> > > loop to run an iteration anyway (otherwise we wouldn't make
+> > > forward
+> > > progress), and job completions are exactly the signal that the
+> > > can_run_job() condition may have changed.
+> > >=20
+> > > > The only other possibility how you could use the callback
+> > > > correctly
+> > > > would be to call drm_fence_is_signaled() to query the state of
+> > > > your hw
+> > > > submission from the same fence which is then signaled. But then
+> > > > the
+> > > > question is once more why you don't give that fence directly to
+> > > > the
+> > > > scheduler?
+> > > But the driver is supposed to guarantee that the ordering is
+> > > always 1.
+> > > resources freed, 2. fence signaled. So you don't need to check
+> > > for the
+> > > fence, you can just check for the resource state.
+> >=20
+> > Yeah, but this is exactly what the dma_fence framework tried to
+> > prevent.=20
+> > We try very hard to avoid such side channel signaling :)
+>=20
+> Right, and it's fine, I can use the fences directly easily enough.
+> I'm
+> just trying to explain why my original idea works too, even if it's
+> not
+> the best solution for other reasons!
+>=20
+> Of course I don't have the context of what other drivers are doing or
+> did historically and what the pitfalls are, so I can't know what the
+> "right" solution for any of this is in that context. I did my best to
+> understand the drm_sched code and come up with a solution that works
+> (which it does) without any more info. When I saw the hw submission
+> limit stuff, I thought "okay, I need the same thing but with slightly
+> more complex logic, so let's add a callback so the driver can
+> customize
+> it and do its own inflight counting".
 
-List Includes: Company Name, First Name, Last Name, Full Name, Contact
-Job Title, Verified Email Address, Website URL, Mailing address, Phone
- number, Industry and many more=E2=80=A6
+So, I think there's a difference here between "impossible to implement
+correctly", "likely to be implemented correctly", and "impossible to
+implement incorrectly".  It's obviously possible to implement
+correctly.  You can just always return true or do exactly the same
+check or do some simple thing where you can guarantee that it will only
+ever return false when there's a bunch of other stuff in the queue.=20
+That doesn't mean that it's likely to be implemented correctly by some
+other driver.  Some idiot will come along and try to take advantage of
+it and cause themselves horrible problems.
 
-Number of Contacts: 12,639 Verified Contacts.
-Cost : $ 1,638
+And, to be clear, for the purposes of this discussion, we're ALL
+idiots, myself included.  If there's one thing the DRM community has
+learned over the years, it's that drivers are so complex that we all
+turn into idiots at some point, relative to the complexity of the code
+and hardware behavior.  That's why things like dma_fence are written so
+incredibly defensively and why we're so harsh about the rules.  It's
+the rules and not our individual smarts that keep us from making
+mistakes.  (Kinda like Rust, in a way.)  So while I appreciate the
+frustration of "I'm just trying to do something that's clearly correct
+here", that doesn't mean that then next person to come by and fix a bug
+by tweaking that callback isn't going to screw it up irreparably.  That
+person may even be you in 6 to 12 months after this e-mail thread is a
+distant memory.
 
-If you=E2=80=99re interested please let me know I will assist you with furt=
-her details.
+So, yes, does the implementation you have today work without deadlocks
+or starvation?  Maybe it does.  I've not verified.  Is the suggested
+callback a giant foot-gun in the already treacherous territory of
+scheduling and fencing?  Yeah, it probably is and there's another way
+to implement the same behavior which is likely safer in the long run.
 
-Kind Regards,
-Lara Geni
-Marketing Coordinators
+> After this discussion, I can see that this is equivalent to doing the
+> same check in prepare_job() followed by returning the oldest running
+> job's fence (as long as there's no race there... it should be fine if
+> the fence reference is taken first, before the resource check, or if
+> everything is done within the same critical section taking the
+> firmware
+> queue lock), so I'm happy to switch to that and drop this patch.
+>=20
+> But keep in mind none of this is documented, and there's no way for
+> us
+> driver authors to understand what we're supposed to do without
+> documentation. As I said I spent a long time trying to understand
+> drm_sched, and then my original attempt missed the drm_sched_fini()
+> issue with dangling jobs and Alyssa managed to hit an oops on the
+> test
+> branch, I guessed what the problem was from her trace, figured out a
+> way
+> to reproduce it (the kill-loop glmark2 thing), and fixed it in the
+> next
+> patch in this series. So even trying my best to figure out how to do
+> this, reading the code and what scarce docs there are, I managed to
+> miss
+> something that caused a potential oops on the first try. If I can't
+> even
+> get the API usage right after spending hours on it trying really hard
+> not to (because it's not just about my driver, I need the Rust
+> abstraction to be safe for any driver), there's no way I'm going to
+> divine what approaches to resource/dependency signaling are
+> problematic/easy to abuse... the most I can hope for is "I got the
+> wrapper right and the API/driver interaction is correct and
+> guarantees
+> forward progress if the driver follows the rules".
+
+Your frustration with the lack of good documentation in DRM is entirely
+justified.  It's a mess and there's not a whole lot of people who
+understand all these subtleties.  Connecting to the hive mind via e-
+mail and asking questions is the best you can do a lot of the time, I'm
+afraid.  I wish we had better documentation for a lot of things and I'd
+be happy to see the situation improved added but we've got a lot of
+debt there and not always a lot of time.  (Yeah, I know, that's every
+senior engineer's excuse...)  We really are trying to be better about
+it moving forward, though.  Daniel has been pushing people to document
+things a lot more in recent years.  But, yeah, lots of debt...
+
+Also, in a weird way, I think these conversations are sometimes better
+than documentation.  It took a while to get around to it all but
+there's a lot of context that was brought together in this e-mail
+thread that wouldn't have been in the docs no matter how good they are.
+A lot of it isn't an isolated thing that should clearly be explained in
+the run_job docs.  It's subtle interactions which happen when all the
+pieces come together.  I see this complaint a lot about Vulkan as well.
+There are behaviors which only become evident when you find the right 5
+pieces of the spec and put them all together and squint.  It'd be good
+to call those out sometimes but there's no way we can document all of
+them.
+
+> So when I submit something, and you reply with "Well complete NAK",
+> that's just not nice. Honestly, I was kind of upset when I got that
+> email. It sounded as if you were saying my solution was completely
+> broken and couldn't work, but no matter how I looked at it I couldn't
+> figure out how it's broken. And then it took several emails to even
+> understand what you were suggesting with the prepare_job callback
+> (and
+> yes, that works too and is probably harder to abuse than a new
+> callback). I'm trying really hard to make this all work and be
+> correct,
+> and of course I make mistakes too... but then I look at the code and
+> no
+> matter what I can come up with it seems to work and be correct, what
+> am
+> I supposed to do? I'm happy to learn and figure out better approaches
+> for everything that lead to better drivers, but I need an actual
+> explanation of the issues, not just a NAK...
+>=20
+> I also would appreciate it if people give me the benefit of the doubt
+> and let me explain what I'm doing and how I'm doing it and how this
+> hardware works, because the whole thing is subtle to the core and
+> very
+> different to other GPUs. Honestly, I don't think any reviewer that
+> hasn't spent hours poring over the driver/abstraction code could
+> confidently say that a certain subtle sync issue exists at a first
+> pass
+> (other than for really obvious bad code sequences). I'm happy to look
+> into issues and I definitely want to know what cases to look at and
+> what
+> to check for and fix anything we find... but isn't it better if we
+> work
+> together instead of shouting "this is broken" at the first hint of
+> possible trouble?
+
+Debating if I want to wade in in this one because this thread is
+already getting a bit warm and I don't want to make it worse.  But, I'm
+an idiot, so...
+
+Knowing what I do of both people in this thread, I think Christian is
+giving you more benefit of the doubt than you realize.  Yes, his tone
+may be a bit abrupt but he continued to spend his time responding in
+detail to every question you raised.  That means he was taking you
+seriously, even if he wasn't yielding ground.
+
+Communication is hard, especially with all the different personalities,
+languages, and cultures involved in an international community like
+this.  Sometimes the clarity of saying "no, this isn't going to work"
+up-front is necessary.  Sometimes the person on the other end of the e-
+mail could benefit from a gentler response.  It's hard to know from
+early interactions.  Enough people have been wrong about dma_fence over
+the years (Hi! It's me!) that "no" is often the right starting
+position. =F0=9F=98=AD=EF=B8=8F  It doesn't always feel great to be on the =
+receiving end
+of that but Christian is pretty much guarding a dragon cave, so...
+
+To be clear, none of that is a defense of the toxicity for which the
+Linux community has gotten a reputation.  A lot of subsystem
+maintainers have been known to start of with "no" to any idea they
+didn't already think of.  That's bad.  Generally, you shouldn't assume
+everyone but you is an idiot.  When it comes to dma_fence, though, the
+assumption is that we're ALL idiots and the "No, seriously, don't go
+into the dragon cave.  You won't come out alive.  You're not that
+special." signs are justified. =F0=9F=98=93=EF=B8=8F
+
+I hope the context I'm providing here is helpful.  If not, feel free to
+ignore me.  It looks like you got the technical issues sorted.
+
+~Faith
+
+>=20
