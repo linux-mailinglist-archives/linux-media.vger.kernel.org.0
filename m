@@ -2,69 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1ADF6B1909
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 03:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0DA46B1919
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 03:13:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229940AbjCICG7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Mar 2023 21:06:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55200 "EHLO
+        id S229910AbjCICN2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Mar 2023 21:13:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbjCICG6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 21:06:58 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB27DA4B03
-        for <linux-media@vger.kernel.org>; Wed,  8 Mar 2023 18:06:56 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id h11-20020a17090a2ecb00b00237c740335cso717165pjs.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Mar 2023 18:06:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=theori.io; s=google; t=1678327616;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VhutpasvYkcHdH4vmIl+wqMSXUXCJa4PFPh0Tls1YH4=;
-        b=PuWOXx4BKf4WDJdh2v/A/ijmhqN69VdVPaqrDnt7RFnFKMFzBgyLYlGgZc2vTokjMO
-         kHAGMSNDsG/wsZLM6vO8zN/E7HSV2ErxiH/vu/Ymb4mo+buegsN6ny3qSdhgModrgSim
-         rqT2t4jaur1lSpBqoN2u4euhUrK/SU3UxKyzo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678327616;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VhutpasvYkcHdH4vmIl+wqMSXUXCJa4PFPh0Tls1YH4=;
-        b=Xvfkl6JHN33WMgK9mdSoofZ7c45NckDc+kMvJ3wv7E23x4pRbbMJO4qVU1vn/GZiht
-         imQvlbLcZ47bCKs4G2AZRmcj8v5w2lulQehnj/3LMe0zKSW8hnpQJ8+KYz0wmQ/aYgPT
-         1w7JCsRk9Ez8UfAVnraiX/c+bGJMhthIDxKz7Dg0HUesd1d6HpvW6FpWIQFIm6Xgrh+e
-         X4PFhQrI3zgGmOvdknwGXClcxre9EEoKjE1I1K0iH301176gS0JAYnfnNEB3RMaMk/dA
-         pklNt9qMHirqj82p4w8ZZxHGa1sMxww9bo/mJkFs3LtBNM/MdokDBQ8eue9qCvxgXpwd
-         ImmQ==
-X-Gm-Message-State: AO0yUKXQgTQFoCWd3KQ1pz/IYdAtIpb9RtiKAzFEBLuVOHpU4CKEa+6/
-        E7EV9c9uC9UkosQxwCihHwzMgw==
-X-Google-Smtp-Source: AK7set+Np1nBsXJn3CUjNIdE8kDjVwBpAaVfzAgn9OdY++RR7gFBCvoLW3u9TUL3MWRJ18do8dvMyw==
-X-Received: by 2002:a17:902:c10a:b0:19e:7b09:bd4d with SMTP id 10-20020a170902c10a00b0019e7b09bd4dmr17976366pli.47.1678327616364;
-        Wed, 08 Mar 2023 18:06:56 -0800 (PST)
-Received: from ubuntu ([121.133.63.188])
-        by smtp.gmail.com with ESMTPSA id kw12-20020a170902f90c00b0019edcc30d9bsm3528392plb.155.2023.03.08.18.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 18:06:55 -0800 (PST)
-Date:   Wed, 8 Mar 2023 18:06:50 -0800
-From:   Hyunwoo Kim <v4bel@theori.io>
-To:     mchehab@kernel.org
-Cc:     cai.huoqing@linux.dev, kernel@tuxforce.de,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        tiwai@suse.de, lee@kernel.org, imv4bel@gmail.com, v4bel@theori.io
-Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
- dvb-core and device driver
-Message-ID: <20230309020650.GA47209@ubuntu>
-References: <20221117045925.14297-1-imv4bel@gmail.com>
- <20230307134131.3a005bdb@coco.lan>
- <CADUEyCz=xuYjNQohgOi86vm4P4YyfO86AbM0cWdFrs1Y_6276g@mail.gmail.com>
+        with ESMTP id S229623AbjCICN1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Mar 2023 21:13:27 -0500
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFFD5D46A;
+        Wed,  8 Mar 2023 18:13:25 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id AEA9C24E18D;
+        Thu,  9 Mar 2023 10:13:18 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 9 Mar
+ 2023 10:13:18 +0800
+Received: from [192.168.60.132] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 9 Mar
+ 2023 10:13:18 +0800
+Message-ID: <057ec81c-9b47-08b5-d572-a82ee1911ef8@starfivetech.com>
+Date:   Thu, 9 Mar 2023 10:13:17 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADUEyCz=xuYjNQohgOi86vm4P4YyfO86AbM0cWdFrs1Y_6276g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 11/11] media: starfive: enable building
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230302091921.43309-1-jack.zhu@starfivetech.com>
+ <20230302091921.43309-12-jack.zhu@starfivetech.com>
+ <bd6c9135-e12c-a6ac-db46-416403850751@linaro.org>
+ <15b29a5b-29a1-8440-2b46-0c201c20defd@starfivetech.com>
+ <edf4febc-1629-45c6-ea48-ece8df12a4a5@linaro.org>
+ <05465184-5976-6cee-9925-e3712a1ea650@starfivetech.com>
+ <efddfbf3-8003-c5e5-5054-3d30287c4b23@linaro.org>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <efddfbf3-8003-c5e5-5054-3d30287c4b23@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,79 +65,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 09:57:13PM +0900, Hyunwoo Kim wrote:
-> ttusb_dec is a comment for patch #4 in the series.
-> And as102 is the #1 patch.
-> 
-> 
-> Regards,
-> Hyunwoo Kim
 
-I was using the wrong email client and the mailing list didn't get sent, sorry.
 
-Resend the mail for the mailing list.
+On 2023/3/8 19:07, Krzysztof Kozlowski wrote:
+> On 08/03/2023 12:03, Jack Zhu wrote:
+>> 
+>> 
+>> On 2023/3/8 18:33, Krzysztof Kozlowski wrote:
+>>> On 07/03/2023 10:46, Jack Zhu wrote:
+>>>>
+>>>>
+>>>> On 2023/3/3 16:43, Krzysztof Kozlowski wrote:
+>>>>> On 02/03/2023 10:19, jack.zhu wrote:
+>>>>>> Add Kconfig and Makefie, update platform/Kconfig and platform/Makefile
+>>>>>> to enable building of the Starfive Camera subsystem driver.
+>>>>>>
+>>>>>> Signed-off-by: jack.zhu <jack.zhu@starfivetech.com>
+>>>>>> ---
+>>>>>>  drivers/media/platform/Kconfig           |  1 +
+>>>>>>  drivers/media/platform/Makefile          |  1 +
+>>>>>>  drivers/media/platform/starfive/Kconfig  | 18 ++++++++++++++++++
+>>>>>>  drivers/media/platform/starfive/Makefile | 14 ++++++++++++++
+>>>>>
+>>>>> This is not a separate commit. If it were, it would mean you just added
+>>>>> dead code in previous commits, so why adding dead code in first place?
+>>>>>
+>>>>
+>>>> The previous patches are made according to the module function.I think
+>>>> it is helpful to explain the composition of the code file. 
+>>>>
+>>>> stf_camss[patch 9] as a platform device manages all resources including
+>>>> ISP and VIN. ISP/VIN [patch 7/8]as a sub-device needs to access other
+>>>> resources managed by stf_camss.There is mutual reference between them.
+>>>> Therefore, this patch is used for the overall compilation of the starfive
+>>>> directory.
+>>>
+>>> So previous code is dead? Again, what is the reason for adding dead
+>>> code? Mutual reference is not the answer.
+>>>
+>> 
+>> Maybe I need to merge the previous patches[6-11] into one patch to submit?
+> 
+> I gave you the recommendation in my first reply. What's wrong with it?
+> 
 
+Thank you for your suggestion and the recommended action which I just confirmed
+it in detail in our previous messages.I agree with you that this is
+not a separate commit.I will merge them in the next version to be a single commit.
+
+This is my first time to submit code to the community.There are many things to learn.
+I sincerely thank you for your patient help and advice.
+
+> Best regards,
+> Krzysztof
 > 
-> 
-> 2023년 3월 7일 (화) 오후 9:41, Mauro Carvalho Chehab <mchehab@kernel.org>님이 작성:
-> 
-> > Em Wed, 16 Nov 2022 20:59:21 -0800
-> > Hyunwoo Kim <imv4bel@gmail.com> escreveu:
-> >
-> > > Dear,
-> > >
-> > > This patch set is a security patch for various race condition
-> > vulnerabilities that occur
-> > > in 'dvb-core' and 'ttusb_dec', a dvb-based device driver.
-> > >
-> > >
-> > > # 1. media: dvb-core: Fix use-after-free due to race condition occurring
-> > in dvb_frontend
-> > > This is a security patch for a race condition that occurs in the
-> > dvb_frontend system of dvb-core.
-> > >
-> > > The race condition that occurs here will occur with _any_ device driver
-> > using dvb_frontend.
-> > >
-> > > The race conditions that occur in dvb_frontend are as follows
-> > > (Description is based on drivers/media/usb/as102/as102_drv.c using
-> > dvb_frontend):
-> > > ```
-> > >                 cpu0                                                cpu1
-> > >        1. open()
-> > >           dvb_frontend_open()
-> > >           dvb_frontend_get()    // kref : 3
-> > >
-> > >
-> > >                                                              2.
-> > as102_usb_disconnect()
-> > >
-> >  as102_dvb_unregister()
-> > >
-> >  dvb_unregister_frontend()
-> > >
-> >  dvb_frontend_put()    // kref : 2
-> > >
-> >  dvb_frontend_detach()
-> > >
-> >  dvb_frontend_put()    // kref : 1
-> > >        3. close()
-> > >           __fput()
-> > >           dvb_frontend_release()
-> > >           dvb_frontend_put()    // kref : 0
-> > >           dvb_frontend_free()
-> > >           __dvb_frontend_free()
-> > >           dvb_free_device()
-> > >           kfree (dvbdev->fops);
-> > >           ...
-> > >           fops_put(file->f_op);    // UAF!!
-> >
-> > Hmm... you're mentioning ttusb_dec at the comment, but here you're showing
-> > the race for as102, which is a different driver.
-> >
-> > I'm confused.
-> >
-> >
-> > Thanks,
-> > Mauro
-> >
