@@ -2,155 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CD8C6B24B2
-	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17BE76B24BA
+	for <lists+linux-media@lfdr.de>; Thu,  9 Mar 2023 13:58:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbjCIM6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 07:58:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
+        id S231263AbjCIM6p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 07:58:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231228AbjCIM5d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:57:33 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3406F2090
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:56:54 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id o12so6528501edb.9
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 04:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678366569;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iMAXkHtzZVXUIYSgEhnqVkH5iil6F/pIxroVXvOBotI=;
-        b=NsOgtDKW0v1J0PerqA4rmY1XfO0Y8aYIdvklcqGgVCvR83ZRI+T1ckbqPde7SpjItx
-         gZBAl/dC9Zp70nsZFHjiQVXQV31jLl2CZih4ew9OnpLk4msTY5L08R6EbSweVigzk4/x
-         zBv0W9g7zPyO52SzdBC3UUZIkoKolTMa/huaE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678366569;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iMAXkHtzZVXUIYSgEhnqVkH5iil6F/pIxroVXvOBotI=;
-        b=KFwyH3y82dDDlOnvKCYvwO6cAegk3OE52OIpsnhuyTotapwaqil+KUl/LNgrAARXZS
-         t4iiwmrjrCRaHwfuQD90wQA7Sqi2SKjilPGW2GXmLAQ3BWSmXvAI/myPSoeIiEZIXqB7
-         TVPqBHHLNFfo6ijNQ7owJjWzVf42o5sZ2J1xVZxxMQiF9sFofVW1Ht80sCLA57M/n0vM
-         dDU2588SvXQhi6G2Xgym2E41bIZ1U1q9qWrG2a7qcl7ULyiTMhjeTC7YBN9wwK4KrjyG
-         tX2FXZBnKUZWEorA5I2Jw3AiMkcMStjB0DROSDMuWIz2jH4bY4nQItEqsYbzbWSeeO/i
-         d0OA==
-X-Gm-Message-State: AO0yUKXe+VspE2W5YC1PRiroe3riO7CgZwZvsT4HnVNtKf8VdNAs4hTi
-        wmbreL1cVrMS5iKKHbGa3j5Z/A==
-X-Google-Smtp-Source: AK7set8hnCjeT/yiz3LZDqdTB5UAJ3v/QGaUt9MRSSOzmg2epU1SY0oae/2ce+pf7J87ffwSh1sE2w==
-X-Received: by 2002:aa7:d357:0:b0:4af:6a7e:9218 with SMTP id m23-20020aa7d357000000b004af6a7e9218mr21053463edr.42.1678366569494;
-        Thu, 09 Mar 2023 04:56:09 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:1645:7aa4:a765:1966])
-        by smtp.gmail.com with ESMTPSA id hy26-20020a1709068a7a00b008d92897cc29sm8799523ejc.37.2023.03.09.04.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 04:56:09 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 09 Mar 2023 13:55:19 +0100
-Subject: [PATCH v6 5/5] media: uvcvideo: Fix hw timestamp handling for slow FPS
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v6-5-c7a99299ec35@chromium.org>
-References: <20220920-resend-hwtimestamp-v6-0-c7a99299ec35@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v6-0-c7a99299ec35@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        with ESMTP id S231171AbjCIM6K (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 07:58:10 -0500
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4533AF05F0
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 04:57:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678366658; x=1709902658;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nOCg+Q7868A1gyw4mgeQy85HkuiARmJByNrSNOfCNbE=;
+  b=AzmSoRQ8CS+YbiShZL2N0VQPlOezzpUsjXdDR/BEjlItBX4Zvv/S9Nbr
+   5qVUg1RBnhpQsayOow4g0bbEZyODpUjbqTdWTVpZJ/JZ9HHtnwdVq4/Fg
+   f1PcK2dz99jVjR1LH9fqmSQ8IChtf/kvvwOeXvzcdyn/wAH4jPpVJ85nF
+   bitGc1g2OS/mY4pP3KwFTLWw7nA8B9e5WsoUP4rrlY9Lg5Bcb6gTn98Fq
+   smM9kFuO4XPgpbxrtgPsd4JIKqhyGGC+PThSxzaUMRyP38fNmX3weLCVZ
+   7/cr3Nd50LdaB9cXx2CB+wD9wnkPqO3bVf/H1CRBTbqN0OGBsIHW0uccZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="399012710"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
+   d="scan'208";a="399012710"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:56:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709835536"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
+   d="scan'208";a="709835536"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 04:56:29 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 2E690120C21;
+        Thu,  9 Mar 2023 14:56:27 +0200 (EET)
+Date:   Thu, 9 Mar 2023 14:56:27 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2432; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=BkEYNPgQFikUx3ehYbVZ7ucDEzERBb5OFmbVLs51fjc=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCddiI0AjI40kE9YpN74xp7ZzsdAfpfwQMB18nkKv
- Rnn7RxOJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZAnXYgAKCRDRN9E+zzrEiJLqD/
- 9Sln6eswFHpBkcgQ7zVvZmsAAMSt6u2TvjDhNj+uKGB3T7NgPECGoScjtN6mQ/ALrk9TjEQ5cA/zpy
- syX5uFtWEb00ZX0Jz1E4F5Vg/tUXDRrhqxiyf+p50JolqVhmronpTAnxq7loh8HDgEVGaMyHSSXx2S
- urhUhVwW8ztFtlSvK1Nfn3FXjg/tunhga7KHWkvPBLQdIPBtgnx3fnO8TnYGx/WDn9C2ra/kbJ9sU2
- 8ByWavtyo3znu8CE22D6RQ+NHo120lJO3A4ctKUFfqUb5hgWpPbOzRzci76B5FExqpe9RJsEzQLD04
- /X+6M0be/U0DS+zfTFFcEraXCaclrhPakiNTEcwQOat/Z5APbkXtlnnRtLjulysbS6fQdoDiIdMk8Y
- jNpi1djE7ExfSaZsHCKkI1fO29wWF2dkvqk43GFLyaxuTGdShzgaorgDjK/pawjFbNrqDuXG56eOYl
- RK8vNpdGgP+TOk1uIOKGCNvFuxUqy7zAXWuZr07tIGdncn49OAdtqPRKitBTJsGKOJBhaqojBYRK5Y
- tGLnz05oQplnH+gVAL/hCqxWUMrjxqpcM8+3ng/LqZUqs7M8noVEVMQBBjooqIwyMNN2lZJmawR5wZ
- ewqPjGqziCT25lsatxFJRGbL2ABYf/x/jwQ7mw8VTHGAI0KjjtCcx3zq2KzQ==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
+Message-ID: <ZAnXe9H3xg3g/f55@kekkonen.localdomain>
+References: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
+ <89823804-7d23-334a-91b2-ea3c819232fd@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <89823804-7d23-334a-91b2-ea3c819232fd@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+On Thu, Mar 09, 2023 at 01:43:50PM +0100, Hans de Goede wrote:
+> Hi Sakari, 
+> 
+> On 3/9/23 13:27, Sakari Ailus wrote:
+> > Link validation currently accesses invalid pointers if the link passed to it
+> > is not between two sub-devices. This is of course a driver bug.
+> > 
+> > Ignore the error but print a debug message, as this is how it used to work
+> > previously.
+> > 
+> > Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+> > Reported-by: Hans de Goede <hdegoede@redhat.com>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reported-and-tested-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> FWIW you have my Reported-by in there twice now ...
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
-
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
-
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
-
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 16 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 0bb862e8c803..6f2bb0dc991c 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -473,6 +473,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1)
-+			clock->count = (clock->head - clock->last_sof_overflow)
-+								% clock->count;
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->head = (clock->head + 1) % clock->size;
- 	clock->count = min(clock->count + 1, clock->size);
-@@ -605,6 +619,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07b2fdb80adf..bf9f5162b833 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -499,6 +499,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+Ah, thanks. I'll drop the first tag.
 
 -- 
-2.40.0.rc0.216.gc4246ad0f0-goog-b4-0.11.0-dev-696ae
+Sakari Ailus
