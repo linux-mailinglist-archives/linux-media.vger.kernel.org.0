@@ -2,158 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FDA56B39A9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 10:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 071526B39CA
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 10:13:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjCJJHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 04:07:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40440 "EHLO
+        id S231549AbjCJJNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 04:13:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbjCJJGp (ORCPT
+        with ESMTP id S231319AbjCJJM4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 04:06:45 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96835112592
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:40 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id ec29so17630792edb.6
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:40 -0800 (PST)
+        Fri, 10 Mar 2023 04:12:56 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BD1113F55
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:08:05 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id da10so17761741edb.3
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:08:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678438936;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xnm0YfgvCV+Ipm6xs9Mtjl0Q+VTBw28sf5U+arx5bb8=;
-        b=MZri77WSkYEyxC5HlP1IFuaW3AYi3chr9mQhghCiMLqfSj8Op8753JyQ+sP6jCVbBX
-         X6WYRTE7y5kJ5xuHCV/CMqVloSssG0qaTpCBjWmwXRK98gc6FwdVjWIF0SHnydheijRA
-         IPXW2HPRgLVpdx9k8ktWDKm3hDi2bmGFYaf/k=
+        d=linaro.org; s=google; t=1678439284;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x13l6iJykM0Iq5sMF/00j6Gyhm3oFJMW1U4hx4uJJAE=;
+        b=fBcJZWOS9egaVLPPMnATuMAo3NpeqRO4MyNjgxQDUMoZgpcoPOryBo3h7HryZ+10I/
+         tcAAtAU3LDUhA2bDQRHSDBYZdmgYUm454JUyXbWHFefrXimFb9V2p/Om+3wo1lj7GXEW
+         BfTZCfYMZ1TX/q9tEvreOThibJb3x0oI5JUgI/8Ja6OwZ8pUAbahthwatIuutXyo9hFE
+         Y7DUcCtHAobY8i7acmGRfaAWUjvqG/mbMjaEIJ3DbER/c+xWx9Q6lL5+AaKHyekhA38e
+         swCCvZYbHFc24BU5I4CZRkLe+nb0SIqXWBnyL/CtCru2a/0k6a79uW6UuzHRSQyhsOtb
+         FqCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678438936;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xnm0YfgvCV+Ipm6xs9Mtjl0Q+VTBw28sf5U+arx5bb8=;
-        b=vc5ZRsbVf0E22tZrAVhzT3wzq+BkHNMGOpHd0wf22Tfdm2Z6WEMlpHhGCObEtjPey3
-         mIp0TNq2oZVSvTYXO7NSqae9khl766y1Gj+A53KTxE8k2f7TNHsm42jKdqQBFowN7aKV
-         Y/A8a/6LwcmAj1iPFJhmnMjA6kJnmmDfnnk5kq43EDn21cgQM6rtWy6kNT4eZlBB+X+g
-         3CYygUgvATU26dnyRvJAay9v++kTFsAxFIWSIIbEZbkpqEi0Yumo6pPG9ne2rRMg6pr0
-         sA1w30S2Z8DkvNXoXONSzExqRHFeUTI0GxOwAPO6uq6a59EaiEjs0s2dSrg1xnZdD2lO
-         wGTg==
-X-Gm-Message-State: AO0yUKXoSPRDEVp1Ze8+zLSoziYvkmTG/szOb9uG/0OWU495zwR2bMky
-        i4+xUzngN/shfe/yAbecu9Ad1Q==
-X-Google-Smtp-Source: AK7set+GWN0YNI3hB6snrIv4co9cLgbNHNwz5c1pc74Nkl8Zth62IfdQcLIoOo5krx7RR2duasVxWQ==
-X-Received: by 2002:a17:907:c0c:b0:8af:2cf7:dd2b with SMTP id ga12-20020a1709070c0c00b008af2cf7dd2bmr31570396ejc.13.1678438936082;
-        Fri, 10 Mar 2023 01:02:16 -0800 (PST)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:ef69:7ab6:87ac:99f])
-        by smtp.gmail.com with ESMTPSA id s5-20020a170906454500b008b23b22b062sm692931ejq.114.2023.03.10.01.02.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 01:02:15 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 10 Mar 2023 10:01:33 +0100
-Subject: [PATCH v7 6/6] media: uvcvideo: Fix hw timestamp handling for slow FPS
+        d=1e100.net; s=20210112; t=1678439284;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x13l6iJykM0Iq5sMF/00j6Gyhm3oFJMW1U4hx4uJJAE=;
+        b=gtzKk2Lac0mmjkIiPRk+watpjTjQWkOSmX0auhuO6X0hulpx8uhLSLPl8mNm9tYPfp
+         84i465PfuB0jdb9gQYpaCDFoUhVe36H0jjyj8KquOlPbMo/dt1dP+HNOJi8sUCf5lPIL
+         bSNeLsCkgr0B86QNgXqpBi8lQHbjFI6XJ3GyaJt7WHTvQ5XFWzYJtN9eLgiJmJQGVPHv
+         og71xBOI4DEXU8TgBA4dqaLe1kNhxdTreNTtxOOtzk77sRImfuhA0nrXRYRLeE1mqPPi
+         JjMOzh4HokOHU2Che44fumWIp4yVuGDj/stwXG8kHI+n9vAdnzikC/dXrZFxnHTTyoxE
+         f7ng==
+X-Gm-Message-State: AO0yUKUW6Zf6woT8c4AZa1uZnPl/pRR/hw197RXoMfL/wGe0KMgc8SMA
+        B3xLFxE4qn5k6tKJ0O+EOicQXA==
+X-Google-Smtp-Source: AK7set9My0LsxpYnbZ819noBKM/f6rZVDXH8k8ypKSMrHnIlsoTuj6+1Dk6MzeDY4MN3gOEzeWC22Q==
+X-Received: by 2002:a17:906:25d3:b0:8d4:1e81:f87e with SMTP id n19-20020a17090625d300b008d41e81f87emr24686993ejb.57.1678439284216;
+        Fri, 10 Mar 2023 01:08:04 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:2a59:841a:ebc:7974? ([2a02:810d:15c0:828:2a59:841a:ebc:7974])
+        by smtp.gmail.com with ESMTPSA id lg12-20020a170906f88c00b008c22a35e684sm695919ejb.196.2023.03.10.01.08.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Mar 2023 01:08:03 -0800 (PST)
+Message-ID: <49106943-450a-11c0-99ce-159d40471bf2@linaro.org>
+Date:   Fri, 10 Mar 2023 10:08:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to
+ json-schema
+Content-Language: en-US
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com
+References: <CGME20230301035153epcas5p40f576188a9a69835c1050135219a3720@epcas5p4.samsung.com>
+ <20230301035144.8645-1-aakarsh.jain@samsung.com>
+ <8b5bea40-6f7b-1d00-ac23-83a28c7dacbc@linaro.org>
+ <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
+ <9b93849d-d4a4-67ba-e8a0-ee6c7209bd65@linaro.org>
+ <000701d95257$e97ebd50$bc7c37f0$@samsung.com>
+ <81e78cf6-b8b3-0cab-d190-aa22abbc5c2d@linaro.org>
+ <001901d95263$eac4b460$c04e1d20$@samsung.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <001901d95263$eac4b460$c04e1d20$@samsung.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v7-6-cf1d78bb8821@chromium.org>
-References: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        "hn.chen" <hn.chen@sunplusit.com>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2453; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=QSOtDi8Lpp1WwCcscneU3GgnDWNqfm9La5ACGKDE/1s=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCvIO/4kYmLvH1iiWCJT+hFKLcOK8Wi79IHBtmT/M
- xtdiMKmJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZAryDgAKCRDRN9E+zzrEiLBTD/
- 0Ryz/FeiC6LVOp07enO0v9qf4Yw+/Lu6WjBWFsRm1oOxcANF9lL/mkE2Qd6SqcXJf1QXdBfy7udIUe
- iwVaULNUu/VVWWskPMDTqswdyiqbHHf4+B5BHzWTteEvlmipjYbHcmsRxh7i8IJBBMDiE7vIJ9WXd4
- uoD4xc05qskdOKx0lYis65D7w3y6LY5jL+GmXcJdYtu9dYYXYcakIfS9XoMGnMyip4yiBTgsRvXTGM
- NH49PIao1aOkOoX8vDCo6R650JNDAq0B4Pgz0hiwgg8r/CpVp3vGAKD1nItbVV9XFcrUPXwK5ecxjv
- eQpK2zsvMm+11YYPEWQFsO/u08HcQhw9t6fg7/zGUUrfzfilL+ajc7P48vHpY5LNBSBh9B6am/JOCc
- e390J6WA5FMP07H5LlchX1ssgjSAh4u7bIGcXprxx2OzOwGgad8y3feYSZ5GSGhmRE/3cU2+DFky1F
- 499RTkiyJQ/C5QEDoxJtslOqo9yxOa7hMpBEWJ2+cDqdW/E31+AxPizo0RqLYZWgmrVpk3PIG12AOd
- 4jg90tUWWXxTde+4qr08qyWBE8L8doLVWrZOgc9AAqwPptrURcfjm1ckTSPDYbj/UOTTxGpnehQFYR
- bnbq0uhBZnz/Gkqxge8yvbDbZpfmISWGF1eslE0oy8a3E1TvPH4ipZYIV8CQ==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+On 09/03/2023 09:48, Aakarsh Jain wrote:
+>>> won't fit here.
+>>> Since IOMMUs maxItems is 2 here for Exynos4. Giving maxItems:2 alone
+>> will also break the bindings. Thanks why suggested
+>>>          iommus:
+>>>            minItems: 1
+>>>            maxItems: 2
+>>
+>> Are you sure you are putting this in correct place? This is if:then for
+>> Exynos3250, isn't it?
+>>
+> Its not only for Exynos3250, its along with Exynos4 since their clock properties are same
+> allOf:
+>   - if:
+>       properties:
+>         compatible:
+>           contains:
+>             enum:
+>               - samsung,mfc-v5        #Exynos4
+>               - samsung,exynos3250-mfc
+>     then:
+>       properties:
+>         clocks:
+>           maxItems: 2
+>         clock-names:
+>           items:
+>             - const: mfc
+>             - const: sclk_mfc
+>         iommus:
+>           minItems: 1
+>           maxItems: 2
+> 
+> or do I keep different if:then condition for both Exynos3250 and Exynos4 for IOMMUs property ?
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
+Yes, they should be split into two if-then.
 
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
 
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
+Best regards,
+Krzysztof
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 17 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 8156efcf48ac..eb1165366fa0 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -473,6 +473,21 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1) {
-+			clock->count = (clock->head - clock->last_sof_overflow
-+					+ clock->count)	% clock->count;
-+		}
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->head = (clock->head + 1) % clock->size;
- 	clock->count = min(clock->count + 1, clock->size);
-@@ -605,6 +620,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07b2fdb80adf..bf9f5162b833 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -499,6 +499,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
-
--- 
-2.40.0.rc1.284.g88254d51c5-goog-b4-0.11.0-dev-696ae
