@@ -2,139 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 028756B4A50
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 16:21:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 964CC6B49C4
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 16:15:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234209AbjCJPV2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 10:21:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48340 "EHLO
+        id S233862AbjCJPPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 10:15:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234117AbjCJPVC (ORCPT
+        with ESMTP id S234143AbjCJPO6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 10:21:02 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798E01CBD2;
-        Fri, 10 Mar 2023 07:11:40 -0800 (PST)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A89DA2E5;
-        Fri, 10 Mar 2023 16:01:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678460517;
-        bh=PdhMIv1BqENXVPnM808oAbaFFFguQAJg5pti+hcZLlY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q9+1F8BLzjMrHWvCpTAU14Rb9jifcjI8NrrJ2PA9SY9SQaw4+KZrZGx2Hyw+z8lWW
-         Jq0kvPyhAPzDBAlkE3XVTgOjTxSzCJ6Wz/Q6/yBKJ3I2qp4yINmcrnybPp4r1jCqZb
-         mlohsPM5ERvAI6xrbpW1SBwP0jxecREqNum8+sRU=
-Date:   Fri, 10 Mar 2023 17:02:01 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Bin Liu <bin.liu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] media: Use of_property_present() for testing DT property
- presence
-Message-ID: <20230310150201.GK5342@pendragon.ideasonboard.com>
-References: <20230310144711.1543225-1-robh@kernel.org>
+        Fri, 10 Mar 2023 10:14:58 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F127112EE6A
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 07:06:19 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id n6so5867132plf.5
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 07:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google; t=1678460724;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mI9SynFLOYtOEHXFt34hbbK+yCygpvgICPPgvO9gfV8=;
+        b=VJ1dnBmXbkWcmPGgaIqe8y1AjzPkpkCDA30L72GW1BCNILg9Ux93MdjuFClsREO7vk
+         lPuzSZIDtThvsRkSsKGr3zO9rAsKWjoosj6IS8v322FG/klrkxUO4FIp6lMfqPuj4TxI
+         7iye1Ahz/4AiFFf6VAwHflCsxCwez6c0dgsKDphb107iKdmAqMvuRIOUZ+bfwhCgORMs
+         iHbeIn5DKK69O/9p0RZAo34CKsm8KqzEPsCeBsRVrQgTElcQ7BdUZWM4zM+YwjZmMWwf
+         jpTB1yeDWY83Dl59FnSeE0Klte9uU8zLnIN4Ka4GVeK62dZ/tM49vJHupbAcFDxR1gnt
+         LTqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678460724;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mI9SynFLOYtOEHXFt34hbbK+yCygpvgICPPgvO9gfV8=;
+        b=EmPUKAXjJU0eYbCOty0Fp58AfHg6uWh1TskXtF9ays4MKOQe7vEHzDckOTQg94FX88
+         vGnCtKO308dGS7bfg+nyNL0B2NFXZxJ5n+vNigBgR5RuEZ5XaSsoEh0b1GS0ajR2TlKQ
+         sfjpDdPxm4/QZdJon9mdkWIGB6oVlqH59AXturMvM6Q6usn4ifd8W2cJ/z5tBQEHF4UC
+         aquhkiA/xf4aiKEsINvjeMskOsHz+agWHTSEhJ3gGEWdaxhDrfDkLb/ZBE1JdK1jE5Dh
+         t0ANY3+T3QwpCJdVhuLoPQXUTd3vIp6nuCge3yC2oSj1gxhx+em/vQIo1fiXZ9cNJdbo
+         Tufw==
+X-Gm-Message-State: AO0yUKWx1Eti2/xdBhrrHRbFBEYb3D2pTua3Z+siOU+DxEH6v2B5Ki8H
+        aYQDRJ2u2CcW1drotWXtfm2KDew0VyEw+YTtWsZqKg==
+X-Google-Smtp-Source: AK7set8IWRb0c5QRI0mCvofn+53toeLUf0QAqBXeiHkxJiCHSENVWUwl0Cn9xhaO9TH0b6aLOo+bYIjEMz5NYxW8+6s=
+X-Received: by 2002:a17:902:7e09:b0:199:6fd:ecf6 with SMTP id
+ b9-20020a1709027e0900b0019906fdecf6mr9641502plm.9.1678460723997; Fri, 10 Mar
+ 2023 07:05:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230310144711.1543225-1-robh@kernel.org>
+References: <20230130105423.1338554-1-mk@semmihalf.com> <20230130135418.1604455-1-mk@semmihalf.com>
+ <CAJMMOfNJV+eOqTgUoLLWKQe2MJ=6fXL3aaP6d=YrSBQvfhOXiA@mail.gmail.com>
+ <DM8PR02MB8169B2AC8918F8E31628F61AF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <CAJMMOfN-6fgN0VohA5ViwVXmNWtA13ycfZFoO4ys9_CLes0feA@mail.gmail.com> <CAJMMOfM41dfqx0NoiHGE=8X5hoRHo1=qPEp4KXLP1kygestEJQ@mail.gmail.com>
+In-Reply-To: <CAJMMOfM41dfqx0NoiHGE=8X5hoRHo1=qPEp4KXLP1kygestEJQ@mail.gmail.com>
+From:   =?UTF-8?Q?Micha=C5=82_Krawczyk?= <mk@semihalf.com>
+Date:   Fri, 10 Mar 2023 16:05:12 +0100
+Message-ID: <CAJMMOfN6tUzGZOkP6ZXbKCr-vszqf3nnRM-dhXfpOUSiHr2EHA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: venus: dec: Fix handling of the start cmd
+To:     Vikash Garodia <vgarodia@qti.qualcomm.com>
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mw@semihalf.com" <mw@semihalf.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi,
 
-Thank you for the patch.
+Any update on this patch? It would be great if we could make some
+progress there (and, hopefully, finally merge it :))
 
-On Fri, Mar 10, 2023 at 08:47:11AM -0600, Rob Herring wrote:
-> It is preferred to use typed property access functions (i.e.
-> of_property_read_<type> functions) rather than low-level
-> of_get_property/of_find_property functions for reading properties. As
-> part of this, convert of_get_property/of_find_property calls to the
-> recently added of_property_present() helper when we just want to test
-> for presence of a property and nothing more.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Thanks,
+Micha=C5=82
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c        | 2 +-
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 +-
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c | 2 +-
->  drivers/media/platform/xilinx/xilinx-vtc.c                  | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 969516a940ba..1a2b3214b6f8 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1757,7 +1757,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
->  	jpeg->vdev->device_caps = V4L2_CAP_STREAMING |
->  				  V4L2_CAP_VIDEO_M2M_MPLANE;
->  
-> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
-> +	if (of_property_present(pdev->dev.of_node, "dma-ranges"))
->  		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
->  
->  	ret = video_register_device(jpeg->vdev, VFL_TYPE_VIDEO, -1);
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-> index 174a6eec2f54..d2db8ccaa4c0 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-> @@ -321,7 +321,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  		}
->  	}
->  
-> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL)) {
-> +	if (of_property_present(pdev->dev.of_node, "dma-ranges")) {
->  		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
->  		if (ret) {
->  			mtk_v4l2_err("Failed to set mask");
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> index 9095186d5495..199042034a3c 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> @@ -344,7 +344,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  		goto err_event_workq;
->  	}
->  
-> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
-> +	if (of_property_present(pdev->dev.of_node, "dma-ranges"))
->  		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
->  
->  	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
-> diff --git a/drivers/media/platform/xilinx/xilinx-vtc.c b/drivers/media/platform/xilinx/xilinx-vtc.c
-> index 0ae0208d7529..cb4b421a348d 100644
-> --- a/drivers/media/platform/xilinx/xilinx-vtc.c
-> +++ b/drivers/media/platform/xilinx/xilinx-vtc.c
-> @@ -254,7 +254,7 @@ struct xvtc_device *xvtc_of_get(struct device_node *np)
->  	struct xvtc_device *found = NULL;
->  	struct xvtc_device *xvtc;
->  
-> -	if (!of_find_property(np, "xlnx,vtc", NULL))
-> +	if (!of_property_present(np, "xlnx,vtc"))
->  		return NULL;
->  
->  	xvtc_node = of_parse_phandle(np, "xlnx,vtc", 0);
-
--- 
-Regards,
-
-Laurent Pinchart
+pt., 10 lut 2023 o 16:18 Micha=C5=82 Krawczyk <mk@semihalf.com> napisa=C5=
+=82(a):
+>
+> Hi,
+>
+> I'm wondering if there are any more comments for this patch? I would
+> be happy to clarify anything that's unclear or improve the code if
+> needed.
+>
+> I know it's pretty late, but it would be really great if this fix
+> could land before v6.2 is released, so I'd appreciate your help and
+> review.
+>
+> Thank you,
+> Micha=C5=82
+>
+> wt., 7 lut 2023 o 12:15 Micha=C5=82 Krawczyk <mk@semihalf.com> napisa=C5=
+=82(a):
+> >
+> > wt., 7 lut 2023 o 10:54 Vikash Garodia <vgarodia@qti.qualcomm.com> napi=
+sa=C5=82(a):
+> > > I have reviewed the patch, and the drain sequence handling looks good=
+ to me.
+> > > Could you share some details on the test client which you are using t=
+o catch this issue ?
+> >
+> > Hi Vikash,
+> >
+> > Thank you for looking at the code!
+> >
+> > I've been testing it using the Chromium implementation of the V4L2
+> > codec [1]. Meanwhile, we were running a test suite which changes the
+> > encryption method in the middle of the video decoding. This triggers
+> > the flush behavior and the Chromium sends the stop/start cmd to the
+> > V4L2 kernel component, and the test expects the video to continue the
+> > playback normally. Unfortunately, it was causing a stall of the video
+> > at the same time.
+> >
+> > [1] https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/=
+v4l2/
+> >
+> > >
+> > > > Thank you,
+> > > > Micha=C5=82
+> > >
+> > > Thanks,
+> > > Vikash
