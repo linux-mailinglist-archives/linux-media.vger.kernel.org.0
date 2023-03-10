@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B276B33E1
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 02:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F409C6B342A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 03:21:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbjCJB6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Mar 2023 20:58:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52848 "EHLO
+        id S229933AbjCJCVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Mar 2023 21:21:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjCJB6a (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 20:58:30 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01AA66A1FE
-        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 17:58:28 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id kb15so3951570pjb.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 17:58:28 -0800 (PST)
+        with ESMTP id S229550AbjCJCVB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Mar 2023 21:21:01 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 482691116BF
+        for <linux-media@vger.kernel.org>; Thu,  9 Mar 2023 18:21:00 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id i10so4104937plr.9
+        for <linux-media@vger.kernel.org>; Thu, 09 Mar 2023 18:21:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678413508;
+        d=chromium.org; s=google; t=1678414860;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AOHM7hx5EEMDKvTiLCYsUEf17unyK56ZY6RqHsSepXw=;
-        b=h2RJEB0oKuuRghDyHy+d9JsKazt80mvgIAKvVN3Z9HYjN0+smoL+JX3Zvs9fzujhA+
-         hN8PuMXcAIRBGrmFZG/pC6BHTAopBJOFc3ojdvNTki3xmUxIGS5zKoFQCuBzEMkl6EeM
-         4i5pbkQo8OqTvLhaEWVnPdByLr5FDaRVthYEM=
+        bh=DjwphGFAmH+P3VBKg8ccdas4BLWzgUBKFji8Q6ip/qc=;
+        b=nVgXI24fvBMAuxH0tK7nuj/+eV+NdHm4zIZz7nqgrjwY6HjG06jT0sDkEowN7K5B+N
+         WzQEcV/WCsIZA1p68Bdrx4hxL+9DjLqt78C4NjQQ3leEsfjHgBHqAiUaWKkK1SgeOzFJ
+         WJrcsoshdoB+DsfWTbEWM4Ni1QtDuKaCY5+f4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678413508;
+        d=1e100.net; s=20210112; t=1678414860;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AOHM7hx5EEMDKvTiLCYsUEf17unyK56ZY6RqHsSepXw=;
-        b=auA/DvfVL/Xn2d/mufQjY7jNBGQXmYUYZ8UuX+6Huu4Pmk2sMlXLdCk+ZBq2cUK34b
-         35/otgtQbo9BDdLTQhLVOuKsu223HN5hd8/OSTsekYddlmtHrVoz3qUzW6udgdQiHlLS
-         JdSQBuPUPGG0CVxmeQe4+q/nvcDlwq/4r9AOHs9WPPpInJyQuq2M33szJZZ1MX3Bc1mW
-         +dl6N8zmXq1Ov+KY3E5SYlWq0fxw8BMIAukzX8bfs08c60gMWdFIeF7vYVntsSMcLOLR
-         ejWgXGrSRPcE4ghKZ4iyHwUP4ODGplY5biFY/1WE0Sr/ZG7pJXfs1e4zok4drEgGFncm
-         Z67Q==
-X-Gm-Message-State: AO0yUKUUIBrWiyXr14Eh73rvsgerJVYrrZ3vcHT/TNpuH8eqlPsc2JqC
-        LLdcXYMMFF0StgZQ6MWomMFyjQ==
-X-Google-Smtp-Source: AK7set93GI4rNtTpiCVl8r7LAQjLCFL0zv4sIIg5FGgISkNCVib2TBY+Dhh7jqKYJwndIHdBrjn59Q==
-X-Received: by 2002:a17:902:d2cd:b0:19c:e484:b4e with SMTP id n13-20020a170902d2cd00b0019ce4840b4emr29927682plc.59.1678413508503;
-        Thu, 09 Mar 2023 17:58:28 -0800 (PST)
+        bh=DjwphGFAmH+P3VBKg8ccdas4BLWzgUBKFji8Q6ip/qc=;
+        b=7aLQViIAL4+44nBISdiaKxuuepg7BaDzTfWX+6/kuGnQYZfrVkBAkDA91XtHZjOgct
+         jud4SwhnD3TDKVxbQz5Xhs0IvanNt2wjR5/obKTGj15GTR7RSExwp+y1ocwKQHw0SEU9
+         8J6EVRZXKOAX8K786Ac6NlTumtcJC814qQ4YXDBSVqNHkiJqIQ0uWxbxOL+MaihL3No/
+         3zM+0nOqXP92z9l9dbqGwII4NJHP9Eyfpa4PWQnZnae1BK9EBwj2UoGwmRFtidTf++en
+         6RjMFsHwkFpGuUV9zOlB7gvJwR5vNl1j+eber0r33z2fQ4ltwj9uMJFCrs5TJBKd0jse
+         918Q==
+X-Gm-Message-State: AO0yUKUsgzu/LCXZYca2eQ8WXwEO9xYwZrBujtjwyuR1ejsiV6auKS5z
+        w2k/tTAw1sS20CLURpg3ZryB6Q==
+X-Google-Smtp-Source: AK7set9KyP9y8k1KMQxRXzVVbkv+aALqqNFQkpFnFJ0ubJOMVcv5Ro4XWW1twQ+UKWH9axxjE6HQOA==
+X-Received: by 2002:a05:6a21:6d9f:b0:cd:a334:a531 with SMTP id wl31-20020a056a216d9f00b000cda334a531mr30455899pzb.62.1678414859816;
+        Thu, 09 Mar 2023 18:20:59 -0800 (PST)
 Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id p16-20020a170902ebd000b0019aaba5c90bsm270403plg.84.2023.03.09.17.58.26
+        by smtp.gmail.com with ESMTPSA id y15-20020a63e24f000000b004fb997a0bd8sm259112pgj.30.2023.03.09.18.20.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 17:58:28 -0800 (PST)
-Date:   Fri, 10 Mar 2023 10:58:23 +0900
+        Thu, 09 Mar 2023 18:20:59 -0800 (PST)
+Date:   Fri, 10 Mar 2023 11:20:54 +0900
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Ricardo Ribalda <ribalda@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -53,15 +53,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>
-Subject: Re: [PATCH v6 2/5] media: uvcvideo: Quirk for invalid dev_sof in
- Logitech C922
-Message-ID: <20230310015823.GF1045797@google.com>
+Subject: Re: [PATCH v6 3/5] media: uvcvideo: Allow hw clock updates with
+ buffers not full
+Message-ID: <20230310022054.GG1045797@google.com>
 References: <20220920-resend-hwtimestamp-v6-0-c7a99299ec35@chromium.org>
- <20220920-resend-hwtimestamp-v6-2-c7a99299ec35@chromium.org>
+ <20220920-resend-hwtimestamp-v6-3-c7a99299ec35@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220920-resend-hwtimestamp-v6-2-c7a99299ec35@chromium.org>
+In-Reply-To: <20220920-resend-hwtimestamp-v6-3-c7a99299ec35@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -74,23 +74,28 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On (23/03/09 13:55), Ricardo Ribalda wrote:
 [..]
-> Bus 001 Device 044: ID 046d:085c Logitech, Inc. C922 Pro Stream Webcam
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass          239 Miscellaneous Device
->   bDeviceSubClass         2
->   bDeviceProtocol         1 Interface Association
->   bMaxPacketSize0        64
->   idVendor           0x046d Logitech, Inc.
->   idProduct          0x085c C922 Pro Stream Webcam
->   bcdDevice            0.16
->   iManufacturer           0
->   iProduct                2 C922 Pro Stream Webcam
->   iSerial                 1 80B912DF
->   bNumConfigurations      1
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -754,10 +754,10 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+>  
+>  	spin_lock_irqsave(&clock->lock, flags);
+>  
+> -	if (clock->count < clock->size)
+> +	if (clock->count < 2)
+>  		goto done;
+>  
+> -	first = &clock->samples[clock->head];
+> +	first = &clock->samples[(clock->head - clock->count) % clock->size];
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+This looks like a significant change: `rb->head` and `rb->head - INT`
+are quite different things. May I ask for some clarifications?
+
+[..]
+> +	/*
+> +	 * Have at least 1/4 of a second of timestamps before we
+> +	 * try to do any calculation. Otherwise we do not have enough
+> +	 * precision. This value was determined by running Android CTS
+> +	 * on different devices.
+> +	 */
+> +	if ((y2 - y1) < (256 << 16))
+
+256 << 16 is 1/4 of a second?
