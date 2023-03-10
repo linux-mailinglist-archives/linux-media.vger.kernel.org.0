@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5BC6B39A2
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 10:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BCC6B39A4
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 10:07:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbjCJJHS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 04:07:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41862 "EHLO
+        id S231537AbjCJJHg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 04:07:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231372AbjCJJGd (ORCPT
+        with ESMTP id S230078AbjCJJGl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 04:06:33 -0500
+        Fri, 10 Mar 2023 04:06:41 -0500
 Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2A0112583
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:31 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id o12so17617433edb.9
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80691112588
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:39 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id a25so17816250edb.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678438933;
+        d=chromium.org; s=google; t=1678438934;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a5a+6HYmuNF0NcA/SU/mW3fBSurTLFx+qA7YB8EkD48=;
-        b=SQ1tcv8Bj4AQO0mGVa6QGvn2qt/K+uVY9E1vSWP5QhD9LY+6LcKGm49RSuz69L7GUf
-         nA1dM3ZL0w7NL8NPkPLt+rc54BLdvrUddhb8LUdDrSgLc/p2PJt1RV+y4yWb0adhD1YD
-         AvtdRHoFjzyiAsSUnbg1qaVZBv+c3j9hRiVAA=
+        bh=RN9dk0TN64Mo7WHVhpVGbABaRx7Q/q6Pwknupu3adDk=;
+        b=auahc3+pJeuaf50PijN97Rc1bShULdg8glH6J/F2ecGmAk6HjZ2P6FY++By0j9Wzpy
+         nzGKYmfnG32/bfAFFgwu0GVMYVf50UTIlIs6CrBFKzbRse2c1VFHSkaL9ewdJ0O6xAc+
+         ws4F4we3XAVtEiiqgXTiluJxDHoCiZQwoYrGc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678438933;
+        d=1e100.net; s=20210112; t=1678438934;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a5a+6HYmuNF0NcA/SU/mW3fBSurTLFx+qA7YB8EkD48=;
-        b=OhLRFPzcWyddP69CGy1zajy4fEf870BJuVZYPmtp6zcbyQ3s1B6IoLncxx+aFZrwf9
-         f9YwVjUvTmvDqCfMmJ8fDRDw0wg1DH+ul6jxfTbVnhKrvMASTUCTmv3KQHoJ2Pqv03dj
-         eHPsgRv98ra0n7uTTMSeBG9djd99qUR0lvYLq/1LSMEVd7yvISzzmcnLM9Qe0noju6zk
-         OCZmtfDQavNWJPpXdHiG91boM2VWC9b+sKnpHjF/OlxqbhVhKgz7LC9PefyRKADQEiHb
-         aeWQaoaXT5eKq+4ZmvBgtH8jallShcbGl5TYYI+tvKaAylDlf0zJ4kFnR2sOa8Q76TPt
-         jugA==
-X-Gm-Message-State: AO0yUKWRN0w/T+j0ygIPI44RYNocA1D8oKqk4Rh5l0Ri7OXmb0+KcTKJ
-        4VI/flkxf6YaNScsQ0HBRezN4w==
-X-Google-Smtp-Source: AK7set8GtyVQ8FJebMR3Ilm8/Wev2wx0QAMhQLWGBQV7Mp7MNFA3TKHHIgQxtpym/6HzMncPQ9yEFQ==
-X-Received: by 2002:a17:907:c282:b0:884:930:b017 with SMTP id tk2-20020a170907c28200b008840930b017mr30309066ejc.60.1678438933400;
-        Fri, 10 Mar 2023 01:02:13 -0800 (PST)
+        bh=RN9dk0TN64Mo7WHVhpVGbABaRx7Q/q6Pwknupu3adDk=;
+        b=LHt4dN3FhnVTYOsEV0NnI566Abkq4wUHRzIgDQT0dvXhp/aPDPSQ27ZtzlwQCooA+N
+         nu3H80F6tf0X+5fyLF57n0lgZneJknPfo//72AX7Ih8hGn788HsJinrsuOHGcazvN726
+         gHKedcqROGozKAWHTJfT3LcQX0ZTMtzlwkg3sRCfnTvJcgKyDblvX26JCjZLdd8UWkOC
+         xSkT8YwzQ+9DkeukKHLujqJ+1k7LhBhbNpe5RR8IXr9S2vJ5JfJ3Yy4n4RCV1gcHV7sf
+         I3x+4AeQj/yDjLjqcX2MBaDeFy/HCveCX1GV/spQZYdM8VS8labs5rmICuNjL3ksyGR0
+         OKpg==
+X-Gm-Message-State: AO0yUKX/Bi69WycKuf6SYHPKwNiJhJd0m5dMu4sl2QfiNbGv9jyTJ6CD
+        Iff69pGstKSDhs8pQ2QzP0Kryg==
+X-Google-Smtp-Source: AK7set+87Q5e1RSPYfHWblm0WfYpLHROhntrXBZh3/riZlig+Bxp5XRgrD9ZYFOyZDJhWTg/FOJzgg==
+X-Received: by 2002:a17:907:a808:b0:8aa:c35b:a34b with SMTP id vo8-20020a170907a80800b008aac35ba34bmr25771623ejc.20.1678438934536;
+        Fri, 10 Mar 2023 01:02:14 -0800 (PST)
 Received: from alco.roam.corp.google.com ([2620:0:1059:10:ef69:7ab6:87ac:99f])
-        by smtp.gmail.com with ESMTPSA id s5-20020a170906454500b008b23b22b062sm692931ejq.114.2023.03.10.01.02.12
+        by smtp.gmail.com with ESMTPSA id s5-20020a170906454500b008b23b22b062sm692931ejq.114.2023.03.10.01.02.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 01:02:13 -0800 (PST)
+        Fri, 10 Mar 2023 01:02:14 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 10 Mar 2023 10:01:30 +0100
-Subject: [PATCH v7 3/6] media: uvcvideo: Quirk for invalid dev_sof in Logitech C922
+Date:   Fri, 10 Mar 2023 10:01:31 +0100
+Subject: [PATCH v7 4/6] media: uvcvideo: Allow hw clock updates with buffers not full
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v7-3-cf1d78bb8821@chromium.org>
+Message-Id: <20220920-resend-hwtimestamp-v7-4-cf1d78bb8821@chromium.org>
 References: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
 In-Reply-To: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -63,149 +63,82 @@ Cc:     Ricardo Ribalda <ribalda@chromium.org>,
         Sergey Senozhatsky <senozhatsky@chromium.org>,
         "hn.chen" <hn.chen@sunplusit.com>
 X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5234; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=5jcOY5wQypEMPaIWclRrjn20dOHGC/hJF48i1+E0AwQ=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCvIKmv5rljVl3OMQWkOujH04PqNlN8jGCzwBSCZQ
- iAh73ACJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZAryCgAKCRDRN9E+zzrEiBTxD/
- 9QAx238IgygZp7TSwJ2ULiXyuQrtrOWICfy1mFA5zA/pwm++GKNo22ihXa5glEcicoxkwbuOoqeUMg
- 0ot+/kWuOeIEG2f2BTOyJ9F7Bc21hcMW+ci5H2MLE9SI8uS7SHVz6jLWsF00hzDQA30UN2c6mErgLG
- YrJxhaM3FomaxBqJ/xn6tAgnhA0da0DiG82zXbNhGF8zUSamBNhLNFbTE/LR7P5alg2Sr5eilBpbgG
- UeAb7b5WRs67S4vlaVkZMxdEM2qt3TyLYVh2MOv7XMJGgTuzFbp+fP2YFHPt3akjO82ItDEeiaVdDS
- tAHcxJbw04e7FbJFdZrd0BH0GTR2scdjwPLdupgceRP7ZJqEQvI3uJteeLUti35eoKKxh96HNf3q/T
- I3eJzxvM8SvMFZC1Vx6/PZqYg9IM2PHLCRSXbYNeIpXTyVO2tuu7FfVJHWPzvSVmWisMC/mwSszc0J
- 6Y7It2BhVlQDRpWuzvyuwEfbe6nQ4Blt5vEbt+9vwjiY5AQYKPKBURKSSZl8fqMAedWLFL2bzc2eX7
- lJHgEoodhYk9KHmax4xaie4RXPJHVW88uhLQOxgGvTxmQ77D/8Nd9YsFm8qohRfa7FQg19pemPZi+k
- 17n+D5Gu4a5H4Vq2Z8h4zV/kxzM2dYpfueT0ZgG2z5lpMQ6gQKpW92qdsUCA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1966; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=Ka10ItjemOVlrqrWVbbdhzTBAJcpymfvLrHEyyU17oM=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCvIMxQ6NquFZoQQOCgrRDaCRelepwRKDHcV6hDD7
+ +ALRcGmJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZAryDAAKCRDRN9E+zzrEiBQUEA
+ CJkPTC56XQ5o/bYlLjZwg+MwUglsKtjo3UStrY7DZ82nwL3w0vF6A8FBKOODmvShxR17gikEdhhgi+
+ 4E5NUybANa4TrbHQ5T+dUmZFRvvk0kRLUkGcl6s4VDDNmD7a9FDmMhgOjkuK6VV6/f+XjhZVj2Dx3V
+ x+8Gb5HcGdpUT3rYIzJPW8ASyVC6o9tUz+VQiJt8EyO0RAKNCeJVwxXsdvZ7NxyX5qEQNVZ/IO27bV
+ FDxPm7w/5eAF5gd7CbJRZ/y7TCWRse6xU0bxM53OfJnXbBFOSLe8aYaXoyYFo828PTIYnSD+SH4NyV
+ SSVVQ+dTW2k0918lsL8Fm6OvFCpeM1hQALewDDWE5jG70NWY2yrb0H+6FNhX7Zu5T2sVQztFCZKSRx
+ j+c0QMLZ7EnSrHsDTKvLn8kP8kDDPTZw5s30PPoxfQ+qA29/83RUbueaAryTJF06kMPYz9DuFiqFBc
+ yqdxdFYvj7yWgiogpjWZJzcYzYcsZxHkSrnQx8ZLahAQmbKb1vU0ArOeE2S+wxFs4sNT0a4a+pvGaP
+ ItfdV7jSgdGo6mIGf3mFvL+FUXsTgrRPF768VzNpdXp3WDc4+7Sn2oVI0sfC+lgYFBZrf9hg9IylZ0
+ I2t8DzZMMnzLKQ6UWbazGtMJLPwE2xnE4txXjYaLfqrSqVI/NuDGzCS5heZg==
 X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
  fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Logitech C922 internal SOF does not increases at a stable rate of 1kHz.
-This causes that the device_sof and the host_sof run at different rates,
-breaking the clock domain conversion algorithm. Eg:
+With UVC 1.5 we get as little as one clock sample per frame. Which means
+that it takes 32 frames to move from the software timestamp to the
+hardware timestamp method.
 
-30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
-31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
-32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
-33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
-* 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
-* 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
-36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
-...
-99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
-100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
-101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
-* 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
-* 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
-104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
+This results in abrupt changes in the timestamping after 32 frames (~1
+second), resulting in noticeable artifacts when used for encoding.
 
-Instead of disabling completely the hardware timestamping for such
-hardware we take the assumption that the packet handling jitter is
-under 2ms and use the host_sof as dev_sof.
+With this patch we modify the update algorithm to work with whatever
+amount of values are available.
 
-We can think of the UVC hardware clock as a system with a coarse clock
-(the SOF) and a fine clock (the PTS). The coarse clock can be replaced
-with a clock on the same frequency, if the jitter of such clock is
-smaller than its sampling rate. That way we can save some of the
-precision of the fine clock.
-
-To probe this point we have run three experiments on the Logitech C922.
-On that experiment we run the camera at 33fps and we analyse the
-difference in msec between a frame and its predecessor. If we display
-the histogram of that value, a thinner histogram will mean a better
-meassurement. The results for:
-- original hw timestamp: https://ibb.co/D1HJJ4x
-- pure software timestamp: https://ibb.co/QC9MgVK
-- modified hw timestamp: https://ibb.co/8s9dBdk
-
-This bug in the camera firmware has been confirmed by the vendor.
-
-lsusb -v
-
-Bus 001 Device 044: ID 046d:085c Logitech, Inc. C922 Pro Stream Webcam
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x046d Logitech, Inc.
-  idProduct          0x085c C922 Pro Stream Webcam
-  bcdDevice            0.16
-  iManufacturer           0
-  iProduct                2 C922 Pro Stream Webcam
-  iSerial                 1 80B912DF
-  bNumConfigurations      1
-
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Tested-by: HungNien Chen <hn.chen@sunplusit.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- drivers/media/usb/uvc/uvc_video.c  | 8 ++++++++
- drivers/media/usb/uvc/uvcvideo.h   | 1 +
- 3 files changed, 18 insertions(+)
+ drivers/media/usb/uvc/uvc_video.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 7aefa76a42b3..678a5736c9df 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2549,6 +2549,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
-+	/* Logitech HD Pro Webcam C922 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x046d,
-+	  .idProduct		= 0x085c,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
- 	/* Chicony CNF7129 (Asus EEE 100HE) */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
 diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 1f416c494acc..4d566edb73e7 100644
+index 4d566edb73e7..6d0243ea0e07 100644
 --- a/drivers/media/usb/uvc/uvc_video.c
 +++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -547,6 +547,14 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
- 	stream->clock.last_sof = dev_sof;
+@@ -754,10 +754,10 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
  
- 	host_sof = usb_get_current_frame_number(stream->dev->udev);
-+
+ 	spin_lock_irqsave(&clock->lock, flags);
+ 
+-	if (clock->count < clock->size)
++	if (clock->count < 2)
+ 		goto done;
+ 
+-	first = &clock->samples[clock->head];
++	first = &clock->samples[(clock->head - clock->count + clock->size) % clock->size];
+ 	last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
+ 
+ 	/* First step, PTS to SOF conversion. */
+@@ -772,6 +772,17 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+ 	if (y2 < y1)
+ 		y2 += 2048 << 16;
+ 
 +	/*
-+	 * On some devices, like the Logitech C922, the device SOF does not run
-+	 * at a stable rate of 1kHz. For those devices use the host SOF instead.
++	 * Have at least 1/4 of a second of timestamps before we
++	 * try to do any calculation. Otherwise we do not have enough
++	 * precision. This value was determined by running Android CTS
++	 * on different devices.
++	 * Dev_sof runs at 1KHz, and we have a fixed point precision of
++	 * 16 bits.
 +	 */
-+	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
-+		dev_sof = host_sof;
++	if ((y2 - y1) < ( (1000 / 4) << 16))
++		goto done;
 +
- 	time = uvc_video_get_time();
- 
- 	/*
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 9a596c8d894a..07b2fdb80adf 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -73,6 +73,7 @@
- #define UVC_QUIRK_FORCE_Y8		0x00000800
- #define UVC_QUIRK_FORCE_BPP		0x00001000
- #define UVC_QUIRK_WAKE_AUTOSUSPEND	0x00002000
-+#define UVC_QUIRK_INVALID_DEVICE_SOF	0x00004000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+ 	y = (u64)(y2 - y1) * (1ULL << 31) + (u64)y1 * (u64)x2
+ 	  - (u64)y2 * (u64)x1;
+ 	y = div_u64(y, x2 - x1);
 
 -- 
 2.40.0.rc1.284.g88254d51c5-goog-b4-0.11.0-dev-696ae
