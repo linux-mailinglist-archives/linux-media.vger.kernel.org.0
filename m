@@ -2,101 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B56A6B4867
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 16:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 028756B4A50
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 16:21:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233638AbjCJPCO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 10:02:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43174 "EHLO
+        id S234209AbjCJPV2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 10:21:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233634AbjCJPBr (ORCPT
+        with ESMTP id S234117AbjCJPVC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 10:01:47 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F66125D99
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 06:55:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678460113; x=1709996113;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H0Zn9Dwq+Rd2eS9wn3i+qu90aS2RfJNXIpPLQ0995Do=;
-  b=IA2UZbncNWIlw9im9cPiHZIcPrqtuWy2kpldImAQhTAFaiYQhrKvBGTc
-   1CaZdsWPBuNDtZ+M0ejGpf8d2y8nJa7STPouP36o/nd3x3HrZwmW0fpih
-   X/9fHH2LiUqFQRoUit4nQ/UelLH/fN8VAI8EX4YOid5vqWG3YI/PIEk7l
-   Bkvabp3W27gVZ1Qg185mbNW5Zdt5ptSS+CXdzx72aAaB3ivN6AHcbgm/L
-   BE0/ivaSTfIBdaLlSB9tSNbra00FTOkFQE+SutPbWQrxpZ6Xa3lJAgMoM
-   lFcj6nzDPaUH/w1QQtJCYUI17ZDpLhNdtZJ+85R14p2ff/egmWBfupxBF
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="339103654"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="339103654"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:49:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="671101334"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="671101334"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 10 Mar 2023 06:49:47 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pae42-000y0G-05;
-        Fri, 10 Mar 2023 16:49:46 +0200
-Date:   Fri, 10 Mar 2023 16:49:45 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     bingbu.cao@intel.com
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        djrscally@gmail.com, bingbu.cao@linux.intel.com
-Subject: Re: [PATCH v2] media: ipu3-cio2: support multiple sensors and VCMs
- with HID name
-Message-ID: <ZAtDiUXvzKzsoKDX@smile.fi.intel.com>
-References: <20230307063110.1459508-1-bingbu.cao@intel.com>
+        Fri, 10 Mar 2023 10:21:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798E01CBD2;
+        Fri, 10 Mar 2023 07:11:40 -0800 (PST)
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A89DA2E5;
+        Fri, 10 Mar 2023 16:01:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1678460517;
+        bh=PdhMIv1BqENXVPnM808oAbaFFFguQAJg5pti+hcZLlY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q9+1F8BLzjMrHWvCpTAU14Rb9jifcjI8NrrJ2PA9SY9SQaw4+KZrZGx2Hyw+z8lWW
+         Jq0kvPyhAPzDBAlkE3XVTgOjTxSzCJ6Wz/Q6/yBKJ3I2qp4yINmcrnybPp4r1jCqZb
+         mlohsPM5ERvAI6xrbpW1SBwP0jxecREqNum8+sRU=
+Date:   Fri, 10 Mar 2023 17:02:01 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Bin Liu <bin.liu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: Use of_property_present() for testing DT property
+ presence
+Message-ID: <20230310150201.GK5342@pendragon.ideasonboard.com>
+References: <20230310144711.1543225-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230307063110.1459508-1-bingbu.cao@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230310144711.1543225-1-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 02:31:10PM +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
-> 
-> In current cio2-bridge, it is using the hid name to register software
-> node and software node will create kobject and sysfs entry according to
-> the node name, if there are multiple sensors and VCMs which are sharing
-> same HID name, it will cause the software nodes registration failure:
-> 
-> sysfs: cannot create duplicate filename '/kernel/software_nodes/dw9714'
-> ...
+Hi Rob,
 
-> Call Trace:
-> sysfs_create_dir_ns+0xbc/0xd0
-> kobject_add_internal
-> kobject_init_and_add
-> swnode_register
-> software_node_register
+Thank you for the patch.
 
-The above lines are not so valuable. You can remove them.
-
-> software_node_register_nodes
-> cio2_bridge_init
-> ...
-> kobject_add_internal failed for dw9714 with -EEXIST,
-> don't try to register things with the same name in the same directory.
+On Fri, Mar 10, 2023 at 08:47:11AM -0600, Rob Herring wrote:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties. As
+> part of this, convert of_get_property/of_find_property calls to the
+> recently added of_property_present() helper when we just want to test
+> for presence of a property and nothing more.
 > 
-> One solution is appending the sensor link(Mipi Port) in SSDB as suffix
-> of the node name to fix this problem.
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c        | 2 +-
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 +-
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c | 2 +-
+>  drivers/media/platform/xilinx/xilinx-vtc.c                  | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> index 969516a940ba..1a2b3214b6f8 100644
+> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> @@ -1757,7 +1757,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+>  	jpeg->vdev->device_caps = V4L2_CAP_STREAMING |
+>  				  V4L2_CAP_VIDEO_M2M_MPLANE;
+>  
+> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
+> +	if (of_property_present(pdev->dev.of_node, "dma-ranges"))
+>  		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+>  
+>  	ret = video_register_device(jpeg->vdev, VFL_TYPE_VIDEO, -1);
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> index 174a6eec2f54..d2db8ccaa4c0 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> @@ -321,7 +321,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL)) {
+> +	if (of_property_present(pdev->dev.of_node, "dma-ranges")) {
+>  		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+>  		if (ret) {
+>  			mtk_v4l2_err("Failed to set mask");
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> index 9095186d5495..199042034a3c 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> @@ -344,7 +344,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>  		goto err_event_workq;
+>  	}
+>  
+> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
+> +	if (of_property_present(pdev->dev.of_node, "dma-ranges"))
+>  		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+>  
+>  	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
+> diff --git a/drivers/media/platform/xilinx/xilinx-vtc.c b/drivers/media/platform/xilinx/xilinx-vtc.c
+> index 0ae0208d7529..cb4b421a348d 100644
+> --- a/drivers/media/platform/xilinx/xilinx-vtc.c
+> +++ b/drivers/media/platform/xilinx/xilinx-vtc.c
+> @@ -254,7 +254,7 @@ struct xvtc_device *xvtc_of_get(struct device_node *np)
+>  	struct xvtc_device *found = NULL;
+>  	struct xvtc_device *xvtc;
+>  
+> -	if (!of_find_property(np, "xlnx,vtc", NULL))
+> +	if (!of_property_present(np, "xlnx,vtc"))
+>  		return NULL;
+>  
+>  	xvtc_node = of_parse_phandle(np, "xlnx,vtc", 0);
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
