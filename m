@@ -2,123 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E15D6B4334
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 15:11:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E5F6B4746
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 15:49:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231954AbjCJOLV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 09:11:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34204 "EHLO
+        id S233290AbjCJOtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 09:49:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231831AbjCJOKv (ORCPT
+        with ESMTP id S233162AbjCJOsU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 09:10:51 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280EAD1AC0;
-        Fri, 10 Mar 2023 06:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678457437; x=1709993437;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MQKZIOF/wMb0UoRLhTSf5HRmzAguZQNRAQCPCfA7mto=;
-  b=R2wg4yp/7emgIT+eqB7x91TIEIy7jbDMchUqqdUjF3n+uonCxWyoMB4D
-   QFOBtziAZtb5WLuxU+ppoYhFEvnYIYCPGkwqMqT/kuZLSHuxxjib0rEf4
-   6rv1WtJjyg/yRddalZ08/BtjVa6g3vVL++4k7bEMx4tP0t6QvVrJG2Vfq
-   iR+GA0P0KkOV0XJqCl33C3vYz9atks9x/bF14CN23tvPaSHiuCYdS27BO
-   GPypEdSeZZeybbJm2mxsFGi7WMBPoFBxt1IbjCWh1N8gsszO0rC68prVL
-   CHDi6MjZqEq6RJgAn6Aa8m5lG4cHkgEbMLGw9qbC5M4PCEM0fxDwJlaLk
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="336753280"
-X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="336753280"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 06:10:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="741990954"
-X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
-   d="scan'208";a="741990954"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 06:10:20 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1padRs-0003u7-0G;
-        Fri, 10 Mar 2023 14:10:20 +0000
-Date:   Fri, 10 Mar 2023 22:09:51 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Fri, 10 Mar 2023 09:48:20 -0500
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BFC3121153;
+        Fri, 10 Mar 2023 06:47:35 -0800 (PST)
+Received: by mail-oi1-f170.google.com with SMTP id bh20so4393519oib.9;
+        Fri, 10 Mar 2023 06:47:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678459654;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EIz7uldrpE/4a3Yn78TCMTOPk2yNsXBeiewFP++iTtI=;
+        b=piCRoVSjF4CJdI61gdGtwXSF21OkABigbQ0znd37VdclwKZuXIZoqcA0QMHAo/JcKD
+         Clix07FBd5kIMr2c04xiFDMqtQe5RPoCSPdIAaHeLGPYLMePdbL/nH2XRGKu+gq4Z9gn
+         ZwkQnHiKeW0NkpUqQP+6qIF0t7u+A8eaWPv8uXPTLptv01pXP1V8dRWVyGRWKXCgwZ/F
+         eSWv/+6IIdOpA97TKGtztv/Lg5xJ4i27lWI0Gq4jZvHiXCIPE1MbXS5E9el6ThSfqOHJ
+         Gwv6hxNACUx0cvzUwsE+/FiX2jRDRcNho9qtP+MAIH+WHg3MCosrVvwI847igqqLn1UK
+         5F+g==
+X-Gm-Message-State: AO0yUKX9DZcPcQgFMvSo8njwuDNkGIdMuBxyUfxhA0a6sxofKozB/Xb/
+        YqJZXfGdUBBQ0/x8o/oq4A==
+X-Google-Smtp-Source: AK7set/GOJZQNFQdvex7AhT10x8uYUWw1aDar530wB//wxV61PlLIWKRODfn7mKYRTKkWueDppQvnA==
+X-Received: by 2002:a05:6808:1d2:b0:384:167d:736b with SMTP id x18-20020a05680801d200b00384167d736bmr10994562oic.15.1678459654281;
+        Fri, 10 Mar 2023 06:47:34 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q12-20020a4ad54c000000b005252e5b6604sm834079oos.36.2023.03.10.06.47.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 06:47:33 -0800 (PST)
+Received: (nullmailer pid 1543252 invoked by uid 1000);
+        Fri, 10 Mar 2023 14:47:11 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Bin Liu <bin.liu@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem
- driver
-Message-ID: <202303102141.A9LHC4MD-lkp@intel.com>
-References: <20230310120553.60586-7-jack.zhu@starfivetech.com>
+        Michal Simek <michal.simek@xilinx.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: Use of_property_present() for testing DT property presence
+Date:   Fri, 10 Mar 2023 08:47:11 -0600
+Message-Id: <20230310144711.1543225-1-robh@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230310120553.60586-7-jack.zhu@starfivetech.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
+It is preferred to use typed property access functions (i.e.
+of_property_read_<type> functions) rather than low-level
+of_get_property/of_find_property functions for reading properties. As
+part of this, convert of_get_property/of_find_property calls to the
+recently added of_property_present() helper when we just want to test
+for presence of a property and nothing more.
 
-I love your patch! Yet something to improve:
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c        | 2 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c | 2 +-
+ drivers/media/platform/xilinx/xilinx-vtc.c                  | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on robh/for-next linus/master v6.3-rc1 next-20230310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230310-200747
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230310120553.60586-7-jack.zhu%40starfivetech.com
-patch subject: [PATCH v2 6/6] media: starfive: Add Starfive Camera Subsystem driver
-config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20230310/202303102141.A9LHC4MD-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/99a31fd3820a2d95b0d0f381491c473975e0b068
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230310-200747
-        git checkout 99a31fd3820a2d95b0d0f381491c473975e0b068
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 prepare
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303102141.A9LHC4MD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error: include/uapi/linux/stf_isp_ioctl.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
-   make[2]: *** [scripts/Makefile.headersinst:63: usr/include/linux/stf_isp_ioctl.h] Error 1
-   make[2]: Target '__headers' not remade because of errors.
-   make[1]: *** [Makefile:1394: headers] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:242: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 969516a940ba..1a2b3214b6f8 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -1757,7 +1757,7 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+ 	jpeg->vdev->device_caps = V4L2_CAP_STREAMING |
+ 				  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+-	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
++	if (of_property_present(pdev->dev.of_node, "dma-ranges"))
+ 		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+ 
+ 	ret = video_register_device(jpeg->vdev, VFL_TYPE_VIDEO, -1);
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+index 174a6eec2f54..d2db8ccaa4c0 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+@@ -321,7 +321,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL)) {
++	if (of_property_present(pdev->dev.of_node, "dma-ranges")) {
+ 		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+ 		if (ret) {
+ 			mtk_v4l2_err("Failed to set mask");
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+index 9095186d5495..199042034a3c 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+@@ -344,7 +344,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 		goto err_event_workq;
+ 	}
+ 
+-	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
++	if (of_property_present(pdev->dev.of_node, "dma-ranges"))
+ 		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+ 
+ 	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
+diff --git a/drivers/media/platform/xilinx/xilinx-vtc.c b/drivers/media/platform/xilinx/xilinx-vtc.c
+index 0ae0208d7529..cb4b421a348d 100644
+--- a/drivers/media/platform/xilinx/xilinx-vtc.c
++++ b/drivers/media/platform/xilinx/xilinx-vtc.c
+@@ -254,7 +254,7 @@ struct xvtc_device *xvtc_of_get(struct device_node *np)
+ 	struct xvtc_device *found = NULL;
+ 	struct xvtc_device *xvtc;
+ 
+-	if (!of_find_property(np, "xlnx,vtc", NULL))
++	if (!of_property_present(np, "xlnx,vtc"))
+ 		return NULL;
+ 
+ 	xvtc_node = of_parse_phandle(np, "xlnx,vtc", 0);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.2
+
