@@ -2,87 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2B6D6B4DBF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 17:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B95A6B4DCA
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 17:58:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbjCJQ5g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 11:57:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
+        id S231601AbjCJQ6a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 11:58:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjCJQ5Q (ORCPT
+        with ESMTP id S231617AbjCJQ6F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 11:57:16 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925FE166EF;
-        Fri, 10 Mar 2023 08:55:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678467301; x=1710003301;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WoEGJdebKJebfYrTAKR9oKIh74jFLLaywLyGJMrb4Gk=;
-  b=cISCux83Ea8PAXsQucnmREddmvvpKSjusXBkc9rBPSeyz064IpoE3nNO
-   gWEqV3gXYIKLzIT1oOoBe1onlinKSdtbc7GeWjaRkQ4iQKC2d2Z+jxtDH
-   0uaPxqlNTNTGPXovMiaVOO058RuwFuypYA8kZh4Tl3KSscfKECmR2wsRk
-   SWGhZ8MnABCLOEGlPYqzxriboYHg9yp5/3IAo3gwex6txB6UVxdtZSJjY
-   NWvDGMFXFtFoP8+xp9pDvNhhhREtyMNB34Ksrw0E/XRlyy1esaUOoX4J4
-   o8fDdff771ieAFAzQ0K5ynLoMhwz35w4GzSFpyGu2a9+JtvsaBWqidQaR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="336793240"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="336793240"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 08:53:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="710336629"
-X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="710336629"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 10 Mar 2023 08:52:56 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1pafzC-0012Jg-1N;
-        Fri, 10 Mar 2023 18:52:54 +0200
-Date:   Fri, 10 Mar 2023 18:52:54 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Patrice Chotard <patrice.chotard@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Liang He <windhl@126.com>, Wan Jiabing <wanjiabing@vivo.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: c8sectpfe: switch to using gpiod API
-Message-ID: <ZAtgZppUrfBBs2Mu@smile.fi.intel.com>
-References: <Y92VLGLQJZ/UDRx1@google.com>
+        Fri, 10 Mar 2023 11:58:05 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D34305D8;
+        Fri, 10 Mar 2023 08:56:17 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id l1so5923851pjt.2;
+        Fri, 10 Mar 2023 08:56:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678467376;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A7QjpiB3OBqpizQlSa36YLLw1Stnz2orOhJL4O2Jbpc=;
+        b=Fk8fCxitiI6GdXI1b9924iEBzI7RX4H+flxXLAi3QOMxUdMfP+/Dk9N1ua4HslJC9X
+         Hb+u+UZexEXHEVglQNs/xyu+JLLPX2MlFTT+PHogBIB/4F2/8GSnSUWJzFzBJUoBycfj
+         orUjxo8EpgWnzumVZwI01320147+WWIIbFmGc/19ko6uZluJKYPDyy5H7kqKu/oNio0c
+         gtLZLtEISLuh+QYOakU5cIG6KA0TNVDV97ppXyOi0l0xj2WMuPpQjmw4Ej1TrFS2RowL
+         ghmomLEE3dsfOxKTmGCSkUE7mgOs+N7zmfbat7RXWJYe/Ro4YgJLJL3FEa2KyYG4fnPu
+         sNMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678467376;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A7QjpiB3OBqpizQlSa36YLLw1Stnz2orOhJL4O2Jbpc=;
+        b=MbIGg3MRImHdfTPWwRq3S61UDeDpozgUR/xq4dTM3hedkXTrcPGt9U7RVVQdj9sthm
+         Pf0+Qml6xsRjmlMo8tvdUXlo1HIl1JeT5Q1U5yBIOE4qznm7TS53tpWox1AObhLGbJMJ
+         bumIUumQHQk3gI7RajO/TRzM34lrbdlZfPb5rGndQzFuZJMloN3mtRNJlvz5i02n6UY7
+         K6xRgQaX2zhB3SSS2UufwN3tt66HCSbEIt3E+p6mj+oDw7gQVmpG56woauWRtSuXQr+T
+         PdrKCFvxb0TqXbdpiWzOUG/U8hhWWR8iQMoQy3ealQi0NhPm6gTwaNJJbDC+z9yExVzB
+         do3A==
+X-Gm-Message-State: AO0yUKVfiENAtsvp7JItJ7dlDJ2ITZ5FKVrcLKn7V+zxsibJ4pgF4H8H
+        kein2TMrRlfm/uOOsBi2YLQ=
+X-Google-Smtp-Source: AK7set/78ENATSm278ou4BY3T5Nq+QqYsRnZw596kxmZ9lJygZ6a3gt5nUBuErO3SpzYHU5F2VTPog==
+X-Received: by 2002:a05:6a20:7d86:b0:c6:bd82:ea2d with SMTP id v6-20020a056a207d8600b000c6bd82ea2dmr36872479pzj.2.1678467376608;
+        Fri, 10 Mar 2023 08:56:16 -0800 (PST)
+Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk. [143.89.191.119])
+        by smtp.gmail.com with ESMTPSA id c15-20020aa7880f000000b005a7f8a326a3sm71843pfo.50.2023.03.10.08.56.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 08:56:16 -0800 (PST)
+From:   Wei Chen <harperchen1110@gmail.com>
+To:     mchehab@kernel.org
+Cc:     zhongbaisong@huawei.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Wei Chen <harperchen1110@gmail.com>
+Subject: [PATCH] media: dvb-usb: az6027: Fix three null-ptr-deref in az6027_i2c_xfer()
+Date:   Fri, 10 Mar 2023 16:56:04 +0000
+Message-Id: <20230310165604.3093483-1-harperchen1110@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y92VLGLQJZ/UDRx1@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 03, 2023 at 03:13:48PM -0800, Dmitry Torokhov wrote:
-> This switches the driver from using legacy gpio API and to the newer
-> gpiod API. Since ordinary gpiod APIs operate on logical and not
-> electrical levels, handling of the reset GPIO is adjusted accordingly.
+In az6027_i2c_xfer, msg is controlled by user. When msg[i].buf is null, 
+commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()") 
+fix the null-ptr-deref bug when msg[i].addr is 0x99. However, null-ptr-deref 
+also happens when msg[i].addr is 0xd0 and 0xc0. We add check on msg[i].len to 
+prevent null-ptr-deref.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+---
+ drivers/media/usb/dvb-usb/az6027.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-This is an important patch for the further cleanups in the GPIO subsystem.
-Can we have this applied, please?
-
+diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
+index 7d78ee09be5e..a31c6f82f4e9 100644
+--- a/drivers/media/usb/dvb-usb/az6027.c
++++ b/drivers/media/usb/dvb-usb/az6027.c
+@@ -988,6 +988,10 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+ 			/* write/read request */
+ 			if (i + 1 < num && (msg[i + 1].flags & I2C_M_RD)) {
+ 				req = 0xB9;
++				if (msg[i].len < 1) {
++					i = -EOPNOTSUPP;
++					break;
++				}
+ 				index = (((msg[i].buf[0] << 8) & 0xff00) | (msg[i].buf[1] & 0x00ff));
+ 				value = msg[i].addr + (msg[i].len << 8);
+ 				length = msg[i + 1].len + 6;
+@@ -1001,6 +1005,10 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+ 
+ 				/* demod 16bit addr */
+ 				req = 0xBD;
++				if (msg[i].len < 1) {
++					i = -EOPNOTSUPP;
++					break;
++				}
+ 				index = (((msg[i].buf[0] << 8) & 0xff00) | (msg[i].buf[1] & 0x00ff));
+ 				value = msg[i].addr + (2 << 8);
+ 				length = msg[i].len - 2;
+@@ -1026,6 +1034,10 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+ 			} else {
+ 
+ 				req = 0xBD;
++				if (msg[i].len < 1) {
++					i = -EOPNOTSUPP;
++					break;
++				}
+ 				index = msg[i].buf[0] & 0x00FF;
+ 				value = msg[i].addr + (1 << 8);
+ 				length = msg[i].len - 1;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
