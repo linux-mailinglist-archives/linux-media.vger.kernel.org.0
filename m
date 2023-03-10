@@ -2,73 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC086B37CA
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 08:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FB846B399D
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 10:06:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbjCJHws (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 02:52:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58040 "EHLO
+        id S231469AbjCJJGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 04:06:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjCJHwr (ORCPT
+        with ESMTP id S231151AbjCJJGY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 02:52:47 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC62B6770A;
-        Thu,  9 Mar 2023 23:52:45 -0800 (PST)
-X-UUID: 88749a6abf1811ed945fc101203acc17-20230310
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=sJQQkamtHAcgkCGJ0h3Tqt0rl885miX0Xvw7NZPq2Hg=;
-        b=nryrrcXeXThH5gc8f8e6+WQNq9oszst3fYEYcY5mYrR9ee71OH9eA5sEeePWdGhOYdunrZMJowOiInhQM1WNK+KARh+oy14HOBLkxs+vt4nvhbPgIcmjoamo5wbBKhZrYpSPgbBKY0QHoU9Zcr6fVPNv9EsgXCsvLoLV86HOTRg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.20,REQID:45a680af-35ec-44b6-8061-b4173e1f6fb0,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-5
-X-CID-META: VersionHash:25b5999,CLOUDID:d839d5b2-beed-4dfc-bd9c-e1b22fa6ccc4,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-UUID: 88749a6abf1811ed945fc101203acc17-20230310
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 169689001; Fri, 10 Mar 2023 15:52:40 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id
- 15.2.1118.7; Fri, 10 Mar 2023 07:51:41 +0000
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Fri, 10 Mar 2023 14:23:59 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Fri, 10 Mar 2023 14:23:58 +0800
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        <nicolas.dufresne@collabora.com>, kyrie wu <kyrie.wu@mediatek.com>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Tomasz Figa <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
-        <maoguang.meng@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>
-Subject: [V2,2/7] media: mtk-jpeg: add jpeg single core initial function
-Date:   Fri, 10 Mar 2023 14:23:50 +0800
-Message-ID: <20230310062355.9963-3-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230310062355.9963-1-irui.wang@mediatek.com>
-References: <20230310062355.9963-1-irui.wang@mediatek.com>
+        Fri, 10 Mar 2023 04:06:24 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4E410D750
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:17 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id x3so17574320edb.10
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 01:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1678438930;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=i6lN6CQSpZnV9KMLg5Ow3KwFs7VNf2F6kNgC3hAgxD0=;
+        b=ReQWyhj/edoRQhoxlDUIMp3WD/1TEnoWv6Qu1ONEMkdSwMoMd7Bc7XxO5D2tsnWwgp
+         cqU52EpR7DIfvo7iIDSCEzVjFtVwP4bveY5s8hBjz6anp6zr18T+0ULu1ZaTdNQfPNNd
+         zKYdu1ZHQMHDRFakbjHTcexUezb8cCgfw/ixk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678438930;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i6lN6CQSpZnV9KMLg5Ow3KwFs7VNf2F6kNgC3hAgxD0=;
+        b=IgYfH2rzKc+0HQLlPUcMT+hmlZ8bRLxVjN9KDRqYwzDWbcd9LbaGkxensBYJcWARp0
+         GhpwIZPxpeEs5+A24AkEkSPFL8khj8CNlN7Nx99Alfgie/uaMitl8hxvNOgo0Cml6RDU
+         uPS7C6nMs9C5zCIU0/zQQVR5SAv8OpElw3SBV34Fo/kDeH46JNRxagUE0ARark4ICX13
+         uOcVvAOMH3SOFNmsY5sjcTZ5VSua8UoHUkBM9xfH50RIOneRkOXEfHuYV93ltsSABoIe
+         ydIIAcwoVZbNUn7NmjoqBXihR78kkrTq6/rhDFSL48EjtFV9ZAJGU+k4v4ZoT6wdUoWn
+         ZToQ==
+X-Gm-Message-State: AO0yUKXZDZtGdkRUzYgHw2eIcaJ6gx1yx/Z8hI3eTwoFYcajxhSmA6fi
+        eEIoubtPJj+e23rtyNp0iztfXA==
+X-Google-Smtp-Source: AK7set/R0Q1SqiELB/B/Kw/GZy14et/8Skep/3xCMkeJzggqP+dWVLfAHbbMh17wSUgT2aG/PiekFg==
+X-Received: by 2002:a17:906:27d7:b0:879:6abe:915e with SMTP id k23-20020a17090627d700b008796abe915emr25872855ejc.69.1678438930573;
+        Fri, 10 Mar 2023 01:02:10 -0800 (PST)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:ef69:7ab6:87ac:99f])
+        by smtp.gmail.com with ESMTPSA id s5-20020a170906454500b008b23b22b062sm692931ejq.114.2023.03.10.01.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 01:02:10 -0800 (PST)
+Subject: [PATCH v7 0/6] uvcvideo: Fixes for hw timestamping
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOfxCmQC/4XNy2rDMBAF0F8JWldFGr276n+ULPSYxILYLpLjUI
+ L/vdMui6lXw71wzzxZx1axs7fTkzVca6/zRMG9nFge4nRFXgtlBgJABBC8Ycep8OGx1BH7EsdPnh
+ QCOAjgdWE0TLEjTy1OeaDpdL/dqBxqX+b29ftolXQ+/jVXyQXHkKVOYLwW+j0PbR7rfXyd25WdSV
+ zhWAFSii/CSpuSlbCjqGNF/SgpXCKiu2hXdhR9rGhSoi8lS2V8hLCjmGPFkGKtsC5ki1L7HcUeK5
+ aU7GIIEAJmZf4o27Z9A/3QuHYaAgAA
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Fri, 10 Mar 2023 10:01:27 +0100
+Message-Id: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        "hn.chen" <hn.chen@sunplusit.com>
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3362; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=ebsH4qiyS83w96/NDTZb8NlZnPHPn0skR/yJw1MN7IY=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkCvH7kTLaPbTlu6TXEpkTmkkKokvuYLlt+hkDylv6
+ 9zA5kyaJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZArx+wAKCRDRN9E+zzrEiAODD/
+ 9LW6f/sem2H3MaMad8eJU0KejDIYjRthzOSS7fxuOctEg/hzhaSRiFaaYa+wpDsOTaA+y7u8Ui8x5+
+ tp28bxvkguzobTneSBY3z+9ZE775p41pBR0x0cnET4dvadfoxHn6Yrbnd16dL2h1Hps4jn3BOR17xC
+ Eoypr7j0Xd1/Hqc3Nj/DwEyi3RZY7ZlI1D+/05oSqLdKIxUrkI/Od2jXeJMt1XDie8vCBBApmLHQ1x
+ LzdZIgSdSjJVG5zfbgPtgrvuSMJd8KffdOaTiKHYBJxDqLNKr/V+bkEctcUhNh0qFkht1aV2NQdNwu
+ 9qDy4jgO+OpFdi1p1B5+BGuPG+4Yp+58Ov/7MWU8A1uyob468ipsOr4f9GIDdn3+se5QIkv6FISMNg
+ uiL1xtcr4XJT4K/LZ6rSTG4hJ0w8fvOiTymYbhnmigw88fvTW1LOoG9uFgYcwFrwekKYaWGLguFZPj
+ d0cBb7zzGqVd4dfCN1oUHx9hNoqqvyBx5Z8Sx3m5nQpINEMve23LoA/1DTQagGztTSoO2W8GkqCP9a
+ ucPmXEEzGgWGkjCidaPnrEmxLEEZB4PRUl7K3U76kAm81Gijs9HHcLt3v5XpzVNJdNZMMPfDHnwzMx
+ AakalWF2lbtCPpL0YEBUuEBBIU84B0+ozXyElj+l603oI5thThb/MaDXm3uw==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,113 +90,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: kyrie wu <kyrie.wu@mediatek.com>
+Add some fixes for fixing hw timestamp on some Logitech and SunplusIT
+cameras. The issues have been previously reported to the manufacturers.
 
-add single core initial function to init reg_base,
-irq and clk.
+Also include a patch to fix the current hw timestamping logic for ANY
+uvc 1.5 model running at under 16 fps.
 
-Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-Signed-off-by: irui wang <irui.wang@mediatek.com>
+@HungNien, the logic for empty_ts has slightly changed since v4, would
+be great if you could test it on your end.
+
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: hn.chen <hn.chen@sunplusit.com>
+Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
 ---
- .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 74 +++++++++++--------
- 1 file changed, 44 insertions(+), 30 deletions(-)
+Changes in v7: Thanks Sergey!
+- Fix all negative modulus, including old bug
+- Improve doc for 1/4 second accuracy.
+- Link to v6: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v6-0-c7a99299ec35@chromium.org
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 6d052747a15e..daa4a6448311 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1671,10 +1671,50 @@ static void mtk_jpeg_job_timeout_work(struct work_struct *work)
- 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
- }
- 
-+static int mtk_jpeg_single_core_init(struct platform_device *pdev,
-+				     struct mtk_jpeg_dev *jpeg_dev)
-+{
-+	struct mtk_jpeg_dev *jpeg = jpeg_dev;
-+	int jpeg_irq, ret;
-+
-+	INIT_DELAYED_WORK(&jpeg->job_timeout_work,
-+			  mtk_jpeg_job_timeout_work);
-+
-+	jpeg->reg_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(jpeg->reg_base)) {
-+		ret = PTR_ERR(jpeg->reg_base);
-+		return ret;
-+	}
-+
-+	jpeg_irq = platform_get_irq(pdev, 0);
-+	if (jpeg_irq < 0)
-+		return jpeg_irq;
-+
-+	ret = devm_request_irq(&pdev->dev,
-+			       jpeg_irq,
-+			       jpeg->variant->irq_handler,
-+			       0,
-+			       pdev->name, jpeg);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to request jpeg_irq %d (%d)\n",
-+			jpeg_irq, ret);
-+		return ret;
-+	}
-+
-+	ret = devm_clk_bulk_get(jpeg->dev,
-+				jpeg->variant->num_clks,
-+				jpeg->variant->clks);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to init clk\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int mtk_jpeg_probe(struct platform_device *pdev)
- {
- 	struct mtk_jpeg_dev *jpeg;
--	int jpeg_irq;
- 	int ret;
- 
- 	jpeg = devm_kzalloc(&pdev->dev, sizeof(*jpeg), GFP_KERNEL);
-@@ -1693,36 +1733,10 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
- 	}
- 
- 	if (!jpeg->variant->multi_core) {
--		INIT_DELAYED_WORK(&jpeg->job_timeout_work,
--				  mtk_jpeg_job_timeout_work);
--
--		jpeg->reg_base = devm_platform_ioremap_resource(pdev, 0);
--		if (IS_ERR(jpeg->reg_base)) {
--			ret = PTR_ERR(jpeg->reg_base);
--			return ret;
--		}
--
--		jpeg_irq = platform_get_irq(pdev, 0);
--		if (jpeg_irq < 0)
--			return jpeg_irq;
--
--		ret = devm_request_irq(&pdev->dev,
--				       jpeg_irq,
--				       jpeg->variant->irq_handler,
--				       0,
--				       pdev->name, jpeg);
--		if (ret) {
--			dev_err(&pdev->dev, "Failed to request jpeg_irq %d (%d)\n",
--				jpeg_irq, ret);
--			return ret;
--		}
--
--		ret = devm_clk_bulk_get(jpeg->dev,
--					jpeg->variant->num_clks,
--					jpeg->variant->clks);
-+		ret = mtk_jpeg_single_core_init(pdev, jpeg);
- 		if (ret) {
--			dev_err(&pdev->dev, "Failed to init clk\n");
--			return ret;
-+			v4l2_err(&jpeg->v4l2_dev, "mtk_jpeg_single_core_init failed.");
-+			return -EINVAL;
- 		}
- 	}
- 
+Changes in v6 (Thanks Sergey!):
+- Rebase on top of linus/master
+- Add missing host_sof assignment, ups :(. Sorry about that!
+- Improve comments for empty TS quirk
+- Link to v5: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v5-0-660679c6e148@chromium.org
+
+Changes in v5: Thanks Dan
+- Check for !buf on empty TS packets.
+- Link to v4: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v4-0-a8ddc1358a29@chromium.org
+
+Changes in v4 (Thanks Laurent!):
+- Rebase on top of pinchart/next/uvc
+- Use heuristic for UVC_QUIRK_IGNORE_EMPTY_TS
+- Link to v3: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v3-0-db9faee7f47d@chromium.org
+
+Changes in v3 (Thanks Laurent!):
+- Rebase on top of pinchart/uvc/next
+- Fix hw timestampt handling for slow FPS
+  - Improve commit message
+- Quirk for invalid dev_sof in Logi C922
+  - Improve commit message
+- Allow hw clock updates with buffers not full
+  - Fix typo and improve messages
+- Refactor clock circular buffer
+  - Improve commit message
+- Quirk for autosuspend in Logi C910
+  - Improve commit message
+  - Add comments around the quirk
+- Create UVC_QUIRK_IGNORE_EMPTY_TS quirk
+  - Improve comments
+- Allow quirking by entity guid
+   - unsinged int
+- Extend documentation of uvc_video_clock_decode()
+   - uvcvideo on commit message
+   - Improve comment
+- Link to v2: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v2-0-d8d0616bb612@chromium.org
+
+Changes in v2:
+- Require 1/4 sec of data before using the hw timestamps
+- Add Tested-by SunplusIT
+- Link to v1: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v1-0-e9c14b258404@chromium.org
+
+---
+Ricardo Ribalda (6):
+      media: uvcvideo: Fix underflow addressing on hw timestamp
+      media: uvcvideo: Ignore empty TS packets
+      media: uvcvideo: Quirk for invalid dev_sof in Logitech C922
+      media: uvcvideo: Allow hw clock updates with buffers not full
+      media: uvcvideo: Refactor clock circular buffer
+      media: uvcvideo: Fix hw timestamp handling for slow FPS
+
+ drivers/media/usb/uvc/uvc_driver.c |   9 +++
+ drivers/media/usb/uvc/uvc_video.c  | 133 +++++++++++++++++++++++++------------
+ drivers/media/usb/uvc/uvcvideo.h   |   2 +
+ 3 files changed, 100 insertions(+), 44 deletions(-)
+---
+base-commit: 63355b9884b3d1677de6bd1517cd2b8a9bf53978
+change-id: 20220920-resend-hwtimestamp-b3e22729284d
+
+Best regards,
 -- 
-2.18.0
-
+Ricardo Ribalda <ribalda@chromium.org>
