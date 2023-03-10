@@ -2,77 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 964CC6B49C4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 16:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C9076B4A3C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 16:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233862AbjCJPPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 10:15:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60924 "EHLO
+        id S234145AbjCJPUX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 10:20:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234143AbjCJPO6 (ORCPT
+        with ESMTP id S234273AbjCJPUC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 10:14:58 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F127112EE6A
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 07:06:19 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id n6so5867132plf.5
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 07:06:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf.com; s=google; t=1678460724;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mI9SynFLOYtOEHXFt34hbbK+yCygpvgICPPgvO9gfV8=;
-        b=VJ1dnBmXbkWcmPGgaIqe8y1AjzPkpkCDA30L72GW1BCNILg9Ux93MdjuFClsREO7vk
-         lPuzSZIDtThvsRkSsKGr3zO9rAsKWjoosj6IS8v322FG/klrkxUO4FIp6lMfqPuj4TxI
-         7iye1Ahz/4AiFFf6VAwHflCsxCwez6c0dgsKDphb107iKdmAqMvuRIOUZ+bfwhCgORMs
-         iHbeIn5DKK69O/9p0RZAo34CKsm8KqzEPsCeBsRVrQgTElcQ7BdUZWM4zM+YwjZmMWwf
-         jpTB1yeDWY83Dl59FnSeE0Klte9uU8zLnIN4Ka4GVeK62dZ/tM49vJHupbAcFDxR1gnt
-         LTqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678460724;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mI9SynFLOYtOEHXFt34hbbK+yCygpvgICPPgvO9gfV8=;
-        b=EmPUKAXjJU0eYbCOty0Fp58AfHg6uWh1TskXtF9ays4MKOQe7vEHzDckOTQg94FX88
-         vGnCtKO308dGS7bfg+nyNL0B2NFXZxJ5n+vNigBgR5RuEZ5XaSsoEh0b1GS0ajR2TlKQ
-         sfjpDdPxm4/QZdJon9mdkWIGB6oVlqH59AXturMvM6Q6usn4ifd8W2cJ/z5tBQEHF4UC
-         aquhkiA/xf4aiKEsINvjeMskOsHz+agWHTSEhJ3gGEWdaxhDrfDkLb/ZBE1JdK1jE5Dh
-         t0ANY3+T3QwpCJdVhuLoPQXUTd3vIp6nuCge3yC2oSj1gxhx+em/vQIo1fiXZ9cNJdbo
-         Tufw==
-X-Gm-Message-State: AO0yUKWx1Eti2/xdBhrrHRbFBEYb3D2pTua3Z+siOU+DxEH6v2B5Ki8H
-        aYQDRJ2u2CcW1drotWXtfm2KDew0VyEw+YTtWsZqKg==
-X-Google-Smtp-Source: AK7set8IWRb0c5QRI0mCvofn+53toeLUf0QAqBXeiHkxJiCHSENVWUwl0Cn9xhaO9TH0b6aLOo+bYIjEMz5NYxW8+6s=
-X-Received: by 2002:a17:902:7e09:b0:199:6fd:ecf6 with SMTP id
- b9-20020a1709027e0900b0019906fdecf6mr9641502plm.9.1678460723997; Fri, 10 Mar
- 2023 07:05:23 -0800 (PST)
+        Fri, 10 Mar 2023 10:20:02 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0726912D41E
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 07:10:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678461038; x=1709997038;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ArFAi6gsvV3Y7QNlwkfNnQcqlm/0i/KsKMY+dv9mIsw=;
+  b=aRy9SXTf3SOux0kTJX+zwHhmBH4yUf7+y1cerqIcBEtCn+89uX2DujGO
+   /XhrY1fTU8+Wc3OXWp+rY7tcFDMZRJxKJwTiu9mffzDwukSDebG9r4w6U
+   ikgdfgizgXs2QRk0t2doZHJO4zykjqmQMbH5gsePB6B/lzs+iR1ARTUCR
+   sZVASztdEX0UOii3Wk8tnok82J/lSocrq6MATik+ItPNPQH+lIMpPMqwd
+   JXPOtmFqjDlmWysDRfGxN2p5tPRZVzSLR4hpnH3oWAvPdVoJLVyXQ2HAH
+   1vTIVSD3wo8nticPEa0SYW9oWaXue7bnE/vg74/qbLvplMJdDuF4fCk/2
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="336766392"
+X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
+   d="scan'208";a="336766392"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 07:09:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="788040776"
+X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
+   d="scan'208";a="788040776"
+Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
+  by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2023 07:09:47 -0800
+From:   bingbu.cao@intel.com
+To:     linux-media@vger.kernel.org, andriy.shevchenko@linux.intel.com,
+        sakari.ailus@linux.intel.com, djrscally@gmail.com
+Cc:     bingbu.cao@intel.com, bingbu.cao@linux.intel.com
+Subject: [PATCH v3] media: ipu3-cio2: support multiple sensors and VCMs with same HID
+Date:   Fri, 10 Mar 2023 23:19:10 +0800
+Message-Id: <20230310151910.1623899-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230130105423.1338554-1-mk@semmihalf.com> <20230130135418.1604455-1-mk@semmihalf.com>
- <CAJMMOfNJV+eOqTgUoLLWKQe2MJ=6fXL3aaP6d=YrSBQvfhOXiA@mail.gmail.com>
- <DM8PR02MB8169B2AC8918F8E31628F61AF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <CAJMMOfN-6fgN0VohA5ViwVXmNWtA13ycfZFoO4ys9_CLes0feA@mail.gmail.com> <CAJMMOfM41dfqx0NoiHGE=8X5hoRHo1=qPEp4KXLP1kygestEJQ@mail.gmail.com>
-In-Reply-To: <CAJMMOfM41dfqx0NoiHGE=8X5hoRHo1=qPEp4KXLP1kygestEJQ@mail.gmail.com>
-From:   =?UTF-8?Q?Micha=C5=82_Krawczyk?= <mk@semihalf.com>
-Date:   Fri, 10 Mar 2023 16:05:12 +0100
-Message-ID: <CAJMMOfN6tUzGZOkP6ZXbKCr-vszqf3nnRM-dhXfpOUSiHr2EHA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: venus: dec: Fix handling of the start cmd
-To:     Vikash Garodia <vgarodia@qti.qualcomm.com>
-Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mw@semihalf.com" <mw@semihalf.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,58 +59,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+From: Bingbu Cao <bingbu.cao@intel.com>
 
-Any update on this patch? It would be great if we could make some
-progress there (and, hopefully, finally merge it :))
+In current cio2-bridge, it is using the hid name to register software
+node and software node will create kobject and sysfs entry according to
+the node name, if there are multiple sensors and VCMs which are sharing
+same HID name, it will cause the software nodes registration failure:
 
-Thanks,
-Micha=C5=82
+sysfs: cannot create duplicate filename '/kernel/software_nodes/dw9714'
+...
+Call Trace:
+software_node_register_nodes
+cio2_bridge_init
+...
+kobject_add_internal failed for dw9714 with -EEXIST,
+don't try to register things with the same name in the same directory.
 
-pt., 10 lut 2023 o 16:18 Micha=C5=82 Krawczyk <mk@semihalf.com> napisa=C5=
-=82(a):
->
-> Hi,
->
-> I'm wondering if there are any more comments for this patch? I would
-> be happy to clarify anything that's unclear or improve the code if
-> needed.
->
-> I know it's pretty late, but it would be really great if this fix
-> could land before v6.2 is released, so I'd appreciate your help and
-> review.
->
-> Thank you,
-> Micha=C5=82
->
-> wt., 7 lut 2023 o 12:15 Micha=C5=82 Krawczyk <mk@semihalf.com> napisa=C5=
-=82(a):
-> >
-> > wt., 7 lut 2023 o 10:54 Vikash Garodia <vgarodia@qti.qualcomm.com> napi=
-sa=C5=82(a):
-> > > I have reviewed the patch, and the drain sequence handling looks good=
- to me.
-> > > Could you share some details on the test client which you are using t=
-o catch this issue ?
-> >
-> > Hi Vikash,
-> >
-> > Thank you for looking at the code!
-> >
-> > I've been testing it using the Chromium implementation of the V4L2
-> > codec [1]. Meanwhile, we were running a test suite which changes the
-> > encryption method in the middle of the video decoding. This triggers
-> > the flush behavior and the Chromium sends the stop/start cmd to the
-> > V4L2 kernel component, and the test expects the video to continue the
-> > playback normally. Unfortunately, it was causing a stall of the video
-> > at the same time.
-> >
-> > [1] https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/=
-v4l2/
-> >
-> > >
-> > > > Thank you,
-> > > > Micha=C5=82
-> > >
-> > > Thanks,
-> > > Vikash
+One solution is appending the sensor link(Mipi Port) in SSDB as suffix
+of the node name to fix this problem.
+
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+Changes v2 -> v3:
+ - Update commit message and subject
+
+Changes v1 -> v2:
+ - Use snprintf() instead of scnprinf()
+ - Add comments to explain why expand the name size
+ - Remove the distracting information of backtraces in commit message
+---
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 15 +++++++++++----
+ drivers/media/pci/intel/ipu3/cio2-bridge.h |  3 ++-
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index dfefe0d8aa95..45427a3a3a25 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -212,6 +212,7 @@ static void cio2_bridge_create_connection_swnodes(struct cio2_bridge *bridge,
+ 						  struct cio2_sensor *sensor)
+ {
+ 	struct software_node *nodes = sensor->swnodes;
++	char vcm_name[ACPI_ID_LEN + 4];
+ 
+ 	cio2_bridge_init_swnode_names(sensor);
+ 
+@@ -229,9 +230,13 @@ static void cio2_bridge_create_connection_swnodes(struct cio2_bridge *bridge,
+ 						sensor->node_names.endpoint,
+ 						&nodes[SWNODE_CIO2_PORT],
+ 						sensor->cio2_properties);
+-	if (sensor->ssdb.vcmtype)
+-		nodes[SWNODE_VCM] =
+-			NODE_VCM(cio2_vcm_types[sensor->ssdb.vcmtype - 1]);
++	if (sensor->ssdb.vcmtype) {
++		/* append ssdb.link to distinguish VCM nodes with same HID */
++		snprintf(vcm_name, sizeof(vcm_name), "%s-%u",
++			 cio2_vcm_types[sensor->ssdb.vcmtype - 1],
++			 sensor->ssdb.link);
++		nodes[SWNODE_VCM] = NODE_VCM(vcm_name);
++	}
+ 
+ 	cio2_bridge_init_swnode_group(sensor);
+ }
+@@ -295,7 +300,6 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 		}
+ 
+ 		sensor = &bridge->sensors[bridge->n_sensors];
+-		strscpy(sensor->name, cfg->hid, sizeof(sensor->name));
+ 
+ 		ret = cio2_bridge_read_acpi_buffer(adev, "SSDB",
+ 						   &sensor->ssdb,
+@@ -303,6 +307,9 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 		if (ret)
+ 			goto err_put_adev;
+ 
++		snprintf(sensor->name, sizeof(sensor->name), "%s-%u",
++			 cfg->hid, sensor->ssdb.link);
++
+ 		if (sensor->ssdb.vcmtype > ARRAY_SIZE(cio2_vcm_types)) {
+ 			dev_warn(&adev->dev, "Unknown VCM type %d\n",
+ 				 sensor->ssdb.vcmtype);
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+index b93b749c65bd..b76ed8a641e2 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
+@@ -113,7 +113,8 @@ struct cio2_sensor_config {
+ };
+ 
+ struct cio2_sensor {
+-	char name[ACPI_ID_LEN];
++	/* append ssdb.link(u8) in "-%u" format as suffix of HID */
++	char name[ACPI_ID_LEN + 4];
+ 	struct acpi_device *adev;
+ 	struct i2c_client *vcm_i2c_client;
+ 
+-- 
+2.39.1
+
