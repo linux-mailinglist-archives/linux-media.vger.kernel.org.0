@@ -2,213 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F16576B3B84
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 10:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DAC66B3CE7
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 11:55:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbjCJJ6k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 04:58:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37878 "EHLO
+        id S229941AbjCJKzB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 05:55:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231236AbjCJJ6g (ORCPT
+        with ESMTP id S229929AbjCJKyc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 04:58:36 -0500
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC89888A2;
-        Fri, 10 Mar 2023 01:58:29 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 6FBC441A42;
-        Fri, 10 Mar 2023 09:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1678442307;
-        bh=LtN6uEnQFoBBfW+UmMREhhL0TvAkXsTHFcube89Rcuw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=CSsTogLbJ3+SxBlBKcTuPYgblHdktTZu1HtKPXoPnaBU+cKpuTN10fypVp6me00ef
-         eNGwg2sMWRri3vEnU4E0ykBDd9sXMphBoUWkPxumA6xtcEYE9niya2+7j6JjiJ4Y2s
-         9rxT78EC45uAbC5SXf291ZnB7QuIb8wICC+yup3fbFtMSxmvCEgRQwws/qsoHQ6MnX
-         ZJAXAXwYg+QQ9hcc2WILdf9BUVfaKDlXPGERhlbAABogVm/qXIDOIXMqqHKTzeVEs3
-         poikebzHhh6jfA+hrZJi0cvL1GX8ZfXtdRx3T18CW0etJh7KIHy43te+QOsiDojZrG
-         SbvEOhWTqUk6A==
-Message-ID: <25349030-5cc6-90a2-f1d2-4f9a67c4f194@asahilina.net>
-Date:   Fri, 10 Mar 2023 18:58:18 +0900
+        Fri, 10 Mar 2023 05:54:32 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F687B9A4;
+        Fri, 10 Mar 2023 02:54:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678445656; x=1709981656;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XevK55Fhdi1F4E2UswEgkp6e+jGL+EBQhW2E/dZl4mE=;
+  b=msIu2mxTYbP5+Ww/mG3sYHbUkxyVvORH8v6mtTKNZLa51DnFUkGfsCac
+   vCeTyfLUFwmTpaiLvL+HsbVzn6JjZSjP9Mj2c8OewB3tqeNmDzo+AU3WX
+   +0JZs1XPttyyh2zi3dba4AxFUKyvwVci7dlVo/MlviEzqPdEsis/1BX4I
+   VgQeg3AAoLCRNEvrJtDdVSWoAgrgm8Jeupt4QiCG9oeJkjYkjXEtlJUF0
+   w5ZezETZgvUj2TAthQaG+hXyLSC1NmALoJydLKkIJvomqEK8cckmOR0OI
+   x1HyhLNbHgAP3kQpdPNC46xzQtSxTH9PHVA4fQwe2iNYBAqQqY2e2KCh8
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="334178684"
+X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
+   d="scan'208";a="334178684"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 02:54:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="766786487"
+X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; 
+   d="scan'208";a="766786487"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Mar 2023 02:54:14 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1paaO6-0003mB-19;
+        Fri, 10 Mar 2023 10:54:14 +0000
+Date:   Fri, 10 Mar 2023 18:54:09 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
+ warning: unused variable 'c8sectpfe_match'
+Message-ID: <202303101857.1koJ8iHX-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To:     Faith Ekstrand <faith.ekstrand@collabora.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>, Mary <mary@mary.zone>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
-        asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
- <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
- <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
- <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
- <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
- <777dea65ef81c402d0765b1244b40633c483f4b2.camel@collabora.com>
-From:   Asahi Lina <lina@asahilina.net>
-In-Reply-To: <777dea65ef81c402d0765b1244b40633c483f4b2.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/03/2023 04.59, Faith Ekstrand wrote:
-> On Thu, 2023-03-09 at 18:43 +0900, Asahi Lina wrote:
->> On 09/03/2023 17.42, Christian König wrote:
->>> Long story short: Don't do this! This is what the Windows drivers
->>> have 
->>> been doing and it creates tons of problems.
-> 
-> Yeah, we tried to do a bit of that in the GL days.  It was a bad idea.
+Hi Mauro,
 
-I think I should clarify: I was proposing re-queueing innocent jobs from
-innocent queues/VMs that were impacted by a fault. The reason is that we
-may be able to tweak firmware state to force it to do that safely,
-during the firmware recovery cycle, such that an aborted job restarts
-and then subsequent jobs/commands continue as normal. We can't leave it
-to userspace because if we do nothing, the affected job ends up
-incomplete but then everything after it that is already queued still
-runs, and that is definitely a recipe for a bigger mess if userspace
-wants to seamlessly recover. The firmware recovery cycle is a
-"stop-the-world" situation for the GPU (the firmware literally
-busy-loops waiting for the driver to set a continue flag in memory...),
-so that's the only real chance that the driver gets to make decisions
-about what is going to happen next.
+FYI, the error/warning still remains.
 
-Of course, that only works if individual possibly concurrently running
-commands are idempotent, but I think a lot of typical GPU work is? (E.g.
-any render pass without side effects other than the render targets and
-where the background shader does no loads, or even render passes that do
-loads but where all draws are opaque, which are all things the current
-Gallium driver is intimately familiar with since Crazy Tiler
-Optimizations™ need that info to be provided anyway). So I was wondering
-whether it'd make sense to have such an idempotency/restartable flag on
-job submission, and then the driver would do its best to recover and
-rerun it if it gets killed by an unrelated concurrent bad job.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   44889ba56cbb3d51154660ccd15818bc77276696
+commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
+date:   12 months ago
+config: hexagon-randconfig-r031-20230310 (https://download.01.org/0day-ci/archive/20230310/202303101857.1koJ8iHX-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/st/sti/c8sectpfe/
 
-Then again this all depends on an investigation into what we *can* do
-during firmware recovery that hasn't happened at all yet. It might be
-that it isn't safe to do anything really, or that doing things depends
-on touching even deeper firmware state structs that we treat as opaque
-right now and we really don't want to have to touch...
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303101857.1koJ8iHX-lkp@intel.com/
 
-But maybe none of this is worth it in practice, it just sounded like it
-could be useful maybe?
+All warnings (new ones prefixed by >>):
 
-Now that I look at it, we have a lovely "what is this flag doing anyway"
-bit already passed from Mesa through to the firmware we called
-ASAHI_RENDER_SET_WHEN_RELOADING_Z_OR_S which, now that I look at it, is
-actually getting set when any attachment (any color, Z, S) is not being
-cleared for that pass (so it's loaded). That could very well be an "is
-not idempotent" flag... and maybe that means the firmware does this for
-us already? Sounds like something to test... I might have some 16Kx16K
-GLmark runs to do concurrent with an evil faulting job now ^^ (and then
-that also means we need to set it when shaders have side effects and
-stuff, which right now we don't).
+>> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
+   static const struct of_device_id c8sectpfe_match[] = {
+                                    ^
+   1 warning generated.
 
->>> Just signal the problem back to userspace and let the user space
->>> driver 
->>> decide what to do.
->>>
->>> The background is that most graphics applications (games etc..)
->>> then 
->>> rather start on the next frame instead of submitting the current
->>> one 
->>> again while compute applications make sure that the abort and tell
->>> the 
->>> user that the calculations might be corrupted and need to be
->>> redone.
-> 
-> The guarantee that Vulkan makes is that, if you idle the GPU and you
-> haven't gotten a DEVICE_LOST yet, your data is good.  If you get a
-> DEVICE_LOST, all bets are off.  The problem is that, no matter how fast
-> the error propagation may be in the kernel or userspace driver, errors
-> can still show up in strange ways.  An OOB buffer access could end up
-> modifying a shader binary which gets run 3 frames later and causes a
-> corruption.  Once you've faulted, you really have no idea how far back
-> is good or what memory is corrupted.  You have to assume that
-> everything mapped to the GPU VA space is potentially toast.
 
-Yes of course, for the actually faulting VM all bets are off after a
-fault (though we can try a bit harder at least... I have a READ_ONLY BO
-flag now, I should set it on the shader pools!).
+vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
 
->> Actually I wanted to ask about error notifications. Right now we have
->> an
->> out-of-band mechanism to provide detailed fault info to userspace
->> which
->> works fine, but in principle it's optional.
-> 
-> This is fine, in principal.  Because of the nature of errors, async is
-> fine as long as the error shows up eventually.  Faster is better, for
-> sure, but error latency doesn't really matter in practice.
-> 
->> However, I also mark the hw
->>  fences as errored when a fault happens (with an errno that describes
->> the overall situation), but that never makes it into the drm_sched
->> job
->> complete fence. I looked at the drm_sched code and I didn't see any
->> error propagation. Is that supposed to work, or am I supposed to
->> directly mark the drm_sched side fence as complete, or did I
->> misunderstand all this? I get the feeling maybe existing drivers just
->> rely on the recovery/timeout/etc paths to mark jobs as errored (since
->> those do it explicitly) and never need error forwarding from the hw
->> fence?
-> 
-> The end behavior needs to be that all fences for all jobs submitted to
-> the queue get signaled.  That's needed to satisfy the finite time
-> guarantees of dma_fence.  Exactly how that happens (let the job run,
-> abort all the jobs, etc.) is an implementation detail for the driver to
-> decide.  If you want, you can also set a bit on the context (or queue)
-> to mark it as dead and start returning EIO or similar from any ioctls
-> trying to submit more work if you wanted.  Not required but you can.
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
 
-Fences have an error flag though, does that get reported to userspace
-somehow? I thought it did, but maybe not, or maybe only drm_sched not
-propagating it is the issue?
+:::::: The code at line 1175 was first introduced by commit
+:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
 
-In other words, absent my fancy stats reporting BO system, what is the
-normal way that an explicit sync driver signals to userspace that the
-job associated with a syncobj has failed?
+:::::: TO: Peter Griffin <peter.griffin@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
-(If there is no way, then I'll probably want to change the stats BO
-system to be configurable, so if you ask for no stats/time info, you
-only get overall job status and faults, which has less overhead.)
-
-~~ Lina
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
