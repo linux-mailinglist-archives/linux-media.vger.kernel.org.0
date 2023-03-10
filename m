@@ -2,96 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1B026B511A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 20:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87C2D6B52EF
+	for <lists+linux-media@lfdr.de>; Fri, 10 Mar 2023 22:40:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbjCJTmY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Mar 2023 14:42:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40178 "EHLO
+        id S231522AbjCJVkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Mar 2023 16:40:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230427AbjCJTmQ (ORCPT
+        with ESMTP id S231499AbjCJVj7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Mar 2023 14:42:16 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46E21386BA
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 11:42:13 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id o5-20020a05600c510500b003ec0e4ec6deso803674wms.3
-        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 11:42:13 -0800 (PST)
+        Fri, 10 Mar 2023 16:39:59 -0500
+Received: from mail-yw1-x1142.google.com (mail-yw1-x1142.google.com [IPv6:2607:f8b0:4864:20::1142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2968512DDFD
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 13:39:58 -0800 (PST)
+Received: by mail-yw1-x1142.google.com with SMTP id 00721157ae682-536bbef1c5eso122930267b3.9
+        for <linux-media@vger.kernel.org>; Fri, 10 Mar 2023 13:39:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112; t=1678477332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yZV/+MSa08gEH/cYpQPhStCYW3fLnzQFXutnb+Do1JQ=;
-        b=B5k5r6C3KNQj2vsoEFuF6sg5cnwCv6Zmbw3pQ7AYSM78uvdOJWJI/SGK3c6c4vp0o6
-         I0bzZWFrSvBLsxknnNT+uLNdM043lW2q4vMDvnXiU9Yk+exErLnFIcVvoVQECvoNBscT
-         WHlz781MJNuqu3+3+Aw/l05kWoIFK0nWFQ7kLi/WV0I5L1lqYAtBgCXVtOZ6Yb5CFH4F
-         60YJrM++fCJvi0qBbxYbenn6oQygXkhZqFop0oNc15RUtzUt4Lv6H8NLDzBENiezMN1z
-         4zifjgbJvbZvtSoMZjoSRuGv0j47l/GvxHEnnVwgLDjkZJU1nkE5GapHXChtbY9aaypC
-         9abA==
+        d=gmail.com; s=20210112; t=1678484397;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EpO/hO75eHDJBQhNEtX/4ISkJpSrKiqdK9WnbD7lgfU=;
+        b=WzYyO+T14B60nny/3y7g7x3gEpV7XylTHrpm1zD8kfZn+A9375cYrxkbM7tJ7RMBMB
+         jbrToW571zOnp3N4S9Mc/hCRgZ3szbKeeISPOs5OFFhm+LAjWSYkfddSksmlqTwzR/in
+         AhPVp/VQpw8EKqp8iVPKvSC9vuCFin3qKSafPk4H8YgVAvLK4Qt9C01squePLGlxs7KB
+         kJMQ4nZFtPZqqcFHeC0Sr71aqtGbSTys1cs8Rsc7kEAAX1WvvSKWVKsTnqDRHlSAYsB5
+         GIQcmEIc7Zhx1Zcfo1oPtpHwCYmBT6Me4bE3myb6xRX/QLWWBqf7BZzmhPsHkG7IIt6T
+         fjrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678477332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yZV/+MSa08gEH/cYpQPhStCYW3fLnzQFXutnb+Do1JQ=;
-        b=6ngubTUAN9iFFMcuj6Hq3i0hXtoAO5620XZIq+Tr+UtDRhMP47G4lDx+ozN2DyOUSQ
-         tyffTD1yjPJN6mH8ospVsVIGLJbZMTvzPN/wnZYq49wMmTCURV1+D6MbBR9m3oGhCfMR
-         sCO6h5g/Kr1XRmIuXqEbdIzRazIIoUm5ejYnvFa2VH5N0V4uL+Yxm6u1Dn/6+fS+jR+H
-         y67SGf3m/v02JnLLF2sHozZIzMKUGBPDsptOvtdageiQyddcVxCKwkAqk35yRSbbFi9L
-         PTdI0onh6CvvvRJKsoy/lmVZdWpFgwMNn6p95ivfLc24y2pT4NTnt5rwJvPu3IvGG7Uw
-         2sdA==
-X-Gm-Message-State: AO0yUKUZLDLD9z+NLA1R3//i034LrL++i5MrKIjFbuGtu65ks65yFNtO
-        W0FFRCZvGbodlfq37TQaxJyflQxrztn+XO4Ilws=
-X-Google-Smtp-Source: AK7set+extGx34I5+2Ba9FwrX1sXmfMUKbNbBiUc7hLgOm1A62+7sT6Xwoae1dvcVQLECSKG4ksY+g==
-X-Received: by 2002:a05:600c:4f89:b0:3dc:5b88:e6dd with SMTP id n9-20020a05600c4f8900b003dc5b88e6ddmr4087179wmq.10.1678477331909;
-        Fri, 10 Mar 2023 11:42:11 -0800 (PST)
-Received: from sucnaath.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id n4-20020adffe04000000b002c54c92e125sm585400wrr.46.2023.03.10.11.42.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 11:42:11 -0800 (PST)
-From:   John Cox <jc@kynesim.co.uk>
-To:     linux-media@vger.kernel.org, nicolas@ndufresne.ca,
-        hverkuil-cisco@xs4all.nl
-Cc:     John Cox <jc@kynesim.co.uk>
-Subject: [PATCH v2 5/5] media: v4l: Add Broadcom sand format infos to v4l2-common.c
-Date:   Fri, 10 Mar 2023 19:41:21 +0000
-Message-Id: <20230310194121.61928-6-jc@kynesim.co.uk>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230310194121.61928-1-jc@kynesim.co.uk>
-References: <20230310194121.61928-1-jc@kynesim.co.uk>
+        d=1e100.net; s=20210112; t=1678484397;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EpO/hO75eHDJBQhNEtX/4ISkJpSrKiqdK9WnbD7lgfU=;
+        b=0zSLUZ39E3DgfMWwvObCrXysqafcrHMW7nZW8WoAhgf8UwCbamx3fvXbz+kxoHJaDI
+         mUc6+jNXJhOToZOnPbiJAg0lbowrNzg0DY+tS3Eegjn1nF7rnWSXmclp960kTrrqYoYR
+         YqEcg5KZPMybAVP/SmF0FcezM/rNGu8gHrWu4BtxjWYMke3ZheiBr4wLdnESkteSLaCo
+         laviLLy0YhCElSmegnsysWoOKHzi7w28JsAR5aC7RCMp1oqDowgk8BnaxJLpceAK5Ctk
+         V9sKGBMnMMj0+jw1P5hyxmY8WzmMm7S0jprSMgFalMAXz6MLBltrnBkKUws4cF6fUdWl
+         XQBQ==
+X-Gm-Message-State: AO0yUKUy2ZkhJe6wTQ3Mj5aObgdpdtZ7tJfWfereAe41iebnHsxnWZGn
+        cW1XV5kE/FMTtA5xcBFIDf7EUsSBagLPvwC1shs=
+X-Google-Smtp-Source: AK7set/Yi8dExScoF+gxj8X8e1YfmIpI3p/2TjLZZMdCaLHDlf0r5qPQskfInl3Yyi9Uy8Bfyz1+RsK4xmxzu0ut7sE=
+X-Received: by 2002:a81:ad0d:0:b0:52e:b635:5496 with SMTP id
+ l13-20020a81ad0d000000b0052eb6355496mr17060709ywh.2.1678484397394; Fri, 10
+ Mar 2023 13:39:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+From:   Leslie lel <leslieb2bmarketing@gmail.com>
+Date:   Sat, 11 Mar 2023 03:09:46 +0530
+Message-ID: <CAH+i-AycY6rsq7Wh-Yym7UGH3ZvU=GdUN9i0zihZGM6GEfe4Cg@mail.gmail.com>
+Subject: RE: ISC West - Discover ISC Attendees Email List-2023
+To:     Leslie lel <leslieb2bmarketing@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
+        FILL_THIS_FORM_LONG,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the format information for Broadcom 8 and 10-bit packed 128 byte
-column formats into the format_info array in v4l2-common.c
+Hi,
 
-Signed-off-by: John Cox <jc@kynesim.co.uk>
----
- drivers/media/v4l2-core/v4l2-common.c | 2 ++
- 1 file changed, 2 insertions(+)
+Would you be interested in acquiring  ISC West - Discover ISC
+Attendees Email List-2023?
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 9cb0895dea1c..51f7d76ce658 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -267,6 +267,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_NV12_C128, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
-+		{ .format = V4L2_PIX_FMT_P030_C128, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 4, 8, 0, 0 }, .bpp_div = { 3, 3, 1, 1 }, .hdiv = 2, .vdiv = 2 },
- 
- 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 4, .vdiv = 4 },
- 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 4, .vdiv = 4 },
--- 
-2.37.2
+List Includes: Company Name, First Name, Last Name, Full Name, Contact
+Job Title, Verified Email Address, Website URL, Mailing address, Phone
+number, Industry and many more=E2=80=A6
 
+Number of Contacts: 27,639 Verified Contacts.
+Cost : $ 1,738
+
+If you=E2=80=99re interested please let me know I will assist you with furt=
+her details.
+
+Kind Regards,
+Leslie lel
+Marketing Coordinators
