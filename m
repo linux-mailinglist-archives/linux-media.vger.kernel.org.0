@@ -2,53 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C787F6B662F
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC9D36B6632
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjCLNNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 09:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41992 "EHLO
+        id S229800AbjCLNNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 09:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjCLNN2 (ORCPT
+        with ESMTP id S229774AbjCLNNb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 09:13:28 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407E4136D3
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:13:27 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id er25so10367372edb.5
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:13:27 -0700 (PDT)
+        Sun, 12 Mar 2023 09:13:31 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E63B20040
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:13:29 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id s11so38490948edy.8
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626806;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mjvZGlI9gqxKHJb6Zb5Fkc5S1/fsh/NgaCfi/T9v11Y=;
-        b=lKlYxxhYCKn0JxPwkYKx3vASmrkH+srcYSRHily2tzLUxFl3QklS8Q4NAB9udLBZho
-         dDGPZTBINPga+76lbL33R0Ue0ftkVUUQLxJzi4w9KwBDni2xOXZwaZzbSux02prlPDHP
-         vJ7nGGelocPKxiZAPsodErx2JPF3u6mnEqcDFc2Wm/P0mWtV1EylhbCj0fTAm6z6v6t4
-         CdJ8Mm8qbbJwTOuhYW9bDTdnFKTImZMFdRSyvSmbjiOQG5UwzZqJrRtqjTlrTWLJdknY
-         zHGpr1crUtQGblfLv3akSTMscNClIduQLP5C6mBhyVCwurXuWWNgdYQ93BE30x0tKpwz
-         Z2KA==
+        d=linaro.org; s=google; t=1678626807;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bkWfjOYJTJDW62JPb9CPt+q+UFtZ1H1u4ouIUZRGvZ4=;
+        b=dufU2ZEVvJS9S3PuzmfWSiaKt/e7oKmEif/HcTwiDm1Y71Lj42dFTktHXvA2w4XjAm
+         z6CgADU73/O+QVxdKfCgfzGdd8q4LJXRA1NAMkyp64omDj5lG0pyjwGLSEUy3YRLQw1F
+         jbhPrxxPiruJ9AwZDeljYbj05SqYwHoEeRai4CpSh/z6WTebeg/5Vrjbf2NIr5CzrKuM
+         9qiaMAOz27bLtb+MQWNr6IPfIJ9u+UOg7hONEIKoQXcti8nfWdHn2vaNqLwCT+mhFL13
+         lxBRmxlvU7xnCcaMng+7C4zdz2s2yxnEIqvlx2C5sHF3menjlKTG6uQs3n0MQ+fjsU1a
+         kNjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626806;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mjvZGlI9gqxKHJb6Zb5Fkc5S1/fsh/NgaCfi/T9v11Y=;
-        b=J3KsLfkpuFcIjKiMP1MY9ULLnNz3LkOLGefaJN6zXobSTKbaqU4a5WDCit5+lc5tBu
-         hksboLud2YyWuOt2ACUwvSEMnanmKv6NRiEc8eCTtZVGv8O5e0q4h5toDnGNKnkkr7yX
-         bCyphSm9K3HSLh83NTCo3qT4zO7SfdBnV93rGNSlx6oF3e2Ze65YeIfFAtZejpPtSJsi
-         /ENyREJqwjRBBacJAlaKliOLtucN6afTRdvgegRemHPiDIfomYopmEpTYTwUaxdQtIgL
-         cMAzyZHyxGXlf9v4Rnev8CdXqTP89FTmd6zgzunFxVvVQajD1G1OWtNipYSFGqiHY/7F
-         ZtPQ==
-X-Gm-Message-State: AO0yUKUByYdihnHmRzy6OQHCi7zw5aheylQDNLf4yzAZMxlNkKny8qP0
-        8u35w7Eg1ZcE0OlF3tQxa7gCLg==
-X-Google-Smtp-Source: AK7set+EVWjyvBDbBmHCcExD0NtojGt3goUEamDttcbYP3oPo0KNy0WQIuIA/C83vuguDS3t+796Xw==
-X-Received: by 2002:a17:907:98e6:b0:929:43b5:8e69 with SMTP id ke6-20020a17090798e600b0092943b58e69mr166365ejc.40.1678626805682;
-        Sun, 12 Mar 2023 06:13:25 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678626807;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bkWfjOYJTJDW62JPb9CPt+q+UFtZ1H1u4ouIUZRGvZ4=;
+        b=c7Splwle6xscqf5EkgwJ1EpnH8ThwJHWJvHvqUphDN23uR3shvXCBL6n0cxnfH/H65
+         MzIufEUSCjVRkyI6L1kvTKpjKpm0W0w8xgn9pnM70QXdudWKV9oPuYm3j26o8XHnYuyE
+         6f3LhzO+DYo5RwQ2ELYyP8oT382VrH2c13dQrV5TKonFO3P5EdSM0RcNduTHby8i6HFa
+         y+BG6M6F3hPZ8ednwJMA0uaB4HamnkjMvRDZ2R5RP+MxhmjOFXBuFGDuaLvnu/auJ2Rs
+         WYZAHWXO3VmLxo68n0EdSPYavFyPJZODYwn8hB/juM2keDXJNd4wxCca98Y4ndp6Q0w4
+         bDeQ==
+X-Gm-Message-State: AO0yUKU67n/SUKNjdReFhcZD/XRTdumLqSEV+jmtGmBKLKx+mUgtWGPM
+        +ZFkAnwJZeZb3v1n1wRohbMl1Q==
+X-Google-Smtp-Source: AK7set+ziiDk/Iecc5/4CJWrBGIg9OTBhTAoqLcBDI9ZAK6SPp7SnqnL3CHjfonNxYjxcPQIpQfdww==
+X-Received: by 2002:a17:906:f6cc:b0:925:5705:b5b8 with SMTP id jo12-20020a170906f6cc00b009255705b5b8mr2100962ejb.58.1678626807629;
+        Sun, 12 Mar 2023 06:13:27 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.23
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.13.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:13:25 -0700 (PDT)
+        Sun, 12 Mar 2023 06:13:27 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Joe Tessler <jrt@google.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -94,16 +95,19 @@ To:     Joe Tessler <jrt@google.com>,
         linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-rockchip@lists.infradead.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
-Date:   Sun, 12 Mar 2023 14:12:51 +0100
-Message-Id: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 02/28] media: cec: meson: drop of_match_ptr for ID table
+Date:   Sun, 12 Mar 2023 14:12:52 +0100
+Message-Id: <20230312131318.351173-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -114,26 +118,26 @@ The driver can match only via the DT table so the table should be always
 used and the of_match_ptr does not have any sense (this also allows ACPI
 matching via PRP0001, even though it might not be relevant here).
 
-  drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+  drivers/media/cec/platform/meson/ao-cec.c:711:34: error: ‘meson_ao_cec_of_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/cec/i2c/ch7322.c | 2 +-
+ drivers/media/cec/platform/meson/ao-cec.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
-index 34fad7123704..3c6e6496a001 100644
---- a/drivers/media/cec/i2c/ch7322.c
-+++ b/drivers/media/cec/i2c/ch7322.c
-@@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
- static struct i2c_driver ch7322_i2c_driver = {
- 	.driver = {
- 		.name = "ch7322",
--		.of_match_table = of_match_ptr(ch7322_of_match),
-+		.of_match_table = ch7322_of_match,
+diff --git a/drivers/media/cec/platform/meson/ao-cec.c b/drivers/media/cec/platform/meson/ao-cec.c
+index 6b440f0635d9..223c092dbb6a 100644
+--- a/drivers/media/cec/platform/meson/ao-cec.c
++++ b/drivers/media/cec/platform/meson/ao-cec.c
+@@ -719,7 +719,7 @@ static struct platform_driver meson_ao_cec_driver = {
+ 	.remove  = meson_ao_cec_remove,
+ 	.driver  = {
+ 		.name = "meson-ao-cec",
+-		.of_match_table = of_match_ptr(meson_ao_cec_of_match),
++		.of_match_table = meson_ao_cec_of_match,
  	},
- 	.probe_new	= ch7322_probe,
- 	.remove		= ch7322_remove,
+ };
+ 
 -- 
 2.34.1
 
