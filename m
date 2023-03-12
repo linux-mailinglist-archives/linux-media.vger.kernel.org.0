@@ -2,110 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C4646B670A
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 15:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 572DE6B670B
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 15:00:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbjCLOAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 10:00:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45616 "EHLO
+        id S229846AbjCLOA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 10:00:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbjCLOAD (ORCPT
+        with ESMTP id S229509AbjCLOA3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 10:00:03 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288FD34F60
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 07:00:02 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pbMEy-0003SN-7U; Sun, 12 Mar 2023 15:00:00 +0100
-Message-ID: <79488ad7-5709-235b-14b4-1518e989c7a3@leemhuis.info>
-Date:   Sun, 12 Mar 2023 14:59:59 +0100
+        Sun, 12 Mar 2023 10:00:29 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [123.126.96.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CDE6836442;
+        Sun, 12 Mar 2023 07:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=GU4Bt
+        iF/mURnT05J+b2ZAAYVXtRHoTughkALlexgzGg=; b=qJoU/4vI/YVTuX1+AsU3r
+        GVVp1mtVWe6qKliIRQoSM0Por/g/ix+MJValgPRVgCa6Kh7lzJydz6Z5XnCdpZis
+        FBwqKyYBOJcw0jW0RmaZhXfo73ZAhWX6XnbcYnxRv2ZI39rHur4wMQGTXA0u5+S/
+        W6pTwBBikv5NauKTmc5fyo=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by smtp16 (Coremail) with SMTP id MNxpCgBXMzIW2w1k8rBRHQ--.17887S2;
+        Sun, 12 Mar 2023 22:00:54 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hackerzheng666@gmail.com, 1395428693sheep@gmail.com,
+        alex000young@gmail.com, Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH] media: dm1105: Fix use after free bug in dm1105_remove due to race condition
+Date:   Sun, 12 Mar 2023 22:00:12 +0800
+Message-Id: <20230312140012.1816214-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 14/17] media: i2c: imx290: Initialize runtime PM before
- subdev
-Content-Language: en-US, de-DE
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Guenter Roeck <linux@roeck-us.net>
-References: <20230116144454.1012-1-laurent.pinchart@ideasonboard.com>
- <20230116144454.1012-15-laurent.pinchart@ideasonboard.com>
- <20230227175245.GA3728693@roeck-us.net>
- <73bec5a8-98f7-5dca-3b34-cb6fe0b61249@leemhuis.info>
- <20230312133435.GI2545@pendragon.ideasonboard.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20230312133435.GI2545@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678629602;7094daa0;
-X-HE-SMSGID: 1pbMEy-0003SN-7U
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: MNxpCgBXMzIW2w1k8rBRHQ--.17887S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7GrWDtr43Cw48Aw1kuryxAFb_yoW8Jry5pr
+        ZxCFyYkFWfGry8Jr1DGw17XFy5JrZxJFy3WrW7Ww43Xr15ZFWDtayqv3WUAry3AFZ7ZrWa
+        qa1rXr13W3yUAF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziJUU8UUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXAgvU1Xl55FePwABsO
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12.03.23 14:34, Laurent Pinchart wrote:
-> On Sun, Mar 12, 2023 at 02:10:16PM +0100, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 27.02.23 18:52, Guenter Roeck wrote:
->>> On Mon, Jan 16, 2023 at 04:44:51PM +0200, Laurent Pinchart wrote:
->>>> Initializing the subdev before runtime PM means that no subdev
->>>> initialization can interact with the runtime PM framework. This can be
->>>> problematic when modifying controls, as the .s_ctrl() handler commonly
->>>> calls pm_runtime_get_if_in_use(). These code paths are not trivial,
->>>> making the driver fragile and possibly causing subtle bugs.
->>>>
->>>> To make the subdev initialization more robust, initialize runtime PM
->>>> first.
->>>>
->>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>> Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->>>> ---
->>>
->>> This patch results in
->>>
->>> Error log:
->>> <stdin>:1517:2: warning: #warning syscall clone3 not implemented [-Wcpp]
->>> drivers/media/i2c/imx290.c:1090:12: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]
->>>  1090 | static int imx290_runtime_suspend(struct device *dev)
->>>       |            ^~~~~~~~~~~~~~~~~~~~~~
->>> drivers/media/i2c/imx290.c:1082:12: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]
->>>  1082 | static int imx290_runtime_resume(struct device *dev)
->>>
->>> if PM runtime support is disabled( alpha:allmodconfig, csky:allmodconfig,
->>> and others).
->>
->> Looks like Guenter never got a reply, but from a recent kernelci report
->> it looks like above warning still happens:
->> https://lore.kernel.org/all/640bceb7.a70a0220.af8cd.146b@mx.google.com/
->>
->> Laurent, do you still have it on your radar?
-> 
-> I don't. Arnd has sent a fix
-> (https://lore.kernel.org/linux-media/20230207161316.293923-1-arnd@kernel.org),
-> I've reviewed it, now I expect Sakari to pick it up and get it upstream.
+In dm1105_probe, it called dm1105_ir_init and bound
+&dm1105->ir.work with dm1105_emit_key.
+When it handles IRQ request with dm1105_irq,
+it may call schedule_work to start the work.
 
-Ahh, great, thx for taking the time and letting me know, much appreciated.
+When we call dm1105_remove to remove the driver, there
+may be a sequence as follows:
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Fix it by finishing the work before cleanup in dm1105_remove
 
-P.S.: update the status
+CPU0                  CPU1
 
-#regzbot monitor:
-https://lore.kernel.org/linux-media/20230207161316.293923-1-arnd@kernel.org/
-#regzbot fix: media: i2c: imx290: fix conditional function defintions
-#regzbot ignore-activity
+                    |dm1105_emit_key
+dm1105_remove      |
+  dm1105_ir_exit       |
+    rc_unregister_device |
+    rc_free_device  |
+    rc_dev_release  |
+    kfree(dev);     |
+                    |
+                    | rc_keydown
+                    |   //use
+
+Fixes: 34d2f9bf189c ("V4L/DVB: dm1105: use dm1105_dev & dev instead of dm1105dvb")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+ drivers/media/pci/dm1105/dm1105.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/pci/dm1105/dm1105.c b/drivers/media/pci/dm1105/dm1105.c
+index 4ac645a56c14..9e9c7c071acc 100644
+--- a/drivers/media/pci/dm1105/dm1105.c
++++ b/drivers/media/pci/dm1105/dm1105.c
+@@ -1176,6 +1176,7 @@ static void dm1105_remove(struct pci_dev *pdev)
+ 	struct dvb_demux *dvbdemux = &dev->demux;
+ 	struct dmx_demux *dmx = &dvbdemux->dmx;
+ 
++	cancel_work_sync(&dev->ir.work);
+ 	dm1105_ir_exit(dev);
+ 	dmx->close(dmx);
+ 	dvb_net_release(&dev->dvbnet);
+-- 
+2.25.1
+
