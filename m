@@ -2,108 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AEDB6B6614
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CF846B6622
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:10:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbjCLNBp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 09:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53298 "EHLO
+        id S229649AbjCLNKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 09:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbjCLNBn (ORCPT
+        with ESMTP id S229437AbjCLNKU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 09:01:43 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893233864A
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:01:42 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (85-76-145-228-nat.elisa-mobile.fi [85.76.145.228])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22F0E814;
-        Sun, 12 Mar 2023 14:01:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678626100;
-        bh=3FDP3Dg4M0ucCu7F/Q2MN3VS4CdbZAAjYPM9xzkcnyU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gyA7JfdHSiZ+LlTsffmO+l29RR6+3OAPsKxWqAw5yeP9b+mTAc31Ayp7r2Y/acyuz
-         dPCfNUDHEHnAfdFcRY5mz/gKf5TLmCR647VMR8TwdKC5J6PF8j62mXmFup/1+cYRiU
-         AT+rtkR3kQ+bnoMlM3CEdXs6T73qFWanNaFvlbJU=
-Date:   Sun, 12 Mar 2023 15:01:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        hdegoede@redhat.com,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kate Hsuan <hpa@redhat.com>
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Make link validation safer
-Message-ID: <20230312130106.GF2545@pendragon.ideasonboard.com>
-References: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
+        Sun, 12 Mar 2023 09:10:20 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D66C146097
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:10:19 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pbLSr-0002eF-Bo; Sun, 12 Mar 2023 14:10:17 +0100
+Message-ID: <73bec5a8-98f7-5dca-3b34-cb6fe0b61249@leemhuis.info>
+Date:   Sun, 12 Mar 2023 14:10:16 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230309122716.1624141-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 14/17] media: i2c: imx290: Initialize runtime PM before
+ subdev
+Content-Language: en-US, de-DE
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        regressions@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>
+References: <20230116144454.1012-1-laurent.pinchart@ideasonboard.com>
+ <20230116144454.1012-15-laurent.pinchart@ideasonboard.com>
+ <20230227175245.GA3728693@roeck-us.net>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <20230227175245.GA3728693@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678626619;f20dfb61;
+X-HE-SMSGID: 1pbLSr-0002eF-Bo
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Thu, Mar 09, 2023 at 02:27:16PM +0200, Sakari Ailus wrote:
-> Link validation currently accesses invalid pointers if the link passed to it
-> is not between two sub-devices. This is of course a driver bug.
+On 27.02.23 18:52, Guenter Roeck wrote:
+> On Mon, Jan 16, 2023 at 04:44:51PM +0200, Laurent Pinchart wrote:
+>> Initializing the subdev before runtime PM means that no subdev
+>> initialization can interact with the runtime PM framework. This can be
+>> problematic when modifying controls, as the .s_ctrl() handler commonly
+>> calls pm_runtime_get_if_in_use(). These code paths are not trivial,
+>> making the driver fragile and possibly causing subtle bugs.
+>>
+>> To make the subdev initialization more robust, initialize runtime PM
+>> first.
+>>
+>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>> ---
 > 
-> Ignore the error but print a debug message, as this is how it used to work
-> previously.
+> This patch results in
 > 
-> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
-> Reported-by: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reported-and-tested-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+> Error log:
+> <stdin>:1517:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+> drivers/media/i2c/imx290.c:1090:12: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]
+>  1090 | static int imx290_runtime_suspend(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~~~~~~~
+> drivers/media/i2c/imx290.c:1082:12: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]
+>  1082 | static int imx290_runtime_resume(struct device *dev)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 1bebcda2bd20c..dd911180ec899 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1209,6 +1209,17 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  	struct v4l2_subdev_state *source_state, *sink_state;
->  	int ret;
->  
-> +	if (!is_media_entity_v4l2_subdev(link->sink->entity)) {
-> +		pr_warn_once("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
-> +			     link->sink->entity->name);
+> if PM runtime support is disabled( alpha:allmodconfig, csky:allmodconfig,
+> and others).
 
-Printing the whole link would make it easier to debug the problem:
+Looks like Guenter never got a reply, but from a recent kernelci report
+it looks like above warning still happens:
+https://lore.kernel.org/all/640bceb7.a70a0220.af8cd.146b@mx.google.com/
 
-		pr_warn_once("sink of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-			     link->source->entity->name, link->source->index);
-			     link->sink->entity->name, link->sink->index);
+Laurent, do you still have it on your radar?
 
-Same below. With this, and the other comments in the mail thread
-addressed,
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +		return 0;
-> +	}
-> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> +		pr_warn_once("entity \"%s\" not a V4L2 sub-device, driver bug!\n",
-> +			     link->source->entity->name);
-> +		return 0;
-> +	}
-> +
->  	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
->  	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+#regzbot poke
