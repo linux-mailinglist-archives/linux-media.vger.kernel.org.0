@@ -2,127 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A106B66EB
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C4646B670A
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 15:00:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbjCLNqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 09:46:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51096 "EHLO
+        id S229877AbjCLOAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 10:00:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231139AbjCLNpm (ORCPT
+        with ESMTP id S229846AbjCLOAD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 09:45:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26962DE71;
-        Sun, 12 Mar 2023 06:45:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (85-76-21-162-nat.elisa-mobile.fi [85.76.21.162])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61583814;
-        Sun, 12 Mar 2023 14:45:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678628720;
-        bh=HY06FK/X1xlEQwlPSr2Kzwr8PW2ACwPKKPD5WqC75QA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X1ehpH7fp4JbHWbhhzQPlMtiBhrLhq19IGwdA4eT5CiPYQLGfhqqE6uowTQ1cQoKN
-         o8k4c0qo4RtDpmQYspeuE8frJx2t+XdPQVIYQ/Hl0kfew9thjO6n5KNz95T474iJ/L
-         s9weY8G18+gV5eenOHxY4slRjNWsNmx9MWEzjDc4=
-Date:   Sun, 12 Mar 2023 15:45:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 27/28] media: i2c: max9286: drop of_match_ptr for ID table
-Message-ID: <20230312134513.GD8229@pendragon.ideasonboard.com>
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-27-krzysztof.kozlowski@linaro.org>
+        Sun, 12 Mar 2023 10:00:03 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288FD34F60
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 07:00:02 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pbMEy-0003SN-7U; Sun, 12 Mar 2023 15:00:00 +0100
+Message-ID: <79488ad7-5709-235b-14b4-1518e989c7a3@leemhuis.info>
+Date:   Sun, 12 Mar 2023 14:59:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230312131318.351173-27-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 14/17] media: i2c: imx290: Initialize runtime PM before
+ subdev
+Content-Language: en-US, de-DE
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Guenter Roeck <linux@roeck-us.net>
+References: <20230116144454.1012-1-laurent.pinchart@ideasonboard.com>
+ <20230116144454.1012-15-laurent.pinchart@ideasonboard.com>
+ <20230227175245.GA3728693@roeck-us.net>
+ <73bec5a8-98f7-5dca-3b34-cb6fe0b61249@leemhuis.info>
+ <20230312133435.GI2545@pendragon.ideasonboard.com>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <20230312133435.GI2545@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678629602;7094daa0;
+X-HE-SMSGID: 1pbMEy-0003SN-7U
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
-
-Thank you for the patch.
-
-On Sun, Mar 12, 2023 at 02:13:17PM +0100, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
+On 12.03.23 14:34, Laurent Pinchart wrote:
+> On Sun, Mar 12, 2023 at 02:10:16PM +0100, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> On 27.02.23 18:52, Guenter Roeck wrote:
+>>> On Mon, Jan 16, 2023 at 04:44:51PM +0200, Laurent Pinchart wrote:
+>>>> Initializing the subdev before runtime PM means that no subdev
+>>>> initialization can interact with the runtime PM framework. This can be
+>>>> problematic when modifying controls, as the .s_ctrl() handler commonly
+>>>> calls pm_runtime_get_if_in_use(). These code paths are not trivial,
+>>>> making the driver fragile and possibly causing subtle bugs.
+>>>>
+>>>> To make the subdev initialization more robust, initialize runtime PM
+>>>> first.
+>>>>
+>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>> Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>>> ---
+>>>
+>>> This patch results in
+>>>
+>>> Error log:
+>>> <stdin>:1517:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+>>> drivers/media/i2c/imx290.c:1090:12: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]
+>>>  1090 | static int imx290_runtime_suspend(struct device *dev)
+>>>       |            ^~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/media/i2c/imx290.c:1082:12: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]
+>>>  1082 | static int imx290_runtime_resume(struct device *dev)
+>>>
+>>> if PM runtime support is disabled( alpha:allmodconfig, csky:allmodconfig,
+>>> and others).
+>>
+>> Looks like Guenter never got a reply, but from a recent kernelci report
+>> it looks like above warning still happens:
+>> https://lore.kernel.org/all/640bceb7.a70a0220.af8cd.146b@mx.google.com/
+>>
+>> Laurent, do you still have it on your radar?
 > 
->   drivers/media/i2c/max9286.c:1707:34: error: ‘max9286_dt_ids’ defined but not used [-Werror=unused-const-variable=]
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> I don't. Arnd has sent a fix
+> (https://lore.kernel.org/linux-media/20230207161316.293923-1-arnd@kernel.org),
+> I've reviewed it, now I expect Sakari to pick it up and get it upstream.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Ahh, great, thx for taking the time and letting me know, much appreciated.
 
-> ---
->  drivers/media/i2c/max9286.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 701038d6d19b..ed932ff9ec74 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1713,7 +1713,7 @@ MODULE_DEVICE_TABLE(of, max9286_dt_ids);
->  static struct i2c_driver max9286_i2c_driver = {
->  	.driver	= {
->  		.name		= "max9286",
-> -		.of_match_table	= of_match_ptr(max9286_dt_ids),
-> +		.of_match_table	= max9286_dt_ids,
->  	},
->  	.probe_new	= max9286_probe,
->  	.remove		= max9286_remove,
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
--- 
-Regards,
+P.S.: update the status
 
-Laurent Pinchart
+#regzbot monitor:
+https://lore.kernel.org/linux-media/20230207161316.293923-1-arnd@kernel.org/
+#regzbot fix: media: i2c: imx290: fix conditional function defintions
+#regzbot ignore-activity
