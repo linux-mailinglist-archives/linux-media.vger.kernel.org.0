@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6F336B6680
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E98456B6681
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:16:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbjCLNQd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 09:16:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
+        id S230333AbjCLNQn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 09:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230188AbjCLNPr (ORCPT
+        with ESMTP id S230334AbjCLNPx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 09:15:47 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9563B52929
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:37 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id cn21so8317389edb.0
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:37 -0700 (PDT)
+        Sun, 12 Mar 2023 09:15:53 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D761D26595
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:49 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id cy23so38400414edb.12
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626856;
+        d=linaro.org; s=google; t=1678626858;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zz58BecKJebSQJXrlMMgq2KIDHoDh3NjA0FUivRICtA=;
-        b=W1k9mfbGVEpQdjChyYJDNiJ9VR3PjfpZ73Gq0BDfuM4iMuvTnkBm2I6srbznEPwaJP
-         THlB69G1mME7ojXh1+UnqUHgcM8NL3ZZ2wZAuhHFPilxMAer5hLfyLrT4pIdLtcQPfeV
-         aXcgs+tx5X26yKopWPTDySMt5uxnpFkncJirZZQ3J8ya+8XQBT1WQwS+7uUljarXpIf8
-         QlxnyaM/KalsZOSCpQHfqVfSJqyUGSLwkvQr84rm96y4zG1J7ohxebgv43j44n8p6esQ
-         bTG+gP/Vnvv6vBEFNgPDZCQbrGPBjuTxP7W5ds8ev/FiQGo9mQ74eR+q80XVqAmL64o5
-         jNuQ==
+        bh=oyfZXZKB4+wMo+MDBbIp2+KcuCWmp7jMlDdmZzcv/lM=;
+        b=Vy9duYu5oml7kBElCY7/Pz9DoA06T0NpAzoFB/8UDRZyaoC1RpIJ1UG/pwIgekC2Xm
+         yYW/KxCTuRHcGby/RdJBOs8FfozWHhANyCcxDcfPAptsunxdi4xdisq8hxE/EovjxMxx
+         WjByu21a8DRYQ5vQ5rjtppMPmTA3YfVs7EfXHLOyMmvOw/czvNHgWfZxzwLoODRI5KEw
+         vNanwMyr9B6tnUqhDIuZmnrX5YVE2IR3o04xY7Cs4tE2w9Qz305VEEdxXyxoLSTvTBjY
+         Yy1omhrkhMUHIvMWUnx/Ay+JP5uqpp8jwJihgHxxCnFFmOGcACEyvVyl0XheIj0cDejW
+         35+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626856;
+        d=1e100.net; s=20210112; t=1678626858;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zz58BecKJebSQJXrlMMgq2KIDHoDh3NjA0FUivRICtA=;
-        b=V0PBnAz7VUBGbQz7tlrGCMOYOGP5gf5psr4joDwLlESuMsJ9s11Usfu/2WaEKopcjd
-         N8u82Q16FF8/0mMjDxBxNnt8HR5l8sBNhWhFauyzRtWr8CY+BY9xFVrJg5fkpeQAVkcO
-         Y4M3s+yJlh11rZCwziudlpa5VDEFzSpoSPveK/CspZnul51ySBfOk4fIJrrTCdqUAdYY
-         AgCEJnJqkSzThHybWhPMupMiYdVXGHVE0lgCt5IDNof3qksVIuoYkVgKwDc5K9Cb9JjQ
-         NT1YFU2ioEZYN5NvhVNyfliH//5gFfN9omyUlkPnNvpCzcsuvgtbucQ1gB3Qzwn+dmbP
-         zHWA==
-X-Gm-Message-State: AO0yUKWim3huhtd8PbylMGJO6t/FyddnEPWnvG3MiyXbJTR62knZxUDB
-        2N0XeQADS+AHGs2dstVfzRT+YQ==
-X-Google-Smtp-Source: AK7set+m0iyDhLybbQra1Mh0tgoInoxAaZlg1joIRnjfCJVkuIWQPofjhK4P4YWPgVu74VDSkXKUDg==
-X-Received: by 2002:a17:907:2d0d:b0:903:9733:5ef with SMTP id gs13-20020a1709072d0d00b00903973305efmr38046533ejc.21.1678626856739;
-        Sun, 12 Mar 2023 06:14:16 -0700 (PDT)
+        bh=oyfZXZKB4+wMo+MDBbIp2+KcuCWmp7jMlDdmZzcv/lM=;
+        b=g66Qh9ThEQtjKFFgGw8x7J6T0OpqFg0y8uYpqpmI5PVwR6NrV3zD8WmcNJiTs/uzKr
+         rbufKRO/R46dPxvQDuToww7vw1/MjsQneqKtw/QkFfigVfsUz/2ekj+E0K2UhiIpkuVO
+         xNUyX8TSAXIJb85jXAHz4vRHAACKgXoP0BubwuypmBDIaH3YMuhEJhzjVLRFG2hjmYZh
+         yzewOhfYe6hjrwZmY9vEYmam09pTyJ78ih2BfJctSNPFnolKCgPeRZ/x+8Zy2l+4d+3F
+         hDqC3N/+MN91ZMhKIF5F18p2QBeCStavbMgbASpudKEA81O5s6gvmg/yTa3EXO/KjnvU
+         lBGg==
+X-Gm-Message-State: AO0yUKUkYqgpJJxrbiDGSVZaZauKKElhgSZnfA49tLqwkd9hvPpU2HU4
+        RnnHGAkC+oxhXOHl7xMbMzdnaA==
+X-Google-Smtp-Source: AK7set89zg6fjfmD/Q83CKvXo7fQ6g/JeQCzWDXtSGLthFDWRFHtX2ThlhUxvw+IDwH+wYEhp3Ys0A==
+X-Received: by 2002:a17:906:5284:b0:915:fbba:2e0b with SMTP id c4-20020a170906528400b00915fbba2e0bmr18851554ejm.58.1678626858623;
+        Sun, 12 Mar 2023 06:14:18 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.14.14
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.14.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:14:16 -0700 (PDT)
+        Sun, 12 Mar 2023 06:14:18 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Joe Tessler <jrt@google.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -95,9 +95,9 @@ To:     Joe Tessler <jrt@google.com>,
         linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-rockchip@lists.infradead.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 27/28] media: i2c: max9286: drop of_match_ptr for ID table
-Date:   Sun, 12 Mar 2023 14:13:17 +0100
-Message-Id: <20230312131318.351173-27-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 28/28] media: dvb: mn88443x: drop of_match_ptr for ID table
+Date:   Sun, 12 Mar 2023 14:13:18 +0100
+Message-Id: <20230312131318.351173-28-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
@@ -114,31 +114,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver can match only via the DT table so the table should be always
-used and the of_match_ptr does not have any sense (this also allows ACPI
-matching via PRP0001, even though it might not be relevant here).  This
-also fixes !CONFIG_OF error:
+The driver will match mostly by DT table (even thought there is regular
+ID table) so there is little benefit in of_match_ptr (this also allows
+ACPI matching via PRP0001, even though it might not be relevant here).
+This also fixes !CONFIG_OF error:
 
-  drivers/media/i2c/max9286.c:1707:34: error: ‘max9286_dt_ids’ defined but not used [-Werror=unused-const-variable=]
+  drivers/media/dvb-frontends/mn88443x.c:782:34: error: ‘mn88443x_of_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/i2c/max9286.c | 2 +-
+ drivers/media/dvb-frontends/mn88443x.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 701038d6d19b..ed932ff9ec74 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -1713,7 +1713,7 @@ MODULE_DEVICE_TABLE(of, max9286_dt_ids);
- static struct i2c_driver max9286_i2c_driver = {
- 	.driver	= {
- 		.name		= "max9286",
--		.of_match_table	= of_match_ptr(max9286_dt_ids),
-+		.of_match_table	= max9286_dt_ids,
+diff --git a/drivers/media/dvb-frontends/mn88443x.c b/drivers/media/dvb-frontends/mn88443x.c
+index 1f1753f2ab1a..0782f8377eb2 100644
+--- a/drivers/media/dvb-frontends/mn88443x.c
++++ b/drivers/media/dvb-frontends/mn88443x.c
+@@ -798,7 +798,7 @@ MODULE_DEVICE_TABLE(i2c, mn88443x_i2c_id);
+ static struct i2c_driver mn88443x_driver = {
+ 	.driver = {
+ 		.name = "mn88443x",
+-		.of_match_table = of_match_ptr(mn88443x_of_match),
++		.of_match_table = mn88443x_of_match,
  	},
- 	.probe_new	= max9286_probe,
- 	.remove		= max9286_remove,
+ 	.probe_new = mn88443x_probe,
+ 	.remove   = mn88443x_remove,
 -- 
 2.34.1
 
