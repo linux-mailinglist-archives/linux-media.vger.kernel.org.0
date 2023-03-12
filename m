@@ -2,103 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18DAD6B6B04
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 21:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 558976B6B2C
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 21:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230456AbjCLUXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 16:23:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56326 "EHLO
+        id S231298AbjCLUma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 16:42:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230435AbjCLUXH (ORCPT
+        with ESMTP id S231290AbjCLUm2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 16:23:07 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0DD81A958;
-        Sun, 12 Mar 2023 13:23:05 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id da10so40960811edb.3;
-        Sun, 12 Mar 2023 13:23:05 -0700 (PDT)
+        Sun, 12 Mar 2023 16:42:28 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8235E39B88;
+        Sun, 12 Mar 2023 13:42:23 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id y11so10869986plg.1;
+        Sun, 12 Mar 2023 13:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112; t=1678652584;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zx5Hx16VtrsWGIQLk9WwOhEjwlykZ68lI6lzjbPZklw=;
-        b=Hf8bDIgSRyHgy9bXQ/Gk4nexYiqXGYoCYtQ04Ivh+iCVbpJ2b5wzrRnb++ax5WG5YU
-         l1ECC7hckmqBIWK0FYKledOUlR/8oGb9iU/bprqDFfYvUnH9HXOkXMuEU7AitS1oLCXw
-         myetldVYFfznoSCvDzeKhgZkcDBm8pW0l/vGCJjUPX1DzrdmVRAKk857IvrVjfQ9XSKG
-         2N5oK1VtlQxJyFx4Mf99gdPkQnYe53VpL6QT66oSCLZqVHMC0inMBQbwy20+y8itU9ok
-         BWs74qxV0g+EZr9O9dScl2udx1DcuJJXJz0jv3NNva7rrPcHkok53W0tVeIcIuzzmOKr
-         qkHw==
+        d=gmail.com; s=20210112; t=1678653743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eS81Bbeb7DUO+iRkvmtrK0oB4SfcOjiUFR0rKW60MA0=;
+        b=G2a3X2goAyICa7qoVr4TjJ4/OOQ1EmoCBXmcNPEVfAKqhAEIho/AfxQDCMbOYQNb6/
+         VsK86lLGHo82G880+GfCwnB7NZj1LH0T7klN9abmbKa3C8/6ysyzwU7sxSjjzz/XL6oO
+         vAuH1AamSgl6MUBggR0tNxojaYXKDM1IjIEcV5GY0MN5QC8uZEjZMKvOttvLv58I+FHt
+         xQm7dqeB+g/b7H6pg95qji23VUNrDetgUorQn2HxhlXGTz3ne2burkaHbyZqOA/jKSNX
+         WdnpofFPER2tIU2FTgT2WccI6i5Vl7jnW7WFD3EdyaZysEXME+eXg3NnWksiH0E54H0O
+         oM1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678652584;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zx5Hx16VtrsWGIQLk9WwOhEjwlykZ68lI6lzjbPZklw=;
-        b=5WazXZ4Qz/NvVm69OT/4CRb+qs3zBybI4XyOjHhtZ2HGBsJnO7YyG4RpfiOcYm6+o5
-         cyLDc2l7ucDgX0tzoymHyCVqXlVq1EHGNjs4+dZdkywVG4EkHZdtqhvKK119p/F3piQc
-         0TGai7S2XDPqLvSBJcIlhc0OrNsWNiFvZs5yoB0AHVM0VsXC+lAtrjHL3wj0SAOanyBv
-         vr+8j1wpmDdfxQxLe3HM/NBWb39hg9UXlvBsjcerqQ89/210CVhg+c5tQy1DE5nT36ea
-         PscKoLpWvDxV0m5/90LV5df19AlkOiGOegetNPjbIfsiaV6BVdCZhspFxIPvXBhUroEr
-         ZMqA==
-X-Gm-Message-State: AO0yUKWDXZNYedqeOj/tFuiK2AoU55wxDKsI6DZlsxd/Ipej6kHQxhQ3
-        YOSQe/BnHYB1rYqlmPnxtCG5QxC7RNPpS20Lx40=
-X-Google-Smtp-Source: AK7set9zgGbqFrzGWxNsXVoKpAldwMmxSrIf9cZOIFv0n5RvCM/bJPrPW3NGvz9pmm0rGWW96q1mG4aHSyR0BOq+UH0=
-X-Received: by 2002:a17:906:e58:b0:922:ff34:d814 with SMTP id
- q24-20020a1709060e5800b00922ff34d814mr2005221eji.6.1678652584109; Sun, 12 Mar
- 2023 13:23:04 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678653743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eS81Bbeb7DUO+iRkvmtrK0oB4SfcOjiUFR0rKW60MA0=;
+        b=al7rG2oF9jCcyyXEB+stLJRMzOK6Ld4g1teJn8yYbFv4sTkLW0QGSp6Y4DAV1P6AQw
+         n8sT+5UV8Aahz+QOBLgjYnn4RfNEoihmZe7dH43P75JkYC/M6cMkLE1ghIbvnaUG2Al7
+         QBvwDNWiEs358RnrrNK9dzDdHxqvgWlf+XG/G4hK4K+81lXcXu+St5Mu5Ky/Oh8bG/7f
+         xwxLQngQFKfWv8AWJpq34WiVnJmoDGXXJqjv5X+nbLToVIrhw8Pg69A/CPwh9NaceUzx
+         NSarYgWZNCMdIOUxoShzn2bY5sJ7+nGO1o0KwHCxKXZBNgvuUpPojY7EUyDB/Kzl80RV
+         ImwQ==
+X-Gm-Message-State: AO0yUKUfUQgwW2DpSEilzUqd3H1KU4ryLcPK9R+lkm/jnRYoIll1aWmx
+        LDB6Tvv8yeWdoF4lkkDfkeyakLMd5wc=
+X-Google-Smtp-Source: AK7set+UpZ1DihZTdG/FUvyuXyzqzkkjcn3UiFdPutNdqCaUQZDans3Wexm2twEh9BfXyHomUFqSlQ==
+X-Received: by 2002:a17:902:a9cb:b0:19a:df76:ddd2 with SMTP id b11-20020a170902a9cb00b0019adf76ddd2mr27656409plr.36.1678653742882;
+        Sun, 12 Mar 2023 13:42:22 -0700 (PDT)
+Received: from localhost ([2601:1c0:5080:d9fa:9b45:95de:f47d:f85e])
+        by smtp.gmail.com with ESMTPSA id u6-20020a170902e5c600b001a049441fc8sm472317plf.193.2023.03.12.13.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 13:42:22 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
+        Akhil P Oommen <quic_akhilpo@quicinc.com>,
+        Chia-I Wu <olvaffe@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
+        GPU), Geert Uytterhoeven <geert@linux-m68k.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK), linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linux-pm@vger.kernel.org (open list:DEVICE FREQUENCY (DEVFREQ)),
+        Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Sean Paul <sean@poorly.run>
+Subject: [PATCH 00/13] drm/msm+PM+icc: Make job_run() reclaim-safe
+Date:   Sun, 12 Mar 2023 13:41:28 -0700
+Message-Id: <20230312204150.1353517-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org> <20230312131318.351173-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230312131318.351173-2-krzysztof.kozlowski@linaro.org>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Sun, 12 Mar 2023 21:22:53 +0100
-Message-ID: <CAFBinCDTRjqLfJvs=dtQNS0=5mZSDAdR8tQNt_qLt-BH9+P7MA@mail.gmail.com>
-Subject: Re: [PATCH 02/28] media: cec: meson: drop of_match_ptr for ID table
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -109,16 +88,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Mar 12, 2023 at 2:13=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).
->
->   drivers/media/cec/platform/meson/ao-cec.c:711:34: error: =E2=80=98meson=
-_ao_cec_of_match=E2=80=99 defined but not used [-Werror=3Dunused-const-vari=
-able=3D]
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+From: Rob Clark <robdclark@chromium.org>
+
+Inspired by https://lore.kernel.org/dri-devel/20200604081224.863494-10-daniel.vetter@ffwll.ch/
+it seemed like a good idea to get rid of memory allocation in job_run()
+and use lockdep annotations to yell at us about anything that could
+deadlock against shrinker/reclaim.  Anything that can trigger reclaim,
+or block on any other thread that has triggered reclaim, can block the
+GPU shrinker from releasing memory if it is waiting the job to complete,
+causing deadlock.
+
+The first two patches avoid memory allocation for the hw_fence by
+embedding it in the already allocated submit object.  The next three
+decouple various allocations that were done in the hw_init path, but
+only the first time, to let lockdep see that they won't happen in the
+job_run() path.  (The hw_init() path re-initializes the GPU after runpm
+resume, etc, which can happen in the job_run() path.)
+
+The remaining patches clean up locking issues in various corners of PM
+and interconnect which happen in the runpm path.  These fixes can be
+picked up independently by the various maintainers.  In all cases I've
+added lockdep annotations to help keep the runpm resume path deadlock-
+free vs reclaim, but I've broken those out into their own patches.. it
+is possible that these might find issues in other code-paths not hit on
+the hw I have.  (It is a bit tricky because of locks held across call-
+backs, such as devfreq->lock held across devfreq_dev_profile callbacks.
+I've audited these and other callbacks in icc, etc, to look for problems
+and fixed one I found in smd-rpm.  But that took me through a number of
+drivers and subsystems that I am not familiar with so it is entirely
+possible that I overlooked some problematic allocations.)
+
+There is one remaining issue to resolve before we can enable the job_run
+annotations, but it is entirely self contained in drm/msm/gem.  So it
+should not block review of these patches.  So I figured it best to send
+out what I have so far.
+
+Rob Clark (13):
+  dma-buf/dma-fence: Add dma_fence_init_noref()
+  drm/msm: Embed the hw_fence in msm_gem_submit
+  drm/msm/gpu: Move fw loading out of hw_init() path
+  drm/msm/gpu: Move BO allocation out of hw_init
+  drm/msm/a6xx: Move ioremap out of hw_init path
+  PM / devfreq: Drop unneed locking to appease lockdep
+  PM / devfreq: Teach lockdep about locking order
+  PM / QoS: Fix constraints alloc vs reclaim locking
+  PM / QoS: Decouple request alloc from dev_pm_qos_mtx
+  PM / QoS: Teach lockdep about dev_pm_qos_mtx locking order
+  soc: qcom: smd-rpm: Use GFP_ATOMIC in write path
+  interconnect: Fix locking for runpm vs reclaim
+  interconnect: Teach lockdep about icc_bw_lock order
+
+ drivers/base/power/qos.c                   | 83 ++++++++++++++++------
+ drivers/devfreq/devfreq.c                  | 52 +++++++-------
+ drivers/dma-buf/dma-fence.c                | 43 ++++++++---
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 48 ++++++-------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 18 +++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 46 ++++++------
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  6 ++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  9 +--
+ drivers/gpu/drm/msm/msm_fence.c            | 43 +++++------
+ drivers/gpu/drm/msm/msm_fence.h            |  2 +-
+ drivers/gpu/drm/msm/msm_gem.h              | 10 +--
+ drivers/gpu/drm/msm/msm_gem_submit.c       |  8 +--
+ drivers/gpu/drm/msm/msm_gpu.c              |  4 +-
+ drivers/gpu/drm/msm/msm_gpu.h              |  6 ++
+ drivers/gpu/drm/msm/msm_ringbuffer.c       |  4 +-
+ drivers/interconnect/core.c                | 18 ++++-
+ drivers/soc/qcom/smd-rpm.c                 |  2 +-
+ include/linux/dma-fence.h                  |  2 +
+ 18 files changed, 237 insertions(+), 167 deletions(-)
+
+-- 
+2.39.2
+
