@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C636B6541
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 12:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5B796B6549
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 12:14:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbjCLLMd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 07:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41560 "EHLO
+        id S230192AbjCLLOX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 07:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbjCLLMc (ORCPT
+        with ESMTP id S229735AbjCLLOV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 07:12:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D8851CB3;
-        Sun, 12 Mar 2023 04:12:30 -0700 (PDT)
+        Sun, 12 Mar 2023 07:14:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872081ACD7;
+        Sun, 12 Mar 2023 04:14:20 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (85-76-69-167-nat.elisa-mobile.fi [85.76.69.167])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D477814;
-        Sun, 12 Mar 2023 12:12:28 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29881814;
+        Sun, 12 Mar 2023 12:14:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678619549;
-        bh=nzyRSzra74PJHPo/sH4a43cb116x6GMk1jV1jx0Dxz0=;
+        s=mail; t=1678619658;
+        bh=esoQ0cbaM+JlB2dCfCmj/l+jfsi0kKRavRKVMZF10WQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oaEoGaSQ9wDlAJXSDIWgPWJqufeg9ysT7NzhdP0VJaoOuBXBEXk/NLpRmfyQpxXWP
-         su9B4ezEWtZu9kCSA3VRDz5pV9Z8w8UWrl+6hN9V1NHoANdBED9WMrwTRf3kv6hj9x
-         OErszh2XvW0U2zdQUxpneShgdhzAVCPnF0WiOjgk=
-Date:   Sun, 12 Mar 2023 13:12:28 +0200
+        b=SQrT9x7MB7ZDpgp9lpTAzAwJu//0SAKje+eGLQ0y1rluoLgQ/1ATZYUrvpXLgLrA/
+         bYEbgRapqPF6DZk2JCJkju+FUNP9bRlNpY0GjRWmb9DV0DG4qDGRQvLG0e0t7ObAzJ
+         gvCA1qyJaVGYAgPazkj9sJDsASjUdi03DbtqpVkw=
+Date:   Sun, 12 Mar 2023 13:14:18 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jack Zhu <jack.zhu@starfivetech.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -41,15 +41,14 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Eugen Hristev <eugen.hristev@collabora.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v2 1/6] media: dt-bindings: Add bindings for JH7110
- Camera Subsystem
-Message-ID: <20230312111228.GA2545@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 5/6] MAINTAINERS: Add Starfive Camera Subsystem driver
+Message-ID: <20230312111418.GB2545@pendragon.ideasonboard.com>
 References: <20230310120553.60586-1-jack.zhu@starfivetech.com>
- <20230310120553.60586-2-jack.zhu@starfivetech.com>
+ <20230310120553.60586-6-jack.zhu@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230310120553.60586-2-jack.zhu@starfivetech.com>
+In-Reply-To: <20230310120553.60586-6-jack.zhu@starfivetech.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -63,188 +62,39 @@ Hi Jack,
 
 Thank you for the patch.
 
-On Fri, Mar 10, 2023 at 08:05:48PM +0800, Jack Zhu wrote:
-> Add the bindings documentation for Starfive JH7110 Camera Subsystem
-> which is used for handing image sensor data.
+On Fri, Mar 10, 2023 at 08:05:52PM +0800, Jack Zhu wrote:
+> Add an entry for Starfive Camera Subsystem driver.
 > 
 > Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
 > ---
->  .../bindings/media/starfive,jh7110-camss.yaml | 144 ++++++++++++++++++
->  1 file changed, 144 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> new file mode 100644
-> index 000000000000..3f348dd53441
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> @@ -0,0 +1,144 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive SoC CAMSS ISP
-> +
-> +maintainers:
-> +  - Jack Zhu <jack.zhu@starfivetech.com>
-> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
-> +
-> +description:
-> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC.It
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b2e7ca5603c3..c67faea9f967 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19907,6 +19907,15 @@ M:	Ion Badulescu <ionut@badula.org>
+>  S:	Odd Fixes
+>  F:	drivers/net/ethernet/adaptec/starfire*
+>  
+> +STARFIVE CAMERA SUBSYSTEM DRIVER
+> +M:	Jack Zhu <jack.zhu@starfivetech.com>
+> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/admin-guide/media/starfive_camss.rst
+> +F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> +F:	drivers/media/platform/starfive/
 
-s/.It/. It/
-
-> +  consists of a VIN controller(Video In Controller, a top-level control until)
-
-s/(/ (/
-
-> +  and an ISP.
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-camss
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: syscon
-> +      - const: isp
-> +
-> +  clocks:
-> +    maxItems: 7
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb_func
-> +      - const: wrapper_clk_c
-> +      - const: dvp_inv
-> +      - const: axiwr
-> +      - const: mipi_rx0_pxl
-> +      - const: ispcore_2x
-> +      - const: isp_axi
-> +
-> +  resets:
-> +    maxItems: 6
-> +
-> +  reset-names:
-> +    items:
-> +      - const: wrapper_p
-> +      - const: wrapper_c
-> +      - const: axird
-> +      - const: axiwr
-> +      - const: isp_top_n
-> +      - const: isp_top_axi
-> +
-> +  power-domains:
-> +    items:
-> +      - description: JH7110 ISP Power Domain Switch Controller.
-> +
-> +  interrupts:
-> +    maxItems: 4
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@1:
-
-Why port@1 if there is no port@0 ?
-
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-
-I think you can use
-
-        $ref: /schemas/graph.yaml#/properties/port
-
-here as you don't define any additional property for the port node.
-
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port for receiving CSI data.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +    required:
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +  - interrupts
-
-The 'ports' node should be mandatory too.
+You could also add the MAINTAINERS entry in patch 1/6, with just the
+.yaml file to start with, and extend it in the patches that add more
+files. Up to you, I don't mind much.
 
 > +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    stfcamss: isp@19840000 {
-
-You can drop the label as it's not used.
-
-> +        compatible = "starfive,jh7110-camss";
-> +        reg = <0x19840000 0x10000>,
-> +              <0x19870000 0x30000>;
-> +        reg-names = "syscon", "isp";
-> +        clocks = <&ispcrg 0>,
-> +                 <&ispcrg 13>,
-> +                 <&ispcrg 2>,
-> +                 <&ispcrg 12>,
-> +                 <&ispcrg 1>,
-> +                 <&syscrg 51>,
-> +                 <&syscrg 52>;
-> +        clock-names = "apb_func",
-> +                      "wrapper_clk_c",
-> +                      "dvp_inv",
-> +                      "axiwr",
-> +                      "mipi_rx0_pxl",
-> +                      "ispcore_2x",
-> +                      "isp_axi";
-> +        resets = <&ispcrg 0>,
-> +                 <&ispcrg 1>,
-> +                 <&ispcrg 10>,
-> +                 <&ispcrg 11>,
-> +                 <&syscrg 41>,
-> +                 <&syscrg 42>;
-> +        reset-names = "wrapper_p",
-> +                      "wrapper_c",
-> +                      "axird",
-> +                      "axiwr",
-> +                      "isp_top_n",
-> +                      "isp_top_axi";
-> +        power-domains = <&pwrc 5>;
-> +        interrupts = <92>, <87>, <88>, <90>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                vin_from_csi2rx: endpoint {
-> +                    remote-endpoint = <&csi2rx_to_vin>;
-> +                };
-> +            };
-> +        };
-> +    };
+>  STARFIVE DEVICETREES
+>  M:	Emil Renner Berthing <kernel@esmil.dk>
+>  S:	Maintained
 
 -- 
 Regards,
