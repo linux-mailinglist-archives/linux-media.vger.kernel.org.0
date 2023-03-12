@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 897176B6677
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 212656B667F
+	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 14:16:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbjCLNQG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 09:16:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45288 "EHLO
+        id S230409AbjCLNQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 09:16:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbjCLNP0 (ORCPT
+        with ESMTP id S230094AbjCLNPp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 09:15:26 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77045290A
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:30 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id r15so11317520edq.11
-        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:30 -0700 (PDT)
+        Sun, 12 Mar 2023 09:15:45 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DDC0474F7
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:36 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id s11so38495806edy.8
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 06:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678626853;
+        d=linaro.org; s=google; t=1678626854;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m+WYHU/SqewTwrfZuCdGJulxf+5ECuJ2svWptTLYXIE=;
-        b=qa63Qo9fSC+Ap6jq8NDE2/EKVxm+oVWK3PFoPnwE4yBlATkz7TLk5YW9j1Aus6jlO4
-         6yc4oApxJj/EDKros+pMJB38lQNWN1egudsvqOCBUzYW64WGkXUr4UF5uvMAhzPeK5rn
-         MFPFUDZQfSOayCcp9U5gDPkJDFkGju6UWmsy9KCRljegOCC7go6mgN7GfCuyf/VdVbFD
-         RI2fxqf3sl093J1Dwc5Jpz0d+PVkRtuxgBckuhSs48nPfSE/o9nrnsQU4Mp4x4rkVe1u
-         GMHKWSQnkdmVR/BpH9WvboP+5QMDYLm5XUHxVqEXRB/RgiCPMXI3gOvVA9FVBVyWZXAk
-         RPlA==
+        bh=k/JwivpSWSUp7SGgg579h7vvWa7gXoSaXDjfT9QxQC0=;
+        b=CXU5Sft4Qo94NqQz3mPSkb9P2d9WUUzBRab27MBYfCDp4zAJtkVa4U2gt8ruuAK2fx
+         bYmi5lZFbKvFh7jAiwga20LHYuPZuLJ6WwFDw37JcecknQr1EZ6tbXpKsSHrRFM6dH42
+         G9jmlFKCdF2j0PJTIZv91TvmWvYmxJetJ5eGnZpcumSgmaLtlgm4+ONduSKLc+F6aFmS
+         2wbtsxeM7XjreClsKD102rjyRJhh1sgoZRixqozGJ4sff/5C87OVnI8gkQkfEaJBXzHN
+         PLG7p5dhHufbK/Jk1Kg16Rh8G+p1NrvtMOVierX90bJ5vpXVZA5+RMdYqOUEGm66DbRf
+         t+sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678626853;
+        d=1e100.net; s=20210112; t=1678626854;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m+WYHU/SqewTwrfZuCdGJulxf+5ECuJ2svWptTLYXIE=;
-        b=VRjVa+fsyoF0YbeVEzZDI5W8D8QTaxczi7yQyJnp8XWNfR7qkgYaTXBoV7AQ5/Arew
-         xk+EHmkIjxEwPk91vmvfYYhJuy7BrWbafgLfWtm6izaV5d0Few+XmkywTBcKOEbq2fYy
-         Rng/VxlYi4533wGbbUjdpjSHK2HC3rcOwLVH4glRkru6Hi6ubnhMyaHLuCZXmsAiLlgz
-         zgVLxKCITj7p59uoU84ZNzMwrWKOCzjrhZfe5dQDEgN6Hv3zBds0Kft5o9MO0NHGOuze
-         HCJLZuGnntFiZpriQ9T+GrSs21g5dIZ9DXP/pS7K2NAIej9JLHFvDBgIgkpTeEZAO0xn
-         qRYA==
-X-Gm-Message-State: AO0yUKW8QgeZ+8rZh03uC+xAAvhlOgA6thDa2FnKSUrDpcckXDK2rxD8
-        9DfKAbOJRlhQCkyGxW2h4R8Avg==
-X-Google-Smtp-Source: AK7set+ykF8LuOJPvpEW6vSvb+7ovcB0VmDW/wPOL+5hsoHHErX+DX/e38bZbR9JDZSOpCTKdXlvqQ==
-X-Received: by 2002:a17:907:72c7:b0:889:d156:616d with SMTP id du7-20020a17090772c700b00889d156616dmr37155221ejc.27.1678626852856;
-        Sun, 12 Mar 2023 06:14:12 -0700 (PDT)
+        bh=k/JwivpSWSUp7SGgg579h7vvWa7gXoSaXDjfT9QxQC0=;
+        b=wcZgabhsh23kokWhOhrVzFH7odoUEO1h+QoQk778cC15l9FP/+hmEbm6mE6PX9yP3C
+         CGJDBZU98rNPJYviP/H8j09pQjDPWlJPJbb8ds2Ms6rFEQTnxsprADVrNcLIPrrGxCEI
+         QxLkLfaIRuQO8+A+SdR92XkpELZK48o9CRfVoEmGcV9rdK9ZWXuzaWVFs3H8rgvrg1lQ
+         +5b3nRlNWoI/sywh/GuQAKamo5NZJSCaJe/hLBkcWVZSOsMbKgvpvDcsXV0Voi0Da2SK
+         KVMm1BxVKmI5xz4Tnqp8SNu0ytOjCyXni1F1IxCW3xW6vvfUI9J8p8GlnlmhLxtx2yEs
+         khzQ==
+X-Gm-Message-State: AO0yUKWyNncrP46YdFNDevcfIfe4fgkKzf12ID71grI/ZSBy2ZeoU1B6
+        RqS0Es1Qch1XN2G1/9HRS6L3Fw==
+X-Google-Smtp-Source: AK7set9d5tKP82Jz7WZKOjVJ2kxKgLrUjVcq5llmdVffKX9VOgz87qa4igqTtbGBsn15XQe1Xo+erA==
+X-Received: by 2002:a17:906:5ca:b0:8f6:ad32:cd51 with SMTP id t10-20020a17090605ca00b008f6ad32cd51mr35131755ejt.62.1678626854759;
+        Sun, 12 Mar 2023 06:14:14 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d9f6:3e61:beeb:295a])
-        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.14.11
+        by smtp.gmail.com with ESMTPSA id r19-20020a1709067fd300b008eddbd46d7esm2213279ejs.31.2023.03.12.06.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:14:12 -0700 (PDT)
+        Sun, 12 Mar 2023 06:14:14 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Joe Tessler <jrt@google.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -95,9 +95,9 @@ To:     Joe Tessler <jrt@google.com>,
         linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-rockchip@lists.infradead.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 25/28] media: i2c: ov7740: drop of_match_ptr for ID table
-Date:   Sun, 12 Mar 2023 14:13:15 +0100
-Message-Id: <20230312131318.351173-25-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 26/28] media: i2c: imx290: drop of_match_ptr for ID table
+Date:   Sun, 12 Mar 2023 14:13:16 +0100
+Message-Id: <20230312131318.351173-26-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
@@ -114,31 +114,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver will match mostly by DT table (even thought there is regular
-ID table) so there is little benefit in of_match_ptr (this also allows
-ACPI matching via PRP0001, even though it might not be relevant here).
-This also fixes !CONFIG_OF error:
+The driver can match only via the DT table so the table should be always
+used and the of_match_ptr does not have any sense (this also allows ACPI
+matching via PRP0001, even though it might not be relevant here).  This
+also fixes !CONFIG_OF error:
 
-  drivers/media/i2c/ov7740.c:1203:34: error: ‘ov7740_of_match’ defined but not used [-Werror=unused-const-variable=]
+  drivers/media/i2c/imx290.c:1354:34: error: ‘imx290_of_match’ defined but not used [-Werror=unused-const-variable=]
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/i2c/ov7740.c | 2 +-
+ drivers/media/i2c/imx290.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-index c9fd9b0bc54a..42121916d25f 100644
---- a/drivers/media/i2c/ov7740.c
-+++ b/drivers/media/i2c/ov7740.c
-@@ -1210,7 +1210,7 @@ static struct i2c_driver ov7740_i2c_driver = {
+diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+index 49d6c8bdec41..3c9470fbfd53 100644
+--- a/drivers/media/i2c/imx290.c
++++ b/drivers/media/i2c/imx290.c
+@@ -1363,7 +1363,7 @@ static struct i2c_driver imx290_i2c_driver = {
  	.driver = {
- 		.name = "ov7740",
- 		.pm = &ov7740_pm_ops,
--		.of_match_table = of_match_ptr(ov7740_of_match),
-+		.of_match_table = ov7740_of_match,
+ 		.name  = "imx290",
+ 		.pm = &imx290_pm_ops,
+-		.of_match_table = of_match_ptr(imx290_of_match),
++		.of_match_table = imx290_of_match,
  	},
- 	.probe_new = ov7740_probe,
- 	.remove   = ov7740_remove,
+ };
+ 
 -- 
 2.34.1
 
