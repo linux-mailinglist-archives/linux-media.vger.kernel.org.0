@@ -2,123 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C58C16B71F1
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 10:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9A9A6B7216
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 10:08:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjCMJDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 05:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54968 "EHLO
+        id S230382AbjCMJIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 05:08:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231128AbjCMJDJ (ORCPT
+        with ESMTP id S230481AbjCMJI1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 05:03:09 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE2C580F4;
-        Mon, 13 Mar 2023 01:59:03 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id u5so12127563plq.7;
-        Mon, 13 Mar 2023 01:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678697940;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B2NqsaIKXSDOG8M7FKQrqhkG2QMfzWgRRYdSSRT/6aU=;
-        b=mDKpAy4oPyJ1IrbE8DMGw+0fQLFAmLhZWUFnstrt+cF+zl6EjJlqAYkVhlWHd6RQmm
-         8EUdmOQvywscktOm03guaS7IY1VTOSE0c/ZsfVfZzWFDwq8NlXMANoFRkmWL/t0A48aF
-         X7dI5M++CiShTS7isLa/A9bgGyDtai03WxYQmP1DeMbiBrCYGVPkrO6w7HOTLBqjOal8
-         anJOy65vglMS2tPkYSgTVlDZ/bYpui08aR/2nHVfkPuV6yPJa0e79PIP8NKj/dACPDIM
-         qhcwM6/LIf8DE+KR33fZmFikEXoi+1EuLBX5sjY9vq+cgjSStldRi8V5XUIwkp4leOAt
-         NDEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678697940;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B2NqsaIKXSDOG8M7FKQrqhkG2QMfzWgRRYdSSRT/6aU=;
-        b=rN/e9v8llbPlgRUKxs00orUSu9n4h1Ji9YboitAuo/uN9ZX9t6YdLTYuxNyFbKGPGr
-         5TESDzzAy2Lh7wkOKm4d9oeyXo3gsW0w/0kWdILdk31aEjM5i4ePI/GU3bVA0y1pwNsS
-         2seYedW3R5yQ1UYNpCrKvkdam/6LlatfmccZCMTeHLs4H6jJoOuxWp9wNHIp4ce4wW1h
-         +TfApnh4JdVrDTnFNrP2JMJOVLRPQwUmFoozMAfqgfGP8u2qZdnkKLzNnb1jmWJz8kAK
-         3gU54bcLzMvdvfv6q8yQpNieIo4jfF9ED6PSJeeNAOy+NGjqIqkwqgUacbKMBNC2y+cg
-         zm+Q==
-X-Gm-Message-State: AO0yUKV1yB0QXdt19DyEOmuWZ8ZJkPKw2/TU5WWwrxEa5vKG56T9U89h
-        SzKJhoC+E6YywFyAUgLJC5o=
-X-Google-Smtp-Source: AK7set8a67W2u/yY0Zl7AOrEabibSzUI7Ozn25sXNDfHRJmKKsbZQt+LqSgmiZiGGJiCTFGP6AtbhQ==
-X-Received: by 2002:a05:6a20:5488:b0:bf:7b3a:fd46 with SMTP id i8-20020a056a20548800b000bf7b3afd46mr38062458pzk.20.1678697940447;
-        Mon, 13 Mar 2023 01:59:00 -0700 (PDT)
-Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk. [143.89.191.119])
-        by smtp.gmail.com with ESMTPSA id d7-20020a630e07000000b005038291e5cbsm4102905pgl.35.2023.03.13.01.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 01:59:00 -0700 (PDT)
-From:   Wei Chen <harperchen1110@gmail.com>
-To:     crope@iki.fi
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Wei Chen <harperchen1110@gmail.com>
-Subject: [PATCH] media: dvb-usb-v2: ec168: Fix null-ptr-deref in ec168_i2c_xfer()
-Date:   Mon, 13 Mar 2023 08:58:53 +0000
-Message-Id: <20230313085853.3252349-1-harperchen1110@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 13 Mar 2023 05:08:27 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF8E01F5F9
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 02:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678698411; x=1710234411;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=P4a2pa3GBxcLhRJBVdWPcAIwur1JXjNKO6p0aW8xJUA=;
+  b=dWopXtO9ur9uFICb6yzSmjo6NtrpbWDGgPjHaRwC+tv3McsTMAk+4D2J
+   aTHFwoX6Wy3aWqen09jyJkd3GCax1x7U94qvSwNViFoypbNBKpgmBmhoT
+   XzkTJ0LoJlWy6m7ZHbQ7yut4mLOfCaqdmPlukdxrXN46jmh8RoYRSQqyO
+   uFYkBYG9itAKy/9IxAhVfkWu4baJSM/nS8VcaTezPLDt0stPL3oNITMin
+   NbZozFgyeoeZQk4cKYvTIJeOGl+Wisph61WE8YVjPjUxr/mJqWJPcU3Zd
+   UOPTT9NAiC3wcBuB7kL9uQqVg8jXjqsJnxTHkQQesYjo8XfxNUDlUwZwg
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="334574584"
+X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
+   d="scan'208";a="334574584"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:06:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="671828557"
+X-IronPort-AV: E=Sophos;i="5.98,256,1673942400"; 
+   d="scan'208";a="671828557"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 02:06:49 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id ECAD5120D10;
+        Mon, 13 Mar 2023 11:06:46 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1pbe82-00FTGa-LP; Mon, 13 Mar 2023 11:06:02 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        hdegoede@redhat.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v3 1/1] media: v4l: subdev: Make link validation safer
+Date:   Mon, 13 Mar 2023 11:05:52 +0200
+Message-Id: <20230313090552.3687375-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In ec168_i2c_xfer, msg is controlled by user. When msg[i].buf is null
-and msg[i].len is zero, former checks on msg[i].buf would be passed.
-If accessing msg[i].buf[0] without sanity check, null pointer deref
-would happen. We add check on msg[i].len to prevent crash.
+Link validation currently accesses invalid pointers if the link passed to
+it is not between two sub-devices. This is of course a driver bug.
 
-Similar commit:
-commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
+Ignore the error but print a warning message, as this is how it used to
+work previously.
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+Reported-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Tested-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/usb/dvb-usb-v2/ec168.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+since v2:
 
-diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
-index 7ed0ab9e429b..0e4773fc025c 100644
---- a/drivers/media/usb/dvb-usb-v2/ec168.c
-+++ b/drivers/media/usb/dvb-usb-v2/ec168.c
-@@ -115,6 +115,10 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 	while (i < num) {
- 		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
- 			if (msg[i].addr == ec168_ec100_config.demod_address) {
-+				if (msg[i].len < 1) {
-+					i = -EOPNOTSUPP;
-+					break;
-+				}
- 				req.cmd = READ_DEMOD;
- 				req.value = 0;
- 				req.index = 0xff00 + msg[i].buf[0]; /* reg */
-@@ -131,6 +135,10 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 			}
- 		} else {
- 			if (msg[i].addr == ec168_ec100_config.demod_address) {
-+				if (msg[i].len < 1) {
-+					i = -EOPNOTSUPP;
-+					break;
-+				}
- 				req.cmd = WRITE_DEMOD;
- 				req.value = msg[i].buf[1]; /* val */
- 				req.index = 0xff00 + msg[i].buf[0]; /* reg */
-@@ -139,6 +147,10 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 				ret = ec168_ctrl_msg(d, &req);
- 				i += 1;
- 			} else {
-+				if (msg[i].len < 1) {
-+					i = -EOPNOTSUPP;
-+					break;
-+				}
- 				req.cmd = WRITE_I2C;
- 				req.value = msg[i].buf[0]; /* val */
- 				req.index = 0x0100 + msg[i].addr; /* I2C addr */
+- Print the entire link and the problematic end of it.
+
+ drivers/media/v4l2-core/v4l2-subdev.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 03dc5f68ffad6..c7154a7f696a7 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1258,6 +1258,16 @@ int v4l2_subdev_link_validate(struct media_link *link)
+ 	bool states_locked;
+ 	int ret;
+ 
++	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
++	    !is_media_entity_v4l2_subdev(link->source->entity)) {
++		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
++			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
++			     "sink" : "source",
++			     link->source->entity->name, link->source->index,
++			     link->sink->entity->name, link->sink->index);
++		return 0;
++	}
++
+ 	sink_sd = media_entity_to_v4l2_subdev(link->sink->entity);
+ 	source_sd = media_entity_to_v4l2_subdev(link->source->entity);
+ 
 -- 
-2.25.1
+2.30.2
 
