@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 099646B727E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 10:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E886B7325
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 10:50:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbjCMJ2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 05:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S230346AbjCMJuZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 05:50:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjCMJ17 (ORCPT
+        with ESMTP id S230348AbjCMJuY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 05:27:59 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16123A9B;
-        Mon, 13 Mar 2023 02:27:57 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id y15-20020a17090aa40f00b00237ad8ee3a0so11015180pjp.2;
-        Mon, 13 Mar 2023 02:27:57 -0700 (PDT)
+        Mon, 13 Mar 2023 05:50:24 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3527FA255;
+        Mon, 13 Mar 2023 02:50:13 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id qa18-20020a17090b4fd200b0023750b675f5so16296920pjb.3;
+        Mon, 13 Mar 2023 02:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678699677;
+        d=gmail.com; s=20210112; t=1678701012;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OpwxskmBPy4CpjtWMo+T8QeWJJwqkVX8aJFIYDNm7xs=;
-        b=RAH/DVxOyUQvf/lt8KhbMbh/+OZthHAeg/X+tupO2oO4eZDpHXTABqSqSpe6TZjNs5
-         uzqROM+3NNEUCEZFZRlBeHuHLW09LzNS/jN35i4LpvEBqZN/LUDu91+iiIjcOJu5N/bZ
-         z40CUczzdpdEbx+raY+hHQmiUwV06B1LZdgMIpSLwPEMJeEsgFqzHZZbH1Y77R5EfaPp
-         T4gt/U+WyuUJ634o911ijRj66W4uKMdkU7V2oCmmt43MFsJ8Hs3aJ1AJUmByTP9JDhcU
-         Nf15bNCSquSZ+GDN6ysVBEyhP7q0m5ShZ6/OAg/bo3WHsUboTsXXcRSPfgEhddzkSkgn
-         2RGw==
+        bh=HG3KG6VQNJrTxZcAoDu4OYtxrPugKypRTH1cm2KrTvM=;
+        b=qmNbxg+/zafbEzl8LVY73WJv/tnPnP1u65jbXrRjR0ifAxslhjvPyHfH96My+r5CRV
+         rEYIENbEzFNQJyGOA7lEBkSILjeiNZql4OEX9ZbGOLdl2eChvXM73kCJIrsluybH7jkc
+         DAcnLz9JGKJxOnaGTwTUQ62XyXyTVK5gC+AAWw97DloErOm0V7bR+3yijC9fLqAwBOkO
+         O2ZG9w+8fjSrT4iZdn6X9BtzMmS474szqbBwwMH2DqQ53TbsQVTOIDkda5z45oqo6Q9/
+         Te3PPJNE2hWfv6zs2knRSmLLPEJHfJ38PVbacaXiJGwp8X0pt3GzMPhC8PI6z2Qq3n1G
+         npOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678699677;
+        d=1e100.net; s=20210112; t=1678701012;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OpwxskmBPy4CpjtWMo+T8QeWJJwqkVX8aJFIYDNm7xs=;
-        b=HJ3OUnjqpkeWuvLkXcdkmbG9l9rBeKjGN7EMmxmZrUoWkeYNqVBkDY/R8Sy6cgj9CO
-         s1YdB1Ex426UVgHhKLBTjdDwDcJrtJdx4nlLZ6OgTcJpXM6LUUe8izYB33CSVs55KY3Y
-         fFFhQv5rh825A6DjQ8OoWFjrNd8JmqxA/85b6U44cq3XajfX4uXUnEFIn/NMNsEvGE8t
-         dYH+YQFfVAyG7ulrjD5Y+tVD/1zfnxC0qxZ2omxGjwrTqI4BTtr2nRv+rOE5RmWdrD5S
-         qwuw1k92NsO748VvtI2XVpcmnufIPgbaRivJ6doZChmZfx+MuXMCxqBlpsmPVYWLDfgZ
-         hcKg==
-X-Gm-Message-State: AO0yUKXAT3HD1QkmWOGYe6580uSUufCpSundRLOgJfVwTLPYnweeHSce
-        xjw1cmnTq8bThQ9ImVQ1j+Q=
-X-Google-Smtp-Source: AK7set9S4EYlxcmQI8BkTNR8foIisBUh7fq7Feg2Vp+nL4Aa+KNIQ79f+FRfLcaXlypfLn0lyfkxKA==
-X-Received: by 2002:a17:90b:38cc:b0:237:bf05:40b with SMTP id nn12-20020a17090b38cc00b00237bf05040bmr36653252pjb.20.1678699677129;
-        Mon, 13 Mar 2023 02:27:57 -0700 (PDT)
+        bh=HG3KG6VQNJrTxZcAoDu4OYtxrPugKypRTH1cm2KrTvM=;
+        b=YhWvQIxv9DbjbktCKFIrjmVdfD56CUMy1FyIK0+J6GOrHd8pIwC6zwP3A16A5zoCXu
+         M1pS0sj8+vtgf/9r5NZsJ5WPy7MnZ0Qb4T4lFAusSHGS0Bt+IwEZ+jppasWl8HiN8/iu
+         WIMh3WRW2ZWerrS9/UQe/QRPiaHlxLLUGcvRmshKoercYp/LnxVlYDDd4lOQFFLe+mud
+         y33RBGNmi0jfbssm860rQtBWzPM5uRVN15/n9+lOtTnIY1vzBEmKurrfEWOfWvuGdYM3
+         6egAGdA8MAuCu6ccofETqsUwHo+eqRNcivLAGSHvKBh1DvZiiKiBiKDGTpF8giXJPGvJ
+         +K1w==
+X-Gm-Message-State: AO0yUKX4p1u/ihJcT98hhIu1+6vKKExgoUTpJLZUfGNn6Y3lJ3cGK9tc
+        y9gd1gjLZy9OlwQ+GAZPKvo=
+X-Google-Smtp-Source: AK7set9X/eLJm4HatzB8FVC4j7JM46lgk9d3TBh2MX3eA17lo0ZO50hhD2xz6IZRPrFxjLdFN4FESA==
+X-Received: by 2002:a17:902:d492:b0:19c:b7da:fbdf with SMTP id c18-20020a170902d49200b0019cb7dafbdfmr42661165plg.26.1678701012550;
+        Mon, 13 Mar 2023 02:50:12 -0700 (PDT)
 Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk. [143.89.191.119])
-        by smtp.gmail.com with ESMTPSA id a13-20020a17090aa50d00b00230dc295651sm956751pjq.8.2023.03.13.02.27.55
+        by smtp.gmail.com with ESMTPSA id ki5-20020a170903068500b00196251ca124sm4340511plb.75.2023.03.13.02.50.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 02:27:56 -0700 (PDT)
+        Mon, 13 Mar 2023 02:50:11 -0700 (PDT)
 From:   Wei Chen <harperchen1110@gmail.com>
-To:     crope@iki.fi
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Wei Chen <harperchen1110@gmail.com>
-Subject: [PATCH] media: dvb-usb-v2: ce6230: Fix null-ptr-deref in ce6230_i2c_master_xfer()
-Date:   Mon, 13 Mar 2023 09:27:51 +0000
-Message-Id: <20230313092751.209496-1-harperchen1110@gmail.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wei Chen <harperchen1110@gmail.com>
+Subject: [PATCH] media: dvb-usb: digitv: Fix null-ptr-deref in digitv_i2c_xfer()
+Date:   Mon, 13 Mar 2023 09:50:08 +0000
+Message-Id: <20230313095008.1039689-1-harperchen1110@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,9 +69,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In ce6230_i2c_master_xfer, msg is controlled by user. When msg[i].buf
+In digitv_i2c_xfer, msg is controlled by user. When msg[i].buf
 is null and msg[i].len is zero, former checks on msg[i].buf would be
-passed. Malicious data finally reach ce6230_i2c_master_xfer. If accessing
+passed. Malicious data finally reach digitv_i2c_xfer. If accessing
 msg[i].buf[0] without sanity check, null ptr deref would happen. We add
 check on msg[i].len to prevent crash.
 
@@ -80,35 +80,24 @@ commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_x
 
 Signed-off-by: Wei Chen <harperchen1110@gmail.com>
 ---
- drivers/media/usb/dvb-usb-v2/ce6230.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/usb/dvb-usb/digitv.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/ce6230.c b/drivers/media/usb/dvb-usb-v2/ce6230.c
-index 44540de1a206..d3b5cb4a24da 100644
---- a/drivers/media/usb/dvb-usb-v2/ce6230.c
-+++ b/drivers/media/usb/dvb-usb-v2/ce6230.c
-@@ -101,6 +101,10 @@ static int ce6230_i2c_master_xfer(struct i2c_adapter *adap,
- 		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
- 			if (msg[i].addr ==
- 				ce6230_zl10353_config.demod_address) {
-+				if (msg[i].len < 1) {
-+					i = -EOPNOTSUPP;
-+					break;
-+				}
- 				req.cmd = DEMOD_READ;
- 				req.value = msg[i].addr >> 1;
- 				req.index = msg[i].buf[0];
-@@ -117,6 +121,10 @@ static int ce6230_i2c_master_xfer(struct i2c_adapter *adap,
- 		} else {
- 			if (msg[i].addr ==
- 				ce6230_zl10353_config.demod_address) {
-+				if (msg[i].len < 1) {
-+					i = -EOPNOTSUPP;
-+					break;
-+				}
- 				req.cmd = DEMOD_WRITE;
- 				req.value = msg[i].addr >> 1;
- 				req.index = msg[i].buf[0];
+diff --git a/drivers/media/usb/dvb-usb/digitv.c b/drivers/media/usb/dvb-usb/digitv.c
+index 2756815a780b..32134be16914 100644
+--- a/drivers/media/usb/dvb-usb/digitv.c
++++ b/drivers/media/usb/dvb-usb/digitv.c
+@@ -63,6 +63,10 @@ static int digitv_i2c_xfer(struct i2c_adapter *adap,struct i2c_msg msg[],int num
+ 		warn("more than 2 i2c messages at a time is not handled yet. TODO.");
+ 
+ 	for (i = 0; i < num; i++) {
++		if (msg[i].len < 1) {
++			i = -EOPNOTSUPP;
++			break;
++		}
+ 		/* write/read request */
+ 		if (i+1 < num && (msg[i+1].flags & I2C_M_RD)) {
+ 			if (digitv_ctrl_msg(d, USB_READ_COFDM, msg[i].buf[0], NULL, 0,
 -- 
 2.25.1
 
