@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F162A6B801F
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 19:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 939386B8028
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 19:14:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230447AbjCMSMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 14:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53102 "EHLO
+        id S229552AbjCMSOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 14:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbjCMSML (ORCPT
+        with ESMTP id S229473AbjCMSOs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 14:12:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F727C958;
-        Mon, 13 Mar 2023 11:11:53 -0700 (PDT)
+        Mon, 13 Mar 2023 14:14:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958275CEDE;
+        Mon, 13 Mar 2023 11:14:46 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (unknown [89.244.118.114])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9322C6FA;
-        Mon, 13 Mar 2023 19:11:51 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D6B16FA;
+        Mon, 13 Mar 2023 19:14:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678731111;
-        bh=krowolXS4jMPw8Omh5coNvLGN/W78UYLbZ5S8ITpubU=;
+        s=mail; t=1678731284;
+        bh=ECiuzkN+DQNQmLQ9FTJM9eiXiAf3Dhfgrx4QRUBTQag=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mK9irTWqToyY8NTdxswABuV3bYLTmdffziSonymecWrQI0plQLnO1YkTLGZBKYybH
-         nRaepSN8FDBiHly0Q3Nv5X1AQxDLZAlEvUKlkdJqk2zPcyK8oMKMgW0NI5TOCID7vu
-         mBAf3gID0M6SULtrStiuGMhGsA1KnSrZZrRY4pJI=
-Date:   Mon, 13 Mar 2023 20:11:55 +0200
+        b=Hp3tT8MEY1rg0ePG1lryXVLvQL0nDEttkrDEwbh9XQRRhQxYs/wPJoW700jfDUeCF
+         qFrwMfZYGqpNq3oN/L5IQrZVh0/Sm2OnHOfg3vg1xaZFkPfRu9dY9YGq3jw/XRu87T
+         J57mJg9x30wvyFq0EAMz4gQknKoQlaikH07FFnXs=
+Date:   Mon, 13 Mar 2023 20:14:48 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
@@ -41,14 +41,14 @@ Cc:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-Message-ID: <20230313181155.GC22646@pendragon.ideasonboard.com>
+Subject: Re: [RFC 3/4] media: videobuf2: Use bitmap to manage vb2 index
+Message-ID: <20230313181448.GD22646@pendragon.ideasonboard.com>
 References: <20230313135916.862852-1-benjamin.gaignard@collabora.com>
- <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+ <20230313135916.862852-4-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+In-Reply-To: <20230313135916.862852-4-benjamin.gaignard@collabora.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -62,157 +62,115 @@ Hi Benjamin,
 
 Thank you for the patch.
 
-On Mon, Mar 13, 2023 at 02:59:14PM +0100, Benjamin Gaignard wrote:
-> Replacing bufs array by a list allows to remove the 32 buffers
-> limit per queue.
+On Mon, Mar 13, 2023 at 02:59:15PM +0100, Benjamin Gaignard wrote:
+> Using a bitmap to get vb2 index will allow to avoid holes
+> in the indexes when introducing DELETE_BUF ioctl.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  .../media/common/videobuf2/videobuf2-core.c   | 14 ++------------
->  include/media/videobuf2-core.h                | 19 +++++++++++++------
->  2 files changed, 15 insertions(+), 18 deletions(-)
+>  .../media/common/videobuf2/videobuf2-core.c   | 22 ++++++++++++++++++-
+>  include/media/videobuf2-core.h                |  6 +++++
+>  2 files changed, 27 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index b51152ace763..96597d339a07 100644
+> index 96597d339a07..3554811ec06a 100644
 > --- a/drivers/media/common/videobuf2/videobuf2-core.c
 > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -412,10 +412,6 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  	struct vb2_buffer *vb;
->  	int ret;
->  
-> -	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
-> -	num_buffers = min_t(unsigned int, num_buffers,
-> -			    VB2_MAX_FRAME - q->num_buffers);
-> -
-
-We can indeed drop this check now, but shouldn't we introduce some kind
-of resource accounting and limitation ? Otherwise any unpriviledged
-userspace will be able to starve system memory. This could be
-implemented on top, as the problem largely exists today already, but I'd
-like to at least record this in a TODO comment.
-
-I also wonder if we should still limit the number of allocated buffers.
-The limit could be large, for instance 1024 buffers, and it would be an
-in-kernel limit that could be increased later if needed. I'm concerned
-that dropping the limit completely will allow userspace to request
-UINT_MAX buffers, which may cause integer overflows somewhere. Limiting
-the number of buffers would avoid extensive review of all the code that
-deals with counting buffers.
-
->  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->  		/* Allocate vb2 buffer structures */
->  		vb = kzalloc(q->buf_struct_size, GFP_KERNEL);
-> @@ -797,9 +793,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> -	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
->  	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
-> -	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
->  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->  	/*
->  	 * Set this now to ensure that drivers see the correct q->memory value
-> @@ -915,11 +909,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	bool no_previous_buffers = !q->num_buffers;
->  	int ret;
->  
-> -	if (q->num_buffers == VB2_MAX_FRAME) {
-> -		dprintk(q, 1, "maximum number of buffers already allocated\n");
-> -		return -ENOBUFS;
-> -	}
-> -
->  	if (no_previous_buffers) {
->  		if (q->waiting_in_dqbuf && *count) {
->  			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
-> @@ -944,7 +933,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return -EINVAL;
->  	}
->  
-> -	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-> +	num_buffers = *count;
->  
->  	if (requested_planes && requested_sizes) {
->  		num_planes = requested_planes;
-> @@ -2444,6 +2433,7 @@ int vb2_core_queue_init(struct vb2_queue *q)
->  
->  	INIT_LIST_HEAD(&q->queued_list);
->  	INIT_LIST_HEAD(&q->done_list);
-> +	INIT_LIST_HEAD(&q->allocated_bufs);
->  	spin_lock_init(&q->done_lock);
->  	mutex_init(&q->mmap_lock);
->  	init_waitqueue_head(&q->done_wq);
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index d18c57e7aef0..47f1f35eb9cb 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -276,6 +276,8 @@ struct vb2_buffer {
->  	 * done_entry:		entry on the list that stores all buffers ready
->  	 *			to be dequeued to userspace
->  	 * vb2_plane:		per-plane information; do not change
-> +	 * allocated_entry:	entry on the list that stores all buffers allocated
-> +	 *			for the queue.
->  	 */
->  	enum vb2_buffer_state	state;
->  	unsigned int		synced:1;
-> @@ -287,6 +289,7 @@ struct vb2_buffer {
->  	struct vb2_plane	planes[VB2_MAX_PLANES];
->  	struct list_head	queued_entry;
->  	struct list_head	done_entry;
-> +	struct list_head	allocated_entry;
->  #ifdef CONFIG_VIDEO_ADV_DEBUG
->  	/*
->  	 * Counters for how often these buffer-related ops are
-> @@ -556,7 +559,7 @@ struct vb2_buf_ops {
->   * @mmap_lock:	private mutex used when buffers are allocated/freed/mmapped
->   * @memory:	current memory type used
->   * @dma_dir:	DMA mapping direction.
-> - * @bufs:	videobuf2 buffer structures
-> + * @allocated_bufs: list of buffer allocated for the queue.
->   * @num_buffers: number of allocated/used buffers
->   * @queued_list: list of buffers currently queued from userspace
->   * @queued_count: number of buffers queued and ready for streaming.
-> @@ -619,7 +622,7 @@ struct vb2_queue {
->  	struct mutex			mmap_lock;
->  	unsigned int			memory;
->  	enum dma_data_direction		dma_dir;
-> -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
-> +	struct list_head		allocated_bufs;
->  	unsigned int			num_buffers;
->  
->  	struct list_head		queued_list;
-> @@ -1239,8 +1242,12 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
->  static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->  						unsigned int index)
->  {
-> -	if (index < q->num_buffers)
-> -		return q->bufs[index];
-> +	struct vb2_buffer *vb;
-> +
-> +	list_for_each_entry(vb, &q->allocated_bufs, allocated_entry)
-> +		if (vb->index == index)
-> +			return vb;
-> +
->  	return NULL;
+> @@ -397,6 +397,22 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+>  		vb->skip_cache_sync_on_finish = 1;
 >  }
 >  
-> @@ -1251,7 +1258,7 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->   */
+> +/*
+> + * __vb2_get_index() - find a free index in the queue for vb2 buffer.
+> + *
+> + * Returns an index for vb2 buffer.
+> + */
+> +static int __vb2_get_index(struct vb2_queue *q)
+> +{
+> +	unsigned long index;
+> +
+> +	index = bitmap_find_next_zero_area(q->bmap, q->idx_max, 0, 1, 0);
+> +	if (index > q->idx_max)
+> +		dprintk(q, 1, "no index available for buffer\n");
+
+Ignoring the error is scary. If we limited the total number of buffers
+as proposed in the review of 2/4, the error wouldn't occur.
+
+I'm also wondering if it wouldn't be better to use the IDA API to
+allocate IDs, and possibly the IDR API as well to replace the list.
+
+> +
+> +	return index;
+> +}
+> +
+>  /*
+>   * __vb2_queue_alloc() - allocate vb2 buffer structures and (for MMAP type)
+>   * video buffer memory for all buffers/planes on the queue and initializes the
+> @@ -423,7 +439,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  		vb->state = VB2_BUF_STATE_DEQUEUED;
+>  		vb->vb2_queue = q;
+>  		vb->num_planes = num_planes;
+> -		vb->index = q->num_buffers + buffer;
+> +		vb->index = __vb2_get_index(q);
+>  		vb->type = q->type;
+>  		vb->memory = memory;
+>  		init_buffer_cache_hints(q, vb);
+> @@ -2438,6 +2454,9 @@ int vb2_core_queue_init(struct vb2_queue *q)
+>  	mutex_init(&q->mmap_lock);
+>  	init_waitqueue_head(&q->done_wq);
+>  
+> +	q->idx_max = ALIGN(256, BITS_PER_LONG);
+> +	q->bmap = bitmap_zalloc(q->idx_max, GFP_KERNEL);
+> +
+>  	q->memory = VB2_MEMORY_UNKNOWN;
+>  
+>  	if (q->buf_struct_size == 0)
+> @@ -2465,6 +2484,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>  	mutex_lock(&q->mmap_lock);
+>  	__vb2_queue_free(q, q->num_buffers);
+>  	mutex_unlock(&q->mmap_lock);
+> +	bitmap_free(q->bmap);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+>  
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 47f1f35eb9cb..4fddc6ae9f20 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -561,6 +561,8 @@ struct vb2_buf_ops {
+>   * @dma_dir:	DMA mapping direction.
+>   * @allocated_bufs: list of buffer allocated for the queue.
+>   * @num_buffers: number of allocated/used buffers
+> + * @bmap: Bitmap of buffers index
+> + * @idx_max: number of bits in bmap
+>   * @queued_list: list of buffers currently queued from userspace
+>   * @queued_count: number of buffers queued and ready for streaming.
+>   * @owned_by_drv_count: number of buffers owned by the driver
+> @@ -624,6 +626,8 @@ struct vb2_queue {
+>  	enum dma_data_direction		dma_dir;
+>  	struct list_head		allocated_bufs;
+>  	unsigned int			num_buffers;
+> +	unsigned long			*bmap;
+> +	int				idx_max;
+>  
+>  	struct list_head		queued_list;
+>  	unsigned int			queued_count;
+> @@ -1259,6 +1263,7 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
 >  static inline void vb2_set_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
 >  {
-> -	q->bufs[vb->index] = vb;
-> +	list_add_tail(&vb->allocated_entry, &q->allocated_bufs);
+>  	list_add_tail(&vb->allocated_entry, &q->allocated_bufs);
+> +	__set_bit(vb->index, q->bmap);
 >  }
 >  
 >  /**
-> @@ -1261,7 +1268,7 @@ static inline void vb2_set_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+> @@ -1268,6 +1273,7 @@ static inline void vb2_set_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
 >   */
 >  static inline void vb2_del_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
 >  {
-> -	q->bufs[vb->index] = NULL;
-> +	list_del(&vb->allocated_entry);
+> +	__clear_bit(vb->index, q->bmap);
+>  	list_del(&vb->allocated_entry);
 >  }
 >  
->  /*
 
 -- 
 Regards,
