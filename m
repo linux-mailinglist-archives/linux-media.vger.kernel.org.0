@@ -2,59 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39C506B8325
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 21:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D1E6B846B
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 23:02:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbjCMUyA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 16:54:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        id S229946AbjCMWCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 18:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbjCMUxy (ORCPT
+        with ESMTP id S229701AbjCMWCT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 16:53:54 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C39797F01E;
-        Mon, 13 Mar 2023 13:53:40 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-5416949b35aso139740987b3.13;
-        Mon, 13 Mar 2023 13:53:40 -0700 (PDT)
+        Mon, 13 Mar 2023 18:02:19 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8961FEE;
+        Mon, 13 Mar 2023 15:01:44 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id 4so7692188ilz.6;
+        Mon, 13 Mar 2023 15:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678740820;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YZpqs5siL4Ymiuu8Rnql+zUqmGWcS+ZbAUBpWJ9W4K8=;
-        b=KDTS7fZaclyphgJmqC5N15uD3+Gq9l4SliqQgO+pQM5PW7JyjCgsme6Ge6zXtsqVxx
-         AW1l83xNB2ZVX6w+QoQcccw87e1AscXRvCCeZLy1nzrLKUU1XU34faaYkOiDyN24nAY+
-         v6AuBphGSYHv2//9OqQZjdq/Jw5V0E+1129tns66JhFazayIQv6o62288nii6Zp5HB1N
-         TVhCN3L0l+bFus5xhnnmZ3CJCowu7SEkSE+SVTPEf73wBpgQuZlxkq1PIFew5GxN8BkQ
-         9o66TpI9Ei8fIKOQHLzaO+QfgzHm0YuUjG7Vicxxh0QA7Gdwclqym4Dwdmdr6Txlz323
-         wNoA==
+        d=gmail.com; s=20210112; t=1678744904;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DMLvNFiF6A+cLlm+Md6S//7sOrhzSCiOnPwGbda9MTs=;
+        b=aWXb3DK3A5HljkDmtHfJIax0Z4RexrlgcAXu6rc5w2LBmdFm0ZhzhLWq9rUOZmDdp2
+         qjfynGlY/ln39BF9ghwsOTTnx2ty5W57Izt1vktIL66IwFpZ/SXIeL7yDa5HJPkJlCYF
+         NuKPKFxU3VSN9QKyNg+xaVoMZ5ANKIiFT49KWS508WvyJUv1PSNLqT36iEIBajXHYKM2
+         acqHQd4/vdBLJ+TdQuHL6ydeVF/R7kSdyCG95wHm3s6ebS7yK6DpiZc5sxZdrmyjrlR3
+         Jyx/d7UvLyTcSFtZrbuWKS9R4+hA1qJSfOEOf/z7YJ4IiYDiNLA5Q6zZJgMbK8TX/7NT
+         YeRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678740820;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YZpqs5siL4Ymiuu8Rnql+zUqmGWcS+ZbAUBpWJ9W4K8=;
-        b=4rN0ia/kPPVPe+e2ORxbmTnTESz7QbvJD1xelbFdxTkHGETjy2LUoYr/m3dkYaN0nG
-         Wu98ipIwuypiNL8GuqJOnqOnsXfnacHFIZIsq1JEd6wZokavRpMWSHAd3pQEpyO1y462
-         jQMRF2Ublqs81b3Uwzbk7zIRTm/VhYILoQEYg/iO39VUQTfpTb2SKYNvF1PtUSAIbBLC
-         WQ9LiCHC3muxtzGPrTwweC3H65D6lzqGT/++O2of6C0i+9m33WTyDAFPC9+sw9lRojAI
-         OonClbCUOdFg5VrIrW/1RV7gXVoFoaLsYrkJaU/hPjwDRlw/xMSrm/5n9UvTKDl/6qz6
-         9ONA==
-X-Gm-Message-State: AO0yUKXvXDGxVQGYE6y8qBKIYOtWRDX69JR95r/z9IKQPr5davVp7u5e
-        3Izb8CQHMAvh19XpRM0Z+D1CBuikflldxpfrRp0=
-X-Google-Smtp-Source: AK7set+bkApoxdat3t4mM5yzrnKSLYecVccpJe9yYCQX9Rk8pbyyHXlR/QgC7cJyNYCPNbj0eloQSjFebG86/6a1CaA=
-X-Received: by 2002:a81:a9c6:0:b0:52e:f77c:315d with SMTP id
- g189-20020a81a9c6000000b0052ef77c315dmr8791180ywh.3.1678740819961; Mon, 13
- Mar 2023 13:53:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org> <20230312131318.351173-11-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230312131318.351173-11-krzysztof.kozlowski@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 13 Mar 2023 20:53:13 +0000
-Message-ID: <CA+V-a8sPwMax7A=k=8bz9SDbWJt7mNHG0-27UXsC=bEhAP3zQw@mail.gmail.com>
-Subject: Re: [PATCH 11/28] media: platform: ti: am437x: drop of_match_ptr for
- ID table
+        d=1e100.net; s=20210112; t=1678744904;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DMLvNFiF6A+cLlm+Md6S//7sOrhzSCiOnPwGbda9MTs=;
+        b=fq9W17n7iQPdGzbrekDv31M02f35zOTNgukH/+gHFz6mHytG8BjUt1nkG3vaNFsRWj
+         QlzyH8eN8LEZhKjj7b6baacMPhJAblUBj7D89L4JQIICRoEanH8fD1Yn7gbqnQo4+Mo0
+         0U1fjM2q0dHpLy+CkaWAnEjvzFx6aiMoMAcoNDjL4v0vdrLNOTD9F5XwtOCuPopAS2O/
+         rsjiN9ROnvB+TPGvoc2Xq6/DMpQkee6Ss5TiAC8MmwPHFxK317tfCLtP1dejIvoqjM3J
+         JKkeCq/e1U3dMuXnUU7jXHHngwj478H0NAlNsTjBBkf5byabuEAPdiiqhMH9yey8re13
+         fPTQ==
+X-Gm-Message-State: AO0yUKUraGFq/4Z5jubfjer5ZuDRtOhhJKBzb1Ao3PENA6bNtTfuPGpW
+        K7SZIyjht5nLmp0jNuU/7gA=
+X-Google-Smtp-Source: AK7set/CnpGrRNOlgdLP6A3PzpsbmZdrv5qoYIZVsXl6Lk7tiSYIV4Z0CbZ7o/CqEdQmrdQf0Yh05w==
+X-Received: by 2002:a05:6e02:dc1:b0:315:5467:4a3f with SMTP id l1-20020a056e020dc100b0031554674a3fmr720344ilj.30.1678744904090;
+        Mon, 13 Mar 2023 15:01:44 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d19-20020a056e020bf300b00316e3a38becsm282388ilu.18.2023.03.13.15.01.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Mar 2023 15:01:43 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 13 Mar 2023 15:01:40 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Joe Tessler <jrt@google.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -71,7 +69,7 @@ Cc:     Joe Tessler <jrt@google.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Wenyou Yang <wenyou.yang@microchip.com>,
@@ -91,6 +89,7 @@ Cc:     Joe Tessler <jrt@google.com>,
         Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
@@ -98,11 +97,18 @@ Cc:     Joe Tessler <jrt@google.com>,
         linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
         linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Message-ID: <b83d6b81-c4ec-4fb8-b626-84af80d1c4a3@roeck-us.net>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -110,42 +116,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Mar 12, 2023 at 1:13=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
+On Sun, Mar 12, 2023 at 02:12:51PM +0100, Krzysztof Kozlowski wrote:
 > The driver can match only via the DT table so the table should be always
 > used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
->
->   drivers/media/platform/ti/am437x/am437x-vpfe.c:2620:34: error: =E2=80=
-=98vpfe_of_match=E2=80=99 defined but not used [-Werror=3Dunused-const-vari=
-able=3D]
->
+> matching via PRP0001, even though it might not be relevant here).
+> 
+>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+> 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+FWIW: There is also
+https://patches.linaro.org/project/linux-media/patch/20230215214724.3798917-1-linux@roeck-us.net/
+
+The lack of ACPI support is a real problem and very relevant.
+
+Guenter
+
 > ---
->  drivers/media/platform/ti/am437x/am437x-vpfe.c | 2 +-
+>  drivers/media/cec/i2c/ch7322.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
-
-Cheers,
-Prabhakar
-
-> diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/med=
-ia/platform/ti/am437x/am437x-vpfe.c
-> index 2dfae9bc0bba..fe89b8e250e7 100644
-> --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> @@ -2629,7 +2629,7 @@ static struct platform_driver vpfe_driver =3D {
->         .driver =3D {
->                 .name   =3D VPFE_MODULE_NAME,
->                 .pm     =3D &vpfe_pm_ops,
-> -               .of_match_table =3D of_match_ptr(vpfe_of_match),
-> +               .of_match_table =3D vpfe_of_match,
->         },
->  };
->
-> --
-> 2.34.1
->
+> 
+> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
+> index 34fad7123704..3c6e6496a001 100644
+> --- a/drivers/media/cec/i2c/ch7322.c
+> +++ b/drivers/media/cec/i2c/ch7322.c
+> @@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
+>  static struct i2c_driver ch7322_i2c_driver = {
+>  	.driver = {
+>  		.name = "ch7322",
+> -		.of_match_table = of_match_ptr(ch7322_of_match),
+> +		.of_match_table = ch7322_of_match,
+>  	},
+>  	.probe_new	= ch7322_probe,
+>  	.remove		= ch7322_remove,
