@@ -2,77 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E44A06B70DF
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 09:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DBE96B714E
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 09:42:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229514AbjCMILA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 04:11:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57218 "EHLO
+        id S229636AbjCMImm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 04:42:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjCMIK7 (ORCPT
+        with ESMTP id S229534AbjCMImj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 04:10:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3E79D
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 01:10:58 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (unknown [89.244.118.114])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA3BF563;
-        Mon, 13 Mar 2023 09:10:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1678695056;
-        bh=16JlsqUQs02kEIdK64+kS+GmblawjD8UAEg3aR5ETUU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rtKRZ0fUrttq33tzeCqCfext5KYaBRvQxyDztCQO9Nj1hBpAWqr2LtAJNTNBv1H5F
-         /v6lXfxYx3gOrT+6JHV1rZsYdRsskjccNKDhHnpyqr80NbNHEU6CxRcugETKl2XvEi
-         7O6wcp1JwvADGEJlgJ3RmKX81o3BTTudzW1iviXc=
-Date:   Mon, 13 Mar 2023 10:11:00 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Gregor Jasny <gjasny@googlemail.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        mchehab@kernel.org, sean@mess.org
-Subject: Re: [v4l-utils] [PATCH v10 1/5] Add support for meson building
-Message-ID: <20230313081100.GD2545@pendragon.ideasonboard.com>
-References: <20230223164441.22719-1-laurent.pinchart@ideasonboard.com>
- <20230223164441.22719-2-laurent.pinchart@ideasonboard.com>
- <250e45e0-de13-5ef8-ce68-eb2cc9e58f73@googlemail.com>
- <20230312144903.GO2545@pendragon.ideasonboard.com>
- <d5776457-6fae-2192-ffe4-2791a595b1e3@googlemail.com>
+        Mon, 13 Mar 2023 04:42:39 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0392A42BF0;
+        Mon, 13 Mar 2023 01:42:38 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AF4D7660217C;
+        Mon, 13 Mar 2023 08:42:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678696956;
+        bh=x8wzIUy9Cxdue6iWvChHsFFMMVEqwwyF7up4rDSFcMU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=TN6d9OgE3CSyCBCidca1xh1FvLRtPL6Oz0dwlmYp1XdhnIH0JQDKo7PFF4U/HBbpX
+         /Zni4fexbWaSweqJcsaz9CkH1OsLZD2bdat8jYyeBQyByljx32uZ8slDDBNvcipSfj
+         pBnkCy1LCf2pMHIm0xV4bzkQi9lNojAUAGxYVH0YSiVmIO+6MAg9EEnAO5kKCx9toB
+         aatokoXdNshIHtm37DcR1BwY9XJ7KV0XN2AK7PU4vK1z0PA0MWsHmcOBxNr59Lk3KJ
+         NvcCaWYx6pvl8ehmg3wrMLth0dIOjEcYt5eA831uAGjiv/AoXo9D0AalFZ8MYcFdTV
+         bOx+tNoIoz6BQ==
+Message-ID: <d27d813d-60be-a67b-8eb3-44b50e490794@collabora.com>
+Date:   Mon, 13 Mar 2023 09:42:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d5776457-6fae-2192-ffe4-2791a595b1e3@googlemail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: Use of_property_present() for testing DT property
+ presence
+To:     Rob Herring <robh@kernel.org>, Bin Liu <bin.liu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Michal Simek <michal.simek@xilinx.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20230310144711.1543225-1-robh@kernel.org>
+Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230310144711.1543225-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gregor,
-
-On Mon, Mar 13, 2023 at 08:57:21AM +0100, Gregor Jasny wrote:
-> On 12.03.23 15:49, Laurent Pinchart wrote:
-> > Will you submit the patch to the linux-media mailing list ?
+Il 10/03/23 15:47, Rob Herring ha scritto:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties. As
+> part of this, convert of_get_property/of_find_property calls to the
+> recently added of_property_present() helper when we just want to test
+> for presence of a property and nothing more.
 > 
-> after fighting more than one hour with git send-email and Google Mail I 
-> finally gave up and pushed the patches to the master branch.
-> 
-> /me wishes for:
-> * a low-entry barrier patch submitting mechanism
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-If you want to give git-send-email another try (which is still the
-recommended option), https://git-send-email.io/ provides instructions
-tailored for different distributions and e-mail providers.
+For MTK JPEG, MTK vcodec
 
-Otherwise, b4 can be used to submit patches without SMTP:
-https://people.kernel.org/monsieuricon/sending-a-kernel-patch-with-b4-part-1.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com
 
-> * a nice CI system with configuration-as-code
-> * a bug tracker
-
--- 
-Regards,
-
-Laurent Pinchart
