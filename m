@@ -2,105 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 004546B78AE
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 14:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 879E26B78B3
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 14:20:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbjCMNSC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 09:18:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
+        id S229734AbjCMNUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 09:20:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbjCMNSB (ORCPT
+        with ESMTP id S229591AbjCMNUv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 09:18:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20117DAA;
-        Mon, 13 Mar 2023 06:17:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 434ED612A5;
-        Mon, 13 Mar 2023 13:17:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7135C433EF;
-        Mon, 13 Mar 2023 13:17:56 +0000 (UTC)
-Message-ID: <7f9796d2-1885-a6f2-b9e3-d6ea58524033@xs4all.nl>
-Date:   Mon, 13 Mar 2023 14:17:55 +0100
+        Mon, 13 Mar 2023 09:20:51 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B6130E88;
+        Mon, 13 Mar 2023 06:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678713648; x=1710249648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Gu9CMdY5O+gypuZ5ak5S3TZBJoRYuiw5EfoYKV7FCV4=;
+  b=ONp4wxYOJEw5V4alA8P4/mSJz84u/boFU3YCfHP0hxROMOHs21xE7fIP
+   GXgvElAD0XaKJEb5OiGn4wP7qB0g7iuMRJhG0j9uDk8oNjUMLM7C/Jz1N
+   lIg7wFhyDoUBrJ+E2qG6/JKv8LOwlV1gkTjBGgPGgOetQ2KAG0dYniyRr
+   01KO58a6BNrUw7ncmVn9aYm4y0LLxsT4rM+9CaZvWXRQOndn87yr+Vf0m
+   Lg8ffscp36giTi7l8rrC0RK1uBJDycpHp+2BPmWjW/OM9m+1BNGH8U0QG
+   fD0IwdQzTbABynI1Df/h+QnzQLO29IF6zBHzYt4ldVyl8CqvBnp+iOqNM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423408073"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="423408073"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:20:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="628630094"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="628630094"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:20:45 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 4EB42120C21;
+        Mon, 13 Mar 2023 15:20:42 +0200 (EET)
+Date:   Mon, 13 Mar 2023 15:20:42 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 1/1] media: i2c: imx290: Make use of
+ get_unaligned_le24(), put_unaligned_le24()
+Message-ID: <ZA8jKpSR+p8e6Uel@kekkonen.localdomain>
+References: <20230209221205.46573-1-andriy.shevchenko@linux.intel.com>
+ <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
+ <Y+Z5mAhQk6zEFHOz@smile.fi.intel.com>
+ <ZAtnKLKEZXCw/Ezy@smile.fi.intel.com>
+ <ZA8J5/vElpjrRD4N@valkosipuli.retiisi.eu>
+ <ZA8Qk8CmBNvsDUMv@smile.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: hantro: fix use after free bug in hantro_release
- due to race condition
-Content-Language: en-US
-To:     Zheng Wang <zyytlz.wz@163.com>, ezequiel@vanguardiasur.com.ar
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com
-References: <20230307153542.1178065-1-zyytlz.wz@163.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230307153542.1178065-1-zyytlz.wz@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZA8Qk8CmBNvsDUMv@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/03/2023 16:35, Zheng Wang wrote:
-> In hantro_probe, vpu->watchdog_work is bound with
-> hantro_watchdog. Then hantro_end_prepare_run may
-> be called to start the work.
+On Mon, Mar 13, 2023 at 02:01:23PM +0200, Andy Shevchenko wrote:
+> On Mon, Mar 13, 2023 at 01:32:55PM +0200, Sakari Ailus wrote:
+> > On Fri, Mar 10, 2023 at 07:21:44PM +0200, Andy Shevchenko wrote:
+> > > On Fri, Feb 10, 2023 at 07:06:32PM +0200, Andy Shevchenko wrote:
+> > > > On Fri, Feb 10, 2023 at 12:35:09AM +0200, Laurent Pinchart wrote:
+> > > > > On Fri, Feb 10, 2023 at 12:12:05AM +0200, Andy Shevchenko wrote:
+> > > > > > Since we have a proper endianness converters for LE 24-bit data use them.
+> > > > > > 
+> > > > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > > > 
+> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > 
+> > > > Thank you for the reviews!
+> > > > 
+> > > > > I assume Sakari will pick both patches.
+> > > > 
+> > > > I also assume the same.
+> > > 
+> > > Sakari, do you have any comments?
+> > 
+> > Yes. These are in my tree now.
 > 
-> If we close the file or remove the module which will
-> call hantro_release and hantro_remove to make cleanup,
-> there may be a unfinished work. The possible sequence
-> is as follows, which will cause a typical UAF bug.
+> Which is...?
 > 
-> The same thing will happen in hantro_release, and use
-> ctx after freeing it.
-> 
-> Fix it by canceling the work before cleanup in hantro_release.
-> 
-> CPU0                  CPU1
-> 
->                     |hantro_watchdog
-> hantro_remove     |
->   v4l2_m2m_release  |
->     kfree(m2m_dev); |
->                     |
->                     | v4l2_m2m_get_curr_priv
->                     |   m2m_dev->curr_ctx //use
-> 
-> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> ---
->  drivers/media/platform/verisilicon/hantro_drv.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index b0aeedae7b65..cf00ccaa7829 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -601,6 +601,7 @@ static int hantro_release(struct file *filp)
->  	 * No need for extra locking because this was the last reference
->  	 * to this file.
->  	 */
-> +	cancel_delayed_work(&vpu->watchdog_work);
->  	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->  	v4l2_fh_del(&ctx->fh);
->  	v4l2_fh_exit(&ctx->fh);
+> I don't see anything on https://git.linuxtv.org/sailus/media_tree.git/.
 
-drivers/media/platform/verisilicon/hantro_drv.c: In function ‘hantro_release’:
-drivers/media/platform/verisilicon/hantro_drv.c:604:30: error: ‘vpu’ undeclared (first use in this function); did you mean ‘fpu’?
-  604 |         cancel_delayed_work(&vpu->watchdog_work);
-      |                              ^~~
-      |                              fpu
-drivers/media/platform/verisilicon/hantro_drv.c:604:30: note: each undeclared identifier is reported only once for each function it appears in
+This is a bit opportunistic since we don't have rc1 in the media tree yet.
 
-You clearly didn't compile this patch!
+I'll push it once we do.
 
-Regards,
-
-	Hans
+-- 
+Sakari Ailus
