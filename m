@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3BF26B7C3B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 16:42:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F70A6B7C5C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 16:50:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbjCMPmJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 11:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59750 "EHLO
+        id S229847AbjCMPuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 11:50:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjCMPmI (ORCPT
+        with ESMTP id S229524AbjCMPt7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 11:42:08 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [123.126.96.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5057D53724;
-        Mon, 13 Mar 2023 08:42:05 -0700 (PDT)
+        Mon, 13 Mar 2023 11:49:59 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.215])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1BC9442BCE;
+        Mon, 13 Mar 2023 08:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NMeHq
-        c9vEtUERKAOCOKjGmVkf5YkMepOMEfhtaswEhc=; b=em7N6x0m+8FcZgIVUSuhU
-        HnWkEZhrTFz+w29FDBYiesKxWe2N5jlOOVn09DuSUMytcqnF4H1qqS7iWTZ5evNM
-        OwyRpJDpK7FBbt97Eu24mZFq9vEpchwN3RErZboGOkViLFU8wIG1YCIW6ydh/G1E
-        YBdeRU+aC1FoaJB0JglJ9M=
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=zZIaX
+        bZODM+Wxzq0HHWHcgsRoTtcQ0oqs1PXU9bdNqE=; b=c9O4uZyeymy4ozAsWeZ+9
+        tH+ZJXubx0BfuhAl/F2uSdKaNYBIXIo/Y+NHm1pgT3HIJ65McCAiNfYqMPp2Om6h
+        7F3oitdwkm4jYc8QdH2ad/zSELs5v12rhY0iJQKy4LCPM/tZJnl5gYQgbQusxA2X
+        wIOpKmkTOxgEILYJLiB6ec=
 Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
-        by smtp19 (Coremail) with SMTP id R9xpCgD3_rItRA9kgCPoHQ--.36544S2;
-        Mon, 13 Mar 2023 23:41:33 +0800 (CST)
+        by zwqz-smtp-mta-g3-2 (Coremail) with SMTP id _____wAnHYLqRQ9kDrURAA--.16196S2;
+        Mon, 13 Mar 2023 23:48:58 +0800 (CST)
 From:   Zheng Wang <zyytlz.wz@163.com>
 To:     ezequiel@vanguardiasur.com.ar
 Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
@@ -31,23 +31,22 @@ Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
         linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
         1395428693sheep@gmail.com, alex000young@gmail.com,
         hverkuil@xs4all.nl, Zheng Wang <zyytlz.wz@163.com>
-Subject: [PATCH v3] media: hantro: fix use after free bug in hantro_remove  due to race condition
-Date:   Mon, 13 Mar 2023 23:41:32 +0800
-Message-Id: <20230313154132.3684181-1-zyytlz.wz@163.com>
+Subject: [PATCH v4] media: hantro: fix use after free bug in hantro_remove  due to race condition
+Date:   Mon, 13 Mar 2023 23:48:56 +0800
+Message-Id: <20230313154856.3691660-1-zyytlz.wz@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: R9xpCgD3_rItRA9kgCPoHQ--.36544S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Wry3Xw4kJw47Jr4rWr4kZwb_yoW8Cw1DpF
-        W3G3y5KrWjqr47KFn7tay09ayfCasFqF4jgrZruw13JF9xtr9rurySyF48AF98JrZ3ZF4a
-        vF4jqrW8Z3y2vFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziaZXrUUUUU=
+X-CM-TRANSID: _____wAnHYLqRQ9kDrURAA--.16196S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Wry3Xw4kJw47Jr4rWr4kZwb_yoW8Zw13pF
+        W3KrW5KrWjqF47KFn7tay09ayfCasFqF4UXrZruw13AF9xtry7urySya18CF98JrZ3ZF4a
+        qF4jqrWrZw42vFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi-eOJUUUUU=
 X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgsxU2I0XntM5AADs-
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXA4xU1Xl56OqKgABsF
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -79,7 +78,11 @@ hantro_remove     |
                     |   m2m_dev->curr_ctx //use
 
 Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+Fixes: 932a9317ac49 ("media: hantro: Add helpers to prepare/finish a run")
 ---
+v4:
+- add Fixes label to help with the fix
+
 v3:
 - use cancel_delayed_work_sync instead of cancel_delayed_work and add it to
 hantro_release suggested by Hans Verkuil
