@@ -2,148 +2,300 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCFB76B7FAD
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 18:49:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27D956B7FBC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 18:50:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbjCMRtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 13:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43136 "EHLO
+        id S230203AbjCMRuj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 13:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbjCMRs6 (ORCPT
+        with ESMTP id S229665AbjCMRuh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 13:48:58 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C8D7203A
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 10:48:56 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id k10so51888070edk.13
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 10:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678729735;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LaK08avXalr1PtoSNHT6ZMxzGm2NKQlXYq160RM6SJg=;
-        b=dwExWLVQdmufRrRGXvEQQ1J2pk2D/Jdo2kqu0Ua5mZVPG4yiifCsywyW+2AMQkUukA
-         b92ORrZwWODHjo2I5wwOYpxAR8AKHud5h/H6Vqrk8gMWQB1ltNR3axJpDwbqRUZDp4IQ
-         is3++1C03Np1nMPrK4piGvjmNjsloBC3pux5NSXcc8ELrmfvWOMXXPH71gtEXIbrUAEF
-         qnItvDp2niVxcjONCEXYzYH9d2GUJEdfarO4PMknYxY9d6Gh9Ej5TpjoDMOPvpfGR4Kq
-         AdGfSbUtN2JtOh35w4ePqu2Dwhz52a3ABv/TxVTxAV43OjBchWT7oPumTKJwG3aEuH+q
-         talw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678729735;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LaK08avXalr1PtoSNHT6ZMxzGm2NKQlXYq160RM6SJg=;
-        b=AXNTcsCQblKKb4cQkonvWPCREONFagP7gu28jJLMA02h8Z8DsM04jQtxdldp/ep8Qo
-         IWT+B4lOfo95YdRieQkxTPchPLWtbwzX6JttDwb7m/Oh5A6i9oYEpoInKvmCh+CdRQfx
-         F0RAW6ekdg4yZlwkdwXEOAdtse/+ZceEGF1XNF/QD+a2ZEDSexrzhsmqYUE49fQu2XaH
-         XatBPAJVS/UZqdLR6f+SPw50gBbLl0TShmaWfp58ad4lKKFa5CxTeg2GTObwg3yZTuIl
-         8ZeScyrHy78JlGLo2A/bguSNo576HBEoM2Px4cZE8FBeQIh1pSMzTwXj1YpNQ4ok3Dee
-         lrTQ==
-X-Gm-Message-State: AO0yUKUGqBFQWqGu6fdWUx1anJY82W7V2aSImx+sp2LjxRW/atR5RY7a
-        bzRwFDhn+rdh7QQs7yGZ2xY=
-X-Google-Smtp-Source: AK7set9d2laRnRbapcAd8siE2bZ+imaK9IVIK2D7fOzf13taHY4ft+Z6RvcxkeP2ISZnydG1+yAIxQ==
-X-Received: by 2002:a17:906:db0c:b0:909:3c55:a1b3 with SMTP id xj12-20020a170906db0c00b009093c55a1b3mr47469140ejb.38.1678729734897;
-        Mon, 13 Mar 2023 10:48:54 -0700 (PDT)
-Received: from [192.168.1.45] (hst-221-55.medicom.bg. [84.238.221.55])
-        by smtp.gmail.com with ESMTPSA id lg8-20020a170906f88800b008ca8b62cda6sm64827ejb.177.2023.03.13.10.48.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 10:48:54 -0700 (PDT)
-Message-ID: <ace4420f-d4fb-df18-60f0-3b698c196250@gmail.com>
-Date:   Mon, 13 Mar 2023 19:48:53 +0200
+        Mon, 13 Mar 2023 13:50:37 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 274FC78CBB;
+        Mon, 13 Mar 2023 10:50:09 -0700 (PDT)
+Received: from 2603-8080-2102-63d7-c4a8-7e10-0391-f3ff.res6.spectrum.com (2603-8080-2102-63d7-c4a8-7e10-0391-f3ff.res6.spectrum.com [IPv6:2603:8080:2102:63d7:c4a8:7e10:391:f3ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: gfxstrand)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C57FB6602179;
+        Mon, 13 Mar 2023 17:50:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678729807;
+        bh=xAoSrt6ok3rZEBjY+weW5rQvZBVH8IFHlHFW3Km1xIE=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=oSWXTgrlnOu+4tRAuaTAhAxxQPeXH9BthRHi10Q9cQbXmnkh3bucEb9d2wQJZCWD1
+         1z2j9H6C9DXjOv5OEyK4Sj2jinbBdVER4qizvl/SDiNngN4X2GK8ibY5HMN/jUiM0K
+         Lgb6wuw6jRM3dxATRJR2vIIU09devvxy61sEzOWeK1nF1Hze8dC35r9dSuGxJ6P9Yc
+         ubFZnsGEb/WR1Wv+c0FzKfGuK2UsjxOC/6d/SCbm6mqA6pSMvvmy447L/+HmcuH2gC
+         fdCmebbYSohZS2wJXNt1zOCWQ2qcBzDZexbOxd7dTRFDn4ZnANbAx4hk0gT+L5AsRJ
+         FJff+kwAI+EYA==
+Message-ID: <5a0db63c043adc47b289b3f1d22935a0a63c926e.camel@collabora.com>
+Subject: Re: [PATCH RFC 03/18] rust: drm: file: Add File abstraction
+From:   Faith Ekstrand <faith.ekstrand@collabora.com>
+To:     Asahi Lina <lina@asahilina.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>, Mary <mary@mary.zone>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
+        asahi@lists.linux.dev
+Date:   Mon, 13 Mar 2023 12:49:57 -0500
+In-Reply-To: <28fa3f97-4c7c-212e-2be2-fb1c05f7f576@asahilina.net>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+         <20230307-rust-drm-v1-3-917ff5bc80a8@asahilina.net>
+         <9ba89e97155400fb379f5101ccb8960d0bcbc025.camel@collabora.com>
+         <28fa3f97-4c7c-212e-2be2-fb1c05f7f576@asahilina.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [GIT FIXES FOR v6.3] Venus fixes
-Content-Language: en-US, bg-BG
-To:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        linux-media@vger.kernel.org
-References: <20230302060413.67239-1-stanimir.k.varbanov@gmail.com>
- <cb03d97f-ae48-4090-e14b-354373a2ebe3@leemhuis.info>
- <7ef0357c-1bd8-7598-4c4e-9d795b5f0abd@leemhuis.info>
-From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <7ef0357c-1bd8-7598-4c4e-9d795b5f0abd@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Fri, 2023-03-10 at 07:16 +0900, Asahi Lina wrote:
+> On 10/03/2023 06.16, Faith Ekstrand wrote:
+> > On Tue, 2023-03-07 at 23:25 +0900, Asahi Lina wrote:
+> > > A DRM File is the DRM counterpart to a kernel file structure,
+> > > representing an open DRM file descriptor. Add a Rust abstraction
+> > > to
+> > > allow drivers to implement their own File types that implement
+> > > the
+> > > DriverFile trait.
+> > >=20
+> > > Signed-off-by: Asahi Lina <lina@asahilina.net>
+> > > ---
+> > > =C2=A0rust/bindings/bindings_helper.h |=C2=A0=C2=A0 1 +
+> > > =C2=A0rust/kernel/drm/drv.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 ++-
+> > > =C2=A0rust/kernel/drm/file.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 113
+> > > ++++++++++++++++++++++++++++++++++++++++
+> > > =C2=A0rust/kernel/drm/mod.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > =C2=A04 files changed, 120 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/rust/bindings/bindings_helper.h
+> > > b/rust/bindings/bindings_helper.h
+> > > index 2a999138c4ae..7d7828faf89c 100644
+> > > --- a/rust/bindings/bindings_helper.h
+> > > +++ b/rust/bindings/bindings_helper.h
+> > > @@ -8,6 +8,7 @@
+> > > =C2=A0
+> > > =C2=A0#include <drm/drm_device.h>
+> > > =C2=A0#include <drm/drm_drv.h>
+> > > +#include <drm/drm_file.h>
+> > > =C2=A0#include <drm/drm_ioctl.h>
+> > > =C2=A0#include <linux/delay.h>
+> > > =C2=A0#include <linux/device.h>
+> > > diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
+> > > index 29a465515dc9..1dcb651e1417 100644
+> > > --- a/rust/kernel/drm/drv.rs
+> > > +++ b/rust/kernel/drm/drv.rs
+> > > @@ -144,6 +144,9 @@ pub trait Driver {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 /// Should be either `drm::gem::Object<T>` o=
+r
+> > > `drm::gem::shmem::Object<T>`.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 type Object: AllocImpl;
+> > > =C2=A0
+> > > +=C2=A0=C2=A0=C2=A0 /// The type used to represent a DRM File (client=
+)
+> > > +=C2=A0=C2=A0=C2=A0 type File: drm::file::DriverFile;
+> > > +
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 /// Driver metadata
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 const INFO: DriverInfo;
+> > > =C2=A0
+> > > @@ -213,8 +216,8 @@ macro_rules! drm_device_register {
+> > > =C2=A0impl<T: Driver> Registration<T> {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 const VTABLE: bindings::drm_driver =3D drm_l=
+egacy_fields! {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 load: None,
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 open: None, // TODO: File=
+ abstraction
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 postclose: None, // TODO:=
+ File abstraction
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 open: Some(drm::file::ope=
+n_callback::<T::File>),
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 postclose:
+> > > Some(drm::file::postclose_callback::<T::File>),
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lastclose: None,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unload: None,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 release: None,
+> > > diff --git a/rust/kernel/drm/file.rs b/rust/kernel/drm/file.rs
+> > > new file mode 100644
+> > > index 000000000000..48751e93c38a
+> > > --- /dev/null
+> > > +++ b/rust/kernel/drm/file.rs
+> > > @@ -0,0 +1,113 @@
+> > > +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> > > +
+> > > +//! DRM File objects.
+> > > +//!
+> > > +//! C header:
+> > > [`include/linux/drm/drm_file.h`](../../../../include/linux/drm/dr
+> > > m_fi
+> > > le.h)
+> > > +
+> > > +use crate::{bindings, drm, error::Result};
+> > > +use alloc::boxed::Box;
+> > > +use core::marker::PhantomData;
+> > > +use core::ops::Deref;
+> > > +
+> > > +/// Trait that must be implemented by DRM drivers to represent a
+> > > DRM
+> > > File (a client instance).
+> > > +pub trait DriverFile {
+> > > +=C2=A0=C2=A0=C2=A0 /// The parent `Driver` implementation for this
+> > > `DriverFile`.
+> > > +=C2=A0=C2=A0=C2=A0 type Driver: drm::drv::Driver;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 /// Open a new file (called when a client opens t=
+he DRM
+> > > device).
+> > > +=C2=A0=C2=A0=C2=A0 fn open(device: &drm::device::Device<Self::Driver=
+>) ->
+> > > Result<Box<Self>>;
+> > > +}
+> > > +
+> > > +/// An open DRM File.
+> > > +///
+> > > +/// # Invariants
+> > > +/// `raw` is a valid pointer to a `drm_file` struct.
+> > > +#[repr(transparent)]
+> > > +pub struct File<T: DriverFile> {
+> > > +=C2=A0=C2=A0=C2=A0 raw: *mut bindings::drm_file,
+> > > +=C2=A0=C2=A0=C2=A0 _p: PhantomData<T>,
+> > > +}
+> > > +
+> > > +pub(super) unsafe extern "C" fn open_callback<T: DriverFile>(
+> > > +=C2=A0=C2=A0=C2=A0 raw_dev: *mut bindings::drm_device,
+> > > +=C2=A0=C2=A0=C2=A0 raw_file: *mut bindings::drm_file,
+> > > +) -> core::ffi::c_int {
+> > > +=C2=A0=C2=A0=C2=A0 let drm =3D core::mem::ManuallyDrop::new(unsafe {
+> > > drm::device::Device::from_raw(raw_dev) });
+> >=20
+> > Maybe you can help educate me a bit here... This feels like a
+> > really
+> > sketchy pattern.=C2=A0 We're creating a Device from a pointer, an
+> > operation
+> > which inherently consumes a reference but then marking it
+> > ManuallyDrop
+> > so drm_device_put() never gets called.=C2=A0 It took me a while but I
+> > think
+> > I figured out what you're trying to do: Make it so all the Rust
+> > stuff
+> > works with Device, not drm_device but it still feels really wrong.=C2=
+=A0
+> > It
+> > works, it just feels like there's a lot of unsafe abstraction
+> > juggling
+> > happening here and I expect this operation is going to be pretty
+> > common
+> > in the Rust abstraction layer.
+>=20
+> So I think this is going to be a pretty common pattern in this kind
+> of
+> abstraction. The problem is that, of course, in C there is no
+> distinction between an owned reference and a borrowed one. Here we
+> have
+> a borrowed reference to a struct drm_device, and we need to turn it
+> into
+> a &Device (which is the Rust equivalent type). But for &Device to
+> exist
+> we need a Device to exist in the first place, and Device normally
+> implies ownership of the underlying drm_device.
 
-On 13.03.23 г. 16:28 ч., Thorsten Leemhuis wrote:
-> On 02.03.23 09:27, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 02.03.23 07:04, Stanimir Varbanov wrote:
->>>
->>> This pull request includes a fix for regression in venus hardware reset.
->>> The reverted commit has been merged in v6.2.
->>>
->>> Please pull.
-> 
-> Mauro: any reason why this is still not pulled? It fixes a regression
-> that made it into 6.2 and the revert was now posted 34 days ago, hence
-> it would be good if this could finally go to Linus, so that it can be
-> backported to stable.
+Thanks! Putting it in terms of borrow really helps clear up the
+difference.
 
-I guess the best I can do is to include the revert in the next pull 
-request for v6.4.
+> We could just acquire a reference here, but then we're needlessly
+> grabbing a ref only to drop it at the end of the function, which is
+> pointless when the caller is holding another reference for us while
+> the
+> callback runs. And of course Rust likes to claim to offer zero-cost
+> abstractions, so it would be kind of sad to have to do that... ^^
 
-> 
-> BTW, Stan: What...
-> 
->>> The following changes since commit 3e62aba8284de0994a669d07983299242e68fe72:
->>>
->>>    media: imx-mipi-csis: Check csis_fmt validity before use (2023-02-26 11:21:33 +0100)
->>>
->>> are available in the Git repository at:
->>>
->>>    git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-fixes-for-v6.3
->>>
->>> for you to fetch changes up to 1440cfcf24db8c50d929d3c35ab6f87f868fa628:
->>>
->>>    Revert "venus: firmware: Correct non-pix start and end addresses" (2023-03-02 07:52:10 +0200)
->>>
->>> ----------------------------------------------------------------
->>> Venus fixes for v6.3
->>>
->>> ----------------------------------------------------------------
->>> Javier Martinez Canillas (1):
->>>        Revert "venus: firmware: Correct non-pix start and end addresses"
->>
->> Good to see that this finally is heading towards mainline, thx.
->>
->> What about the other venus regression[1] Javier provided this patch for:
->>
->> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
-> 
-> ...about this revert from Feb, 10th? There was some discussion recently,
-> but it would to get this finally resolved, too.
+Yeah, I agree we don't want to take extra references.
 
-I still have doubts about test coverage on db410c and RB3, because the 
-firmware there behaves very differently and we can introduce another 
-regression. If that happens we have to fix the fix in this patch. I'm 
-working on the testing on those two devices.
+> Just doing drm::device::Device::from_raw(raw_dev) is a ticking time
+> bomb, because we haven't acquired a reference (which would normally
+> be
+> required). If that Device ever gets dropped, we've messed up the
+> refcounting and stolen the caller's reference. We could try to ensure
+> it
+> gets passed to core::mem::forget in all paths out, but that gets
+> error-prone very quickly when trying to cover error paths. So
+> instead,
+> we put it into a ManuallyDrop. That takes care of neutering the ref
+> drop, so we don't have to worry about messing that up. Then the only
+> remaining safety requirement is that that the ManuallyDrop<Device>
+> never
+> escape the callback function, and that's easy to ensure: we only pass
+> a
+> &ref to the user (which via auto-deref ends up being a &Device), and
+> then nothing bad can happen. If the user wants an owned reference to
+> the
+> device to keep around, they can call .clone() on it and that's when
+> the
+> incref happens.
+>=20
+> Basically, ManuallyDrop<T> where T is a reference counted type
+> represents a borrowed reference to a T coming from the C side. You
+> can
+> see another use of this pattern in gem::Object, which contains a
+> ManuallyDrop<Device> that represents a borrowed reference to the
+> device
+> that owns that object. The DRM core (as far as I know!) guarantees
+> that
+> DRM devices outlive all of their GEM objects, so we can materialize a
+> borrowed reference and as long as it never leaves the GEM object, it
+> will be sound. Then we can take &Device references from it whenever
+> we
+> want, and the usual Rust borrow checker rules ensure we can't do
+> something illegal.
 
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
-> 
-> #regzbot poke
-> #regzbot ignore-activity
+Ok, that all matches my understanding of what I thought was going on. I
+do wonder if it would be good to wrap this up in a
 
--- 
-regards,
-Stan
+struct DeviceBorrow {
+   dev: ManuallyDrop<Device>
+}
+
+impl DeviceBorrow {
+   pub unsafe fn from_raw(*mut bindings::drm_device) -> DeviceBorrow;
+}
+
+impl Deref<Device> for DeviceBorrow {
+   ...
+}
+
+with documentation, etc.  Seeing a ManuallyDrop which is never dropped
+sets my rust senses tingling.  Maybe that's too much typing for each
+object?  I don't want to add a bunch of extra work but this seems like
+a pretty common pattern we're going to hit everywhere.
+
+~Faith
