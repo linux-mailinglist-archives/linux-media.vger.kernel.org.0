@@ -2,134 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 420DD6B7B47
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:58:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 668006B7B8C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 16:09:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231654AbjCMO6D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 10:58:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38858 "EHLO
+        id S230268AbjCMPJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 11:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231593AbjCMO56 (ORCPT
+        with ESMTP id S229624AbjCMPJD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 10:57:58 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397BC74DD0
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 07:57:09 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1pbjaz-0001Uo-Ba; Mon, 13 Mar 2023 15:56:17 +0100
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1pbjao-0002KP-MN; Mon, 13 Mar 2023 15:56:06 +0100
-Date:   Mon, 13 Mar 2023 15:56:06 +0100
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 07/28] media: platform: allegro-dvt: drop of_match_ptr
- for ID table
-Message-ID: <20230313145606.GC4673@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-7-krzysztof.kozlowski@linaro.org>
+        Mon, 13 Mar 2023 11:09:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6F82CC48;
+        Mon, 13 Mar 2023 08:08:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C0168B8117E;
+        Mon, 13 Mar 2023 15:08:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B71DDC433D2;
+        Mon, 13 Mar 2023 15:08:41 +0000 (UTC)
+Message-ID: <43b48f87-2343-5855-e6c2-8f30319687c5@xs4all.nl>
+Date:   Mon, 13 Mar 2023 16:08:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230312131318.351173-7-krzysztof.kozlowski@linaro.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: hantro: fix use after free bug in hantro_remove
+ due to race condition
+Content-Language: en-US
+To:     Zheng Wang <zyytlz.wz@163.com>, ezequiel@vanguardiasur.com.ar
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com
+References: <20230307154157.1184826-1-zyytlz.wz@163.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230307154157.1184826-1-zyytlz.wz@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -137,36 +49,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 12 Mar 2023 14:12:57 +0100, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
+On 07/03/2023 16:41, Zheng Wang wrote:
+> In hantro_probe, vpu->watchdog_work is bound with
+> hantro_watchdog. Then hantro_end_prepare_run may
+> be called to start the work.
 > 
->   drivers/media/platform/allegro-dvt/allegro-core.c:3995:34: error: ‘allegro_dt_ids’ defined but not used [-Werror=unused-const-variable=]
+> If we close the file or remove the module which will
+> call hantro_release and hantro_remove to make cleanup,
+> there may be a unfinished work. The possible sequence
+> is as follows, which will cause a typical UAF bug.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
-
+> The same thing will happen in hantro_release, and use
+> ctx after freeing it.
+> 
+> Fix it by canceling the work before cleanup in hantro_release.
+> 
+> CPU0                  CPU1
+> 
+>                     |hantro_watchdog
+> hantro_remove     |
+>   v4l2_m2m_release  |
+>     kfree(m2m_dev); |
+>                     |
+>                     | v4l2_m2m_get_curr_priv
+>                     |   m2m_dev->curr_ctx //use
+> 
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 > ---
->  drivers/media/platform/allegro-dvt/allegro-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/platform/verisilicon/hantro_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-> index 2423714afcb9..7fc197a02cc2 100644
-> --- a/drivers/media/platform/allegro-dvt/allegro-core.c
-> +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-> @@ -4009,7 +4009,7 @@ static struct platform_driver allegro_driver = {
->  	.remove = allegro_remove,
->  	.driver = {
->  		.name = "allegro",
-> -		.of_match_table = of_match_ptr(allegro_dt_ids),
-> +		.of_match_table = allegro_dt_ids,
->  		.pm = &allegro_pm_ops,
->  	},
->  };
-> -- 
-> 2.34.1
-> 
-> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index b0aeedae7b65..80bd856a4da9 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -1099,6 +1099,7 @@ static int hantro_remove(struct platform_device *pdev)
+>  
+>  	v4l2_info(&vpu->v4l2_dev, "Removing %s\n", pdev->name);
+>  
+> +	cancel_delayed_work(&vpu->watchdog_work);
+
+Use cancel_delayed_work_sync(): that ensures the code waits for a running
+watchdog function to finish.
+
+Ditto for the other patch.
+
+Regards,
+
+	Hans
+
+>  	media_device_unregister(&vpu->mdev);
+>  	hantro_remove_dec_func(vpu);
+>  	hantro_remove_enc_func(vpu);
+
