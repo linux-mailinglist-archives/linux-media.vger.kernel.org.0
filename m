@@ -2,115 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC3356B779C
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 13:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B07A6B77E7
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 13:45:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229888AbjCMMfI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 08:35:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
+        id S229789AbjCMMpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 08:45:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229909AbjCMMe5 (ORCPT
+        with ESMTP id S229587AbjCMMpi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 08:34:57 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A341574D1;
-        Mon, 13 Mar 2023 05:34:47 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Mon, 13 Mar 2023 08:45:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5666827D45
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 05:45:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PZx1Z3f5Vz4BKJT;
-        Mon, 13 Mar 2023 14:34:42 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678710883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GJ9bcmqVqz/Sh/xRji2EFdVxMLOfeVSW3VOI8SvASAk=;
-        b=dStFuEC8lhvJTLDXuMBClU4jnw+s42ZM//I+UBNEztPjcWjfpgXt8jYMkIMDHom8yEw5Bb
-        JP4R+9cKtKKp8Ji4sTcZyYzUw95qbVuE4SNvJzUhwD9JovyGsy+Gfh/e59o4c8pH2msprv
-        ssBR9kcDPAj5O5n9DdwV9aBPFh+n3IShkeTw+gm7Is1vfnC36wzFLj8nzgk8LRNgZIU8uE
-        w8o9R6Bbh79G84R5eI74ZjDpevdZ9dJ9CMPWdq+6zAuGYJPXfmjpRcoqd+LlkyswSbgns7
-        WFzTSmLnT443eLf8Qnki+1a2p/yH6ndP+G8XLYWsjaIA7mB84OobZMrFZzWyDg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678710883; a=rsa-sha256;
-        cv=none;
-        b=B7ZCq4ozsuWb7x/uBQsmLjwA1/nEijpQg9oP3Br1RlQgx7jBNTf6bNyQGvHbnp9lTnKSGv
-        ncOM9MQ07o/m2q2hqzPek82K+4MvTdf+VlLebC89k3fj2m+sRJicXWA2qqwPEswKnEc3gI
-        /AdeZp94xjquMP7pLcg/wqBPN+pyT9FCmg0OrFjDkgszQDcs1sKpJ2z2z5ekKVz1t5Gnig
-        iy7sjRuO5zDNaOIlmo2ydYq1hx8F3beMySTns31fyYJQLUFCJHINrihf9tOrhYwHG5bASN
-        ecA4cEkSfmJqWLiDTGDm6sbTEZSuNEbxFqgVKkwd0RqY0mtFAn9vxS/eybqpnw==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1678710883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GJ9bcmqVqz/Sh/xRji2EFdVxMLOfeVSW3VOI8SvASAk=;
-        b=ac5Imymz4ViCpMVcjFpO89zdj80Lz3kShNl3Q/60vmZ2M8MTFFExWxYGd6vdLNKCp4OBAz
-        uqczkvPbWgAJyLLVStTP0l2d0AUcz4Vgl8Yhl3JkyNtaIr2obLieQya/7+/k/dLv8LgEE9
-        RMA+Pean0Sj8mxwOLNO0MEIXAbyiGapIU0vKWBSi6JSJW2fZZrBxeHSJE1lWKwEIGtec3w
-        itku33tDUVnCwnYQNx55Oj3aFv+yn8yWFhflZrxekVsRptJ8RHeXl9LV8aH2mklXRs0ouS
-        wn3tLMOmTJiNql94/X+n/OcuQUsIWuaDWDacE2Co+Sh0goWmyrtnPJ+Z/dmowg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0C3F9634C91;
-        Mon, 13 Mar 2023 14:33:43 +0200 (EET)
-Date:   Mon, 13 Mar 2023 14:33:43 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 6/7] media: dt-bindings: samsung,fimc: convert to
- dtschema
-Message-ID: <ZA8YJx+NE0+89YaD@valkosipuli.retiisi.eu>
-References: <20230216142204.48394-1-krzysztof.kozlowski@linaro.org>
- <20230216142204.48394-7-krzysztof.kozlowski@linaro.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 52E7D61277
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 12:44:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21FBBC433D2;
+        Mon, 13 Mar 2023 12:44:47 +0000 (UTC)
+Message-ID: <3828a777-a538-8189-3aff-b9da6419a43c@xs4all.nl>
+Date:   Mon, 13 Mar 2023 13:44:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230216142204.48394-7-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: docs: vidioc-g-ext-ctrls.rst: Document p_s32 and
+ p_s64 fields
+Content-Language: en-US
+To:     Daniel Lundberg Pedersen <dlp@qtec.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org
+References: <20230307133617.116683-1-dlp@qtec.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230307133617.116683-1-dlp@qtec.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hi Daniel,
 
-On Thu, Feb 16, 2023 at 03:22:03PM +0100, Krzysztof Kozlowski wrote:
-> Convert the Samsung S5P/Exynos Camera Subsystem (FIMC) bindings to DT
-> schema.  Changes during conversion - adjust to existing DTS and Linux
-> driver: add iommus and power-domains.
+On 07/03/2023 14:36, Daniel Lundberg Pedersen wrote:
+> p_s32 and p_s64 were added to the v4l2_ext_control struct, so these
+> should have documentation as well.
+
+This patch is missing your Signed-off-by line!
+
+Either repost or reply to this with your Signed-off-by.
+
+It's a nice change, I'd like to merge this!
+
+Regards,
+
+	Hans
+
+> ---
+>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst     | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 892cfeb8b988..5292d5e1a91f 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -185,6 +185,16 @@ still cause this situation.
+>        - ``p_u32``
+>        - A pointer to a matrix control of unsigned 32-bit values. Valid if
+>  	this control is of type ``V4L2_CTRL_TYPE_U32``.
+> +    * - __u32 *
+> +      - ``p_s32``
+> +      - A pointer to a matrix control of signed 32-bit values. Valid if
+> +        this control is of type ``V4L2_CTRL_TYPE_INTEGER`` and
+> +        ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
+> +    * - __u32 *
+> +      - ``p_s64``
+> +      - A pointer to a matrix control of signed 64-bit values. Valid if
+> +        this control is of type ``V4L2_CTRL_TYPE_INTEGER64`` and
+> +        ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
+>      * - struct :c:type:`v4l2_area` *
+>        - ``p_area``
+>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
 
-This does not apply on top of -rc1.
-
-...
-
-> -- compatible: must be "samsung,fimc"
-
-I guess you have another patch removing "simple-bus" here and another
-location in your tree?
-
--- 
-Kind regards,
-
-Sakari Ailus
