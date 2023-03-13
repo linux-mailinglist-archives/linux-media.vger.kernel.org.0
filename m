@@ -2,106 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 879E26B78B3
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 14:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5383F6B78D6
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 14:26:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbjCMNUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 09:20:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
+        id S230233AbjCMN0i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 09:26:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjCMNUv (ORCPT
+        with ESMTP id S230247AbjCMN0c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 09:20:51 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B6130E88;
-        Mon, 13 Mar 2023 06:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678713648; x=1710249648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gu9CMdY5O+gypuZ5ak5S3TZBJoRYuiw5EfoYKV7FCV4=;
-  b=ONp4wxYOJEw5V4alA8P4/mSJz84u/boFU3YCfHP0hxROMOHs21xE7fIP
-   GXgvElAD0XaKJEb5OiGn4wP7qB0g7iuMRJhG0j9uDk8oNjUMLM7C/Jz1N
-   lIg7wFhyDoUBrJ+E2qG6/JKv8LOwlV1gkTjBGgPGgOetQ2KAG0dYniyRr
-   01KO58a6BNrUw7ncmVn9aYm4y0LLxsT4rM+9CaZvWXRQOndn87yr+Vf0m
-   Lg8ffscp36giTi7l8rrC0RK1uBJDycpHp+2BPmWjW/OM9m+1BNGH8U0QG
-   fD0IwdQzTbABynI1Df/h+QnzQLO29IF6zBHzYt4ldVyl8CqvBnp+iOqNM
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423408073"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="423408073"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:20:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="628630094"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="628630094"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 06:20:45 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 4EB42120C21;
-        Mon, 13 Mar 2023 15:20:42 +0200 (EET)
-Date:   Mon, 13 Mar 2023 15:20:42 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 1/1] media: i2c: imx290: Make use of
- get_unaligned_le24(), put_unaligned_le24()
-Message-ID: <ZA8jKpSR+p8e6Uel@kekkonen.localdomain>
-References: <20230209221205.46573-1-andriy.shevchenko@linux.intel.com>
- <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
- <Y+Z5mAhQk6zEFHOz@smile.fi.intel.com>
- <ZAtnKLKEZXCw/Ezy@smile.fi.intel.com>
- <ZA8J5/vElpjrRD4N@valkosipuli.retiisi.eu>
- <ZA8Qk8CmBNvsDUMv@smile.fi.intel.com>
+        Mon, 13 Mar 2023 09:26:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7D6302A2;
+        Mon, 13 Mar 2023 06:26:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6801AB810F3;
+        Mon, 13 Mar 2023 13:26:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE259C433EF;
+        Mon, 13 Mar 2023 13:26:20 +0000 (UTC)
+Message-ID: <04465497-306b-6e37-9dca-45d194d9d926@xs4all.nl>
+Date:   Mon, 13 Mar 2023 14:26:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZA8Qk8CmBNvsDUMv@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] dt-bindings: media: amphion: use hyphen in node name of
+ vpu core
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        shawnguo@kernel.org
+Cc:     robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-devicetree <devicetree@vger.kernel.org>
+References: <20220411074855.25114-1-ming.qian@nxp.com>
+ <7213be47-1746-b7c6-9807-21865adc190a@xs4all.nl>
+In-Reply-To: <7213be47-1746-b7c6-9807-21865adc190a@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 02:01:23PM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 13, 2023 at 01:32:55PM +0200, Sakari Ailus wrote:
-> > On Fri, Mar 10, 2023 at 07:21:44PM +0200, Andy Shevchenko wrote:
-> > > On Fri, Feb 10, 2023 at 07:06:32PM +0200, Andy Shevchenko wrote:
-> > > > On Fri, Feb 10, 2023 at 12:35:09AM +0200, Laurent Pinchart wrote:
-> > > > > On Fri, Feb 10, 2023 at 12:12:05AM +0200, Andy Shevchenko wrote:
-> > > > > > Since we have a proper endianness converters for LE 24-bit data use them.
-> > > > > > 
-> > > > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > > 
-> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > 
-> > > > Thank you for the reviews!
-> > > > 
-> > > > > I assume Sakari will pick both patches.
-> > > > 
-> > > > I also assume the same.
-> > > 
-> > > Sakari, do you have any comments?
-> > 
-> > Yes. These are in my tree now.
+Ming,
+
+I recommend reposting this patch if you still want it.
+
+Regards,
+
+	Hans
+
+On 24/11/2022 09:48, Hans Verkuil wrote:
+> Rob, can you Ack (or nack) this old patch? It looks like it was
+> missed, most likely because the devicetree ML wasn't CCed.
 > 
-> Which is...?
+> Regards,
 > 
-> I don't see anything on https://git.linuxtv.org/sailus/media_tree.git/.
+> 	Hans
+> 
+> On 11/04/2022 09:48, Ming Qian wrote:
+>> Hyphen is recommended in node name than underscore.
+>> So change the node name from "vpu_core" to "vpu-core"
+>>
+>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+>> ---
+>>  Documentation/devicetree/bindings/media/amphion,vpu.yaml | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/amphion,vpu.yaml b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+>> index a9d80eaeeeb6..c0d83d755239 100644
+>> --- a/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+>> +++ b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+>> @@ -47,7 +47,7 @@ patternProperties:
+>>      $ref: ../mailbox/fsl,mu.yaml#
+>>  
+>>  
+>> -  "^vpu_core@[0-9a-f]+$":
+>> +  "^vpu-core@[0-9a-f]+$":
+>>      description:
+>>        Each core correspond a decoder or encoder, need to configure them
+>>        separately. NXP i.MX8QM SoC has one decoder and two encoder, i.MX8QXP SoC
+>> @@ -143,7 +143,7 @@ examples:
+>>          power-domains = <&pd IMX_SC_R_VPU_MU_2>;
+>>        };
+>>  
+>> -      vpu_core0: vpu_core@2d080000 {
+>> +      vpu_core0: vpu-core@2d080000 {
+>>          compatible = "nxp,imx8q-vpu-decoder";
+>>          reg = <0x2d080000 0x10000>;
+>>          power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
+>> @@ -154,7 +154,7 @@ examples:
+>>          memory-region = <&decoder_boot>, <&decoder_rpc>;
+>>        };
+>>  
+>> -      vpu_core1: vpu_core@2d090000 {
+>> +      vpu_core1: vpu-core@2d090000 {
+>>          compatible = "nxp,imx8q-vpu-encoder";
+>>          reg = <0x2d090000 0x10000>;
+>>          power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
+>> @@ -165,7 +165,7 @@ examples:
+>>          memory-region = <&encoder1_boot>, <&encoder1_rpc>;
+>>        };
+>>  
+>> -      vpu_core2: vpu_core@2d0a0000 {
+>> +      vpu_core2: vpu-core@2d0a0000 {
+>>          reg = <0x2d0a0000 0x10000>;
+>>          compatible = "nxp,imx8q-vpu-encoder";
+>>          power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
+> 
 
-This is a bit opportunistic since we don't have rc1 in the media tree yet.
-
-I'll push it once we do.
-
--- 
-Sakari Ailus
