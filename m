@@ -2,101 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F0CD6B7A52
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2AC6B7A8C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:40:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbjCMO2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 10:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40690 "EHLO
+        id S230346AbjCMOj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 10:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231343AbjCMO2t (ORCPT
+        with ESMTP id S231533AbjCMOjz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 10:28:49 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C1624BE4
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 07:28:48 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pbjAK-0001IM-5U; Mon, 13 Mar 2023 15:28:44 +0100
-Message-ID: <7ef0357c-1bd8-7598-4c4e-9d795b5f0abd@leemhuis.info>
-Date:   Mon, 13 Mar 2023 15:28:43 +0100
+        Mon, 13 Mar 2023 10:39:55 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5877656524
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 07:39:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EDED4B8117B
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 14:39:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF403C433D2;
+        Mon, 13 Mar 2023 14:39:26 +0000 (UTC)
+Message-ID: <9ce7563a-13b1-c1d5-177f-8492aae49792@xs4all.nl>
+Date:   Mon, 13 Mar 2023 15:39:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [GIT FIXES FOR v6.3] Venus fixes
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        Linux kernel regressions list <regressions@lists.linux.dev>,
-        linux-media@vger.kernel.org,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-References: <20230302060413.67239-1-stanimir.k.varbanov@gmail.com>
- <cb03d97f-ae48-4090-e14b-354373a2ebe3@leemhuis.info>
-In-Reply-To: <cb03d97f-ae48-4090-e14b-354373a2ebe3@leemhuis.info>
+Subject: Re: [PATCH 25/26] media: Implement best effort media device removal
+ safety sans refcounting
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org
+References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
+ <20230201214535.347075-26-sakari.ailus@linux.intel.com>
+ <a3a8c0ec-f13e-2473-78d6-f454790467be@xs4all.nl>
+ <768335ad-d5ba-d0a7-828a-80c0ec44e41b@xs4all.nl>
+ <ZAHVKu3OPyd7iLhH@kekkonen.localdomain>
+ <132b4fdf-7ec1-33a4-566a-8e10e6094230@xs4all.nl>
+ <ZA8s8MjRw8UmuzX7@kekkonen.localdomain>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <ZA8s8MjRw8UmuzX7@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678717728;7352f37a;
-X-HE-SMSGID: 1pbjAK-0001IM-5U
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02.03.23 09:27, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 02.03.23 07:04, Stanimir Varbanov wrote:
->>
->> This pull request includes a fix for regression in venus hardware reset.
->> The reverted commit has been merged in v6.2. 
->>
->> Please pull.
-
-Mauro: any reason why this is still not pulled? It fixes a regression
-that made it into 6.2 and the revert was now posted 34 days ago, hence
-it would be good if this could finally go to Linus, so that it can be
-backported to stable.
-
-BTW, Stan: What...
-
->> The following changes since commit 3e62aba8284de0994a669d07983299242e68fe72:
->>
->>   media: imx-mipi-csis: Check csis_fmt validity before use (2023-02-26 11:21:33 +0100)
->>
->> are available in the Git repository at:
->>
->>   git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-fixes-for-v6.3
->>
->> for you to fetch changes up to 1440cfcf24db8c50d929d3c35ab6f87f868fa628:
->>
->>   Revert "venus: firmware: Correct non-pix start and end addresses" (2023-03-02 07:52:10 +0200)
->>
->> ----------------------------------------------------------------
->> Venus fixes for v6.3
->>
->> ----------------------------------------------------------------
->> Javier Martinez Canillas (1):
->>       Revert "venus: firmware: Correct non-pix start and end addresses"
+On 13/03/2023 15:02, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> Good to see that this finally is heading towards mainline, thx.
+> On Mon, Mar 13, 2023 at 02:46:27PM +0100, Hans Verkuil wrote:
+>> On 03/03/2023 12:08, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> On Fri, Mar 03, 2023 at 09:54:40AM +0100, Hans Verkuil wrote:
+>>>> On 03/03/2023 09:39, Hans Verkuil wrote:
+>>>>> On 01/02/2023 22:45, Sakari Ailus wrote:
+>>>>>> Add a new helper data structure media_devnode_compat_ref, which is used to
+>>>>>> prevent user space from calling IOCTLs or other system calls to the media
+>>>>>> device that has been already unregistered.
+>>>>>>
+>>>>>> The media device's memory may of course still be released during the call
+>>>>>> but there is only so much that can be done to this without the driver
+>>>>>> managing the lifetime of the resources it needs somehow.
+>>>>>>
+>>>>>> This patch should be reverted once all drivers have been converted to manage
+>>>>>> their resources' lifetime.
+>>>>>>
+>>>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>>>> ---
+>>>>>>  drivers/media/mc/mc-device.c  | 60 ++++++++++++++++++++++++++++++-----
+>>>>>>  drivers/media/mc/mc-devnode.c | 21 ++++++++----
+>>>>>>  include/media/media-devnode.h | 29 +++++++++++++++++
+>>>>>>  3 files changed, 96 insertions(+), 14 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+>>>>>> index 3a1db5fdbba7..22fdaa6370ea 100644
+>>>>>> --- a/drivers/media/mc/mc-device.c
+>>>>>> +++ b/drivers/media/mc/mc-device.c
+>>>>>> @@ -45,18 +45,34 @@ static inline void __user *media_get_uptr(__u64 arg)
+>>>>>>  	return (void __user *)(uintptr_t)arg;
+>>>>>>  }
+>>>>>>  
+>>>>>> +static void compat_ref_release(struct kref *kref)
+>>>>>> +{
+>>>>>> +	struct media_devnode_compat_ref *ref =
+>>>>>> +		container_of_const(kref, struct media_devnode_compat_ref, kref);
+>>>>>> +
+>>>>>> +	kfree(ref);
+>>>>>> +}
+>>>>>> +
+>>>>>>  static int media_device_open(struct media_devnode *devnode, struct file *filp)
+>>>>>>  {
+>>>>>>  	struct media_device *mdev = to_media_device(devnode);
+>>>>>>  	struct media_device_fh *fh;
+>>>>>>  	unsigned long flags;
+>>>>>>  
+>>>>>> +	if (devnode->ref && (!atomic_read(&devnode->ref->registered) ||
+>>>>>> +			     !kref_get_unless_zero(&devnode->ref->kref)))
+>>>>>> +		return -ENXIO;
+>>>>>> +
+>>>>>
+>>>>> This seems pointless: if the media device is unregistered, then the device
+>>>>> node disappears and it can't be opened anymore.
+>>>>>
+>>>>> I'm confused by this patch in general: when media_device_unregister() is called,
+>>>>> it is no longer possible to call ioctls and basically do anything except close
+>>>>> the open fh.
+>>>>>
+>>>>> So what am I missing here? It all looks odd.
+>>>>
+>>>> I read up on this a bit more, and I think this patch is bogus: drivers not
+>>>> converted to the release() callback will indeed just crash, but that's no
+>>>> different than many existing drivers, media or otherwise, when you forcibly
+>>>> unbind them. It's broken today, and since you have to be root to unbind, I
+>>>> would say that we can just leave it as-is rather than introducing a rather
+>>>> ugly workaround. I don't think it will help anyway, since most likely
+>>>> such drivers will also fails if the application has a video device open
+>>>> when the device is unbound.
+>>>
+>>> The main difference is whether accessing such a file handle will access
+>>> released memory always or whether that is possible only during a very brief
+>>> amount of time.
+>>>
+>>
+>> I still don't like this. It was broken before, and it is broken now (perhaps a
+>> bit less broken, but still...).
+>>
+>> There is a right fix now, and drivers that are likely to be removed forcibly
+>> should be converted. This patch just makes it more likely that such drivers
+>> won't be converted since it is less likely to hit this, so people will just
+>> think that this is 'good enough'. And it makes the code a lot uglier.
 > 
-> What about the other venus regression[1] Javier provided this patch for:
->
-> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
+> I agree, although converting the drivers is easier said than done. Note
+> that also DVB is affected by this, not just V4L2. There are quite a few DVB
+> USB devices.
+> 
+> The behaviour before this set (since ~ 2017) is restored by the last few
+> patches, without these we're on pre-2017 behaviour which basically means
+> that all media IOCTLs on file handles the device of which is gone, will
+> always access released memory. That was quite bad, too.
 
-...about this revert from Feb, 10th? There was some discussion recently,
-but it would to get this finally resolved, too.
+Why?
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+I have a filehandle open on /dev/mediaX. Now I unbind the device. That will
+unregister the media device, which will cause all file ops on the filehandle
+to return immediately, except for close().
 
-#regzbot poke
-#regzbot ignore-activity
+And close() just frees the devnode from what I can see.
+
+There is a race if the device is unbound while in an ioctl, then all bets are
+off without proper life-time management.
+
+If it crashes after an unbind in the close() call, then something else is
+wrong, it shouldn't do that.
+
+What happens if you do 'sleep 20 </dev/mediaX', then unbind the device?
+
+I feel that I am missing something here.
+
+Regards,
+
+	Hans
+
+> 
+> Back then Mauro objected merging the set due to lack of DVB support, and as
+> far as I recall, also for not including best effort attempt to avoid freed
+> memory accesses.
+> 
+> I have experimental DVB support patches (from ~ 2017) that do not actually
+> work and I won't have time to fix them.
+> 
+> Cc Mauro.
+> 
+>>
+>> Note that if we still want this in, then it needs a lot more comments explaining
+>> what is going on.
+> 
+> I'm fine with adding that.
+> 
+
