@@ -2,122 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E43666B7615
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 12:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43DAB6B7674
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 12:47:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbjCMLe5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 07:34:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36814 "EHLO
+        id S230155AbjCMLrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 07:47:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbjCMLef (ORCPT
+        with ESMTP id S230097AbjCMLrT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 07:34:35 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9176756537;
-        Mon, 13 Mar 2023 04:34:15 -0700 (PDT)
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Mon, 13 Mar 2023 07:47:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9144D1C327;
+        Mon, 13 Mar 2023 04:47:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4PZvgn0DxPz4BKKJ;
-        Mon, 13 Mar 2023 13:34:13 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678707253;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EF3ReIMvBj+T4PLPaY1HcNa2eGds/OsiXohf+xAW4Vg=;
-        b=NSo8K6BPrVzQAmQfbQvLDCV6sRHMtrL6GLJlV2FDKN5MFlyaty+QpwbxX3Zk32g/5oCF2v
-        PseDDo3zJnG7/V45519eqsS59dsS3AYoEtdv1iPtvZPd+fOozsJNNKA2gxR737RV/5f9aT
-        599Ow10VLHdMtVMO1u4T5vYLxezcwE6/Q72YlS+arvgs6qwPReGqtVVC6GfmxHwoNpT0l/
-        J4oT5kTqncHIuOPw1Ci+Zkt0o/Y2V+UGuZ8qs2itDs8y9b3zT5w6hnCApJOcA4vOtM2avm
-        mDV5ZnImPjH/TU2M248M4uaG01Xe2lTkI45Sbq6uGgcZLJ/dR9gUfm/rX/KrWg==
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4PZvgN6wZdzyRf;
-        Mon, 13 Mar 2023 13:33:52 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1678707233;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EF3ReIMvBj+T4PLPaY1HcNa2eGds/OsiXohf+xAW4Vg=;
-        b=WQxju+3+WaWyv46PRIdOeQZM9MmAoQOIzZRR+j1wiMe3wrdTjd1CxAPZCgbVSjPZQlUTWS
-        ErYpwlbiZuexQccsOlYuXS+sMKgASgeeTLtKuj/0cd/l+7WjK7u384ncisYys1eazKpqsx
-        UoDzboyv6JkSqileMMvjXtttvQd90HU=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1678707233; a=rsa-sha256; cv=none;
-        b=mpDSA2pfCw9hsfbzmbC3MG/GpwNLJgBvELsogmj4wrVUloj60Xwt7MBLbQeSEou/MCb50F
-        3rdUG2MoANemEtimj2C9FNWTqhw/ST/oEeW/5/3RgBJc/iu0r7seHphk2Ij3xWOcqoqsLr
-        cQ7jYNvmYdaV9btY3UPARi2S5rui2ks=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1678707233;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EF3ReIMvBj+T4PLPaY1HcNa2eGds/OsiXohf+xAW4Vg=;
-        b=qGA7fUB0x8HenC7hD2tluMFiSqOrFCq5dbZgC/alHNwUHgEQENFWORF398QEebeL9RGcvl
-        KTZ9XpN1F/gvzAmgfq9rovmwRTSihWsWGq8rawUlUDzjn3nGzDd8qxTLIl5fMTdSKRCo6f
-        YrKoI8WodGVmOyWXGOQHAhvas2a+ENw=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 697F2634C91;
-        Mon, 13 Mar 2023 13:32:55 +0200 (EET)
-Date:   Mon, 13 Mar 2023 13:32:55 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 1/1] media: i2c: imx290: Make use of
- get_unaligned_le24(), put_unaligned_le24()
-Message-ID: <ZA8J5/vElpjrRD4N@valkosipuli.retiisi.eu>
-References: <20230209221205.46573-1-andriy.shevchenko@linux.intel.com>
- <Y+V1Hds/yCjABDnL@pendragon.ideasonboard.com>
- <Y+Z5mAhQk6zEFHOz@smile.fi.intel.com>
- <ZAtnKLKEZXCw/Ezy@smile.fi.intel.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 81BB4B81057;
+        Mon, 13 Mar 2023 11:46:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9640BC433EF;
+        Mon, 13 Mar 2023 11:46:16 +0000 (UTC)
+Message-ID: <4ee5e059-6e9f-0804-30ec-ff073f436780@xs4all.nl>
+Date:   Mon, 13 Mar 2023 12:46:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZAtnKLKEZXCw/Ezy@smile.fi.intel.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Joe Tessler <jrt@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-rockchip@lists.infradead.org
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 07:21:44PM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 10, 2023 at 07:06:32PM +0200, Andy Shevchenko wrote:
-> > On Fri, Feb 10, 2023 at 12:35:09AM +0200, Laurent Pinchart wrote:
-> > > On Fri, Feb 10, 2023 at 12:12:05AM +0200, Andy Shevchenko wrote:
-> > > > Since we have a proper endianness converters for LE 24-bit data use them.
-> > > > 
-> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > 
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > Thank you for the reviews!
-> > 
-> > > I assume Sakari will pick both patches.
-> > 
-> > I also assume the same.
+On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).
 > 
-> Sakari, do you have any comments?
+>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Yes. These are in my tree now.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
--- 
-Sakari Ailus
+I assume you want to take this series, but if you prefer to have us do it, then
+just let me know.
+
+Thanks!
+
+	Hans
+
+> ---
+>  drivers/media/cec/i2c/ch7322.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
+> index 34fad7123704..3c6e6496a001 100644
+> --- a/drivers/media/cec/i2c/ch7322.c
+> +++ b/drivers/media/cec/i2c/ch7322.c
+> @@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
+>  static struct i2c_driver ch7322_i2c_driver = {
+>  	.driver = {
+>  		.name = "ch7322",
+> -		.of_match_table = of_match_ptr(ch7322_of_match),
+> +		.of_match_table = ch7322_of_match,
+>  	},
+>  	.probe_new	= ch7322_probe,
+>  	.remove		= ch7322_remove,
+
