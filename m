@@ -2,80 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4DF46B6B3C
-	for <lists+linux-media@lfdr.de>; Sun, 12 Mar 2023 21:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E819D6B6E44
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 04:59:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231364AbjCLUmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Mar 2023 16:42:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51028 "EHLO
+        id S229473AbjCMD7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Mar 2023 23:59:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231341AbjCLUmd (ORCPT
+        with ESMTP id S229740AbjCMD7T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Mar 2023 16:42:33 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B69F3B0EA;
-        Sun, 12 Mar 2023 13:42:27 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so1436371pjt.5;
-        Sun, 12 Mar 2023 13:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678653746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M7MYdD1v/3JdRsglqD+tMu4x0NTZV9GuYl5XNYVp8y4=;
-        b=ajMhj2ltN3+yTUnq8PlKxyOek6cqrthlu9gLpSbEGVI5k8tK/Nby8WTVJKQV+7XWB/
-         TbWDHdSxSDzcCCZbGe2xJdDbOZG01g2/IdaPu0dUPiQQjZ4W/5RIgJApV0DFhjtrAKG/
-         wUP1hnNq4OiWi5eXyPxAlzPfE5yMUZHkKlq8e4rGwOvNF8WgPJi1QtB0YEZA4mHZN15A
-         yxOFaQlwVWrMQ7XjeGzdKbVx39tiDi+gFRIq0UFZgDps1ohlSqrmgCpu0RJxTZxcbsxK
-         FkoNslOrJrEx31A7e/UKFL9gL5lUjxS7wOBhMgHpPi6ZLdIlIM3ZIbHZ+XzrCRMbrU1e
-         ClQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678653746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M7MYdD1v/3JdRsglqD+tMu4x0NTZV9GuYl5XNYVp8y4=;
-        b=tKWTFLz5v+VNqQTrz3xLLGHfJQL7Jy1aOqGZn9mRI6QO89xrbo4v1f0SKTTWE0FnLO
-         Kt9l8zwLHM9p1pMOcJu/njSccM57CMRWyyA+vVU2RNg3pZnCa/CgmyZzYTAgE0Jze52M
-         WibbC0auozVjHBtFydyl4C4wSLTIpTBOEtt6Cug2eB9T5v1SXkEXC1KkKGgbW3RHw4N9
-         ZDCgZlWEqyexhuO2IdKuTX5M13nlPjJkWMSGSlfJgic9V4BM7567yGP331TlaIQTy7Fe
-         xvDxGTngUtyoW3NH1cw4SBUitGAlPvBOwtK7scyo7+5f6S4/jwBJszStNumhG7wYrLfr
-         NC3g==
-X-Gm-Message-State: AO0yUKU/XICwIA5NXQT8iqVgc09hbkED+7HPL3eQv9C/wYtOdrOLi1UR
-        hQqr4KbVH4nIA4VALZmkdes=
-X-Google-Smtp-Source: AK7set+eUaKSmB9VuKpgjn6o4FtKKsVRSoUPhyQWp4EQSHO60N5S9cQHF+1S3FMUyS6y5Jlo0ALXnQ==
-X-Received: by 2002:a17:903:283:b0:19f:2ae8:54b9 with SMTP id j3-20020a170903028300b0019f2ae854b9mr6140727plr.32.1678653746364;
-        Sun, 12 Mar 2023 13:42:26 -0700 (PDT)
-Received: from localhost ([2601:1c0:5080:d9fa:9b45:95de:f47d:f85e])
-        by smtp.gmail.com with ESMTPSA id la14-20020a170902fa0e00b0019f398ed834sm1630522plb.212.2023.03.12.13.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 13:42:25 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
-        Rob Clark <robdclark@gmail.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
-        GPU), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH 02/13] drm/msm: Embed the hw_fence in msm_gem_submit
-Date:   Sun, 12 Mar 2023 13:41:30 -0700
-Message-Id: <20230312204150.1353517-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230312204150.1353517-1-robdclark@gmail.com>
-References: <20230312204150.1353517-1-robdclark@gmail.com>
+        Sun, 12 Mar 2023 23:59:19 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2321925E1E
+        for <linux-media@vger.kernel.org>; Sun, 12 Mar 2023 20:59:17 -0700 (PDT)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230313035912epoutp038bf5ec1045bca8a4031663376a05aed3~L3oXFQlBJ0418504185epoutp03l
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 03:59:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230313035912epoutp038bf5ec1045bca8a4031663376a05aed3~L3oXFQlBJ0418504185epoutp03l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1678679952;
+        bh=wTC+0pDKDgwOW3WmAt1VSg7GlSnQVMD9S3MrTsQ+BZo=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=UxMtP3akwuVmgCOBhYdRUJ+BS7lF3xKFzOGIvU6KB81mQ8O4N/iifMc4WT6PiEkR6
+         C9Kw5J5Nt36PdUdTB00JXLhOBpTN56er+ktJOxpbza+HyzCYPS7NXQG63D3Z6wQAIz
+         nBGHC5brsaZkX7aYUa/C/BPIF+MlX7q55URvml44=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+        20230313035911epcas5p4083df4308aa7997ee70bc2043968b419~L3oWAtcd-2088220882epcas5p4b;
+        Mon, 13 Mar 2023 03:59:11 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.182]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4PZjZj200xz4x9Q7; Mon, 13 Mar
+        2023 03:59:09 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        99.D0.10528.D8F9E046; Mon, 13 Mar 2023 12:59:09 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+        20230313035608epcas5p2d53d26c0e8b82d698fe8c4b8a139afbd~L3lr6LTgL1215112151epcas5p2F;
+        Mon, 13 Mar 2023 03:56:08 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20230313035608epsmtrp17d3e2edd61560a05f4a7e727ad4b9786~L3lr4feuF1767017670epsmtrp1X;
+        Mon, 13 Mar 2023 03:56:08 +0000 (GMT)
+X-AuditID: b6c32a49-e75fa70000012920-21-640e9f8d1200
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        61.04.18071.8DE9E046; Mon, 13 Mar 2023 12:56:08 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230313035604epsmtip2b1633f1acdd41c45b5e8369c5756aeb3~L3loo7f7U0289602896epsmtip2w;
+        Mon, 13 Mar 2023 03:56:04 +0000 (GMT)
+From:   "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To:     "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Cc:     <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+        <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <ezequiel@vanguardiasur.com.ar>, <jernej.skrabec@gmail.com>,
+        <benjamin.gaignard@collabora.com>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <stanimir.varbanov@linaro.org>, <dillon.minfei@gmail.com>,
+        <david.plowman@raspberrypi.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <krzk+dt@kernel.org>, <andi@etezian.org>,
+        <alim.akhtar@samsung.com>, <aswani.reddy@samsung.com>,
+        <pankaj.dubey@samsung.com>
+In-Reply-To: <49106943-450a-11c0-99ce-159d40471bf2@linaro.org>
+Subject: RE: [Patch v6] dt-bindings: media: s5p-mfc: convert bindings to
+ json-schema
+Date:   Mon, 13 Mar 2023 09:26:03 +0530
+Message-ID: <010601d9555f$bde202a0$39a607e0$@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHxIgKtygHqPU4mHAhqu15r4A65nwLsA7LZAklDK9wB4osi/QJmoqxPAoFahrkB+xU0ewI/Pkh+AQklyQeuPlux0A==
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1CTdRzH++559myAg6eBx1c0DmeUaPxYDXpW/Kg0eww98Sq6PAt27AmI
+        se32A5S4AgJ0/Cakk4VAwKCA+CUg0iCEEScBHaaSxhggBBO9jB+B2FXbHiz+e31+vu/9+d6X
+        jXCLWG7sWKmKUkhFEh5mj3b0e+31zi13FPuV3XUgpso6MKJqfZ5BmKqWUaLvYjuLaLv+JULU
+        DvYyiXLDKJO4dGUGJVoWLNWxEiNKzJc3AsKsncSIvIVphOhetEy03rnJJH7uKsWInOZ2JvGt
+        wcgidONjDKKm9S8GUdm+wiIyug0sIj3TwHjFlWwoawBkp7EakOPVSwh5WWtkkVV6M4NsrdNg
+        5MRNPUZerP6UzBjYQMm8tjpAZhnGMXK51Z0cWl1mhXFOxAXGUCIxpfCgpFEycaw0OogX+lbE
+        gQj/AD++N19IvMjzkIriqSDewSNh3odiJRb3PI8EkURtSYWJlEqeb3CgQqZWUR4xMqUqiEfJ
+        xRK5QO6jFMUr1dJoHymleonv5/e8v6UxMi4m48ZthvzyzlOG9jQsBVRxs4AdG+ICOKYrZlmZ
+        i38H4IBGkAXsLbwE4HzB5wgd/AngsLkHywJs28S1pW10vhvAOlMmSgfzAG7cGLKtwnBfaBrK
+        YVoLLvgAgFNt07ZVCH4GhYXXUoC1yw4PhsP9nUwrO+PhcLrlLGZlFPeEmrkc2yYOLoTpM0uA
+        5ifh1ZJZ1MoIvh/WfLWI0CY84MO5GtseF/wjuDiSitE9rnDgYY5NGOL9drB5fhSjBw7CjB8X
+        mDQ7w7uDbSya3aA5P3OTo+CdSvOmgAQ26c+hNIfA3uulqPUWCO4Fm7p86fRTsHiokUHrOsLc
+        R7MMOs+BnWWP+RlYOrG+KbsL9tfrQAHgabdY026xpt1iQfu/WgVA68AOSq6Mj6aU/nK+lEr8
+        78WjZPGtwPY79h3uBMapBz59gMEGfQCyEZ4Lp81pm5jLEYtOJ1EKWYRCLaGUfcDfcu9CxG17
+        lMzyvaSqCL5A6CcICAgQCF8I4PNcOc8GXY3i4tEiFRVHUXJK8XiOwbZzS2EUOL7r3nXM+0CH
+        wsXQuOcbDSP8uffbN8i0S46VFeebZl5Tt2SrT74uSz658mr9avo7Ti0TmdwSD3HuWq3J/IEv
+        JdYGnv7bf7vmaNIvIQ099feL3yt+uyhvMe/oSJKP0VMfWbR3LmzkSugXnzgEer4pf1kp1gjX
+        7quOFCaEP3Fhx9eDq2eKu0vXUkw7V+6d45w6PuR0VvcTfnjt2CST26ubHN5dKWzU/LreOFt1
+        z5R8/sKDVKGem5X+m84+sedRRu1i5K1DCTFjn6EffjzztBf+T37HAvP3HxyMwdn5u3u+P+48
+        /cbtP+r11aP4rv3pTT63kpNlic1dpJOkIjt1yj0k9ETacNKeJB6qjBHx9yEKpehfIe9ZKqYE
+        AAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNIsWRmVeSWpSXmKPExsWy7bCSvO6NeXwpBouf8Fs8mLeNzWLxj+dM
+        FvcXf2axOLR5K7vFliuzmS2WHz/AajH/yDlWi+0HH7FYbHwBlL048y6LxfP56xgtXs66x2bR
+        9+Ihs8Xe10Admx5fY7W4vGsOm0XPhq2sFmuP3GW3WHr9IpPFsk1/mCwWbf3CbtG69wi7RUvb
+        ESYHcY8189Yweuy4u4TR4/qST8weO2fdZfdYvOclk8emVZ1sHneu7WHz2Lyk3qP16C8Wj74t
+        qxg9uo5cZ/P4vEnO49TXz+wBvFFcNimpOZllqUX6dglcGZ+bIwoapSvOtMxkbGB8LtjFyMEh
+        IWAicekTTxcjF4eQwG5Gif0XD7F3MXICxWUk/rcdg7KFJVb+e84OUfSUUeJrSxMrSIJNQF/i
+        /qkeVpCEiMBJRon+My1gDrPATBaJqxOOMUG0PGCWODF9FiNIC6eAncSZwzvA2oUFQiR+NWwF
+        s1kEVCU6n/aA7eMVsJRoefSJEcIWlDg58wkLiM0soC3x9OZTOHvZwtfMEPcpSPx8ugxsjohA
+        lsTrs41sEDXiEkd/9jBPYBSehWTULCSjZiEZNQtJywJGllWMkqkFxbnpucWGBYZ5qeV6xYm5
+        xaV56XrJ+bmbGMHpQ0tzB+P2VR/0DjEycTAeYpTgYFYS4d3Cz5MixJuSWFmVWpQfX1Sak1p8
+        iFGag0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA9MJqQ+63MXT7jH+UDyxqdCUI6M98Jje
+        63kTHx5fcfXY+clrjyV5pskvv/vbvPnoR99Mz6nHF6WvuGQmmegcL8zYqcQ4o/Tyyx/7ipvz
+        9/NrJ/x7p7CYh0skYGvZ080Xfjv/L/H8IraTO++StcPNdCPx/ukMQg+uFr8ya1h245uJ5/fd
+        zSqaQTV9FTzrxGvyJA5NSP9c12PpV1lnsMFnLr9LTNL86syVR5YvvBYqM+dob5L3QtVavR77
+        64/mG/urPnsTsur1zLebXWWyW7+I9+h5x316dOntyfch8bPP7tiQava/00piSfZcrkeHO7RV
+        g9QyL3Mt+fZgoSKbiMbzt38XrmbradNJ5s6xfsrM1q7EUpyRaKjFXFScCABK65LhjgMAAA==
+X-CMS-MailID: 20230313035608epcas5p2d53d26c0e8b82d698fe8c4b8a139afbd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230301035153epcas5p40f576188a9a69835c1050135219a3720
+References: <CGME20230301035153epcas5p40f576188a9a69835c1050135219a3720@epcas5p4.samsung.com>
+        <20230301035144.8645-1-aakarsh.jain@samsung.com>
+        <8b5bea40-6f7b-1d00-ac23-83a28c7dacbc@linaro.org>
+        <046b01d94d1a$418146a0$c483d3e0$@samsung.com>
+        <9b93849d-d4a4-67ba-e8a0-ee6c7209bd65@linaro.org>
+        <000701d95257$e97ebd50$bc7c37f0$@samsung.com>
+        <81e78cf6-b8b3-0cab-d190-aa22abbc5c2d@linaro.org>
+        <001901d95263$eac4b460$c04e1d20$@samsung.com>
+        <49106943-450a-11c0-99ce-159d40471bf2@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        PDS_BAD_THREAD_QP_64,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,234 +142,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
 
-Avoid allocating memory in job_run() by embedding the fence in the
-submit object.  Since msm gpu fences are always 1:1 with msm_gem_submit
-we can just use the fence's refcnt to track the submit.  And since we
-can get the fence ctx from the submit we can just drop the msm_fence
-struct altogether.  This uses the new dma_fence_init_noref() to deal
-with the fact that the fence's refcnt is initialized when the submit is
-created, long before job_run().
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_fence.c      | 43 +++++++++++-----------------
- drivers/gpu/drm/msm/msm_fence.h      |  2 +-
- drivers/gpu/drm/msm/msm_gem.h        | 10 +++----
- drivers/gpu/drm/msm/msm_gem_submit.c |  8 ++----
- drivers/gpu/drm/msm/msm_gpu.c        |  4 +--
- drivers/gpu/drm/msm/msm_ringbuffer.c |  4 +--
- 6 files changed, 30 insertions(+), 41 deletions(-)
+> -----Original Message-----
+> From: Krzysztof Kozlowski =5Bmailto:krzysztof.kozlowski=40linaro.org=5D
+> Sent: 10 March 2023 14:38
+> To: Aakarsh Jain <aakarsh.jain=40samsung.com>; linux-arm-
+> kernel=40lists.infradead.org; linux-media=40vger.kernel.org; linux-
+> kernel=40vger.kernel.org; devicetree=40vger.kernel.org
+> Cc: m.szyprowski=40samsung.com; andrzej.hajda=40intel.com;
+> mchehab=40kernel.org; hverkuil-cisco=40xs4all.nl;
+> ezequiel=40vanguardiasur.com.ar; jernej.skrabec=40gmail.com;
+> benjamin.gaignard=40collabora.com; krzysztof.kozlowski+dt=40linaro.org;
+> stanimir.varbanov=40linaro.org; dillon.minfei=40gmail.com;
+> david.plowman=40raspberrypi.com; mark.rutland=40arm.com;
+> robh+dt=40kernel.org; krzk+dt=40kernel.org; andi=40etezian.org;
+> alim.akhtar=40samsung.com; aswani.reddy=40samsung.com;
+> pankaj.dubey=40samsung.com
+> Subject: Re: =5BPatch v6=5D dt-bindings: media: s5p-mfc: convert bindings=
+ to json-
+> schema
+>=20
+> On 09/03/2023 09:48, Aakarsh Jain wrote:
+> >>> won't fit here.
+> >>> Since IOMMUs maxItems is 2 here for Exynos4. Giving maxItems:2 alone
+> >> will also break the bindings. Thanks why suggested
+> >>>          iommus:
+> >>>            minItems: 1
+> >>>            maxItems: 2
+> >>
+> >> Are you sure you are putting this in correct place? This is if:then
+> >> for Exynos3250, isn't it?
+> >>
+> > Its not only for Exynos3250, its along with Exynos4 since their clock
+> > properties are same
+> > allOf:
+> >   - if:
+> >       properties:
+> >         compatible:
+> >           contains:
+> >             enum:
+> >               - samsung,mfc-v5        =23Exynos4
+> >               - samsung,exynos3250-mfc
+> >     then:
+> >       properties:
+> >         clocks:
+> >           maxItems: 2
+> >         clock-names:
+> >           items:
+> >             - const: mfc
+> >             - const: sclk_mfc
+> >         iommus:
+> >           minItems: 1
+> >           maxItems: 2
+> >
+> > or do I keep different if:then condition for both Exynos3250 and Exynos=
+4
+> for IOMMUs property ?
+>=20
+> Yes, they should be split into two if-then.
+>=20
+okay will keep it in this way.
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - samsung,mfc-v5
+    then:
+      properties:
+        clocks:
+          maxItems: 2
+        clock-names:
+          items:
+            - const: mfc
+            - const: sclk_mfc
+        iommus:
+          maxItems: 2
+        iommu-names:
+          items:
+            - const: left
+            - const: right
 
-diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index 56641408ea74..3a56e32abc3b 100644
---- a/drivers/gpu/drm/msm/msm_fence.c
-+++ b/drivers/gpu/drm/msm/msm_fence.c
-@@ -8,7 +8,7 @@
- 
- #include "msm_drv.h"
- #include "msm_fence.h"
--
-+#include "msm_gpu.h"
- 
- struct msm_fence_context *
- msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
-@@ -65,14 +65,9 @@ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
- 	spin_unlock_irqrestore(&fctx->spinlock, flags);
- }
- 
--struct msm_fence {
--	struct dma_fence base;
--	struct msm_fence_context *fctx;
--};
--
--static inline struct msm_fence *to_msm_fence(struct dma_fence *fence)
-+static inline struct msm_gem_submit *fence_to_submit(struct dma_fence *fence)
- {
--	return container_of(fence, struct msm_fence, base);
-+	return container_of(fence, struct msm_gem_submit, hw_fence);
- }
- 
- static const char *msm_fence_get_driver_name(struct dma_fence *fence)
-@@ -82,35 +77,31 @@ static const char *msm_fence_get_driver_name(struct dma_fence *fence)
- 
- static const char *msm_fence_get_timeline_name(struct dma_fence *fence)
- {
--	struct msm_fence *f = to_msm_fence(fence);
--	return f->fctx->name;
-+	struct msm_gem_submit *submit = fence_to_submit(fence);
-+	return submit->ring->fctx->name;
- }
- 
- static bool msm_fence_signaled(struct dma_fence *fence)
- {
--	struct msm_fence *f = to_msm_fence(fence);
--	return msm_fence_completed(f->fctx, f->base.seqno);
-+	struct msm_gem_submit *submit = fence_to_submit(fence);
-+	return msm_fence_completed(submit->ring->fctx, fence->seqno);
-+}
-+
-+static void msm_fence_release(struct dma_fence *fence)
-+{
-+	__msm_gem_submit_destroy(fence_to_submit(fence));
- }
- 
- static const struct dma_fence_ops msm_fence_ops = {
- 	.get_driver_name = msm_fence_get_driver_name,
- 	.get_timeline_name = msm_fence_get_timeline_name,
- 	.signaled = msm_fence_signaled,
-+	.release = msm_fence_release,
- };
- 
--struct dma_fence *
--msm_fence_alloc(struct msm_fence_context *fctx)
-+void
-+msm_fence_init(struct msm_fence_context *fctx, struct dma_fence *f)
- {
--	struct msm_fence *f;
--
--	f = kzalloc(sizeof(*f), GFP_KERNEL);
--	if (!f)
--		return ERR_PTR(-ENOMEM);
--
--	f->fctx = fctx;
--
--	dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
--		       fctx->context, ++fctx->last_fence);
--
--	return &f->base;
-+	dma_fence_init_noref(f, &msm_fence_ops, &fctx->spinlock,
-+			     fctx->context, ++fctx->last_fence);
- }
-diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
-index 7f1798c54cd1..3c8c55398e9b 100644
---- a/drivers/gpu/drm/msm/msm_fence.h
-+++ b/drivers/gpu/drm/msm/msm_fence.h
-@@ -61,7 +61,7 @@ void msm_fence_context_free(struct msm_fence_context *fctx);
- bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence);
- void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
- 
--struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
-+void msm_fence_init(struct msm_fence_context *fctx, struct dma_fence *f);
- 
- static inline bool
- fence_before(uint32_t a, uint32_t b)
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index c4844cf3a585..e06afed99d5b 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -259,10 +259,10 @@ struct msm_gem_submit {
- 	struct ww_acquire_ctx ticket;
- 	uint32_t seqno;		/* Sequence number of the submit on the ring */
- 
--	/* Hw fence, which is created when the scheduler executes the job, and
-+	/* Hw fence, which is initialized when the scheduler executes the job, and
- 	 * is signaled when the hw finishes (via seqno write from cmdstream)
- 	 */
--	struct dma_fence *hw_fence;
-+	struct dma_fence hw_fence;
- 
- 	/* Userspace visible fence, which is signaled by the scheduler after
- 	 * the hw_fence is signaled.
-@@ -309,16 +309,16 @@ static inline struct msm_gem_submit *to_msm_submit(struct drm_sched_job *job)
- 	return container_of(job, struct msm_gem_submit, base);
- }
- 
--void __msm_gem_submit_destroy(struct kref *kref);
-+void __msm_gem_submit_destroy(struct msm_gem_submit *submit);
- 
- static inline void msm_gem_submit_get(struct msm_gem_submit *submit)
- {
--	kref_get(&submit->ref);
-+	dma_fence_get(&submit->hw_fence);
- }
- 
- static inline void msm_gem_submit_put(struct msm_gem_submit *submit)
- {
--	kref_put(&submit->ref, __msm_gem_submit_destroy);
-+	dma_fence_put(&submit->hw_fence);
- }
- 
- void msm_submit_retire(struct msm_gem_submit *submit);
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index be4bf77103cd..522c8c82e827 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -47,7 +47,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
- 		return ERR_PTR(ret);
- 	}
- 
--	kref_init(&submit->ref);
-+	kref_init(&submit->hw_fence.refcount);
- 	submit->dev = dev;
- 	submit->aspace = queue->ctx->aspace;
- 	submit->gpu = gpu;
-@@ -65,10 +65,9 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
- 	return submit;
- }
- 
--void __msm_gem_submit_destroy(struct kref *kref)
-+/* Called when the hw_fence is destroyed: */
-+void __msm_gem_submit_destroy(struct msm_gem_submit *submit)
- {
--	struct msm_gem_submit *submit =
--			container_of(kref, struct msm_gem_submit, ref);
- 	unsigned i;
- 
- 	if (submit->fence_id) {
-@@ -78,7 +77,6 @@ void __msm_gem_submit_destroy(struct kref *kref)
- 	}
- 
- 	dma_fence_put(submit->user_fence);
--	dma_fence_put(submit->hw_fence);
- 
- 	put_pid(submit->pid);
- 	msm_submitqueue_put(submit->queue);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 380249500325..a82d11dd5fcf 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -716,7 +716,7 @@ static void retire_submits(struct msm_gpu *gpu)
- 			 * been signalled, then later submits are not signalled
- 			 * either, so we are also done.
- 			 */
--			if (submit && dma_fence_is_signaled(submit->hw_fence)) {
-+			if (submit && dma_fence_is_signaled(&submit->hw_fence)) {
- 				retire_submit(gpu, ring, submit);
- 			} else {
- 				break;
-@@ -760,7 +760,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 
- 	msm_gpu_hw_init(gpu);
- 
--	submit->seqno = submit->hw_fence->seqno;
-+	submit->seqno = submit->hw_fence.seqno;
- 
- 	msm_rd_dump_submit(priv->rd, submit, NULL);
- 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 57a8e9564540..5c54befa2427 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -18,7 +18,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 	struct msm_gpu *gpu = submit->gpu;
- 	int i;
- 
--	submit->hw_fence = msm_fence_alloc(fctx);
-+	msm_fence_init(fctx, &submit->hw_fence);
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
-@@ -37,7 +37,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 
- 	mutex_unlock(&gpu->lock);
- 
--	return dma_fence_get(submit->hw_fence);
-+	return dma_fence_get(&submit->hw_fence);
- }
- 
- static void msm_job_free(struct drm_sched_job *job)
--- 
-2.39.2
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - samsung,exynos3250-mfc
+    then:
+      properties:
+        clocks:
+          maxItems: 2
+        clock-names:
+          items:
+            - const: mfc
+            - const: sclk_mfc
+        iommus:
+          maxItems: 1
+        iommus-names: false
+
+Also, =22samsung,mfc-v7=22 compatible is used for both SOCs Exynos 5420 & E=
+xynos 3250.
+And for both SOCs, clock and IOMMUs properties are different. So in order t=
+o differentiate that, will keep it in this way.
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - samsung,mfc-v7
+    then:
+      properties:
+        clocks:
+          minItems: 1
+          maxItems: 2
+        iommus:
+          minItems: 1
+          maxItems: 2
+
+I hope that will be fine?
+>=20
+> Best regards,
+> Krzysztof
+
 
