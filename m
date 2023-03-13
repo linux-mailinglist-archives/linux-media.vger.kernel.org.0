@@ -2,67 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 307776B7A1C
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A936B7A50
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:28:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230201AbjCMOQY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 10:16:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46688 "EHLO
+        id S231376AbjCMO2Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 10:28:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230146AbjCMOQX (ORCPT
+        with ESMTP id S231357AbjCMO2U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 10:16:23 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B1B310DE;
-        Mon, 13 Mar 2023 07:16:20 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PZzGn6Kmhz4BKJH;
-        Mon, 13 Mar 2023 16:16:17 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678716978;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KG7ikvzasViGTb/pL3/hJJMbpS3y8IKQUZv3vIs9R2c=;
-        b=rQ01nmXN3xE8+T5powJ5sFzYKEGTRhcZL+O1TDElWMcCtbU+Aed2hyIoWu9I3EgbJ22i7G
-        WOZlHPTvgykG7CjMUAtMeqYHXc3u284jCd5Tbn1jqZrlSmtFrnWNqS3VhpIQgBYYXTQjqC
-        rr8E0xyaSxO1QJiBabjtMJ80vBd862656SuNko25ukaS/vHZL2/C4HEc25pzGSoS/SZS0E
-        8oa33AY26jI2f96Sp1JPu5J23XZn8flU+wK2ie2Oc/sDkagiF+X30ywGs2OqopP0YAKMuQ
-        ntj1hWq7fBIdKivlmHqMKTx3eROTXjRKpDyvN2DDcbw8E6+yQxlTgRAu70rlew==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678716978; a=rsa-sha256;
-        cv=none;
-        b=V9l5Dqjo0nk0Ld5hgBG8diKCaapqhPphBY3KMj9BlMrAjsFMVPUbH3f5fx1qpvPFvGhQIv
-        1wkvx2GLAPIZX+S+WLg5o0aGnil5IrB+e7v8ZEV26u3kFbnmFUMdBGR+1M2sgKpUyphISK
-        KrC91aCfdk4RC41jL0CrS9bMHZFpzk+blHt8LB+nYVM7utE3oYbxFqmJU/CMhCZq3Zj0zi
-        WVQA3HbDSnIsoM7VKiPXxo3BDCN3szxfNeZ1Z7THLxSdU0Pk0EgRdRmxuWkGw0yRvGRNTs
-        aLpXBieqCcuVYtY4G1nlHeO+m+MkxOVS52NlDtb/2BQoRWDB6uve80/k9WLlqw==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1678716978;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KG7ikvzasViGTb/pL3/hJJMbpS3y8IKQUZv3vIs9R2c=;
-        b=vvYYHV2aZ+ZUbUKNKSMDFR0Ikyj2VMrZPTfw2B7E4kqlv6NGoTZ4TicMyV5Hl1pjoopYnq
-        DYvt9mpGZTa8mGGp5gXIRArXuet8dMygPZuTNQENsJPtewhVpIIDi85aKyvwmJm51wkAcV
-        88IZHrMRbqMug0zL/Pdm4bsFtbl2jTTXt0YW9Rww9bZrB0q9DIPcxX0NwQgiDWbiIi6Cam
-        OcEUlL2y9a60YYEtSITAykOK1zDq5d55wiJRxNi5NVBvYJgDp8YYq89eRNvdzNPtB3mpWe
-        TCFVD12Pc/pGIEiXNKBAugZ745MEK/vxI9ONFQIUzMkqLFaE4K7165Cj6vcUKA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0614E634C91;
-        Mon, 13 Mar 2023 16:15:19 +0200 (EET)
-Date:   Mon, 13 Mar 2023 16:15:19 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        Mon, 13 Mar 2023 10:28:20 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D001165E
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 07:28:17 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id o12so49470139edb.9
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 07:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678717696;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZtstJD3/hydqzM3cHZ+u7SVJlCO4w3i30mirExqm+ew=;
+        b=n9xc1hix4I04GYTvKHxu6HfVOfV2nhzxwWhUcptyl8ik4Pl5iD9INYXgkGi7q3swIK
+         MWzs+601qEmgn2wWf+cQZxEu2pEEFPmV1LfxjA3v2cunZGiQQwmQOUbUpm4sMGi4mjS/
+         BP0EHnQHp9Gg30gY0PFswGVvgQO3Kr0KF4eDA5WHgIubG8iMlZgqFixc6EDhCWjqKciO
+         EyUTquOGbzpWXt7TLJ5PUKCr4qx9nRXTmeOCZIJ9JACxU1QaO1vdmWN5x9lfKix909S5
+         9HCjH9+e8V2xXOZcLeM7COVGkHriqvvRuKpM1oUa2EX9rbMUcLuKVsnGf7ge0bok+T/2
+         Tm5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678717696;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZtstJD3/hydqzM3cHZ+u7SVJlCO4w3i30mirExqm+ew=;
+        b=GapxBjoUMkhPHCq6wwbdMHl8WJvZPZq5LmDeFeeAvWElFNWGE4tjXEYp/e1E/6p6zH
+         6K1tbai7mNm5okMku5mHgUteiiBbWXTViaQVNvaLQnzWBWCQMAeme5wPfMKOqWGEZ+hd
+         XKYIupsFtZS0ZldOIfPcYTu9G91ouvxosgfzmSl5Wc3fVEX3VDn7edJ8+BpoPASgPXLf
+         o8SlBQUz756+yWCcyLTHLePHxfTxQE0NPRGMu1jaPw/GvQDj8xsuB9pjhH8ekT1ddvAx
+         zd9iUs3DgchThJKLqgK3glg7ERRGiuffMDb0BdWNsH73d70cLDeX+Itl/5uaj/NxDgvg
+         1+Ww==
+X-Gm-Message-State: AO0yUKWM6PgLoWjBxIyz6bxZAn1JcWHXdOUg8keQwwY3cOrheWG8/m9/
+        Tn3qdYyr4s5UIe7aFqN6XR0ihQ==
+X-Google-Smtp-Source: AK7set8mc1JBzDyrckjzGNOvQdHN9mzEXYplLnbsYbsbM/TPKV8zE5W8ruSj2jhdxMG3uwk3aW8NFQ==
+X-Received: by 2002:aa7:d1d5:0:b0:4fb:5795:b7e0 with SMTP id g21-20020aa7d1d5000000b004fb5795b7e0mr5560293edp.31.1678717696370;
+        Mon, 13 Mar 2023 07:28:16 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:69db:4882:d071:27c4? ([2a02:810d:15c0:828:69db:4882:d071:27c4])
+        by smtp.gmail.com with ESMTPSA id x20-20020a170906805400b0091ee4923bb4sm3481210ejw.51.2023.03.13.07.28.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Mar 2023 07:28:16 -0700 (PDT)
+Message-ID: <85bbec87-992d-f9a9-2f2b-bc41457933bb@linaro.org>
+Date:   Mon, 13 Mar 2023 15:28:15 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 6/7] media: dt-bindings: samsung,fimc: convert to
+ dtschema
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@iki.fi>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -73,50 +69,59 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 6/7] media: dt-bindings: samsung,fimc: convert to
- dtschema
-Message-ID: <ZA8v98mqm4Xdt2Sl@valkosipuli.retiisi.eu>
 References: <20230216142204.48394-1-krzysztof.kozlowski@linaro.org>
  <20230216142204.48394-7-krzysztof.kozlowski@linaro.org>
  <ZA8YJx+NE0+89YaD@valkosipuli.retiisi.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZA8YJx+NE0+89YaD@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <ZA8v98mqm4Xdt2Sl@valkosipuli.retiisi.eu>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ZA8v98mqm4Xdt2Sl@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 13, 2023 at 02:33:43PM +0200, Sakari Ailus wrote:
-> Hi Krzysztof,
+On 13/03/2023 15:15, Sakari Ailus wrote:
+> On Mon, Mar 13, 2023 at 02:33:43PM +0200, Sakari Ailus wrote:
+>> Hi Krzysztof,
+>>
+>> On Thu, Feb 16, 2023 at 03:22:03PM +0100, Krzysztof Kozlowski wrote:
+>>> Convert the Samsung S5P/Exynos Camera Subsystem (FIMC) bindings to DT
+>>> schema.  Changes during conversion - adjust to existing DTS and Linux
+>>> driver: add iommus and power-domains.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>
+>> This does not apply on top of -rc1.
+>>
+>> ...
+>>
+>>> -- compatible: must be "samsung,fimc"
+>>
+>> I guess you have another patch removing "simple-bus" here and another
+>> location in your tree?
 > 
-> On Thu, Feb 16, 2023 at 03:22:03PM +0100, Krzysztof Kozlowski wrote:
-> > Convert the Samsung S5P/Exynos Camera Subsystem (FIMC) bindings to DT
-> > schema.  Changes during conversion - adjust to existing DTS and Linux
-> > driver: add iommus and power-domains.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
+> Ah, what's missing seems to be this set:
 > 
-> This does not apply on top of -rc1.
-> 
-> ...
-> 
-> > -- compatible: must be "samsung,fimc"
-> 
-> I guess you have another patch removing "simple-bus" here and another
-> location in your tree?
+> <URL:https://patchwork.linuxtv.org/project/linux-media/list/?series=9839>
 
-Ah, what's missing seems to be this set:
+Yeah, dependency is mention in cover letter.
 
-<URL:https://patchwork.linuxtv.org/project/linux-media/list/?series=9839>
+> 
+> But also the second patch of that set doesn't seem to apply. :-(
 
-But also the second patch of that set doesn't seem to apply. :-(
+Yep, I forgot I already sent same patch two months earlier. Let me merge
+two patches, rebase and resent, so everything will be easier for you
+(hopefully). Sorry for the mess.
 
--- 
-Sakari Ailus
+
+Best regards,
+Krzysztof
+
