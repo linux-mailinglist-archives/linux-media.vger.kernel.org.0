@@ -2,302 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF58C6B7739
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 13:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC3356B779C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 13:35:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjCMMLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 08:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52316 "EHLO
+        id S229888AbjCMMfI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 08:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbjCMMLp (ORCPT
+        with ESMTP id S229909AbjCMMe5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 08:11:45 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B4F335267
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 05:11:28 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pbh1S-00FvPE-E5; Mon, 13 Mar 2023 12:11:26 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pbh1N-00C8PS-AO; Mon, 13 Mar 2023 12:11:21 +0000
-Date:   Mon, 13 Mar 2023 12:11:19 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <264858616.1.1678709479352@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #311
+        Mon, 13 Mar 2023 08:34:57 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A341574D1;
+        Mon, 13 Mar 2023 05:34:47 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PZx1Z3f5Vz4BKJT;
+        Mon, 13 Mar 2023 14:34:42 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1678710883;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GJ9bcmqVqz/Sh/xRji2EFdVxMLOfeVSW3VOI8SvASAk=;
+        b=dStFuEC8lhvJTLDXuMBClU4jnw+s42ZM//I+UBNEztPjcWjfpgXt8jYMkIMDHom8yEw5Bb
+        JP4R+9cKtKKp8Ji4sTcZyYzUw95qbVuE4SNvJzUhwD9JovyGsy+Gfh/e59o4c8pH2msprv
+        ssBR9kcDPAj5O5n9DdwV9aBPFh+n3IShkeTw+gm7Is1vfnC36wzFLj8nzgk8LRNgZIU8uE
+        w8o9R6Bbh79G84R5eI74ZjDpevdZ9dJ9CMPWdq+6zAuGYJPXfmjpRcoqd+LlkyswSbgns7
+        WFzTSmLnT443eLf8Qnki+1a2p/yH6ndP+G8XLYWsjaIA7mB84OobZMrFZzWyDg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678710883; a=rsa-sha256;
+        cv=none;
+        b=B7ZCq4ozsuWb7x/uBQsmLjwA1/nEijpQg9oP3Br1RlQgx7jBNTf6bNyQGvHbnp9lTnKSGv
+        ncOM9MQ07o/m2q2hqzPek82K+4MvTdf+VlLebC89k3fj2m+sRJicXWA2qqwPEswKnEc3gI
+        /AdeZp94xjquMP7pLcg/wqBPN+pyT9FCmg0OrFjDkgszQDcs1sKpJ2z2z5ekKVz1t5Gnig
+        iy7sjRuO5zDNaOIlmo2ydYq1hx8F3beMySTns31fyYJQLUFCJHINrihf9tOrhYwHG5bASN
+        ecA4cEkSfmJqWLiDTGDm6sbTEZSuNEbxFqgVKkwd0RqY0mtFAn9vxS/eybqpnw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1678710883;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GJ9bcmqVqz/Sh/xRji2EFdVxMLOfeVSW3VOI8SvASAk=;
+        b=ac5Imymz4ViCpMVcjFpO89zdj80Lz3kShNl3Q/60vmZ2M8MTFFExWxYGd6vdLNKCp4OBAz
+        uqczkvPbWgAJyLLVStTP0l2d0AUcz4Vgl8Yhl3JkyNtaIr2obLieQya/7+/k/dLv8LgEE9
+        RMA+Pean0Sj8mxwOLNO0MEIXAbyiGapIU0vKWBSi6JSJW2fZZrBxeHSJE1lWKwEIGtec3w
+        itku33tDUVnCwnYQNx55Oj3aFv+yn8yWFhflZrxekVsRptJ8RHeXl9LV8aH2mklXRs0ouS
+        wn3tLMOmTJiNql94/X+n/OcuQUsIWuaDWDacE2Co+Sh0goWmyrtnPJ+Z/dmowg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0C3F9634C91;
+        Mon, 13 Mar 2023 14:33:43 +0200 (EET)
+Date:   Mon, 13 Mar 2023 14:33:43 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 6/7] media: dt-bindings: samsung,fimc: convert to
+ dtschema
+Message-ID: <ZA8YJx+NE0+89YaD@valkosipuli.retiisi.eu>
+References: <20230216142204.48394-1-krzysztof.kozlowski@linaro.org>
+ <20230216142204.48394-7-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216142204.48394-7-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/311/display/redirect>
+Hi Krzysztof,
 
-Changes:
+On Thu, Feb 16, 2023 at 03:22:03PM +0100, Krzysztof Kozlowski wrote:
+> Convert the Samsung S5P/Exynos Camera Subsystem (FIMC) bindings to DT
+> schema.  Changes during conversion - adjust to existing DTS and Linux
+> driver: add iommus and power-domains.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
+This does not apply on top of -rc1.
 
-------------------------------------------
-[...truncated 32 lines...]
-[Pipeline] checkout
-The recommended git tool is: NONE
-The recommended git tool is: NONE
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] checkout
-The recommended git tool is: NONE
-No credentials specified
-Fetching changes from the remote Git repository
-No credentials specified
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media@2/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-No credentials specified
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media@2/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-Checking out Revision 3e62aba8284de0994a669d07983299242e68fe72 (refs/remotes/origin/master)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 3e62aba8284de0994a669d07983299242e68fe72 # timeout=10
-Commit message: "media: imx-mipi-csis: Check csis_fmt validity before use"
- > git rev-list --no-walk 57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_tree.git'
-[GitCheckoutListener] Found previous build 'linux-media #254' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '57c3b9f'
-[GitCheckoutListener] -> Using head commit '3e62aba' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@1d4249c4'
-[GitCheckoutListener] -> Recorded 200 new commits
-[Pipeline] sh
- > git rev-parse HEAD^{commit} # timeout=10
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=docs allmodconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-  GEN     Makefile
-#
-# No change to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-+ make O=docs -j9 init
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-make[1]: Nothing to be done for 'init'.
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-+ make O=docs htmldocs
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-  SPHINX  htmldocs --> file:///var/lib/jenkins/workspace/linux-media@2/docs/Documentation/output
-make[3]: Nothing to be done for 'html'.
-Using alabaster theme
-Checking out Revision 3e62aba8284de0994a669d07983299242e68fe72 (refs/remotes/origin/master)
-Checking out Revision 3e62aba8284de0994a669d07983299242e68fe72 (refs/remotes/origin/master)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 3e62aba8284de0994a669d07983299242e68fe72 # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 3e62aba8284de0994a669d07983299242e68fe72 # timeout=10
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (i386 (builtin))
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=i386 ARCH=i386 allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-+ ./scripts/config --file i386/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=i386 ARCH=i386 -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  GEN     kernel/kheaders_data.tar.xz
-Commit message: "media: imx-mipi-csis: Check csis_fmt validity before use"
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-  GEN     Makefile
-Commit message: "media: imx-mipi-csis: Check csis_fmt validity before use"
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=x86_64_mod allmodconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-  GEN     Makefile
-  CC      kernel/kheaders.o
-  AR      kernel/built-in.a
-  AR      built-in.a
-  AR      vmlinux.a
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-+ ./scripts/config --file arm_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  CALL    ../scripts/checksyscalls.sh
-  LD      vmlinux.o
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ ./scripts/config --file x86_64_mod/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_mod -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  OBJCOPY modules.builtin.modinfo
-  GEN     modules.builtin
-  MODPOST Module.symvers
-  UPD     include/generated/utsversion.h
-  CC      init/version-timestamp.o
-  LD      .tmp_vmlinux.kallsyms1
-  CHK     kernel/kheaders_data.tar.xz
-  NM      .tmp_vmlinux.kallsyms1.syms
-  KSYMS   .tmp_vmlinux.kallsyms1.S
-  AS      .tmp_vmlinux.kallsyms1.S
-  LD      .tmp_vmlinux.kallsyms2
-  NM      .tmp_vmlinux.kallsyms2.syms
-  KSYMS   .tmp_vmlinux.kallsyms2.S
-  AS      .tmp_vmlinux.kallsyms2.S
-  LD      .tmp_vmlinux.kallsyms3
-  NM      .tmp_vmlinux.kallsyms3.syms
-  KSYMS   .tmp_vmlinux.kallsyms3.S
-  LD      vmlinux.o
-  AS      .tmp_vmlinux.kallsyms3.S
-  LD      vmlinux
-  NM      System.map
-  SORTTAB vmlinux
-  CC      arch/x86/boot/version.o
-  VOFFSET arch/x86/boot/compressed/../voffset.h
-  OBJCOPY arch/x86/boot/compressed/vmlinux.bin
-  RELOCS  arch/x86/boot/compressed/vmlinux.relocs
-  CC      arch/x86/boot/compressed/kaslr.o
-  GZIP    arch/x86/boot/compressed/vmlinux.bin.gz
-  CC      arch/x86/boot/compressed/misc.o
-  MKPIGGY arch/x86/boot/compressed/piggy.S
-  AS      arch/x86/boot/compressed/piggy.o
-  LD      arch/x86/boot/compressed/vmlinux
-  ZOFFSET arch/x86/boot/zoffset.h
-  OBJCOPY arch/x86/boot/vmlinux.bin
-  AS      arch/x86/boot/header.o
-  LD      arch/x86/boot/setup.elf
-  OBJCOPY arch/x86/boot/setup.bin
-  BUILD   arch/x86/boot/bzImage
-Kernel: arch/x86/boot/bzImage is ready  (#50)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Kernel: arch/x86/boot/bzImage is ready  (#3)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ make O=x86_64_yes allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-+ ./scripts/config --file x86_64_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_yes -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  LD      vmlinux.o
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media@2/Makefile:1245: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-make: *** [Makefile:242: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch arm/aarch64 (builtin)
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1245: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:242: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+...
+
+> -- compatible: must be "samsung,fimc"
+
+I guess you have another patch removing "simple-bus" here and another
+location in your tree?
+
+-- 
+Kind regards,
+
+Sakari Ailus
