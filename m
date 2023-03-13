@@ -2,71 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17B566B7D70
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 17:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 589D86B7DA5
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 17:34:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbjCMQ1M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 12:27:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
+        id S231408AbjCMQeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 12:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231232AbjCMQ1J (ORCPT
+        with ESMTP id S231279AbjCMQdu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 12:27:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CE1591C8
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 09:27:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F3B3DB81188
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 16:27:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE73C433D2
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 16:27:04 +0000 (UTC)
-Message-ID: <4ad446c4-f1eb-bf83-4f97-80ec6d7cb3e8@xs4all.nl>
-Date:   Mon, 13 Mar 2023 17:27:03 +0100
+        Mon, 13 Mar 2023 12:33:50 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7AB01C169;
+        Mon, 13 Mar 2023 09:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=IacwA
+        yjPTNhi/tmrdS6hhYpxHKnIxK7jZ03eSL+e44E=; b=SQGyceuW32BcU07IBhF1R
+        ygBdWL1vj+hmYGv//ILgyM++7Z0b9ih5TQhVUr5vQaEPGa8MlPY1tInrA+dHfSNk
+        WahBZnCPUa0/q4XczHmZq3p7xGMTzt9jkILpnQB1Gc56sQ5dqtORP1nLaYGmaxvF
+        skU35mp3ealNe5Rw4OLDHo=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by zwqz-smtp-mta-g5-3 (Coremail) with SMTP id _____wDnTI3aTw9kcosTAA--.14497S2;
+        Tue, 14 Mar 2023 00:31:23 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     mchehab@kernel.org
+Cc:     hverkuil@xs4all.nl, wens@csie.org, jernej.skrabec@gmail.com,
+        samuel@sholland.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com,
+        Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH v2] media: cedrus: fix use after free bug in cedrus_remove due to  race condition
+Date:   Tue, 14 Mar 2023 00:31:20 +0800
+Message-Id: <20230313163120.3741811-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.4] Various fixes
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDnTI3aTw9kcosTAA--.14497S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw15uFyUCF1fAryDGrW3KFg_yoW8GF4rpa
+        yYka45CayUtF4Yg3y7Ar18ZFy5W34I9w1Fg34xJw1xtas5Jr1Sqr1Fy3W7Gwn8Z39Yka1a
+        vF15X34Iqan7AF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi-eOJUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiQgMxU1aEEpIz3AAAse
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 3e62aba8284de0994a669d07983299242e68fe72:
+In cedrus_probe, dev->watchdog_work is bound with cedrus_watchdog function.
+In cedrus_device_run, it will started by schedule_delayed_work. If there is
+an unfinished work in cedrus_remove, there may be a race condition and 
+trigger UAF bug.
 
-  media: imx-mipi-csis: Check csis_fmt validity before use (2023-02-26 11:21:33 +0100)
+CPU0                  CPU1
 
-are available in the Git repository at:
+                    |cedrus_watchdog
+cedrus_remove       |
+  v4l2_m2m_release  |
+  kfree(m2m_dev)    |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev //use
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4c
+Fix it by canceling the worker in cedrus_remove.
 
-for you to fetch changes up to 11d6bec6489199ad826e9a4be27594539b74a52e:
+Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+v2:
+- use cancel_delayed_work_sync instead and add Fixes
+label suggested by Hans Verkuil
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  media: common: btcx-risc.h: drop obsolete header (2023-03-13 16:19:19 +0100)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index a43d5ff66716..a50a4d0a8f71 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -547,6 +547,7 @@ static int cedrus_remove(struct platform_device *pdev)
+ {
+ 	struct cedrus_dev *dev = platform_get_drvdata(pdev);
+ 
++	cancel_delayed_work_sync(&dev->watchdog_work);
+ 	if (media_devnode_is_registered(dev->mdev.devnode)) {
+ 		media_device_unregister(&dev->mdev);
+ 		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+-- 
+2.25.1
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (4):
-      admin-guide/media/cec.rst: update CEC debugging doc
-      media: stm32: dma2d: remove unused fb_buf
-      zoran: drop two obsolete prototypes from zoran_device.h
-      media: common: btcx-risc.h: drop obsolete header
-
- Documentation/admin-guide/media/cec.rst       | 70 ++++++++++++++++++++++++++++++++++++----------------------------------
- drivers/media/common/btcx-risc.h              | 29 -----------------------------
- drivers/media/pci/zoran/zoran_device.h        |  2 --
- drivers/media/platform/st/stm32/dma2d/dma2d.h |  2 --
- 4 files changed, 36 insertions(+), 67 deletions(-)
- delete mode 100644 drivers/media/common/btcx-risc.h
