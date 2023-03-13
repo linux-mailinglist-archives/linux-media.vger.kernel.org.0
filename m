@@ -2,115 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EC386B7EE9
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 18:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCFB76B7FAD
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 18:49:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjCMRKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 13:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53418 "EHLO
+        id S230221AbjCMRtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 13:49:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230282AbjCMRKa (ORCPT
+        with ESMTP id S230131AbjCMRs6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 13:10:30 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F02F113EF;
-        Mon, 13 Mar 2023 10:10:06 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id y14so13355821ljq.4;
-        Mon, 13 Mar 2023 10:10:06 -0700 (PDT)
+        Mon, 13 Mar 2023 13:48:58 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C8D7203A
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 10:48:56 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id k10so51888070edk.13
+        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 10:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678727325; x=1681319325;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=gmail.com; s=20210112; t=1678729735;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nWFcn3N7fdkggfCAU6N3AWS2AJpujTNFZCDcDG29DDU=;
-        b=e6YN891exTz6RBgawDES0963ZDWFQA9+8aQ63Im7BP5Fy9eEvzBxMIuHAuqWbCZeLw
-         xA2sSa6/cZiN6mHF3/+fIb3pnqq2MewlfLzR48koCbD8whXbKfA8Zs0+dFs89Cfy5m36
-         ROVsAU6bQljGOx/ykPtOQO0r6I8XBemOEF326xWZ5gIBuu5RpWt0wZITremU5bdqxJ5e
-         fWUkITbc/MzS3k5YZE74vlNgxyJd3l+n9CkKH1MRvz0jG8OdZSEUnRN+n0e89kMgUyKp
-         rroBKHNdNE45XtTz8XbWd27Z63Nu8HES9mhzKxEJUTEcdgqTB5zYtiSB6fEQbd4byozN
-         7IwQ==
+        bh=LaK08avXalr1PtoSNHT6ZMxzGm2NKQlXYq160RM6SJg=;
+        b=dwExWLVQdmufRrRGXvEQQ1J2pk2D/Jdo2kqu0Ua5mZVPG4yiifCsywyW+2AMQkUukA
+         b92ORrZwWODHjo2I5wwOYpxAR8AKHud5h/H6Vqrk8gMWQB1ltNR3axJpDwbqRUZDp4IQ
+         is3++1C03Np1nMPrK4piGvjmNjsloBC3pux5NSXcc8ELrmfvWOMXXPH71gtEXIbrUAEF
+         qnItvDp2niVxcjONCEXYzYH9d2GUJEdfarO4PMknYxY9d6Gh9Ej5TpjoDMOPvpfGR4Kq
+         AdGfSbUtN2JtOh35w4ePqu2Dwhz52a3ABv/TxVTxAV43OjBchWT7oPumTKJwG3aEuH+q
+         talw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678727325; x=1681319325;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20210112; t=1678729735;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWFcn3N7fdkggfCAU6N3AWS2AJpujTNFZCDcDG29DDU=;
-        b=XXWHmcEm2KrJNFXSTm6cPqfYsLRZFOXOOq7WT+o+XOQq69H6tF4BrW/8ugAWiVQzsp
-         lDui5P4w0GqgqcY3cS+Qds/DRLsdrnlgyXtTcy1UrYEBNFzTV1G/PnqANiyKDCMdaIff
-         TAYoYCBsiPjVtLzGjqdojGRpoH+PQOp4jUx+yUJO0RewiYOyHmwnblq1p/WsRL4cJlWM
-         3fOfpQB89E9WTYoKQK3ZREHHIuNuZ1vmffOVb3pDQyE7+LttB7rYsDhRA5hyuEtaonmq
-         33w6rQcL5hObLtJ4XfQHYmGkTAfTnqZ2OJJZ7g/p9kglKYaIFJP7Tpvd3wT/iXrqLTmv
-         hfuQ==
-X-Gm-Message-State: AO0yUKXnQtU++xk+NblEVv1vMbk3P05lIEFmFwq8jhZBfCVDrjS40Tbj
-        weymA5Ebe9sJwb11vGZZvjw=
-X-Google-Smtp-Source: AK7set9A23LXz84FY4nbulp8BmwRuZb6BzjELqJTA00c9/JbdQSh2qRKdHRdbHkxYlALuU7kCLrMgg==
-X-Received: by 2002:a05:651c:222b:b0:294:7422:479e with SMTP id y43-20020a05651c222b00b002947422479emr6188608ljq.1.1678727324631;
-        Mon, 13 Mar 2023 10:08:44 -0700 (PDT)
-Received: from [192.168.0.192] ([194.146.248.75])
-        by smtp.gmail.com with ESMTPSA id e2-20020a2e9302000000b0029571d505a1sm69136ljh.80.2023.03.13.10.08.42
+        bh=LaK08avXalr1PtoSNHT6ZMxzGm2NKQlXYq160RM6SJg=;
+        b=AXNTcsCQblKKb4cQkonvWPCREONFagP7gu28jJLMA02h8Z8DsM04jQtxdldp/ep8Qo
+         IWT+B4lOfo95YdRieQkxTPchPLWtbwzX6JttDwb7m/Oh5A6i9oYEpoInKvmCh+CdRQfx
+         F0RAW6ekdg4yZlwkdwXEOAdtse/+ZceEGF1XNF/QD+a2ZEDSexrzhsmqYUE49fQu2XaH
+         XatBPAJVS/UZqdLR6f+SPw50gBbLl0TShmaWfp58ad4lKKFa5CxTeg2GTObwg3yZTuIl
+         8ZeScyrHy78JlGLo2A/bguSNo576HBEoM2Px4cZE8FBeQIh1pSMzTwXj1YpNQ4ok3Dee
+         lrTQ==
+X-Gm-Message-State: AO0yUKUGqBFQWqGu6fdWUx1anJY82W7V2aSImx+sp2LjxRW/atR5RY7a
+        bzRwFDhn+rdh7QQs7yGZ2xY=
+X-Google-Smtp-Source: AK7set9d2laRnRbapcAd8siE2bZ+imaK9IVIK2D7fOzf13taHY4ft+Z6RvcxkeP2ISZnydG1+yAIxQ==
+X-Received: by 2002:a17:906:db0c:b0:909:3c55:a1b3 with SMTP id xj12-20020a170906db0c00b009093c55a1b3mr47469140ejb.38.1678729734897;
+        Mon, 13 Mar 2023 10:48:54 -0700 (PDT)
+Received: from [192.168.1.45] (hst-221-55.medicom.bg. [84.238.221.55])
+        by smtp.gmail.com with ESMTPSA id lg8-20020a170906f88800b008ca8b62cda6sm64827ejb.177.2023.03.13.10.48.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 10:08:44 -0700 (PDT)
-Message-ID: <66b78cd3-0d0d-cee8-6a93-996ade3a07a9@gmail.com>
-Date:   Mon, 13 Mar 2023 18:08:42 +0100
+        Mon, 13 Mar 2023 10:48:54 -0700 (PDT)
+Message-ID: <ace4420f-d4fb-df18-60f0-3b698c196250@gmail.com>
+Date:   Mon, 13 Mar 2023 19:48:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 09/28] media: platform: samsung: s5p-jpeg: drop
- of_match_ptr for ID table
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-9-krzysztof.kozlowski@linaro.org>
-From:   Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-In-Reply-To: <20230312131318.351173-9-krzysztof.kozlowski@linaro.org>
+Subject: Re: [GIT FIXES FOR v6.3] Venus fixes
+Content-Language: en-US, bg-BG
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>,
+        linux-media@vger.kernel.org
+References: <20230302060413.67239-1-stanimir.k.varbanov@gmail.com>
+ <cb03d97f-ae48-4090-e14b-354373a2ebe3@leemhuis.info>
+ <7ef0357c-1bd8-7598-4c4e-9d795b5f0abd@leemhuis.info>
+From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+In-Reply-To: <7ef0357c-1bd8-7598-4c4e-9d795b5f0abd@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -119,33 +81,69 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-
-W dniu 12.03.2023 o 14:12, Krzysztof Kozlowski pisze:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).  This
-> also fixes !CONFIG_OF error:
+On 13.03.23 г. 16:28 ч., Thorsten Leemhuis wrote:
+> On 02.03.23 09:27, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> On 02.03.23 07:04, Stanimir Varbanov wrote:
+>>>
+>>> This pull request includes a fix for regression in venus hardware reset.
+>>> The reverted commit has been merged in v6.2.
+>>>
+>>> Please pull.
 > 
->    drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c:3124:34: error: ‘samsung_jpeg_match’ defined but not used [-Werror=unused-const-variable=]
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Mauro: any reason why this is still not pulled? It fixes a regression
+> that made it into 6.2 and the revert was now posted 34 days ago, hence
+> it would be good if this could finally go to Linus, so that it can be
+> backported to stable.
 
-Acked-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+I guess the best I can do is to include the revert in the next pull 
+request for v6.4.
 
-> ---
->   drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> index 55814041b8d8..8be8e3596e07 100644
-> --- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> +++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-> @@ -3166,7 +3166,7 @@ static struct platform_driver s5p_jpeg_driver = {
->   	.probe = s5p_jpeg_probe,
->   	.remove = s5p_jpeg_remove,
->   	.driver = {
-> -		.of_match_table	= of_match_ptr(samsung_jpeg_match),
-> +		.of_match_table	= samsung_jpeg_match,
->   		.name		= S5P_JPEG_M2M_NAME,
->   		.pm		= &s5p_jpeg_pm_ops,
->   	},
+> BTW, Stan: What...
+> 
+>>> The following changes since commit 3e62aba8284de0994a669d07983299242e68fe72:
+>>>
+>>>    media: imx-mipi-csis: Check csis_fmt validity before use (2023-02-26 11:21:33 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-fixes-for-v6.3
+>>>
+>>> for you to fetch changes up to 1440cfcf24db8c50d929d3c35ab6f87f868fa628:
+>>>
+>>>    Revert "venus: firmware: Correct non-pix start and end addresses" (2023-03-02 07:52:10 +0200)
+>>>
+>>> ----------------------------------------------------------------
+>>> Venus fixes for v6.3
+>>>
+>>> ----------------------------------------------------------------
+>>> Javier Martinez Canillas (1):
+>>>        Revert "venus: firmware: Correct non-pix start and end addresses"
+>>
+>> Good to see that this finally is heading towards mainline, thx.
+>>
+>> What about the other venus regression[1] Javier provided this patch for:
+>>
+>> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
+> 
+> ...about this revert from Feb, 10th? There was some discussion recently,
+> but it would to get this finally resolved, too.
+
+I still have doubts about test coverage on db410c and RB3, because the 
+firmware there behaves very differently and we can introduce another 
+regression. If that happens we have to fix the fix in this patch. I'm 
+working on the testing on those two devices.
+
+> 
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+> 
+> #regzbot poke
+> #regzbot ignore-activity
+
+-- 
+regards,
+Stan
