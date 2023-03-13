@@ -2,188 +2,387 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E2AC6B7A8C
-	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:40:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C79366B7ABC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Mar 2023 15:45:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230346AbjCMOj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Mar 2023 10:39:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59172 "EHLO
+        id S230419AbjCMOpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Mar 2023 10:45:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231533AbjCMOjz (ORCPT
+        with ESMTP id S230400AbjCMOpj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Mar 2023 10:39:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5877656524
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 07:39:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EDED4B8117B
-        for <linux-media@vger.kernel.org>; Mon, 13 Mar 2023 14:39:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF403C433D2;
-        Mon, 13 Mar 2023 14:39:26 +0000 (UTC)
-Message-ID: <9ce7563a-13b1-c1d5-177f-8492aae49792@xs4all.nl>
-Date:   Mon, 13 Mar 2023 15:39:25 +0100
+        Mon, 13 Mar 2023 10:45:39 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71E5279A8;
+        Mon, 13 Mar 2023 07:45:17 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id q15so9556311oiw.11;
+        Mon, 13 Mar 2023 07:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678718717;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a+CV2SifknfjhIyuWjTUWiSmqHONl4lWciVnfKStENI=;
+        b=i2SilUaV3bWr54dJkta8nQzXHC3ldAO2CIGhbaD4W2v+7zFai9h4s8d7ydJi9vnydm
+         Rmxl312JsKwfTHbOQLjbx4ktE/y8WN+0Ln9BrXobMgsxonH4DFHkVFZGtGLQwkktvLcn
+         itJSuVzIf/F02deRU7nI6BeVfpriCFR4EcK582FgWJjppl9SIKcmwheYjcDbIg8zeJQJ
+         EqcgvRMfQTswHXsnOv6HitRObCa9s28QUTIkupuGHf7aMdDZJ+yoECnuZ7K1ra/bLFsM
+         w/LkdVBqGREcJJxbxVtzcDHoNH7OJXB6MFwr8ln2do2Ocvm9ns+3WsrN9mjLPqHcnqb5
+         ykcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678718717;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a+CV2SifknfjhIyuWjTUWiSmqHONl4lWciVnfKStENI=;
+        b=oEGHP6JLZD1kj6R01iRQ9G4YoNOVsGmwK39E/ikDznwoKNWmDXKU9KQ+gratODi5aW
+         8ZmaqBHtNbR9DQEQbGa1a6hyF+8EHZRPuDUHs/GjNzDCjcq45BIvsDv1fZSFtqEHFOZN
+         IrrZLeBMlbcgUwAO1McHSv/drl2apbCYuzF3ks1/cYQQhDzfr1o7T2XZzwleXJ+Dy8Zk
+         mdeX/OoRHqBOQyMw2OF3SJmNE7qv8hSGy98gW6OeJBa6JvieTXKV75UYkoTcKihjoOw+
+         4g6hnECTn3gnqIdA5Kzp5isGBZbhiaS12yiBXSNrAZhz2QtQVxtq/zRUVudyur+TbHDF
+         TaiA==
+X-Gm-Message-State: AO0yUKWTFR8CAcwIRIrfSicbiohxzWBPdQ1heubohENKH5EJXDWU6D9S
+        sxsIlD3KPk8H4RXfDy8QmPc5Mt85k/odAP6VNYc=
+X-Google-Smtp-Source: AK7set8Ti1T85pfZ3x3mojTmAFJI+E2j4PltKQSmP4vh2+nZAmydeBWLtDIItpnDphn3KDx5PrbNv0r21XjWrzrB7RA=
+X-Received: by 2002:a05:6808:220a:b0:383:db64:65 with SMTP id
+ bd10-20020a056808220a00b00383db640065mr5424701oib.4.1678718716877; Mon, 13
+ Mar 2023 07:45:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 25/26] media: Implement best effort media device removal
- safety sans refcounting
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org
-References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
- <20230201214535.347075-26-sakari.ailus@linux.intel.com>
- <a3a8c0ec-f13e-2473-78d6-f454790467be@xs4all.nl>
- <768335ad-d5ba-d0a7-828a-80c0ec44e41b@xs4all.nl>
- <ZAHVKu3OPyd7iLhH@kekkonen.localdomain>
- <132b4fdf-7ec1-33a4-566a-8e10e6094230@xs4all.nl>
- <ZA8s8MjRw8UmuzX7@kekkonen.localdomain>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <ZA8s8MjRw8UmuzX7@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230311173513.1080397-1-robdclark@gmail.com> <20230311173513.1080397-3-robdclark@gmail.com>
+ <b846101c-e6ef-2d3e-9db9-077003b72e57@amd.com>
+In-Reply-To: <b846101c-e6ef-2d3e-9db9-077003b72e57@amd.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 13 Mar 2023 07:45:05 -0700
+Message-ID: <CAF6AEGvH==PPLpdxim4Pi=Q7RA8Ou4NYxvYBW=N8sh9amEqQVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/msm: Embed the hw_fence in msm_gem_submit
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        "Tuikov, Luben" <Luben.Tuikov@amd.com>,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/03/2023 15:02, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Mon, Mar 13, 2023 at 02:46:27PM +0100, Hans Verkuil wrote:
->> On 03/03/2023 12:08, Sakari Ailus wrote:
->>> Hi Hans,
->>>
->>> On Fri, Mar 03, 2023 at 09:54:40AM +0100, Hans Verkuil wrote:
->>>> On 03/03/2023 09:39, Hans Verkuil wrote:
->>>>> On 01/02/2023 22:45, Sakari Ailus wrote:
->>>>>> Add a new helper data structure media_devnode_compat_ref, which is used to
->>>>>> prevent user space from calling IOCTLs or other system calls to the media
->>>>>> device that has been already unregistered.
->>>>>>
->>>>>> The media device's memory may of course still be released during the call
->>>>>> but there is only so much that can be done to this without the driver
->>>>>> managing the lifetime of the resources it needs somehow.
->>>>>>
->>>>>> This patch should be reverted once all drivers have been converted to manage
->>>>>> their resources' lifetime.
->>>>>>
->>>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>>>> ---
->>>>>>  drivers/media/mc/mc-device.c  | 60 ++++++++++++++++++++++++++++++-----
->>>>>>  drivers/media/mc/mc-devnode.c | 21 ++++++++----
->>>>>>  include/media/media-devnode.h | 29 +++++++++++++++++
->>>>>>  3 files changed, 96 insertions(+), 14 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
->>>>>> index 3a1db5fdbba7..22fdaa6370ea 100644
->>>>>> --- a/drivers/media/mc/mc-device.c
->>>>>> +++ b/drivers/media/mc/mc-device.c
->>>>>> @@ -45,18 +45,34 @@ static inline void __user *media_get_uptr(__u64 arg)
->>>>>>  	return (void __user *)(uintptr_t)arg;
->>>>>>  }
->>>>>>  
->>>>>> +static void compat_ref_release(struct kref *kref)
->>>>>> +{
->>>>>> +	struct media_devnode_compat_ref *ref =
->>>>>> +		container_of_const(kref, struct media_devnode_compat_ref, kref);
->>>>>> +
->>>>>> +	kfree(ref);
->>>>>> +}
->>>>>> +
->>>>>>  static int media_device_open(struct media_devnode *devnode, struct file *filp)
->>>>>>  {
->>>>>>  	struct media_device *mdev = to_media_device(devnode);
->>>>>>  	struct media_device_fh *fh;
->>>>>>  	unsigned long flags;
->>>>>>  
->>>>>> +	if (devnode->ref && (!atomic_read(&devnode->ref->registered) ||
->>>>>> +			     !kref_get_unless_zero(&devnode->ref->kref)))
->>>>>> +		return -ENXIO;
->>>>>> +
->>>>>
->>>>> This seems pointless: if the media device is unregistered, then the device
->>>>> node disappears and it can't be opened anymore.
->>>>>
->>>>> I'm confused by this patch in general: when media_device_unregister() is called,
->>>>> it is no longer possible to call ioctls and basically do anything except close
->>>>> the open fh.
->>>>>
->>>>> So what am I missing here? It all looks odd.
->>>>
->>>> I read up on this a bit more, and I think this patch is bogus: drivers not
->>>> converted to the release() callback will indeed just crash, but that's no
->>>> different than many existing drivers, media or otherwise, when you forcibly
->>>> unbind them. It's broken today, and since you have to be root to unbind, I
->>>> would say that we can just leave it as-is rather than introducing a rather
->>>> ugly workaround. I don't think it will help anyway, since most likely
->>>> such drivers will also fails if the application has a video device open
->>>> when the device is unbound.
->>>
->>> The main difference is whether accessing such a file handle will access
->>> released memory always or whether that is possible only during a very brief
->>> amount of time.
->>>
->>
->> I still don't like this. It was broken before, and it is broken now (perhaps a
->> bit less broken, but still...).
->>
->> There is a right fix now, and drivers that are likely to be removed forcibly
->> should be converted. This patch just makes it more likely that such drivers
->> won't be converted since it is less likely to hit this, so people will just
->> think that this is 'good enough'. And it makes the code a lot uglier.
-> 
-> I agree, although converting the drivers is easier said than done. Note
-> that also DVB is affected by this, not just V4L2. There are quite a few DVB
-> USB devices.
-> 
-> The behaviour before this set (since ~ 2017) is restored by the last few
-> patches, without these we're on pre-2017 behaviour which basically means
-> that all media IOCTLs on file handles the device of which is gone, will
-> always access released memory. That was quite bad, too.
+On Mon, Mar 13, 2023 at 12:19=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 11.03.23 um 18:35 schrieb Rob Clark:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Avoid allocating memory in job_run() by embedding the fence in the
+> > submit object.  Since msm gpu fences are always 1:1 with msm_gem_submit
+> > we can just use the fence's refcnt to track the submit.  And since we
+> > can get the fence ctx from the submit we can just drop the msm_fence
+> > struct altogether.  This uses the new dma_fence_init_noref() to deal
+> > with the fact that the fence's refcnt is initialized when the submit is
+> > created, long before job_run().
+>
+> Well this is a very very bad idea, we made the same mistake with amdgpu
+> as well.
+>
+> It's true that you should not have any memory allocation in your run_job
+> callback, but you could also just allocate the hw fence during job
+> creation and initializing it later on.
+>
+> I've suggested to embed the fence into the job for amdgpu because some
+> people insisted of re-submitting jobs during timeout and GPU reset. This
+> turned into a nightmare with tons of bug fixes on top of bug fixes on
+> top of bug fixes because it messes up the job and fence lifetime as
+> defined by the DRM scheduler and DMA-buf framework.
+>
+> Luben is currently working on cleaning all this up.
 
-Why?
+This actually shouldn't be a problem with msm, as the fence doesn't
+change if there is a gpu reset.  We simply signal the fence for the
+offending job, reset the GPU, and re-play the remaining in-flight jobs
+(ie. things that already had their job_run() called) with the original
+fences.  (We don't use gpu sched's reset/timeout handling.. when I
+migrated to gpu sched I kept our existing hangcheck/recovery
+mechanism.)
 
-I have a filehandle open on /dev/mediaX. Now I unbind the device. That will
-unregister the media device, which will cause all file ops on the filehandle
-to return immediately, except for close().
+BR,
+-R
 
-And close() just frees the devnode from what I can see.
-
-There is a race if the device is unbound while in an ioctl, then all bets are
-off without proper life-time management.
-
-If it crashes after an unbind in the close() call, then something else is
-wrong, it shouldn't do that.
-
-What happens if you do 'sleep 20 </dev/mediaX', then unbind the device?
-
-I feel that I am missing something here.
-
-Regards,
-
-	Hans
-
-> 
-> Back then Mauro objected merging the set due to lack of DVB support, and as
-> far as I recall, also for not including best effort attempt to avoid freed
-> memory accesses.
-> 
-> I have experimental DVB support patches (from ~ 2017) that do not actually
-> work and I won't have time to fix them.
-> 
-> Cc Mauro.
-> 
->>
->> Note that if we still want this in, then it needs a lot more comments explaining
->> what is going on.
-> 
-> I'm fine with adding that.
-> 
-
+> Regards,
+> Christian.
+>
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> > Note that this applies on top of https://patchwork.freedesktop.org/seri=
+es/93035/
+> > out of convenience for myself, but I can re-work it to go before
+> > depending on the order that things land.
+> >
+> >   drivers/gpu/drm/msm/msm_fence.c      | 45 +++++++++++----------------=
+-
+> >   drivers/gpu/drm/msm/msm_fence.h      |  2 +-
+> >   drivers/gpu/drm/msm/msm_gem.h        | 10 +++----
+> >   drivers/gpu/drm/msm/msm_gem_submit.c |  8 ++---
+> >   drivers/gpu/drm/msm/msm_gpu.c        |  4 +--
+> >   drivers/gpu/drm/msm/msm_ringbuffer.c |  4 +--
+> >   6 files changed, 31 insertions(+), 42 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_=
+fence.c
+> > index 51b461f32103..51f9f1f0cb66 100644
+> > --- a/drivers/gpu/drm/msm/msm_fence.c
+> > +++ b/drivers/gpu/drm/msm/msm_fence.c
+> > @@ -103,14 +103,9 @@ void msm_update_fence(struct msm_fence_context *fc=
+tx, uint32_t fence)
+> >       spin_unlock_irqrestore(&fctx->spinlock, flags);
+> >   }
+> >
+> > -struct msm_fence {
+> > -     struct dma_fence base;
+> > -     struct msm_fence_context *fctx;
+> > -};
+> > -
+> > -static inline struct msm_fence *to_msm_fence(struct dma_fence *fence)
+> > +static inline struct msm_gem_submit *fence_to_submit(struct dma_fence =
+*fence)
+> >   {
+> > -     return container_of(fence, struct msm_fence, base);
+> > +     return container_of(fence, struct msm_gem_submit, hw_fence);
+> >   }
+> >
+> >   static const char *msm_fence_get_driver_name(struct dma_fence *fence)
+> > @@ -120,20 +115,20 @@ static const char *msm_fence_get_driver_name(stru=
+ct dma_fence *fence)
+> >
+> >   static const char *msm_fence_get_timeline_name(struct dma_fence *fenc=
+e)
+> >   {
+> > -     struct msm_fence *f =3D to_msm_fence(fence);
+> > -     return f->fctx->name;
+> > +     struct msm_gem_submit *submit =3D fence_to_submit(fence);
+> > +     return submit->ring->fctx->name;
+> >   }
+> >
+> >   static bool msm_fence_signaled(struct dma_fence *fence)
+> >   {
+> > -     struct msm_fence *f =3D to_msm_fence(fence);
+> > -     return msm_fence_completed(f->fctx, f->base.seqno);
+> > +     struct msm_gem_submit *submit =3D fence_to_submit(fence);
+> > +     return msm_fence_completed(submit->ring->fctx, fence->seqno);
+> >   }
+> >
+> >   static void msm_fence_set_deadline(struct dma_fence *fence, ktime_t d=
+eadline)
+> >   {
+> > -     struct msm_fence *f =3D to_msm_fence(fence);
+> > -     struct msm_fence_context *fctx =3D f->fctx;
+> > +     struct msm_gem_submit *submit =3D fence_to_submit(fence);
+> > +     struct msm_fence_context *fctx =3D submit->ring->fctx;
+> >       unsigned long flags;
+> >       ktime_t now;
+> >
+> > @@ -165,26 +160,22 @@ static void msm_fence_set_deadline(struct dma_fen=
+ce *fence, ktime_t deadline)
+> >       spin_unlock_irqrestore(&fctx->spinlock, flags);
+> >   }
+> >
+> > +static void msm_fence_release(struct dma_fence *fence)
+> > +{
+> > +     __msm_gem_submit_destroy(fence_to_submit(fence));
+> > +}
+> > +
+> >   static const struct dma_fence_ops msm_fence_ops =3D {
+> >       .get_driver_name =3D msm_fence_get_driver_name,
+> >       .get_timeline_name =3D msm_fence_get_timeline_name,
+> >       .signaled =3D msm_fence_signaled,
+> >       .set_deadline =3D msm_fence_set_deadline,
+> > +     .release =3D msm_fence_release,
+> >   };
+> >
+> > -struct dma_fence *
+> > -msm_fence_alloc(struct msm_fence_context *fctx)
+> > +void
+> > +msm_fence_init(struct msm_fence_context *fctx, struct dma_fence *f)
+> >   {
+> > -     struct msm_fence *f;
+> > -
+> > -     f =3D kzalloc(sizeof(*f), GFP_KERNEL);
+> > -     if (!f)
+> > -             return ERR_PTR(-ENOMEM);
+> > -
+> > -     f->fctx =3D fctx;
+> > -
+> > -     dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
+> > -                    fctx->context, ++fctx->last_fence);
+> > -
+> > -     return &f->base;
+> > +     dma_fence_init_noref(f, &msm_fence_ops, &fctx->spinlock,
+> > +                          fctx->context, ++fctx->last_fence);
+> >   }
+> > diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_=
+fence.h
+> > index cdaebfb94f5c..8fca37e9773b 100644
+> > --- a/drivers/gpu/drm/msm/msm_fence.h
+> > +++ b/drivers/gpu/drm/msm/msm_fence.h
+> > @@ -81,7 +81,7 @@ void msm_fence_context_free(struct msm_fence_context =
+*fctx);
+> >   bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fen=
+ce);
+> >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)=
+;
+> >
+> > -struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
+> > +void msm_fence_init(struct msm_fence_context *fctx, struct dma_fence *=
+f);
+> >
+> >   static inline bool
+> >   fence_before(uint32_t a, uint32_t b)
+> > diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_ge=
+m.h
+> > index c4844cf3a585..e06afed99d5b 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem.h
+> > +++ b/drivers/gpu/drm/msm/msm_gem.h
+> > @@ -259,10 +259,10 @@ struct msm_gem_submit {
+> >       struct ww_acquire_ctx ticket;
+> >       uint32_t seqno;         /* Sequence number of the submit on the r=
+ing */
+> >
+> > -     /* Hw fence, which is created when the scheduler executes the job=
+, and
+> > +     /* Hw fence, which is initialized when the scheduler executes the=
+ job, and
+> >        * is signaled when the hw finishes (via seqno write from cmdstre=
+am)
+> >        */
+> > -     struct dma_fence *hw_fence;
+> > +     struct dma_fence hw_fence;
+> >
+> >       /* Userspace visible fence, which is signaled by the scheduler af=
+ter
+> >        * the hw_fence is signaled.
+> > @@ -309,16 +309,16 @@ static inline struct msm_gem_submit *to_msm_submi=
+t(struct drm_sched_job *job)
+> >       return container_of(job, struct msm_gem_submit, base);
+> >   }
+> >
+> > -void __msm_gem_submit_destroy(struct kref *kref);
+> > +void __msm_gem_submit_destroy(struct msm_gem_submit *submit);
+> >
+> >   static inline void msm_gem_submit_get(struct msm_gem_submit *submit)
+> >   {
+> > -     kref_get(&submit->ref);
+> > +     dma_fence_get(&submit->hw_fence);
+> >   }
+> >
+> >   static inline void msm_gem_submit_put(struct msm_gem_submit *submit)
+> >   {
+> > -     kref_put(&submit->ref, __msm_gem_submit_destroy);
+> > +     dma_fence_put(&submit->hw_fence);
+> >   }
+> >
+> >   void msm_submit_retire(struct msm_gem_submit *submit);
+> > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm=
+/msm_gem_submit.c
+> > index be4bf77103cd..522c8c82e827 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > @@ -47,7 +47,7 @@ static struct msm_gem_submit *submit_create(struct dr=
+m_device *dev,
+> >               return ERR_PTR(ret);
+> >       }
+> >
+> > -     kref_init(&submit->ref);
+> > +     kref_init(&submit->hw_fence.refcount);
+> >       submit->dev =3D dev;
+> >       submit->aspace =3D queue->ctx->aspace;
+> >       submit->gpu =3D gpu;
+> > @@ -65,10 +65,9 @@ static struct msm_gem_submit *submit_create(struct d=
+rm_device *dev,
+> >       return submit;
+> >   }
+> >
+> > -void __msm_gem_submit_destroy(struct kref *kref)
+> > +/* Called when the hw_fence is destroyed: */
+> > +void __msm_gem_submit_destroy(struct msm_gem_submit *submit)
+> >   {
+> > -     struct msm_gem_submit *submit =3D
+> > -                     container_of(kref, struct msm_gem_submit, ref);
+> >       unsigned i;
+> >
+> >       if (submit->fence_id) {
+> > @@ -78,7 +77,6 @@ void __msm_gem_submit_destroy(struct kref *kref)
+> >       }
+> >
+> >       dma_fence_put(submit->user_fence);
+> > -     dma_fence_put(submit->hw_fence);
+> >
+> >       put_pid(submit->pid);
+> >       msm_submitqueue_put(submit->queue);
+> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gp=
+u.c
+> > index 380249500325..a82d11dd5fcf 100644
+> > --- a/drivers/gpu/drm/msm/msm_gpu.c
+> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> > @@ -716,7 +716,7 @@ static void retire_submits(struct msm_gpu *gpu)
+> >                        * been signalled, then later submits are not sig=
+nalled
+> >                        * either, so we are also done.
+> >                        */
+> > -                     if (submit && dma_fence_is_signaled(submit->hw_fe=
+nce)) {
+> > +                     if (submit && dma_fence_is_signaled(&submit->hw_f=
+ence)) {
+> >                               retire_submit(gpu, ring, submit);
+> >                       } else {
+> >                               break;
+> > @@ -760,7 +760,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm=
+_gem_submit *submit)
+> >
+> >       msm_gpu_hw_init(gpu);
+> >
+> > -     submit->seqno =3D submit->hw_fence->seqno;
+> > +     submit->seqno =3D submit->hw_fence.seqno;
+> >
+> >       msm_rd_dump_submit(priv->rd, submit, NULL);
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm=
+/msm_ringbuffer.c
+> > index 57a8e9564540..5c54befa2427 100644
+> > --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
+> > +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+> > @@ -18,7 +18,7 @@ static struct dma_fence *msm_job_run(struct drm_sched=
+_job *job)
+> >       struct msm_gpu *gpu =3D submit->gpu;
+> >       int i;
+> >
+> > -     submit->hw_fence =3D msm_fence_alloc(fctx);
+> > +     msm_fence_init(fctx, &submit->hw_fence);
+> >
+> >       for (i =3D 0; i < submit->nr_bos; i++) {
+> >               struct drm_gem_object *obj =3D &submit->bos[i].obj->base;
+> > @@ -37,7 +37,7 @@ static struct dma_fence *msm_job_run(struct drm_sched=
+_job *job)
+> >
+> >       mutex_unlock(&gpu->lock);
+> >
+> > -     return dma_fence_get(submit->hw_fence);
+> > +     return dma_fence_get(&submit->hw_fence);
+> >   }
+> >
+> >   static void msm_job_free(struct drm_sched_job *job)
+>
