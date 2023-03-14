@@ -2,195 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 481026B8D50
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 09:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 886556B8D63
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 09:35:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbjCNIbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 04:31:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60000 "EHLO
+        id S229902AbjCNIfM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 04:35:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjCNIbB (ORCPT
+        with ESMTP id S229690AbjCNIfL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 04:31:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AC032387A
-        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 01:30:58 -0700 (PDT)
+        Tue, 14 Mar 2023 04:35:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C709653DA9;
+        Tue, 14 Mar 2023 01:35:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D2102B818A2
-        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 08:30:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 979A9C433D2;
-        Tue, 14 Mar 2023 08:30:54 +0000 (UTC)
-Message-ID: <581da6ee-ae04-acfc-ec11-2f2b33becb4e@xs4all.nl>
-Date:   Tue, 14 Mar 2023 09:30:52 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7CCF3B818B8;
+        Tue, 14 Mar 2023 08:35:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49BDBC433EF;
+        Tue, 14 Mar 2023 08:34:59 +0000 (UTC)
+Message-ID: <74ae8afe-c537-1714-77ec-8a80d8ddad69@xs4all.nl>
+Date:   Tue, 14 Mar 2023 09:34:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 25/26] media: Implement best effort media device removal
- safety sans refcounting
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org
-References: <20230201214535.347075-1-sakari.ailus@linux.intel.com>
- <20230201214535.347075-26-sakari.ailus@linux.intel.com>
- <a3a8c0ec-f13e-2473-78d6-f454790467be@xs4all.nl>
- <768335ad-d5ba-d0a7-828a-80c0ec44e41b@xs4all.nl>
- <ZAHVKu3OPyd7iLhH@kekkonen.localdomain>
- <132b4fdf-7ec1-33a4-566a-8e10e6094230@xs4all.nl>
- <ZA8s8MjRw8UmuzX7@kekkonen.localdomain>
- <9ce7563a-13b1-c1d5-177f-8492aae49792@xs4all.nl>
- <ZA9VE7CUYe+tzqxC@kekkonen.localdomain>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <ZA9VE7CUYe+tzqxC@kekkonen.localdomain>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Joe Tessler <jrt@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-rockchip@lists.infradead.org
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <b83d6b81-c4ec-4fb8-b626-84af80d1c4a3@roeck-us.net>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <b83d6b81-c4ec-4fb8-b626-84af80d1c4a3@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/03/2023 17:53, Sakari Ailus wrote:
-> Hi Hans,
+On 13/03/2023 23:01, Guenter Roeck wrote:
+> On Sun, Mar 12, 2023 at 02:12:51PM +0100, Krzysztof Kozlowski wrote:
+>> The driver can match only via the DT table so the table should be always
+>> used and the of_match_ptr does not have any sense (this also allows ACPI
+>> matching via PRP0001, even though it might not be relevant here).
+>>
+>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> On Mon, Mar 13, 2023 at 03:39:25PM +0100, Hans Verkuil wrote:
->> On 13/03/2023 15:02, Sakari Ailus wrote:
->>> Hi Hans,
->>>
->>> On Mon, Mar 13, 2023 at 02:46:27PM +0100, Hans Verkuil wrote:
->>>> On 03/03/2023 12:08, Sakari Ailus wrote:
->>>>> Hi Hans,
->>>>>
->>>>> On Fri, Mar 03, 2023 at 09:54:40AM +0100, Hans Verkuil wrote:
->>>>>> On 03/03/2023 09:39, Hans Verkuil wrote:
->>>>>>> On 01/02/2023 22:45, Sakari Ailus wrote:
->>>>>>>> Add a new helper data structure media_devnode_compat_ref, which is used to
->>>>>>>> prevent user space from calling IOCTLs or other system calls to the media
->>>>>>>> device that has been already unregistered.
->>>>>>>>
->>>>>>>> The media device's memory may of course still be released during the call
->>>>>>>> but there is only so much that can be done to this without the driver
->>>>>>>> managing the lifetime of the resources it needs somehow.
->>>>>>>>
->>>>>>>> This patch should be reverted once all drivers have been converted to manage
->>>>>>>> their resources' lifetime.
->>>>>>>>
->>>>>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>>>>>> ---
->>>>>>>>  drivers/media/mc/mc-device.c  | 60 ++++++++++++++++++++++++++++++-----
->>>>>>>>  drivers/media/mc/mc-devnode.c | 21 ++++++++----
->>>>>>>>  include/media/media-devnode.h | 29 +++++++++++++++++
->>>>>>>>  3 files changed, 96 insertions(+), 14 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
->>>>>>>> index 3a1db5fdbba7..22fdaa6370ea 100644
->>>>>>>> --- a/drivers/media/mc/mc-device.c
->>>>>>>> +++ b/drivers/media/mc/mc-device.c
->>>>>>>> @@ -45,18 +45,34 @@ static inline void __user *media_get_uptr(__u64 arg)
->>>>>>>>  	return (void __user *)(uintptr_t)arg;
->>>>>>>>  }
->>>>>>>>  
->>>>>>>> +static void compat_ref_release(struct kref *kref)
->>>>>>>> +{
->>>>>>>> +	struct media_devnode_compat_ref *ref =
->>>>>>>> +		container_of_const(kref, struct media_devnode_compat_ref, kref);
->>>>>>>> +
->>>>>>>> +	kfree(ref);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>  static int media_device_open(struct media_devnode *devnode, struct file *filp)
->>>>>>>>  {
->>>>>>>>  	struct media_device *mdev = to_media_device(devnode);
->>>>>>>>  	struct media_device_fh *fh;
->>>>>>>>  	unsigned long flags;
->>>>>>>>  
->>>>>>>> +	if (devnode->ref && (!atomic_read(&devnode->ref->registered) ||
->>>>>>>> +			     !kref_get_unless_zero(&devnode->ref->kref)))
->>>>>>>> +		return -ENXIO;
->>>>>>>> +
->>>>>>>
->>>>>>> This seems pointless: if the media device is unregistered, then the device
->>>>>>> node disappears and it can't be opened anymore.
->>>>>>>
->>>>>>> I'm confused by this patch in general: when media_device_unregister() is called,
->>>>>>> it is no longer possible to call ioctls and basically do anything except close
->>>>>>> the open fh.
->>>>>>>
->>>>>>> So what am I missing here? It all looks odd.
->>>>>>
->>>>>> I read up on this a bit more, and I think this patch is bogus: drivers not
->>>>>> converted to the release() callback will indeed just crash, but that's no
->>>>>> different than many existing drivers, media or otherwise, when you forcibly
->>>>>> unbind them. It's broken today, and since you have to be root to unbind, I
->>>>>> would say that we can just leave it as-is rather than introducing a rather
->>>>>> ugly workaround. I don't think it will help anyway, since most likely
->>>>>> such drivers will also fails if the application has a video device open
->>>>>> when the device is unbound.
->>>>>
->>>>> The main difference is whether accessing such a file handle will access
->>>>> released memory always or whether that is possible only during a very brief
->>>>> amount of time.
->>>>>
->>>>
->>>> I still don't like this. It was broken before, and it is broken now (perhaps a
->>>> bit less broken, but still...).
->>>>
->>>> There is a right fix now, and drivers that are likely to be removed forcibly
->>>> should be converted. This patch just makes it more likely that such drivers
->>>> won't be converted since it is less likely to hit this, so people will just
->>>> think that this is 'good enough'. And it makes the code a lot uglier.
->>>
->>> I agree, although converting the drivers is easier said than done. Note
->>> that also DVB is affected by this, not just V4L2. There are quite a few DVB
->>> USB devices.
->>>
->>> The behaviour before this set (since ~ 2017) is restored by the last few
->>> patches, without these we're on pre-2017 behaviour which basically means
->>> that all media IOCTLs on file handles the device of which is gone, will
->>> always access released memory. That was quite bad, too.
->>
->> Why?
->>
->> I have a filehandle open on /dev/mediaX. Now I unbind the device. That will
->> unregister the media device, which will cause all file ops on the filehandle
->> to return immediately, except for close().
->>
->> And close() just frees the devnode from what I can see.
->>
->> There is a race if the device is unbound while in an ioctl, then all bets are
->> off without proper life-time management.
->>
->> If it crashes after an unbind in the close() call, then something else is
->> wrong, it shouldn't do that.
->>
->> What happens if you do 'sleep 20 </dev/mediaX', then unbind the device?
->>
->> I feel that I am missing something here.
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > 
-> Actually these seems to be a bug in the 25th patch --- testing the devnode
-> registration needs to take place before checking for fops.
-> 
-> After fixing that, the difference of issuing read(2) after unregistering
-> the device is between (probably) crashing and graciously failing. The
-> underlying problem is that without the 25th patch there pretty much is a
-> guarantee devnode has been released by the time it is accessed.
+> FWIW: There is also
+> https://patches.linaro.org/project/linux-media/patch/20230215214724.3798917-1-linux@roeck-us.net/
 
-Ah, it's a result of patch 06/26. Now devnode is embedded in struct media_device,
-which in turn is embedded in a device's state structure. And when that is freed,
-the devnode is also freed.
+I superseded that patch in patchwork in favor of this patch since this is part of
+a larger series.
 
-This is wrong IMHO: either struct media_devnode or struct media_device has to
-be dynamically allocated. Embedding devices in a larger state structure causes
-exactly these types of problems.
-
-In this case I would just keep dynamically allocating the devnode. What is the reason
-for reverting that patch? The commit log doesn't say.
+Krzysztof, please let me know if you will take this series yourself or want me to
+make a PR for it.
 
 Regards,
 
 	Hans
+
+> 
+> The lack of ACPI support is a real problem and very relevant.
+> 
+> Guenter
+> 
+>> ---
+>>  drivers/media/cec/i2c/ch7322.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
+>> index 34fad7123704..3c6e6496a001 100644
+>> --- a/drivers/media/cec/i2c/ch7322.c
+>> +++ b/drivers/media/cec/i2c/ch7322.c
+>> @@ -589,7 +589,7 @@ MODULE_DEVICE_TABLE(of, ch7322_of_match);
+>>  static struct i2c_driver ch7322_i2c_driver = {
+>>  	.driver = {
+>>  		.name = "ch7322",
+>> -		.of_match_table = of_match_ptr(ch7322_of_match),
+>> +		.of_match_table = ch7322_of_match,
+>>  	},
+>>  	.probe_new	= ch7322_probe,
+>>  	.remove		= ch7322_remove,
+
