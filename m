@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 641AE6B9A98
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 17:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A0CB6B9A9E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 17:05:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbjCNQEy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 12:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44864 "EHLO
+        id S230341AbjCNQFK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 12:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230235AbjCNQEh (ORCPT
+        with ESMTP id S229974AbjCNQE5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 12:04:37 -0400
+        Tue, 14 Mar 2023 12:04:57 -0400
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C982A54F6;
-        Tue, 14 Mar 2023 09:04:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B4683F9;
+        Tue, 14 Mar 2023 09:04:54 -0700 (PDT)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 50870E0017;
-        Tue, 14 Mar 2023 16:04:14 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5259EE000A;
+        Tue, 14 Mar 2023 16:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1678809862;
+        t=1678809893;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=VzvoSA87yEUtF+tV1RSI+R4AM6DEhHX5TP5UQ8plIOc=;
-        b=Mf7kF6fAwocwFnRSgH139yTFgwuKjJqXByVHbKuJCYcIvus7Q+p+nnSARLdf2u3y1lhBvv
-        E0giuU+tv2ElM8Ui7R5XfrCYAmsz9pn9BIENV+MyJrXvGw2AQRngo8ezPizJ8dzyYKGf//
-        uBsF0SwJ3i7l/7u/3bRcm9RAuaJBvI18qel5c1uTvFp6nooDaCFqtS+buXYs8sZMmQfd9B
-        bFWO/Am/FKbpGfrdBFN9/nSlRmAGeNbZCp+x2GxTxCmUwgXU1ybYHcp6Jq4jbZzUzUfL4J
-        y0A04F7q1E8AU2+AcGLuJmWn1v820ubStPcmoSwWyiqMV3Tn0ZGioFcKi3k5fw==
-Date:   Tue, 14 Mar 2023 17:04:13 +0100
+        bh=c2+H7wt3YGMoJy1kI08Oezx1jFQC9X+jtLDpoYMlXss=;
+        b=ohgih14REmXqm2YF0JReNRyzYFa6p8DeLxCOosBOjCP69WgwLl4SrXk9XakcXKF0kd9xwy
+        iMCvNea8EW5AtPT1hqpXjAuy/hc08syMWVHptjb3t3f/VlI/gwsFTpM/GkF3gADXnCx7Sa
+        heStzYo3ZsO4uFShLISuSNrbNPDvvUn/SwHvbVuXlTsShQXYB2aIQPMGAR3hifMfAzym1f
+        vvExPpy3d7rvd/a5XYG/A7SnTG3bNwlMZpT47oWKVFLprwab4fy8qdRnSHXwrSrhA3RsMQ
+        HriELQR7raePfh3IEayUhBeiw+dLQhEZAA6NXmgA3hYX14DWwAULtDN/5eNAeg==
+Date:   Tue, 14 Mar 2023 17:04:48 +0100
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Joe Tessler <jrt@google.com>,
@@ -74,16 +74,16 @@ Cc:     Joe Tessler <jrt@google.com>,
         linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
         linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 17/28] media: platform: sun6i-mipi-csi2: drop
+Subject: Re: [PATCH 18/28] media: platform: sun8i-a83t-mipi-csi2: drop
  of_match_ptr for ID table
-Message-ID: <ZBCa/SjuJj3LnZ55@aptenodytes>
+Message-ID: <ZBCbIILFhcDMIg+h@aptenodytes>
 References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <20230312131318.351173-17-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-18-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mCL4hlvlOht5eppU"
+        protocol="application/pgp-signature"; boundary="VxKfudML6kIseEz3"
 Content-Disposition: inline
-In-Reply-To: <20230312131318.351173-17-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230312131318.351173-18-krzysztof.kozlowski@linaro.org>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
@@ -95,7 +95,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---mCL4hlvlOht5eppU
+--VxKfudML6kIseEz3
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -108,9 +108,9 @@ On Sun 12 Mar 23, 14:13, Krzysztof Kozlowski wrote:
 > matching via PRP0001, even though it might not be relevant here).  This
 > also fixes !CONFIG_OF error:
 >=20
->   drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c:751:34: =
-error: =E2=80=98sun6i_mipi_csi2_of_match=E2=80=99 defined but not used [-We=
-rror=3Dunused-const-variable=3D]
+>   drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.=
+c:818:34: error: =E2=80=98sun8i_a83t_mipi_csi2_of_match=E2=80=99 defined bu=
+t not used [-Werror=3Dunused-const-variable=3D]
 >=20
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
@@ -122,22 +122,25 @@ Thanks !
 Paul
 
 > ---
->  drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c | 2 +-
+>  .../platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c  | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-=2Ec b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> index a220ce849b41..0851b6b4e1ff 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -759,7 +759,7 @@ static struct platform_driver sun6i_mipi_csi2_platfor=
-m_driver =3D {
->  	.remove	=3D sun6i_mipi_csi2_remove,
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c
+> index cd2e92ae2293..1f0cc7b1ba47 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> @@ -826,7 +826,7 @@ static struct platform_driver sun8i_a83t_mipi_csi2_pl=
+atform_driver =3D {
+>  	.remove	=3D sun8i_a83t_mipi_csi2_remove,
 >  	.driver	=3D {
->  		.name		=3D SUN6I_MIPI_CSI2_NAME,
-> -		.of_match_table	=3D of_match_ptr(sun6i_mipi_csi2_of_match),
-> +		.of_match_table	=3D sun6i_mipi_csi2_of_match,
->  		.pm		=3D &sun6i_mipi_csi2_pm_ops,
+>  		.name		=3D SUN8I_A83T_MIPI_CSI2_NAME,
+> -		.of_match_table	=3D of_match_ptr(sun8i_a83t_mipi_csi2_of_match),
+> +		.of_match_table	=3D sun8i_a83t_mipi_csi2_of_match,
+>  		.pm		=3D &sun8i_a83t_mipi_csi2_pm_ops,
 >  	},
 >  };
 > --=20
@@ -149,19 +152,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---mCL4hlvlOht5eppU
+--VxKfudML6kIseEz3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQQmv0ACgkQ3cLmz3+f
-v9F4tQf/c8SNKs/s9jh+SCYcb7LnsBT/jMWTrMfcIpvS6n8ytOrw1m5hW2dErbKo
-aA+ODD31BjqVISeN9aDhSGcu7KVahfkt5vb+izqXoHS8RiRFYN2ulUcCOUwf30kn
-rzD4t0QhdFmfegTq2WfFbKMcUYBY39R3BbRE3ZbyuzNT63BO0mGcuoC1ssnekVxR
-4lj/mfgmMjy4+S54g6x6mwn1v3aVK9xkoCxeQo+arhJt9HieG4B0AL2R2eOyoUDa
-UdVjvYd8owBs+thW9y4oY2R+SWMPrGJcZNOjljHVzwT2j7RK6VGMOiiDQDzU8iAC
-hllLNwa3mx5T3fw3QMPZ+NhvyPy6Qg==
-=/D8E
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQQmyAACgkQ3cLmz3+f
+v9FJ+wf/Vs+zvL4HtIgKv1HYr45R/bI+XzRQ4edLJ+86siTyMIe6/xFs4hPJqnc/
+Kuop0jFCkE6h2zK7PLMPUxXZrLAThJRzd6YcMHKFN2JutU93IMSmu5Uz6R7NvnOd
+a0EpxMMQ8VZw+1bth4K5ttM6ZOI7uNuhD6ipUvXq7QLifzs9UJ7392zOtafnn0Sd
+vHbZ+ADRZzdCYpp4MjkR5rMxMyxBUpQ8PchA4eANo+Uq+gCKQWkoWGW9DSQ84eJN
+I8+xB1hddqMNyazPRNC+r01B6GydbodK+KdDjbE8xgLGy7Q1V4NPbmV1UkH+p+Oa
+pO1TUIhFzI6T+zb/bNmkmLiKPBkdmA==
+=crX/
 -----END PGP SIGNATURE-----
 
---mCL4hlvlOht5eppU--
+--VxKfudML6kIseEz3--
