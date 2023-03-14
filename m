@@ -2,129 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52C306B8FBB
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 11:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDFE56B9067
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 11:44:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbjCNKXg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 06:23:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49012 "EHLO
+        id S229816AbjCNKn6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 06:43:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjCNKXQ (ORCPT
+        with ESMTP id S229548AbjCNKnz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 06:23:16 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D6A15FE94
-        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 03:22:48 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id i3so16063370plg.6
-        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 03:22:48 -0700 (PDT)
+        Tue, 14 Mar 2023 06:43:55 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFBCBBA5
+        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 03:43:19 -0700 (PDT)
+X-KPN-MessageId: f4436f54-c254-11ed-be37-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id f4436f54-c254-11ed-be37-00505699b430;
+        Tue, 14 Mar 2023 11:42:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678789367;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=helyLAaSkHezCDHRaiPEnQcGx2qVQUT/bMk+TbB5Rk8=;
-        b=bYvaecdDD3x6Hr9bDFOAZzQPuTYOvrXzOL2W3Z+W8i6brWc5Ctp8SyoWm2aVQpeEgb
-         6DIfZYAAyXId56J9EwmapBH2fqXJff9mRmVFyNPtdlY6dHsezZZGzTIaNsKWeWFZro93
-         xjxNL0a1AR576oyFoGzpXuNQtGpZbBjuJ2Zv0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678789367;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=helyLAaSkHezCDHRaiPEnQcGx2qVQUT/bMk+TbB5Rk8=;
-        b=HdkNLwhTOIm+gSfjSVycDDIqQllQUWmUY2fBBpkqryE8nYwU28a9QCjJ/Gquhsw9Hz
-         ReukgAQTW5K6BPAIiUNs0ee+KNKqB2/XkqHXV7bGW3yFsUFOCeVMYGgfgBQwM9R2idLV
-         Sy78wJEY0uGF+O3l1LhMGaRHuft//Vtvvmxsa79RfunOxz8jw1o/2yv+R26YF2Wkww89
-         dKxtiM6bA0iLQIqhbQeAg4q1RcYXhvj1YxLyyyKXCQULMc4+yyia3vXxtp++2WZvbdkC
-         7xl57EqPMkyuEGgOuvoVrD8LfQDFealKKNe6au7KcegwW+RQahvvw9bRFaKpZ6+lDHMp
-         a78A==
-X-Gm-Message-State: AO0yUKUUI0xZyuewg/+3X6jnvMpX8H8FqkTqQ1aZIKfIJCnk7vQ7gkST
-        u4epEtxWDtp3GxycdTYdpBhgfbP2PnZO4HTyXsQ=
-X-Google-Smtp-Source: AK7set9qMrH1n8EpNSZoO1e/VzYoi2/xCMSAQ7Q4krIxrlPWf/u8a4TA/vrS/7VRxRZOGEdKrwLXwA==
-X-Received: by 2002:a17:903:481:b0:1a0:5bb1:3f13 with SMTP id jj1-20020a170903048100b001a05bb13f13mr3142238plb.39.1678789367645;
-        Tue, 14 Mar 2023 03:22:47 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:3718:fdeb:7d7e:b6c0])
-        by smtp.gmail.com with ESMTPSA id j5-20020a170902c3c500b0019cb131b8a5sm1417194plj.32.2023.03.14.03.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 03:22:47 -0700 (PDT)
-From:   Pin-yen Lin <treapking@chromium.org>
-To:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH v2] media: mediatek: vcodec: Use 4K frame size when supported by stateful decoder
-Date:   Tue, 14 Mar 2023 18:22:41 +0800
-Message-Id: <20230314102241.1971120-1-treapking@chromium.org>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=MblS3wPiejH8wWKzPlRNHbipiWFCA8kFaj7hsvg8aIw=;
+        b=IC1Bek6tsLB+ZBUNcDl3p2uU4adHKFJTNwb/AKrs331rzK40Mv+EgCYHoIV0e1MNHxxRNVpKdOH1u
+         4fu5XN5lv+mLFusQyNzts9Ul1OSCejTm+DL3yNa3jm+QZHPySDS1h5Ck/lEINQUxl6QFNeLl71zcgk
+         bi7ykaaHDON3BrkiYGV2eFa+GZaMJMBHiIS3We+44p9xpkzwLCy/0NIxxx2phxbKzkK3XuWzE060H9
+         3M6iGSBP5aEEt2s6WULeFnfSNdDcmXrfTJjDdP8sh16nPPoLkukaSgxJaL3zkdlDCxUso3P540aHLa
+         bvLdn0oCfNbUDnoIV4Ti0A8uR+4N5fg==
+X-KPN-MID: 33|FkStRVpM6778JWRbee5ORbKlr5uso33caDVGRFqX+YdM2ajMXig/EgK1pUqjMB2
+ ZvpFy22o4lZ02rXeesS5Bkw==
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|b6x6ba6BbG6VwHaXfZoELLAJBsMWVu0BpjvVbFinw6bBbG9MWR/C5kVxOti2FHv
+ KdyqhcYeHZREjXLMFQDHNlQ==
+X-Originating-IP: 173.38.220.44
+Received: from [10.47.77.214] (unknown [173.38.220.44])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id f52d4607-c254-11ed-a8eb-005056998788;
+        Tue, 14 Mar 2023 11:42:49 +0100 (CET)
+Message-ID: <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
+Date:   Tue, 14 Mar 2023 11:42:46 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
+Content-Language: en-US
+To:     David Laight <David.Laight@ACULAB.COM>,
+        'Laurent Pinchart' <laurent.pinchart@ideasonboard.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     "tfiga@chromium.org" <tfiga@chromium.org>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "ming.qian@nxp.com" <ming.qian@nxp.com>,
+        "shijie.qin@nxp.com" <shijie.qin@nxp.com>,
+        "eagle.zhou@nxp.com" <eagle.zhou@nxp.com>,
+        "bin.liu@mediatek.com" <bin.liu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
+        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
+        "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
+        "quic_vgarodia@quicinc.com" <quic_vgarodia@quicinc.com>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "andersson@kernel.org" <andersson@kernel.org>,
+        "konrad.dybcio@linaro.org" <konrad.dybcio@linaro.org>,
+        "ezequiel@vanguardiasur.com.ar" <ezequiel@vanguardiasur.com.ar>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "kernel@collabora.com" <kernel@collabora.com>
+References: <20230313135916.862852-1-benjamin.gaignard@collabora.com>
+ <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+ <20230313181155.GC22646@pendragon.ideasonboard.com>
+ <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
+ <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
+ <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After commit b018be06f3c7 ("media: mediatek: vcodec: Read max resolution
-from dec_capability"), the stateful video decoder driver never really
-sets its output frame size to 4K.
+Hi David,
 
-Parse the decoder capability reported by the firmware, and update the
-output frame size in mtk_init_vdec_params to enable 4K frame size when
-available.
+On 3/14/23 11:11, David Laight wrote:
+> From: Hans Verkuil
+>> Sent: 14 March 2023 08:55
+> ...
+>> Why not start with a dynamically allocated array of 32 vb2_buffer pointers?
+>> And keep doubling the size (reallocing) whenever more buffers are needed,
+>> up to some maximum (1024 would be a good initial value for that, I think).
+>> This max could be even a module option.
+> 
+> I don't know the typical uses (or the code at all).
+> But it might be worth having a small array in the structure itself.
+> Useful if there are typically always (say) less than 8 buffers.
+> For larger sizes use the (IIRC) kmalloc_size() to find the actual
+> size of the structure that will be allocate and set the array
+> size appropriately.
 
-Fixes: b018be06f3c7 ("media: mediatek: vcodec: Read max resolution from dec_capability")
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+The typical usage is that applications allocate N buffers with the
+VIDIOC_REQBUFS ioctl, and in most cases that's all they use. The
+current max is 32 buffers, so allocating that initially (usually
+during probe()) will cover all current cases with a single one-time
+kzalloc.
 
----
+Only if the application wants to allocate more than 32 buffers will
+there be a slight overhead.
 
-Changes in v2:
-- Rebase to media_tree/master
+Regards,
 
- .../mediatek/vcodec/mtk_vcodec_dec_stateful.c        | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+	Hans
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-index 035c86e7809f..29991551cf61 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-@@ -11,7 +11,7 @@
- #include "mtk_vcodec_dec_pm.h"
- #include "vdec_drv_if.h"
- 
--static const struct mtk_video_fmt mtk_video_formats[] = {
-+static struct mtk_video_fmt mtk_video_formats[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264,
- 		.type = MTK_FMT_DEC,
-@@ -580,6 +580,16 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- 
- static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
- {
-+	unsigned int i;
-+
-+	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) {
-+		for (i = 0; i < num_supported_formats; i++) {
-+			mtk_video_formats[i].frmsize.max_width =
-+				VCODEC_DEC_4K_CODED_WIDTH;
-+			mtk_video_formats[i].frmsize.max_height =
-+				VCODEC_DEC_4K_CODED_HEIGHT;
-+		}
-+	}
- }
- 
- static struct vb2_ops mtk_vdec_frame_vb2_ops = {
--- 
-2.40.0.rc1.284.g88254d51c5-goog
+> 
+> 	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
 
