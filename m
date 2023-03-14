@@ -2,572 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D3C26B90B6
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 11:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE41F6B90D6
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 12:00:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230081AbjCNKye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 06:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38564 "EHLO
+        id S229578AbjCNLAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 07:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbjCNKyd (ORCPT
+        with ESMTP id S229456AbjCNK77 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 06:54:33 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3822564B0D;
-        Tue, 14 Mar 2023 03:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1678791193;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Vmeoq86YHeoBlPdg8TzdXyyxvnIRLUPrCjGVmMezCCk=;
-        b=1sYz4+5OggGkBtMkDkOztVBdzZfq/6U0Wxpw2kPriHOSVqZ/qmxkWYKMWc4kQb5qJcJ5/s
-        XRuymywztMhwGAXMN7u8+N5WU7WCOxw15wYfXNdYIzD69dFjjMTj5rsTgxOODPe2fgNEtT
-        ZP3zIRuEpHjNDvwTgbE8dzMyoFciGGM=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     michael.hennerich@analog.com, nuno.sa@analog.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
-Date:   Tue, 14 Mar 2023 11:52:57 +0100
-Message-Id: <20230314105257.17345-3-paul@crapouillou.net>
-In-Reply-To: <20230314105257.17345-1-paul@crapouillou.net>
-References: <20230314105257.17345-1-paul@crapouillou.net>
+        Tue, 14 Mar 2023 06:59:59 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D605A910
+        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 03:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678791588; x=1710327588;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JnrusbP0+Fa7ns1ApWBuR00GTHRncDY6ylQzbK6Jon4=;
+  b=iLnjEbT3L6dnsn0pbem2dsO8D7aH7+Va2Hl3HUEnTczSYi4num8g3cES
+   tyLEesorXiSq++mWOhg9twIPzTJeOuILdHzhI9G2f5NTSPp5UAk/XqGKK
+   d9ENd1l0vuOlL6d0xX3yGpHPH10n+nFo5ddrJS7Whep+B7M6DozeQ4MTP
+   vZLoKIOjIiVKjlqq/bVe3Gn1KQreva2BdJjermHMG1hprc74gps+ix9yi
+   9cfiT27+aIDkP53XTJDhdfVxMPML5JBcnbSGI9JKtxQ68uUITkNkKnMTx
+   CqOlBEajxLZpMofcfjjovh3Y4b6DaWOJuMv47Oviq6YEEPb8C9onxcPHn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423663107"
+X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
+   d="scan'208";a="423663107"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 03:59:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="924871809"
+X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
+   d="scan'208";a="924871809"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 03:59:46 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 55FBA120D16;
+        Tue, 14 Mar 2023 12:59:44 +0200 (EET)
+Date:   Tue, 14 Mar 2023 12:59:44 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Subject: Re: [PATCH 25/26] media: Implement best effort media device removal
+ safety sans refcounting
+Message-ID: <ZBBToC9L8gBSd3Yt@kekkonen.localdomain>
+References: <a3a8c0ec-f13e-2473-78d6-f454790467be@xs4all.nl>
+ <768335ad-d5ba-d0a7-828a-80c0ec44e41b@xs4all.nl>
+ <ZAHVKu3OPyd7iLhH@kekkonen.localdomain>
+ <132b4fdf-7ec1-33a4-566a-8e10e6094230@xs4all.nl>
+ <ZA8s8MjRw8UmuzX7@kekkonen.localdomain>
+ <9ce7563a-13b1-c1d5-177f-8492aae49792@xs4all.nl>
+ <ZA9VE7CUYe+tzqxC@kekkonen.localdomain>
+ <581da6ee-ae04-acfc-ec11-2f2b33becb4e@xs4all.nl>
+ <ZBAzlQGYC6lbK5gL@valkosipuli.retiisi.eu>
+ <00bb95e7-77ab-1567-13f8-70966b33677f@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00bb95e7-77ab-1567-13f8-70966b33677f@xs4all.nl>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch introduces three new ioctls. They all should be called on a
-data endpoint (ie. not ep0). They are:
+Hi Hans,
 
-- FUNCTIONFS_DMABUF_ATTACH, which takes the file descriptor of a DMABUF
-  object to attach to the endpoint.
+On Tue, Mar 14, 2023 at 09:58:43AM +0100, Hans Verkuil wrote:
+> On 14/03/2023 09:43, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Tue, Mar 14, 2023 at 09:30:52AM +0100, Hans Verkuil wrote:
+> >> On 13/03/2023 17:53, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Mon, Mar 13, 2023 at 03:39:25PM +0100, Hans Verkuil wrote:
+> >>>> On 13/03/2023 15:02, Sakari Ailus wrote:
+> >>>>> Hi Hans,
+> >>>>>
+> >>>>> On Mon, Mar 13, 2023 at 02:46:27PM +0100, Hans Verkuil wrote:
+> >>>>>> On 03/03/2023 12:08, Sakari Ailus wrote:
+> >>>>>>> Hi Hans,
+> >>>>>>>
+> >>>>>>> On Fri, Mar 03, 2023 at 09:54:40AM +0100, Hans Verkuil wrote:
+> >>>>>>>> On 03/03/2023 09:39, Hans Verkuil wrote:
+> >>>>>>>>> On 01/02/2023 22:45, Sakari Ailus wrote:
+> >>>>>>>>>> Add a new helper data structure media_devnode_compat_ref, which is used to
+> >>>>>>>>>> prevent user space from calling IOCTLs or other system calls to the media
+> >>>>>>>>>> device that has been already unregistered.
+> >>>>>>>>>>
+> >>>>>>>>>> The media device's memory may of course still be released during the call
+> >>>>>>>>>> but there is only so much that can be done to this without the driver
+> >>>>>>>>>> managing the lifetime of the resources it needs somehow.
+> >>>>>>>>>>
+> >>>>>>>>>> This patch should be reverted once all drivers have been converted to manage
+> >>>>>>>>>> their resources' lifetime.
+> >>>>>>>>>>
+> >>>>>>>>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>>>>>>>>> ---
+> >>>>>>>>>>  drivers/media/mc/mc-device.c  | 60 ++++++++++++++++++++++++++++++-----
+> >>>>>>>>>>  drivers/media/mc/mc-devnode.c | 21 ++++++++----
+> >>>>>>>>>>  include/media/media-devnode.h | 29 +++++++++++++++++
+> >>>>>>>>>>  3 files changed, 96 insertions(+), 14 deletions(-)
+> >>>>>>>>>>
+> >>>>>>>>>> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> >>>>>>>>>> index 3a1db5fdbba7..22fdaa6370ea 100644
+> >>>>>>>>>> --- a/drivers/media/mc/mc-device.c
+> >>>>>>>>>> +++ b/drivers/media/mc/mc-device.c
+> >>>>>>>>>> @@ -45,18 +45,34 @@ static inline void __user *media_get_uptr(__u64 arg)
+> >>>>>>>>>>  	return (void __user *)(uintptr_t)arg;
+> >>>>>>>>>>  }
+> >>>>>>>>>>  
+> >>>>>>>>>> +static void compat_ref_release(struct kref *kref)
+> >>>>>>>>>> +{
+> >>>>>>>>>> +	struct media_devnode_compat_ref *ref =
+> >>>>>>>>>> +		container_of_const(kref, struct media_devnode_compat_ref, kref);
+> >>>>>>>>>> +
+> >>>>>>>>>> +	kfree(ref);
+> >>>>>>>>>> +}
+> >>>>>>>>>> +
+> >>>>>>>>>>  static int media_device_open(struct media_devnode *devnode, struct file *filp)
+> >>>>>>>>>>  {
+> >>>>>>>>>>  	struct media_device *mdev = to_media_device(devnode);
+> >>>>>>>>>>  	struct media_device_fh *fh;
+> >>>>>>>>>>  	unsigned long flags;
+> >>>>>>>>>>  
+> >>>>>>>>>> +	if (devnode->ref && (!atomic_read(&devnode->ref->registered) ||
+> >>>>>>>>>> +			     !kref_get_unless_zero(&devnode->ref->kref)))
+> >>>>>>>>>> +		return -ENXIO;
+> >>>>>>>>>> +
+> >>>>>>>>>
+> >>>>>>>>> This seems pointless: if the media device is unregistered, then the device
+> >>>>>>>>> node disappears and it can't be opened anymore.
+> >>>>>>>>>
+> >>>>>>>>> I'm confused by this patch in general: when media_device_unregister() is called,
+> >>>>>>>>> it is no longer possible to call ioctls and basically do anything except close
+> >>>>>>>>> the open fh.
+> >>>>>>>>>
+> >>>>>>>>> So what am I missing here? It all looks odd.
+> >>>>>>>>
+> >>>>>>>> I read up on this a bit more, and I think this patch is bogus: drivers not
+> >>>>>>>> converted to the release() callback will indeed just crash, but that's no
+> >>>>>>>> different than many existing drivers, media or otherwise, when you forcibly
+> >>>>>>>> unbind them. It's broken today, and since you have to be root to unbind, I
+> >>>>>>>> would say that we can just leave it as-is rather than introducing a rather
+> >>>>>>>> ugly workaround. I don't think it will help anyway, since most likely
+> >>>>>>>> such drivers will also fails if the application has a video device open
+> >>>>>>>> when the device is unbound.
+> >>>>>>>
+> >>>>>>> The main difference is whether accessing such a file handle will access
+> >>>>>>> released memory always or whether that is possible only during a very brief
+> >>>>>>> amount of time.
+> >>>>>>>
+> >>>>>>
+> >>>>>> I still don't like this. It was broken before, and it is broken now (perhaps a
+> >>>>>> bit less broken, but still...).
+> >>>>>>
+> >>>>>> There is a right fix now, and drivers that are likely to be removed forcibly
+> >>>>>> should be converted. This patch just makes it more likely that such drivers
+> >>>>>> won't be converted since it is less likely to hit this, so people will just
+> >>>>>> think that this is 'good enough'. And it makes the code a lot uglier.
+> >>>>>
+> >>>>> I agree, although converting the drivers is easier said than done. Note
+> >>>>> that also DVB is affected by this, not just V4L2. There are quite a few DVB
+> >>>>> USB devices.
+> >>>>>
+> >>>>> The behaviour before this set (since ~ 2017) is restored by the last few
+> >>>>> patches, without these we're on pre-2017 behaviour which basically means
+> >>>>> that all media IOCTLs on file handles the device of which is gone, will
+> >>>>> always access released memory. That was quite bad, too.
+> >>>>
+> >>>> Why?
+> >>>>
+> >>>> I have a filehandle open on /dev/mediaX. Now I unbind the device. That will
+> >>>> unregister the media device, which will cause all file ops on the filehandle
+> >>>> to return immediately, except for close().
+> >>>>
+> >>>> And close() just frees the devnode from what I can see.
+> >>>>
+> >>>> There is a race if the device is unbound while in an ioctl, then all bets are
+> >>>> off without proper life-time management.
+> >>>>
+> >>>> If it crashes after an unbind in the close() call, then something else is
+> >>>> wrong, it shouldn't do that.
+> >>>>
+> >>>> What happens if you do 'sleep 20 </dev/mediaX', then unbind the device?
+> >>>>
+> >>>> I feel that I am missing something here.
+> >>>
+> >>> Actually these seems to be a bug in the 25th patch --- testing the devnode
+> >>> registration needs to take place before checking for fops.
+> >>>
+> >>> After fixing that, the difference of issuing read(2) after unregistering
+> >>> the device is between (probably) crashing and graciously failing. The
+> >>> underlying problem is that without the 25th patch there pretty much is a
+> >>> guarantee devnode has been released by the time it is accessed.
+> >>
+> >> Ah, it's a result of patch 06/26. Now devnode is embedded in struct media_device,
+> >> which in turn is embedded in a device's state structure. And when that is freed,
+> >> the devnode is also freed.
+> >>
+> >> This is wrong IMHO: either struct media_devnode or struct media_device has to
+> >> be dynamically allocated. Embedding devices in a larger state structure causes
+> >> exactly these types of problems.
+> >>
+> >> In this case I would just keep dynamically allocating the devnode. What is the reason
+> >> for reverting that patch? The commit log doesn't say.
+> > 
+> > I'll add that to the cover page of the next version.
+> > 
+> > The struct media_device and media_devnode are different structs as it was
+> > thought that V4L2 and other kernel subsystems would start using MC for what
+> > did not materialise in the end, and therefore infrastructure was added to
+> > enable that. We do not need that today, as we did not need it six years
+> > ago. Thus there is no longer a reason to keep media_device and
+> > media_devnode separate.
+> > 
+> > By separately allocating these, as was done back in 2017, you can reduce
+> > the window of possible access of released memory but you cannot eliminate
+> > it. For that you need refcounting so that an open file handle will maintain
+> > the in-memory data structures to carry out its IOCTL-related functions.
+> > 
+> > So this set does not yet merge struct media_device and struct media_devnode
+> > but makes it much easier to do as they are allocated together. It's just
+> > about moving a little bit code around.
+> > 
+> > The end goal (and partially the result already) is a cleaner codebase
+> > without object lifetime issues.
+> > 
+> 
+> So you revert a patch to make it cleaner, then have to add a really ugly
+> patch back to fix what you broke?
 
-- FUNCTIONFS_DMABUF_DETACH, which takes the file descriptor of the
-  DMABUF to detach from the endpoint. Note that closing the endpoint's
-  file descriptor will automatically detach all attached DMABUFs.
+It's all broken to begin with.
 
-- FUNCTIONFS_DMABUF_TRANSFER, which requests a data transfer from / to
-  the given DMABUF. Its argument is a structure that packs the DMABUF's
-  file descriptor, the size in bytes to transfer (which should generally
-  be set to the size of the DMABUF), and a 'flags' field which is unused
-  for now.
-  Before this ioctl can be used, the related DMABUF must be attached
-  with FUNCTIONFS_DMABUF_ATTACH.
+The alternative to this is either fix all drivers (a lot of work, largely
+untestable) or considering MC terminally broken. I'd prefer the former as
+we don't have an alternative for MC at the moment.
 
-These three ioctls enable the FunctionFS code to transfer data between
-the USB stack and a DMABUF object, which can be provided by a driver
-from a completely different subsystem, in a zero-copy fashion.
+If you really dislike the new hack (I don't think it's worse than the old
+hack, it's much more localised at easier to understand it's broken), we
+could keep it a few kernel releases, move the unconverted drivers to
+staging and remove them with the hack, again after a few releases.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/usb/gadget/function/f_fs.c  | 398 ++++++++++++++++++++++++++++
- include/uapi/linux/usb/functionfs.h |  14 +-
- 2 files changed, 411 insertions(+), 1 deletion(-)
+> 
+> It's not just 'moving code around', you break functionality (imperfect as
+> it is), and then have to fix it in another way.
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index ddfc537c7526..365fb716f0ad 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -15,6 +15,9 @@
- /* #define VERBOSE_DEBUG */
- 
- #include <linux/blkdev.h>
-+#include <linux/dma-buf.h>
-+#include <linux/dma-fence.h>
-+#include <linux/dma-resv.h>
- #include <linux/pagemap.h>
- #include <linux/export.h>
- #include <linux/fs_parser.h>
-@@ -124,6 +127,26 @@ struct ffs_ep {
- 	u8				num;
- };
- 
-+struct ffs_dmabuf_priv {
-+	struct list_head entry;
-+	struct kref ref;
-+	struct dma_buf_attachment *attach;
-+	spinlock_t lock;
-+	u64 context;
-+};
-+
-+struct ffs_dma_fence {
-+	struct dma_fence base;
-+	struct ffs_dmabuf_priv *priv;
-+	struct sg_table *sgt;
-+	enum dma_data_direction dir;
-+};
-+
-+static inline struct ffs_dma_fence *to_ffs_dma_fence(struct dma_fence *fence)
-+{
-+	return container_of(fence, struct ffs_dma_fence, base);
-+}
-+
- struct ffs_epfile {
- 	/* Protects ep->ep and ep->req. */
- 	struct mutex			mutex;
-@@ -197,6 +220,8 @@ struct ffs_epfile {
- 	unsigned char			isoc;	/* P: ffs->eps_lock */
- 
- 	unsigned char			_pad;
-+
-+	struct list_head		dmabufs;
- };
- 
- struct ffs_buffer {
-@@ -1279,19 +1304,354 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
- 	return res;
- }
- 
-+static void ffs_dmabuf_release(struct kref *ref)
-+{
-+	struct ffs_dmabuf_priv *priv = container_of(ref, struct ffs_dmabuf_priv, ref);
-+	struct dma_buf_attachment *attach = priv->attach;
-+	struct dma_buf *dmabuf = attach->dmabuf;
-+
-+	pr_debug("FFS DMABUF release\n");
-+	dma_buf_detach(attach->dmabuf, attach);
-+	dma_buf_put(dmabuf);
-+
-+	list_del(&priv->entry);
-+	kfree(priv);
-+}
-+
-+static void ffs_dmabuf_get(struct dma_buf_attachment *attach)
-+{
-+	struct ffs_dmabuf_priv *priv = attach->importer_priv;
-+
-+	kref_get(&priv->ref);
-+}
-+
-+static void ffs_dmabuf_put(struct dma_buf_attachment *attach)
-+{
-+	struct ffs_dmabuf_priv *priv = attach->importer_priv;
-+
-+	kref_put(&priv->ref, ffs_dmabuf_release);
-+}
-+
- static int
- ffs_epfile_release(struct inode *inode, struct file *file)
- {
- 	struct ffs_epfile *epfile = inode->i_private;
-+	struct ffs_dmabuf_priv *priv, *tmp;
- 
- 	ENTER();
- 
-+	/* Close all attached DMABUFs */
-+	list_for_each_entry_safe(priv, tmp, &epfile->dmabufs, entry) {
-+		ffs_dmabuf_put(priv->attach);
-+	}
-+
- 	__ffs_epfile_read_buffer_free(epfile);
- 	ffs_data_closed(epfile->ffs);
- 
- 	return 0;
- }
- 
-+static void ffs_dmabuf_signal_done(struct ffs_dma_fence *dma_fence, int ret)
-+{
-+	struct ffs_dmabuf_priv *priv = dma_fence->priv;
-+	struct dma_fence *fence = &dma_fence->base;
-+
-+	dma_fence_get(fence);
-+	fence->error = ret;
-+	dma_fence_signal(fence);
-+
-+	dma_buf_unmap_attachment(priv->attach, dma_fence->sgt, dma_fence->dir);
-+	dma_fence_put(fence);
-+	ffs_dmabuf_put(priv->attach);
-+}
-+
-+static void ffs_epfile_dmabuf_io_complete(struct usb_ep *ep,
-+					  struct usb_request *req)
-+{
-+	ENTER();
-+
-+	pr_debug("FFS: DMABUF transfer complete, status=%d\n", req->status);
-+	ffs_dmabuf_signal_done(req->context, req->status);
-+	usb_ep_free_request(ep, req);
-+}
-+
-+static const char *ffs_dmabuf_get_driver_name(struct dma_fence *fence)
-+{
-+	return "functionfs";
-+}
-+
-+static const char *ffs_dmabuf_get_timeline_name(struct dma_fence *fence)
-+{
-+	return "";
-+}
-+
-+static void ffs_dmabuf_fence_release(struct dma_fence *fence)
-+{
-+	struct ffs_dma_fence *dma_fence = to_ffs_dma_fence(fence);
-+
-+	kfree(dma_fence);
-+}
-+
-+static const struct dma_fence_ops ffs_dmabuf_fence_ops = {
-+	.get_driver_name	= ffs_dmabuf_get_driver_name,
-+	.get_timeline_name	= ffs_dmabuf_get_timeline_name,
-+	.release		= ffs_dmabuf_fence_release,
-+};
-+
-+int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
-+{
-+	int ret;
-+
-+	ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
-+	if (ret) {
-+		if (ret != -EDEADLK)
-+			goto out;
-+		if (nonblock) {
-+			ret = -EBUSY;
-+			goto out;
-+		}
-+
-+		ret = dma_resv_lock_slow_interruptible(dmabuf->resv, NULL);
-+	}
-+
-+out:
-+	return ret;
-+}
-+
-+static struct dma_buf_attachment *
-+ffs_dmabuf_find_attachment(struct device *dev, struct dma_buf *dmabuf,
-+			   bool nonblock)
-+{
-+	struct dma_buf_attachment *elm, *attach = NULL;
-+	int ret;
-+
-+	ret = ffs_dma_resv_lock(dmabuf, nonblock);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	list_for_each_entry(elm, &dmabuf->attachments, node) {
-+		if (elm->dev == dev) {
-+			attach = elm;
-+			break;
-+		}
-+	}
-+
-+	if (attach)
-+		ffs_dmabuf_get(elm);
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	return attach ?: ERR_PTR(-EPERM);
-+}
-+
-+static int ffs_dmabuf_attach(struct file *file, int fd)
-+{
-+	struct ffs_epfile *epfile = file->private_data;
-+	struct usb_gadget *gadget = epfile->ffs->gadget;
-+	struct dma_buf_attachment *attach;
-+	struct ffs_dmabuf_priv *priv;
-+	struct dma_buf *dmabuf;
-+	int err;
-+
-+	if (!gadget || !gadget->sg_supported)
-+		return -EPERM;
-+
-+	dmabuf = dma_buf_get(fd);
-+	if (IS_ERR(dmabuf))
-+		return PTR_ERR(dmabuf);
-+
-+	attach = dma_buf_attach(dmabuf, gadget->dev.parent);
-+	if (IS_ERR(attach)) {
-+		err = PTR_ERR(attach);
-+		goto err_dmabuf_put;
-+	}
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv) {
-+		err = -ENOMEM;
-+		goto err_dmabuf_detach;
-+	}
-+
-+	attach->importer_priv = priv;
-+
-+	priv->attach = attach;
-+	spin_lock_init(&priv->lock);
-+	kref_init(&priv->ref);
-+	priv->context = dma_fence_context_alloc(1);
-+
-+	list_add(&priv->entry, &epfile->dmabufs);
-+
-+	return 0;
-+
-+err_dmabuf_detach:
-+	dma_buf_detach(dmabuf, attach);
-+err_dmabuf_put:
-+	dma_buf_put(dmabuf);
-+
-+	return err;
-+}
-+
-+static int ffs_dmabuf_detach(struct file *file, int fd)
-+{
-+	struct ffs_epfile *epfile = file->private_data;
-+	struct usb_gadget *gadget = epfile->ffs->gadget;
-+	bool nonblock = file->f_flags & O_NONBLOCK;
-+	struct dma_buf_attachment *attach;
-+	struct dma_buf *dmabuf;
-+	int ret = 0;
-+
-+	dmabuf = dma_buf_get(fd);
-+	if (IS_ERR(dmabuf))
-+		return PTR_ERR(dmabuf);
-+
-+	attach = ffs_dmabuf_find_attachment(gadget->dev.parent,
-+					    dmabuf, nonblock);
-+	if (IS_ERR(attach)) {
-+		ret = PTR_ERR(attach);
-+		goto out_dmabuf_put;
-+	}
-+
-+	ffs_dmabuf_put(attach);
-+	ffs_dmabuf_put(attach);
-+
-+out_dmabuf_put:
-+	dma_buf_put(dmabuf);
-+	return ret;
-+}
-+
-+static int ffs_dmabuf_transfer(struct file *file,
-+			       const struct usb_ffs_dmabuf_transfer_req *req)
-+{
-+	bool dma_to_ram, nonblock = file->f_flags & O_NONBLOCK;
-+	struct ffs_epfile *epfile = file->private_data;
-+	struct usb_gadget *gadget = epfile->ffs->gadget;
-+	struct dma_buf_attachment *attach;
-+	struct ffs_dmabuf_priv *priv;
-+	enum dma_data_direction dir;
-+	struct ffs_dma_fence *fence;
-+	struct usb_request *usb_req;
-+	struct sg_table *sg_table;
-+	struct dma_buf *dmabuf;
-+	struct ffs_ep *ep = epfile->ep;
-+	int ret;
-+
-+	if (req->flags & ~USB_FFS_DMABUF_TRANSFER_MASK)
-+		return -EINVAL;
-+
-+	dmabuf = dma_buf_get(req->fd);
-+	if (IS_ERR(dmabuf))
-+		return PTR_ERR(dmabuf);
-+
-+	if (req->length > dmabuf->size || req->length == 0) {
-+		ret = -EINVAL;
-+		goto err_dmabuf_put;
-+	}
-+
-+	attach = ffs_dmabuf_find_attachment(gadget->dev.parent,
-+					    dmabuf, nonblock);
-+	if (IS_ERR(attach)) {
-+		ret = PTR_ERR(attach);
-+		goto err_dmabuf_put;
-+	}
-+
-+	priv = attach->importer_priv;
-+
-+	if (epfile->in)
-+		dir = DMA_FROM_DEVICE;
-+	else
-+		dir = DMA_TO_DEVICE;
-+
-+	sg_table = dma_buf_map_attachment(attach, dir);
-+	if (IS_ERR(sg_table)) {
-+		ret = PTR_ERR(sg_table);
-+		goto err_attachment_put;
-+	}
-+
-+	fence = kmalloc(sizeof(*fence), GFP_KERNEL);
-+	if (!fence) {
-+		ret = -ENOMEM;
-+		goto err_unmap_attachment;
-+	}
-+
-+	fence->sgt = sg_table;
-+	fence->dir = dir;
-+	fence->priv = priv;
-+
-+	dma_fence_init(&fence->base, &ffs_dmabuf_fence_ops,
-+		       &priv->lock, priv->context, 0);
-+
-+	usb_req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC);
-+	if (!usb_req) {
-+		ret = -ENOMEM;
-+		goto err_fence_put;
-+	}
-+
-+	ret = ffs_dma_resv_lock(dmabuf, nonblock);
-+	if (ret)
-+		goto err_free_request;
-+
-+	/* Make sure we don't have writers */
-+	if (!dma_resv_test_signaled(dmabuf->resv, DMA_RESV_USAGE_WRITE)) {
-+		pr_debug("FFS WRITE fence is not signaled\n");
-+		ret = -EBUSY;
-+		goto err_resv_unlock;
-+	}
-+
-+	dma_to_ram = dir == DMA_FROM_DEVICE;
-+
-+	/* If we're writing to the DMABUF, make sure we don't have readers */
-+	if (dma_to_ram &&
-+	    !dma_resv_test_signaled(dmabuf->resv, DMA_RESV_USAGE_READ)) {
-+		pr_debug("FFS READ fence is not signaled\n");
-+		ret = -EBUSY;
-+		goto err_resv_unlock;
-+	}
-+
-+	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
-+	if (ret)
-+		goto err_resv_unlock;
-+
-+	dma_resv_add_fence(dmabuf->resv, &fence->base,
-+			   dma_resv_usage_rw(dma_to_ram));
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	/* Now that the dma_fence is in place, queue the transfer. */
-+
-+	usb_req->length = req->length;
-+	usb_req->buf = NULL;
-+	usb_req->sg = sg_table->sgl;
-+	usb_req->num_sgs = sg_nents_for_len(sg_table->sgl, req->length);
-+	usb_req->sg_was_mapped = true;
-+	usb_req->context  = fence;
-+	usb_req->complete = ffs_epfile_dmabuf_io_complete;
-+
-+	ret = usb_ep_queue(ep->ep, usb_req, GFP_ATOMIC);
-+	if (ret) {
-+		pr_warn("FFS: Failed to queue DMABUF: %d\n", ret);
-+		ffs_dmabuf_signal_done(fence, ret);
-+		usb_ep_free_request(ep->ep, usb_req);
-+	}
-+
-+	dma_buf_put(dmabuf);
-+
-+	return ret;
-+
-+err_resv_unlock:
-+	dma_resv_unlock(dmabuf->resv);
-+err_free_request:
-+	usb_ep_free_request(ep->ep, usb_req);
-+err_fence_put:
-+	dma_fence_put(&fence->base);
-+err_unmap_attachment:
-+	dma_buf_unmap_attachment(attach, sg_table, dir);
-+err_attachment_put:
-+	ffs_dmabuf_put(attach);
-+err_dmabuf_put:
-+	dma_buf_put(dmabuf);
-+
-+	return ret;
-+}
-+
- static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 			     unsigned long value)
- {
-@@ -1364,8 +1724,45 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 			ret = -EFAULT;
- 		return ret;
- 	}
-+	case FUNCTIONFS_DMABUF_ATTACH:
-+	{
-+		int fd;
-+
-+		if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		ret = ffs_dmabuf_attach(file, fd);
-+		break;
-+	}
-+	case FUNCTIONFS_DMABUF_DETACH:
-+	{
-+		int fd;
-+
-+		if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		ret = ffs_dmabuf_detach(file, fd);
-+		break;
-+	}
-+	case FUNCTIONFS_DMABUF_TRANSFER:
-+	{
-+		struct usb_ffs_dmabuf_transfer_req req;
-+
-+		if (copy_from_user(&req, (void __user *)value, sizeof(req))) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		ret = ffs_dmabuf_transfer(file, &req);
-+		break;
-+	}
- 	default:
- 		ret = -ENOTTY;
-+		break;
- 	}
- 	spin_unlock_irq(&epfile->ffs->eps_lock);
- 
-@@ -1925,6 +2322,7 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
- 	for (i = 1; i <= count; ++i, ++epfile) {
- 		epfile->ffs = ffs;
- 		mutex_init(&epfile->mutex);
-+		INIT_LIST_HEAD(&epfile->dmabufs);
- 		if (ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
- 			sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
- 		else
-diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
-index d77ee6b65328..1412ab9f8ccc 100644
---- a/include/uapi/linux/usb/functionfs.h
-+++ b/include/uapi/linux/usb/functionfs.h
-@@ -84,6 +84,15 @@ struct usb_ext_prop_desc {
- 	__le16	wPropertyNameLength;
- } __attribute__((packed));
- 
-+/* Flags for usb_ffs_dmabuf_transfer_req->flags (none for now) */
-+#define USB_FFS_DMABUF_TRANSFER_MASK	0x0
-+
-+struct usb_ffs_dmabuf_transfer_req {
-+	int fd;
-+	__u32 flags;
-+	__u64 length;
-+} __attribute__((packed));
-+
- #ifndef __KERNEL__
- 
- /*
-@@ -288,6 +297,9 @@ struct usb_functionfs_event {
- #define	FUNCTIONFS_ENDPOINT_DESC	_IOR('g', 130, \
- 					     struct usb_endpoint_descriptor)
- 
--
-+#define FUNCTIONFS_DMABUF_ATTACH	_IOW('g', 131, int)
-+#define FUNCTIONFS_DMABUF_DETACH	_IOW('g', 132, int)
-+#define FUNCTIONFS_DMABUF_TRANSFER	_IOW('g', 133, \
-+					     struct usb_ffs_dmabuf_transfer_req)
- 
- #endif /* _UAPI__LINUX_FUNCTIONFS_H__ */
+That is the intention. Repairing the state before this set without
+reverting patches would make the intermediate patches very, very ugly and
+difficult to review. Of course you could compare the result with the end
+result of this patchset.
+
+> 
+> I would just drop this revert patch. And when all drivers are converted
+> to 'do the right thing', then you can revert it.
+> 
+> Unless there is another reason for reverting it?
+
+The reverts enable fixing the root problem, they are a pre-condition for
+doing that. I'd prefer to enable writing drivers that are not broken (well,
+at least this way). The 2017 fixes always were a dead end and we knew that
+perfectly well.
+
 -- 
-2.39.2
+Kind regards,
 
+Sakari Ailus
