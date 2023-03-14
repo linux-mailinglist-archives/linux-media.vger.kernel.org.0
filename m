@@ -2,66 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E3D6B9CE8
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 18:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A37E6B9EEA
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 19:45:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbjCNRUY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 13:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S230201AbjCNSps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 14:45:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbjCNRUX (ORCPT
+        with ESMTP id S230100AbjCNSpq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 13:20:23 -0400
-X-Greylist: delayed 902 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Mar 2023 10:20:18 PDT
-Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881497F008;
-        Tue, 14 Mar 2023 10:20:18 -0700 (PDT)
-From:   Daniil Dulov <d.dulov@aladdin.ru>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Daniil Dulov <d.dulov@aladdin.ru>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] media: usb: Check az6007_read() return value
-Date:   Tue, 14 Mar 2023 10:04:49 -0700
-Message-ID: <20230314170449.548316-1-d.dulov@aladdin.ru>
-X-Mailer: git-send-email 2.25.1
+        Tue, 14 Mar 2023 14:45:46 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899B3A401E;
+        Tue, 14 Mar 2023 11:45:12 -0700 (PDT)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id D374BD2500;
+        Tue, 14 Mar 2023 18:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1678818788; bh=fHJza5nGl0uG6ilnr4LPPY4PLgKrXqdkOF8SQ67N1kY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=ZsiIufmMaKi3c7O3QK6sepAvzFn03uUdr3CKUT3VoXSwt4PKJlOVdFJSG6mYnRtKl
+         z6YxTjTZmVCR6xEsuDpr+/pK5lVUqEkqLk0ZCDzaXNeV3mC74pia+ELIIICuR5k8vM
+         IVjGYv/sDCA2ppaCyYavz41aREDHVP4LdFyBJuMc=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        phone-devel@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>
+Subject: Re: [PATCH] media: dt-bindings: ov2685: convert to dtschema
+Date:   Tue, 14 Mar 2023 19:33:06 +0100
+Message-ID: <5654018.DvuYhMxLoT@z3ntu.xyz>
+In-Reply-To: <ZBBh9Euor7R24euV@valkosipuli.retiisi.eu>
+References: <20230206-ov2685-dtschema-v1-1-9e4da3474c10@z3ntu.xyz>
+ <2665862.mvXUDI8C0e@z3ntu.xyz> <ZBBh9Euor7R24euV@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.0.20.32]
-X-ClientProxiedBy: EXCH-2016-02.aladdin.ru (192.168.1.102) To
- EXCH-2016-01.aladdin.ru (192.168.1.101)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If az6007_read() returns error, there is no sence to continue.
+On Dienstag, 14. M=E4rz 2023 13:00:52 CET Sakari Ailus wrote:
+> Hi Luca,
+>=20
+> On Thu, Feb 09, 2023 at 05:46:48PM +0100, Luca Weiss wrote:
+> > +CC Helen Koike
+> >=20
+> > On Montag, 6. Februar 2023 22:50:08 CET Rob Herring wrote:
+> > > On Mon, 06 Feb 2023 21:23:16 +0100, Luca Weiss wrote:
+> > > > Convert the text-based dt-bindings to yaml.
+> > > >=20
+> > > > Changes from original txt:
+> > > > * Take wording for various properties from other yaml bindings, this
+> > > >=20
+> > > >   removes e.g. volt amount from schema since it isn't really releva=
+nt
+> > > >   and the datasheet is a better source.
+> > > >=20
+> > > > * Don't make reset-gpios a required property since it can be tied to
+> > > >=20
+> > > >   DOVDD instead.
+> > > >=20
+> > > > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > > > ---
+> > > >=20
+> > > >  .../devicetree/bindings/media/i2c/ov2685.txt       |  41 ---------
+> > > >  .../devicetree/bindings/media/i2c/ovti,ov2685.yaml | 101
+> > > >  +++++++++++++++++++++ MAINTAINERS
+> > > > =20
+> > > >  |   1 +
+> > > > =20
+> > > >  3 files changed, 102 insertions(+), 41 deletions(-)
+> > >=20
+> > > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_ch=
+eck'
+> > > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> > >=20
+> > > yamllint warnings/errors:
+> > >=20
+> > > dtschema/dtc warnings/errors:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > medi a/rockchip-isp1.example.dtb: camera@3c: 'clocks' is a required
+> > > property From schema:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/i2c/ovti,ov2685.yaml
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/rockchip-isp1.example.dtb: camera@3c: 'clock-names' is a required
+> > > property From schema:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/i2c/ovti,ov2685.yaml
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/rockchip-isp1.example.dtb: camera@3c: 'dvdd-supply' is a required
+> > > property From schema:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/i2c/ovti,ov2685.yaml
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/rockchip-isp1.example.dtb: camera@3c: 'avdd-supply' is a required
+> > > property From schema:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/i2c/ovti,ov2685.yaml
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/rockchip-isp1.example.dtb: camera@3c: 'dovdd-supply' is a required
+> > > property From schema:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindin=
+gs/
+> > > med
+> > > ia/i2c/ovti,ov2685.yaml
+> >=20
+> > Looks like rockchip-isp1.yaml uses very incomplete sensor examples in
+> > their
+> > binding example, which sort of makes sense since those bindings are
+> > showing
+> > the rockchip isp bindings and contain the bare minimum to show how a
+> > sensor is connected in dt.
+> >=20
+> > Not sure how to solve this - ov2685 is also one of three sensors that a=
+re
+> > used very abbreviated there.
+>=20
+> Could these regulators be simply made optional?
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Sure, from driver side it would just get dummy regulators instead.
 
-Fixes: 3af2f4f15a61 ("[media] az6007: Change the az6007 read/write routine parameter")
-Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
----
- drivers/media/usb/dvb-usb-v2/az6007.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Still the clocks are also missing in this rockchip example. Any suggestion=
+=20
+what to do about those?
 
-diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-index 62ee09f28a0b..7524c90f5da6 100644
---- a/drivers/media/usb/dvb-usb-v2/az6007.c
-+++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-@@ -202,7 +202,8 @@ static int az6007_rc_query(struct dvb_usb_device *d)
- 	unsigned code;
- 	enum rc_proto proto;
- 
--	az6007_read(d, AZ6007_READ_IR, 0, 0, st->data, 10);
-+	if (az6007_read(d, AZ6007_READ_IR, 0, 0, st->data, 10) < 0)
-+		return -EIO;
- 
- 	if (st->data[1] == 0x44)
- 		return 0;
--- 
-2.25.1
+Honestly I don't want to spend too much time on some ISP docs that I don't=
+=20
+really care about, would be nice if the maintainers of that could do that...
+
+Regards
+Luca
+
+
 
