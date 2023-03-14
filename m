@@ -2,175 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9666B928C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 13:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09A806B92AB
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 13:07:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231728AbjCNMD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 08:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59720 "EHLO
+        id S231664AbjCNMHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 08:07:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjCNMDZ (ORCPT
+        with ESMTP id S231608AbjCNMG5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 08:03:25 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4FA3A0B31;
-        Tue, 14 Mar 2023 05:02:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bPOXgkFZclidu6iFRiiDzLNn/a7K/xrMqumORiVp7SwA81enOEBrenQLEJLVD400kd4h5aol+yL3gbaKAZxx0SEuVRibQ48mYIVd4EWdmjR0U3NlS5F/I3ZzkDm4Lf2eB0MQ8cPuownFkEc8yD/lJydSx9kesKU+vsxO1Ix/Yhws98Q80MY0H4gvj5ptNO371TZl+NdRp0eUUH49tT9FJiJlcu/zcfGn0bPXMY5CQGbBN2FoRdVjaIhxqMs+WEJHgDYEglVlyMa32zmVo0CJDlw2SwHIQBf4quLAWSEko3JMo06eFWmBla9+kpGVvLsdocSu1PxqgnwMzGX0PuLdmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qQkltu0ZU1x2ubggmDDJvQlnpxNElI3Y+nQMp87uLAg=;
- b=l4vLZbBaPP2ZsiSbKvfzL9aPg5eEQVGB4HDaCdyITAs4jC4RbqA+Jfvh6Qf7YadB+uD74d0nV7vZ7cnkshKDH3WruxI66Vn2pxa9Ri1xbkqs643TarRYwB5UipwjjGdJk5PsYYBiOjlzxaXG9MV1A5o8HKc767+AddNx3YrcXVVjL53tuPmnnBK4VXFTwgekxH4rjL01yb71BeiU8WHT6g0aALsmR/oWplqGflyo9Pji3CDkzwt5HrA5I5XzLbopxlPqAzZKTcKOYc04e0qwI/zlatlc7+C9H6sdjH8ptgOtWJsyqNcRwgm4naL4vul8QsrLLReLMZljn6BJt+irwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qQkltu0ZU1x2ubggmDDJvQlnpxNElI3Y+nQMp87uLAg=;
- b=ks2gIPzTEB33zCb8q8clk10bKoRKLNWOH4EalluGO2/+IQcoj4xEtkCUaPLdISoCK9JwY0sI+lkpZIsSMplUIaLJsfGw1Iozq5k9RAuCGhGIcfbabHSbesZ37xfS/3/DmRgDoFF75Lfzs824sGEKXiZA09gAkgRkGBgcYXnCa3U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB7426.namprd12.prod.outlook.com (2603:10b6:510:201::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Tue, 14 Mar
- 2023 12:01:56 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
- 12:01:56 +0000
-Message-ID: <777b760e-a9c2-cf46-c7be-26a4bcf633ab@amd.com>
-Date:   Tue, 14 Mar 2023 13:01:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 0/2] usb: gadget: functionfs: DMABUF import interface
-Content-Language: en-US
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     michael.hennerich@analog.com, nuno.sa@analog.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20230314105257.17345-1-paul@crapouillou.net>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230314105257.17345-1-paul@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0146.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:95::18) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Tue, 14 Mar 2023 08:06:57 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA54BA102B
+        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 05:06:25 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id t11so19710592lfr.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 05:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112; t=1678795559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tiwpJTGyHZGzBTJ6bO/L3VPi9zr8P9+edvack9f3BcY=;
+        b=oXKjUL3PN99TsGJfkkVW3ZjQMXxMvzk7uxSKoqFKjsZRbIj3gPJC7lry1kjKyok5ek
+         TR+sxblfDrQzDAcRUYb8XyPFJSVm9ENzaV5W0OGfMx7MWAMtGjADzQvZKrVo7IhVHMZ8
+         WssTu6DLR+8eHQ0fZGVx6FyaCm0p3fAZJ5gH+aSJVZAfGCNGvd29jsx5muLmJHhmQ1nd
+         DfVFtURAFjzBsH8RJzM5QKnHG6Jd1N4+2Ld5tzwnmTvjFvss1snC7xRjc0qbwJfTi4ST
+         KBJskFmfg0JxzFlm53ZCOjvBR8KHfDiXc2LYxTjwQ2Iwr1YNiwdUqAu+qXWHaZNhvgGu
+         L7NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678795559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tiwpJTGyHZGzBTJ6bO/L3VPi9zr8P9+edvack9f3BcY=;
+        b=siC5Vfbu6RnLn/JXVH4aKGrPMVIYqYbYcmlkR3M0BfXjaFv2K1H9wZLfPS2B5ACMYC
+         P2pgOmBPQ8vu6QRBG3na1856fz3iTmKg19YTYLEQwLaU+OG1ecF9NwaPzkLQGV/Lk3SK
+         Cn2/kRYz2gOUUUxDTelOw8VaULeIboBtvpiwe1GMdRBG0zi7qxG2LUJ40o31HfpApGsI
+         lMKi7nbQO0+FlUzQCVYHDdKwCsbSt8jWLV0+6ZjDYv64oa0WXXe4OIZETJJTzmGykNXM
+         9HWBl5M4x7D0mqJOkFNwkZETgqGwubVe3KLL1lzjJR5fuo7rJRy8xEbxsb2tm1Ek6vCX
+         OfIQ==
+X-Gm-Message-State: AO0yUKXMky/cu53ato7GGdrpLas4BXR//srEtBKxpiQEdmNsUJutoUFf
+        X4qHGxBTPXQa5pKq9VQnpXn715XYNDmwQMi6K8DQZNbx2Q8EH87B
+X-Google-Smtp-Source: AK7set+xYCmAbdBdcQCNI7sIm82/tx9Sa1F3IEC5x1caHOueNOUHQCBW9vh55B4Cx5WeoEW5qFU+x10x7qPdCufrpck=
+X-Received: by 2002:a05:6512:502:b0:4db:38ba:618d with SMTP id
+ o2-20020a056512050200b004db38ba618dmr642772lfb.12.1678795559024; Tue, 14 Mar
+ 2023 05:05:59 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB7426:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf2a308f-d773-4fef-4ec6-08db2483e867
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1d+tjxqT9EjURiCNQ2+WybwU86WcOCb8VrugG/Pkl4cJMKmg8FHBmnadajnpyKvJzYWGpJCvJlzeieq4+mPPT55WG6IPXWh50NMwxqnGUmhk7SVBDpPyvS4Ia9EwtUWDy3q5hmBuK6kqJTFl/hJiTkpE+N1tt6uTgNW6YRWme61/yyrrq0Hk+soZXUrjieB0Kx12cOipdOxTmG97rwc+Ye0t6uesWKjuifrJWfwAD6XEIedQ+3xOMXfGyPPuoql8gdraiotCbEqPawyc5hnb5MziK997ZGC832Er8EcpBj8/yNd3Bkmh73PnVjvtM4kNgsIUZfrdODMpTRuEjljUk5Xy7kkHA7gYYC+91CaeFd35gi91wSru2rXdBdrO+Csdn4z/acLrY6wwewvo5sxXphhN99SGNQc36HnUasyMpMRXOfLdvGjHWdeYGraYvH/Tx/KN5KLMXbVeqyd6yBnLOswqBrPQrzoX3cnJZIOuilM1Unln+zEQLEdcCKMkYlZan5I1hLijF21r2e1M4JBhF8Dy2XNrpl1ZsOe9XgfFKToTC0j8q6MAxr/QWMJ7f5yyOJpmxR7n85wJbmHs++38MO8AC3904u6FeZJqE82FxGVJrx4P3V3xIygds7F3b50wvEp9SKS8G3OiMhGWrt7qK2LbFnTKpATTQXCwCmgCPqzHFlqBHZuEiH0qPAVBApQjwvaF9kHomf4YWwMo6FdgapZJym1WY7GcNihOc8tVvNk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(366004)(396003)(376002)(136003)(451199018)(66899018)(2906002)(31686004)(83380400001)(36756003)(5660300002)(7416002)(8676002)(66556008)(8936002)(41300700001)(4326008)(38100700002)(316002)(86362001)(31696002)(110136005)(478600001)(186003)(66946007)(66476007)(6486002)(2616005)(6512007)(6506007)(6666004)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2pKaGFHZlE2cVlWSXJnZi9HcjN2ckVsYmxVdHVsWHZ4TFBEVWprNStzdjhr?=
- =?utf-8?B?MFl3UFhiMWEzVWJJeXdXMlVmbXY0ZmNXS3Nhc0lQY3N3emt6Y2dXbTF2S3hG?=
- =?utf-8?B?SU8xRmpQT3pKeFRjTlE2SDJGdi8wdTVsUmhVTmlOOGZRZVd5cE8xSGk1ZUh1?=
- =?utf-8?B?ZngvNWNiZlF1NThBVFQ2QW5va2tIcnl2WThPKzBBTXd3RjQwWlBTbWpjaE5H?=
- =?utf-8?B?dGxWeE81RVpWRmQ1cjlmZXNoZjVNMi8vOGwxNklCcjNVcnhESFFZeS9kaE1J?=
- =?utf-8?B?OWp6TlArd1M0ZEY3a3JOTEtjSUlPMlpUU25RaVFlKzJHcWZvVUtoUWxEMGhw?=
- =?utf-8?B?b1UycjI1WVZrQlg0QmVQbzk3MHFKNVJhVmhZUjEyaUFSOGFVY0JxQUJUemll?=
- =?utf-8?B?QkxFcVBuQis3blNOWjl3K1YySmRYVU41c2lEVEVQd2o0ekNCT3lNMm4xcU8r?=
- =?utf-8?B?VEU0N01lZmtncndGUENFQzNQQVBuYzdINEhIb1RBSFJhNHRoa2NzSjZjY1hO?=
- =?utf-8?B?TXg0SVRORElrbDdlL3V4Rk1UTmFVWk11MytnOEFCQVNGQmdCQVYxUWZmcGVT?=
- =?utf-8?B?bFl3SFkybzR3WFdabCtzUkw1dDNpQ1ZwWlh0VXh4dkZsV2NqTnM5a3FoTUQv?=
- =?utf-8?B?WTRoK2c3TnR3MmlLV2FmYXVrZ25oakVsRCtKQ2E4eVE1aDBqNTZQU1FMaHZO?=
- =?utf-8?B?cDFIWjN6eVhEZk5NRnAwdEFGdElMV29zSUJvRDFmWEJERzAwU1ltQ3dUTzVR?=
- =?utf-8?B?ZG5HdGhtMExXQmRTc2tIRzhaY2tiNlNabmZGNW9pSzJVeWJKS0pKK1hvQnls?=
- =?utf-8?B?T1NHQzMreEhPOWxKa3RldW9pNkh3QVcvRXlpbk5md2FJaWQyNGFsYWVPUWhK?=
- =?utf-8?B?YlduMzlrRkZFandMWUYxbE9ZVDRhNENiNlIxTXdjeHhCS3BYTm5MbFNVdHdU?=
- =?utf-8?B?T1d6ZUROcGxaVU9pL3g2WWMvczE4eXhuWE01ZkVjb24wWkhCUzNMdDIyWDJZ?=
- =?utf-8?B?QThtRkcxRE40bXNpL2dCamFYZk9ReFBjbjlvY3A4TGJ1bVhYT3BLNmxYWE9L?=
- =?utf-8?B?TGh2L0Y2ajlhQ0pFL2pTczFjSlZWa0VUcVc4cENxN2l0ZGxJcGNPejA3dk1h?=
- =?utf-8?B?R1VYRTJnTEI2WHhTUk5tOVg1cVJTSmY3MDNkbk9pQmlFaXA4S2prZ3F5WWpI?=
- =?utf-8?B?UjI4YlowNW10Ui9iUXUzQ0pKV0hrQVRwaTh0NWpOY0tKM3dZLzRPVWx2ZCtq?=
- =?utf-8?B?TFYvRUd0Y0pCZkxBZnd2ODh2a1N4UWp3dnVyTy9pVlBXYU5LV2dTZGtITUIy?=
- =?utf-8?B?UGlPZFJncEE0UzlUa296dFpkME1xZFVmbzlHdmd3V3Q4Z2l1U1Q2RnZkS3Ew?=
- =?utf-8?B?TEhSd3RPMVl0eG9hZXg5enJhcHJYYThmREdFUmdOdWp1Z0xzNzlwMS9RQmpj?=
- =?utf-8?B?VGFxdmlNVklkajM1eU8vY1BMZzd2ODg4WG9wMy9MenZ1Y1k3UmNUdURDbGND?=
- =?utf-8?B?USt2WXlJaHVySjdGQVNGSGxNUVhrL1BnS1ZsbDdBYXBsQmRIa3lJQnNKZnNl?=
- =?utf-8?B?V1VRZVVWZnpWZ05nNjMxeFdXS0ZleTFoVk1nSk40Q3A0WXJEUDlVdVlUMkhH?=
- =?utf-8?B?K1poM1QvRDFoWThSbXNSQ2pCd3NIQy92dFBFMmFxOXdicFpxY3FZSFh4OEFk?=
- =?utf-8?B?U0t6eWdtdkpDK0pwb3kxSDBwU2w4c2VaRUhkL2VMMm54S2dCV0V5MUtnTEtn?=
- =?utf-8?B?NlB6RFlkcy8vTkt5OHYvQkJmMVNhUEhaNExXaGZaUXlTQlJPcTZJMytNRkNw?=
- =?utf-8?B?dDBYSGp3a1ZKUk92d2VJSjdjL09HSGF4YUtvY2tSQllQTDBXN0h4QW1ZajJP?=
- =?utf-8?B?OTkvT2FNUE9TaFNsOGRNeml2QlZYYzRUbEFWUTlUWXJhTStMSTZoeVBlenlT?=
- =?utf-8?B?aWdyZXlNTFUzYWNzS3BYMDFqVVFwTURza3Zvdy8vNERNZCtranNVZEFwSEpo?=
- =?utf-8?B?Vmx3MDJMOUEza2JodGNMVTE5ZGpGNmFzTk1NZnFjaGhWdDFEVnhMOU9DTmly?=
- =?utf-8?B?c3RyWTdRbldtZzhUb3BBZkhrckNLbnJwbXJvZW5GazRuWi9oS0I5Q1JNUnlt?=
- =?utf-8?Q?lFwL0z/HDeqW7WIUa9GS3piJj?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf2a308f-d773-4fef-4ec6-08db2483e867
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 12:01:56.3800
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tYcqferlO7+O42C1b90rkjArQCb+Bk80f6xgf0odgGueNc684UbY9m6RBHPAPJ6N
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7426
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230313154856.3691660-1-zyytlz.wz@163.com>
+In-Reply-To: <20230313154856.3691660-1-zyytlz.wz@163.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 14 Mar 2023 09:05:47 -0300
+Message-ID: <CAAEAJfAtwguO-EpbCLkdOBu96U9mD+mq4PxBLsLAVZLuhC6Mtw@mail.gmail.com>
+Subject: Re: [PATCH v4] media: hantro: fix use after free bug in hantro_remove
+ due to race condition
+To:     Zheng Wang <zyytlz.wz@163.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com,
+        hverkuil@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 14.03.23 um 11:52 schrieb Paul Cercueil:
-> Hi,
->
-> This small patchset adds three new IOCTLs that can be used to attach,
-> detach, or transfer from/to a DMABUF object.
->
-> This was surprisingly easy to add, as the functionfs code only uses
-> scatterlists for transfers and allows specifying the number of bytes to
-> transfer. The bulk of the code is then for general DMABUF accounting.
->
-> The patchset isn't tagged RFC but comments are very welcome, there are
-> some things I am not 100% sure about: ffs_dma_resv_lock (with no
-> ww_acquire_ctx),
+Hi Zheng, Hans,
 
-That is perfectly fine as long as you only want to lock one dma_resv object.
+On Mon, Mar 13, 2023 at 12:49=E2=80=AFPM Zheng Wang <zyytlz.wz@163.com> wro=
+te:
+>
+> In hantro_probe, vpu->watchdog_work is bound with
+> hantro_watchdog. Then hantro_end_prepare_run may
+> be called to start the work.
+>
+> If we close the file or remove the module which will
+> call hantro_release and hantro_remove to make cleanup,
+> there may be an unfinished work. The possible sequence
+> is as follows, which will cause a typical UAF bug.
+>
+> The same thing will happen in hantro_release, and use
+> ctx after freeing it.
+>
+> Fix it by canceling the work before cleanup in hantro_release.
+>
+> CPU0                  CPU1
+>
+>                     |hantro_watchdog
+> hantro_remove     |
+>   v4l2_m2m_release  |
+>     kfree(m2m_dev); |
+>                     |
+>                     | v4l2_m2m_get_curr_priv
+>                     |   m2m_dev->curr_ctx //use
+>
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> Fixes: 932a9317ac49 ("media: hantro: Add helpers to prepare/finish a run"=
+)
 
-I've made a few notes what should be fixed and could potentially be 
-improved, but from the DMA-buf side that looks like it should mostly work.
+Thanks for the patch.
 
-Regards,
-Christian.
+Give me a few days to take a closer look.
 
->   and I'm using pr_debug which feels wrong. Also, I
-> should probably add documentation? The current IOCTLs for functionfs
-> were not documented, as far as I can tell.
->
-> We use it with DMABUFs created with udmabuf, that we attach to the
-> functionfs interface and to IIO devices (with a DMABUF interface for
-> IIO, on its way to upstream too), to transfer samples from high-speed
-> transceivers to USB in a zero-copy fashion.
->
-> Cheers,
-> -Paul
->
->
-> Paul Cercueil (2):
->    usb: gadget: Support already-mapped DMA SGs
->    usb: gadget: functionfs: Add DMABUF import interface
->
->   drivers/usb/gadget/function/f_fs.c  | 398 ++++++++++++++++++++++++++++
->   drivers/usb/gadget/udc/core.c       |   7 +-
->   include/linux/usb/gadget.h          |   2 +
->   include/uapi/linux/usb/functionfs.h |  14 +-
->   4 files changed, 419 insertions(+), 2 deletions(-)
->
+Thanks,
+Ezequiel
 
+> ---
+> v4:
+> - add Fixes label to help with the fix
+>
+> v3:
+> - use cancel_delayed_work_sync instead of cancel_delayed_work and add it =
+to
+> hantro_release suggested by Hans Verkuil
+>
+> v2:
+> - move the cancel-work-related code to hantro_remove suggested by Hans Ve=
+rkuil
+> ---
+>  drivers/media/platform/verisilicon/hantro_drv.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
+dia/platform/verisilicon/hantro_drv.c
+> index b0aeedae7b65..86a4c0fa8c7d 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -597,6 +597,7 @@ static int hantro_release(struct file *filp)
+>         struct hantro_ctx *ctx =3D
+>                 container_of(filp->private_data, struct hantro_ctx, fh);
+>
+> +       cancel_delayed_work_sync(&ctx->dev->watchdog_work);
+>         /*
+>          * No need for extra locking because this was the last reference
+>          * to this file.
+> @@ -1099,6 +1100,7 @@ static int hantro_remove(struct platform_device *pd=
+ev)
+>
+>         v4l2_info(&vpu->v4l2_dev, "Removing %s\n", pdev->name);
+>
+> +       cancel_delayed_work_sync(&vpu->watchdog_work);
+>         media_device_unregister(&vpu->mdev);
+>         hantro_remove_dec_func(vpu);
+>         hantro_remove_enc_func(vpu);
+> --
+> 2.25.1
+>
