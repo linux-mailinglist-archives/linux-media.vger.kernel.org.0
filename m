@@ -2,175 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34AF86B929B
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 13:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9666B928C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 13:03:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229686AbjCNMFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 08:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
+        id S231728AbjCNMD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 08:03:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231768AbjCNMFe (ORCPT
+        with ESMTP id S230211AbjCNMDZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 08:05:34 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D95D71C58D;
-        Tue, 14 Mar 2023 05:05:02 -0700 (PDT)
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4PbXHw1rpRz4BKJt;
-        Tue, 14 Mar 2023 14:04:11 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678795452;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qZdVO+o6NVisvLLp0fz85lQ/En55DCtDZZ8CJdoWRLw=;
-        b=Zc1R1I3rg1hRsMfrhRw1YtTL0+SD+swa8meOGKm7k1dEwbQSj16Ii5opPRmeu904Hqk8Wl
-        LHE5P8FZGrVpfCCOf8vh/65UHb1tQzt2L/gy8TBTwYlP5O+G/gvc5DtEhr1YotI5gQfdQs
-        HxmUh1SM/P4O6TkOBGK9Wt5IGrDE7+88Sq8sxmipCtZWAgNALAD3UpUTWEbjDxpUpFIdZk
-        LfTg7MulJNWvhIkOsjVaBmZyqrYALnN8Qy1tToIgzwbwvTspeAR6hOjXTDGz2AyKiqizNH
-        DaXigB1cDHSFeWBI1qap+baUm9Z6arBmJ4mcAEv68pgrRqZ+v6MqUjsA6XnN6g==
-Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4PbXFG658tzyQx;
-        Tue, 14 Mar 2023 14:01:54 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1678795317;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qZdVO+o6NVisvLLp0fz85lQ/En55DCtDZZ8CJdoWRLw=;
-        b=g4p6lmMNIEZi5Hxya3lo2eH88giekGBrGSaNMkJJA1vCIRxaWYSrvMP1xmiMOlptEyoQUs
-        3bCxMoWjbG6wbZmBPCELDT27lHPIUx1OH6sIWi6Pa8cLqNSF9oR/lH3VP+U0h0ta577kRs
-        iWilPkVEVHG8/AmclaxCkJTWVCM0/Ik=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1678795317; a=rsa-sha256; cv=none;
-        b=BvgKPCSD9q6pUJSAxUy+VizHYYIbjg9ezjQHh5QXGQbEZT+GCzXbVU1eLEO4U391sDQS4u
-        +HPMyX5cMepisp8vRwjTRTpBuj/bxnPgc8ugDSKe5otTQLiIwOBTjlVt0BbwX3YLPs555f
-        Ud59qiYSrCYs3qTAkg6uXrJLnMsW1z8=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1678795317;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qZdVO+o6NVisvLLp0fz85lQ/En55DCtDZZ8CJdoWRLw=;
-        b=OkKVUPXuzmIvASe6puyQy2dN6TuBvyb+QKZfD0GrMbuycT0e4eQY84BRKIVAr1eXt3p/oW
-        sDfHnF0SOKX0niSvK1QzzepUQvH7HRfkRj4s8yJz10vSBg+ZpFQlzXt5rApHPruLKpbyez
-        SKaN1DNDcC5J3QvHiy/Ig3JeNK3EtcM=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CFAAB634C91;
-        Tue, 14 Mar 2023 14:00:52 +0200 (EET)
-Date:   Tue, 14 Mar 2023 14:00:52 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        phone-devel@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH] media: dt-bindings: ov2685: convert to dtschema
-Message-ID: <ZBBh9Euor7R24euV@valkosipuli.retiisi.eu>
-References: <20230206-ov2685-dtschema-v1-1-9e4da3474c10@z3ntu.xyz>
- <167572017056.1564123.13342855865502188090.robh@kernel.org>
- <2665862.mvXUDI8C0e@z3ntu.xyz>
+        Tue, 14 Mar 2023 08:03:25 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4FA3A0B31;
+        Tue, 14 Mar 2023 05:02:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bPOXgkFZclidu6iFRiiDzLNn/a7K/xrMqumORiVp7SwA81enOEBrenQLEJLVD400kd4h5aol+yL3gbaKAZxx0SEuVRibQ48mYIVd4EWdmjR0U3NlS5F/I3ZzkDm4Lf2eB0MQ8cPuownFkEc8yD/lJydSx9kesKU+vsxO1Ix/Yhws98Q80MY0H4gvj5ptNO371TZl+NdRp0eUUH49tT9FJiJlcu/zcfGn0bPXMY5CQGbBN2FoRdVjaIhxqMs+WEJHgDYEglVlyMa32zmVo0CJDlw2SwHIQBf4quLAWSEko3JMo06eFWmBla9+kpGVvLsdocSu1PxqgnwMzGX0PuLdmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qQkltu0ZU1x2ubggmDDJvQlnpxNElI3Y+nQMp87uLAg=;
+ b=l4vLZbBaPP2ZsiSbKvfzL9aPg5eEQVGB4HDaCdyITAs4jC4RbqA+Jfvh6Qf7YadB+uD74d0nV7vZ7cnkshKDH3WruxI66Vn2pxa9Ri1xbkqs643TarRYwB5UipwjjGdJk5PsYYBiOjlzxaXG9MV1A5o8HKc767+AddNx3YrcXVVjL53tuPmnnBK4VXFTwgekxH4rjL01yb71BeiU8WHT6g0aALsmR/oWplqGflyo9Pji3CDkzwt5HrA5I5XzLbopxlPqAzZKTcKOYc04e0qwI/zlatlc7+C9H6sdjH8ptgOtWJsyqNcRwgm4naL4vul8QsrLLReLMZljn6BJt+irwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qQkltu0ZU1x2ubggmDDJvQlnpxNElI3Y+nQMp87uLAg=;
+ b=ks2gIPzTEB33zCb8q8clk10bKoRKLNWOH4EalluGO2/+IQcoj4xEtkCUaPLdISoCK9JwY0sI+lkpZIsSMplUIaLJsfGw1Iozq5k9RAuCGhGIcfbabHSbesZ37xfS/3/DmRgDoFF75Lfzs824sGEKXiZA09gAkgRkGBgcYXnCa3U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB7426.namprd12.prod.outlook.com (2603:10b6:510:201::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Tue, 14 Mar
+ 2023 12:01:56 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
+ 12:01:56 +0000
+Message-ID: <777b760e-a9c2-cf46-c7be-26a4bcf633ab@amd.com>
+Date:   Tue, 14 Mar 2023 13:01:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 0/2] usb: gadget: functionfs: DMABUF import interface
+Content-Language: en-US
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     michael.hennerich@analog.com, nuno.sa@analog.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20230314105257.17345-1-paul@crapouillou.net>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230314105257.17345-1-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0146.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2665862.mvXUDI8C0e@z3ntu.xyz>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB7426:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf2a308f-d773-4fef-4ec6-08db2483e867
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1d+tjxqT9EjURiCNQ2+WybwU86WcOCb8VrugG/Pkl4cJMKmg8FHBmnadajnpyKvJzYWGpJCvJlzeieq4+mPPT55WG6IPXWh50NMwxqnGUmhk7SVBDpPyvS4Ia9EwtUWDy3q5hmBuK6kqJTFl/hJiTkpE+N1tt6uTgNW6YRWme61/yyrrq0Hk+soZXUrjieB0Kx12cOipdOxTmG97rwc+Ye0t6uesWKjuifrJWfwAD6XEIedQ+3xOMXfGyPPuoql8gdraiotCbEqPawyc5hnb5MziK997ZGC832Er8EcpBj8/yNd3Bkmh73PnVjvtM4kNgsIUZfrdODMpTRuEjljUk5Xy7kkHA7gYYC+91CaeFd35gi91wSru2rXdBdrO+Csdn4z/acLrY6wwewvo5sxXphhN99SGNQc36HnUasyMpMRXOfLdvGjHWdeYGraYvH/Tx/KN5KLMXbVeqyd6yBnLOswqBrPQrzoX3cnJZIOuilM1Unln+zEQLEdcCKMkYlZan5I1hLijF21r2e1M4JBhF8Dy2XNrpl1ZsOe9XgfFKToTC0j8q6MAxr/QWMJ7f5yyOJpmxR7n85wJbmHs++38MO8AC3904u6FeZJqE82FxGVJrx4P3V3xIygds7F3b50wvEp9SKS8G3OiMhGWrt7qK2LbFnTKpATTQXCwCmgCPqzHFlqBHZuEiH0qPAVBApQjwvaF9kHomf4YWwMo6FdgapZJym1WY7GcNihOc8tVvNk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(366004)(396003)(376002)(136003)(451199018)(66899018)(2906002)(31686004)(83380400001)(36756003)(5660300002)(7416002)(8676002)(66556008)(8936002)(41300700001)(4326008)(38100700002)(316002)(86362001)(31696002)(110136005)(478600001)(186003)(66946007)(66476007)(6486002)(2616005)(6512007)(6506007)(6666004)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2pKaGFHZlE2cVlWSXJnZi9HcjN2ckVsYmxVdHVsWHZ4TFBEVWprNStzdjhr?=
+ =?utf-8?B?MFl3UFhiMWEzVWJJeXdXMlVmbXY0ZmNXS3Nhc0lQY3N3emt6Y2dXbTF2S3hG?=
+ =?utf-8?B?SU8xRmpQT3pKeFRjTlE2SDJGdi8wdTVsUmhVTmlOOGZRZVd5cE8xSGk1ZUh1?=
+ =?utf-8?B?ZngvNWNiZlF1NThBVFQ2QW5va2tIcnl2WThPKzBBTXd3RjQwWlBTbWpjaE5H?=
+ =?utf-8?B?dGxWeE81RVpWRmQ1cjlmZXNoZjVNMi8vOGwxNklCcjNVcnhESFFZeS9kaE1J?=
+ =?utf-8?B?OWp6TlArd1M0ZEY3a3JOTEtjSUlPMlpUU25RaVFlKzJHcWZvVUtoUWxEMGhw?=
+ =?utf-8?B?b1UycjI1WVZrQlg0QmVQbzk3MHFKNVJhVmhZUjEyaUFSOGFVY0JxQUJUemll?=
+ =?utf-8?B?QkxFcVBuQis3blNOWjl3K1YySmRYVU41c2lEVEVQd2o0ekNCT3lNMm4xcU8r?=
+ =?utf-8?B?VEU0N01lZmtncndGUENFQzNQQVBuYzdINEhIb1RBSFJhNHRoa2NzSjZjY1hO?=
+ =?utf-8?B?TXg0SVRORElrbDdlL3V4Rk1UTmFVWk11MytnOEFCQVNGQmdCQVYxUWZmcGVT?=
+ =?utf-8?B?bFl3SFkybzR3WFdabCtzUkw1dDNpQ1ZwWlh0VXh4dkZsV2NqTnM5a3FoTUQv?=
+ =?utf-8?B?WTRoK2c3TnR3MmlLV2FmYXVrZ25oakVsRCtKQ2E4eVE1aDBqNTZQU1FMaHZO?=
+ =?utf-8?B?cDFIWjN6eVhEZk5NRnAwdEFGdElMV29zSUJvRDFmWEJERzAwU1ltQ3dUTzVR?=
+ =?utf-8?B?ZG5HdGhtMExXQmRTc2tIRzhaY2tiNlNabmZGNW9pSzJVeWJKS0pKK1hvQnls?=
+ =?utf-8?B?T1NHQzMreEhPOWxKa3RldW9pNkh3QVcvRXlpbk5md2FJaWQyNGFsYWVPUWhK?=
+ =?utf-8?B?YlduMzlrRkZFandMWUYxbE9ZVDRhNENiNlIxTXdjeHhCS3BYTm5MbFNVdHdU?=
+ =?utf-8?B?T1d6ZUROcGxaVU9pL3g2WWMvczE4eXhuWE01ZkVjb24wWkhCUzNMdDIyWDJZ?=
+ =?utf-8?B?QThtRkcxRE40bXNpL2dCamFYZk9ReFBjbjlvY3A4TGJ1bVhYT3BLNmxYWE9L?=
+ =?utf-8?B?TGh2L0Y2ajlhQ0pFL2pTczFjSlZWa0VUcVc4cENxN2l0ZGxJcGNPejA3dk1h?=
+ =?utf-8?B?R1VYRTJnTEI2WHhTUk5tOVg1cVJTSmY3MDNkbk9pQmlFaXA4S2prZ3F5WWpI?=
+ =?utf-8?B?UjI4YlowNW10Ui9iUXUzQ0pKV0hrQVRwaTh0NWpOY0tKM3dZLzRPVWx2ZCtq?=
+ =?utf-8?B?TFYvRUd0Y0pCZkxBZnd2ODh2a1N4UWp3dnVyTy9pVlBXYU5LV2dTZGtITUIy?=
+ =?utf-8?B?UGlPZFJncEE0UzlUa296dFpkME1xZFVmbzlHdmd3V3Q4Z2l1U1Q2RnZkS3Ew?=
+ =?utf-8?B?TEhSd3RPMVl0eG9hZXg5enJhcHJYYThmREdFUmdOdWp1Z0xzNzlwMS9RQmpj?=
+ =?utf-8?B?VGFxdmlNVklkajM1eU8vY1BMZzd2ODg4WG9wMy9MenZ1Y1k3UmNUdURDbGND?=
+ =?utf-8?B?USt2WXlJaHVySjdGQVNGSGxNUVhrL1BnS1ZsbDdBYXBsQmRIa3lJQnNKZnNl?=
+ =?utf-8?B?V1VRZVVWZnpWZ05nNjMxeFdXS0ZleTFoVk1nSk40Q3A0WXJEUDlVdVlUMkhH?=
+ =?utf-8?B?K1poM1QvRDFoWThSbXNSQ2pCd3NIQy92dFBFMmFxOXdicFpxY3FZSFh4OEFk?=
+ =?utf-8?B?U0t6eWdtdkpDK0pwb3kxSDBwU2w4c2VaRUhkL2VMMm54S2dCV0V5MUtnTEtn?=
+ =?utf-8?B?NlB6RFlkcy8vTkt5OHYvQkJmMVNhUEhaNExXaGZaUXlTQlJPcTZJMytNRkNw?=
+ =?utf-8?B?dDBYSGp3a1ZKUk92d2VJSjdjL09HSGF4YUtvY2tSQllQTDBXN0h4QW1ZajJP?=
+ =?utf-8?B?OTkvT2FNUE9TaFNsOGRNeml2QlZYYzRUbEFWUTlUWXJhTStMSTZoeVBlenlT?=
+ =?utf-8?B?aWdyZXlNTFUzYWNzS3BYMDFqVVFwTURza3Zvdy8vNERNZCtranNVZEFwSEpo?=
+ =?utf-8?B?Vmx3MDJMOUEza2JodGNMVTE5ZGpGNmFzTk1NZnFjaGhWdDFEVnhMOU9DTmly?=
+ =?utf-8?B?c3RyWTdRbldtZzhUb3BBZkhrckNLbnJwbXJvZW5GazRuWi9oS0I5Q1JNUnlt?=
+ =?utf-8?Q?lFwL0z/HDeqW7WIUa9GS3piJj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf2a308f-d773-4fef-4ec6-08db2483e867
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 12:01:56.3800
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tYcqferlO7+O42C1b90rkjArQCb+Bk80f6xgf0odgGueNc684UbY9m6RBHPAPJ6N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7426
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Am 14.03.23 um 11:52 schrieb Paul Cercueil:
+> Hi,
+>
+> This small patchset adds three new IOCTLs that can be used to attach,
+> detach, or transfer from/to a DMABUF object.
+>
+> This was surprisingly easy to add, as the functionfs code only uses
+> scatterlists for transfers and allows specifying the number of bytes to
+> transfer. The bulk of the code is then for general DMABUF accounting.
+>
+> The patchset isn't tagged RFC but comments are very welcome, there are
+> some things I am not 100% sure about: ffs_dma_resv_lock (with no
+> ww_acquire_ctx),
 
-On Thu, Feb 09, 2023 at 05:46:48PM +0100, Luca Weiss wrote:
-> +CC Helen Koike
-> 
-> On Montag, 6. Februar 2023 22:50:08 CET Rob Herring wrote:
-> > On Mon, 06 Feb 2023 21:23:16 +0100, Luca Weiss wrote:
-> > > Convert the text-based dt-bindings to yaml.
-> > > 
-> > > Changes from original txt:
-> > > * Take wording for various properties from other yaml bindings, this
-> > > 
-> > >   removes e.g. volt amount from schema since it isn't really relevant
-> > >   and the datasheet is a better source.
-> > > 
-> > > * Don't make reset-gpios a required property since it can be tied to
-> > > 
-> > >   DOVDD instead.
-> > > 
-> > > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > > ---
-> > > 
-> > >  .../devicetree/bindings/media/i2c/ov2685.txt       |  41 ---------
-> > >  .../devicetree/bindings/media/i2c/ovti,ov2685.yaml | 101
-> > >  +++++++++++++++++++++ MAINTAINERS                                       
-> > >  |   1 +
-> > >  3 files changed, 102 insertions(+), 41 deletions(-)
-> > 
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/medi
-> > a/rockchip-isp1.example.dtb: camera@3c: 'clocks' is a required property From
-> > schema:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/i2c/ovti,ov2685.yaml
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/rockchip-isp1.example.dtb: camera@3c: 'clock-names' is a required
-> > property From schema:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/i2c/ovti,ov2685.yaml
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/rockchip-isp1.example.dtb: camera@3c: 'dvdd-supply' is a required
-> > property From schema:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/i2c/ovti,ov2685.yaml
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/rockchip-isp1.example.dtb: camera@3c: 'avdd-supply' is a required
-> > property From schema:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/i2c/ovti,ov2685.yaml
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/rockchip-isp1.example.dtb: camera@3c: 'dovdd-supply' is a required
-> > property From schema:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/med
-> > ia/i2c/ovti,ov2685.yaml
-> 
-> Looks like rockchip-isp1.yaml uses very incomplete sensor examples in their 
-> binding example, which sort of makes sense since those bindings are showing 
-> the rockchip isp bindings and contain the bare minimum to show how a sensor is 
-> connected in dt.
-> 
-> Not sure how to solve this - ov2685 is also one of three sensors that are used 
-> very abbreviated there.
+That is perfectly fine as long as you only want to lock one dma_resv object.
 
-Could these regulators be simply made optional?
+I've made a few notes what should be fixed and could potentially be 
+improved, but from the DMA-buf side that looks like it should mostly work.
 
--- 
-Kind regards,
+Regards,
+Christian.
 
-Sakari Ailus
+>   and I'm using pr_debug which feels wrong. Also, I
+> should probably add documentation? The current IOCTLs for functionfs
+> were not documented, as far as I can tell.
+>
+> We use it with DMABUFs created with udmabuf, that we attach to the
+> functionfs interface and to IIO devices (with a DMABUF interface for
+> IIO, on its way to upstream too), to transfer samples from high-speed
+> transceivers to USB in a zero-copy fashion.
+>
+> Cheers,
+> -Paul
+>
+>
+> Paul Cercueil (2):
+>    usb: gadget: Support already-mapped DMA SGs
+>    usb: gadget: functionfs: Add DMABUF import interface
+>
+>   drivers/usb/gadget/function/f_fs.c  | 398 ++++++++++++++++++++++++++++
+>   drivers/usb/gadget/udc/core.c       |   7 +-
+>   include/linux/usb/gadget.h          |   2 +
+>   include/uapi/linux/usb/functionfs.h |  14 +-
+>   4 files changed, 419 insertions(+), 2 deletions(-)
+>
+
