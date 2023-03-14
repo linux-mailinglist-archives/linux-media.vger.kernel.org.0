@@ -2,139 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDFE56B9067
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 11:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E1E56B90AD
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 11:53:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbjCNKn6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 06:43:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44188 "EHLO
+        id S230079AbjCNKxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 06:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbjCNKnz (ORCPT
+        with ESMTP id S230111AbjCNKxf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 06:43:55 -0400
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFBCBBA5
-        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 03:43:19 -0700 (PDT)
-X-KPN-MessageId: f4436f54-c254-11ed-be37-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id f4436f54-c254-11ed-be37-00505699b430;
-        Tue, 14 Mar 2023 11:42:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=MblS3wPiejH8wWKzPlRNHbipiWFCA8kFaj7hsvg8aIw=;
-        b=IC1Bek6tsLB+ZBUNcDl3p2uU4adHKFJTNwb/AKrs331rzK40Mv+EgCYHoIV0e1MNHxxRNVpKdOH1u
-         4fu5XN5lv+mLFusQyNzts9Ul1OSCejTm+DL3yNa3jm+QZHPySDS1h5Ck/lEINQUxl6QFNeLl71zcgk
-         bi7ykaaHDON3BrkiYGV2eFa+GZaMJMBHiIS3We+44p9xpkzwLCy/0NIxxx2phxbKzkK3XuWzE060H9
-         3M6iGSBP5aEEt2s6WULeFnfSNdDcmXrfTJjDdP8sh16nPPoLkukaSgxJaL3zkdlDCxUso3P540aHLa
-         bvLdn0oCfNbUDnoIV4Ti0A8uR+4N5fg==
-X-KPN-MID: 33|FkStRVpM6778JWRbee5ORbKlr5uso33caDVGRFqX+YdM2ajMXig/EgK1pUqjMB2
- ZvpFy22o4lZ02rXeesS5Bkw==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|b6x6ba6BbG6VwHaXfZoELLAJBsMWVu0BpjvVbFinw6bBbG9MWR/C5kVxOti2FHv
- KdyqhcYeHZREjXLMFQDHNlQ==
-X-Originating-IP: 173.38.220.44
-Received: from [10.47.77.214] (unknown [173.38.220.44])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id f52d4607-c254-11ed-a8eb-005056998788;
-        Tue, 14 Mar 2023 11:42:49 +0100 (CET)
-Message-ID: <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
-Date:   Tue, 14 Mar 2023 11:42:46 +0100
+        Tue, 14 Mar 2023 06:53:35 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A263E625;
+        Tue, 14 Mar 2023 03:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1678791191;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lWG+KFc/Ei6/o+9Wu4zuAiJ8/qhoZmSrQx365/6Oshk=;
+        b=fUjwl/GTGcJeOfWYXXFY58YwTQ3Vq4QMsk3coead00trx0lcSAqYvNHlYUHM1jjAik9aEC
+        e41Tc9t2VdvlK6F3/9913vt7NWs9yRmfxb9QXk+Ap583R8pZEVWs7vkah6OnQY1EIdjzFM
+        hnjvZbaZk1hiQncj6By5PKHHSAkrNaE=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     michael.hennerich@analog.com, nuno.sa@analog.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH 0/2] usb: gadget: functionfs: DMABUF import interface
+Date:   Tue, 14 Mar 2023 11:52:55 +0100
+Message-Id: <20230314105257.17345-1-paul@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-Content-Language: en-US
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Laurent Pinchart' <laurent.pinchart@ideasonboard.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     "tfiga@chromium.org" <tfiga@chromium.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "ming.qian@nxp.com" <ming.qian@nxp.com>,
-        "shijie.qin@nxp.com" <shijie.qin@nxp.com>,
-        "eagle.zhou@nxp.com" <eagle.zhou@nxp.com>,
-        "bin.liu@mediatek.com" <bin.liu@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
-        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
-        "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
-        "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
-        "quic_vgarodia@quicinc.com" <quic_vgarodia@quicinc.com>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "andersson@kernel.org" <andersson@kernel.org>,
-        "konrad.dybcio@linaro.org" <konrad.dybcio@linaro.org>,
-        "ezequiel@vanguardiasur.com.ar" <ezequiel@vanguardiasur.com.ar>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "kernel@collabora.com" <kernel@collabora.com>
-References: <20230313135916.862852-1-benjamin.gaignard@collabora.com>
- <20230313135916.862852-3-benjamin.gaignard@collabora.com>
- <20230313181155.GC22646@pendragon.ideasonboard.com>
- <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
- <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
- <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi David,
+Hi,
 
-On 3/14/23 11:11, David Laight wrote:
-> From: Hans Verkuil
->> Sent: 14 March 2023 08:55
-> ...
->> Why not start with a dynamically allocated array of 32 vb2_buffer pointers?
->> And keep doubling the size (reallocing) whenever more buffers are needed,
->> up to some maximum (1024 would be a good initial value for that, I think).
->> This max could be even a module option.
-> 
-> I don't know the typical uses (or the code at all).
-> But it might be worth having a small array in the structure itself.
-> Useful if there are typically always (say) less than 8 buffers.
-> For larger sizes use the (IIRC) kmalloc_size() to find the actual
-> size of the structure that will be allocate and set the array
-> size appropriately.
+This small patchset adds three new IOCTLs that can be used to attach,
+detach, or transfer from/to a DMABUF object.
 
-The typical usage is that applications allocate N buffers with the
-VIDIOC_REQBUFS ioctl, and in most cases that's all they use. The
-current max is 32 buffers, so allocating that initially (usually
-during probe()) will cover all current cases with a single one-time
-kzalloc.
+This was surprisingly easy to add, as the functionfs code only uses
+scatterlists for transfers and allows specifying the number of bytes to
+transfer. The bulk of the code is then for general DMABUF accounting.
 
-Only if the application wants to allocate more than 32 buffers will
-there be a slight overhead.
+The patchset isn't tagged RFC but comments are very welcome, there are
+some things I am not 100% sure about: ffs_dma_resv_lock (with no
+ww_acquire_ctx), and I'm using pr_debug which feels wrong. Also, I
+should probably add documentation? The current IOCTLs for functionfs
+were not documented, as far as I can tell.
 
-Regards,
+We use it with DMABUFs created with udmabuf, that we attach to the
+functionfs interface and to IIO devices (with a DMABUF interface for
+IIO, on its way to upstream too), to transfer samples from high-speed
+transceivers to USB in a zero-copy fashion.
 
-	Hans
+Cheers,
+-Paul
 
-> 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
+
+Paul Cercueil (2):
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Add DMABUF import interface
+
+ drivers/usb/gadget/function/f_fs.c  | 398 ++++++++++++++++++++++++++++
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  14 +-
+ 4 files changed, 419 insertions(+), 2 deletions(-)
+
+-- 
+2.39.2
 
