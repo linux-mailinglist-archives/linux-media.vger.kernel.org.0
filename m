@@ -2,103 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F386B8AE1
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 06:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95EEA6B8BA3
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 08:04:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbjCNF6e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 01:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56010 "EHLO
+        id S230233AbjCNHEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 03:04:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjCNF6d (ORCPT
+        with ESMTP id S229985AbjCNHEC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 01:58:33 -0400
-Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06A7BDBCE;
-        Mon, 13 Mar 2023 22:58:30 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0VdqmYya_1678773506;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VdqmYya_1678773506)
-          by smtp.aliyun-inc.com;
-          Tue, 14 Mar 2023 13:58:27 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     mchehab@kernel.org
-Cc:     eugen.hristev@collabora.com, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH -next] media: atmel: atmel-isc: Use devm_platform_ioremap_resource()
-Date:   Tue, 14 Mar 2023 13:58:26 +0800
-Message-Id: <20230314055826.103682-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        Tue, 14 Mar 2023 03:04:02 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5619A2659D
+        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 00:03:45 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id f11so13311177wrv.8
+        for <linux-media@vger.kernel.org>; Tue, 14 Mar 2023 00:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112; t=1678777424;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kn2fGwJZKDLC3NranQ3ChxZGwvFH+NqBZkMAG0z5pZE=;
+        b=Dgh+JZnGXiQYv8bSxvdjUj143FE6LeaMfsJX+Qdm4VgFqDM1Fo2FLLs+Hfva0zY+DL
+         Rvd6ROCxyCb/dSLn18s0ofweJQ70s/iYKTnrBQ9TAHuBW2eaKbwh+axOFkkbdfWfMPlY
+         xMlV0AFWFHAO0uPzUe0h4JUI4He3jW6UzyhlG1E5vc9rA8KBK8C1qxNQeZi12rV3mdqJ
+         lHLhtr+wiX1mXQdow2CTyPlEO4mP8WiyhHhdSJ9Q9xsYFkB1D2oqZQ7lgs0T5gAYCnx4
+         afQ3A/Anrx+jv2HSH4ZE4dHFT/EKIX2XlxNWfsl+EqQ1kW4sH7HYifVKw2q1SZt0JKH3
+         h0fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678777424;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kn2fGwJZKDLC3NranQ3ChxZGwvFH+NqBZkMAG0z5pZE=;
+        b=ha+vH43DX5tGNzUeUVQMqP3KbkaxTAIMw0LJ4BmDQFyT7Il6ui/NZMSjL8q2Y2SCaq
+         NnzvAwrBRyR3La9qLsSkAGc575xeXjVKbr/rIOaSWn8pd/0TqSgOFs/lME4cNJJStrGv
+         9eZoou8eHSHGR4j0Wa1VLQYWuTz22Ud6XPB+ixVOa7eLbs6T5wyRr1Tz4vvyMrvCOaga
+         jN1xU8qfxs++P6/aIRpd6efJWCiH3hcMtTcCr8E1EYRp1Ri4b9YOSMCoNDnv3W3BuNPm
+         x6FhxIhWemR66qHLuIbdPZuYiK/I+j6e3sFk8DfJQqdt1hgQaLZ+DHoMHhMmO7FCWrfb
+         C8RA==
+X-Gm-Message-State: AO0yUKWxWzw64XVIER9uKknHRUb4VRVW5mGr77GOmH034hAeKcGXnasl
+        t+HbP/Q1Tci8CY0/yArMNM6TrE6Y06c=
+X-Google-Smtp-Source: AK7set9B2+syRnT79wUL0lYb8v1AY0hqN8r1imJl3JNyGilhi0qSouyCy1omYFg+GDZtaPUEOWFzgA==
+X-Received: by 2002:adf:ee90:0:b0:2c8:9cfe:9e29 with SMTP id b16-20020adfee90000000b002c89cfe9e29mr23335925wro.38.1678777423593;
+        Tue, 14 Mar 2023 00:03:43 -0700 (PDT)
+Received: from [10.228.210.75] ([80.156.160.146])
+        by smtp.gmail.com with ESMTPSA id q4-20020adff944000000b002c552c6c8c2sm1240166wrr.87.2023.03.14.00.03.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Mar 2023 00:03:42 -0700 (PDT)
+Message-ID: <7d321523-bef2-f89d-7420-4597b7ce26d6@googlemail.com>
+Date:   Tue, 14 Mar 2023 08:03:42 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [v4l-utils] [PATCH v10 1/5] Add support for meson building
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+References: <20230223164441.22719-1-laurent.pinchart@ideasonboard.com>
+ <20230223164441.22719-2-laurent.pinchart@ideasonboard.com>
+ <250e45e0-de13-5ef8-ce68-eb2cc9e58f73@googlemail.com>
+ <20230312144903.GO2545@pendragon.ideasonboard.com>
+ <d5776457-6fae-2192-ffe4-2791a595b1e3@googlemail.com>
+ <20230313081100.GD2545@pendragon.ideasonboard.com>
+Content-Language: en-US
+From:   Gregor Jasny <gjasny@googlemail.com>
+In-Reply-To: <20230313081100.GD2545@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to commit 7945f929f1a7 ("drivers: provide
-devm_platform_ioremap_resource()"), convert platform_get_resource(),
-devm_ioremap_resource() to a single call to Use
-devm_platform_ioremap_resource(), as this is exactly what this function
-does.
+Hello,
 
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c | 4 +---
- drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+On 13.03.23 09:11, Laurent Pinchart wrote:
+> If you want to give git-send-email another try (which is still the
+> recommended option), https://git-send-email.io/ provides instructions
+> tailored for different distributions and e-mail providers.
 
-diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-index ba0614f981a2..eebb336efce7 100644
---- a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-@@ -389,7 +389,6 @@ static int atmel_isc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct isc_device *isc;
--	struct resource *res;
- 	void __iomem *io_base;
- 	struct isc_subdev_entity *subdev_entity;
- 	int irq;
-@@ -403,8 +402,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, isc);
- 	isc->dev = dev;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	io_base = devm_ioremap_resource(dev, res);
-+	io_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
- 
-diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-index 01ababdfcbd9..beed40fe3f91 100644
---- a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-@@ -378,7 +378,6 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct isc_device *isc;
--	struct resource *res;
- 	void __iomem *io_base;
- 	struct isc_subdev_entity *subdev_entity;
- 	int irq;
-@@ -392,8 +391,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, isc);
- 	isc->dev = dev;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	io_base = devm_ioremap_resource(dev, res);
-+	io_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
- 
--- 
-2.20.1.7.g153144c
+I re-did the setup at home and it worked as expected. Turns out that 
+it's the company firewall which blocks git-send-email. Surprisingly 
+Thunderbird works with the same host and port.
 
+Thanks for your help.
+
+-Gregor
