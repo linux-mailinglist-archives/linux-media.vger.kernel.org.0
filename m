@@ -2,321 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2894A6B90DF
-	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 12:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB596B91ED
+	for <lists+linux-media@lfdr.de>; Tue, 14 Mar 2023 12:43:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbjCNLB4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Mar 2023 07:01:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52750 "EHLO
+        id S231346AbjCNLnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Mar 2023 07:43:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbjCNLBw (ORCPT
+        with ESMTP id S230478AbjCNLnv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Mar 2023 07:01:52 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C83FC74DE3;
-        Tue, 14 Mar 2023 04:01:49 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4PbVvs1B6QzyQx;
-        Tue, 14 Mar 2023 13:01:45 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1678791706;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1h6tYodatFLzfE0ast1Inp6RrLfiG9v5fLVwKJIT+MQ=;
-        b=VgPHk5tyg/IrDSjWlu9IibBHCme1uMmKZ8u8doFH+J/00L0z1QEhR4igIMNEYPqUOVKM22
-        2uY5rPP+4/FzKcIdYwPD8wSPx0DG416WjiXHsOUkvYuVGtsMnBCzPK48o0h0OoUAGIexek
-        3MFu5DGjkH1d/020JX4G2DCz+UfHzVk=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1678791706; a=rsa-sha256; cv=none;
-        b=FFTDadmhNKPt5Pu1UVnTloLJGXnaJ2bum9SyG+W0bqgZwz9rsl3F3aON6mBqyT+5/fohTD
-        9AstyZCCgWjWFV8b2d6sdm8Pu2IRTIAnKR8F7qH1sBS+Vssz/N08pQN17Wpt+BPKkPgTK0
-        ogyGmtDUvUyDr5snLAnh/wn/S8wjiiE=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1678791706;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1h6tYodatFLzfE0ast1Inp6RrLfiG9v5fLVwKJIT+MQ=;
-        b=ck6F+ovTtTDK5aG69CKNh7dI1vcOadrSt/RRirqpIaqe0WU3h+EK+2faDbdfGMkKQAsrIF
-        Va3dhB813L1iTa05J7tGd6qLQBEOuwC3rsGf7uzcWqS/j36cT/z+yUyEGAgVHhDFGikxAb
-        h2CBbrm2K3kFrf0fMmWsHYbmf8JgEfY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 80EB1634C91;
-        Tue, 14 Mar 2023 13:00:41 +0200 (EET)
-Date:   Tue, 14 Mar 2023 13:00:41 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Svyatoslav Ryhel <clamor95@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Jean Delvare <jdelvare@suse.de>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Daniel Jeong <gshark.jeong@gmail.com>,
-        Ldd-Mlp <ldd-mlp@list.ti.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] media: lm3560: convent to OF
-Message-ID: <ZBBT2WM2lWz2Ab7u@valkosipuli.retiisi.eu>
-References: <20230308095209.14700-1-clamor95@gmail.com>
- <20230308095209.14700-3-clamor95@gmail.com>
+        Tue, 14 Mar 2023 07:43:51 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F67193F1;
+        Tue, 14 Mar 2023 04:43:24 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso12944196wmq.1;
+        Tue, 14 Mar 2023 04:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678794203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ooBUhVhCqisZJ8iFuqAxT4qE8PBELCGSQnXBwgwo9FQ=;
+        b=jrvesbJQwoSIRLAzVMo01IbkpsdrM0EQDt8iOZB8IWYVcA7NSDtMBnzu4TjhBAgEeg
+         RazP0UPxBHxBJ33oJZ2rdAlqN+9sVAN27fVDHEiEtkNyljrAYHRESiRZBJpw+Z7sxUhI
+         QEiEPD0dV7sXAy/FGKbNTmKJYpabkxzk1K4tBkiOT0rDeOzXgFZAi7frM8bcOPJW1aKC
+         pSrVf2gJo92dg7G9UHS5Vzjt5d5XPSm25BXe7cU9lI9CyoWLg9Wkxq/AlOdWdHJq7NEc
+         4zXYNBvCW8oOcZrwdU3PQSWpkZZJxSNagFRiijVAv+JEgM9prPcaYkCxfZYlhm7xOnzq
+         wgRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678794203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ooBUhVhCqisZJ8iFuqAxT4qE8PBELCGSQnXBwgwo9FQ=;
+        b=TOuZx74Pvl/Jw/OcyMAm1GxFpLPX2wHHN76i5OJtcJJoHIzv9VhLme+7LQEZ2U/czN
+         2uvnaKZAUlC6paYZsENgHAB4wHpIl0Gm0kExI/PI4CQFl9OkQcDduNfZaEBPylzr+DtP
+         f+uloWpf65inccRHNDP28NH65CHnERS1IissdhHw2lX6uEBdqGMBQoJJNLmBTLcEvplF
+         jbmVAu0/IpYgcPDbOo+TFDhrWasjQwtLdzLOvuIMMzPRmQ3CwlLTbO4zGVrG5I3Ylb3G
+         A7pf0EQ40AfzpFKOUOOnXL8/2IlM+lzuETIxLvofE2UOuD2pXYc5yCd1S+nUy7UmhxiC
+         Jgsw==
+X-Gm-Message-State: AO0yUKXbHI0iwhTNiUDEnvzaJw0OuguA1TF3LrSHo7+uDvB/rRZs3o3m
+        xD7rPR7hlJKTMdPvbY9JstGcP11xk+3NY4Vt
+X-Google-Smtp-Source: AK7set9RIIQlNtVhSOoG4lHHjC76XZo3/vmwVv6WFjbYYf+QoYb0pNd1mdUJwo8feqwrICAb65T/Ww==
+X-Received: by 2002:a05:600c:470a:b0:3e1:bfc:d16e with SMTP id v10-20020a05600c470a00b003e10bfcd16emr13901241wmo.39.1678794202958;
+        Tue, 14 Mar 2023 04:43:22 -0700 (PDT)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id v7-20020a05600c470700b003ed2a458a7asm2710590wmo.44.2023.03.14.04.43.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 04:43:22 -0700 (PDT)
+From:   Christian Hewitt <christianshewitt@gmail.com>
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH v3 0/2] media: meson: vdec: add HEVC decode codec
+Date:   Tue, 14 Mar 2023 11:43:16 +0000
+Message-Id: <20230314114318.4057353-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230308095209.14700-3-clamor95@gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Svyatoslav,
+This mini-series adds support for HEVC decoding. It combines the original codec
+work done by Maxime Jourdan in 2019 [0] and improvements by Benjamin Roszak in
+2021 [1]. Only GXBB/GXL/GXM are enabled as decoding currently crashes on G12A
+and later SoCs when trying to decode a 10-bit HEVC stream.
 
-Thanks for the patch.
+The goal of upstreaming the driver in its current state is to encourage greater
+community contribution towards adding missing features, and fixing the bugs and
+conformance issues necessary to get out of staging.
 
-On Wed, Mar 08, 2023 at 11:52:09AM +0200, Svyatoslav Ryhel wrote:
-> If no pdata is available, try to read from device tree.
+The HEVC codec presented here is generally partnered with FFMpeg sources that
+are being maintained by the Raspberry Pi Foundation [2] and [3] that contain
+numerous improvements to v4l2_m2m (and v4l2_request) support. There is active
+work in progress to refine the FFMpeg changeset and send it upstream.
 
-I think platform data support could be even dropped these days. But it
-should probably be a separate patch. I think either before or after this
-one would be fine.
+Christian
 
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/media/i2c/lm3560.c | 128 +++++++++++++++++++++++++++----------
->  1 file changed, 93 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-> index 5ef613604be7..5541051616b7 100644
-> --- a/drivers/media/i2c/lm3560.c
-> +++ b/drivers/media/i2c/lm3560.c
-> @@ -11,6 +11,7 @@
->  
->  #include <linux/delay.h>
->  #include <linux/module.h>
-> +#include <linux/gpio.h>
->  #include <linux/i2c.h>
->  #include <linux/slab.h>
->  #include <linux/mutex.h>
-> @@ -22,16 +23,16 @@
->  
->  /* registers definitions */
->  #define REG_ENABLE		0x10
-> -#define REG_TORCH_BR	0xa0
-> -#define REG_FLASH_BR	0xb0
-> -#define REG_FLASH_TOUT	0xc0
-> +#define REG_TORCH_BR		0xa0
-> +#define REG_FLASH_BR		0xb0
-> +#define REG_FLASH_TOUT		0xc0
->  #define REG_FLAG		0xd0
->  #define REG_CONFIG1		0xe0
->  
->  /* fault mask */
-> -#define FAULT_TIMEOUT	(1<<0)
-> -#define FAULT_OVERTEMP	(1<<1)
-> -#define FAULT_SHORT_CIRCUIT	(1<<2)
-> +#define FAULT_TIMEOUT		BIT(0)
-> +#define FAULT_OVERTEMP		BIT(1)
-> +#define FAULT_SHORT_CIRCUIT	BIT(2)
->  
->  enum led_enable {
->  	MODE_SHDN = 0x0,
-> @@ -54,6 +55,7 @@ struct lm3560_flash {
->  	struct device *dev;
->  	struct lm3560_platform_data *pdata;
->  	struct regmap *regmap;
-> +	struct gpio_desc *hwen_gpio;
->  	struct mutex lock;
->  
->  	enum v4l2_flash_led_mode led_mode;
-> @@ -356,12 +358,19 @@ static int lm3560_subdev_init(struct lm3560_flash *flash,
->  	flash->subdev_led[led_no].flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->  	strscpy(flash->subdev_led[led_no].name, led_name,
->  		sizeof(flash->subdev_led[led_no].name));
-> +
->  	rval = lm3560_init_controls(flash, led_no);
-> -	if (rval)
-> +	if (rval) {
-> +		dev_err(flash->dev, "failed to init controls: %d\n", rval);
->  		goto err_out;
-> +	}
-> +
->  	rval = media_entity_pads_init(&flash->subdev_led[led_no].entity, 0, NULL);
-> -	if (rval < 0)
-> +	if (rval < 0) {
-> +		dev_err(flash->dev, "failed to init media entity pads: %d\n", rval);
->  		goto err_out;
-> +	}
-> +
->  	flash->subdev_led[led_no].entity.function = MEDIA_ENT_F_FLASH;
->  
->  	return rval;
-> @@ -391,6 +400,49 @@ static int lm3560_init_device(struct lm3560_flash *flash)
->  	return rval;
->  }
->  
-> +static int lm3560_of_probe(struct lm3560_flash *flash)
-> +{
-> +	struct lm3560_platform_data *pdata;
-> +	struct fwnode_handle *node;
-> +	int ret, reg;
-> +
-> +	pdata = devm_kzalloc(flash->dev, sizeof(*pdata), GFP_KERNEL);
-> +	if (!pdata)
-> +		return -ENODEV;
-> +
-> +	ret = device_property_read_u32(flash->dev,
-> +				       "ti,peak-current", &pdata->peak);
-> +	if (ret)
-> +		pdata->peak = LM3560_PEAK_3600mA;
-> +
-> +	ret = device_property_read_u32(flash->dev,
-> +				       "ti,max-flash-timeout",
-> +				       &pdata->max_flash_timeout);
-> +	if (ret)
-> +		pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
-> +
-> +	device_for_each_child_node(flash->dev, node) {
-> +		fwnode_property_read_u32(node, "reg", &reg);
-> +
-> +		if (reg == LM3560_LED0 || reg == LM3560_LED1) {
-> +			ret = device_property_read_u32(flash->dev,
-> +						       "ti,max-flash-current",
-> +						       &pdata->max_flash_brt[reg]);
-> +			if (ret)
-> +				pdata->max_flash_brt[reg] = LM3560_FLASH_TOUT_MAX;
-> +
-> +			ret = device_property_read_u32(flash->dev,
-> +						       "ti,max-torch-current",
-> +						       &pdata->max_torch_brt[reg]);
-> +			if (ret)
-> +				pdata->max_torch_brt[reg] = LM3560_TORCH_BRT_MAX;
-> +		}
-> +	}
-> +	flash->pdata = pdata;
-> +
-> +	return 0;
-> +}
-> +
->  static int lm3560_probe(struct i2c_client *client)
->  {
->  	struct lm3560_flash *flash;
-> @@ -398,44 +450,41 @@ static int lm3560_probe(struct i2c_client *client)
->  	int rval;
->  
->  	flash = devm_kzalloc(&client->dev, sizeof(*flash), GFP_KERNEL);
-> -	if (flash == NULL)
-> +	if (!flash)
->  		return -ENOMEM;
->  
->  	flash->regmap = devm_regmap_init_i2c(client, &lm3560_regmap);
-> -	if (IS_ERR(flash->regmap)) {
-> -		rval = PTR_ERR(flash->regmap);
-> -		return rval;
-> -	}
-> +	if (IS_ERR(flash->regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(flash->regmap),
-> +				     "failed to init regmap\n");
->  
-> -	/* if there is no platform data, use chip default value */
-> -	if (pdata == NULL) {
-> -		pdata = devm_kzalloc(&client->dev, sizeof(*pdata), GFP_KERNEL);
-> -		if (pdata == NULL)
-> -			return -ENODEV;
-> -		pdata->peak = LM3560_PEAK_3600mA;
-> -		pdata->max_flash_timeout = LM3560_FLASH_TOUT_MAX;
-> -		/* led 1 */
-> -		pdata->max_flash_brt[LM3560_LED0] = LM3560_FLASH_BRT_MAX;
-> -		pdata->max_torch_brt[LM3560_LED0] = LM3560_TORCH_BRT_MAX;
-> -		/* led 2 */
-> -		pdata->max_flash_brt[LM3560_LED1] = LM3560_FLASH_BRT_MAX;
-> -		pdata->max_torch_brt[LM3560_LED1] = LM3560_TORCH_BRT_MAX;
-> -	}
-> -	flash->pdata = pdata;
->  	flash->dev = &client->dev;
->  	mutex_init(&flash->lock);
->  
-> +	/* if there is no platform data, try to read from device tree */
-> +	if (!pdata)
-> +		lm3560_of_probe(flash);
-> +
-> +	flash->hwen_gpio = devm_gpiod_get_optional(flash->dev, "enable",
-> +						   GPIOD_OUT_HIGH);
-> +	if (IS_ERR(flash->hwen_gpio))
-> +		return dev_err_probe(&client->dev, PTR_ERR(flash->hwen_gpio),
-> +				     "failed to get hwen gpio\n");
-> +
->  	rval = lm3560_subdev_init(flash, LM3560_LED0, "lm3560-led0");
->  	if (rval < 0)
-> -		return rval;
-> +		return dev_err_probe(&client->dev, rval,
-> +				     "failed to init led0 subdev\n");
->  
->  	rval = lm3560_subdev_init(flash, LM3560_LED1, "lm3560-led1");
->  	if (rval < 0)
-> -		return rval;
-> +		return dev_err_probe(&client->dev, rval,
-> +				     "failed to init led1 subdev\n");
->  
->  	rval = lm3560_init_device(flash);
->  	if (rval < 0)
-> -		return rval;
-> +		return dev_err_probe(&client->dev, rval,
-> +				     "failed to init device\n");
->  
->  	i2c_set_clientdata(client, flash);
->  
-> @@ -452,21 +501,30 @@ static void lm3560_remove(struct i2c_client *client)
->  		v4l2_ctrl_handler_free(&flash->ctrls_led[i]);
->  		media_entity_cleanup(&flash->subdev_led[i].entity);
->  	}
-> +
-> +	gpiod_set_value_cansleep(flash->hwen_gpio, 0);
->  }
->  
-> +static const struct of_device_id lm3560_match[] = {
-> +	{ .compatible = "ti,lm3559" },
-> +	{ .compatible = "ti,lm3560" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, lm3560_match);
-> +
->  static const struct i2c_device_id lm3560_id_table[] = {
->  	{LM3559_NAME, 0},
->  	{LM3560_NAME, 0},
->  	{}
->  };
-> -
->  MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
->  
->  static struct i2c_driver lm3560_i2c_driver = {
->  	.driver = {
-> -		   .name = LM3560_NAME,
-> -		   .pm = NULL,
-> -		   },
-> +		.name = LM3560_NAME,
-> +		.pm = NULL,
-> +		.of_match_table = lm3560_match,
-> +	},
->  	.probe_new = lm3560_probe,
->  	.remove = lm3560_remove,
->  	.id_table = lm3560_id_table,
+Changes from v2:
+- fix memory leak reported by smatch [4]
+
+Changes from v1:
+- Fix unused val warning reported by kernel test robot <lkp@intel.com>
+
+[0] https://github.com/Elyotna/linux/commits/4.20/v4l2-m2m-pr
+[1] https://gitlab.com/benjamin545/linux-amlogic/-/commits/aml-hevc
+[2] https://github.com/jc-kynesim/rpi-ffmpeg/commits/release/4.4/rpi_import_1
+[3] https://github.com/jc-kynesim/rpi-ffmpeg/tree/dev/5.1.2/rpi_import_1
+[4] https://lore.kernel.org/r/202303120441.YFGHDOya-lkp@intel.com/
+
+Benjamin Roszak (1):
+  media: meson: vdec: implement 10bit bitstream handling
+
+Maxime Jourdan (1):
+  media: meson: vdec: add HEVC decode codec
+
+ drivers/staging/media/meson/vdec/Makefile     |    2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c |    3 +-
+ drivers/staging/media/meson/vdec/codec_hevc.c | 1463 +++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_hevc.h |   13 +
+ .../media/meson/vdec/codec_hevc_common.c      |  161 +-
+ .../media/meson/vdec/codec_hevc_common.h      |    3 +-
+ drivers/staging/media/meson/vdec/codec_vp9.c  |   35 +-
+ drivers/staging/media/meson/vdec/esparser.c   |    4 +-
+ drivers/staging/media/meson/vdec/hevc_regs.h  |    1 +
+ drivers/staging/media/meson/vdec/vdec.h       |    1 +
+ .../staging/media/meson/vdec/vdec_helpers.c   |   44 +-
+ .../staging/media/meson/vdec/vdec_helpers.h   |   10 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |   37 +
+ 13 files changed, 1678 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.h
 
 -- 
-Kind regards,
+2.34.1
 
-Sakari Ailus
