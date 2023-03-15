@@ -2,104 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65A4D6BA9A7
-	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 08:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87DBA6BAAE6
+	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 09:37:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbjCOHpo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Mar 2023 03:45:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41988 "EHLO
+        id S231419AbjCOIhe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Mar 2023 04:37:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231406AbjCOHpj (ORCPT
+        with ESMTP id S230448AbjCOIhc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 03:45:39 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8734F31E25
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 00:45:35 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id cy23so71760744edb.12
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 00:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678866334;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UmXwlToH/e5W1q0ZH/ZtfDxKvmto9XQ3kAoMsQSVFFE=;
-        b=hCa0X9sAt53YHCVUg/TkuhK2H/6aPpMwHLOh7igrx0Ap2v8uDVo8828ZbV/D13hZMs
-         vHrjrtlAF87+CupvylCtmSmbmybe2cI+nvQgsPa9V+jSwtm9+bUYEA0JsbtW4foVAPRL
-         hN8roV50pJoqnPB8P3i2/GLhHKF4edP5RuZpyaUd+c0AdVZc2t5d/2YqhvBhwyOgDDMT
-         cYvYdmWKaJfQEEWKl0f5uOcFJXOGAkzGWAdkt5rOMokSEk6uRQNevwsvj+mk4e2pSj8W
-         UpKRKt5SkHeHvmw/QY27v1Ox9FmcTMvkt//Iygxq+atqR7+OOYeKK2imBnsmxh80rCvH
-         xsGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678866334;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UmXwlToH/e5W1q0ZH/ZtfDxKvmto9XQ3kAoMsQSVFFE=;
-        b=zeIMCqCjegWF0NRvCnLEO1xHyB/KXL5vp1iFu1Og7BsANgtGluhp+/xezIqRqUWN5w
-         RsXjZS0txzZrwgir3fcDJKT2Cy1aM63XpGJWAj1Jf59RFQDY29n8030QIPFerFA7R04h
-         62B2yiYgWKhzT6KxNn2DdzDGZWsBFQS2i4Arb2DR1LpCtz4o4rOAW2xYucXlOA1O0Nms
-         J6wWTOuY8zkuEIJFTT0rxfgEcFiraOB+/p7G53MX4xwbin4wRFY+myyGogtZ//+Kx4x4
-         yGEeE1OCOzrNSBfOM9WyiCqMCRC2UjQsA5HytXcICxpMQEuAsMRNxRBQzuyyQQs+QbMF
-         SIuw==
-X-Gm-Message-State: AO0yUKXJbj9un9eep7tm5srPsgpZGC10njEMh1gI9P7TtQckIq6w3I89
-        zliLbexNsKnVHXgqZsoM/xikaQ==
-X-Google-Smtp-Source: AK7set+2wmOAgjAOQx9LiW4tbxQH4h3rfy1lWkysHWCygxpEtOcqdLpxvdtatzMoGqHXPUZMrBnR0Q==
-X-Received: by 2002:a17:906:25c5:b0:8af:5403:992d with SMTP id n5-20020a17090625c500b008af5403992dmr4792415ejb.28.1678866334005;
-        Wed, 15 Mar 2023 00:45:34 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:940e:8615:37dc:c2bd? ([2a02:810d:15c0:828:940e:8615:37dc:c2bd])
-        by smtp.gmail.com with ESMTPSA id gf4-20020a170906e20400b0092396a853bbsm2145932ejb.143.2023.03.15.00.45.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Mar 2023 00:45:33 -0700 (PDT)
-Message-ID: <f97ed61d-71d0-f05a-e4f8-abae8f9fbdd8@linaro.org>
-Date:   Wed, 15 Mar 2023 08:45:32 +0100
+        Wed, 15 Mar 2023 04:37:32 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D147286;
+        Wed, 15 Mar 2023 01:37:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678869451; x=1710405451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MGe+wu03SgVhyZX13WFZVMUGp4Eh/8ZQN9CHXaDvzYI=;
+  b=KLgJVassRHCwSdY5PJ8+epaaALSnRPXGntqtbqUTP8YVSZosg8io500n
+   9nkFeyn1RYFJ+AtYlclqHORGv7JBC+YAmYWfbGAJYarO8pkvwYUAvAEXu
+   I07swE20qDT9TdrGnwgmtnFGugDmOiEqYhtyZGnfFTvaoiM7MXNZTcfaT
+   Xcl0tSkziaDUfMuI7DaRJQa2Ul1T4S6pwr97lUoSZ9C1Du6v009p0CFP1
+   3ulNI3uD7gVvJrgsU7VFGKrvrsDtlXx/54TTGmrCC9a12XpKUkkMJh5X5
+   51HgWzCKDrtC5wm8LKB0nxfTfZJBlXhbWLrQxH4uk9wxkEzEeIS76uVq4
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="317299580"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="317299580"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 01:37:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="789713577"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="789713577"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 15 Mar 2023 01:37:26 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pcMdS-0007Xn-0o;
+        Wed, 15 Mar 2023 08:37:26 +0000
+Date:   Wed, 15 Mar 2023 16:36:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Paul Cercueil <paul@crapouillou.net>,
+        michael.hennerich@analog.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        nuno.sa@analog.com, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
+Message-ID: <202303151639.4xUPfzJD-lkp@intel.com>
+References: <20230314105257.17345-3-paul@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 13/13] media: dt-bindings: Convert Cadence CSI2RX
- binding to YAML
-Content-Language: en-US
-To:     Vaishnav Achath <vaishnav.a@ti.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        tomi.valkeinen@ideasonboard.com
-Cc:     linux-kernel@vger.kernel.org, bparrot@ti.com,
-        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
-        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
-        nm@ti.com, martyn.welch@collabora.com
-References: <20230314115516.667-1-vaishnav.a@ti.com>
- <20230314115516.667-14-vaishnav.a@ti.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230314115516.667-14-vaishnav.a@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314105257.17345-3-paul@crapouillou.net>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/03/2023 12:55, Vaishnav Achath wrote:
-> From: Pratyush Yadav <p.yadav@ti.com>
-> 
-> Convert the Cadence CSI2RX binding to use YAML schema.
-> 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> Signed-off-by: Vaishnav Achath <vaishnav.a@ti.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> 
-> (no changes since v5)
-> 
+Hi Paul,
 
-So it seems your patchset is not bisectable. Fix this and test
-bisectability. All patchsets are expected to be fully bisectable.
+I love your patch! Perhaps something to improve:
 
-Best regards,
-Krzysztof
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.3-rc2 next-20230315]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230314105257.17345-3-paul%40crapouillou.net
+patch subject: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
+config: s390-randconfig-r002-20230312 (https://download.01.org/0day-ci/archive/20230315/202303151639.4xUPfzJD-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/4ee364ed5d112c4550344fd037f4e1ef7cc41878
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
+        git checkout 4ee364ed5d112c4550344fd037f4e1ef7cc41878
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/media/platform/mediatek/jpeg/ drivers/usb/gadget/function/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303151639.4xUPfzJD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/usb/gadget/function/f_fs.c:18:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/usb/gadget/function/f_fs.c:18:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/usb/gadget/function/f_fs.c:18:
+   In file included from include/linux/dma-buf.h:16:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/usb/gadget/function/f_fs.c:1401:5: warning: no previous prototype for function 'ffs_dma_resv_lock' [-Wmissing-prototypes]
+   int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
+       ^
+   drivers/usb/gadget/function/f_fs.c:1401:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
+   ^
+   static 
+   13 warnings generated.
+
+
+vim +/ffs_dma_resv_lock +1401 drivers/usb/gadget/function/f_fs.c
+
+  1400	
+> 1401	int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
+  1402	{
+  1403		int ret;
+  1404	
+  1405		ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
+  1406		if (ret) {
+  1407			if (ret != -EDEADLK)
+  1408				goto out;
+  1409			if (nonblock) {
+  1410				ret = -EBUSY;
+  1411				goto out;
+  1412			}
+  1413	
+  1414			ret = dma_resv_lock_slow_interruptible(dmabuf->resv, NULL);
+  1415		}
+  1416	
+  1417	out:
+  1418		return ret;
+  1419	}
+  1420	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
