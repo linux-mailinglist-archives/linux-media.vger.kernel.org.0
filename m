@@ -2,162 +2,475 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4CAB6BB8CA
-	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 16:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 492296BB988
+	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 17:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232746AbjCOP6F convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 15 Mar 2023 11:58:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53162 "EHLO
+        id S231863AbjCOQUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Mar 2023 12:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232623AbjCOP6B (ORCPT
+        with ESMTP id S231823AbjCOQUG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 11:58:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB738C598;
-        Wed, 15 Mar 2023 08:57:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 95A51B81E68;
-        Wed, 15 Mar 2023 15:57:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E660C433EF;
-        Wed, 15 Mar 2023 15:57:14 +0000 (UTC)
-Date:   Wed, 15 Mar 2023 11:57:12 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
-        intel-gfx@lists.freedesktop.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [BUG 6.3-rc1] Bad lock in ttm_bo_delayed_delete()
-Message-ID: <20230315115712.56b3c21f@gandalf.local.home>
-In-Reply-To: <07597f3e-0b35-c22b-91ec-fa3875d6fe22@gmail.com>
-References: <20230307212223.7e49384a@gandalf.local.home>
-        <20230307212615.7a099103@gandalf.local.home>
-        <b919b550-6da8-f9f0-a0eb-0fd8af513817@amd.com>
-        <20230315110949.1e11b3aa@gandalf.local.home>
-        <07597f3e-0b35-c22b-91ec-fa3875d6fe22@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Wed, 15 Mar 2023 12:20:06 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9D21F935;
+        Wed, 15 Mar 2023 09:20:03 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id r36so790951oiw.7;
+        Wed, 15 Mar 2023 09:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678897202;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YHm8aqZXbOB1dA6dvL7Y2xb5VTwjaZrSc/p9oBx6dEA=;
+        b=N1zVk2hvrNavXuOp0eZ0S4QTNcjyoK6izz5OUnEZk+5s+0TkciqgNkLnRBqoarIbX6
+         SjjexBoVyhEIdOhye2JxUIf0Mo+o5kKesS35vENEbwVrqP1Xy/L90MQF+qh1FkFR4abX
+         rNpEXXTNdmuLdlOMqNxRXn2/86iVspJ5+AZzfD631Zqp69XWWUV4dKmVSLiBywNyesv3
+         kU3Y2Z0F7sairDCIBO59D5dxzMX6Fmz3l5UM7IWncS3muFlT118Y7oX8XF92Mp686n7/
+         L5hNSiDUWL76PtdwgnKigbR6CIkiH5ygY+dzJ0Ak/2W1PgON3FSeGR1CDMJri3Vjpwtp
+         uyYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678897202;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YHm8aqZXbOB1dA6dvL7Y2xb5VTwjaZrSc/p9oBx6dEA=;
+        b=7Ri/p6Gia5hdSwfKO0STdSwElp31PO7jdt0TCKkyd11YjpK8Qhip5Br68VkYrZD3uc
+         0jgctzOQcWm4z/mWjds5ZKRnJthYJ4Aqj8aa31wTvRaZRILFJlEs7S2zvzqpZ2L56pDl
+         WxnRV+Bu0gEispM+KO+v5WiEePCJYswieL0xjdwBjHrBgHAJMhWm+mKRV+I2O7jWmwMW
+         Q0c2hYycUGhRpBbb87196HLuQvSKdvoLmhFDgEw1/AHHFQOjdMEKfYngDYQ1b7kDkIZD
+         /2EU1z3cYOT8aYpJJiz2TO5TKCVA1QHxIFYHDTFXsQB+4XXRlbdKn/8iGvdmSs2L4Vff
+         Obeg==
+X-Gm-Message-State: AO0yUKWydFsCPl68xxJliW20McUz4pN3reOO2Ea1aM7oHD+BObr8W3xL
+        KYr3EPz9TpG9ooyswvvgU3rzrQ8W9SJExqTV55Y=
+X-Google-Smtp-Source: AK7set/to1bUzC/px7kYh7s+6isGsQUlr2afjdXliyX/Wzg0C7yiYiykegtboodu2VHL6L5D5MlRKKSUEmHzJDeR9eY=
+X-Received: by 2002:aca:654b:0:b0:384:1cf9:912e with SMTP id
+ j11-20020aca654b000000b003841cf9912emr1028109oiw.5.1678897202265; Wed, 15 Mar
+ 2023 09:20:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
+ <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
+ <ZBHNvT3BLgS3qvV5@gmail.com>
+In-Reply-To: <ZBHNvT3BLgS3qvV5@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Wed, 15 Mar 2023 09:19:49 -0700
+Message-ID: <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
+To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Matt Turner <mattst88@gmail.com>,
+        freedreno@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 15 Mar 2023 16:25:11 +0100
-Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>
-> >> Thanks for the notice,  
-> > I'm still getting this on Linus's latest tree.  
-> 
-> This must be some reference counting issue which only happens in your 
-> particular use case. We have tested this quite extensively and couldn't 
-> reproduce it so far.
+On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
+ wrote:
+>
+> On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
+> > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
+com> wrote:
+> > >
+> > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > Add a way to hint to the fence signaler of an upcoming deadline, su=
+ch as
+> > > > vblank, which the fence waiter would prefer not to miss.  This is t=
+o aid
+> > > > the fence signaler in making power management decisions, like boost=
+ing
+> > > > frequency as the deadline approaches and awareness of missing deadl=
+ines
+> > > > so that can be factored in to the frequency scaling.
+> > > >
+> > > > v2: Drop dma_fence::deadline and related logic to filter duplicate
+> > > >     deadlines, to avoid increasing dma_fence size.  The fence-conte=
+xt
+> > > >     implementation will need similar logic to track deadlines of al=
+l
+> > > >     the fences on the same timeline.  [ckoenig]
+> > > > v3: Clarify locking wrt. set_deadline callback
+> > > > v4: Clarify in docs comment that this is a hint
+> > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> > > > v6: More docs
+> > > > v7: Fix typo, clarify past deadlines
+> > > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > > ---
+> > >
+> > > Hi Rob!
+> > >
+> > > >  Documentation/driver-api/dma-buf.rst |  6 +++
+> > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++=
+++++
+> > > >  include/linux/dma-fence.h            | 22 +++++++++++
+> > > >  3 files changed, 87 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/d=
+river-api/dma-buf.rst
+> > > > index 622b8156d212..183e480d8cea 100644
+> > > > --- a/Documentation/driver-api/dma-buf.rst
+> > > > +++ b/Documentation/driver-api/dma-buf.rst
+> > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
+> > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > >     :doc: fence signalling annotation
+> > > >
+> > > > +DMA Fence Deadline Hints
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > +   :doc: deadline hints
+> > > > +
+> > > >  DMA Fences Functions Reference
+> > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > >
+> > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fenc=
+e.c
+> > > > index 0de0482cd36e..f177c56269bb 100644
+> > > > --- a/drivers/dma-buf/dma-fence.c
+> > > > +++ b/drivers/dma-buf/dma-fence.c
+> > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **=
+fences, uint32_t count,
+> > > >  }
+> > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > >
+> > > > +/**
+> > > > + * DOC: deadline hints
+> > > > + *
+> > > > + * In an ideal world, it would be possible to pipeline a workload =
+sufficiently
+> > > > + * that a utilization based device frequency governor could arrive=
+ at a minimum
+> > > > + * frequency that meets the requirements of the use-case, in order=
+ to minimize
+> > > > + * power consumption.  But in the real world there are many worklo=
+ads which
+> > > > + * defy this ideal.  For example, but not limited to:
+> > > > + *
+> > > > + * * Workloads that ping-pong between device and CPU, with alterna=
+ting periods
+> > > > + *   of CPU waiting for device, and device waiting on CPU.  This c=
+an result in
+> > > > + *   devfreq and cpufreq seeing idle time in their respective doma=
+ins and in
+> > > > + *   result reduce frequency.
+> > > > + *
+> > > > + * * Workloads that interact with a periodic time based deadline, =
+such as double
+> > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  In th=
+is scenario,
+> > > > + *   missing a vblank deadline results in an *increase* in idle ti=
+me on the GPU
+> > > > + *   (since it has to wait an additional vblank period), sending a=
+ signal to
+> > > > + *   the GPU's devfreq to reduce frequency, when in fact the oppos=
+ite is what is
+> > > > + *   needed.
+> > >
+> > > This is the use case I'd like to get some better understanding about =
+how
+> > > this series intends to work, as the problematic scheduling behavior
+> > > triggered by missed deadlines has plagued compositing display servers
+> > > for a long time.
+> > >
+> > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
+> > > developer, so I will need some hand holding when it comes to
+> > > understanding exactly what piece of software is responsible for
+> > > communicating what piece of information.
+> > >
+> > > > + *
+> > > > + * To this end, deadline hint(s) can be set on a &dma_fence via &d=
+ma_fence_set_deadline.
+> > > > + * The deadline hint provides a way for the waiting driver, or use=
+rspace, to
+> > > > + * convey an appropriate sense of urgency to the signaling driver.
+> > > > + *
+> > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for=
+ userspace
+> > > > + * facing APIs).  The time could either be some point in the futur=
+e (such as
+> > > > + * the vblank based deadline for page-flipping, or the start of a =
+compositor's
+> > > > + * composition cycle), or the current time to indicate an immediat=
+e deadline
+> > > > + * hint (Ie. forward progress cannot be made until this fence is s=
+ignaled).
+> > >
+> > > Is it guaranteed that a GPU driver will use the actual start of the
+> > > vblank as the effective deadline? I have some memories of seing
+> > > something about vblank evasion browsing driver code, which I might ha=
+ve
+> > > misunderstood, but I have yet to find whether this is something
+> > > userspace can actually expect to be something it can rely on.
+> >
+> > I guess you mean s/GPU driver/display driver/ ?  It makes things more
+> > clear if we talk about them separately even if they happen to be the
+> > same device.
+>
+> Sure, sorry about being unclear about that.
+>
+> >
+> > Assuming that is what you mean, nothing strongly defines what the
+> > deadline is.  In practice there is probably some buffering in the
+> > display controller.  For ex, block based (including bandwidth
+> > compressed) formats, you need to buffer up a row of blocks to
+> > efficiently linearize for scanout.  So you probably need to latch some
+> > time before you start sending pixel data to the display.  But details
+> > like this are heavily implementation dependent.  I think the most
+> > reasonable thing to target is start of vblank.
+>
+> The driver exposing those details would be quite useful for userspace
+> though, so that it can delay committing updates to late, but not too
+> late. Setting a deadline to be the vblank seems easy enough, but it
+> isn't enough for scheduling the actual commit.
 
-Have you tried 32 bit with my config. I also sent a link to your previous
-email that gives access to the VM image I'm using that is triggering this
-issue.
+I'm not entirely sure how that would even work.. but OTOH I think you
+are talking about something on the order of 100us?  But that is a bit
+of another topic.
 
-Here it is again:
+> >
+> > Also, keep in mind the deadline hint is just that.  It won't magically
+> > make the GPU finish by that deadline, but it gives the GPU driver
+> > information about lateness so it can realize if it needs to clock up.
+>
+> Sure, even if the GPU ramped up clocks to the max, if the job queue is
+> too large, it won't magically invent more cycles to squeeze in.
+>
+> >
+> > > Can userspace set a deadline that targets the next vblank deadline
+> > > before GPU work has been flushed e.g. at the start of a paint cycle, =
+and
+> > > still be sure that the kernel has the information it needs to know it=
+ should
+> > > make its clocks increase their speed in time for when the actual work
+> > > has been actually flushed? Or is it needed that the this deadline is =
+set
+> > > at the end?
+> >
+> > You need a fence to set the deadline, and for that work needs to be
+> > flushed.  But you can't associate a deadline with work that the kernel
+> > is unaware of anyways.
+>
+> That makes sense, but it might also a bit inadequate to have it as the
+> only way to tell the kernel it should speed things up. Even with the
+> trick i915 does, with GNOME Shell, we still end up with the feedback
+> loop this series aims to mitigate. Doing triple buffering, i.e. delaying
+> or dropping the first frame is so far the best work around that works,
+> except doing other tricks that makes the kernel to ramp up its clock.
+> Having to rely on choosing between latency and frame drops should
+> ideally not have to be made.
 
-  The libvirt xml file is here: https://rostedt.org/vm-images/tracetest-32.xml
-  and the VM image itself is here: https://rostedt.org/vm-images/tracetest-32.qcow2.bz2
+Before you have a fence, the thing you want to be speeding up is the
+CPU, not the GPU.  There are existing mechanisms for that.
 
-> 
-> Can you apply this code snippet here and see if you get any warning in 
-> the system logs?
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 459f1b4440da..efc390bfd69c 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -314,6 +314,7 @@ static void ttm_bo_delayed_delete(struct work_struct 
-> *work)
->          dma_resv_lock(bo->base.resv, NULL);
->          ttm_bo_cleanup_memtype_use(bo);
->          dma_resv_unlock(bo->base.resv);
-> +       bo->delayed_delete.func = NULL;
->          ttm_bo_put(bo);
->   }
-> 
-> @@ -327,6 +328,8 @@ static void ttm_bo_release(struct kref *kref)
->          WARN_ON_ONCE(bo->pin_count);
->          WARN_ON_ONCE(bo->bulk_move);
-> 
-> +       WARN_ON(bo->delayed_delete.func != NULL);
-> +
->          if (!bo->deleted) {
->                  ret = ttm_bo_individualize_resv(bo);
->                  if (ret) {
-> 
+TBF I'm of the belief that there is still a need for input based cpu
+boost (and early wake-up trigger for GPU).. we have something like
+this in CrOS kernel.  That is a bit of a different topic, but my point
+is that fence deadlines are just one of several things we need to
+optimize power/perf and responsiveness, rather than the single thing
+that solves every problem under the sun ;-)
 
-The WARN_ON triggered:
+> >
+> > > What I'm more or less trying to ask is, will a mode setting composito=
+r
+> > > be able to tell the kernel to boost its clocks at the time it knows i=
+s
+> > > best, and how will it in practice achieve this?
+> >
+> > The anticipated usage for a compositor is that, when you receive a
+> > <buf, fence> pair from an app, you immediately set a deadline for
+> > upcoming start-of-vblank on the fence fd passed from the app.  (Or for
+> > implicit sync you can use DMA_BUF_IOCTL_EXPORT_SYNC_FILE).  For the
+> > composite step, no need to set a deadline as this is already done on
+> > the kernel side in drm_atomic_helper_wait_for_fences().
+>
+> So it sounds like the new uapi will help compositors that do not draw
+> with the intention of page flipping anything, and compositors that
+> deliberately delay the commit. I suppose with proper target presentation
+> time integration EGL/Vulkan WSI can set deadlines them as well. All that
+> sounds like a welcomed improvement, but I'm not convinced it's enough to
+> solve the problems we currently face.
 
-[   21.481449] mpls_gso: MPLS GSO support
-[   21.488795] IPI shorthand broadcast: enabled
-[   21.488873] ------------[ cut here ]------------
-[   21.490101] ------------[ cut here ]------------
+Yeah, like I mentioned this addresses one issue, giving the GPU kernel
+driver better information for freq mgmt.  But there probably isn't one
+single solution for everything.
 
-[   21.491693] WARNING: CPU: 1 PID: 38 at drivers/gpu/drm/ttm/ttm_bo.c:332 ttm_bo_release+0x2ac/0x2fc  <<<---- Line of the added WARN_ON()
+> >
+> > > For example relying on the atomic mode setting commit setting the
+> > > deadline is fundamentally flawed, since user space will at times want=
+ to
+> > > purposefully delay committing until as late as possible, without doin=
+g
+> > > so causing an increased risk of missing the deadline due to the kerne=
+l
+> > > not speeding up clocks at the right time for GPU work that has alread=
+y
+> > > been flushed long ago.
+> >
+> > Right, this is the point for exposing the ioctl to userspace.
+> >
+> > > Relying on commits also has no effect on GPU work queued by
+> > > a compositor drawing only to dma-bufs that are never intended to be
+> > > presented using mode setting. How can we make sure a compositor can
+> > > provide hints that the kernel will know to respect despite the
+> > > compositor not being drm master?
+> >
+> > It doesn't matter if there are indirect dependencies.  Even if the
+> > compositor completely ignores deadline hints and fancy tricks like
+> > delaying composite decisions, the indirect dependency (app rendering)
+> > will delay the direct dependency (compositor rendering) of the page
+> > flip.  So the driver will still see whether it is late or early
+> > compared to the deadline, allowing it to adjust freq in the
+> > appropriate direction for the next frame.
+>
+> Is it expected that WSI's will set their own deadlines, or should that
+> be the job of the compositor? For example by using compositors using
+> DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
+> deadline matching the vsync it most ideally will be committed to?
+>
 
-[   21.492940] refcount_t: underflow; use-after-free.
-[   21.492965] WARNING: CPU: 0 PID: 84 at lib/refcount.c:28 refcount_warn_saturate+0xb6/0xfc
-[   21.496116] Modules linked in:
-[   21.497197] Modules linked in:
-[   21.500105] CPU: 1 PID: 38 Comm: kworker/1:1 Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #993
-[   21.500789] CPU: 0 PID: 84 Comm: kworker/0:1H Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #993
-[   21.501882] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
-[   21.503533] sched_clock: Marking stable (20788024762, 714243692)->(22140778105, -638509651)
-[   21.504080] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
-[   21.504089] Workqueue: ttm ttm_bo_delayed_delete
-[   21.507196] Workqueue: events drm_fb_helper_damage_work
-[   21.509235] 
-[   21.510291] registered taskstats version 1
-[   21.510302] Running ring buffer tests...
-[   21.511792] 
-[   21.513870] EIP: refcount_warn_saturate+0xb6/0xfc
-[   21.515261] EIP: ttm_bo_release+0x2ac/0x2fc
-[   21.516566] Code: 68 00 27 0c d8 e8 36 3b aa ff 0f 0b 58 c9 c3 90 80 3d 41 c2 37 d8 00 75 8a c6 05 41 c2 37 d8 01 68 2c 27 0c d8 e8 16 3b aa ff <0f> 0b 59 c9 c3 80 3d 3f c2 37 d8 00 0f 85 67 ff ff ff c6 05 3f c2
-[   21.516998] Code: ff 8d b4 26 00 00 00 00 66 90 0f 0b 8b 43 10 85 c0 0f 84 a1 fd ff ff 8d 76 00 0f 0b 8b 43 28 85 c0 0f 84 9c fd ff ff 8d 76 00 <0f> 0b e9 92 fd ff ff 8d b4 26 00 00 00 00 66 90 c7 43 18 00 00 00
-[   21.517905] EAX: 00000026 EBX: c129d150 ECX: 00000040 EDX: 00000002
-[   21.518987] EAX: d78c8550 EBX: c129d134 ECX: c129d134 EDX: 00000001
-[   21.519337] ESI: c129d0bc EDI: f6f91200 EBP: c2b8bf18 ESP: c2b8bf14
-[   21.520617] ESI: c129d000 EDI: c126a7a0 EBP: c1839c24 ESP: c1839bec
-[   21.521546] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010286
-[   21.526154] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010286
-[   21.526162] CR0: 80050033 CR2: 00000000 CR3: 18506000 CR4: 00150ef0
-[   21.526166] Call Trace:
-[   21.526189]  ? ww_mutex_unlock+0x3a/0x94
-[   21.530300] CR0: 80050033 CR2: ff9ff000 CR3: 18506000 CR4: 00150ef0
-[   21.531722]  ? ttm_bo_cleanup_refs+0xc4/0x1e0
-[   21.533114] Call Trace:
-[   21.534516]  ttm_mem_evict_first+0x3d3/0x568
-[   21.535901]  ttm_bo_delayed_delete+0x9c/0xa4
-[   21.537391]  ? kfree+0x6b/0xdc
-[   21.538901]  process_one_work+0x21a/0x484
-[   21.540279]  ? ttm_range_man_alloc+0xe0/0xec
-[   21.540854]  worker_thread+0x14a/0x39c
-[   21.541714]  ? ttm_range_man_fini_nocheck+0xe8/0xe8
-[   21.543332]  kthread+0xea/0x10c
-[   21.544301]  ttm_bo_mem_space+0x1d0/0x1e4
-[   21.544942]  ? process_one_work+0x484/0x484
-[   21.545887]  ttm_bo_validate+0xc5/0x19c
-[   21.546986]  ? kthread_complete_and_exit+0x1c/0x1c
-[   21.547680]  ttm_bo_init_reserved+0x15e/0x1fc
-[   21.548716]  ret_from_fork+0x1c/0x28
-[   21.549650]  qxl_bo_create+0x145/0x20c
+I'm kind of assuming compositors, but if the WSI somehow has more
+information about ideal presentation time, then I suppose it could be
+in the WSI?  I'll defer to folks who spend more time on WSI and
+compositors to hash out the details ;-)
 
-Note, this is all on boot up before user space is running.
+BR,
+-R
 
--- Steve
+>
+> Jonas
+>
+> >
+> > BR,
+> > -R
+> >
+> > >
+> > > Jonas
+> > >
+> > > > + *
+> > > > + * Multiple deadlines may be set on a given fence, even in paralle=
+l.  See the
+> > > > + * documentation for &dma_fence_ops.set_deadline.
+> > > > + *
+> > > > + * The deadline hint is just that, a hint.  The driver that create=
+d the fence
+> > > > + * may react by increasing frequency, making different scheduling =
+choices, etc.
+> > > > + * Or doing nothing at all.
+> > > > + */
+> > > > +
+> > > > +/**
+> > > > + * dma_fence_set_deadline - set desired fence-wait deadline hint
+> > > > + * @fence:    the fence that is to be waited on
+> > > > + * @deadline: the time by which the waiter hopes for the fence to =
+be
+> > > > + *            signaled
+> > > > + *
+> > > > + * Give the fence signaler a hint about an upcoming deadline, such=
+ as
+> > > > + * vblank, by which point the waiter would prefer the fence to be
+> > > > + * signaled by.  This is intended to give feedback to the fence si=
+gnaler
+> > > > + * to aid in power management decisions, such as boosting GPU freq=
+uency
+> > > > + * if a periodic vblank deadline is approaching but the fence is n=
+ot
+> > > > + * yet signaled..
+> > > > + */
+> > > > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadl=
+ine)
+> > > > +{
+> > > > +     if (fence->ops->set_deadline && !dma_fence_is_signaled(fence)=
+)
+> > > > +             fence->ops->set_deadline(fence, deadline);
+> > > > +}
+> > > > +EXPORT_SYMBOL(dma_fence_set_deadline);
+> > > > +
+> > > >  /**
+> > > >   * dma_fence_describe - Dump fence describtion into seq_file
+> > > >   * @fence: the 6fence to describe
+> > > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> > > > index 775cdc0b4f24..d54b595a0fe0 100644
+> > > > --- a/include/linux/dma-fence.h
+> > > > +++ b/include/linux/dma-fence.h
+> > > > @@ -257,6 +257,26 @@ struct dma_fence_ops {
+> > > >        */
+> > > >       void (*timeline_value_str)(struct dma_fence *fence,
+> > > >                                  char *str, int size);
+> > > > +
+> > > > +     /**
+> > > > +      * @set_deadline:
+> > > > +      *
+> > > > +      * Callback to allow a fence waiter to inform the fence signa=
+ler of
+> > > > +      * an upcoming deadline, such as vblank, by which point the w=
+aiter
+> > > > +      * would prefer the fence to be signaled by.  This is intende=
+d to
+> > > > +      * give feedback to the fence signaler to aid in power manage=
+ment
+> > > > +      * decisions, such as boosting GPU frequency.
+> > > > +      *
+> > > > +      * This is called without &dma_fence.lock held, it can be cal=
+led
+> > > > +      * multiple times and from any context.  Locking is up to the=
+ callee
+> > > > +      * if it has some state to manage.  If multiple deadlines are=
+ set,
+> > > > +      * the expectation is to track the soonest one.  If the deadl=
+ine is
+> > > > +      * before the current time, it should be interpreted as an im=
+mediate
+> > > > +      * deadline.
+> > > > +      *
+> > > > +      * This callback is optional.
+> > > > +      */
+> > > > +     void (*set_deadline)(struct dma_fence *fence, ktime_t deadlin=
+e);
+> > > >  };
+> > > >
+> > > >  void dma_fence_init(struct dma_fence *fence, const struct dma_fenc=
+e_ops *ops,
+> > > > @@ -583,6 +603,8 @@ static inline signed long dma_fence_wait(struct=
+ dma_fence *fence, bool intr)
+> > > >       return ret < 0 ? ret : 0;
+> > > >  }
+> > > >
+> > > > +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadl=
+ine);
+> > > > +
+> > > >  struct dma_fence *dma_fence_get_stub(void);
+> > > >  struct dma_fence *dma_fence_allocate_private_stub(void);
+> > > >  u64 dma_fence_context_alloc(unsigned num);
+> > > > --
+> > > > 2.39.2
+> > > >
