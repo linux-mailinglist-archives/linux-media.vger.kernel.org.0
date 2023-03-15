@@ -2,153 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C665A6BC1A9
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 00:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 930796BC1A5
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 00:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230333AbjCOXpK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Mar 2023 19:45:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43524 "EHLO
+        id S233234AbjCOXmt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Mar 2023 19:42:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233108AbjCOXoz (ORCPT
+        with ESMTP id S233240AbjCOXme (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 19:44:55 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2070f.outbound.protection.outlook.com [IPv6:2a01:111:f403:700c::70f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBE351FA6
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 16:44:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OOKyEzEnfBKAqbNKKxPwbYb/5IPDfIYAZZabzhZ9uiG8uMXUbrVqEtfx3z4HViZIoWSk/auV9fty+0KhiRs3Ioxu4R2e0zUfeLsqX0evgnQvPO/9AxQMqFndXnZqkQkFlNxWaNYN2iT2ebrIletweLCrEXveLF/NzYBYmpBE6iL5+t9rJ0JURDZjjTEBk1JgyoC1f0DhTdaip8mTM9eaKHexR+IccS7zlTrPbKrvyftdROaLGZ6OxZqrRDxt2tMNxXawmbhWSNASP9JLIvxe6UszZMBvx8PEBnbVLkFd1y6eEJqNog8WIrFKYLeFbt1TI/gA4PFqdnfXSnEQsTg2Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=egCPtQeRckyDu9zaf70OdeqgPOLRzsClD4tB1NVPG4w=;
- b=ixrSjs1oPYdmuJsei/w2xVaqFbGjem5/ZXgfStjJ8IoS9PwGElwTn6uQEYaU+uqg3xp0+DElt7ofOv+wD/r6apKhLPOmy2dJi+iv8cb7LpSt2FlIxhiMoZcqZUYR0QIVFj0e4ryVpO1QlAc6J6tpeW+vexje0DpWFiPqcQpPfieiSr8AncWuFiJb8LrkFlKXTPZEocWKOV4P0nFIY9ibnss4LQUMGbH0IafnNHxAsC/pPz7n6mCK6Tqs0Gh5Q50MAv27YLuYFxV2G+j3koYRsnSWxWAdGHRdf6AM7SpthDM20EAVf8/d4x8ZRGhv2hz32Wi4ouNEXz0um/tNZU3qdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=egCPtQeRckyDu9zaf70OdeqgPOLRzsClD4tB1NVPG4w=;
- b=hV8w73+mJyb5/8JtbG0++MwQ3ff3Lfs04T4vlsHx5SlYsgBunOwa9ga0apwT2x4ry1dgjPdnKmnE3wMrIGB9nW8LIXAsosRqoPInR2fh45MBEXJvHzgcTqq1hyMraKPagsJBPwB7E8CvpmFzU1x1aCVlnM/15Zppo2f5Gr79sBw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by TY3PR01MB12049.jpnprd01.prod.outlook.com (2603:1096:400:408::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.30; Wed, 15 Mar
- 2023 23:38:09 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::e03e:1938:695b:f472]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::e03e:1938:695b:f472%7]) with mapi id 15.20.6178.031; Wed, 15 Mar 2023
- 23:38:09 +0000
-Message-ID: <87edpp1t7j.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH] media: i2c: imx290: care CONFIG_PM
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-To:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=US-ASCII
-Date:   Wed, 15 Mar 2023 23:38:08 +0000
-X-ClientProxiedBy: TYCPR01CA0074.jpnprd01.prod.outlook.com
- (2603:1096:405:3::14) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+        Wed, 15 Mar 2023 19:42:34 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C671273011
+        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 16:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678923696; x=1710459696;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ke0hmfx59qkGDbp2j8xWS9KEQdipUHzjtNcPr7NwLAI=;
+  b=jOcXoZ3kDg23i7mLRAnkPC3CixnhgfeKj6tIlf1NKrymRbAVniAU6X9V
+   WmjkaytLnIg2YkXABC5owoiqJkvHSwtlxmO7naDHrTgMsn/5TZM7C15ul
+   7n9//etkHEqQMFkvVAcrjR5MVnkTwMG77PsoFud7/YsnKALlDcPztmSWg
+   HOEDChezDFGdm54DOdXUIcpEeqFZ1RJ7ibf9o8A/HxekEaSVL4OTK2ogo
+   igsHaJJWTYfWKbXfT+4dMEYGVpwFY9xx1177iA0Lo02LUoRShE0+pcsRx
+   4JPG6HuvMdqICpw34GohLAym6EED3FBMZM83Wbxxx1dzOXF5AWQxG7/Sk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="337859492"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="337859492"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 16:40:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="743901603"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="743901603"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Mar 2023 16:40:13 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pcaj6-00087v-25;
+        Wed, 15 Mar 2023 23:40:12 +0000
+Date:   Thu, 16 Mar 2023 07:39:52 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [sailus-media-tree:master 50/68] drivers/media/i2c/ov2685.c:408:24:
+ error: implicit declaration of function 'v4l2_subdev_get_try_crop'
+Message-ID: <202303160714.dOJ3WZdw-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|TY3PR01MB12049:EE_
-X-MS-Office365-Filtering-Correlation-Id: cec8ede1-9e7d-4ce2-7ce1-08db25ae5570
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8W+rkESsQnZWybezWpPhGB0gqhyGRCcgYbJXmV+An1gz6T5n/+0u7NFEDjNvI24P5mHhDVRvjZZFlpE/k/epYl/PQZ2nqpmgoKLDD9adGwLwAi82680hvMD7c78oAwbZeOZJGp3V3b6Nka5TGbB3l+5dUec2JljB7p9VPIvy/cPw6gR+O7wg98YXp+Apg7rVQaM/DoLhDQtVL4G3tlDpJVA4lhk7wt3Uizc1164gzQ9YCAHobWHBV5rjSEkpapjDkLaQt8HNMDohKrth2PYXKE40vOs82PolSJhvb9RVo6Kp9iQ/whsgh7WlZQAtEYYeO7/0CCvOAxQ3UPdSDniObhNrTgPT0iMjqK6MGtO6gPNYxT2t8qbF0d5FqHqFB2gh6fkagpdiWOY6n8NFVIWmjmBSYhrIEKNHTx31BvJkiUhsyrVaAutp6xbzm/WcSzg2jYHfJEi9qiQO3MYyaawCqNKF2DnDDgKWroaZ5wz5HVGa/uOWZMRd7nThEWdnfR3Oo4JVgIVe1oHv056/3Gs6GmCERJUzBO8ywIheOK7k6/kqvuBM5lNGXMNiMa1gq/1hhjWUk3ZSiwWODtAHdB8Y9toCubWBWgo+SPG9Zl6Mk/EdqUg3ZyjvE+GI1tEBiZ8jQ01qSfyzwepnBUielX0zo6eA3QS58GegJLgPacNd0W7uFFH1fwqO9qz5ejUfx7TZEjicpYlZf7QchRVmspNIJg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(451199018)(41300700001)(5660300002)(8936002)(2906002)(38100700002)(38350700002)(36756003)(86362001)(52116002)(478600001)(66946007)(66556008)(66476007)(8676002)(6486002)(83380400001)(4326008)(110136005)(316002)(186003)(2616005)(6512007)(6506007)(26005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l5I2WOEH/eQoSV1qsh1x9fAT7fK3SNIIgXhsnIi85NlhR9GU0H+B7RbmRRjv?=
- =?us-ascii?Q?/whyUWTy0CZTE7WB2ewDUyqFq1XH0ztNY0fAg58cdtyK8uf556zkRfYrlL4v?=
- =?us-ascii?Q?rkFt5rNWzCtaOD2/gvqAVbvC1kqPPi1AbbScsOUNd0rOdKgTQMVa7jZrmjl2?=
- =?us-ascii?Q?WexV4Jrk+FEjC7loqGqM368mubnwp1ZKJ3tREjcVU/KoyfHnoa5BvZx9CwRn?=
- =?us-ascii?Q?ggwDPL3JJuTO3kkx+797BFBWOZ/fixZq9hNpTtqg5mNuJ7CI2EpmC3u7Oqvq?=
- =?us-ascii?Q?pddC9h2PQToFg1IROyDLMhQ1dY0IjjxUjPgEolxeT4h6JouYYq9E933bGkRq?=
- =?us-ascii?Q?SSuUXh3e1Qt5RCfDYdx5Ke3pKi4wfjTycTaxTdfFCvDMpJ5iJo6701/Pk2AV?=
- =?us-ascii?Q?qayAUuoduDrlUSoVdq6WpYTqeN4ghvEc3bovw0BkfrSokUdGh1JPeo5n15DJ?=
- =?us-ascii?Q?UJbxI+x2gjbUduJftaufv+aG9KpvhFB8KD/0siQF35K6g6k/ucIexOU2pAY5?=
- =?us-ascii?Q?QDX5GYmREmBz4m8JcbH23Zs432sNmCNkrMkvXt7pFTPJKu5taJ9W5UCiqj9i?=
- =?us-ascii?Q?xpTGKTeBn/HMBShCbLBu5DFAtsJotWW709SyKJNl3SVOAQGfF9IoIIlZzEtx?=
- =?us-ascii?Q?b5frusS56BPqU+wHXCl+rFGFoyzGjS/L4Y93LCnC0JYOg1RXgd7Ei7dD+bag?=
- =?us-ascii?Q?kinzvEP1BWRcY6KvFTXYyaT/W0nTR2R3rcZhJkbN7sV+l3iLrC/ihHhik6eu?=
- =?us-ascii?Q?ufd+LhtmYLuhw++UIEPEfcQ6U92q1TvFdBe6DnEgJ2KSSPSenmBh9J0HWEZA?=
- =?us-ascii?Q?EindAc0DJyFIijq3YPkntcrLPEUzb131p1xqmWlULD9nqf6V0NdAxvsuy2jT?=
- =?us-ascii?Q?Zow6lloj9f4dYOPe6/elJekPkNnuvkfxQHo4YHtRDXTvRmoXD8kjTfoNynvN?=
- =?us-ascii?Q?Y09bTnLSRT9HnKgdN50eW3+iOTqjlDkTxjrlW4b2tKL+WGla09CzXHTXMOPd?=
- =?us-ascii?Q?DwNrSVjDpLZ7n42ATRQLyOAfYrWlhkMKBv+5G1AGql4nIcqZ0dR12bY3x5oD?=
- =?us-ascii?Q?KPfXuXBTn2Nakwi8lu3pSea5+3FAvn/PxQYPtYfHlXvQPWYpaiC46BBKXJlY?=
- =?us-ascii?Q?HenjKS1rJgVucVnOdHUgAVX9Nuiwdm28FatImjGxr0fA/4kIzHcvTiY+qP8W?=
- =?us-ascii?Q?YrRHXv5MRzfAOHWLDl5WugC0wUVEjy+HtLmByTJP6F5UtPuuTdxQuViMHBzF?=
- =?us-ascii?Q?0e536kj5KHv3NHS4nmSkpHOBSou2/iqhm0Z+mLX7rNyyjYN1ycvXgoOrQI5y?=
- =?us-ascii?Q?kdgILJrbfH878T79xlsYVt33n1eEXaVhAiEDSoKhrn1JqR/RjnGFN1reY0J0?=
- =?us-ascii?Q?yiM97SQcDEj0ewSoxhS+q9vj2HSd2usO7A5VrSUnqI3+NHqxpttg5p39T9p3?=
- =?us-ascii?Q?vOpn3ZVRZLnWyJgUGGbAUCk52EoCVcZpyNhN3M/7icmudirRvoOSRLsRSvQA?=
- =?us-ascii?Q?x66mL2ixhIuD6s681SufMpR9acC0IUwU607jeMrUXrHIlMrdfswiAzubWOmf?=
- =?us-ascii?Q?cFvzilS9hDNvAldLjaUfRp3ihnge5FSFbW2qpqKL2o/Q/mRVk1ckdJfEJ6x7?=
- =?us-ascii?Q?BJkkHMnvBGwrB3ArMP2BJRs=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cec8ede1-9e7d-4ce2-7ce1-08db25ae5570
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 23:38:09.1967
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZatcSmX3t5DsyZzb34aPCM1YwmAxfBnZnKpPt8C11/XZwOF0boLhpxSt8ifk9hENJerx4k0r8p1cxEAQ9IApW03nYEbp8PepDd8aXVCh5AfltCNrIQxE6j/+rfgiXt//
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB12049
-X-Spam-Status: No, score=-0.6 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is using SET_RUNTIME_PM_OPS(), thus we need to care about CONFIG_PM.
-Otherwise, we will get below error without it.
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   fe3eff3ec489e6ea226ac38fe84d40583fe4298b
+commit: 5a073632109dd9a9721812f43ce272e0f7859fa7 [50/68] media: i2c: ov2685: Add .get_selection() support
+config: arc-buildonly-randconfig-r001-20230312 (https://download.01.org/0day-ci/archive/20230316/202303160714.dOJ3WZdw-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
+        git fetch --no-tags sailus-media-tree master
+        git checkout 5a073632109dd9a9721812f43ce272e0f7859fa7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/i2c/
 
-${Linux}/drivers/media/i2c/imx290.c:1090:12: error:\
- 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]
- 1090 | static int imx290_runtime_suspend(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~~~~~
-${Linux}/drivers/media/i2c/imx290.c:1082:12: error: \
- 'imx290_runtime_resume' defined but not used [-Werror=unused-function]
- 1082 | static int imx290_runtime_resume(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~~~~
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303160714.dOJ3WZdw-lkp@intel.com/
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- drivers/media/i2c/imx290.c | 2 ++
- 1 file changed, 2 insertions(+)
+All error/warnings (new ones prefixed by >>):
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 49d6c8bdec41..5f15b51dfdd3 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -1079,6 +1079,7 @@ static void imx290_power_off(struct imx290 *imx290)
- 	regulator_bulk_disable(ARRAY_SIZE(imx290->supplies), imx290->supplies);
- }
- 
-+#ifdef CONFIG_PM
- static int imx290_runtime_resume(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-@@ -1096,6 +1097,7 @@ static int imx290_runtime_suspend(struct device *dev)
- 
- 	return 0;
- }
-+#endif
- 
- static const struct dev_pm_ops imx290_pm_ops = {
- 	SET_RUNTIME_PM_OPS(imx290_runtime_suspend, imx290_runtime_resume, NULL)
+   drivers/media/i2c/ov2685.c: In function '__ov2685_get_pad_crop':
+>> drivers/media/i2c/ov2685.c:408:24: error: implicit declaration of function 'v4l2_subdev_get_try_crop' [-Werror=implicit-function-declaration]
+     408 |                 return v4l2_subdev_get_try_crop(&ov2685->subdev, state, pad);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/i2c/ov2685.c:408:24: warning: returning 'int' from a function with return type 'const struct v4l2_rect *' makes pointer from integer without a cast [-Wint-conversion]
+     408 |                 return v4l2_subdev_get_try_crop(&ov2685->subdev, state, pad);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/v4l2_subdev_get_try_crop +408 drivers/media/i2c/ov2685.c
+
+   398	
+   399	static const struct v4l2_rect *
+   400	__ov2685_get_pad_crop(struct ov2685 *ov2685,
+   401			      struct v4l2_subdev_state *state, unsigned int pad,
+   402			      enum v4l2_subdev_format_whence which)
+   403	{
+   404		const struct ov2685_mode *mode = ov2685->cur_mode;
+   405	
+   406		switch (which) {
+   407		case V4L2_SUBDEV_FORMAT_TRY:
+ > 408			return v4l2_subdev_get_try_crop(&ov2685->subdev, state, pad);
+   409		case V4L2_SUBDEV_FORMAT_ACTIVE:
+   410			return mode->analog_crop;
+   411		}
+   412	
+   413		return NULL;
+   414	}
+   415	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
