@@ -2,189 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9F476BAD59
-	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 11:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3466BAD6D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 11:18:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232314AbjCOKQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Mar 2023 06:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
+        id S231852AbjCOKS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Mar 2023 06:18:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232303AbjCOKQW (ORCPT
+        with ESMTP id S232414AbjCOKSq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 06:16:22 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F8D41BFD;
-        Wed, 15 Mar 2023 03:15:41 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4Pc5r70C0zzyWK;
-        Wed, 15 Mar 2023 12:15:34 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1678875335;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QBLC5PGoB3NkXvs+oeGK9GvnZ0dZH4DahY5N86jeNes=;
-        b=NjBBXfPRIwxvMLLnlq6rtXiqHtBZc7I5mDV3+A+l1o/XZGQ5TY1wHVwANtr3UxDpldTEMf
-        YObOW63ffwHNG6X57NWWD3+hJiTcbbT2w3EYd86ZXFtM+hix4DZzVIWzU6SLy/BeJu9eo7
-        WNFwmYahxqHeVyH0z6za1ICO9l82CVc=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1678875335; a=rsa-sha256; cv=none;
-        b=XEp2UaTpFnkeI4b1W3BkA5ngOZjA3BATeOfR+SsguANctnSUaQQ7KOjm9Gd7k+YG0qFcBF
-        qLioTDwYqlPLMowGaUZZXxI3efuClhi8NpYJxrmWpxYAV7CAX841PGKPTpLAd0OiM6BuAr
-        ODZVb9uvAhYXbFD7SE5cr3J4z1HW8/Y=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1678875335;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QBLC5PGoB3NkXvs+oeGK9GvnZ0dZH4DahY5N86jeNes=;
-        b=KCIG01c25rIFjsS9Hd7sNaYKzO88CuITKbAB4gkawAptvFWt7Q/Ag0Ji5sdObBUqS3OK0e
-        TYkneD2uu0Ba3tejhxwcA96DJm2kPs2NpaHCIMA5TimqOpaQVD2ecPxXPJnl+DUkraO/LV
-        59k0v0lLiSnM7i0ii6BRFWeyn6eBrVo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A4E1A634C92;
-        Wed, 15 Mar 2023 12:14:28 +0200 (EET)
-Date:   Wed, 15 Mar 2023 12:14:28 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm
-Subject: Re: [PATCHv3 1/2 RESEND] doc/media api: Try to make enum usage
- clearer
-Message-ID: <ZBGahMbA1fBrKLYP@valkosipuli.retiisi.eu>
-References: <20230219120034.5819b4ac.dorota.czaplejewicz@puri.sm>
+        Wed, 15 Mar 2023 06:18:46 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C75F139B9B
+        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 03:18:20 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id q11-20020a056830440b00b00693c1a62101so9980690otv.0
+        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 03:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678875499;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C+D7r5o17V7MbRD4rEUKPxc+NqVXUsVJyVbcYC8a9Kg=;
+        b=S9ioBUKruxchmg3LqAudFc5ju0v74S+G2v8jifnB0w5xwCOnD6bo5HwiMEGVvvhtWt
+         xOKv/QYtcSIYBbChJeN9eARRFm7yTOzF0t3UAG2BdzYj2fVsNc8CXajNTVjLNGqaYFR9
+         Ibrq+xcAq43xU7TGCcaH7ppyCH0BUBAOBP7Xd+YI8wdsPkB4Fmey04ezFJQ1FL85ZaBj
+         k+u0wGaZvCsg/8JAg3e2H9TN0Ed1zncjKbIciLhW0b07lSsDxY1AFoiNn8HCC3V3hgtU
+         PXwiWgbbQ/katmwNBeHKfYuxyMfhXu8w4YrUH/gFLO+eStAlHE056Z7P23iMsHpiJQ9V
+         uQqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678875499;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C+D7r5o17V7MbRD4rEUKPxc+NqVXUsVJyVbcYC8a9Kg=;
+        b=6uS1OPPAGmv2SvYsOUvIT7kW7UWIWVPbxwFTP1uBTabe9kIVT09EyxuvHxIBccVLeB
+         NHrHS1t9DPYM4niPCQGspn9uSRjwkwU7bqZROUh1mlpWvW4+mTekzz6Ejvl6c4LM23ZB
+         30uKS3ch9WiJ4gEDcWAMLkLytG0rBzgNsFX3hxWkDO6+6Fw0ywX9VuZqRoeF8+/hnBZp
+         NIayTRWjZxMQfiXfOPiUBpz0o55Gy218UKEmXcPyqFy5zZWLyYkf1mDfYTfryn5nPAtF
+         uNLt1mRu7LNXLddw42aFg+tNn/RXbKmEcYlmPxGjSBi2UfsR1/mP9+Zwh1tDIxH6Ifvm
+         Bv7w==
+X-Gm-Message-State: AO0yUKUrbXrfPFWkunrF8YCrk0I+hUtmfHVeprK6tDkO93Wh1jL/TUcu
+        nkF0MhxKeaf1yVpq4E5mDaok7gnlodvTJugsT3M=
+X-Google-Smtp-Source: AK7set9hAcqB9bV08yCjwuKfpN9GF7jmVeh9cFKZbN+u/RKFOqemYCQ+gAPPK/1AM053BBuV22jkYDQH36/YBt7/UVI=
+X-Received: by 2002:a9d:7194:0:b0:68b:d3f1:aa1b with SMTP id
+ o20-20020a9d7194000000b0068bd3f1aa1bmr13818045otj.3.1678875499558; Wed, 15
+ Mar 2023 03:18:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230219120034.5819b4ac.dorota.czaplejewicz@puri.sm>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6358:1a9c:b0:f6:c472:2ab1 with HTTP; Wed, 15 Mar 2023
+ 03:18:19 -0700 (PDT)
+Reply-To: hitnodeby23@yahoo.com
+From:   Hinda Itno Deby <rebender6@gmail.com>
+Date:   Wed, 15 Mar 2023 03:18:19 -0700
+Message-ID: <CAJ1QMTea23VDpCSQf-Tc+T7y_zE0U_MvyiPYVbfb2-1izuhm-g@mail.gmail.com>
+Subject: Reply
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM,UNDISC_MONEY,
+        URG_BIZ autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:332 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [rebender6[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [rebender6[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [hitnodeby23[at]yahoo.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.6 URG_BIZ Contains urgent matter
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dorota,
-
-On Sun, Feb 19, 2023 at 12:00:34PM +0100, Dorota Czaplejewicz wrote:
-> This clarifies which side of the calls is responsible for doing what to which parts of the struct.
-> This also explicitly states that repeating values are disallowed.
-> It also expands the terse description of the access algorithm into more prose-like, active voice description, which trades conciseness for ease of comprehension.
-
-The commit message lines should be wrapped at 74 characters. Please do use
-checkpatch.pl in the future. There is also no apparent reason to add a
-newline after a period.
-
-The same applies to the other patch as well.
-
-I've addressed the issues this time.
-
-> 
-> Added: mbus codes must not repeat
-> Added: no holes in the enumeration
-> Added: enumerations per what?
-> Added: who fills in what in calls
-> Changed: "zero" -> "0"
-> Changed: "given" -> "specified"
-> 
-> Still unclear how it works so didn't describe: "which". What is a "try format" vs "active format"?
-> 
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
-> Hi,
-> 
-> I took those patches out of the freezer. I made sure they still apply (they do), and corrected some errors pointed out by Jacopo in the previous round of reviews.
-
-Ditto.
-
-> 
-> Thanks,
-> Dorota
-> 
->  .../v4l/vidioc-subdev-enum-mbus-code.rst      | 38 +++++++++++++------
->  1 file changed, 26 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> index 417f1a19bcc4..63bff24d0520 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> @@ -31,15 +31,28 @@ Arguments
->  Description
->  ===========
->  
-> -To enumerate media bus formats available at a given sub-device pad
-> -applications initialize the ``pad``, ``which`` and ``index`` fields of
-> -struct
-> -:c:type:`v4l2_subdev_mbus_code_enum` and
-> -call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to this
-> -structure. Drivers fill the rest of the structure or return an ``EINVAL``
-> -error code if either the ``pad`` or ``index`` are invalid. All media bus
-> -formats are enumerable by beginning at index zero and incrementing by
-> -one until ``EINVAL`` is returned.
-> +This call is used by the application to access the enumeration
-> +of media bus formats for the selected pad.
-> +
-> +The enumerations are defined by the driver, and indexed using the ``index`` field
-> +of struct :c:type:`v4l2_subdev_mbus_code_enum`.
-> +Each enumeration starts with the ``index`` of 0, and
-> +the lowest invalid index marks the end of enumeration.
-> +
-> +Therefore, to enumerate media bus formats available at a given sub-device pad,
-> +initialize the ``pad``, and ``which`` fields to desired values,
-> +and set ``index`` to 0.
-> +Then call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl
-> +with a pointer to this structure.
-> +
-> +A successful call will return with the ``code`` field filled in
-> +with a mbus code value.
-> +Repeat with increasing ``index`` until ``EINVAL`` is received.
-> +``EINVAL`` means that either ``pad`` is invalid,
-> +or that there are no more codes available at this pad.
-> +
-> +The driver must not return the same value of ``code`` for different indices
-> +at the same pad.
->  
->  Available media bus formats may depend on the current 'try' formats at
->  other pads of the sub-device, as well as on the current active links.
-> @@ -57,14 +70,15 @@ information about the try formats.
->  
->      * - __u32
->        - ``pad``
-> -      - Pad number as reported by the media controller API.
-> +      - Pad number as reported by the media controller API. Filled in by the application.
-
-Here, too...
-
->      * - __u32
->        - ``index``
-> -      - Number of the format in the enumeration, set by the application.
-> +      - Index of the mbus code in the enumeration belonging to the given pad.
-> +    Filled in by the application.
-
-Wrong indentation.
-
->      * - __u32
->        - ``code``
->        - The media bus format code, as defined in
-> -	:ref:`v4l2-mbus-format`.
-> +	:ref:`v4l2-mbus-format`. Filled in by the driver.
->      * - __u32
->        - ``which``
->        - Media bus format codes to be enumerated, from enum
-
 -- 
-Regards,
+Hello
 
-Sakari Ailus
+My name is Hinda Itno Deby Please I want us to discuss Urgent Business
+Proposal, if you are interested kindly reply to me so i can give you
+all the details
+
+.Thanks and God Bless You.
+Ms Hinda Itno Deby
