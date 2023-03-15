@@ -2,64 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5DC36BB79D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 16:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4CAB6BB8CA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 16:58:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231953AbjCOPZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Mar 2023 11:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60108 "EHLO
+        id S232746AbjCOP6F convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 15 Mar 2023 11:58:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231673AbjCOPZQ (ORCPT
+        with ESMTP id S232623AbjCOP6B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 11:25:16 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 125E165BC;
-        Wed, 15 Mar 2023 08:25:15 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id q16so17674661wrw.2;
-        Wed, 15 Mar 2023 08:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678893913;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F1Tjdkcm9ANXGn5qxb6DEQ8TaNVeqrlKXE/a6qrBYv0=;
-        b=O3A6NoI86j6M1Fpyq/29vuO8MJ1QL+z3yixMg1bAnLe5zomimV5D7DYNWho9euqPah
-         hByHOA1i5cD10Pw9EfWJi9b7Lj5zzETcNJahWVEB+wD3qVRES79flC/38q82o3GovdEV
-         5v2lmHSCPKdH3cofEx8//4uuL24GotJ+b6p2Pow91bvFgnOLj5673MG8EM6wt0fzUkPO
-         m54U7YC6gKLmTqiKPJ9jyIOtpKxaiTAyF+8Pa6KCBPFNDz6AVwnwI9vCJOMo0C6i4YPU
-         0A9IXtr8D6cKUO9xYIXItBLcolDb0GA1DjJCrpAY0bcONaY8Dq6QS9fL96teIpos11mq
-         SGbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678893913;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F1Tjdkcm9ANXGn5qxb6DEQ8TaNVeqrlKXE/a6qrBYv0=;
-        b=tBkwiAxt7XdZFT7AZZlWU5eRpOkegbHI4E/Jo17qYk5i4Ett/p8Or7SE+YdiqoAFBw
-         WMOE7Hl+8V8WR6bOO+QoZO67mb//MkU2Os3VfZwfic60BsEEIGXTRQoViiYoWYdAmixt
-         Akdn9cW+Hof1cJtCO4hLnBwgqndi4zH4reeU71ToZHZhLWVLYOhUlOnTgRZauuaJbLxd
-         f4+qKW02LrzvOLrUs6NwF26zauhycap5Ogkv8oF36BSPJlDv+UlwJhRFjYoJmSRoMBki
-         OHUvZ8n49KIiur0JIavR6C4EraSwj+JhoRpDxUfCvAlT/j02NvC1m8VsQD1u+j+4FNvY
-         76zg==
-X-Gm-Message-State: AO0yUKXwzY8a3DdbedQPts26lG1hN9YheriwutHOh3o0UuJRJFJ8zAAi
-        5BgySB8y5pmslBzUW/hF4Ik=
-X-Google-Smtp-Source: AK7set8aLE6gJUe/UJpmlxdKFlAhVSGfuCFvLfWpHPxZSIXWu4cZ2oh/V5Dcjj07r4qXT8eSJKnIyA==
-X-Received: by 2002:adf:ee4f:0:b0:2cf:ef5d:4ee7 with SMTP id w15-20020adfee4f000000b002cfef5d4ee7mr2401506wro.69.1678893913468;
-        Wed, 15 Mar 2023 08:25:13 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:2e4a:9084:4119:9c9f? ([2a02:908:1256:79a0:2e4a:9084:4119:9c9f])
-        by smtp.gmail.com with ESMTPSA id b6-20020adfde06000000b002cfe466e894sm4795147wrm.38.2023.03.15.08.25.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Mar 2023 08:25:12 -0700 (PDT)
-Message-ID: <07597f3e-0b35-c22b-91ec-fa3875d6fe22@gmail.com>
-Date:   Wed, 15 Mar 2023 16:25:11 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [BUG 6.3-rc1] Bad lock in ttm_bo_delayed_delete()
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+        Wed, 15 Mar 2023 11:58:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB738C598;
+        Wed, 15 Mar 2023 08:57:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 95A51B81E68;
+        Wed, 15 Mar 2023 15:57:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E660C433EF;
+        Wed, 15 Mar 2023 15:57:14 +0000 (UTC)
+Date:   Wed, 15 Mar 2023 11:57:12 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
         intel-gfx@lists.freedesktop.org,
         Masami Hiramatsu <mhiramat@kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -67,114 +34,130 @@ Cc:     Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Felix Kuehling <Felix.Kuehling@amd.com>,
         linux-media@vger.kernel.org
+Subject: Re: [BUG 6.3-rc1] Bad lock in ttm_bo_delayed_delete()
+Message-ID: <20230315115712.56b3c21f@gandalf.local.home>
+In-Reply-To: <07597f3e-0b35-c22b-91ec-fa3875d6fe22@gmail.com>
 References: <20230307212223.7e49384a@gandalf.local.home>
- <20230307212615.7a099103@gandalf.local.home>
- <b919b550-6da8-f9f0-a0eb-0fd8af513817@amd.com>
- <20230315110949.1e11b3aa@gandalf.local.home>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230315110949.1e11b3aa@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        <20230307212615.7a099103@gandalf.local.home>
+        <b919b550-6da8-f9f0-a0eb-0fd8af513817@amd.com>
+        <20230315110949.1e11b3aa@gandalf.local.home>
+        <07597f3e-0b35-c22b-91ec-fa3875d6fe22@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 15.03.23 um 16:09 schrieb Steven Rostedt:
-> On Wed, 8 Mar 2023 07:17:38 +0100
-> Christian König <christian.koenig@amd.com> wrote:
->
->> Am 08.03.23 um 03:26 schrieb Steven Rostedt:
->>> On Tue, 7 Mar 2023 21:22:23 -0500
->>> Steven Rostedt <rostedt@goodmis.org> wrote:
->>>   
->>>> Looks like there was a lock possibly used after free. But as commit
->>>> 9bff18d13473a9fdf81d5158248472a9d8ecf2bd ("drm/ttm: use per BO cleanup
->>>> workers") changed a lot of this code, I figured it may be the culprit.
->>> If I bothered to look at the second warning after this one (I usually stop
->>> after the first), it appears to state there was a use after free issue.
->> Yeah, that looks like the reference count was somehow messed up.
->>
->> What test case/environment do you run to trigger this?
->>
->> Thanks for the notice,
-> I'm still getting this on Linus's latest tree.
+On Wed, 15 Mar 2023 16:25:11 +0100
+Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>
+> >> Thanks for the notice,  
+> > I'm still getting this on Linus's latest tree.  
+> 
+> This must be some reference counting issue which only happens in your 
+> particular use case. We have tested this quite extensively and couldn't 
+> reproduce it so far.
 
-This must be some reference counting issue which only happens in your 
-particular use case. We have tested this quite extensively and couldn't 
-reproduce it so far.
+Have you tried 32 bit with my config. I also sent a link to your previous
+email that gives access to the VM image I'm using that is triggering this
+issue.
 
-Can you apply this code snippet here and see if you get any warning in 
-the system logs?
+Here it is again:
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 459f1b4440da..efc390bfd69c 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -314,6 +314,7 @@ static void ttm_bo_delayed_delete(struct work_struct 
-*work)
-         dma_resv_lock(bo->base.resv, NULL);
-         ttm_bo_cleanup_memtype_use(bo);
-         dma_resv_unlock(bo->base.resv);
-+       bo->delayed_delete.func = NULL;
-         ttm_bo_put(bo);
-  }
+  The libvirt xml file is here: https://rostedt.org/vm-images/tracetest-32.xml
+  and the VM image itself is here: https://rostedt.org/vm-images/tracetest-32.qcow2.bz2
 
-@@ -327,6 +328,8 @@ static void ttm_bo_release(struct kref *kref)
-         WARN_ON_ONCE(bo->pin_count);
-         WARN_ON_ONCE(bo->bulk_move);
+> 
+> Can you apply this code snippet here and see if you get any warning in 
+> the system logs?
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 459f1b4440da..efc390bfd69c 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -314,6 +314,7 @@ static void ttm_bo_delayed_delete(struct work_struct 
+> *work)
+>          dma_resv_lock(bo->base.resv, NULL);
+>          ttm_bo_cleanup_memtype_use(bo);
+>          dma_resv_unlock(bo->base.resv);
+> +       bo->delayed_delete.func = NULL;
+>          ttm_bo_put(bo);
+>   }
+> 
+> @@ -327,6 +328,8 @@ static void ttm_bo_release(struct kref *kref)
+>          WARN_ON_ONCE(bo->pin_count);
+>          WARN_ON_ONCE(bo->bulk_move);
+> 
+> +       WARN_ON(bo->delayed_delete.func != NULL);
+> +
+>          if (!bo->deleted) {
+>                  ret = ttm_bo_individualize_resv(bo);
+>                  if (ret) {
+> 
 
-+       WARN_ON(bo->delayed_delete.func != NULL);
-+
-         if (!bo->deleted) {
-                 ret = ttm_bo_individualize_resv(bo);
-                 if (ret) {
+The WARN_ON triggered:
 
+[   21.481449] mpls_gso: MPLS GSO support
+[   21.488795] IPI shorthand broadcast: enabled
+[   21.488873] ------------[ cut here ]------------
+[   21.490101] ------------[ cut here ]------------
 
-Thanks,
-Christian.
+[   21.491693] WARNING: CPU: 1 PID: 38 at drivers/gpu/drm/ttm/ttm_bo.c:332 ttm_bo_release+0x2ac/0x2fc  <<<---- Line of the added WARN_ON()
 
->
-> [  230.530222] ------------[ cut here ]------------
-> [  230.569795] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-> [  230.569957] WARNING: CPU: 0 PID: 212 at kernel/locking/mutex.c:582 __ww_mutex_lock.constprop.0+0x62a/0x1300
-> [  230.612599] Modules linked in:
-> [  230.632144] CPU: 0 PID: 212 Comm: kworker/0:8H Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #992
-> [  230.654939] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
-> [  230.678866] Workqueue: ttm ttm_bo_delayed_delete
-> [  230.699452] EIP: __ww_mutex_lock.constprop.0+0x62a/0x1300
-> [  230.720582] Code: e8 3b 9a 95 ff 85 c0 0f 84 61 fa ff ff 8b 0d 58 bc 3a c4 85 c9 0f 85 53 fa ff ff 68 54 98 06 c4 68 b7 b6 04 c4 e8 46 af 40 ff <0f> 0b 58 5a e9 3b fa ff ff 8d 74 26 00 90 a1 ec 47 b0 c4 85 c0 75
-> [  230.768336] EAX: 00000028 EBX: 00000000 ECX: c51abdd8 EDX: 00000002
-> [  230.792001] ESI: 00000000 EDI: c53856bc EBP: c51abf00 ESP: c51abeac
-> [  230.815944] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010246
-> [  230.840033] CR0: 80050033 CR2: ff9ff000 CR3: 04506000 CR4: 00150ef0
-> [  230.864059] Call Trace:
-> [  230.886369]  ? ttm_bo_delayed_delete+0x30/0x94
-> [  230.909902]  ww_mutex_lock+0x32/0x94
-> [  230.932550]  ttm_bo_delayed_delete+0x30/0x94
-> [  230.955798]  process_one_work+0x21a/0x484
-> [  230.979335]  worker_thread+0x14a/0x39c
-> [  231.002258]  kthread+0xea/0x10c
-> [  231.024769]  ? process_one_work+0x484/0x484
-> [  231.047870]  ? kthread_complete_and_exit+0x1c/0x1c
-> [  231.071498]  ret_from_fork+0x1c/0x28
-> [  231.094701] irq event stamp: 4023
-> [  231.117272] hardirqs last  enabled at (4023): [<c3d1df99>] _raw_spin_unlock_irqrestore+0x2d/0x58
-> [  231.143217] hardirqs last disabled at (4022): [<c31d5a55>] kvfree_call_rcu+0x155/0x2ec
-> [  231.166058] softirqs last  enabled at (3460): [<c3d1f403>] __do_softirq+0x2c3/0x3bb
-> [  231.183104] softirqs last disabled at (3455): [<c30c96a9>] call_on_stack+0x45/0x4c
-> [  231.200336] ---[ end trace 0000000000000000 ]---
-> [  231.216572] ------------[ cut here ]------------
->
->
-> This is preventing me from adding any of my own patches on v6.3-rcX due to
-> this bug failing my tests. Which means I can't add anything to linux-next
-> until this is fixed!
->
-> -- Steve
+[   21.492940] refcount_t: underflow; use-after-free.
+[   21.492965] WARNING: CPU: 0 PID: 84 at lib/refcount.c:28 refcount_warn_saturate+0xb6/0xfc
+[   21.496116] Modules linked in:
+[   21.497197] Modules linked in:
+[   21.500105] CPU: 1 PID: 38 Comm: kworker/1:1 Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #993
+[   21.500789] CPU: 0 PID: 84 Comm: kworker/0:1H Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #993
+[   21.501882] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
+[   21.503533] sched_clock: Marking stable (20788024762, 714243692)->(22140778105, -638509651)
+[   21.504080] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
+[   21.504089] Workqueue: ttm ttm_bo_delayed_delete
+[   21.507196] Workqueue: events drm_fb_helper_damage_work
+[   21.509235] 
+[   21.510291] registered taskstats version 1
+[   21.510302] Running ring buffer tests...
+[   21.511792] 
+[   21.513870] EIP: refcount_warn_saturate+0xb6/0xfc
+[   21.515261] EIP: ttm_bo_release+0x2ac/0x2fc
+[   21.516566] Code: 68 00 27 0c d8 e8 36 3b aa ff 0f 0b 58 c9 c3 90 80 3d 41 c2 37 d8 00 75 8a c6 05 41 c2 37 d8 01 68 2c 27 0c d8 e8 16 3b aa ff <0f> 0b 59 c9 c3 80 3d 3f c2 37 d8 00 0f 85 67 ff ff ff c6 05 3f c2
+[   21.516998] Code: ff 8d b4 26 00 00 00 00 66 90 0f 0b 8b 43 10 85 c0 0f 84 a1 fd ff ff 8d 76 00 0f 0b 8b 43 28 85 c0 0f 84 9c fd ff ff 8d 76 00 <0f> 0b e9 92 fd ff ff 8d b4 26 00 00 00 00 66 90 c7 43 18 00 00 00
+[   21.517905] EAX: 00000026 EBX: c129d150 ECX: 00000040 EDX: 00000002
+[   21.518987] EAX: d78c8550 EBX: c129d134 ECX: c129d134 EDX: 00000001
+[   21.519337] ESI: c129d0bc EDI: f6f91200 EBP: c2b8bf18 ESP: c2b8bf14
+[   21.520617] ESI: c129d000 EDI: c126a7a0 EBP: c1839c24 ESP: c1839bec
+[   21.521546] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010286
+[   21.526154] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010286
+[   21.526162] CR0: 80050033 CR2: 00000000 CR3: 18506000 CR4: 00150ef0
+[   21.526166] Call Trace:
+[   21.526189]  ? ww_mutex_unlock+0x3a/0x94
+[   21.530300] CR0: 80050033 CR2: ff9ff000 CR3: 18506000 CR4: 00150ef0
+[   21.531722]  ? ttm_bo_cleanup_refs+0xc4/0x1e0
+[   21.533114] Call Trace:
+[   21.534516]  ttm_mem_evict_first+0x3d3/0x568
+[   21.535901]  ttm_bo_delayed_delete+0x9c/0xa4
+[   21.537391]  ? kfree+0x6b/0xdc
+[   21.538901]  process_one_work+0x21a/0x484
+[   21.540279]  ? ttm_range_man_alloc+0xe0/0xec
+[   21.540854]  worker_thread+0x14a/0x39c
+[   21.541714]  ? ttm_range_man_fini_nocheck+0xe8/0xe8
+[   21.543332]  kthread+0xea/0x10c
+[   21.544301]  ttm_bo_mem_space+0x1d0/0x1e4
+[   21.544942]  ? process_one_work+0x484/0x484
+[   21.545887]  ttm_bo_validate+0xc5/0x19c
+[   21.546986]  ? kthread_complete_and_exit+0x1c/0x1c
+[   21.547680]  ttm_bo_init_reserved+0x15e/0x1fc
+[   21.548716]  ret_from_fork+0x1c/0x28
+[   21.549650]  qxl_bo_create+0x145/0x20c
 
+Note, this is all on boot up before user space is running.
+
+-- Steve
