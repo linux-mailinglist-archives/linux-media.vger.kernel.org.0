@@ -2,168 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2B56BB4AE
-	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 14:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B2A06BB4DE
+	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 14:39:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232238AbjCONat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Mar 2023 09:30:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
+        id S232285AbjCONjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Mar 2023 09:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232154AbjCONah (ORCPT
+        with ESMTP id S231127AbjCONjB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 09:30:37 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA73132FA
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 06:30:32 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id h8so31781016ede.8
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 06:30:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678887030;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i5B0qoy4xzYyHKiW419Q3keWH8TLfCy2QqjxB+rQKmY=;
-        b=eDuZrMTZQRkFCCKAVBZ1yDVVPQuq+yVVR1dwL33dDy6kjAY5yuDtq1vMJ17exZTVvT
-         nPgfXww6zGjvgRadPsNBxLbs2IglY2laD0zpXV5nP6i9Kvbv4VIZ1ZO4IlprXACuUA5z
-         ZNVVurZs3N6YgnTj9oKH08G7QK+blLduri9Mw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678887030;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i5B0qoy4xzYyHKiW419Q3keWH8TLfCy2QqjxB+rQKmY=;
-        b=r4BnRLeQlHoTP45ULLjmNpHtnIVAtimEgYec5eC8DL6F10lXJk10Yh3VL09+oTWFll
-         98xeebQtmMsvpeiwJ5h62AXAF+4jTcXgawRaY1shqP8L6gWAFiwoA7ppTYqyUB/nl1kA
-         gR/Iht4V9g05D/FMmE1LZCbPeWAJMRV/u6vfHWQcUHm7f4LCeXgV8u2p0IWLDYCaG1tj
-         DHn3dnHyafiR3B2ZsrdIxITIcXwd/15unMLxRQixfoaRWFcLBpclGwRHOaYr2wzEcMXQ
-         ThI14d+13bW20ZSulrtzPHP/uoAEfqSqZqV1Nx3NGlhAaXyp0xW6jBoIPArylV8kkMsw
-         ICpg==
-X-Gm-Message-State: AO0yUKWPWq4N7k+9UfNDJESA/MZWITgNVowcLvTMEWGsh/E2BRhYhaHA
-        WgPNuWn4+LJWJTSWF4eo4D/+Ag==
-X-Google-Smtp-Source: AK7set/0Gqcp0PUhCw2srN5+7w90EXouNyEdBKyHEctHCAQW2NuynKrzEXN6u63V1fR3kTO2uwlp5A==
-X-Received: by 2002:a17:906:bcc7:b0:88c:4f0d:85af with SMTP id lw7-20020a170906bcc700b0088c4f0d85afmr8035808ejb.75.1678887030229;
-        Wed, 15 Mar 2023 06:30:30 -0700 (PDT)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:491c:f627:27f0:1c4])
-        by smtp.gmail.com with ESMTPSA id ha11-20020a170906a88b00b0092043ae1a8asm2534638ejb.92.2023.03.15.06.30.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 06:30:30 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 15 Mar 2023 14:30:17 +0100
-Subject: [PATCH v9 6/6] media: uvcvideo: Fix hw timestamp handling for slow FPS
+        Wed, 15 Mar 2023 09:39:01 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F6F5F515
+        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 06:38:59 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PcBLl6G3Fz49Q6j
+        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 15:38:55 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1678887536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=gU94LXZ8C3SGcC/ezRmQ/wBU/RLfAjimH3IdO12wZOM=;
+        b=CyH88GrH9aSIRnv9w1z0iCrKBJ5VH0c7C8UHt1Zn9BW6ZSliMX0DX5RzEBY65BNFBjgLjD
+        MuBieAFQQB4bQNB9BryYMGEkXVFTBM9I0PrUpotuuQ7bCczdZs2cqKBber5DHbmhfJae4+
+        jXXhakuvs2J8WwOLr/JC9zL4tOY6MgTqXvVHnhyWUR5IdGgRj0TxCPJeFxStbOKq0VacAD
+        WuRKnA0RkY5eILGH/+/FJ6AKArWzQubemKNy6uuUMViqm8IL1LpwtcfK4ipRIVrnYUXbpr
+        +KPryB2zejBHEgj8Y/EI0q/tLv53+2VDDR+oJJVzvcuSZNbSvmdUcBugT8d2Rw==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678887536; a=rsa-sha256;
+        cv=none;
+        b=katEV6dVnrt+ScnQ05gh9sRmFKGybCCs6BDxwOnLSieYWhlCKRtrkwAbg1Jznjt94wzx4w
+        H2GqX2ssmWg+LDKVIqt9Sy/epTla6hR33uS7g4bzKbYLM5L2epTUVEfVpGosizS3kZaTvQ
+        pIRsAPQj/+BBxXbgMGBkEqG7T5luTrxu2Ue4RriIlfhRzTC0GPBu36YPuV3yx1xeZBxxy6
+        XnDMB3mRRvAq7NyaHB4wKctYlTXu8cSYvNfQw6d+opoSPT6VgdJorb0LsHRMUjj8B8aJag
+        QitHQxqatW5l3ijSa0AfGVhFlIzUDbBB9/z46Nl/+OA2GysZcTzih2/SOtVqAQ==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1678887536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=gU94LXZ8C3SGcC/ezRmQ/wBU/RLfAjimH3IdO12wZOM=;
+        b=JJxeZ6s868ARo2Qoq4VmbccmH6truRhcP2MEfzZqkXauSSri+29mHeLZmM86QvPonWLfps
+        R0eZu6Pq4MtNfMdflD6Bk7S0soflwtPj2WnovS05z1cGUNmpXqgIOlCWSqlDWT5s0Qe3bW
+        t1JkCP85v3IkAt/mS0YcGP4rQc3EUivAk4T0fZMDxJ2VDtL/UDyWV1mdFMJQNkHi2z6dKz
+        UNIkQ8rGlDBUjsGt2V+HZgpE+QWkVYRvssA6yIqWqP7UCPJ2FoQmsrqgHx8AN6TAcsLG1N
+        aewDnEnqM49YotSlDXjrkxMYBrO2ypNZlnuRv0+K7aqr3F4f2Psek3mWZFBqAA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 91154634C91
+        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 15:37:49 +0200 (EET)
+Date:   Wed, 15 Mar 2023 15:37:49 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.4] Camera sensor, V4L2 documentation and DT binding
+ patches
+Message-ID: <ZBHKLc/s7Y0LrSZ8@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v9-6-55a89f46f6be@chromium.org>
-References: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v9-0-55a89f46f6be@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-        linux-media@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2751; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=fCG+oG/6p/tn1lzkSxpwZk3Rj+eiISLy+hRedLVdGsQ=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkEchugQqeZNyZ6DJj1IZ/0buGF2GeBZkLFQVks2eb
- gBmN6LiJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZBHIbgAKCRDRN9E+zzrEiPkZD/
- 4omsHCqeQYnAUSpfL3GnIT2BJqCAunmwFKnHdD0FB9IzhfTUorQnctbqToZlfjD6XHniSX+wkRddXm
- 7HhDjMAnSLYLWCNkRv/9Qpw2590qvZ6cE2OYWwOM4ZDbDlbH4NjFkCSusH1urP6Y9sN1Y8hh6g2fsv
- WKfqMTCMUdD13JdTyUBpO/FeOFnkZe9UKRsIzP+0kpCyIKJti4RrRthD+qyO8ll5eIoNjxwDVLfMYS
- j0i3/Io3XK64BdHkkWrROqhHfZ8kqVVExPA6p7cBz6NEmby2WiOY+5ad+Dl8McF3KUBF9H8gtChv9g
- eGayxIFoJefeJy7u0ZnB1L3otr5j0h9311axpx2XIEYtWHgAKIWjp436t5A9FYDiBYNvx7j0vS6WSM
- WDY5MWHUl2m2OyjbA8lXlKTaO3Ga7vJUCdcSsW0SAiKWzkt+6ORAVvcYk3Mt1d7w83J6N3Uc1CYWxG
- ppn6CjkgloIawA+YIsuWFYaSmQCUfQl89ttEgDYvbUVZEySSjHfyPnIPR8NWCCy0GykTlsT28LCnMk
- vyqfBS5waUf+xBW5vZJZVqWhDsnhmrPhCz84TtIUhZDyD+oJh6hPZHQTO90FmdLo6/kKFLkzgjOX9a
- V8DtBU+G4AS1FeNsqdOpCogLNXRwuoNJ5ntpOlm3MgZYsvwo59bCNmRqtrqg==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+Hi Mauro,
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
+Here's a big bunch of mostly camera sensor related patches to 6.4. In
+particular, there are DT binding text to YAML conversion, support for
+IMX327 sensor (IMX290 driver), lots of improvements and fixes to the IMX290
+driver, documentation improvements, streams kernel API improvements and
+lots of fixes and improvements to a number of other sensor drivers.
 
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
+Please pull.
 
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 24 ++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 25 insertions(+)
+The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 1db0d1bc80e6..c58b51207be6 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -471,8 +471,31 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- {
- 	unsigned long flags;
- 
-+	/*
-+	 * If we write new data on the position where we had the last
-+	 * overflow, remove the overflow pointer. There is no overflow
-+	 * on the whole circular buffer.
-+	 */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/*
-+		 * Remove data from the circular buffer that is older than the
-+		 * last overflow. We only support one overflow per circular
-+		 * buffer.
-+		 */
-+		if (clock->last_sof_overflow != -1) {
-+			clock->count = (clock->head - clock->last_sof_overflow
-+					+ clock->count)	% clock->count;
-+		}
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->head = (clock->head + 1) % clock->size;
- 	clock->count = min(clock->count + 1, clock->size);
-@@ -605,6 +628,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07b2fdb80adf..bf9f5162b833 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -499,6 +499,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.4-1-signed
+
+for you to fetch changes up to fe3eff3ec489e6ea226ac38fe84d40583fe4298b:
+
+  dt-bindings: media: convert meson-ir.txt to dt-schema (2023-03-15 13:59:24 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 6.4
+
+----------------------------------------------------------------
+Alexander Stein (2):
+      media: dt-bindings: media: i2c: Add imx327 version to IMX327 bindings
+      media: i2c: imx290: Add support for imx327 variant
+
+Andy Shevchenko (2):
+      media: i2c: imx290: Make use of get_unaligned_le24(), put_unaligned_le24()
+      media: i2c: imx290: Use device_property_read_u32() directly
+
+Arec Kao (1):
+      media: ov13b10: Support device probe in non-zero ACPI D state
+
+Benjamin Mugnier (4):
+      media: i2c: st-vgxy61: Remove duplicate default mode set on probe
+      media: i2c: st-vgxy61: Move 'detect' call to 'power_on'
+      media: i2c: st-vgxy61: Fix control flow error on probe
+      media: i2c: st-vgxy61: Use VGXY61_NB_POLARITIES instead of hardcoded value in tx_from_ep
+
+Bingbu Cao (1):
+      media: ov13b10: remove streaming mode set from reg_list
+
+Dave Stevenson (15):
+      media: dt-bindings: media: i2c: Add mono version to IMX290 bindings
+      media: i2c: imx290: Add support for the mono sensor variant
+      media: i2c: imx290: Match kernel coding style on whitespace
+      media: i2c: imx290: Set the colorspace fields in the format
+      media: i2c: imx290: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+      media: i2c: imx290: Fix the pixel rate at 148.5Mpix/s
+      media: i2c: imx290: Support 60fps in 2 lane operation
+      media: i2c: imx290: Use CSI timings as per datasheet
+      media: i2c: imx290: Convert V4L2_CID_HBLANK to read/write
+      media: i2c: imx290: Convert V4L2_CID_VBLANK to read/write
+      media: i2c: imx290: VMAX is mode dependent
+      media: i2c: imx290: Remove duplicated write to IMX290_CTRL_07
+      media: i2c: imx290: Add support for 74.25MHz external clock
+      media: i2c: imx290: Add support for H & V Flips
+      media: i2c: imx290: Add the error code to logs in start_streaming
+
+Dorota Czaplejewicz (2):
+      doc/media api: Try to make enum usage clearer
+      media api: Try to make enum usage clearer
+
+Jacopo Mondi (2):
+      media: i2c: ov5647: Use bus-locked i2c_transfer()
+      media: i2c: ov5670: Properly handle !CONFIG_HAVE_CLK
+
+Krzysztof Kozlowski (20):
+      media: dt-bindings: silabs,si470x: Convert to DT schema
+      media: dt-bindings: samsung-fimc: drop simple-bus
+      media: samsung: exynos4-is: do not require pinctrl
+      media: samsung: exynos4-is: drop simple-bus from compatibles
+      media: dt-bindings: i2c: samsung,s5k6a3: convert to dtschema
+      media: dt-bindings: i2c: samsung,s5k5baf: convert to dtschema
+      media: dt-bindings: samsung,exynos4210-csis: convert to dtschema
+      media: dt-bindings: samsung,exynos4212-fimc-lite: convert to dtschema
+      media: dt-bindings: samsung,exynos4212-is: convert to dtschema
+      media: dt-bindings: samsung,fimc: convert to dtschema
+      media: dt-bindings: samsung,s5c73m3: convert to dtschema
+      media: dt-bindings: st,stm32-cec: drop obsolete file
+      media: dt-bindings: qcom,venus: cleanup
+      media: dt-bindings: qcom,venus: split common properties
+      media: dt-bindings: qcom,msm8996-venus: document interconnects
+      media: dt-bindings: qcom,sc7180-venus: document OPP table
+      media: dt-bindings: qcom,sc7280-venus: document OPP table
+      media: dt-bindings: qcom,sdm845-venus-v2: document OPP table
+      media: dt-bindings: qcom,sm8250-venus: document OPP table
+      media: dt-bindings: qcom,venus: document firmware-name
+
+Laurent Pinchart (2):
+      media: i2c: imx296: Use v4l2_subdev_get_fmt()
+      media: max9286: Free control handler
+
+Luca Weiss (5):
+      media: i2c: ov5670: Use dev_err_probe in probe function
+      media: i2c: ov5670: Support single-lane operation
+      media: i2c: ov2685: Add print for power on write failed
+      media: i2c: ov2685: Add controls from fwnode
+      media: i2c: ov2685: Add .get_selection() support
+
+Miaoqian Lin (1):
+      media: v4l2-ctrls: Fix doc for v4l2_ctrl_request_hdl_find
+
+Neil Armstrong (1):
+      dt-bindings: media: convert meson-ir.txt to dt-schema
+
+Paul Elder (1):
+      docs: media: v4l: uapi: Fix field type for SUBDEV_ENUM_FRAME_SIZE
+
+Robert Mader (1):
+      media: i2c: imx258: Parse and register properties
+
+Shravan Chippa (4):
+      media: i2c: imx334: replace __v4l2_ctrl_s_ctrl to __v4l2_ctrl_modify_range
+      media: i2c: imx334: add missing reset values for mode 3840x2160_regs[]
+      media: i2c: imx334: support lower bandwidth mode
+      dt-bindings: media: i2c: imx334 add new link_freq
+
+Tomi Valkeinen (3):
+      media: subdev: Use 'shall' instead of 'may' in route validation
+      media: subdev: Split V4L2_SUBDEV_ROUTING_NO_STREAM_MIX
+      media: subdev: Add V4L2_SUBDEV_ROUTING_NO_MULTIPLEXING
+
+Valentine Barshak (1):
+      media: i2c: ov5647: Add test pattern control
+
+ .../bindings/media/amlogic,meson6-ir.yaml          |  47 ++
+ .../devicetree/bindings/media/exynos-fimc-lite.txt |  16 -
+ .../devicetree/bindings/media/exynos4-fimc-is.txt  |  50 --
+ .../bindings/media/i2c/samsung,s5k5baf.yaml        | 101 ++++
+ .../bindings/media/i2c/samsung,s5k6a3.yaml         |  98 ++++
+ .../devicetree/bindings/media/i2c/sony,imx290.yaml |  25 +-
+ .../devicetree/bindings/media/i2c/sony,imx334.yaml |   2 +-
+ .../devicetree/bindings/media/meson-ir.txt         |  20 -
+ .../bindings/media/qcom,msm8916-venus.yaml         |  86 +--
+ .../bindings/media/qcom,msm8996-venus.yaml         | 146 +++--
+ .../bindings/media/qcom,sc7180-venus.yaml          |  97 ++--
+ .../bindings/media/qcom,sc7280-venus.yaml          | 132 ++---
+ .../bindings/media/qcom,sdm660-venus.yaml          | 144 ++---
+ .../bindings/media/qcom,sdm845-venus-v2.yaml       | 108 ++--
+ .../bindings/media/qcom,sdm845-venus.yaml          | 104 ++--
+ .../bindings/media/qcom,sm8250-venus.yaml          | 122 ++---
+ .../bindings/media/qcom,venus-common.yaml          |  73 +++
+ .../bindings/media/samsung,exynos4210-csis.yaml    | 170 ++++++
+ .../bindings/media/samsung,exynos4210-fimc.yaml    | 152 ++++++
+ .../bindings/media/samsung,exynos4212-fimc-is.yaml | 220 ++++++++
+ .../media/samsung,exynos4212-fimc-lite.yaml        |  63 +++
+ .../devicetree/bindings/media/samsung,fimc.yaml    | 279 ++++++++++
+ .../devicetree/bindings/media/samsung,s5c73m3.yaml | 165 ++++++
+ .../devicetree/bindings/media/samsung-fimc.txt     | 209 --------
+ .../bindings/media/samsung-mipi-csis.txt           |  81 ---
+ .../devicetree/bindings/media/samsung-s5c73m3.txt  |  97 ----
+ .../devicetree/bindings/media/samsung-s5k5baf.txt  |  58 --
+ .../devicetree/bindings/media/samsung-s5k6a3.txt   |  33 --
+ Documentation/devicetree/bindings/media/si470x.txt |  26 -
+ .../devicetree/bindings/media/silabs,si470x.yaml   |  48 ++
+ .../devicetree/bindings/media/st,stm32-cec.yaml    |  53 --
+ .../media/v4l/vidioc-subdev-enum-frame-size.rst    |  44 +-
+ .../media/v4l/vidioc-subdev-enum-mbus-code.rst     |  39 +-
+ MAINTAINERS                                        |   7 +
+ drivers/media/i2c/imx258.c                         |  13 +-
+ drivers/media/i2c/imx290.c                         | 594 +++++++++++++++++----
+ drivers/media/i2c/imx296.c                         |  11 +-
+ drivers/media/i2c/imx334.c                         | 322 ++++++++++-
+ drivers/media/i2c/max9286.c                        |   1 +
+ drivers/media/i2c/ov13b10.c                        |  75 ++-
+ drivers/media/i2c/ov2685.c                         |  78 ++-
+ drivers/media/i2c/ov5647.c                         |  56 +-
+ drivers/media/i2c/ov5670.c                         | 114 ++--
+ drivers/media/i2c/st-vgxy61.c                      |  23 +-
+ .../media/platform/samsung/exynos4-is/media-dev.c  |  10 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |  45 +-
+ include/media/v4l2-ctrls.h                         |   2 +-
+ include/media/v4l2-subdev.h                        |  32 +-
+ 48 files changed, 2983 insertions(+), 1508 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/exynos-fimc-lite.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/exynos4-fimc-is.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k5baf.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k6a3.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/meson-ir.txt
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,venus-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4210-csis.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4210-fimc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-is.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos4212-fimc-lite.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,fimc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,s5c73m3.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-fimc.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-mipi-csis.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5c73m3.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5k5baf.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/samsung-s5k6a3.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/si470x.txt
+ create mode 100644 Documentation/devicetree/bindings/media/silabs,si470x.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.yaml
 
 -- 
-2.40.0.rc1.284.g88254d51c5-goog-b4-0.11.0-dev-696ae
+Kind regards,
+
+Sakari Ailus
