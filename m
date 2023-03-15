@@ -2,168 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 160436BB29B
-	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 13:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9F36BB3F0
+	for <lists+linux-media@lfdr.de>; Wed, 15 Mar 2023 14:09:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232849AbjCOMh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Mar 2023 08:37:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53040 "EHLO
+        id S231220AbjCONJe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Mar 2023 09:09:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232827AbjCOMhK (ORCPT
+        with ESMTP id S229616AbjCONJc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Mar 2023 08:37:10 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F2888EE5
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 05:36:17 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id r11so23249727edd.5
-        for <linux-media@vger.kernel.org>; Wed, 15 Mar 2023 05:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1678883763;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Slr8insJSfdVwUEe6a4Q45sxgJgXgNMm8KOz43OQ0Xs=;
-        b=hPo/Ij9nLWTtUQSsbtjFexaK3g4XS2eGln6DMJTGpi81jxwhlLYpKvkq9hQt8s93nj
-         /vMoVz27dDsz/ad6t2CL2wIPMH0QbUabJVKHWSTTCDKb2PSpf/4rmwNhlR7FDNQjZwzO
-         DKoHRP6PoQgF4WSXYXRyv45kPQnir+Kgx9Pvk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678883763;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Slr8insJSfdVwUEe6a4Q45sxgJgXgNMm8KOz43OQ0Xs=;
-        b=msTLbf0Fy0U8DjkgYqDiS+qTFul7O/cB/VFNEKsaG35j6ZbTfW68rPfdVf6stlniyF
-         +NXlXCppRoE2stmJAjDV67Xo4JODycBtbd2RKCipzxow5JrDGvqhbMv3giNVirILWCm8
-         q8Omk4nRwRxPy8fD9uOoVoDxizHzOjs++yKjWrhI4jxVv8gtHwyeMJwMgNsNmzz7VPZI
-         Z/7pddz1uTGZIWky5wCOrnCXFyxGpLozU86ccCxh7Vl1nwb0xZJhLzpzXbBbrBC8WRG1
-         nylzCWHvLJYiGgIpiiRnXMEKBpwhStO18wzojV5ILxQtTco+8j232MaF7r9VMRkCLvcQ
-         Ttlg==
-X-Gm-Message-State: AO0yUKWRHrYo04JPh1zgrLamaAL+EeuaHss3Y8H5z7hOmF66WPr7YA1a
-        3xubakCqfAWRCbvyFc0vAN9Aag==
-X-Google-Smtp-Source: AK7set9FBp/UmKRbuWD+Un8VtXIddfT8fAfO9cMf6inOx7rg165hd0WFhx2gFsJwhOzI4nRLwpDVhw==
-X-Received: by 2002:a05:6402:7da:b0:4fc:709f:7ab0 with SMTP id u26-20020a05640207da00b004fc709f7ab0mr2649570edy.0.1678883763573;
-        Wed, 15 Mar 2023 05:36:03 -0700 (PDT)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:491c:f627:27f0:1c4])
-        by smtp.gmail.com with ESMTPSA id w3-20020a50c443000000b004c30e2fc6e5sm2363256edf.65.2023.03.15.05.36.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 05:36:03 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 15 Mar 2023 13:35:42 +0100
-Subject: [PATCH v8 6/6] media: uvcvideo: Fix hw timestamp handling for slow FPS
+        Wed, 15 Mar 2023 09:09:32 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A964114E92;
+        Wed, 15 Mar 2023 06:09:31 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 442C8E2304;
+        Wed, 15 Mar 2023 06:09:30 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id b4q4DcU4QBRv; Wed, 15 Mar 2023 06:09:29 -0700 (PDT)
+Date:   Wed, 15 Mar 2023 14:09:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1678885769; bh=0YolK6eZj9BJntGS6UUbtpnOXw9MSd2uaRG11myp+R8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FrjEcZgzsbKPKMuJEcdvtYzJUDFUFMnItYi9FOYCC3TAG4Cx2wemQvDm3q1z8FMHi
+         vH4RckUZ8eSUXxIIIijTZyWFchE3t8IhIHDktuW8LDeMmCpqQcojEBV2GGnXsDjdnn
+         B2pvhvkGt84kXI+fhX9odVz3p1dipbsS53kPwC78eS+bk2hX6RGs5fyVQdQsEuQxJY
+         I03Eoj3elEDjK3eO2R3+TUlK3BUKjhh1pUphCZH7C6m4XmVIeUPSESNwNngpkjinJp
+         50F8ke4gjbXEOC7xzkffOx89agpDD5a0x1MT3sGr2R8ETbdjk1KcXHdRkOmYs0mCY4
+         zpHAo9H+85hvw==
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm
+Subject: Re: [PATCHv3 1/2 RESEND] doc/media api: Try to make enum usage
+ clearer
+Message-ID: <20230315140914.707e0cc9.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <ZBGahMbA1fBrKLYP@valkosipuli.retiisi.eu>
+References: <20230219120034.5819b4ac.dorota.czaplejewicz@puri.sm>
+        <ZBGahMbA1fBrKLYP@valkosipuli.retiisi.eu>
+Organization: Purism
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20220920-resend-hwtimestamp-v8-6-0edaca2e2ab3@chromium.org>
-References: <20220920-resend-hwtimestamp-v8-0-0edaca2e2ab3@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v8-0-0edaca2e2ab3@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     "hn.chen" <hn.chen@sunplusit.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2751; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=Ty1KoivoioozZ3NBkNDmXru636l8jRamYBpo+xJR4aU=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkEbuqlDTPFsO/18/Z48RLg4lqEUsea5FnBqwmSpeP
- J+oaq7qJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZBG7qgAKCRDRN9E+zzrEiPO5D/
- 4lnj72B6VaxjI5uvp71oauX164kDEc/X8VnFOlQlmHxYA4mHPmQqEbubV7m9340IrWFJJj9ei14TcR
- EoYTbkqKDtfSjI7egi34LF+3iceVqGsL/3/0DdAnaiEbgcJkakeukZYBoKAn9hCu8x0Wa5P6nK6Tp9
- HoTQH41nLU5Tpjvxwvu7cY+VhLzuiMpqSEU94jZU3yA70+2Rl0sJ4VMmCr6w4SS3Z6V7eFj3sc3j+e
- kjVIvn5z+NmNvzarwrFB69luw6vRhTBEHurAL4SpqmeqVfGppBCJrXmY7Z9KN2+pDELSGHd1hoDR4Z
- sgC+95AYMRnp5lviTtJ8gSkinHlKWy46QEquSnFoywWUQoJp31AzQuvEdEcSbbsPlBu422m6jdXk9q
- uOiYqUV0Q4AxOihfROe0Bul9gS/0AEdq5IEY5KRwLTQToOdkWXnd74SJZd8bZDnE/jDIBmz0meGjG+
- 7DMxdhyDzPzNrr454/Ye7lYCEBtCIfERZzKoBcIAbeFodWT16IbadnqpPgOsqZOkDeed0OfeDyaGvq
- F9o98zXQ2ryUlKbT535a0EMfQr42Zp2ANpGvy/0FglQv/KovbfAWXz0Uw6KRlIBsfUIMr8kFiJm10D
- HoFFEq6eHBy/ZcI7jRKwmISlnm9TVguGempFrz78Su7oexe7aByvItlKxD4A==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; boundary="Sig_/BV6mp6Z.cVyZ5F8YY9YWRAT";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5 we get a single clock value per frame. With the current
-buffer size of 32, FPS slowers than 32 might roll-over twice.
+--Sig_/BV6mp6Z.cVyZ5F8YY9YWRAT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The current code cannot handle two roll-over and provide invalid
-timestamps.
+Hi,
 
-Revome all the samples from the circular buffer that are more than two
-rollovers old, so the algorithm always provides good timestamps.
+On Wed, 15 Mar 2023 12:14:28 +0200
+Sakari Ailus <sakari.ailus@iki.fi> wrote:
 
-Note that we are removing values that are more than one second old,
-which means that there is enough distance between the two points that
-we use for the interpolation to provide good values.
+> Hi Dorota,
+>=20
+> On Sun, Feb 19, 2023 at 12:00:34PM +0100, Dorota Czaplejewicz wrote:
+> > This clarifies which side of the calls is responsible for doing what to=
+ which parts of the struct.
+> > This also explicitly states that repeating values are disallowed.
+> > It also expands the terse description of the access algorithm into more=
+ prose-like, active voice description, which trades conciseness for ease of=
+ comprehension. =20
+>=20
+> The commit message lines should be wrapped at 74 characters. Please do use
+> checkpatch.pl in the future. There is also no apparent reason to add a
+> newline after a period.
+>=20
+> The same applies to the other patch as well.
+>=20
+> I've addressed the issues this time.
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_video.c | 24 ++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h  |  1 +
- 2 files changed, 25 insertions(+)
+Thanks for taking a look. What is the next step?
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index df7c400fe82e..1b5510c41e6f 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -471,8 +471,31 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- {
- 	unsigned long flags;
- 
-+	/*
-+	 * If we write new data on the position where we had the last
-+	 * overflow, remove the overflow pointer. There is no overflow
-+	 * on the whole circular buffer.
-+	 */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/*
-+		 * Remove data from the circular buffer that is older than the
-+		 * last overflow. We only support one overflow per circular
-+		 * buffer.
-+		 */
-+		if (clock->last_sof_overflow != -1) {
-+			clock->count = (clock->head - clock->last_sof_overflow
-+					+ clock->count)	% clock->count;
-+		}
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->head = (clock->head + 1) % clock->size;
- 	clock->count = min(clock->count + 1, clock->size);
-@@ -605,6 +628,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07b2fdb80adf..bf9f5162b833 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -499,6 +499,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+--Dorota
+>=20
+> >=20
+> > Added: mbus codes must not repeat
+> > Added: no holes in the enumeration
+> > Added: enumerations per what?
+> > Added: who fills in what in calls
+> > Changed: "zero" -> "0"
+> > Changed: "given" -> "specified"
+> >=20
+> > Still unclear how it works so didn't describe: "which". What is a "try =
+format" vs "active format"?
+> >=20
+> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > ---
+> > Hi,
+> >=20
+> > I took those patches out of the freezer. I made sure they still apply (=
+they do), and corrected some errors pointed out by Jacopo in the previous r=
+ound of reviews. =20
+>=20
+> Ditto.
+>=20
+> >=20
+> > Thanks,
+> > Dorota
+> >=20
+> >  .../v4l/vidioc-subdev-enum-mbus-code.rst      | 38 +++++++++++++------
+> >  1 file changed, 26 insertions(+), 12 deletions(-)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-m=
+bus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbu=
+s-code.rst
+> > index 417f1a19bcc4..63bff24d0520 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-cod=
+e.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-cod=
+e.rst
+> > @@ -31,15 +31,28 @@ Arguments
+> >  Description
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> > -To enumerate media bus formats available at a given sub-device pad
+> > -applications initialize the ``pad``, ``which`` and ``index`` fields of
+> > -struct
+> > -:c:type:`v4l2_subdev_mbus_code_enum` and
+> > -call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl with a pointer to t=
+his
+> > -structure. Drivers fill the rest of the structure or return an ``EINVA=
+L``
+> > -error code if either the ``pad`` or ``index`` are invalid. All media b=
+us
+> > -formats are enumerable by beginning at index zero and incrementing by
+> > -one until ``EINVAL`` is returned.
+> > +This call is used by the application to access the enumeration
+> > +of media bus formats for the selected pad.
+> > +
+> > +The enumerations are defined by the driver, and indexed using the ``in=
+dex`` field
+> > +of struct :c:type:`v4l2_subdev_mbus_code_enum`.
+> > +Each enumeration starts with the ``index`` of 0, and
+> > +the lowest invalid index marks the end of enumeration.
+> > +
+> > +Therefore, to enumerate media bus formats available at a given sub-dev=
+ice pad,
+> > +initialize the ``pad``, and ``which`` fields to desired values,
+> > +and set ``index`` to 0.
+> > +Then call the :ref:`VIDIOC_SUBDEV_ENUM_MBUS_CODE` ioctl
+> > +with a pointer to this structure.
+> > +
+> > +A successful call will return with the ``code`` field filled in
+> > +with a mbus code value.
+> > +Repeat with increasing ``index`` until ``EINVAL`` is received.
+> > +``EINVAL`` means that either ``pad`` is invalid,
+> > +or that there are no more codes available at this pad.
+> > +
+> > +The driver must not return the same value of ``code`` for different in=
+dices
+> > +at the same pad.
+> > =20
+> >  Available media bus formats may depend on the current 'try' formats at
+> >  other pads of the sub-device, as well as on the current active links.
+> > @@ -57,14 +70,15 @@ information about the try formats.
+> > =20
+> >      * - __u32
+> >        - ``pad``
+> > -      - Pad number as reported by the media controller API.
+> > +      - Pad number as reported by the media controller API. Filled in =
+by the application. =20
+>=20
+> Here, too...
+>=20
+> >      * - __u32
+> >        - ``index``
+> > -      - Number of the format in the enumeration, set by the applicatio=
+n.
+> > +      - Index of the mbus code in the enumeration belonging to the giv=
+en pad.
+> > +    Filled in by the application. =20
+>=20
+> Wrong indentation.
+>=20
+> >      * - __u32
+> >        - ``code``
+> >        - The media bus format code, as defined in
+> > -	:ref:`v4l2-mbus-format`.
+> > +	:ref:`v4l2-mbus-format`. Filled in by the driver.
+> >      * - __u32
+> >        - ``which``
+> >        - Media bus format codes to be enumerated, from enum =20
+>=20
 
--- 
-2.40.0.rc1.284.g88254d51c5-goog-b4-0.11.0-dev-696ae
+
+--Sig_/BV6mp6Z.cVyZ5F8YY9YWRAT
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmQRw3oACgkQADBpX4S8
+Znd/bA/7Bxc/fWZNp6/h9Wkj2rd04kRRIZtR1+sYBks6GqZuSLRikbtMbX7jZnDK
+649yPzfqnnNVum/TF6qTWWix2zueOePBxg+oepCIOTmu6Vl+J05c9O9RtJmpft0U
+WyadXHACP1Hf+RmCZDH8Nefi3g6LojG029mxz2EBWapWrOQYsR+qAPEa4fBKrzcr
+d2soLNfJa1BpkbRqeFNx+eAuvogGbYmxPCDcAddv82KtM3SjtUrWCD9GtvTfGCT0
+YTAIcfXAfd1wgsNSme5nbZudpHodAUDwvDsQ/p3cYyCJNpZt7BcuUhCqcklNJ8pl
+Co2OAlH4LzAvy+qEzKq72Z5bG/un/l5tH3dfWeYYL1bh939RX4fyVmV+wQdhAFQ1
+8DlTYKfa35ENL0KOVyEbNq6LMKB4mFWIuqfIIcyra/zJSQSqfAO2867Xxsibnn45
+pRMua0PeSujHVcf7QA6WLVwxifUJIvgDVvcCzMWqVDY2lLPczLvUFIHk7JQOxkVr
+fXsWmvCdyOEvyTgi1BSb9xGLoKiIlZ60yQy7DLqgMXXC6ZykCr1moOE81KUGIGBR
+zH8hfSDVmXm4nJzo9Op9aCiLGJlT514ltvIma/Soaxvv7cg5SoB5TgntAKqEKshI
+mHMXyrlBqTBkCYD3aqUnvi3cFpg1xCnC0RyAv6ZJArFIkHsbVJA=
+=QeDg
+-----END PGP SIGNATURE-----
+
+--Sig_/BV6mp6Z.cVyZ5F8YY9YWRAT--
