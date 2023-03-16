@@ -2,176 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 422336BDA65
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 21:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D83756BDAD7
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 22:23:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbjCPUvu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 16:51:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
+        id S229929AbjCPVXI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 17:23:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbjCPUvt (ORCPT
+        with ESMTP id S229885AbjCPVXC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 16:51:49 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 117787607C;
-        Thu, 16 Mar 2023 13:51:48 -0700 (PDT)
-Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id CD6766603096;
-        Thu, 16 Mar 2023 20:51:44 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1678999906;
-        bh=k3z29yPOnuz0kpwls7c9eR3QIXarYfLJxqFV5EuLcLg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nh/NeXJh/Ryon7FaBxfjX3GELNPbyT8cyUiEtLU0EhxnORZPm/wrQxYXQaVnIeqRh
-         Kbr22sPvqZBaG0AqeDW2XAFb3aPiNZe02TWhtp+coMGMYD1WDmzh+XBmJFtYDw4u/P
-         CGZBzjmUhQ8HInBX9tWBTseElnSLaDX7b+9TBTdcZUg5wqWS1pjhz3jx6GCn7l9z3x
-         YtCEYb2GW0WquyemRuSMmpq2kcZH7ayDuXWDrl2em5DwcHs0BGEW/CCmflEv8dMx6I
-         Ni2ulSHZNirqMll9c7dbKvntDwR81uB37qlDkDFULsVXFphfePk4fjK61vExOlOzS8
-         h95mPzFzX2eDA==
-Date:   Thu, 16 Mar 2023 16:51:40 -0400
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v3] media: mediatek: vcodec: Force capture queue format
- to MM21
-Message-ID: <20230316205140.sjkdwrpj2xwquho2@notapiano>
-References: <20230314072557.29669-1-yunfei.dong@mediatek.com>
+        Thu, 16 Mar 2023 17:23:02 -0400
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A57FDCF59;
+        Thu, 16 Mar 2023 14:22:59 -0700 (PDT)
+Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-176261d7f45so3614054fac.11;
+        Thu, 16 Mar 2023 14:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679001778;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZOLm3MMBl89f2knm/a6i4nSTBzWYSuBzK1XClYHpMY4=;
+        b=dSmvj4c+vhVDAQ5Zaj5Yr1DRJ4ybiDnIB4G/ylPHrFHhzAkda0nDV6qsFCC8XDGrq+
+         eT863QrK6B/IcIyiPUEC4cRa0GtMAf779fuR3ilmeIz53fivuQJbIrNpTfioj65CSN0H
+         EeQrdTv00bm9+R5ydA9cNvPyYFvlb5Cnck9wzX0V9VQxZBd0VDTDVRn3TXCLm3gBmkgv
+         aW6YQ2C6DOswHq1c91ga2KdN/R7P23WfSv+rgkxc82u7+5Opfko/BDf2Zi8BEuF7OVQ7
+         SKPdGvyXBblcQx6g3Bq8ebiT5ydjjneIU031EZX9bw84Lsn8FMDupirSITw5TxEuucC9
+         t07A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679001778;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZOLm3MMBl89f2knm/a6i4nSTBzWYSuBzK1XClYHpMY4=;
+        b=EEVGH0HzX2bCEzjtQ4SOFCo1sFJeup3abLPOZ2tyj7hsJ7gJObi+XR00OEUJSnBnVf
+         kyOegz611tLBK0LLxy38z4C3uvTSo0v4WslZW61AWEbgORklIXKtVjVbaMU9c+o+bk7g
+         YWCv7pzztLfRsGPaTISAYCTrlt2w/pLDbZE9dh4u4JLQWrbqbT4y3kWkBDQjA1/aNDTf
+         Ot0cpNQb1hxbb4nNEzNe/gZgrdHrHkCgUtc17ffStDaLM6MfoFBeGkmvyRHlit+q8LE5
+         h2SDgw6FDhwpKcbxdQK4yCpzIwi2b7/fnT0PCpR3fXAMlp2LEdZvP5u9QnGaw5zuorh/
+         jUPQ==
+X-Gm-Message-State: AO0yUKX16MfUmOTkvNrUNmF1DPrmlPKpoHn+anU7iPNNu2eqkus3jJuS
+        hMp2E+K1kmNLSluRcjTSE8V7R1OuPMREB+fn7Jpm6BVSSeE=
+X-Google-Smtp-Source: AK7set+faq17A1DBESVulT7MGuaccV0D25PIH9DGSJys9ZSVMyY9sK6nmcgZ9NZNMc3lxfUhJXYBUInIOT3YmaNi5n0=
+X-Received: by 2002:a05:6870:6125:b0:177:be3d:2e4d with SMTP id
+ s37-20020a056870612500b00177be3d2e4dmr6744075oae.5.1679001778698; Thu, 16 Mar
+ 2023 14:22:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230314072557.29669-1-yunfei.dong@mediatek.com>
+References: <20230308155322.344664-1-robdclark@gmail.com>
+In-Reply-To: <20230308155322.344664-1-robdclark@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 16 Mar 2023 14:22:47 -0700
+Message-ID: <CAF6AEGs1A-3vHtCCam+LfweBNG76TPrpsn8u+RzZ8=sq18yrNg@mail.gmail.com>
+Subject: Re: [PATCH v10 00/15] dma-fence: Deadline awareness
+To:     dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matt Turner <mattst88@gmail.com>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>,
+        Sean Paul <sean@poorly.run>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Vinod Polimera <quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+On Wed, Mar 8, 2023 at 7:53=E2=80=AFAM Rob Clark <robdclark@gmail.com> wrot=
+e:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> This series adds a deadline hint to fences, so realtime deadlines
+> such as vblank can be communicated to the fence signaller for power/
+> frequency management decisions.
+>
+> This is partially inspired by a trick i915 does, but implemented
+> via dma-fence for a couple of reasons:
+>
+> 1) To continue to be able to use the atomic helpers
+> 2) To support cases where display and gpu are different drivers
+>
+> This iteration adds a dma-fence ioctl to set a deadline (both to
+> support igt-tests, and compositors which delay decisions about which
+> client buffer to display), and a sw_sync ioctl to read back the
+> deadline.  IGT tests utilizing these can be found at:
+>
+>   https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-d=
+eadline
+>
 
-thanks for the patch.
+jfwiw, mesa side of this:
 
-On Tue, Mar 14, 2023 at 03:25:57PM +0800, Yunfei Dong wrote:
-> Libyuv is one software library used to covert format. Only covert
-> mediatek uncompressed mode MM21 to standard yuv420 for MT21 is
-> compressed mode. Need to set capture queue format to MM21 in order
-> to use Libyuv when scp firmware support MM21 and MT21.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21973
 
-This commit message is a bit confusing still. Here's a suggestion:
+BR,
+-R
 
-	While the decoder can produce frames in both MM21 and MT21C formats, only MM21
-	is currently supported by userspace tools (like gstreamer and libyuv). In order
-	to ensure userspace keeps working after the SCP firmware is updated to support
-	both MM21 and MT21C formats, force the MM21 format for the capture queue.
-
-	This is meant as a stopgap solution while dynamic format switching between 
-	MM21 and MT21C isn't implemented in the driver.
-
-> 
-> Fixes: 7501edef6b1f ("media: mediatek: vcodec: Different codec using different capture format")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
-> changed with v2:
-> - re-write commit message.
-> - change the driver flow.
-> changed with v1:
-> - add Fixes tag.
-> ---
->  .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 24 +++----------------
->  1 file changed, 3 insertions(+), 21 deletions(-)
-> 
-
-While this change works (that is, I'm able to run fluster tests on both MT8192
-and MT8195 using the new MM21+MT21C firmware), it causes a regression on
-v4l2-compliance:
-
-	[..]
-	Format ioctls:
-	[..]
-			fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
-		test VIDIOC_G_FMT: FAIL
-			fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
-		test VIDIOC_TRY_FMT: FAIL
-			fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
-		test VIDIOC_S_FMT: FAIL
-	[..]
-	Total for mtk-vcodec-dec device /dev/video2: 46, Succeeded: 43, Failed: 3, Warnings: 0
-
-The patch makes only MM21 show in VIDIOC_ENUM_FMT, but VIDIOC_S_FMT,
-VIDIOC_G_FMT and VIDIOC_TRY_FMT still show MT21. So I think you need to do the
-same forcing of MM21 for those ioctls.
-
-Thanks,
-Nícolas
-
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> index 641f533c417f..c99705681a03 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> @@ -39,10 +39,9 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
->  {
->  	const struct mtk_vcodec_dec_pdata *dec_pdata = ctx->dev->vdec_pdata;
->  	const struct mtk_video_fmt *fmt;
-> -	struct mtk_q_data *q_data;
->  	int num_frame_count = 0, i;
-> -	bool ret = true;
->  
-> +	fmt = &dec_pdata->vdec_formats[format_index];
->  	for (i = 0; i < *dec_pdata->num_formats; i++) {
->  		if (dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
->  			continue;
-> @@ -50,27 +49,10 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
->  		num_frame_count++;
->  	}
->  
-> -	if (num_frame_count == 1)
-> +	if (num_frame_count == 1 || fmt->fourcc == V4L2_PIX_FMT_MM21)
->  		return true;
->  
-> -	fmt = &dec_pdata->vdec_formats[format_index];
-> -	q_data = &ctx->q_data[MTK_Q_DATA_SRC];
-> -	switch (q_data->fmt->fourcc) {
-> -	case V4L2_PIX_FMT_VP8_FRAME:
-> -		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
-> -			ret = true;
-> -		break;
-> -	case V4L2_PIX_FMT_H264_SLICE:
-> -	case V4L2_PIX_FMT_VP9_FRAME:
-> -		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
-> -			ret = false;
-> -		break;
-> -	default:
-> -		ret = true;
-> -		break;
-> -	}
-> -
-> -	return ret;
-> +	return false;
->  }
->  
->  static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_ctx *ctx,
-> -- 
-> 2.25.1
-> 
+>
+> v1: https://patchwork.freedesktop.org/series/93035/
+> v2: Move filtering out of later deadlines to fence implementation
+>     to avoid increasing the size of dma_fence
+> v3: Add support in fence-array and fence-chain; Add some uabi to
+>     support igt tests and userspace compositors.
+> v4: Rebase, address various comments, and add syncobj deadline
+>     support, and sync_file EPOLLPRI based on experience with perf/
+>     freq issues with clvk compute workloads on i915 (anv)
+> v5: Clarify that this is a hint as opposed to a more hard deadline
+>     guarantee, switch to using u64 ns values in UABI (still absolute
+>     CLOCK_MONOTONIC values), drop syncobj related cap and driver
+>     feature flag in favor of allowing count_handles=3D=3D0 for probing
+>     kernel support.
+> v6: Re-work vblank helper to calculate time of _start_ of vblank,
+>     and work correctly if the last vblank event was more than a
+>     frame ago.  Add (mostly unrelated) drm/msm patch which also
+>     uses the vblank helper.  Use dma_fence_chain_contained().  More
+>     verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> v7: Fix kbuild complaints about vblank helper.  Add more docs.
+> v8: Add patch to surface sync_file UAPI, and more docs updates.
+> v9: Drop (E)POLLPRI support.. I still like it, but not essential and
+>     it can always be revived later.  Fix doc build warning.
+> v10: Update 11/15 to handle multiple CRTCs
+>
+> Rob Clark (15):
+>   dma-buf/dma-fence: Add deadline awareness
+>   dma-buf/fence-array: Add fence deadline support
+>   dma-buf/fence-chain: Add fence deadline support
+>   dma-buf/dma-resv: Add a way to set fence deadline
+>   dma-buf/sync_file: Surface sync-file uABI
+>   dma-buf/sync_file: Add SET_DEADLINE ioctl
+>   dma-buf/sw_sync: Add fence deadline support
+>   drm/scheduler: Add fence deadline support
+>   drm/syncobj: Add deadline support for syncobj waits
+>   drm/vblank: Add helper to get next vblank time
+>   drm/atomic-helper: Set fence deadline for vblank
+>   drm/msm: Add deadline based boost support
+>   drm/msm: Add wait-boost support
+>   drm/msm/atomic: Switch to vblank_start helper
+>   drm/i915: Add deadline based boost support
+>
+> Rob Clark (15):
+>   dma-buf/dma-fence: Add deadline awareness
+>   dma-buf/fence-array: Add fence deadline support
+>   dma-buf/fence-chain: Add fence deadline support
+>   dma-buf/dma-resv: Add a way to set fence deadline
+>   dma-buf/sync_file: Surface sync-file uABI
+>   dma-buf/sync_file: Add SET_DEADLINE ioctl
+>   dma-buf/sw_sync: Add fence deadline support
+>   drm/scheduler: Add fence deadline support
+>   drm/syncobj: Add deadline support for syncobj waits
+>   drm/vblank: Add helper to get next vblank time
+>   drm/atomic-helper: Set fence deadline for vblank
+>   drm/msm: Add deadline based boost support
+>   drm/msm: Add wait-boost support
+>   drm/msm/atomic: Switch to vblank_start helper
+>   drm/i915: Add deadline based boost support
+>
+>  Documentation/driver-api/dma-buf.rst    | 16 ++++-
+>  drivers/dma-buf/dma-fence-array.c       | 11 ++++
+>  drivers/dma-buf/dma-fence-chain.c       | 12 ++++
+>  drivers/dma-buf/dma-fence.c             | 60 ++++++++++++++++++
+>  drivers/dma-buf/dma-resv.c              | 22 +++++++
+>  drivers/dma-buf/sw_sync.c               | 81 +++++++++++++++++++++++++
+>  drivers/dma-buf/sync_debug.h            |  2 +
+>  drivers/dma-buf/sync_file.c             | 19 ++++++
+>  drivers/gpu/drm/drm_atomic_helper.c     | 37 +++++++++++
+>  drivers/gpu/drm/drm_syncobj.c           | 64 +++++++++++++++----
+>  drivers/gpu/drm/drm_vblank.c            | 53 +++++++++++++---
+>  drivers/gpu/drm/i915/i915_request.c     | 20 ++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 -----
+>  drivers/gpu/drm/msm/msm_atomic.c        |  8 ++-
+>  drivers/gpu/drm/msm/msm_drv.c           | 12 ++--
+>  drivers/gpu/drm/msm/msm_fence.c         | 74 ++++++++++++++++++++++
+>  drivers/gpu/drm/msm/msm_fence.h         | 20 ++++++
+>  drivers/gpu/drm/msm/msm_gem.c           |  5 ++
+>  drivers/gpu/drm/msm/msm_kms.h           |  8 ---
+>  drivers/gpu/drm/scheduler/sched_fence.c | 46 ++++++++++++++
+>  drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+>  include/drm/drm_vblank.h                |  1 +
+>  include/drm/gpu_scheduler.h             | 17 ++++++
+>  include/linux/dma-fence.h               | 22 +++++++
+>  include/linux/dma-resv.h                |  2 +
+>  include/uapi/drm/drm.h                  | 17 ++++++
+>  include/uapi/drm/msm_drm.h              | 14 ++++-
+>  include/uapi/linux/sync_file.h          | 59 +++++++++++-------
+>  28 files changed, 640 insertions(+), 79 deletions(-)
+>
+> --
+> 2.39.2
+>
