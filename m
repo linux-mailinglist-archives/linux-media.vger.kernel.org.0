@@ -2,39 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B756BD75A
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 18:43:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 422336BDA65
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 21:51:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbjCPRnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 13:43:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41510 "EHLO
+        id S230369AbjCPUvu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 16:51:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230168AbjCPRnf (ORCPT
+        with ESMTP id S229588AbjCPUvt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 13:43:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FD9168A9
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 10:43:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 16 Mar 2023 16:51:49 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 117787607C;
+        Thu, 16 Mar 2023 13:51:48 -0700 (PDT)
+Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 088A9B822BD
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 17:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69B00C433D2
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 17:43:02 +0000 (UTC)
-Message-ID: <7aafb16c-d6a0-f62d-dfbd-05ef87d0a5e5@xs4all.nl>
-Date:   Thu, 16 Mar 2023 18:43:00 +0100
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CD6766603096;
+        Thu, 16 Mar 2023 20:51:44 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1678999906;
+        bh=k3z29yPOnuz0kpwls7c9eR3QIXarYfLJxqFV5EuLcLg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nh/NeXJh/Ryon7FaBxfjX3GELNPbyT8cyUiEtLU0EhxnORZPm/wrQxYXQaVnIeqRh
+         Kbr22sPvqZBaG0AqeDW2XAFb3aPiNZe02TWhtp+coMGMYD1WDmzh+XBmJFtYDw4u/P
+         CGZBzjmUhQ8HInBX9tWBTseElnSLaDX7b+9TBTdcZUg5wqWS1pjhz3jx6GCn7l9z3x
+         YtCEYb2GW0WquyemRuSMmpq2kcZH7ayDuXWDrl2em5DwcHs0BGEW/CCmflEv8dMx6I
+         Ni2ulSHZNirqMll9c7dbKvntDwR81uB37qlDkDFULsVXFphfePk4fjK61vExOlOzS8
+         h95mPzFzX2eDA==
+Date:   Thu, 16 Mar 2023 16:51:40 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v3] media: mediatek: vcodec: Force capture queue format
+ to MM21
+Message-ID: <20230316205140.sjkdwrpj2xwquho2@notapiano>
+References: <20230314072557.29669-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.4] v2: Drop destructive overlay support
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230314072557.29669-1-yunfei.dong@mediatek.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,73 +69,109 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See the cover letter for more info:
+Hi Yunfei,
 
-https://patchwork.linuxtv.org/project/linux-media/cover/20230302125731.1124945-1-hverkuil-cisco@xs4all.nl/
+thanks for the patch.
 
-Regards,
+On Tue, Mar 14, 2023 at 03:25:57PM +0800, Yunfei Dong wrote:
+> Libyuv is one software library used to covert format. Only covert
+> mediatek uncompressed mode MM21 to standard yuv420 for MT21 is
+> compressed mode. Need to set capture queue format to MM21 in order
+> to use Libyuv when scp firmware support MM21 and MT21.
 
-	Hans
+This commit message is a bit confusing still. Here's a suggestion:
 
-Changes since v1:
+	While the decoder can produce frames in both MM21 and MT21C formats, only MM21
+	is currently supported by userspace tools (like gstreamer and libyuv). In order
+	to ensure userspace keeps working after the SCP firmware is updated to support
+	both MM21 and MT21C formats, force the MM21 format for the capture queue.
 
-- rebased to 6.3-rc2
-- fix an ENUM_FMT regression in bttv where the format index was returned
-  instead of 0. Thanks to Deb Brouwer for reporting this!
+	This is meant as a stopgap solution while dynamic format switching between 
+	MM21 and MT21C isn't implemented in the driver.
 
+> 
+> Fixes: 7501edef6b1f ("media: mediatek: vcodec: Different codec using different capture format")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> changed with v2:
+> - re-write commit message.
+> - change the driver flow.
+> changed with v1:
+> - add Fixes tag.
+> ---
+>  .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 24 +++----------------
+>  1 file changed, 3 insertions(+), 21 deletions(-)
+> 
 
-The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+While this change works (that is, I'm able to run fluster tests on both MT8192
+and MT8195 using the new MM21+MT21C firmware), it causes a regression on
+v4l2-compliance:
 
-  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+	[..]
+	Format ioctls:
+	[..]
+			fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
+		test VIDIOC_G_FMT: FAIL
+			fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
+		test VIDIOC_TRY_FMT: FAIL
+			fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
+		test VIDIOC_S_FMT: FAIL
+	[..]
+	Total for mtk-vcodec-dec device /dev/video2: 46, Succeeded: 43, Failed: 3, Warnings: 0
 
-are available in the Git repository at:
+The patch makes only MM21 show in VIDIOC_ENUM_FMT, but VIDIOC_S_FMT,
+VIDIOC_G_FMT and VIDIOC_TRY_FMT still show MT21. So I think you need to do the
+same forcing of MM21 for those ioctls.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4b
+Thanks,
+Nícolas
 
-for you to fetch changes up to 4fb898a32be9ce2c0dfbb4ff3b3cb83626d00421:
-
-  Documentation: userspace-api: media: drop clipping, destructive overlays (2023-03-16 17:43:14 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (9):
-      saa7146: drop overlay support
-      saa7134: drop overlay support
-      bttv: drop overlay support
-      vivid: drop overlay support
-      vivid: drop bitmap and clipping output overlay support
-      v4l2-core: drop v4l2_window clipping and bitmap support
-      videodev.h: drop V4L2_FBUF_CAP_LIST/BITMAP_CLIPPING
-      v4l2-core: zero field base in struct v4l2_framebuffer
-      Documentation: userspace-api: media: drop clipping, destructive overlays
-
- Documentation/userspace-api/media/v4l/dev-overlay.rst   |  10 +-
- Documentation/userspace-api/media/v4l/vidioc-g-fbuf.rst |  52 +++----
- drivers/media/common/saa7146/saa7146_fops.c             |  26 +---
- drivers/media/common/saa7146/saa7146_hlp.c              | 296 ----------------------------------------
- drivers/media/common/saa7146/saa7146_video.c            | 326 +-------------------------------------------
- drivers/media/pci/bt8xx/Kconfig                         |   2 +-
- drivers/media/pci/bt8xx/btcx-risc.c                     | 153 ---------------------
- drivers/media/pci/bt8xx/btcx-risc.h                     |   9 --
- drivers/media/pci/bt8xx/bttv-cards.c                    |  15 --
- drivers/media/pci/bt8xx/bttv-driver.c                   | 436 ++---------------------------------------------------------
- drivers/media/pci/bt8xx/bttv-risc.c                     | 131 ------------------
- drivers/media/pci/bt8xx/bttvp.h                         |  28 +---
- drivers/media/pci/saa7134/saa7134-cards.c               |   1 -
- drivers/media/pci/saa7134/saa7134-core.c                |  32 -----
- drivers/media/pci/saa7134/saa7134-video.c               | 411 +------------------------------------------------------
- drivers/media/pci/saa7134/saa7134.h                     |  13 --
- drivers/media/test-drivers/vivid/vivid-core.c           |  49 +------
- drivers/media/test-drivers/vivid/vivid-core.h           |  19 ---
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c    | 131 +-----------------
- drivers/media/test-drivers/vivid/vivid-vid-cap.c        | 272 -------------------------------------
- drivers/media/test-drivers/vivid/vivid-vid-cap.h        |   3 -
- drivers/media/test-drivers/vivid/vivid-vid-out.c        |  74 ----------
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c           |  85 ++----------
- drivers/media/v4l2-core/v4l2-ioctl.c                    |  77 ++++-------
- drivers/staging/media/av7110/av7110_v4l.c               |  17 +--
- include/media/drv-intf/saa7146_vv.h                     |  21 ---
- include/uapi/linux/videodev2.h                          |   2 +
- 27 files changed, 92 insertions(+), 2599 deletions(-)
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> index 641f533c417f..c99705681a03 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> @@ -39,10 +39,9 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
+>  {
+>  	const struct mtk_vcodec_dec_pdata *dec_pdata = ctx->dev->vdec_pdata;
+>  	const struct mtk_video_fmt *fmt;
+> -	struct mtk_q_data *q_data;
+>  	int num_frame_count = 0, i;
+> -	bool ret = true;
+>  
+> +	fmt = &dec_pdata->vdec_formats[format_index];
+>  	for (i = 0; i < *dec_pdata->num_formats; i++) {
+>  		if (dec_pdata->vdec_formats[i].type != MTK_FMT_FRAME)
+>  			continue;
+> @@ -50,27 +49,10 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_ctx *ctx, int format_index)
+>  		num_frame_count++;
+>  	}
+>  
+> -	if (num_frame_count == 1)
+> +	if (num_frame_count == 1 || fmt->fourcc == V4L2_PIX_FMT_MM21)
+>  		return true;
+>  
+> -	fmt = &dec_pdata->vdec_formats[format_index];
+> -	q_data = &ctx->q_data[MTK_Q_DATA_SRC];
+> -	switch (q_data->fmt->fourcc) {
+> -	case V4L2_PIX_FMT_VP8_FRAME:
+> -		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
+> -			ret = true;
+> -		break;
+> -	case V4L2_PIX_FMT_H264_SLICE:
+> -	case V4L2_PIX_FMT_VP9_FRAME:
+> -		if (fmt->fourcc == V4L2_PIX_FMT_MM21)
+> -			ret = false;
+> -		break;
+> -	default:
+> -		ret = true;
+> -		break;
+> -	}
+> -
+> -	return ret;
+> +	return false;
+>  }
+>  
+>  static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_ctx *ctx,
+> -- 
+> 2.25.1
+> 
