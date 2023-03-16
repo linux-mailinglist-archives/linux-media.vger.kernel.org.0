@@ -2,149 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2BBF6BCC50
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 422776BCC75
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:20:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbjCPKSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 06:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
+        id S230227AbjCPKUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 06:20:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjCPKR7 (ORCPT
+        with ESMTP id S230224AbjCPKUi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 06:17:59 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C4C32B7195;
-        Thu, 16 Mar 2023 03:17:56 -0700 (PDT)
-Received: from loongson.cn (unknown [10.20.42.133])
-        by gateway (Coremail) with SMTP id _____8AxUU_T7BJkleAMAA--.6963S3;
-        Thu, 16 Mar 2023 18:17:55 +0800 (CST)
-Received: from [10.20.42.133] (unknown [10.20.42.133])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxIL_O7BJkE_MBAA--.9498S3;
-        Thu, 16 Mar 2023 18:17:50 +0800 (CST)
-Message-ID: <b674a6ae-05bc-c6e3-7179-293741cbe510@loongson.cn>
-Date:   Thu, 16 Mar 2023 18:17:50 +0800
+        Thu, 16 Mar 2023 06:20:38 -0400
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63966BBB31
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:20:29 -0700 (PDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-536af432ee5so22465777b3.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678962028;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SAog4H/SRFvoaEO1OZaRPW+vcyrqLcy+mvMuM/gRdEU=;
+        b=c+ZumM3X9admVFx8dYxUtMxlNIuB1aK9CvI3x1Bhk8FAE8iZwfnpyrfVzAVWQKPIfg
+         Jy3AgQ2Wdq6r+PGFBOOR6Ap7ANNwzjk6ANKoPK0arbRr+2b9tlhpm/PLkn4SztdbA/Ag
+         zqTcQcSvnJvPfyJFBkJzA+GqMxcV/Tx9JKmDWASuCW6fQ7Io7PnlTZGUpqttYj2Y1B+S
+         WfNH9NAblKoCa5asYybuJDSgs0y3gu1pThe2rdgI7cUsKxBKJCSNidxQkLdqRDC4IBGW
+         TffJHOKI1ZA13UMP/2eS3wRa7Hr7Ml3VXi7SHlD91iHBRIqkf4XG1sy6fsNtdEi+p7s/
+         cB2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678962028;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SAog4H/SRFvoaEO1OZaRPW+vcyrqLcy+mvMuM/gRdEU=;
+        b=rBuwHMcaC10AQ1XZ3qAOUYKCDcbrspbYouzB5ob9cTeSAH1yYJBAIzDFmCfcqzWp8C
+         rCl+gljPn2TLpBhu86AZLzeqYtS1L/E52Qcv/I+JISVKr1Pp/VIORphuGX1Y4aJpJ4S9
+         Ew/dHKDK6Oqm5xkOLSOxgcu3VyytPAlJJuttR1Mkt1MtfVLOeIqsDX0nB5F9Xie8rmD+
+         zJwnACvYc4sWFl5fanIhwLTHq5RF0pYhkbJw3Qp3srUxye4hsTdRRIpjejGWEkaVdKfY
+         bFcGqaO9KVm1EZIIVTM1z1T/2VvFzLQDd/y+tXabSJI0qpIm7Vff8In6yVGJXICh+bBN
+         sSCw==
+X-Gm-Message-State: AO0yUKUxO/8kpP4dFPN80IecbFv5FF9y8ZvEzJV5AC4CROy83cH74/R1
+        1cETtCVuCavPTfWV2vqeo5AIPMhWY4PkC8iUhAy7Dg==
+X-Google-Smtp-Source: AK7set9sa4/oy4Jqwr7KB88J+xmPYRgd44Viltr+Y+ihpUmjD1EzCd/GuXR6lmOjOsG+2r84dXTULPtF66OZHVXeTtw=
+X-Received: by 2002:a81:b3ca:0:b0:541:8a9a:5445 with SMTP id
+ r193-20020a81b3ca000000b005418a9a5445mr1860892ywh.5.1678962028513; Thu, 16
+ Mar 2023 03:20:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 2/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To:     kernel test robot <lkp@intel.com>,
-        Sui Jingfeng <15330273260@189.cn>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linaro-mm-sig@lists.linaro.org,
-        Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <20230315211550.2620818-3-15330273260@189.cn>
- <202303161727.8HnBf6cW-lkp@intel.com>
-From:   Sui jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <202303161727.8HnBf6cW-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8AxIL_O7BJkE_MBAA--.9498S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWw4DAFWkZw1UKF4rJr13Jwb_yoW5tr1kpa
-        13Aa9IkrWrXr4UGFWkGa97u3Waqws5X34UXry3Gw1Yva42vFWqgrn2kFW5ursrKFnrKFW2
-        yrZ3u3WkW3ZrZaDanT9S1TB71UUUUbJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bqxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-        w2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-        AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCa
-        FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r4a6rW5MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
-        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280
-        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0L0ePUUUUU==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230202064712.5804-2-quic_vboma@quicinc.com> <20230316081509.12201-1-quic_vboma@quicinc.com>
+ <20230316081509.12201-2-quic_vboma@quicinc.com>
+In-Reply-To: <20230316081509.12201-2-quic_vboma@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Thu, 16 Mar 2023 12:20:17 +0200
+Message-ID: <CAA8EJpozq1nCgG5npK5JUXc-Y-7LiPe3Y_VP8++Rq70AreCenA@mail.gmail.com>
+Subject: Re: [PATCH] venus: Enable sufficient sequence change support for
+ sc7180 and fix for Decoder STOP command issue.
+To:     quic_vboma@quicinc.com
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, 16 Mar 2023 at 10:17, <quic_vboma@quicinc.com> wrote:
+>
+> From: Viswanath Boma <quic_vboma@quicinc.com>
+>
+> For VP9 bitstreams, there could be a change in resolution at interframe,
+> for driver to get notified of such resolution change,
+> enable the property in video firmware.
+> Also, EOS handling is now made same in video firmware across all V6 SOCs,
+> hence above a certain firmware version, the driver handling is
+> made generic for all V6s
+>
+> Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> ---
 
-On 2023/3/16 17:53, kernel test robot wrote:
-> Hi Sui,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on drm-misc/drm-misc-next]
-> [also build test WARNING on linus/master v6.3-rc2 next-20230316]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/20230315211550.2620818-3-15330273260%40189.cn
-> patch subject: [PATCH v7 2/2] drm: add kms driver for loongson display controller
-> config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161727.8HnBf6cW-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/ba899dba3475b9612f212e3b1daedc3d9a299458
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
->          git checkout ba899dba3475b9612f212e3b1daedc3d9a299458
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/loongson/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303161727.8HnBf6cW-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     drivers/gpu/drm/loongson/lsdc_gem.c: In function 'lsdc_show_buffer_object':
->>> drivers/gpu/drm/loongson/lsdc_gem.c:280:51: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
->       280 |                 seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
->           |                                                ~~~^
->           |                                                   |
->           |                                                   long unsigned int
->           |                                                %8u
->       281 |                            i,
->       282 |                            lsdc_bo_size(tbo) >> 10,
->           |                            ~~~~~~~~~~~~~~~~~~~~~~~
->           |                                              |
->           |                                              size_t {aka unsigned int}
->
->
-> vim +280 drivers/gpu/drm/loongson/lsdc_gem.c
->
->     264	
->     265	int lsdc_show_buffer_object(struct seq_file *m, void *arg)
->     266	{
->     267	#ifdef CONFIG_DEBUG_FS
->     268		struct drm_info_node *node = (struct drm_info_node *)m->private;
->     269		struct drm_device *ddev = node->minor->dev;
->     270		struct lsdc_device *ldev = to_lsdc(ddev);
->     271		struct lsdc_bo *lbo;
->     272		unsigned int i = 0;
->     273	
->     274		mutex_lock(&ldev->gem.mutex);
->     275	
->     276		list_for_each_entry(lbo, &ldev->gem.objects, list) {
->     277			struct ttm_buffer_object *tbo = &lbo->tbo;
->     278			struct ttm_resource *resource = tbo->resource;
->     279	
->   > 280			seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
->
-Hi,
+Which version of the patch is this? Were there any changes compared to
+the previous version? Please include a changelog below the dashed line
+to let other people know what has changed
 
-Do i need fix this?
+>  drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
+>  drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
+>  drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
+>  drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
+>  drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
+>  5 files changed, 41 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 32551c2602a9..ee8b70a34656 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -202,6 +202,11 @@ struct venus_core {
+>         unsigned int core0_usage_count;
+>         unsigned int core1_usage_count;
+>         struct dentry *root;
+> +       struct venus_img_version {
+> +               u32 major;
+> +               u32 minor;
+> +               u32 rev;
+> +       } venus_ver;
+>  };
+>
+>  struct vdec_controls {
+> @@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>         return NULL;
+>  }
+>
+> +static inline int
+> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +       return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
+> +                       vminor && (core)->venus_ver.rev >= vrev);
+> +}
+> +
+> +static inline int
+> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +       return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
+> +                       vminor && (core)->venus_ver.rev <= vrev);
+> +}
+>  #endif
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index 930b743f225e..e2539b58340f 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+>                 pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
+>                 break;
+>         }
+> +       case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
+>         case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
+>                 struct hfi_enable *in = pdata;
+>                 struct hfi_enable *en = prop_data;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index d2d6719a2ba4..20516b4361d3 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -469,6 +469,8 @@
+>  #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH                 0x1003007
+>  #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT                     0x1003009
+>  #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE                   0x100300a
+> +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
+> +                                                               0x0100300b
+>
+>  /*
+>   * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
+> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> index df96db3761a7..07ac0fcd2852 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>  }
+>
+>  static void
+> -sys_get_prop_image_version(struct device *dev,
+> +sys_get_prop_image_version(struct venus_core *core,
+>                            struct hfi_msg_sys_property_info_pkt *pkt)
+>  {
+> +       struct device *dev = core->dev;
+>         u8 *smem_tbl_ptr;
+>         u8 *img_ver;
+>         int req_bytes;
+> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>                 return;
+>
+>         img_ver = pkt->data;
+> +       if (IS_V4(core))
+> +               sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+> +                      &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+> +       else if (IS_V6(core))
+> +               sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+> +                      &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>
+>         dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>
+> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>
+>         switch (pkt->property) {
+>         case HFI_PROPERTY_SYS_IMAGE_VERSION:
+> -               sys_get_prop_image_version(dev, pkt);
+> +               sys_get_prop_image_version(core, pkt);
+>                 break;
+>         default:
+>                 dev_dbg(dev, VDBGL "unknown property data\n");
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4ceaba37e2e5..36c88858ea9d 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+>
+>                 fdata.buffer_type = HFI_BUFFER_INPUT;
+>                 fdata.flags |= HFI_BUFFERFLAG_EOS;
+> -               if (IS_V6(inst->core))
+> +               if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
+>                         fdata.device_addr = 0;
+>                 else
+>                         fdata.device_addr = 0xdeadb000;
+> @@ -671,6 +671,16 @@ static int vdec_set_properties(struct venus_inst *inst)
+>                         return ret;
+>         }
+>
+> +       /* Enabling sufficient sequence change support for VP9 */
+> +       if (of_device_is_compatible(inst->core->dev->of_node, "qcom,sc7180-venus")) {
 
+Is it really specific just to sc7180 or will it be applicable to any
+other platform using venus-5.4 firmware?
+
+> +               if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
+> +                       ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
+> +                       ret = hfi_session_set_property(inst, ptype, &en);
+> +                       if (ret)
+> +                               return ret;
+> +               }
+> +       }
+> +
+>         ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
+>         conceal = ctr->conceal_color & 0xffff;
+>         conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
+> --
+> 2.17.1
+>
+
+
+-- 
+With best wishes
+Dmitry
