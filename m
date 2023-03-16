@@ -2,382 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B35516BD592
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 17:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B756BD75A
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 18:43:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbjCPQ3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 12:29:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
+        id S229697AbjCPRnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 13:43:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbjCPQ3K (ORCPT
+        with ESMTP id S230168AbjCPRnf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 12:29:10 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655BB11658;
-        Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id v2-20020a056830090200b0069c6952f4d3so1281550ott.7;
-        Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678984147;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
-        b=ikNRzbRoiKTgXyd+o2RLa29YkJb2JOn/v6YIm0chMHa6jMtz7Aukxr3sDnZHlDLCPg
-         4D/22vj4EbWjYs2AIrlL21s+qmtcJrK2g0S0A9e8PiBm5W7d712LL6r2UFxgKnvXl/gm
-         ktxn0TCtFmHN3n6/5Rqp3eY/tP+45cwvCQbEr4LKfIVc3NzHlCvpaRgPl1GjprXJngVK
-         o/OzzczyZa0RYUhKwpPTamHjLGz0bzvRvfBPOcY80aDA3S86p0xzu2KL68NJou9/9dV3
-         ledWYpzzPxEcC0LxkcP1aiyD5wyrscSI78/RWFrs6d2i7fFM8PEv3ajniZ3O3cfTJDJ4
-         JOow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678984147;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
-        b=6L+Fq4JYx6S/3tGnBkY5jAoo1bqTqaN6dav0ntMqZIgtqS0/GHCbRztXKZdaLWOIk2
-         8MeRKgI4nOxZSTr37RJU2CK8KyWkbdqkv4SVffITEr/iMR/DP54AuVN45dW/GjeSnoGI
-         obHYESWolyzQx2V1nb9nUJ40jPNN4SyyCVOtlAhrAhbnCx6SLraG+cYLttyUbKvG7vNP
-         xjWnZrPmT/mZGdglILY6SKXe9UFKynBN9FPpfE0CXTCO4x2JBdp8PtK7JfzqRPLaPVCr
-         MEdBgVtubkapU66xVtbgK849c9eED5SloC2yr029qx13hFsGCkddGfXUuekz67xbTFKs
-         KGhA==
-X-Gm-Message-State: AO0yUKWAcbWHay0YLPqp5UlWZllJ/4rxr2zDoMJvSZmla4nKCZd53+5b
-        BVR4A+gSFIZ4HpMLhWg50Wi/VoRfiuQTWrJRXEx29fQy
-X-Google-Smtp-Source: AK7set9IcfdpvBN64YteomtwjOCFpqzUVfHueXm0TYhNaIV/bcuG5vBYfN2vscoS0EyM3rGNZE/9BSodjB6pzEb8/aE=
-X-Received: by 2002:a9d:4b8f:0:b0:696:f275:a60d with SMTP id
- k15-20020a9d4b8f000000b00696f275a60dmr3396308otf.7.1678984147388; Thu, 16 Mar
- 2023 09:29:07 -0700 (PDT)
+        Thu, 16 Mar 2023 13:43:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FD9168A9
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 10:43:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 088A9B822BD
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 17:43:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69B00C433D2
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 17:43:02 +0000 (UTC)
+Message-ID: <7aafb16c-d6a0-f62d-dfbd-05ef87d0a5e5@xs4all.nl>
+Date:   Thu, 16 Mar 2023 18:43:00 +0100
 MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com> <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com>
-In-Reply-To: <ZBLg0t0tTVvuPuiJ@gmail.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 16 Mar 2023 09:28:55 -0700
-Message-ID: <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.4] v2: Drop destructive overlay support
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
- wrote:
->
-> On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
-com> wrote:
-> > >
-> > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gm=
-ail.com> wrote:
-> > > > >
-> > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Add a way to hint to the fence signaler of an upcoming deadline=
-, such as
-> > > > > > vblank, which the fence waiter would prefer not to miss.  This =
-is to aid
-> > > > > > the fence signaler in making power management decisions, like b=
-oosting
-> > > > > > frequency as the deadline approaches and awareness of missing d=
-eadlines
-> > > > > > so that can be factored in to the frequency scaling.
-> > > > > >
-> > > > > > v2: Drop dma_fence::deadline and related logic to filter duplic=
-ate
-> > > > > >     deadlines, to avoid increasing dma_fence size.  The fence-c=
-ontext
-> > > > > >     implementation will need similar logic to track deadlines o=
-f all
-> > > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > > v4: Clarify in docs comment that this is a hint
-> > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > > v6: More docs
-> > > > > > v7: Fix typo, clarify past deadlines
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > > ---
-> > > > >
-> > > > > Hi Rob!
-> > > > >
-> > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++=
-++++++++
-> > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > > >  3 files changed, 87 insertions(+)
-> > > > > >
-> > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentati=
-on/driver-api/dma-buf.rst
-> > > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > >     :doc: fence signalling annotation
-> > > > > >
-> > > > > > +DMA Fence Deadline Hints
-> > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > +
-> > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > +   :doc: deadline hints
-> > > > > > +
-> > > > > >  DMA Fences Functions Reference
-> > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > >
-> > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-=
-fence.c
-> > > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fenc=
-e **fences, uint32_t count,
-> > > > > >  }
-> > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > >
-> > > > > > +/**
-> > > > > > + * DOC: deadline hints
-> > > > > > + *
-> > > > > > + * In an ideal world, it would be possible to pipeline a workl=
-oad sufficiently
-> > > > > > + * that a utilization based device frequency governor could ar=
-rive at a minimum
-> > > > > > + * frequency that meets the requirements of the use-case, in o=
-rder to minimize
-> > > > > > + * power consumption.  But in the real world there are many wo=
-rkloads which
-> > > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > > + *
-> > > > > > + * * Workloads that ping-pong between device and CPU, with alt=
-ernating periods
-> > > > > > + *   of CPU waiting for device, and device waiting on CPU.  Th=
-is can result in
-> > > > > > + *   devfreq and cpufreq seeing idle time in their respective =
-domains and in
-> > > > > > + *   result reduce frequency.
-> > > > > > + *
-> > > > > > + * * Workloads that interact with a periodic time based deadli=
-ne, such as double
-> > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  I=
-n this scenario,
-> > > > > > + *   missing a vblank deadline results in an *increase* in idl=
-e time on the GPU
-> > > > > > + *   (since it has to wait an additional vblank period), sendi=
-ng a signal to
-> > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the o=
-pposite is what is
-> > > > > > + *   needed.
-> > > > >
-> > > > > This is the use case I'd like to get some better understanding ab=
-out how
-> > > > > this series intends to work, as the problematic scheduling behavi=
-or
-> > > > > triggered by missed deadlines has plagued compositing display ser=
-vers
-> > > > > for a long time.
-> > > > >
-> > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> > > > > developer, so I will need some hand holding when it comes to
-> > > > > understanding exactly what piece of software is responsible for
-> > > > > communicating what piece of information.
-> > > > >
-> > > > > > + *
-> > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence vi=
-a &dma_fence_set_deadline.
-> > > > > > + * The deadline hint provides a way for the waiting driver, or=
- userspace, to
-> > > > > > + * convey an appropriate sense of urgency to the signaling dri=
-ver.
-> > > > > > + *
-> > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC=
- for userspace
-> > > > > > + * facing APIs).  The time could either be some point in the f=
-uture (such as
-> > > > > > + * the vblank based deadline for page-flipping, or the start o=
-f a compositor's
-> > > > > > + * composition cycle), or the current time to indicate an imme=
-diate deadline
-> > > > > > + * hint (Ie. forward progress cannot be made until this fence =
-is signaled).
-> > > > >
-> > > > > Is it guaranteed that a GPU driver will use the actual start of t=
-he
-> > > > > vblank as the effective deadline? I have some memories of seing
-> > > > > something about vblank evasion browsing driver code, which I migh=
-t have
-> > > > > misunderstood, but I have yet to find whether this is something
-> > > > > userspace can actually expect to be something it can rely on.
-> > > >
-> > > > I guess you mean s/GPU driver/display driver/ ?  It makes things mo=
-re
-> > > > clear if we talk about them separately even if they happen to be th=
-e
-> > > > same device.
-> > >
-> > > Sure, sorry about being unclear about that.
-> > >
-> > > >
-> > > > Assuming that is what you mean, nothing strongly defines what the
-> > > > deadline is.  In practice there is probably some buffering in the
-> > > > display controller.  For ex, block based (including bandwidth
-> > > > compressed) formats, you need to buffer up a row of blocks to
-> > > > efficiently linearize for scanout.  So you probably need to latch s=
-ome
-> > > > time before you start sending pixel data to the display.  But detai=
-ls
-> > > > like this are heavily implementation dependent.  I think the most
-> > > > reasonable thing to target is start of vblank.
-> > >
-> > > The driver exposing those details would be quite useful for userspace
-> > > though, so that it can delay committing updates to late, but not too
-> > > late. Setting a deadline to be the vblank seems easy enough, but it
-> > > isn't enough for scheduling the actual commit.
-> >
-> > I'm not entirely sure how that would even work.. but OTOH I think you
-> > are talking about something on the order of 100us?  But that is a bit
-> > of another topic.
->
-> Yes, something like that. But yea, it's not really related. Scheduling
-> commits closer to the deadline has more complex behavior than that too,
-> e.g. the need for real time scheduling, and knowing how long it usually
-> takes to create and commit and for the kernel to process.
->
-> >
->
-> 8-< *snip* 8-<
->
-> > > >
-> > > > You need a fence to set the deadline, and for that work needs to be
-> > > > flushed.  But you can't associate a deadline with work that the ker=
-nel
-> > > > is unaware of anyways.
-> > >
-> > > That makes sense, but it might also a bit inadequate to have it as th=
-e
-> > > only way to tell the kernel it should speed things up. Even with the
-> > > trick i915 does, with GNOME Shell, we still end up with the feedback
-> > > loop this series aims to mitigate. Doing triple buffering, i.e. delay=
-ing
-> > > or dropping the first frame is so far the best work around that works=
-,
-> > > except doing other tricks that makes the kernel to ramp up its clock.
-> > > Having to rely on choosing between latency and frame drops should
-> > > ideally not have to be made.
-> >
-> > Before you have a fence, the thing you want to be speeding up is the
-> > CPU, not the GPU.  There are existing mechanisms for that.
->
-> Is there no benefit to let the GPU know earlier that it should speed up,
-> so that when the job queue arrives, it's already up to speed?
+See the cover letter for more info:
 
-Downstream we have input notifier that resumes the GPU so we can
-pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
-wait to boost freq until we have cmdstream to submit, since that
-doesn't take as long.  What needs help initially after input is all
-the stuff that happens on the CPU before the GPU can start to do
-anything ;-)
+https://patchwork.linuxtv.org/project/linux-media/cover/20230302125731.1124945-1-hverkuil-cisco@xs4all.nl/
 
-Btw, I guess I haven't made this clear, dma-fence deadline is trying
-to help the steady-state situation, rather than the input-latency
-situation.  It might take a frame or two of missed deadlines for
-gpufreq to arrive at a good steady-state freq.
+Regards,
 
-> >
-> > TBF I'm of the belief that there is still a need for input based cpu
-> > boost (and early wake-up trigger for GPU).. we have something like
-> > this in CrOS kernel.  That is a bit of a different topic, but my point
-> > is that fence deadlines are just one of several things we need to
-> > optimize power/perf and responsiveness, rather than the single thing
-> > that solves every problem under the sun ;-)
->
-> Perhaps; but I believe it's a bit of a back channel of intent; the piece
-> of the puzzle that has the information to know whether there is need
-> actually speed up is the compositor, not the kernel.
->
-> For example, pressing 'p' while a terminal is focused does not need high
-> frequency clocks, it just needs the terminal emulator to draw a 'p' and
-> the compositor to composite that update. Pressing <Super> may however
-> trigger a non-trivial animation moving a lot of stuff around on screen,
-> maybe triggering Wayland clients to draw and what not, and should most
-> arguably have the ability to "warn" the kernel about the upcoming flood
-> of work before it is already knocking on its door step.
+	Hans
 
-The super key is problematic, but not for the reason you think.  It is
-because it is a case where we should boost on key-up instead of
-key-down.. and the second key-up event comes after the cpu-boost is
-already in it's cool-down period.  But even if suboptimal in cases
-like this, it is still useful for touch/stylus cases where the
-slightest of lag is much more perceptible.
+Changes since v1:
 
-This is getting off topic but I kinda favor coming up with some sort
-of static definition that userspace could give the kernel to let the
-kernel know what input to boost on.  Or maybe something could be done
-with BPF?
+- rebased to 6.3-rc2
+- fix an ENUM_FMT regression in bttv where the format index was returned
+  instead of 0. Thanks to Deb Brouwer for reporting this!
 
-> >
->
-> 8-< *snip* 8-<
->
-> > >
-> > > Is it expected that WSI's will set their own deadlines, or should tha=
-t
-> > > be the job of the compositor? For example by using compositors using
-> > > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
-> > > deadline matching the vsync it most ideally will be committed to?
-> > >
-> >
-> > I'm kind of assuming compositors, but if the WSI somehow has more
-> > information about ideal presentation time, then I suppose it could be
-> > in the WSI?  I'll defer to folks who spend more time on WSI and
-> > compositors to hash out the details ;-)
->
-> With my compositor developer hat on, it might be best to let it be up to
-> the compositor, it's the one that knows if a client's content will
-> actually end up anywhere visible.
->
 
-wfm
+The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
 
-BR,
--R
+  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
 
->
-> Jonas
->
-> >
-> > BR,
-> > -R
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4b
+
+for you to fetch changes up to 4fb898a32be9ce2c0dfbb4ff3b3cb83626d00421:
+
+  Documentation: userspace-api: media: drop clipping, destructive overlays (2023-03-16 17:43:14 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (9):
+      saa7146: drop overlay support
+      saa7134: drop overlay support
+      bttv: drop overlay support
+      vivid: drop overlay support
+      vivid: drop bitmap and clipping output overlay support
+      v4l2-core: drop v4l2_window clipping and bitmap support
+      videodev.h: drop V4L2_FBUF_CAP_LIST/BITMAP_CLIPPING
+      v4l2-core: zero field base in struct v4l2_framebuffer
+      Documentation: userspace-api: media: drop clipping, destructive overlays
+
+ Documentation/userspace-api/media/v4l/dev-overlay.rst   |  10 +-
+ Documentation/userspace-api/media/v4l/vidioc-g-fbuf.rst |  52 +++----
+ drivers/media/common/saa7146/saa7146_fops.c             |  26 +---
+ drivers/media/common/saa7146/saa7146_hlp.c              | 296 ----------------------------------------
+ drivers/media/common/saa7146/saa7146_video.c            | 326 +-------------------------------------------
+ drivers/media/pci/bt8xx/Kconfig                         |   2 +-
+ drivers/media/pci/bt8xx/btcx-risc.c                     | 153 ---------------------
+ drivers/media/pci/bt8xx/btcx-risc.h                     |   9 --
+ drivers/media/pci/bt8xx/bttv-cards.c                    |  15 --
+ drivers/media/pci/bt8xx/bttv-driver.c                   | 436 ++---------------------------------------------------------
+ drivers/media/pci/bt8xx/bttv-risc.c                     | 131 ------------------
+ drivers/media/pci/bt8xx/bttvp.h                         |  28 +---
+ drivers/media/pci/saa7134/saa7134-cards.c               |   1 -
+ drivers/media/pci/saa7134/saa7134-core.c                |  32 -----
+ drivers/media/pci/saa7134/saa7134-video.c               | 411 +------------------------------------------------------
+ drivers/media/pci/saa7134/saa7134.h                     |  13 --
+ drivers/media/test-drivers/vivid/vivid-core.c           |  49 +------
+ drivers/media/test-drivers/vivid/vivid-core.h           |  19 ---
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c    | 131 +-----------------
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c        | 272 -------------------------------------
+ drivers/media/test-drivers/vivid/vivid-vid-cap.h        |   3 -
+ drivers/media/test-drivers/vivid/vivid-vid-out.c        |  74 ----------
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c           |  85 ++----------
+ drivers/media/v4l2-core/v4l2-ioctl.c                    |  77 ++++-------
+ drivers/staging/media/av7110/av7110_v4l.c               |  17 +--
+ include/media/drv-intf/saa7146_vv.h                     |  21 ---
+ include/uapi/linux/videodev2.h                          |   2 +
+ 27 files changed, 92 insertions(+), 2599 deletions(-)
