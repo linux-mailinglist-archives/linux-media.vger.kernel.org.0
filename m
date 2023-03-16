@@ -2,480 +2,309 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29FAA6BCA4A
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 10:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 593A46BCAC2
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 10:27:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbjCPJEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 05:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36982 "EHLO
+        id S230435AbjCPJ1D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 05:27:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230133AbjCPJEh (ORCPT
+        with ESMTP id S229436AbjCPJ1C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 05:04:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9677EB457
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 02:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678957426;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Y1rEqwiPnTPfVSZn3K2HCzTZptxivznkp3it79y9uvo=;
-        b=NMAfs+BAKnRBJpJlUAHzPluqWJWqGM9XB4AkdzpyBYu8oZsut6jJcjUJZzUNB2q8ALhxb/
-        osXMbeHP/3ytDFwhM0A7WxWrvRbpzk4Q7FepLJEbIYdkkJJF9IA7741Ha5Uc7GxIkKT6rR
-        YZCm/yB9XDhfe6cb5ZH+S0H/u2ZP//M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-168-qw7nbq-nNT6pIUpCsmf2qA-1; Thu, 16 Mar 2023 05:03:45 -0400
-X-MC-Unique: qw7nbq-nNT6pIUpCsmf2qA-1
-Received: by mail-ed1-f69.google.com with SMTP id c1-20020a0564021f8100b004acbe232c03so2037072edc.9
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 02:03:45 -0700 (PDT)
+        Thu, 16 Mar 2023 05:27:02 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F9CB79D3;
+        Thu, 16 Mar 2023 02:26:48 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id y15so1464213lfa.7;
+        Thu, 16 Mar 2023 02:26:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678958806;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zBKJ7NrmRBzfIDjKoSTC1cqlNppklEr7/ciolYVooCM=;
+        b=bX2R5z9vZ9k8MunExNWNbR2qhqPbDGh5Ky72E8Sp1Y0UHuyd/b0KLGbZHa4Ex5xEPI
+         kHLg0w6UdDoNp7XBuf3jGJOZY+whBMVnvL9FRVcVCo9kYqPiE6UrAprn1RAx2mZOUKRR
+         SegPo444hHt+KAEPRC1ybGmuzAXPck6YYfwaz+vWnDC6/I0R9yrM2u0G3EOqPssD7kr2
+         6Hh7dQ4wFv0IZbYBawDoGO4zQP7vZy+ajAJUiIfilZEUSftEkDzccq5o0g8InSL74Moj
+         3yYFoee/xCFn9+vD/ot5L/TsgOusK17LD78eLcWEcTEMjIfHQhCD4/Wvq2S2IponQjF2
+         cN4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678957424;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1678958806;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y1rEqwiPnTPfVSZn3K2HCzTZptxivznkp3it79y9uvo=;
-        b=oi92a/FNHza+wImEbv94o1jH+Qi6l+msDLhw3zy3OhVySUF+o84XgCZwx2JKGnc0I2
-         EZVdjUiV87vANUET2aBSG1OBdSaKE9Yl2hTzaiuViFQPdKITFVGNK2MmgifQOOTuvMPY
-         6Pjm9sa1TD9ynO8jpCLPY82FeqerYpNExl9pafP3m291VgqMTBjA28rz4OTzWdg/yJ5P
-         OvF+AmVfYnDivN09zo9EnBfnOIQ0hp4uF1TwIjADQeMUHJ4JbYgYE1aVmLxNQsIvX96v
-         rwPZ8/PFtNULTF7PpP500TQg6isbp0q9Speprr/glKujda37NdQkbr8IuQ1AlKYtGs7X
-         M4AQ==
-X-Gm-Message-State: AO0yUKUaDXRJeJ9iwwjQI6FU+7CyPtPhprITL55BvgiryUX+EnSCKe0b
-        1SQMqq2wsaHfd9d9UNiQwyqKPXjr6jyg1dcwUyNqB0/3LmpibCZuvbva2koRNZ5GPu/Zaz4W6HK
-        RjOR23Z8rG4cWzErNFWfF0Rc=
-X-Received: by 2002:a50:ee8e:0:b0:4af:7bdc:188e with SMTP id f14-20020a50ee8e000000b004af7bdc188emr5842281edr.16.1678957424067;
-        Thu, 16 Mar 2023 02:03:44 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9I1Tl9ju4fSq6Yb1KDNKoBPH2KbQsxMJ2WNpnQ2c8lNJ4tK8kjfFo8qnhB9eBO3bhT2Pcw1w==
-X-Received: by 2002:a50:ee8e:0:b0:4af:7bdc:188e with SMTP id f14-20020a50ee8e000000b004af7bdc188emr5842268edr.16.1678957423784;
-        Thu, 16 Mar 2023 02:03:43 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id b12-20020a170906038c00b00924d38bbdc0sm3592833eja.105.2023.03.16.02.03.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 02:03:43 -0700 (PDT)
-Message-ID: <346c376e-01ed-267e-b1c8-ee42c345d03f@redhat.com>
-Date:   Thu, 16 Mar 2023 10:03:42 +0100
+        bh=zBKJ7NrmRBzfIDjKoSTC1cqlNppklEr7/ciolYVooCM=;
+        b=PP0Uss/4VYSPvb9ZZegJUzvBaHjQcgEPUxWZMjLJN4gh2xXzYYVSZ7KERlixSNdMu2
+         dvx+xr0Y8yrFDn5aedkTeYLusV330TeCZ9PsxJh3jP1+TFjVLFhbwEyisluZ6mbd/P5m
+         uc1S0ruu/7aasslu62omaqv3Xn4EseAoK9A9drbaqbqWUslZ/fNeNwX+LqHflhb7bv+N
+         F+YPZFmYmp8Mijh2XKT3/xy4jWFFr+tbMpnExXo985+ydL5vJVvy0fkKZsboJ0T/k7G0
+         QVapUT7rCgVQVe7vGM227AQMIfXXymp3qsTIEjlvd0Mj/FpIYxI0qaX3KeCYR3w09N02
+         Rbjg==
+X-Gm-Message-State: AO0yUKVmES6YgtsgNH91VS7RF3aRX+lgZOQ89OoJp/VGgHmZd66pf9rd
+        ZS7sMZKxlvKROXEtEQGlc473r9V+/MBYLg==
+X-Google-Smtp-Source: AK7set8XenzJd+qCQYfLErlwcIu2Egv84C+weYpJ6G8Z39ksch9yfmUxE7pBpR5VirTCsEkHe7uUYQ==
+X-Received: by 2002:ac2:46e1:0:b0:4a4:68b8:f4bd with SMTP id q1-20020ac246e1000000b004a468b8f4bdmr3030555lfo.3.1678958805808;
+        Thu, 16 Mar 2023 02:26:45 -0700 (PDT)
+Received: from gmail.com (host-95-193-64-255.mobileonline.telia.com. [95.193.64.255])
+        by smtp.gmail.com with ESMTPSA id y18-20020ac255b2000000b004db4936c866sm1149034lfg.38.2023.03.16.02.26.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 02:26:45 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 10:26:42 +0100
+From:   Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Matt Turner <mattst88@gmail.com>,
+        freedreno@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
+Message-ID: <ZBLg0t0tTVvuPuiJ@gmail.com>
+References: <20230308155322.344664-1-robdclark@gmail.com>
+ <20230308155322.344664-2-robdclark@gmail.com>
+ <ZAtQspuFjPtGy7ze@gmail.com>
+ <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
+ <ZBHNvT3BLgS3qvV5@gmail.com>
+ <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-To:     "Wu, Wentong" <wentong.wu@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230213022347.2480307-1-wentong.wu@intel.com>
- <Y/8qJzScTfFucpP9@kekkonen.localdomain>
- <ae28faf8-c8a4-3f75-08d0-8e5233f2fa5d@redhat.com>
- <DM6PR11MB4316F4B72F98ADBF577412378DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
- <ZAb2G7kqsEvrBhpG@kekkonen.localdomain>
- <DM6PR11MB4316B4F865472CA998E696FC8DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
- <4c3ba301-6241-f2f4-f139-b4f4a0cd6223@redhat.com>
- <DM6PR11MB43166ADFA7D0775BA2C223C78DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
- <e12fe65e-0b1f-a058-75e6-fa3e0a292c5b@redhat.com>
- <DM6PR11MB4316B02E112305F411B1A5158DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
- <bb608934-23a6-213b-ab28-5dd66afd88e5@redhat.com>
- <MN2PR11MB43183F350CB575F94B1F05748DBC9@MN2PR11MB4318.namprd11.prod.outlook.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <MN2PR11MB43183F350CB575F94B1F05748DBC9@MN2PR11MB4318.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 3/16/23 03:58, Wu, Wentong wrote:
+On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
+> On Wed, Mar 15, 2023 at 6:53 AM Jonas Ådahl <jadahl@gmail.com> wrote:
+> >
+> > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
+> > > On Fri, Mar 10, 2023 at 7:45 AM Jonas Ådahl <jadahl@gmail.com> wrote:
+> > > >
+> > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
+> > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > >
+> > > > > Add a way to hint to the fence signaler of an upcoming deadline, such as
+> > > > > vblank, which the fence waiter would prefer not to miss.  This is to aid
+> > > > > the fence signaler in making power management decisions, like boosting
+> > > > > frequency as the deadline approaches and awareness of missing deadlines
+> > > > > so that can be factored in to the frequency scaling.
+> > > > >
+> > > > > v2: Drop dma_fence::deadline and related logic to filter duplicate
+> > > > >     deadlines, to avoid increasing dma_fence size.  The fence-context
+> > > > >     implementation will need similar logic to track deadlines of all
+> > > > >     the fences on the same timeline.  [ckoenig]
+> > > > > v3: Clarify locking wrt. set_deadline callback
+> > > > > v4: Clarify in docs comment that this is a hint
+> > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> > > > > v6: More docs
+> > > > > v7: Fix typo, clarify past deadlines
+> > > > >
+> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > > > ---
+> > > >
+> > > > Hi Rob!
+> > > >
+> > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
+> > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
+> > > > >  include/linux/dma-fence.h            | 22 +++++++++++
+> > > > >  3 files changed, 87 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+> > > > > index 622b8156d212..183e480d8cea 100644
+> > > > > --- a/Documentation/driver-api/dma-buf.rst
+> > > > > +++ b/Documentation/driver-api/dma-buf.rst
+> > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
+> > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > >     :doc: fence signalling annotation
+> > > > >
+> > > > > +DMA Fence Deadline Hints
+> > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > +
+> > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > +   :doc: deadline hints
+> > > > > +
+> > > > >  DMA Fences Functions Reference
+> > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > >
+> > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > > > > index 0de0482cd36e..f177c56269bb 100644
+> > > > > --- a/drivers/dma-buf/dma-fence.c
+> > > > > +++ b/drivers/dma-buf/dma-fence.c
+> > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+> > > > >  }
+> > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > > >
+> > > > > +/**
+> > > > > + * DOC: deadline hints
+> > > > > + *
+> > > > > + * In an ideal world, it would be possible to pipeline a workload sufficiently
+> > > > > + * that a utilization based device frequency governor could arrive at a minimum
+> > > > > + * frequency that meets the requirements of the use-case, in order to minimize
+> > > > > + * power consumption.  But in the real world there are many workloads which
+> > > > > + * defy this ideal.  For example, but not limited to:
+> > > > > + *
+> > > > > + * * Workloads that ping-pong between device and CPU, with alternating periods
+> > > > > + *   of CPU waiting for device, and device waiting on CPU.  This can result in
+> > > > > + *   devfreq and cpufreq seeing idle time in their respective domains and in
+> > > > > + *   result reduce frequency.
+> > > > > + *
+> > > > > + * * Workloads that interact with a periodic time based deadline, such as double
+> > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
+> > > > > + *   missing a vblank deadline results in an *increase* in idle time on the GPU
+> > > > > + *   (since it has to wait an additional vblank period), sending a signal to
+> > > > > + *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
+> > > > > + *   needed.
+> > > >
+> > > > This is the use case I'd like to get some better understanding about how
+> > > > this series intends to work, as the problematic scheduling behavior
+> > > > triggered by missed deadlines has plagued compositing display servers
+> > > > for a long time.
+> > > >
+> > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
+> > > > developer, so I will need some hand holding when it comes to
+> > > > understanding exactly what piece of software is responsible for
+> > > > communicating what piece of information.
+> > > >
+> > > > > + *
+> > > > > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
+> > > > > + * The deadline hint provides a way for the waiting driver, or userspace, to
+> > > > > + * convey an appropriate sense of urgency to the signaling driver.
+> > > > > + *
+> > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
+> > > > > + * facing APIs).  The time could either be some point in the future (such as
+> > > > > + * the vblank based deadline for page-flipping, or the start of a compositor's
+> > > > > + * composition cycle), or the current time to indicate an immediate deadline
+> > > > > + * hint (Ie. forward progress cannot be made until this fence is signaled).
+> > > >
+> > > > Is it guaranteed that a GPU driver will use the actual start of the
+> > > > vblank as the effective deadline? I have some memories of seing
+> > > > something about vblank evasion browsing driver code, which I might have
+> > > > misunderstood, but I have yet to find whether this is something
+> > > > userspace can actually expect to be something it can rely on.
+> > >
+> > > I guess you mean s/GPU driver/display driver/ ?  It makes things more
+> > > clear if we talk about them separately even if they happen to be the
+> > > same device.
+> >
+> > Sure, sorry about being unclear about that.
+> >
+> > >
+> > > Assuming that is what you mean, nothing strongly defines what the
+> > > deadline is.  In practice there is probably some buffering in the
+> > > display controller.  For ex, block based (including bandwidth
+> > > compressed) formats, you need to buffer up a row of blocks to
+> > > efficiently linearize for scanout.  So you probably need to latch some
+> > > time before you start sending pixel data to the display.  But details
+> > > like this are heavily implementation dependent.  I think the most
+> > > reasonable thing to target is start of vblank.
+> >
+> > The driver exposing those details would be quite useful for userspace
+> > though, so that it can delay committing updates to late, but not too
+> > late. Setting a deadline to be the vblank seems easy enough, but it
+> > isn't enough for scheduling the actual commit.
 > 
-> 
->> -----Original Message-----
->> From: Hans de Goede <hdegoede@redhat.com>
->> Sent: Thursday, March 9, 2023 11:24 PM
->>
->> <re-added the previous Cc list, which I dropped because of the large
->> attachments>
->>
->> Hi Wentong,
->>
->> On 3/9/23 15:29, Wu, Wentong wrote:
->>> Hi Hans,
->>>
->>> Thanks
->>>
->>> And AFAICT, there is no IVSC device on your Dell Latitude 9420 where the
->> platform is based on TGL instead of ADL, and I have never heard IVSC runs on
->> TGL,  if no IVSC, INT3472 will control sensor's power.
->>> And I will double confirm with people who know dell product well tomorrow.
->>
->> Ah, I was under the impression that there was an IVSC there because:
->>
->> 1. The sensor driver for the used sensor (tries to) poke the IVSC 2. Things did not
->> work without building the IVSC drivers, but that might
->>    be due to a dependency on the LCJA GPIO expander instead
-> 
-> Below is your dmesg log, the required SPI controller for IVSC isn't here.
-> 
-> [   35.538114] ljca 2-6:1.0: acked sem wait timed out ret:0 timeout:20 ack:0
-> [   35.538129] ljca 2-6:1.0: MNG_ENUM_SPI failed ret:-110 len:7 num:0
-> [   35.538621] ljca 2-6:1.0: LJCA USB device init success
-> [   35.538776] usbcore: registered new interface driver ljca
-> 
-> Also I checked your SSDT, there is no IVSC device and the sensor device depends on
-> INT3472 instead of IVSC device as on my setup.
+> I'm not entirely sure how that would even work.. but OTOH I think you
+> are talking about something on the order of 100us?  But that is a bit
+> of another topic.
 
-Ack.
+Yes, something like that. But yea, it's not really related. Scheduling
+commits closer to the deadline has more complex behavior than that too,
+e.g. the need for real time scheduling, and knowing how long it usually
+takes to create and commit and for the kernel to process.
 
->> But you might very well be right, that would also explain the "intel vsc not ready"
->> messages in dmesg.
->>
->> If with the IVSC case the IVSC controls the power to the sensor too, then
->> another option might be to model the I2C-switch + the power-control as a
->> powerdown GPIO for the sensor, which most sensor drivers already try to use.
->> The advantage of doing this would be that GPIO lookups can reference the GPIO
->> provider + consumer by device-name so then we don't need to have both
->> devices instantiated at the time of
->> adding the GPIO lookup.   And in that case we could e.g. add the lookup
->> before registering the I2C controller.
-> 
-> Can we add IVSC device to acpi_honor_dep_ids, so that when everything is done during
-> mei_ace probe, acpi_dev_clear_dependencies can make sensor start probe?
-
-Does the sensor ACPI device node have an ACPI _DEP on the IVSC device ?
-
-If yes, then yes we can add the IVSC device to acpi_honor_dep_id and make mei_ace probe call acpi_dev_clear_dependencies().
-
-Regards,
-
-Hans
-
-
-
->> Sakari, what do you think of instead of using runtime-pm + devlinks having the
->> IVSC code export a powerdown GPIO to the sensor ?
->>
->> This also decouples the ivsc powerstate from the sensor power-state which
->> might be useful if we ever want to use some of the more advanced ivsc features,
->> where AFAICT the ivsc fully controls the sensor.
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->>
->>>> -----Original Message-----
->>>> From: Hans de Goede <hdegoede@redhat.com>
->>>> Sent: Thursday, March 9, 2023 9:30 PM
->>>> To: Wu, Wentong <wentong.wu@intel.com>
->>>> Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of
->>>> Intel Visual Sensing Controller(IVSC)
->>>>
->>>> Hi Wentong,
->>>>
->>>> Attached are the requested dmesg + acpidump for the Dell Latitude 9420.
->>>>
->>>> Regards,
->>>>
->>>> Hans
->>>>
->>>>
->>>>
->>>>
->>>> On 3/9/23 14:21, Wu, Wentong wrote:
->>>>> Hi
->>>>>
->>>>>> -----Original Message-----
->>>>>> From: Hans de Goede <hdegoede@redhat.com>
->>>>>> Sent: Thursday, March 9, 2023 5:28 PM
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> On 3/9/23 02:08, Wu, Wentong wrote:
->>>>>>>
->>>>>>>
->>>>>>>> -----Original Message-----
->>>>>>>> From: Hans de Goede <hdegoede@redhat.com>
->>>>>>>> Sent: Tuesday, March 7, 2023 5:10 PM
->>>>>>>>
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> On 3/7/23 09:40, Wu, Wentong wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>> -----Original Message-----
->>>>>>>>>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>>>>>>>> Sent: Tuesday, March 7, 2023 4:30 PM
->>>>>>>>>>
->>>>>>>>>> Hi Wentong,
->>>>>>>>>>
->>>>>>>>>> On Tue, Mar 07, 2023 at 08:17:04AM +0000, Wu, Wentong wrote:
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>>> -----Original Message-----
->>>>>>>>>>>> From: Hans de Goede <hdegoede@redhat.com>
->>>>>>>>>>>> Sent: Wednesday, March 1, 2023 6:42 PM
->>>>>>>>>>>>
->>>>>>>>>>>> Hi,
->>>>>>>>>>>>
->>>>>>>>>>>> On 3/1/23 11:34, Sakari Ailus wrote:
->>>>>>>>>>>>> Hi Wentong,
->>>>>>>>>>>>>
->>>>>>>>>>>>> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
->>>>>>>>>>>>>> Intel Visual Sensing Controller (IVSC), codenamed "Clover
->>>>>>>>>>>>>> Falls", is a companion chip designed to provide secure and
->>>>>>>>>>>>>> low power vision capability to IA platforms. IVSC is
->>>>>>>>>>>>>> available in existing commercial platforms from multiple OEMs.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> The primary use case of IVSC is to bring in context awareness.
->>>>>>>>>>>>>> IVSC interfaces directly with the platform main camera
->>>>>>>>>>>>>> sensor via a CSI-2 link and processes the image data with
->>>>>>>>>>>>>> the embedded AI engine. The detected events are sent over
->>>>>>>>>>>>>> I2C to ISH (Intel Sensor Hub) for additional data fusion
->>>>>>>>>>>>>> from multiple
->>>> sensors.
->>>>>>>>>>>>>> The fusion results are used to implement advanced use cases like:
->>>>>>>>>>>>>>  - Face detection to unlock screen
->>>>>>>>>>>>>>  - Detect user presence to manage backlight setting or
->>>>>>>>>>>>>> waking up system
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Since the Image Processing Unit(IPU) used on the host
->>>>>>>>>>>>>> processor needs to configure the CSI-2 link in normal
->>>>>>>>>>>>>> camera usages, the
->>>>>>>>>>>>>> CSI-2 link and camera sensor can only be used in
->>>>>>>>>>>>>> mutually-exclusive ways by host IPU and IVSC. By default
->>>>>>>>>>>>>> the IVSC owns the CSI-2 link and camera sensor. The IPU
->>>>>>>>>>>>>> driver can take ownership of the CSI-2 link and camera
->>>>>>>>>>>>>> sensor using interfaces provided
->>>>>>>>>> by this IVSC driver.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Switching ownership requires an interface with two
->>>>>>>>>>>>>> different hardware modules inside IVSC. The software
->>>>>>>>>>>>>> interface to these modules is via Intel MEI (The Intel
->> Management Engine) commands.
->>>>>>>>>>>>>> These two hardware modules have two different MEI UUIDs to
->>>>>>>>>>>>>> enumerate. These hardware
->>>>>>>>>>>> modules are:
->>>>>>>>>>>>>>  - ACE (Algorithm Context Engine): This module is for
->>>>>>>>>>>>>> algorithm computing when IVSC owns camera sensor. Also ACE
->>>>>>>>>>>>>> module controls camera sensor's ownership. This hardware
->>>>>>>>>>>>>> module is used to set ownership
->>>>>>>>>>>> of camera sensor.
->>>>>>>>>>>>>>  - CSI (Camera Serial Interface): This module is used to
->>>>>>>>>>>>>> route camera sensor data either to IVSC or to host for IPU
->>>>>>>>>>>>>> driver and
->>>>>>>>>> application.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> IVSC also provides a privacy mode. When privacy mode is
->>>>>>>>>>>>>> turned on, camera sensor can't be used. This means that
->>>>>>>>>>>>>> both ACE and host IPU can't get image data. And when this
->>>>>>>>>>>>>> mode is turned on, host IPU driver is informed via a
->>>>>>>>>>>>>> registered callback, so that user can be
->>>>>>>>>> notified.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> In summary, to acquire ownership of camera by IPU driver,
->>>>>>>>>>>>>> first ACE module needs to be informed of ownership and then
->>>>>>>>>>>>>> to setup MIPI CSI-2 link for the camera sensor and IPU.
->>>>>>>>>>>>>
->>>>>>>>>>>>> I thought this for a while and did some research, and I can
->>>>>>>>>>>>> suggest the
->>>>>>>>>>>>> following:
->>>>>>>>>>>>>
->>>>>>>>>>>>> - The IVSC sub-device implements a control for privacy
->>>>>>>> (V4L2_CID_PRIVACY
->>>>>>>>>>>>>   is a good fit).
->>>>>>>>>>>>>
->>>>>>>>>>>>> - Camera sensor access needs to be requested from IVSC
->>>>>>>>>>>>> before accessing
->>>>>>>>>> the
->>>>>>>>>>>>>   sensor via I²C. The IVSC ownership control needs to be in the
->> right
->>>>>>>>>>>>>   setting for this to work, and device links can be used for
->>>>>>>>>>>>> that
->>>> purpose
->>>>>>>>>>>>>   (see device_link_add()). With DL_FLAG_PM_RUNTIME and
->>>>>>>>>>>> DL_FLAG_RPM_ACTIVE,
->>>>>>>>>>>>>   the supplier devices will be PM runtime resumed before the
->>>> consumer
->>>>>>>>>>>>>   (camera sensor). As these devices are purely virtual on
->>>>>>>>>>>>> host side and
->>>>>> has
->>>>>>>>>>>>>   no power state as such, you can use runtime PM callbacks
->>>>>>>>>>>>> to transfer
->>>>>>>> the
->>>>>>>>>>>>>   ownership.
->>>>>>>>>>>>
->>>>>>>>>>>> Interesting proposal to use device-links + runtime-pm for
->>>>>>>>>>>> this instead of modelling this as an i2c-mux. FWIW I'm fine
->>>>>>>>>>>> with going this route instead of using an i2c-mux approach.
->>>>>>>>>>>>
->>>>>>>>>>>> I have been thinking about the i2c-mux approach a bit and the
->>>>>>>>>>>> problem is that we are not really muxing but want to turn
->>>>>>>>>>>> on/off control and AFAIK the i2c-mux framework simply leaves
->>>>>>>>>>>> the mux muxed to the last used i2c-chain, so control will
->>>>>>>>>>>> never be released when the i2c
->>>>>>>>>> transfers are done.
->>>>>>>>>>>>
->>>>>>>>>>>> And if were to somehow modify things (or maybe there already
->>>>>>>>>>>> is some release
->>>>>>>>>>>> callback) then the downside becomes that the i2c-mux core
->>>>>>>>>>>> code operates at the i2c transfer level. So each i2c
->>>>>>>>>>>> read/write would then enable +
->>>>>>>>>> disavle control.
->>>>>>>>>>>>
->>>>>>>>>>>> Modelling this using something like runtime pm as such is a
->>>>>>>>>>>> much better fit because then we request control once on probe
->>>>>>>>>>>> / stream-on and release it once we are fully done, rather
->>>>>>>>>>>> then requesting + releasing control once per i2c- transfer.
->>>>>>>>>>>
->>>>>>>>>>> Seems runtime pm can't fix the problem of initial i2c transfer
->>>>>>>>>>> during sensor driver probe, probably we have to switch to
->>>>>>>>>>> i2c-mux modeling
->>>>>>>> way.
->>>>>>>>>>
->>>>>>>>>> What do you mean? The supplier devices are resumed before the
->>>>>>>>>> driver's probe is called.
->>>>>>>>>
->>>>>>>>> But we setup the link with device_link_add during IVSC driver's
->>>>>>>>> probe, we can't guarantee driver probe's sequence.
->>>>>>>>
->>>>>>>> Then maybe we need to do the device_link_add somewhere else.
->>>>>>>
->>>>>>> sensor's parent is the LJCA I2C device whose driver is being
->>>>>>> upstream https://www.spinics.net/lists/kernel/msg4702552.htmland
->>>>>>> and sensor's power is controlled by IVSC instead of INT3472 if IVSC
->> enabled.
->>>>>>
->>>>>> I believe that the INT3472 code is still involved at least on a
->>>>>> Dell Latitude 9420 the INT3472 code still needs to set the
->>>>>> clock-enable and the privacy-LED GPIOs otherwise the main camera won't
->> work.
->>>>>>
->>>>>> So I'm not sure what you mean with "sensor's power is controlled by
->>>>>> IVSC instead of INT3472" ?
->>>>>
->>>>> Could you please share your kernel log and DSDT? Thanks
->>>>>
->>>>> BR,
->>>>> Wentong
->>>>>>
->>>>>>
->>>>>>> struct device_link *device_link_add(struct device *consumer,
->>>>>>>                                     struct device *supplier, u32
->>>>>>> flags)
->>>>>>>
->>>>>>> So probably we have to add above device_link_add in LJCA I2C's
->>>>>>> driver, and we can find the consumer(camera sensor) with ACPI API,
->>>>>>> but the supplier, mei_ace, is mei client device under mei
->>>>>>> framework and it's dynamically allocated device instead of ACPI
->>>>>>> device, probably I can find its parent with some ACPI lookup from
->>>>>>> this LJCA I2C device, but unfortunately mei framework doesn't
->>>>>>> export the API to find mei client device with its parent bus device(struct
->> mei_device).
->>>>>>>
->>>>>>> I'm not sure if modeling this mei_ace as LJCA I2C's runtime power
->>>>>>> control is acceptable, if yes, probably this mei_ace driver have
->>>>>>> to go with LJCA I2C device driver.
->>>>>>
->>>>>> Looking at the ACPI table the sensor ACPI device has 2 _DEP-s
->>>>>> listed the I2C controller and the INT3472 device. Since we are
->>>>>> already doing similar setup in the INT3472 device that seems like a
->>>>>> good place to add the device_link()-s (it can return -EPROBE_DEFER
->>>>>> to wait for the mei_ace
->>>> to show up).
->>>>>>
->>>>>> But when the INT3472 code runs, the consumer device does not exist
->>>>>> yet and AFAICT the same is true when the LCJA i2c-controller driver
->>>>>> is getting
->>>> registered.
->>>>>> The consumer only exists when the i2c_client is instantiated and at
->>>>>> that point the sensor drivers probe() method can run immediately
->>>>>> and we are too late to add the device_link.
->>>>>>
->>>>>> As a hobby project I have been working on atomisp2 support and I
->>>>>> have a similar issue there. There is no INT3472 device there, but
->>>>>> there is a _DSM method which needs to be used to figure out which
->>>>>> ACPI GPIO resource is reset / powerdown and if the GPIOs are active-low
->> or active high.
->>>>>>
->>>>>> I have written a little helper function to call the _DSM and to
->>>>>> then turn this into lookups and call devm_acpi_dev_add_driver_gpios().
->>>>>>
->>>>>> Since on atomisp2 we cannot use the INT3472 driver to delay the
->>>>>> sensor-driver probe and have the INT3472 driver setup the GPIO
->>>>>> lookup, at least for the sensor drivers used with
->>>>>> atomisp2 there is going to be a need to add a single line to probe() like this:
->>>>>>
->>>>>> 	v4l2_get_acpi_sensor_info(&i2c_client->dev, NULL);
->>>>>>
->>>>>> To me it sounds like we need to do something similar here and
->>>>>> extend the helper function which I have written (but not yet submitted
->> upstream) :
->>>>>>
->>>>>> https://github.com/jwrdegoede/linux-
->>>>>> sunxi/commit/e2287979db43d46fa7d354c1bde92eb6219b613d
->>>>>>
->>>>>> To also setup the device-links needed for the runtime-pm solution
->>>>>> to getting the i2c passed through to the sensor.
->>>>>>
->>>>>> Ideally v4l2_get_acpi_sensor_info() should return void (easier to
->>>>>> use in the sensor drivers) but I think it should return an int, so
->>>>>> that it can e.g. return - EPROBE_DEFER to wait for the mei_ace.
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> Hans
->>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>>>> The mainline kernel delays probing of camera sensors on Intel
->>>>>>>> platforms until the INT3472 driver has probed the INT3472 device
->>>>>>>> on which the sensors have an ACPI _DEP.
->>>>>>>>
->>>>>>>> This is already used to make sure that clock lookups and
->>>>>>>> regulator info is in place before the sensor's probe() function runs.
->>>>>>>>
->>>>>>>> So that when the driver does clk_get() it succeeds and so that
->>>>>>>> regulator_get() does not end up returning a dummy regulator.
->>>>>>>>
->>>>>>>> So I think the code adding the device_link-s for the IVSC should
->>>>>>>> be added
->>>>>>>> to: drivers/platform/x86/intel/int3472/discrete.c and then the
->>>>>>>> runtime-resume will happen before the sensor's probe() function runs.
->>>>>>>>
->>>>>>>> Likewise drivers/platform/x86/intel/int3472/discrete.c should
->>>>>>>> also ensure that the ivsc driver's probe() has run before it
->>>>>>>> calls
->>>>>> acpi_dev_clear_dependencies().
->>>>>>>>
->>>>>>>> The acpi_dev_clear_dependencies() call in discrete.c tells the
->>>>>>>> ACPI subsystem to go ahead and create the i2c-clients for the
->>>>>>>> sensors and allow the sensor drivers to get loaded and probe the sensor.
->>>>>>>>
->>>>>>>> Regards,
->>>>>>>>
->>>>>>>> Hans
->>>>>>>
->>>>>
 > 
 
+8-< *snip* 8-<
+
+> > >
+> > > You need a fence to set the deadline, and for that work needs to be
+> > > flushed.  But you can't associate a deadline with work that the kernel
+> > > is unaware of anyways.
+> >
+> > That makes sense, but it might also a bit inadequate to have it as the
+> > only way to tell the kernel it should speed things up. Even with the
+> > trick i915 does, with GNOME Shell, we still end up with the feedback
+> > loop this series aims to mitigate. Doing triple buffering, i.e. delaying
+> > or dropping the first frame is so far the best work around that works,
+> > except doing other tricks that makes the kernel to ramp up its clock.
+> > Having to rely on choosing between latency and frame drops should
+> > ideally not have to be made.
+> 
+> Before you have a fence, the thing you want to be speeding up is the
+> CPU, not the GPU.  There are existing mechanisms for that.
+
+Is there no benefit to let the GPU know earlier that it should speed up,
+so that when the job queue arrives, it's already up to speed?
+
+> 
+> TBF I'm of the belief that there is still a need for input based cpu
+> boost (and early wake-up trigger for GPU).. we have something like
+> this in CrOS kernel.  That is a bit of a different topic, but my point
+> is that fence deadlines are just one of several things we need to
+> optimize power/perf and responsiveness, rather than the single thing
+> that solves every problem under the sun ;-)
+
+Perhaps; but I believe it's a bit of a back channel of intent; the piece
+of the puzzle that has the information to know whether there is need
+actually speed up is the compositor, not the kernel.
+
+For example, pressing 'p' while a terminal is focused does not need high
+frequency clocks, it just needs the terminal emulator to draw a 'p' and
+the compositor to composite that update. Pressing <Super> may however 
+trigger a non-trivial animation moving a lot of stuff around on screen,
+maybe triggering Wayland clients to draw and what not, and should most
+arguably have the ability to "warn" the kernel about the upcoming flood
+of work before it is already knocking on its door step.
+
+> 
+
+8-< *snip* 8-<
+
+> >
+> > Is it expected that WSI's will set their own deadlines, or should that
+> > be the job of the compositor? For example by using compositors using
+> > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
+> > deadline matching the vsync it most ideally will be committed to?
+> >
+> 
+> I'm kind of assuming compositors, but if the WSI somehow has more
+> information about ideal presentation time, then I suppose it could be
+> in the WSI?  I'll defer to folks who spend more time on WSI and
+> compositors to hash out the details ;-)
+
+With my compositor developer hat on, it might be best to let it be up to
+the compositor, it's the one that knows if a client's content will
+actually end up anywhere visible.
+
+
+Jonas
+
+> 
+> BR,
+> -R
