@@ -2,353 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F29F96BCCC0
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A68CF6BCCF8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:38:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbjCPK2H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 06:28:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33366 "EHLO
+        id S229916AbjCPKiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 06:38:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbjCPK2E (ORCPT
+        with ESMTP id S229659AbjCPKiD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 06:28:04 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6A59023
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:28:01 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id j7so1234005ybg.4
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678962480;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dmunrNOy47kbAgzGKpIdR8US8gLtG2kYhZtPwZ4mKcQ=;
-        b=gqv+1IiYdpmMpXDs35xVt7ONo54l5e8r8FBLTz8dOQA92eyuAa7m0LDlxpCpSHBl1q
-         B0tc1+Y7dkKnWFiIdOk0R4SkXYBriXW7zi+NKvvVEP+jDMedhMJ0750ct3sq9sh55VPN
-         KXUnukNE51SIojBcSvlLA4Zk9SwCYRd19MnC3feNNgyFzYW+1HziMhbbxrZAnbIQVP5+
-         ZjRYrODWWDMq9+t0nR5y5IyT548GDPtv9rvcV89uVXmQ4DBbEvi3xmO2I9g0D+9Fb/yr
-         nDErlDceoOcp0LqIPP1CX5kqCQI6s9AElqKmb7mGM7UzbacL4SkN/j184+THbnw5kBT6
-         Ndow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678962480;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dmunrNOy47kbAgzGKpIdR8US8gLtG2kYhZtPwZ4mKcQ=;
-        b=nETl0WbJrtv5hxenB6CemoC0MO785QibH7XuJbHGmNKdJCB1cO5ZMePkVS90waH62X
-         cmJmkXEs18gNb/lqQqDq6AaowGI6PWHjNvD+/NqSHQQkQGcqztwlLgXFTTVupv0sgSOD
-         0u3xWBc7QE2vYVumOBsYKClT0M2OEHA+c9kSvcOLByZGJ2SitCccW/Gyhd1oUeIoK/4U
-         A+Q1Nq+KqfdG4/3chFsCouI3hO18/QY9eTiWFAPvBEr+j1ObGfPdACugbC33MrmkkOdq
-         e8PH6Fhk8e0YFinT3khd4/jhCf+Mx1GMUV51SQGG21JW7jJJWaV5zL/rClDbjxcHBaMI
-         2sdQ==
-X-Gm-Message-State: AO0yUKWf63YvVffMOo3vO4Nz9H3k8s/EPtaxqFuHr073IvrL5Wsaf4ys
-        pogkk7HSCWo59sicB2Tfc/o2vyVFoqw0yKgaSG16ug==
-X-Google-Smtp-Source: AK7set/fpuN4AOb5aootCfmdKrkXiUGVbZf7yGt+Hk/7nJzGlEd2yMbP8z3qM84sBmoMIWcG9fZC3/fEBN973EUCQoE=
-X-Received: by 2002:a25:9c43:0:b0:94a:ebba:cba6 with SMTP id
- x3-20020a259c43000000b0094aebbacba6mr22207518ybo.9.1678962480315; Thu, 16 Mar
- 2023 03:28:00 -0700 (PDT)
+        Thu, 16 Mar 2023 06:38:03 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D65172E0D7;
+        Thu, 16 Mar 2023 03:37:53 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PckHM1s82z49Q6Y;
+        Thu, 16 Mar 2023 12:37:51 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1678963071;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jixm8SbZkD0ywJUAT0N7QW8GJMa8mSiakLcnCyMlqCc=;
+        b=vsB5h3yBMXtjlBsPHT+OyXjS8o71MHU/UX5BT75zdhSfcZUNl19sFYuVHhsI7pHEnetfjt
+        RPddE5XWJlIrS0JXt3B3cdSs8ikCOnBOga5yoqTq+ufC8TkmjsI1wCQHBmh3d7c5H7sOYF
+        793jiw2pJMtBZ29gknEEkmzBRz9rwp2skmmhF+ifvfU/RxWhppbqqVBl7m4AyAFx/fu/9o
+        yjc63rhKgC4tuV+LXMsKgTTYF3AwuRsSGHdFF6YdzYPrrFwdKvKD2opIcHEVy/4Lu1cALh
+        dXhby23qvG+XTTtAqIRvC+CUbNTHFoLw2Ob0zQ+QgT9UcIhmxzDH+BBFZgpJ7Q==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678963071; a=rsa-sha256;
+        cv=none;
+        b=oCIiPdyFZhtE+jMnq+1dYPmmqdFHaXyxm/mGibQ8JGHWePDmblA2PvUOq4G8PF7VgiD01l
+        dmExRMHmtd2uztJevuI+Ec/S0brt5Inmu7JFWqlvlqZUxgeQwg1NBzB6LFjvUlhc/ONpk+
+        anK9zXBwptgpKYO7btBFom7ybYuNg7DRFxjdoc+vXEvaq4wk4GO3DDq5Nbo746Y4W49LtM
+        GGYz9wg4tKhTsJ0zKRcsJTUAcQyRiIjAEmF1FT0XKvDVYC/xB4QB2Fz++CnDlC6kkpbDYc
+        kl7D+pL3t6eCb/D+1+iesDDHdPcCmxN3c8Trlg00YoX3cNqdwzTCWizt4V+cMg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1678963071;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jixm8SbZkD0ywJUAT0N7QW8GJMa8mSiakLcnCyMlqCc=;
+        b=t9gbAOw6Qlct2biN3NgDhjJVESCgsYieurlQ4+M+goRBn6crII0oMjCExAct7P9XhBFVUF
+        wANIfjaTU6yXaobQ6MD3ZbGc0oEdYMX7uGHQLsqCEREw5EyYmRxEVIlYWxrl+vL0my8cE3
+        E+vZR//CH3U7E6azjG5yCvhkJbmvU1q+ny6JaTvqCM2IHhddEVHZ7o7Hr1nVrg/9P7fYzp
+        G6XiWBfNOgtZ/Vfl0h4fO6bbVHs7shoG7RP7lMBGyC4eVMhJysdo/aIihpNk0effSV2mcB
+        XRztVLaRpu16tSmK9d3wfdspVa7His4YvVRmIFCDzOfbEc2dLIWis+9DKpEkNg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0AA49634C91;
+        Thu, 16 Mar 2023 12:36:40 +0200 (EET)
+Date:   Thu, 16 Mar 2023 12:36:40 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm
+Subject: Re: [PATCHv3 1/2 RESEND] doc/media api: Try to make enum usage
+ clearer
+Message-ID: <ZBLxOEt2KDLxOMo0@valkosipuli.retiisi.eu>
+References: <20230219120034.5819b4ac.dorota.czaplejewicz@puri.sm>
+ <ZBGahMbA1fBrKLYP@valkosipuli.retiisi.eu>
+ <20230315140914.707e0cc9.dorota.czaplejewicz@puri.sm>
 MIME-Version: 1.0
-References: <20221115121237.28361-2-quic_vboma@quicinc.com>
- <20230202064712.5804-1-quic_vboma@quicinc.com> <20230202064712.5804-2-quic_vboma@quicinc.com>
- <CAA8EJpqp7D3kBwPNNtdWHPdp=N+VZ_7dZEB7+O7nMxT44ZJ-5w@mail.gmail.com> <SJ0PR02MB8848889A6832306A56E42BBA85D79@SJ0PR02MB8848.namprd02.prod.outlook.com>
-In-Reply-To: <SJ0PR02MB8848889A6832306A56E42BBA85D79@SJ0PR02MB8848.namprd02.prod.outlook.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Thu, 16 Mar 2023 12:27:49 +0200
-Message-ID: <CAA8EJpocJYGgw1MJs-s4QiLRuqEr51Exop+MhfHX=+K7_qSq4g@mail.gmail.com>
-Subject: Re: [PATCH V2 1/1] venus: Enable sufficient sequence change support
- for sc7180 and fix for Decoder STOP command issue.
-To:     "Viswanath Boma (Temp)" <vboma@qti.qualcomm.com>
-Cc:     "Viswanath Boma (Temp) (QUIC)" <quic_vboma@quicinc.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230315140914.707e0cc9.dorota.czaplejewicz@puri.sm>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 3 Feb 2023 at 06:24, Viswanath Boma (Temp)
-<vboma@qti.qualcomm.com> wrote:
->
->
-> Will ensure more on V3 patch if any comments from Stan/Vikash .
-> Thanks,
-> viswanath
+Hi Dorota,
 
-Please fix your email configuration. Top-posting is generally frowned
-upon. All the headers bellow are frowned upon too.
+On Wed, Mar 15, 2023 at 02:09:14PM +0100, Dorota Czaplejewicz wrote:
+> Hi,
+> 
+> On Wed, 15 Mar 2023 12:14:28 +0200
+> Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> 
+> > Hi Dorota,
+> > 
+> > On Sun, Feb 19, 2023 at 12:00:34PM +0100, Dorota Czaplejewicz wrote:
+> > > This clarifies which side of the calls is responsible for doing what to which parts of the struct.
+> > > This also explicitly states that repeating values are disallowed.
+> > > It also expands the terse description of the access algorithm into more prose-like, active voice description, which trades conciseness for ease of comprehension.  
+> > 
+> > The commit message lines should be wrapped at 74 characters. Please do use
+> > checkpatch.pl in the future. There is also no apparent reason to add a
+> > newline after a period.
+> > 
+> > The same applies to the other patch as well.
+> > 
+> > I've addressed the issues this time.
+> 
+> Thanks for taking a look. What is the next step?
 
-> -----Original Message-----
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Sent: Thursday, February 2, 2023 3:41 PM
-> To: Viswanath Boma (Temp) (QUIC) <quic_vboma@quicinc.com>
-> Cc: stanimir.varbanov@linaro.org; Vikash Garodia (QUIC) <quic_vgarodia@qu=
-icinc.com>; Andy Gross <agross@kernel.org>; bjorn.andersson@linaro.org; Kon=
-rad Dybcio <konrad.dybcio@linaro.org>; Mauro Carvalho Chehab <mchehab@kerne=
-l.org>; linux-media@vger.kernel.org; linux-arm-msm@vger.kernel.org; linux-k=
-ernel@vger.kernel.org; Vikash Garodia <vgarodia@qti.qualcomm.com>
-> Subject: Re: [PATCH V2 1/1] venus: Enable sufficient sequence change supp=
-ort for sc7180 and fix for Decoder STOP command issue.
->
-> WARNING: This email originated from outside of Qualcomm. Please be wary o=
-f any links or attachments, and do not enable macros.
->
-> On Thu, 2 Feb 2023 at 08:47, <quic_vboma@quicinc.com> wrote:
-> >
-> > From: Viswanath Boma <quic_vboma@quicinc.com>
-> >
-> > For VP9 bitstreams, there could be a change in resolution at
-> > interframe, for driver to get notified of such resolution change,
-> > enable the property in video firmware.
-> > Also, EOS handling is now made same in video firmware across all V6
-> > SOCs, hence above a certain firmware version, the driver handling is
-> > made generic for all V6s
-> >
-> > Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
-> > Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> > Tested-by: Nathan Hebert <nhebert@chromium.org>
-> > ---
-> >  drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
-> >  drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
-> >  drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
-> >  drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
-> >  drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
-> >  5 files changed, 41 insertions(+), 3 deletions(-)
->
-> Several generic comments:
-> - Please move your work on top of the recent kernels. 5.15 was released h=
-alf of the year ago. I'm not going to mention 5.4 age.
-> - Please split your patch into smaller logical patches.
-> [vboma]
-> >> As per the current client environment working on 5.15 kernel and the s=
-ame changes were also ensured on 5.4 .
-> >> Current changes related bringing up the utility functions to fix coupl=
-e of bugs on latest firmware versions.
-> >> In future , As sugggested will split the changes if they can be isolat=
-ed as smaller meaningful part .
+Just remember to use checkpatch.pl, on media tree in particular it's:
 
-UGH. This looks like a third level quotation, not like your reply.
-Could you please spend some time and fix your email client? It is
-close to impossible to notice your replies otherwise.
+	$ checkpatch.pl --strict --max-line-length=80
 
-Were these changes validated on top of linux-master or linux-next? If
-not, please go ahead and validate them before sending the next patch
-revision.
-
-
-> >
-> > diff --git a/drivers/media/platform/qcom/venus/core.h
-> > b/drivers/media/platform/qcom/venus/core.h
-> > index 32551c2602a9..8f94d795cc2b 100644
-> > --- a/drivers/media/platform/qcom/venus/core.h
-> > +++ b/drivers/media/platform/qcom/venus/core.h
-> > @@ -202,6 +202,11 @@ struct venus_core {
-> >         unsigned int core0_usage_count;
-> >         unsigned int core1_usage_count;
-> >         struct dentry *root;
-> > +       struct venus_img_version {
-> > +               u32 major;
-> > +               u32 minor;
-> > +               u32 rev;
-> > +       } venus_ver;
-> >  };
-> >
-> >  struct vdec_controls {
-> > @@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 c=
-odec, u32 domain)
-> >         return NULL;
-> >  }
-> >
-> > +static inline int
-> > +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor,
-> > +u32 vrev) {
-> > +       return ((core)->venus_ver.major =3D=3D vmajor && (core)->venus_=
-ver.minor =3D=3D
-> > +               vminor && (core)->venus_ver.rev >=3D vrev);
->
-> Please make the indentation logical here (and below).
-> Also is 5.6.1 (e.g.) newer than 5.4.51? Or 5.4.1 newer than 4.2.0?
-> [vboma]
-> >> Expected one more indent to right ? will ensure .
-
-Expected is to have the indentation logical. Saying if ((major =3D=3D A)
-&& (minor =3D=3D
-B)) is not logical.
-
-A good (and easier to comprehend) example might be:
-
-if ((major =3D=3D A) &&
-    (minor =3D=3D B)) {
-}
-
-> >> These versions check related to major/minor versions of the Firmware r=
-eleases to address the mentioned issues and also if any role back preserves=
- the older behavior.
->
-> > +}
-> > +
-> > +static inline int
-> > +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor,
-> > +u32 vrev) {
-> > +       return ((core)->venus_ver.major =3D=3D vmajor && (core)->venus_=
-ver.minor =3D=3D
-> > +               vminor && (core)->venus_ver.rev <=3D vrev); }
-> >  #endif
-> > diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > index 930b743f225e..e2539b58340f 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_s=
-ession_set_property_pkt *pkt,
-> >                 pkt->shdr.hdr.size +=3D sizeof(u32) + sizeof(*en);
-> >                 break;
-> >         }
-> > +       case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
-> >         case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
-> >                 struct hfi_enable *in =3D pdata;
-> >                 struct hfi_enable *en =3D prop_data; diff --git
-> > a/drivers/media/platform/qcom/venus/hfi_helper.h
-> > b/drivers/media/platform/qcom/venus/hfi_helper.h
-> > index d2d6719a2ba4..20516b4361d3 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> > +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> > @@ -469,6 +469,8 @@
-> >  #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH                 0x10030=
-07
-> >  #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT                     0x10030=
-09
-> >  #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE                   0x10030=
-0a
-> > +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
-> > +
-> > +0x0100300b
-> >
-> >  /*
-> >   * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
-> > diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> > b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> > index df96db3761a7..07ac0fcd2852 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> > +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> > @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core
-> > *core, struct venus_inst *inst,  }
-> >
-> >  static void
-> > -sys_get_prop_image_version(struct device *dev,
-> > +sys_get_prop_image_version(struct venus_core *core,
-> >                            struct hfi_msg_sys_property_info_pkt *pkt)
-> > {
-> > +       struct device *dev =3D core->dev;
-> >         u8 *smem_tbl_ptr;
-> >         u8 *img_ver;
-> >         int req_bytes;
-> > @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
-> >                 return;
-> >
-> >         img_ver =3D pkt->data;
-> > +       if (IS_V4(core))
-> > +               sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
-> > +                      &core->venus_ver.major, &core->venus_ver.minor, =
-&core->venus_ver.rev);
-> > +       else if (IS_V6(core))
-> > +               sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
-> > +                      &core->venus_ver.major, &core->venus_ver.minor,
-> > + &core->venus_ver.rev);
->
-> What about older (V1/V3) cores?
-> [vboma]
-> >> Older cores not having these issues , hence as required  V4 and V6 wer=
-e handled as per Current client issues.
-
-There are no clients here and no client issues. If you are handling
-parsing versions, please make it work for all supported devices.
-
->
-> >
-> >         dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
-> >
-> > @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct
-> > venus_core *core,
-> >
-> >         switch (pkt->property) {
-> >         case HFI_PROPERTY_SYS_IMAGE_VERSION:
-> > -               sys_get_prop_image_version(dev, pkt);
-> > +               sys_get_prop_image_version(core, pkt);
-> >                 break;
-> >         default:
-> >                 dev_dbg(dev, VDBGL "unknown property data\n"); diff
-> > --git a/drivers/media/platform/qcom/venus/vdec.c
-> > b/drivers/media/platform/qcom/venus/vdec.c
-> > index 4ceaba37e2e5..36c88858ea9d 100644
-> > --- a/drivers/media/platform/qcom/venus/vdec.c
-> > +++ b/drivers/media/platform/qcom/venus/vdec.c
-> > @@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh,
-> > struct v4l2_decoder_cmd *cmd)
-> >
-> >                 fdata.buffer_type =3D HFI_BUFFER_INPUT;
-> >                 fdata.flags |=3D HFI_BUFFERFLAG_EOS;
-> > -               if (IS_V6(inst->core))
-> > +               if (IS_V6(inst->core) &&
-> > + is_fw_rev_or_older(inst->core, 1, 0, 87))
-> >                         fdata.device_addr =3D 0;
-> >                 else
-> >                         fdata.device_addr =3D 0xdeadb000; @@ -671,6
-> > +671,16 @@ static int vdec_set_properties(struct venus_inst *inst)
-> >                         return ret;
-> >         }
-> >
-> > +       /* Enabling sufficient sequence change support for VP9 */
-> > +       if (of_device_is_compatible(inst->core->dev->of_node,
-> > + "qcom,sc7180-venus")) {
->
-> Do newer chips support this property? Do you intend to list all of them h=
-ere?
-> [vboma]
-> >> Basing on capability of the valid chipset vs firmware support ,current=
- changes were added .
-
-Are there any other chipsets using 5.4 firmware. If they are, are you
-going to list them here? If not, you can skip the
-of_device_is_compatible and just check for fw 5.4
-
->
-> > +               if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
-> > +                       ptype =3D HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFIC=
-IENT_SEQCHANGE_EVENT;
-> > +                       ret =3D hfi_session_set_property(inst, ptype, &=
-en);
-> > +                       if (ret)
-> > +                               return ret;
-> > +               }
-> > +       }
-> > +
-> >         ptype =3D HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
-> >         conceal =3D ctr->conceal_color & 0xffff;
-> >         conceal |=3D ((ctr->conceal_color >> 16) & 0xffff) << 10;
->
->
->
-> --
-> With best wishes
-> Dmitry
-
-
-
---=20
-With best wishes
-Dmitry
+-- 
+Sakari Ailus
