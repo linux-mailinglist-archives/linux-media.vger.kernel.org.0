@@ -2,249 +2,472 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 913286BC912
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 09:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E25F56BC949
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 09:38:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbjCPI1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 04:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33318 "EHLO
+        id S229959AbjCPIip (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 04:38:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230093AbjCPI1N (ORCPT
+        with ESMTP id S229760AbjCPIin (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 04:27:13 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DD7F1A661;
-        Thu, 16 Mar 2023 01:26:48 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G8Pj3e008598;
-        Thu, 16 Mar 2023 08:26:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=PSONzhpNIm0qzXM+ka30l3IfEm0WtSQR6bbs+PyRZSY=;
- b=n3OSh+0eMZXbCZR4HM3Js/dOyTbNREqDL0U0868N7Ddi5ism7+uCp1t52s3bgbtO/iHY
- CU6hURYpVDuxe1z0RMQ2vYar4eX2PU4divskwfZu5ns8HVKbXk00v4HAQH5PYqxSAvCo
- HMet7sZjXIPKOQQ3Mzzcv+enhbxuyzT2KJywgxHIUjEckQSDpXZIiqSfXPUNoBmrrRIu
- Hi7r5WR+Ax/yE45YwD4tm3TPb5po3BdUTEbc52Oo803CYgYRyDfwDiE3H8R1juYzxr83
- LTHGy3dnW+rkJtkvceEebTNhEbxkI0lsdq4ZL7hx33PKffbVmk699vOzCGXRXOZp7ude PQ== 
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpy8h735-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 16 Mar 2023 08:26:36 +0000
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 32G8QXoQ032749;
-        Thu, 16 Mar 2023 08:26:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3p8jqm760m-1;
-        Thu, 16 Mar 2023 08:26:33 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32G8QXJn032743;
-        Thu, 16 Mar 2023 08:26:33 GMT
-Received: from vboma-linux.qualcomm.com (vboma-linux.qualcomm.com [10.204.65.94])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 32G8QXwO032741;
-        Thu, 16 Mar 2023 08:26:33 +0000
-Received: by vboma-linux.qualcomm.com (Postfix, from userid 72083)
-        id 9CA0C900889; Thu, 16 Mar 2023 13:56:32 +0530 (IST)
-From:   quic_vboma@quicinc.com
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Viswanath Boma <quic_vboma@quicinc.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>
-Subject: [PATCH] venus: Add support for min/max qp range.
-Date:   Thu, 16 Mar 2023 13:56:27 +0530
-Message-Id: <20230316082627.19279-2-quic_vboma@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230316082627.19279-1-quic_vboma@quicinc.com>
-References: <20230316082627.19279-1-quic_vboma@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: amsZvekHb8yudt9N3yHhlJ9rCJB6Nc5Q
-X-Proofpoint-ORIG-GUID: amsZvekHb8yudt9N3yHhlJ9rCJB6Nc5Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-16_05,2023-03-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999 suspectscore=0
- adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303160071
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+        Thu, 16 Mar 2023 04:38:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2CEFCC1C
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 01:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1678955878;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yCSx7TU3DnMhVUK9uaUk89KULnWE7Ii17vho6lk6+K4=;
+        b=bM/VfgtaDRXSvr/fwBEmzxg9Fkec0fi02PiK1/ClELGaFOU9sAg2NBJuTlZ466d+WCgHbb
+        3U8rCrc1Adohznx1s4xJjIr+wfDak7HiOvde7MfoSkTqz9DHO72Mv6jmOph1Hkg2lkXi3l
+        dPyf+tXpCZCxZ+dUeGpFgusUWw0vm4Y=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-623-DRB3bQAiOie_lRsnwv5tYQ-1; Thu, 16 Mar 2023 04:37:56 -0400
+X-MC-Unique: DRB3bQAiOie_lRsnwv5tYQ-1
+Received: by mail-ed1-f72.google.com with SMTP id p36-20020a056402502400b004bb926a3d54so1984283eda.2
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 01:37:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678955875;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yCSx7TU3DnMhVUK9uaUk89KULnWE7Ii17vho6lk6+K4=;
+        b=ZnAMQ93BwVROt3QXB25pfUkNOsQPdTEBKZxVYHApu/mfoXqkdbwEoaqIthjFqK5KCJ
+         sDTZo/+IkUEhsLXEfTI9Y/xY2okg+LqNR28XuHequofXIEnLe92smfArcq15hmAM3Yhf
+         sfKmKhT8St+Plx5kJFK3pCAfCHwiR4/4MnRtma32dtRBWIeqYHONhdFGBWcVrxhfg6ME
+         lw3OEDmSxEIOQDxCNgBXGhB0cEo3swHp8GURvntHi/nAKP8Px5GUfAzLRCqYBuVPfmHP
+         fA7jj3IefcWiwgVkHafykaCjlDDBNrXTP7rmeUuNktxnH57gP+k+DBe2/w41QWjgrN+1
+         m/CA==
+X-Gm-Message-State: AO0yUKXHi7OlStNqBZrYUF3xDw3UYPgIl8wJlE2zVBiWknOACb4/38Vd
+        SKvnw632yuB9iFJsNEcrY+tYMoktDRa/Xrd2wnIhl1FWgIcdR71V88nbaBzeJMwbB4fk3jKNkrx
+        gtXU7jdVkrScPusz7lySnMUs=
+X-Received: by 2002:a17:906:cb09:b0:930:45ea:4a28 with SMTP id lk9-20020a170906cb0900b0093045ea4a28mr1817583ejb.35.1678955875665;
+        Thu, 16 Mar 2023 01:37:55 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9yA/YI/X+Yl5I+NkbKftXWjeNlMQj7rR1UqHuiIxmCohVv5kVLDA2NARn3wIKV/0f7cnohuQ==
+X-Received: by 2002:a17:906:cb09:b0:930:45ea:4a28 with SMTP id lk9-20020a170906cb0900b0093045ea4a28mr1817574ejb.35.1678955875361;
+        Thu, 16 Mar 2023 01:37:55 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id n18-20020a170906701200b00927f6c799e6sm3532950ejj.132.2023.03.16.01.37.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Mar 2023 01:37:54 -0700 (PDT)
+Message-ID: <2e27fcb6-e9d8-b9d1-3466-abac9e8bf66e@redhat.com>
+Date:   Thu, 16 Mar 2023 09:37:53 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Content-Language: en-US, nl
+To:     "Wu, Wentong" <wentong.wu@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
+        "Ye, Xiang" <xiang.ye@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "Cao, Bingbu" <bingbu.cao@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230213022347.2480307-1-wentong.wu@intel.com>
+ <Y/8qJzScTfFucpP9@kekkonen.localdomain>
+ <ae28faf8-c8a4-3f75-08d0-8e5233f2fa5d@redhat.com>
+ <DM6PR11MB4316F4B72F98ADBF577412378DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <ZAb2G7kqsEvrBhpG@kekkonen.localdomain>
+ <DM6PR11MB4316B4F865472CA998E696FC8DB79@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <4c3ba301-6241-f2f4-f139-b4f4a0cd6223@redhat.com>
+ <DM6PR11MB43166ADFA7D0775BA2C223C78DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <e12fe65e-0b1f-a058-75e6-fa3e0a292c5b@redhat.com>
+ <DM6PR11MB4316B02E112305F411B1A5158DB59@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <bb608934-23a6-213b-ab28-5dd66afd88e5@redhat.com>
+ <DM6PR11MB43169899E53424334CA08E568DBC9@DM6PR11MB4316.namprd11.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <DM6PR11MB43169899E53424334CA08E568DBC9@DM6PR11MB4316.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Viswanath Boma <quic_vboma@quicinc.com>
+Hi,
 
-This change enables the support on firmware. Client's qp range
-values will be set at session level by the driver.
+On 3/16/23 09:11, Wu, Wentong wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Hans de Goede <hdegoede@redhat.com>
+>> Sent: Thursday, March 9, 2023 11:24 PM
+>>
+>> <re-added the previous Cc list, which I dropped because of the large
+>> attachments>
+>>
+>> Hi Wentong,
+>>
+>> On 3/9/23 15:29, Wu, Wentong wrote:
+>>> Hi Hans,
+>>>
+>>> Thanks
+>>>
+>>> And AFAICT, there is no IVSC device on your Dell Latitude 9420 where the
+>> platform is based on TGL instead of ADL, and I have never heard IVSC runs on
+>> TGL,  if no IVSC, INT3472 will control sensor's power.
+>>> And I will double confirm with people who know dell product well tomorrow.
+>>
+>> Ah, I was under the impression that there was an IVSC there because:
+>>
+>> 1. The sensor driver for the used sensor (tries to) poke the IVSC 2. Things did not
+>> work without building the IVSC drivers, but that might
+>>    be due to a dependency on the LCJA GPIO expander instead
+>>
+>> But you might very well be right, that would also explain the "intel vsc not ready"
+>> messages in dmesg.
+>>
+>> If with the IVSC case the IVSC controls the power to the sensor too, then
+>> another option might be to model the I2C-switch + the power-control as a
+>> powerdown GPIO for the sensor, which most sensor drivers already try to use.
+>> The advantage of doing this would be that GPIO lookups can reference the GPIO
+>> provider + consumer by device-name so then we don't need to have both
+>> devices instantiated at the time of
+>> adding the GPIO lookup.   And in that case we could e.g. add the lookup
+>> before registering the I2C controller.
+> 
+> Thanks,
+> 
+> So the drivers of sensors connected to IVSC have to add power up/down code.
 
-Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
----
- drivers/media/platform/qcom/venus/hfi_cmds.c  | 27 +++++++++++-
- .../media/platform/qcom/venus/hfi_helper.h    | 18 ++++++++
- drivers/media/platform/qcom/venus/venc.c      | 41 +++++++++++++++----
- 3 files changed, 77 insertions(+), 9 deletions(-)
+If we go the model it as a powerdown GPIO route, yes. Note most sensor drivers already have support for this since this is used in the INT3472 case already.
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 930b743f225e..98ad4f4fba0a 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1189,6 +1189,7 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 			     void *cookie, u32 ptype, void *pdata)
- {
- 	void *prop_data;
-+	int ret = 0;
- 
- 	if (!pkt || !cookie || !pdata)
- 		return -EINVAL;
-@@ -1257,7 +1258,31 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*tm);
- 		break;
- 	}
-+	case HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2: {
-+		struct hfi_quantization_range_v2 *in = pdata, *range = prop_data;
-+		u32 min_qp, max_qp;
- 
-+		min_qp = in->min_qp.qp_packed;
-+		max_qp = in->max_qp.qp_packed;
-+
-+		/* We'll be packing in the qp, so make sure we
-+		 * won't be losing data when masking
-+		 */
-+		if (min_qp > 0xff || max_qp > 0xff) {
-+			ret = -ERANGE;
-+			break;
-+		}
-+		range->min_qp.layer_id = 0xFF;
-+		range->max_qp.layer_id = 0xFF;
-+		range->min_qp.qp_packed = (min_qp & 0xFF) | ((min_qp & 0xFF) << 8) |
-+			((min_qp & 0xFF) << 16);
-+		range->max_qp.qp_packed = (max_qp & 0xFF) | ((max_qp & 0xFF) << 8) |
-+			((max_qp & 0xFF) << 16);
-+		range->min_qp.enable = 7;
-+		range->max_qp.enable = 7;
-+		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*range);
-+		break;
-+	}
- 	case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
- 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
- 	case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
-@@ -1269,7 +1294,7 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 		return pkt_session_set_property_3xx(pkt, cookie, ptype, pdata);
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- static int
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index d2d6719a2ba4..105792a68060 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -487,6 +487,11 @@
- #define HFI_PROPERTY_PARAM_VENC_SESSION_QP			0x2005006
- #define HFI_PROPERTY_PARAM_VENC_MPEG4_AC_PREDICTION		0x2005007
- #define HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE		0x2005008
-+/*
-+ * Note: HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2 is
-+ * specific to HFI_VERSION_6XX and HFI_VERSION_4XX only
-+ */
-+#define HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2		0x2005009
- #define HFI_PROPERTY_PARAM_VENC_MPEG4_TIME_RESOLUTION		0x2005009
- #define HFI_PROPERTY_PARAM_VENC_MPEG4_SHORT_HEADER		0x200500a
- #define HFI_PROPERTY_PARAM_VENC_MPEG4_HEADER_EXTENSION		0x200500b
-@@ -827,6 +832,19 @@ struct hfi_quantization_range {
- 	u32 layer_id;
- };
- 
-+struct hfi_quantization_v2 {
-+	u32 qp_packed;
-+	u32 layer_id;
-+	u32 enable;
-+	u32 reserved[3];
-+};
-+
-+struct hfi_quantization_range_v2 {
-+	struct hfi_quantization_v2 min_qp;
-+	struct hfi_quantization_v2 max_qp;
-+	u32 reserved[4];
-+};
-+
- #define HFI_LTR_MODE_DISABLE	0x0
- #define HFI_LTR_MODE_MANUAL	0x1
- #define HFI_LTR_MODE_PERIODIC	0x2
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index cdb12546c4fa..b01da4c1d47a 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -617,6 +617,7 @@ static int venc_set_properties(struct venus_inst *inst)
- 	struct hfi_idr_period idrp;
- 	struct hfi_quantization quant;
- 	struct hfi_quantization_range quant_range;
-+	struct hfi_quantization_range_v2 quant_range_v2;
- 	struct hfi_enable en;
- 	struct hfi_ltr_mode ltr_mode;
- 	struct hfi_intra_refresh intra_refresh = {};
-@@ -825,16 +826,40 @@ static int venc_set_properties(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
--	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
--	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
--		quant_range.min_qp = ctr->hevc_min_qp;
--		quant_range.max_qp = ctr->hevc_max_qp;
-+	if (inst->core->res->hfi_version == HFI_VERSION_4XX ||
-+	    inst->core->res->hfi_version == HFI_VERSION_6XX) {
-+		ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2;
-+
-+		if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+			quant_range_v2.min_qp.qp_packed = ctr->hevc_min_qp;
-+			quant_range_v2.max_qp.qp_packed = ctr->hevc_max_qp;
-+		} else if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_VP8) {
-+			quant_range_v2.min_qp.qp_packed = ctr->vp8_min_qp;
-+			quant_range_v2.max_qp.qp_packed = ctr->vp8_max_qp;
-+		} else {
-+			quant_range_v2.min_qp.qp_packed = ctr->h264_min_qp;
-+			quant_range_v2.max_qp.qp_packed = ctr->h264_max_qp;
-+		}
-+
-+		ret = hfi_session_set_property(inst, ptype, &quant_range_v2);
- 	} else {
--		quant_range.min_qp = ctr->h264_min_qp;
--		quant_range.max_qp = ctr->h264_max_qp;
-+		ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
-+
-+		if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+			quant_range.min_qp = ctr->hevc_min_qp;
-+			quant_range.max_qp = ctr->hevc_max_qp;
-+		} else if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_VP8) {
-+			quant_range.min_qp = ctr->vp8_min_qp;
-+			quant_range.max_qp = ctr->vp8_max_qp;
-+		} else {
-+			quant_range.min_qp = ctr->h264_min_qp;
-+			quant_range.max_qp = ctr->h264_max_qp;
-+		}
-+
-+		quant_range.layer_id = 0;
-+		ret = hfi_session_set_property(inst, ptype, &quant_range);
- 	}
--	quant_range.layer_id = 0;
--	ret = hfi_session_set_property(inst, ptype, &quant_range);
-+
- 	if (ret)
- 		return ret;
- 
--- 
-2.17.1
+Regards,
+
+Hans
+
+
+
+
+> 
+> BR,
+> Wentong
+>>
+>> Sakari, what do you think of instead of using runtime-pm + devlinks having the
+>> IVSC code export a powerdown GPIO to the sensor ?
+>>
+>> This also decouples the ivsc powerstate from the sensor power-state which
+>> might be useful if we ever want to use some of the more advanced ivsc features,
+>> where AFAICT the ivsc fully controls the sensor.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>
+>>
+>>>> -----Original Message-----
+>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>> Sent: Thursday, March 9, 2023 9:30 PM
+>>>> To: Wu, Wentong <wentong.wu@intel.com>
+>>>> Subject: Re: [PATCH v2 0/3] media: pci: intel: ivsc: Add driver of
+>>>> Intel Visual Sensing Controller(IVSC)
+>>>>
+>>>> Hi Wentong,
+>>>>
+>>>> Attached are the requested dmesg + acpidump for the Dell Latitude 9420.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Hans
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> On 3/9/23 14:21, Wu, Wentong wrote:
+>>>>> Hi
+>>>>>
+>>>>>> -----Original Message-----
+>>>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>>>> Sent: Thursday, March 9, 2023 5:28 PM
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 3/9/23 02:08, Wu, Wentong wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>>> -----Original Message-----
+>>>>>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>>>>>> Sent: Tuesday, March 7, 2023 5:10 PM
+>>>>>>>>
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> On 3/7/23 09:40, Wu, Wentong wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> -----Original Message-----
+>>>>>>>>>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>>>>>>>> Sent: Tuesday, March 7, 2023 4:30 PM
+>>>>>>>>>>
+>>>>>>>>>> Hi Wentong,
+>>>>>>>>>>
+>>>>>>>>>> On Tue, Mar 07, 2023 at 08:17:04AM +0000, Wu, Wentong wrote:
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>>> -----Original Message-----
+>>>>>>>>>>>> From: Hans de Goede <hdegoede@redhat.com>
+>>>>>>>>>>>> Sent: Wednesday, March 1, 2023 6:42 PM
+>>>>>>>>>>>>
+>>>>>>>>>>>> Hi,
+>>>>>>>>>>>>
+>>>>>>>>>>>> On 3/1/23 11:34, Sakari Ailus wrote:
+>>>>>>>>>>>>> Hi Wentong,
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> On Mon, Feb 13, 2023 at 10:23:44AM +0800, Wentong Wu wrote:
+>>>>>>>>>>>>>> Intel Visual Sensing Controller (IVSC), codenamed "Clover
+>>>>>>>>>>>>>> Falls", is a companion chip designed to provide secure and
+>>>>>>>>>>>>>> low power vision capability to IA platforms. IVSC is
+>>>>>>>>>>>>>> available in existing commercial platforms from multiple OEMs.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> The primary use case of IVSC is to bring in context awareness.
+>>>>>>>>>>>>>> IVSC interfaces directly with the platform main camera
+>>>>>>>>>>>>>> sensor via a CSI-2 link and processes the image data with
+>>>>>>>>>>>>>> the embedded AI engine. The detected events are sent over
+>>>>>>>>>>>>>> I2C to ISH (Intel Sensor Hub) for additional data fusion
+>>>>>>>>>>>>>> from multiple
+>>>> sensors.
+>>>>>>>>>>>>>> The fusion results are used to implement advanced use cases like:
+>>>>>>>>>>>>>>  - Face detection to unlock screen
+>>>>>>>>>>>>>>  - Detect user presence to manage backlight setting or
+>>>>>>>>>>>>>> waking up system
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Since the Image Processing Unit(IPU) used on the host
+>>>>>>>>>>>>>> processor needs to configure the CSI-2 link in normal
+>>>>>>>>>>>>>> camera usages, the
+>>>>>>>>>>>>>> CSI-2 link and camera sensor can only be used in
+>>>>>>>>>>>>>> mutually-exclusive ways by host IPU and IVSC. By default
+>>>>>>>>>>>>>> the IVSC owns the CSI-2 link and camera sensor. The IPU
+>>>>>>>>>>>>>> driver can take ownership of the CSI-2 link and camera
+>>>>>>>>>>>>>> sensor using interfaces provided
+>>>>>>>>>> by this IVSC driver.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Switching ownership requires an interface with two
+>>>>>>>>>>>>>> different hardware modules inside IVSC. The software
+>>>>>>>>>>>>>> interface to these modules is via Intel MEI (The Intel
+>> Management Engine) commands.
+>>>>>>>>>>>>>> These two hardware modules have two different MEI UUIDs to
+>>>>>>>>>>>>>> enumerate. These hardware
+>>>>>>>>>>>> modules are:
+>>>>>>>>>>>>>>  - ACE (Algorithm Context Engine): This module is for
+>>>>>>>>>>>>>> algorithm computing when IVSC owns camera sensor. Also ACE
+>>>>>>>>>>>>>> module controls camera sensor's ownership. This hardware
+>>>>>>>>>>>>>> module is used to set ownership
+>>>>>>>>>>>> of camera sensor.
+>>>>>>>>>>>>>>  - CSI (Camera Serial Interface): This module is used to
+>>>>>>>>>>>>>> route camera sensor data either to IVSC or to host for IPU
+>>>>>>>>>>>>>> driver and
+>>>>>>>>>> application.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> IVSC also provides a privacy mode. When privacy mode is
+>>>>>>>>>>>>>> turned on, camera sensor can't be used. This means that
+>>>>>>>>>>>>>> both ACE and host IPU can't get image data. And when this
+>>>>>>>>>>>>>> mode is turned on, host IPU driver is informed via a
+>>>>>>>>>>>>>> registered callback, so that user can be
+>>>>>>>>>> notified.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> In summary, to acquire ownership of camera by IPU driver,
+>>>>>>>>>>>>>> first ACE module needs to be informed of ownership and then
+>>>>>>>>>>>>>> to setup MIPI CSI-2 link for the camera sensor and IPU.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> I thought this for a while and did some research, and I can
+>>>>>>>>>>>>> suggest the
+>>>>>>>>>>>>> following:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> - The IVSC sub-device implements a control for privacy
+>>>>>>>> (V4L2_CID_PRIVACY
+>>>>>>>>>>>>>   is a good fit).
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> - Camera sensor access needs to be requested from IVSC
+>>>>>>>>>>>>> before accessing
+>>>>>>>>>> the
+>>>>>>>>>>>>>   sensor via I²C. The IVSC ownership control needs to be in the
+>> right
+>>>>>>>>>>>>>   setting for this to work, and device links can be used for
+>>>>>>>>>>>>> that
+>>>> purpose
+>>>>>>>>>>>>>   (see device_link_add()). With DL_FLAG_PM_RUNTIME and
+>>>>>>>>>>>> DL_FLAG_RPM_ACTIVE,
+>>>>>>>>>>>>>   the supplier devices will be PM runtime resumed before the
+>>>> consumer
+>>>>>>>>>>>>>   (camera sensor). As these devices are purely virtual on
+>>>>>>>>>>>>> host side and
+>>>>>> has
+>>>>>>>>>>>>>   no power state as such, you can use runtime PM callbacks
+>>>>>>>>>>>>> to transfer
+>>>>>>>> the
+>>>>>>>>>>>>>   ownership.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Interesting proposal to use device-links + runtime-pm for
+>>>>>>>>>>>> this instead of modelling this as an i2c-mux. FWIW I'm fine
+>>>>>>>>>>>> with going this route instead of using an i2c-mux approach.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I have been thinking about the i2c-mux approach a bit and the
+>>>>>>>>>>>> problem is that we are not really muxing but want to turn
+>>>>>>>>>>>> on/off control and AFAIK the i2c-mux framework simply leaves
+>>>>>>>>>>>> the mux muxed to the last used i2c-chain, so control will
+>>>>>>>>>>>> never be released when the i2c
+>>>>>>>>>> transfers are done.
+>>>>>>>>>>>>
+>>>>>>>>>>>> And if were to somehow modify things (or maybe there already
+>>>>>>>>>>>> is some release
+>>>>>>>>>>>> callback) then the downside becomes that the i2c-mux core
+>>>>>>>>>>>> code operates at the i2c transfer level. So each i2c
+>>>>>>>>>>>> read/write would then enable +
+>>>>>>>>>> disavle control.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Modelling this using something like runtime pm as such is a
+>>>>>>>>>>>> much better fit because then we request control once on probe
+>>>>>>>>>>>> / stream-on and release it once we are fully done, rather
+>>>>>>>>>>>> then requesting + releasing control once per i2c- transfer.
+>>>>>>>>>>>
+>>>>>>>>>>> Seems runtime pm can't fix the problem of initial i2c transfer
+>>>>>>>>>>> during sensor driver probe, probably we have to switch to
+>>>>>>>>>>> i2c-mux modeling
+>>>>>>>> way.
+>>>>>>>>>>
+>>>>>>>>>> What do you mean? The supplier devices are resumed before the
+>>>>>>>>>> driver's probe is called.
+>>>>>>>>>
+>>>>>>>>> But we setup the link with device_link_add during IVSC driver's
+>>>>>>>>> probe, we can't guarantee driver probe's sequence.
+>>>>>>>>
+>>>>>>>> Then maybe we need to do the device_link_add somewhere else.
+>>>>>>>
+>>>>>>> sensor's parent is the LJCA I2C device whose driver is being
+>>>>>>> upstream https://www.spinics.net/lists/kernel/msg4702552.htmland
+>>>>>>> and sensor's power is controlled by IVSC instead of INT3472 if IVSC
+>> enabled.
+>>>>>>
+>>>>>> I believe that the INT3472 code is still involved at least on a
+>>>>>> Dell Latitude 9420 the INT3472 code still needs to set the
+>>>>>> clock-enable and the privacy-LED GPIOs otherwise the main camera won't
+>> work.
+>>>>>>
+>>>>>> So I'm not sure what you mean with "sensor's power is controlled by
+>>>>>> IVSC instead of INT3472" ?
+>>>>>
+>>>>> Could you please share your kernel log and DSDT? Thanks
+>>>>>
+>>>>> BR,
+>>>>> Wentong
+>>>>>>
+>>>>>>
+>>>>>>> struct device_link *device_link_add(struct device *consumer,
+>>>>>>>                                     struct device *supplier, u32
+>>>>>>> flags)
+>>>>>>>
+>>>>>>> So probably we have to add above device_link_add in LJCA I2C's
+>>>>>>> driver, and we can find the consumer(camera sensor) with ACPI API,
+>>>>>>> but the supplier, mei_ace, is mei client device under mei
+>>>>>>> framework and it's dynamically allocated device instead of ACPI
+>>>>>>> device, probably I can find its parent with some ACPI lookup from
+>>>>>>> this LJCA I2C device, but unfortunately mei framework doesn't
+>>>>>>> export the API to find mei client device with its parent bus device(struct
+>> mei_device).
+>>>>>>>
+>>>>>>> I'm not sure if modeling this mei_ace as LJCA I2C's runtime power
+>>>>>>> control is acceptable, if yes, probably this mei_ace driver have
+>>>>>>> to go with LJCA I2C device driver.
+>>>>>>
+>>>>>> Looking at the ACPI table the sensor ACPI device has 2 _DEP-s
+>>>>>> listed the I2C controller and the INT3472 device. Since we are
+>>>>>> already doing similar setup in the INT3472 device that seems like a
+>>>>>> good place to add the device_link()-s (it can return -EPROBE_DEFER
+>>>>>> to wait for the mei_ace
+>>>> to show up).
+>>>>>>
+>>>>>> But when the INT3472 code runs, the consumer device does not exist
+>>>>>> yet and AFAICT the same is true when the LCJA i2c-controller driver
+>>>>>> is getting
+>>>> registered.
+>>>>>> The consumer only exists when the i2c_client is instantiated and at
+>>>>>> that point the sensor drivers probe() method can run immediately
+>>>>>> and we are too late to add the device_link.
+>>>>>>
+>>>>>> As a hobby project I have been working on atomisp2 support and I
+>>>>>> have a similar issue there. There is no INT3472 device there, but
+>>>>>> there is a _DSM method which needs to be used to figure out which
+>>>>>> ACPI GPIO resource is reset / powerdown and if the GPIOs are active-low
+>> or active high.
+>>>>>>
+>>>>>> I have written a little helper function to call the _DSM and to
+>>>>>> then turn this into lookups and call devm_acpi_dev_add_driver_gpios().
+>>>>>>
+>>>>>> Since on atomisp2 we cannot use the INT3472 driver to delay the
+>>>>>> sensor-driver probe and have the INT3472 driver setup the GPIO
+>>>>>> lookup, at least for the sensor drivers used with
+>>>>>> atomisp2 there is going to be a need to add a single line to probe() like this:
+>>>>>>
+>>>>>> 	v4l2_get_acpi_sensor_info(&i2c_client->dev, NULL);
+>>>>>>
+>>>>>> To me it sounds like we need to do something similar here and
+>>>>>> extend the helper function which I have written (but not yet submitted
+>> upstream) :
+>>>>>>
+>>>>>> https://github.com/jwrdegoede/linux-
+>>>>>> sunxi/commit/e2287979db43d46fa7d354c1bde92eb6219b613d
+>>>>>>
+>>>>>> To also setup the device-links needed for the runtime-pm solution
+>>>>>> to getting the i2c passed through to the sensor.
+>>>>>>
+>>>>>> Ideally v4l2_get_acpi_sensor_info() should return void (easier to
+>>>>>> use in the sensor drivers) but I think it should return an int, so
+>>>>>> that it can e.g. return - EPROBE_DEFER to wait for the mei_ace.
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Hans
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>>> The mainline kernel delays probing of camera sensors on Intel
+>>>>>>>> platforms until the INT3472 driver has probed the INT3472 device
+>>>>>>>> on which the sensors have an ACPI _DEP.
+>>>>>>>>
+>>>>>>>> This is already used to make sure that clock lookups and
+>>>>>>>> regulator info is in place before the sensor's probe() function runs.
+>>>>>>>>
+>>>>>>>> So that when the driver does clk_get() it succeeds and so that
+>>>>>>>> regulator_get() does not end up returning a dummy regulator.
+>>>>>>>>
+>>>>>>>> So I think the code adding the device_link-s for the IVSC should
+>>>>>>>> be added
+>>>>>>>> to: drivers/platform/x86/intel/int3472/discrete.c and then the
+>>>>>>>> runtime-resume will happen before the sensor's probe() function runs.
+>>>>>>>>
+>>>>>>>> Likewise drivers/platform/x86/intel/int3472/discrete.c should
+>>>>>>>> also ensure that the ivsc driver's probe() has run before it
+>>>>>>>> calls
+>>>>>> acpi_dev_clear_dependencies().
+>>>>>>>>
+>>>>>>>> The acpi_dev_clear_dependencies() call in discrete.c tells the
+>>>>>>>> ACPI subsystem to go ahead and create the i2c-clients for the
+>>>>>>>> sensors and allow the sensor drivers to get loaded and probe the sensor.
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>>
+>>>>>>>> Hans
+>>>>>>>
+>>>>>
+> 
 
