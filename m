@@ -2,117 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A68CF6BCCF8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:38:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63A566BCD01
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbjCPKiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 06:38:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
+        id S229844AbjCPKkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 06:40:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjCPKiD (ORCPT
+        with ESMTP id S229488AbjCPKko (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 06:38:03 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D65172E0D7;
-        Thu, 16 Mar 2023 03:37:53 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzbhx1tyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4502:69d6::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PckHM1s82z49Q6Y;
-        Thu, 16 Mar 2023 12:37:51 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1678963071;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jixm8SbZkD0ywJUAT0N7QW8GJMa8mSiakLcnCyMlqCc=;
-        b=vsB5h3yBMXtjlBsPHT+OyXjS8o71MHU/UX5BT75zdhSfcZUNl19sFYuVHhsI7pHEnetfjt
-        RPddE5XWJlIrS0JXt3B3cdSs8ikCOnBOga5yoqTq+ufC8TkmjsI1wCQHBmh3d7c5H7sOYF
-        793jiw2pJMtBZ29gknEEkmzBRz9rwp2skmmhF+ifvfU/RxWhppbqqVBl7m4AyAFx/fu/9o
-        yjc63rhKgC4tuV+LXMsKgTTYF3AwuRsSGHdFF6YdzYPrrFwdKvKD2opIcHEVy/4Lu1cALh
-        dXhby23qvG+XTTtAqIRvC+CUbNTHFoLw2Ob0zQ+QgT9UcIhmxzDH+BBFZgpJ7Q==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1678963071; a=rsa-sha256;
-        cv=none;
-        b=oCIiPdyFZhtE+jMnq+1dYPmmqdFHaXyxm/mGibQ8JGHWePDmblA2PvUOq4G8PF7VgiD01l
-        dmExRMHmtd2uztJevuI+Ec/S0brt5Inmu7JFWqlvlqZUxgeQwg1NBzB6LFjvUlhc/ONpk+
-        anK9zXBwptgpKYO7btBFom7ybYuNg7DRFxjdoc+vXEvaq4wk4GO3DDq5Nbo746Y4W49LtM
-        GGYz9wg4tKhTsJ0zKRcsJTUAcQyRiIjAEmF1FT0XKvDVYC/xB4QB2Fz++CnDlC6kkpbDYc
-        kl7D+pL3t6eCb/D+1+iesDDHdPcCmxN3c8Trlg00YoX3cNqdwzTCWizt4V+cMg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1678963071;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jixm8SbZkD0ywJUAT0N7QW8GJMa8mSiakLcnCyMlqCc=;
-        b=t9gbAOw6Qlct2biN3NgDhjJVESCgsYieurlQ4+M+goRBn6crII0oMjCExAct7P9XhBFVUF
-        wANIfjaTU6yXaobQ6MD3ZbGc0oEdYMX7uGHQLsqCEREw5EyYmRxEVIlYWxrl+vL0my8cE3
-        E+vZR//CH3U7E6azjG5yCvhkJbmvU1q+ny6JaTvqCM2IHhddEVHZ7o7Hr1nVrg/9P7fYzp
-        G6XiWBfNOgtZ/Vfl0h4fO6bbVHs7shoG7RP7lMBGyC4eVMhJysdo/aIihpNk0effSV2mcB
-        XRztVLaRpu16tSmK9d3wfdspVa7His4YvVRmIFCDzOfbEc2dLIWis+9DKpEkNg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0AA49634C91;
-        Thu, 16 Mar 2023 12:36:40 +0200 (EET)
-Date:   Thu, 16 Mar 2023 12:36:40 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm
-Subject: Re: [PATCHv3 1/2 RESEND] doc/media api: Try to make enum usage
- clearer
-Message-ID: <ZBLxOEt2KDLxOMo0@valkosipuli.retiisi.eu>
-References: <20230219120034.5819b4ac.dorota.czaplejewicz@puri.sm>
- <ZBGahMbA1fBrKLYP@valkosipuli.retiisi.eu>
- <20230315140914.707e0cc9.dorota.czaplejewicz@puri.sm>
+        Thu, 16 Mar 2023 06:40:44 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08DCAB8AC
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:40:41 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id r1so1268821ybu.5
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678963241;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EtNq1+jJMoLN/skSQueisKVB6DYjskjubYgFF/Up0Y4=;
+        b=m+csTfckuemcu2FLx7GpbimeDWtrSuIkY/duC2HlsmpyyTw90mWTqqEDjC4gLBa24F
+         59f0sBa+cqAcN3SI47zahrYHQkhRJfucwxmGqx1zOkR7/rh/6emkSqOpBFeI3STSrxZ1
+         FtV4cGXyA7suZJHNaTA39HMSmwrp8AVXgWkx6cN7N0J/IFRjj07HzkVTFnuf61WV8uas
+         +lLUhfQlMtTaMLNOiZxnWxoqpnzLTWHa/O9KMyYpsVaNZ4fBAacPRTZPOrheLs3aY+TQ
+         cs/fYmMv1esqimWXVKUa/g4smQ7RJhX/UhdJWUXv0m0+X3sWLPL0jNXFJPg3BmDFG6DX
+         kmaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678963241;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EtNq1+jJMoLN/skSQueisKVB6DYjskjubYgFF/Up0Y4=;
+        b=nAnffcf3VS7D5jW2yaZMvJ5iBbdTvC6jwqixr2AKBxmTkIwid0nXzNpF4GCjXWHud7
+         6KEU3E/BGr2jUPw09y1+v029RWUWcRSw+P/qQCD670b48WFtxUhxDwx6GedNfYHyLMsH
+         fpRb5eGck5lNAeANc9817XnpvKi9ariKXZwJqFRMmwR3r78BhYdQiW/tH13NzArmbkjW
+         RSwneonssv+NmYh+1esUz2HPD7kMjKNrhr7RDHr2dL6T5NPhqRerBFGoxCI7fnwX5tew
+         HKvBMTIr+R2QamG+F9w+DufWttcLpkhWBKJho28C93e4+m6UmdnpEwipGlq3Q89mZ4Lw
+         5YBg==
+X-Gm-Message-State: AO0yUKV/6rkRGOmhcQhrHOF8n484J0vkThV9q1I9YZA5g//2Bwb+IT4N
+        SZkk+OAnUqs4eidPcesxvZkmjsVkhmlaQPsImLXsHQ==
+X-Google-Smtp-Source: AK7set+59A5NlZvJmqGsf3MsKKHEw69O7LP7o0G5BwyPkvthSjZEU/hEa8SrcNXcgGepBBo5bwK7PLVRWtoHcKd2IcQ=
+X-Received: by 2002:a5b:108:0:b0:8bb:dfe8:a33b with SMTP id
+ 8-20020a5b0108000000b008bbdfe8a33bmr27653000ybx.9.1678963241065; Thu, 16 Mar
+ 2023 03:40:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230315140914.707e0cc9.dorota.czaplejewicz@puri.sm>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230316082627.19279-1-quic_vboma@quicinc.com> <20230316082627.19279-2-quic_vboma@quicinc.com>
+In-Reply-To: <20230316082627.19279-2-quic_vboma@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Thu, 16 Mar 2023 12:40:30 +0200
+Message-ID: <CAA8EJpq5VeiyG_xa4G8Y91Kw0v5ZcNjEqJ4vOM0mUkH6SW=o+w@mail.gmail.com>
+Subject: Re: [PATCH] venus: Add support for min/max qp range.
+To:     quic_vboma@quicinc.com
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <quic_vgarodia@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dorota,
+On Thu, 16 Mar 2023 at 10:27, <quic_vboma@quicinc.com> wrote:
+>
+> From: Viswanath Boma <quic_vboma@quicinc.com>
+>
+> This change enables the support on firmware. Client's qp range
+> values will be set at session level by the driver.
+>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_cmds.c  | 27 +++++++++++-
+>  .../media/platform/qcom/venus/hfi_helper.h    | 18 ++++++++
+>  drivers/media/platform/qcom/venus/venc.c      | 41 +++++++++++++++----
+>  3 files changed, 77 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index 930b743f225e..98ad4f4fba0a 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -1189,6 +1189,7 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
+>                              void *cookie, u32 ptype, void *pdata)
+>  {
+>         void *prop_data;
+> +       int ret = 0;
+>
+>         if (!pkt || !cookie || !pdata)
+>                 return -EINVAL;
+> @@ -1257,7 +1258,31 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
+>                 pkt->shdr.hdr.size += sizeof(u32) + sizeof(*tm);
+>                 break;
+>         }
+> +       case HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2: {
+> +               struct hfi_quantization_range_v2 *in = pdata, *range = prop_data;
+> +               u32 min_qp, max_qp;
+>
+> +               min_qp = in->min_qp.qp_packed;
+> +               max_qp = in->max_qp.qp_packed;
+> +
+> +               /* We'll be packing in the qp, so make sure we
+> +                * won't be losing data when masking
+> +                */
+> +               if (min_qp > 0xff || max_qp > 0xff) {
+> +                       ret = -ERANGE;
 
-On Wed, Mar 15, 2023 at 02:09:14PM +0100, Dorota Czaplejewicz wrote:
-> Hi,
-> 
-> On Wed, 15 Mar 2023 12:14:28 +0200
-> Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> 
-> > Hi Dorota,
-> > 
-> > On Sun, Feb 19, 2023 at 12:00:34PM +0100, Dorota Czaplejewicz wrote:
-> > > This clarifies which side of the calls is responsible for doing what to which parts of the struct.
-> > > This also explicitly states that repeating values are disallowed.
-> > > It also expands the terse description of the access algorithm into more prose-like, active voice description, which trades conciseness for ease of comprehension.  
-> > 
-> > The commit message lines should be wrapped at 74 characters. Please do use
-> > checkpatch.pl in the future. There is also no apparent reason to add a
-> > newline after a period.
-> > 
-> > The same applies to the other patch as well.
-> > 
-> > I've addressed the issues this time.
-> 
-> Thanks for taking a look. What is the next step?
+Do you need any processing after the switchase? Can you just return
+-ERANGE here?
 
-Just remember to use checkpatch.pl, on media tree in particular it's:
+> +                       break;
+> +               }
+> +               range->min_qp.layer_id = 0xFF;
+> +               range->max_qp.layer_id = 0xFF;
+> +               range->min_qp.qp_packed = (min_qp & 0xFF) | ((min_qp & 0xFF) << 8) |
+> +                       ((min_qp & 0xFF) << 16);
+> +               range->max_qp.qp_packed = (max_qp & 0xFF) | ((max_qp & 0xFF) << 8) |
+> +                       ((max_qp & 0xFF) << 16);
+> +               range->min_qp.enable = 7;
+> +               range->max_qp.enable = 7;
+> +               pkt->shdr.hdr.size += sizeof(u32) + sizeof(*range);
+> +               break;
+> +       }
+>         case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
+>         case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
+>         case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
+> @@ -1269,7 +1294,7 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
+>                 return pkt_session_set_property_3xx(pkt, cookie, ptype, pdata);
+>         }
+>
+> -       return 0;
+> +       return ret;
+>  }
+>
+>  static int
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index d2d6719a2ba4..105792a68060 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -487,6 +487,11 @@
+>  #define HFI_PROPERTY_PARAM_VENC_SESSION_QP                     0x2005006
+>  #define HFI_PROPERTY_PARAM_VENC_MPEG4_AC_PREDICTION            0x2005007
+>  #define HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE               0x2005008
+> +/*
+> + * Note: HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2 is
+> + * specific to HFI_VERSION_6XX and HFI_VERSION_4XX only
+> + */
+> +#define HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2            0x2005009
+>  #define HFI_PROPERTY_PARAM_VENC_MPEG4_TIME_RESOLUTION          0x2005009
+>  #define HFI_PROPERTY_PARAM_VENC_MPEG4_SHORT_HEADER             0x200500a
+>  #define HFI_PROPERTY_PARAM_VENC_MPEG4_HEADER_EXTENSION         0x200500b
+> @@ -827,6 +832,19 @@ struct hfi_quantization_range {
+>         u32 layer_id;
+>  };
+>
+> +struct hfi_quantization_v2 {
+> +       u32 qp_packed;
+> +       u32 layer_id;
+> +       u32 enable;
+> +       u32 reserved[3];
+> +};
+> +
+> +struct hfi_quantization_range_v2 {
+> +       struct hfi_quantization_v2 min_qp;
+> +       struct hfi_quantization_v2 max_qp;
+> +       u32 reserved[4];
+> +};
+> +
+>  #define HFI_LTR_MODE_DISABLE   0x0
+>  #define HFI_LTR_MODE_MANUAL    0x1
+>  #define HFI_LTR_MODE_PERIODIC  0x2
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index cdb12546c4fa..b01da4c1d47a 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -617,6 +617,7 @@ static int venc_set_properties(struct venus_inst *inst)
+>         struct hfi_idr_period idrp;
+>         struct hfi_quantization quant;
+>         struct hfi_quantization_range quant_range;
+> +       struct hfi_quantization_range_v2 quant_range_v2;
+>         struct hfi_enable en;
+>         struct hfi_ltr_mode ltr_mode;
+>         struct hfi_intra_refresh intra_refresh = {};
+> @@ -825,16 +826,40 @@ static int venc_set_properties(struct venus_inst *inst)
+>         if (ret)
+>                 return ret;
+>
+> -       ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
+> -       if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+> -               quant_range.min_qp = ctr->hevc_min_qp;
+> -               quant_range.max_qp = ctr->hevc_max_qp;
+> +       if (inst->core->res->hfi_version == HFI_VERSION_4XX ||
+> +           inst->core->res->hfi_version == HFI_VERSION_6XX) {
+> +               ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2;
+> +
+> +               if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+> +                       quant_range_v2.min_qp.qp_packed = ctr->hevc_min_qp;
+> +                       quant_range_v2.max_qp.qp_packed = ctr->hevc_max_qp;
+> +               } else if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_VP8) {
+> +                       quant_range_v2.min_qp.qp_packed = ctr->vp8_min_qp;
+> +                       quant_range_v2.max_qp.qp_packed = ctr->vp8_max_qp;
+> +               } else {
+> +                       quant_range_v2.min_qp.qp_packed = ctr->h264_min_qp;
+> +                       quant_range_v2.max_qp.qp_packed = ctr->h264_max_qp;
+> +               }
+> +
+> +               ret = hfi_session_set_property(inst, ptype, &quant_range_v2);
+>         } else {
+> -               quant_range.min_qp = ctr->h264_min_qp;
+> -               quant_range.max_qp = ctr->h264_max_qp;
+> +               ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
+> +
+> +               if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+> +                       quant_range.min_qp = ctr->hevc_min_qp;
+> +                       quant_range.max_qp = ctr->hevc_max_qp;
+> +               } else if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_VP8) {
+> +                       quant_range.min_qp = ctr->vp8_min_qp;
+> +                       quant_range.max_qp = ctr->vp8_max_qp;
+> +               } else {
+> +                       quant_range.min_qp = ctr->h264_min_qp;
+> +                       quant_range.max_qp = ctr->h264_max_qp;
+> +               }
+> +
+> +               quant_range.layer_id = 0;
+> +               ret = hfi_session_set_property(inst, ptype, &quant_range);
+>         }
+> -       quant_range.layer_id = 0;
+> -       ret = hfi_session_set_property(inst, ptype, &quant_range);
+> +
+>         if (ret)
+>                 return ret;
+>
+> --
+> 2.17.1
+>
 
-	$ checkpatch.pl --strict --max-line-length=80
 
 -- 
-Sakari Ailus
+With best wishes
+Dmitry
