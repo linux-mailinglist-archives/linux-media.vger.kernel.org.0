@@ -2,93 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 593A46BCAC2
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 10:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 934FA6BCB7F
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 10:53:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbjCPJ1D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 05:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46138 "EHLO
+        id S230293AbjCPJxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 05:53:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjCPJ1C (ORCPT
+        with ESMTP id S230309AbjCPJxL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 05:27:02 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F9CB79D3;
-        Thu, 16 Mar 2023 02:26:48 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id y15so1464213lfa.7;
-        Thu, 16 Mar 2023 02:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678958806;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zBKJ7NrmRBzfIDjKoSTC1cqlNppklEr7/ciolYVooCM=;
-        b=bX2R5z9vZ9k8MunExNWNbR2qhqPbDGh5Ky72E8Sp1Y0UHuyd/b0KLGbZHa4Ex5xEPI
-         kHLg0w6UdDoNp7XBuf3jGJOZY+whBMVnvL9FRVcVCo9kYqPiE6UrAprn1RAx2mZOUKRR
-         SegPo444hHt+KAEPRC1ybGmuzAXPck6YYfwaz+vWnDC6/I0R9yrM2u0G3EOqPssD7kr2
-         6Hh7dQ4wFv0IZbYBawDoGO4zQP7vZy+ajAJUiIfilZEUSftEkDzccq5o0g8InSL74Moj
-         3yYFoee/xCFn9+vD/ot5L/TsgOusK17LD78eLcWEcTEMjIfHQhCD4/Wvq2S2IponQjF2
-         cN4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678958806;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zBKJ7NrmRBzfIDjKoSTC1cqlNppklEr7/ciolYVooCM=;
-        b=PP0Uss/4VYSPvb9ZZegJUzvBaHjQcgEPUxWZMjLJN4gh2xXzYYVSZ7KERlixSNdMu2
-         dvx+xr0Y8yrFDn5aedkTeYLusV330TeCZ9PsxJh3jP1+TFjVLFhbwEyisluZ6mbd/P5m
-         uc1S0ruu/7aasslu62omaqv3Xn4EseAoK9A9drbaqbqWUslZ/fNeNwX+LqHflhb7bv+N
-         F+YPZFmYmp8Mijh2XKT3/xy4jWFFr+tbMpnExXo985+ydL5vJVvy0fkKZsboJ0T/k7G0
-         QVapUT7rCgVQVe7vGM227AQMIfXXymp3qsTIEjlvd0Mj/FpIYxI0qaX3KeCYR3w09N02
-         Rbjg==
-X-Gm-Message-State: AO0yUKVmES6YgtsgNH91VS7RF3aRX+lgZOQ89OoJp/VGgHmZd66pf9rd
-        ZS7sMZKxlvKROXEtEQGlc473r9V+/MBYLg==
-X-Google-Smtp-Source: AK7set8XenzJd+qCQYfLErlwcIu2Egv84C+weYpJ6G8Z39ksch9yfmUxE7pBpR5VirTCsEkHe7uUYQ==
-X-Received: by 2002:ac2:46e1:0:b0:4a4:68b8:f4bd with SMTP id q1-20020ac246e1000000b004a468b8f4bdmr3030555lfo.3.1678958805808;
-        Thu, 16 Mar 2023 02:26:45 -0700 (PDT)
-Received: from gmail.com (host-95-193-64-255.mobileonline.telia.com. [95.193.64.255])
-        by smtp.gmail.com with ESMTPSA id y18-20020ac255b2000000b004db4936c866sm1149034lfg.38.2023.03.16.02.26.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 02:26:45 -0700 (PDT)
-Date:   Thu, 16 Mar 2023 10:26:42 +0100
-From:   Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-Message-ID: <ZBLg0t0tTVvuPuiJ@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com>
- <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
- <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+        Thu, 16 Mar 2023 05:53:11 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AAE9F077
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 02:52:50 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pckHs-0001BV-0C; Thu, 16 Mar 2023 10:52:44 +0100
+Message-ID: <ef14180e-994d-e498-06df-96fd5851f373@leemhuis.info>
+Date:   Thu, 16 Mar 2023 10:52:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Subject: Re: [GIT FIXES FOR v6.3] Venus fixes
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>,
+        linux-media@vger.kernel.org
+References: <20230302060413.67239-1-stanimir.k.varbanov@gmail.com>
+ <cb03d97f-ae48-4090-e14b-354373a2ebe3@leemhuis.info>
+ <7ef0357c-1bd8-7598-4c4e-9d795b5f0abd@leemhuis.info>
+ <ace4420f-d4fb-df18-60f0-3b698c196250@gmail.com>
+Content-Language: en-US, de-DE
+In-Reply-To: <ace4420f-d4fb-df18-60f0-3b698c196250@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1678960370;644981b5;
+X-HE-SMSGID: 1pckHs-0001BV-0C
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -97,214 +52,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> On Wed, Mar 15, 2023 at 6:53 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> >
-> > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > On Fri, Mar 10, 2023 at 7:45 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> > > >
-> > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > >
-> > > > > Add a way to hint to the fence signaler of an upcoming deadline, such as
-> > > > > vblank, which the fence waiter would prefer not to miss.  This is to aid
-> > > > > the fence signaler in making power management decisions, like boosting
-> > > > > frequency as the deadline approaches and awareness of missing deadlines
-> > > > > so that can be factored in to the frequency scaling.
-> > > > >
-> > > > > v2: Drop dma_fence::deadline and related logic to filter duplicate
-> > > > >     deadlines, to avoid increasing dma_fence size.  The fence-context
-> > > > >     implementation will need similar logic to track deadlines of all
-> > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > v4: Clarify in docs comment that this is a hint
-> > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > v6: More docs
-> > > > > v7: Fix typo, clarify past deadlines
-> > > > >
-> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > ---
-> > > >
-> > > > Hi Rob!
-> > > >
-> > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
-> > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > >  3 files changed, 87 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > >     :doc: fence signalling annotation
-> > > > >
-> > > > > +DMA Fence Deadline Hints
-> > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > +
-> > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > +   :doc: deadline hints
-> > > > > +
-> > > > >  DMA Fences Functions Reference
-> > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > >
-> > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > >
-> > > > > +/**
-> > > > > + * DOC: deadline hints
-> > > > > + *
-> > > > > + * In an ideal world, it would be possible to pipeline a workload sufficiently
-> > > > > + * that a utilization based device frequency governor could arrive at a minimum
-> > > > > + * frequency that meets the requirements of the use-case, in order to minimize
-> > > > > + * power consumption.  But in the real world there are many workloads which
-> > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > + *
-> > > > > + * * Workloads that ping-pong between device and CPU, with alternating periods
-> > > > > + *   of CPU waiting for device, and device waiting on CPU.  This can result in
-> > > > > + *   devfreq and cpufreq seeing idle time in their respective domains and in
-> > > > > + *   result reduce frequency.
-> > > > > + *
-> > > > > + * * Workloads that interact with a periodic time based deadline, such as double
-> > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
-> > > > > + *   missing a vblank deadline results in an *increase* in idle time on the GPU
-> > > > > + *   (since it has to wait an additional vblank period), sending a signal to
-> > > > > + *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-> > > > > + *   needed.
-> > > >
-> > > > This is the use case I'd like to get some better understanding about how
-> > > > this series intends to work, as the problematic scheduling behavior
-> > > > triggered by missed deadlines has plagued compositing display servers
-> > > > for a long time.
-> > > >
-> > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> > > > developer, so I will need some hand holding when it comes to
-> > > > understanding exactly what piece of software is responsible for
-> > > > communicating what piece of information.
-> > > >
-> > > > > + *
-> > > > > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-> > > > > + * The deadline hint provides a way for the waiting driver, or userspace, to
-> > > > > + * convey an appropriate sense of urgency to the signaling driver.
-> > > > > + *
-> > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
-> > > > > + * facing APIs).  The time could either be some point in the future (such as
-> > > > > + * the vblank based deadline for page-flipping, or the start of a compositor's
-> > > > > + * composition cycle), or the current time to indicate an immediate deadline
-> > > > > + * hint (Ie. forward progress cannot be made until this fence is signaled).
-> > > >
-> > > > Is it guaranteed that a GPU driver will use the actual start of the
-> > > > vblank as the effective deadline? I have some memories of seing
-> > > > something about vblank evasion browsing driver code, which I might have
-> > > > misunderstood, but I have yet to find whether this is something
-> > > > userspace can actually expect to be something it can rely on.
-> > >
-> > > I guess you mean s/GPU driver/display driver/ ?  It makes things more
-> > > clear if we talk about them separately even if they happen to be the
-> > > same device.
-> >
-> > Sure, sorry about being unclear about that.
-> >
-> > >
-> > > Assuming that is what you mean, nothing strongly defines what the
-> > > deadline is.  In practice there is probably some buffering in the
-> > > display controller.  For ex, block based (including bandwidth
-> > > compressed) formats, you need to buffer up a row of blocks to
-> > > efficiently linearize for scanout.  So you probably need to latch some
-> > > time before you start sending pixel data to the display.  But details
-> > > like this are heavily implementation dependent.  I think the most
-> > > reasonable thing to target is start of vblank.
-> >
-> > The driver exposing those details would be quite useful for userspace
-> > though, so that it can delay committing updates to late, but not too
-> > late. Setting a deadline to be the vblank seems easy enough, but it
-> > isn't enough for scheduling the actual commit.
+On 13.03.23 18:48, Stanimir Varbanov wrote:
+> On 13.03.23 г. 16:28 ч., Thorsten Leemhuis wrote:
+>> On 02.03.23 09:27, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>> On 02.03.23 07:04, Stanimir Varbanov wrote:
+>>>>
+>>>> This pull request includes a fix for regression in venus hardware
+>>>> reset.
+>>>> The reverted commit has been merged in v6.2.
+>>>> Please pull.
+>> Mauro: any reason why this is still not pulled? It fixes a regression
+>> that made it into 6.2 and the revert was now posted 34 days ago, hence
+>> it would be good if this could finally go to Linus, so that it can be
+>> backported to stable.
 > 
-> I'm not entirely sure how that would even work.. but OTOH I think you
-> are talking about something on the order of 100us?  But that is a bit
-> of another topic.
+> I guess the best I can do is to include the revert in the next pull
+> request for v6.4.
 
-Yes, something like that. But yea, it's not really related. Scheduling
-commits closer to the deadline has more complex behavior than that too,
-e.g. the need for real time scheduling, and knowing how long it usually
-takes to create and commit and for the kernel to process.
+Three more days went by without anything. Happen. I guess if Mauro
+doesn't show up until Sunday I'll ask Linus to pull this directly (if he
+actually does it is a different matter).
 
+>> BTW, Stan: What...
+>>
+>>>> The following changes since commit
+>>>> 3e62aba8284de0994a669d07983299242e68fe72:
+>>>>
+>>>>    media: imx-mipi-csis: Check csis_fmt validity before use
+>>>> (2023-02-26 11:21:33 +0100)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>    git://linuxtv.org/svarbanov/media_tree.git
+>>>> tags/tag-venus-fixes-for-v6.3
+>>>>
+>>>> for you to fetch changes up to
+>>>> 1440cfcf24db8c50d929d3c35ab6f87f868fa628:
+>>>>
+>>>>    Revert "venus: firmware: Correct non-pix start and end addresses"
+>>>> (2023-03-02 07:52:10 +0200)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Venus fixes for v6.3
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Javier Martinez Canillas (1):
+>>>>        Revert "venus: firmware: Correct non-pix start and end
+>>>> addresses"
+>>>
+>>> Good to see that this finally is heading towards mainline, thx.
+>>>
+>>> What about the other venus regression[1] Javier provided this patch for:
+>>>
+>>> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
+>>
+>> ...about this revert from Feb, 10th? There was some discussion recently,
+>> but it would to get this finally resolved, too.
 > 
+> I still have doubts about test coverage on db410c and RB3, because the
+> firmware there behaves very differently and we can introduce another
+> regression. If that happens we have to fix the fix in this patch.
 
-8-< *snip* 8-<
+BTW & FWIW, in these situations it sometimes is worth risking such an
+outcome afaics. But whatever:
 
-> > >
-> > > You need a fence to set the deadline, and for that work needs to be
-> > > flushed.  But you can't associate a deadline with work that the kernel
-> > > is unaware of anyways.
-> >
-> > That makes sense, but it might also a bit inadequate to have it as the
-> > only way to tell the kernel it should speed things up. Even with the
-> > trick i915 does, with GNOME Shell, we still end up with the feedback
-> > loop this series aims to mitigate. Doing triple buffering, i.e. delaying
-> > or dropping the first frame is so far the best work around that works,
-> > except doing other tricks that makes the kernel to ramp up its clock.
-> > Having to rely on choosing between latency and frame drops should
-> > ideally not have to be made.
-> 
-> Before you have a fence, the thing you want to be speeding up is the
-> CPU, not the GPU.  There are existing mechanisms for that.
+> I'm working on the testing on those two devices.
 
-Is there no benefit to let the GPU know earlier that it should speed up,
-so that when the job queue arrives, it's already up to speed?
+thx!
 
-> 
-> TBF I'm of the belief that there is still a need for input based cpu
-> boost (and early wake-up trigger for GPU).. we have something like
-> this in CrOS kernel.  That is a bit of a different topic, but my point
-> is that fence deadlines are just one of several things we need to
-> optimize power/perf and responsiveness, rather than the single thing
-> that solves every problem under the sun ;-)
-
-Perhaps; but I believe it's a bit of a back channel of intent; the piece
-of the puzzle that has the information to know whether there is need
-actually speed up is the compositor, not the kernel.
-
-For example, pressing 'p' while a terminal is focused does not need high
-frequency clocks, it just needs the terminal emulator to draw a 'p' and
-the compositor to composite that update. Pressing <Super> may however 
-trigger a non-trivial animation moving a lot of stuff around on screen,
-maybe triggering Wayland clients to draw and what not, and should most
-arguably have the ability to "warn" the kernel about the upcoming flood
-of work before it is already knocking on its door step.
-
-> 
-
-8-< *snip* 8-<
-
-> >
-> > Is it expected that WSI's will set their own deadlines, or should that
-> > be the job of the compositor? For example by using compositors using
-> > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
-> > deadline matching the vsync it most ideally will be committed to?
-> >
-> 
-> I'm kind of assuming compositors, but if the WSI somehow has more
-> information about ideal presentation time, then I suppose it could be
-> in the WSI?  I'll defer to folks who spend more time on WSI and
-> compositors to hash out the details ;-)
-
-With my compositor developer hat on, it might be best to let it be up to
-the compositor, it's the one that knows if a client's content will
-actually end up anywhere visible.
-
-
-Jonas
-
-> 
-> BR,
-> -R
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
