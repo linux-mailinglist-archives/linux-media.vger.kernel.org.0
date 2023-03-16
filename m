@@ -2,250 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63A566BCD01
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 816116BCD30
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 11:48:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjCPKkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 06:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55570 "EHLO
+        id S229760AbjCPKsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 06:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjCPKko (ORCPT
+        with ESMTP id S229698AbjCPKrt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 06:40:44 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08DCAB8AC
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:40:41 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id r1so1268821ybu.5
-        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:40:41 -0700 (PDT)
+        Thu, 16 Mar 2023 06:47:49 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312CBC0832
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:47:33 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso778936wmo.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Mar 2023 03:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678963241;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EtNq1+jJMoLN/skSQueisKVB6DYjskjubYgFF/Up0Y4=;
-        b=m+csTfckuemcu2FLx7GpbimeDWtrSuIkY/duC2HlsmpyyTw90mWTqqEDjC4gLBa24F
-         59f0sBa+cqAcN3SI47zahrYHQkhRJfucwxmGqx1zOkR7/rh/6emkSqOpBFeI3STSrxZ1
-         FtV4cGXyA7suZJHNaTA39HMSmwrp8AVXgWkx6cN7N0J/IFRjj07HzkVTFnuf61WV8uas
-         +lLUhfQlMtTaMLNOiZxnWxoqpnzLTWHa/O9KMyYpsVaNZ4fBAacPRTZPOrheLs3aY+TQ
-         cs/fYmMv1esqimWXVKUa/g4smQ7RJhX/UhdJWUXv0m0+X3sWLPL0jNXFJPg3BmDFG6DX
-         kmaQ==
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112; t=1678963652;
+        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
+         :references:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TaqsbmrkkQniuXxgJPYuHyiP2ltwHjzl4YEOyNL3Lvk=;
+        b=3xUorfiIK0bN8PvNXiOcmNtaFaX6HSqOtsGSnixqQpHqm8QW31ljoiNosxG3cN5S0P
+         mWfoArqJ7ogt+7SLICiJJ/QWJhnTZMEOU422IRgHlwsTWql0FoF2NbrVtms9LmDTgFxw
+         NBwCyB2OGUQmHXSYDHAguEqeWZM2YcdKOmCTqk/Cy5MFVZqkk/XZ/NUWdMaziCvTb54g
+         8vDlaJMtZyL2TDcA+8xBI7vtRTlH9ZYqEcCHTi3qNVhi481E/X+9xMbLBYckxIvcV3IC
+         mQMPiC0KUG+qfXjfHDcS0pPHv3ZR8vrxdkXqqnFW6LUiXR6b7aMnfJmbEq1Mva4gldtC
+         ud/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678963241;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EtNq1+jJMoLN/skSQueisKVB6DYjskjubYgFF/Up0Y4=;
-        b=nAnffcf3VS7D5jW2yaZMvJ5iBbdTvC6jwqixr2AKBxmTkIwid0nXzNpF4GCjXWHud7
-         6KEU3E/BGr2jUPw09y1+v029RWUWcRSw+P/qQCD670b48WFtxUhxDwx6GedNfYHyLMsH
-         fpRb5eGck5lNAeANc9817XnpvKi9ariKXZwJqFRMmwR3r78BhYdQiW/tH13NzArmbkjW
-         RSwneonssv+NmYh+1esUz2HPD7kMjKNrhr7RDHr2dL6T5NPhqRerBFGoxCI7fnwX5tew
-         HKvBMTIr+R2QamG+F9w+DufWttcLpkhWBKJho28C93e4+m6UmdnpEwipGlq3Q89mZ4Lw
-         5YBg==
-X-Gm-Message-State: AO0yUKV/6rkRGOmhcQhrHOF8n484J0vkThV9q1I9YZA5g//2Bwb+IT4N
-        SZkk+OAnUqs4eidPcesxvZkmjsVkhmlaQPsImLXsHQ==
-X-Google-Smtp-Source: AK7set+59A5NlZvJmqGsf3MsKKHEw69O7LP7o0G5BwyPkvthSjZEU/hEa8SrcNXcgGepBBo5bwK7PLVRWtoHcKd2IcQ=
-X-Received: by 2002:a5b:108:0:b0:8bb:dfe8:a33b with SMTP id
- 8-20020a5b0108000000b008bbdfe8a33bmr27653000ybx.9.1678963241065; Thu, 16 Mar
- 2023 03:40:41 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678963652;
+        h=content-transfer-encoding:mime-version:user-agent:in-reply-to
+         :references:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TaqsbmrkkQniuXxgJPYuHyiP2ltwHjzl4YEOyNL3Lvk=;
+        b=A8cwKSbDh8acgaV2PAf09gVvkuonQqq83ZfczbTEMtY5tmOdKGIzSf/Lmni70RrbRO
+         OGOFYKm1kYYUdJGXeJA9rptVG2zshWqURIHxvbextvYSiyqlwi6NAYUwEcYJkhQcLlAR
+         MrCx9Z3xZV3KVWmskyqiMMsGiErNGYu6qbXpgmUmgekI0L2wrClvL3fDLQ2tjpMMIFY9
+         6jUtVhaCasdIAoE1D9zMXMlqroATnxRApZRlYdsVs9NzpUCS1Mfg5yGrZXLSCV8fuFP5
+         qqEFY0ejuoVDILKztToFlCLhU64OhTNH5eZMBOpDrdurJTzb9ZT27cq3dLXUBiz9VI/o
+         YyPg==
+X-Gm-Message-State: AO0yUKU/nL8ohZHPjDIePivDk2og+PaCUU6aWggoz6rJ+1TQ0xFRkOG/
+        hNrXtHcgNssdK9Dr1QoDaKCYCdoqnOUs1WhZoRc=
+X-Google-Smtp-Source: AK7set9GmiZR031pCsEMKWs5UIENXD9yrVt6P+096w4UUIsAK6x83VXYTs0l3voupGXPw7/5rWeSQg==
+X-Received: by 2002:a05:600c:c0b:b0:3ed:2dbf:6a80 with SMTP id fm11-20020a05600c0c0b00b003ed2dbf6a80mr6574561wmb.5.1678963651863;
+        Thu, 16 Mar 2023 03:47:31 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id m9-20020a7bce09000000b003dec22de1b1sm4718046wmc.10.2023.03.16.03.47.31
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Thu, 16 Mar 2023 03:47:31 -0700 (PDT)
+From:   John Cox <jc@kynesim.co.uk>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH v2 2/5] media: v4l: Add Broadcom sand formats to videodev2.h
+Date:   Thu, 16 Mar 2023 10:47:32 +0000
+Message-ID: <jos51i1itblq8smtmtjjcobdcgqiu6uklp@4ax.com>
+References: <20230310194121.61928-1-jc@kynesim.co.uk> <20230310194121.61928-3-jc@kynesim.co.uk> <5cbe4d25a8ee52eaf245822ce5bbb97366d647ab.camel@ndufresne.ca>
+In-Reply-To: <5cbe4d25a8ee52eaf245822ce5bbb97366d647ab.camel@ndufresne.ca>
+User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
-References: <20230316082627.19279-1-quic_vboma@quicinc.com> <20230316082627.19279-2-quic_vboma@quicinc.com>
-In-Reply-To: <20230316082627.19279-2-quic_vboma@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Thu, 16 Mar 2023 12:40:30 +0200
-Message-ID: <CAA8EJpq5VeiyG_xa4G8Y91Kw0v5ZcNjEqJ4vOM0mUkH6SW=o+w@mail.gmail.com>
-Subject: Re: [PATCH] venus: Add support for min/max qp range.
-To:     quic_vboma@quicinc.com
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 16 Mar 2023 at 10:27, <quic_vboma@quicinc.com> wrote:
->
-> From: Viswanath Boma <quic_vboma@quicinc.com>
->
-> This change enables the support on firmware. Client's qp range
-> values will be set at session level by the driver.
->
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/hfi_cmds.c  | 27 +++++++++++-
->  .../media/platform/qcom/venus/hfi_helper.h    | 18 ++++++++
->  drivers/media/platform/qcom/venus/venc.c      | 41 +++++++++++++++----
->  3 files changed, 77 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 930b743f225e..98ad4f4fba0a 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -1189,6 +1189,7 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
->                              void *cookie, u32 ptype, void *pdata)
->  {
->         void *prop_data;
-> +       int ret = 0;
->
->         if (!pkt || !cookie || !pdata)
->                 return -EINVAL;
-> @@ -1257,7 +1258,31 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
->                 pkt->shdr.hdr.size += sizeof(u32) + sizeof(*tm);
->                 break;
->         }
-> +       case HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2: {
-> +               struct hfi_quantization_range_v2 *in = pdata, *range = prop_data;
-> +               u32 min_qp, max_qp;
->
-> +               min_qp = in->min_qp.qp_packed;
-> +               max_qp = in->max_qp.qp_packed;
-> +
-> +               /* We'll be packing in the qp, so make sure we
-> +                * won't be losing data when masking
-> +                */
-> +               if (min_qp > 0xff || max_qp > 0xff) {
-> +                       ret = -ERANGE;
+Hi
 
-Do you need any processing after the switchase? Can you just return
--ERANGE here?
+>Hi John,
+>
+>Le vendredi 10 mars 2023 =C3=A0 19:41 +0000, John Cox a =
+=C3=A9crit=C2=A0:
+>> Add fourccs for Broadcom 8 and 10-bit packed 128 byte column formats =
+to
+>> videodev2.h
+>>=20
+>> Signed-off-by: John Cox <jc@kynesim.co.uk>
+>> ---
+>>  include/uapi/linux/videodev2.h | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>=20
+>> diff --git a/include/uapi/linux/videodev2.h =
+b/include/uapi/linux/videodev2.h
+>> index 1befd181a4cc..a836322ae5d8 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -656,6 +656,8 @@ struct v4l2_pix_format {
+>>  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  =
+Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
+>>  #define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1', '2')=
+ /* Y/CbCr 4:2:0 8x128 tiles */
+>>  #define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', '1', =
+'2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+>> +#define V4L2_PIX_FMT_NV12_C128        v4l2_fourcc('C', 'N', '1', '2')=
+ /* Y/CbCr 4:2:0 128 byte columns */
+>> +#define V4L2_PIX_FMT_P030_C128        v4l2_fourcc('C', 'N', '3', '0')=
+ /* Y/CbCr 4:2:0 10-bit packed 128 byte columns */
+>
+>I really should have asked on first review, sorry about this, but where =
+does
+>P030 comes from ? I didn't find any new format that would be called
+>V4L2_PIX_FMT_P030.
 
-> +                       break;
-> +               }
-> +               range->min_qp.layer_id = 0xFF;
-> +               range->max_qp.layer_id = 0xFF;
-> +               range->min_qp.qp_packed = (min_qp & 0xFF) | ((min_qp & 0xFF) << 8) |
-> +                       ((min_qp & 0xFF) << 16);
-> +               range->max_qp.qp_packed = (max_qp & 0xFF) | ((max_qp & 0xFF) << 8) |
-> +                       ((max_qp & 0xFF) << 16);
-> +               range->min_qp.enable = 7;
-> +               range->max_qp.enable = 7;
-> +               pkt->shdr.hdr.size += sizeof(u32) + sizeof(*range);
-> +               break;
-> +       }
->         case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
->         case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
->         case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
-> @@ -1269,7 +1294,7 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
->                 return pkt_session_set_property_3xx(pkt, cookie, ptype, pdata);
->         }
->
-> -       return 0;
-> +       return ret;
->  }
->
->  static int
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index d2d6719a2ba4..105792a68060 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -487,6 +487,11 @@
->  #define HFI_PROPERTY_PARAM_VENC_SESSION_QP                     0x2005006
->  #define HFI_PROPERTY_PARAM_VENC_MPEG4_AC_PREDICTION            0x2005007
->  #define HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE               0x2005008
-> +/*
-> + * Note: HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2 is
-> + * specific to HFI_VERSION_6XX and HFI_VERSION_4XX only
-> + */
-> +#define HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2            0x2005009
->  #define HFI_PROPERTY_PARAM_VENC_MPEG4_TIME_RESOLUTION          0x2005009
->  #define HFI_PROPERTY_PARAM_VENC_MPEG4_SHORT_HEADER             0x200500a
->  #define HFI_PROPERTY_PARAM_VENC_MPEG4_HEADER_EXTENSION         0x200500b
-> @@ -827,6 +832,19 @@ struct hfi_quantization_range {
->         u32 layer_id;
->  };
->
-> +struct hfi_quantization_v2 {
-> +       u32 qp_packed;
-> +       u32 layer_id;
-> +       u32 enable;
-> +       u32 reserved[3];
-> +};
-> +
-> +struct hfi_quantization_range_v2 {
-> +       struct hfi_quantization_v2 min_qp;
-> +       struct hfi_quantization_v2 max_qp;
-> +       u32 reserved[4];
-> +};
-> +
->  #define HFI_LTR_MODE_DISABLE   0x0
->  #define HFI_LTR_MODE_MANUAL    0x1
->  #define HFI_LTR_MODE_PERIODIC  0x2
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index cdb12546c4fa..b01da4c1d47a 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -617,6 +617,7 @@ static int venc_set_properties(struct venus_inst *inst)
->         struct hfi_idr_period idrp;
->         struct hfi_quantization quant;
->         struct hfi_quantization_range quant_range;
-> +       struct hfi_quantization_range_v2 quant_range_v2;
->         struct hfi_enable en;
->         struct hfi_ltr_mode ltr_mode;
->         struct hfi_intra_refresh intra_refresh = {};
-> @@ -825,16 +826,40 @@ static int venc_set_properties(struct venus_inst *inst)
->         if (ret)
->                 return ret;
->
-> -       ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
-> -       if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> -               quant_range.min_qp = ctr->hevc_min_qp;
-> -               quant_range.max_qp = ctr->hevc_max_qp;
-> +       if (inst->core->res->hfi_version == HFI_VERSION_4XX ||
-> +           inst->core->res->hfi_version == HFI_VERSION_6XX) {
-> +               ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2;
-> +
-> +               if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> +                       quant_range_v2.min_qp.qp_packed = ctr->hevc_min_qp;
-> +                       quant_range_v2.max_qp.qp_packed = ctr->hevc_max_qp;
-> +               } else if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_VP8) {
-> +                       quant_range_v2.min_qp.qp_packed = ctr->vp8_min_qp;
-> +                       quant_range_v2.max_qp.qp_packed = ctr->vp8_max_qp;
-> +               } else {
-> +                       quant_range_v2.min_qp.qp_packed = ctr->h264_min_qp;
-> +                       quant_range_v2.max_qp.qp_packed = ctr->h264_max_qp;
-> +               }
-> +
-> +               ret = hfi_session_set_property(inst, ptype, &quant_range_v2);
->         } else {
-> -               quant_range.min_qp = ctr->h264_min_qp;
-> -               quant_range.max_qp = ctr->h264_max_qp;
-> +               ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
-> +
-> +               if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> +                       quant_range.min_qp = ctr->hevc_min_qp;
-> +                       quant_range.max_qp = ctr->hevc_max_qp;
-> +               } else if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_VP8) {
-> +                       quant_range.min_qp = ctr->vp8_min_qp;
-> +                       quant_range.max_qp = ctr->vp8_max_qp;
-> +               } else {
-> +                       quant_range.min_qp = ctr->h264_min_qp;
-> +                       quant_range.max_qp = ctr->h264_max_qp;
-> +               }
-> +
-> +               quant_range.layer_id = 0;
-> +               ret = hfi_session_set_property(inst, ptype, &quant_range);
->         }
-> -       quant_range.layer_id = 0;
-> -       ret = hfi_session_set_property(inst, ptype, &quant_range);
-> +
->         if (ret)
->                 return ret;
->
-> --
-> 2.17.1
->
+Its the name used in the, already upstream, DRM definitions for the same
+format. I thought I'd try to be consistent.
 
+Regards
 
--- 
-With best wishes
-Dmitry
+JC
+
+>> =20
+>>  /* Tiled YUV formats, non contiguous planes */
+>>  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  =
+Y/CbCr 4:2:0 64x32 tiles */
