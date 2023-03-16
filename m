@@ -2,157 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BEB66BD586
-	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 17:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B35516BD592
+	for <lists+linux-media@lfdr.de>; Thu, 16 Mar 2023 17:29:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbjCPQ04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Mar 2023 12:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56518 "EHLO
+        id S230179AbjCPQ3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Mar 2023 12:29:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjCPQ0z (ORCPT
+        with ESMTP id S230012AbjCPQ3K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Mar 2023 12:26:55 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B455D5161;
-        Thu, 16 Mar 2023 09:26:45 -0700 (PDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32GDOlgZ019840;
-        Thu, 16 Mar 2023 16:26:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=8pARkuPEsI/LbgF8cCf9CekjtrhRl0Nt1e7imr4gz5c=;
- b=K/kWut001hWnk0pIZcjLeQZQWRvVzik/VrkzK5zpmA5rjq5f79hYN9RhTi8SKiB2HvFW
- sJ/eyH04O12N38rQU++pXKow3OJzFV7z9PO8TI8K6qptG0W8PYdmG1pu/pAyOCl3mfT0
- 3zhyTmK9r8ptx7JugQwTdP7bR1WkJr2r9jjR/jhXmcJMNWi/r4wnAYJ74jFGNKZdUTAp
- YYeHpPk8U9V0IHFbBD7wVN516PC2RjxLDIveXy6EHj02iiucQ/Cum/kdvLlMwkiXkBvT
- B11qLWbDAPRHs1jiSh8DiJ0KoahH4AvZc+Sf2+/17icAwB3I1U6jk1fTuHUnPrXG2/Cy 5w== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pc3yp8khk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 16 Mar 2023 16:26:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aOZpggZspT5VqLWYBpJvvd4vyHpJelhTP9SjbmegXIQeJRaok9BrWjiBeEh857+M/2vKIlKSEQkJDSFRENhkBf3mW2CFmwqU+IPRRxId4JRqopXXsBY6oIJxDxStyN2mdA/PYQYM7neiyuMmnRf3wfaEFZDFZrt8uiZrU8W0t50ByJEC9bZLywvfFGEF3h7XCu4Af+nmpVZ9rMgIVJLLtt37Aeyk23kbfk2JDIivCZg3hKDQRvSJAfkUFQOpb/Swfhhaoofhto2rDRj2/pyVEPTiA6zmu4YZUt3xqWxSz4/q4LpqX8FGi+WShgqDG6byKg6KanrzoPzE+Icn0EtlRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8pARkuPEsI/LbgF8cCf9CekjtrhRl0Nt1e7imr4gz5c=;
- b=NNwfBzSD4x6sg6XxrhaiwpgGXgrUjzNY0KMXp8t5O2C0HhTUrwmrQYOHA3Pc9XkyYZ8HtSrzUnOuqyVGaX2vR/3APktk4diKgc3FtWDaYqKb5dtHd/kkUCOlA/zCJpEdFOhT6cMlu/ZeWRpJ/dt9J7s1Tktpi9unuhCoItpkCEEVnA22ExBAdkzk8JpZ+GsE4ncDPaG6TzfNdVoouYiwyJ8HeeEN76cE+oi8mgkAjrZ2zGEyf/Hdxq4G/X6pU7rH3C54TT1628e7GmQvFIKVB5zsipIfypF5WUNwkJZyhQiW8aRs1gX9OQ9L6A9KfoyFS5QdezF0jyKZ6EK6oQaqqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from DM8PR02MB8169.namprd02.prod.outlook.com (2603:10b6:8:1a::14) by
- CH2PR02MB6997.namprd02.prod.outlook.com (2603:10b6:610:83::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.29; Thu, 16 Mar 2023 16:26:38 +0000
-Received: from DM8PR02MB8169.namprd02.prod.outlook.com
- ([fe80::8581:d8e1:2ea1:7dd9]) by DM8PR02MB8169.namprd02.prod.outlook.com
- ([fe80::8581:d8e1:2ea1:7dd9%5]) with mapi id 15.20.6178.031; Thu, 16 Mar 2023
- 16:26:38 +0000
-From:   Vikash Garodia <vgarodia@qti.qualcomm.com>
-To:     "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
-        "Viswanath Boma (Temp) (QUIC)" <quic_vboma@quicinc.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Dikshita Agarwal <dikshita@qti.qualcomm.com>
-Subject: RE: [PATCH] venus: Enable sufficient sequence change support for
- sc7180 and fix for Decoder STOP command issue.
-Thread-Topic: [PATCH] venus: Enable sufficient sequence change support for
- sc7180 and fix for Decoder STOP command issue.
-Thread-Index: AQHZV99zK3PnbYD4Ok+9AfzUoCJG6K79TD2AgABLVGA=
-Date:   Thu, 16 Mar 2023 16:26:38 +0000
-Message-ID: <DM8PR02MB816977D65272F628547187D0F3BC9@DM8PR02MB8169.namprd02.prod.outlook.com>
-References: <20230202064712.5804-2-quic_vboma@quicinc.com>
- <20230316081509.12201-1-quic_vboma@quicinc.com>
- <20230316081509.12201-2-quic_vboma@quicinc.com>
- <e3805411-170a-759b-3608-7f53464641e8@linaro.org>
-In-Reply-To: <e3805411-170a-759b-3608-7f53464641e8@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR02MB8169:EE_|CH2PR02MB6997:EE_
-x-ms-office365-filtering-correlation-id: 7302e230-904a-4373-1420-08db263b37f0
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: A+9rs1Rz/Rb+ogynOaaJQVRdg6LOOl2TtSOamyImiiUq17B3yXAvQTwU553uL51hIxxssTXoLb0mhIdyJVN1Cmh9sZ1oVWiKLUfcgLl2CtVRWcQ5/QI3XgyHjgvIk06Wbk4ytsqlmUw92dzaJIHTPOvvhVhgBecNlfZloW6tOfuGXJTH2vtRvsg7LjLC+soK91vi6JFmHeMcHhtBAFxccBtgqt8Qr7fxFlPl9DvqrIB8K1NMDeqoArb8LewEBBJttrQaABSXdyn0ymKAIIej2jmq+CwmUM4WIje8eEsg4L5Aad5Slp4BdBVPW2nhjVqAmCByzO93ynETD6FhKeViXZL0I6gUYgcvKTpuv2fT2EjpHR9QoXrOxooVABASiKHdNhcTKPcrJbahXYYYH2EEQvcFlOpZ4uuM6r6hZXQHtZIO5mgR8UgE3lv/5RancjIDR2Bt1A06evk4eavPSPINnMTmfWnViJDYHce9s+es94S4o1Nud7oHowicabrgmmAmhdMdHw/Q4hCaAfi/zd2JfarRlk1ZZNM11n359WkOmIjjbjrOa1uHBuXS9GxKvHXZeDfU0b/H8TyOHJb0LterctkE3rNwrY4YdLRMUHYvVFcuLytNhy83Kmak49kGiz+ZkaWHfMjgh71oMIPXSofjoL+d94Gew4jYYBntlfjCkMKI7qJq4JcMFBYBJ7MvPvw8bKhZtL8A4ewGQF0rv6u3KQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR02MB8169.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(39860400002)(136003)(396003)(376002)(346002)(451199018)(2906002)(5660300002)(33656002)(186003)(478600001)(83380400001)(110136005)(71200400001)(7696005)(6506007)(107886003)(9686003)(26005)(8936002)(55016003)(921005)(66556008)(66946007)(76116006)(316002)(86362001)(38070700005)(66476007)(41300700001)(64756008)(52536014)(66446008)(8676002)(4326008)(38100700002)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TnBnZTVpNTlSNUlHaDV0WmMwdFNBVHUwckUyU3lvNzFZWWJuL2pib2c3T0tp?=
- =?utf-8?B?eDFGL09nczhkRm1yZ0QwNmQwRlcxeWVLNHYzdmJoVDQrK0pEMUI2elhxTEJP?=
- =?utf-8?B?RzNjS2V6OXp2YWtiN0lJb05uSkllRGc0dDlFYUozRDc1cWVHeGpIK3JuMm5m?=
- =?utf-8?B?R1VpakFyNHBSdEZDaVpZbEJiancrRlArUGVHV2tOMXBMUmJUcmh0MitiK3V0?=
- =?utf-8?B?Rmpza3NhNVVHQWVOeWJQS1p2ajd1K1ZIai9mbzU4cEJnSjdSS2tOelc3VExH?=
- =?utf-8?B?WjhTSW12MDN1eElFOUd3SDFIVlhFN3Y4QXB4b3B4UU9IWFp2SWNsQ1F6ajBK?=
- =?utf-8?B?TFd0L0RjRTQ5TkRwVWdRZHRiU0crSDd5ZjdDVlpmTmgxNmE1WVFOUjBpMlZ4?=
- =?utf-8?B?T2RyN082YXk1MzBYbmtvUXhNOFpFcFpNTTdMSHlOM2RCRTBHaVBTRERBY2g4?=
- =?utf-8?B?RVBvdEtBYmlVY3VManU3clRNL1UxMTNkTjlMS0t5QWppd1FZMm1QQTVEdUFt?=
- =?utf-8?B?UEdTWkxIRkJjTFYyTVFpQVBrbElsV3NOZ3NMMzViSC9xeWlOVHV6UkcveWRX?=
- =?utf-8?B?UDFCWFU2QWdSWUFKUzlaRzFqalhPVStNYjlEYnNoeTVHamFJSUdSMEJIb2xE?=
- =?utf-8?B?Qm9UbS9FOVFGOEJVMCtDVHZoWi9nbUtIcEp2YWdKeGpNdGVWeUl4SU9PU0VW?=
- =?utf-8?B?YXdOV01VZWpNUVArLzRBN2c4TU1xN1VvV3JLM0ZncGM1bGkrME84QlJsK0JM?=
- =?utf-8?B?ZGNqQTBCZWxzd3k2WlRMTk04K2czUnFzYmk2RTVZUzRHM3ZBYVRoemx3bVdz?=
- =?utf-8?B?NzJMcGFCMnl4ejcyd0dWbXJjTjAxOUhmR3VuVE9ZcnJ5NEJ2a3YwbTFQUWNM?=
- =?utf-8?B?Q2xPVHJEUStjMHhIalZ6NXVuaEwzV3J2aEllWHdGeXZrYTBCL3Yzem4xbnNG?=
- =?utf-8?B?SXhVYUJJS1JSNW4ySXdYUVQwQ1VRaFBlckRhaThScWtoZFlmQ3l1NzJ5UFhp?=
- =?utf-8?B?dmcrd1JWYjBWd1JacEI2eURRamw0dzNVRUNWVjZId1Myam9mODNPdzFGRGh5?=
- =?utf-8?B?ci92dmRCL1RQdklJTUJ2dHF1bEJCTVlCUlRkbFY1OHNaZzNYaFAxeEE4RldV?=
- =?utf-8?B?aG5XSmFlSHFJMW1Mb09Nc1cvK1NFcUc0VmdaY0I1Q0dnL2hublpRQ01HMXVZ?=
- =?utf-8?B?WnZyS00zeXFhOUxOTDN5cmFabTFQejFIRmpiNHFNaUV1SDRpamVLZmN6QWo1?=
- =?utf-8?B?Z1NwRWJWTElTbTB6MTBLVjdETEp2Z1ZFWUl3ZXBHS0dIUW1DNEQvRHlXdGU4?=
- =?utf-8?B?NDVaTk1XR1hVck0zZVl2WjJqcDJIakY3cmhsM0hnNDd1L3ZnRHo4R3ZxZ3Mr?=
- =?utf-8?B?T01CL3hxaUV1amN3b3hqdW02NHJpMy9YTzZ1OUJWbGRxTWd5cW1GQm15L3d4?=
- =?utf-8?B?d2wvY2lCZEpucXJJVkpQNmdQeXk5K3VWQ2lXdmhDSmxsWW5HQTE5OEloaEU4?=
- =?utf-8?B?NlRiNTZUMmVWMkFpUTBVRlJHUEhBaUVST3dqNXNaUW50dnh1a1FwdDk0L1V2?=
- =?utf-8?B?dnhBMVdxT0JRb24vU2Y5SFpVaWt6YUozbjcvL0U0RlNEZW15dW9BTEtIWTNq?=
- =?utf-8?B?SjFiR2Ntc1NrNGdZOXloR0QreFhnL3ZuQnVCNk0wYjg5NFhoOGI1WHlFWGx3?=
- =?utf-8?B?OHBCL2xmVkpFRzhFM0pzSTM3M2tGZnIwVVcxcUVCaGh6SUtoNFBsem1YV1Zm?=
- =?utf-8?B?b1JBVEowRjdGVkREYjRwTjY2ZVN4a2pNK21KSEZpdXJWSFRITUdXYVJJbWtW?=
- =?utf-8?B?WXRtOVpXTW9WenBaNC9xczgxVXhuSlVOUE4wZEszN3A2TXVpNURCZzRubktm?=
- =?utf-8?B?MFhGbFlWdXVWSjlRYjI3cFEzUEFDRzFDdEVJekMvSHA2dWNtYnh1YVZtVnNh?=
- =?utf-8?B?LytVRDhhUVY2bmhqQUwyOWk5bFRDZnZLUWN0RDV5dHc5MEw1aGc2UmFwZTEr?=
- =?utf-8?B?V2FaeTM5aDcxVHZ1Y083Mm5oOWl2dGRIN09VQit3YXBUdncxNHpDNUZJRlp0?=
- =?utf-8?B?YUZ3MDU5dFc4bERCbG9RMEhNQkVUZVA5R2szWmRlb1ptT0NEc2cyY3FCbzNU?=
- =?utf-8?B?T2FLRExrZ3IzcWRveFRDTmxxN00vRjdnQUV3OC9GY2kvNUhmdDYwRmdoNHFa?=
- =?utf-8?B?YVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 16 Mar 2023 12:29:10 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655BB11658;
+        Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id v2-20020a056830090200b0069c6952f4d3so1281550ott.7;
+        Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678984147;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
+        b=ikNRzbRoiKTgXyd+o2RLa29YkJb2JOn/v6YIm0chMHa6jMtz7Aukxr3sDnZHlDLCPg
+         4D/22vj4EbWjYs2AIrlL21s+qmtcJrK2g0S0A9e8PiBm5W7d712LL6r2UFxgKnvXl/gm
+         ktxn0TCtFmHN3n6/5Rqp3eY/tP+45cwvCQbEr4LKfIVc3NzHlCvpaRgPl1GjprXJngVK
+         o/OzzczyZa0RYUhKwpPTamHjLGz0bzvRvfBPOcY80aDA3S86p0xzu2KL68NJou9/9dV3
+         ledWYpzzPxEcC0LxkcP1aiyD5wyrscSI78/RWFrs6d2i7fFM8PEv3ajniZ3O3cfTJDJ4
+         JOow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678984147;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
+        b=6L+Fq4JYx6S/3tGnBkY5jAoo1bqTqaN6dav0ntMqZIgtqS0/GHCbRztXKZdaLWOIk2
+         8MeRKgI4nOxZSTr37RJU2CK8KyWkbdqkv4SVffITEr/iMR/DP54AuVN45dW/GjeSnoGI
+         obHYESWolyzQx2V1nb9nUJ40jPNN4SyyCVOtlAhrAhbnCx6SLraG+cYLttyUbKvG7vNP
+         xjWnZrPmT/mZGdglILY6SKXe9UFKynBN9FPpfE0CXTCO4x2JBdp8PtK7JfzqRPLaPVCr
+         MEdBgVtubkapU66xVtbgK849c9eED5SloC2yr029qx13hFsGCkddGfXUuekz67xbTFKs
+         KGhA==
+X-Gm-Message-State: AO0yUKWAcbWHay0YLPqp5UlWZllJ/4rxr2zDoMJvSZmla4nKCZd53+5b
+        BVR4A+gSFIZ4HpMLhWg50Wi/VoRfiuQTWrJRXEx29fQy
+X-Google-Smtp-Source: AK7set9IcfdpvBN64YteomtwjOCFpqzUVfHueXm0TYhNaIV/bcuG5vBYfN2vscoS0EyM3rGNZE/9BSodjB6pzEb8/aE=
+X-Received: by 2002:a9d:4b8f:0:b0:696:f275:a60d with SMTP id
+ k15-20020a9d4b8f000000b00696f275a60dmr3396308otf.7.1678984147388; Thu, 16 Mar
+ 2023 09:29:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: vw5aUy4WruM1V+IHkZrf41BE7uOqZux3khyVzO6g+qlmTRw/u/c1L3De5Nmllyj7dqBfm9ra0hCi0qHmwgf2H54ErJPXa4LNA/3Jv6aDYCTRrBgUz5o2MEvyCsO4iN5faU+wuH2aQAm19vrBdHPSxzSCGYffb+EXDLIeXVbmN3boRlcOB0L33ODww0JqaV3BZ83OlNkYzto4KJt9ELNflmZvYSwOFTXrKRumyV9mYhCb6yA8ubMjh9WUrx8njSbYCs9o28VLxkFD+L4Va6iBN8T3Q0Tv98bHw+GJ0eK6MK41gfKeM90M3FKa+HvS2zyVete5etaxKF+vivOrTZpNbu74Q5Q4g/71PG2WNifQpnSV2F84ruRrsmr1sBKAMBlQoOnU5OWR3NEF3rzC82PH4u7YDtvMZ2FOUsV061OAgX/ZpK4f2yDgG3p4Bvn/AEELLADr2HH6QX1N/zr5/E8JM5X+/qMpMUY89TGbnuBX6phyIkejvzawVLYiY5KifS2AflC1tezpm91x93mzIqFnnG24CFLMrv+xeHk8MlglGfCoPBxjOzApLU3okKhUg9q5pqygE88Me8PM2UhBCZ9QEm/NSVO7mW3kV2sL+UsyHR1YXUqQov0oEfQUHEDoOD6d9W8/QSsHSmvaK00tlCU12J6zPoRG2hJm1TbHkCsTV4P19qjYrIOhexdFOPM8RENBww9kG13OveaRKGmah0LxtKTVCKC1hUUQMZJO9RYUfEhfh3HOks4Kv8uc431RhqaefGBD31jsDxqrs0rCL+MnglSDpKpHa9xSm3/K/YXdItJONnoJbO0xkCbfkJY6Bc3w8HXzhKEgu54XRqIoo4ON3A==
-X-OriginatorOrg: qti.qualcomm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR02MB8169.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7302e230-904a-4373-1420-08db263b37f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2023 16:26:38.6151
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ztoUzTNxH/S70a5c65OQ4wzG2VmKNjV8aZ+b6PAfJ5Bv7SWJCIr3mnHc1IdXmfgV1+xZyYgeEWa8hf2e4KKM1niWrDC4MQ0h6KWhGJcZ5MY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6997
-X-Proofpoint-GUID: b4XrS94ELuhuO6YZCrwP9vNKb28_ECvo
-X-Proofpoint-ORIG-GUID: b4XrS94ELuhuO6YZCrwP9vNKb28_ECvo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-16_10,2023-03-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 clxscore=1011 priorityscore=1501 mlxscore=0
- suspectscore=0 bulkscore=0 phishscore=0 adultscore=0 impostorscore=0
- mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303150002 definitions=main-2303160130
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230308155322.344664-1-robdclark@gmail.com> <20230308155322.344664-2-robdclark@gmail.com>
+ <ZAtQspuFjPtGy7ze@gmail.com> <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
+ <ZBHNvT3BLgS3qvV5@gmail.com> <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+ <ZBLg0t0tTVvuPuiJ@gmail.com>
+In-Reply-To: <ZBLg0t0tTVvuPuiJ@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 16 Mar 2023 09:28:55 -0700
+Message-ID: <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
+Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
+To:     =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        intel-gfx@lists.freedesktop.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Matt Turner <mattst88@gmail.com>,
+        freedreno@lists.freedesktop.org,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -160,31 +90,294 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQnJ5YW4sDQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IEJyeWFuIE8n
-RG9ub2dodWUgPGJyeWFuLm9kb25vZ2h1ZUBsaW5hcm8ub3JnPg0KPlNlbnQ6IFRodXJzZGF5LCBN
-YXJjaCAxNiwgMjAyMyA1OjI0IFBNDQo+VG86IFZpc3dhbmF0aCBCb21hIChUZW1wKSAoUVVJQykg
-PHF1aWNfdmJvbWFAcXVpY2luYy5jb20+Ow0KPnN0YW5pbWlyLnZhcmJhbm92QGxpbmFyby5vcmc7
-IFZpa2FzaCBHYXJvZGlhIChRVUlDKQ0KPjxxdWljX3ZnYXJvZGlhQHF1aWNpbmMuY29tPjsgQW5k
-eSBHcm9zcyA8YWdyb3NzQGtlcm5lbC5vcmc+Ow0KPmJqb3JuLmFuZGVyc3NvbkBsaW5hcm8ub3Jn
-OyBLb25yYWQgRHliY2lvIDxrb25yYWQuZHliY2lvQGxpbmFyby5vcmc+Ow0KPk1hdXJvIENhcnZh
-bGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPjsgbGludXgtbWVkaWFAdmdlci5rZXJuZWwu
-b3JnOw0KPmxpbnV4LWFybS1tc21Admdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5r
-ZXJuZWwub3JnDQo+Q2M6IFZpa2FzaCBHYXJvZGlhIDx2Z2Fyb2RpYUBxdGkucXVhbGNvbW0uY29t
-PjsgRGlrc2hpdGEgQWdhcndhbA0KPjxkaWtzaGl0YUBxdGkucXVhbGNvbW0uY29tPg0KPlN1Ympl
-Y3Q6IFJlOiBbUEFUQ0hdIHZlbnVzOiBFbmFibGUgc3VmZmljaWVudCBzZXF1ZW5jZSBjaGFuZ2Ug
-c3VwcG9ydCBmb3INCj5zYzcxODAgYW5kIGZpeCBmb3IgRGVjb2RlciBTVE9QIGNvbW1hbmQgaXNz
-dWUuDQo+DQo+V0FSTklORzogVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBvZiBR
-dWFsY29tbS4gUGxlYXNlIGJlIHdhcnkgb2YNCj5hbnkgbGlua3Mgb3IgYXR0YWNobWVudHMsIGFu
-ZCBkbyBub3QgZW5hYmxlIG1hY3Jvcy4NCj4NCj5PbiAxNi8wMy8yMDIzIDA4OjE1LCBxdWljX3Zi
-b21hQHF1aWNpbmMuY29tIHdyb3RlOg0KPj4gKyAgICAgaWYgKElTX1Y0KGNvcmUpKQ0KPg0KPkhp
-IFZpc3dhbmF0aCwNCj4NCj5Db3VsZCB5b3UgcGxlYXNlIHRha2UgaW4gdGhlIGNoYW5nZSB0byBi
-YXNlIG9uIG9uIElSSVMgdmVyc2lvbiBhbmQgcmViYXNlIHlvdXINCj5wYXRjaCBvbiBfdGhhdF8g
-bXVjaCBhdCBsZWFzdCwgbm90IG5lY2Vzc2FyaWx5IGFsbCBvZiB0aGUgY2hhbmdlcyBpbiB0aGUg
-c2VyaWVzDQo+YmVsb3cuIERpa3NoaXRhIHNob3VsZCBiZSBhYmxlIGhlbHAuDQoNCkxldCBoYXZl
-IHRoaXMgZml4IGdvIHNlcGFyYXRlbHkgYW5kIG5vdCB0aWUgdGhpcyB3aXRoIHRoZSBBUjUwTFQg
-c2VyaWVzLiBUaGlzIGZpeCBpcyBhIHBlbmRpbmcNCmZvciBzb21ldGltZSBkdWUgdG8gZGVsYXkg
-aW4gcmFpc2luZyB0aGUgcHVsbCByZXF1ZXN0LiBXb3JraW5nIHdpdGggU3RhbiB0byBnZXQgdGhl
-IHB1bGwNCnJlcXVlc3QgcmFpc2VkIGluIG5leHQgY291cGxlIG9mIGRheXMuDQoNCj5odHRwczov
-L2xvcmUua2VybmVsLm9yZy9saW51eC1hcm0tbXNtL2M5YzMyNGFhLTYxOTItZjg3OC05MTg5LQ0K
-PjYzNTYyNmU3NmIxM0BxdWljaW5jLmNvbS8NCj4NCj5JUklTIHZlcnNpb24gaXMgbW9yZSBncmFu
-dWxhci9hY2N1cmF0ZSB0aGFuIFY0L1Y2IGV0Yy4NCj4NCj4tLS0NCj5ib2QNCg==
+On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
+ wrote:
+>
+> On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
+> > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
+com> wrote:
+> > >
+> > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
+> > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gm=
+ail.com> wrote:
+> > > > >
+> > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
+> > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > >
+> > > > > > Add a way to hint to the fence signaler of an upcoming deadline=
+, such as
+> > > > > > vblank, which the fence waiter would prefer not to miss.  This =
+is to aid
+> > > > > > the fence signaler in making power management decisions, like b=
+oosting
+> > > > > > frequency as the deadline approaches and awareness of missing d=
+eadlines
+> > > > > > so that can be factored in to the frequency scaling.
+> > > > > >
+> > > > > > v2: Drop dma_fence::deadline and related logic to filter duplic=
+ate
+> > > > > >     deadlines, to avoid increasing dma_fence size.  The fence-c=
+ontext
+> > > > > >     implementation will need similar logic to track deadlines o=
+f all
+> > > > > >     the fences on the same timeline.  [ckoenig]
+> > > > > > v3: Clarify locking wrt. set_deadline callback
+> > > > > > v4: Clarify in docs comment that this is a hint
+> > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+> > > > > > v6: More docs
+> > > > > > v7: Fix typo, clarify past deadlines
+> > > > > >
+> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > > > > ---
+> > > > >
+> > > > > Hi Rob!
+> > > > >
+> > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
+> > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++=
+++++++++
+> > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
+> > > > > >  3 files changed, 87 insertions(+)
+> > > > > >
+> > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentati=
+on/driver-api/dma-buf.rst
+> > > > > > index 622b8156d212..183e480d8cea 100644
+> > > > > > --- a/Documentation/driver-api/dma-buf.rst
+> > > > > > +++ b/Documentation/driver-api/dma-buf.rst
+> > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
+> > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > >     :doc: fence signalling annotation
+> > > > > >
+> > > > > > +DMA Fence Deadline Hints
+> > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > > +
+> > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
+> > > > > > +   :doc: deadline hints
+> > > > > > +
+> > > > > >  DMA Fences Functions Reference
+> > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > >
+> > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-=
+fence.c
+> > > > > > index 0de0482cd36e..f177c56269bb 100644
+> > > > > > --- a/drivers/dma-buf/dma-fence.c
+> > > > > > +++ b/drivers/dma-buf/dma-fence.c
+> > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fenc=
+e **fences, uint32_t count,
+> > > > > >  }
+> > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > > > >
+> > > > > > +/**
+> > > > > > + * DOC: deadline hints
+> > > > > > + *
+> > > > > > + * In an ideal world, it would be possible to pipeline a workl=
+oad sufficiently
+> > > > > > + * that a utilization based device frequency governor could ar=
+rive at a minimum
+> > > > > > + * frequency that meets the requirements of the use-case, in o=
+rder to minimize
+> > > > > > + * power consumption.  But in the real world there are many wo=
+rkloads which
+> > > > > > + * defy this ideal.  For example, but not limited to:
+> > > > > > + *
+> > > > > > + * * Workloads that ping-pong between device and CPU, with alt=
+ernating periods
+> > > > > > + *   of CPU waiting for device, and device waiting on CPU.  Th=
+is can result in
+> > > > > > + *   devfreq and cpufreq seeing idle time in their respective =
+domains and in
+> > > > > > + *   result reduce frequency.
+> > > > > > + *
+> > > > > > + * * Workloads that interact with a periodic time based deadli=
+ne, such as double
+> > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  I=
+n this scenario,
+> > > > > > + *   missing a vblank deadline results in an *increase* in idl=
+e time on the GPU
+> > > > > > + *   (since it has to wait an additional vblank period), sendi=
+ng a signal to
+> > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the o=
+pposite is what is
+> > > > > > + *   needed.
+> > > > >
+> > > > > This is the use case I'd like to get some better understanding ab=
+out how
+> > > > > this series intends to work, as the problematic scheduling behavi=
+or
+> > > > > triggered by missed deadlines has plagued compositing display ser=
+vers
+> > > > > for a long time.
+> > > > >
+> > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
+> > > > > developer, so I will need some hand holding when it comes to
+> > > > > understanding exactly what piece of software is responsible for
+> > > > > communicating what piece of information.
+> > > > >
+> > > > > > + *
+> > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence vi=
+a &dma_fence_set_deadline.
+> > > > > > + * The deadline hint provides a way for the waiting driver, or=
+ userspace, to
+> > > > > > + * convey an appropriate sense of urgency to the signaling dri=
+ver.
+> > > > > > + *
+> > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC=
+ for userspace
+> > > > > > + * facing APIs).  The time could either be some point in the f=
+uture (such as
+> > > > > > + * the vblank based deadline for page-flipping, or the start o=
+f a compositor's
+> > > > > > + * composition cycle), or the current time to indicate an imme=
+diate deadline
+> > > > > > + * hint (Ie. forward progress cannot be made until this fence =
+is signaled).
+> > > > >
+> > > > > Is it guaranteed that a GPU driver will use the actual start of t=
+he
+> > > > > vblank as the effective deadline? I have some memories of seing
+> > > > > something about vblank evasion browsing driver code, which I migh=
+t have
+> > > > > misunderstood, but I have yet to find whether this is something
+> > > > > userspace can actually expect to be something it can rely on.
+> > > >
+> > > > I guess you mean s/GPU driver/display driver/ ?  It makes things mo=
+re
+> > > > clear if we talk about them separately even if they happen to be th=
+e
+> > > > same device.
+> > >
+> > > Sure, sorry about being unclear about that.
+> > >
+> > > >
+> > > > Assuming that is what you mean, nothing strongly defines what the
+> > > > deadline is.  In practice there is probably some buffering in the
+> > > > display controller.  For ex, block based (including bandwidth
+> > > > compressed) formats, you need to buffer up a row of blocks to
+> > > > efficiently linearize for scanout.  So you probably need to latch s=
+ome
+> > > > time before you start sending pixel data to the display.  But detai=
+ls
+> > > > like this are heavily implementation dependent.  I think the most
+> > > > reasonable thing to target is start of vblank.
+> > >
+> > > The driver exposing those details would be quite useful for userspace
+> > > though, so that it can delay committing updates to late, but not too
+> > > late. Setting a deadline to be the vblank seems easy enough, but it
+> > > isn't enough for scheduling the actual commit.
+> >
+> > I'm not entirely sure how that would even work.. but OTOH I think you
+> > are talking about something on the order of 100us?  But that is a bit
+> > of another topic.
+>
+> Yes, something like that. But yea, it's not really related. Scheduling
+> commits closer to the deadline has more complex behavior than that too,
+> e.g. the need for real time scheduling, and knowing how long it usually
+> takes to create and commit and for the kernel to process.
+>
+> >
+>
+> 8-< *snip* 8-<
+>
+> > > >
+> > > > You need a fence to set the deadline, and for that work needs to be
+> > > > flushed.  But you can't associate a deadline with work that the ker=
+nel
+> > > > is unaware of anyways.
+> > >
+> > > That makes sense, but it might also a bit inadequate to have it as th=
+e
+> > > only way to tell the kernel it should speed things up. Even with the
+> > > trick i915 does, with GNOME Shell, we still end up with the feedback
+> > > loop this series aims to mitigate. Doing triple buffering, i.e. delay=
+ing
+> > > or dropping the first frame is so far the best work around that works=
+,
+> > > except doing other tricks that makes the kernel to ramp up its clock.
+> > > Having to rely on choosing between latency and frame drops should
+> > > ideally not have to be made.
+> >
+> > Before you have a fence, the thing you want to be speeding up is the
+> > CPU, not the GPU.  There are existing mechanisms for that.
+>
+> Is there no benefit to let the GPU know earlier that it should speed up,
+> so that when the job queue arrives, it's already up to speed?
+
+Downstream we have input notifier that resumes the GPU so we can
+pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
+wait to boost freq until we have cmdstream to submit, since that
+doesn't take as long.  What needs help initially after input is all
+the stuff that happens on the CPU before the GPU can start to do
+anything ;-)
+
+Btw, I guess I haven't made this clear, dma-fence deadline is trying
+to help the steady-state situation, rather than the input-latency
+situation.  It might take a frame or two of missed deadlines for
+gpufreq to arrive at a good steady-state freq.
+
+> >
+> > TBF I'm of the belief that there is still a need for input based cpu
+> > boost (and early wake-up trigger for GPU).. we have something like
+> > this in CrOS kernel.  That is a bit of a different topic, but my point
+> > is that fence deadlines are just one of several things we need to
+> > optimize power/perf and responsiveness, rather than the single thing
+> > that solves every problem under the sun ;-)
+>
+> Perhaps; but I believe it's a bit of a back channel of intent; the piece
+> of the puzzle that has the information to know whether there is need
+> actually speed up is the compositor, not the kernel.
+>
+> For example, pressing 'p' while a terminal is focused does not need high
+> frequency clocks, it just needs the terminal emulator to draw a 'p' and
+> the compositor to composite that update. Pressing <Super> may however
+> trigger a non-trivial animation moving a lot of stuff around on screen,
+> maybe triggering Wayland clients to draw and what not, and should most
+> arguably have the ability to "warn" the kernel about the upcoming flood
+> of work before it is already knocking on its door step.
+
+The super key is problematic, but not for the reason you think.  It is
+because it is a case where we should boost on key-up instead of
+key-down.. and the second key-up event comes after the cpu-boost is
+already in it's cool-down period.  But even if suboptimal in cases
+like this, it is still useful for touch/stylus cases where the
+slightest of lag is much more perceptible.
+
+This is getting off topic but I kinda favor coming up with some sort
+of static definition that userspace could give the kernel to let the
+kernel know what input to boost on.  Or maybe something could be done
+with BPF?
+
+> >
+>
+> 8-< *snip* 8-<
+>
+> > >
+> > > Is it expected that WSI's will set their own deadlines, or should tha=
+t
+> > > be the job of the compositor? For example by using compositors using
+> > > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
+> > > deadline matching the vsync it most ideally will be committed to?
+> > >
+> >
+> > I'm kind of assuming compositors, but if the WSI somehow has more
+> > information about ideal presentation time, then I suppose it could be
+> > in the WSI?  I'll defer to folks who spend more time on WSI and
+> > compositors to hash out the details ;-)
+>
+> With my compositor developer hat on, it might be best to let it be up to
+> the compositor, it's the one that knows if a client's content will
+> actually end up anywhere visible.
+>
+
+wfm
+
+BR,
+-R
+
+>
+> Jonas
+>
+> >
+> > BR,
+> > -R
