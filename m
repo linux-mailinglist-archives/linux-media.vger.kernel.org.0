@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60D756BF239
-	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 21:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3F6E6BF24E
+	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 21:21:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229886AbjCQUQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Mar 2023 16:16:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
+        id S229997AbjCQUVf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Mar 2023 16:21:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbjCQUQy (ORCPT
+        with ESMTP id S229708AbjCQUVe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Mar 2023 16:16:54 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C4B3800A;
-        Fri, 17 Mar 2023 13:16:50 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-17786581fe1so6906938fac.10;
-        Fri, 17 Mar 2023 13:16:50 -0700 (PDT)
+        Fri, 17 Mar 2023 16:21:34 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8380724BC5;
+        Fri, 17 Mar 2023 13:21:33 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id w21-20020a9d6755000000b00698853a52c7so3496764otm.11;
+        Fri, 17 Mar 2023 13:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679084210;
+        d=gmail.com; s=20210112; t=1679084493;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UU4zAnrBSArmTn9XkYtMm4tlOOONjI66zlgaRxaRc2U=;
-        b=h+Tg1fUeV3dUAxs/Bi8Ma5z5YKbULT93DkXk4MknB11o0s7K7bUtw7WwiTCGmzLO1N
-         9rtPg85SUNu6+lcO2OTXDMyZdS5dM2epOg0pdSBBlejUGWWO403qdX2irSX+8WFDmqzG
-         JGg+oyLM7HV8qGS6befsvU6P3GFyAlGjfWPaxg9+V/grsoPbxH5SCNX7Ev59ArGj9VWr
-         4H06WZ66Id9hZ7xfDH0cjguCzaZEQcN5hMcR1HA0cxm1Ow/vl6aSXI3cVLrCUQJi3StQ
-         SJE9RcSZR0gsqMA9i7j7Qe/a7+BsWrW1bfQpj66JJlHsHeHLkdYAPihwIzXNKEIkql4c
-         Zgog==
+        bh=LU/mfsfhNec1aK8PFyfIyYKE8EgQ7PhAvCKKTqQTyQU=;
+        b=p7JYB8bhqRMYfjRD2ozKkjzAHTQevhnUGfUTimLWA8bI8MVUYYWpER3Gii4aFi5v29
+         Lxwr7+9ZgUmx5eRCE9hnmBerUeOfWr1uzaSC7n0QL9DXgwD+rO90jv40HHNyjhw+Eml1
+         UeTFXmSTqEUf5JMMrFF9IJKtQcEMHCKDhyDrBoGdBUGyOn+AQWZqGVSLZeDdr8sDDSZf
+         or3jIZBNDQtCgpEdD7UM/NaIP/RaXxBYpfcgkh9XWHWofv7tEC0kFTNYKmxJ4tcY9ZAa
+         oMqMQkcWpUrSvABhJRYm3TYVMpJvpiuXnXdwrYJ96N/QrIiB4H09rD3EGyuG0nVL6Ntw
+         qygg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679084210;
+        d=1e100.net; s=20210112; t=1679084493;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UU4zAnrBSArmTn9XkYtMm4tlOOONjI66zlgaRxaRc2U=;
-        b=sEXVHSYIrhubNiYAOnDF33xIzGBP5Kb/H+Ku0zQ3jZ2m3+5f4a3+zAod8zv2FsBvYr
-         6w18SkxbUt+zX/BXZVMDEOXBleMkfnTNhCEzIKDQhazFrUlxxhRlghd7Jrcj6xFhAyai
-         di0diKuOUnSxfTt1X5LGfsYSW2qHAvBdrBxVPggptR07N5sbAuJvANr+5Oa+WFMR9F8Z
-         LfYAHS3IYod8xYWpVa96HsykBqyVyOqFBa1ycRL45CeJaL4ke/g/e62l3N9Wlm2TeRAT
-         TjVw+6Gz2heYPMPpWSzqnmvLRUqmidH59s+Fn5FZ7peAIEiVdAou7xna5vWhGwYTLz8b
-         mOFg==
-X-Gm-Message-State: AO0yUKW/pgAFBvkWp0PxWMhQ36tRKBtgB2hq6hS7LZJS32Mmc2f5Oaor
-        sJRwsK0g3pKw7E0Ot/vOTsfWKfIACUTz54T3199/kftG
-X-Google-Smtp-Source: AK7set+hgyDIxODQ1HpKvvctXRdJYouhJjfOaV7GujAUKXtOOfVz7wx7IEd/zYgoBBSWvGbON6Dc74JDF6R5s/Xnr+M=
-X-Received: by 2002:a05:6870:1099:b0:17c:29d8:61ee with SMTP id
- 25-20020a056870109900b0017c29d861eemr1596oaq.3.1679084208509; Fri, 17 Mar
- 2023 13:16:48 -0700 (PDT)
+        bh=LU/mfsfhNec1aK8PFyfIyYKE8EgQ7PhAvCKKTqQTyQU=;
+        b=nbVklu/hRaWS4iubfhlzVpYP4hSRovsTKmLXaxi4wWXFoT7BB+02eac5lLF6uCr+pq
+         MbmrsNE7cupcMfGR5/w1/uX3Yi9xT7VizLS2+ylEkVcQ8ZMiGrmq4h9+UO4MlhYjDZ7c
+         +hJWODC7dMO+oKalgep7I7hRdVu4KOKJPRa6MfViEbG/RO4+mniqCYuYbVJHYl+nVcgL
+         Nnwp1je3YHU/nEFDbwYgPSC/bKXLJ0A7EWYyR4cTwvrLgUuC8ap3h+VVTXKVw23cnMQJ
+         OelFq0HxCd4i2tZ41nwdD53pBp0nw1uRT/4nRlHgfpX7ZHExirqLOjQAOLkGbzod4j1Y
+         rbDg==
+X-Gm-Message-State: AO0yUKV+V5M+56vItCowIuqsQLRzbegNq9HA7eFI+CXGlWDql+2ggBLw
+        ZLBzAuc80JgdjAYPzEZJPsts25Z9G5zAx5oVh8k=
+X-Google-Smtp-Source: AK7set/FRROjLZxfdn/0MtuhT89/CHr/iks4mIHIqASlz97aojJD2I6VOCkrI8hRGKyEKDzR3I6aFHA0/lRhVr+0fyE=
+X-Received: by 2002:a9d:75ca:0:b0:698:311c:a051 with SMTP id
+ c10-20020a9d75ca000000b00698311ca051mr313259otl.3.1679084492844; Fri, 17 Mar
+ 2023 13:21:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230317081718.2650744-1-lee@kernel.org> <20230317081718.2650744-4-lee@kernel.org>
-In-Reply-To: <20230317081718.2650744-4-lee@kernel.org>
+References: <20230317081718.2650744-1-lee@kernel.org> <20230317081718.2650744-15-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-15-lee@kernel.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Fri, 17 Mar 2023 16:16:37 -0400
-Message-ID: <CADnq5_PV2O3txzF7a2J4XYM6DWDPNqXWbBdJW8hi9ShS7L8EtA@mail.gmail.com>
-Subject: Re: [PATCH 03/37] drm/amd/amdgpu/amdgpu_device: Provide missing
- kerneldoc entry for 'reset_context'
+Date:   Fri, 17 Mar 2023 16:21:21 -0400
+Message-ID: <CADnq5_PPRv7FHbfqrwivf7SxmQktyOhg2OL8=1Ep9G2CnJwf4A@mail.gmail.com>
+Subject: Re: [PATCH 14/37] drm/amd/amdgpu/amdgpu_vm_pt: Supply description for
+ amdgpu_vm_pt_free_dfs()'s unlocked param
 To:     Lee Jones <lee@kernel.org>
 Cc:     dri-devel@lists.freedesktop.org,
         "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
@@ -79,13 +79,14 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Applied.  Thanks!
 
-On Fri, Mar 17, 2023 at 4:22=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
+Alex
+
+On Fri, Mar 17, 2023 at 4:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5152:
->    warning: Function parameter or member 'reset_context' not described in=
- 'amdgpu_device_gpu_recover'
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c:683: warning: Function paramet=
+er or member 'unlocked' not described in 'amdgpu_vm_pt_free_dfs'
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -99,23 +100,22 @@ On Fri, Mar 17, 2023 at 4:22=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_device.c
-> index d4519fbd526f2..ef0b2787796da 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -5145,6 +5145,7 @@ static inline void amdgpu_device_stop_pending_reset=
-s(struct amdgpu_device *adev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_vm_pt.c
+> index 01e42bdd8e4e8..df63dc3bca18c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+> @@ -673,6 +673,7 @@ void amdgpu_vm_pt_free_work(struct work_struct *work)
+>   * @adev: amdgpu device structure
+>   * @vm: amdgpu vm structure
+>   * @start: optional cursor where to start freeing PDs/PTs
+> + * @unlocked: vm resv unlock status
 >   *
->   * @adev: amdgpu_device pointer
->   * @job: which job trigger hang
-> + * @reset_context: amdgpu reset context pointer
->   *
->   * Attempt to reset the GPU if it has hung (all asics).
->   * Attempt to do soft-reset or full-reset and reinitialize Asic
+>   * Free the page directory or page table level and all sub levels.
+>   */
 > --
 > 2.40.0.rc1.284.g88254d51c5-goog
 >
