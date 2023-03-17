@@ -2,354 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF8616BE68E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 11:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04F7A6BE8E9
+	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 13:12:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230077AbjCQKXs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Mar 2023 06:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36782 "EHLO
+        id S229934AbjCQMMF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Mar 2023 08:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbjCQKXq (ORCPT
+        with ESMTP id S229706AbjCQMME (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Mar 2023 06:23:46 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F1C56781;
-        Fri, 17 Mar 2023 03:23:43 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id f18so5871069lfa.3;
-        Fri, 17 Mar 2023 03:23:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679048622;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WGacm7RCfazkee7wrXpMRDYYgVKndhRWSmy/3AtOVeY=;
-        b=KBDw6MOXd1CzaTIztOLZ7uv29SeTcX7fYMAfe07Ho1UZX5z0wEykLsTq2/BVYhC2lo
-         imUYgn2ZtJ+qs2oTyx66r734oJaR1Zi5IKAfoPqBPeYR9z8AeE/ENnenILE7vhSTxlt4
-         oWGDDXDHQE+l4qGntn9yYNaJ0rwJOZh6CRJeSK0/8KTtPtI3X3ISNy1O/cv856enVDdL
-         BmPFuV2dxwd5FdCNGq1TJ9QeIeUkbJe0YLyTGqIzFkbygj3GVFhzC1HUnmKfyGcx+MTB
-         gahxvbqHvzvpWgRcLAYd6360bGi8dshQo6ykCNARdZroFF221tGSxOFxhPntgH9Hd0RJ
-         bIwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679048622;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGacm7RCfazkee7wrXpMRDYYgVKndhRWSmy/3AtOVeY=;
-        b=Bcxngnz7ABheHddzflNLfK64sqwqLFeJQudYEyAprw7qabIof8brx/kwdN/rzEclYC
-         cpwN/5XAUrKQNxfnayxXQWKYT9aJgulsvbNQqiKhAO9Kof8YduCx14OG6vG0SxQUKUuB
-         hpiNNXLeS1SxqeZkNlynsoxQ1XILpFT0kE5Lm+/0wO520KdK0UXCjUKdvLdqs6bt9FPF
-         R87/WENmqkxBcnUBrByeCZdSFzGwMGrQWUf2P1iBubRc8LZNtCQULVmhiL8kE99n3hIF
-         qHXOtuDoAGmqc7VuUUJp174cigaqhXn7CcQXz+W/i8uIy/OUOyJixAFWQ0C+isBgU7Wr
-         d57w==
-X-Gm-Message-State: AO0yUKWxJUUkmZqa0SwSPJx/W16CZtWT0r9KaXW9US8PWZiyEPHz/oBY
-        jCPR+SKu/Lx7Y3/+ZUiZt0dv/6YqGDwFIA==
-X-Google-Smtp-Source: AK7set/JMFHbStUK9NHJ0sOC4HuEc8J8R4pwwZyIbZEtLEmp595lLbE59ui5upkm1p/wp78uPPIIbQ==
-X-Received: by 2002:ac2:4a88:0:b0:4dc:82b0:4c68 with SMTP id l8-20020ac24a88000000b004dc82b04c68mr3514049lfp.50.1679048621810;
-        Fri, 17 Mar 2023 03:23:41 -0700 (PDT)
-Received: from gmail.com (host-95-193-64-255.mobileonline.telia.com. [95.193.64.255])
-        by smtp.gmail.com with ESMTPSA id i10-20020a056512006a00b004cafa01ebbfsm306297lfo.101.2023.03.17.03.23.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 03:23:41 -0700 (PDT)
-Date:   Fri, 17 Mar 2023 11:23:38 +0100
-From:   Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-Message-ID: <ZBQ/qoxP+EGI0E7R@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com>
- <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
- <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com>
- <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
+        Fri, 17 Mar 2023 08:12:04 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE83A6BC3;
+        Fri, 17 Mar 2023 05:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679055122; x=1710591122;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IydmJs9AvmFek7/Hmnwkw3N3sjHYmige7U7d0Jyg07s=;
+  b=LyzK+ah8uEr4yBO20uSGJLgtdRUa4jntkv3tuRGBlQMookDc/r5gyi50
+   8VPm8j3Tr5u9mBzui13Cnl/i3+gS5YJqGU7hOr/vChe1Wqc+xOEWlj8of
+   j85fphkSTBTVh34ojkcswN/FhpxZYqaquiqRqSffaJn8iig6xQ/z6j517
+   GBfb/DzS+H5tCq+Ob3/YU6r9Plj982w0VhuHdhUx05b/eeCWSCUGFYx4B
+   D6aqsMoSpfzIjGn07V4R87Q4zozbISexowUc8y9xouxj3kZrnOBhpdl7e
+   pA70zGpBu4ymEUbSIb1adPxJVtGV5kd+WCaV2Fkvgzq7Ih+yrG/sVQma7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="336945920"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="336945920"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 05:12:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="630268231"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="630268231"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 17 Mar 2023 05:11:55 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1pd8w4-0050up-2R;
+        Fri, 17 Mar 2023 14:11:52 +0200
+Date:   Fri, 17 Mar 2023 14:11:52 +0200
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Wolfram Sang <wsa@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
+Message-ID: <ZBRZCHM4rI9Csvib@smile.fi.intel.com>
+References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
+ <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
+ <20230317101606.69602bba@booty>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230317101606.69602bba@booty>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 16, 2023 at 09:28:55AM -0700, Rob Clark wrote:
-> On Thu, Mar 16, 2023 at 2:26 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> >
-> > On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> > > On Wed, Mar 15, 2023 at 6:53 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> > > >
-> > > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > > > On Fri, Mar 10, 2023 at 7:45 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> > > > > >
-> > > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > >
-> > > > > > > Add a way to hint to the fence signaler of an upcoming deadline, such as
-> > > > > > > vblank, which the fence waiter would prefer not to miss.  This is to aid
-> > > > > > > the fence signaler in making power management decisions, like boosting
-> > > > > > > frequency as the deadline approaches and awareness of missing deadlines
-> > > > > > > so that can be factored in to the frequency scaling.
-> > > > > > >
-> > > > > > > v2: Drop dma_fence::deadline and related logic to filter duplicate
-> > > > > > >     deadlines, to avoid increasing dma_fence size.  The fence-context
-> > > > > > >     implementation will need similar logic to track deadlines of all
-> > > > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > > > v4: Clarify in docs comment that this is a hint
-> > > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > > > v6: More docs
-> > > > > > > v7: Fix typo, clarify past deadlines
-> > > > > > >
-> > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > > > ---
-> > > > > >
-> > > > > > Hi Rob!
-> > > > > >
-> > > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
-> > > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > > > >  3 files changed, 87 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> > > > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > >     :doc: fence signalling annotation
-> > > > > > >
-> > > > > > > +DMA Fence Deadline Hints
-> > > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > > +
-> > > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > > +   :doc: deadline hints
-> > > > > > > +
-> > > > > > >  DMA Fences Functions Reference
-> > > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > >
-> > > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
-> > > > > > >  }
-> > > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > > >
-> > > > > > > +/**
-> > > > > > > + * DOC: deadline hints
-> > > > > > > + *
-> > > > > > > + * In an ideal world, it would be possible to pipeline a workload sufficiently
-> > > > > > > + * that a utilization based device frequency governor could arrive at a minimum
-> > > > > > > + * frequency that meets the requirements of the use-case, in order to minimize
-> > > > > > > + * power consumption.  But in the real world there are many workloads which
-> > > > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > > > + *
-> > > > > > > + * * Workloads that ping-pong between device and CPU, with alternating periods
-> > > > > > > + *   of CPU waiting for device, and device waiting on CPU.  This can result in
-> > > > > > > + *   devfreq and cpufreq seeing idle time in their respective domains and in
-> > > > > > > + *   result reduce frequency.
-> > > > > > > + *
-> > > > > > > + * * Workloads that interact with a periodic time based deadline, such as double
-> > > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
-> > > > > > > + *   missing a vblank deadline results in an *increase* in idle time on the GPU
-> > > > > > > + *   (since it has to wait an additional vblank period), sending a signal to
-> > > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-> > > > > > > + *   needed.
-> > > > > >
-> > > > > > This is the use case I'd like to get some better understanding about how
-> > > > > > this series intends to work, as the problematic scheduling behavior
-> > > > > > triggered by missed deadlines has plagued compositing display servers
-> > > > > > for a long time.
-> > > > > >
-> > > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> > > > > > developer, so I will need some hand holding when it comes to
-> > > > > > understanding exactly what piece of software is responsible for
-> > > > > > communicating what piece of information.
-> > > > > >
-> > > > > > > + *
-> > > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-> > > > > > > + * The deadline hint provides a way for the waiting driver, or userspace, to
-> > > > > > > + * convey an appropriate sense of urgency to the signaling driver.
-> > > > > > > + *
-> > > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
-> > > > > > > + * facing APIs).  The time could either be some point in the future (such as
-> > > > > > > + * the vblank based deadline for page-flipping, or the start of a compositor's
-> > > > > > > + * composition cycle), or the current time to indicate an immediate deadline
-> > > > > > > + * hint (Ie. forward progress cannot be made until this fence is signaled).
-> > > > > >
-> > > > > > Is it guaranteed that a GPU driver will use the actual start of the
-> > > > > > vblank as the effective deadline? I have some memories of seing
-> > > > > > something about vblank evasion browsing driver code, which I might have
-> > > > > > misunderstood, but I have yet to find whether this is something
-> > > > > > userspace can actually expect to be something it can rely on.
-> > > > >
-> > > > > I guess you mean s/GPU driver/display driver/ ?  It makes things more
-> > > > > clear if we talk about them separately even if they happen to be the
-> > > > > same device.
-> > > >
-> > > > Sure, sorry about being unclear about that.
-> > > >
-> > > > >
-> > > > > Assuming that is what you mean, nothing strongly defines what the
-> > > > > deadline is.  In practice there is probably some buffering in the
-> > > > > display controller.  For ex, block based (including bandwidth
-> > > > > compressed) formats, you need to buffer up a row of blocks to
-> > > > > efficiently linearize for scanout.  So you probably need to latch some
-> > > > > time before you start sending pixel data to the display.  But details
-> > > > > like this are heavily implementation dependent.  I think the most
-> > > > > reasonable thing to target is start of vblank.
-> > > >
-> > > > The driver exposing those details would be quite useful for userspace
-> > > > though, so that it can delay committing updates to late, but not too
-> > > > late. Setting a deadline to be the vblank seems easy enough, but it
-> > > > isn't enough for scheduling the actual commit.
-> > >
-> > > I'm not entirely sure how that would even work.. but OTOH I think you
-> > > are talking about something on the order of 100us?  But that is a bit
-> > > of another topic.
-> >
-> > Yes, something like that. But yea, it's not really related. Scheduling
-> > commits closer to the deadline has more complex behavior than that too,
-> > e.g. the need for real time scheduling, and knowing how long it usually
-> > takes to create and commit and for the kernel to process.
-> >
-> > >
-> >
-> > 8-< *snip* 8-<
-> >
-> > > > >
-> > > > > You need a fence to set the deadline, and for that work needs to be
-> > > > > flushed.  But you can't associate a deadline with work that the kernel
-> > > > > is unaware of anyways.
-> > > >
-> > > > That makes sense, but it might also a bit inadequate to have it as the
-> > > > only way to tell the kernel it should speed things up. Even with the
-> > > > trick i915 does, with GNOME Shell, we still end up with the feedback
-> > > > loop this series aims to mitigate. Doing triple buffering, i.e. delaying
-> > > > or dropping the first frame is so far the best work around that works,
-> > > > except doing other tricks that makes the kernel to ramp up its clock.
-> > > > Having to rely on choosing between latency and frame drops should
-> > > > ideally not have to be made.
-> > >
-> > > Before you have a fence, the thing you want to be speeding up is the
-> > > CPU, not the GPU.  There are existing mechanisms for that.
-> >
-> > Is there no benefit to let the GPU know earlier that it should speed up,
-> > so that when the job queue arrives, it's already up to speed?
+On Fri, Mar 17, 2023 at 10:16:06AM +0100, Luca Ceresoli wrote:
+> Hi Tomi, Wolfram,
+> On Wed, 22 Feb 2023 15:29:00 +0200
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+> > From: Luca Ceresoli <luca@lucaceresoli.net>
+
+...
+
+> > Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > 
-> Downstream we have input notifier that resumes the GPU so we can
-> pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
-> wait to boost freq until we have cmdstream to submit, since that
-> doesn't take as long.  What needs help initially after input is all
-> the stuff that happens on the CPU before the GPU can start to do
-> anything ;-)
+> Wolfram, I think Tomi improved this work as much as currently possible
+> and this patch now looks extremely good to me. I wish we had this in
+> mainline soon. Does it make sense for me to send a Reviewed-by tag,
+> given I already have a S-o-b one?
 
-How do you deal with boosting CPU speeds downstream? Does the input
-notifier do that too?
+I believe documentation is in favour that standalone SoB suffice.
+Especially when you are the author (From line) the Rb makes no
+sense to me.
 
+...
+
+> > +/**
+> > + * struct i2c_atr - The I2C ATR instance
+> > + * @parent:    The parent &struct i2c_adapter
+> > + * @dev:       The device that owns the I2C ATR instance
+> > + * @ops:       &struct i2c_atr_ops
+> > + * @priv:      Private driver data, set with i2c_atr_set_driver_data()
+> > + * @algo:      The &struct i2c_algorithm for adapters
+> > + * @lock:      Lock for the I2C bus segment (see &struct i2c_lock_operations)
+> > + * @max_adapters: Maximum number of adapters this I2C ATR can have
+> > + * @adapter:   Array of adapters
+> > + */
+> > +struct i2c_atr {
+> > +	struct i2c_adapter *parent;
+> > +	struct device *dev;
+> > +	const struct i2c_atr_ops *ops;
+> > +
+> > +	void *priv;
+> > +
+> > +	struct i2c_algorithm algo;
+> > +	/* lock for the I2C bus segment (see struct i2c_lock_operations) */
 > 
-> Btw, I guess I haven't made this clear, dma-fence deadline is trying
-> to help the steady-state situation, rather than the input-latency
-> situation.  It might take a frame or two of missed deadlines for
-> gpufreq to arrive at a good steady-state freq.
-
-I'm just not sure it will help. Missed deadlines set at commit hasn't
-been enough in the past to let the kernel understand it should speed
-things up before the next frame (which will be a whole frame late
-without any triple buffering which should be a last resort), so I don't
-see how it will help by adding a userspace hook to do the same thing.
-
-I think input latency and steady state target frequency here is tightly
-linked; what we should aim for is to provide enough information at the
-right time so that it does *not* take a frame or two to of missed
-deadlines to arrive at the target frequency, as those missed deadlines
-either means either stuttering and/or lag.
-
-That it helps with the deliberately late commit I do understand, but we
-don't do that yet, but intend to when there is kernel uapi to lets us do
-so without negative consequences.
-
+> This comment is identical to the one in the kerneldoc comments just
+> above, I'd just remove it.
 > 
-> > >
-> > > TBF I'm of the belief that there is still a need for input based cpu
-> > > boost (and early wake-up trigger for GPU).. we have something like
-> > > this in CrOS kernel.  That is a bit of a different topic, but my point
-> > > is that fence deadlines are just one of several things we need to
-> > > optimize power/perf and responsiveness, rather than the single thing
-> > > that solves every problem under the sun ;-)
-> >
-> > Perhaps; but I believe it's a bit of a back channel of intent; the piece
-> > of the puzzle that has the information to know whether there is need
-> > actually speed up is the compositor, not the kernel.
-> >
-> > For example, pressing 'p' while a terminal is focused does not need high
-> > frequency clocks, it just needs the terminal emulator to draw a 'p' and
-> > the compositor to composite that update. Pressing <Super> may however
-> > trigger a non-trivial animation moving a lot of stuff around on screen,
-> > maybe triggering Wayland clients to draw and what not, and should most
-> > arguably have the ability to "warn" the kernel about the upcoming flood
-> > of work before it is already knocking on its door step.
+> > +	struct mutex lock;
+> > +	int max_adapters;
+> > +
+> > +	struct notifier_block i2c_nb;
 > 
-> The super key is problematic, but not for the reason you think.  It is
-> because it is a case where we should boost on key-up instead of
-> key-down.. and the second key-up event comes after the cpu-boost is
-> already in it's cool-down period.  But even if suboptimal in cases
-> like this, it is still useful for touch/stylus cases where the
-> slightest of lag is much more perceptible.
+> Undocumented?
 
-Other keys are even more problematic. Alt, for example, does nothing,
-Alt + Tab does some light rendering, but Alt + KeyAboveTab will,
-depending on the current active applications, suddenly trigger N Wayland
-surfaces to start rendering at the same time.
+`kernel-doc -v` should actually catch this up.
 
-> 
-> This is getting off topic but I kinda favor coming up with some sort
-> of static definition that userspace could give the kernel to let the
-> kernel know what input to boost on.  Or maybe something could be done
-> with BPF?
-
-I have hard time seeing any static information can be enough, it's
-depends too much on context what is expected to happen. And can a BPF
-program really help? Unless BPF programs that pulls some internal kernel
-strings to speed things up whenever userspace wants I don't see how it
-is that much better.
-
-I don't think userspace is necessarily too slow to actively particitpate
-in providing direct scheduling hints either. Input processing can, for
-example, be off loaded to a real time scheduled thread, and plumbing any
-hints about future expectations from rendering, windowing and layout
-subsystems will be significantly easier to plumb to a real time input
-thread than translated into static informations or BPF programs.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Jonas
