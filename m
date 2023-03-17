@@ -2,78 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D46C6BE50E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 10:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 998A26BE548
+	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 10:16:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbjCQJLq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Mar 2023 05:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
+        id S231146AbjCQJQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Mar 2023 05:16:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbjCQJLZ (ORCPT
+        with ESMTP id S230410AbjCQJQY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Mar 2023 05:11:25 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E7E3A81;
-        Fri, 17 Mar 2023 02:10:56 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4PdJJS0wgpz9sTs;
-        Fri, 17 Mar 2023 10:10:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1679044248;
+        Fri, 17 Mar 2023 05:16:24 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F20F1024D;
+        Fri, 17 Mar 2023 02:16:17 -0700 (PDT)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 89B98240013;
+        Fri, 17 Mar 2023 09:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1679044576;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=tn5PncTOyWtxRza5q2TsQE5fEAu3fMK2xK+AqAvZbho=;
-        b=Y+VziNywRfRo0p0YxCt9vAJJJkXWTB2oYFB6IXyyxVPUkQuatIDv/40S0p0S9A+Q/lhVgT
-        lTxCKmh9gCbe75OH5I4nJUCRqn77pF4gV6FN92wQfUOWOqsVXKsje+5oxU1c1/zgnCOMq0
-        H0/SEULmLieHoXsdA7AiXQw5TIVjIloXie9iKgzbO3DWKiHRZAW2zFC7/k/0cf5SDBIaxd
-        nZzNF9GokuFZdw3km6HgWQ/y173AXrLXCZH21M0OtSHKfM89JRn2d8JFeoJSSBFObO2uFa
-        YNsQn9WXl9Yn94hgddXN/Duaf6YdhQ6xYPVDouaLK+AMdLBvBmi0XMg7ZXgF9Q==
-Message-ID: <12626002-98db-7702-598e-28ea4a3e5061@mailbox.org>
-Date:   Fri, 17 Mar 2023 10:10:44 +0100
+        bh=OUTT56MDOS2FuQ2BPMMCt7K8DRVjpzFnkyIz9El1Pbw=;
+        b=IpkKD1ttSzTlvs/XeESuuh6t8mqjtERUCrPkp1SOkYizRwV3fBfS5M8WySP63aVihSqsiR
+        7RAu1nzgEtNMj/RiswiXvaBRyP79sAQrhA9x/jKWKzQzrKspkwH9ytR0BLGmSs9yiiTxxH
+        tSlh2K/jiepi54oAxPmCe5IqUWTpJwt3WhhfFjKW+53EPULDI1rbptjBmj9WXEKNISWnF9
+        0dsM0+lCydevMuBuwfB3lEFOZthVxTw5kb7KW0HznKJCXgjRb0SCGaYvnV0oLNEz0vRekO
+        x/5vyL6Y/1Rm4umqcmEjGIdbthrjKY+kKKif6V/Z06BS1mHnqEuTRPxmOvS25w==
+Date:   Fri, 17 Mar 2023 10:16:06 +0100
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Wolfram Sang <wsa@kernel.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
+Message-ID: <20230317101606.69602bba@booty>
+In-Reply-To: <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
+References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
+        <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-Content-Language: de-CH-frami, en-CA
-To:     Sebastian Wick <sebastian.wick@redhat.com>,
-        Rob Clark <robdclark@gmail.com>
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com> <ZAtQspuFjPtGy7ze@gmail.com>
- <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
- <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com>
- <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
- <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com>
-From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8afd7b6bd4c7689e5ec
-X-MBO-RS-META: 7n4co8ucek6ryf9zcbhkmobgbkmu6uzh
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -83,69 +73,247 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/16/23 23:22, Sebastian Wick wrote:
-> On Thu, Mar 16, 2023 at 5:29 PM Rob Clark <robdclark@gmail.com> wrote:
->> On Thu, Mar 16, 2023 at 2:26 AM Jonas Ådahl <jadahl@gmail.com> wrote:
->>> On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
->>>> On Wed, Mar 15, 2023 at 6:53 AM Jonas Ådahl <jadahl@gmail.com> wrote:
->>>>> On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
->>>>>> On Fri, Mar 10, 2023 at 7:45 AM Jonas Ådahl <jadahl@gmail.com> wrote:
->>>>>>>
->>>>>>>> + *
->>>>>>>> + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
->>>>>>>> + * The deadline hint provides a way for the waiting driver, or userspace, to
->>>>>>>> + * convey an appropriate sense of urgency to the signaling driver.
->>>>>>>> + *
->>>>>>>> + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
->>>>>>>> + * facing APIs).  The time could either be some point in the future (such as
->>>>>>>> + * the vblank based deadline for page-flipping, or the start of a compositor's
->>>>>>>> + * composition cycle), or the current time to indicate an immediate deadline
->>>>>>>> + * hint (Ie. forward progress cannot be made until this fence is signaled).
->>>>>>>
->>>>>>> Is it guaranteed that a GPU driver will use the actual start of the
->>>>>>> vblank as the effective deadline? I have some memories of seing
->>>>>>> something about vblank evasion browsing driver code, which I might have
->>>>>>> misunderstood, but I have yet to find whether this is something
->>>>>>> userspace can actually expect to be something it can rely on.
->>>>>>
->>>>>> I guess you mean s/GPU driver/display driver/ ?  It makes things more
->>>>>> clear if we talk about them separately even if they happen to be the
->>>>>> same device.
->>>>>
->>>>> Sure, sorry about being unclear about that.
->>>>>
->>>>>>
->>>>>> Assuming that is what you mean, nothing strongly defines what the
->>>>>> deadline is.  In practice there is probably some buffering in the
->>>>>> display controller.  For ex, block based (including bandwidth
->>>>>> compressed) formats, you need to buffer up a row of blocks to
->>>>>> efficiently linearize for scanout.  So you probably need to latch some
->>>>>> time before you start sending pixel data to the display.  But details
->>>>>> like this are heavily implementation dependent.  I think the most
->>>>>> reasonable thing to target is start of vblank.
->>>>>
->>>>> The driver exposing those details would be quite useful for userspace
->>>>> though, so that it can delay committing updates to late, but not too
->>>>> late. Setting a deadline to be the vblank seems easy enough, but it
->>>>> isn't enough for scheduling the actual commit.
->>>>
->>>> I'm not entirely sure how that would even work.. but OTOH I think you
->>>> are talking about something on the order of 100us?  But that is a bit
->>>> of another topic.
->>>
->>> Yes, something like that. But yea, it's not really related. Scheduling
->>> commits closer to the deadline has more complex behavior than that too,
->>> e.g. the need for real time scheduling, and knowing how long it usually
->>> takes to create and commit and for the kernel to process.
+Hi Tomi, Wolfram,
+
+On Wed, 22 Feb 2023 15:29:00 +0200
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+
+> From: Luca Ceresoli <luca@lucaceresoli.net>
 > 
-> Vblank can be really long, especially with VRR where the additional
-> time you get to finish the frame comes from making vblank longer.
-> Using the start of vblank as a deadline makes VRR useless.
+> An ATR is a device that looks similar to an i2c-mux: it has an I2C
+> slave "upstream" port and N master "downstream" ports, and forwards
+> transactions from upstream to the appropriate downstream port. But it
+> is different in that the forwarded transaction has a different slave
+> address. The address used on the upstream bus is called the "alias"
+> and is (potentially) different from the physical slave address of the
+> downstream chip.
+> 
+> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
+> implementing ATR features in a device driver. The helper takes care or
+> adapter creation/destruction and translates addresses at each transaction.
+> 
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Not really. We normally still want to aim for start of vblank with VRR, which would result in the maximum refresh rate. Missing that target just incurs less of a penalty than with fixed refresh rate.
+Wolfram, I think Tomi improved this work as much as currently possible
+and this patch now looks extremely good to me. I wish we had this in
+mainline soon. Does it make sense for me to send a Reviewed-by tag,
+given I already have a S-o-b one?
 
+I have a few _extremely_ minor notes below, but I hope they won't
+slow down merging this work. They can definitely be addressed as a
+follow-up patch after merging this.
+
+Thank you a lot Tomi for having persisted in improving the ATR code!
+
+> diff --git a/Documentation/i2c/muxes/i2c-atr.rst b/Documentation/i2c/muxes/i2c-atr.rst
+> new file mode 100644
+> index 000000000000..da226fd4de63
+> --- /dev/null
+> +++ b/Documentation/i2c/muxes/i2c-atr.rst
+> @@ -0,0 +1,97 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================
+> +Kernel driver i2c-atr
+> +=====================
+> +
+> +Author: Luca Ceresoli <luca@lucaceresoli.net>
+> +Author: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> +
+> +Description
+> +-----------
+> +
+> +An I2C Address Translator (ATR) is a device with an I2C slave parent
+> +("upstream") port and N I2C master child ("downstream") ports, and
+> +forwards transactions from upstream to the appropriate downstream port
+> +with a modified slave address. The address used on the parent bus is
+> +called the "alias" and is (potentially) different from the physical
+> +slave address of the child bus. Address translation is done by the
+> +hardware.
+> +
+> +An ATR looks similar to an i2c-mux except:
+> + - the address on the parent and child busses can be different
+> + - there is normally no need to select the child port; the alias used on the
+> +   parent bus implies it
+> +
+> +The ATR functionality can be provided by a chip with many other
+> +features. This file provides a helper to implement an ATR within your
+> +driver.
+> +
+> +The ATR creates a new I2C "child" adapter on each child bus. Adding
+> +devices on the child bus ends up in invoking the driver code to select
+> +an available alias. Maintaining an appropriate pool of available aliases
+> +and picking one for each new device is up to the driver implementer. The
+> +ATR maintains an table of currently assigned alias and uses it to modify
+
+s/an table/a table/
+
+> +all I2C transactions directed to devices on the child buses.
+> +
+> +A typical example follows.
+> +
+> +Topology::
+> +
+> +                      Slave X @ 0x10
+> +              .-----.   |
+> +  .-----.     |     |---+---- B
+> +  | CPU |--A--| ATR |
+> +  `-----'     |     |---+---- C
+> +              `-----'   |
+> +                      Slave Y @ 0x10
+> +
+> +Alias table:
+> +
+> +A, B and C are three physical I2C busses, electrically independent from
+> +each other. The ATR receives the transactions initiated on bus A and
+> +propagates them on bus B or bus C or none depending on the device address
+> +in the transaction and based on the alias table.
+> +
+> +Alias table:
+> +
+> +.. table::
+> +
+> +   ===============   =====
+> +   Client            Alias
+> +   ===============   =====
+> +   X (bus B, 0x10)   0x20
+> +   Y (bus C, 0x10)   0x30
+> +   ===============   =====
+> +
+> +Transaction:
+> +
+> + - Slave X driver sends a transaction (on adapter B), slave address 0x10
+
+s/sends/requests/ is possibly better to clarify there is still no
+electrical transaction yet at this step, as we are still in software.
+
+> + - ATR driver finds slave X is on bus B and has alias 0x20, rewrites
+> +   messages with address 0x20, forwards to adapter A
+> + - Physical I2C transaction on bus A, slave address 0x20
+> + - ATR chip detects transaction on address 0x20, finds it in table,
+> +   propagates transaction on bus B with address translated to 0x10,
+> +   keeps clock streched on bus A waiting for reply
+> + - Slave X chip (on bus B) detects transaction at its own physical
+> +   address 0x10 and replies normally
+> + - ATR chip stops clock stretching and forwards reply on bus A,
+> +   with address translated back to 0x20
+> + - ATR driver receives the reply, rewrites messages with address 0x10
+> +   as they were initially
+> + - Slave X driver gets back the msgs[], with reply and address 0x10
+> +
+> +Usage:
+> +
+> + 1. In your driver (typically in the probe function) add an ATR by
+> +    calling i2c_atr_new() passing your attach/detach callbacks
+> + 2. When the attach callback is called pick an appropriate alias,
+> +    configure it in your chip and return the chosen alias in the
+> +    alias_id parameter
+> + 3. When the detach callback is called, deconfigure the alias from
+> +    your chip and put it back in the pool for later usage
+> +
+> +I2C ATR functions and data structures
+> +-------------------------------------
+> +
+> +.. kernel-doc:: include/linux/i2c-atr.h
+
+...
+
+> diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
+> new file mode 100644
+> index 000000000000..5ab890b83670
+> --- /dev/null
+> +++ b/drivers/i2c/i2c-atr.c
+> @@ -0,0 +1,548 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * I2C Address Translator
+> + *
+> + * Copyright (c) 2019,2022 Luca Ceresoli <luca@lucaceresoli.net>
+> + * Copyright (c) 2022,2023 Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> + *
+> + * Originally based on i2c-mux.c
+
+Not quite anymore I think... should this line be removed?
+
+> +/**
+> + * struct i2c_atr - The I2C ATR instance
+> + * @parent:    The parent &struct i2c_adapter
+> + * @dev:       The device that owns the I2C ATR instance
+> + * @ops:       &struct i2c_atr_ops
+> + * @priv:      Private driver data, set with i2c_atr_set_driver_data()
+> + * @algo:      The &struct i2c_algorithm for adapters
+> + * @lock:      Lock for the I2C bus segment (see &struct i2c_lock_operations)
+> + * @max_adapters: Maximum number of adapters this I2C ATR can have
+> + * @adapter:   Array of adapters
+> + */
+> +struct i2c_atr {
+> +	struct i2c_adapter *parent;
+> +	struct device *dev;
+> +	const struct i2c_atr_ops *ops;
+> +
+> +	void *priv;
+> +
+> +	struct i2c_algorithm algo;
+> +	/* lock for the I2C bus segment (see struct i2c_lock_operations) */
+
+This comment is identical to the one in the kerneldoc comments just
+above, I'd just remove it.
+
+> +	struct mutex lock;
+> +	int max_adapters;
+> +
+> +	struct notifier_block i2c_nb;
+
+Undocumented?
+
+...
+
+> +void i2c_atr_delete(struct i2c_atr *atr)
+> +{
+
+Maybe here we could iterate over atr->adapter[] and if any is != NULL
+just call BUG_ON() or WARN()?
+
+> +	bus_unregister_notifier(&i2c_bus_type, &atr->i2c_nb);
+> +	mutex_destroy(&atr->lock);
+> +	kfree(atr);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(i2c_atr_delete, I2C_ATR);
+
+...
+
+> diff --git a/include/linux/i2c-atr.h b/include/linux/i2c-atr.h
+> new file mode 100644
+> index 000000000000..7596f70ce1ab
+> --- /dev/null
+> +++ b/include/linux/i2c-atr.h
+> @@ -0,0 +1,116 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * I2C Address Translator
+> + *
+> + * Copyright (c) 2019,2022 Luca Ceresoli <luca@lucaceresoli.net>
+> + * Copyright (c) 2022,2023 Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> + *
+> + * Based on i2c-mux.h
+
+As above, this does not apply very much anymore as it did in v1.
+
+...
+
+> +/**
+> + * i2c_atr_delete - Delete an I2C ATR helper.
+> + * @atr: I2C ATR helper to be deleted.
+> + *
+> + * Precondition: all the adapters added with i2c_atr_add_adapter() mumst be
+
+s/mumst/must/
+
+Best regards,
+Luca
 
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
