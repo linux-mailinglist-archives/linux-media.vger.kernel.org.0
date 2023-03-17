@@ -2,75 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 836D86BF19B
-	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 20:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D756BF239
+	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 21:16:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbjCQTVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Mar 2023 15:21:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58794 "EHLO
+        id S229886AbjCQUQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Mar 2023 16:16:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjCQTVc (ORCPT
+        with ESMTP id S229843AbjCQUQy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Mar 2023 15:21:32 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B86E7ED8
-        for <linux-media@vger.kernel.org>; Fri, 17 Mar 2023 12:21:09 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id p4so5376716wre.11
-        for <linux-media@vger.kernel.org>; Fri, 17 Mar 2023 12:21:09 -0700 (PDT)
+        Fri, 17 Mar 2023 16:16:54 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C4B3800A;
+        Fri, 17 Mar 2023 13:16:50 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-17786581fe1so6906938fac.10;
+        Fri, 17 Mar 2023 13:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679080867;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xDgGD9JqvaKLuvRV7fRNK6jC+CQ90lvvKb1lDMKZaYQ=;
-        b=lIt5ROn7dM4mLQbXxtFaT+ibz7HLQMfUX6XKWqw32y8ramERbeCzsHZgBPWpmn/ION
-         7cjf3yP5VxIKZPmhWn3eEyXTZxTC7xfB9Ww6VKaCMy+mKUv4ERh3Ml0KpPT+y410JGCm
-         2zpBFyvu6oEHXGYkaykeH4jTforrMhmmnvvkkHSpcaP3urr8QcLs9OfO3GpAXQhXGrMs
-         nKWQGZfNJPLV8/c0lEv3WA/Zat+Or5kxCxtxytBN06Ax10nIF4brlcxU5iQPdWxjbVsP
-         61SJTLMhH/G6F22HAp96R0ssyv2XqdqPJveRrAYNVfYyfutn3cdvU/iMMmbIwQ9K/1b1
-         i3jQ==
+        d=gmail.com; s=20210112; t=1679084210;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UU4zAnrBSArmTn9XkYtMm4tlOOONjI66zlgaRxaRc2U=;
+        b=h+Tg1fUeV3dUAxs/Bi8Ma5z5YKbULT93DkXk4MknB11o0s7K7bUtw7WwiTCGmzLO1N
+         9rtPg85SUNu6+lcO2OTXDMyZdS5dM2epOg0pdSBBlejUGWWO403qdX2irSX+8WFDmqzG
+         JGg+oyLM7HV8qGS6befsvU6P3GFyAlGjfWPaxg9+V/grsoPbxH5SCNX7Ev59ArGj9VWr
+         4H06WZ66Id9hZ7xfDH0cjguCzaZEQcN5hMcR1HA0cxm1Ow/vl6aSXI3cVLrCUQJi3StQ
+         SJE9RcSZR0gsqMA9i7j7Qe/a7+BsWrW1bfQpj66JJlHsHeHLkdYAPihwIzXNKEIkql4c
+         Zgog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679080867;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xDgGD9JqvaKLuvRV7fRNK6jC+CQ90lvvKb1lDMKZaYQ=;
-        b=a45se43EvDCykEXYmOUoWaCwwLmvm6eiNeKWtKGDfu4SQmI3fYvFjzjwoXukZIuDbZ
-         k1NqI9Ua7LaZswAlr4mF9w9JrQQnv78KVxkHRedO3ezJk8oProafVMqjqte+t/84Wtlj
-         qQD4cbW7sjwk+H5LJXQy2fZDkJxO0S1eAcGrEGO9Q9K7OeSH+seH3TOptdK6x09aieDp
-         aNi4gQ6vfwQWXIMIAI2Nc0NOWwW6cdX4NOjz7OoGa2hZPReyD1ffa65X7gg+pju4iizF
-         m959QSz9wYL/fI+stwcHUBWdNQ72mxWHutuRql8Oi370QfKJY+HF5tWKvYnNAGzNj//V
-         whTg==
-X-Gm-Message-State: AO0yUKW86B97C2rbp7UEG3UHWnOkYoxGYvem4YsiBBt7KqQa6HS3NIaF
-        xa1g5aPWKC6QP51Mc98j2aY=
-X-Google-Smtp-Source: AK7set9wl8HMItHIv7EuOF4Ugnm9G7eBifkGEcKWx1mR9Hr8rWOlN4y5AJk/0zNlMj1vAdjoy6FeNw==
-X-Received: by 2002:a5d:43d1:0:b0:2ca:f86a:9643 with SMTP id v17-20020a5d43d1000000b002caf86a9643mr7703391wrr.0.1679080867370;
-        Fri, 17 Mar 2023 12:21:07 -0700 (PDT)
-Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id h5-20020a5d4305000000b002c3f81c51b6sm2602937wrq.90.2023.03.17.12.21.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 12:21:06 -0700 (PDT)
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] media: imx: imx7-media-csi: Fail on invalid type in
- VIDIOC_G_SELECTION
-In-Reply-To: <20230317183213.GC28322@pendragon.ideasonboard.com>
-References: <20230316143829.499039-1-alexander.stein@ew.tq-group.com>
- <20230316143829.499039-3-alexander.stein@ew.tq-group.com>
- <20230317183213.GC28322@pendragon.ideasonboard.com>
-Date:   Fri, 17 Mar 2023 19:21:06 +0000
-Message-ID: <m3edpngp5p.fsf@gmail.com>
+        d=1e100.net; s=20210112; t=1679084210;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UU4zAnrBSArmTn9XkYtMm4tlOOONjI66zlgaRxaRc2U=;
+        b=sEXVHSYIrhubNiYAOnDF33xIzGBP5Kb/H+Ku0zQ3jZ2m3+5f4a3+zAod8zv2FsBvYr
+         6w18SkxbUt+zX/BXZVMDEOXBleMkfnTNhCEzIKDQhazFrUlxxhRlghd7Jrcj6xFhAyai
+         di0diKuOUnSxfTt1X5LGfsYSW2qHAvBdrBxVPggptR07N5sbAuJvANr+5Oa+WFMR9F8Z
+         LfYAHS3IYod8xYWpVa96HsykBqyVyOqFBa1ycRL45CeJaL4ke/g/e62l3N9Wlm2TeRAT
+         TjVw+6Gz2heYPMPpWSzqnmvLRUqmidH59s+Fn5FZ7peAIEiVdAou7xna5vWhGwYTLz8b
+         mOFg==
+X-Gm-Message-State: AO0yUKW/pgAFBvkWp0PxWMhQ36tRKBtgB2hq6hS7LZJS32Mmc2f5Oaor
+        sJRwsK0g3pKw7E0Ot/vOTsfWKfIACUTz54T3199/kftG
+X-Google-Smtp-Source: AK7set+hgyDIxODQ1HpKvvctXRdJYouhJjfOaV7GujAUKXtOOfVz7wx7IEd/zYgoBBSWvGbON6Dc74JDF6R5s/Xnr+M=
+X-Received: by 2002:a05:6870:1099:b0:17c:29d8:61ee with SMTP id
+ 25-20020a056870109900b0017c29d861eemr1596oaq.3.1679084208509; Fri, 17 Mar
+ 2023 13:16:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+References: <20230317081718.2650744-1-lee@kernel.org> <20230317081718.2650744-4-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-4-lee@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Fri, 17 Mar 2023 16:16:37 -0400
+Message-ID: <CADnq5_PV2O3txzF7a2J4XYM6DWDPNqXWbBdJW8hi9ShS7L8EtA@mail.gmail.com>
+Subject: Re: [PATCH 03/37] drm/amd/amdgpu/amdgpu_device: Provide missing
+ kerneldoc entry for 'reset_context'
+To:     Lee Jones <lee@kernel.org>
+Cc:     dri-devel@lists.freedesktop.org,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,44 +77,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
+Applied.  Thanks!
 
-> Hi Alexander,
+On Fri, Mar 17, 2023 at 4:22=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
-> Thank you for the patch.
+> Fixes the following W=3D1 kernel build warning(s):
 >
-> On Thu, Mar 16, 2023 at 03:38:28PM +0100, Alexander Stein wrote:
->> This device only supports video capture, so bail out if invalid
->> selection type is passed.
->> 
->> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5152:
+>    warning: Function parameter or member 'reset_context' not described in=
+ 'amdgpu_device_gpu_recover'
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
-Cheers,
-  Rui
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
->> ---
->>  drivers/media/platform/nxp/imx7-media-csi.c | 3 +++
->>  1 file changed, 3 insertions(+)
->> 
->> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
->> index 3e97b9f2ff69..389d7d88b341 100644
->> --- a/drivers/media/platform/nxp/imx7-media-csi.c
->> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
->> @@ -1214,6 +1214,9 @@ static int imx7_csi_video_g_selection(struct file *file, void *fh,
->>  {
->>  	struct imx7_csi *csi = video_drvdata(file);
->>  
->> +	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->> +		return -EINVAL;
->> +
->>  	switch (s->target) {
->>  	case V4L2_SEL_TGT_COMPOSE:
->>  	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_device.c
+> index d4519fbd526f2..ef0b2787796da 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -5145,6 +5145,7 @@ static inline void amdgpu_device_stop_pending_reset=
+s(struct amdgpu_device *adev)
+>   *
+>   * @adev: amdgpu_device pointer
+>   * @job: which job trigger hang
+> + * @reset_context: amdgpu reset context pointer
+>   *
+>   * Attempt to reset the GPU if it has hung (all asics).
+>   * Attempt to do soft-reset or full-reset and reinitialize Asic
+> --
+> 2.40.0.rc1.284.g88254d51c5-goog
 >
-> -- 
-> Regards,
->
-> Laurent Pinchart
