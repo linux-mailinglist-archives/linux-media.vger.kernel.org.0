@@ -2,96 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 337616BE366
-	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 09:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 540946BE40E
+	for <lists+linux-media@lfdr.de>; Fri, 17 Mar 2023 09:42:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231407AbjCQIYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Mar 2023 04:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58342 "EHLO
+        id S230203AbjCQImx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Mar 2023 04:42:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231135AbjCQIXn (ORCPT
+        with ESMTP id S231691AbjCQIma (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Mar 2023 04:23:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 522E2A5D2;
-        Fri, 17 Mar 2023 01:23:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F1AD3B824FB;
-        Fri, 17 Mar 2023 08:23:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72552C433D2;
-        Fri, 17 Mar 2023 08:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679041382;
-        bh=eVjVeNRWTWrNvZ0ADJpOpPfGExYmn5HJ+ecNEWoPDEg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ulun32YaRazjRkzxIZjPbqKxF6ImcLWBmaPIvepaMqbz8of7ETiXZcWkPs6RE3JxL
-         2M1h8mkmBcoPxQ3wJmDd3ceuDE2Zwt59R7NXQiUEs1SWKUQfoADEX68QjACH/nQf7n
-         KsFILlJiZoHeCWYwoj/9YwQv2XozshXqfLSHMLNVpr9+mjKDSxUkgC6GR4EFLLay++
-         sze/f/kNYnk6DAF3roBOckVZdzWQyQNZEdYtVSYsZIzOfxE+esmve0pKaeAJ6xLEzi
-         zp8UluWatlfV2ZVCj8bn144UDVaep1UKS5v12Kf5UWqBKO/Q+IrwccbSgwhpbrYd4A
-         xlC/nXQYYkTTA==
-From:   Lee Jones <lee@kernel.org>
-To:     lee@kernel.org, dri-devel@lists.freedesktop.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Fri, 17 Mar 2023 04:42:30 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on20604.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8c::604])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800A218B1D;
+        Fri, 17 Mar 2023 01:41:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gS0z08DCSTBbabB+n732/gvEZlvl9E8eZPmbTWLpVZKP9w46EgyYkpeQX+OeJMv2/r8Q5uhukMUWOlX1KJ/iNGskFH/nrg4HUr7jQTTtVrO6/+jLf5aPzv5HJhd65kXK4uelaG0fYMk+doqcs09Oxtn7PgkYzuw46hur2TfO14OBX7xJmSotB5iqnP7GSlzNrSliK4ljIaRIBRBABE+jleDPcD1X0GNol7/MFOz9jFiAVwoE80Ljq3xeywWurzIw/mAIZnzCltAiDpH5A20wquxA+QwXY51XirzD3Hpx0XYrE15AOI9cEHt4xPNBsIb/D3ppOFV9wUnfYJzixb37Xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p9sczkb/yl8HH2CtHvR6g5bT18OAJjP3EB479yPVeVo=;
+ b=e+IuuhWBwz98UIFGtdtmEMA7FDryCnI0sJGWqBsexZJRe9dIu0h/PnipATYQSijvKUVCOx3I7+2MpBmGdgfU5QnQMmYrZR1cNQ/u26HZTGw3cAYEgTpK9WLp09qB+tlASK+Jic06cRAgzJyOBcODRxKcV2BgrwRTF2ah8yZEhGyxcsGCTJ7uLYZaJapbPZQsN8xQJkhWfUu0Zw8fUNwkI5tC+yWePeOKgvHAdX9hUEvZYnupjKcXqk0TTUoMaHV5bU/Ahg6VQhD/9wddCnhp41rVYl5qm8cS9jeE0o7v1TAQ/fbtnFd95qtT9iKmZEtzUcKEJa2UdZB7kues7luEbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p9sczkb/yl8HH2CtHvR6g5bT18OAJjP3EB479yPVeVo=;
+ b=P2erWaRKubVDt9Dm+7K26P0R5/6/lH6FxjWlDO3LSCyxKPqjoHzBuOYthLm0fUcyhMUgx6sIGl2Btyivf7gVpydVzk02njeMmCjVwbKMJaEVZH7bkIL4sBwZpXubyTdMqK6zF+JiGdInQRW0smT2tZjiGxEF6fnmfEHPhtyYd4U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB6929.namprd12.prod.outlook.com (2603:10b6:806:263::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Fri, 17 Mar
+ 2023 08:40:56 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.024; Fri, 17 Mar 2023
+ 08:40:56 +0000
+Message-ID: <30f75b09-fdc6-bb3c-0785-f7b0f3183192@amd.com>
+Date:   Fri, 17 Mar 2023 09:40:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 05/37] drm/ttm/ttm_bo: Provide a missing 'bulk'
+ description and correct misnaming of 'placement'
+Content-Language: en-US
+To:     Lee Jones <lee@kernel.org>, dri-devel@lists.freedesktop.org
+Cc:     linux-kernel@vger.kernel.org, Huang Rui <ray.huang@amd.com>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 18/37] drm/amd/amdgpu/amdgpu_vce: Provide description for amdgpu_vce_validate_bo()'s 'p' param
-Date:   Fri, 17 Mar 2023 08:16:59 +0000
-Message-Id: <20230317081718.2650744-19-lee@kernel.org>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 References: <20230317081718.2650744-1-lee@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ <20230317081718.2650744-6-lee@kernel.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230317081718.2650744-6-lee@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR2P281CA0131.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::14) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB6929:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a04f609-2c30-4462-8f05-08db26c3536f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yUXwD0t9fGuvVGpuVfDpEEPQr89XjJ+fWqRb6qPXIvc5UGk78jr7ktORcGleNX0s7MqFNDTEPywXu78Xo8esAiZEWMrzCNo229jW6KnzXtz9INHLG/KpW98bg5C90ZP40I+grsofdHcBx6TfVgQTT8Q3kRybi2MoAJFlDcR4QB8yif+m2cwoHbccTMfrF/ZqjmwdZrBbA9L61TMQeZazbug1M4hc/2CtrJbsUBthCxPwfWTl52bB8LwrOgYPIhrCzKRQvmqbXzQFFRM/Pb27sTvIYb1k8tFzXMlVbjjt4o2LxasunkS5FUgkojkIyFpzzQoe9XDVvv1MSDDbZ0IGg7qm1te6s77PfpiKIxVbu6G8duAgIeJUtZyBk7ro/5b0bCvgydWiKDrZk09LWUwVn/pdxDEC2TlsFRRf1WuKuM7VMDclvmPHeRDXHWbg0/NwhZhmKYodsCMsG5jPBVN/dLUPdjUEkzJ8dduPILjFyp2UZbOMMcZOFom3WbM5GX0fpZSQHcS5C5IFWPwjQs2+jzuYrl345aFbbHbaOMx+qPVDrcIisJ+UR0jmRZaGBpqn2TtcSIxpysiZhoLjJqoVc/LT+TUHPx0fD0mYN1td0cJR2J2qaobXzlKmrKkjVuIwFDLMWdIQ4ObE7qmHoAiaH67qhF2pW3M9sBXyB/BdQWW/7H/JJa9uug8/HodWX1OxWOdlceh5pJ+XUNnWBWxVhA65oOJ67nUC/aBOScxdwCE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(136003)(346002)(366004)(39860400002)(451199018)(36756003)(478600001)(54906003)(316002)(86362001)(6506007)(5660300002)(6486002)(8676002)(41300700001)(66476007)(66946007)(66556008)(2906002)(6666004)(8936002)(4326008)(83380400001)(31696002)(6512007)(2616005)(38100700002)(186003)(66574015)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0crWmhOYWt0RU9CMDMzZU5yVmhiZ3IrYjFCWm1HQUlsNXFuMDRtWVNwWVZP?=
+ =?utf-8?B?TTVQNGRHeG9vOUlPU3d6VE5HaDZ2TndQY2tzc2dmcnBFSjRqb0ZtOC85cUMv?=
+ =?utf-8?B?L1dBeUJUdis5d1ZKVlVubkFHdTBpWE1MMllHU01aYmd0VFEzcnFmN3RpY2xZ?=
+ =?utf-8?B?WEFlamdRbytNemNpd3J1czJzR0U5WnZwdFRXYnlEQ01MZjB0dk5FY3FpWFdZ?=
+ =?utf-8?B?Vi9DQW9OT09tdXNFUDlnTTZyQkRKbEFsZTlvM2JRT2NRSy93VHROemhuL3ZS?=
+ =?utf-8?B?YWdhMURGeURIRHB5aS9GT21FYWN3b0lPa1RwQzdXV3Y5NDZkY04vOVZsKys4?=
+ =?utf-8?B?YTR3cnV1d21pME1PS0hzcVVvYzR4RCtycWRpeEVlbTZHcktHYitvTW9Ua2tu?=
+ =?utf-8?B?S3RvYWlPUjk3RGprVUdTb0JpZWo4dkVnRk45TXZ2bThEa2pNZ1Z6N2dPeEtC?=
+ =?utf-8?B?SkZCUS92TVBqWWJJV1NabTZiLzVVbEQzb0IybDZVUmVwRTErT0xYQzlwaW14?=
+ =?utf-8?B?YmV5SGd2aURwbU00MTlNR0swTCtuVDdhdGJ0YzJlRGtRdENXeGRzUmh0T1pB?=
+ =?utf-8?B?bi9vOFppMmk4MDVOVUYyUVhpd25scjI5ekEzV0k5TFlPdTN6OWRaT3JvRXBo?=
+ =?utf-8?B?MFgwU01tTWZYcnpRZlZHcCsxSUFNN2ZPOUUzcUlVMUw4dEd3cmo2R01ZNjB6?=
+ =?utf-8?B?TWxrdWh6TWJxRkYvWGFIZ0txZCt4dDNlRzZpSnl1dW00Tlg2TDByQ1pOc053?=
+ =?utf-8?B?bnR6a2NPei9kNXdxOUZTYjlGV1BUYlVOUDNLcCt4bWsrN1pMd204aGRnRUlv?=
+ =?utf-8?B?RldzWVdjTU1TWUlsSUZianF5OTliYkd1N2JIMzBiNjVpejR0VC9XbklUWFRR?=
+ =?utf-8?B?aWtoWG1CZWUxOU1nT2FITGdGV2h1cnBKeFNqMGtvSW4vdk1VZ2w0QnptOU40?=
+ =?utf-8?B?eFB5ckNUZ2ZHZE5MaHpDbEVMZ3p2RmwzcmJla3JvdExVMWRja3UrWVl4aGQy?=
+ =?utf-8?B?Ny9KU3N6ZWQ0S3RLQ0dNUFlUNXMxeXVDcm1RMVRGR2FuZWo0MmdKSVFiRFYw?=
+ =?utf-8?B?bzJMWUo2YzNyL0NPUmZxQURGVXA4aWhhUUZzSjBUWDB3a3F5QlRTc3ZDSUFq?=
+ =?utf-8?B?NGVraEhmY0I4ZEhnYlVnUnBnVXJ4ak0wVWhFbmpEalB6Yy9kNFZyQ1Z4emdq?=
+ =?utf-8?B?bmxuQWpONjltN3llZm5XN1JJWURXc0dyQm5xc2hIbW04N3g4THVtS2hSYy9p?=
+ =?utf-8?B?OXpzRTFQcmVSdUFTZ2dqSGcwVHlDNllBZ0pGeGoyTmNrbG1rbXFmNlRtREYx?=
+ =?utf-8?B?VnIzbFBOZC9CNTFHdWhoTjVrcnZaZVBVbVAzQ2k0WU8wcmNHV3hmT2kyQXB6?=
+ =?utf-8?B?Y0xrcVJRUitpR0lqOUxrNjlHejhvOXJ2RDVta3Uzcy9ibjZLMW0xei9zNENz?=
+ =?utf-8?B?Q1c4aEhWcWZoVnByNVl3Yi80YXduenducnJXZTNIZXR2QlF1MlQ5RkE3akFk?=
+ =?utf-8?B?MXVBWDNGMko3WWpvNUJiTmdTRy8ybGdzN3ZHQnptcTZPL25YbUZkQitCQllY?=
+ =?utf-8?B?VkN3RENYd212dlBWN1pzT3pzS1Z6SGlhVVdQa0tFSzdmVjJlTk4yU0NOenhZ?=
+ =?utf-8?B?UkNxMk0vMkxOZDNJdEJ2S214NklJb1FvVFE1NHJBQWxYalBEdzJETlBMaFFR?=
+ =?utf-8?B?R3BaUlNSbCt2S0RvRnU3bkNvNlVoOTJGVk1YL09JRVY5Vzd5dzN2TDRGOFQx?=
+ =?utf-8?B?Rng4MndzdHZWWUlRM1QxOVNJZThOZ2dkYVUzZENmY2RDV0ZtM3hneUJPUE9v?=
+ =?utf-8?B?Y3hURkEwbWdTTGQvNmJPVndzdlg0Vk1hbE1jMnFjaTMvMXNCNkI4LzZmWDZz?=
+ =?utf-8?B?ZHhiOWZGSWZFdFUrK0hRYVptTE43TEFLakJ0clUyemJHd3ZPRVBXVE00bFIw?=
+ =?utf-8?B?K2FIZ2NXbTZNTllwNis0cDdmWUNRTGU2R1hOcm9zdXZINlFiU04yanVMaWRo?=
+ =?utf-8?B?enBSeFVTMTJoNUFvNzA3aGtqQ1ladXpEajYvUHE4WEtuZ0poNkIzY1dVazFC?=
+ =?utf-8?B?bnJISUZnWEVFeUN0QWxrTUxCTk9zaWhRU2YybmZGOVB5UU5YejIvODREc3c2?=
+ =?utf-8?B?b1pyZUNGSXc4NTNOLytYaG9qeE9vRG1HN2RTb2Q3VXJRbnZqaTRrQUNRclFW?=
+ =?utf-8?Q?LEKMJ02FMEXcS2ctzxfz5/bvPHYaKBZq6ak2wnc5w1pZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a04f609-2c30-4462-8f05-08db26c3536f
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2023 08:40:56.4136
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pWtrPYw5m3ptsCABbws/EeDRQuZwtBQy22ruwx1xITzUDqXuEfzpIOdrxtKT6UX8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6929
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+Am 17.03.23 um 09:16 schrieb Lee Jones:
+> 'bulk' description taken from another in the same file.
+>
+> Fixes the following W=1 kernel build warning(s):
+>
+>   drivers/gpu/drm/ttm/ttm_bo.c:98: warning: Function parameter or member 'bulk' not described in 'ttm_bo_set_bulk_move'
+>   drivers/gpu/drm/ttm/ttm_bo.c:768: warning: Function parameter or member 'placement' not described in 'ttm_bo_mem_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:768: warning: Excess function parameter 'proposed_placement' description in 'ttm_bo_mem_space'
+>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:599: warning: Function parameter or member 'p' not described in 'amdgpu_vce_validate_bo'
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c | 1 +
- 1 file changed, 1 insertion(+)
+Going to upstream that through drm-misc-next in a minute.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-index 2fb61410b1c02..c4d65ade5c00a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-@@ -585,6 +585,7 @@ static int amdgpu_vce_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
- /**
-  * amdgpu_vce_validate_bo - make sure not to cross 4GB boundary
-  *
-+ * @p: parser context
-  * @ib: indirect buffer to use
-  * @lo: address of lower dword
-  * @hi: address of higher dword
--- 
-2.40.0.rc1.284.g88254d51c5-goog
+Thanks,
+Christian.
+
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 459f1b4440daa..d056d28f8758a 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -84,6 +84,7 @@ EXPORT_SYMBOL(ttm_bo_move_to_lru_tail);
+>    * ttm_bo_set_bulk_move - update BOs bulk move object
+>    *
+>    * @bo: The buffer object.
+> + * @bulk: bulk move structure
+>    *
+>    * Update the BOs bulk move object, making sure that resources are added/removed
+>    * as well. A bulk move allows to move many resource on the LRU at once,
+> @@ -748,7 +749,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+>    *
+>    * @bo: Pointer to a struct ttm_buffer_object. the data of which
+>    * we want to allocate space for.
+> - * @proposed_placement: Proposed new placement for the buffer object.
+> + * @placement: Proposed new placement for the buffer object.
+>    * @mem: A struct ttm_resource.
+>    * @ctx: if and how to sleep, lock buffers and alloc memory
+>    *
 
