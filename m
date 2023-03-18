@@ -2,97 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C94E6BFC0E
-	for <lists+linux-media@lfdr.de>; Sat, 18 Mar 2023 18:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63A4C6BFC21
+	for <lists+linux-media@lfdr.de>; Sat, 18 Mar 2023 19:18:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbjCRRzv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Mar 2023 13:55:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
+        id S229590AbjCRSSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Mar 2023 14:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbjCRRzt (ORCPT
+        with ESMTP id S229758AbjCRSSD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Mar 2023 13:55:49 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DFBB21A36
-        for <linux-media@vger.kernel.org>; Sat, 18 Mar 2023 10:55:47 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pdamQ-002Xwj-8k; Sat, 18 Mar 2023 17:55:46 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pdamO-006UyE-L1; Sat, 18 Mar 2023 17:55:44 +0000
-Date:   Sat, 18 Mar 2023 17:55:43 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <2125344722.0.1679162143810@builder.linuxtv.org>
-In-Reply-To: <1228044006.0.1678903274635@builder.linuxtv.org>
-References: <1228044006.0.1678903274635@builder.linuxtv.org>
-Subject: Build failed in Jenkins: v4l-utils #456
+        Sat, 18 Mar 2023 14:18:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A739216319
+        for <linux-media@vger.kernel.org>; Sat, 18 Mar 2023 11:17:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AA58060EB3
+        for <linux-media@vger.kernel.org>; Sat, 18 Mar 2023 18:17:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 297B6C433EF;
+        Sat, 18 Mar 2023 18:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679163478;
+        bh=CxirmIunPj9Hrd2qH01+4mu12gIGlNRNrycjQCerbrY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ldVtM2nemfTdPofeDfhybXHFA3QsFe9NF8AbVZ54SRoogEUp/gG3gNE0yZwq2m2m2
+         bCUsOvqXt0YRFY5H0xzgmpKzj+eQGkmFu8IUMcSesVe4nd/GNYFIjT5QHOY4cIh2Pm
+         YT1uNqSTP1JdD7HjvfQ3OdYWqYep0ZM9LNDYUxyQeEOpEKkrFEZobvrWHJdPLomZzL
+         y6Vsgu9HX4VeGq7k++BxkE/Q1Fm+0hPbg5vcd2VpTnLCzTM+RaQEV03oT7FGZwsbRG
+         ym5l/8XSepOoQi5Bjoj3SjjVcHB6zW/HiTCd/KkOhheNRrvt+K+TKk9toNA0KcqELh
+         CpxLPyAJLX1Xw==
+Date:   Sat, 18 Mar 2023 19:17:53 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Gregor Jasny <gjasny@googlemail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [v4l-utils] [PATCH v10 1/5] Add support for meson building
+Message-ID: <20230318191747.3e5777db@coco.lan>
+In-Reply-To: <7d321523-bef2-f89d-7420-4597b7ce26d6@googlemail.com>
+References: <20230223164441.22719-1-laurent.pinchart@ideasonboard.com>
+        <20230223164441.22719-2-laurent.pinchart@ideasonboard.com>
+        <250e45e0-de13-5ef8-ce68-eb2cc9e58f73@googlemail.com>
+        <20230312144903.GO2545@pendragon.ideasonboard.com>
+        <d5776457-6fae-2192-ffe4-2791a595b1e3@googlemail.com>
+        <20230313081100.GD2545@pendragon.ideasonboard.com>
+        <7d321523-bef2-f89d-7420-4597b7ce26d6@googlemail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: v4l-utils
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/v4l-utils/456/display/redirect>
+Em Tue, 14 Mar 2023 08:03:42 +0100
+Gregor Jasny <gjasny@googlemail.com> escreveu:
 
-Changes:
+> Hello,
+> 
+> On 13.03.23 09:11, Laurent Pinchart wrote:
+> > If you want to give git-send-email another try (which is still the
+> > recommended option), https://git-send-email.io/ provides instructions
+> > tailored for different distributions and e-mail providers.  
+> 
+> I re-did the setup at home and it worked as expected. Turns out that 
+> it's the company firewall which blocks git-send-email. Surprisingly 
+> Thunderbird works with the same host and port.
+> 
 
+Please revert it or fix it to build against Meson 0.56, as such change
+broke CI:
 
-------------------------------------------
-Started by user Mauro Carvalho Chehab
-Running as Mauro Carvalho Chehab
-Building remotely on slave0 in workspace <https://builder.linuxtv.org/job/v4l-utils/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/v4l-utils/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/v4l-utils.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/v4l-utils.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/v4l-utils.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision d04dab77fcd32b440f008d2ec37bb5d0c7a7d41f (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f d04dab77fcd32b440f008d2ec37bb5d0c7a7d41f # timeout=10
-Commit message: "v4l2-ctl: improve --stream-sleep"
- > git rev-list --no-walk d04dab77fcd32b440f008d2ec37bb5d0c7a7d41f # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse d04dab77fcd32b440f008d2ec37bb5d0c7a7d41f^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/v4l-utils.git'
-[GitCheckoutListener] Found previous build 'v4l-utils #455' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'd04dab7'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit 'd04dab7' as starting point
-[GitCheckoutListener] -> No new commits found
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@6f578ac'
-[v4l-utils] $ /bin/sh -xe /tmp/jenkins5644973279629281587.sh
-+ rm -rf build
-+ meson setup build
-The Meson build system
-Version: 0.56.2
-Source dir: <https://builder.linuxtv.org/job/v4l-utils/ws/>
-Build dir: <https://builder.linuxtv.org/job/v4l-utils/ws/build>
-Build type: native build
+	https://builder.linuxtv.org/job/v4l-utils/
+	https://builder.linuxtv.org/job/v4l-utils-coverity/
 
-meson.build:1:0: ERROR: Meson version is 0.56.2 but project requires >= 0.57
-
-A full log can be found at <https://builder.linuxtv.org/job/v4l-utils/ws/build/meson-logs/meson-log.txt>
-Build step 'Execute shell' marked build as failure
+Thanks,
+Mauro
