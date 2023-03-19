@@ -2,95 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F14B6BFF42
-	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 04:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AEF26C0037
+	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 10:01:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229878AbjCSDii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Mar 2023 23:38:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60098 "EHLO
+        id S229531AbjCSJBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Mar 2023 05:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbjCSDih (ORCPT
+        with ESMTP id S229490AbjCSJBq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Mar 2023 23:38:37 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB31D49E6
-        for <linux-media@vger.kernel.org>; Sat, 18 Mar 2023 20:38:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5F24DB8013A
-        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 03:38:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0424C433D2
-        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 03:38:29 +0000 (UTC)
-Date:   Sun, 19 Mar 2023 04:38:27 +0100
-Message-ID: <a03cb9fefebcd45993b1a6798d089722.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+        Sun, 19 Mar 2023 05:01:46 -0400
+X-Greylist: delayed 2307 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 19 Mar 2023 02:01:44 PDT
+Received: from bootes.sytes.net (unknown [88.85.206.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7180524736
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 02:01:44 -0700 (PDT)
+Received: from localhost.lan ([127.0.0.1] helo=bootes.localnet)
+        by bootes.sytes.net with esmtp (Exim 4.94.2)
+        (envelope-from <alex@bootes.sytes.net>)
+        id 1pdoJv-0007YA-B8
+        for linux-media@vger.kernel.org; Sun, 19 Mar 2023 13:23:15 +0500
+From:   Alex Volkov <alex@bootes.sytes.net>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: [PATCH] IR remote control for AVerMedia TD310
+Date:   Sun, 19 Mar 2023 13:23:15 +0500
+Message-ID: <2273969.FyfRTN5kjP@bootes>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        MAY_BE_FORGED,PDS_RDNS_DYNAMIC_FP,RCVD_IN_PBL,RCVD_IN_SORBS_DUL,
+        RDNS_DYNAMIC,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Uses NEC defaults as other non-eeprom devices.
 
-Results of the daily build of media_tree:
+Signed-off-by: Alex Volkov <alex@bootes.sytes.net>
+---
+ drivers/media/usb/dvb-usb-v2/af9035.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-date:			Sun Mar 19 03:00:07 CET 2023
-media-tree git hash:	55f1ecb1199000932cf82e357841cc7498ac904f
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	d04dab77fcd32b440f008d2ec37bb5d0c7a7d41f
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8298-gcfe12a9b-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: ad510d0d6fd0486d26012f5b269d601ecceaaf9a
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+index 1e9c8d01523b..50f0979395f2 100644
+--- a/drivers/media/usb/dvb-usb-v2/af9035.c
++++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+@@ -862,6 +862,9 @@ static int af9035_read_config(struct dvb_usb_device *d)
+ 		if ((le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_AVERMEDIA) &&
+ 		    (le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_AVERMEDIA_TD310)) {
+ 			state->it930x_addresses = 1;
++			/* TD310 RC works with NEC defaults */
++			state->ir_mode = 0x05;
++			state->ir_type = 0x00;
+ 		}
+ 		return 0;
+ 	}
+@@ -2060,6 +2063,11 @@ static const struct dvb_usb_device_properties it930x_props = {
+ 	.tuner_attach = it930x_tuner_attach,
+ 	.tuner_detach = it930x_tuner_detach,
+ 	.init = it930x_init,
++	/*
++	 * dvb_usbv2_remote_init() calls rc_config() only for those devices
++	 * which have non-empty rc_map, so it's safe to enable it for every IT930x
++	 */
++	.get_rc_config = af9035_get_rc_config,
+ 	.get_stream_config = af9035_get_stream_config,
+ 
+ 	.get_adapter_count = af9035_get_adapter_count,
+@@ -2151,7 +2159,7 @@ static const struct usb_device_id af9035_id_table[] = {
+ 	{ DVB_USB_DEVICE(USB_VID_ITETECH, USB_PID_ITETECH_IT9303,
+ 		&it930x_props, "ITE 9303 Generic", NULL) },
+ 	{ DVB_USB_DEVICE(USB_VID_AVERMEDIA, USB_PID_AVERMEDIA_TD310,
+-		&it930x_props, "AVerMedia TD310 DVB-T2", NULL) },
++		&it930x_props, "AVerMedia TD310 DVB-T2", RC_MAP_AVERMEDIA_RM_KS) },
+ 	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
+ 		&it930x_props, "Logilink VG0022A", NULL) },
+ 	{ DVB_USB_DEVICE(USB_VID_TERRATEC, USB_PID_TERRATEC_CINERGY_TC2_STICK,
+-- 
+2.30.2
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
 
-Detailed results are available here:
 
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
 
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
