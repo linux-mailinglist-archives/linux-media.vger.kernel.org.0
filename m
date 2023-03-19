@@ -2,44 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D9216C0275
-	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 15:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FCAD6C0296
+	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 16:07:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbjCSOo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Mar 2023 10:44:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48952 "EHLO
+        id S230297AbjCSPHB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Mar 2023 11:07:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjCSOoZ (ORCPT
+        with ESMTP id S229448AbjCSPG7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Mar 2023 10:44:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B14AF20
-        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 07:44:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (85-76-162-78-nat.elisa-mobile.fi [85.76.162.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 113971858;
-        Sun, 19 Mar 2023 15:44:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679237062;
-        bh=d09yNTdUb3qfEJb88jToLSS3b8Vg2mIGpOToAOzkCKk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ATnLiHbJArx3qplv/KqeNF/DRJ1pJkiqMGrN07xAZMwr9EXtqwR+Ey8l1IB8W5/YW
-         1prTeCZBcFwvQxua1+MKKZ21cdboyn+sXQDZw9A/FkABZ2wWwQ9jtORk+7HJFaLvD1
-         bDFdtDJYfUIEZxqmXIYKypcVOLC36BWWMhANh1/U=
-Date:   Sun, 19 Mar 2023 16:44:24 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: imx290: care CONFIG_PM
-Message-ID: <20230319144424.GP10144@pendragon.ideasonboard.com>
-References: <87edpp1t7j.wl-kuninori.morimoto.gx@renesas.com>
+        Sun, 19 Mar 2023 11:06:59 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D0019C4A
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 08:06:57 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pduca-003MJq-C1; Sun, 19 Mar 2023 15:06:56 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pducY-0090Ew-4N; Sun, 19 Mar 2023 15:06:54 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] v2: Drop destructive overlay support (#90525)
+Date:   Sun, 19 Mar 2023 15:06:54 +0000
+Message-Id: <20230319150654.2145828-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <7aafb16c-d6a0-f62d-dfbd-05ef87d0a5e5@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87edpp1t7j.wl-kuninori.morimoto.gx@renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,56 +45,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Morimoto-san,
+From: builder@linuxtv.org
 
-Thank you for the patch.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7aafb16c-d6a0-f62d-dfbd-05ef87d0a5e5@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/290890/
+Build time: 00:35:03
+Link: https://lore.kernel.org/linux-media/7aafb16c-d6a0-f62d-dfbd-05ef87d0a5e5@xs4all.nl
 
-On Wed, Mar 15, 2023 at 11:38:08PM +0000, Kuninori Morimoto wrote:
-> It is using SET_RUNTIME_PM_OPS(), thus we need to care about CONFIG_PM.
-> Otherwise, we will get below error without it.
-> 
-> ${Linux}/drivers/media/i2c/imx290.c:1090:12: error:\
->  'imx290_runtime_suspend' defined but not used [-Werror=unused-function]
->  1090 | static int imx290_runtime_suspend(struct device *dev)
->       |            ^~~~~~~~~~~~~~~~~~~~~~
-> ${Linux}/drivers/media/i2c/imx290.c:1082:12: error: \
->  'imx290_runtime_resume' defined but not used [-Werror=unused-function]
->  1082 | static int imx290_runtime_resume(struct device *dev)
->       |            ^~~~~~~~~~~~~~~~~~~~~
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+gpg: Signature made Thu 16 Mar 2023 04:43:59 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Arnd has sent a patch to fix the same issue already, see
-https://lore.kernel.org/linux-media/20230207161316.293923-1-arnd@kernel.org.
-It has been merged in the fixes branch of Sakari's tree, I expect it to
-hit v6.3 soon.
+Summary: got 4/9 patches with issues, being 2 at build time, plus one error when buinding PDF document
 
-> ---
->  drivers/media/i2c/imx290.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 49d6c8bdec41..5f15b51dfdd3 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -1079,6 +1079,7 @@ static void imx290_power_off(struct imx290 *imx290)
->  	regulator_bulk_disable(ARRAY_SIZE(imx290->supplies), imx290->supplies);
->  }
->  
-> +#ifdef CONFIG_PM
->  static int imx290_runtime_resume(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> @@ -1096,6 +1097,7 @@ static int imx290_runtime_suspend(struct device *dev)
->  
->  	return 0;
->  }
-> +#endif
->  
->  static const struct dev_pm_ops imx290_pm_ops = {
->  	SET_RUNTIME_PM_OPS(imx290_runtime_suspend, imx290_runtime_resume, NULL)
+Error/warnings:
 
--- 
-Regards,
+patches/0001-saa7146-drop-overlay-support.patch:
 
-Laurent Pinchart
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1941110
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+patches/0003-bttv-drop-overlay-support.patch:
+
+   checkpatch.pl:
+	$ cat patches/0003-bttv-drop-overlay-support.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:298: WARNING: please, no spaces at the start of a line
+	-:298: CHECK: Avoid CamelCase: <This>
+
+patches/0006-v4l2-core-drop-v4l2_window-clipping-and-bitmap-suppo.patch:
+
+   checkpatch.pl:
+	$ cat patches/0006-v4l2-core-drop-v4l2_window-clipping-and-bitmap-suppo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:158: WARNING: Avoid logging continuation uses where feasible
+
+patches/0007-videodev.h-drop-V4L2_FBUF_CAP_LIST-BITMAP_CLIPPING.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1939314
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 51 seconds
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
+
