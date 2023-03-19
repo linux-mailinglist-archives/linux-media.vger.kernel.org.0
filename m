@@ -2,41 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7AA96BFF2B
-	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 03:56:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F14B6BFF42
+	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 04:38:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbjCSC41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Mar 2023 22:56:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53246 "EHLO
+        id S229878AbjCSDii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Mar 2023 23:38:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbjCSC40 (ORCPT
+        with ESMTP id S229876AbjCSDih (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Mar 2023 22:56:26 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19581196A9
-        for <linux-media@vger.kernel.org>; Sat, 18 Mar 2023 19:56:23 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pdjDZ-0030Fo-LA; Sun, 19 Mar 2023 02:56:21 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pdjDX-00Dv1g-7c; Sun, 19 Mar 2023 02:56:19 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] cx18: convert to vb2 (#90069)
-Date:   Sun, 19 Mar 2023 02:56:19 +0000
-Message-Id: <20230319025619.3317426-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl>
-References: 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        Sat, 18 Mar 2023 23:38:37 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB31D49E6
+        for <linux-media@vger.kernel.org>; Sat, 18 Mar 2023 20:38:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5F24DB8013A
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 03:38:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0424C433D2
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 03:38:29 +0000 (UTC)
+Date:   Sun, 19 Mar 2023 04:38:27 +0100
+Message-ID: <a03cb9fefebcd45993b1a6798d089722.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,46 +36,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/290881/
-Build time: 00:20:17
-Link: https://lore.kernel.org/linux-media/17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl
+Results of the daily build of media_tree:
 
-gpg: Signature made Mon 27 Feb 2023 09:47:31 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+date:			Sun Mar 19 03:00:07 CET 2023
+media-tree git hash:	55f1ecb1199000932cf82e357841cc7498ac904f
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	d04dab77fcd32b440f008d2ec37bb5d0c7a7d41f
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8298-gcfe12a9b-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: ad510d0d6fd0486d26012f5b269d601ecceaaf9a
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-Summary: got 2/8 patches with issues, being 1 at build time
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-Error/warnings:
+Detailed results are available here:
 
-patches/0001-vb2-set-owner-before-calling-vb2_read.patch:
+https://hverkuil.home.xs4all.nl/logs/Sunday.log
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+Detailed regression test results are available here:
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1939314
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
 
-patches/0007-cx18-reorder-fmt_vid_cap-functions-in-cx18-ioctl.c.patch:
+Full logs are available here:
 
-   checkpatch.pl:
-	$ cat patches/0007-cx18-reorder-fmt_vid_cap-functions-in-cx18-ioctl.c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:116: CHECK: multiple assignments should be avoided
-	-:117: CHECK: multiple assignments should be avoided
+https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
 
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
