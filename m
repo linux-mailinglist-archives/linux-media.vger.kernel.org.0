@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FB76C008B
-	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 11:44:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD78B6C00B2
+	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 12:06:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjCSKos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Mar 2023 06:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
+        id S229805AbjCSLGz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Mar 2023 07:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjCSKor (ORCPT
+        with ESMTP id S229441AbjCSLGx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Mar 2023 06:44:47 -0400
+        Sun, 19 Mar 2023 07:06:53 -0400
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACE2B75D
-        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 03:44:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3E89233F8
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 04:06:52 -0700 (PDT)
 Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1pdqWo-003CrD-4J; Sun, 19 Mar 2023 10:44:42 +0000
+        id 1pdqsE-003EGV-VP; Sun, 19 Mar 2023 11:06:50 +0000
 Received: from ip6-localhost ([::1] helo=localhost.localdomain)
         by slave0 with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1pdqWl-0027p0-I0; Sun, 19 Mar 2023 10:44:39 +0000
+        id 1pdqsC-002jFO-8D; Sun, 19 Mar 2023 11:06:48 +0000
 From:   Jenkins <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.3] NXP i.MX8 ISI driver (#89568)
-Date:   Sun, 19 Mar 2023 10:44:39 +0000
-Message-Id: <20230319104439.506676-1-jenkins@linuxtv.org>
+Subject: Re: [GIT PULL FOR v6.4] cx18: convert to vb2 (#90069)
+Date:   Sun, 19 Mar 2023 11:06:48 +0000
+Message-Id: <20230319110648.650540-1-jenkins@linuxtv.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com>
+In-Reply-To: <17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl>
 References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,21 +47,21 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com/
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl/
 Build log: https://builder.linuxtv.org/job/patchwork/290886/
-Build time: 00:18:12
-Link: https://lore.kernel.org/linux-media/Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com
+Build time: 00:20:33
+Link: https://lore.kernel.org/linux-media/17754260-d77f-cd6b-c753-06b57373151d@xs4all.nl
 
-gpg: Signature made Fri 03 Feb 2023 09:46:05 AM UTC
-gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+gpg: Signature made Mon 27 Feb 2023 09:47:31 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Summary: got 2/2 patches with issues, being 1 at build time
+Summary: got 2/8 patches with issues, being 1 at build time
 
 Error/warnings:
 
-patches/0001-dt-bindings-media-Add-i.MX8-ISI-DT-bindings.patch:
+patches/0001-vb2-set-owner-before-calling-vb2_read.patch:
 
     allyesconfig: return code #0:
 	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
@@ -77,24 +77,16 @@ patches/0001-dt-bindings-media-Add-i.MX8-ISI-DT-bindings.patch:
 	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
 	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
 	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1939314
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2884 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1940269
 	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
 	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0007-cx18-reorder-fmt_vid_cap-functions-in-cx18-ioctl.c.patch:
 
    checkpatch.pl:
-	$ cat patches/0001-dt-bindings-media-Add-i.MX8-ISI-DT-bindings.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0002-media-nxp-Add-i.MX8-ISI-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-nxp-Add-i.MX8-ISI-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:98: WARNING: please write a help paragraph that fully describes the config symbol
-	-:112: WARNING: please write a help paragraph that fully describes the config symbol
-	-:761: WARNING: DT compatible string "fsl,imx8-isi" appears un-documented -- check ./Documentation/devicetree/bindings/
-	-:1128: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:1178: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:1928: CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
+	$ cat patches/0007-cx18-reorder-fmt_vid_cap-functions-in-cx18-ioctl.c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:116: CHECK: multiple assignments should be avoided
+	-:117: CHECK: multiple assignments should be avoided
 
