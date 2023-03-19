@@ -2,42 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA16F6C026B
-	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 15:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A766C0270
+	for <lists+linux-media@lfdr.de>; Sun, 19 Mar 2023 15:40:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230321AbjCSOaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Mar 2023 10:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36028 "EHLO
+        id S230453AbjCSOkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Mar 2023 10:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjCSOaR (ORCPT
+        with ESMTP id S229472AbjCSOkj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Mar 2023 10:30:17 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E31FF18B37
-        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 07:30:13 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pdu31-003LFy-Fo; Sun, 19 Mar 2023 14:30:11 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pdu2z-008Avg-0Y; Sun, 19 Mar 2023 14:30:09 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL v2 FOR 6.4] Camera sensor, V4L2 documentation and DT (#90520)
-Date:   Sun, 19 Mar 2023 14:30:08 +0000
-Message-Id: <20230319143008.1948590-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <ZBMcvvKKukZE0/GN@valkosipuli.retiisi.eu>
-References: 
+        Sun, 19 Mar 2023 10:40:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D252418B15
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 07:40:36 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (85-76-162-78-nat.elisa-mobile.fi [85.76.162.78])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FDE51858;
+        Sun, 19 Mar 2023 15:40:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679236834;
+        bh=Q+g5KMmICcLx0G6ML6JjwJPmq1fGLgzI7LBh9negPqE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Yxudx2JrZWUudwhos+mG4wi5Q5aquv2XINPwy2BrbklZqN/RadGcaewm1PyAQR5eM
+         3pggzXbSM0FXtKrSO0jLJESplx6YAKOn/gWNaYEEzA4ojp7TXRQXRf3CmXtiWHndUc
+         MSuNSTmMRwLbOWF9aO2j/tZLK0W7z23rHs7/PiPQ=
+Date:   Sun, 19 Mar 2023 16:40:37 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH] media: v4l2-subdev: Add new ioctl for client capabilities
+Message-ID: <20230319144037.GO10144@pendragon.ideasonboard.com>
+References: <20230228154023.208465-1-tomi.valkeinen@ideasonboard.com>
+ <20230312131134.GG2545@pendragon.ideasonboard.com>
+ <1e3faadb-bb57-74f8-10bb-3a7267916398@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1e3faadb-bb57-74f8-10bb-3a7267916398@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,240 +51,436 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Tomi,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZBMcvvKKukZE0/GN@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/290890/
-Build time: 00:21:36
-Link: https://lore.kernel.org/linux-media/ZBMcvvKKukZE0/GN@valkosipuli.retiisi.eu
+On Thu, Mar 16, 2023 at 09:19:59AM +0200, Tomi Valkeinen wrote:
+> On 12/03/2023 15:11, Laurent Pinchart wrote:
+> > On Tue, Feb 28, 2023 at 05:40:23PM +0200, Tomi Valkeinen wrote:
+> >> Add new ioctls to set and get subdev client capabilities. Client in this
+> >> context means the userspace application which opens the subdev device
+> >> node.
+> >>
+> >> For now we only add a single flag, V4L2_SUBDEV_CLIENT_CAP_STREAMS, which
+> >> indicates that the client is streams-aware.
+> >>
+> >> The reason for needing such a flag is as follows:
+> >>
+> >> Many structs passed via ioctls, e.g. struct v4l2_subdev_format, contain
+> >> reserved fields (usually a single array field). These reserved fields
+> >> can be used to extend the ioctl. The userspace is required to zero the
+> >> reserved fields.
+> >>
+> >> We recently added a new 'stream' field to many of these structs, and the
+> >> space for the field was taken from these reserved arrays. The assumption
+> >> was that these new 'stream' fields are always initialized to zero if the
+> >> userspace does not use them. This was a mistake, as, as mentioned above,
+> >> the userspace is required to zero the _reserved_ fields. In other words,
+> >> there is no requirement to zero this new stream field, and if the
+> >> userspace doesn't use the field (which is the case for all userspace
+> >> applications at the moment), the field may contain random data.
+> >>
+> >> This shows that the way the reserved fields are defined in v4l2 is, in
+> >> my opinion, somewhat broken, but there is nothing to do about that.
+> > 
+> > For existing ioctls that's right, but we can fix it for new ioctls going
+> > forward.
+> > 
+> >> To fix this issue we need a way for the userspace to tell the kernel
+> >> that the userspace has indeed set the 'stream' field, and it's fine for
+> >> the kernel to access it. This is achieved with the new iotcl, which the
+> > 
+> > s/iotcl/ioctl/
+> > 
+> >> userspace should usually use right after opening the subdev device node.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>   .../userspace-api/media/v4l/user-func.rst     |  1 +
+> >>   .../media/v4l/vidioc-subdev-g-client-cap.rst  | 56 ++++++++++++++++
+> >>   drivers/media/v4l2-core/v4l2-subdev.c         | 64 ++++++++++++++++++-
+> >>   include/media/v4l2-subdev.h                   |  1 +
+> >>   include/uapi/linux/v4l2-subdev.h              | 23 +++++++
+> >>   5 files changed, 143 insertions(+), 2 deletions(-)
+> >>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+> >>
+> >> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+> >> index 228c1521f190..15ff0bf7bbe6 100644
+> >> --- a/Documentation/userspace-api/media/v4l/user-func.rst
+> >> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+> >> @@ -72,6 +72,7 @@ Function Reference
+> >>       vidioc-subdev-g-frame-interval
+> >>       vidioc-subdev-g-routing
+> >>       vidioc-subdev-g-selection
+> >> +    vidioc-subdev-g-client-cap
+> >>       vidioc-subdev-querycap
+> >>       vidioc-subscribe-event
+> >>       func-mmap
+> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+> >> new file mode 100644
+> >> index 000000000000..d3cfe932bb16
+> >> --- /dev/null
+> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+> >> @@ -0,0 +1,56 @@
+> >> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> >> +.. c:namespace:: V4L
+> >> +
+> >> +.. _VIDIOC_SUBDEV_G_CLIENT_CAP:
+> >> +
+> >> +************************************************************
+> >> +ioctl VIDIOC_SUBDEV_G_CLIENT_CAP, VIDIOC_SUBDEV_S_CLIENT_CAP
+> >> +************************************************************
+> >> +
+> >> +Name
+> >> +====
+> >> +
+> >> +VIDIOC_SUBDEV_G_CLIENT_CAP - VIDIOC_SUBDEV_S_CLIENT_CAP - Get or set client capabilities.
+> > 
+> > Line wrap.
+> > 
+> >> +
+> >> +
+> >> +Synopsis
+> >> +========
+> >> +
+> >> +.. c:macro:: VIDIOC_SUBDEV_G_CLIENT_CAP
+> >> +
+> >> +``int ioctl(int fd, VIDIOC_SUBDEV_G_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
+> >> +
+> >> +.. c:macro:: VIDIOC_SUBDEV_S_CLIENT_CAP
+> >> +
+> >> +``int ioctl(int fd, VIDIOC_SUBDEV_S_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
+> >> +
+> >> +Arguments
+> >> +=========
+> >> +
+> >> +``fd``
+> >> +    File descriptor returned by :ref:`open() <func-open>`.
+> >> +
+> >> +``argp``
+> >> +    Pointer to struct :c:type:`v4l2_subdev_client_capability`.
+> >> +
+> >> +Description
+> >> +===========
+> >> +
+> >> +These ioctls are used to get and set the client capabilities. By default no
+> >> +client capabilities are set.
+> >> +
+> > 
+> > The documentation should explain what capabilities are, and should also
+> > explicitly tell that S_CLIENT_CAP replaces all capabilities (as opposed
+> > to enabling new capabilities).
+> 
+> Ok:
+> 
+> Description
+> ===========
+> 
+> These ioctls are used to get and set the client (the application using the
+> subdevice ioctls) capabilities. By default no client capabilities are set.
+> 
+> The purpose of the client capabilities are to inform the kernel of the behavior
+> of the client, mainly related to maintaining compatibility with different
+> kernel and userspace versions.
+> 
+> The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will modify the struct
+> :c:type:`v4l2_subdev_client_capability` to reflect the capabilities that were
+> accepted. A common case for the kernel not accepting a capability is that the
+> kernel is older than the headers the userspace uses, and thus the capability is
+> unknown to the kernel.
+> 
+> The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will replace all the previously set
+> capabilities.
+> 
+> .. flat-table:: Client Capabilities
+>      :header-rows:  1
+> 
+>      * - Capability
+>        - Description
+>      * - ``V4L2_SUBDEV_CLIENT_CAP_STREAMS``
+>        - The client is aware of streams. Setting this flag enables the use of
+>          streams and routing related ioctls and fields. If this is not set
+>          (which is the default), all the 'stream' fields referring to the stream
+>          number will be forced to 0 by the kernel, and routing related ioctls
 
-gpg: Signature made Thu 16 Mar 2023 01:40:34 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+s/routing related/routing-related/
 
-Summary: got 25/69 patches with issues, being 7 at build time, plus one error when buinding PDF document
+>          will return -ENOIOCTLCMD.
+> 
+> 
+> 
+> >> +The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will modify the struct
+> >> +:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that were
+> >> +accepted. A common case for the kernel not accepting a capability is that the
+> >> +kernel is older than the headers the userspace uses, and thus the capability is
+> >> +unknown to the kernel.
+> >> +
+> >> +Return Value
+> >> +============
+> >> +
+> >> +On success 0 is returned, on error -1 and the ``errno`` variable is set
+> >> +appropriately. The generic error codes are described at the
+> >> +:ref:`Generic Error Codes <gen-errors>` chapter.
+> >> +
+> >> +ENOIOCTLCMD
+> >> +   The kernel does not support this ioctl.
+> >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >> index dff1d9be7841..e741439c6816 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >> @@ -498,8 +498,10 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	struct video_device *vdev = video_devdata(file);
+> >>   	struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
+> >>   	struct v4l2_fh *vfh = file->private_data;
+> >> +	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+> >>   	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+> >>   	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
+> >> +	bool client_supports_streams = subdev_fh->client_caps & V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+> > 
+> > 	bool client_supports_streams = subdev_fh->client_caps
+> > 				     & V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+> > 
+> >>   	int rval;
+> >>   
+> >>   	switch (cmd) {
+> >> @@ -624,6 +626,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	case VIDIOC_SUBDEV_G_FMT: {
+> >>   		struct v4l2_subdev_format *format = arg;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			format->stream = 0;
+> >> +
+> >>   		memset(format->reserved, 0, sizeof(format->reserved));
+> >>   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> >>   		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+> >> @@ -635,6 +640,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+> >>   			return -EPERM;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			format->stream = 0;
+> >> +
+> >>   		memset(format->reserved, 0, sizeof(format->reserved));
+> >>   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> >>   		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+> >> @@ -644,6 +652,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		struct v4l2_subdev_crop *crop = arg;
+> >>   		struct v4l2_subdev_selection sel;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			crop->stream = 0;
+> >> +
+> >>   		memset(crop->reserved, 0, sizeof(crop->reserved));
+> >>   		memset(&sel, 0, sizeof(sel));
+> >>   		sel.which = crop->which;
+> >> @@ -665,6 +676,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+> >>   			return -EPERM;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			crop->stream = 0;
+> >> +
+> >>   		memset(crop->reserved, 0, sizeof(crop->reserved));
+> >>   		memset(&sel, 0, sizeof(sel));
+> >>   		sel.which = crop->which;
+> >> @@ -683,6 +697,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+> >>   		struct v4l2_subdev_mbus_code_enum *code = arg;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			code->stream = 0;
+> >> +
+> >>   		memset(code->reserved, 0, sizeof(code->reserved));
+> >>   		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
+> >>   					code);
+> >> @@ -691,6 +708,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+> >>   		struct v4l2_subdev_frame_size_enum *fse = arg;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			fse->stream = 0;
+> >> +
+> >>   		memset(fse->reserved, 0, sizeof(fse->reserved));
+> >>   		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
+> >>   					fse);
+> >> @@ -699,6 +719,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
+> >>   		struct v4l2_subdev_frame_interval *fi = arg;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			fi->stream = 0;
+> >> +
+> >>   		memset(fi->reserved, 0, sizeof(fi->reserved));
+> >>   		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
+> >>   	}
+> >> @@ -709,6 +732,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		if (ro_subdev)
+> >>   			return -EPERM;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			fi->stream = 0;
+> >> +
+> >>   		memset(fi->reserved, 0, sizeof(fi->reserved));
+> >>   		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+> >>   	}
+> >> @@ -716,6 +742,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+> >>   		struct v4l2_subdev_frame_interval_enum *fie = arg;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			fie->stream = 0;
+> >> +
+> >>   		memset(fie->reserved, 0, sizeof(fie->reserved));
+> >>   		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
+> >>   					fie);
+> >> @@ -724,6 +753,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   	case VIDIOC_SUBDEV_G_SELECTION: {
+> >>   		struct v4l2_subdev_selection *sel = arg;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			sel->stream = 0;
+> >> +
+> >>   		memset(sel->reserved, 0, sizeof(sel->reserved));
+> >>   		return v4l2_subdev_call(
+> >>   			sd, pad, get_selection, state, sel);
+> >> @@ -735,6 +767,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+> >>   			return -EPERM;
+> >>   
+> >> +		if (!client_supports_streams)
+> >> +			sel->stream = 0;
+> >> +
+> >>   		memset(sel->reserved, 0, sizeof(sel->reserved));
+> >>   		return v4l2_subdev_call(
+> >>   			sd, pad, set_selection, state, sel);
+> >> @@ -805,7 +840,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		struct v4l2_subdev_routing *routing = arg;
+> >>   		struct v4l2_subdev_krouting *krouting;
+> >>   
+> >> -		if (!v4l2_subdev_enable_streams_api)
+> >> +		if (!client_supports_streams)
+> >>   			return -ENOIOCTLCMD;
+> >>   
+> >>   		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+> >> @@ -835,7 +870,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   		struct v4l2_subdev_krouting krouting = {};
+> >>   		unsigned int i;
+> >>   
+> >> -		if (!v4l2_subdev_enable_streams_api)
+> >> +		if (!client_supports_streams)
+> >>   			return -ENOIOCTLCMD;
+> >>   
+> >>   		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+> >> @@ -876,6 +911,31 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >>   					routing->which, &krouting);
+> >>   	}
+> >>   
+> >> +	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+> >> +		struct v4l2_subdev_client_capability *client_cap = arg;
+> >> +
+> >> +		if (!v4l2_subdev_enable_streams_api)
+> >> +			return -ENOIOCTLCMD;
+> > 
+> > I wouldn't condition this new ioctl to the streams API, as it can be
+> > useful for other features in the future. Same below.
+> 
+> Right. I'll drop this, and change VIDIOC_SUBDEV_S_CLIENT_CAP so that it 
+> clears the V4L2_SUBDEV_CLIENT_CAP_STREAMS bit if 
+> !v4l2_subdev_enable_streams_api.
+> 
+> >> +
+> >> +		client_cap->capabilities = subdev_fh->client_caps;
+> >> +
+> >> +		return 0;
+> >> +	}
+> >> +
+> >> +	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
+> >> +		struct v4l2_subdev_client_capability *client_cap = arg;
+> >> +
+> >> +		if (!v4l2_subdev_enable_streams_api)
+> >> +			return -ENOIOCTLCMD;
+> >> +
+> >> +		/* Filter out unsupported capabilities */
+> >> +		client_cap->capabilities &= V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+> >> +
+> >> +		subdev_fh->client_caps = client_cap->capabilities;
+> >> +
+> >> +		return 0;
+> >> +	}
+> >> +
+> >>   	default:
+> >>   		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+> >>   	}
+> >> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >> index 17773be4a4ee..b5bb5b802929 100644
+> >> --- a/include/media/v4l2-subdev.h
+> >> +++ b/include/media/v4l2-subdev.h
+> >> @@ -1121,6 +1121,7 @@ struct v4l2_subdev_fh {
+> >>   	struct module *owner;
+> >>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> >>   	struct v4l2_subdev_state *state;
+> >> +	u64 client_caps;
+> >>   #endif
+> >>   };
+> >>   
+> >> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> >> index 654d659de835..9f863240a458 100644
+> >> --- a/include/uapi/linux/v4l2-subdev.h
+> >> +++ b/include/uapi/linux/v4l2-subdev.h
+> >> @@ -233,6 +233,26 @@ struct v4l2_subdev_routing {
+> >>   	__u32 reserved[6];
+> >>   };
+> >>   
+> >> +/*
+> >> + * The client is aware of streams. Setting this flag enables the use of streams
+> >> + * and routing related ioctls and fields. If this is not set (which is the
+> >> + * default), all the 'stream' fields referring to the stream number will be
+> >> + * forced to 0 by the kernel, and routing related ioctls will return
+> >> + * -ENOIOCTLCMD.
+> > 
+> > Do we need the latter ? Surely if userspace calls routing ioctls, it
+> > should be stream-aware.
+> 
+> I think it makes the API more consistent. I don't think there's much use 
+> for the routing ioctls without the stream field.
+> 
+> I guess it depends on what V4L2_SUBDEV_CLIENT_CAP_STREAMS means. I 
+> thought it means "client wants to use streams", but if we define it to 
+> mean "client is aware of streams and has cleared the 'stream' fields", 
+> then we can only do the field clearing.
 
-Error/warnings:
+I would go for the second option, as that's the need we have at the
+moment, ensuring backward compatibility with the introduction of the
+streams field.
 
-patches/0001-media-i2c-st-vgxy61-Remove-duplicate-default-mode-se.patch:
+> >> + */
+> >> + #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
+> >> +
+> >> +/**
+> >> + * struct v4l2_subdev_client_capability - Capabilities of the client accessing the subdev
+> > 
+> > Line wrap please.
+> > 
+> >> + *
+> >> + * @capabilities: A bitmask of V4L2_SUBDEV_CLIENT_CAP_* flags.
+> >> + * @reserved: drivers and applications must zero this array
+> >> + */
+> >> +struct v4l2_subdev_client_capability {
+> >> +	__u64 capabilities;
+> >> +	__u32 reserved[6];
+> > 
+> > Let's not repeat the mistake that this patch is meant to fix, and drop
+> > this field. We can handle future extensions with a better mechanism.
+> 
+> Well, this patch has to fix the issue because the old ioctls were not 
+> designed properly, and thus their 'reserved' fields are difficult to use.
+> 
+> This ioctl's reserved fields are easily usable: we just add a flag to 
+> the 'capabilities' field, which tells that other reserved fields are in use.
+> 
+> That said, I expect 64 bits to be plenty for this ioctl, so I'm also 
+> fine dropping the reserved fields if that's the concensus.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+-- 
+Regards,
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000028Kb sm_state_count = 1939314
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-patches/0005-media-subdev-Use-shall-instead-of-may-in-route-valid.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1939314
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-patches/0006-media-subdev-Split-V4L2_SUBDEV_ROUTING_NO_STREAM_MIX.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1939247
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 51 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0007-media-subdev-Add-V4L2_SUBDEV_ROUTING_NO_MULTIPLEXING.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2670 ov5670_probe() warn: passing zero to 'PTR_ERR'
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1939530
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 52 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-patches/0008-media-dt-bindings-silabs-si470x-Convert-to-DT-schema.patch:
-
-   checkpatch.pl:
-	$ cat patches/0008-media-dt-bindings-silabs-si470x-Convert-to-DT-schema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:51: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0036-media-dt-bindings-i2c-samsung-s5k6a3-convert-to-dtsc.patch:
-
-   checkpatch.pl:
-	$ cat patches/0036-media-dt-bindings-i2c-samsung-s5k6a3-convert-to-dtsc.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:19: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:126: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0037-media-dt-bindings-i2c-samsung-s5k5baf-convert-to-dts.patch:
-
-   checkpatch.pl:
-	$ cat patches/0037-media-dt-bindings-i2c-samsung-s5k5baf-convert-to-dts.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:19: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:129: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0038-media-dt-bindings-samsung-exynos4210-csis-convert-to.patch:
-
-   checkpatch.pl:
-	$ cat patches/0038-media-dt-bindings-samsung-exynos4210-csis-convert-to.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:203: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0039-media-dt-bindings-samsung-exynos4212-fimc-lite-conve.patch:
-
-   checkpatch.pl:
-	$ cat patches/0039-media-dt-bindings-samsung-exynos4212-fimc-lite-conve.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:25: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:43: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0040-media-dt-bindings-samsung-exynos4212-is-convert-to-d.patch:
-
-   checkpatch.pl:
-	$ cat patches/0040-media-dt-bindings-samsung-exynos4212-is-convert-to-d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:25: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:77: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0041-media-dt-bindings-samsung-fimc-convert-to-dtschema.patch:
-
-   checkpatch.pl:
-	$ cat patches/0041-media-dt-bindings-samsung-fimc-convert-to-dtschema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:470: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0042-media-dt-bindings-samsung-s5c73m3-convert-to-dtschem.patch:
-
-   checkpatch.pl:
-	$ cat patches/0042-media-dt-bindings-samsung-s5c73m3-convert-to-dtschem.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:194: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0043-media-i2c-ov5670-Use-dev_err_probe-in-probe-function.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2666 ov5670_probe() warn: passing zero to 'PTR_ERR'
-
-patches/0044-media-i2c-ov5670-Support-single-lane-operation.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/ov5670.c: ../drivers/media/i2c/ov5670.c:2701 ov5670_probe() warn: passing zero to 'PTR_ERR'
-
-patches/0045-media-dt-bindings-st-stm32-cec-drop-obsolete-file.patch:
-
-   checkpatch.pl:
-	$ cat patches/0045-media-dt-bindings-st-stm32-cec-drop-obsolete-file.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:23: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0046-media-i2c-ov5670-Properly-handle-CONFIG_HAVE_CLK.patch:
-
-   checkpatch.pl:
-	$ cat patches/0046-media-i2c-ov5670-Properly-handle-CONFIG_HAVE_CLK.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: Reported-by: should be immediately followed by Link: with a URL to the report
-
-patches/0056-media-dt-bindings-qcom-venus-split-common-properties.patch:
-
-   checkpatch.pl:
-	$ cat patches/0056-media-dt-bindings-qcom-venus-split-common-properties.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:588: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0057-media-dt-bindings-qcom-msm8996-venus-document-interc.patch:
-
-   checkpatch.pl:
-	$ cat patches/0057-media-dt-bindings-qcom-msm8996-venus-document-interc.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0058-media-dt-bindings-qcom-sc7180-venus-document-OPP-tab.patch:
-
-   checkpatch.pl:
-	$ cat patches/0058-media-dt-bindings-qcom-sc7180-venus-document-OPP-tab.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0059-media-dt-bindings-qcom-sc7280-venus-document-OPP-tab.patch:
-
-   checkpatch.pl:
-	$ cat patches/0059-media-dt-bindings-qcom-sc7280-venus-document-OPP-tab.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0060-media-dt-bindings-qcom-sdm845-venus-v2-document-OPP-.patch:
-
-   checkpatch.pl:
-	$ cat patches/0060-media-dt-bindings-qcom-sdm845-venus-v2-document-OPP-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0061-media-dt-bindings-qcom-sm8250-venus-document-OPP-tab.patch:
-
-   checkpatch.pl:
-	$ cat patches/0061-media-dt-bindings-qcom-sm8250-venus-document-OPP-tab.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0062-media-dt-bindings-qcom-venus-document-firmware-name.patch:
-
-   checkpatch.pl:
-	$ cat patches/0062-media-dt-bindings-qcom-venus-document-firmware-name.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0063-media-v4l2-ctrls-Fix-doc-for-v4l2_ctrl_request_hdl_f.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1939246
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2879 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2485 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-
-patches/0068-dt-bindings-media-convert-meson-ir.txt-to-dt-schema.patch:
-
-   checkpatch.pl:
-	$ cat patches/0068-dt-bindings-media-convert-meson-ir.txt-to-dt-schema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:79: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
