@@ -2,127 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 482516C0D24
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A7766C0D2E
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:24:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231358AbjCTJXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:23:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56938 "EHLO
+        id S231320AbjCTJY2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 05:24:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231343AbjCTJXY (ORCPT
+        with ESMTP id S231319AbjCTJX4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:23:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415061A48A;
-        Mon, 20 Mar 2023 02:22:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 20 Mar 2023 05:23:56 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4066C193FD;
+        Mon, 20 Mar 2023 02:23:38 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3FBE4612A0;
-        Mon, 20 Mar 2023 09:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3355EC433D2;
-        Mon, 20 Mar 2023 09:22:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679304159;
-        bh=U8AB7ReyQRria3g0yu5nhLIgRqDZBiolVk9UdFIGSAw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XepiwevBXcLgifpSOXRQiCKV27Iw91a7WaNG5lagQDavUQxJicwLYvmvvgz5ApgOu
-         t9jmVzyMQ0TSHLn3JtjOlcM6mVf+FyDs9nmK2HnuShPBIO3usbWV021No5h3iHGlPF
-         5EsjZoXGD8mTsqA5nlP87JZnnZO05enQbZxXtj4lGaSS1HV1CqslslapPVa3Ma0ZER
-         T/14Be0KEogzdOqQ4gvw3pKQ53uWCt4SxS3o1OlYopfhZAwgQwuJ/GjjjR1MaX6LfG
-         KGj1CENrubfnDkdAR7TukzykjPFrVkfOA8kiewHMs2npvBIVv8GjsrZjAet8Te3d1q
-         Ao0ShQfTRqdBA==
-Date:   Mon, 20 Mar 2023 14:52:31 +0530
-From:   Manivannan Sadhasivam <mani@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: imx290: fix conditional function defintions
-Message-ID: <20230320092231.GC4564@thinkpad>
-References: <20230207161316.293923-1-arnd@kernel.org>
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DAECC66015F1;
+        Mon, 20 Mar 2023 09:23:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1679304216;
+        bh=kLvg39Gaq3ED8iaOlpcmqwM+ANaZdEUpeHZ6xeDIhuU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=BM3SozDIU+HOpZ4vQEVxgOpyG3uXs4uOSCEw/s3e5vIlqAogkS0jXUEQcTW8oFysn
+         rfD7/qrIwRvJ9qge9FuEvzVcCG3/ebS3Iaw4S377uU0leeDvlecpJUoM2sqX6zwKGo
+         p+Q+T6eRn4M96IQunabLTIGGaR59+pMlE0yz8syY9jqbf/R1dtT2HpOpg3VrbsRRCD
+         9MLqJ8mcMNcBTZjnxrYg/TY55hEmLSmrP9YhA8hSTT8rhBR1tJvclYQs4GTiuuDmVQ
+         FHsc3qTrgdNOP9ZPkgm4A9Zq1he+gpnEeOql80mmuPijVi497gA732e5YEFE2PteTU
+         NpV293LM8BMxw==
+Message-ID: <7a651e39-aab6-1723-c28f-756756ae74e3@collabora.com>
+Date:   Mon, 20 Mar 2023 10:23:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230207161316.293923-1-arnd@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane
+ disable
+Content-Language: en-US
+To:     Yongqiang Niu <yongqiang.niu@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        CK Hu <ck.hu@mediatek.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Hsin-Yi Wang <hsinyi@chromium.org>
+References: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 07, 2023 at 05:13:12PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+Il 20/03/23 04:04, Yongqiang Niu ha scritto:
+> Fixes: 41016fe1028e4 (drm: Rename plane->state variables in atomic update and disable)
+> dma buffer release before overlay disable, that will cause
+> m4u translation fault warning.
 > 
-> The runtime suspend/resume functions are only referenced from the
-> dev_pm_ops, but they use the old SET_RUNTIME_PM_OPS() helper
-> that requires a __maybe_unused annotation to avoid a warning:
-> 
-> drivers/media/i2c/imx290.c:1082:12: error: unused function 'imx290_runtime_resume' [-Werror,-Wunused-function]
-> static int imx290_runtime_resume(struct device *dev)
->            ^
-> drivers/media/i2c/imx290.c:1090:12: error: unused function 'imx290_runtime_suspend' [-Werror,-Wunused-function]
-> static int imx290_runtime_suspend(struct device *dev)
->            ^
-> 
-> Convert this to the new RUNTIME_PM_OPS() helper that so this
-> is not required. To improve this further, also use the pm_ptr()
-> helper that lets the dev_pm_ops get dropped entirely when
-> CONFIG_PM is disabled.
-> 
-> A related mistake happened in the of_match_ptr() macro here, which
-> like SET_RUNTIME_PM_OPS() requires the match table to be marked
-> as __maybe_unused, though I could not reproduce building this without
-> CONFIG_OF. Remove the of_match_ptr() here as there is no point in
-> dropping the match table in configurations without CONFIG_OF.
-> 
-> Fixes: 02852c01f654 ("media: i2c: imx290: Initialize runtime PM before subdev")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-
-Thanks,
-Mani
-
-> ---
->  drivers/media/i2c/imx290.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 49d6c8bdec41..48ae2e0adf9e 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -1098,7 +1098,7 @@ static int imx290_runtime_suspend(struct device *dev)
->  }
->  
->  static const struct dev_pm_ops imx290_pm_ops = {
-> -	SET_RUNTIME_PM_OPS(imx290_runtime_suspend, imx290_runtime_resume, NULL)
-> +	RUNTIME_PM_OPS(imx290_runtime_suspend, imx290_runtime_resume, NULL)
->  };
->  
->  /* ----------------------------------------------------------------------------
-> @@ -1362,8 +1362,8 @@ static struct i2c_driver imx290_i2c_driver = {
->  	.remove = imx290_remove,
->  	.driver = {
->  		.name  = "imx290",
-> -		.pm = &imx290_pm_ops,
-> -		.of_match_table = of_match_ptr(imx290_of_match),
-> +		.pm = pm_ptr(&imx290_pm_ops),
-> +		.of_match_table = imx290_of_match,
->  	},
->  };
->  
-> -- 
-> 2.39.1
+> add dma buffer control flow in mediatek driver:
+> get dma buffer when drm plane disable
+> put dma buffer when overlay really disable
 > 
 
--- 
-மணிவண்ணன் சதாசிவம்
+The Fixes tag currently has wrong format, and it goes here, not at the beginning;
+Please fix.
+
+P.S. The right format is:
+Fixes: commitid ("commit title")
+
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+
+
+Regards,
+Angelo
+
