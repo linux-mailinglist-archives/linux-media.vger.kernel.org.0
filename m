@@ -2,66 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D0A86C0D74
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DE4D6C0D79
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:37:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231218AbjCTJgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51578 "EHLO
+        id S231346AbjCTJhk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 05:37:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbjCTJgW (ORCPT
+        with ESMTP id S230440AbjCTJhC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:36:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37A9D1EBDE
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 02:35:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 20 Mar 2023 05:37:02 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8461A1C7D1;
+        Mon, 20 Mar 2023 02:36:56 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C647D61297
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 09:35:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C916AC433EF;
-        Mon, 20 Mar 2023 09:35:46 +0000 (UTC)
-Message-ID: <72058b54-6d85-cd91-b557-f9f8b54ab3a7@xs4all.nl>
-Date:   Mon, 20 Mar 2023 10:35:44 +0100
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5187B660212C;
+        Mon, 20 Mar 2023 09:36:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1679305015;
+        bh=AqjpL/b1AU7J3DxLOJCIC6nSYPDchmaD5zguUd7vIlk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=RReo38Sb8gmmE37OytUUMxmn1ToVArj1arV5E175vgnKY4RXtEAYVl3ICVeDbwWxD
+         Kexmpz39PHjIhJ6M+AZhOxDTkLbpo8/+S/3/3f6o3ehgvf1dc5bo2xEKYA2Kiy8962
+         ZNwr90V9pJWNwmwA9FhgoJT8y/TDkDuxfczJDiw07gOFSeAVmi3fZbBUp0DxoFm6S/
+         UnkGWF5ycXM7t1CL27OpgX/P3HvK8bnfuH2X8woVGrWO7vjum69gASymoTYNc8btlH
+         9uYhO+3YiWwlgTKi2pdW4Kci3uXViqCWxNRsldg0vpYUcwOPfEFxeQAGYSHpPM82ja
+         5KsSERUiaulVA==
+Message-ID: <2ae1762a-ab5d-b81f-c03a-51221bdb81a4@collabora.com>
+Date:   Mon, 20 Mar 2023 10:36:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v5,1/2] media: mediatek: vcodec: Make MM21 the default
+ capture format
 Content-Language: en-US
-To:     Gregor Jasny <gjasny@googlemail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: v4l-utils: dvb_frontend.h is copied to lib/include for some reason
-Content-Type: text/plain; charset=UTF-8
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230318035651.27454-1-yunfei.dong@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230318035651.27454-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gregor,
+Il 18/03/23 04:56, Yunfei Dong ha scritto:
+> Given that only the MM21 capture format is supported by userspace tools (like
+> gstreamer and libyuv), make it the default capture format.
+> 
+> This allows us to force the MM21 format even when a MM21 and MT21C capable
+> firmware is available (which is needed while dynamic format switching isn't
+> implemented in the driver), without causing the following regressions on
+> v4l2-compliance:
+> 
+>          fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
+>      test VIDIOC_G_FMT: FAIL
+>          fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
+>      test VIDIOC_TRY_FMT: FAIL
+>          fail: v4l2-test-formats.cpp(478): pixelformat 3132544d (MT21) for buftype 9 not reported by ENUM_FMT
+>      test VIDIOC_S_FMT: FAIL
+> 
+> Fixes: 7501edef6b1f ("media: mediatek: vcodec: Different codec using different capture format")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Nicolas F. R. A. Prado <nfraprado@collabora.com>
+> Tested-by: Nicolas F. R. A. Prado <nfraprado@collabora.com>
 
-When I tried to sync v4l-utils to the latest kernel I noticed that the
-dvb-frontend.h header was copied by lib/libdvbv5/gen_dvb_structs.pl
-from lib/include/libdvbv5/dvb-frontend.h to lib/include/dvb-frontend.h.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-But no code uses it, and it does not seem to be installed anywhere either.
-
-This was added in this commit:
-
-commit cc4651d52dfea736cc7d6e32c939793da707ea1a
-Author: Gregor Jasny <gjasny@googlemail.com>
-Date:   Sun May 20 19:46:35 2012 +0200
-
-    libdvbv5: Correct output paths of gen_dvb_structs and write missing header
-
-Can I remove the copy line in gen_dvb_structs.pl? Or is it used for something
-that I am not aware of?
-
-Regards,
-
-	Hans
