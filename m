@@ -2,65 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2D4D6C0C2A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 09:24:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E3C26C0C39
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 09:28:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbjCTIYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 04:24:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46872 "EHLO
+        id S230255AbjCTI2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 04:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbjCTIYg (ORCPT
+        with ESMTP id S230322AbjCTI2r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 04:24:36 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81A8B1E1EE
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 01:24:22 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso15636361pjb.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 01:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679300662;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXJEuXGL6bDH3PwmPPaT3IM8ABOywFoq2Dgyfl9GkNU=;
-        b=n+mfzmqOFxZIaeBGdi7plJsb84IQidbPZCdTZd3c33zPhpNYdRTHw5R6n4tU/aqBz2
-         bIlF6yPcWpdrU/g3uJxxmxqFXvWFHJwthv2ZvqiJo1uyai5EOaWydEr9iA1LQEQhDevP
-         eQPZ/0JnNJfZc6r28fwp0tdAFPjyGdp3SAjHb9588VsJbw/R80KjU3yYsuyFwSiZ9EK9
-         hym+/RJrom2gN96vZNEbf8Oi7hAoj8XAcXJCw+NJ7OtVsYSzD7zd/pLm2kNFQKmA4ZwM
-         npTQlysrZCTJLSU5/KWAL/UpMUHkAvWmjX+0idXBWZNtxKqDy32f09ib/iGUcnpHkuo0
-         HxGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679300662;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vXJEuXGL6bDH3PwmPPaT3IM8ABOywFoq2Dgyfl9GkNU=;
-        b=VxTqQH0Z7fgy3i4BTddIqbW4E48Sr2Ax9cpE/f5ymeFqISMizRRBtzMJhZq5RJD6r6
-         VWYfqy6rihiR+lNfqmhGRLym4DZ5rfdBrFwSQmGfpXGtaZcrABq9hL9GJIuMPsFsO4Sv
-         ef/+K08TqNdNFebCanOKXXrRjTt4ErlhIRts8LU47pTQB2AL3QibxiQ1ws9N0o8nN6zK
-         5GT0CzEuUn9LJ9VO9EG88H6Gbicdxo5/xGEWH9HOf+GwnnSWcmUQnWQTwkYuGQZ9N7gH
-         VfiLJgOt1bkDleGhoxZMo1fTKXvH1xjhGgchUsYf0129/95xjNHuW9qAfXeFYMNO9WHW
-         X6GA==
-X-Gm-Message-State: AO0yUKXh5hLxdju9lLF07Adff6UuZ1j8M35Fl+SDGeEnsCdZztFxGXt7
-        svNJmIS2ES3hVAfXYdA/YLicGDkngTpe95WOirQ=
-X-Google-Smtp-Source: AK7set9GzDdYtXbS0Cf4yAA4xqveR5Vmohd0FI0u+fdQW6Ug7dxgg8RitZb0cnV8InVskl+KrxUfwhJXl3LAAiWnvBc=
-X-Received: by 2002:a17:90a:5b01:b0:23c:fa47:e763 with SMTP id
- o1-20020a17090a5b0100b0023cfa47e763mr4371695pji.0.1679300662083; Mon, 20 Mar
- 2023 01:24:22 -0700 (PDT)
+        Mon, 20 Mar 2023 04:28:47 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E765FCF;
+        Mon, 20 Mar 2023 01:28:43 -0700 (PDT)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 63AF924000E;
+        Mon, 20 Mar 2023 08:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1679300922;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=VUmZUI36S17TwuyoIALfbhr5LHj/5QOHo0Zh0o5vnc4=;
+        b=WLrUfk1/e9wnH1HLlgZmpwDw8jw2Z3IVyRfg9G774nWlvMAzECobtwkMxAcIQFb1f4oS0/
+        F6PHTgNA2Ir3hfILe89rcI8ZndN0I4jKfeO/gE9frnUkDc/PcO+XJYVkGViyWeeqAYHoeu
+        6W0eY7OUbNsIoTX54WIYeYlQK0LJW/37KqqQR5UUeb8sjpV+X0XAouMqt3SPZUD1I8OF+8
+        AsIuY7ZmYVxP4ova886K1x5aucSkJSAP9exG470p0d2IRyGC0ruwm1nUvJY8clv3XCDgmE
+        0j4zl0Jp4MZ1P8m+myO20UnrJspurqXyriA+QjfbDoARq0vnfJbKcT67uIhyEA==
+Date:   Mon, 20 Mar 2023 09:28:30 +0100
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     zzam@gentoo.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
+Message-ID: <20230320092830.0431d042@booty>
+In-Reply-To: <70323408-b823-1f1a-0202-434e6243b2af@gentoo.org>
+References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
+        <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
+        <70323408-b823-1f1a-0202-434e6243b2af@gentoo.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Sender: anmoniteashale@gmail.com
-Received: by 2002:a05:7300:fc14:b0:b1:4517:6f5a with HTTP; Mon, 20 Mar 2023
- 01:24:21 -0700 (PDT)
-From:   Miss Sherri <sherrigallagher409@gmail.com>
-Date:   Mon, 20 Mar 2023 08:24:21 +0000
-X-Google-Sender-Auth: -HS-ahRR8J6Jge_3KuHHTR18V9M
-Message-ID: <CAFF8bF4snVpLsT-+vJHgpc1oAR0Qch90pBWD_QX8ogT9DmgOqg@mail.gmail.com>
-Subject: RE: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,14 +76,153 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hallo,
+Hello Matthias,
 
-Sie haben meine vorherige Nachricht erhalten? Ich habe Sie schon
-einmal kontaktiert, aber die Nachricht ist fehlgeschlagen, also habe
-ich beschlossen, noch einmal zu schreiben. Bitte best=C3=A4tigen Sie, ob
-Sie dies erhalten, damit ich fortfahren kann.
+thanks for the in-depth review!
 
-warte auf deine Antwort.
+On Mon, 20 Mar 2023 07:34:34 +0100
+zzam@gentoo.org wrote:
 
-Gr=C3=BC=C3=9Fe,
-Fr=C3=A4ulein Sherri
+> Some inline comments below.
+> 
+> Regards
+> Matthias
+> 
+> Am 22.02.23 um 14:29 schrieb Tomi Valkeinen:
+> > From: Luca Ceresoli <luca@lucaceresoli.net>
+> > 
+> > An ATR is a device that looks similar to an i2c-mux: it has an I2C
+> > slave "upstream" port and N master "downstream" ports, and forwards
+> > transactions from upstream to the appropriate downstream port. But it
+> > is different in that the forwarded transaction has a different slave
+> > address. The address used on the upstream bus is called the "alias"
+> > and is (potentially) different from the physical slave address of the
+> > downstream chip.
+> > 
+> > Add a helper file (just like i2c-mux.c for a mux or switch) to allow
+> > implementing ATR features in a device driver. The helper takes care or
+> > adapter creation/destruction and translates addresses at each transaction.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >   Documentation/i2c/index.rst         |   1 +
+> >   Documentation/i2c/muxes/i2c-atr.rst |  97 +++++
+> >   MAINTAINERS                         |   8 +
+> >   drivers/i2c/Kconfig                 |   9 +
+> >   drivers/i2c/Makefile                |   1 +
+> >   drivers/i2c/i2c-atr.c               | 548 ++++++++++++++++++++++++++++
+> >   include/linux/i2c-atr.h             | 116 ++++++
+> >   7 files changed, 780 insertions(+)
+> >   create mode 100644 Documentation/i2c/muxes/i2c-atr.rst
+> >   create mode 100644 drivers/i2c/i2c-atr.c
+> >   create mode 100644 include/linux/i2c-atr.h
+> >   
+> [...]
+> > diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
+> > new file mode 100644
+> > index 000000000000..5ab890b83670
+> > --- /dev/null
+> > +++ b/drivers/i2c/i2c-atr.c
+> > @@ -0,0 +1,548 @@  
+> [...]
+> > +
+> > +/*
+> > + * Replace all message addresses with their aliases, saving the original
+> > + * addresses.
+> > + *
+> > + * This function is internal for use in i2c_atr_master_xfer(). It must be
+> > + * followed by i2c_atr_unmap_msgs() to restore the original addresses.
+> > + */
+> > +static int i2c_atr_map_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
+> > +			    int num)
+> > +{
+> > +	struct i2c_atr *atr = chan->atr;
+> > +	static struct i2c_atr_cli2alias_pair *c2a;
+> > +	int i;
+> > +
+> > +	/* Ensure we have enough room to save the original addresses */
+> > +	if (unlikely(chan->orig_addrs_size < num)) {
+> > +		u16 *new_buf;
+> > +
+> > +		/* We don't care about old data, hence no realloc() */
+> > +		new_buf = kmalloc_array(num, sizeof(*new_buf), GFP_KERNEL);
+> > +		if (!new_buf)
+> > +			return -ENOMEM;
+> > +
+> > +		kfree(chan->orig_addrs);
+> > +		chan->orig_addrs = new_buf;
+> > +		chan->orig_addrs_size = num;
+> > +	}
+> > +
+> > +	for (i = 0; i < num; i++) {
+> > +		chan->orig_addrs[i] = msgs[i].addr;
+> > +
+> > +		c2a = i2c_atr_find_mapping_by_addr(&chan->alias_list,
+> > +						   msgs[i].addr);
+> > +		if (!c2a) {
+> > +			dev_err(atr->dev, "client 0x%02x not mapped!\n",
+> > +				msgs[i].addr);
+> > +			return -ENXIO;  
+> I miss the roll-back of previously modified msgs[].addr values.
+
+Indeed you have a point. There is a subtle error in case all of the
+following happen in a single i2c_atr_master_xfer() call:
+
+ * there are 2+ messages, having different addresses
+ * msg[0] is mapped correctly
+ * msg[n] (n > 0) fails mapping
+
+It's very unlikely, but in this case we'd get back to the caller with
+an error and modified addresses for the first n messages. Which in turn
+is unlikely to create any problems, but it could.
+
+Tomi, do you agree?
+
+This looks like a simple solution:
+
+   if (!c2a) {
++    i2c_atr_unmap_msgs(chan, msgs, i);
+     ...
+   }
+
+While there, maybe switching to dev_err_probe would make code cleaner.
+
+> > +/*
+> > + * Restore all message address aliases with the original addresses. This
+> > + * function is internal for use in i2c_atr_master_xfer().
+> > + *
+> > + * @see i2c_atr_map_msgs()
+> > + */
+> > +static void i2c_atr_unmap_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
+> > +			       int num)
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < num; i++)
+> > +		msgs[i].addr = chan->orig_addrs[i];  
+> Does this code needs null and size checks for orig_addrs/orig_addrs_size 
+> to protect from oopses?
+> This cannot happen now as i2c_atr_master_xfer returns early when 
+> i2c_atr_map_msgs fails.
+
+The map/unmap functions are really a part of i2c_atr_master_xfer() that
+has been extracted for code readability, as the comments say, and I
+can't think of a different use for them. So I think this code is OK as
+is.
+
+However a small comment might help future readers, especially in case
+code will change and these functions gain new use cases.
+E.g.
+
+   This function is internal for use in i2c_atr_master_xfer()
++  and for this reason it needs no null and size checks on orig_addr.
+   It must be followed by i2c_atr_unmap_msgs() to restore the original addresses.
+
+Regards,
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
