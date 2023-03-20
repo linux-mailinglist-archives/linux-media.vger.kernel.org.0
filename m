@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 473F66C150B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 15:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B73C6C153A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 15:45:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231840AbjCTOog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 10:44:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50194 "EHLO
+        id S231857AbjCTOpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 10:45:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231824AbjCTOoe (ORCPT
+        with ESMTP id S231987AbjCTOpG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 10:44:34 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D50A5DB;
-        Mon, 20 Mar 2023 07:44:33 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id o11so12679769ple.1;
-        Mon, 20 Mar 2023 07:44:33 -0700 (PDT)
+        Mon, 20 Mar 2023 10:45:06 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06FECA1E;
+        Mon, 20 Mar 2023 07:44:48 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso16772440pjb.0;
+        Mon, 20 Mar 2023 07:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679323473;
+        d=gmail.com; s=20210112; t=1679323487;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iNjAC1W4XZsf7RJ1ht9dOafT/e4zZ1svNLwVwT9eWII=;
-        b=QL9SfnfKe7vTCJV52lAJ686yvUOxF/rLlremOL5Qb6MW7Zsh0KJ/GgqaYK8pebbydx
-         vF1Lc+1gbXAStMSGtRkkkxah0yQu08ARfmQ94EXGPMrGCKMXRcTABiOs+lt/zkfTgL6f
-         yLZfQaUJ1YJ59CTS72s0zdYI2Ebb1olYHarl6C66ZoBfakQ7yhKUbvS/1L0qKqIqOlg+
-         CJoi9k7HRW9wu7NvxyMnKJMYuNe5z0JzuR7ie0oxF6v+Al0H1P7flXjQDbziH1WFm8/r
-         rBDRjHjPEz0rRFxmiGI8wqKQGiAXJg/O2qadKGBij1YrgtkZullrMuktIvJH0ILPOAU+
-         JkPQ==
+        bh=weYL3fqvUQCe/MGsBiphMuUm7IiUfAgwOkX0hsG5azI=;
+        b=XoB4+mM4oASSRnco8nkZwARRG9zcXJcuiyLTtkB1/Em3LEQ2A1GcFBX4c9QpNQQF1j
+         NODZTXwBb1ZsRgqzzncmT68xS+JsVOMXu4/yL4tqZacnngCN5gnrIyIgLpg67GCQaWu2
+         3RGsxmBtiA8aCU5oOdtb6AigAsxMRRyYT/P3Xh3WrVDvz6jvLttylpc7USgWWQ44GVqe
+         rYzg55l+AaLbimu//o2q7VRZZJ2UA2rlR+D7WRutg8GbWIEPrBcIPRitI3OqhFoohqaA
+         20Pha7DZD60SGbvPicWbg+l+r5k+WAzhnRYWrhfrBafJ9eHbu4hwWd94ZwQX/0whZg/7
+         88jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679323473;
+        d=1e100.net; s=20210112; t=1679323487;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iNjAC1W4XZsf7RJ1ht9dOafT/e4zZ1svNLwVwT9eWII=;
-        b=pGDAZtYwOr84Y03xWLzB8YWbZ907oBxntKkieuRjQYNHOIc+SWjVS7xYw/4xrCZnbl
-         k6x/QbHM8itD08c6QXVNNG6PA4cLWL6dRhb5jYx4nEpXzOWEsUPpOcYRY1PfqsRKGaf7
-         C0hhwE2sbpAIaCN8ymiJ2zAsptFxWqf+re5ZAkFwjHaVdy8ku1PceI9/Tcru2PIeMjW/
-         W3Fs13tq4TQsMQBVNqzKHv9nlRLp8MdA7aYEy7e5sruK+K4sHtjdaiY98L64+S3y4zn2
-         IR6ogw6DFWQcsEmIvzWi682PSR1qF11fP+gFQxD+tMv3fRqlCoozknK07OUAWV3g030u
-         ej/w==
-X-Gm-Message-State: AO0yUKUKzrvwuNgZXTen0ojflyZKA750NLYJEdsWFcif4b774KrGxDxO
-        MFvIYIyResebyzZBCU13vnE=
-X-Google-Smtp-Source: AK7set88CXDkILKcokVTNL34lJkgh03yV1DadcHHZqKAL59RTe92k7k4c3vIOtp3mC5f+zQfkcU19w==
-X-Received: by 2002:a05:6a20:2098:b0:d9:dd69:47e3 with SMTP id b24-20020a056a20209800b000d9dd6947e3mr1884104pza.23.1679323472839;
-        Mon, 20 Mar 2023 07:44:32 -0700 (PDT)
+        bh=weYL3fqvUQCe/MGsBiphMuUm7IiUfAgwOkX0hsG5azI=;
+        b=4SU08Y7DjTy3Hb9zVvuTKqLxJNA1kKe3NBIh8EW3M7yWFGFxSyvv9LSJqlSZnsw2Ma
+         u9ecKaMa4RsrSkF0xwRPfaXIhzB8o738x+IoxG418NJ0iV6H+G000/Qy8XLF564F8F5k
+         rZcfEU3puAxbiKe3/rYjqBBsKNPNl1w/oL1rno52+5oHCCOHHGdGVcvvNQ8T7is65qsr
+         r5JWdydfTatPMCzzwLQoCbNws34vJ9DR+coGfaVGpjvpd3mbchvQLoXS43ECAjubx1N8
+         /9edCEaa1bAZqpI6jgbfk6vllktxLKFzEYXjmsxd9+VaK6/ZJLUS86+hP6MrTOEwntr+
+         S8Lw==
+X-Gm-Message-State: AO0yUKUfUmMwyAowKOjglmlPB9/pXIOyYJTY0uwhF9TVv9chD3SttSJW
+        qw/ivGhFtuG2DVJOXuh7A/s=
+X-Google-Smtp-Source: AK7set/q6mxFL2SNpoyCJqlGoIsp6zXx5THF6Tar0/8ALnqXrSzyWxWyrmITe8Cih+IgIxzET11mjA==
+X-Received: by 2002:a17:902:d2ca:b0:19d:1c6e:d31e with SMTP id n10-20020a170902d2ca00b0019d1c6ed31emr21226848plc.60.1679323487099;
+        Mon, 20 Mar 2023 07:44:47 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id m26-20020aa78a1a000000b005a8a5be96b2sm3028068pfa.104.2023.03.20.07.44.32
+        by smtp.gmail.com with ESMTPSA id g7-20020a170902934700b0019d397b0f18sm6777259plp.214.2023.03.20.07.44.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 07:44:32 -0700 (PDT)
+        Mon, 20 Mar 2023 07:44:46 -0700 (PDT)
 From:   Rob Clark <robdclark@gmail.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     Daniel Vetter <daniel@ffwll.ch>, freedreno@lists.freedesktop.org,
@@ -64,9 +64,9 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>, freedreno@lists.freedesktop.org,
         linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
         linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
         FRAMEWORK)
-Subject: [PATCH v2 01/23] drm/msm: Pre-allocate hw_fence
-Date:   Mon, 20 Mar 2023 07:43:23 -0700
-Message-Id: <20230320144356.803762-2-robdclark@gmail.com>
+Subject: [PATCH v2 09/23] drm/msm/gem: Avoid obj lock in job_run()
+Date:   Mon, 20 Mar 2023 07:43:31 -0700
+Message-Id: <20230320144356.803762-10-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230320144356.803762-1-robdclark@gmail.com>
 References: <20230320144356.803762-1-robdclark@gmail.com>
@@ -84,93 +84,121 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Rob Clark <robdclark@chromium.org>
 
-Avoid allocating memory in job_run() by pre-allocating the hw_fence.
+Now that everything that controls which LRU an obj lives in *except* the
+backing pages is protected by the LRU lock, add a special path to unpin
+in the job_run() path, we we are assured that we already have backing
+pages and will not be racing against eviction (because the GEM object's
+dma_resv contains the fence that will be signaled when the submit/job
+completes).
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_fence.c      | 12 +++++++++---
- drivers/gpu/drm/msm/msm_fence.h      |  3 ++-
- drivers/gpu/drm/msm/msm_gem_submit.c |  7 +++++++
- drivers/gpu/drm/msm/msm_ringbuffer.c |  2 +-
- 4 files changed, 19 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c        | 44 +++++++++++++++++++++++-----
+ drivers/gpu/drm/msm/msm_gem.h        |  1 +
+ drivers/gpu/drm/msm/msm_ringbuffer.c |  4 +--
+ 3 files changed, 39 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index 56641408ea74..bab3d84f1686 100644
---- a/drivers/gpu/drm/msm/msm_fence.c
-+++ b/drivers/gpu/drm/msm/msm_fence.c
-@@ -99,7 +99,7 @@ static const struct dma_fence_ops msm_fence_ops = {
- };
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index d0ac3e704b66..9628e8d8dd02 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -61,18 +61,14 @@ static void sync_for_cpu(struct msm_gem_object *msm_obj)
+ 	dma_unmap_sgtable(dev, msm_obj->sgt, DMA_BIDIRECTIONAL, 0);
+ }
  
- struct dma_fence *
--msm_fence_alloc(struct msm_fence_context *fctx)
-+msm_fence_alloc(void)
+-static void update_lru_locked(struct drm_gem_object *obj)
++static void update_lru_active(struct drm_gem_object *obj)
  {
- 	struct msm_fence *f;
+ 	struct msm_drm_private *priv = obj->dev->dev_private;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
  
-@@ -107,10 +107,16 @@ msm_fence_alloc(struct msm_fence_context *fctx)
- 	if (!f)
- 		return ERR_PTR(-ENOMEM);
+-	msm_gem_assert_locked(&msm_obj->base);
+-
+-	if (!msm_obj->pages) {
+-		GEM_WARN_ON(msm_obj->pin_count);
++	GEM_WARN_ON(!msm_obj->pages);
  
-+	return &f->base;
+-		drm_gem_lru_move_tail_locked(&priv->lru.unbacked, obj);
+-	} else if (msm_obj->pin_count) {
++	if (msm_obj->pin_count) {
+ 		drm_gem_lru_move_tail_locked(&priv->lru.pinned, obj);
+ 	} else if (msm_obj->madv == MSM_MADV_WILLNEED) {
+ 		drm_gem_lru_move_tail_locked(&priv->lru.willneed, obj);
+@@ -83,6 +79,22 @@ static void update_lru_locked(struct drm_gem_object *obj)
+ 	}
+ }
+ 
++static void update_lru_locked(struct drm_gem_object *obj)
++{
++	struct msm_drm_private *priv = obj->dev->dev_private;
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++
++	msm_gem_assert_locked(&msm_obj->base);
++
++	if (!msm_obj->pages) {
++		GEM_WARN_ON(msm_obj->pin_count);
++
++		drm_gem_lru_move_tail_locked(&priv->lru.unbacked, obj);
++	} else {
++		update_lru_active(obj);
++	}
 +}
 +
-+void
-+msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx)
-+{
-+	struct msm_fence *f = to_msm_fence(fence);
-+
- 	f->fctx = fctx;
- 
- 	dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
- 		       fctx->context, ++fctx->last_fence);
--
--	return &f->base;
+ static void update_lru(struct drm_gem_object *obj)
+ {
+ 	struct msm_drm_private *priv = obj->dev->dev_private;
+@@ -489,6 +501,24 @@ void msm_gem_unpin_locked(struct drm_gem_object *obj)
+ 	mutex_unlock(&priv->lru.lock);
  }
-diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
-index 7f1798c54cd1..f913fa22d8fe 100644
---- a/drivers/gpu/drm/msm/msm_fence.h
-+++ b/drivers/gpu/drm/msm/msm_fence.h
-@@ -61,7 +61,8 @@ void msm_fence_context_free(struct msm_fence_context *fctx);
- bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence);
- void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
  
--struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
-+struct dma_fence * msm_fence_alloc(void);
-+void msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx);
- 
- static inline bool
- fence_before(uint32_t a, uint32_t b)
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index be4bf77103cd..2570c018b0cb 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -41,6 +41,13 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
- 	if (!submit)
- 		return ERR_PTR(-ENOMEM);
- 
-+	submit->hw_fence = msm_fence_alloc();
-+	if (IS_ERR(submit->hw_fence)) {
-+		ret = PTR_ERR(submit->hw_fence);
-+		kfree(submit);
-+		return ERR_PTR(ret);
-+	}
++/* Special unpin path for use in fence-signaling path, avoiding the need
++ * to hold the obj lock by only depending on things that a protected by
++ * the LRU lock.  In particular we know that that we already have backing
++ * and and that the object's dma_resv has the fence for the current
++ * submit/job which will prevent us racing against page eviction.
++ */
++void msm_gem_unpin_active(struct drm_gem_object *obj)
++{
++	struct msm_drm_private *priv = obj->dev->dev_private;
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
 +
- 	ret = drm_sched_job_init(&submit->base, queue->entity, queue);
- 	if (ret) {
- 		kfree(submit);
++	mutex_lock(&priv->lru.lock);
++	msm_obj->pin_count--;
++	GEM_WARN_ON(msm_obj->pin_count < 0);
++	update_lru_active(obj);
++	mutex_unlock(&priv->lru.lock);
++}
++
+ struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
+ 					   struct msm_gem_address_space *aspace)
+ {
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 0057e8e8fa13..2bd6846c83a9 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -128,6 +128,7 @@ struct msm_gem_object {
+ uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+ int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma);
+ void msm_gem_unpin_locked(struct drm_gem_object *obj);
++void msm_gem_unpin_active(struct drm_gem_object *obj);
+ struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
+ 					   struct msm_gem_address_space *aspace);
+ int msm_gem_get_iova(struct drm_gem_object *obj,
 diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 57a8e9564540..a62b45e5a8c3 100644
+index 31b4fbf96c36..b60199184409 100644
 --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
 +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -18,7 +18,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 	struct msm_gpu *gpu = submit->gpu;
- 	int i;
- 
--	submit->hw_fence = msm_fence_alloc(fctx);
-+	msm_fence_init(submit->hw_fence, fctx);
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
+@@ -24,9 +24,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+ 
+ 		msm_gem_vma_unpin_fenced(submit->bos[i].vma, fctx);
+-		msm_gem_lock(obj);
+-		msm_gem_unpin_locked(obj);
+-		msm_gem_unlock(obj);
++		msm_gem_unpin_active(obj);
+ 		submit->bos[i].flags &= ~(BO_VMA_PINNED | BO_OBJ_PINNED);
+ 	}
+ 
 -- 
 2.39.2
 
