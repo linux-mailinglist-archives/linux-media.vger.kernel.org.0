@@ -2,401 +2,660 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D2106C113C
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 12:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E079C6C1149
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 12:55:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbjCTLxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 07:53:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37198 "EHLO
+        id S231316AbjCTLzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 07:55:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbjCTLx2 (ORCPT
+        with ESMTP id S230163AbjCTLzH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 07:53:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4AC4EE4
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 04:53:25 -0700 (PDT)
-Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5FE93A25;
-        Mon, 20 Mar 2023 12:53:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679313203;
-        bh=F3NPc1kX1Xsdk1oW518DXpv3x83djt3JrHPkxckoDGE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NOa0LP4VKavnZ06wAv0SCld3DKFmHuRQTs4VnrsckDxtb3BhqzH4dlFziklGtVFyQ
-         tWNetT3wUJXFEWsYSTQX8YuhECpx512k6phH3IIYE3swAfnQa9GltyvCxhoVwbob+4
-         92DiWwWgBI/o9a6t9sr/k1DD2Sg+rDChXwS6oGBA=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2] media: v4l2-subdev: Add new ioctl for client capabilities
-Date:   Mon, 20 Mar 2023 13:53:06 +0200
-Message-Id: <20230320115306.87425-1-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 20 Mar 2023 07:55:07 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 170BA233D0;
+        Mon, 20 Mar 2023 04:54:54 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 3D9FD24E292;
+        Mon, 20 Mar 2023 19:54:51 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 20 Mar
+ 2023 19:54:51 +0800
+Received: from [192.168.60.83] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 20 Mar
+ 2023 19:54:50 +0800
+Message-ID: <6923fefa-0358-c496-fc97-cb84bbb42d9a@starfivetech.com>
+Date:   Mon, 20 Mar 2023 19:54:49 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 4/6] media: cadence: Add support for external dphy and
+ JH7110 SoC
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        "Todor Tomov" <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Eugen Hristev" <eugen.hristev@collabora.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230310120553.60586-1-jack.zhu@starfivetech.com>
+ <20230310120553.60586-5-jack.zhu@starfivetech.com>
+ <20230312113338.GC2545@pendragon.ideasonboard.com>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <20230312113338.GC2545@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add new ioctls to set and get subdev client capabilities. Client in this
-context means the userspace application which opens the subdev device
-node.
 
-For now we only add a single flag, V4L2_SUBDEV_CLIENT_CAP_STREAMS, which
-indicates that the client is streams-aware.
 
-The reason for needing such a flag is as follows:
+On 2023/3/12 19:33, Laurent Pinchart wrote:
+> Hi Jack,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Mar 10, 2023 at 08:05:51PM +0800, Jack Zhu wrote:
+>> Add support for external MIPI D-PHY and Starfive JH7110 SoC which
+>> has the cadence csi2 receiver.
+> 
+> This patch bundles multiple changes that should be split into their own
+> patches. I'll comment on that below.
 
-Many structs passed via ioctls, e.g. struct v4l2_subdev_format, contain
-reserved fields (usually a single array field). These reserved fields
-can be used to extend the ioctl. The userspace is required to zero the
-reserved fields.
+Thank you for your suggestion and comments. I'll split the patch.
 
-We recently added a new 'stream' field to many of these structs, and the
-space for the field was taken from these reserved arrays. The assumption
-was that these new 'stream' fields are always initialized to zero if the
-userspace does not use them. This was a mistake, as, as mentioned above,
-the userspace is required to zero the _reserved_ fields. In other words,
-there is no requirement to zero this new stream field, and if the
-userspace doesn't use the field (which is the case for all userspace
-applications at the moment), the field may contain random data.
+> 
+>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+>> ---
+>>  drivers/media/platform/cadence/cdns-csi2rx.c | 273 ++++++++++++++++++-
+>>  1 file changed, 263 insertions(+), 10 deletions(-)
+>> 
+>> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+>> index cc3ebb0d96f6..7e7b096869fc 100644
+>> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+>> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+>> @@ -10,9 +10,11 @@
+>>  #include <linux/io.h>
+>>  #include <linux/module.h>
+>>  #include <linux/of.h>
+>> +#include <linux/of_device.h>
+>>  #include <linux/of_graph.h>
+>>  #include <linux/phy/phy.h>
+>>  #include <linux/platform_device.h>
+>> +#include <linux/reset.h>
+>>  #include <linux/slab.h>
+>>  
+>>  #include <media/v4l2-ctrls.h>
+>> @@ -30,6 +32,12 @@
+>>  #define CSI2RX_STATIC_CFG_DLANE_MAP(llane, plane)	((plane) << (16 + (llane) * 4))
+>>  #define CSI2RX_STATIC_CFG_LANES_MASK			GENMASK(11, 8)
+>>  
+>> +#define CSI2RX_DPHY_LANE_CTRL_REG		0x40
+>> +#define CSI2RX_DPHY_CL_RST			BIT(16)
+>> +#define CSI2RX_DPHY_DL_RST(i)			BIT((i) + 12)
+>> +#define CSI2RX_DPHY_CL_EN			BIT(4)
+>> +#define CSI2RX_DPHY_DL_EN(i)			BIT(i)
+>> +
+>>  #define CSI2RX_STREAM_BASE(n)		(((n) + 1) * 0x100)
+>>  
+>>  #define CSI2RX_STREAM_CTRL_REG(n)		(CSI2RX_STREAM_BASE(n) + 0x000)
+>> @@ -37,6 +45,7 @@
+>>  
+>>  #define CSI2RX_STREAM_DATA_CFG_REG(n)		(CSI2RX_STREAM_BASE(n) + 0x008)
+>>  #define CSI2RX_STREAM_DATA_CFG_EN_VC_SELECT		BIT(31)
+>> +#define CSI2RX_STREAM_DATA_CFG_EN_DATA_TYPE_0	BIT(7)
+>>  #define CSI2RX_STREAM_DATA_CFG_VC_SELECT(n)		BIT((n) + 16)
+>>  
+>>  #define CSI2RX_STREAM_CFG_REG(n)		(CSI2RX_STREAM_BASE(n) + 0x00c)
+>> @@ -54,8 +63,19 @@ enum csi2rx_pads {
+>>  	CSI2RX_PAD_MAX,
+>>  };
+>>  
+>> +struct csi2rx_fmt {
+>> +	u32				code;
+>> +	u8				bpp;
+>> +	u32				dt;
+>> +};
+>> +
+>> +struct csi2rx_platform_info {
+>> +	unsigned long sys_clk_rate;
+>> +};
+>> +
+>>  struct csi2rx_priv {
+>>  	struct device			*dev;
+>> +	unsigned int			power_count;
+>>  	unsigned int			count;
+>>  
+>>  	/*
+>> @@ -68,6 +88,9 @@ struct csi2rx_priv {
+>>  	struct clk			*sys_clk;
+>>  	struct clk			*p_clk;
+>>  	struct clk			*pixel_clk[CSI2RX_STREAMS_MAX];
+>> +	struct reset_control		*sys_rst;
+>> +	struct reset_control		*p_rst;
+>> +	struct reset_control		*pixel_rst[CSI2RX_STREAMS_MAX];
+>>  	struct phy			*dphy;
+>>  
+>>  	u8				lanes[CSI2RX_LANES_MAX];
+>> @@ -83,14 +106,100 @@ struct csi2rx_priv {
+>>  	/* Remote source */
+>>  	struct v4l2_subdev		*source_subdev;
+>>  	int				source_pad;
+>> +
+>> +	const struct csi2rx_platform_info	*platform_info;
+>> +};
+>> +
+>> +static const struct csi2rx_fmt formats[] = {
+>> +	{
+>> +		.code	= MEDIA_BUS_FMT_SRGGB10_1X10,
+>> +		.bpp	= 10,
+>> +		.dt	= 0x2b,
+>> +	},
+>> +	{
+>> +		.code	= MEDIA_BUS_FMT_SGRBG10_1X10,
+>> +		.bpp	= 10,
+>> +		.dt	= 0x2b,
+>> +	},
+>> +	{
+>> +		.code	= MEDIA_BUS_FMT_SGBRG10_1X10,
+>> +		.bpp	= 10,
+>> +		.dt	= 0x2b,
+>> +	},
+>> +	{
+>> +		.code	= MEDIA_BUS_FMT_SBGGR10_1X10,
+>> +		.bpp	= 10,
+>> +		.dt	= 0x2b,
+>> +	},
+>>  };
+>>  
+>> +static u8 csi2rx_get_bpp(u32 code)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(formats); i++) {
+>> +		if (formats[i].code == code)
+>> +			return formats[i].bpp;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static u32 csi2rx_get_dt(u32 code)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(formats); i++) {
+>> +		if (formats[i].code == code)
+>> +			return formats[i].dt;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static s64 csi2rx_get_pixel_rate(struct csi2rx_priv *csi2rx)
+>> +{
+>> +	struct v4l2_ctrl *ctrl;
+>> +
+>> +	ctrl = v4l2_ctrl_find(csi2rx->source_subdev->ctrl_handler,
+>> +			      V4L2_CID_PIXEL_RATE);
+>> +	if (!ctrl) {
+>> +		dev_err(csi2rx->dev, "no pixel rate control in subdev: %s\n",
+>> +			csi2rx->source_subdev->name);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return v4l2_ctrl_g_ctrl_int64(ctrl);
+>> +}
+>> +
+>>  static inline
+>>  struct csi2rx_priv *v4l2_subdev_to_csi2rx(struct v4l2_subdev *subdev)
+>>  {
+>>  	return container_of(subdev, struct csi2rx_priv, subdev);
+>>  }
+>>  
+>> +static int csi2rx_s_power(struct v4l2_subdev *subdev, int on)
+> 
+> .s_power() is deprecated, please drop it. You should use runtime PM
+> instead (with autosuspend). In .s_stream(), you should call
+> pm_runtime_resume_and_get() when starting streaming, and
+> pm_runtime_put_autosuspend() when stopping streaming.
+> 
 
-This shows that the way the reserved fields are defined in v4l2 is, in
-my opinion, somewhat broken, but there is nothing to do about that.
+OK, will drop .s_power(). The csi2rx will do not call phy_init()/
+phy_exit(). The work of phy_init()/phy_exit() is integrated into PHY
+driver.
 
-To fix this issue we need a way for the userspace to tell the kernel
-that the userspace has indeed set the 'stream' field, and it's fine for
-the kernel to access it. This is achieved with the new ioctl, which the
-userspace should usually use right after opening the subdev device node.
+>> +{
+>> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
+>> +
+>> +	mutex_lock(&csi2rx->lock);
+>> +
+>> +	if (on) {
+>> +		if (!csi2rx->power_count)
+>> +			phy_init(csi2rx->dphy);
+>> +
+>> +		csi2rx->power_count++;
+>> +	} else {
+>> +		csi2rx->power_count--;
+>> +
+>> +		if (!csi2rx->power_count)
+>> +			phy_exit(csi2rx->dphy);
+>> +	}
+>> +
+>> +	mutex_unlock(&csi2rx->lock);
+>> +	return 0;
+>> +}
+>> +
+>>  static void csi2rx_reset(struct csi2rx_priv *csi2rx)
+>>  {
+>>  	writel(CSI2RX_SOFT_RESET_PROTOCOL | CSI2RX_SOFT_RESET_FRONT,
+>> @@ -101,17 +210,70 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
+>>  	writel(0, csi2rx->base + CSI2RX_SOFT_RESET_REG);
+>>  }
+>>  
+>> +static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
+> 
+> Support for external DPHYs should be split to a patch of its own.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
-Changes in v2:
-- Addressed the review comments
-- Adjusted V4L2_SUBDEV_CLIENT_CAP_STREAMS to only mean that the 'stream'
-  fields are used by the userspace.
+OK, will split the patch.
 
- .../userspace-api/media/v4l/user-func.rst     |  1 +
- .../media/v4l/vidioc-subdev-g-client-cap.rst  | 74 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-subdev.c         | 63 ++++++++++++++++
- include/media/v4l2-subdev.h                   |  1 +
- include/uapi/linux/v4l2-subdev.h              | 21 ++++++
- 5 files changed, 160 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+> 
+>> +{
+>> +	union phy_configure_opts opts = { };
+>> +	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+>> +	struct v4l2_subdev_format sd_fmt;
+>> +	s64 pixel_rate;
+>> +	int ret;
+>> +	u8 bpp;
+>> +
+>> +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>> +	sd_fmt.pad = 0;
+>> +
+>> +	ret = v4l2_subdev_call(csi2rx->source_subdev, pad, get_fmt, NULL,
+>> +			       &sd_fmt);
+> 
+> Don't call .get_fmt() on the source. A subdev driver should only look at
+> its own formats. As the format on the source pad of the source must
+> match the format on the sink pad of this subdev when the pipeline is
+> valid, you can use the format on the sink pad here.
 
-diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
-index 228c1521f190..15ff0bf7bbe6 100644
---- a/Documentation/userspace-api/media/v4l/user-func.rst
-+++ b/Documentation/userspace-api/media/v4l/user-func.rst
-@@ -72,6 +72,7 @@ Function Reference
-     vidioc-subdev-g-frame-interval
-     vidioc-subdev-g-routing
-     vidioc-subdev-g-selection
-+    vidioc-subdev-g-client-cap
-     vidioc-subdev-querycap
-     vidioc-subscribe-event
-     func-mmap
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
-new file mode 100644
-index 000000000000..0c4ff938f63d
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: V4L
-+
-+.. _VIDIOC_SUBDEV_G_CLIENT_CAP:
-+
-+************************************************************
-+ioctl VIDIOC_SUBDEV_G_CLIENT_CAP, VIDIOC_SUBDEV_S_CLIENT_CAP
-+************************************************************
-+
-+Name
-+====
-+
-+VIDIOC_SUBDEV_G_CLIENT_CAP - VIDIOC_SUBDEV_S_CLIENT_CAP - Get or set client
-+capabilities.
-+
-+Synopsis
-+========
-+
-+.. c:macro:: VIDIOC_SUBDEV_G_CLIENT_CAP
-+
-+``int ioctl(int fd, VIDIOC_SUBDEV_G_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
-+
-+.. c:macro:: VIDIOC_SUBDEV_S_CLIENT_CAP
-+
-+``int ioctl(int fd, VIDIOC_SUBDEV_S_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
-+
-+Arguments
-+=========
-+
-+``fd``
-+    File descriptor returned by :ref:`open() <func-open>`.
-+
-+``argp``
-+    Pointer to struct :c:type:`v4l2_subdev_client_capability`.
-+
-+Description
-+===========
-+
-+These ioctls are used to get and set the client (the application using the
-+subdevice ioctls) capabilities. By default no client capabilities are set.
-+
-+The purpose of the client capabilities are to inform the kernel of the behavior
-+of the client, mainly related to maintaining compatibility with different
-+kernel and userspace versions.
-+
-+The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will modify the struct
-+:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that were
-+accepted. A common case for the kernel not accepting a capability is that the
-+kernel is older than the headers the userspace uses, and thus the capability is
-+unknown to the kernel.
-+
-+The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will replace all the previously set
-+capabilities.
-+
-+.. flat-table:: Client Capabilities
-+    :header-rows:  1
-+
-+    * - Capability
-+      - Description
-+    * - ``V4L2_SUBDEV_CLIENT_CAP_STREAMS``
-+      - The client is aware of streams. Setting this flag enables the use
-+        of 'stream' fields (referring to the stream number) with various
-+        ioctls. If this is not set (which is the default), the 'stream' fields
-+        will be forced to 0 by the kernel.
-+
-+Return Value
-+============
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+ENOIOCTLCMD
-+   The kernel does not support this ioctl.
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index dff1d9be7841..9d47f4800ea8 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -498,8 +498,11 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	struct video_device *vdev = video_devdata(file);
- 	struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
- 	struct v4l2_fh *vfh = file->private_data;
-+	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
- 	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
- 	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
-+	bool client_supports_streams = subdev_fh->client_caps &
-+				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
- 	int rval;
- 
- 	switch (cmd) {
-@@ -624,6 +627,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	case VIDIOC_SUBDEV_G_FMT: {
- 		struct v4l2_subdev_format *format = arg;
- 
-+		if (!client_supports_streams)
-+			format->stream = 0;
-+
- 		memset(format->reserved, 0, sizeof(format->reserved));
- 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
- 		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
-@@ -635,6 +641,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
- 			return -EPERM;
- 
-+		if (!client_supports_streams)
-+			format->stream = 0;
-+
- 		memset(format->reserved, 0, sizeof(format->reserved));
- 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
- 		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
-@@ -644,6 +653,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		struct v4l2_subdev_crop *crop = arg;
- 		struct v4l2_subdev_selection sel;
- 
-+		if (!client_supports_streams)
-+			crop->stream = 0;
-+
- 		memset(crop->reserved, 0, sizeof(crop->reserved));
- 		memset(&sel, 0, sizeof(sel));
- 		sel.which = crop->which;
-@@ -665,6 +677,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
- 			return -EPERM;
- 
-+		if (!client_supports_streams)
-+			crop->stream = 0;
-+
- 		memset(crop->reserved, 0, sizeof(crop->reserved));
- 		memset(&sel, 0, sizeof(sel));
- 		sel.which = crop->which;
-@@ -683,6 +698,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
- 		struct v4l2_subdev_mbus_code_enum *code = arg;
- 
-+		if (!client_supports_streams)
-+			code->stream = 0;
-+
- 		memset(code->reserved, 0, sizeof(code->reserved));
- 		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
- 					code);
-@@ -691,6 +709,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
- 		struct v4l2_subdev_frame_size_enum *fse = arg;
- 
-+		if (!client_supports_streams)
-+			fse->stream = 0;
-+
- 		memset(fse->reserved, 0, sizeof(fse->reserved));
- 		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
- 					fse);
-@@ -699,6 +720,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
- 		struct v4l2_subdev_frame_interval *fi = arg;
- 
-+		if (!client_supports_streams)
-+			fi->stream = 0;
-+
- 		memset(fi->reserved, 0, sizeof(fi->reserved));
- 		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
- 	}
-@@ -709,6 +733,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		if (ro_subdev)
- 			return -EPERM;
- 
-+		if (!client_supports_streams)
-+			fi->stream = 0;
-+
- 		memset(fi->reserved, 0, sizeof(fi->reserved));
- 		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
- 	}
-@@ -716,6 +743,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
- 		struct v4l2_subdev_frame_interval_enum *fie = arg;
- 
-+		if (!client_supports_streams)
-+			fie->stream = 0;
-+
- 		memset(fie->reserved, 0, sizeof(fie->reserved));
- 		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
- 					fie);
-@@ -724,6 +754,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 	case VIDIOC_SUBDEV_G_SELECTION: {
- 		struct v4l2_subdev_selection *sel = arg;
- 
-+		if (!client_supports_streams)
-+			sel->stream = 0;
-+
- 		memset(sel->reserved, 0, sizeof(sel->reserved));
- 		return v4l2_subdev_call(
- 			sd, pad, get_selection, state, sel);
-@@ -735,6 +768,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
- 			return -EPERM;
- 
-+		if (!client_supports_streams)
-+			sel->stream = 0;
-+
- 		memset(sel->reserved, 0, sizeof(sel->reserved));
- 		return v4l2_subdev_call(
- 			sd, pad, set_selection, state, sel);
-@@ -876,6 +912,33 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 					routing->which, &krouting);
- 	}
- 
-+	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
-+		struct v4l2_subdev_client_capability *client_cap = arg;
-+
-+		client_cap->capabilities = subdev_fh->client_caps;
-+
-+		return 0;
-+	}
-+
-+	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
-+		struct v4l2_subdev_client_capability *client_cap = arg;
-+
-+		/*
-+		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
-+		 * enabled. Remove this when streams API is no longer
-+		 * experimental.
-+		 */
-+		if (!v4l2_subdev_enable_streams_api)
-+			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
-+
-+		/* Filter out unsupported capabilities */
-+		client_cap->capabilities &= V4L2_SUBDEV_CLIENT_CAP_STREAMS;
-+
-+		subdev_fh->client_caps = client_cap->capabilities;
-+
-+		return 0;
-+	}
-+
- 	default:
- 		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
- 	}
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 17773be4a4ee..b5bb5b802929 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1121,6 +1121,7 @@ struct v4l2_subdev_fh {
- 	struct module *owner;
- #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
- 	struct v4l2_subdev_state *state;
-+	u64 client_caps;
- #endif
- };
- 
-diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-index 654d659de835..4a195b68f28f 100644
---- a/include/uapi/linux/v4l2-subdev.h
-+++ b/include/uapi/linux/v4l2-subdev.h
-@@ -233,6 +233,24 @@ struct v4l2_subdev_routing {
- 	__u32 reserved[6];
- };
- 
-+/*
-+ * The client is aware of streams. Setting this flag enables the use of 'stream'
-+ * fields (referring to the stream number) with various ioctls. If this is not
-+ * set (which is the default), the 'stream' fields will be forced to 0 by the
-+ * kernel.
-+ */
-+ #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
-+
-+/**
-+ * struct v4l2_subdev_client_capability - Capabilities of the client accessing
-+ *					  the subdev
-+ *
-+ * @capabilities: A bitmask of V4L2_SUBDEV_CLIENT_CAP_* flags.
-+ */
-+struct v4l2_subdev_client_capability {
-+	__u64 capabilities;
-+};
-+
- /* Backwards compatibility define --- to be removed */
- #define v4l2_subdev_edid v4l2_edid
- 
-@@ -250,6 +268,9 @@ struct v4l2_subdev_routing {
- #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
- #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
- #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
-+#define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
-+#define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
-+
- /* The following ioctls are identical to the ioctls in videodev2.h */
- #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
- #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
--- 
-2.34.1
+OK, will drop. This step of work is not necessary.
 
+> 
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	bpp = csi2rx_get_bpp(sd_fmt.format.code);
+>> +	if (!bpp)
+>> +		return -EINVAL;
+>> +
+>> +	pixel_rate = csi2rx_get_pixel_rate(csi2rx);
+>> +	if (pixel_rate < 0)
+>> +		return pixel_rate;
+>> +
+>> +	ret = phy_mipi_dphy_get_default_config(pixel_rate, bpp,
+>> +					       csi2rx->num_lanes, cfg);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	phy_pm_runtime_get_sync(csi2rx->dphy);
+>> +
+>> +	ret = phy_power_on(csi2rx->dphy);
+>> +	if (ret)
+>> +		goto out;
+>> +
+>> +	ret = phy_configure(csi2rx->dphy, &opts);
+>> +	if (ret) {
+>> +		/* Can't do anything if it fails. Ignore the return value. */
+>> +		phy_power_off(csi2rx->dphy);
+>> +		goto out;
+>> +	}
+>> +
+>> +out:
+>> +	phy_pm_runtime_put_sync(csi2rx->dphy);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>  static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>>  {
+>> +	struct v4l2_subdev_format sd_fmt;
+>>  	unsigned int i;
+>>  	unsigned long lanes_used = 0;
+>>  	u32 reg;
+>> +	u32 dt = 0;
+>>  	int ret;
+>>  
+>>  	ret = clk_prepare_enable(csi2rx->p_clk);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	reset_control_deassert(csi2rx->p_rst);
+> 
+> Support for reset controllers should also be split to a patch of its
+> own.
+
+OK, will split the patch according to logic change.
+
+> 
+>> +
+>>  	csi2rx_reset(csi2rx);
+>>  
+>>  	reg = csi2rx->num_lanes << 8;
+>> @@ -139,6 +301,29 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>>  	if (ret)
+>>  		goto err_disable_pclk;
+>>  
+>> +	/* Enable DPHY clk and data lanes. */
+>> +	if (csi2rx->dphy) {
+>> +		reg = CSI2RX_DPHY_CL_EN | CSI2RX_DPHY_CL_RST;
+>> +		for (i = 0; i < csi2rx->num_lanes; i++) {
+>> +			reg |= CSI2RX_DPHY_DL_EN(csi2rx->lanes[i] - 1);
+>> +			reg |= CSI2RX_DPHY_DL_RST(csi2rx->lanes[i] - 1);
+>> +		}
+>> +
+>> +		writel(reg, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+>> +	}
+>> +
+>> +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>> +	sd_fmt.pad = 0;
+>> +
+>> +	ret = v4l2_subdev_call(csi2rx->source_subdev, pad, get_fmt, NULL,
+>> +			       &sd_fmt);
+> 
+> Same as above regarding the format.
+
+OK, will fix.
+
+> 
+>> +	if (ret)
+>> +		dev_warn(csi2rx->dev, "Couldn't get format\n");
+>> +
+>> +	dt = csi2rx_get_dt(sd_fmt.format.code);
+>> +	if (!dt)
+> 
+> When you reach this point, the format should be guaranteed to be valid
+> as .set_fmt() will have adjusted it. There should thus be no need to
+> handle errors.
+> 
+>> +		dev_warn(csi2rx->dev, "Couldn't get dt\n");
+>> +
+>>  	/*
+>>  	 * Create a static mapping between the CSI virtual channels
+>>  	 * and the output stream.
+>> @@ -154,6 +339,8 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>>  		if (ret)
+>>  			goto err_disable_pixclk;
+>>  
+>> +		reset_control_deassert(csi2rx->pixel_rst[i]);
+>> +
+>>  		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
+>>  		       csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+>>  
+>> @@ -161,6 +348,11 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>>  		       CSI2RX_STREAM_DATA_CFG_VC_SELECT(i),
+>>  		       csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i));
+>>  
+>> +		if (dt)
+>> +			writel(readl(csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i)) |
+>> +			       CSI2RX_STREAM_DATA_CFG_EN_DATA_TYPE_0 | dt,
+>> +			       csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i));
+> 
+> Support for CSI-2 DT should be split to a patch of its own.
+
+CSI-2 DT is not necessary. I will drop the relevant code.
+
+> 
+>> +
+>>  		writel(CSI2RX_STREAM_CTRL_START,
+>>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+>>  	}
+>> @@ -169,10 +361,27 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>>  	if (ret)
+>>  		goto err_disable_pixclk;
+>>  
+>> +	if (csi2rx->platform_info && csi2rx->platform_info->sys_clk_rate > 0)
+>> +		clk_set_rate(csi2rx->sys_clk,
+>> +			     csi2rx->platform_info->sys_clk_rate);
+>> +
+>> +	reset_control_deassert(csi2rx->sys_rst);
+>> +
+>> +	if (csi2rx->dphy) {
+>> +		ret = csi2rx_configure_ext_dphy(csi2rx);
+>> +		if (ret) {
+>> +			dev_err(csi2rx->dev,
+>> +				"Failed to configure external DPHY: %d\n", ret);
+>> +			goto err_disable_sysclk;
+>> +		}
+>> +	}
+>> +
+>>  	clk_disable_unprepare(csi2rx->p_clk);
+>>  
+>>  	return 0;
+>>  
+>> +err_disable_sysclk:
+>> +	clk_disable_unprepare(csi2rx->sys_clk);
+>>  err_disable_pixclk:
+>>  	for (; i > 0; i--)
+>>  		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+>> @@ -188,18 +397,28 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>>  	unsigned int i;
+>>  
+>>  	clk_prepare_enable(csi2rx->p_clk);
+>> +	reset_control_assert(csi2rx->sys_rst);
+>>  	clk_disable_unprepare(csi2rx->sys_clk);
+>>  
+>>  	for (i = 0; i < csi2rx->max_streams; i++) {
+>>  		writel(0, csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+>>  
+>> +		reset_control_assert(csi2rx->pixel_rst[i]);
+>>  		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+>>  	}
+>>  
+>> +	reset_control_assert(csi2rx->p_rst);
+>>  	clk_disable_unprepare(csi2rx->p_clk);
+>>  
+>>  	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
+>>  		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
+>> +
+>> +	if (csi2rx->dphy) {
+>> +		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+>> +
+>> +		if (phy_power_off(csi2rx->dphy))
+>> +			dev_warn(csi2rx->dev, "Couldn't power off DPHY\n");
+>> +	}
+>>  }
+>>  
+>>  static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>> @@ -236,11 +455,16 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>>  	return ret;
+>>  }
+>>  
+>> +static const struct v4l2_subdev_core_ops csi2rx_core_ops = {
+>> +	.s_power = csi2rx_s_power,
+>> +};
+>> +
+>>  static const struct v4l2_subdev_video_ops csi2rx_video_ops = {
+>>  	.s_stream	= csi2rx_s_stream,
+>>  };
+>>  
+>>  static const struct v4l2_subdev_ops csi2rx_subdev_ops = {
+>> +	.core		= &csi2rx_core_ops,
+>>  	.video		= &csi2rx_video_ops,
+>>  };
+>>  
+>> @@ -250,6 +474,8 @@ static int csi2rx_async_bound(struct v4l2_async_notifier *notifier,
+>>  {
+>>  	struct v4l2_subdev *subdev = notifier->sd;
+>>  	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
+>> +	struct v4l2_device *v4l2_dev;
+>> +	int ret;
+>>  
+>>  	csi2rx->source_pad = media_entity_get_fwnode_pad(&s_subdev->entity,
+>>  							 s_subdev->fwnode,
+>> @@ -265,6 +491,15 @@ static int csi2rx_async_bound(struct v4l2_async_notifier *notifier,
+>>  	dev_dbg(csi2rx->dev, "Bound %s pad: %d\n", s_subdev->name,
+>>  		csi2rx->source_pad);
+>>  
+>> +	/* ensure source subdev register subdev node */
+>> +	v4l2_dev = notifier->v4l2_dev ? notifier->v4l2_dev :
+>> +		notifier->parent->v4l2_dev;
+>> +	if (v4l2_dev) {
+>> +		ret = v4l2_device_register_subdev_nodes(v4l2_dev);
+> 
+> This belongs to the main driver (the camss in your case), not this
+> driver.
+
+OK, will fix.
+
+> 
+>> +		if (ret < 0)
+>> +			return ret;
+>> +	}
+>> +
+>>  	return media_create_pad_link(&csi2rx->source_subdev->entity,
+>>  				     csi2rx->source_pad,
+>>  				     &csi2rx->subdev.entity, 0,
+>> @@ -299,21 +534,23 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
+>>  		return PTR_ERR(csi2rx->p_clk);
+>>  	}
+>>  
+>> +	csi2rx->sys_rst =
+>> +		devm_reset_control_get_optional_exclusive(&pdev->dev,
+>> +							  "sys_rst");
+>> +	if (IS_ERR(csi2rx->sys_rst))
+>> +		return PTR_ERR(csi2rx->sys_rst);
+>> +
+>> +	csi2rx->p_rst =
+>> +		devm_reset_control_get_optional_exclusive(&pdev->dev, "p_rst");
+>> +	if (IS_ERR(csi2rx->p_rst))
+>> +		return PTR_ERR(csi2rx->p_rst);
+>> +
+>>  	csi2rx->dphy = devm_phy_optional_get(&pdev->dev, "dphy");
+>>  	if (IS_ERR(csi2rx->dphy)) {
+>>  		dev_err(&pdev->dev, "Couldn't get external D-PHY\n");
+>>  		return PTR_ERR(csi2rx->dphy);
+>>  	}
+>>  
+>> -	/*
+>> -	 * FIXME: Once we'll have external D-PHY support, the check
+>> -	 * will need to be removed.
+>> -	 */
+>> -	if (csi2rx->dphy) {
+>> -		dev_err(&pdev->dev, "External D-PHY not supported yet\n");
+>> -		return -EINVAL;
+>> -	}
+>> -
+>>  	ret = clk_prepare_enable(csi2rx->p_clk);
+>>  	if (ret) {
+>>  		dev_err(&pdev->dev, "Couldn't prepare and enable P clock\n");
+>> @@ -343,13 +580,14 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
+>>  	 * FIXME: Once we'll have internal D-PHY support, the check
+>>  	 * will need to be removed.
+>>  	 */
+>> -	if (csi2rx->has_internal_dphy) {
+>> +	if (!csi2rx->dphy && csi2rx->has_internal_dphy) {
+>>  		dev_err(&pdev->dev, "Internal D-PHY not supported yet\n");
+>>  		return -EINVAL;
+>>  	}
+>>  
+>>  	for (i = 0; i < csi2rx->max_streams; i++) {
+>>  		char clk_name[16];
+>> +		char rst_name[16];
+>>  
+>>  		snprintf(clk_name, sizeof(clk_name), "pixel_if%u_clk", i);
+>>  		csi2rx->pixel_clk[i] = devm_clk_get(&pdev->dev, clk_name);
+>> @@ -357,6 +595,13 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
+>>  			dev_err(&pdev->dev, "Couldn't get clock %s\n", clk_name);
+>>  			return PTR_ERR(csi2rx->pixel_clk[i]);
+>>  		}
+>> +
+>> +		snprintf(rst_name, sizeof(rst_name), "pixel_if%u_rst", i);
+>> +		csi2rx->pixel_rst[i] =
+>> +			devm_reset_control_get_optional_exclusive(&pdev->dev,
+>> +								  rst_name);
+>> +		if (IS_ERR(csi2rx->pixel_rst[i]))
+>> +			return PTR_ERR(csi2rx->pixel_rst[i]);
+>>  	}
+>>  
+>>  	return 0;
+>> @@ -425,6 +670,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>>  	csi2rx = kzalloc(sizeof(*csi2rx), GFP_KERNEL);
+>>  	if (!csi2rx)
+>>  		return -ENOMEM;
+>> +	csi2rx->platform_info = of_device_get_match_data(&pdev->dev);
+>>  	platform_set_drvdata(pdev, csi2rx);
+>>  	csi2rx->dev = &pdev->dev;
+>>  	mutex_init(&csi2rx->lock);
+>> @@ -441,6 +687,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>>  	csi2rx->subdev.dev = &pdev->dev;
+>>  	v4l2_subdev_init(&csi2rx->subdev, &csi2rx_subdev_ops);
+>>  	v4l2_set_subdevdata(&csi2rx->subdev, &pdev->dev);
+>> +	csi2rx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>>  	snprintf(csi2rx->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s.%s",
+>>  		 KBUILD_MODNAME, dev_name(&pdev->dev));
+>>  
+>> @@ -462,6 +709,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>>  	dev_info(&pdev->dev,
+>>  		 "Probed CSI2RX with %u/%u lanes, %u streams, %s D-PHY\n",
+>>  		 csi2rx->num_lanes, csi2rx->max_lanes, csi2rx->max_streams,
+>> +		 csi2rx->dphy ? "external" :
+>>  		 csi2rx->has_internal_dphy ? "internal" : "no");
+>>  
+>>  	return 0;
+>> @@ -483,8 +731,13 @@ static int csi2rx_remove(struct platform_device *pdev)
+>>  	return 0;
+>>  }
+>>  
+>> +static const struct csi2rx_platform_info stf_jh7110_info = {
+>> +	.sys_clk_rate = 297000000,
+> 
+> This sounds like something that would be better handled through the
+> assigned-clock-rates property in DT.
+
+OK, will use assigned-clock-rates property in DT.
+
+> 
+>> +};
+>> +
+>>  static const struct of_device_id csi2rx_of_table[] = {
+>>  	{ .compatible = "cdns,csi2rx" },
+>> +	{ .compatible = "starfive,jh7110-csi2rx", .data = &stf_jh7110_info },
+> 
+> I would move SoC-specific compatible strings before the generic one.
+
+OK, will move it before the generic one.
+
+> Maxime, is there a need to keep the generic compatible string now that
+> we have SoC-specific support ?
+
+The existing bindings state
+
+  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
+
+It might be better to keep the generic compatible string.
+
+> 
+>>  	{ },
+>>  };
+>>  MODULE_DEVICE_TABLE(of, csi2rx_of_table);
+> 
