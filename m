@@ -2,109 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E656F6C1085
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 12:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2594C6C10C8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 12:26:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbjCTLQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 07:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60386 "EHLO
+        id S229737AbjCTL0q convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 20 Mar 2023 07:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjCTLPx (ORCPT
+        with ESMTP id S229571AbjCTL0m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 07:15:53 -0400
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C628C1FC1;
-        Mon, 20 Mar 2023 04:13:52 -0700 (PDT)
-Received: from francesco-nb.int.toradex.com (31-10-206-125.static.upc.ch [31.10.206.125])
-        by mail11.truemail.it (Postfix) with ESMTPA id CEF5F20351;
-        Mon, 20 Mar 2023 12:13:42 +0100 (CET)
-Date:   Mon, 20 Mar 2023 12:13:38 +0100
-From:   Francesco Dolcini <francesco@dolcini.it>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>
-Cc:     Francesco Dolcini <francesco@dolcini.it>,
+        Mon, 20 Mar 2023 07:26:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE5B51BFA
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 04:26:40 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1peDen-0004Ow-78; Mon, 20 Mar 2023 12:26:29 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1peDel-005RfN-Aw; Mon, 20 Mar 2023 12:26:27 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1peDek-00073e-LS; Mon, 20 Mar 2023 12:26:26 +0100
+Message-ID: <9b4f0896a3a3e97b44197de263c30f0d31333abd.camel@pengutronix.de>
+Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Marcel Ziswiler <marcel@ziswiler.com>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, kernel@pengutronix.de,
         Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
         Marcel Ziswiler <marcel.ziswiler@toradex.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Steve Longerbeam <slongerbeam@gmail.com>,
         linux-kernel@vger.kernel.org,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
-Message-ID: <ZBg/4gkKWBMtw5a9@francesco-nb.int.toradex.com>
+Date:   Mon, 20 Mar 2023 12:26:26 +0100
+In-Reply-To: <20230320095514.GF20234@pendragon.ideasonboard.com>
 References: <20230306063649.7387-1-marcel@ziswiler.com>
- <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
- <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
- <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
- <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
- <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
+         <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
+         <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
+         <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
+         <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
+         <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
+         <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
+         <20230320092602.GE20234@pendragon.ideasonboard.com>
+         <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
+         <20230320095514.GF20234@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 09:48:44AM +0100, Jacopo Mondi wrote:
-> On Tue, Mar 14, 2023 at 01:59:06PM +0100, Francesco Dolcini wrote:
-> > On Tue, Mar 14, 2023 at 02:45:53PM +0200, Sakari Ailus wrote:
-> > > On Tue, Mar 14, 2023 at 01:32:16PM +0100, Francesco Dolcini wrote:
-> > > > On Tue, Mar 14, 2023 at 02:13:46PM +0200, Sakari Ailus wrote:
-> > > > > On Mon, Mar 06, 2023 at 07:36:49AM +0100, Marcel Ziswiler wrote:
-> > > > > > From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
-> > > > > >
-> > > > > > Implement the introduced get_mbus_config operation to report the
-> > > > > > config of the MIPI CSI-2, BT.656 and Parallel interface.
-> > > > > >
-> > > > > > Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
-> > > > > > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> > > > >
-> > > > > What's the reasoning for this patch?
-> > > >
-> > > > Without this it's not possible to use it on i.MX6,
-> > > > drivers/staging/media/imx/imx6-mipi-csi2.c requires it, some more
-> > > > details from Jacopo here [0].
-> > > >
-> > > > Everything used to work fine up to v5.18, after that kernel version
-> > > > various changes broke it [1][2] (I assume you are pretty much aware of
-> > > > the history here, you commented on a few emails).
-> > > >
-> > > > [0] https://lore.kernel.org/all/20230128100611.7ulsfqqqgscg54gy@uno.localdomain/
-> > > > [1] https://lore.kernel.org/all/081cc2d3-1f3a-6c14-6dc7-53f976be7b2b@gmail.com/
-> > > > [2] https://lore.kernel.org/all/cacfe146-101b-35b3-5f66-1a1cabfd342f@gmail.com/
-> > > >
-> > > > > Drivers that don't have e.g. dynamic lane configuration shouldn't need to
-> > > > > implement get_mbus_config.
-> > >
-> > > Not even for staging drivers. The driver should be fixed to get that
-> > > information from the endpoint instead.
-> >
-> > This seems exactly the opposite of what commit
-> > 7318abface48 ("media: imx: Use get_mbus_config instead of parsing upstream DT endpoints")
-> > did.
-> >
-> > Given that I am somehow confused, but I am not that familiar with this
-> > subsystem, so I guess this is expected :-). Can someone provide some
-> > additional hint here?
-> >
-> To be honest my understanding is that this patch has always been
-> needed to work on imx6 and this is not a regression but something that
-> was kept as an out-of-tree patch downstream. Is this correct or is
-> this a regression ?
+On Mo, 2023-03-20 at 11:55 +0200, Laurent Pinchart wrote:
+> On Mon, Mar 20, 2023 at 11:37:33AM +0200, Sakari Ailus wrote:
+> > Hi Laurent,
+> > 
+> > On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
+> > > In a (simplified) nutshell,
+> > > 
+> > > ---------+     +----------+     +---------+     +-----+     +-----+
+> > > > Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
+> > > > Sensor |     |          |     | Gasket  |     |     |     |     |
+> > > ---------+     +----------+     +---------+     +-----+     +-----+
+> > 
+> > Thank you, this is helpful.
+> > 
+> > I suppose the mux here at least won't actively do anything to the data. So
+> > presumably its endpoint won't contain the active configuration, but its
+> > superset.
+> > 
+> > > 
+> > > All those blocks, except for the gasket, have a node in DT.
+> > > 
+> > > The IPU driver needs to know the number of CSI-2 data lanes, which is
+> > > encoded in the data-lanes DT property present in both the sensor output
+> > > endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
+> > > the pipeline.
+> > 
+> > This doesn't yet explain why the sensor would need to implement
+> > get_mbus_config if its bus configuration remains constant.
+> 
+> If I recall correctly, the IPU driver calls .g_mbus_config() on the
+> camera sensor to get the number of lanes, as it can't get it from its
+> own endpoint. That's a hack, and as Jacopo proposed, calling
+> .g_mbus_config() on the CSI-2 RX would be better, as the CSI-2 RX driver
+> can then get the value from its own endpoint, without requiring all
+> sensor drivers to implement .g_mbus_config().
 
-I confirm that v5.18 was/is fine.  Aishwarya: correct? In the end you
-tested it, not me :-)
+The IPU driver doesn't call get_mbus_config, the CSI-2 RX driver does
+(csi2_get_active_lanes in imx6-mipi-csi2.c). It could just fall back to
+looking at its own endpoint if the upstream driver does not implement
+get_mbus_config.
 
-Francesco
+Of course that will only help if the DT contains this information and
+all connected lanes are active.
 
-
+regards
+Philipp
