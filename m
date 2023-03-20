@@ -2,207 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1D4E6C092B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 04:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7396C095C
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 04:38:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbjCTDFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Mar 2023 23:05:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57974 "EHLO
+        id S229652AbjCTDiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Mar 2023 23:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjCTDFM (ORCPT
+        with ESMTP id S229642AbjCTDiW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Mar 2023 23:05:12 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C32E5A260;
-        Sun, 19 Mar 2023 20:05:04 -0700 (PDT)
-X-UUID: fc70cf1ec6cb11edbd2e61cc88cc8f98-20230320
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=dhSguipfVuOwhnwPVARXbd5hUAv5jBoB9wW98IOJQHQ=;
-        b=AuqHOWjJhMB4n+M+dhIR+jv/3dSjfWPpeeapOPeVOKiL+0t1mnz7DnWfDBNbnNx7S2D9ipRERMYRzTp9hjyG5Yj+9uA1WCZyNthRiD5prv6uEzhqj6TTJmsYyWK5AVlH2hSnAKi5IVvofpiG6yG7sE8FumaA9MKUL2JQdF65rsU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.21,REQID:4f3a2c95-c709-48c2-b03f-be931520ce17,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:47,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:47
-X-CID-INFO: VERSION:1.1.21,REQID:4f3a2c95-c709-48c2-b03f-be931520ce17,IP:0,URL
-        :0,TC:0,Content:0,EDM:0,RT:0,SF:47,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-        elease,TS:47
-X-CID-META: VersionHash:83295aa,CLOUDID:43f647f6-ddba-41c3-91d9-10eeade8eac7,B
-        ulkID:230320110456R9X81ZPJ,BulkQuantity:0,Recheck:0,SF:38|29|28|100|17|19|
-        48|101|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,B
-        EC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: fc70cf1ec6cb11edbd2e61cc88cc8f98-20230320
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <yongqiang.niu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 631283772; Mon, 20 Mar 2023 11:04:53 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 20 Mar 2023 11:04:51 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Mon, 20 Mar 2023 11:04:51 +0800
-From:   Yongqiang Niu <yongqiang.niu@mediatek.com>
-To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        CK Hu <ck.hu@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Yongqiang Niu <yongqiang.niu@mediatek.com>
-Subject: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane disable
-Date:   Mon, 20 Mar 2023 11:04:49 +0800
-Message-ID: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,RDNS_NONE,
-        SPF_HELO_PASS,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=no
-        autolearn_force=no version=3.4.6
+        Sun, 19 Mar 2023 23:38:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3476F950
+        for <linux-media@vger.kernel.org>; Sun, 19 Mar 2023 20:38:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A9AA6114B
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 03:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 273A7C433D2
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 03:38:17 +0000 (UTC)
+Date:   Mon, 20 Mar 2023 04:38:16 +0100
+Message-ID: <64f9ed9bb1878862c7ff2f61a5b2a316.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes: 41016fe1028e4 (drm: Rename plane->state variables in atomic update and disable)
-dma buffer release before overlay disable, that will cause
-m4u translation fault warning.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-add dma buffer control flow in mediatek driver:
-get dma buffer when drm plane disable
-put dma buffer when overlay really disable
+Results of the daily build of media_tree:
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 25 ++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 17 ++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
- 3 files changed, 43 insertions(+)
+date:			Mon Mar 20 03:00:08 CET 2023
+media-tree git hash:	ce875a29b1ad5ee54197c0aada74093b6567e36d
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	69968a5e37b54d961553ec268d726dfa4b78d421
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8298-gcfe12a9b-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: ad510d0d6fd0486d26012f5b269d601ecceaaf9a
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 5071f1263216..9cf1c1778868 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/mailbox_controller.h>
- #include <linux/pm_runtime.h>
-@@ -282,6 +283,23 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
- 	return NULL;
- }
- 
-+static void mtk_drm_dma_buf_put(struct mtk_drm_crtc *mtk_crtc)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < mtk_crtc->layer_nr; i++) {
-+		struct drm_plane *plane = &mtk_crtc->planes[i];
-+		struct mtk_plane_state *plane_state;
-+
-+		plane_state = to_mtk_plane_state(plane->state);
-+
-+		if (plane_state && plane_state->pending.dma_buf) {
-+			dma_buf_put(plane_state->pending.dma_buf);
-+			plane_state->pending.dma_buf = NULL;
-+		}
-+	}
-+}
-+
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- {
-@@ -322,6 +340,8 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 		mtk_crtc->pending_async_planes = false;
- 	}
- 
-+	mtk_drm_dma_buf_put(mtk_crtc);
-+
- 	mtk_crtc->cmdq_vblank_cnt = 0;
- 	wake_up(&mtk_crtc->cb_blocking_queue);
- }
-@@ -614,9 +634,14 @@ static void mtk_crtc_ddp_irq(void *data)
- 	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
- 		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
- 			  drm_crtc_index(&mtk_crtc->base));
-+
-+	if (!mtk_crtc->cmdq_client.chan)
-+		mtk_drm_dma_buf_put(mtk_crtc);
- #else
- 	if (!priv->data->shadow_register)
- 		mtk_crtc_ddp_config(crtc, NULL);
-+
-+	mtk_drm_dma_buf_put(mtk_crtc);
- #endif
- 	mtk_drm_finish_page_flip(mtk_crtc);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index d54fbf34b000..c169ca49129c 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <linux/align.h>
-+#include <linux/dma-buf.h>
- 
- #include "mtk_drm_crtc.h"
- #include "mtk_drm_ddp_comp.h"
-@@ -280,6 +281,22 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
- 									   plane);
- 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
-+
-+	if (old_state && old_state->fb) {
-+		struct drm_gem_object *gem = old_state->fb->obj[0];
-+
-+		if (mtk_plane_state->pending.dma_buf) {
-+			dma_buf_put(mtk_plane_state->pending.dma_buf);
-+			mtk_plane_state->pending.dma_buf = NULL;
-+		}
-+
-+		if (gem && gem->dma_buf) {
-+			get_dma_buf(gem->dma_buf);
-+			mtk_plane_state->pending.dma_buf = gem->dma_buf;
-+		}
-+	}
- 	mtk_plane_state->pending.enable = false;
- 	wmb(); /* Make sure the above parameter is set before update */
- 	mtk_plane_state->pending.dirty = true;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-index 8f39011cdbfc..b724e56b7283 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-@@ -33,6 +33,7 @@ struct mtk_plane_pending_state {
- 	bool				async_dirty;
- 	bool				async_config;
- 	enum drm_color_encoding		color_encoding;
-+	struct dma_buf			*dma_buf;
- };
- 
- struct mtk_plane_state {
--- 
-2.25.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Monday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Monday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Monday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
