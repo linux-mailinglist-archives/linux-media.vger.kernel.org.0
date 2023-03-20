@@ -2,69 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2594C6C10C8
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 12:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB7196C10F1
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 12:38:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbjCTL0q convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 20 Mar 2023 07:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
+        id S230214AbjCTLi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 07:38:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbjCTL0m (ORCPT
+        with ESMTP id S231130AbjCTLiX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 07:26:42 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE5B51BFA
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 04:26:40 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1peDen-0004Ow-78; Mon, 20 Mar 2023 12:26:29 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1peDel-005RfN-Aw; Mon, 20 Mar 2023 12:26:27 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1peDek-00073e-LS; Mon, 20 Mar 2023 12:26:26 +0100
-Message-ID: <9b4f0896a3a3e97b44197de263c30f0d31333abd.camel@pengutronix.de>
-Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
-From:   Philipp Zabel <p.zabel@pengutronix.de>
+        Mon, 20 Mar 2023 07:38:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86C0F13D
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 04:38:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 36A88B80E38
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 11:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40528C433EF;
+        Mon, 20 Mar 2023 11:38:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679312297;
+        bh=x26jifIA877ku7ewKfzKLbfZrFX+aeGVPrCt/zpGgPw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=T1vgVMcxLCaBm0T+YuRNgYxro40XiZ6dYhEZt0iGjhspaHpj5NJkjl/6cMPE33XLa
+         moa/X5Kb6oqfDTJJ7ahFLscEmuBkt8sqcZ3v5sJ5e48BB3FNzLAlpcw4yjJj+8BrY6
+         4tl6g64c+FWWzNuLo+0XYtu5D1HxszcUGP9ju4un7aDyd0NdEOhjeftTd5NkslazdH
+         g1vIe4M0xqx0S0qVhh/uLLQhpNRNS0qbWKoYMWoLsQHpwiGFkK+CiX2O6HYDw/pN93
+         W4KDUr/+kXpn4IceoIvjXg2riEqpE1VTItc1jHHgfOqc1sXQvOIPZPfrzf+Hfmf+1z
+         dhkdTFRweUgOQ==
+Date:   Mon, 20 Mar 2023 12:38:11 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marcel Ziswiler <marcel@ziswiler.com>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Francesco Dolcini <francesco.dolcini@toradex.com>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>
-Date:   Mon, 20 Mar 2023 12:26:26 +0100
-In-Reply-To: <20230320095514.GF20234@pendragon.ideasonboard.com>
-References: <20230306063649.7387-1-marcel@ziswiler.com>
-         <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
-         <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
-         <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
-         <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
-         <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
-         <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
-         <20230320092602.GE20234@pendragon.ideasonboard.com>
-         <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
-         <20230320095514.GF20234@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1+deb11u1 
+        Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc:     linux-media@vger.kernel.org, gjasny@googlemail.com,
+        hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
+        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
+        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
+        xavier.claessens@collabora.com, deborah.brouwer@collabora.com,
+        ariel@vanguardiasur.com.ar, ezequiel@vanguardiasur.com.ar,
+        tomi.valkeinen@ideasonboard.com
+Subject: Re: [v4l-utils] [PATCH v10 3/5] meson: Add support for doxygen
+ documentation
+Message-ID: <20230320123811.4b120519@coco.lan>
+In-Reply-To: <20230223164441.22719-4-laurent.pinchart@ideasonboard.com>
+References: <20230223164441.22719-1-laurent.pinchart@ideasonboard.com>
+        <20230223164441.22719-4-laurent.pinchart@ideasonboard.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,49 +62,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mo, 2023-03-20 at 11:55 +0200, Laurent Pinchart wrote:
-> On Mon, Mar 20, 2023 at 11:37:33AM +0200, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
-> > > In a (simplified) nutshell,
-> > > 
-> > > ---------+     +----------+     +---------+     +-----+     +-----+
-> > > > Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
-> > > > Sensor |     |          |     | Gasket  |     |     |     |     |
-> > > ---------+     +----------+     +---------+     +-----+     +-----+
-> > 
-> > Thank you, this is helpful.
-> > 
-> > I suppose the mux here at least won't actively do anything to the data. So
-> > presumably its endpoint won't contain the active configuration, but its
-> > superset.
-> > 
-> > > 
-> > > All those blocks, except for the gasket, have a node in DT.
-> > > 
-> > > The IPU driver needs to know the number of CSI-2 data lanes, which is
-> > > encoded in the data-lanes DT property present in both the sensor output
-> > > endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
-> > > the pipeline.
-> > 
-> > This doesn't yet explain why the sensor would need to implement
-> > get_mbus_config if its bus configuration remains constant.
+Em Thu, 23 Feb 2023 18:44:39 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+
+> From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > 
-> If I recall correctly, the IPU driver calls .g_mbus_config() on the
-> camera sensor to get the number of lanes, as it can't get it from its
-> own endpoint. That's a hack, and as Jacopo proposed, calling
-> .g_mbus_config() on the CSI-2 RX would be better, as the CSI-2 RX driver
-> can then get the value from its own endpoint, without requiring all
-> sensor drivers to implement .g_mbus_config().
 
-The IPU driver doesn't call get_mbus_config, the CSI-2 RX driver does
-(csi2_get_active_lanes in imx6-mipi-csi2.c). It could just fall back to
-looking at its own endpoint if the upstream driver does not implement
-get_mbus_config.
+> +doxygen_install_dir = join_paths(get_option('datadir'), 'doc',
+> +                                 '@0@'.format(meson.project_name()))
+> +
+> +doxygen_output = []
+> +if get_option('doxygen-html')
+> +    doxygen_output += 'html'
+> +endif
+> +if get_option('doxygen-man')
+> +    doxygen_output += 'man'
+> +endif
+> +
+> +custom_target('doxygen',
+> +              input : doxyfile,
+> +              output : doxygen_output,
+> +              command : [prog_doxygen, doxyfile],
+> +              install : true,
+> +              install_dir : doxygen_install_dir)
 
-Of course that will only help if the DT contains this information and
-all connected lanes are active.
+This is not right. It makes man pages to be installed inside:
+	/usr/share/doc/v4l-utils/man/man3
 
-regards
-Philipp
+It should be, instead:
+
+	usr/share/man/man3
+
+I suspect you'll need a separate custom_target for man.
+
+Please fix it ASAP.
+
+Thanks,
+Mauro
