@@ -2,83 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B68B6C0DB0
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85BA36C0DC3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:55:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231251AbjCTJvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42882 "EHLO
+        id S229851AbjCTJzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 05:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231263AbjCTJv3 (ORCPT
+        with ESMTP id S229508AbjCTJzL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:51:29 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CCC81B2C0;
-        Mon, 20 Mar 2023 02:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679305888; x=1710841888;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F5B5AEnVmr1t6vsXHndScG3OO7bIHfDCKGwu/Lz5eR0=;
-  b=VoG2/PdNs6T8RzR6qvn8G/hVFMUmNw3uS6I3TgpbL0ZHruvcDjdkoZ1G
-   aU0p5UBDSyTYzJ86uqfzJ8AVgJWB4iWoyNe/Ez4BrgBlfFmF1yZij73Hd
-   wo/OLPgGDjx5sjZBfyi2tBTB5VT85C9sPLs3qvZpYtejotjzEWoD+y3Kb
-   HQGk7XHPe8tZ2szFfuo1wtZ1OuRlhKREnBzGNJydU38b7CrKODDarmoLF
-   sb5YDgYfElz7m9dJGNCCSq9CgFTTFwKABiYWGbfRoBBiCu/Bqn3Xp0h/H
-   tlf9oeDoFvuVcRfD0v+KPXn4HaKnadlCP0dmMvOfFI37nKPSutoG5hdeK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="319019963"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="319019963"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:51:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="855231116"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="855231116"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:51:25 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 77F64122400;
-        Mon, 20 Mar 2023 11:51:22 +0200 (EET)
-Date:   Mon, 20 Mar 2023 11:51:22 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mon, 20 Mar 2023 05:55:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339CC8A4C;
+        Mon, 20 Mar 2023 02:55:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33B101257;
+        Mon, 20 Mar 2023 10:55:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679306108;
+        bh=EKjW1R7h+yja6osOOOMwfX4qtMew8wgQB1kQ/QcnDA4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QlYZ/6zgLyhtixQ1oN2VTaAMtAR1L/5xZ2gU8sHqJRjuYyyvFlzfrevArxn6EBg8n
+         MNiqv+qNdc9xnj6mkJqrC2GTLFPyUmz4tLRYpvyceUzBIpohfgz9PW9D7ewY3RF7qe
+         Q6hcyLO4w7IebBC51RZz6PeAiGyJz+WQ2r/SOjsw=
+Date:   Mon, 20 Mar 2023 11:55:14 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] media: i2c: imx290: fix conditional function defintions
-Message-ID: <ZBgsmvZDJmhGGrmU@kekkonen.localdomain>
-References: <20230207161316.293923-1-arnd@kernel.org>
- <Y+J+7lsf083k4x80@pendragon.ideasonboard.com>
- <c5383d0e-d33c-d59f-3ee6-4635c1c4d334@leemhuis.info>
- <ZBgoHvg3kxsVoSzg@kekkonen.localdomain>
- <84540c66-166e-067a-e1d9-961234640d2e@leemhuis.info>
- <810afc81-57e3-17ea-c624-34a157602d1f@leemhuis.info>
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
+Message-ID: <20230320095514.GF20234@pendragon.ideasonboard.com>
+References: <20230306063649.7387-1-marcel@ziswiler.com>
+ <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
+ <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
+ <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
+ <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
+ <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
+ <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
+ <20230320092602.GE20234@pendragon.ideasonboard.com>
+ <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <810afc81-57e3-17ea-c624-34a157602d1f@leemhuis.info>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 10:46:45AM +0100, Thorsten Leemhuis wrote:
-> Argh, ohh no, it's there. Sorry for the noise. Second time something
-> like this happens today. Seems today is not my best day. :-/
+On Mon, Mar 20, 2023 at 11:37:33AM +0200, Sakari Ailus wrote:
+> Hi Laurent,
+> 
+> On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
+> > In a (simplified) nutshell,
+> > 
+> > ---------+     +----------+     +---------+     +-----+     +-----+
+> > | Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
+> > | Sensor |     |          |     | Gasket  |     |     |     |     |
+> > ---------+     +----------+     +---------+     +-----+     +-----+
+> 
+> Thank you, this is helpful.
+> 
+> I suppose the mux here at least won't actively do anything to the data. So
+> presumably its endpoint won't contain the active configuration, but its
+> superset.
+> 
+> > 
+> > All those blocks, except for the gasket, have a node in DT.
+> > 
+> > The IPU driver needs to know the number of CSI-2 data lanes, which is
+> > encoded in the data-lanes DT property present in both the sensor output
+> > endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
+> > the pipeline.
+> 
+> This doesn't yet explain why the sensor would need to implement
+> get_mbus_config if its bus configuration remains constant.
 
-No worries!
+If I recall correctly, the IPU driver calls .g_mbus_config() on the
+camera sensor to get the number of lanes, as it can't get it from its
+own endpoint. That's a hack, and as Jacopo proposed, calling
+.g_mbus_config() on the CSI-2 RX would be better, as the CSI-2 RX driver
+can then get the value from its own endpoint, without requiring all
+sensor drivers to implement .g_mbus_config().
+
+> I suppose those blocks in between would probably need something to convey
+> their active configuration from upstream sub-devices.
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
