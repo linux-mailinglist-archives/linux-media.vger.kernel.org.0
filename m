@@ -2,201 +2,355 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83AB26C0AB5
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 07:35:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F1C6C0ACA
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 07:41:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbjCTGfC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 02:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35880 "EHLO
+        id S229959AbjCTGlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 02:41:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbjCTGeq (ORCPT
+        with ESMTP id S229592AbjCTGld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 02:34:46 -0400
-Received: from smtp.gentoo.org (mail.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA267296;
-        Sun, 19 Mar 2023 23:34:42 -0700 (PDT)
-Message-ID: <70323408-b823-1f1a-0202-434e6243b2af@gentoo.org>
-Date:   Mon, 20 Mar 2023 07:34:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-From:   zzam@gentoo.org
-Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
-Content-Language: en-GB
-In-Reply-To: <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 20 Mar 2023 02:41:33 -0400
+Received: from mail.nfschina.com (unknown [42.101.60.237])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B40BEC56;
+        Sun, 19 Mar 2023 23:41:30 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mail.nfschina.com (Postfix) with ESMTP id 1D8A41A00A79;
+        Mon, 20 Mar 2023 14:41:31 +0800 (CST)
+X-Virus-Scanned: amavisd-new at nfschina.com
+Received: from mail.nfschina.com ([127.0.0.1])
+        by localhost (localhost.localdomain [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id hwkE0LwDQW1n; Mon, 20 Mar 2023 14:41:30 +0800 (CST)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+        (Authenticated sender: yuzhe@nfschina.com)
+        by mail.nfschina.com (Postfix) with ESMTPA id A56951A00940;
+        Mon, 20 Mar 2023 14:41:29 +0800 (CST)
+From:   Yu Zhe <yuzhe@nfschina.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, liqiong@nfschina.com,
+        Yu Zhe <yuzhe@nfschina.com>
+Subject: [PATCH] media: dvb: remove unnecessary (void*) conversions
+Date:   Mon, 20 Mar 2023 14:40:39 +0800
+Message-Id: <20230320064039.5670-1-yuzhe@nfschina.com>
+X-Mailer: git-send-email 2.11.0
+X-Spam-Status: No, score=0.2 required=5.0 tests=BAYES_00,RCVD_IN_VALIDITY_RPBL,
+        RDNS_NONE,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some inline comments below.
+Pointer variables of void * type do not require type cast.
 
-Regards
-Matthias
+Signed-off-by: Yu Zhe <yuzhe@nfschina.com>
+---
+ drivers/media/usb/dvb-usb/af9005-fe.c  |  3 +--
+ drivers/media/usb/dvb-usb/az6027.c     | 34 +++++++++++++++++-----------------
+ drivers/media/usb/dvb-usb/dtt200u-fe.c |  2 +-
+ drivers/media/usb/dvb-usb/dw2102.c     | 20 ++++++++------------
+ drivers/media/usb/dvb-usb/opera1.c     |  3 +--
+ drivers/media/usb/dvb-usb/pctv452e.c   | 20 ++++++++++----------
+ 6 files changed, 38 insertions(+), 44 deletions(-)
 
-Am 22.02.23 um 14:29 schrieb Tomi Valkeinen:
-> From: Luca Ceresoli <luca@lucaceresoli.net>
-> 
-> An ATR is a device that looks similar to an i2c-mux: it has an I2C
-> slave "upstream" port and N master "downstream" ports, and forwards
-> transactions from upstream to the appropriate downstream port. But it
-> is different in that the forwarded transaction has a different slave
-> address. The address used on the upstream bus is called the "alias"
-> and is (potentially) different from the physical slave address of the
-> downstream chip.
-> 
-> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
-> implementing ATR features in a device driver. The helper takes care or
-> adapter creation/destruction and translates addresses at each transaction.
-> 
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   Documentation/i2c/index.rst         |   1 +
->   Documentation/i2c/muxes/i2c-atr.rst |  97 +++++
->   MAINTAINERS                         |   8 +
->   drivers/i2c/Kconfig                 |   9 +
->   drivers/i2c/Makefile                |   1 +
->   drivers/i2c/i2c-atr.c               | 548 ++++++++++++++++++++++++++++
->   include/linux/i2c-atr.h             | 116 ++++++
->   7 files changed, 780 insertions(+)
->   create mode 100644 Documentation/i2c/muxes/i2c-atr.rst
->   create mode 100644 drivers/i2c/i2c-atr.c
->   create mode 100644 include/linux/i2c-atr.h
-> 
-[...]
-> diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
-> new file mode 100644
-> index 000000000000..5ab890b83670
-> --- /dev/null
-> +++ b/drivers/i2c/i2c-atr.c
-> @@ -0,0 +1,548 @@
-[...]
-> +
-> +/*
-> + * Replace all message addresses with their aliases, saving the original
-> + * addresses.
-> + *
-> + * This function is internal for use in i2c_atr_master_xfer(). It must be
-> + * followed by i2c_atr_unmap_msgs() to restore the original addresses.
-> + */
-> +static int i2c_atr_map_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
-> +			    int num)
-> +{
-> +	struct i2c_atr *atr = chan->atr;
-> +	static struct i2c_atr_cli2alias_pair *c2a;
-> +	int i;
-> +
-> +	/* Ensure we have enough room to save the original addresses */
-> +	if (unlikely(chan->orig_addrs_size < num)) {
-> +		u16 *new_buf;
-> +
-> +		/* We don't care about old data, hence no realloc() */
-> +		new_buf = kmalloc_array(num, sizeof(*new_buf), GFP_KERNEL);
-> +		if (!new_buf)
-> +			return -ENOMEM;
-> +
-> +		kfree(chan->orig_addrs);
-> +		chan->orig_addrs = new_buf;
-> +		chan->orig_addrs_size = num;
-> +	}
-> +
-> +	for (i = 0; i < num; i++) {
-> +		chan->orig_addrs[i] = msgs[i].addr;
-> +
-> +		c2a = i2c_atr_find_mapping_by_addr(&chan->alias_list,
-> +						   msgs[i].addr);
-> +		if (!c2a) {
-> +			dev_err(atr->dev, "client 0x%02x not mapped!\n",
-> +				msgs[i].addr);
-> +			return -ENXIO;
-I miss the roll-back of previously modified msgs[].addr values.
-
-> +		}
-> +
-> +		msgs[i].addr = c2a->alias;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Restore all message address aliases with the original addresses. This
-> + * function is internal for use in i2c_atr_master_xfer().
-> + *
-> + * @see i2c_atr_map_msgs()
-> + */
-> +static void i2c_atr_unmap_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
-> +			       int num)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < num; i++)
-> +		msgs[i].addr = chan->orig_addrs[i];
-Does this code needs null and size checks for orig_addrs/orig_addrs_size 
-to protect from oopses?
-This cannot happen now as i2c_atr_master_xfer returns early when 
-i2c_atr_map_msgs fails.
-
-> +}
-> +
-> +static int i2c_atr_master_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
-> +			       int num)
-> +{
-> +	struct i2c_atr_chan *chan = adap->algo_data;
-> +	struct i2c_atr *atr = chan->atr;
-> +	struct i2c_adapter *parent = atr->parent;
-> +	int ret;
-> +
-> +	/* Translate addresses */
-> +	mutex_lock(&chan->orig_addrs_lock);
-> +
-> +	ret = i2c_atr_map_msgs(chan, msgs, num);
-> +	if (ret < 0)
-> +		goto err_unlock;
-> +
-> +	/* Perform the transfer */
-> +	ret = i2c_transfer(parent, msgs, num);
-> +
-> +	/* Restore addresses */
-> +	i2c_atr_unmap_msgs(chan, msgs, num);
-> +
-> +err_unlock:
-> +	mutex_unlock(&chan->orig_addrs_lock);
-> +
-> +	return ret;
-> +}
-> +
-[...]
-
+diff --git a/drivers/media/usb/dvb-usb/af9005-fe.c b/drivers/media/usb/dvb-usb/af9005-fe.c
+index 9d6fa0556d7b..404e56b32145 100644
+--- a/drivers/media/usb/dvb-usb/af9005-fe.c
++++ b/drivers/media/usb/dvb-usb/af9005-fe.c
+@@ -1412,8 +1412,7 @@ static int af9005_fe_get_frontend(struct dvb_frontend *fe,
+ 
+ static void af9005_fe_release(struct dvb_frontend *fe)
+ {
+-	struct af9005_fe_state *state =
+-	    (struct af9005_fe_state *)fe->demodulator_priv;
++	struct af9005_fe_state *state = fe->demodulator_priv;
+ 	kfree(state);
+ }
+ 
+diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
+index 7d78ee09be5e..9d0847190748 100644
+--- a/drivers/media/usb/dvb-usb/az6027.c
++++ b/drivers/media/usb/dvb-usb/az6027.c
+@@ -407,8 +407,8 @@ static int az6027_ci_read_attribute_mem(struct dvb_ca_en50221 *ca,
+ 					int slot,
+ 					int address)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 
+ 	int ret;
+ 	u8 req;
+@@ -449,8 +449,8 @@ static int az6027_ci_write_attribute_mem(struct dvb_ca_en50221 *ca,
+ 					 int address,
+ 					 u8 value)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 
+ 	int ret;
+ 	u8 req;
+@@ -480,8 +480,8 @@ static int az6027_ci_read_cam_control(struct dvb_ca_en50221 *ca,
+ 				      int slot,
+ 				      u8 address)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 
+ 	int ret;
+ 	u8 req;
+@@ -526,8 +526,8 @@ static int az6027_ci_write_cam_control(struct dvb_ca_en50221 *ca,
+ 				       u8 address,
+ 				       u8 value)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 
+ 	int ret;
+ 	u8 req;
+@@ -557,7 +557,7 @@ static int az6027_ci_write_cam_control(struct dvb_ca_en50221 *ca,
+ 
+ static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
++	struct dvb_usb_device *d = ca->data;
+ 
+ 	int ret;
+ 	u8 req;
+@@ -588,8 +588,8 @@ static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
+ 
+ static int az6027_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 
+ 	int ret, i;
+ 	u8 req;
+@@ -644,8 +644,8 @@ static int az6027_ci_slot_shutdown(struct dvb_ca_en50221 *ca, int slot)
+ 
+ static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 
+ 	int ret;
+ 	u8 req;
+@@ -673,8 +673,8 @@ static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
+ 
+ static int az6027_ci_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct az6027_device_state *state = d->priv;
+ 	int ret;
+ 	u8 req;
+ 	u16 value;
+@@ -719,7 +719,7 @@ static void az6027_ci_uninit(struct dvb_usb_device *d)
+ 	if (NULL == d)
+ 		return;
+ 
+-	state = (struct az6027_device_state *)d->priv;
++	state = d->priv;
+ 	if (NULL == state)
+ 		return;
+ 
+@@ -735,7 +735,7 @@ static void az6027_ci_uninit(struct dvb_usb_device *d)
+ static int az6027_ci_init(struct dvb_usb_adapter *a)
+ {
+ 	struct dvb_usb_device *d = a->dev;
+-	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
++	struct az6027_device_state *state = d->priv;
+ 	int ret;
+ 
+ 	deb_info("%s", __func__);
+diff --git a/drivers/media/usb/dvb-usb/dtt200u-fe.c b/drivers/media/usb/dvb-usb/dtt200u-fe.c
+index 9f83560ba63d..586afe22d817 100644
+--- a/drivers/media/usb/dvb-usb/dtt200u-fe.c
++++ b/drivers/media/usb/dvb-usb/dtt200u-fe.c
+@@ -195,7 +195,7 @@ static int dtt200u_fe_get_frontend(struct dvb_frontend* fe,
+ 
+ static void dtt200u_fe_release(struct dvb_frontend* fe)
+ {
+-	struct dtt200u_fe_state *state = (struct dtt200u_fe_state*) fe->demodulator_priv;
++	struct dtt200u_fe_state *state = fe->demodulator_priv;
+ 	kfree(state);
+ }
+ 
+diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
+index 0ca764282c76..0477f024e585 100644
+--- a/drivers/media/usb/dvb-usb/dw2102.c
++++ b/drivers/media/usb/dvb-usb/dw2102.c
+@@ -903,7 +903,7 @@ static int su3000_streaming_ctrl(struct dvb_usb_adapter *adap, int onoff)
+ 
+ static int su3000_power_ctrl(struct dvb_usb_device *d, int i)
+ {
+-	struct dw2102_state *state = (struct dw2102_state *)d->priv;
++	struct dw2102_state *state = d->priv;
+ 	int ret = 0;
+ 
+ 	info("%s: %d, initialized %d", __func__, i, state->initialized);
+@@ -978,8 +978,7 @@ static int dw210x_set_voltage(struct dvb_frontend *fe,
+ 		.len = 2,
+ 	};
+ 
+-	struct dvb_usb_adapter *udev_adap =
+-		(struct dvb_usb_adapter *)(fe->dvb->priv);
++	struct dvb_usb_adapter *udev_adap = fe->dvb->priv;
+ 	if (voltage == SEC_VOLTAGE_18)
+ 		msg.buf = command_18v;
+ 	else if (voltage == SEC_VOLTAGE_13)
+@@ -993,9 +992,8 @@ static int dw210x_set_voltage(struct dvb_frontend *fe,
+ static int s660_set_voltage(struct dvb_frontend *fe,
+ 			    enum fe_sec_voltage voltage)
+ {
+-	struct dvb_usb_adapter *d =
+-		(struct dvb_usb_adapter *)(fe->dvb->priv);
+-	struct dw2102_state *st = (struct dw2102_state *)d->dev->priv;
++	struct dvb_usb_adapter *d = fe->dvb->priv;
++	struct dw2102_state *st = d->dev->priv;
+ 
+ 	dw210x_set_voltage(fe, voltage);
+ 	if (st->old_set_voltage)
+@@ -1014,8 +1012,7 @@ static void dw210x_led_ctrl(struct dvb_frontend *fe, int offon)
+ 		.buf = led_off,
+ 		.len = 1
+ 	};
+-	struct dvb_usb_adapter *udev_adap =
+-		(struct dvb_usb_adapter *)(fe->dvb->priv);
++	struct dvb_usb_adapter *udev_adap = fe->dvb->priv;
+ 
+ 	if (offon)
+ 		msg.buf = led_on;
+@@ -1025,9 +1022,8 @@ static void dw210x_led_ctrl(struct dvb_frontend *fe, int offon)
+ static int tt_s2_4600_read_status(struct dvb_frontend *fe,
+ 				  enum fe_status *status)
+ {
+-	struct dvb_usb_adapter *d =
+-		(struct dvb_usb_adapter *)(fe->dvb->priv);
+-	struct dw2102_state *st = (struct dw2102_state *)d->dev->priv;
++	struct dvb_usb_adapter *d = fe->dvb->priv;
++	struct dw2102_state *st = d->dev->priv;
+ 	int ret;
+ 
+ 	ret = st->fe_read_status(fe, status);
+@@ -2576,7 +2572,7 @@ static int dw2102_probe(struct usb_interface *intf,
+ static void dw2102_disconnect(struct usb_interface *intf)
+ {
+ 	struct dvb_usb_device *d = usb_get_intfdata(intf);
+-	struct dw2102_state *st = (struct dw2102_state *)d->priv;
++	struct dw2102_state *st = d->priv;
+ 	struct i2c_client *client;
+ 
+ 	/* remove I2C client for tuner */
+diff --git a/drivers/media/usb/dvb-usb/opera1.c b/drivers/media/usb/dvb-usb/opera1.c
+index 0da86f58aff6..98b2177667d2 100644
+--- a/drivers/media/usb/dvb-usb/opera1.c
++++ b/drivers/media/usb/dvb-usb/opera1.c
+@@ -172,8 +172,7 @@ static int opera1_set_voltage(struct dvb_frontend *fe,
+ 	struct i2c_msg msg[] = {
+ 		{.addr = ADDR_B600_VOLTAGE_13V,.flags = 0,.buf = command_13v,.len = 1},
+ 	};
+-	struct dvb_usb_adapter *udev_adap =
+-	    (struct dvb_usb_adapter *)(fe->dvb->priv);
++	struct dvb_usb_adapter *udev_adap = fe->dvb->priv;
+ 	if (voltage == SEC_VOLTAGE_18) {
+ 		msg[0].addr = ADDR_B601_VOLTAGE_18V;
+ 		msg[0].buf = command_18v;
+diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
+index f0794c68c622..445aabde61e9 100644
+--- a/drivers/media/usb/dvb-usb/pctv452e.c
++++ b/drivers/media/usb/dvb-usb/pctv452e.c
+@@ -106,7 +106,7 @@ struct pctv452e_state {
+ static int tt3650_ci_msg(struct dvb_usb_device *d, u8 cmd, u8 *data,
+ 			 unsigned int write_len, unsigned int read_len)
+ {
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct pctv452e_state *state = d->priv;
+ 	u8 *buf;
+ 	u8 id;
+ 	unsigned int rlen;
+@@ -157,8 +157,8 @@ static int tt3650_ci_msg_locked(struct dvb_ca_en50221 *ca,
+ 				u8 cmd, u8 *data, unsigned int write_len,
+ 				unsigned int read_len)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct pctv452e_state *state = d->priv;
+ 	int ret;
+ 
+ 	mutex_lock(&state->ca_mutex);
+@@ -290,8 +290,8 @@ static int tt3650_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
+ 
+ static int tt3650_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
+ {
+-	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct dvb_usb_device *d = ca->data;
++	struct pctv452e_state *state = d->priv;
+ 	u8 buf[1];
+ 	int ret;
+ 
+@@ -359,7 +359,7 @@ static void tt3650_ci_uninit(struct dvb_usb_device *d)
+ 	if (NULL == d)
+ 		return;
+ 
+-	state = (struct pctv452e_state *)d->priv;
++	state = d->priv;
+ 	if (NULL == state)
+ 		return;
+ 
+@@ -377,7 +377,7 @@ static void tt3650_ci_uninit(struct dvb_usb_device *d)
+ static int tt3650_ci_init(struct dvb_usb_adapter *a)
+ {
+ 	struct dvb_usb_device *d = a->dev;
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct pctv452e_state *state = d->priv;
+ 	int ret;
+ 
+ 	ci_dbg("%s", __func__);
+@@ -415,7 +415,7 @@ static int pctv452e_i2c_msg(struct dvb_usb_device *d, u8 addr,
+ 				const u8 *snd_buf, u8 snd_len,
+ 				u8 *rcv_buf, u8 rcv_len)
+ {
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct pctv452e_state *state = d->priv;
+ 	u8 *buf;
+ 	u8 id;
+ 	int ret;
+@@ -514,7 +514,7 @@ static u32 pctv452e_i2c_func(struct i2c_adapter *adapter)
+ 
+ static int pctv452e_power_ctrl(struct dvb_usb_device *d, int i)
+ {
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct pctv452e_state *state = d->priv;
+ 	u8 *b0, *rx;
+ 	int ret;
+ 
+@@ -565,7 +565,7 @@ static int pctv452e_power_ctrl(struct dvb_usb_device *d, int i)
+ 
+ static int pctv452e_rc_query(struct dvb_usb_device *d)
+ {
+-	struct pctv452e_state *state = (struct pctv452e_state *)d->priv;
++	struct pctv452e_state *state = d->priv;
+ 	u8 *b, *rx;
+ 	int ret, i;
+ 	u8 id;
+-- 
+2.11.0
 
