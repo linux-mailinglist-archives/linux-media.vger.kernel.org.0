@@ -2,117 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D61866C0D7E
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C79F66C0D8F
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:42:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231392AbjCTJiQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:38:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53750 "EHLO
+        id S231148AbjCTJmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 05:42:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231263AbjCTJhx (ORCPT
+        with ESMTP id S230380AbjCTJmY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:37:53 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBEA823D8C;
-        Mon, 20 Mar 2023 02:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679305061; x=1710841061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tgSBiNMlvox8p9HFIVHyf8lm+Mh/0Js79g7+/dJk32s=;
-  b=ISdDfwmNhP/JzbCvk5ah5iycy57uSdrH86AXlia4PYtzkfuyNz8aGErC
-   bPdk9BmqN++0bs7f4s4OlXVaafQBeIipbbzCxUdd95LR8QOK6La95F9zO
-   pOqGiPc4+XB3ll1yVEUyAlF2xu8sWzcPml3noOt4LdCNyn0i9Lv5T15GU
-   LHf03qIM4JdCQBTKSePXJZb5l7MamdsK36oFffJHOit88L0meWCe4+sy9
-   rIlGAAE00/J43tdcItCMJPEVPuom0xIMBxcxiFMqJJZhhMaVrwTOx65m1
-   3/97XWXD7GmJj0PxT7dPXLdl5QymE07jy2Px5vodliBTJr9JwtNajQwOu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="366333512"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="366333512"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:37:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="631064558"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="631064558"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:37:36 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 6B5C5122400;
-        Mon, 20 Mar 2023 11:37:33 +0200 (EET)
-Date:   Mon, 20 Mar 2023 11:37:33 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marcel Ziswiler <marcel@ziswiler.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        Francesco Dolcini <francesco.dolcini@toradex.com>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
-Message-ID: <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
-References: <20230306063649.7387-1-marcel@ziswiler.com>
- <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
- <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
- <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
- <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
- <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
- <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
- <20230320092602.GE20234@pendragon.ideasonboard.com>
+        Mon, 20 Mar 2023 05:42:24 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD82149AA;
+        Mon, 20 Mar 2023 02:42:23 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1peC1x-0001Q1-WE; Mon, 20 Mar 2023 10:42:18 +0100
+Message-ID: <84540c66-166e-067a-e1d9-961234640d2e@leemhuis.info>
+Date:   Mon, 20 Mar 2023 10:42:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230320092602.GE20234@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: i2c: imx290: fix conditional function defintions
+Content-Language: en-US, de-DE
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Arnd Bergmann <arnd@kernel.org>
+References: <20230207161316.293923-1-arnd@kernel.org>
+ <Y+J+7lsf083k4x80@pendragon.ideasonboard.com>
+ <c5383d0e-d33c-d59f-3ee6-4635c1c4d334@leemhuis.info>
+ <ZBgoHvg3kxsVoSzg@kekkonen.localdomain>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <ZBgoHvg3kxsVoSzg@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1679305343;b7ccaf3b;
+X-HE-SMSGID: 1peC1x-0001Q1-WE
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
-> In a (simplified) nutshell,
+On 20.03.23 10:32, Sakari Ailus wrote:
+> On Mon, Mar 20, 2023 at 10:18:23AM +0100, Linux regression tracking (Thorsten Leemhuis) wrote:
+>> On 07.02.23 17:40, Laurent Pinchart wrote:
+>>> On Tue, Feb 07, 2023 at 05:13:12PM +0100, Arnd Bergmann wrote:
+>>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>>
+>>>> The runtime suspend/resume functions are only referenced from the
+>>>> dev_pm_ops, but they use the old SET_RUNTIME_PM_OPS() helper
+>>>> that requires a __maybe_unused annotation to avoid a warning:
+>>>>
+>>>> drivers/media/i2c/imx290.c:1082:12: error: unused function 'imx290_runtime_resume' [-Werror,-Wunused-function]
+>>>> static int imx290_runtime_resume(struct device *dev)
+>>>>            ^
+>>>> drivers/media/i2c/imx290.c:1090:12: error: unused function 'imx290_runtime_suspend' [-Werror,-Wunused-function]
+>>>> static int imx290_runtime_suspend(struct device *dev)
+>>>>            ^
+>>>>
+>>
+>> I might be missing something (if so, please tell me), but to me it looks
+>>  this fix for a build issue in 6.3-rc (which shows up in Guenters weekly
+>> reports to Linus) didn't make any progress in the past few weeks. Is
+>> there a reason why? Who actually needs to pick it up and send it towards
+>> mainline? Manivannan Sadhasivam? Sakari Ailus?
 > 
-> ---------+     +----------+     +---------+     +-----+     +-----+
-> | Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
-> | Sensor |     |          |     | Gasket  |     |     |     |     |
-> ---------+     +----------+     +---------+     +-----+     +-----+
+> Mauro has recently pulled my PR including this and I understand it's in
+> Mauro's tree now.
 
-Thank you, this is helpful.
+Ahh, great, many thx.
 
-I suppose the mux here at least won't actively do anything to the data. So
-presumably its endpoint won't contain the active configuration, but its
-superset.
+I checked Linux-next before writing my mail, but didn't sport it there. :-/
 
-> 
-> All those blocks, except for the gasket, have a node in DT.
-> 
-> The IPU driver needs to know the number of CSI-2 data lanes, which is
-> encoded in the data-lanes DT property present in both the sensor output
-> endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
-> the pipeline.
-
-This doesn't yet explain why the sensor would need to implement
-get_mbus_config if its bus configuration remains constant.
-
-I suppose those blocks in between would probably need something to convey
-their active configuration from upstream sub-devices.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Ciao, Thorsten
