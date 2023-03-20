@@ -2,93 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A7766C0D2E
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C56C6C0D3B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:26:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231320AbjCTJY2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:24:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55418 "EHLO
+        id S231349AbjCTJ0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 05:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbjCTJX4 (ORCPT
+        with ESMTP id S231363AbjCTJ0V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:23:56 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4066C193FD;
-        Mon, 20 Mar 2023 02:23:38 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id DAECC66015F1;
-        Mon, 20 Mar 2023 09:23:35 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679304216;
-        bh=kLvg39Gaq3ED8iaOlpcmqwM+ANaZdEUpeHZ6xeDIhuU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=BM3SozDIU+HOpZ4vQEVxgOpyG3uXs4uOSCEw/s3e5vIlqAogkS0jXUEQcTW8oFysn
-         rfD7/qrIwRvJ9qge9FuEvzVcCG3/ebS3Iaw4S377uU0leeDvlecpJUoM2sqX6zwKGo
-         p+Q+T6eRn4M96IQunabLTIGGaR59+pMlE0yz8syY9jqbf/R1dtT2HpOpg3VrbsRRCD
-         9MLqJ8mcMNcBTZjnxrYg/TY55hEmLSmrP9YhA8hSTT8rhBR1tJvclYQs4GTiuuDmVQ
-         FHsc3qTrgdNOP9ZPkgm4A9Zq1he+gpnEeOql80mmuPijVi497gA732e5YEFE2PteTU
-         NpV293LM8BMxw==
-Message-ID: <7a651e39-aab6-1723-c28f-756756ae74e3@collabora.com>
-Date:   Mon, 20 Mar 2023 10:23:33 +0100
+        Mon, 20 Mar 2023 05:26:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2EC1B310;
+        Mon, 20 Mar 2023 02:25:59 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 683DE1373;
+        Mon, 20 Mar 2023 10:25:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679304356;
+        bh=NRHdhr96GXIu/JRCjQ4FWahWSvR/JER4dOEX/u9PRhc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=i+K17dqo9Eg1XqkM5Agv3ZmiJJaHWkm08uUSAHUDnyxDQRTYCSuW2rMEcMI0h3iY+
+         waAz8IReAMHpqFSML8BDlM57gghzm+AOcxWdtNkPOWS8P2AiMuMXlnb2jhKMKrHxbR
+         S7EL0Cjictk+9NpLyLJSzkfWZN9QPO3a/T98arWg=
+Date:   Mon, 20 Mar 2023 11:26:02 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
+Message-ID: <20230320092602.GE20234@pendragon.ideasonboard.com>
+References: <20230306063649.7387-1-marcel@ziswiler.com>
+ <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
+ <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
+ <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
+ <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
+ <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
+ <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane
- disable
-Content-Language: en-US
-To:     Yongqiang Niu <yongqiang.niu@mediatek.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        CK Hu <ck.hu@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Hsin-Yi Wang <hsinyi@chromium.org>
-References: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 20/03/23 04:04, Yongqiang Niu ha scritto:
-> Fixes: 41016fe1028e4 (drm: Rename plane->state variables in atomic update and disable)
-> dma buffer release before overlay disable, that will cause
-> m4u translation fault warning.
+On Mon, Mar 20, 2023 at 11:00:36AM +0200, Sakari Ailus wrote:
+> On Mon, Mar 20, 2023 at 09:48:44AM +0100, Jacopo Mondi wrote:
+> > On Tue, Mar 14, 2023 at 01:59:06PM +0100, Francesco Dolcini wrote:
+> > > On Tue, Mar 14, 2023 at 02:45:53PM +0200, Sakari Ailus wrote:
+> > > > On Tue, Mar 14, 2023 at 01:32:16PM +0100, Francesco Dolcini wrote:
+> > > > > On Tue, Mar 14, 2023 at 02:13:46PM +0200, Sakari Ailus wrote:
+> > > > > > On Mon, Mar 06, 2023 at 07:36:49AM +0100, Marcel Ziswiler wrote:
+> > > > > > > From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+> > > > > > >
+> > > > > > > Implement the introduced get_mbus_config operation to report the
+> > > > > > > config of the MIPI CSI-2, BT.656 and Parallel interface.
+> > > > > > >
+> > > > > > > Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+> > > > > > > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> > > > > >
+> > > > > > What's the reasoning for this patch?
+> > > > >
+> > > > > Without this it's not possible to use it on i.MX6,
+> > > > > drivers/staging/media/imx/imx6-mipi-csi2.c requires it, some more
+> > > > > details from Jacopo here [0].
+> > > > >
+> > > > > Everything used to work fine up to v5.18, after that kernel version
+> > > > > various changes broke it [1][2] (I assume you are pretty much aware of
+> > > > > the history here, you commented on a few emails).
+> > > > >
+> > > > > [0] https://lore.kernel.org/all/20230128100611.7ulsfqqqgscg54gy@uno.localdomain/
+> > > > > [1] https://lore.kernel.org/all/081cc2d3-1f3a-6c14-6dc7-53f976be7b2b@gmail.com/
+> > > > > [2] https://lore.kernel.org/all/cacfe146-101b-35b3-5f66-1a1cabfd342f@gmail.com/
+> > > > >
+> > > > > > Drivers that don't have e.g. dynamic lane configuration shouldn't need to
+> > > > > > implement get_mbus_config.
+> > > >
+> > > > Not even for staging drivers. The driver should be fixed to get that
+> > > > information from the endpoint instead.
+> > >
+> > > This seems exactly the opposite of what commit
+> > > 7318abface48 ("media: imx: Use get_mbus_config instead of parsing upstream DT endpoints")
+> > > did.
+> > >
+> > > Given that I am somehow confused, but I am not that familiar with this
+> > > subsystem, so I guess this is expected :-). Can someone provide some
+> > > additional hint here?
+> > >
+> > 
+> > As per my understanding, the i.MX6 IPU CSI driver connects to the
+> > CSI-2 receiver and/or two video muxes. One figure's worth a thousands
+> > words: "Figure 19-1. CSI2IPU gasket connectivity" of the IMX6DQRM TRM.
 > 
-> add dma buffer control flow in mediatek driver:
-> get dma buffer when drm plane disable
-> put dma buffer when overlay really disable
+> I don't have that document.
+
+https://www.nxp.com/webapp/Download?colCode=IMX6DQRM
+
+You'll need a user account on nxp.com though.
+
+> > So the local endpoint might not provide the required information on
+> > the bus configuration as it connects to a video-mux.
+> > 
+> > That's why the imx_media_pipeline_subdev() helper is used in
+> > csi_get_upstream_mbus_config().
+> > 
+> > My gut feeling is that it would be better to always call
+> > get_mbus_config() on the next subdev (the mux or the CSI-2 rx) and
+> > there parse the local endpoint as it's the mux or the CSI-2 rx that
+> > connect to the actual source.
 > 
+> Isn't this still a different endpoint in DT? I understand you have a single
+> pad with two links?
 
-The Fixes tag currently has wrong format, and it goes here, not at the beginning;
-Please fix.
+In a (simplified) nutshell,
 
-P.S. The right format is:
-Fixes: commitid ("commit title")
+---------+     +----------+     +---------+     +-----+     +-----+
+| Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
+| Sensor |     |          |     | Gasket  |     |     |     |     |
+---------+     +----------+     +---------+     +-----+     +-----+
 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+All those blocks, except for the gasket, have a node in DT.
 
+The IPU driver needs to know the number of CSI-2 data lanes, which is
+encoded in the data-lanes DT property present in both the sensor output
+endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
+the pipeline.
 
+-- 
 Regards,
-Angelo
 
+Laurent Pinchart
