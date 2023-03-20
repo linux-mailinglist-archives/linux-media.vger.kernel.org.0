@@ -2,94 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DADE6C0F01
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 11:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9F236C0FD9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 11:56:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbjCTKfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 06:35:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50718 "EHLO
+        id S230341AbjCTK4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 06:56:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbjCTKfX (ORCPT
+        with ESMTP id S230321AbjCTK4B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 06:35:23 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BB216306
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 03:34:49 -0700 (PDT)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 40F4B660308E;
-        Mon, 20 Mar 2023 10:34:45 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679308485;
-        bh=hpKGeEtlUThflQqRo4j1owubo31EL47Kslfe/FkC974=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PzEKWEwMv5DA/i8wzaoToelcVJYLS2qxo/Ms9fPtiMd0iRS0R+h8p6ZM8zNJbzPIv
-         axRMUb1/35L23nmNmM8x7hZEY9NMaN2V0C/cEJBbg6ogjdpbDM2oSdELMJNyhLyWFa
-         Ik2gkrYsjTV28SEXje7P0ssV7hZ6iKltdG3QCPcPQhhhs6kTbw/XerySj75ProV8jB
-         soTjcWlWhG2mABm1WQEumVpXbhkqzvcqpqJxjheCiNONZAbca7NNeEWw3nmcHnYfhs
-         Al957GRKRlhxejQynYmj13JkUcy4Phlcya2chKnO4eRMTXxy8c0p/M0SR2icMdx5BP
-         xdlh6dEFqEt0g==
-Message-ID: <2aecb113-0c69-88ac-a726-66e03d9f0a2e@collabora.com>
-Date:   Mon, 20 Mar 2023 11:34:42 +0100
+        Mon, 20 Mar 2023 06:56:01 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D9442B2BE;
+        Mon, 20 Mar 2023 03:52:44 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1peD7R-0000W1-Rv; Mon, 20 Mar 2023 11:52:01 +0100
+Message-ID: <071cf060-9845-dbb4-0a5b-ac4e2183d6f6@leemhuis.info>
+Date:   Mon, 20 Mar 2023 11:52:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC 2/2] media: rkvdec: Add VP8 encoder
-Content-Language: en-US
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com
-References: <20230309125651.23911-1-andrzej.p@collabora.com>
- <20230309125651.23911-3-andrzej.p@collabora.com>
- <a142c30ab49a8ff65c59bdc9bc0e4552c48bac68.camel@collabora.com>
- <efd18d9b-172a-8978-bb9a-18bb0edda4ee@collabora.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <efd18d9b-172a-8978-bb9a-18bb0edda4ee@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 2/3] venus: firmware: Correct non-pix start and end
+ addresses
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Matthias Kaehlcke <mka@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Nathan Hebert <nhebert@chromium.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <20221005083730.963322-1-stanimir.varbanov@linaro.org>
+ <20221005083730.963322-3-stanimir.varbanov@linaro.org>
+ <Y9LSMap+jRxbtpC8@google.com>
+ <b2007bc9-b05f-eb17-a373-9587b01d3788@leemhuis.info>
+In-Reply-To: <b2007bc9-b05f-eb17-a373-9587b01d3788@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1679309565;d124ce9e;
+X-HE-SMSGID: 1peD7R-0000W1-Rv
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-W dniu 19.03.2023 o 00:27, Dmitry Osipenko pisze:
-> On 3/19/23 02:23, Daniel Almeida wrote:
->> Hi Andrzej, one thing I noticed while looking at this:
+On 05.02.23 12:00, Linux kernel regression tracking (#adding) wrote:
+
+> On 26.01.23 20:19, Matthias Kaehlcke wrote:
+>> On Wed, Oct 05, 2022 at 11:37:29AM +0300, Stanimir Varbanov wrote:
 >>
->>> +struct hantro_vp8_entropy {
->>> +	/* TODO: int32_t? */
->>> +	int32_t coeff_prob[4][8][3][11];
->>> +	int32_t coeff_prob_old[4][8][3][11];
->>> +	int32_t mv_prob[2][19];
->>> +	int32_t mv_prob_old[2][19];
->>> +	int32_t y_mode_prob[4];
->>> +	int32_t uv_mode_prob[3];
->>> +};
->>>
->>
->>
->> In VP9, probabilities are coded in the 0..255 range, so if you want to
->> save space here, you can go with uint8_t.
+>> I found that this commit prevents the AOSS from entering sleep mode during
+>> system suspend at least on sc7180 and sc7280. AOSS not entering sleep mode
+>> leads to a (apparently significant) increase in S3 power consumption, on
+>> trogdor and herobrine it prevents the system from staying suspended, because
+>> the embedded controller detect the condition and wakes the sytem up again.
 > 
-> BTW, there is a mix of int32_t and s32 in the code, the s32 is a correct
-> choice. Similar for u8. Checkpatch --strict should warn about it all.
+> Thanks for the report. To be sure the issue doesn't fall through the
+> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+> tracking bot:
 > 
+> #regzbot ^introduced a837e5161cfffbb32
+> #regzbot title meida: venus: firmware: AOSS doesn't seel anymore on at
+> least sc7180 and sc7280
+> #regzbot ignore-activity
 
-Thanks. Something for a series proper (not RFC) indeed.
+#regzbot fix: media: Revert "venus: firmware: Correct non-pix start and
+end addresses"
+#regzbot ignore-activity
 
-Andrzej
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
+
+
