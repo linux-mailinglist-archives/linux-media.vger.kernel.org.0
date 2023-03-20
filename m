@@ -2,86 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA4A86C0C0A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 09:19:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D4D6C0C2A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 09:24:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbjCTITQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 04:19:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39470 "EHLO
+        id S230388AbjCTIYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 04:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbjCTITP (ORCPT
+        with ESMTP id S230128AbjCTIYg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 04:19:15 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A3349E3;
-        Mon, 20 Mar 2023 01:19:13 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 8322B24E2A9;
-        Mon, 20 Mar 2023 16:19:11 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 20 Mar
- 2023 16:19:11 +0800
-Received: from [192.168.60.83] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 20 Mar
- 2023 16:19:11 +0800
-Message-ID: <ccfe65e1-3580-3cfd-b13a-fd952da91539@starfivetech.com>
-Date:   Mon, 20 Mar 2023 16:19:10 +0800
+        Mon, 20 Mar 2023 04:24:36 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81A8B1E1EE
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 01:24:22 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id gp15-20020a17090adf0f00b0023d1bbd9f9eso15636361pjb.0
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 01:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679300662;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vXJEuXGL6bDH3PwmPPaT3IM8ABOywFoq2Dgyfl9GkNU=;
+        b=n+mfzmqOFxZIaeBGdi7plJsb84IQidbPZCdTZd3c33zPhpNYdRTHw5R6n4tU/aqBz2
+         bIlF6yPcWpdrU/g3uJxxmxqFXvWFHJwthv2ZvqiJo1uyai5EOaWydEr9iA1LQEQhDevP
+         eQPZ/0JnNJfZc6r28fwp0tdAFPjyGdp3SAjHb9588VsJbw/R80KjU3yYsuyFwSiZ9EK9
+         hym+/RJrom2gN96vZNEbf8Oi7hAoj8XAcXJCw+NJ7OtVsYSzD7zd/pLm2kNFQKmA4ZwM
+         npTQlysrZCTJLSU5/KWAL/UpMUHkAvWmjX+0idXBWZNtxKqDy32f09ib/iGUcnpHkuo0
+         HxGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679300662;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vXJEuXGL6bDH3PwmPPaT3IM8ABOywFoq2Dgyfl9GkNU=;
+        b=VxTqQH0Z7fgy3i4BTddIqbW4E48Sr2Ax9cpE/f5ymeFqISMizRRBtzMJhZq5RJD6r6
+         VWYfqy6rihiR+lNfqmhGRLym4DZ5rfdBrFwSQmGfpXGtaZcrABq9hL9GJIuMPsFsO4Sv
+         ef/+K08TqNdNFebCanOKXXrRjTt4ErlhIRts8LU47pTQB2AL3QibxiQ1ws9N0o8nN6zK
+         5GT0CzEuUn9LJ9VO9EG88H6Gbicdxo5/xGEWH9HOf+GwnnSWcmUQnWQTwkYuGQZ9N7gH
+         VfiLJgOt1bkDleGhoxZMo1fTKXvH1xjhGgchUsYf0129/95xjNHuW9qAfXeFYMNO9WHW
+         X6GA==
+X-Gm-Message-State: AO0yUKXh5hLxdju9lLF07Adff6UuZ1j8M35Fl+SDGeEnsCdZztFxGXt7
+        svNJmIS2ES3hVAfXYdA/YLicGDkngTpe95WOirQ=
+X-Google-Smtp-Source: AK7set9GzDdYtXbS0Cf4yAA4xqveR5Vmohd0FI0u+fdQW6Ug7dxgg8RitZb0cnV8InVskl+KrxUfwhJXl3LAAiWnvBc=
+X-Received: by 2002:a17:90a:5b01:b0:23c:fa47:e763 with SMTP id
+ o1-20020a17090a5b0100b0023cfa47e763mr4371695pji.0.1679300662083; Mon, 20 Mar
+ 2023 01:24:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/6] media: dt-bindings: cadence-csi2rx: Convert to DT
- schema
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        "Todor Tomov" <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
-References: <20230310120553.60586-1-jack.zhu@starfivetech.com>
- <20230310120553.60586-3-jack.zhu@starfivetech.com>
- <e0bcfe7a-6b24-3543-318a-86c1d7a60f12@linaro.org>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <e0bcfe7a-6b24-3543-318a-86c1d7a60f12@linaro.org>
+Sender: anmoniteashale@gmail.com
+Received: by 2002:a05:7300:fc14:b0:b1:4517:6f5a with HTTP; Mon, 20 Mar 2023
+ 01:24:21 -0700 (PDT)
+From:   Miss Sherri <sherrigallagher409@gmail.com>
+Date:   Mon, 20 Mar 2023 08:24:21 +0000
+X-Google-Sender-Auth: -HS-ahRR8J6Jge_3KuHHTR18V9M
+Message-ID: <CAFF8bF4snVpLsT-+vJHgpc1oAR0Qch90pBWD_QX8ogT9DmgOqg@mail.gmail.com>
+Subject: RE: Hello Dear
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hallo,
 
+Sie haben meine vorherige Nachricht erhalten? Ich habe Sie schon
+einmal kontaktiert, aber die Nachricht ist fehlgeschlagen, also habe
+ich beschlossen, noch einmal zu schreiben. Bitte best=C3=A4tigen Sie, ob
+Sie dies erhalten, damit ich fortfahren kann.
 
-On 2023/3/12 19:17, Krzysztof Kozlowski wrote:
-> On 10/03/2023 13:05, Jack Zhu wrote:
->> Convert DT bindings document for Cadence MIPI-CSI2 RX controller
->> to DT schema format and add new properties.
-> 
-> As pointed, first conversion, then new properties.
-> 
-> You also need to test each binding before sending.
+warte auf deine Antwort.
 
-Thank you for your suggestion. I will split the patch into two patches and test.
-
-> Best regards,
-> Krzysztof
-> 
+Gr=C3=BC=C3=9Fe,
+Fr=C3=A4ulein Sherri
