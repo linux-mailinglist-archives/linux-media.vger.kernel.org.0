@@ -2,100 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D26E6C0DE3
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 086006C0DF1
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 11:01:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbjCTJ5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:57:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
+        id S229592AbjCTKBw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 06:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbjCTJ45 (ORCPT
+        with ESMTP id S229488AbjCTKBt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:56:57 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 762A28A70
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 02:56:16 -0700 (PDT)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43B0D1257;
-        Mon, 20 Mar 2023 10:56:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679306174;
-        bh=OWDNCBLljGPAlrJjHJVZym/+pKJfCAenKUQxItuUDNI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=i1BUWYZhb3aShkQds8mwyVWWbHldVpeiEWuIfwjVXzIxxvksiuNQqoUJQcPZG/Nwg
-         cxiCNm2y8J4CYsaYcPF+6vXUJ3wYwPHBzqs5K1ehfKRMLRtc4hYQYWDqeZlH/Ydg75
-         zyL/n7s9+BDZC/QIMZE1aXRbw9LCyZBY+31mB8u0=
-Message-ID: <91a5309d-9d88-e0e3-7536-9ceb5a7240ca@ideasonboard.com>
-Date:   Mon, 20 Mar 2023 11:56:11 +0200
+        Mon, 20 Mar 2023 06:01:49 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D118DD52C;
+        Mon, 20 Mar 2023 03:01:46 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:55864.2045483661
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 67668100211;
+        Mon, 20 Mar 2023 18:01:34 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 965ea55311f24508a1a5be4b8199dd3f for maarten.lankhorst@linux.intel.com;
+        Mon, 20 Mar 2023 18:01:44 CST
+X-Transaction-ID: 965ea55311f24508a1a5be4b8199dd3f
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+From:   Sui Jingfeng <15330273260@189.cn>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        suijingfeng <suijingfeng@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v8 0/2] drm: add kms driver for loongson display controller
+Date:   Mon, 20 Mar 2023 18:01:29 +0800
+Message-Id: <20230320100131.1277034-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: v4l2-subdev: Add new ioctl for client capabilities
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20230228154023.208465-1-tomi.valkeinen@ideasonboard.com>
- <20230312131134.GG2545@pendragon.ideasonboard.com>
- <1e3faadb-bb57-74f8-10bb-3a7267916398@ideasonboard.com>
- <20230319144037.GO10144@pendragon.ideasonboard.com>
- <ZBgWMfqVeW7E20NG@kekkonen.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <ZBgWMfqVeW7E20NG@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/03/2023 10:15, Sakari Ailus wrote:
-> Hi Laurent,
-> 
-> On Sun, Mar 19, 2023 at 04:40:37PM +0200, Laurent Pinchart wrote:
->>>>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
->>>>> index 654d659de835..9f863240a458 100644
->>>>> --- a/include/uapi/linux/v4l2-subdev.h
->>>>> +++ b/include/uapi/linux/v4l2-subdev.h
->>>>> @@ -233,6 +233,26 @@ struct v4l2_subdev_routing {
->>>>>    	__u32 reserved[6];
->>>>>    };
->>>>>    
->>>>> +/*
->>>>> + * The client is aware of streams. Setting this flag enables the use of streams
->>>>> + * and routing related ioctls and fields. If this is not set (which is the
->>>>> + * default), all the 'stream' fields referring to the stream number will be
->>>>> + * forced to 0 by the kernel, and routing related ioctls will return
->>>>> + * -ENOIOCTLCMD.
->>>>
->>>> Do we need the latter ? Surely if userspace calls routing ioctls, it
->>>> should be stream-aware.
->>>
->>> I think it makes the API more consistent. I don't think there's much use
->>> for the routing ioctls without the stream field.
->>>
->>> I guess it depends on what V4L2_SUBDEV_CLIENT_CAP_STREAMS means. I
->>> thought it means "client wants to use streams", but if we define it to
->>> mean "client is aware of streams and has cleared the 'stream' fields",
->>> then we can only do the field clearing.
->>
->> I would go for the second option, as that's the need we have at the
->> moment, ensuring backward compatibility with the introduction of the
->> streams field.
-> 
-> I'd prefer this, too. Defining it clearly what this actually means is
-> better as is configuring exactly what's needed --- in order to make it
-> easier to avoid passing garbage both ways between the user and the kernel
-> (where it may be a security issue as well).
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-I think this makes sense. I'll simplify the patch regarding this flag.
+Loongson display controller IP has been integrated in both Loongson
+North Bridge chipset(ls7a1000 and ls7a2000) and Loongson SoCs(ls2k1000
+and ls2k2000 etc), it even has been included in Loongson BMC products.
 
-  Tomi
+This display controller is a PCI device, it has two display pipe. For
+the DC in LS7A1000 and LS2K1000 each way has a DVO output interface
+which provide RGB888 signals, vertical & horizontal synchronisations,
+and the pixel clock. Each CRTC is able to support 1920x1080@60Hz,
+the maximum resolution is 2048x2048 according to the hardware spec.
+
+For the DC in LS7A2000, each display pipe is equipped with a built-in
+HDMI encoder which is compliant with HDMI 1.4 specification, thus it
+support 3840x2160@30Hz. The first display pipe is also equipped with
+a transparent vga encoder which is parallel with the HDMI encoder.
+The DC in LS7A2000 is more complete, besides above feature, it has
+two hardware cursors, two hardware vblank counter and two scanout
+position recorders.
+
+ v1 -> v2:
+  1) Use hpd status reg when polling for ls7a2000
+  2) Fix all warnings emerged when compile with W=1
+
+ v2 -> v3:
+  1) Add COMPILE_TEST in Kconfig and make the driver off by default
+  2) Alphabetical sorting headers (Thomas)
+  3) Untangle register access functions as much as possible (Thomas)
+  4) Switch to TTM based memory manager and prefer cached mapping
+     for Loongson SoC (Thomas)
+  5) Add chip id detection method, now all models are distinguishable.
+  6) Revise builtin HDMI phy driver, nearly all main stream mode
+     below 4K@30Hz is tested, this driver supported these mode very
+     well including clone display mode and extend display mode.
+
+ v3 -> v4:
+  1) Quickly fix a small mistake.
+
+ v4 -> v5:
+  1) Drop potential support for Loongson 2K series SoC temporary,
+     this part should be resend with the DT binding patch in the future.
+  2) Add per display pipe debugfs support to the builtin HDMI encoder.
+  3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+  4) Rewrite encoder and connector initialization part, untangle it
+     according to the chip(Thomas).
+
+ v5 -> v6:
+  1) Remove stray code which didn't get used, say lsdc_of_get_reserved_ram
+  2) Fix all typos I could found, make sentences and code more readable
+  3) Untange lsdc_hdmi*_connector_detect() function according to the pipe
+  4) After a serious consideration, we rename this driver as loongson.
+     Because we also have drivers toward the LoongGPU IP in LS7A2000 and
+     LS2K2000. Besides, there are also drivers about the external encoder,
+     HDMI audio driver and vbios support etc. This patch only provide DC
+     driver part, my teammate Li Yi believe that loongson will be more
+     suitable for loongson graphics than lsdc in the long run.
+
+     loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+
+  v6 -> v7:
+  1) Add prime support, self-sharing is works. sharing buffer with etnaviv
+     is also tested, and its works with limitation.
+  2) Implement buffer objects tracking with list_head.
+  3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+  4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+     during BO creation. Patch V1 ~ V6 of this series no longer works
+     on Linux 6.3.0-rc2. Thus, we send V7 to revival them.
+  5) Remove depends on LOONGARCH || MIPS || COMPILE_TEST to help review
+     and compile on x86 machine.
+  6) Add a cover letter to help patchwork tracking my patch.
+
+     V1 ~ V4 can be found at link [1], V5 at link [2], V6 at link [3]
+
+     [1] https://patchwork.freedesktop.org/series/113566/
+     [2] https://patchwork.freedesktop.org/series/114386/
+     [3] https://patchwork.freedesktop.org/patch/524532/
+
+  v7 -> v8:
+  1) Zero a compile warnnings on 32-bit platform, compile with W=1
+  2) Revise lsdc_bo_gpu_offset() and minor cleanup
+  3) Pageflip tested on the virtual terminal with following commands
+
+       modetest -M loongson -s 32:1920x1080 -v
+       modetest -M loongson -s 34:1920x1080 -v -F tiles
+
+     It works like a charm, when running pageflip test with dual screnn
+     configuration, another two additional bo created by the modetest
+     emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
+     enough.
+
+     # cat bos
+       bo[0000]: size:     8112kB VRAM
+       bo[0001]: size:       16kB VRAM
+       bo[0002]: size:       16kB VRAM
+       bo[0003]: size:    16208kB VRAM
+       bo[0004]: size:     8112kB VRAM
+       bo[0005]: size:     8112kB VRAM
+
+
+Sui Jingfeng (2):
+  MAINTAINERS: add maintainers for DRM LOONGSON driver
+  drm: add kms driver for loongson display controller
+
+ MAINTAINERS                             |   7 +
+ drivers/gpu/drm/Kconfig                 |   2 +
+ drivers/gpu/drm/Makefile                |   1 +
+ drivers/gpu/drm/loongson/Kconfig        |  15 +
+ drivers/gpu/drm/loongson/Makefile       |  16 +
+ drivers/gpu/drm/loongson/lsdc_crtc.c    | 385 ++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_debugfs.c | 261 +++++++++++
+ drivers/gpu/drm/loongson/lsdc_drv.c     | 501 +++++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_drv.h     | 318 +++++++++++++
+ drivers/gpu/drm/loongson/lsdc_gem.c     | 291 ++++++++++++
+ drivers/gpu/drm/loongson/lsdc_gem.h     |  26 ++
+ drivers/gpu/drm/loongson/lsdc_i2c.c     | 171 +++++++
+ drivers/gpu/drm/loongson/lsdc_irq.c     |  88 ++++
+ drivers/gpu/drm/loongson/lsdc_irq.h     |  11 +
+ drivers/gpu/drm/loongson/lsdc_output.c  | 563 ++++++++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_output.h  |  14 +
+ drivers/gpu/drm/loongson/lsdc_plane.c   | 416 +++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_pll.c     | 338 ++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_pll.h     |  76 ++++
+ drivers/gpu/drm/loongson/lsdc_probe.c   |  85 ++++
+ drivers/gpu/drm/loongson/lsdc_probe.h   |  11 +
+ drivers/gpu/drm/loongson/lsdc_regs.h    | 370 ++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_ttm.c     | 430 ++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_ttm.h     |  68 +++
+ 24 files changed, 4464 insertions(+)
+ create mode 100644 drivers/gpu/drm/loongson/Kconfig
+ create mode 100644 drivers/gpu/drm/loongson/Makefile
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pll.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pll.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
+
+-- 
+2.25.1
 
