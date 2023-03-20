@@ -2,238 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78F036C1196
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 13:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17AD26C123B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 13:47:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbjCTMMm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 08:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36196 "EHLO
+        id S231559AbjCTMrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 08:47:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230049AbjCTMMl (ORCPT
+        with ESMTP id S231529AbjCTMrZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 08:12:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E989D9036;
-        Mon, 20 Mar 2023 05:12:38 -0700 (PDT)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35A3AA25;
-        Mon, 20 Mar 2023 13:12:35 +0100 (CET)
+        Mon, 20 Mar 2023 08:47:25 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156C97DB1;
+        Mon, 20 Mar 2023 05:47:18 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09CFDA25;
+        Mon, 20 Mar 2023 13:47:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679314356;
-        bh=g9jYK9DPWNQVOtuPPK1BkPbDDKt4goUNff8cdNmOCbo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mS5e/Y9b6Gf7jl9X34sGX0ftdcAG8Kwbmt2UBPnBAQM3NAOjLyF1KvDP7s8/ydVbt
-         8ZcUMoe2HmdA1KKfRjOU3ML//iyd+VIFfN3yKp49RTOOFicakayvMXADo9+hLrZJwf
-         ZseWcEFatN3CVkq6nYNU5f/2IL0sEUfpP9xxC7RM=
-Message-ID: <a21fcab7-aa80-0228-7bd3-236fb4203d36@ideasonboard.com>
-Date:   Mon, 20 Mar 2023 14:12:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>, zzam@gentoo.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        s=mail; t=1679316436;
+        bh=8gQVnLQ7icM2cdxFjpNyr1Gr6yb1MMFoYDWr5iEDuHg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z5b+3l6oWPf8V+WI1dWAVma7rV7W6hcSwJTjorqTD/t+AOvyyEFSDpdjs22HWzEiP
+         nfQkP0N1tj6U1OVnw+pWlZR/WcDK2GupnJVnzNclv6k9NsnBfG4Yad58enwBX8rENy
+         Vhzu+/FL+9tE/yYYTuQ+p4zDenhFtg6A3bqnL3r4=
+Date:   Mon, 20 Mar 2023 13:47:12 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
- <70323408-b823-1f1a-0202-434e6243b2af@gentoo.org>
- <20230320092830.0431d042@booty>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230320092830.0431d042@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        linux-media@vger.kernel.org, kernel@pengutronix.de,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
+Message-ID: <20230320124712.q67dqlldkqsdwyke@uno.localdomain>
+References: <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
+ <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
+ <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
+ <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
+ <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
+ <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
+ <20230320092602.GE20234@pendragon.ideasonboard.com>
+ <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
+ <20230320095514.GF20234@pendragon.ideasonboard.com>
+ <9b4f0896a3a3e97b44197de263c30f0d31333abd.camel@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9b4f0896a3a3e97b44197de263c30f0d31333abd.camel@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/03/2023 10:28, Luca Ceresoli wrote:
-> Hello Matthias,
-> 
-> thanks for the in-depth review!
-> 
-> On Mon, 20 Mar 2023 07:34:34 +0100
-> zzam@gentoo.org wrote:
-> 
->> Some inline comments below.
->>
->> Regards
->> Matthias
->>
->> Am 22.02.23 um 14:29 schrieb Tomi Valkeinen:
->>> From: Luca Ceresoli <luca@lucaceresoli.net>
->>>
->>> An ATR is a device that looks similar to an i2c-mux: it has an I2C
->>> slave "upstream" port and N master "downstream" ports, and forwards
->>> transactions from upstream to the appropriate downstream port. But it
->>> is different in that the forwarded transaction has a different slave
->>> address. The address used on the upstream bus is called the "alias"
->>> and is (potentially) different from the physical slave address of the
->>> downstream chip.
->>>
->>> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
->>> implementing ATR features in a device driver. The helper takes care or
->>> adapter creation/destruction and translates addresses at each transaction.
->>>
->>> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>    Documentation/i2c/index.rst         |   1 +
->>>    Documentation/i2c/muxes/i2c-atr.rst |  97 +++++
->>>    MAINTAINERS                         |   8 +
->>>    drivers/i2c/Kconfig                 |   9 +
->>>    drivers/i2c/Makefile                |   1 +
->>>    drivers/i2c/i2c-atr.c               | 548 ++++++++++++++++++++++++++++
->>>    include/linux/i2c-atr.h             | 116 ++++++
->>>    7 files changed, 780 insertions(+)
->>>    create mode 100644 Documentation/i2c/muxes/i2c-atr.rst
->>>    create mode 100644 drivers/i2c/i2c-atr.c
->>>    create mode 100644 include/linux/i2c-atr.h
->>>    
->> [...]
->>> diff --git a/drivers/i2c/i2c-atr.c b/drivers/i2c/i2c-atr.c
->>> new file mode 100644
->>> index 000000000000..5ab890b83670
->>> --- /dev/null
->>> +++ b/drivers/i2c/i2c-atr.c
->>> @@ -0,0 +1,548 @@
->> [...]
->>> +
->>> +/*
->>> + * Replace all message addresses with their aliases, saving the original
->>> + * addresses.
->>> + *
->>> + * This function is internal for use in i2c_atr_master_xfer(). It must be
->>> + * followed by i2c_atr_unmap_msgs() to restore the original addresses.
->>> + */
->>> +static int i2c_atr_map_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
->>> +			    int num)
->>> +{
->>> +	struct i2c_atr *atr = chan->atr;
->>> +	static struct i2c_atr_cli2alias_pair *c2a;
->>> +	int i;
->>> +
->>> +	/* Ensure we have enough room to save the original addresses */
->>> +	if (unlikely(chan->orig_addrs_size < num)) {
->>> +		u16 *new_buf;
->>> +
->>> +		/* We don't care about old data, hence no realloc() */
->>> +		new_buf = kmalloc_array(num, sizeof(*new_buf), GFP_KERNEL);
->>> +		if (!new_buf)
->>> +			return -ENOMEM;
->>> +
->>> +		kfree(chan->orig_addrs);
->>> +		chan->orig_addrs = new_buf;
->>> +		chan->orig_addrs_size = num;
->>> +	}
->>> +
->>> +	for (i = 0; i < num; i++) {
->>> +		chan->orig_addrs[i] = msgs[i].addr;
->>> +
->>> +		c2a = i2c_atr_find_mapping_by_addr(&chan->alias_list,
->>> +						   msgs[i].addr);
->>> +		if (!c2a) {
->>> +			dev_err(atr->dev, "client 0x%02x not mapped!\n",
->>> +				msgs[i].addr);
->>> +			return -ENXIO;
->> I miss the roll-back of previously modified msgs[].addr values.
-> 
-> Indeed you have a point. There is a subtle error in case all of the
-> following happen in a single i2c_atr_master_xfer() call:
-> 
->   * there are 2+ messages, having different addresses
->   * msg[0] is mapped correctly
->   * msg[n] (n > 0) fails mapping
-> 
-> It's very unlikely, but in this case we'd get back to the caller with
-> an error and modified addresses for the first n messages. Which in turn
-> is unlikely to create any problems, but it could.
-> 
-> Tomi, do you agree?
-> 
-> This looks like a simple solution:
-> 
->     if (!c2a) {
-> +    i2c_atr_unmap_msgs(chan, msgs, i);
->       ...
->     }
+Hi Philipp
 
-Wouldn't that possibly restore the address from orig_addrs[x] also for 
-messages we haven't handled yet?
+On Mon, Mar 20, 2023 at 12:26:26PM +0100, Philipp Zabel wrote:
+> On Mo, 2023-03-20 at 11:55 +0200, Laurent Pinchart wrote:
+> > On Mon, Mar 20, 2023 at 11:37:33AM +0200, Sakari Ailus wrote:
+> > > Hi Laurent,
+> > >
+> > > On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
+> > > > In a (simplified) nutshell,
+> > > >
+> > > > ---------+     +----------+     +---------+     +-----+     +-----+
+> > > > > Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
+> > > > > Sensor |     |          |     | Gasket  |     |     |     |     |
+> > > > ---------+     +----------+     +---------+     +-----+     +-----+
+> > >
+> > > Thank you, this is helpful.
+> > >
+> > > I suppose the mux here at least won't actively do anything to the data. So
+> > > presumably its endpoint won't contain the active configuration, but its
+> > > superset.
+> > >
+> > > >
+> > > > All those blocks, except for the gasket, have a node in DT.
+> > > >
+> > > > The IPU driver needs to know the number of CSI-2 data lanes, which is
+> > > > encoded in the data-lanes DT property present in both the sensor output
+> > > > endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
+> > > > the pipeline.
+> > >
+> > > This doesn't yet explain why the sensor would need to implement
+> > > get_mbus_config if its bus configuration remains constant.
+> >
+> > If I recall correctly, the IPU driver calls .g_mbus_config() on the
+> > camera sensor to get the number of lanes, as it can't get it from its
+> > own endpoint. That's a hack, and as Jacopo proposed, calling
+> > .g_mbus_config() on the CSI-2 RX would be better, as the CSI-2 RX driver
+> > can then get the value from its own endpoint, without requiring all
+> > sensor drivers to implement .g_mbus_config().
+>
+> The IPU driver doesn't call get_mbus_config, the CSI-2 RX driver does
 
-I think a simple
+Am I confusing IPU CSI with CSI-2 ?
+https://elixir.bootlin.com/linux/latest/source/drivers/staging/media/imx/imx-media-csi.c#L211
 
-while (i--)
-	msgs[i].addr = chan->orig_addrs[i];
+> (csi2_get_active_lanes in imx6-mipi-csi2.c). It could just fall back to
+> looking at its own endpoint if the upstream driver does not implement
+> get_mbus_config.
+>
+> Of course that will only help if the DT contains this information and
+> all connected lanes are active.
 
-should do here. It is also, perhaps, a bit more clear this way, as you 
-can see the assignments to msgs[i].addr nearby, and the rollback here 
-with the above code. Instead of seeing a call to an unmap function, 
-having to go and see what exactly it will do.
+We should assume DTs are correct, otherwise we're screwed most of the
+times...
 
-> While there, maybe switching to dev_err_probe would make code cleaner.
-
-The while loop above has to be done after the print, if we use the same 
-i variable in both. dev_err_probe could still be used, but... I don't 
-know if it's worth trying to push it in.
-
->>> +/*
->>> + * Restore all message address aliases with the original addresses. This
->>> + * function is internal for use in i2c_atr_master_xfer().
->>> + *
->>> + * @see i2c_atr_map_msgs()
->>> + */
->>> +static void i2c_atr_unmap_msgs(struct i2c_atr_chan *chan, struct i2c_msg *msgs,
->>> +			       int num)
->>> +{
->>> +	int i;
->>> +
->>> +	for (i = 0; i < num; i++)
->>> +		msgs[i].addr = chan->orig_addrs[i];
->> Does this code needs null and size checks for orig_addrs/orig_addrs_size
->> to protect from oopses?
->> This cannot happen now as i2c_atr_master_xfer returns early when
->> i2c_atr_map_msgs fails.
-> 
-> The map/unmap functions are really a part of i2c_atr_master_xfer() that
-> has been extracted for code readability, as the comments say, and I
-> can't think of a different use for them. So I think this code is OK as
-> is.
-> 
-> However a small comment might help future readers, especially in case
-> code will change and these functions gain new use cases.
-> E.g.
-> 
->     This function is internal for use in i2c_atr_master_xfer()
-> +  and for this reason it needs no null and size checks on orig_addr.
->     It must be followed by i2c_atr_unmap_msgs() to restore the original addresses.
-
-I can add a comment. as Luca said, it's an internal helper function, I 
-don't think we need to check the parameters there for cases which can't 
-happen.
-
-  Tomi
-
+>
+> regards
+> Philipp
