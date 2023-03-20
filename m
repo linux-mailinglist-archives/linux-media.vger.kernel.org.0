@@ -2,60 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C56C6C0D3B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8715B6C0D56
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 10:32:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbjCTJ0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 05:26:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37326 "EHLO
+        id S230012AbjCTJcX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 05:32:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231363AbjCTJ0V (ORCPT
+        with ESMTP id S229958AbjCTJcV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 05:26:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2EC1B310;
-        Mon, 20 Mar 2023 02:25:59 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 683DE1373;
-        Mon, 20 Mar 2023 10:25:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679304356;
-        bh=NRHdhr96GXIu/JRCjQ4FWahWSvR/JER4dOEX/u9PRhc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i+K17dqo9Eg1XqkM5Agv3ZmiJJaHWkm08uUSAHUDnyxDQRTYCSuW2rMEcMI0h3iY+
-         waAz8IReAMHpqFSML8BDlM57gghzm+AOcxWdtNkPOWS8P2AiMuMXlnb2jhKMKrHxbR
-         S7EL0Cjictk+9NpLyLJSzkfWZN9QPO3a/T98arWg=
-Date:   Mon, 20 Mar 2023 11:26:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marcel Ziswiler <marcel@ziswiler.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
-        Francesco Dolcini <francesco.dolcini@toradex.com>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mon, 20 Mar 2023 05:32:21 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989C51911E;
+        Mon, 20 Mar 2023 02:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679304740; x=1710840740;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bO+5pP+LnkUbJcOR9Lz3DMOji7iPTXgGrtDs+N4xVKo=;
+  b=DE3i+InrIqhvn+CHMoONqF2/rxe1C/ToK1kXHp9huvEHaV4SlzJv81yH
+   JI8YhX/7ZttaNharXjwJAHsVipoyflXHLFQfLyUo3BInJ8UOD71UGDvE5
+   BquUcJpkbZMm8r9gRDJQDCnzHIvparr4Fs7l/z0SxzvKOEKqv9itoOqCZ
+   QHlWp8Yv5u3pu+/5IG56Ildi0xSECe0xISV9VPpXDWw5cm/NnEcdGTAMM
+   QmE1D3is5+fbpARHK9aGEUrKOm3c4EUdngVG+JthuSxU7OGzwDfy0WcX/
+   DXpkJLUsdxgcpQCkGGgVsaomOrdfwI7VWPmKuNUAvKpd8h34faocZCIHu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="340160435"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="340160435"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:32:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="713516842"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="713516842"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 02:32:16 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 14343122400;
+        Mon, 20 Mar 2023 11:32:14 +0200 (EET)
+Date:   Mon, 20 Mar 2023 11:32:14 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
-Message-ID: <20230320092602.GE20234@pendragon.ideasonboard.com>
-References: <20230306063649.7387-1-marcel@ziswiler.com>
- <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
- <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
- <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
- <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
- <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
- <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] media: i2c: imx290: fix conditional function defintions
+Message-ID: <ZBgoHvg3kxsVoSzg@kekkonen.localdomain>
+References: <20230207161316.293923-1-arnd@kernel.org>
+ <Y+J+7lsf083k4x80@pendragon.ideasonboard.com>
+ <c5383d0e-d33c-d59f-3ee6-4635c1c4d334@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+In-Reply-To: <c5383d0e-d33c-d59f-3ee6-4635c1c4d334@leemhuis.info>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,89 +72,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 20, 2023 at 11:00:36AM +0200, Sakari Ailus wrote:
-> On Mon, Mar 20, 2023 at 09:48:44AM +0100, Jacopo Mondi wrote:
-> > On Tue, Mar 14, 2023 at 01:59:06PM +0100, Francesco Dolcini wrote:
-> > > On Tue, Mar 14, 2023 at 02:45:53PM +0200, Sakari Ailus wrote:
-> > > > On Tue, Mar 14, 2023 at 01:32:16PM +0100, Francesco Dolcini wrote:
-> > > > > On Tue, Mar 14, 2023 at 02:13:46PM +0200, Sakari Ailus wrote:
-> > > > > > On Mon, Mar 06, 2023 at 07:36:49AM +0100, Marcel Ziswiler wrote:
-> > > > > > > From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
-> > > > > > >
-> > > > > > > Implement the introduced get_mbus_config operation to report the
-> > > > > > > config of the MIPI CSI-2, BT.656 and Parallel interface.
-> > > > > > >
-> > > > > > > Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
-> > > > > > > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> > > > > >
-> > > > > > What's the reasoning for this patch?
-> > > > >
-> > > > > Without this it's not possible to use it on i.MX6,
-> > > > > drivers/staging/media/imx/imx6-mipi-csi2.c requires it, some more
-> > > > > details from Jacopo here [0].
-> > > > >
-> > > > > Everything used to work fine up to v5.18, after that kernel version
-> > > > > various changes broke it [1][2] (I assume you are pretty much aware of
-> > > > > the history here, you commented on a few emails).
-> > > > >
-> > > > > [0] https://lore.kernel.org/all/20230128100611.7ulsfqqqgscg54gy@uno.localdomain/
-> > > > > [1] https://lore.kernel.org/all/081cc2d3-1f3a-6c14-6dc7-53f976be7b2b@gmail.com/
-> > > > > [2] https://lore.kernel.org/all/cacfe146-101b-35b3-5f66-1a1cabfd342f@gmail.com/
-> > > > >
-> > > > > > Drivers that don't have e.g. dynamic lane configuration shouldn't need to
-> > > > > > implement get_mbus_config.
-> > > >
-> > > > Not even for staging drivers. The driver should be fixed to get that
-> > > > information from the endpoint instead.
-> > >
-> > > This seems exactly the opposite of what commit
-> > > 7318abface48 ("media: imx: Use get_mbus_config instead of parsing upstream DT endpoints")
-> > > did.
-> > >
-> > > Given that I am somehow confused, but I am not that familiar with this
-> > > subsystem, so I guess this is expected :-). Can someone provide some
-> > > additional hint here?
-> > >
-> > 
-> > As per my understanding, the i.MX6 IPU CSI driver connects to the
-> > CSI-2 receiver and/or two video muxes. One figure's worth a thousands
-> > words: "Figure 19-1. CSI2IPU gasket connectivity" of the IMX6DQRM TRM.
+Hello,
+
+On Mon, Mar 20, 2023 at 10:18:23AM +0100, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 07.02.23 17:40, Laurent Pinchart wrote:
+> > On Tue, Feb 07, 2023 at 05:13:12PM +0100, Arnd Bergmann wrote:
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >>
+> >> The runtime suspend/resume functions are only referenced from the
+> >> dev_pm_ops, but they use the old SET_RUNTIME_PM_OPS() helper
+> >> that requires a __maybe_unused annotation to avoid a warning:
+> >>
+> >> drivers/media/i2c/imx290.c:1082:12: error: unused function 'imx290_runtime_resume' [-Werror,-Wunused-function]
+> >> static int imx290_runtime_resume(struct device *dev)
+> >>            ^
+> >> drivers/media/i2c/imx290.c:1090:12: error: unused function 'imx290_runtime_suspend' [-Werror,-Wunused-function]
+> >> static int imx290_runtime_suspend(struct device *dev)
+> >>            ^
+> >>
 > 
-> I don't have that document.
+> I might be missing something (if so, please tell me), but to me it looks
+>  this fix for a build issue in 6.3-rc (which shows up in Guenters weekly
+> reports to Linus) didn't make any progress in the past few weeks. Is
+> there a reason why? Who actually needs to pick it up and send it towards
+> mainline? Manivannan Sadhasivam? Sakari Ailus?
 
-https://www.nxp.com/webapp/Download?colCode=IMX6DQRM
-
-You'll need a user account on nxp.com though.
-
-> > So the local endpoint might not provide the required information on
-> > the bus configuration as it connects to a video-mux.
-> > 
-> > That's why the imx_media_pipeline_subdev() helper is used in
-> > csi_get_upstream_mbus_config().
-> > 
-> > My gut feeling is that it would be better to always call
-> > get_mbus_config() on the next subdev (the mux or the CSI-2 rx) and
-> > there parse the local endpoint as it's the mux or the CSI-2 rx that
-> > connect to the actual source.
-> 
-> Isn't this still a different endpoint in DT? I understand you have a single
-> pad with two links?
-
-In a (simplified) nutshell,
-
----------+     +----------+     +---------+     +-----+     +-----+
-| Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
-| Sensor |     |          |     | Gasket  |     |     |     |     |
----------+     +----------+     +---------+     +-----+     +-----+
-
-All those blocks, except for the gasket, have a node in DT.
-
-The IPU driver needs to know the number of CSI-2 data lanes, which is
-encoded in the data-lanes DT property present in both the sensor output
-endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
-the pipeline.
+Mauro has recently pulled my PR including this and I understand it's in
+Mauro's tree now.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
