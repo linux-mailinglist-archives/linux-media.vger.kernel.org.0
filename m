@@ -2,164 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9AB06C2019
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 19:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 864C26C1E91
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 18:51:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbjCTSko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 14:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39828 "EHLO
+        id S230258AbjCTRvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 13:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbjCTSjg (ORCPT
+        with ESMTP id S230239AbjCTRv0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 14:39:36 -0400
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E47110A9B
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 11:31:24 -0700 (PDT)
-Received: by mail-vs1-xe32.google.com with SMTP id d18so6336195vsv.11
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 11:31:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1679337080;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8NUhFi8oXVF/qnUu7VGuWdFAEzRgJeUjsSw2QycpwDg=;
-        b=Wuip40872JJqIizd5zEJFNll336M1aeiMEQHs24WbLaGf+5Yk2u77RmJdv2JmmM2pD
-         UoGKYUUXOh4XAhdy5QNkFqJH1aqy6l7LvU4QdV5Tm/6lWAZMzHj2I2qcBVD3f5fTLHJc
-         fALHjNhCRud3uGMM75p1JfJQqbIJrbNPuTj3L1BH0gC3JlLvsv61EPExnpkO8x4UML59
-         TBZpKty0CwHsKVQcpGhq4B8qJ1F2xw/lPZ0OZxS7Q9ySANvvnfj6UDuUyLGtLbs+uFZw
-         mu/cFFoPo/TgjFy2vn4v1x8drrWEL04w6lGroTMvKoTlmYpdDlncIqC2L8w/idKY/vdx
-         4Jtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679337080;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8NUhFi8oXVF/qnUu7VGuWdFAEzRgJeUjsSw2QycpwDg=;
-        b=L9qDJXbxov4WFdwfsbkRH9/JCd1A46OXtW6bk2wss/aXBijGIBKE3wT6KAFev8IsHp
-         tynH5V2WFlnw5VZlkFM92i9v+58ES0tFiZY99gXa/72bonJu/GAn2OeMZJ90cD2LvyS5
-         e7hEX6OJjpqQzXaD0AsW/cJgeJUKA6PAmZgfiYnYlA2OikTGBCTxFKkIO+IlBr7R3roZ
-         9mdBOZuYUlIe+F0qE9EtET9c+5wQ+zJAeT9umgnTaAf4o+gkM5v4FHyH8RKhzC6qS0l+
-         vhEl+d2iPMfYqHckoBG+tGgEIzEh6DmdLnDTGbdZ5IIQ2aQgZ5DE6uJA2Iv7fFE3GONa
-         D3Yw==
-X-Gm-Message-State: AO0yUKVyGYRZatedOa11eqGCtXefSwJX4fsWbYHAUrZ+nmMe61NA7UY0
-        UzWBksCN3FjTep22wgla87cxe3xFiQ9waubNi0Q23g==
-X-Google-Smtp-Source: AK7set8QDN4JpK48l8vyrE3uVC4kf0s1ISeE3k4SMb6KZlzFXeEauV8iuprYA8CtSVg7T+jFeKhCvPeHg2MCeuON88M=
-X-Received: by 2002:a05:6102:571b:b0:426:6d5:a55a with SMTP id
- dg27-20020a056102571b00b0042606d5a55amr5400175vsb.1.1679337080074; Mon, 20
- Mar 2023 11:31:20 -0700 (PDT)
+        Mon, 20 Mar 2023 13:51:26 -0400
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A713E166E7;
+        Mon, 20 Mar 2023 10:45:48 -0700 (PDT)
+Received: from mgb4.digiteq.red (unknown [62.77.71.229])
+        by mx.gpxsee.org (Postfix) with ESMTPSA id 3AE7D394B0;
+        Mon, 20 Mar 2023 18:45:25 +0100 (CET)
+From:   tumic@gpxsee.org
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+Subject: [RESEND PATCH v6 0/1] Digiteq Automotive MGB4 driver
+Date:   Mon, 20 Mar 2023 19:45:58 +0100
+Message-Id: <20230320184559.29830-1-tumic@gpxsee.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
- <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu> <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
- <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain> <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
- <20230320092602.GE20234@pendragon.ideasonboard.com> <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
- <20230320095514.GF20234@pendragon.ideasonboard.com> <ZBgyOPS23BC2wAfg@kekkonen.localdomain>
- <727949a9c3d9e639b046bcd86635796452b10300.camel@pengutronix.de> <20230320140012.GB9535@pendragon.ideasonboard.com>
-In-Reply-To: <20230320140012.GB9535@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 20 Mar 2023 18:31:04 +0000
-Message-ID: <CAPY8ntCnX9uFbyfKnJCH6+8yLWwX1ZieYqzZq6qs9uvAPh9Eyw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marcel Ziswiler <marcel@ziswiler.com>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        Francesco Dolcini <francesco.dolcini@toradex.com>,
-        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 20 Mar 2023 at 14:00, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Mon, Mar 20, 2023 at 02:32:25PM +0100, Philipp Zabel wrote:
-> > On Mo, 2023-03-20 at 12:15 +0200, Sakari Ailus wrote:
-> > > On Mon, Mar 20, 2023 at 11:55:14AM +0200, Laurent Pinchart wrote:
-> > > > On Mon, Mar 20, 2023 at 11:37:33AM +0200, Sakari Ailus wrote:
-> > > > > On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
-> > > > > > In a (simplified) nutshell,
-> > > > > >
-> > > > > > ---------+     +----------+     +---------+     +-----+     +-----+
-> > > > > > > Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
-> > > > > > > Sensor |     |          |     | Gasket  |     |     |     |     |
-> > > > > > ---------+     +----------+     +---------+     +-----+     +-----+
-> > > > >
-> > > > > Thank you, this is helpful.
-> > > > >
-> > > > > I suppose the mux here at least won't actively do anything to the data. So
-> > > > > presumably its endpoint won't contain the active configuration, but its
-> > > > > superset.
-> > > > >
-> > > > > >
-> > > > > > All those blocks, except for the gasket, have a node in DT.
-> > > > > >
-> > > > > > The IPU driver needs to know the number of CSI-2 data lanes, which is
-> > > > > > encoded in the data-lanes DT property present in both the sensor output
-> > > > > > endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
-> > > > > > the pipeline.
-> > > > >
-> > > > > This doesn't yet explain why the sensor would need to implement
-> > > > > get_mbus_config if its bus configuration remains constant.
-> > > >
-> > > > If I recall correctly, the IPU driver calls .g_mbus_config() on the
-> > > > camera sensor to get the number of lanes, as it can't get it from its
-> > > > own endpoint. That's a hack, and as Jacopo proposed, calling
-> > > > .g_mbus_config() on the CSI-2 RX would be better, as the CSI-2 RX driver
-> > > > can then get the value from its own endpoint, without requiring all
-> > > > sensor drivers to implement .g_mbus_config().
-> > >
-> > > The g_mbus_config op could be implemented by the CSI2IPU and mux, by simply
-> > > requesting the information from the upstream sub-device. No hacks would be
-> > > needed.
-> >
-> > I think implementing get_mbus_config on the mux might be enough. The
-> > IPU driver already recognizes the CSI-2 RX by its grp_id and could
-> > infer that it has to use MIPI CSI-2 mode from that.
-> >
-> > The video-mux would have to forward get_mbus_config to its active
-> > upstream port and if the upstream sensor does not implement it read bus
-> > width from the active upstream endpoint.
->
-> I'm fine with implementing it in the mux as well, but I think we can
-> take a shortcut here and call it on the CSI-2 RX from the IPU driver, as
-> the IPU driver knows about the architecture of the whole pipeline.
+From: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
-FWIW I have made use of video-mux and implementing g_mbus_config on it
-for D-PHY switch chips[1] where the different input ports may have
-different configurations. I'll admit that I've made the easy
-assumption that it's CSI-2 D-PHY in and out, when it could quite
-legitimately be working with any of the other bus types.
+Hi,
+This patch adds a driver for the Digiteq Automotive MGB4 grabber card.
+MGB4 is a modular frame grabber PCIe card for automotive video interfaces
+(FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
+XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
+which already have drivers in linux are used in the design.
 
-I had been intending to send this[2] upstream when I get a chance, but
-am I reading imx6q.dtsi[3] correctly in that the mux is accepting
-parallel on some ports and CSI-2 on others? The mux hardware is
-therefore far more than just a simple switch between inputs? Although
-as this is after the CSI2 rx block, this is effectively parallel data
-within the SoC, therefore is the configuration and get_mbus_config
-really relevant?
-I'd like to understand how this is being used on imx6 before trying to
-rework my patch into a generic solution.
+The driver is a quite standard v4l2 driver, with one exception - there are
+a lot of sysfs options that may/must be set before opening the v4l2 device
+to adapt the card on a specific signal (see mgb4.rst for details)
+as the card must be able to work with various signal sources (or displays)
+that can not be auto-detected.
 
-Thanks
-  Dave
+I have run the driver through the v4l2-compliance test suite for both the
+input and the output and the results look fine to me (I can provide the
+output if required).
 
-[1] eg Arducam's 2 and 4 port muxes -
-https://www.arducam.com/product-category/camera-multiplexers/, which
-IIRC use OnSemi's FSA644
-https://www.onsemi.com/products/interfaces/analog-switches/fsa644
-[2] https://github.com/raspberrypi/linux/commit/bf653318475cf4db0ec59e92139f477f7cc0a544
-[3] https://elixir.bootlin.com/linux/latest/source/arch/arm/boot/dts/imx6q.dtsi#L349
+Changes in v6:
+* Rebased to current master that includes the Xilinx XDMA driver.
+
+Changes in v5:
+* Removed unused <linux/version.h> includes
+
+Changes in v4:
+* Redesigned the signal change handling logic. Now using the propper timings
+  API in the video input driver and a propper open() syscall check/logic in
+  the video output driver.
+* Fixed all minor issues from v3 review.
+* 'checkpatch.pl --strict' used for checking the code.
+
+Changes in v3:
+* Rebased the DMA transfers part to use the new XDMA driver from Xilinx/AMD
+
+Changes in v2:
+* Completely rewritten the original Xilinx's XDMA driver to meet kernel code
+  standards.
+* Added all required "to" and "cc" mail addresses.
+
+Martin Tůma (1):
+  Added Digiteq Automotive MGB4 driver
+
+ Documentation/admin-guide/media/mgb4.rst      | 352 ++++++++
+ .../admin-guide/media/pci-cardlist.rst        |   1 +
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/media/pci/Kconfig                     |   1 +
+ drivers/media/pci/Makefile                    |   1 +
+ drivers/media/pci/mgb4/Kconfig                |  17 +
+ drivers/media/pci/mgb4/Makefile               |   6 +
+ drivers/media/pci/mgb4/mgb4_cmt.c             | 247 ++++++
+ drivers/media/pci/mgb4/mgb4_cmt.h             |  16 +
+ drivers/media/pci/mgb4/mgb4_core.c            | 641 ++++++++++++++
+ drivers/media/pci/mgb4/mgb4_core.h            |  65 ++
+ drivers/media/pci/mgb4/mgb4_dma.c             | 123 +++
+ drivers/media/pci/mgb4/mgb4_dma.h             |  18 +
+ drivers/media/pci/mgb4/mgb4_i2c.c             | 140 +++
+ drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
+ drivers/media/pci/mgb4/mgb4_io.h              |  39 +
+ drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
+ drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
+ drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
+ drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 780 ++++++++++++++++
+ drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 732 +++++++++++++++
+ drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  86 ++
+ drivers/media/pci/mgb4/mgb4_trigger.c         | 208 +++++
+ drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
+ drivers/media/pci/mgb4/mgb4_vin.c             | 830 ++++++++++++++++++
+ drivers/media/pci/mgb4/mgb4_vin.h             |  63 ++
+ drivers/media/pci/mgb4/mgb4_vout.c            | 501 +++++++++++
+ drivers/media/pci/mgb4/mgb4_vout.h            |  58 ++
+ 29 files changed, 5059 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/mgb4.rst
+ create mode 100644 drivers/media/pci/mgb4/Kconfig
+ create mode 100644 drivers/media/pci/mgb4/Makefile
+ create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
+
+
+base-commit: ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
+-- 
+2.39.2
+
