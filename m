@@ -2,98 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B99D6C1DA7
-	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 18:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9AB06C2019
+	for <lists+linux-media@lfdr.de>; Mon, 20 Mar 2023 19:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232505AbjCTRVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 13:21:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44978 "EHLO
+        id S229635AbjCTSko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Mar 2023 14:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233393AbjCTRUy (ORCPT
+        with ESMTP id S231468AbjCTSjg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 13:20:54 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD43812F3A;
-        Mon, 20 Mar 2023 10:16:50 -0700 (PDT)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DDE0B6C;
-        Mon, 20 Mar 2023 18:15:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679332553;
-        bh=EtloMJtVOSZ7X0F3GelvhtXn9Uc+JmrNunKBY6hpZrY=;
-        h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
-        b=jjvlCa00TY1Seag3XuFDhTgasxGbNJFQ05XrzpZriMCmkDv3MElrGTL9TGCrK44ef
-         i2DC+LCaGXRrEZo3Y2UMYCLVYPpN9khkr4uHiJjkG7IsS8vtd9iKTESfMznuGszjSy
-         urglxA3Yp6RRkon27rRu0pria9OW7+IrqoA+eZmg=
-Message-ID: <96794a9a-889b-0ddd-0da6-6622ba27ff64@ideasonboard.com>
-Date:   Mon, 20 Mar 2023 19:15:49 +0200
+        Mon, 20 Mar 2023 14:39:36 -0400
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E47110A9B
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 11:31:24 -0700 (PDT)
+Received: by mail-vs1-xe32.google.com with SMTP id d18so6336195vsv.11
+        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 11:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1679337080;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8NUhFi8oXVF/qnUu7VGuWdFAEzRgJeUjsSw2QycpwDg=;
+        b=Wuip40872JJqIizd5zEJFNll336M1aeiMEQHs24WbLaGf+5Yk2u77RmJdv2JmmM2pD
+         UoGKYUUXOh4XAhdy5QNkFqJH1aqy6l7LvU4QdV5Tm/6lWAZMzHj2I2qcBVD3f5fTLHJc
+         fALHjNhCRud3uGMM75p1JfJQqbIJrbNPuTj3L1BH0gC3JlLvsv61EPExnpkO8x4UML59
+         TBZpKty0CwHsKVQcpGhq4B8qJ1F2xw/lPZ0OZxS7Q9ySANvvnfj6UDuUyLGtLbs+uFZw
+         mu/cFFoPo/TgjFy2vn4v1x8drrWEL04w6lGroTMvKoTlmYpdDlncIqC2L8w/idKY/vdx
+         4Jtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679337080;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8NUhFi8oXVF/qnUu7VGuWdFAEzRgJeUjsSw2QycpwDg=;
+        b=L9qDJXbxov4WFdwfsbkRH9/JCd1A46OXtW6bk2wss/aXBijGIBKE3wT6KAFev8IsHp
+         tynH5V2WFlnw5VZlkFM92i9v+58ES0tFiZY99gXa/72bonJu/GAn2OeMZJ90cD2LvyS5
+         e7hEX6OJjpqQzXaD0AsW/cJgeJUKA6PAmZgfiYnYlA2OikTGBCTxFKkIO+IlBr7R3roZ
+         9mdBOZuYUlIe+F0qE9EtET9c+5wQ+zJAeT9umgnTaAf4o+gkM5v4FHyH8RKhzC6qS0l+
+         vhEl+d2iPMfYqHckoBG+tGgEIzEh6DmdLnDTGbdZ5IIQ2aQgZ5DE6uJA2Iv7fFE3GONa
+         D3Yw==
+X-Gm-Message-State: AO0yUKVyGYRZatedOa11eqGCtXefSwJX4fsWbYHAUrZ+nmMe61NA7UY0
+        UzWBksCN3FjTep22wgla87cxe3xFiQ9waubNi0Q23g==
+X-Google-Smtp-Source: AK7set8QDN4JpK48l8vyrE3uVC4kf0s1ISeE3k4SMb6KZlzFXeEauV8iuprYA8CtSVg7T+jFeKhCvPeHg2MCeuON88M=
+X-Received: by 2002:a05:6102:571b:b0:426:6d5:a55a with SMTP id
+ dg27-20020a056102571b00b0042606d5a55amr5400175vsb.1.1679337080074; Mon, 20
+ Mar 2023 11:31:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
-Content-Language: en-US
-To:     Wolfram Sang <wsa@kernel.org>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
- <204f124a-1030-99bd-9c84-25ed067991b6@ideasonboard.com>
- <ZBiRNpvITuOT03rE@ninjato>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+References: <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
+ <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu> <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
+ <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain> <ZBggtBU1TjlvVNCS@kekkonen.localdomain>
+ <20230320092602.GE20234@pendragon.ideasonboard.com> <ZBgpXRtXcxg14OGv@kekkonen.localdomain>
+ <20230320095514.GF20234@pendragon.ideasonboard.com> <ZBgyOPS23BC2wAfg@kekkonen.localdomain>
+ <727949a9c3d9e639b046bcd86635796452b10300.camel@pengutronix.de> <20230320140012.GB9535@pendragon.ideasonboard.com>
+In-Reply-To: <20230320140012.GB9535@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 20 Mar 2023 18:31:04 +0000
+Message-ID: <CAPY8ntCnX9uFbyfKnJCH6+8yLWwX1ZieYqzZq6qs9uvAPh9Eyw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <ZBiRNpvITuOT03rE@ninjato>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        linux-media@vger.kernel.org, kernel@pengutronix.de,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
+On Mon, 20 Mar 2023 at 14:00, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Mar 20, 2023 at 02:32:25PM +0100, Philipp Zabel wrote:
+> > On Mo, 2023-03-20 at 12:15 +0200, Sakari Ailus wrote:
+> > > On Mon, Mar 20, 2023 at 11:55:14AM +0200, Laurent Pinchart wrote:
+> > > > On Mon, Mar 20, 2023 at 11:37:33AM +0200, Sakari Ailus wrote:
+> > > > > On Mon, Mar 20, 2023 at 11:26:02AM +0200, Laurent Pinchart wrote:
+> > > > > > In a (simplified) nutshell,
+> > > > > >
+> > > > > > ---------+     +----------+     +---------+     +-----+     +-----+
+> > > > > > > Camera | --> | CSI-2 RX | --> | CSI2IPU | --> | Mux | --> | IPU |
+> > > > > > > Sensor |     |          |     | Gasket  |     |     |     |     |
+> > > > > > ---------+     +----------+     +---------+     +-----+     +-----+
+> > > > >
+> > > > > Thank you, this is helpful.
+> > > > >
+> > > > > I suppose the mux here at least won't actively do anything to the data. So
+> > > > > presumably its endpoint won't contain the active configuration, but its
+> > > > > superset.
+> > > > >
+> > > > > >
+> > > > > > All those blocks, except for the gasket, have a node in DT.
+> > > > > >
+> > > > > > The IPU driver needs to know the number of CSI-2 data lanes, which is
+> > > > > > encoded in the data-lanes DT property present in both the sensor output
+> > > > > > endpoint and the CSI-2 RX input endpoint, but not the other endpoints in
+> > > > > > the pipeline.
+> > > > >
+> > > > > This doesn't yet explain why the sensor would need to implement
+> > > > > get_mbus_config if its bus configuration remains constant.
+> > > >
+> > > > If I recall correctly, the IPU driver calls .g_mbus_config() on the
+> > > > camera sensor to get the number of lanes, as it can't get it from its
+> > > > own endpoint. That's a hack, and as Jacopo proposed, calling
+> > > > .g_mbus_config() on the CSI-2 RX would be better, as the CSI-2 RX driver
+> > > > can then get the value from its own endpoint, without requiring all
+> > > > sensor drivers to implement .g_mbus_config().
+> > >
+> > > The g_mbus_config op could be implemented by the CSI2IPU and mux, by simply
+> > > requesting the information from the upstream sub-device. No hacks would be
+> > > needed.
+> >
+> > I think implementing get_mbus_config on the mux might be enough. The
+> > IPU driver already recognizes the CSI-2 RX by its grp_id and could
+> > infer that it has to use MIPI CSI-2 mode from that.
+> >
+> > The video-mux would have to forward get_mbus_config to its active
+> > upstream port and if the upstream sensor does not implement it read bus
+> > width from the active upstream endpoint.
+>
+> I'm fine with implementing it in the mux as well, but I think we can
+> take a shortcut here and call it on the CSI-2 RX from the IPU driver, as
+> the IPU driver knows about the architecture of the whole pipeline.
 
-On 20/03/2023 19:00, Wolfram Sang wrote:
-> Hi Tomi,
-> 
->> Wolfram, do you have any comments on this?
-> 
-> Not yet. I need to dive into the previous discussions again to
-> understand what we agreed on and what potential problems we had to face.
-> However, holiday season is near, it could be that I won't have really
-> time for this until Mid-April or so. I'll try earlier but no promises :/
-> 
->> Things have been calming down, I think, and I'd like to merge the series
->> soon if nothing major comes up. The easiest way would be to merge the whole
->> series via linux-media, as most of the patches are for media. If this looks
->> good, can you ack it and I'll send a pull request to linux-media
->> maintainers?
-> 
-> I'd think this is a too elemental (is this a word?) change for someone
-> else to pull it. But no worries, I would offer an immutable branch right
-> when I am done with reviewing so other subsystems can pull it. Or are
-> there other technical reasons I missed?
+FWIW I have made use of video-mux and implementing g_mbus_config on it
+for D-PHY switch chips[1] where the different input ports may have
+different configurations. I'll admit that I've made the easy
+assumption that it's CSI-2 D-PHY in and out, when it could quite
+legitimately be working with any of the other bus types.
 
-An immutable branch is fine too.
+I had been intending to send this[2] upstream when I get a chance, but
+am I reading imx6q.dtsi[3] correctly in that the mux is accepting
+parallel on some ports and CSI-2 on others? The mux hardware is
+therefore far more than just a simple switch between inputs? Although
+as this is after the CSI2 rx block, this is effectively parallel data
+within the SoC, therefore is the configuration and get_mbus_config
+really relevant?
+I'd like to understand how this is being used on imx6 before trying to
+rework my patch into a generic solution.
 
-  Tomi
+Thanks
+  Dave
 
+[1] eg Arducam's 2 and 4 port muxes -
+https://www.arducam.com/product-category/camera-multiplexers/, which
+IIRC use OnSemi's FSA644
+https://www.onsemi.com/products/interfaces/analog-switches/fsa644
+[2] https://github.com/raspberrypi/linux/commit/bf653318475cf4db0ec59e92139f477f7cc0a544
+[3] https://elixir.bootlin.com/linux/latest/source/arch/arm/boot/dts/imx6q.dtsi#L349
