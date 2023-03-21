@@ -2,446 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA0D66C32D0
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 14:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1509D6C32E2
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 14:30:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230215AbjCUNZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 09:25:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43326 "EHLO
+        id S230431AbjCUNaE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 09:30:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjCUNZ4 (ORCPT
+        with ESMTP id S230220AbjCUNaC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 09:25:56 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2BF4ECE1;
-        Tue, 21 Mar 2023 06:25:17 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id bi9so19062907lfb.12;
-        Tue, 21 Mar 2023 06:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679405045;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hGk4QhzV6m7VkJkhXX15t1lCL2ihZM2uNosdUtyN80g=;
-        b=ZUAFkm09zT/2txCWSpqDsJy7gap41A5uBCG4xjzXv5RJE4Qs9SC+liY/RHxLEsc3/C
-         BwzlsT+Y8RJiFY6yi64lvi2bIQaqW8V+s+ACbtkhFW2FF4xa2G0I+Hzu8+9OtvwwYEuV
-         Bg/y0Rpu6zkeq0NiA/i7AHQLH6/0QExcdS8AI5BAsAdhLZNHk6P6PuOCBU/I5HLHRKuH
-         kSH9AUzcjWKazzkuACrSdkLruEZtw08TS0mXWEi4YyMw0mTQk8EDKPn5YdPjAFdFRb6M
-         ScyaFTjPnnE28fPz3XIVCq9XU6OkhrquyTXKY4yC1QCNQ/Zn1/Cpb+Rv8ti+zvld8DrP
-         IBiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679405045;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hGk4QhzV6m7VkJkhXX15t1lCL2ihZM2uNosdUtyN80g=;
-        b=RTqPoBN7JdbiR4mmuDhSfxjSHQWH6ah7iS0+1SlVM0rUX/WWwojiVqs+eSKxHusAzg
-         nFXKC4DanURzqzNoWTJsqx2PqzGIix1iUOUxZsEwvdOrOr3swQJh1cLbR3TFU1E6WJZZ
-         rfRp0jyk66FM3P/zcexHPzwexmSjE6OiHW2wtaBALmncFgeHijhtlqIlb6Jk4F+ZfcVt
-         QUM7eOS2iPRCCHLBV//hgbqVwbQ/PF2LWmrW5yJqwF6KN3g9je1ii5vAZ/IJLyvI6O5J
-         /0ShB3VeBwwe4xbtBSVrnZFJ2m1dawClgSnNqcKds82ZxqupB328Wr5+IQZs4eHxwblG
-         KORg==
-X-Gm-Message-State: AO0yUKWaQLqV4i5h++eDuBPXdOrpTSOGt+Zq/GwuNctA9IExIsQj/6DL
-        o9kycrFIlLyEPAF5gW68d+Q=
-X-Google-Smtp-Source: AK7set8Pn27qOKWi4fLa6EedkEGUcEQHTxM9gDXG1TvgDvmf79vRk1o6Cx6xjJuQDq5ugLjqqqTwww==
-X-Received: by 2002:ac2:43d3:0:b0:4a4:68b9:1a14 with SMTP id u19-20020ac243d3000000b004a468b91a14mr692901lfl.60.1679405045219;
-        Tue, 21 Mar 2023 06:24:05 -0700 (PDT)
-Received: from gmail.com (host-95-193-64-255.mobileonline.telia.com. [95.193.64.255])
-        by smtp.gmail.com with ESMTPSA id f21-20020ac251b5000000b004eaf2207a33sm161998lfk.223.2023.03.21.06.24.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 06:24:04 -0700 (PDT)
-Date:   Tue, 21 Mar 2023 14:24:02 +0100
-From:   Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Matt Turner <mattst88@gmail.com>,
-        freedreno@lists.freedesktop.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-Message-ID: <ZBmv8oTAqqAY/ZDP@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com>
- <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
- <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com>
- <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
- <ZBQ/qoxP+EGI0E7R@gmail.com>
- <CAF6AEGvj6SuA63M=tBBfek0ESgU3fRvPcJLKDMn3_hgL3OdnTA@mail.gmail.com>
+        Tue, 21 Mar 2023 09:30:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C65FB19A1;
+        Tue, 21 Mar 2023 06:29:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5827961B96;
+        Tue, 21 Mar 2023 13:29:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7B9C433EF;
+        Tue, 21 Mar 2023 13:29:57 +0000 (UTC)
+Message-ID: <d9106587-8c55-b6d3-dc4e-37368840dc39@xs4all.nl>
+Date:   Tue, 21 Mar 2023 14:29:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvj6SuA63M=tBBfek0ESgU3fRvPcJLKDMn3_hgL3OdnTA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 00/12] Add support for multiple chips
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230208090855.18934-1-moudy.ho@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230208090855.18934-1-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 17, 2023 at 08:59:48AM -0700, Rob Clark wrote:
-> On Fri, Mar 17, 2023 at 3:23 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> >
-> > On Thu, Mar 16, 2023 at 09:28:55AM -0700, Rob Clark wrote:
-> > > On Thu, Mar 16, 2023 at 2:26 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> > > >
-> > > > On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> > > > > On Wed, Mar 15, 2023 at 6:53 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> > > > > >
-> > > > > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > > > > > On Fri, Mar 10, 2023 at 7:45 AM Jonas Ådahl <jadahl@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > > > >
-> > > > > > > > > Add a way to hint to the fence signaler of an upcoming deadline, such as
-> > > > > > > > > vblank, which the fence waiter would prefer not to miss.  This is to aid
-> > > > > > > > > the fence signaler in making power management decisions, like boosting
-> > > > > > > > > frequency as the deadline approaches and awareness of missing deadlines
-> > > > > > > > > so that can be factored in to the frequency scaling.
-> > > > > > > > >
-> > > > > > > > > v2: Drop dma_fence::deadline and related logic to filter duplicate
-> > > > > > > > >     deadlines, to avoid increasing dma_fence size.  The fence-context
-> > > > > > > > >     implementation will need similar logic to track deadlines of all
-> > > > > > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > > > > > v4: Clarify in docs comment that this is a hint
-> > > > > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > > > > > v6: More docs
-> > > > > > > > > v7: Fix typo, clarify past deadlines
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > > > > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > > > > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > > > > > ---
-> > > > > > > >
-> > > > > > > > Hi Rob!
-> > > > > > > >
-> > > > > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
-> > > > > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > > > > > >  3 files changed, 87 insertions(+)
-> > > > > > > > >
-> > > > > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> > > > > > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > > > >     :doc: fence signalling annotation
-> > > > > > > > >
-> > > > > > > > > +DMA Fence Deadline Hints
-> > > > > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > > > > +
-> > > > > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > > > > +   :doc: deadline hints
-> > > > > > > > > +
-> > > > > > > > >  DMA Fences Functions Reference
-> > > > > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > > > >
-> > > > > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > > > > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
-> > > > > > > > >  }
-> > > > > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > > > > >
-> > > > > > > > > +/**
-> > > > > > > > > + * DOC: deadline hints
-> > > > > > > > > + *
-> > > > > > > > > + * In an ideal world, it would be possible to pipeline a workload sufficiently
-> > > > > > > > > + * that a utilization based device frequency governor could arrive at a minimum
-> > > > > > > > > + * frequency that meets the requirements of the use-case, in order to minimize
-> > > > > > > > > + * power consumption.  But in the real world there are many workloads which
-> > > > > > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > > > > > + *
-> > > > > > > > > + * * Workloads that ping-pong between device and CPU, with alternating periods
-> > > > > > > > > + *   of CPU waiting for device, and device waiting on CPU.  This can result in
-> > > > > > > > > + *   devfreq and cpufreq seeing idle time in their respective domains and in
-> > > > > > > > > + *   result reduce frequency.
-> > > > > > > > > + *
-> > > > > > > > > + * * Workloads that interact with a periodic time based deadline, such as double
-> > > > > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
-> > > > > > > > > + *   missing a vblank deadline results in an *increase* in idle time on the GPU
-> > > > > > > > > + *   (since it has to wait an additional vblank period), sending a signal to
-> > > > > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-> > > > > > > > > + *   needed.
-> > > > > > > >
-> > > > > > > > This is the use case I'd like to get some better understanding about how
-> > > > > > > > this series intends to work, as the problematic scheduling behavior
-> > > > > > > > triggered by missed deadlines has plagued compositing display servers
-> > > > > > > > for a long time.
-> > > > > > > >
-> > > > > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> > > > > > > > developer, so I will need some hand holding when it comes to
-> > > > > > > > understanding exactly what piece of software is responsible for
-> > > > > > > > communicating what piece of information.
-> > > > > > > >
-> > > > > > > > > + *
-> > > > > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-> > > > > > > > > + * The deadline hint provides a way for the waiting driver, or userspace, to
-> > > > > > > > > + * convey an appropriate sense of urgency to the signaling driver.
-> > > > > > > > > + *
-> > > > > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
-> > > > > > > > > + * facing APIs).  The time could either be some point in the future (such as
-> > > > > > > > > + * the vblank based deadline for page-flipping, or the start of a compositor's
-> > > > > > > > > + * composition cycle), or the current time to indicate an immediate deadline
-> > > > > > > > > + * hint (Ie. forward progress cannot be made until this fence is signaled).
-> > > > > > > >
-> > > > > > > > Is it guaranteed that a GPU driver will use the actual start of the
-> > > > > > > > vblank as the effective deadline? I have some memories of seing
-> > > > > > > > something about vblank evasion browsing driver code, which I might have
-> > > > > > > > misunderstood, but I have yet to find whether this is something
-> > > > > > > > userspace can actually expect to be something it can rely on.
-> > > > > > >
-> > > > > > > I guess you mean s/GPU driver/display driver/ ?  It makes things more
-> > > > > > > clear if we talk about them separately even if they happen to be the
-> > > > > > > same device.
-> > > > > >
-> > > > > > Sure, sorry about being unclear about that.
-> > > > > >
-> > > > > > >
-> > > > > > > Assuming that is what you mean, nothing strongly defines what the
-> > > > > > > deadline is.  In practice there is probably some buffering in the
-> > > > > > > display controller.  For ex, block based (including bandwidth
-> > > > > > > compressed) formats, you need to buffer up a row of blocks to
-> > > > > > > efficiently linearize for scanout.  So you probably need to latch some
-> > > > > > > time before you start sending pixel data to the display.  But details
-> > > > > > > like this are heavily implementation dependent.  I think the most
-> > > > > > > reasonable thing to target is start of vblank.
-> > > > > >
-> > > > > > The driver exposing those details would be quite useful for userspace
-> > > > > > though, so that it can delay committing updates to late, but not too
-> > > > > > late. Setting a deadline to be the vblank seems easy enough, but it
-> > > > > > isn't enough for scheduling the actual commit.
-> > > > >
-> > > > > I'm not entirely sure how that would even work.. but OTOH I think you
-> > > > > are talking about something on the order of 100us?  But that is a bit
-> > > > > of another topic.
-> > > >
-> > > > Yes, something like that. But yea, it's not really related. Scheduling
-> > > > commits closer to the deadline has more complex behavior than that too,
-> > > > e.g. the need for real time scheduling, and knowing how long it usually
-> > > > takes to create and commit and for the kernel to process.
-> > > >
-> > > > >
-> > > >
-> > > > 8-< *snip* 8-<
-> > > >
-> > > > > > >
-> > > > > > > You need a fence to set the deadline, and for that work needs to be
-> > > > > > > flushed.  But you can't associate a deadline with work that the kernel
-> > > > > > > is unaware of anyways.
-> > > > > >
-> > > > > > That makes sense, but it might also a bit inadequate to have it as the
-> > > > > > only way to tell the kernel it should speed things up. Even with the
-> > > > > > trick i915 does, with GNOME Shell, we still end up with the feedback
-> > > > > > loop this series aims to mitigate. Doing triple buffering, i.e. delaying
-> > > > > > or dropping the first frame is so far the best work around that works,
-> > > > > > except doing other tricks that makes the kernel to ramp up its clock.
-> > > > > > Having to rely on choosing between latency and frame drops should
-> > > > > > ideally not have to be made.
-> > > > >
-> > > > > Before you have a fence, the thing you want to be speeding up is the
-> > > > > CPU, not the GPU.  There are existing mechanisms for that.
-> > > >
-> > > > Is there no benefit to let the GPU know earlier that it should speed up,
-> > > > so that when the job queue arrives, it's already up to speed?
-> > >
-> > > Downstream we have input notifier that resumes the GPU so we can
-> > > pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
-> > > wait to boost freq until we have cmdstream to submit, since that
-> > > doesn't take as long.  What needs help initially after input is all
-> > > the stuff that happens on the CPU before the GPU can start to do
-> > > anything ;-)
-> >
-> > How do you deal with boosting CPU speeds downstream? Does the input
-> > notifier do that too?
-> 
-> Yes.. actually currently downstream (depending on device) we have 1 to
-> 3 input notifiers, one for CPU boost, one for early-PSR-exit, and one
-> to get a head start on booting up the GPU.
+Hi Moudy,
 
-Would be really nice to upstream these, one way or the other, be it
-actually input event based, or via some uapi to just poke the kernel. I
-realize it's not related to this thread, so this is just me wishing
-things into the void.
+On 08/02/2023 10:08, Moudy Ho wrote:
+> Changes since v5:
+> - Rebase on linux-next.
+> - Integrate the chip configuration into a source file called "mdp_cfg_data.c"
+>   instead of a header file.
+> - Fix undefined reference to __udividi3 caused by patch [1/12].
+> - Fix parentheses issue reported by check script.
+> - Fix compilation and smatch errors
+> 
+> Changes since v4:
+> - Rebase on linux-next.
+> - Fix potential frame size overflow in "mtk-mdp3-regs.c".
+> - Fix OOB in MDP3 component clocks in "mtk-mdp3-comp.*".
+> - Reconfigure the shared memory between MDP3 kerenl and SCP.
+> 
+> Changes since v3:
+> - Rebase on linux-next.
+> - In the file "mtk-mdp3-m2m.c", use the limited resolution defined by
+>   each platform to replace the default format.
+> - Add platform ID in driver data, and refine shared memory structure preprocessing.
+> - Simplify the way to get mutex ID in function "mdp_path_subfrm_require".
+> 
+> Changes since v2:
+> - Depend on :
+>   [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+> - Split the shared memory header(mtk-img-ipi.h) by preprocessing instead, and
+>   classify the generic parts into "mtk-mdp3-type.h", and move
+>   chip-specific parts to"mt8183/mdp3-comp-mt8183.h".
+> 
+> Changes since v1:
+> - Depend on :
+>   [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+> - For hardware-specific structures in the shared memory header(mtk-img-ipi.h),
+>   split the relevant functions and structure definitions.
+> 
+> Hi,
+> 
+> To support multiple chips, a chip configuration header file needs to be created
+> and the relevant information split and moved into it.
 
-> 
-> > >
-> > > Btw, I guess I haven't made this clear, dma-fence deadline is trying
-> > > to help the steady-state situation, rather than the input-latency
-> > > situation.  It might take a frame or two of missed deadlines for
-> > > gpufreq to arrive at a good steady-state freq.
-> >
-> > I'm just not sure it will help. Missed deadlines set at commit hasn't
-> > been enough in the past to let the kernel understand it should speed
-> > things up before the next frame (which will be a whole frame late
-> > without any triple buffering which should be a last resort), so I don't
-> > see how it will help by adding a userspace hook to do the same thing.
-> 
-> So deadline is just a superset of "right now" and "sometime in the
-> future".. and this has been useful enough for i915 that they have both
-> forms, when waiting on GPU via i915 specific ioctls and when pageflip
-> (assuming userspace isn't deferring composition decision and instead
-> just pushing it all down to the kernel).  But this breaks down in a
-> few cases:
-> 
-> 1) non pageflip (for ex. ping-ponging between cpu and gpu) use cases
-> when you wait via polling on fence fd or wait via drm_syncobj instead
-> of DRM_IOCTL_I915_GEM_WAIT
-> 2) when userspace decides late in frame to not pageflip because app
-> fence isn't signaled yet
+This series is close to be ready for merging.
 
-It breaks down in practice today, because we do entering the low-freq
-feedback loop that triple buffering today effectively works around.
-That is even with non-delayed page flipping, and a single pipeline
-source (compositor only rendering) or only using already signaled ready
-client buffers when compositing.
+Two issues: please rebase again to the latest media_stage tree
+https://git.linuxtv.org/media_stage.git/
 
-Anyway, I don't doubt its usefulness, just a bit pessimistic.
+I had a number of conflicts, and I didn't feel comfortable to make the
+changes myself, it wasn't trivial.
 
-> 
-> And this is all done in a way that doesn't help for situations where
-> you have separate kms and render devices.  Or the kms driver doesn't
-> bypass atomic helpers (ie. uses drm_atomic_helper_wait_for_fences()).
-> So the technique has already proven to be useful.  This series just
-> extends it beyond driver specific primitives (ie.
-> dma_fence/drm_syncojb)
-> 
-> > I think input latency and steady state target frequency here is tightly
-> > linked; what we should aim for is to provide enough information at the
-> > right time so that it does *not* take a frame or two to of missed
-> > deadlines to arrive at the target frequency, as those missed deadlines
-> > either means either stuttering and/or lag.
-> 
-> If you have some magic way for a gl/vk driver to accurately predict
-> how many cycles it will take to execute a sequence of draws, I'm all
-> ears.
-> 
-> Realistically, the best solution on sudden input is to overshoot and
-> let freqs settle back down.
-> 
-> But there is a lot more to input latency than GPU freq.  In UI
-> workloads, even fullscreen animation, I don't really see the GPU going
-> above the 2nd lowest OPP even on relatively small things like a618.
-> UI input latency (touch scrolling, on-screen stylus / low-latency-ink,
-> animations) are a separate issue from what this series addresses, and
-> aren't too much to do with GPU freq.
-> 
-> > That it helps with the deliberately late commit I do understand, but we
-> > don't do that yet, but intend to when there is kernel uapi to lets us do
-> > so without negative consequences.
-> >
-> > >
-> > > > >
-> > > > > TBF I'm of the belief that there is still a need for input based cpu
-> > > > > boost (and early wake-up trigger for GPU).. we have something like
-> > > > > this in CrOS kernel.  That is a bit of a different topic, but my point
-> > > > > is that fence deadlines are just one of several things we need to
-> > > > > optimize power/perf and responsiveness, rather than the single thing
-> > > > > that solves every problem under the sun ;-)
-> > > >
-> > > > Perhaps; but I believe it's a bit of a back channel of intent; the piece
-> > > > of the puzzle that has the information to know whether there is need
-> > > > actually speed up is the compositor, not the kernel.
-> > > >
-> > > > For example, pressing 'p' while a terminal is focused does not need high
-> > > > frequency clocks, it just needs the terminal emulator to draw a 'p' and
-> > > > the compositor to composite that update. Pressing <Super> may however
-> > > > trigger a non-trivial animation moving a lot of stuff around on screen,
-> > > > maybe triggering Wayland clients to draw and what not, and should most
-> > > > arguably have the ability to "warn" the kernel about the upcoming flood
-> > > > of work before it is already knocking on its door step.
-> > >
-> > > The super key is problematic, but not for the reason you think.  It is
-> > > because it is a case where we should boost on key-up instead of
-> > > key-down.. and the second key-up event comes after the cpu-boost is
-> > > already in it's cool-down period.  But even if suboptimal in cases
-> > > like this, it is still useful for touch/stylus cases where the
-> > > slightest of lag is much more perceptible.
-> >
-> > Other keys are even more problematic. Alt, for example, does nothing,
-> > Alt + Tab does some light rendering, but Alt + KeyAboveTab will,
-> > depending on the current active applications, suddenly trigger N Wayland
-> > surfaces to start rendering at the same time.
-> >
-> > >
-> > > This is getting off topic but I kinda favor coming up with some sort
-> > > of static definition that userspace could give the kernel to let the
-> > > kernel know what input to boost on.  Or maybe something could be done
-> > > with BPF?
-> >
-> > I have hard time seeing any static information can be enough, it's
-> > depends too much on context what is expected to happen. And can a BPF
-> > program really help? Unless BPF programs that pulls some internal kernel
-> > strings to speed things up whenever userspace wants I don't see how it
-> > is that much better.
-> >
-> > I don't think userspace is necessarily too slow to actively particitpate
-> > in providing direct scheduling hints either. Input processing can, for
-> > example, be off loaded to a real time scheduled thread, and plumbing any
-> > hints about future expectations from rendering, windowing and layout
-> > subsystems will be significantly easier to plumb to a real time input
-> > thread than translated into static informations or BPF programs.
-> 
-> I mean, the kernel side input handler is called from irq context long
-> before even the scheduler gets involved..
-> 
-> But I think you are over-thinking the Alt + SomeOtherKey case.  The
-> important thing isn't what the other key is, it is just to know that
-> Alt is a modifier key (ie. handle it on key-up instead of key-down).
-> No need to over-complicate things.  It's probably enough to give the
-> kernel a list of modifier+key combo's that do _something_..
+Secondly, I get a smatch error:
 
-Perhaps I'm over thinking it, it just seems all so unnecessary to
-complicate the kernel so that it's able to predict when GUI animations
-will happen instead of the GUI itself doing it when it is actually
-beneficial. All it'd take (naively) is uapi for the three kind of boosts
-downstream now does automatically from input events.
+drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c:452 mdp_cfg_get_id_public() error: 'mdp_dev' dereferencing possible ERR_PTR()
 
+In any case, if you can rebase and fix that issue, then I'll make a PR.
+
+Thanks!
+
+	Hans
+
+> The v4l2-compliance test results list is as follows:
 > 
-> And like I've said before, keyboard input is the least problematic in
-> terms of latency.  It is a _lot_ easier to notice lag with touch
-> scrolling or stylus (on screen).  (The latter case, I think wayland
-> has some catching up to do compared to CrOS or android.. you really
-> need a way to allow the app to do front buffer rendering to an overlay
-> for the stylus case, because even just 16ms delay is _very_
-> noticeable.)
-
-Sure, but here too userpsace (rt thread in the compositor) is probably a
-good enough place to predict when to boost since it will be the one
-proxies e.g. the stylus input events to the application.
-
-Front buffering on the other hand is a very different topic ;)
-
-
-Jonas
-
+> v4l2-compliance 1.23.0-4942, 32 bits, 32-bit time_t
+> v4l2-compliance SHA: 4cf258c24026 2022-07-28 15:43:45
 > 
-> BR,
-> -R
+> Compliance test for mtk-mdp3 device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : mtk-mdp3
+>         Card type        : MediaTek MDP3
+>         Bus info         : platform:14001000.dma-controlle
+>         Driver version   : 6.2.0
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+> 
+> Required ioctls:
+> 	test VIDIOC_QUERYCAP: OK
+> 	test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+> 	test second /dev/video0 open: OK
+> 	test VIDIOC_QUERYCAP: OK
+> 	test VIDIOC_G/S_PRIORITY: OK
+> 	test for unlimited opens: OK
+> 
+> Debug ioctls:
+> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> 	test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+> 	test VIDIOC_QUERYCTRL: OK
+> 	test VIDIOC_G/S_CTRL: OK
+> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> 	Standard Controls: 4 Private Controls: 0
+> 
+> Format ioctls:
+> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> 	test VIDIOC_G/S_PARM: OK (Not Supported)
+> 	test VIDIOC_G_FBUF: OK (Not Supported)
+> 	test VIDIOC_G_FMT: OK
+> 	test VIDIOC_TRY_FMT: OK
+> 	test VIDIOC_S_FMT: OK
+> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> 	test Cropping: OK
+> 	test Composing: OK
+> 	test Scaling: OK
+> 
+> Codec ioctls:
+> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> 	test VIDIOC_EXPBUF: OK
+> 	test Requests: OK (Not Supported)
+> 	test TIME32/64: OK
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+> 	test read/write: OK (Not Supported)
+> 	test blocking wait: OK
+>     (snip)
+> 	test MMAP (no poll): OK
+> 	(snip)
+> 	test MMAP (select): OK
+>     (snip)
+> 	test MMAP (epoll): OK
+> 	test USERPTR (no poll): OK (Not Supported)
+> 	test USERPTR (select): OK (Not Supported)
+> 	test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Stream using all formats:
+> 	(snip)
+> Total for mtk-mdp3 device /dev/video0: 1174, Succeeded: 1174, Failed: 0, Warnings: 0
+> 
+> Moudy Ho (12):
+>   media: platform: mtk-mdp3: fix potential frame size overflow in
+>     mdp_try_fmt_mplane()
+>   media: platform: mtk-mdp3: add files for chip configuration
+>   media: platform: mtk-mdp3: chip config split about component settings
+>   media: platform: mtk-mdp3: chip config split about subcomponents
+>   media: platform: mtk-mdp3: chip config split about color format
+>   media: platform: mtk-mdp3: chip config split about resolution
+>     limitations
+>   media: platform: mtk-mdp3: chip config split about pipe info
+>   media: platform: mtk-mdp3: extend mdp_color format for compressed mode
+>   media: platform: mtk-mdp3: dynamically allocate component clocks
+>   media: platform: mtk-mdp3: Split general definitions used in MDP3
+>   media: platform: mtk-mdp3: decompose hardware-related information in
+>     shared memory
+>   media: platform: mtk-mdp3: reconfigure shared memory
+> 
+>  drivers/media/platform/mediatek/mdp3/Makefile |   2 +-
+>  .../platform/mediatek/mdp3/mdp_cfg_data.c     | 454 +++++++++++++++
+>  .../platform/mediatek/mdp3/mdp_sm_mt8183.h    | 144 +++++
+>  .../platform/mediatek/mdp3/mtk-img-ipi.h      | 189 +-----
+>  .../platform/mediatek/mdp3/mtk-mdp3-cfg.h     |  20 +
+>  .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 148 +++--
+>  .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 538 +++++++++++-------
+>  .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  24 +-
+>  .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  46 +-
+>  .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  18 +-
+>  .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  28 +-
+>  .../platform/mediatek/mdp3/mtk-mdp3-m2m.h     |   1 -
+>  .../platform/mediatek/mdp3/mtk-mdp3-regs.c    | 293 +---------
+>  .../platform/mediatek/mdp3/mtk-mdp3-regs.h    | 214 +++----
+>  .../platform/mediatek/mdp3/mtk-mdp3-type.h    |  53 ++
+>  .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     | 193 +++----
+>  .../platform/mediatek/mdp3/mtk-mdp3-vpu.h     |  29 +-
+>  17 files changed, 1429 insertions(+), 965 deletions(-)
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8183.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h
+>  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+> 
+
