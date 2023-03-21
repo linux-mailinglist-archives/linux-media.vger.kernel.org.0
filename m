@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B33346C2EF5
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 11:29:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB7336C2EF2
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 11:29:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbjCUK35 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 06:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50970 "EHLO
+        id S230289AbjCUK3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 06:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbjCUK30 (ORCPT
+        with ESMTP id S230224AbjCUK3b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 06:29:26 -0400
+        Tue, 21 Mar 2023 06:29:31 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559F62685C;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B6526866;
         Tue, 21 Mar 2023 03:29:20 -0700 (PDT)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:f5ef:1040:e3c1:3d00])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A3E0066030EE;
-        Tue, 21 Mar 2023 10:29:12 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6677C66030EF;
+        Tue, 21 Mar 2023 10:29:13 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679394553;
-        bh=Iem6HuAbjZeNxfcZHAnfFZWjJnJ1iJw/BVVWXexqEJU=;
+        s=mail; t=1679394554;
+        bh=EMn3OF0L8RhNUweBGxWkw/5f1Od9J8MG3aaxVQp6684=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WButoN+nNQSgZEerfDe52xiPWzHegqd9VQfxTzPkPgVJ/nAPKuov6Ae1l+BdAZDbr
-         pc4b0sl58f/TaeR2yao2PDQLC08h2ldDoeTqn9LN1ahRrqK2ZoVDLklFZ97+UdZwat
-         tfUBjdmxhrIhJCGrTJ6/sldyl3qieqNsbOijAx3fUvIVDqwE8Z1/15ZVWx/UGC3xF4
-         qcxN9/XJvRmDmywniptzSy00CA6mpAPbMIo9TpMhG/uh1alnO1YEeVo1jgTQ4E0HL5
-         XSeEHEuEwcXnBltev8vDXcUCE1BRyMdC8vqzTsDBFBhWUaab/3POgr65OjHNTFD9n5
-         BU6MGHEEVKWMg==
+        b=Y23hqQqzs6tAFn+DqMz0GJdU6CSxe/Z5SBa8YO2eSNNxMgKaPaMmwgMSVVIIiql7b
+         GobkZUXf+IOl5N4j3txo1Y+rZpn4VLxMkjcZFtkmR/rF9FwwQsKDEB2JEwrmgvbMa6
+         Fcirk42ecIAPTgteU0KqPiZV5ToMdt8SDZZoYlylmKy8uYr0bAY7rvnXtaC3n1PEgQ
+         J2GIbdOULKGO7nCJR92KITx3Vk0zgIUaLmxAF7LeOwp+p3twANmF5WGkd3fyUuI76m
+         ljrabHYPxuI13etVsuyvQsIkrxP3S9Fh3EAA2eJ7lv28445AU920JosMo8KMYtS8S6
+         kIoH20etkbfLw==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
         ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
@@ -48,9 +48,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-rockchip@lists.infradead.org, kernel@collabora.com,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 7/8] media: vim2m: Use v4l2-mem2mem helpers for VIDIOC_DELETE_BUF ioctl
-Date:   Tue, 21 Mar 2023 11:28:54 +0100
-Message-Id: <20230321102855.346732-8-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 8/8] media: verisilicon: Use v4l2-mem2mem helpers for VIDIOC_DELETE_BUF ioctl
+Date:   Tue, 21 Mar 2023 11:28:55 +0100
+Message-Id: <20230321102855.346732-9-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
 References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
@@ -65,25 +65,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make vim2m support VIDIOC_DELETE_BUF ioctl.
+Make Hantro decoder support VIDIOC_DELETE_BUF ioctl.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- drivers/media/test-drivers/vim2m.c | 1 +
+ drivers/media/platform/verisilicon/hantro_v4l2.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
-index 7964426bf2f7..3500a3df66c8 100644
---- a/drivers/media/test-drivers/vim2m.c
-+++ b/drivers/media/test-drivers/vim2m.c
-@@ -960,6 +960,7 @@ static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
- 	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
-+	.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index d238d407f986..8f1414085f47 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -740,6 +740,7 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+ 	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
+ 	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
+ 	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
++	.vidioc_delete_buf = v4l2_m2m_ioctl_delete_buf,
+ 	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
  
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
+ 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
 -- 
 2.34.1
 
