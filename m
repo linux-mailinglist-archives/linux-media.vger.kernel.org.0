@@ -2,95 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B0D6C27DC
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 03:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE6A6C2A9D
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 07:45:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbjCUCJ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Mar 2023 22:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54596 "EHLO
+        id S230363AbjCUGpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 02:45:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbjCUCJ1 (ORCPT
+        with ESMTP id S230021AbjCUGpb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Mar 2023 22:09:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91CCA2B9E5
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 19:09:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A5A12B810A0
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 02:09:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DD7C433A0
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 02:09:21 +0000 (UTC)
-Date:   Tue, 21 Mar 2023 03:09:20 +0100
-Message-ID: <0e7a8f366c4a23d99c02f778b005cee6.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 21 Mar 2023 02:45:31 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3263724BF9;
+        Mon, 20 Mar 2023 23:45:28 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id j13so14680998pjd.1;
+        Mon, 20 Mar 2023 23:45:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679381127;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cBlI+oJSvB7F5CTf18vIbj2UkTaU+FCvh8P2NMwv3gQ=;
+        b=Kn04m2cMujcd/1X7I/qQ+Z2L028Rke8VOWJhLt5koVK0fM+PvKiWkZfvU645FT9WCh
+         /jpvAQG3RJ9uSveqkB5UTeM6SgMrjP/viPnW63ZOLv3E8m9/uQllFCMZH6eBMOjbpCr8
+         I2LhtvmIzWVLq4zsYBQMNqpC2Y7+VHVveL4r99cBJBntBafGOnJdKDDgtsrzLbipR3LR
+         lCDixDgkWDymUq6ifCzeE+b3qUb3Gy/7PCFKnNbWejDXeXqwfusgZFSyMTYYNK24Sbzb
+         RvNdOh7ClJl2MwdLisvPoVrSwmJ2ftcd4rd3piSJ0R/asYwofvdHyq7riYuvbDUVulsy
+         vEtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679381127;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cBlI+oJSvB7F5CTf18vIbj2UkTaU+FCvh8P2NMwv3gQ=;
+        b=DzTURiSBZocRwrp+q5savYSUMFxmk7Nu/Jo3rhA+5cbROkiS5Lf8ZgKkGvuytV5MkZ
+         E8RALyRlpmtxKSsVxobcJ65PNNuA6W0AbekTtkEGNmlOzoZ/JZ+Z5QlK4keSxdMTy/GH
+         tPuIN0YIlNPt9+1DEqbONYTwgr7TjogExhssGrsv/PnxGZwhT2VlZ6YGoJlDTxKgCOb5
+         M1xK3SUDrM55IEuVrAsUTqqAZTY2lbgzopwQS2N3CWYKok2efBmPGt/7Hr5hN5Xu44N4
+         z+g08fSp7pTqfL2QGC2aib+aGKg6nQw3ul7CTHl9grJg9A368B65Uw2v2FNBTCJGPBPz
+         A8rQ==
+X-Gm-Message-State: AO0yUKU/fCf1DZhIM5zBFsbii2nmAbvOipq0TnR6pdgwB/k7jgyXr4td
+        4jeLC684LNG+oNPs7LTTioR1lnqbAo4=
+X-Google-Smtp-Source: AK7set9Zqsp2EHKO3BKgI2Rc3F7SqxGfJ3+HyrFqA/Qq1gQgwPg2C0jgfZXkuqX2tUJp14J9CM4SWw==
+X-Received: by 2002:a17:903:124e:b0:19e:8076:9bd2 with SMTP id u14-20020a170903124e00b0019e80769bd2mr1509171plh.17.1679381127711;
+        Mon, 20 Mar 2023 23:45:27 -0700 (PDT)
+Received: from trent-reznor ([2601:641:4000:81:109e:9b0c:f18f:7fa1])
+        by smtp.gmail.com with ESMTPSA id jm18-20020a17090304d200b001888cadf8f6sm7796388plb.49.2023.03.20.23.45.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 23:45:26 -0700 (PDT)
+Date:   Mon, 20 Mar 2023 23:45:24 -0700
+From:   Daniel Watson <ozzloy@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: av7110: put spaces around operators
+Message-ID: <ZBlShLl4PYlNIpGN@trent-reznor>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+put spaces around '=' and '<=' to match style from checkpatch
 
-Results of the daily build of media_tree:
+Signed-off-by: Daniel Watson <ozzloy@gmail.com>
+---
+ drivers/staging/media/av7110/av7110_hw.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-date:			Tue Mar 21 03:00:08 CET 2023
-media-tree git hash:	71937240a472ee551ac8de0e7429b9d49884a388
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	0f13530f167db8361db49f7b2df8ae3a4faf4d64
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8298-gcfe12a9b-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: ad510d0d6fd0486d26012f5b269d601ecceaaf9a
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+diff --git a/drivers/staging/media/av7110/av7110_hw.h b/drivers/staging/media/av7110/av7110_hw.h
+index 6380d8950c695..3274146c401f1 100644
+--- a/drivers/staging/media/av7110/av7110_hw.h
++++ b/drivers/staging/media/av7110/av7110_hw.h
+@@ -402,8 +402,8 @@ static inline u32 irdebi(struct av7110 *av7110, u32 config, int addr, u32 val, u
+ {
+ 	u32 res;
+ 
+-	res=av7110_debiread(av7110, config, addr, count);
+-	if (count<=4)
++	res = av7110_debiread(av7110, config, addr, count);
++	if (count <= 4)
+ 		memcpy(av7110->debi_virt, (char *) &res, count);
+ 	return res;
+ }
+@@ -424,7 +424,7 @@ static inline u32 rdebi(struct av7110 *av7110, u32 config, int addr, u32 val, un
+ 	u32 res;
+ 
+ 	spin_lock_irqsave(&av7110->debilock, flags);
+-	res=av7110_debiread(av7110, config, addr, count);
++	res = av7110_debiread(av7110, config, addr, count);
+ 	spin_unlock_irqrestore(&av7110->debilock, flags);
+ 	return res;
+ }
+-- 
+2.34.1
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
