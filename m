@@ -2,75 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22C486C3496
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 15:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D1D26C34F1
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 16:00:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231358AbjCUOn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 10:43:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
+        id S229964AbjCUPAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 11:00:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbjCUOn0 (ORCPT
+        with ESMTP id S231531AbjCUPAR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 10:43:26 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E312A10CA;
-        Tue, 21 Mar 2023 07:43:23 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id ek18so60643103edb.6;
-        Tue, 21 Mar 2023 07:43:23 -0700 (PDT)
+        Tue, 21 Mar 2023 11:00:17 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F8448E36
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 08:00:16 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id u11-20020a05600c19cb00b003edcc414997so4784142wmq.3
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 08:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679409802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O7ubpTBwCGfHItDX77/xDDLQ0Emp6svnzclBDAs6qyE=;
-        b=T1s8Ngl+RkVIvxNZpvZnMH7cqodpqineB22YWtIv/fCGFj7joV/a1TjSRUm2pJJHHt
-         MUKxqDn5xKWt1O5LBWVnUBgDu7rGLfa03O5Y9FcuEHowG/SlkK7LqP23ZwmrwM0e7Teq
-         QIWIwFG8FsQIjgobJ5zpK1KmBtp960ybNTL2lY/5bEB4xvS7cnm3kjiyyk9z2xzet73f
-         gBH4RPumKKnXgn8OfdTuNLjHTY1ctiMA2fIGN5fpsiI7phP1firJvEgcgRL6RMRFv9B6
-         rxvXVlonIb+2hM/XbpELgBCHVQG3Fb65I6yc1FlE/etUE3C5BrDKrCvP1Dd5HFv5cDVd
-         3S5g==
+        d=gmail.com; s=20210112; t=1679410815;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/SKvKGtYbJspT2KfSVVcegusA4FS/+In9jNUHnh2Smc=;
+        b=P3/JN7QvITsVuX1klcHni87+mXKPlqijSK7TO1nWayAZJMFXHn9Hjo04TiOV8VGQhT
+         e7Pw3rEQHMAKm08sMdm08V+95oFkwsyTVvsSwNKWaeN36I1asxgbX/vYeA2PwCUYcD01
+         FZjpaaIvzdqNUizGr6/58n9FqfXaUIeHfPUpaHRPFlg0CWhV3EV+P9l2JWcVU6AciEBm
+         lU4Ml5bkcxBiKOqdor27Roo89Djcd5xi439uCbcd2RS3LjB5Lsyz3WSzQ4i5/G00NsaY
+         ig/u9sSLGYsUjrtwXfqTkZfojJsPbP4pAkgAtANmXslT3CkJQPwwIqMnAxfeoDbjNer3
+         tqsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679409802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O7ubpTBwCGfHItDX77/xDDLQ0Emp6svnzclBDAs6qyE=;
-        b=r3q6DEz2yV4hDn8IYZKPxexbnrH/9JtKp0BLERREVGhrjc3icgIU/1/JQXcKkwmqvd
-         yJG5L5xDQ/oCCQBMHCQg4Zv5fBrncgztfXS0Se5wkvvLdQ3NRUGw8vrM8Ubqm4IA+eg1
-         aprKVEFSrqZueWnnrWZwJepo+WVgfg7EJphSGksJ5kz9B0SddH91aD4ctut+Dr1IYOkK
-         YPLNqun9TchVtSfFH+IAC/idGqrK0Gya/r5K55z3U4aqEm7niU7LNGquQ3h+LzMgoTmu
-         CRoFl4CNWnH7YaTPQ4jVkhQENVp7rquab4h95n6L6KBMu8+LwAFZFZh+boO4kVI8fLq9
-         P/pg==
-X-Gm-Message-State: AO0yUKVDcwfyVLBQ4ocxPaK78o7bFUjtKZdfG5wST1ES/yoFdKJP+48E
-        qUTywqM1D2uEnpeALTxga58=
-X-Google-Smtp-Source: AK7set96Is0TLe0fndXxjNYCDYYIIwKDzHB+KNPQfBa3bfvxoMA0iLVPglnQVrqgXhUacHz1wyNEXg==
-X-Received: by 2002:a05:6402:1116:b0:4ac:b528:5727 with SMTP id u22-20020a056402111600b004acb5285727mr3772779edv.1.1679409802207;
-        Tue, 21 Mar 2023 07:43:22 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation ([5.170.200.163])
-        by smtp.gmail.com with ESMTPSA id q28-20020a50aa9c000000b004fb556e905fsm6386755edc.49.2023.03.21.07.43.20
+        d=1e100.net; s=20210112; t=1679410815;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/SKvKGtYbJspT2KfSVVcegusA4FS/+In9jNUHnh2Smc=;
+        b=AW10ude4YD1BcvOOP1aowYxWTwrhfjb9Wf2kidUUiHPMcxXo1fK1lHcquzw553bjeR
+         OgOLcLpTmtDMb73wvTELhCPlFeFVUX7jjqsuwfMU0X65uCz59J9GD9QP9th3rQs7WGjB
+         MmedM3HpNL/33auhY/vCVVIecTkuNm2dCZotO7VI70P+G1dCU8RbQNVB/SKFJ8POIAI4
+         vOPo81XIh5TgtiOKgPkOBFmWszqcm3kADDMpEoAYEtZ/EuoG2fgYstl1vlSyJ1jGWTAx
+         uSdkAbAd99J/WOQ9oMS5GEEioML7InXT+QovtxUfFAxNNfVTB+KNh+3WyZ9iyNwGCQz4
+         o6pA==
+X-Gm-Message-State: AO0yUKVlwTjYdijZUXnl4bN510eDXjNDgJzS3AaIVx3S01K/UvpSNuXg
+        D8XmpxBl7PC38PmFlQqrvgO9KDcJzJ99EA==
+X-Google-Smtp-Source: AK7set/sdOiFTHpgd/fbhMEssMMrtW2VX1HqCeNJZXIKbzhlonWR8CPVqT0Jvy8u/F1tyc65IsF9XQ==
+X-Received: by 2002:a05:600c:2307:b0:3ed:ed36:4150 with SMTP id 7-20020a05600c230700b003eded364150mr2510405wmo.4.1679410814916;
+        Tue, 21 Mar 2023 08:00:14 -0700 (PDT)
+Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id l26-20020a05600c2cda00b003dd1bd0b915sm19921345wmc.22.2023.03.21.08.00.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 07:43:21 -0700 (PDT)
-Date:   Tue, 21 Mar 2023 15:43:18 +0100
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>,
+        Tue, 21 Mar 2023 08:00:14 -0700 (PDT)
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
-Message-ID: <ZBnChlWq5RTI8U8h@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/2] media: imx: imx7-media-csi: Fix mbus framefmt
+ field init
+In-Reply-To: <20230321072707.678039-2-alexander.stein@ew.tq-group.com>
+References: <20230321072707.678039-1-alexander.stein@ew.tq-group.com>
+ <20230321072707.678039-2-alexander.stein@ew.tq-group.com>
+Date:   Tue, 21 Mar 2023 15:00:13 +0000
+Message-ID: <m3bkkmgneq.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,70 +78,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Paul,
+Hi Alexander,
 
-On Fri, Nov 18, 2022 at 06:39:17PM +0900, Paul Elder wrote:
-> This series depends on v3 of "dt-bindings: media: Add macros for video
-> interface bus types" [1].
-> 
-> This series extends the rkisp1 driver to support the ISP found in the
-> NXP i.MX8MP SoC.
-> 
-> The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-> and in the NXP i.MX8MP have the same origin, and have slightly diverged
-> over time as they are now independently developed (afaik) by Rockchip
-> and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-> and is close enough to the RK3399 ISP that it can easily be supported by
-> the same driver.
-> 
-> The last two patches add support for UYVY output format, which can be
-> implemented on the ISP version in the i.MX8MP but not in the one in the
-> RK3399.
-> 
-> This version of the series specifically has been tested on a Polyhex
-> Debix model A with an imx219 (Raspberry Pi cam v2).
-> 
-> [1] https://lore.kernel.org/linux-media/20220615221410.27459-2-laurent.pinchart@ideasonboard.com/
+Alexander Stein <alexander.stein@ew.tq-group.com> writes:
 
-I tested your series on imx274 on imx8mp-evk csi0.
-All looks good on my side.
-Thanks for your work!
-
-Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
-
-Regards,
-Tommaso
-
-> 
-> Laurent Pinchart (3):
->   dt-bindings: media: rkisp1: Add i.MX8MP ISP example
->   media: rkisp1: Add and use rkisp1_has_feature() macro
->   media: rkisp1: Configure gasket on i.MX8MP
-> 
-> Paul Elder (11):
->   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
->   media: rkisp1: Add match data for i.MX8MP ISP
->   media: rkisp1: Add and set registers for crop for i.MX8MP
->   media: rkisp1: Add and set registers for output size config on i.MX8MP
->   media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
->   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
->   media: rkisp1: Add register definitions for the test pattern generator
->   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
->   media: rkisp1: Support devices without self path
->   media: rkisp1: Add YC swap capability
->   media: rkisp1: Add UYVY as an output format
-> 
->  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
->  .../platform/rockchip/rkisp1/rkisp1-debug.c   |  14 +-
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  67 +++++++--
->  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 +++++++++++++++++-
->  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  90 ++++++++++++
->  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
->  include/uapi/linux/rkisp1-config.h            |   2 +
->  9 files changed, 509 insertions(+), 40 deletions(-)
-> 
-> -- 
-> 2.35.1
+> 'field' is zero-initialized to V4L2_FIELD_ANY, which is an invalid value
+> to return to userspace. Instead fefault to non-interleaving.
 >
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+Many thanks for adding this much better change log. (with the already
+mention fefault fix from Laurent :) )
+
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+Cheers,
+   Rui
+> ---
+>  drivers/media/platform/nxp/imx7-media-csi.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+> index c22bf5c827e7..3e97b9f2ff69 100644
+> --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> @@ -1610,6 +1610,7 @@ static int imx7_csi_video_init_format(struct imx7_csi *csi)
+>  	format.code = IMX7_CSI_DEF_MBUS_CODE;
+>  	format.width = IMX7_CSI_DEF_PIX_WIDTH;
+>  	format.height = IMX7_CSI_DEF_PIX_HEIGHT;
+> +	format.field = V4L2_FIELD_NONE;
+>  
+>  	imx7_csi_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &format, NULL);
+>  	csi->vdev_compose.width = format.width;
+> -- 
+> 2.34.1
