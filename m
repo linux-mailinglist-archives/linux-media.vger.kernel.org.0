@@ -2,129 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A83AC6C2AC7
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 07:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D87566C2B40
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 08:19:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbjCUGul (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 02:50:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60904 "EHLO
+        id S229524AbjCUHTM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 03:19:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjCUGui (ORCPT
+        with ESMTP id S230488AbjCUHTC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 02:50:38 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C70E3CE24
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 23:50:05 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id y4so55793271edo.2
-        for <linux-media@vger.kernel.org>; Mon, 20 Mar 2023 23:50:05 -0700 (PDT)
+        Tue, 21 Mar 2023 03:19:02 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E98CF952
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 00:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679381404;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AVZ6hZGV1be7TstieJ1z6Us2bdyl2vfl7ifo76jUCuw=;
-        b=yfBGAkzYkRznU9Ng945BSIqo31Bk5T0PtagdkfIHR2Q1BeqH5OnMJ4fsG1zFEiehiS
-         KZ3/pYphUZP+d7j+TETF5ibJ22qi8JxUtbeR5/rMsVWBLbLtVafpphEGHOgtkfufvthr
-         kfFqq23RxghjFGHcvf7wzurvqXl77TX0lreCe4zdMXibkctRdAIFIHy2nFlymDviILbG
-         cJHWfu2Mf2f0H4Zek7CU3vs712CDHZtYrkN+Dnj8r9iTZ3wsTUFj2dPI9y02J/EmUF03
-         XuUbrwNwkbxeyyaBiz152Yt33fiVzez/AHc3FxXutFCupBB3a+cT+4yKOMj9xOon+xKG
-         WmsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679381404;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AVZ6hZGV1be7TstieJ1z6Us2bdyl2vfl7ifo76jUCuw=;
-        b=U32qEmQFVcYFFGD1NGEZ3EtcOkTz7pAg+AlOIYbSdYgFLvQUNP+Bc4E8URkH5pTUqD
-         2k2gVKwVeohWwoga3ZXkQv7tJLNUqsUeqcpdIX2mVE68ws4YcpQJ9dRGSuLEs2W+YIiQ
-         YRTuizZBGBstUZxbPWKYF6He94EkajuWhqEuHbmyZD6Nc030Ucz17XULH/p1/30Ff8gU
-         CuraoQrVQ4JgGncARzdy3Bj/f1zyP9QzsciftLP7DTomMvKsX0rXkxdFwF15vgGsZiZI
-         coekPP8vFHJmZUqY1tRW/N/Np14SKeHA0Xpk5DnatYixOwIJ8lA8jd1UB+BKPQpIM8Ob
-         5PpQ==
-X-Gm-Message-State: AO0yUKVDWWX9x2neNXqYLkqbZ1/O0so1Pqif44An2t9rtec74s9ynRlA
-        ApIIVN6x5EqXVgNDs6R9mMhFkw==
-X-Google-Smtp-Source: AK7set8eB3GSlawOodRmMBJ+h20F9+s+seoY5Xp11h5THWtKB+BDrw+xLcE75DD32t4gpHpf4nRxYg==
-X-Received: by 2002:a17:906:6449:b0:8b2:abcd:624 with SMTP id l9-20020a170906644900b008b2abcd0624mr1888422ejn.0.1679381404434;
-        Mon, 20 Mar 2023 23:50:04 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:2142:d8da:5ae4:d817? ([2a02:810d:15c0:828:2142:d8da:5ae4:d817])
-        by smtp.gmail.com with ESMTPSA id z16-20020a170906715000b00930894eb708sm5361112ejj.223.2023.03.20.23.50.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 23:50:03 -0700 (PDT)
-Message-ID: <c9365b87-3cd5-9df6-7f2c-e4e848165062@linaro.org>
-Date:   Tue, 21 Mar 2023 07:50:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Joe Tessler <jrt@google.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1679383138; x=1710919138;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=oK6CV2HFA5Wiy/dDG0auXp4uS+U9M8gs2qElsMCsmaI=;
+  b=prcF9ZwwUn3agyxew7+WakM9FRzkjI4Fka1sfDvYgouLSg0cS2scDF3f
+   NXd+arYHVsFuMLHBTNCAziVwBmpwDtypzdWqQnBUpiMoPm1f48ay4Z+aq
+   yW7t8nDnOhzoHpfWTWdKMYAUQ/M2Es62ay4HkIRK+GqQYuats3s4siYFJ
+   MTSBU5X8At9DF002AHzkj10fu14L8MXWwzoaK6CW4XPomCtVUNGDrNMg0
+   9lm8pQeC6Gzd2oLoCDVgE6RVhroPCuaPsD+eenifNDGjLWhkquLLCB5BF
+   JtfgSBmZI7NnThgBddd2gEIGZCMjBhPP85cxnnBqTR1XafPFirhDrNYsm
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.98,278,1673910000"; 
+   d="scan'208";a="29818752"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 21 Mar 2023 08:18:56 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 21 Mar 2023 08:18:56 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 21 Mar 2023 08:18:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1679383136; x=1710919136;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=oK6CV2HFA5Wiy/dDG0auXp4uS+U9M8gs2qElsMCsmaI=;
+  b=N2x5dRrtvdgbqwdiym2PL4n1f4zbxCA/tAdGMz5KB0vOQycj+q5tL7oL
+   Qk++boVynfMHOuSgvA080YWPyBedwEx27ztIEiFzQFrkwmpyr0JHnVua3
+   zKDk3xMmuJ5JGFFirIWFq9ZOStSB5LjQIIAXoNKx3vHAMAMGbP+E4KU9k
+   lHkDIt8nq/SJ3mslFElf91RV3FqjnY6ahr5HEW+hiIxGious7LAoMVzUr
+   kLALTgxeJ+EkhGwBx8xqQ9mlCuADLMKtpsjcJX8GahDKkpbKf4Tdj+rl2
+   ouR1NLPAYdzIATMeezRRYMFJ2vJANObeQtHK+4ThhoKQc5NdZJwSxMzA3
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,278,1673910000"; 
+   d="scan'208";a="29818751"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 21 Mar 2023 08:18:56 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 20689280056;
+        Tue, 21 Mar 2023 08:18:56 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Benoit Parrot <bparrot@ti.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20230320233944.2920964-1-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/3] media: imx: imx7-media-csi: Fail for non video-capture formats
+Date:   Tue, 21 Mar 2023 08:18:53 +0100
+Message-ID: <5926875.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230317175744.GA28322@pendragon.ideasonboard.com>
+References: <20230316143829.499039-1-alexander.stein@ew.tq-group.com> <m3o7or47hq.fsf@gmail.com> <20230317175744.GA28322@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/03/2023 00:39, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+Hi all,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Am Freitag, 17. M=E4rz 2023, 18:57:44 CET schrieb Laurent Pinchart:
+> On Fri, Mar 17, 2023 at 05:23:29PM +0000, Rui Miguel Silva wrote:
+> > Hi Alexander,
+> > thanks for the patch.
+> >=20
+> > Alexander Stein <alexander.stein@ew.tq-group.com> writes:
+> > > This driver only support V4L2_BUF_TYPE_VIDEO_CAPTURE, so fail for oth=
+er
+> > > passed types.
+> > >=20
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > >=20
+> > >  drivers/media/platform/nxp/imx7-media-csi.c | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> > > b/drivers/media/platform/nxp/imx7-media-csi.c index
+> > > 389d7d88b341..e470b0505d3b 100644
+> > > --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> > > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> > > @@ -1186,6 +1186,11 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> > > *pixfmt,> >=20
+> > >  static int imx7_csi_video_try_fmt_vid_cap(struct file *file, void *f=
+h,
+> > > =20
+> > >  					  struct v4l2_format *f)
+> > > =20
+> > >  {
+> > >=20
+> > > +	struct imx7_csi *csi =3D video_drvdata(file);
+> >=20
+> > Maybe copy/paste problem csi is never used.
+
+Yes, leftover from reordering patches.
+
+> > > +
+> > > +	if (f->type !=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> > > +		return -EINVAL;
+> >=20
+> > Is this function ever called if f->type is not TYPE_VIDEO_CAPTURE?
+>=20
+> It shouldn't, v4l_g_fmt() and v4l_s_fmt() check the type and call the
+> appropriate operation accordingly. I don't think this patch is needed.
+
+You are right. I was mislead by the fact that imx7_csi_video_g_selection do=
+es=20
+need this check.
 
 Best regards,
-Krzysztof
+Alexander
+
+> > > +
+> > >=20
+> > >  	__imx7_csi_video_try_fmt(&f->fmt.pix, NULL);
+> > >  	return 0;
+> > > =20
+> > >  }
+> > >=20
+> > > @@ -1196,6 +1201,9 @@ static int imx7_csi_video_s_fmt_vid_cap(struct
+> > > file *file, void *fh,> >=20
+> > >  	struct imx7_csi *csi =3D video_drvdata(file);
+> > >  	const struct imx7_csi_pixfmt *cc;
+> > >=20
+> > > +	if (f->type !=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> > > +		return -EINVAL;
+> >=20
+> > Ditto?
+> >=20
+> > Cheers,
+> >=20
+> >    Rui
+> > >=20
+> > > +
+> > >=20
+> > >  	if (vb2_is_busy(&csi->q)) {
+> > >  =09
+> > >  		dev_err(csi->dev, "%s queue busy\n", __func__);
+> > >  		return -EBUSY;
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
