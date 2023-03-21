@@ -2,115 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8B716C2B55
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 08:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 749B26C2C75
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 09:32:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbjCUH1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 03:27:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54492 "EHLO
+        id S230473AbjCUIce (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 04:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjCUH1S (ORCPT
+        with ESMTP id S230167AbjCUIcQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 03:27:18 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 716E33253B
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 00:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1679383637; x=1710919637;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EfdX/9qiFzppnd+Vz21frBaqbACvZB7/0EYonfhtuWo=;
-  b=oPdx9peDPOdTDWTX7ycPGCjUMF14xH7YzOZYEkfGUEZIkZ52EdSuZoOq
-   EP6Q98jNrcAC475/cp9J9sv9OSsZ0XNYr2X2LTmr4QEgLXB8OzlwRU8zw
-   fgT2hLC03XdLA1psc99/55bl6RuJCJejjfjMFpFogehJJyn5m/qTL0/J+
-   GgYrdacdIFclZhBJp9wAPP0uUnP8fjq96Rv09Q0KPOcU0SRJycMPKVFnR
-   FVGvhLF4csYhdAUDika1sv/LaihHOeFyE9R+JK+EMAxxzgDAQah+W37+m
-   KgPJyJgcXpkUXHYOUfd2pHm1L9T5jKaL+yxCPKZxvC4cITFNzbVoRuEpf
-   A==;
-X-IronPort-AV: E=Sophos;i="5.98,278,1673910000"; 
-   d="scan'208";a="29819257"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 21 Mar 2023 08:27:11 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 21 Mar 2023 08:27:11 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 21 Mar 2023 08:27:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1679383631; x=1710919631;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EfdX/9qiFzppnd+Vz21frBaqbACvZB7/0EYonfhtuWo=;
-  b=BTxlMn+trD/QahqJMJoa5xP32caFTcbbU+gSC29tNVTvVm//Q8lMgzrd
-   fCMyMNh0Fn8MH7PtwtRMIPq/FOZdE3IS8/PtSRrNBoCFjTtVfsSSQB+Se
-   n/Wqa779hZOH88/jXEYXPrsxjRAYptikvXHGnwSrFI1XXocXgDl0BLnnS
-   NrOQBzrv0JfRSGolIFJpBD8cNJN4E0tdLra/Lx2xENTGIYUcJ68/KmJYL
-   5al5RCojchucj21VvkVmnQVFuRkVgVlMa6i6jYHvb5GIUaSFnjBJf5UbQ
-   42cRmR7N1O+jm4qkmpuuDURxvOic33kctWmg8SUz88/MPvK05TS2ZG7Rm
-   g==;
-X-IronPort-AV: E=Sophos;i="5.98,278,1673910000"; 
-   d="scan'208";a="29819256"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 21 Mar 2023 08:27:11 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 64F76280056;
-        Tue, 21 Mar 2023 08:27:11 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/2] media: imx: imx7-media-csi: Fail on invalid type in VIDIOC_G_SELECTION
-Date:   Tue, 21 Mar 2023 08:27:07 +0100
-Message-Id: <20230321072707.678039-3-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230321072707.678039-1-alexander.stein@ew.tq-group.com>
-References: <20230321072707.678039-1-alexander.stein@ew.tq-group.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 21 Mar 2023 04:32:16 -0400
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAD1460A7;
+        Tue, 21 Mar 2023 01:31:32 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 052262B0769F;
+        Tue, 21 Mar 2023 04:12:03 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Tue, 21 Mar 2023 04:12:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :content-transfer-encoding:content-type:content-type:date:date
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+        1679386323; x=1679393523; bh=p6c5VTiMv6AfZVBMNz3DxVLxCSIdNaJFVMc
+        Qk71zPTY=; b=uVCWvJx6nGWx/5u3VSJfVJjj/h5Ng2P2Yhqie0BJHMjvjzYTE1H
+        S3000Ce0+mrEAYEo+fTrrkOwrGIyGM/RtSIJpIl+AMe3IaZe/M9yfHnG9yQfEsGB
+        osDTshQUiWc3Ls9qw2Zw7uWeyKKv9pZtQgUyAYyK61kK6H6zm7ZRw1iyIFDATAh6
+        bngnkf2pqjCtTHy18W2iC0jMSPclRhXy7pawiFxq3uFJa37/Dw0UOVfoCTYIxNid
+        kVhGUwaRgeQY4B8o9mWH+SDBN77zX5XpwykUHuqV16i9fCmBftgO42riFzH6w1Ei
+        GyD4hF/a4GlUL9X/bR9I68HXVhkZhUlJJ3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1679386323; x=
+        1679393523; bh=p6c5VTiMv6AfZVBMNz3DxVLxCSIdNaJFVMcQk71zPTY=; b=s
+        1KchFhGt52dzXyN5O79HxuLj6FqmtaoRirc8tC8IgABafDJR6lWnVdeusmW3YgwN
+        FJAf+yx/n1aoiR0A753RChyEfaoIpIQzkZeE9GElnDfGMGVe4oIkqtFw9qR7h1WP
+        zxqQpmzCduK4QJMEm9wue/7sWeCfuf6P6YHLtFguSITKE6rIm8h05WV74PgknMBG
+        2bAxDrbC+Le26NytxoV2l9iQeICkXFr8qbpiOdPcrl+yCtPjEeppm+ecm6oJOczI
+        x/6d20UEibueIHsAvJp1EBg4CLfe3Tl1BSAVsdcOQAbqRbpMjYLiXHNTVklS4axM
+        ckago2w0Vsl5TtYiY3MpQ==
+X-ME-Sender: <xms:0GYZZJjZT4P_yV-Mx_Quzl7wy0YQtEhKnVKu2qt6FAe5g0Nu5umXIw>
+    <xme:0GYZZOBRlFaFGXG_FQkcgQEutyw7RZhEAYkiTJLcbFTaKAx0oZHJTkyPwuMSM-9_n
+    _kFQQURc5ACQt9CvsA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefledguddugecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffkedtffejkeeihedtffevtedvhfdvhfehfffgleekgffgveeftdefgeek
+    vedvjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:0GYZZJF0ltCZr-3PUVxWiK0aO1a98gJRJ1RIE6_3xBjMQmp3OqMi_Q>
+    <xmx:0GYZZORTWXWGlKctJD6dpm53uhz2MzndLAhOFP-b7JCl5028QMmYHA>
+    <xmx:0GYZZGxU24J2mJwqKURxfuq2oxh3zplPa2ump9UmR_oOSDgOlsWU1w>
+    <xmx:02YZZGNbMwV1BEbfQ41yDSjvKrVTgq4nxJ1za-0qfoPrs4jKp0pJRPjrGNk>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B3F8BB60086; Tue, 21 Mar 2023 04:12:00 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-221-gec32977366-fm-20230306.001-gec329773
+Mime-Version: 1.0
+Message-Id: <86431868-488b-4a72-944b-231b6d0382b0@app.fastmail.com>
+In-Reply-To: <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <20230312131318.351173-20-krzysztof.kozlowski@linaro.org>
+Date:   Tue, 21 Mar 2023 09:11:36 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        "Joe Tessler" <jrt@google.com>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Neil Armstrong" <neil.armstrong@linaro.org>,
+        "Kevin Hilman" <khilman@baylibre.com>,
+        "Jerome Brunet" <jbrunet@baylibre.com>,
+        "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        "Jon Hunter" <jonathanh@nvidia.com>,
+        "Manivannan Sadhasivam" <mani@kernel.org>,
+        "Michael Tretter" <m.tretter@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Jacopo Mondi" <jacopo+renesas@jmondi.org>,
+        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
+        "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        "Rui Miguel Silva" <rmfrfs@gmail.com>,
+        "Wenyou Yang" <wenyou.yang@microchip.com>,
+        "Bin Liu" <bin.liu@mediatek.com>,
+        "Matthias Brugger" <matthias.bgg@gmail.com>,
+        "AngeloGioacchino Del Regno" 
+        <angelogioacchino.delregno@collabora.com>,
+        "Minghsiu Tsai" <minghsiu.tsai@mediatek.com>,
+        "Houlong Wei" <houlong.wei@mediatek.com>,
+        "Andrew-CT Chen" <andrew-ct.chen@mediatek.com>,
+        "Andrzej Pietrasiewicz" <andrzejtp2010@gmail.com>,
+        "Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
+        "Sylwester Nawrocki" <s.nawrocki@samsung.com>,
+        "Patrice Chotard" <patrice.chotard@foss.st.com>,
+        "Yong Deng" <yong.deng@magewell.com>,
+        "Paul Kocialkowski" <paul.kocialkowski@bootlin.com>,
+        "Chen-Yu Tsai" <wens@csie.org>,
+        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+        "Samuel Holland" <samuel@sholland.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
+        "Philipp Zabel" <p.zabel@pengutronix.de>,
+        "Sean Young" <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-rockchip@lists.infradead.org,
+        oushixiong <oushixiong@kylinos.cn>
+Subject: Re: [PATCH 20/28] media: platform: jpeg: always reference OF data
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This device only supports video capture, so bail out if invalid
-selection type is passed.
+On Sun, Mar 12, 2023, at 14:13, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be alwa=
+ys
+> used and the of_match_ptr does not have any sense (this also allows AC=
+PI
+> matching via PRP0001, even though it might not be relevant here).  This
+> also fixes !CONFIG_OF error:
+>
+>   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1890:38: error:=20
+> =E2=80=98mtk8195_jpegdec_drvdata=E2=80=99 defined but not used=20
+> [-Werror=3Dunused-const-variable=3D]
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
----
- drivers/media/platform/nxp/imx7-media-csi.c | 3 +++
- 1 file changed, 3 insertions(+)
+I see now that we both submitted the same patch, but now Hans
+merged a worse fix [1] without a changelog text.
 
-diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 3e97b9f2ff69..389d7d88b341 100644
---- a/drivers/media/platform/nxp/imx7-media-csi.c
-+++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -1214,6 +1214,9 @@ static int imx7_csi_video_g_selection(struct file *file, void *fh,
- {
- 	struct imx7_csi *csi = video_drvdata(file);
- 
-+	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		return -EINVAL;
-+
- 	switch (s->target) {
- 	case V4L2_SEL_TGT_COMPOSE:
- 	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
--- 
-2.34.1
+    Arnd
 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/comm=
+it/?h=3D4ae47770d57bff01
