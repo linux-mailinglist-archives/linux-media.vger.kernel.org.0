@@ -2,64 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C6EC6C38D8
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 19:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4AF76C38FF
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 19:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbjCUSEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 14:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36306 "EHLO
+        id S230293AbjCUSQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 14:16:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230080AbjCUSEG (ORCPT
+        with ESMTP id S229606AbjCUSQK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 14:04:06 -0400
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0EAA28D0A;
-        Tue, 21 Mar 2023 11:04:05 -0700 (PDT)
-Received: from [192.168.0.26] (2a02-8388-6582-fe80-0000-0000-0000-000c.cable.dynamic.v6.surfer.at [IPv6:2a02:8388:6582:fe80::c])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 3D5AAD255C;
-        Tue, 21 Mar 2023 18:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1679421843; bh=ncpXLQ6qGgg6hVHefO9DqumuQvrhX7L+dhXzJdi5hVA=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc;
-        b=TVPCV1+Ij+FRy7+KSyMvO9Kii3m0GcVODfcxCWfYqZ95mzRNqC0mIWCJd68FMHotn
-         ZHplRNTdPweJ0fb28+JJnqZkzHenLPIk1Acy+6VRjhsN0NVZSdU48PHUKttoMCgEuE
-         H8GSaq2e06VaazXgfsp1EXlEq3M5+1z/EFiMcIAM=
-From:   Luca Weiss <luca@z3ntu.xyz>
-Date:   Tue, 21 Mar 2023 19:03:57 +0100
-Subject: [PATCH v3 3/3] media: i2c: ov2685: Make reset gpio optional
+        Tue, 21 Mar 2023 14:16:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8ADA8A7E;
+        Tue, 21 Mar 2023 11:16:06 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 460FAFB;
+        Tue, 21 Mar 2023 19:16:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679422564;
+        bh=YYbBI+yZSSJbYGhSeo7clHqjJfv86VCoUJSEWpYXO+Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=et96KRBewPZzizQfexOFCLJXkqb5wSeGgSv6hB9T2tVkzio8N0HVTy7cx7cQxPgeJ
+         xkoMRqVvU70aL6Gb9D3BeLPHdljMgL/LuwnNWcLW5bf0+XFhvoWCKgy4EI5/1+occk
+         4d/lA/Yw7mIY0BWH9k+99HYvgqDCoH4KUE2+nYE4=
+Date:   Tue, 21 Mar 2023 20:16:10 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
+        bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
+        jernel@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Message-ID: <20230321181610.GE20234@pendragon.ideasonboard.com>
+References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
+ <20230321102855.346732-3-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230129-ov2685-improvements-v3-3-d9737d0707f6@z3ntu.xyz>
-References: <20230129-ov2685-improvements-v3-0-d9737d0707f6@z3ntu.xyz>
-In-Reply-To: <20230129-ov2685-improvements-v3-0-d9737d0707f6@z3ntu.xyz>
-To:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=955; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=ncpXLQ6qGgg6hVHefO9DqumuQvrhX7L+dhXzJdi5hVA=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkGfGQ02yqbUUyL+5UW3wwrvIUKbBBdDKM2vUQv
- zFYH0zH/iuJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZBnxkAAKCRBy2EO4nU3X
- VvlHD/45ASJR8lIV6H/nsRjW6prmblVEscbhEdsAukK0w8p2LeLTI6aUIuz75lxqK6V4RFpJtgU
- 8b/J28B+vgi8yCT+rJTUACGiXRydIPan/Khsjgx3MPTX8ERq9FhwWr0+A67ulslfd/OLrNbeTMW
- UTWDNca9OKuk0it8Ro0ouVt2rajWuTDHVOOhe9HWm3GnfoulXhRVPlucLmIrnYJObhoa2S/s+2b
- zaDt2QwHJMQ65CyhcRKp67O7OJ0CpaoWiiEpiQKabH0c7ZCJx3/fLBg1s1j1AUG3m+xVXVemp19
- JAeE+Pf9NL67wFfGouoqV/ek0J1nA1KusgEWrXPg5trsjen9hY0hZpAzYbwkb1M8PAqp6BwYJWQ
- 74qJNfSb4m7tFU9dCxUPa4vkhkP5Y1gEQ7q5lVos7Ey9rP6cdzu28pelN/T+ZrCn2VIHNTJcxgx
- 5aumzyGAIt35JpXT7pf0ijaEGzPK2vu1A+aYoGtiYcg6Max3N6CHLhL1ql9FfnVpWVPw3SaxUej
- 9hcitY76DZI/g1oj10fJLlYE9aK9tu2ALCXhFtDbGo5sL1N0R7tOxRGvVS4fZzRyFk7aGHd0Msq
- M9BjBUBmVp+H0EXGgf1/cEKBLWQImTRlhFzDQ6iMDz3L3GMZragCsNp8HqeTOZBi82glxiHs00V
- 4uRjtKt8e8ZoGMQ==
-X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
- fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230321102855.346732-3-benjamin.gaignard@collabora.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,29 +59,147 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In some setups XSHUTDOWN is connected to DOVDD when it's unused,
-therefore treat the reset gpio as optional.
+Hi Benjamin,
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
----
- drivers/media/i2c/ov2685.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch.
 
-diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-index fdf3e06133302..f119a93e7c647 100644
---- a/drivers/media/i2c/ov2685.c
-+++ b/drivers/media/i2c/ov2685.c
-@@ -807,7 +807,7 @@ static int ov2685_probe(struct i2c_client *client)
- 	if (clk_get_rate(ov2685->xvclk) != OV2685_XVCLK_FREQ)
- 		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
- 
--	ov2685->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	ov2685->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(ov2685->reset_gpio)) {
- 		dev_err(dev, "Failed to get reset-gpios\n");
- 		return -EINVAL;
+On Tue, Mar 21, 2023 at 11:28:49AM +0100, Benjamin Gaignard wrote:
+> Instead of a static array change bufs to a dynamically allocated array.
+> This will allow to store more video buffer if needed.
+> Protect the array with a spinlock.
+
+I think I asked in the review of v1 why we couldn't use the kernel
+IDA/IDR APIs to allocate buffer IDs and register buffers, but I don't
+think I've received a reply. Wouldn't it be better than rolling out our
+own mechanism ?
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   |  8 +++
+>  include/media/videobuf2-core.h                | 49 ++++++++++++++++---
+>  2 files changed, 49 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 79e90e338846..ae9d72f4d181 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -2452,6 +2452,13 @@ int vb2_core_queue_init(struct vb2_queue *q)
+>  	mutex_init(&q->mmap_lock);
+>  	init_waitqueue_head(&q->done_wq);
+>  
+> +	q->max_num_bufs = 32;
+> +	q->bufs = kmalloc_array(q->max_num_bufs, sizeof(*q->bufs), GFP_KERNEL | __GFP_ZERO);
+> +	if (!q->bufs)
+> +		return -ENOMEM;
+> +
+> +	spin_lock_init(&q->bufs_lock);
+> +
+>  	q->memory = VB2_MEMORY_UNKNOWN;
+>  
+>  	if (q->buf_struct_size == 0)
+> @@ -2479,6 +2486,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>  	mutex_lock(&q->mmap_lock);
+>  	__vb2_queue_free(q, q->num_buffers);
+>  	mutex_unlock(&q->mmap_lock);
+> +	kfree(q->bufs);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+>  
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 5b1e3d801546..397dbf6e61e1 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -558,6 +558,8 @@ struct vb2_buf_ops {
+>   * @dma_dir:	DMA mapping direction.
+>   * @bufs:	videobuf2 buffer structures
+>   * @num_buffers: number of allocated/used buffers
+> + * @bufs_lock: lock to protect bufs access
+> + * @max_num_bufs: max number of buffers storable in bufs
+>   * @queued_list: list of buffers currently queued from userspace
+>   * @queued_count: number of buffers queued and ready for streaming.
+>   * @owned_by_drv_count: number of buffers owned by the driver
+> @@ -619,8 +621,10 @@ struct vb2_queue {
+>  	struct mutex			mmap_lock;
+>  	unsigned int			memory;
+>  	enum dma_data_direction		dma_dir;
+> -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
+> +	struct vb2_buffer		**bufs;
+>  	unsigned int			num_buffers;
+> +	spinlock_t			bufs_lock;
+> +	size_t				max_num_bufs;
+>  
+>  	struct list_head		queued_list;
+>  	unsigned int			queued_count;
+> @@ -1239,9 +1243,16 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
+>  static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+>  						unsigned int index)
+>  {
+> -	if (index < q->num_buffers)
+> -		return q->bufs[index];
+> -	return NULL;
+> +	struct vb2_buffer *vb = NULL;
+> +
+> +	spin_lock(&q->bufs_lock);
+> +
+> +	if (index < q->max_num_bufs)
+> +		vb = q->bufs[index];
+> +
+> +	spin_unlock(&q->bufs_lock);
+> +
+> +	return vb;
+>  }
+>  
+>  /**
+> @@ -1251,12 +1262,30 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+>   */
+>  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+>  {
+> -	if (vb->index < VB2_MAX_FRAME) {
+> +	bool ret = false;
+> +
+> +	spin_lock(&q->bufs_lock);
+> +
+> +	if (vb->index >= q->max_num_bufs) {
+> +		struct vb2_buffer **tmp;
+> +
+> +		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+> +		if (!tmp)
+> +			goto realloc_failed;
+> +
+> +		q->max_num_bufs *= 2;
+> +		q->bufs = tmp;
+> +	}
+> +
+> +	if (vb->index < q->max_num_bufs) {
+>  		q->bufs[vb->index] = vb;
+> -		return true;
+> +		ret = true;
+>  	}
+>  
+> -	return false;
+> +realloc_failed:
+> +	spin_unlock(&q->bufs_lock);
+> +
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -1266,8 +1295,12 @@ static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *
+>   */
+>  static inline void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+>  {
+> -	if (vb->index < VB2_MAX_FRAME)
+> +	spin_lock(&q->bufs_lock);
+> +
+> +	if (vb->index < q->max_num_bufs)
+>  		q->bufs[vb->index] = NULL;
+> +
+> +	spin_unlock(&q->bufs_lock);
+>  }
+>  
+>  /*
 
 -- 
-2.40.0
+Regards,
 
+Laurent Pinchart
