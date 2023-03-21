@@ -2,75 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBD466C3B3D
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 21:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E9E6C3C93
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 22:21:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbjCUUH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 16:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44448 "EHLO
+        id S229700AbjCUVVi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 17:21:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbjCUUHY (ORCPT
+        with ESMTP id S229717AbjCUVVh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 16:07:24 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4D11CBC0;
-        Tue, 21 Mar 2023 13:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679429225; x=1710965225;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uC522O9FjPHxQ+tXnnlO/+TRKCyn/oGdK6IwgAN1Jjc=;
-  b=dfJletgiqO0eZqWFU2aU1zYPjXxniWeC85tMNotYI2CkJ7zIX9qqqJcx
-   U1KrWHMt7Jy6lPFZJiIdunP9i3z7tT6TpjL3Hhceu+oQWj/bMqBbIVIBK
-   egbe8Xua7bsC+LJPrPlCILxvwmUhnqtkxmgFDukA5/x4sOdA1pOoO2qfP
-   YIbyFf8TVkxMrkUARTKeFdDLviO9gwmVgAm7XStG+jcaqGXH1Yj7eaI5p
-   nRwPh2bLjdOzGJ3PxT+xocILZG7H+tRf4QWOs9OHirArJEQb7jeSD8LNu
-   0Zei4W2mw71goVTb9e87BgWSRUEulHS71AiJXOEes0T/KqitpL/SnNkZG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339088143"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="339088143"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 13:07:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="714123916"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="714123916"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 21 Mar 2023 13:06:52 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1peiFv-000CMs-2J;
-        Tue, 21 Mar 2023 20:06:51 +0000
-Date:   Wed, 22 Mar 2023 04:06:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, jernel@kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 5/8] media: v4l2: Add DELETE_BUF ioctl
-Message-ID: <202303220359.f1UOGBNV-lkp@intel.com>
-References: <20230321102855.346732-6-benjamin.gaignard@collabora.com>
+        Tue, 21 Mar 2023 17:21:37 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0BCF4AD16
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 14:21:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6A22BB81A37
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 21:21:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74717C4339B;
+        Tue, 21 Mar 2023 21:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679433692;
+        bh=garZWxUSKZ3OIZU/fBlag4OoT0Tu3IxbPrigB3kbjws=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cU31RRY0fx/hEK/gso2x4d/nNBSULSOXJ4ir29DGFRfpzCNIugUXNpVYoIiadQb2g
+         QzMpioPy3NXooUptZmR3/+4xheGLu+7T8JmLA08hrBduol7by42jildbY6VD791el7
+         5NCMBTKXmJP/S4Ca7HAXxV/w+5gmolwMr4PSXu4TU6R50WciYUiJeLf3cY8kkl/umn
+         Obd8cliumzeURyNicRidW0D4NB8Xa3lqSZy4K2CGJl5EErzKjJZX5LjTCjz9Xu2ajI
+         RheJppRhT2r8Z9nlrZedg3AA/RM4VZmZ6uplEuDbZP3EL4fPHDp8ncesJU/bWQ7nDy
+         goi9YUzs4cY0w==
+Date:   Tue, 21 Mar 2023 22:21:26 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Gregor Jasny <gjasny@googlemail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sean Young <sean@mess.org>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: v4l-utils 1.24.0 has been released
+Message-ID: <20230321222126.2490de9b@coco.lan>
+In-Reply-To: <86f5a2f0-0714-6648-eed2-cd4f11209dd5@googlemail.com>
+References: <86f5a2f0-0714-6648-eed2-cd4f11209dd5@googlemail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321102855.346732-6-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,42 +58,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Gregor,
 
-I love your patch! Yet something to improve:
+Em Thu, 23 Feb 2023 10:44:41 +0100
+Gregor Jasny <gjasny@googlemail.com> escreveu:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Hello,
+> 
+> I'm happy to announce that v4l-utils 1.24.0 has been released. This will 
+> be the last version before the build system will be migrated from 
+> Autotools to Meson.
+> 
+> Changelog: 
+> https://git.linuxtv.org/v4l-utils.git/tree/ChangeLog?h=v4l-utils-1.24.0
+> Download: https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.24.0.tar.bz2
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230321102855.346732-6-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v2 5/8] media: v4l2: Add DELETE_BUF ioctl
-config: x86_64-randconfig-a002-20230320 (https://download.01.org/0day-ci/archive/20230322/202303220359.f1UOGBNV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c33ab7329647eb04482423ac9945dee579038e84
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-        git checkout c33ab7329647eb04482423ac9945dee579038e84
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+I wouldn't mind if we would have a shorter release time for version
+1.26 - or maybe it is time to increase major, so version 2.0.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220359.f1UOGBNV-lkp@intel.com/
+As we are now using a new building system, it would be nice to have
+a stable version frozen, with not much other changes, in order
+to allow distros to opt either to use version 1.24 with autotools
+or to migrate to the newest version, with meson, but not many other
+changes.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+So, perhaps we should aim release a new version in 2 months or
+so, once we have enough time to do cleanups if needed and having
+media maintainers and developers familiar with the new way.
 
->> ERROR: modpost: "vb2_core_delete_buf" [drivers/media/common/videobuf2/videobuf2-v4l2.ko] undefined!
+Comments?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+PS.: on that matter, I took ahead and changed Fedora rawhide
+v4l2-utils package to use the new building system:
+
+	https://bodhi.fedoraproject.org/updates/FEDORA-2023-43964d4d83
+
+That helped to identify a bug after the migration at the man page
+location, and hopefully would help to have more tests on a more
+realistic scenario (e. g. after packaged on distributions).
+
+Thanks,
+Mauro
