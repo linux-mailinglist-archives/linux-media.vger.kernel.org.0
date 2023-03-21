@@ -2,191 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67D8C6C3791
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 18:02:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98B466C37A9
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 18:05:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230253AbjCURCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 13:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53618 "EHLO
+        id S230363AbjCURFa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 13:05:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230095AbjCURCX (ORCPT
+        with ESMTP id S230335AbjCURFY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 13:02:23 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C869298FF;
-        Tue, 21 Mar 2023 10:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679418141; x=1710954141;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d+hlpp3Zd9LOfPprBhu8Y574GqlBNBa7l4yvc+7zCA4=;
-  b=hD3Ex+xYorAllQOAgJ9bbT4hj5zXH1GtpGdG9AIBqoygx85HT0BvcgjQ
-   v391fXzc7e0iKKrF0U/QE8uJvJ7wJRiXC+efXb2/jtwqTQA8LS+6e8mVJ
-   IVQPs3MW0/nZuGSyl7DPediWkb00bJpJzmF5hxxaRzfqF781T7iSdkrAp
-   x2/DKFQuLeN0I9jNoa7ikdHl4wOEN05r2cJBQSk8aWMs0CNHK53bUUEdF
-   udOmjk91K2mg9ayN11fuxUCiLWMi0vyp9URlWh67uVaLgTwu+xUXdYm2Y
-   1FiCde0ni4jZBLO7kYExCKlxdiRAkkcOhNkZVWdoCzxs+4ebgaxHPucjV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="322846091"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="322846091"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:01:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631664574"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
-   d="scan'208";a="631664574"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 21 Mar 2023 10:01:41 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pefMi-000CBa-0v;
-        Tue, 21 Mar 2023 17:01:40 +0000
-Date:   Wed, 22 Mar 2023 01:01:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, jernel@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
- queue buffer storage
-Message-ID: <202303220057.J83sWVI1-lkp@intel.com>
-References: <20230321102855.346732-4-benjamin.gaignard@collabora.com>
+        Tue, 21 Mar 2023 13:05:24 -0400
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A14303EE
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 10:04:47 -0700 (PDT)
+Received: by mail-il1-f200.google.com with SMTP id v14-20020a92c80e000000b0031faea6493cso8049887iln.11
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 10:04:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679418287;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+zTrQymw8nWm1LaYS6yQZNEVKZFLl6piGpgaLk7/4RE=;
+        b=tLM4V2O+FuPUniPUyKCTWjg6JUE9P+3Bb3Ykq2SUHk8LN+ZzPVC1NS5eOmqwuLkeRR
+         UhwBhVs8A9UfoumGyT0NTaYEKaggapHFWBXzt4uiIetLB8Jg0LiM7ADbauMajTSFQm6P
+         28nJU+AWgAf+kiJ1xRtziR1dnLo9k/2Nx5qCWJTscSQthctLLCDlGW/ZySSkeUi4J6/k
+         OeFGO3fp4c1TKyLYl6GB1yL4pU9ddSVdoOkx7uzm2SZYvwHROh9IGnIiBJ3EeIGIeN8I
+         t//OiC6NMJtRCgxZVjBE05z8dIPFQaEQOkSgjomVVlxFYrDNSCYQG9/fJ8rYhEtPMVbR
+         5+jA==
+X-Gm-Message-State: AO0yUKVwsUv6YaEZduV5r0QZrNyW3E4hCLzQ+d0CF7a4LvAwxBRgRWEu
+        ckJ+ang5peC2mHSvFKNuWxS+9P25V1W3BL/9b03DF7FKruOr
+X-Google-Smtp-Source: AK7set9ZLrfktTpmIZ42olW6S9WFaixJFSMx4jgpyGAZsTz4YqTTPuheLv3NxoBXl0MTeXnwBNJY/zeGRCozfMx2sV1x9SBu/ngM
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321102855.346732-4-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6e02:f13:b0:313:c399:73c8 with SMTP id
+ x19-20020a056e020f1300b00313c39973c8mr1279881ilj.4.1679418287044; Tue, 21 Mar
+ 2023 10:04:47 -0700 (PDT)
+Date:   Tue, 21 Mar 2023 10:04:47 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006dc0c105f76c0a72@google.com>
+Subject: [syzbot] [dri?] BUG: sleeping function called from invalid context in _vm_unmap_aliases
+From:   syzbot <syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com>
+To:     airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hello,
 
-I love your patch! Yet something to improve:
+syzbot found the following issue on:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+HEAD commit:    f3594f0204b7 Add linux-next specific files for 20230321
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=161552eec80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f22105589e896af1
+dashboard link: https://syzkaller.appspot.com/bug?extid=a9a2bb6afe9eb31efc56
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230321102855.346732-4-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2 queue buffer storage
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230322/202303220057.J83sWVI1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/aab64e29070dfec3a043b5020399f79554d6cae4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-        git checkout aab64e29070dfec3a043b5020399f79554d6cae4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Unfortunately, I don't have any reproducer for this issue yet.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303220057.J83sWVI1-lkp@intel.com/
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0b755145006a/disk-f3594f02.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fca26e328a81/vmlinux-f3594f02.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/39744d7d289f/bzImage-f3594f02.xz
 
-All errors (new ones prefixed by >>):
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com
 
-   In file included from include/linux/module.h:22,
-                    from drivers/media/common/videobuf2/videobuf2-core.c:21:
-   drivers/media/common/videobuf2/videobuf2-core.c: In function '__check_max_vb_buffer_per_queue':
->> include/linux/moduleparam.h:150:34: error: returning 'size_t *' {aka 'unsigned int *'} from a function with incompatible return type 'long unsigned int *' [-Werror=incompatible-pointer-types]
-     150 |         param_check_##type(name, &(value));                                \
-         |                                  ^
-   include/linux/moduleparam.h:409:75: note: in definition of macro '__param_check'
-     409 |         static inline type __always_unused *__check_##name(void) { return(p); }
-         |                                                                           ^
-   include/linux/moduleparam.h:150:9: note: in expansion of macro 'param_check_ulong'
-     150 |         param_check_##type(name, &(value));                                \
-         |         ^~~~~~~~~~~~
-   include/linux/moduleparam.h:127:9: note: in expansion of macro 'module_param_named'
-     127 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/common/videobuf2/videobuf2-core.c:37:1: note: in expansion of macro 'module_param'
-      37 | module_param(max_vb_buffer_per_queue, ulong, 0644);
-         | ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+BUG: sleeping function called from invalid context at kernel/locking/mutex.c:580
+in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 10028, name: syz-executor.4
+preempt_count: 0, expected: 0
+RCU nest depth: 1, expected: 0
+3 locks held by syz-executor.4/10028:
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:110 [inline]
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x158/0x3b0 mm/util.c:541
+ #1: ffff888081123270 (&shmem->pages_lock){+.+.}-{3:3}, at: drm_gem_shmem_get_pages+0x53/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:216
+ #2: ffffffff8c796500 (rcu_read_lock){....}-{1:2}, at: _vm_unmap_aliases.part.0+0x138/0x560 mm/vmalloc.c:2182
+CPU: 1 PID: 10028 Comm: syz-executor.4 Not tainted 6.3.0-rc3-next-20230321-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x136/0x150 lib/dump_stack.c:106
+ __might_resched+0x358/0x580 kernel/sched/core.c:10059
+ __mutex_lock_common kernel/locking/mutex.c:580 [inline]
+ __mutex_lock+0x9f/0x1350 kernel/locking/mutex.c:747
+ _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
+ _vm_unmap_aliases mm/vmalloc.c:2181 [inline]
+ vm_unmap_aliases+0x49/0x50 mm/vmalloc.c:2230
+ change_page_attr_set_clr+0x226/0x470 arch/x86/mm/pat/set_memory.c:1837
+ cpa_set_pages_array arch/x86/mm/pat/set_memory.c:1892 [inline]
+ _set_pages_array+0x1c6/0x220 arch/x86/mm/pat/set_memory.c:2230
+ drm_gem_shmem_get_pages_locked+0x155/0x240 drivers/gpu/drm/drm_gem_shmem_helper.c:191
+ drm_gem_shmem_get_pages+0x71/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:219
+ drm_gem_shmem_mmap drivers/gpu/drm/drm_gem_shmem_helper.c:636 [inline]
+ drm_gem_shmem_mmap+0x153/0x540 drivers/gpu/drm/drm_gem_shmem_helper.c:620
+ drm_gem_mmap_obj+0x1b6/0x6c0 drivers/gpu/drm/drm_gem.c:1046
+ drm_gem_mmap+0x41d/0x780 drivers/gpu/drm/drm_gem.c:1124
+ call_mmap include/linux/fs.h:1859 [inline]
+ mmap_region+0x694/0x28d0 mm/mmap.c:2652
+ do_mmap+0x831/0xf60 mm/mmap.c:1438
+ vm_mmap_pgoff+0x1a2/0x3b0 mm/util.c:543
+ ksys_mmap_pgoff+0x41f/0x5a0 mm/mmap.c:1484
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f905968c0f9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f905a3fa168 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007f90597abf80 RCX: 00007f905968c0f9
+RDX: 0000000000000000 RSI: 0000000000003028 RDI: 0000000020ffc000
+RBP: 00007f90596e7b39 R08: 0000000000000004 R09: 0000000100000000
+R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffcde03503f R14: 00007f905a3fa300 R15: 0000000000022000
+ </TASK>
+
+=============================
+[ BUG: Invalid wait context ]
+6.3.0-rc3-next-20230321-syzkaller #0 Tainted: G        W         
+-----------------------------
+syz-executor.4/10028 is trying to lock:
+ffff888027c7a068 (&vb->lock){+.+.}-{3:3}, at: _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
+other info that might help us debug this:
+context-{4:4}
+3 locks held by syz-executor.4/10028:
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:110 [inline]
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x158/0x3b0 mm/util.c:541
+ #1: ffff888081123270 (&shmem->pages_lock){+.+.}-{3:3}, at: drm_gem_shmem_get_pages+0x53/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:216
+ #2: ffffffff8c796500 (rcu_read_lock){....}-{1:2}, at: _vm_unmap_aliases.part.0+0x138/0x560 mm/vmalloc.c:2182
+stack backtrace:
+CPU: 1 PID: 10028 Comm: syz-executor.4 Tainted: G        W          6.3.0-rc3-next-20230321-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
+ print_lock_invalid_wait_context kernel/locking/lockdep.c:4724 [inline]
+ check_wait_context kernel/locking/lockdep.c:4785 [inline]
+ __lock_acquire+0x159e/0x5df0 kernel/locking/lockdep.c:5024
+ lock_acquire.part.0+0x11c/0x370 kernel/locking/lockdep.c:5691
+ __mutex_lock_common kernel/locking/mutex.c:603 [inline]
+ __mutex_lock+0x12f/0x1350 kernel/locking/mutex.c:747
+ _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
+ _vm_unmap_aliases mm/vmalloc.c:2181 [inline]
+ vm_unmap_aliases+0x49/0x50 mm/vmalloc.c:2230
+ change_page_attr_set_clr+0x226/0x470 arch/x86/mm/pat/set_memory.c:1837
+ cpa_set_pages_array arch/x86/mm/pat/set_memory.c:1892 [inline]
+ _set_pages_array+0x1c6/0x220 arch/x86/mm/pat/set_memory.c:2230
+ drm_gem_shmem_get_pages_locked+0x155/0x240 drivers/gpu/drm/drm_gem_shmem_helper.c:191
+ drm_gem_shmem_get_pages+0x71/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:219
+ drm_gem_shmem_mmap drivers/gpu/drm/drm_gem_shmem_helper.c:636 [inline]
+ drm_gem_shmem_mmap+0x153/0x540 drivers/gpu/drm/drm_gem_shmem_helper.c:620
+ drm_gem_mmap_obj+0x1b6/0x6c0 drivers/gpu/drm/drm_gem.c:1046
+ drm_gem_mmap+0x41d/0x780 drivers/gpu/drm/drm_gem.c:1124
+ call_mmap include/linux/fs.h:1859 [inline]
+ mmap_region+0x694/0x28d0 mm/mmap.c:2652
+ do_mmap+0x831/0xf60 mm/mmap.c:1438
+ vm_mmap_pgoff+0x1a2/0x3b0 mm/util.c:543
+ ksys_mmap_pgoff+0x41f/0x5a0 mm/mmap.c:1484
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f905968c0f9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f905a3fa168 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007f90597abf80 RCX: 00007f905968c0f9
+RDX: 0000000000000000 RSI: 0000000000003028 RDI: 0000000020ffc000
+RBP: 00007f90596e7b39 R08: 0000000000000004 R09: 0000000100000000
+R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffcde03503f R14: 00007f905a3fa300 R15: 0000000000022000
+ </TASK>
 
 
-vim +150 include/linux/moduleparam.h
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-^1da177e4c3f415 Linus Torvalds  2005-04-16  100  
-546970bc6afc7fb Rusty Russell   2010-08-11  101  /**
-546970bc6afc7fb Rusty Russell   2010-08-11  102   * module_param - typesafe helper for a module/cmdline parameter
-e2854a1054ab171 Zhenzhong Duan  2019-11-04  103   * @name: the variable to alter, and exposed parameter name.
-546970bc6afc7fb Rusty Russell   2010-08-11  104   * @type: the type of the parameter
-546970bc6afc7fb Rusty Russell   2010-08-11  105   * @perm: visibility in sysfs.
-546970bc6afc7fb Rusty Russell   2010-08-11  106   *
-e2854a1054ab171 Zhenzhong Duan  2019-11-04  107   * @name becomes the module parameter, or (prefixed by KBUILD_MODNAME and a
-546970bc6afc7fb Rusty Russell   2010-08-11  108   * ".") the kernel commandline parameter.  Note that - is changed to _, so
-546970bc6afc7fb Rusty Russell   2010-08-11  109   * the user can use "foo-bar=1" even for variable "foo_bar".
-546970bc6afc7fb Rusty Russell   2010-08-11  110   *
-c6a8b84da4c28bd Randy Dunlap    2020-07-17  111   * @perm is 0 if the variable is not to appear in sysfs, or 0444
-546970bc6afc7fb Rusty Russell   2010-08-11  112   * for world-readable, 0644 for root-writable, etc.  Note that if it
-b51d23e4e9fea6f Dan Streetman   2015-06-17  113   * is writable, you may need to use kernel_param_lock() around
-546970bc6afc7fb Rusty Russell   2010-08-11  114   * accesses (esp. charp, which can be kfreed when it changes).
-546970bc6afc7fb Rusty Russell   2010-08-11  115   *
-546970bc6afc7fb Rusty Russell   2010-08-11  116   * The @type is simply pasted to refer to a param_ops_##type and a
-546970bc6afc7fb Rusty Russell   2010-08-11  117   * param_check_##type: for convenience many standard types are provided but
-546970bc6afc7fb Rusty Russell   2010-08-11  118   * you can create your own by defining those variables.
-546970bc6afc7fb Rusty Russell   2010-08-11  119   *
-546970bc6afc7fb Rusty Russell   2010-08-11  120   * Standard types are:
-7d8365771ffb0ed Paul Menzel     2020-07-03  121   *	byte, hexint, short, ushort, int, uint, long, ulong
-546970bc6afc7fb Rusty Russell   2010-08-11  122   *	charp: a character pointer
-546970bc6afc7fb Rusty Russell   2010-08-11  123   *	bool: a bool, values 0/1, y/n, Y/N.
-546970bc6afc7fb Rusty Russell   2010-08-11  124   *	invbool: the above, only sense-reversed (N = true).
-546970bc6afc7fb Rusty Russell   2010-08-11  125   */
-546970bc6afc7fb Rusty Russell   2010-08-11  126  #define module_param(name, type, perm)				\
-546970bc6afc7fb Rusty Russell   2010-08-11  127  	module_param_named(name, name, type, perm)
-546970bc6afc7fb Rusty Russell   2010-08-11  128  
-3baee201b06cfaf Jani Nikula     2014-08-27  129  /**
-3baee201b06cfaf Jani Nikula     2014-08-27  130   * module_param_unsafe - same as module_param but taints kernel
-b6d0531ec7e2ae9 Fabien Dessenne 2019-12-02  131   * @name: the variable to alter, and exposed parameter name.
-b6d0531ec7e2ae9 Fabien Dessenne 2019-12-02  132   * @type: the type of the parameter
-b6d0531ec7e2ae9 Fabien Dessenne 2019-12-02  133   * @perm: visibility in sysfs.
-3baee201b06cfaf Jani Nikula     2014-08-27  134   */
-3baee201b06cfaf Jani Nikula     2014-08-27  135  #define module_param_unsafe(name, type, perm)			\
-3baee201b06cfaf Jani Nikula     2014-08-27  136  	module_param_named_unsafe(name, name, type, perm)
-3baee201b06cfaf Jani Nikula     2014-08-27  137  
-546970bc6afc7fb Rusty Russell   2010-08-11  138  /**
-546970bc6afc7fb Rusty Russell   2010-08-11  139   * module_param_named - typesafe helper for a renamed module/cmdline parameter
-546970bc6afc7fb Rusty Russell   2010-08-11  140   * @name: a valid C identifier which is the parameter name.
-546970bc6afc7fb Rusty Russell   2010-08-11  141   * @value: the actual lvalue to alter.
-546970bc6afc7fb Rusty Russell   2010-08-11  142   * @type: the type of the parameter
-546970bc6afc7fb Rusty Russell   2010-08-11  143   * @perm: visibility in sysfs.
-546970bc6afc7fb Rusty Russell   2010-08-11  144   *
-546970bc6afc7fb Rusty Russell   2010-08-11  145   * Usually it's a good idea to have variable names and user-exposed names the
-546970bc6afc7fb Rusty Russell   2010-08-11  146   * same, but that's harder if the variable must be non-static or is inside a
-546970bc6afc7fb Rusty Russell   2010-08-11  147   * structure.  This allows exposure under a different name.
-546970bc6afc7fb Rusty Russell   2010-08-11  148   */
-546970bc6afc7fb Rusty Russell   2010-08-11  149  #define module_param_named(name, value, type, perm)			   \
-546970bc6afc7fb Rusty Russell   2010-08-11 @150  	param_check_##type(name, &(value));				   \
-546970bc6afc7fb Rusty Russell   2010-08-11  151  	module_param_cb(name, &param_ops_##type, &value, perm);		   \
-546970bc6afc7fb Rusty Russell   2010-08-11  152  	__MODULE_PARM_TYPE(name, #type)
-546970bc6afc7fb Rusty Russell   2010-08-11  153  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
