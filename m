@@ -2,204 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4AF76C38FF
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 19:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 962316C3934
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 19:30:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbjCUSQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 14:16:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
+        id S229776AbjCUSal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 14:30:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjCUSQK (ORCPT
+        with ESMTP id S229872AbjCUSaj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 14:16:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8ADA8A7E;
-        Tue, 21 Mar 2023 11:16:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 460FAFB;
-        Tue, 21 Mar 2023 19:16:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679422564;
-        bh=YYbBI+yZSSJbYGhSeo7clHqjJfv86VCoUJSEWpYXO+Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=et96KRBewPZzizQfexOFCLJXkqb5wSeGgSv6hB9T2tVkzio8N0HVTy7cx7cQxPgeJ
-         xkoMRqVvU70aL6Gb9D3BeLPHdljMgL/LuwnNWcLW5bf0+XFhvoWCKgy4EI5/1+occk
-         4d/lA/Yw7mIY0BWH9k+99HYvgqDCoH4KUE2+nYE4=
-Date:   Tue, 21 Mar 2023 20:16:10 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
-        jernel@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Message-ID: <20230321181610.GE20234@pendragon.ideasonboard.com>
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-3-benjamin.gaignard@collabora.com>
+        Tue, 21 Mar 2023 14:30:39 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08348559DD;
+        Tue, 21 Mar 2023 11:30:31 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id o2so9557880plg.4;
+        Tue, 21 Mar 2023 11:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679423430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rkjWHBgUku8MSuRSZQ+S7pLaMQUx4hKAx9achzwRQ08=;
+        b=AXOihnAH0B0O4pktC/PqBcmYDX5szxYRzghNl161/BIG9cu3cfq5pL2vR7gYwCvycK
+         ya2Eb42AtqfvNT0Rnqki7KI140cDOtuSv7aK4Er2DgH9uyp5ncyd9fo1gxhN84PcK+Mb
+         oZtEQwq2KbwtX2HA2yO2+hGyg8GB6yXvmudYWWXWhkG7um0VZ2mTTg2HcypGjKYhNrK9
+         m2o/GfMiifYLQBXNqyf/GtONlkj/lesMLTgTBgnRTKQlTbk0UO2v4anALIhzz/0cA1mE
+         PbBUHhvY5b0SFIgZcyYKVdWXFD1BUTTB8Spcr7dWKpSsMre5BcKUiJF16o2AskD0sG09
+         hMwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679423430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rkjWHBgUku8MSuRSZQ+S7pLaMQUx4hKAx9achzwRQ08=;
+        b=E72prPqE3OXJ67rkeweLLpTFmYG7BrHURDN7u4leFoB99eDdkkDreQEc4cTqYmDSmQ
+         KtAEgjzwkQE7mTLlv4Cs+XpxZuQzsdrEKUWow83NGAbTDPmlht1ITLLOdVugkZBsjlwE
+         TLd8+E0TFqAYkCqAfeCkl7D7zFFOgNrKodtBqbxdk1tPye96dncNkKhrVOIWqZYCG0T4
+         QouBz417Bxiq27SBgjQt/UgDySBhEdWvGYAsW5Gnq20Ms31r6QAnXtAE7aKiBSruGgg9
+         8VRprTElX3c2l5FsDr/xQhPIvzLWsm6ifobPsVaaVDSI6+uB1Ad3WbomFGf3LgFC6emn
+         ge5A==
+X-Gm-Message-State: AO0yUKVg2NclbO7zRo6z09d7cbGYib3wAYE/VckSDeI7Wn4dt5DVd0ol
+        OOLoJsm7/d2XYG7Y0adIMo11wduq9IQ=
+X-Google-Smtp-Source: AK7set/8TvvOjgCXUYMDgSNVuWVwb7G7MjD3roFihJpRn+nnL3hwsQcop75N18OV7FrB+B+FLXpUkg==
+X-Received: by 2002:a05:6a20:3391:b0:d8:f312:b3b with SMTP id f17-20020a056a20339100b000d8f3120b3bmr2824221pzd.3.1679423430170;
+        Tue, 21 Mar 2023 11:30:30 -0700 (PDT)
+Received: from trent-reznor ([2601:641:4000:81:109e:9b0c:f18f:7fa1])
+        by smtp.gmail.com with ESMTPSA id d2-20020a639742000000b00502e7115cbdsm5817599pgo.51.2023.03.21.11.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 11:30:29 -0700 (PDT)
+Date:   Tue, 21 Mar 2023 11:30:26 -0700
+From:   Daniel Watson <ozzloy@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: av7110: put spaces around operators
+Message-ID: <ZBn3wmTkcZ0WC6iW@trent-reznor>
+References: <ZBlShLl4PYlNIpGN@trent-reznor>
+ <487b75ea-aecd-5fdc-c2a2-5f5080f8647e@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321102855.346732-3-benjamin.gaignard@collabora.com>
+In-Reply-To: <487b75ea-aecd-5fdc-c2a2-5f5080f8647e@xs4all.nl>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-Thank you for the patch.
-
-On Tue, Mar 21, 2023 at 11:28:49AM +0100, Benjamin Gaignard wrote:
-> Instead of a static array change bufs to a dynamically allocated array.
-> This will allow to store more video buffer if needed.
-> Protect the array with a spinlock.
-
-I think I asked in the review of v1 why we couldn't use the kernel
-IDA/IDR APIs to allocate buffer IDs and register buffers, but I don't
-think I've received a reply. Wouldn't it be better than rolling out our
-own mechanism ?
-
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   |  8 +++
->  include/media/videobuf2-core.h                | 49 ++++++++++++++++---
->  2 files changed, 49 insertions(+), 8 deletions(-)
+On Tue, Mar 21, 2023 at 04:08:30PM +0100, Hans Verkuil wrote:
+> Hi Daniel,
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 79e90e338846..ae9d72f4d181 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -2452,6 +2452,13 @@ int vb2_core_queue_init(struct vb2_queue *q)
->  	mutex_init(&q->mmap_lock);
->  	init_waitqueue_head(&q->done_wq);
->  
-> +	q->max_num_bufs = 32;
-> +	q->bufs = kmalloc_array(q->max_num_bufs, sizeof(*q->bufs), GFP_KERNEL | __GFP_ZERO);
-> +	if (!q->bufs)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_init(&q->bufs_lock);
-> +
->  	q->memory = VB2_MEMORY_UNKNOWN;
->  
->  	if (q->buf_struct_size == 0)
-> @@ -2479,6 +2486,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	mutex_lock(&q->mmap_lock);
->  	__vb2_queue_free(q, q->num_buffers);
->  	mutex_unlock(&q->mmap_lock);
-> +	kfree(q->bufs);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
->  
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 5b1e3d801546..397dbf6e61e1 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -558,6 +558,8 @@ struct vb2_buf_ops {
->   * @dma_dir:	DMA mapping direction.
->   * @bufs:	videobuf2 buffer structures
->   * @num_buffers: number of allocated/used buffers
-> + * @bufs_lock: lock to protect bufs access
-> + * @max_num_bufs: max number of buffers storable in bufs
->   * @queued_list: list of buffers currently queued from userspace
->   * @queued_count: number of buffers queued and ready for streaming.
->   * @owned_by_drv_count: number of buffers owned by the driver
-> @@ -619,8 +621,10 @@ struct vb2_queue {
->  	struct mutex			mmap_lock;
->  	unsigned int			memory;
->  	enum dma_data_direction		dma_dir;
-> -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
-> +	struct vb2_buffer		**bufs;
->  	unsigned int			num_buffers;
-> +	spinlock_t			bufs_lock;
-> +	size_t				max_num_bufs;
->  
->  	struct list_head		queued_list;
->  	unsigned int			queued_count;
-> @@ -1239,9 +1243,16 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
->  static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->  						unsigned int index)
->  {
-> -	if (index < q->num_buffers)
-> -		return q->bufs[index];
-> -	return NULL;
-> +	struct vb2_buffer *vb = NULL;
-> +
-> +	spin_lock(&q->bufs_lock);
-> +
-> +	if (index < q->max_num_bufs)
-> +		vb = q->bufs[index];
-> +
-> +	spin_unlock(&q->bufs_lock);
-> +
-> +	return vb;
->  }
->  
->  /**
-> @@ -1251,12 +1262,30 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->   */
->  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->  {
-> -	if (vb->index < VB2_MAX_FRAME) {
-> +	bool ret = false;
-> +
-> +	spin_lock(&q->bufs_lock);
-> +
-> +	if (vb->index >= q->max_num_bufs) {
-> +		struct vb2_buffer **tmp;
-> +
-> +		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
-> +		if (!tmp)
-> +			goto realloc_failed;
-> +
-> +		q->max_num_bufs *= 2;
-> +		q->bufs = tmp;
-> +	}
-> +
-> +	if (vb->index < q->max_num_bufs) {
->  		q->bufs[vb->index] = vb;
-> -		return true;
-> +		ret = true;
->  	}
->  
-> -	return false;
-> +realloc_failed:
-> +	spin_unlock(&q->bufs_lock);
-> +
-> +	return ret;
->  }
->  
->  /**
-> @@ -1266,8 +1295,12 @@ static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *
->   */
->  static inline void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->  {
-> -	if (vb->index < VB2_MAX_FRAME)
-> +	spin_lock(&q->bufs_lock);
-> +
-> +	if (vb->index < q->max_num_bufs)
->  		q->bufs[vb->index] = NULL;
-> +
-> +	spin_unlock(&q->bufs_lock);
->  }
->  
->  /*
+Hi!
 
--- 
-Regards,
+> I'm not sure what the point it of these two fixes since this driver is
+> full of such things.
+these fixes were the only ones where checkpatch said "spaces required
+around that ..." for this file.
 
-Laurent Pinchart
+> In any case, I'm rejecting this. Just leave this driver alone, it's not
+> worth the effort.
+ok.
+
+> If you are doing this as part of some mentorship program, then skip the
+i'm doing this on my own.  i read that newbies should do about 10 minor
+patches to get familiar with the process before doing something more
+substantial.
+
+> drivers/staging/media directory, it's not suitable for that.
+ok, i'll try other drivers in staging.  i'll also see about getting a
+mentor.
+
+thanks again!
