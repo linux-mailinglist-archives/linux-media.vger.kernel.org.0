@@ -2,92 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1E26C3657
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 16:57:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 594446C36DC
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 17:25:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjCUP51 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 11:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47228 "EHLO
+        id S229685AbjCUQY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 12:24:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbjCUP5Z (ORCPT
+        with ESMTP id S229645AbjCUQY5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 11:57:25 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E388151FB7
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 08:57:10 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1peeMG-004XyU-0r; Tue, 21 Mar 2023 15:57:08 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1peeMD-00F52D-PJ; Tue, 21 Mar 2023 15:57:05 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] Various fixes/enhancements (#90583)
-Date:   Tue, 21 Mar 2023 15:57:05 +0000
-Message-Id: <20230321155705.3594227-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <49bb0b6a-e669-d4e7-d742-a19d2763e947@xs4all.nl>
-References: 
+        Tue, 21 Mar 2023 12:24:57 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3906229155
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 09:24:56 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id l15-20020a05600c4f0f00b003ed58a9a15eso9825528wmq.5
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 09:24:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112; t=1679415894;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=opkX3jaafWpKhxMPtlc1zx+TOoj1Mup4qtr1hbDpll8=;
+        b=QELmMSAPla+tlUYxWKPYtIuaT3BtgRrmMD8IYam7bjgCk6t+nK/1WOJ0vMxG+LIrTo
+         XUaz5zqwEW8zwoWu96RmW/wddwCZi/MS8ftMwmzOKjBJPUcJWQEde9xy56+HwLmO908k
+         dwNv0h5ObxUGLaKGcOBzCrszBDCIJDEFlZ+BMJJMphcFm5J1LttNaeIh7Sn4TBiS086h
+         VIro8csaxjIQhtsKd8xe18xqok1YQBcHf4f0lsZ0Ien3SQcrukND6QtMNMKtXingk16L
+         VV6odcYrH3bqv1Ms4bNyCb4FhQq6ybk3HmD0s+i3PtHtvSshSwZ0Yls9oqh/n8GIQ21T
+         pdzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679415894;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=opkX3jaafWpKhxMPtlc1zx+TOoj1Mup4qtr1hbDpll8=;
+        b=Z0Kmyo6svfIvbMb42BWBAnYZdueh3TL8NWyaSWWR2NyeADUlfDxS0LhmUDdTCqqb2Y
+         oyMTdP93ToMHHhDy5b3Eqrycj6TTI0rXXZhIhhFIBm8Og/h4QHFEp0FaBAX+RIn8LaR8
+         rfn/IkM28y+lOV7/rWOy7o4Uv3163JJx6hQeyfCiWM7XnDvmzzTYBZtcTGX0mTU3b/aT
+         VFtNM3La/EdQvIhtWvDa55Oohk9tJro8vshFMfi+UPCddZeNupmW6x7wt2dPQ2ZKUeao
+         07ahms9/F9PaLKWwcdOG56WW8iz4CUclXK4NqHx+E4QKv71clz7FsiKc1IMaP+9SsfWb
+         48Ag==
+X-Gm-Message-State: AO0yUKW2xEzzt5KeAXQoHCmRqPEnH2nEoqQLB6C1AJXLCXHMHJjr0lHz
+        Adrn8u/VTYasgNJTfzwKgnjQWBscmts=
+X-Google-Smtp-Source: AK7set8c5DniFTT6VeChuFO3gPzPPVidoRitcn5LCsdCjyYgEz0pd6ZzzfqCISSuOb3ixPaXcMDNfw==
+X-Received: by 2002:a1c:cc13:0:b0:3ee:da1:1346 with SMTP id h19-20020a1ccc13000000b003ee0da11346mr3021992wmb.36.1679415894432;
+        Tue, 21 Mar 2023 09:24:54 -0700 (PDT)
+Received: from [10.228.210.75] ([80.156.160.146])
+        by smtp.gmail.com with ESMTPSA id s12-20020adfeb0c000000b002c57384dfe0sm11685628wrn.113.2023.03.21.09.24.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Mar 2023 09:24:54 -0700 (PDT)
+Message-ID: <f5124161-2048-1813-f23b-fc88f11bc3b4@googlemail.com>
+Date:   Tue, 21 Mar 2023 17:24:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: v4l-utils: dvb_frontend.h is copied to lib/include for some
+ reason
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        hselasky@FreeBSD.org
+References: <72058b54-6d85-cd91-b557-f9f8b54ab3a7@xs4all.nl>
+From:   Gregor Jasny <gjasny@googlemail.com>
+In-Reply-To: <72058b54-6d85-cd91-b557-f9f8b54ab3a7@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hello,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/49bb0b6a-e669-d4e7-d742-a19d2763e947@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/291167/
-Build time: 00:20:59
-Link: https://lore.kernel.org/linux-media/49bb0b6a-e669-d4e7-d742-a19d2763e947@xs4all.nl
+On 20.03.23 10:35, Hans Verkuil wrote:
+> When I tried to sync v4l-utils to the latest kernel I noticed that the
+> dvb-frontend.h header was copied by lib/libdvbv5/gen_dvb_structs.pl
+> from lib/include/libdvbv5/dvb-frontend.h to lib/include/dvb-frontend.h.
+> 
+> But no code uses it, and it does not seem to be installed anywhere either.
+> 
+> This was added in this commit:
+> 
+> commit cc4651d52dfea736cc7d6e32c939793da707ea1a
+> Author: Gregor Jasny <gjasny@googlemail.com>
+> Date:   Sun May 20 19:46:35 2012 +0200
+> 
+>      libdvbv5: Correct output paths of gen_dvb_structs and write missing header
+> 
+> Can I remove the copy line in gen_dvb_structs.pl? Or is it used for something
+> that I am not aware of?
 
-gpg: Signature made Tue 21 Mar 2023 03:09:32 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+I don't remember exactly why I did that change. But back in the days 
+Debian still build for kFreeBSD (FreeBSD kernel with GNU userland). It 
+could be that the change was somehow related to that.
 
-Summary: got 2/12 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Feel free to clean it up.
 
-Error/warnings:
-
-patches/0001-media-camss-sm8250-Virtual-channels-for-CSID.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1974609
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2884 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0004-media-camss-sm8250-Pipeline-starting-and-stopping-fo.patch:
-
-   checkpatch.pl:
-	$ cat patches/0004-media-camss-sm8250-Pipeline-starting-and-stopping-fo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:34: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-
-Error #512 when building PDF docs
-
+Thanks,
+Gregor
