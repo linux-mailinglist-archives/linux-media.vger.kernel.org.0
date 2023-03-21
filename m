@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DC966C2F31
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 11:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA236C2F75
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 11:49:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230301AbjCUKjL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 06:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
+        id S230415AbjCUKtZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 06:49:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjCUKjJ (ORCPT
+        with ESMTP id S230390AbjCUKtV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 06:39:09 -0400
+        Tue, 21 Mar 2023 06:49:21 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC0F46B2;
-        Tue, 21 Mar 2023 03:39:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFEAA61B6;
+        Tue, 21 Mar 2023 03:49:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 461A661AC3;
-        Tue, 21 Mar 2023 10:39:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 778CBC433D2;
-        Tue, 21 Mar 2023 10:39:04 +0000 (UTC)
-Message-ID: <fbb6cbfd-9c40-7cf1-5790-eb3a14e12296@xs4all.nl>
-Date:   Tue, 21 Mar 2023 11:39:02 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B39E61AB6;
+        Tue, 21 Mar 2023 10:49:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E709C433D2;
+        Tue, 21 Mar 2023 10:49:05 +0000 (UTC)
+Message-ID: <c4e73432-4758-6ad3-415b-80ca898c19a9@xs4all.nl>
+Date:   Tue, 21 Mar 2023 11:49:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v4 02/10] media: Add Y012 video format
+Subject: Re: [PATCH v4 04/10] media: Add YUV48_12 video format
 Content-Language: en-US
 To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
         mirela.rabulea@oss.nxp.com
@@ -36,9 +36,9 @@ Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <cover.1678788305.git.ming.qian@nxp.com>
- <e5fefc67731c492570bf468572c5894fdcefbb28.1678788305.git.ming.qian@nxp.com>
+ <44bfcc0f57f0eae6d2a94914e40a902556f6eb02.1678788305.git.ming.qian@nxp.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <e5fefc67731c492570bf468572c5894fdcefbb28.1678788305.git.ming.qian@nxp.com>
+In-Reply-To: <44bfcc0f57f0eae6d2a94914e40a902556f6eb02.1678788305.git.ming.qian@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -51,87 +51,115 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 14/03/2023 11:08, Ming Qian wrote:
-> Y012 is a luma-only formats with 12-bits per pixel,
+> YUV48_12 is a YUV format with 12-bits per component like YUV24,
 > expanded to 16bits.
 > Data in the 12 high bits, zeros in the 4 low bits,
 > arranged in little endian order.
 > 
 > Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
->  .../userspace-api/media/v4l/pixfmt-yuv-luma.rst   | 15 +++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c              |  1 +
->  include/uapi/linux/videodev2.h                    |  1 +
->  3 files changed, 17 insertions(+)
+>  .../media/v4l/pixfmt-packed-yuv.rst           | 28 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |  1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>  include/uapi/linux/videodev2.h                |  1 +
+>  4 files changed, 31 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> index 62078a01de76..7888151f2cd4 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> @@ -103,6 +103,17 @@ are often referred to as greyscale formats.
->        - ...
->        - ...
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> index 24a771542059..ed998d8341ff 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> @@ -257,6 +257,34 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
+>      - The padding bits contain undefined values that must be ignored by all
+>        applications and drivers.
 >  
-> +    * .. _V4L2-PIX-FMT-Y012:
+> +The next lists the packed YUV 4:4:4 formats with 12 bits per component.
+
+next -> next table
+
+> +expand the bits per component to 16 bits, data in the high bits, zeros in the low bits,
+
+expand -> Expand
+
+> +arranged in little endian order. storing 1 pixels in 6 bytes.
+
+pixels -> pixel
+
 > +
-> +      - ``V4L2_PIX_FMT_Y012``
-> +      - 'Y012'
+> +.. flat-table:: Packed YUV 4:4:4 Image Formats (12bpc)
+> +    :header-rows: 1
+> +    :stub-columns: 0
 > +
-> +      - Y'\ :sub:`0`\ [3:0] `0000`
-> +      - Y'\ :sub:`0`\ [11:4]
-> +      - ...
-> +      - ...
-> +      - ...
+> +    * - Identifier
+> +      - Code
+> +      - Byte 1-0
+> +      - Byte 3-2
+> +      - Byte 5-4
+> +      - Byte 7-6
+> +      - Byte 9-8
+> +      - Byte 11-10
 > +
->      * .. _V4L2-PIX-FMT-Y14:
+> +    * .. _V4L2-PIX-FMT-YUV48-12:
+> +
+> +      - ``V4L2_PIX_FMT_YUV48_12``
+> +      - 'Y312'
+> +
+> +      - Y'\ :sub:`0`
+> +      - Cb\ :sub:`0`
+> +      - Cr\ :sub:`0`
+> +      - Y'\ :sub:`1`
+> +      - Cb\ :sub:`1`
+> +      - Cr\ :sub:`1`
 >  
->        - ``V4L2_PIX_FMT_Y14``
-> @@ -146,3 +157,7 @@ are often referred to as greyscale formats.
->      than 16 bits. For example, 10 bits per pixel uses values in the range 0 to
->      1023. For the IPU3_Y10 format 25 pixels are packed into 32 bytes, which
->      leaves the 6 most significant bits of the last byte padded with 0.
-> +
-> +    For Y012 and Y12 formats, Y012 place its data in the 12 high bits, with
-
-place -> places
-
-> +    padding zeros in the 4 low bits, in contrast to Y12 format, which have
-
-to Y12 -> to the Y12
-have -> has
-
-> +    its padding located in the most significant bits of the 16 bit word.
+>  4:2:2 Subsampling
+>  =================
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 21ace56fac04..da313a0637de 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -259,6 +259,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_UYVY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_VYUY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_Y212,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_YUV48_12, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 6, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  
+>  		/* YUV planar formats */
+>  		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
 > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 6489b67babfa..2cb485643562 100644
+> index 2cb485643562..6543cda5815f 100644
 > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1307,6 +1307,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_Y6:		descr = "6-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y10:		descr = "10-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y12:		descr = "12-bit Greyscale"; break;
-> +	case V4L2_PIX_FMT_Y012:		descr = "12-bit Greyscale"; break;
+> @@ -1346,6 +1346,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_YUV420:	descr = "Planar YUV 4:2:0"; break;
+>  	case V4L2_PIX_FMT_HI240:	descr = "8-bit Dithered RGB (BTTV)"; break;
+>  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
+> +	case V4L2_PIX_FMT_YUV48_12:	descr = "12-bit Depth YUV 4:4:4"; break;
 
-I don't really like having two identical pixelformat names, but I can't
-think of a good way to describe the difference.
+How about: "12-bit YUYV 4:4:4 Packed"
 
-Perhaps "12-bit Greyscale (bits 15-4)"?
+By the way, I think these existing formats:
+
+        case V4L2_PIX_FMT_Y210:         descr = "10-bit YUYV Packed"; break;
+        case V4L2_PIX_FMT_Y212:         descr = "12-bit YUYV Packed"; break;
+        case V4L2_PIX_FMT_Y216:         descr = "16-bit YUYV Packed"; break;
+
+should be renamed to "10-bit YUYV 4:2:2 Packed"
+
+>  	case V4L2_PIX_FMT_NV12:		descr = "Y/UV 4:2:0"; break;
+>  	case V4L2_PIX_FMT_NV21:		descr = "Y/VU 4:2:0"; break;
+>  	case V4L2_PIX_FMT_NV16:		descr = "Y/UV 4:2:2"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index db06d4c4f008..8a6430bc4a00 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -621,6 +621,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
+>  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
+>  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
+> +#define V4L2_PIX_FMT_YUV48_12    v4l2_fourcc('Y', '3', '1', '2') /* 48  YUV 4:4:4 12-bit per component */
+>  
+>  /*
+>   * YCbCr packed format. For each Y2xx format, xx bits of valid data occupy the MSBs
 
 Regards,
 
 	Hans
-
->  	case V4L2_PIX_FMT_Y14:		descr = "14-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y16:		descr = "16-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y16_BE:	descr = "16-bit Greyscale BE"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index f83a9d1210fb..db06d4c4f008 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -586,6 +586,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_Y6      v4l2_fourcc('Y', '0', '6', ' ') /*  6  Greyscale     */
->  #define V4L2_PIX_FMT_Y10     v4l2_fourcc('Y', '1', '0', ' ') /* 10  Greyscale     */
->  #define V4L2_PIX_FMT_Y12     v4l2_fourcc('Y', '1', '2', ' ') /* 12  Greyscale     */
-> +#define V4L2_PIX_FMT_Y012    v4l2_fourcc('Y', '0', '1', '2') /* 12  Greyscale     */
->  #define V4L2_PIX_FMT_Y14     v4l2_fourcc('Y', '1', '4', ' ') /* 14  Greyscale     */
->  #define V4L2_PIX_FMT_Y16     v4l2_fourcc('Y', '1', '6', ' ') /* 16  Greyscale     */
->  #define V4L2_PIX_FMT_Y16_BE  v4l2_fourcc_be('Y', '1', '6', ' ') /* 16  Greyscale BE  */
-
