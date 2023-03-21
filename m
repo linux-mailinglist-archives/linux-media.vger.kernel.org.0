@@ -2,192 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98B466C37A9
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 18:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B24A56C3880
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 18:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230363AbjCURFa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 13:05:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
+        id S229886AbjCURn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 13:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230335AbjCURFY (ORCPT
+        with ESMTP id S229685AbjCURn0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 13:05:24 -0400
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A14303EE
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 10:04:47 -0700 (PDT)
-Received: by mail-il1-f200.google.com with SMTP id v14-20020a92c80e000000b0031faea6493cso8049887iln.11
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 10:04:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679418287;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+zTrQymw8nWm1LaYS6yQZNEVKZFLl6piGpgaLk7/4RE=;
-        b=tLM4V2O+FuPUniPUyKCTWjg6JUE9P+3Bb3Ykq2SUHk8LN+ZzPVC1NS5eOmqwuLkeRR
-         UhwBhVs8A9UfoumGyT0NTaYEKaggapHFWBXzt4uiIetLB8Jg0LiM7ADbauMajTSFQm6P
-         28nJU+AWgAf+kiJ1xRtziR1dnLo9k/2Nx5qCWJTscSQthctLLCDlGW/ZySSkeUi4J6/k
-         OeFGO3fp4c1TKyLYl6GB1yL4pU9ddSVdoOkx7uzm2SZYvwHROh9IGnIiBJ3EeIGIeN8I
-         t//OiC6NMJtRCgxZVjBE05z8dIPFQaEQOkSgjomVVlxFYrDNSCYQG9/fJ8rYhEtPMVbR
-         5+jA==
-X-Gm-Message-State: AO0yUKVwsUv6YaEZduV5r0QZrNyW3E4hCLzQ+d0CF7a4LvAwxBRgRWEu
-        ckJ+ang5peC2mHSvFKNuWxS+9P25V1W3BL/9b03DF7FKruOr
-X-Google-Smtp-Source: AK7set9ZLrfktTpmIZ42olW6S9WFaixJFSMx4jgpyGAZsTz4YqTTPuheLv3NxoBXl0MTeXnwBNJY/zeGRCozfMx2sV1x9SBu/ngM
+        Tue, 21 Mar 2023 13:43:26 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D2A746168;
+        Tue, 21 Mar 2023 10:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679420585; x=1710956585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+pjwBEmDe+T56Sgwt4qimQ2CIBOYEqSjWw1uHZNKv6U=;
+  b=bs8VSpiykmh9MtC3xKMoByUznm9gjz2V9OM82KqWl89rBCm2wN7Zhe+Q
+   y12WyD1BfKhvbs4hGfqKIASKDVvjpNL6M5v+xIx2i6GtwnLVQ1m/zjZ7t
+   A0DJg1DxRXMs7z2jf9KhvjiVJEIe0UXNreScy2R4hr4YcDkuhJ5ip8KFv
+   93F8tUp85CH/8PrfeYrX24ds5wEfsK+YhQ3QSHHtU66zlzLMsqifHFCf8
+   kQHFVV+eYgaO8aUS4kUznloV/wyLPfhyRbBgpag7AbpsNoNF5r1Splvat
+   IOuPKqjVGeAH+jktubjnuydBvyDTTpedHklTvxNkcDKYBexhCl7Qt+xaY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="340553609"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
+   d="scan'208";a="340553609"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 10:42:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="805503023"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
+   d="scan'208";a="805503023"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2023 10:42:43 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1peg0Q-000CDT-1d;
+        Tue, 21 Mar 2023 17:42:42 +0000
+Date:   Wed, 22 Mar 2023 01:42:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
+        bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, jernel@kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 1/8] media: videobuf2: Access vb2_queue bufs array
+ through helper functions
+Message-ID: <202303220154.ioaH1XLM-lkp@intel.com>
+References: <20230321102855.346732-2-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:f13:b0:313:c399:73c8 with SMTP id
- x19-20020a056e020f1300b00313c39973c8mr1279881ilj.4.1679418287044; Tue, 21 Mar
- 2023 10:04:47 -0700 (PDT)
-Date:   Tue, 21 Mar 2023 10:04:47 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006dc0c105f76c0a72@google.com>
-Subject: [syzbot] [dri?] BUG: sleeping function called from invalid context in _vm_unmap_aliases
-From:   syzbot <syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com>
-To:     airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
-        tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230321102855.346732-2-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Benjamin,
 
-syzbot found the following issue on:
+I love your patch! Yet something to improve:
 
-HEAD commit:    f3594f0204b7 Add linux-next specific files for 20230321
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=161552eec80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f22105589e896af1
-dashboard link: https://syzkaller.appspot.com/bug?extid=a9a2bb6afe9eb31efc56
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.3-rc3 next-20230321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Unfortunately, I don't have any reproducer for this issue yet.
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230321102855.346732-2-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v2 1/8] media: videobuf2: Access vb2_queue bufs array through helper functions
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230322/202303220154.ioaH1XLM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/625d46c1c1fe8e3229a780134d21bcd4a017cfdd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+        git checkout 625d46c1c1fe8e3229a780134d21bcd4a017cfdd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0b755145006a/disk-f3594f02.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/fca26e328a81/vmlinux-f3594f02.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/39744d7d289f/bzImage-f3594f02.xz
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303220154.ioaH1XLM-lkp@intel.com/
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com
+All errors (new ones prefixed by >>):
 
-BUG: sleeping function called from invalid context at kernel/locking/mutex.c:580
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 10028, name: syz-executor.4
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-3 locks held by syz-executor.4/10028:
- #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:110 [inline]
- #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x158/0x3b0 mm/util.c:541
- #1: ffff888081123270 (&shmem->pages_lock){+.+.}-{3:3}, at: drm_gem_shmem_get_pages+0x53/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:216
- #2: ffffffff8c796500 (rcu_read_lock){....}-{1:2}, at: _vm_unmap_aliases.part.0+0x138/0x560 mm/vmalloc.c:2182
-CPU: 1 PID: 10028 Comm: syz-executor.4 Not tainted 6.3.0-rc3-next-20230321-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x136/0x150 lib/dump_stack.c:106
- __might_resched+0x358/0x580 kernel/sched/core.c:10059
- __mutex_lock_common kernel/locking/mutex.c:580 [inline]
- __mutex_lock+0x9f/0x1350 kernel/locking/mutex.c:747
- _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
- _vm_unmap_aliases mm/vmalloc.c:2181 [inline]
- vm_unmap_aliases+0x49/0x50 mm/vmalloc.c:2230
- change_page_attr_set_clr+0x226/0x470 arch/x86/mm/pat/set_memory.c:1837
- cpa_set_pages_array arch/x86/mm/pat/set_memory.c:1892 [inline]
- _set_pages_array+0x1c6/0x220 arch/x86/mm/pat/set_memory.c:2230
- drm_gem_shmem_get_pages_locked+0x155/0x240 drivers/gpu/drm/drm_gem_shmem_helper.c:191
- drm_gem_shmem_get_pages+0x71/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:219
- drm_gem_shmem_mmap drivers/gpu/drm/drm_gem_shmem_helper.c:636 [inline]
- drm_gem_shmem_mmap+0x153/0x540 drivers/gpu/drm/drm_gem_shmem_helper.c:620
- drm_gem_mmap_obj+0x1b6/0x6c0 drivers/gpu/drm/drm_gem.c:1046
- drm_gem_mmap+0x41d/0x780 drivers/gpu/drm/drm_gem.c:1124
- call_mmap include/linux/fs.h:1859 [inline]
- mmap_region+0x694/0x28d0 mm/mmap.c:2652
- do_mmap+0x831/0xf60 mm/mmap.c:1438
- vm_mmap_pgoff+0x1a2/0x3b0 mm/util.c:543
- ksys_mmap_pgoff+0x41f/0x5a0 mm/mmap.c:1484
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f905968c0f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f905a3fa168 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-RAX: ffffffffffffffda RBX: 00007f90597abf80 RCX: 00007f905968c0f9
-RDX: 0000000000000000 RSI: 0000000000003028 RDI: 0000000020ffc000
-RBP: 00007f90596e7b39 R08: 0000000000000004 R09: 0000000100000000
-R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffcde03503f R14: 00007f905a3fa300 R15: 0000000000022000
- </TASK>
-
-=============================
-[ BUG: Invalid wait context ]
-6.3.0-rc3-next-20230321-syzkaller #0 Tainted: G        W         
------------------------------
-syz-executor.4/10028 is trying to lock:
-ffff888027c7a068 (&vb->lock){+.+.}-{3:3}, at: _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
-other info that might help us debug this:
-context-{4:4}
-3 locks held by syz-executor.4/10028:
- #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:110 [inline]
- #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x158/0x3b0 mm/util.c:541
- #1: ffff888081123270 (&shmem->pages_lock){+.+.}-{3:3}, at: drm_gem_shmem_get_pages+0x53/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:216
- #2: ffffffff8c796500 (rcu_read_lock){....}-{1:2}, at: _vm_unmap_aliases.part.0+0x138/0x560 mm/vmalloc.c:2182
-stack backtrace:
-CPU: 1 PID: 10028 Comm: syz-executor.4 Tainted: G        W          6.3.0-rc3-next-20230321-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
- print_lock_invalid_wait_context kernel/locking/lockdep.c:4724 [inline]
- check_wait_context kernel/locking/lockdep.c:4785 [inline]
- __lock_acquire+0x159e/0x5df0 kernel/locking/lockdep.c:5024
- lock_acquire.part.0+0x11c/0x370 kernel/locking/lockdep.c:5691
- __mutex_lock_common kernel/locking/mutex.c:603 [inline]
- __mutex_lock+0x12f/0x1350 kernel/locking/mutex.c:747
- _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
- _vm_unmap_aliases mm/vmalloc.c:2181 [inline]
- vm_unmap_aliases+0x49/0x50 mm/vmalloc.c:2230
- change_page_attr_set_clr+0x226/0x470 arch/x86/mm/pat/set_memory.c:1837
- cpa_set_pages_array arch/x86/mm/pat/set_memory.c:1892 [inline]
- _set_pages_array+0x1c6/0x220 arch/x86/mm/pat/set_memory.c:2230
- drm_gem_shmem_get_pages_locked+0x155/0x240 drivers/gpu/drm/drm_gem_shmem_helper.c:191
- drm_gem_shmem_get_pages+0x71/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:219
- drm_gem_shmem_mmap drivers/gpu/drm/drm_gem_shmem_helper.c:636 [inline]
- drm_gem_shmem_mmap+0x153/0x540 drivers/gpu/drm/drm_gem_shmem_helper.c:620
- drm_gem_mmap_obj+0x1b6/0x6c0 drivers/gpu/drm/drm_gem.c:1046
- drm_gem_mmap+0x41d/0x780 drivers/gpu/drm/drm_gem.c:1124
- call_mmap include/linux/fs.h:1859 [inline]
- mmap_region+0x694/0x28d0 mm/mmap.c:2652
- do_mmap+0x831/0xf60 mm/mmap.c:1438
- vm_mmap_pgoff+0x1a2/0x3b0 mm/util.c:543
- ksys_mmap_pgoff+0x41f/0x5a0 mm/mmap.c:1484
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f905968c0f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f905a3fa168 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-RAX: ffffffffffffffda RBX: 00007f90597abf80 RCX: 00007f905968c0f9
-RDX: 0000000000000000 RSI: 0000000000003028 RDI: 0000000020ffc000
-RBP: 00007f90596e7b39 R08: 0000000000000004 R09: 0000000100000000
-R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffcde03503f R14: 00007f905a3fa300 R15: 0000000000022000
- </TASK>
+   drivers/staging/media/atomisp/pci/atomisp_ioctl.c: In function 'atomisp_dqbuf_wrapper':
+>> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1098:33: error: incompatible type for argument 1 of 'vb2_get_buffer'
+    1098 |         vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+         |                             ~~~~^~~~~~~~~~
+         |                                 |
+         |                                 struct vb2_queue
+   In file included from include/media/videobuf2-v4l2.h:16,
+                    from drivers/staging/media/atomisp//pci/ia_css_frame_public.h:23,
+                    from drivers/staging/media/atomisp/pci/sh_css_legacy.h:22,
+                    from drivers/staging/media/atomisp/pci/atomisp_internal.h:34,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.h:30,
+                    from drivers/staging/media/atomisp/pci/atomisp_ioctl.c:27:
+   include/media/videobuf2-core.h:1239:67: note: expected 'struct vb2_queue *' but argument is of type 'struct vb2_queue'
+    1239 | static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+         |                                                 ~~~~~~~~~~~~~~~~~~^
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+vim +/vb2_get_buffer +1098 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+  1083	
+  1084	static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer *buf)
+  1085	{
+  1086		struct video_device *vdev = video_devdata(file);
+  1087		struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+  1088		struct atomisp_sub_device *asd = pipe->asd;
+  1089		struct atomisp_device *isp = video_get_drvdata(vdev);
+  1090		struct ia_css_frame *frame;
+  1091		struct vb2_buffer *vb;
+  1092		int ret;
+  1093	
+  1094		ret = vb2_ioctl_dqbuf(file, fh, buf);
+  1095		if (ret)
+  1096			return ret;
+  1097	
+> 1098		vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+  1099		frame = vb_to_frame(vb);
+  1100	
+  1101		buf->reserved = asd->frame_status[buf->index];
+  1102	
+  1103		/*
+  1104		 * Hack:
+  1105		 * Currently frame_status in the enum type which takes no more lower
+  1106		 * 8 bit.
+  1107		 * use bit[31:16] for exp_id as it is only in the range of 1~255
+  1108		 */
+  1109		buf->reserved &= 0x0000ffff;
+  1110		if (!(buf->flags & V4L2_BUF_FLAG_ERROR))
+  1111			buf->reserved |= frame->exp_id;
+  1112		buf->reserved2 = pipe->frame_config_id[buf->index];
+  1113	
+  1114		dev_dbg(isp->dev,
+  1115			"dqbuf buffer %d (%s) for asd%d with exp_id %d, isp_config_id %d\n",
+  1116			buf->index, vdev->name, asd->index, buf->reserved >> 16,
+  1117			buf->reserved2);
+  1118		return 0;
+  1119	}
+  1120	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
