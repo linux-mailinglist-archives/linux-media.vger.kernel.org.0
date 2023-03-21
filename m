@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E8236C3141
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 13:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD0386C3151
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 13:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbjCUMIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 08:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53676 "EHLO
+        id S231197AbjCUMOd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 08:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbjCUMIq (ORCPT
+        with ESMTP id S231174AbjCUMOb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 08:08:46 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38322A141
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 05:08:43 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1peanB-004SDn-MM; Tue, 21 Mar 2023 12:08:41 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pean8-00CFwf-S9; Tue, 21 Mar 2023 12:08:38 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] mtk-jpeg fixes (#90580)
-Date:   Tue, 21 Mar 2023 12:08:38 +0000
-Message-Id: <20230321120838.2921183-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <3be73ae4-c8a9-9cd8-5918-263462f0896f@xs4all.nl>
-References: 
+        Tue, 21 Mar 2023 08:14:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245E337B44
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 05:14:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B6CCCB81646
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 12:14:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AFFC4339B;
+        Tue, 21 Mar 2023 12:14:18 +0000 (UTC)
+Message-ID: <98c48690-631d-1086-9b7c-004c61cc8dbb@xs4all.nl>
+Date:   Tue, 21 Mar 2023 13:14:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     =?UTF-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?= 
+        <allen-kh.cheng@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.4] Mediatek vcodec fixes/enhancements
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,43 +45,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/3be73ae4-c8a9-9cd8-5918-263462f0896f@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/291137/
-Build time: 00:26:57
-Link: https://lore.kernel.org/linux-media/3be73ae4-c8a9-9cd8-5918-263462f0896f@xs4all.nl
+  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
 
-gpg: Signature made Tue 21 Mar 2023 11:24:54 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+are available in the Git repository at:
 
-Summary: got 1/7 patches with issues, being 1 at build time, plus one error when buinding PDF document
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4e
 
-Error/warnings:
+for you to fetch changes up to 4a8fc66d32a98ea3941fd4a53ec021c3d700e238:
 
-patches/0001-media-mtk-jpeg-Fixes-jpeghw-multi-core-judgement.patch:
+  media: mediatek: vcodec: Force capture queue format to MM21 (2023-03-21 12:52:10 +0100)
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+----------------------------------------------------------------
+Tag branch
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974583
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+----------------------------------------------------------------
+Allen-KH Cheng (2):
+      media: dt-bindings: media: mediatek: Rename child node names for decoder
+      media: dt-bindings: media: mediatek: Remove "dma-ranges" property for decoder
 
+Pin-yen Lin (1):
+      media: mediatek: vcodec: Use 4K frame size when supported by stateful decoder
 
-Error #512 when building PDF docs
+Yunfei Dong (4):
+      media: dt-bindings: media: mediatek: vcodec: adapt to the 'clock-names' of different platforms
+      media: dt-bindings: media: mediatek: vcodec: Change the max reg value to 2
+      media: mediatek: vcodec: Make MM21 the default capture format
+      media: mediatek: vcodec: Force capture queue format to MM21
 
+ Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml | 113 ++++++++++++++++++++-------------------------------
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c                     |  24 ++---------
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c            |  12 +++++-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c           |   8 ++--
+ 4 files changed, 62 insertions(+), 95 deletions(-)
