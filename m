@@ -2,96 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC2656C3524
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 16:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 301386C3571
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 16:18:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231583AbjCUPJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 11:09:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49768 "EHLO
+        id S231631AbjCUPSs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 11:18:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231210AbjCUPJA (ORCPT
+        with ESMTP id S231638AbjCUPSp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 11:09:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0391D50983;
-        Tue, 21 Mar 2023 08:08:36 -0700 (PDT)
+        Tue, 21 Mar 2023 11:18:45 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C47515F1
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 08:18:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A7077B817BB;
-        Tue, 21 Mar 2023 15:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53884C433EF;
-        Tue, 21 Mar 2023 15:08:32 +0000 (UTC)
-Message-ID: <487b75ea-aecd-5fdc-c2a2-5f5080f8647e@xs4all.nl>
-Date:   Tue, 21 Mar 2023 16:08:30 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 870D2B8128A
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 15:17:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E9BC433D2;
+        Tue, 21 Mar 2023 15:17:49 +0000 (UTC)
+Message-ID: <49bb0b6a-e669-d4e7-d742-a19d2763e947@xs4all.nl>
+Date:   Tue, 21 Mar 2023 16:17:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] media: av7110: put spaces around operators
 Content-Language: en-US
-To:     Daniel Watson <ozzloy@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <ZBlShLl4PYlNIpGN@trent-reznor>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <ZBlShLl4PYlNIpGN@trent-reznor>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     "Milen Mitkov (Consultant)" <quic_mmitkov@quicinc.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.4] Various fixes/enhancements
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
 
-On 21/03/2023 07:45, Daniel Watson wrote:
-> put spaces around '=' and '<=' to match style from checkpatch
-> 
-> Signed-off-by: Daniel Watson <ozzloy@gmail.com>
-> ---
->  drivers/staging/media/av7110/av7110_hw.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110_hw.h b/drivers/staging/media/av7110/av7110_hw.h
-> index 6380d8950c695..3274146c401f1 100644
-> --- a/drivers/staging/media/av7110/av7110_hw.h
-> +++ b/drivers/staging/media/av7110/av7110_hw.h
-> @@ -402,8 +402,8 @@ static inline u32 irdebi(struct av7110 *av7110, u32 config, int addr, u32 val, u
->  {
->  	u32 res;
->  
-> -	res=av7110_debiread(av7110, config, addr, count);
-> -	if (count<=4)
-> +	res = av7110_debiread(av7110, config, addr, count);
-> +	if (count <= 4)
->  		memcpy(av7110->debi_virt, (char *) &res, count);
->  	return res;
->  }
-> @@ -424,7 +424,7 @@ static inline u32 rdebi(struct av7110 *av7110, u32 config, int addr, u32 val, un
->  	u32 res;
->  
->  	spin_lock_irqsave(&av7110->debilock, flags);
-> -	res=av7110_debiread(av7110, config, addr, count);
-> +	res = av7110_debiread(av7110, config, addr, count);
->  	spin_unlock_irqrestore(&av7110->debilock, flags);
->  	return res;
->  }
+  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
 
-I'm not sure what the point it of these two fixes since this driver is
-full of such things.
+are available in the Git repository at:
 
-In any case, I'm rejecting this. Just leave this driver alone, it's not
-worth the effort.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4g
 
-If you are doing this as part of some mentorship program, then skip the
-drivers/staging/media directory, it's not suitable for that.
+for you to fetch changes up to dacc09862467123c7e5ac45b131e77aafa54fe96:
 
-Regards,
+  media: au0828: remove unnecessary (void*) conversions (2023-03-21 15:49:12 +0100)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Milen Mitkov (4):
+      media: camss: sm8250: Virtual channels for CSID
+      media: camss: vfe: Reserve VFE lines on stream start and link to CSID
+      media: camss: vfe-480: Multiple outputs support for SM8250
+      media: camss: sm8250: Pipeline starting and stopping for multiple virtual channels
+
+Niklas Söderlund (3):
+      media: i2c: adv748x: Fix lookup of DV timings
+      media: i2c: adv748x: Write initial DV timings to device
+      media: i2c: adv748x: Report correct DV timings for pattern generator
+
+Oliver Neukum (1):
+      usbtv: usbtv_set_regs: the pipe is output
+
+Yang Li (1):
+      media: atmel: atmel-isc: Use devm_platform_ioremap_resource()
+
+Yu Zhe (1):
+      media: au0828: remove unnecessary (void*) conversions
+
+Zheng Wang (2):
+      media: dm1105: Fix use after free bug in dm1105_remove due to race condition
+      media: saa7134: fix use after free bug in saa7134_finidev due to race condition
+
+ drivers/media/i2c/adv748x/adv748x-hdmi.c                   | 21 +++++++++++++++------
+ drivers/media/pci/dm1105/dm1105.c                          |  1 +
+ drivers/media/pci/saa7134/saa7134-ts.c                     |  1 +
+ drivers/media/pci/saa7134/saa7134-vbi.c                    |  1 +
+ drivers/media/pci/saa7134/saa7134-video.c                  |  1 +
+ drivers/media/platform/qcom/camss/camss-csid-gen2.c        | 54 ++++++++++++++++++++++++++++++++++--------------------
+ drivers/media/platform/qcom/camss/camss-csid.c             | 44 +++++++++++++++++++++++++++++++-------------
+ drivers/media/platform/qcom/camss/camss-csid.h             | 11 +++++++++--
+ drivers/media/platform/qcom/camss/camss-vfe-170.c          |  4 ++--
+ drivers/media/platform/qcom/camss/camss-vfe-480.c          | 61 ++++++++++++++++++++++++++++++++++++++++---------------------
+ drivers/media/platform/qcom/camss/camss-vfe-gen1.c         |  4 ++--
+ drivers/media/platform/qcom/camss/camss-vfe.c              |  1 +
+ drivers/media/platform/qcom/camss/camss-video.c            | 21 ++++++++++++++++++---
+ drivers/media/platform/qcom/camss/camss.c                  |  2 +-
+ drivers/media/usb/au0828/au0828-core.c                     |  2 +-
+ drivers/media/usb/au0828/au0828-dvb.c                      |  4 ++--
+ drivers/media/usb/usbtv/usbtv-core.c                       |  2 +-
+ drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c |  4 +---
+ drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c |  4 +---
+ 19 files changed, 163 insertions(+), 80 deletions(-)
