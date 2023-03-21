@@ -2,109 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 139476C3466
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 15:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22C486C3496
+	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 15:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231341AbjCUOhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 10:37:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
+        id S231358AbjCUOn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 10:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbjCUOhq (ORCPT
+        with ESMTP id S231196AbjCUOn0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 10:37:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8764DE29
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 07:37:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F034E61CAF
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 14:37:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76707C433EF;
-        Tue, 21 Mar 2023 14:37:42 +0000 (UTC)
-Message-ID: <a4dafa22-3ee3-dbe1-fd50-fee07883ce1a@xs4all.nl>
-Date:   Tue, 21 Mar 2023 15:37:40 +0100
+        Tue, 21 Mar 2023 10:43:26 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E312A10CA;
+        Tue, 21 Mar 2023 07:43:23 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id ek18so60643103edb.6;
+        Tue, 21 Mar 2023 07:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679409802;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7ubpTBwCGfHItDX77/xDDLQ0Emp6svnzclBDAs6qyE=;
+        b=T1s8Ngl+RkVIvxNZpvZnMH7cqodpqineB22YWtIv/fCGFj7joV/a1TjSRUm2pJJHHt
+         MUKxqDn5xKWt1O5LBWVnUBgDu7rGLfa03O5Y9FcuEHowG/SlkK7LqP23ZwmrwM0e7Teq
+         QIWIwFG8FsQIjgobJ5zpK1KmBtp960ybNTL2lY/5bEB4xvS7cnm3kjiyyk9z2xzet73f
+         gBH4RPumKKnXgn8OfdTuNLjHTY1ctiMA2fIGN5fpsiI7phP1firJvEgcgRL6RMRFv9B6
+         rxvXVlonIb+2hM/XbpELgBCHVQG3Fb65I6yc1FlE/etUE3C5BrDKrCvP1Dd5HFv5cDVd
+         3S5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679409802;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O7ubpTBwCGfHItDX77/xDDLQ0Emp6svnzclBDAs6qyE=;
+        b=r3q6DEz2yV4hDn8IYZKPxexbnrH/9JtKp0BLERREVGhrjc3icgIU/1/JQXcKkwmqvd
+         yJG5L5xDQ/oCCQBMHCQg4Zv5fBrncgztfXS0Se5wkvvLdQ3NRUGw8vrM8Ubqm4IA+eg1
+         aprKVEFSrqZueWnnrWZwJepo+WVgfg7EJphSGksJ5kz9B0SddH91aD4ctut+Dr1IYOkK
+         YPLNqun9TchVtSfFH+IAC/idGqrK0Gya/r5K55z3U4aqEm7niU7LNGquQ3h+LzMgoTmu
+         CRoFl4CNWnH7YaTPQ4jVkhQENVp7rquab4h95n6L6KBMu8+LwAFZFZh+boO4kVI8fLq9
+         P/pg==
+X-Gm-Message-State: AO0yUKVDcwfyVLBQ4ocxPaK78o7bFUjtKZdfG5wST1ES/yoFdKJP+48E
+        qUTywqM1D2uEnpeALTxga58=
+X-Google-Smtp-Source: AK7set96Is0TLe0fndXxjNYCDYYIIwKDzHB+KNPQfBa3bfvxoMA0iLVPglnQVrqgXhUacHz1wyNEXg==
+X-Received: by 2002:a05:6402:1116:b0:4ac:b528:5727 with SMTP id u22-20020a056402111600b004acb5285727mr3772779edv.1.1679409802207;
+        Tue, 21 Mar 2023 07:43:22 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation ([5.170.200.163])
+        by smtp.gmail.com with ESMTPSA id q28-20020a50aa9c000000b004fb556e905fsm6386755edc.49.2023.03.21.07.43.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 07:43:21 -0700 (PDT)
+Date:   Tue, 21 Mar 2023 15:43:18 +0100
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
+Message-ID: <ZBnChlWq5RTI8U8h@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Ming Qian <ming.qian@nxp.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Zheng Wang <zyytlz.wz@163.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.4] Various codec fixes and enhancements
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
+Hello Paul,
 
-  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
+On Fri, Nov 18, 2022 at 06:39:17PM +0900, Paul Elder wrote:
+> This series depends on v3 of "dt-bindings: media: Add macros for video
+> interface bus types" [1].
+> 
+> This series extends the rkisp1 driver to support the ISP found in the
+> NXP i.MX8MP SoC.
+> 
+> The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+> and in the NXP i.MX8MP have the same origin, and have slightly diverged
+> over time as they are now independently developed (afaik) by Rockchip
+> and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+> and is close enough to the RK3399 ISP that it can easily be supported by
+> the same driver.
+> 
+> The last two patches add support for UYVY output format, which can be
+> implemented on the ISP version in the i.MX8MP but not in the one in the
+> RK3399.
+> 
+> This version of the series specifically has been tested on a Polyhex
+> Debix model A with an imx219 (Raspberry Pi cam v2).
+> 
+> [1] https://lore.kernel.org/linux-media/20220615221410.27459-2-laurent.pinchart@ideasonboard.com/
 
-are available in the Git repository at:
+I tested your series on imx274 on imx8mp-evk csi0.
+All looks good on my side.
+Thanks for your work!
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4f
+Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-for you to fetch changes up to bc08747b7f34fcc768ff3b17f1c16f6d3b336cb3:
+Regards,
+Tommaso
 
-  media: rkvdec: fix use after free bug in rkvdec_remove (2023-03-21 15:03:16 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Benjamin Gaignard (6):
-      media: verisilicon: Do not set context src/dst formats in reset functions
-      media: verisilicon: Do not use ctx fields as format storage when resetting
-      media: verisilicon: Do not set ctx->bit_depth in hantro_try_ctrl()
-      media: verisilicon: Do not change context bit depth before validating the format
-      media: verisilicon: HEVC: Only propose 10 bits compatible pixels formats
-      media: verisilicon: VP9: Only propose 10 bits compatible pixels formats
-
-Ming Qian (4):
-      media: add Sorenson Spark video format
-      media: amphion: support to decode sorenson spark video
-      media: add RealVideo format RV30 and RV40
-      media: amphion: support to decode RealVideo video
-
-Yunfei Dong (7):
-      media: mediatek: vcodec: add params to record lat and core lat_buf count
-      media: mediatek: vcodec: using each instance lat_buf count replace core ready list
-      media: mediatek: vcodec: move lat_buf to the top of core list
-      media: mediatek: vcodec: add core decode done event
-      media: mediatek: vcodec: remove unused lat_buf
-      media: mediatek: vcodec: making sure queue_work successfully
-      media: mediatek: vcodec: change lat thread decode error condition
-
-Zheng Wang (2):
-      media: cedrus: fix use after free bug in cedrus_remove due to race condition
-      media: rkvdec: fix use after free bug in rkvdec_remove
-
- Documentation/userspace-api/media/v4l/pixfmt-compressed.rst          | 25 ++++++++++++++++
- drivers/media/platform/amphion/vdec.c                                | 21 +++++++++++++
- drivers/media/platform/amphion/vpu_malone.c                          | 41 ++++++++++++++++++++++++++
- drivers/media/platform/amphion/vpu_malone.h                          |  1 +
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c    |  6 ++--
- drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c |  2 +-
- drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c    |  2 +-
- drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c              | 95 +++++++++++++++++++++++++++++++++++++++++++++++++++--------
- drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h              | 12 ++++++++
- drivers/media/platform/verisilicon/hantro_drv.c                      | 49 +++++++++++++++++++++++-------
- drivers/media/platform/verisilicon/hantro_postproc.c                 |  2 +-
- drivers/media/platform/verisilicon/hantro_v4l2.c                     | 90 ++++++++++++++++++++++++++-----------------------------
- drivers/media/platform/verisilicon/hantro_v4l2.h                     |  3 +-
- drivers/media/platform/verisilicon/imx8m_vpu_hw.c                    |  2 ++
- drivers/media/v4l2-core/v4l2-ioctl.c                                 |  3 ++
- drivers/staging/media/rkvdec/rkvdec.c                                |  2 ++
- drivers/staging/media/sunxi/cedrus/cedrus.c                          |  1 +
- include/uapi/linux/videodev2.h                                       |  3 ++
- 18 files changed, 282 insertions(+), 78 deletions(-)
+> 
+> Laurent Pinchart (3):
+>   dt-bindings: media: rkisp1: Add i.MX8MP ISP example
+>   media: rkisp1: Add and use rkisp1_has_feature() macro
+>   media: rkisp1: Configure gasket on i.MX8MP
+> 
+> Paul Elder (11):
+>   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+>   media: rkisp1: Add match data for i.MX8MP ISP
+>   media: rkisp1: Add and set registers for crop for i.MX8MP
+>   media: rkisp1: Add and set registers for output size config on i.MX8MP
+>   media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
+>   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+>   media: rkisp1: Add register definitions for the test pattern generator
+>   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+>   media: rkisp1: Support devices without self path
+>   media: rkisp1: Add YC swap capability
+>   media: rkisp1: Add UYVY as an output format
+> 
+>  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
+>  .../platform/rockchip/rkisp1/rkisp1-debug.c   |  14 +-
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  67 +++++++--
+>  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 +++++++++++++++++-
+>  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  90 ++++++++++++
+>  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
+>  include/uapi/linux/rkisp1-config.h            |   2 +
+>  9 files changed, 509 insertions(+), 40 deletions(-)
+> 
+> -- 
+> 2.35.1
+>
