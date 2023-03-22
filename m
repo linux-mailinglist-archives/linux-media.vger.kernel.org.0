@@ -2,92 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B5EF6C45E9
-	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 10:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7752D6C4690
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 10:36:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbjCVJO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Mar 2023 05:14:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45886 "EHLO
+        id S230479AbjCVJgZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Mar 2023 05:36:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbjCVJO1 (ORCPT
+        with ESMTP id S230461AbjCVJgX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Mar 2023 05:14:27 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6D62196D;
-        Wed, 22 Mar 2023 02:14:24 -0700 (PDT)
-Received: from booty (unknown [37.160.6.101])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 711B5C0003;
-        Wed, 22 Mar 2023 09:14:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1679476463;
+        Wed, 22 Mar 2023 05:36:23 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7251E5F529;
+        Wed, 22 Mar 2023 02:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1679476886;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=deGf4hUAwHy3aFmh+GEX0MrCG/Z4A2oTIyUdBJkliMk=;
-        b=FcUqVMG0jy2j8wsgIutB3P8OM24PcNQNWBz/Oz16g8RToD5DJEy5rdWd6kKMp2GZdUfq+h
-        xUu+Wf9ibxwbvZaUvUSlT9NOQ1KANWdSurt9yPw+uB1IH2iQo/zvJr1Ko8BDW7Owe/vD3x
-        Oei1F7LKlH6GrTB1h6GRyiNcllzYXPfjtaiYgEpL5i3Gmo9NbNNxY2uSdJ+DKNtK8BPsjq
-        Y5T3ND3mtKcyIfygf8QnqSEU7Ngc+sGqOICeS5J+uSEJ6/6qrX8Dzn4tIXVWJ5MXIwg4BR
-        Y3ZCQgLKRiSrn5CZ2oSjXWhVhlmG3RptxTrPyQ4BnSmZD14Y3s2C97Opga6VCA==
-Date:   Wed, 22 Mar 2023 10:14:17 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-Subject: Re: [RESEND PATCH v4 00/21] Add Tegra20 parallel video input
- capture
-Message-ID: <20230322101417.4561a7ae@booty>
-In-Reply-To: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=tmRlYhR2FZnlnQJCWKDJjWOgiCSSl9pc0u4cFJUJ650=;
+        b=N+K9gfMWBsR4tD4u3Hl8NNLbTta8iPSN0ERcGscwa47kxMOGN0UFmiTqCEo0xcvmKjCd74
+        5QKS+X1c2izruTxdi+aR2/bxOzM5vWFMvFs5pp/4TwXtEn6OYJKWv7KKZgoXYHILsy+BHa
+        2AW0NIB2KkWH3t1e96o1srWamY7k2XM=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     michael.hennerich@analog.com, nuno.sa@analog.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v2 0/3] usb: gadget: functionfs: DMABUF import interface
+Date:   Wed, 22 Mar 2023 10:21:15 +0100
+Message-Id: <20230322092118.9213-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi,
 
-On Thu,  9 Mar 2023 15:42:59 +0100
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+This small patchset adds three new IOCTLs that can be used to attach,
+detach, or transfer from/to a DMABUF object.
 
-> TL;DR: Resending this series with Rob's review tag added. Now all DT
-> patches have at least a reviewed-by tag from Rob or Krzysztof, all the
-> driver patches have one from Dmitry.
+Changes since v1:
+- patch [2/3] is new. I had to reuse a piece of code that was already
+  duplicated in the driver, so I factorized the code.
+- Make ffs_dma_resv_lock() static
+- Add MODULE_IMPORT_NS(DMA_BUF);
+- The attach/detach functions are now performed without locking the
+  eps_lock spinlock. The transfer function starts with the spinlock
+  unlocked, then locks it before allocating and queueing the USB
+  transfer.
 
-This is a gentle ping about this series. All patches have a
-reviewed-by, there are no major changes since v2, and it's touching a
-staging driver anyway.
+Cheers,
+-Paul
 
-I don't think there is more I can do at the moment besides pinging, but
-should there be anything, I'd be glad to know! :-)
+Paul Cercueil (3):
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Factorize wait-for-endpoint code
+  usb: gadget: functionfs: Add DMABUF import interface
 
-Best regards,
-Luca
+ drivers/usb/gadget/function/f_fs.c  | 467 ++++++++++++++++++++++++++--
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  14 +-
+ 4 files changed, 468 insertions(+), 22 deletions(-)
+
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.2
+
