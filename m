@@ -2,359 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B860B6C51A8
-	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 18:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86C006C54A2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 20:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbjCVRDH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Mar 2023 13:03:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56310 "EHLO
+        id S230211AbjCVTNc convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 22 Mar 2023 15:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbjCVRDC (ORCPT
+        with ESMTP id S229819AbjCVTNb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Mar 2023 13:03:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33DB8C65B
-        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 10:02:42 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pf1r2-0000PL-2P; Wed, 22 Mar 2023 18:02:28 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pf1r0-005xjo-JL; Wed, 22 Mar 2023 18:02:26 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pf1qz-0075pN-W6; Wed, 22 Mar 2023 18:02:26 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH 01/12] gpu: host1x: Make host1x_client_unregister() return void
-Date:   Wed, 22 Mar 2023 18:02:12 +0100
-Message-Id: <20230322170223.410376-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
-References: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
+        Wed, 22 Mar 2023 15:13:31 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F4733CE8;
+        Wed, 22 Mar 2023 12:13:29 -0700 (PDT)
+Received: from p5b12767e.dip0.t-ipconnect.de ([91.18.118.126] helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1pf3t6-0003qa-2J; Wed, 22 Mar 2023 20:12:44 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Joe Tessler <jrt@google.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
+Date:   Wed, 22 Mar 2023 20:12:42 +0100
+Message-ID: <7127751.DvuYhMxLoT@phil>
+In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
+References: <20230320233944.2920964-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9929; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=2b/LXVSwVlDeW8ZpQF7IIFa4doLoB6ef3XQsS/Vxdgw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkGzSP8ivDotW//dNzpcoXmlCZPfsSMhpBXWUZc G3bce5nHG+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBs0jwAKCRCPgPtYfRL+ TneKB/9zKWrYdUKgKrajsn5V+MmOp8Djsw/fmt7eqCMzPuY7YyNhZch8yJMtiGo7NN3PenKxKcM KjmUKeQFwO/MT8YEqhSJSzLMEqdUs+RJk1gJ5dGA4EGkS3U+1HgAYHXCfjOQ3dPD6mZIiC7Tomy t7PsRBnkeVOjE148IJ7yxs52CflTaS7Mr8+3Fqon/Vjt+Gm66DwtYGF0EtxT+wQCI0PEHHo44ZI mr/vYCJt3JWyMXQq/dp7Fp14ovQBhTexKyTxOsh9p2gpwkFNFytaBgahUVlpQzIGScnOTCRUTAp V4F4gVFatTU+anK8zQqVMiHhfr9Eg9Wq+zD9gFl6/qXhG4fl
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_PASS,T_SPF_HELO_TEMPERROR
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This function returned zero unconditionally. Make it return no value and
-simplify all callers accordingly.
+Am Dienstag, 21. März 2023, 00:39:42 CET schrieb Rob Herring:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml   | 4 ++--
+>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 ++--
 
-Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/tegra/dc.c              | 7 +------
- drivers/gpu/drm/tegra/dsi.c             | 8 +-------
- drivers/gpu/drm/tegra/gr2d.c            | 8 +-------
- drivers/gpu/drm/tegra/gr3d.c            | 8 +-------
- drivers/gpu/drm/tegra/hdmi.c            | 8 +-------
- drivers/gpu/drm/tegra/hub.c             | 9 ++-------
- drivers/gpu/drm/tegra/nvdec.c           | 8 +-------
- drivers/gpu/drm/tegra/sor.c             | 8 +-------
- drivers/gpu/drm/tegra/vic.c             | 8 +-------
- drivers/gpu/host1x/bus.c                | 6 ++----
- drivers/staging/media/tegra-video/csi.c | 8 +-------
- drivers/staging/media/tegra-video/vi.c  | 8 +-------
- include/linux/host1x.h                  | 2 +-
- 13 files changed, 15 insertions(+), 81 deletions(-)
+Reviewed-by: Heiko Stuebner <heiko@sntech.de> #rockchip
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index a67453cee883..bd108159fc2c 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -3268,12 +3268,7 @@ static int tegra_dc_remove(struct platform_device *pdev)
- 	struct tegra_dc *dc = platform_get_drvdata(pdev);
- 	int err;
- 
--	err = host1x_client_unregister(&dc->client);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&dc->client);
- 
- 	err = tegra_dc_rgb_remove(dc);
- 	if (err < 0) {
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index de1333dc0d86..c8a02a1024bc 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1662,16 +1662,10 @@ static int tegra_dsi_probe(struct platform_device *pdev)
- static int tegra_dsi_remove(struct platform_device *pdev)
- {
- 	struct tegra_dsi *dsi = platform_get_drvdata(pdev);
--	int err;
- 
- 	pm_runtime_disable(&pdev->dev);
- 
--	err = host1x_client_unregister(&dsi->client);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&dsi->client);
- 
- 	tegra_output_remove(&dsi->output);
- 
-diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
-index e3bb4c99ed39..49b8d4953e7f 100644
---- a/drivers/gpu/drm/tegra/gr2d.c
-+++ b/drivers/gpu/drm/tegra/gr2d.c
-@@ -298,14 +298,8 @@ static int gr2d_probe(struct platform_device *pdev)
- static int gr2d_remove(struct platform_device *pdev)
- {
- 	struct gr2d *gr2d = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&gr2d->client.base);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&gr2d->client.base);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/tegra/gr3d.c b/drivers/gpu/drm/tegra/gr3d.c
-index a1fd3113ea96..cd3679d8eef9 100644
---- a/drivers/gpu/drm/tegra/gr3d.c
-+++ b/drivers/gpu/drm/tegra/gr3d.c
-@@ -553,14 +553,8 @@ static int gr3d_probe(struct platform_device *pdev)
- static int gr3d_remove(struct platform_device *pdev)
- {
- 	struct gr3d *gr3d = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&gr3d->client.base);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&gr3d->client.base);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 40ec3e6cf204..6798eea317df 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1877,14 +1877,8 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
- static int tegra_hdmi_remove(struct platform_device *pdev)
- {
- 	struct tegra_hdmi *hdmi = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&hdmi->client);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&hdmi->client);
- 
- 	tegra_output_remove(&hdmi->output);
- 
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index b872527a123c..2c91dc444085 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -1178,13 +1178,8 @@ static int tegra_display_hub_remove(struct platform_device *pdev)
- {
- 	struct tegra_display_hub *hub = platform_get_drvdata(pdev);
- 	unsigned int i;
--	int err;
- 
--	err = host1x_client_unregister(&hub->client);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--	}
-+	host1x_client_unregister(&hub->client);
- 
- 	for (i = 0; i < hub->soc->num_wgrps; i++) {
- 		struct tegra_windowgroup *wgrp = &hub->wgrps[i];
-@@ -1194,7 +1189,7 @@ static int tegra_display_hub_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 
--	return err;
-+	return 0;
- }
- 
- static const struct tegra_display_hub_soc tegra186_display_hub = {
-diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
-index 86c5818ac27b..077f3af0d0b6 100644
---- a/drivers/gpu/drm/tegra/nvdec.c
-+++ b/drivers/gpu/drm/tegra/nvdec.c
-@@ -550,14 +550,8 @@ static int nvdec_probe(struct platform_device *pdev)
- static int nvdec_remove(struct platform_device *pdev)
- {
- 	struct nvdec *nvdec = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&nvdec->client.base);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&nvdec->client.base);
- 
- 	falcon_exit(&nvdec->falcon);
- 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 8af632740673..d067b2d01b2e 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3981,14 +3981,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
- static int tegra_sor_remove(struct platform_device *pdev)
- {
- 	struct tegra_sor *sor = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&sor->client);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&sor->client);
- 
- 	pm_runtime_disable(&pdev->dev);
- 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index 531a71c72061..fd614756ecf8 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -540,14 +540,8 @@ static int vic_probe(struct platform_device *pdev)
- static int vic_remove(struct platform_device *pdev)
- {
- 	struct vic *vic = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&vic->client.base);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
--			err);
--		return err;
--	}
-+	host1x_client_unregister(&vic->client.base);
- 
- 	falcon_exit(&vic->falcon);
- 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index bc7271a00a94..4d16a3396c4a 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -803,7 +803,7 @@ EXPORT_SYMBOL(__host1x_client_register);
-  * Removes a host1x client from its host1x controller instance. If a logical
-  * device has already been initialized, it will be torn down.
-  */
--int host1x_client_unregister(struct host1x_client *client)
-+void host1x_client_unregister(struct host1x_client *client)
- {
- 	struct host1x_client *c;
- 	struct host1x *host1x;
-@@ -815,7 +815,7 @@ int host1x_client_unregister(struct host1x_client *client)
- 		err = host1x_del_client(host1x, client);
- 		if (!err) {
- 			mutex_unlock(&devices_lock);
--			return 0;
-+			return;
- 		}
- 	}
- 
-@@ -832,8 +832,6 @@ int host1x_client_unregister(struct host1x_client *client)
- 	mutex_unlock(&clients_lock);
- 
- 	host1x_bo_cache_destroy(&client->cache);
--
--	return 0;
- }
- EXPORT_SYMBOL(host1x_client_unregister);
- 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 426e653bd55d..36ca639622c9 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -778,14 +778,8 @@ static int tegra_csi_probe(struct platform_device *pdev)
- static int tegra_csi_remove(struct platform_device *pdev)
- {
- 	struct tegra_csi *csi = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&csi->client);
--	if (err < 0) {
--		dev_err(&pdev->dev,
--			"failed to unregister host1x client: %d\n", err);
--		return err;
--	}
-+	host1x_client_unregister(&csi->client);
- 
- 	pm_runtime_disable(&pdev->dev);
- 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 11dd142c98c5..26f7aedce718 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -2041,14 +2041,8 @@ static int tegra_vi_probe(struct platform_device *pdev)
- static int tegra_vi_remove(struct platform_device *pdev)
- {
- 	struct tegra_vi *vi = platform_get_drvdata(pdev);
--	int err;
- 
--	err = host1x_client_unregister(&vi->client);
--	if (err < 0) {
--		dev_err(&pdev->dev,
--			"failed to unregister host1x client: %d\n", err);
--		return err;
--	}
-+	host1x_client_unregister(&vi->client);
- 
- 	pm_runtime_disable(&pdev->dev);
- 
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 9a9de4b97a25..9c8119ed13a4 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -443,7 +443,7 @@ int __host1x_client_register(struct host1x_client *client);
- 		__host1x_client_register(client);	\
- 	})
- 
--int host1x_client_unregister(struct host1x_client *client);
-+void host1x_client_unregister(struct host1x_client *client);
- 
- int host1x_client_suspend(struct host1x_client *client);
- int host1x_client_resume(struct host1x_client *client);
--- 
-2.39.2
 
