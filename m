@@ -2,149 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D87256C4C53
-	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 14:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 750556C4C76
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 14:53:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230479AbjCVNuO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Mar 2023 09:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47338 "EHLO
+        id S229719AbjCVNxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Mar 2023 09:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230435AbjCVNuM (ORCPT
+        with ESMTP id S231189AbjCVNxg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Mar 2023 09:50:12 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C33D5982D;
-        Wed, 22 Mar 2023 06:49:40 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A70B066030AF;
-        Wed, 22 Mar 2023 13:49:34 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679492975;
-        bh=k+p/TCLm1pU60S6WbL0PB2Wsj8ktyGE4is14E/7Ssi0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NR9PRTxii7LTFiTCoWxJrKwkQ4O5KiU/uySb2c0w68SB+wTAfo/fb0zrq2fM1DFA0
-         sPRSmGZ/8zDbw8HqYMWG/58ipbxA1EOZ/OOlqX9cN0Nkb8iOPeUCX+ravrs0vEkE8R
-         +5KZjXAqRXm731h3qI61uM3kpcnsG9CNnEbaLkpXU07QrQQqZPgse1qXWKHpSQ+Vba
-         4UK5qlRM5mgAcNSQIcoBmyJn6+kkebIFSs4RibT1APSmmk76CLzFov65z4nUscRWSx
-         lThcuBVkNNipzC+PRr2IWNn2OBzfvlvMJVlxBwHvz5O0Q3ujaPWBCJ2ZdpZXmzuhPG
-         lDcfKJm6pZJYA==
-Message-ID: <4da63f5b-87f3-89be-31fc-f574a1d7c9bd@collabora.com>
-Date:   Wed, 22 Mar 2023 14:49:32 +0100
+        Wed, 22 Mar 2023 09:53:36 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BAF24C80;
+        Wed, 22 Mar 2023 06:53:35 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id o7so17177523wrg.5;
+        Wed, 22 Mar 2023 06:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679493214;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LQVFHuyH8bqksm7egwpleGiof9quLA2zV0qAKcfEvoE=;
+        b=nryTjrIoq64MvPu4FvpYw8IcQruR1AV/DTo8VvMQ2mv2mAut9LivZXJAq1+yFFY8QO
+         UjUrzDcIBYcQmVsqltN/c4AQZC6NONZVrgtQ7B5ujc1FcK4wt0P7OFR9ek4eyE2JGpc7
+         ijEkOPrROUufza/QmMKIAbACmjiQdwIOKBcRB53ptuzXgoBGLavpQOXr/njeGJ+zXpyn
+         Ki5wF+AVD/CWFOKLwdIZoEavJus/6DsiH3rhYLREI5DneUyQ+6MMooJPO4yl3CGItjWb
+         rX8JvpI3OSh95MBwjR3aeCOLavTcTdJmltuBXKVV/Po2XJX+YRSOlzshCbJKMqsqM0aW
+         kDGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679493214;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LQVFHuyH8bqksm7egwpleGiof9quLA2zV0qAKcfEvoE=;
+        b=kZwTapFQmd7PJ7PiNGgRZwXUbNUTUfQkzSx+A9RKP00ui8chyj2fjHrv6TZgK+eZfS
+         r1fCKCbyfH99JDffSXUH7Kt2c8+ALE2SgOONR6GgMOeNmw7NAtb7/oN1BCikcWD8geDB
+         hxXoCUin6SDsHjS0THdRiQAxfbzGk+lTU4xPCIdgAmwAcyefejNnoxJjHCSaRrCIIJIX
+         OaEflBRUuWiJgQP+zo+UISRwnzyIMuqlT79DRKMN2E68eUMqfVxBhZ2Aem5mm2pFrJ44
+         mxo/vEjEUGrjTYrYwh6LCMzzj894TeVxFMgaNAh5buD1XjeRUbwLkQzY7TQGYdf+7vYy
+         L+Ow==
+X-Gm-Message-State: AO0yUKXqNy8Bc4QvW/MbsHwf2/pmTnq32M25B00C3ESV7CzoZ0YE5A7w
+        WbBnBLE8ulyVoOkdtC5Uauw=
+X-Google-Smtp-Source: AK7set/fs9hcgx5GGhGGzXKvL8FklXES9AEwsi2C5PQmy+np6mk+7Oy+1pmLHYkJnfurvgT3VEdVWA==
+X-Received: by 2002:adf:e386:0:b0:2d6:5afe:7b91 with SMTP id e6-20020adfe386000000b002d65afe7b91mr1724185wrm.30.1679493214046;
+        Wed, 22 Mar 2023 06:53:34 -0700 (PDT)
+Received: from [10.0.0.215] (31-10-206-125.static.upc.ch. [31.10.206.125])
+        by smtp.gmail.com with ESMTPSA id c15-20020adfef4f000000b002c7066a6f77sm13877204wrp.31.2023.03.22.06.53.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 06:53:33 -0700 (PDT)
+Message-ID: <a1969260-5033-3765-bd94-76cb40dd1729@gmail.com>
+Date:   Wed, 22 Mar 2023 14:53:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2,2/7] media: mediatek: vcodec: Add debug params to
- control different log level
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] media: i2c: ov5640: Implement get_mbus_config
 Content-Language: en-US
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20230322094617.19410-1-yunfei.dong@mediatek.com>
- <20230322094617.19410-3-yunfei.dong@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230322094617.19410-3-yunfei.dong@mediatek.com>
+To:     Francesco Dolcini <francesco@dolcini.it>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Aishwarya Kothari <aishwarya.kothari@toradex.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Marcel Ziswiler <marcel@ziswiler.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>, kernel@pengutronix.de,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Marco Felsch <m.felsch@pengutronix.de>
+References: <20230306063649.7387-1-marcel@ziswiler.com>
+ <ZBBk+h3EMSsacZ6v@valkosipuli.retiisi.eu>
+ <ZBBpUAhis8L5Dtuz@francesco-nb.int.toradex.com>
+ <ZBBsgW75Gc2FmuQ0@valkosipuli.retiisi.eu>
+ <ZBBvmjUZIn/g0/Nv@francesco-nb.int.toradex.com>
+ <20230320084844.tdjiv6kaxcosiwm2@uno.localdomain>
+ <ZBg/4gkKWBMtw5a9@francesco-nb.int.toradex.com>
+From:   Aishwarya Kothari <aishwaryakothari75@gmail.com>
+In-Reply-To: <ZBg/4gkKWBMtw5a9@francesco-nb.int.toradex.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 22/03/23 10:46, Yunfei Dong ha scritto:
-> Add parameter mtk_vcodec_dbg to open each codec log.
-> Add parameter mtk_v4l2_dbg_level to open each instance log according to
-> the parameter value.
+On 20.03.23 12:13, Francesco Dolcini wrote:
+> On Mon, Mar 20, 2023 at 09:48:44AM +0100, Jacopo Mondi wrote:
+>> On Tue, Mar 14, 2023 at 01:59:06PM +0100, Francesco Dolcini wrote:
+>>> On Tue, Mar 14, 2023 at 02:45:53PM +0200, Sakari Ailus wrote:
+>>>> On Tue, Mar 14, 2023 at 01:32:16PM +0100, Francesco Dolcini wrote:
+>>>>> On Tue, Mar 14, 2023 at 02:13:46PM +0200, Sakari Ailus wrote:
+>>>>>> On Mon, Mar 06, 2023 at 07:36:49AM +0100, Marcel Ziswiler wrote:
+>>>>>>> From: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+>>>>>>>
+>>>>>>> Implement the introduced get_mbus_config operation to report the
+>>>>>>> config of the MIPI CSI-2, BT.656 and Parallel interface.
+>>>>>>>
+>>>>>>> Signed-off-by: Aishwarya Kothari <aishwarya.kothari@toradex.com>
+>>>>>>> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+>>>>>>
+>>>>>> What's the reasoning for this patch?
+>>>>>
+>>>>> Without this it's not possible to use it on i.MX6,
+>>>>> drivers/staging/media/imx/imx6-mipi-csi2.c requires it, some more
+>>>>> details from Jacopo here [0].
+>>>>>
+>>>>> Everything used to work fine up to v5.18, after that kernel version
+>>>>> various changes broke it [1][2] (I assume you are pretty much aware of
+>>>>> the history here, you commented on a few emails).
+>>>>>
+>>>>> [0] https://lore.kernel.org/all/20230128100611.7ulsfqqqgscg54gy@uno.localdomain/
+>>>>> [1] https://lore.kernel.org/all/081cc2d3-1f3a-6c14-6dc7-53f976be7b2b@gmail.com/
+>>>>> [2] https://lore.kernel.org/all/cacfe146-101b-35b3-5f66-1a1cabfd342f@gmail.com/
+>>>>>
+>>>>>> Drivers that don't have e.g. dynamic lane configuration shouldn't need to
+>>>>>> implement get_mbus_config.
+>>>>
+>>>> Not even for staging drivers. The driver should be fixed to get that
+>>>> information from the endpoint instead.
+>>>
+>>> This seems exactly the opposite of what commit
+>>> 7318abface48 ("media: imx: Use get_mbus_config instead of parsing upstream DT endpoints")
+>>> did.
+>>>
+>>> Given that I am somehow confused, but I am not that familiar with this
+>>> subsystem, so I guess this is expected :-). Can someone provide some
+>>> additional hint here?
+>>>
+>> To be honest my understanding is that this patch has always been
+>> needed to work on imx6 and this is not a regression but something that
+>> was kept as an out-of-tree patch downstream. Is this correct or is
+>> this a regression ?
 > 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->   .../mediatek/vcodec/mtk_vcodec_dbgfs.c        |  2 ++
->   .../mediatek/vcodec/mtk_vcodec_util.c         |  8 ++++++
->   .../mediatek/vcodec/mtk_vcodec_util.h         | 25 ++++++++++++++++---
->   3 files changed, 32 insertions(+), 3 deletions(-)
+> I confirm that v5.18 was/is fine.  Aishwarya: correct? In the end you
+> tested it, not me :-)
 > 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-> index fb9edd379af5..b5093e4e4aa2 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-> @@ -20,6 +20,8 @@ void mtk_vcodec_dbgfs_init(struct mtk_vcodec_dev *vcodec_dev)
->   			IS_ERR(vcodec_dev->dbgfs.vcodec_root));
->   
->   	vcodec_root = vcodec_dev->dbgfs.vcodec_root;
-> +	debugfs_create_x32("mtk_v4l2_dbg_level", 0644, vcodec_root, &mtk_v4l2_dbg_level);
-> +	debugfs_create_x32("mtk_vcodec_dbg", 0644, vcodec_root, &mtk_vcodec_dbg);
->   }
->   EXPORT_SYMBOL_GPL(mtk_vcodec_dbgfs_init);
->   
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
-> index ace78c4b5b9e..f214e6f67005 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
-> @@ -13,6 +13,14 @@
->   #include "mtk_vcodec_drv.h"
->   #include "mtk_vcodec_util.h"
->   
-> +#if defined(CONFIG_DEBUG_FS)
-> +int mtk_vcodec_dbg;
-> +EXPORT_SYMBOL(mtk_vcodec_dbg);
-> +
-> +int mtk_v4l2_dbg_level;
-> +EXPORT_SYMBOL(mtk_v4l2_dbg_level);
-> +#endif
-> +
->   void __iomem *mtk_vcodec_get_reg_addr(struct mtk_vcodec_ctx *data,
->   					unsigned int reg_idx)
->   {
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
-> index 71956627a0e2..938f03cab3c9 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
-> @@ -35,15 +35,34 @@ struct mtk_vcodec_dev;
->   	pr_err("[MTK_VCODEC][ERROR][%d]: " fmt "\n",		\
->   	       ((struct mtk_vcodec_ctx *)(h)->ctx)->id, ##args)
->   
-> +#if defined(CONFIG_DEBUG_FS)
-> +extern int mtk_v4l2_dbg_level;
-> +extern int mtk_vcodec_dbg;
->   
-> -#define mtk_v4l2_debug(level, fmt, args...) pr_debug(fmt, ##args)
-> +#define mtk_v4l2_debug(level, fmt, args...)				 \
-> +	do {								 \
-> +		if (mtk_v4l2_dbg_level >= level)			 \
-> +			pr_info("[MTK_V4L2] level=%d %s(),%d: " fmt "\n", \
+> Francesco
+> 
+> 
+It worked on the v5.18 without this patch.
 
-These shall still be *debug* and not *info*, even if you're controlling the
-log level from debugfs, as these are anyway debugging prints which can be
-automatically optimized out for a kernel build with *no debug at all*.
-
-The loglevel control is a commodity that should be meant to avoid too much
-spam for readability and/or selectively enable "components" logging, because
-then there's also the tracing framework providing maximum verbosity.
-
-Besides, I'd be happy if this finally becomes dev_dbg instead of pr_debug.
-
-Regards,
-Angelo
-
+Aishwarya
 
