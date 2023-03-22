@@ -2,164 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E6246C4433
-	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 08:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DD4C6C4567
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 09:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbjCVHgb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Mar 2023 03:36:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41516 "EHLO
+        id S230109AbjCVIww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Mar 2023 04:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229966AbjCVHgS (ORCPT
+        with ESMTP id S229897AbjCVIwv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Mar 2023 03:36:18 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E3645CC3C
-        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 00:36:13 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id o12so69049396edb.9
-        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 00:36:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679470572;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uV97OTONSxnGEyV7uO8OnMJG0g0QG+ETuEfWA/XgJlc=;
-        b=PGSo4SIkDysijZW+Nb0UtNdfJBM6YH+rR5SG3c21IjzKSh4MGWnrr9YkU/SDC5POk3
-         jQltAPsr2pcOlhSACMu5bVLiitpiqT8JSv2ciEWwUttYxEg5I5m4EmLMmAnctcIlRSPX
-         72qFxluE6ZdM1FBgos9TBMDKEvc4MgyEcS5B4Wlres9EC7nO+4XOM7VtZRSBwlu+fang
-         JqwTwKeRY9hTWzc0vcc67VQUYCih31Q/BNXzsm7Ekene6GpgSIBlJ1mT8tO7+gIZ8MkH
-         PR2aH1kOB5SJuMk2NYb2S0GG7IL1XAi5/tCLpECL2iq2YVyFyHoAJxKvtu2kn1zRJEMk
-         yIkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679470572;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uV97OTONSxnGEyV7uO8OnMJG0g0QG+ETuEfWA/XgJlc=;
-        b=LrvQSoBJvWji6mevyzYEZVSSgQHUcxYImNSkWotLCrA/+obojUE1Wq+LdxGPe6kRyh
-         F4BtmSOKqPWORgWT0AUW1Z7LStvB3l0CePdoDIHT7zke+kxmz7+uq8bHM+V1NwhFRvOt
-         erJQaYAKu52mopIkzQoWCqqnPh9adZhJz84Ki2vgPGIYoGZB+DGnu3YAa2/G1VFk2S6e
-         dPyOw6HearS/z0j/wfhpM+t4QqGCJ/qUs9Q9NHJ3fZCUeNMauJ/MVMnSGz35PxHaJbJu
-         v5B2G79rYrUDkK/5Aa0SpBj59MRQzLPQvCGYTBeKIyQHr+M7DO05ZxiO1hsrMe6sHsvY
-         pngA==
-X-Gm-Message-State: AO0yUKXKmkL2cEJsBidNBCVSFPpLVOrmlnUgMDYCZR8rEqUJ+rAwHbQL
-        ptZelFYbG3WEpZsL0t4gLbAuFA==
-X-Google-Smtp-Source: AK7set9zlFgHEYh7EBKB/Bq2zpzCToe8YappDSA+j6UYFnxOE7JXrPRmTTfy3WKchUJ4BYgi5XUEQA==
-X-Received: by 2002:a17:906:ece4:b0:930:9385:ce51 with SMTP id qt4-20020a170906ece400b009309385ce51mr5666192ejb.68.1679470571686;
-        Wed, 22 Mar 2023 00:36:11 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:5050:151b:e755:1c6? ([2a02:810d:15c0:828:5050:151b:e755:1c6])
-        by smtp.gmail.com with ESMTPSA id qh7-20020a170906eca700b0092bea699124sm6768128ejb.106.2023.03.22.00.36.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 00:36:11 -0700 (PDT)
-Message-ID: <a4e0a256-4db3-543a-f133-852beb4cf726@linaro.org>
-Date:   Wed, 22 Mar 2023 08:36:10 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 2/3] media: dt-bindings: ov2685: convert to dtschema
-Content-Language: en-US
-To:     Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
-        phone-devel@vger.kernel.org,
+        Wed, 22 Mar 2023 04:52:51 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A4C45BDA9
+        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 01:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679475170; x=1711011170;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nju/TZBzGv+Im20Cah7NIogYU4vFgeH+88caQB94zMk=;
+  b=bV5jJcS4PmzGOulk0qn3XtufeZrbTN/WmRai81QtNe0Ll9irIBGqxCQA
+   oT9w7r3jMsNWnRcbQ9de8eTkrCIuJTEEvXOJV8YYPcYovGJ43fxriFMej
+   kkje8uc/sh4jFrwGvni6jCUQEdg4SPHPvOFBaT8thooN3dwi4IvDby+AF
+   UJEaxtLl1LTjil9SF1L1zF4UMI4+8OPeWtAQJyaL/hBEq3B9KyRxgLOuk
+   ymp/jQQ9te0zctgMHZevj4To9Gre/AKKjvrvRKbsMeL2N5FLSyCOqCqDV
+   pyh4aE0CHmURb99+fNcT5XBrzYIrxeI8+JXOUBwEKqjJ46zFkW6l5qhdq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="323001537"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="323001537"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 01:52:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="684223091"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="684223091"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 01:52:48 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 796721207CD;
+        Wed, 22 Mar 2023 10:52:45 +0200 (EET)
+Date:   Wed, 22 Mar 2023 10:52:45 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230129-ov2685-improvements-v3-0-d9737d0707f6@z3ntu.xyz>
- <20230129-ov2685-improvements-v3-2-d9737d0707f6@z3ntu.xyz>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230129-ov2685-improvements-v3-2-d9737d0707f6@z3ntu.xyz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2] media: v4l2-subdev: Add new ioctl for client
+ capabilities
+Message-ID: <ZBrB3dyLadF0ho+C@kekkonen.localdomain>
+References: <20230320115306.87425-1-tomi.valkeinen@ideasonboard.com>
+ <6a2d08be-dfcd-1f1f-49ec-a378339c8691@xs4all.nl>
+ <55edac06-3d16-bab8-007e-d432420ba019@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <55edac06-3d16-bab8-007e-d432420ba019@ideasonboard.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/03/2023 19:03, Luca Weiss wrote:
-> Convert the text-based dt-bindings to yaml.
+Moi,
+
+On Tue, Mar 21, 2023 at 11:25:04AM +0200, Tomi Valkeinen wrote:
+> On 21/03/2023 10:43, Hans Verkuil wrote:
+> > > @@ -250,6 +268,9 @@ struct v4l2_subdev_routing {
+> > >   #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+> > >   #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+> > >   #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
+> > > +#define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
+> > > +#define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
+> > 
+> > Can't we just use __u64 as the ioctl type? Do we need to wrap it inside a struct?
 > 
+> We could, but then we need to pass a pointer to the u64 so that the kernel
+> can modify it (for VIDIOC_SUBDEV_S_CLIENT_CAP). I personally find it more
+> clear from the perspective of a user to use a struct here, instead of
+> passing a generic u64 pointer. Also, all the other ioctls use a struct.
+> 
+> So, I'm fine either way, but personally I like this one.
 
-Thank you for your patch. There is something to discuss/improve.
+I prefer it the way it is.
 
-> +  - Shunqian Zheng <zhengsq@rock-chips.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov2685
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: XVCLK clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: xvclk
-> +
-> +  dvdd-supply:
-> +    description: Digital Domain Power Supply
-> +
-> +  avdd-supply:
-> +    description: Analog Domain Power Supply
-> +
-> +  dovdd-supply:
-> +    description: I/O Domain Power Supply
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset Pin GPIO Control (active low)
-> +
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            maxItems: 1
-> +
-> +        required:
-> +          - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - dvdd-supply
-> +  - avdd-supply
-> +  - dovdd-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rk3399-cru.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c7 {
-
-i2c
-
-With above:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+-- 
+Sakari Ailus
