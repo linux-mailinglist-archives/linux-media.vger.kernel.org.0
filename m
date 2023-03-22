@@ -2,100 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E9E6C3C93
-	for <lists+linux-media@lfdr.de>; Tue, 21 Mar 2023 22:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEA596C3FFF
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 02:49:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbjCUVVi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Mar 2023 17:21:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35710 "EHLO
+        id S230110AbjCVBtC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Mar 2023 21:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjCUVVh (ORCPT
+        with ESMTP id S229991AbjCVBs7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Mar 2023 17:21:37 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0BCF4AD16
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 14:21:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6A22BB81A37
-        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 21:21:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74717C4339B;
-        Tue, 21 Mar 2023 21:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679433692;
-        bh=garZWxUSKZ3OIZU/fBlag4OoT0Tu3IxbPrigB3kbjws=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cU31RRY0fx/hEK/gso2x4d/nNBSULSOXJ4ir29DGFRfpzCNIugUXNpVYoIiadQb2g
-         QzMpioPy3NXooUptZmR3/+4xheGLu+7T8JmLA08hrBduol7by42jildbY6VD791el7
-         5NCMBTKXmJP/S4Ca7HAXxV/w+5gmolwMr4PSXu4TU6R50WciYUiJeLf3cY8kkl/umn
-         Obd8cliumzeURyNicRidW0D4NB8Xa3lqSZy4K2CGJl5EErzKjJZX5LjTCjz9Xu2ajI
-         RheJppRhT2r8Z9nlrZedg3AA/RM4VZmZ6uplEuDbZP3EL4fPHDp8ncesJU/bWQ7nDy
-         goi9YUzs4cY0w==
-Date:   Tue, 21 Mar 2023 22:21:26 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Gregor Jasny <gjasny@googlemail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sean Young <sean@mess.org>, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: v4l-utils 1.24.0 has been released
-Message-ID: <20230321222126.2490de9b@coco.lan>
-In-Reply-To: <86f5a2f0-0714-6648-eed2-cd4f11209dd5@googlemail.com>
-References: <86f5a2f0-0714-6648-eed2-cd4f11209dd5@googlemail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        Tue, 21 Mar 2023 21:48:59 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58E359820
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 18:48:56 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id y20so21530095lfj.2
+        for <linux-media@vger.kernel.org>; Tue, 21 Mar 2023 18:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679449735;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dQlu0Oc2Q0nPMBCNq5iTPUZpwrRZlsMdPt2zjra8+VI=;
+        b=po7e3GVACcZMPdpmHoJQPrIZP6SxWyIEcMqHnX8lwunljkKTeqfu/m0ZaMIWaed6QY
+         cTO7Fe5NXwQlGi29OwsK5wtPk7KZLBQBRTfKcrfTVV0frreD4UOLIPBs+7aANIGLuCXJ
+         brDQGmGfqZdUzLwnivDHY22i6IxWWNmKy/In1BW1Rm1knMkqGV1aULTTVSDUHTHt6aCu
+         BzcEe2FOvGJs+snRq17oA7wdA/HWWRxI7lOG4zL7BcxH5vNfsOIJN4vAiaNRhxwIMeO/
+         SCoSFt8fU/H/VvCpb3rR0ijHOU69tDxY0fjWRPMdbySE0CloF5WpNKbwUDm9I9odavHk
+         1Q4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679449735;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dQlu0Oc2Q0nPMBCNq5iTPUZpwrRZlsMdPt2zjra8+VI=;
+        b=XG8ZBPOrPFH8PgRT9HkEQsiAqpLYWaC+2KyWzMQBaQF1K1gwG/YELielLtaMjqPVcX
+         1v4u7Ey2QbCoM1gCMa3WwO3ay3+xgcKOxVwDl7wR3dl7Ll5j91olFEhZ4pd9oV9poyu5
+         p6cDJTBJNcdDxncFxjqNdCqgiqM7XCO3kCz5jeZgzgVXlfFFRzK3l9dtVcZwpR6xsBAx
+         BRuSmY7S26c4lcjRaPsy0zES6Byfiq6X3TeQ1Pq1Rzs+mVSezQ6cKb0nAGqf9lhBtt9v
+         n3qroWo2ypN3KZs6j+hON9DLFZh8yCsas0NrvD5YbAx+W0mbZdFeopdUg/XiqOx+zYh1
+         VtSA==
+X-Gm-Message-State: AO0yUKXyZvYvrrAsWFV7P2EEapaLZrlaMekNnaGMBPMnQibceJIDxAD9
+        p9Fok8oVlh2o63hBGzcivBzDTy5U4gpcQa1McFA=
+X-Google-Smtp-Source: AK7set+1Cd9bF2eLAE7i/+Ux3oIplUg4mBTAuJwskags3mA98k8QYM8ttHCaRsIcdZRL/5K5NjgjZSUrwoe6t9FLHW4=
+X-Received: by 2002:a19:ee11:0:b0:4d5:ca42:aeec with SMTP id
+ g17-20020a19ee11000000b004d5ca42aeecmr1394350lfb.12.1679449735022; Tue, 21
+ Mar 2023 18:48:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Received: by 2002:ab2:701:0:b0:182:3e2a:d16 with HTTP; Tue, 21 Mar 2023
+ 18:48:54 -0700 (PDT)
+Reply-To: mariamkouame.info@myself.com
+From:   Mariam Kouame <contact.mariamkouame2@gmail.com>
+Date:   Tue, 21 Mar 2023 18:48:54 -0700
+Message-ID: <CADfi1WHSwW2Nik_DKV5g18nVgDfip16Eage29nH30H3DPOdvkA@mail.gmail.com>
+Subject: from mariam kouame
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gregor,
+Dear,
 
-Em Thu, 23 Feb 2023 10:44:41 +0100
-Gregor Jasny <gjasny@googlemail.com> escreveu:
+Please grant me permission to share a very crucial discussion with
+you. I am looking forward to hearing from you at your earliest
+convenience.
 
-> Hello,
-> 
-> I'm happy to announce that v4l-utils 1.24.0 has been released. This will 
-> be the last version before the build system will be migrated from 
-> Autotools to Meson.
-> 
-> Changelog: 
-> https://git.linuxtv.org/v4l-utils.git/tree/ChangeLog?h=v4l-utils-1.24.0
-> Download: https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.24.0.tar.bz2
-
-I wouldn't mind if we would have a shorter release time for version
-1.26 - or maybe it is time to increase major, so version 2.0.
-
-As we are now using a new building system, it would be nice to have
-a stable version frozen, with not much other changes, in order
-to allow distros to opt either to use version 1.24 with autotools
-or to migrate to the newest version, with meson, but not many other
-changes.
-
-So, perhaps we should aim release a new version in 2 months or
-so, once we have enough time to do cleanups if needed and having
-media maintainers and developers familiar with the new way.
-
-Comments?
-
-PS.: on that matter, I took ahead and changed Fedora rawhide
-v4l2-utils package to use the new building system:
-
-	https://bodhi.fedoraproject.org/updates/FEDORA-2023-43964d4d83
-
-That helped to identify a bug after the migration at the man page
-location, and hopefully would help to have more tests on a more
-realistic scenario (e. g. after packaged on distributions).
-
-Thanks,
-Mauro
+Mrs. Mariam Kouame
