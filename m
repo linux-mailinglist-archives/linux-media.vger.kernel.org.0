@@ -2,136 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F4396C4A04
-	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 13:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C14D6C4A70
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 13:27:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbjCVMMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Mar 2023 08:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35902 "EHLO
+        id S230355AbjCVM1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Mar 2023 08:27:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjCVMMe (ORCPT
+        with ESMTP id S230150AbjCVM1g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Mar 2023 08:12:34 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33BEB5FE92;
-        Wed, 22 Mar 2023 05:12:33 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 206D56602082;
-        Wed, 22 Mar 2023 12:12:31 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679487152;
-        bh=9doOzJyd9fFmX+9Yoaki4COv1r9LdIU7GBsQjNllgtE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=E27CT/55MjVU2wSRf8vkTCAhya+qZWo7nYmKjg18K7LU7da0VOxhwaI7BALV58VcB
-         oYcJDlD47cSxVDlGOjr7g7q8fzrsXhrgURcmZAdKoqBnu8Yd5s0jLHSzVxJv2y/Gue
-         SQqW8OeGpAF5nL0icXU+POmVhXRGdM4Bu+RyZF7qyOzjXqtL2o6wL7orynUKQtMtgv
-         EgVbj/3JBTH8bw2W2GfviI0/SH/bozQtxkTFc/0b7EQwVzKQi3Ow2oxTAtqq2lQx2L
-         yYkd/SYQKkCJgsb/oKisC7WlKiGGkbUE0qdK/V372X9x4MQ61DD7m5MzeOMVIOSBBd
-         A2M9A0mCVrckg==
-Message-ID: <94b128b7-e492-f704-71b6-87fd156646be@collabora.com>
-Date:   Wed, 22 Mar 2023 13:12:29 +0100
+        Wed, 22 Mar 2023 08:27:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF95A559FC
+        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 05:27:34 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F91B118E;
+        Wed, 22 Mar 2023 13:27:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679488052;
+        bh=9QjYAFS+mMKrzO7ZTUXCijVRXyuJjXsC6mmq7OKbqbY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mT4pL6+zt4y2Wc07UVPqwTAZX+vze/IU3+kKSAnLgA2PO5bmoj2I+3svKYfS9QK2E
+         3VW+XtWlzN08hh/QHm1fv6txZJImluYCxCsaP03pgRKQvFL92Rh9Is343nB2RpkRgU
+         CIWUck/u96UxpeTMXTOPDtFakzxoOl1rhICAz4Ls=
+Date:   Wed, 22 Mar 2023 13:27:30 +0100
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Robert Mader <robert.mader@collabora.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 0/3] media: imx258: Remove rotation=<80 requirement
+Message-ID: <20230322122730.7upptgfrwpwlqoi5@uno.localdomain>
+References: <20230117100603.51631-1-jacopo.mondi@ideasonboard.com>
+ <20230227171147.f4o2r5yajoj5nhyi@uno.localdomain>
+ <Y/0qFC10ot4BgvFy@kekkonen.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2,3/7] media: mediatek: vcodec: Add a debugfs file to get
- different useful information
-Content-Language: en-US
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20230322094617.19410-1-yunfei.dong@mediatek.com>
- <20230322094617.19410-4-yunfei.dong@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230322094617.19410-4-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y/0qFC10ot4BgvFy@kekkonen.localdomain>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 22/03/23 10:46, Yunfei Dong ha scritto:
-> In oder to get each instance information according to test command, adding
-> one file node "vdec".
-> 
-> Can use echo command to set different string value as 'echo -picinfo > vdec'.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->   .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 64 +++++++++++++++++++
->   .../mediatek/vcodec/mtk_vcodec_dbgfs.h        | 32 ++++++++++
->   .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |  2 +
->   3 files changed, 98 insertions(+)
-> 
+Hi Sakari,
+  as Robert noted, this doesn't seem to be part of the pull request
+for 6.4 ? Is it intentional ?
 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
-> index 5eec2211cbbe..47c0a986877d 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
-> @@ -8,19 +8,51 @@
->   #define __MTK_VCODEC_DBGFS_H__
->   
->   struct mtk_vcodec_dev;
-> +struct mtk_vcodec_ctx;
-> +
-> +/**
-> + * struct mtk_vcodec_dbgfs_inst  - debugfs informatiaoin for each inst
+Thanks
+  j
 
-There's a typo: "information"
-
-> + * @node: list node for each inst
-> + * @vcodec_ctx: struct mtk_vcodec_ctx
-> + * @inst_id: index of the context that the same with ctx->id
-> + */
-> +struct mtk_vcodec_dbgfs_inst {
-> +	struct list_head node;
-> +	struct mtk_vcodec_ctx *vcodec_ctx;
-> +	int inst_id;
-> +};
->   
->   /**
->    * struct mtk_vcodec_dbgfs  - dbgfs information
-> + * @dbgfs_head: list head used to link each instance
->    * @vcodec_root: vcodec dbgfs entry
-> + * @dbgfs_lock: dbgfs lock used to protect dbgfs_buf
-> + * @dbgfs_buf: dbgfs buf used to store dbgfs cmd
-> + * @inst_count: the count of total instance
->    */
->   struct mtk_vcodec_dbgfs {
-> +	struct list_head dbgfs_head;
->   	struct dentry *vcodec_root;
-> +	/* dbgfs lock used to protect dbgfs_buf */
-
-This comment is duplicated, you're already documenting it in kerneldoc above! :-)
-
-> +	struct mutex dbgfs_lock;
-> +	char dbgfs_buf[1024];
-> +	int inst_count;
->   };
->   
-
-Regards,
-Angelo
-
+On Tue, Feb 28, 2023 at 12:09:24AM +0200, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, Feb 27, 2023 at 06:11:47PM +0100, Jacopo Mondi wrote:
+> > Hi Sakari
+> >
+> >    I don't see this patch being collected for 6.3 while I recall that
+> > based on the discussion we concluded we can have these in and the
+> > iterate on top ?
+>
+> I know... I'll take it to my tree early in the next cycle (once we have
+> rc1).
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
