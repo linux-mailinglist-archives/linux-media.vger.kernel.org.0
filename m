@@ -2,60 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B80096C4E8D
-	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 15:52:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16D006C4ECC
+	for <lists+linux-media@lfdr.de>; Wed, 22 Mar 2023 16:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjCVOww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Mar 2023 10:52:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
+        id S230171AbjCVPBw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Mar 2023 11:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230247AbjCVOwd (ORCPT
+        with ESMTP id S229482AbjCVPBv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Mar 2023 10:52:33 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7683C13
-        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 07:50:56 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id ga7so4098266qtb.2
-        for <linux-media@vger.kernel.org>; Wed, 22 Mar 2023 07:50:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1679496655;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xqEwR0mnH2dQTWES7qcpZxyDU3kIdJJrQjcIfcIfUws=;
-        b=4mDo4UpOGVHUWLxUshM4Dz9N05BjdMLZQ56BMssgs0qciRkedoa4RVR4EJUVB3FRjs
-         Ve7/uD241dSYiTmpXtZO/ZPzqSqxEq1/dEWNWiCFmglU4N115xERZS8mj66G1g44ObEU
-         DUXgol5g66ixnMBg57YAmEiwVV5RMg8nWH9LyC9QJfrkVJZnspc3wbP4ekuFLLG990eZ
-         p0dt1wZDF0FDDJHO6VuJnmTyVBSfbRBkRPEWGQawc0zvjyxupCmql6MVg/fw3DeJxUwp
-         6EoMlWZn20w7yUhUSWMybVMwQUzOlI3RCagsvYnUA360+1fl0qLv0KXrHwazDroI58FA
-         Cilg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679496655;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xqEwR0mnH2dQTWES7qcpZxyDU3kIdJJrQjcIfcIfUws=;
-        b=33SY24XLubMOw7v/M1Z1ju43XRlgC00SVDpppQLhUarDVSK2hKLnr0P9SRjSzaXOkc
-         C/NZX/YEo3S3PwU3L2FSLKDihbX8eUZghJgEmCTB6UMtGwihJkdkectQY0l8qy/NpBGl
-         63X8A+Pmey+Vk8UpRKAlufcS4NZYlXeiIhmBofDsllCAmpM6FJJbdK9Yvj6ucZ1/btmw
-         wsFx/q1gK9SHiotiDWSiSQUPHmWoa929+klfclGe0QsB7cNzdqh7B0USenSAeGAC8G99
-         3Vxz4AmRHyA3DAlgRgxAEP5QrvXCylUbvpyJym+2HrtNN3E3q6Ez3asGJzxf3+JGyRld
-         Q+Pw==
-X-Gm-Message-State: AO0yUKWdxEZPl5c8uZAn5FfhIQtdNrNMoVruzlDBSqjx9w+sO74jJNFh
-        kB6DHGyLu1mcM48EREsbjRTPXQ==
-X-Google-Smtp-Source: AK7set+olGnH2L8HiH8wu79IhsPwiTafG3zfFFddwhNxvuWfFc+q5aG+tjjynN8ff7zGF9L/LuK8og==
-X-Received: by 2002:a05:622a:4d2:b0:3bf:e471:69a3 with SMTP id q18-20020a05622a04d200b003bfe47169a3mr6127461qtx.65.1679496655113;
-        Wed, 22 Mar 2023 07:50:55 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id 69-20020a370c48000000b00746777fd176sm5025558qkm.26.2023.03.22.07.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 07:50:54 -0700 (PDT)
-Message-ID: <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
-Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     David Laight <David.Laight@ACULAB.COM>,
+        Wed, 22 Mar 2023 11:01:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FCAB11643;
+        Wed, 22 Mar 2023 08:01:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B113BC1;
+        Wed, 22 Mar 2023 16:01:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679497307;
+        bh=Az9CmcJ+XBb4olbWe91Aj3r8+M/Mn03lE84beJHYWcQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WKXlws0YL/fxPG1M5ZQGaWla8QrHlrOYNJMXI2o/UFolpE4TobnpdShV9cjraTqeO
+         MwA6homUVXpEZ5ca7dTz/vAQQhQlSiv7sA8a4cprGocH5iNqqFk8jBFOGn1mJ3u5mP
+         wimrpwmLpPfLk6YPVwEV2dY/f3itqV+8uUElZbK8=
+Date:   Wed, 22 Mar 2023 17:01:53 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        David Laight <David.Laight@ACULAB.COM>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         "tfiga@chromium.org" <tfiga@chromium.org>,
         "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
@@ -88,46 +62,55 @@ Cc:     David Laight <David.Laight@ACULAB.COM>,
         "linux-rockchip@lists.infradead.org" 
         <linux-rockchip@lists.infradead.org>,
         "kernel@collabora.com" <kernel@collabora.com>
-Date:   Wed, 22 Mar 2023 10:50:52 -0400
-In-Reply-To: <20230319233358.GD20234@pendragon.ideasonboard.com>
+Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
+Message-ID: <20230322150153.GO20234@pendragon.ideasonboard.com>
 References: <20230313135916.862852-1-benjamin.gaignard@collabora.com>
-         <20230313135916.862852-3-benjamin.gaignard@collabora.com>
-         <20230313181155.GC22646@pendragon.ideasonboard.com>
-         <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
-         <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
-         <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
-         <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
-         <20230319233358.GD20234@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+ <20230313181155.GC22646@pendragon.ideasonboard.com>
+ <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
+ <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
+ <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
+ <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
+ <20230319233358.GD20234@pendragon.ideasonboard.com>
+ <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
 MIME-Version: 1.0
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Wed, Mar 22, 2023 at 10:50:52AM -0400, Nicolas Dufresne wrote:
+> Hi Laurent,
+> 
+> Le lundi 20 mars 2023 à 01:33 +0200, Laurent Pinchart a écrit :
+> > > The typical usage is that applications allocate N buffers with the
+> > > VIDIOC_REQBUFS ioctl, and in most cases that's all they use.
+> > 
+> > Note that once we get DELETE_BUF (or DELETE_BUFS) support I'd like to
+> > encourage applications to use the new API, and deprecate REQBUFS
+> > (dropping it isn't on my radar, as it would take forever before no
+> > userspace uses it anymore).
+> 
+> I was wondering if you can extend on this. I'm worried the count semantic might
+> prevent emulating it over create_bufs() ops, but if that works, did you meant to
+> emulate it so driver no longer have to implement reqbufs() if they have
+> create_bufs() ?
 
-Le lundi 20 mars 2023 =C3=A0 01:33 +0200, Laurent Pinchart a =C3=A9crit=C2=
-=A0:
-> > The typical usage is that applications allocate N buffers with the
-> > VIDIOC_REQBUFS ioctl, and in most cases that's all they use.
->=20
-> Note that once we get DELETE_BUF (or DELETE_BUFS) support I'd like to
-> encourage applications to use the new API, and deprecate REQBUFS
-> (dropping it isn't on my radar, as it would take forever before no
-> userspace uses it anymore).
+For drivers it should be fairly simply, as the reqbufs and create_bufs
+ioctl handlers should just point to the corresponding videobuf2 helpers.
 
-I was wondering if you can extend on this. I'm worried the count semantic m=
-ight
-prevent emulating it over create_bufs() ops, but if that works, did you mea=
-nt to
-emulate it so driver no longer have to implement reqbufs() if they have
-create_bufs() ?
+What I meant is that I'd like to encourage userspace to use the
+VIDIOC_CREATE_BUFS ioctl instead of VIDIOC_REQBUFS.
 
-Nicolas
+-- 
+Regards,
+
+Laurent Pinchart
