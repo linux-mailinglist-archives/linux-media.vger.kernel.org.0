@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6885F6C6CAC
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 16:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D36E36C6CAF
+	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 16:54:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbjCWPyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 11:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37058 "EHLO
+        id S232221AbjCWPyZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 11:54:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232207AbjCWPyN (ORCPT
+        with ESMTP id S232214AbjCWPyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 11:54:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1242201E
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 08:54:02 -0700 (PDT)
+        Thu, 23 Mar 2023 11:54:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF5722031
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 08:54:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 28A51627D4
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 15:54:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04728C433D2;
-        Thu, 23 Mar 2023 15:53:59 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BF120B82193
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 15:54:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC42C4339B;
+        Thu, 23 Mar 2023 15:54:00 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 15/19] media: mxb: update the tvnorms when changing input
-Date:   Thu, 23 Mar 2023 16:53:39 +0100
-Message-Id: <20230323155343.2399473-16-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2 16/19] media: common: saa7146: add support for missing .vidioc_try_fmt_vbi_cap
+Date:   Thu, 23 Mar 2023 16:53:40 +0100
+Message-Id: <20230323155343.2399473-17-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230323155343.2399473-1-hverkuil-cisco@xs4all.nl>
 References: <20230323155343.2399473-1-hverkuil-cisco@xs4all.nl>
@@ -42,31 +42,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The tuner input uses different tvnorms compared to the
-S-Video/Composite inputs. So update the tvnorms field
-in struct video_device when switching inputs.
+Support for VIDIOC_TRY_FMT for the vbi device was missing.
+Add it.
 
 This fixes a V4L2 compliance issue.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/pci/saa7146/mxb.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/common/saa7146/saa7146_video.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/pci/saa7146/mxb.c b/drivers/media/pci/saa7146/mxb.c
-index 557ba89cd12d..3b0c475c7ab4 100644
---- a/drivers/media/pci/saa7146/mxb.c
-+++ b/drivers/media/pci/saa7146/mxb.c
-@@ -512,6 +512,9 @@ static int vidioc_s_input(struct file *file, void *fh, unsigned int input)
- 	if (err)
- 		return err;
- 
-+	mxb->video_dev.tvnorms = mxb_inputs[input].std;
-+	mxb->vbi_dev.tvnorms = mxb_inputs[input].std;
-+
- 	/* switch video in saa7111a */
- 	if (saa7111a_call(mxb, video, s_routing, i, SAA7111_FMT_CCIR, 0))
- 		pr_err("VIDIOC_S_INPUT: could not address saa7111a\n");
+diff --git a/drivers/media/common/saa7146/saa7146_video.c b/drivers/media/common/saa7146/saa7146_video.c
+index af7a74cb91c2..314f44305586 100644
+--- a/drivers/media/common/saa7146/saa7146_video.c
++++ b/drivers/media/common/saa7146/saa7146_video.c
+@@ -517,6 +517,7 @@ const struct v4l2_ioctl_ops saa7146_video_ioctl_ops = {
+ const struct v4l2_ioctl_ops saa7146_vbi_ioctl_ops = {
+ 	.vidioc_querycap             = vidioc_querycap,
+ 	.vidioc_g_fmt_vbi_cap        = vidioc_g_fmt_vbi_cap,
++	.vidioc_try_fmt_vbi_cap      = vidioc_g_fmt_vbi_cap,
+ 	.vidioc_s_fmt_vbi_cap        = vidioc_g_fmt_vbi_cap,
+ 	.vidioc_g_std                = vidioc_g_std,
+ 	.vidioc_s_std                = vidioc_s_std,
 -- 
 2.39.2
 
