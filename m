@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F15B06C66DD
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 12:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 793986C66DF
+	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 12:41:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbjCWLlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 07:41:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35816 "EHLO
+        id S231495AbjCWLlg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 07:41:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjCWLld (ORCPT
+        with ESMTP id S229451AbjCWLld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 23 Mar 2023 07:41:33 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA65E193F0
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 04:41:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDA31A978
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 04:41:33 -0700 (PDT)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pfJJy-0007OB-L7; Thu, 23 Mar 2023 12:41:30 +0100
+        id 1pfJJz-0007OB-0Q; Thu, 23 Mar 2023 12:41:31 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Thu, 23 Mar 2023 12:41:09 +0100
-Subject: [PATCH 1/8] usb: gadget: uvc: use fourcc printk helper
+Date:   Thu, 23 Mar 2023 12:41:10 +0100
+Subject: [PATCH 2/8] usb: gadget: uvc: fix return code of REQBUFS
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-uvc-gadget-cleanup-v1-1-e41f0c5d9d8e@pengutronix.de>
+Message-Id: <20230323-uvc-gadget-cleanup-v1-2-e41f0c5d9d8e@pengutronix.de>
 References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
 In-Reply-To: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,38 +48,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a format helper for printing fourcc codes. Use that one instead
-of manually formatting the pixelformat for printing.
+On success, VIDIOC_REQBUFS should return 0, not the number of allocated
+buffers. As uvcg_alloc_buffers() is directly called by regbufs, it has
+to return the correct error codes.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- drivers/usb/gadget/function/uvc_v4l2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/usb/gadget/function/uvc_queue.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 3f0a9795c0d4..13c7ba06f994 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -240,16 +240,13 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	struct uvc_video *video = &uvc->video;
- 	struct uvcg_format *uformat;
- 	struct uvcg_frame *uframe;
--	u8 *fcc;
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 0aa3d7e1f3cc..f14f75b93aaa 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -179,11 +179,7 @@ void uvcg_free_buffers(struct uvc_video_queue *queue)
+ int uvcg_alloc_buffers(struct uvc_video_queue *queue,
+ 			      struct v4l2_requestbuffers *rb)
+ {
+-	int ret;
+-
+-	ret = vb2_reqbufs(&queue->queue, rb);
+-
+-	return ret ? ret : rb->count;
++	return vb2_reqbufs(&queue->queue, rb);
+ }
  
- 	if (fmt->type != video->queue.queue.type)
- 		return -EINVAL;
- 
--	fcc = (u8 *)&fmt->fmt.pix.pixelformat;
--	uvcg_dbg(&uvc->func, "Trying format 0x%08x (%c%c%c%c): %ux%u\n",
--		fmt->fmt.pix.pixelformat,
--		fcc[0], fcc[1], fcc[2], fcc[3],
--		fmt->fmt.pix.width, fmt->fmt.pix.height);
-+	uvcg_dbg(&uvc->func, "Trying format %p4cc: %ux%u\n",
-+		 &fmt->fmt.pix.pixelformat,
-+		 fmt->fmt.pix.width, fmt->fmt.pix.height);
- 
- 	uformat = find_format_by_pix(uvc, fmt->fmt.pix.pixelformat);
- 	if (!uformat)
+ int uvcg_query_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf)
 
 -- 
 2.30.2
