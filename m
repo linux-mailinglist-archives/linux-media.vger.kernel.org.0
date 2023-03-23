@@ -2,258 +2,451 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC07E6C6A10
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 14:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E9846C6A48
+	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 14:59:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231951AbjCWNyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 09:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44210 "EHLO
+        id S231830AbjCWN7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 09:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231794AbjCWNyZ (ORCPT
+        with ESMTP id S231761AbjCWN65 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 09:54:25 -0400
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6954CE07A;
-        Thu, 23 Mar 2023 06:54:17 -0700 (PDT)
-Received: by mail-ot1-x32b.google.com with SMTP id x22-20020a056830409600b0069b30fb38f7so12150533ott.5;
-        Thu, 23 Mar 2023 06:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679579656;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QjOvv/ZPDbSli/SQ67teItUX/ZV6UdqvrawXfnsTP9c=;
-        b=fABtsO48pFpSWP4FcJ3dhrQvnIbnb6omivu7xuuBdoBA4dAX6OWqKUf4WBRar8getR
-         uUDMYAy1h2w23MXumxi25yo+48vMiJEIn5x8S1NDp366vvkhUGWs+owx8UORr2HoHxlB
-         ykH2TgdVhWu5Fksfm3zSNiK49GwWe2X3eh6MX118M+k0gIdAaLNdDqMqn75WkLB4TfR0
-         r9/ieRqMhlAB9Kw0+rhmW7lPPju/rMRdNh0TgpA3bu3aA0pl3Qbg/wT4E4pMSI3LEu2y
-         yN7mf0oNFNDE0wW+qiibGf6aTFeFcMYFoCHx22IFdOen1v8Yj2+ioZPS7pS0fo1NhOXY
-         mGtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679579656;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QjOvv/ZPDbSli/SQ67teItUX/ZV6UdqvrawXfnsTP9c=;
-        b=qhIZ4zhWHp+oI6YwbqRP/+LQcodSDBy8yhAqSAmDZMQNyarCUGvPe0VXZ4GYubpKko
-         V/LKadxUN+9iAZFGIa+kGiG0uSjA8g1K77hJtUGj6NKNty8TZjidkR3QPgFVxK3EKfMk
-         STfpTEY9FimaBSJR2yseyIN2LefkjNeNrD8tGVDolGWXc2zMbnA1QfN/JglR0lEvVkvZ
-         hz0G963kg4zgoK27Qdx9E2PyGCGC23RSRzsfuDeDRwa4A2doPJpOQ1UPNkugLAIBl0p5
-         rxoojBotrQYZrpQuAIOUgvCEEq4qlrAf8Ac3D/G4611Vihq37lcNLzeZxgLL+wX2eENv
-         ltnA==
-X-Gm-Message-State: AO0yUKUcyg+cpM2L5hMOD1p90tEpVW/nx5lFjQyDNzeHhzjqQ++IHkDb
-        N1LlDzR0Aquz+SwDIvEb/0D8hFY4AuZ9lMOq308=
-X-Google-Smtp-Source: AK7set+pjqtGtPO6GLHBGh9hBOwDRWaRvZoOvDszymMlwhM38Q5UfQVowYMdv7Wz5SBe768rCFIMjR8hTTsUyroJSF4=
-X-Received: by 2002:a05:6830:1483:b0:68b:cd1e:1ef1 with SMTP id
- s3-20020a056830148300b0068bcd1e1ef1mr2274617otq.7.1679579656288; Thu, 23 Mar
- 2023 06:54:16 -0700 (PDT)
+        Thu, 23 Mar 2023 09:58:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF332106
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 06:58:55 -0700 (PDT)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 924AB9CA;
+        Thu, 23 Mar 2023 14:58:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679579933;
+        bh=NnX9KxNi0S8lpDg4OrpMXwRT5hTi38kjkJQuCBf+Bmk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Xff4XIaqSCWrW5ngdkjCbU5RVmIQkYDBr7i4V3qMhs/FbS0JaC8qTh2MLZla/Ptnh
+         wyeByl2AJFqSSUUhb7DHv3azlRvgowW+6plCYBCheEdV0qArdhfn+kRTlmwralt1Xb
+         omPzth1I/EKrhkNtrM84Efe4gAsbP46zGMjv6fyw=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3] media: v4l2-subdev: Add new ioctl for client capabilities
+Date:   Thu, 23 Mar 2023 15:58:35 +0200
+Message-Id: <20230323135835.206970-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230322224403.35742-1-robdclark@gmail.com> <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
-In-Reply-To: <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 23 Mar 2023 06:54:05 -0700
-Message-ID: <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
-Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 12:35=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 22.03.23 um 23:44 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Container fences have burner contexts, which makes the trick to store a=
-t
-> > most one fence per context somewhat useless if we don't unwrap array or
-> > chain fences.
->
-> Mhm, we intentionally kept them not unwrapped since this way they only
-> occupy one fence slot.
->
-> But it might be better to unwrap them if you add many of those dependenci=
-es.
->
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> > tbh, I'm not sure why we weren't doing this already, unless there is
-> > something I'm overlooking
-> >
-> >   drivers/gpu/drm/scheduler/sched_main.c | 43 +++++++++++++++++--------=
--
-> >   1 file changed, 28 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index c2ee44d6224b..f59e5335afbb 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -41,20 +41,21 @@
-> >    * 4. Entities themselves maintain a queue of jobs that will be sched=
-uled on
-> >    *    the hardware.
-> >    *
-> >    * The jobs in a entity are always scheduled in the order that they w=
-ere pushed.
-> >    */
-> >
-> >   #include <linux/kthread.h>
-> >   #include <linux/wait.h>
-> >   #include <linux/sched.h>
-> >   #include <linux/completion.h>
-> > +#include <linux/dma-fence-unwrap.h>
-> >   #include <linux/dma-resv.h>
-> >   #include <uapi/linux/sched/types.h>
-> >
-> >   #include <drm/drm_print.h>
-> >   #include <drm/drm_gem.h>
-> >   #include <drm/gpu_scheduler.h>
-> >   #include <drm/spsc_queue.h>
-> >
-> >   #define CREATE_TRACE_POINTS
-> >   #include "gpu_scheduler_trace.h"
-> > @@ -665,41 +666,27 @@ void drm_sched_job_arm(struct drm_sched_job *job)
-> >       sched =3D entity->rq->sched;
-> >
-> >       job->sched =3D sched;
-> >       job->s_priority =3D entity->rq - sched->sched_rq;
-> >       job->id =3D atomic64_inc_return(&sched->job_id_count);
-> >
-> >       drm_sched_fence_init(job->s_fence, job->entity);
-> >   }
-> >   EXPORT_SYMBOL(drm_sched_job_arm);
-> >
-> > -/**
-> > - * drm_sched_job_add_dependency - adds the fence as a job dependency
-> > - * @job: scheduler job to add the dependencies to
-> > - * @fence: the dma_fence to add to the list of dependencies.
-> > - *
-> > - * Note that @fence is consumed in both the success and error cases.
-> > - *
-> > - * Returns:
-> > - * 0 on success, or an error on failing to expand the array.
-> > - */
-> > -int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> > -                              struct dma_fence *fence)
-> > +static int _add_dependency(struct drm_sched_job *job, struct dma_fence=
- *fence)
->
-> Please keep the drm_sched_job_ prefix here even for static functions.
-> The symbol _add_dependency just sucks in a backtrace, especially when
-> it's tail optimized.
->
-> >   {
-> >       struct dma_fence *entry;
-> >       unsigned long index;
-> >       u32 id =3D 0;
-> >       int ret;
-> >
-> > -     if (!fence)
-> > -             return 0;
-> > -
-> >       /* Deduplicate if we already depend on a fence from the same cont=
-ext.
-> >        * This lets the size of the array of deps scale with the number =
-of
-> >        * engines involved, rather than the number of BOs.
-> >        */
-> >       xa_for_each(&job->dependencies, index, entry) {
-> >               if (entry->context !=3D fence->context)
-> >                       continue;
-> >
-> >               if (dma_fence_is_later(fence, entry)) {
-> >                       dma_fence_put(entry);
-> > @@ -709,20 +696,46 @@ int drm_sched_job_add_dependency(struct drm_sched=
-_job *job,
-> >               }
-> >               return 0;
-> >       }
-> >
-> >       ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GF=
-P_KERNEL);
-> >       if (ret !=3D 0)
-> >               dma_fence_put(fence);
-> >
-> >       return ret;
-> >   }
-> > +
-> > +/**
-> > + * drm_sched_job_add_dependency - adds the fence as a job dependency
-> > + * @job: scheduler job to add the dependencies to
-> > + * @fence: the dma_fence to add to the list of dependencies.
-> > + *
-> > + * Note that @fence is consumed in both the success and error cases.
-> > + *
-> > + * Returns:
-> > + * 0 on success, or an error on failing to expand the array.
-> > + */
-> > +int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> > +                              struct dma_fence *fence)
->
-> Maybe name the new function drm_sched_job_unwrap_add_dependency or
-> something like this.
->
-> I need to double check, but I think for some cases we don't need or
-> don't even want this in the driver.
+Add new ioctls to set and get subdev client capabilities. Client in this
+context means the userspace application which opens the subdev device
+node. The client capabilities are stored in the file handle of the
+opened subdev device node, and the client must set the capabilities for
+each opened subdev.
 
-I'd be curious to know the cases where you don't want this.. one thing
-I was thinking about, what if you have a container fence with two
-contained fences.  One is on the same ctx as the job, one is not but
-signals sooner.  You end up artificially waiting on both, which seems
-sub-optimal.
+For now we only add a single flag, V4L2_SUBDEV_CLIENT_CAP_STREAMS, which
+indicates that the client is streams-aware.
 
-Anyways, I can make this a new entrypoint which unwraps, and/or rename
-the internal static function, if we think this is a good idea.
+The reason for needing such a flag is as follows:
 
-BR,
--R
+Many structs passed via ioctls, e.g. struct v4l2_subdev_format, contain
+reserved fields (usually a single array field). These reserved fields
+can be used to extend the ioctl. The userspace is required to zero the
+reserved fields.
 
-> Christian.
->
-> > +{
-> > +     struct dma_fence_unwrap iter;
-> > +     struct dma_fence *f;
-> > +     int ret =3D 0;
-> > +
-> > +     dma_fence_unwrap_for_each (f, &iter, fence) {
-> > +             ret =3D _add_dependency(job, f);
-> > +             if (ret)
-> > +                     break;
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> >   EXPORT_SYMBOL(drm_sched_job_add_dependency);
-> >
-> >   /**
-> >    * drm_sched_job_add_resv_dependencies - add all fences from the resv=
- to the job
-> >    * @job: scheduler job to add the dependencies to
-> >    * @resv: the dma_resv object to get the fences from
-> >    * @usage: the dma_resv_usage to use to filter the fences
-> >    *
-> >    * This adds all fences matching the given usage from @resv to @job.
-> >    * Must be called with the @resv lock held.
->
+We recently added a new 'stream' field to many of these structs, and the
+space for the field was taken from these reserved arrays. The assumption
+was that these new 'stream' fields are always initialized to zero if the
+userspace does not use them. This was a mistake, as, as mentioned above,
+the userspace is required to zero the _reserved_ fields. In other words,
+there is no requirement to zero this new stream field, and if the
+userspace doesn't use the field (which is the case for all userspace
+applications at the moment), the field may contain random data.
+
+This shows that the way the reserved fields are defined in v4l2 is, in
+my opinion, somewhat broken, but there is nothing to do about that.
+
+To fix this issue we need a way for the userspace to tell the kernel
+that the userspace has indeed set the 'stream' field, and it's fine for
+the kernel to access it. This is achieved with the new ioctl, which the
+userspace should usually use right after opening the subdev device node.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Interdiff against v2:
+  diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+  index 0c4ff938f63d..20f12a1cc0f7 100644
+  --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+  +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+  @@ -37,20 +37,29 @@ Description
+   ===========
+   
+   These ioctls are used to get and set the client (the application using the
+  -subdevice ioctls) capabilities. By default no client capabilities are set.
+  +subdevice ioctls) capabilities. The client capabilities are stored in the file
+  +handle of the opened subdev device node, and the client must set the
+  +capabilities for each opened subdev separately.
+  +
+  +By default no client capabilities are set when a subdev device node is opened.
+   
+   The purpose of the client capabilities are to inform the kernel of the behavior
+   of the client, mainly related to maintaining compatibility with different
+   kernel and userspace versions.
+   
+  -The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will modify the struct
+  -:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that were
+  -accepted. A common case for the kernel not accepting a capability is that the
+  -kernel is older than the headers the userspace uses, and thus the capability is
+  -unknown to the kernel.
+  +The ``VIDIOC_SUBDEV_G_CLIENT_CAP`` ioctl returns the current client capabilities
+  +associated with the file handle ``fd``.
+   
+  -The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will replace all the previously set
+  -capabilities.
+  +The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` ioctl sets client capabilities for the file
+  +handle ``fd``. The new capabilities fully replace the current capabilities, the
+  +ioctl can therefore also be used to remove capabilities that have previously
+  +been set.
+  +
+  +``VIDIOC_SUBDEV_S_CLIENT_CAP`` modifies the struct
+  +:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that have
+  +been accepted. A common case for the kernel not accepting a capability is that
+  +the kernel is older than the headers the userspace uses, and thus the capability
+  +is unknown to the kernel.
+   
+   .. flat-table:: Client Capabilities
+       :header-rows:  1
+
+ .../userspace-api/media/v4l/user-func.rst     |  1 +
+ .../media/v4l/vidioc-subdev-g-client-cap.rst  | 83 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-subdev.c         | 63 ++++++++++++++
+ include/media/v4l2-subdev.h                   |  1 +
+ include/uapi/linux/v4l2-subdev.h              | 21 +++++
+ 5 files changed, 169 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+
+diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+index 228c1521f190..15ff0bf7bbe6 100644
+--- a/Documentation/userspace-api/media/v4l/user-func.rst
++++ b/Documentation/userspace-api/media/v4l/user-func.rst
+@@ -72,6 +72,7 @@ Function Reference
+     vidioc-subdev-g-frame-interval
+     vidioc-subdev-g-routing
+     vidioc-subdev-g-selection
++    vidioc-subdev-g-client-cap
+     vidioc-subdev-querycap
+     vidioc-subscribe-event
+     func-mmap
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+new file mode 100644
+index 000000000000..20f12a1cc0f7
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+@@ -0,0 +1,83 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: V4L
++
++.. _VIDIOC_SUBDEV_G_CLIENT_CAP:
++
++************************************************************
++ioctl VIDIOC_SUBDEV_G_CLIENT_CAP, VIDIOC_SUBDEV_S_CLIENT_CAP
++************************************************************
++
++Name
++====
++
++VIDIOC_SUBDEV_G_CLIENT_CAP - VIDIOC_SUBDEV_S_CLIENT_CAP - Get or set client
++capabilities.
++
++Synopsis
++========
++
++.. c:macro:: VIDIOC_SUBDEV_G_CLIENT_CAP
++
++``int ioctl(int fd, VIDIOC_SUBDEV_G_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
++
++.. c:macro:: VIDIOC_SUBDEV_S_CLIENT_CAP
++
++``int ioctl(int fd, VIDIOC_SUBDEV_S_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
++
++Arguments
++=========
++
++``fd``
++    File descriptor returned by :ref:`open() <func-open>`.
++
++``argp``
++    Pointer to struct :c:type:`v4l2_subdev_client_capability`.
++
++Description
++===========
++
++These ioctls are used to get and set the client (the application using the
++subdevice ioctls) capabilities. The client capabilities are stored in the file
++handle of the opened subdev device node, and the client must set the
++capabilities for each opened subdev separately.
++
++By default no client capabilities are set when a subdev device node is opened.
++
++The purpose of the client capabilities are to inform the kernel of the behavior
++of the client, mainly related to maintaining compatibility with different
++kernel and userspace versions.
++
++The ``VIDIOC_SUBDEV_G_CLIENT_CAP`` ioctl returns the current client capabilities
++associated with the file handle ``fd``.
++
++The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` ioctl sets client capabilities for the file
++handle ``fd``. The new capabilities fully replace the current capabilities, the
++ioctl can therefore also be used to remove capabilities that have previously
++been set.
++
++``VIDIOC_SUBDEV_S_CLIENT_CAP`` modifies the struct
++:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that have
++been accepted. A common case for the kernel not accepting a capability is that
++the kernel is older than the headers the userspace uses, and thus the capability
++is unknown to the kernel.
++
++.. flat-table:: Client Capabilities
++    :header-rows:  1
++
++    * - Capability
++      - Description
++    * - ``V4L2_SUBDEV_CLIENT_CAP_STREAMS``
++      - The client is aware of streams. Setting this flag enables the use
++        of 'stream' fields (referring to the stream number) with various
++        ioctls. If this is not set (which is the default), the 'stream' fields
++        will be forced to 0 by the kernel.
++
++Return Value
++============
++
++On success 0 is returned, on error -1 and the ``errno`` variable is set
++appropriately. The generic error codes are described at the
++:ref:`Generic Error Codes <gen-errors>` chapter.
++
++ENOIOCTLCMD
++   The kernel does not support this ioctl.
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index dff1d9be7841..9d47f4800ea8 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -498,8 +498,11 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
+ 	struct v4l2_fh *vfh = file->private_data;
++	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+ 	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+ 	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
++	bool client_supports_streams = subdev_fh->client_caps &
++				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+ 	int rval;
+ 
+ 	switch (cmd) {
+@@ -624,6 +627,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_FMT: {
+ 		struct v4l2_subdev_format *format = arg;
+ 
++		if (!client_supports_streams)
++			format->stream = 0;
++
+ 		memset(format->reserved, 0, sizeof(format->reserved));
+ 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+ 		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+@@ -635,6 +641,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
+ 
++		if (!client_supports_streams)
++			format->stream = 0;
++
+ 		memset(format->reserved, 0, sizeof(format->reserved));
+ 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+ 		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+@@ -644,6 +653,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		struct v4l2_subdev_crop *crop = arg;
+ 		struct v4l2_subdev_selection sel;
+ 
++		if (!client_supports_streams)
++			crop->stream = 0;
++
+ 		memset(crop->reserved, 0, sizeof(crop->reserved));
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = crop->which;
+@@ -665,6 +677,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
+ 
++		if (!client_supports_streams)
++			crop->stream = 0;
++
+ 		memset(crop->reserved, 0, sizeof(crop->reserved));
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = crop->which;
+@@ -683,6 +698,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+ 		struct v4l2_subdev_mbus_code_enum *code = arg;
+ 
++		if (!client_supports_streams)
++			code->stream = 0;
++
+ 		memset(code->reserved, 0, sizeof(code->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
+ 					code);
+@@ -691,6 +709,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+ 		struct v4l2_subdev_frame_size_enum *fse = arg;
+ 
++		if (!client_supports_streams)
++			fse->stream = 0;
++
+ 		memset(fse->reserved, 0, sizeof(fse->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
+ 					fse);
+@@ -699,6 +720,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval *fi = arg;
+ 
++		if (!client_supports_streams)
++			fi->stream = 0;
++
+ 		memset(fi->reserved, 0, sizeof(fi->reserved));
+ 		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
+ 	}
+@@ -709,6 +733,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (ro_subdev)
+ 			return -EPERM;
+ 
++		if (!client_supports_streams)
++			fi->stream = 0;
++
+ 		memset(fi->reserved, 0, sizeof(fi->reserved));
+ 		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+ 	}
+@@ -716,6 +743,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval_enum *fie = arg;
+ 
++		if (!client_supports_streams)
++			fie->stream = 0;
++
+ 		memset(fie->reserved, 0, sizeof(fie->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
+ 					fie);
+@@ -724,6 +754,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_G_SELECTION: {
+ 		struct v4l2_subdev_selection *sel = arg;
+ 
++		if (!client_supports_streams)
++			sel->stream = 0;
++
+ 		memset(sel->reserved, 0, sizeof(sel->reserved));
+ 		return v4l2_subdev_call(
+ 			sd, pad, get_selection, state, sel);
+@@ -735,6 +768,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
+ 
++		if (!client_supports_streams)
++			sel->stream = 0;
++
+ 		memset(sel->reserved, 0, sizeof(sel->reserved));
+ 		return v4l2_subdev_call(
+ 			sd, pad, set_selection, state, sel);
+@@ -876,6 +912,33 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 					routing->which, &krouting);
+ 	}
+ 
++	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
++		struct v4l2_subdev_client_capability *client_cap = arg;
++
++		client_cap->capabilities = subdev_fh->client_caps;
++
++		return 0;
++	}
++
++	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
++		struct v4l2_subdev_client_capability *client_cap = arg;
++
++		/*
++		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
++		 * enabled. Remove this when streams API is no longer
++		 * experimental.
++		 */
++		if (!v4l2_subdev_enable_streams_api)
++			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
++
++		/* Filter out unsupported capabilities */
++		client_cap->capabilities &= V4L2_SUBDEV_CLIENT_CAP_STREAMS;
++
++		subdev_fh->client_caps = client_cap->capabilities;
++
++		return 0;
++	}
++
+ 	default:
+ 		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+ 	}
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 17773be4a4ee..b5bb5b802929 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1121,6 +1121,7 @@ struct v4l2_subdev_fh {
+ 	struct module *owner;
+ #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+ 	struct v4l2_subdev_state *state;
++	u64 client_caps;
+ #endif
+ };
+ 
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index 654d659de835..4a195b68f28f 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -233,6 +233,24 @@ struct v4l2_subdev_routing {
+ 	__u32 reserved[6];
+ };
+ 
++/*
++ * The client is aware of streams. Setting this flag enables the use of 'stream'
++ * fields (referring to the stream number) with various ioctls. If this is not
++ * set (which is the default), the 'stream' fields will be forced to 0 by the
++ * kernel.
++ */
++ #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
++
++/**
++ * struct v4l2_subdev_client_capability - Capabilities of the client accessing
++ *					  the subdev
++ *
++ * @capabilities: A bitmask of V4L2_SUBDEV_CLIENT_CAP_* flags.
++ */
++struct v4l2_subdev_client_capability {
++	__u64 capabilities;
++};
++
+ /* Backwards compatibility define --- to be removed */
+ #define v4l2_subdev_edid v4l2_edid
+ 
+@@ -250,6 +268,9 @@ struct v4l2_subdev_routing {
+ #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+ #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+ #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
++#define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
++#define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
++
+ /* The following ioctls are identical to the ioctls in videodev2.h */
+ #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
+ #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
+-- 
+2.34.1
+
