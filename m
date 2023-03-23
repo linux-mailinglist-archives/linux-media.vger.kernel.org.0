@@ -2,658 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3550E6C68E8
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 13:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86FD26C690A
+	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 14:02:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjCWMzR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 08:55:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44170 "EHLO
+        id S231534AbjCWNCO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 09:02:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbjCWMzO (ORCPT
+        with ESMTP id S231486AbjCWNCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 08:55:14 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E33611B2FA
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 05:55:11 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7B2AF1BF207;
-        Thu, 23 Mar 2023 12:55:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1679576110;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1Xu5G7WmAXfstavo6YSNPn9wQakQvbtqI2Xg/0IpTpc=;
-        b=C2i7X9iIn350ZHDv1RjWwgiG99WPF/fuXULPSrOuU1EZRKbV1hc1L4Xke+BCfX8iZEGIhT
-        i3MQ3uNpbeRoSdX2copr1Ew/BaFxV1X/g76K+IRBK+vvw8lXlo2jrW4OXI7zcg7+0LITkw
-        ML+e51DQlt/f1kkpRhj7D5h6aZvadepjJcUIFA4qcj1ieF4XWiVNOV0jn3mdn8x/HeUfI9
-        87BcXqq0oR61C127H6FxTngi6hUCvFa7+Dy8DGWL+oXmlhdMh610LfRIiAMclvyblzm3dS
-        9C6j7x35Qi51m4xQhx6IRaVfVbwC5QdmeXq7mG/PZZlDF/yakzPrns5SfXkufA==
-Date:   Thu, 23 Mar 2023 13:55:09 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Adam Pigg <adam@piggz.co.uk>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, yong.deng@magewell.com,
-        mchehab@kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/3] media: sun6i-csi: merge sun6i_csi_formats and
- sun6i_csi_formats_match
-Message-ID: <ZBxMLU+PJgPqlU4j@aptenodytes>
-References: <20230106194038.16018-1-adam@piggz.co.uk>
- <20230106194038.16018-2-adam@piggz.co.uk>
- <Y7ivZC2e0TZtbASV@pendragon.ideasonboard.com>
- <5905587.lOV4Wx5bFT@192-168-1-215>
- <Y7sm4ZbAoBhuhmP/@pendragon.ideasonboard.com>
- <Y+/FUICC58w10rNJ@pendragon.ideasonboard.com>
- <Y/Xw7lsKOYFqaZEw@aptenodytes>
- <CANFkB1xNRMJyA3MKgwtPXc7B2BiGKhQPDan9NXw+QtCMD7cEJQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="KOKAUefQFL8klRs8"
-Content-Disposition: inline
-In-Reply-To: <CANFkB1xNRMJyA3MKgwtPXc7B2BiGKhQPDan9NXw+QtCMD7cEJQ@mail.gmail.com>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Thu, 23 Mar 2023 09:02:13 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B4731E39;
+        Thu, 23 Mar 2023 06:02:08 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NAfvR5031304;
+        Thu, 23 Mar 2023 13:02:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=GmMQfQA56gIT3+GdfyQyErbER7C5xnWWjFJkmOMgIoM=;
+ b=WhE92LucgbkOS2gEo/BQRfNt4sEopa7JFmfRIzUBmrQX6pC4ycxmOCnawpQvTMu7ydhc
+ EfwRZsGVzaKB38qOmCXG8axmxZlEb12DmPLKh0TXAs3lUrmlMuUDkW5gssj9H5RhF+V4
+ u/l8ZAc9miyyuNps9kGHLutGNhIjAknZ4t+1HvthKyLPvrI+kWVhtM0b7X6AyxLOlaq0
+ AzKpf3rexv5/ntMq+t8Mfr/uQB4I3lKSpnwUscg8BGbbLWfW6ccNS7eprY3yP/7merj/
+ rG5mso1FsJy8XZlz7On5/6ReKtSDIutoZKOz7bk3g2rNerCf6YCEwPq7GL1jVaG42PIu EA== 
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pgm9x8eex-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 23 Mar 2023 13:02:04 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 32ND1vxj010322;
+        Thu, 23 Mar 2023 13:01:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3pd6ckjyj3-1;
+        Thu, 23 Mar 2023 13:01:57 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32ND1u7d010312;
+        Thu, 23 Mar 2023 13:01:56 GMT
+Received: from vboma-linux.qualcomm.com (vboma-linux.qualcomm.com [10.204.65.94])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 32ND1uBf010310;
+        Thu, 23 Mar 2023 13:01:56 +0000
+Received: by vboma-linux.qualcomm.com (Postfix, from userid 72083)
+        id 9D9BD9008BA; Thu, 23 Mar 2023 18:31:55 +0530 (IST)
+From:   Viswanath Boma <quic_vboma@quicinc.com>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_vgarodia@quicinc.com,
+        quic_dikshita@quicinc.com
+Cc:     stanimir.k.varbanov@gmail.com,
+        Viswanath Boma <quic_vboma@quicinc.com>,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>
+Subject: [PATCH v4] venus: Enable sufficient sequence change support for sc7180 and fix for Decoder STOP command issue.
+Date:   Thu, 23 Mar 2023 18:31:53 +0530
+Message-Id: <20230323130153.8229-1-quic_vboma@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: nkf43coqptUhaIxMB7yexmsFRk4h_xY5
+X-Proofpoint-ORIG-GUID: nkf43coqptUhaIxMB7yexmsFRk4h_xY5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_21,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 clxscore=1011 mlxscore=0 bulkscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303230098
+X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+For VP9 bitstreams, there could be a change in resolution at interframe,
+for driver to get notified of such resolution change,
+enable the property in video firmware.
+Also, EOS handling is now made same in video firmware across all V6 SOCs,
+hence above a certain firmware version, the driver handling is
+made generic for all V6s
 
---KOKAUefQFL8klRs8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
+Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+Tested-by: Nathan Hebert <nhebert@chromium.org>
+---
+Since v3 : Addressed comments to rectify email address.
 
-Hi Adam,
+ drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
+ drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
+ drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
+ drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
+ drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
+ 5 files changed, 41 insertions(+), 3 deletions(-)
 
-On Tue 21 Mar 23, 17:50, Adam Pigg wrote:
-> On Wed, 22 Feb 2023 at 10:39, Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
-> >
-> > Hi Adam, Laurent,
-> >
-> > On Fri 17 Feb 23, 20:20, Laurent Pinchart wrote:
-> > > Could you share your opinion on the question below ?
-> >
-> > Yeah sorry for the long delay here. It's taken me a while to dive back =
-into
-> > this topic.
-> >
-> > My first impression is that I would rather be in favor of keeping a dyn=
-amic
-> > approach like what's already in sun6i_csi_capture_link_validate and ext=
-ract
-> > the mbus/pixfmt matching logic from there.
-> >
-> > I would be happy to craft a patch in that direction, but maybe you'd li=
-ke
-> > to have a try at it (since it's your series). Just let me know, I think=
- I can
-> > do it pretty quickly now that I have everything back in mind. I could a=
-lso
-> > add some comment about the general hardware mechanism/limitations.
-> >
->=20
-> Hi Paul
->=20
-> Apologies for missing this email!
->=20
-> As you seem to know the hardware much better, and I was only getting
-> it working together with
-> help from others, im more than happy for you to work up the changes,
-> and it will likely result in
-> a much shorter change cycle!
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 32551c2602a9..ee8b70a34656 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -202,6 +202,11 @@ struct venus_core {
+ 	unsigned int core0_usage_count;
+ 	unsigned int core1_usage_count;
+ 	struct dentry *root;
++	struct venus_img_version {
++		u32 major;
++		u32 minor;
++		u32 rev;
++	} venus_ver;
+ };
+ 
+ struct vdec_controls {
+@@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+ 	return NULL;
+ }
+ 
++static inline int
++is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
++{
++	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
++			vminor && (core)->venus_ver.rev >= vrev);
++}
++
++static inline int
++is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
++{
++	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
++			vminor && (core)->venus_ver.rev <= vrev);
++}
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index bc3f8ff05840..9efe04961890 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+ 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
+ 		break;
+ 	}
++	case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
+ 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
+ 		struct hfi_enable *in = pdata;
+ 		struct hfi_enable *en = prop_data;
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 105792a68060..c8aaf870829c 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -469,6 +469,8 @@
+ #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH			0x1003007
+ #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT			0x1003009
+ #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE			0x100300a
++#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
++								0x0100300b
+ 
+ /*
+  * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
+diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+index df96db3761a7..07ac0fcd2852 100644
+--- a/drivers/media/platform/qcom/venus/hfi_msgs.c
++++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+@@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+ }
+ 
+ static void
+-sys_get_prop_image_version(struct device *dev,
++sys_get_prop_image_version(struct venus_core *core,
+ 			   struct hfi_msg_sys_property_info_pkt *pkt)
+ {
++	struct device *dev = core->dev;
+ 	u8 *smem_tbl_ptr;
+ 	u8 *img_ver;
+ 	int req_bytes;
+@@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+ 		return;
+ 
+ 	img_ver = pkt->data;
++	if (IS_V4(core))
++		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
++		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
++	else if (IS_V6(core))
++		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
++		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+ 
+ 	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+ 
+@@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+ 
+ 	switch (pkt->property) {
+ 	case HFI_PROPERTY_SYS_IMAGE_VERSION:
+-		sys_get_prop_image_version(dev, pkt);
++		sys_get_prop_image_version(core, pkt);
+ 		break;
+ 	default:
+ 		dev_dbg(dev, VDBGL "unknown property data\n");
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 4ceaba37e2e5..36c88858ea9d 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+ 
+ 		fdata.buffer_type = HFI_BUFFER_INPUT;
+ 		fdata.flags |= HFI_BUFFERFLAG_EOS;
+-		if (IS_V6(inst->core))
++		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
+ 			fdata.device_addr = 0;
+ 		else
+ 			fdata.device_addr = 0xdeadb000;
+@@ -671,6 +671,16 @@ static int vdec_set_properties(struct venus_inst *inst)
+ 			return ret;
+ 	}
+ 
++	/* Enabling sufficient sequence change support for VP9 */
++	if (of_device_is_compatible(inst->core->dev->of_node, "qcom,sc7180-venus")) {
++		if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
++			ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
++			ret = hfi_session_set_property(inst, ptype, &en);
++			if (ret)
++				return ret;
++		}
++	}
++
+ 	ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
+ 	conceal = ctr->conceal_color & 0xffff;
+ 	conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
+-- 
+2.17.1
 
-Glad to hear! I have some patches working already :)
-
-> Would that be for this patch only in the series, or the other 2 also?
-
-That would be for the enum_fmt mbus_code support as well as enum_framesizes.
-For the latter, I've made little change to your code so I will add your
-Co-authored-by and Signed-off-by lines.
-
-The same changes also apply to the sun6i-isp driver, which I try to keep
-in sync with sun6i-csi.
-
-Will send the patches soon (probably tomorrow).
-
-Cheers!
-
-Paul
-
-> Thanks
->=20
-> > The hardware is a bit odd in a few ways and I found that the explicit
-> > combinatory approach wasn't a very good fit (but obviously that's an op=
-en topic
-> > for discussions).
-> >
-> > The general idea is that the SUN6I_CSI_INPUT_FMT_YUV420/422 can only be=
- used
-> > to produce outputs on 2 or 3 planes, but not packed YUV. There's also no
-> > explicit hardware reordering of the chroma components, so we need to li=
-e about
-> > the input order (input_yuv_seq_invert) to achieve inverted chroma compo=
-nents
-> > on the output format.
-> >
-> > In order to produce packed data, we can only rely on SUN6I_CSI_INPUT_FM=
-T_RAW
-> > which provides no reordering mechanism. This is why it made good sense =
-to me
-> > to only have an explicit matching table for this case and rely on more =
-general
-> > logic that reflects the hardware capabilities otherwise.
-> >
-> > > On Sun, Jan 08, 2023 at 10:26:09PM +0200, Laurent Pinchart wrote:
-> > > > On Sun, Jan 08, 2023 at 06:23:56PM +0000, Adam Pigg wrote:
-> > > > > On Friday, 6 January 2023 23:31:48 GMT Laurent Pinchart wrote:
-> > > > > > On Fri, Jan 06, 2023 at 07:40:36PM +0000, adam@piggz.co.uk wrot=
-e:
-> >
-> > [...]
-> >
-> > > > > > > +#define SUN6I_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-> >
-> > Cosmetic suggestion to stay consistent with the rest:
-> > #define SUN6I_CSI_CAPTURE_MBUS_CODES(mbus_codes...) \
-> >         (const u32[]) { mbus_codes, 0 }
-> >
-> > Also it would look better in sun6i_csi_capture.h.
-> >
-> > But really I would be happier with a dynamic approach.
-> >
-> > [...]
-> >
-> > > > > > >       /* YUV422 */
-> > > > > > >       {
-> > > > > > >
-> > > > > > > @@ -123,6 +139,8 @@ static const struct sun6i_csi_capture_for=
-mat
-> > > > > > > sun6i_csi_capture_formats[] =3D {>
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_RAW_8,
-> > > > > > >               .input_format_raw       =3D true,
-> > > > > > >               .hsize_len_factor       =3D 2,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
-IA_BUS_FMT_YUYV8_2X8,
-> > > > > > > +                                                       MEDIA=
-_BUS_FMT_YUYV8_1X16),
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YVYU,
-> > > > > > >
-> > > > > > > @@ -130,6 +148,8 @@ static const struct sun6i_csi_capture_for=
-mat
-> > > > > > > sun6i_csi_capture_formats[] =3D {>
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_RAW_8,
-> > > > > > >               .input_format_raw       =3D true,
-> > > > > > >               .hsize_len_factor       =3D 2,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
-IA_BUS_FMT_YVYU8_2X8,
-> > > > > > > +                                                       MEDIA=
-_BUS_FMT_YVYU8_1X16),
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_UYVY,
-> > > > > > >
-> > > > > > > @@ -137,6 +157,8 @@ static const struct sun6i_csi_capture_for=
-mat
-> > > > > > > sun6i_csi_capture_formats[] =3D {
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_RAW_8,
-> > > > > > >               .input_format_raw       =3D true,
-> > > > > > >               .hsize_len_factor       =3D 2,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
-IA_BUS_FMT_UYVY8_2X8,
-> > > > > > > +                                                       MEDIA=
-_BUS_FMT_UYVY8_1X16),
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_VYUY,
-> > > > > > >
-> > > > > > > @@ -144,57 +166,68 @@ static const struct sun6i_csi_capture_f=
-ormat
-> > > > > > > sun6i_csi_capture_formats[] =3D {>
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_RAW_8,
-> > > > > > >               .input_format_raw       =3D true,
-> > > > > > >               .hsize_len_factor       =3D 2,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
-IA_BUS_FMT_VYUY8_2X8,
-> > > > > > > +                                                       MEDIA=
-_BUS_FMT_VYUY8_1X16),
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV16,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV422SP,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV422SP,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > >
-> > > > > > I don't think this is correct. To produce semi-planar or multi-=
-planar
-> > > > > > YUV formats, I believe the CSI needs YUV input. This should thu=
-s be
-> > > > > > (unless I'm mistaken)
-> >
-> > You are correct.
-> >
-> > > > > >
-> > > > > >                 .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
-IA_BUS_FMT_UYVY8_2X8,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_UYVY8_1X16,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_VYUY8_2X8,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_VYUY8_1X16,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_YUYV8_2X8,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_YUYV8_1X16,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_YVYU8_2X8,
-> > > > > >                                                           MEDIA=
-_BUS_FMT_YVYU8_1X16),
-> > > > > >
-> > > > > > and same below.
-> >
-> > All of the YUV420/422 pixel formats on 2 or 3 planes can take all of the
-> > supports packed 16-bit YUV bus formats, which is why it doesn't seem ve=
-ry
-> > graceful to have an explicit list.
-> >
-> > > > > >
-> > > > > Hi Laurent
-> > > > >
-> > > > > Thanks for the help and tips.  Ive made all the other changes, wh=
-ich can be
-> > > > > viewed here until i resubmit them https://github.com/sailfish-on-=
-dontbeevil/
-> > > > > kernel-megi/commits/pinephone-libcamera
-> > > > >
-> > > > > Im just not quite sure on this one.  I think my implementation of=
- merging the
-> > > > > arrays keeps the previous mapping right?  In sun6i_csi_capture_fo=
-rmat_matches
-> > > > > there is no mapping for the *NV formats, and the remaining ones i=
-ve set to 0?
-> > > >
-> > > > The current implementation allows writing multi-planar formats (e.g.
-> > > > NV12) to memory when the input of the CSI is a YUV media bus format
-> > > > (e.g. YUYV8_1X16). This patch doesn't change that, but it will prev=
-ent
-> > > > NV12 from being enumerated when using media bus-based enumeration of
-> > > > pixel formats, so userspace won't see NV12 as being available.
-> > > >
-> > > > It would be fine fixing that issue in a separate patch on top of th=
-is
-> > > > one, but I though you could as well do both in one go.
-> > >
-> > > Adam, you mentioned that NV12 and NV16 "don't work". Could you elabor=
-ate
-> > > and explain what you've tried exactly ?
-> >
-> > We definitely need to keep the ability to produce NV12, NV16 and friend=
-s from
-> > YUV bus formats.
-> >
-> > > > > > Paul, could you confirm this ?
-> > > > > >
-> > > > > > I'm a bit surprised that the CSI can't shuffle the YUV componen=
-ts for
-> > > > > > packed YUYV formats, but so be it if that's a hardware limitati=
-on.
-> >
-> > Yep that is correct, it's a hardware limitation.
-> >
-> > Cheers,
-> >
-> > Paul
-> >
-> > > > > > I'm also thinking that a subsequent patch could drop the raw ch=
-eck from
-> > > > > > sun6i_csi_capture_link_validate():
-> > > > > >
-> > > > > > -       /* With raw input mode, we need a 1:1 match between inp=
-ut and  output. */
-> > > > > > -       if (bridge_format->input_format =3D=3D SUN6I_CSI_INPUT_=
-FMT_RAW ||
-> > > > > > -           capture_format->input_format_raw) {
-> > > > > > -               match =3D sun6i_csi_capture_format_match(pixelf=
-ormat,
-> > > > > > -                                                       fmt.for=
-mat.code);
-> > > > > > -               if (!match)
-> > > > > > -                       goto invalid;
-> > > > > > -       }
-> > > > > > +       /* Make sure the media bus code and pixel format are co=
-mpatible. */
-> > > > > > +       match =3D sun6i_csi_capture_format_match(pixelformat,  =
-fmt.format.code);
-> > > > > > +       if (!match)
-> > > > > > +               goto invalid;
-> > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV61,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV422SP,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV422SP,
-> > > > > > >               .input_yuv_seq_invert   =3D true,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YUV422=
-P,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV422P,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV422P,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       /* YUV420 */
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV12_1=
-6L16,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV420MB,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV420MB,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV12,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV420SP,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV420SP,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_NV21,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV420SP,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV420SP,
-> > > > > > >               .input_yuv_seq_invert   =3D true,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YUV420,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV420P,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV420P,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_YVU420,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_YUV420P,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_YUV420P,
-> > > > > > >               .input_yuv_seq_invert   =3D true,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D 0,
-> > > > > > >
-> > > > > > >       },
-> > > > > > >       /* Compressed */
-> > > > > > >       {
-> > > > > > >
-> > > > > > >               .pixelformat            =3D V4L2_PIX_FMT_JPEG,
-> > > > > > >               .output_format_frame    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FRAME_RAW_8,
-> > > > > > >               .output_format_field    =3D  SUN6I_CSI_OUTPUT_F=
-MT_FIELD_RAW_8,
-> > > > > > >
-> > > > > > > +             .mbus_codes             =3D  SUN6I_BUS_FMTS(MED=
-IA_BUS_FMT_JPEG_1X8),
-> > > > > > >
-> > > > > > >       },
-> > > > > > >
-> > > > > > >  };
-> > > > > > >
-> > > > > > > @@ -210,118 +243,20 @@ struct sun6i_csi_capture_format
-> > > > > > > *sun6i_csi_capture_format_find(u32 pixelformat)>
-> > > > > > >       return NULL;
-> > > > > > >
-> > > > > > >  }
-> > > > > > >
-> > > > > > > -/* RAW formats need an exact match between pixel and mbus fo=
-rmats. */
-> > > > > > > -static const
-> > > > > > > -struct sun6i_csi_capture_format_match sun6i_csi_capture_form=
-at_matches[]
-> > > > > > > =3D { - /* YUV420 */
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YUYV,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YUYV8_2X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YUYV,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YUYV8_1X16,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YVYU,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YVYU8_2X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_YVYU,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_YVYU8_1X16,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_UYVY,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_UYVY8_2X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_UYVY,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_UYVY8_1X16,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_VYUY,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_VYUY8_2X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_VYUY,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_VYUY8_1X16,
-> > > > > > > -     },
-> > > > > > > -     /* RGB */
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_RGB565,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_RGB565_2X8_LE,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_RGB565X,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_RGB565_2X8_BE,
-> > > > > > > -     },
-> > > > > > > -     /* Bayer */
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SBGGR8,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SBGGR8_1X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGBRG8,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGBRG8_1X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGRBG8,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGRBG8_1X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SRGGB8,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SRGGB8_1X8,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SBGGR10,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SBGGR10_1X10,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGBRG10,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGBRG10_1X10,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGRBG10,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGRBG10_1X10,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SRGGB10,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SRGGB10_1X10,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SBGGR12,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SBGGR12_1X12,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGBRG12,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGBRG12_1X12,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SGRBG12,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SGRBG12_1X12,
-> > > > > > > -     },
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_SRGGB12,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_SRGGB12_1X12,
-> > > > > > > -     },
-> > > > > > > -     /* Compressed */
-> > > > > > > -     {
-> > > > > > > -             .pixelformat    =3D V4L2_PIX_FMT_JPEG,
-> > > > > > > -             .mbus_code      =3D MEDIA_BUS_FMT_JPEG_1X8,
-> > > > > > > -     },
-> > > > > > > -};
-> > > > > > > -
-> > > > > > >
-> > > > > > >  static bool sun6i_csi_capture_format_match(u32 pixelformat, =
-u32
-> > > > > > >  mbus_code)
-> > > > > > >  {
-> > > > > > >
-> > > > > > > -     unsigned int i;
-> > > > > > > -
-> > > > > > > -     for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_format_m=
-atches); i++)  {
-> > > > > > > -             const struct sun6i_csi_capture_format_match *ma=
-tch =3D
-> > > > > > > -                     &sun6i_csi_capture_format_matches[i];
-> > > > > > > -
-> > > > > > > -             if (match->pixelformat =3D=3D pixelformat &&
-> > > > > > > -                 match->mbus_code =3D=3D mbus_code)
-> > > > > > > -                     return true;
-> > > > > > > +     unsigned int i, j;
-> > > > > > > +
-> > > > > > > +     for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_formats)=
-; i++) {
-> > > > > > > +             const struct sun6i_csi_capture_format *format =
-=3D
-> > > > > > > +                     &sun6i_csi_capture_formats[i];
-> > > > > > > +
-> > > > > > > +             if (format->pixelformat =3D=3D pixelformat) {
-> > > > > > > +                     for (j =3D 0; format->mbus_codes[j]; j+=
-+) {
-> > > > > > > +                             if (mbus_code =3D=3D format->mb=
-us_codes[j])
-> > > > > > > +                                     return true;
-> > > > > > > +                     }
-> > > > > > > +             }
-> > > > > > >
-> > > > > > >       }
-> > > > > > >
-> > > > > > >       return false;
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi=
-_capture.h
-> > > > > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h =
-index
-> > > > > > > 3ee5ccefbd10..0484942834e3 100644
-> > > > > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_captur=
-e.h
-> > > > > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_captur=
-e.h
-> > > > > > > @@ -27,11 +27,7 @@ struct sun6i_csi_capture_format {
-> > > > > > >
-> > > > > > >       bool    input_yuv_seq_invert;
-> > > > > > >       bool    input_format_raw;
-> > > > > > >       u32     hsize_len_factor;
-> > > > > > >
-> > > > > > > -};
-> > > > > > > -
-> > > > > > > -struct sun6i_csi_capture_format_match {
-> > > > > > > -     u32     pixelformat;
-> > > > > > > -     u32     mbus_code;
-> > > > > > > +     const u32 *mbus_codes;
-> > > > > > >
-> > > > > > >  };
-> > > > > > >
-> > > > > > >  #undef current
-> > >
-> > > --
-> > > Regards,
-> > >
-> > > Laurent Pinchart
-> >
-> > --
-> > Paul Kocialkowski, Bootlin
-> > Embedded Linux and kernel engineering
-> > https://bootlin.com
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---KOKAUefQFL8klRs8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQcTCwACgkQ3cLmz3+f
-v9HXBwf/TEJkfHIvbVX/VWK8INedkVMw3Xe069lj1Vu+0rL1YyW339G0EHq5wy6E
-oD1dXG15quVthGK9rF6nbOIoQiEAKH23t2fteRCmTsNnGdodL7MkznmdIZ2htE4Z
-ahGvALgv9tdpj/7j9kQttcjSv2xuH7u5XOqZdjBGqtT8+sPYhicChamMqeb72yGG
-IywTOGuRFv0IdjCwmV3fLoMLqAyGc8vO8GMxFs2jqiuskupvyqMbg7aThtQzmFZS
-HU9Ws7nLUn2XMr1DO4UpSeLLsRK2o2pceTxEwbCGvXs6DJ7Ihe5PCf5nBzh2rh26
-91Q1Vpx9XbCjP/Sh1RRkuWnRKIoW4w==
-=8JIu
------END PGP SIGNATURE-----
-
---KOKAUefQFL8klRs8--
