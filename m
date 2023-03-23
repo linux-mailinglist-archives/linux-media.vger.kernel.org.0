@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EBA26C66E9
+	by mail.lfdr.de (Postfix) with ESMTP id D42D56C66EB
 	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 12:41:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbjCWLll (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 07:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35852 "EHLO
+        id S231560AbjCWLlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 07:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231494AbjCWLlg (ORCPT
+        with ESMTP id S231513AbjCWLlg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 23 Mar 2023 07:41:36 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E61D0F746
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 04:41:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5438E1B327
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 04:41:35 -0700 (PDT)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1pfJK0-0007OB-RV; Thu, 23 Mar 2023 12:41:32 +0100
+        id 1pfJK1-0007OB-6p; Thu, 23 Mar 2023 12:41:33 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Thu, 23 Mar 2023 12:41:15 +0100
-Subject: [PATCH 7/8] usb: gadget: uvc: add colorspace handling
+Date:   Thu, 23 Mar 2023 12:41:16 +0100
+Subject: [PATCH 8/8] usb: gadget: uvc: implement s/g_parm
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-uvc-gadget-cleanup-v1-7-e41f0c5d9d8e@pengutronix.de>
+Message-Id: <20230323-uvc-gadget-cleanup-v1-8-e41f0c5d9d8e@pengutronix.de>
 References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
 In-Reply-To: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,107 +48,163 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Store the values of the configured color space in the driver. This
-allows the user space to set the color space and re-read the set values
-later.
-
-UVC allows to announce the colorspace in the USB descriptors. The values
-of the descriptors are not evaluated by the driver, yet. Thus, the
-default is always the default specified by UVC and not the configured
-default.
+As the UVC gadget implements ENUM_FRAMEINTERVALS it should also
+implement S_PARM and G_PARM to allow to get and set the frame interval.
+While the driver doesn't actually do something with the frame interval,
+it should still handle and store the interval correctly, if the user
+space request it.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- drivers/usb/gadget/function/uvc.h      |  4 ++++
- drivers/usb/gadget/function/uvc_v4l2.c | 32 ++++++++++++++++++++++++++++++--
- 2 files changed, 34 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/function/uvc.h      |  1 +
+ drivers/usb/gadget/function/uvc_v4l2.c | 94 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 95 insertions(+)
 
 diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 100475b1363e..6b4ab3e07173 100644
+index 6b4ab3e07173..a9a5a9d2f554 100644
 --- a/drivers/usb/gadget/function/uvc.h
 +++ b/drivers/usb/gadget/function/uvc.h
-@@ -96,6 +96,10 @@ struct uvc_video {
+@@ -96,6 +96,7 @@ struct uvc_video {
  	unsigned int width;
  	unsigned int height;
  	unsigned int imagesize;
-+	enum v4l2_colorspace colorspace;
-+	enum v4l2_ycbcr_encoding ycbcr_enc;
-+	enum v4l2_quantization quantization;
-+	enum v4l2_xfer_func xfer_func;
- 	struct mutex mutex;	/* protects frame parameters */
- 
- 	unsigned int uvc_num_requests;
++	struct v4l2_fract timeperframe;
+ 	enum v4l2_colorspace colorspace;
+ 	enum v4l2_ycbcr_encoding ycbcr_enc;
+ 	enum v4l2_quantization quantization;
 diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index c5983bb0a8d1..673532ff0faa 100644
+index 673532ff0faa..a9564dc2445d 100644
 --- a/drivers/usb/gadget/function/uvc_v4l2.c
 +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -180,6 +180,11 @@ void uvc_init_default_format(struct uvc_device *uvc)
- 		video->height = 240;
- 		video->imagesize = 320 * 240 * 2;
+@@ -185,6 +185,9 @@ void uvc_init_default_format(struct uvc_device *uvc)
+ 		video->xfer_func = V4L2_XFER_FUNC_SRGB;
+ 		video->ycbcr_enc = V4L2_YCBCR_ENC_601;
  
-+		video->colorspace = V4L2_COLORSPACE_SRGB;
-+		video->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+		video->xfer_func = V4L2_XFER_FUNC_SRGB;
-+		video->ycbcr_enc = V4L2_YCBCR_ENC_601;
++		video->timeperframe.numerator = 1;
++		video->timeperframe.denominator = 30;
 +
  		return;
  	}
  
-@@ -196,6 +201,14 @@ void uvc_init_default_format(struct uvc_device *uvc)
- 	video->width = uframe->frame.w_width;
- 	video->height = uframe->frame.w_height;
- 	video->imagesize = uvc_get_frame_size(uformat, uframe);
+@@ -209,6 +212,11 @@ void uvc_init_default_format(struct uvc_device *uvc)
+ 	video->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+ 	video->xfer_func = V4L2_XFER_FUNC_SRGB;
+ 	video->ycbcr_enc = V4L2_YCBCR_ENC_601;
 +
-+	if (uformat->type == UVCG_UNCOMPRESSED)
-+		video->colorspace = V4L2_COLORSPACE_SRGB;
-+	else
-+		video->colorspace = V4L2_COLORSPACE_JPEG;
-+	video->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	video->xfer_func = V4L2_XFER_FUNC_SRGB;
-+	video->ycbcr_enc = V4L2_YCBCR_ENC_601;
++	video->timeperframe.numerator = uframe->frame.dw_default_frame_interval;
++	video->timeperframe.denominator = 10000000;
++	v4l2_simplify_fraction(&video->timeperframe.numerator,
++			       &video->timeperframe.denominator, 8, 333);
  }
  
  static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-@@ -294,7 +307,12 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	fmt->fmt.pix.field = V4L2_FIELD_NONE;
- 	fmt->fmt.pix.bytesperline = video->bpp * video->width / 8;
- 	fmt->fmt.pix.sizeimage = video->imagesize;
--	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
-+
-+	fmt->fmt.pix.colorspace = video->colorspace;
-+	fmt->fmt.pix.ycbcr_enc = video->ycbcr_enc;
-+	fmt->fmt.pix.quantization = video->quantization;
-+	fmt->fmt.pix.xfer_func = video->xfer_func;
-+
- 	fmt->fmt.pix.priv = 0;
- 
- 	return 0;
-@@ -335,7 +353,12 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(uformat, uframe);
- 	fmt->fmt.pix.sizeimage = uvc_get_frame_size(uformat, uframe);
- 	fmt->fmt.pix.pixelformat = to_uvc_format(uformat)->fcc;
--	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
-+
-+	fmt->fmt.pix.colorspace = video->colorspace;
-+	fmt->fmt.pix.ycbcr_enc = video->ycbcr_enc;
-+	fmt->fmt.pix.quantization = video->quantization;
-+	fmt->fmt.pix.xfer_func = video->xfer_func;
-+
- 	fmt->fmt.pix.priv = 0;
- 
- 	return 0;
-@@ -359,6 +382,11 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	video->height = fmt->fmt.pix.height;
- 	video->imagesize = fmt->fmt.pix.sizeimage;
- 
-+	video->colorspace = fmt->fmt.pix.colorspace;
-+	video->ycbcr_enc = fmt->fmt.pix.ycbcr_enc;
-+	video->quantization = fmt->fmt.pix.quantization;
-+	video->xfer_func = fmt->fmt.pix.xfer_func;
-+
- 	return ret;
+@@ -255,6 +263,46 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
+ 	return uframe;
  }
  
++static void find_closest_timeperframe(struct uvc_device *uvc,
++				      struct v4l2_fract *timeperframe)
++{
++	struct uvc_video *video = &uvc->video;
++	struct uvcg_format *uformat;
++	struct uvcg_frame *uframe;
++	unsigned long interval;
++	unsigned int best_interval;
++	unsigned int curr;
++	unsigned int dist;
++	unsigned int best_dist = UINT_MAX;
++	int i;
++
++	if (timeperframe->denominator == 0)
++		timeperframe->denominator = video->timeperframe.denominator;
++	if (timeperframe->numerator == 0)
++		timeperframe->numerator = video->timeperframe.numerator;
++
++	uformat = find_format_by_pix(uvc, video->fcc);
++	uframe = find_closest_frame_by_size(uvc, uformat,
++					    video->width, video->height);
++
++	interval = timeperframe->numerator * 10000000;
++	do_div(interval, timeperframe->denominator);
++
++	for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
++		curr = uframe->dw_frame_interval[i];
++		dist = interval > curr ? interval - curr : curr - interval;
++		if (dist < best_dist) {
++			best_dist = dist;
++			best_interval = curr;
++		}
++	}
++
++	timeperframe->numerator = best_interval;
++	timeperframe->denominator = 10000000;
++	v4l2_simplify_fraction(&timeperframe->numerator,
++			       &timeperframe->denominator, 8, 333);
++}
++
+ /* --------------------------------------------------------------------------
+  * Requests handling
+  */
+@@ -456,6 +504,50 @@ uvc_v4l2_enum_framesizes(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
++static int
++uvc_v4l2_s_parm(struct file *file, void *fh, struct v4l2_streamparm *parm)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct uvc_device *uvc = video_get_drvdata(vdev);
++	struct uvc_video *video = &uvc->video;
++	struct v4l2_outputparm *out;
++
++	if (parm->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
++	    parm->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++		return -EINVAL;
++
++	out = &parm->parm.output;
++
++	memset(out->reserved, 0, sizeof(out->reserved));
++
++	out->capability = V4L2_CAP_TIMEPERFRAME;
++	find_closest_timeperframe(uvc, &out->timeperframe);
++
++	video->timeperframe = out->timeperframe;
++
++	return 0;
++}
++
++static int
++uvc_v4l2_g_parm(struct file *file, void *fh, struct v4l2_streamparm *parm)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct uvc_device *uvc = video_get_drvdata(vdev);
++	struct uvc_video *video = &uvc->video;
++	struct v4l2_outputparm *out;
++
++	if (parm->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
++	    parm->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++		return -EINVAL;
++
++	out = &parm->parm.output;
++
++	out->capability |= V4L2_CAP_TIMEPERFRAME;
++	out->timeperframe = video->timeperframe;
++
++	return 0;
++}
++
+ static int
+ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+ {
+@@ -671,6 +763,8 @@ const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
+ 	.vidioc_s_fmt_vid_out = uvc_v4l2_set_format,
+ 	.vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
+ 	.vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
++	.vidioc_g_parm = uvc_v4l2_g_parm,
++	.vidioc_s_parm = uvc_v4l2_s_parm,
+ 	.vidioc_enum_fmt_vid_out = uvc_v4l2_enum_format,
+ 	.vidioc_enum_output = uvc_v4l2_enum_output,
+ 	.vidioc_g_output = uvc_v4l2_g_output,
 
 -- 
 2.30.2
