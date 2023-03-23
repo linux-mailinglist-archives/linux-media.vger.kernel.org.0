@@ -2,72 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BADC6C63D3
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 10:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 992E46C6467
+	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 11:05:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbjCWJjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 05:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
+        id S230343AbjCWKFW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 06:05:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbjCWJiv (ORCPT
+        with ESMTP id S230321AbjCWKFR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 05:38:51 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAB5B1724
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 02:38:01 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id n125so23985496ybg.7
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 02:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679564281;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qcPIfSaKdOTEn+jIof9gKFWRTvtw5HqbvZyxX2vBTbw=;
-        b=PcPGR/t5xUg/3IlIo+7h7vaflki1O/ae3mrPyaq2ggEECNng6lsQvsxV/u7ELe3GGW
-         PgagP3I3vDb8V2X58vflzkBl1BpU0ewbX41t2XOXiH7XEExXjDT/8BfWMALvbZIJEHJ0
-         eeM7myQd61zTIiVXY/cKyZsVsuITAvjfPfnvQVdnfnoTWwacX2eNmli/d0Km5kZ7RF6R
-         or2UW1u1XR4uEq8vPHDfK066MtbBwMKJKdoZomrw5cbZ18zz60dB6QqNaFYrfSMQrcjD
-         2AfcWHnsADtTrRXsIwBZkEP1EwBhUvutyiTrwzhAfnhDu2/mYZHhL7xWhnbIwrYbzo87
-         /2Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679564281;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qcPIfSaKdOTEn+jIof9gKFWRTvtw5HqbvZyxX2vBTbw=;
-        b=ldu0LTmShKFlHiKg0UrPWonz0cUtDU0b0lN1yQufGCoi+7rfxKzJWTBAgHfjajjrQz
-         mCgr7hZ0hZNulw6jvspYQalQ14l01UThBctgxTADYv9r+vABOV1jSMF8rPjHgDOCMoH9
-         Yf5a0sb6SbeqlbfvVZHVRt/UabdAtnTHtYQVtpgRzYFTl4nCU3qqg8mxhEULzDKh9f2J
-         iBqeALQ29NSLXxL8wRzbG2l1sqRdI0j3uQaIy9vcBA44PfydBgVgMt0Nvrmq/Phthlal
-         9bP3zlVrvK7EmcBI2ZNm62QOFr6h60Or8qdnIF7zKUnA815IDQ+/AFnEt45w5psRHdB1
-         73tQ==
-X-Gm-Message-State: AAQBX9etse7yezXhvDx4UciJ05eVYlBCG0dIwnUwJ/iCkzB7epnRkaXw
-        Cdp9dCJZJXjelZCN/mjXlRzfFNgPoWTggaejmaFrWA==
-X-Google-Smtp-Source: AKy350bunR2b4lpHW4k3dwpiyGpnB1KHH3Gfxbs8nhhOtTqhvm4eX90C9giQ8RCnVQH6187Kthtc5Yv/LCMhI9yQbfA=
-X-Received: by 2002:a05:6902:a8e:b0:b6c:4d60:1bd6 with SMTP id
- cd14-20020a0569020a8e00b00b6c4d601bd6mr1746918ybb.9.1679564281023; Thu, 23
- Mar 2023 02:38:01 -0700 (PDT)
+        Thu, 23 Mar 2023 06:05:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B126F11E85
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 03:05:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4573C62560
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 10:05:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381ACC433EF;
+        Thu, 23 Mar 2023 10:05:13 +0000 (UTC)
+Message-ID: <903bff4c-ed0a-4b23-e9c6-8224da0b1216@xs4all.nl>
+Date:   Thu, 23 Mar 2023 11:05:11 +0100
 MIME-Version: 1.0
-References: <20230202064712.5804-2-quic_vboma@quicinc.com> <20230316081509.12201-1-quic_vboma@quicinc.com>
- <0a9e9729-aa5b-4ce6-fc68-394949c1b162@linaro.org> <SJ0PR02MB884886B0E37DA1F69C92503985879@SJ0PR02MB8848.namprd02.prod.outlook.com>
-In-Reply-To: <SJ0PR02MB884886B0E37DA1F69C92503985879@SJ0PR02MB8848.namprd02.prod.outlook.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Thu, 23 Mar 2023 11:37:50 +0200
-Message-ID: <CAA8EJppvA=-62EwmOhYXkJO=STbNkLW0ZM5c02fF97Uz0aR-dw@mail.gmail.com>
-Subject: Re: [PATCH V3 0/1] Fix for VP9 DRC and Decoder STOP issue.
-To:     "Viswanath Boma (Temp)" <vboma@qti.qualcomm.com>
-Cc:     "Viswanath Boma (Temp) (QUIC)" <quic_vboma@quicinc.com>,
-        "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [ANN] Request for Topics for a Media Summit June 26th
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
+Cc:     Randy Li <ayaka@soulik.info>
+In-Reply-To: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,66 +45,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 23 Mar 2023 at 11:22, Viswanath Boma (Temp)
-<vboma@qti.qualcomm.com> wrote:
->
-> HI Dmirty,
->
-> Thanks for Reviews .
->
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Sent: Thursday, March 16, 2023 6:08 PM
-> > To: Viswanath Boma (Temp) (QUIC) <quic_vboma@quicinc.com>;
-> > stanimir.varbanov@linaro.org; Vikash Garodia (QUIC)
-> > <quic_vgarodia@quicinc.com>; Andy Gross <agross@kernel.org>;
-> > bjorn.andersson@linaro.org; Konrad Dybcio <konrad.dybcio@linaro.org>;
-> > Mauro Carvalho Chehab <mchehab@kernel.org>; linux-
-> > media@vger.kernel.org; linux-arm-msm@vger.kernel.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: Re: [PATCH V3 0/1] Fix for VP9 DRC and Decoder STOP issue.
-> >
-> > WARNING: This email originated from outside of Qualcomm. Please be wary of
-> > any links or attachments, and do not enable macros.
+On 03/03/2023 15:44, Hans Verkuil wrote:
+> Hi all,
+> 
+> I am planning to organize another Media Summit on June 26th, co-located
+> with the Embedded Open Source Summit in Prague:
+> 
+> https://events.linuxfoundation.org/embedded-open-source-summit/
+> 
+> I've put in a request for a room with the Linux Foundation and I am waiting
+> for the result of that. For once I was early with my request, so I have good
+> hope we'll get a room. Expect the format to be similar to what we did in
+> Dublin last year.
+> 
+> I'm a bit early with this 'Request for Topics' as well, but this allows
+> everyone who plans to be in Prague to take this into account.
+> 
+> So if you have a topic that you want to discuss, just reply. It would be
+> very much appreciated if you can also add a guesstimate of the time you
+> need for your topic.
+> 
+> Once I have the details of the room and how many people it can hold, then
+> I will send out a second email asking people to register with me if you
+> want to join.
+> 
+> Regarding remote participation: only if there is really no other way.
+> Meeting face-to-face once a year is important IMHO, and attending remotely
+> is a poor substitute. That said, if it is really necessary to set something
+> up, then I can do the same I did in Dublin, setting up a Webex meeting.
+> That worked reasonably well, except that I will need to bring a better
+> speaker since I learned that the laptop speaker was pretty bad.
+> 
+> So, if you have topics for the meeting, just reply!
+> 
+> Regards,
+> 
+> 	Hans
 
-Can we please get rid of this in the replies? There is no need to
-duplicate headers.
+Discuss the "media: v4l2: Add extended fmt and buffer" patch series:
 
-> >
-> > On 16/03/2023 10:15, quic_vboma@quicinc.com wrote:
-> > > From: Viswanath Boma <quic_vboma@quicinc.com>
-> > >
-> > > Fixed indent comments, ensured rebase and checkpatch with --strict.
-> > > Tested the changes on v5.15 and v5.4 kernels .
-> >
-> > Was it tested on top of the recent kernels?
-> >
-> Yes, Ensured on the latest .
+https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
 
-Then why do you mention old kernels at all? Also the email addresses
-you have used do not correspond to the latest kernels.
+We've been postponing the work on this, but I think we need to decide how to
+proceed since pixel formats and single vs multi planar is getting to be a nightmare.
 
->
-> > > For testing Chrome Utilities were used .
-> > >
-> > > Viswanath Boma (1):
-> > >    venus: Enable sufficient sequence change support for sc7180 and fix
-> > >      for Decoder STOP command issue.
-> > >
-> > >   drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
-> > >   drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
-> > >   drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
-> > >   drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
-> > >   drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
-> > >   5 files changed, 41 insertions(+), 3 deletions(-)
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
->
+Regards,
 
-
--- 
-With best wishes
-Dmitry
+	Hans
