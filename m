@@ -2,75 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DCA46C7258
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 22:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC5C26C733F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 23:44:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbjCWVak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 17:30:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48480 "EHLO
+        id S230404AbjCWWoe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 18:44:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229877AbjCWVaj (ORCPT
+        with ESMTP id S229484AbjCWWod (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 17:30:39 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11416BDC9;
-        Thu, 23 Mar 2023 14:30:38 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id bk5so7977111oib.6;
-        Thu, 23 Mar 2023 14:30:38 -0700 (PDT)
+        Thu, 23 Mar 2023 18:44:33 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F3DB75A
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 15:44:31 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id h8so1062968ede.8
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 15:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679607037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yYGawMaA5C9I8og6thwq+8ahieODy/UxjYv744M7Lsg=;
-        b=fqEBzCibuTy1u7D82n6S4fav5cTjcJ23V97Sk6kFjjSMEVXnUf5FzEMIjlJZggk0tb
-         RUwB+C5pPWNspWTo+0FYKKq7TW91va8rQg68/I7BAYIFYYMykqTwvCnlrIr5OuE2FTjR
-         2igatK31JrJmNKovUnU/wWOvYZhd17XGr3eZjJqJbluQZbKTMyKFxP20Rz4+7xoUdcc6
-         h/Szlzh2glnSZd92WkIo70de/07202kqssrfn962mYLsqCwl6nGkd7G655dK453BHzsL
-         bIZqE+slN7eO7/aOoaox5IyQUbCNffxCZdp67VKA2+59HcTKk6uL4P7mN+kAKJ++qqqC
-         t4uw==
+        d=chromium.org; s=google; t=1679611470;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CdTVHjsADgrUtpOwBKbWNa8pioeAM2MXvG5m5DIb414=;
+        b=AIwzE2gWam3D++FFiSRHrZNXHgSo1VxpihXId3P6pZlHiOBzWXAMWJ4L8dzVEp6t2W
+         pKQP/XWRlkU3DdEDT1RW4LSYaCX2/kyNQwqHGjEi5C9JfqKreH1ea4SYiOMQYJgBhU1E
+         q4fGN4pQlOB0ukBhe4ZfKxTrQxIMM38h0TEjQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679607037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yYGawMaA5C9I8og6thwq+8ahieODy/UxjYv744M7Lsg=;
-        b=gQSH2jrWL8HMzoXg7jgo1Nf9mFf7AywQ745GgridHqW7o4FC+Dwjk46IoW3mi6taLp
-         QBfLND2vqVUQQWv7/apn0Q1XImiu58t59TY/qY8u51Vr4Jjc1nD+R0HXFJVPcbxnjmqd
-         ROrCnsJst3QbZDuF+KWQdS4pbSr660CFcj14bBGTpLcaJqLaRMy9DNYSXtCyuBHufzEP
-         kKnvg3Bmwowu4oYNSTeLTfewHjauOfEqSi8ayCgmfbA6y/18SmP/BoiUVXxKLseazziJ
-         HcAgZNlhAkbTxaiiIcK6p/7VnDhWt3swTxoaaUkVkRf1zSClF/t0TeiKK69E5ApRjY+z
-         wXwQ==
-X-Gm-Message-State: AO0yUKWY8Ber2/c+ibxxZ++QMYUdayxNGnl2GM3T9wRHlFWBJt7pGaHw
-        naPvJrcqrcyHsbNWAUu2kFRAXEBeaQbclrO/jO0=
-X-Google-Smtp-Source: AK7set+lQIOQZa6G3yJgfeNWvhx4ZPw9QfSfPP4xMRabuyGwu/M0+lIKerUid2CsL2yKUuudaarY5sPyNjfYKO1ILwk=
-X-Received: by 2002:a54:4716:0:b0:384:1e6a:bf10 with SMTP id
- k22-20020a544716000000b003841e6abf10mr36512oik.5.1679607035826; Thu, 23 Mar
- 2023 14:30:35 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679611470;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CdTVHjsADgrUtpOwBKbWNa8pioeAM2MXvG5m5DIb414=;
+        b=ostQIoodJnJaOaNfA5X7umO4GjI5qevFZAqIpaAbev5dzeHnlla5FeqleW83OvWl5N
+         FiPlA+HqQA1MjRvvXhyqwR0l6ACJDE34r3MWpcDUO5CFBJFVKgztSoRmcPTq1wXAt2TR
+         /IEumCJUW/6gSq+PhOxsEgkOrBbZIXKse64Nf48oZcbMWgvqzYZ1Eg+BumYFjTlebf4u
+         t11Ls7CUXyuHOXalm5wW6+9QYQO5nkOHD8SDDM0bnQh8x5sgRBuy54uqfGscj9iXIghd
+         NFYJh8VrXB01IOI3iAxQVKcqckUXrg9iqwts2IqTNJBFIbokGT7vaqUQkqTi5o/X9zUq
+         NaAQ==
+X-Gm-Message-State: AAQBX9dLoMfEvG2ehEf9v1vVve6Rh4T2r674kjGAQZd7jYCKk5KLmcUX
+        ivJNV6XwpCKRDXrE/Bs6pzZq6w==
+X-Google-Smtp-Source: AKy350ZJP/I9A3v4zuMzczA4RQlJkvjG2p6CEr49BhX1x7mN+ykKSffar9GSBG0y5kjYjVhVqDvlZA==
+X-Received: by 2002:a17:906:27c4:b0:931:c2f0:9437 with SMTP id k4-20020a17090627c400b00931c2f09437mr699584ejc.8.1679611469871;
+        Thu, 23 Mar 2023 15:44:29 -0700 (PDT)
+Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170906310c00b00926d614b890sm9142408ejx.204.2023.03.23.15.44.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 15:44:29 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 23 Mar 2023 23:44:20 +0100
+Subject: [PATCH] media: ov8856: Do not check for for module version
 MIME-Version: 1.0
-References: <20230322224403.35742-1-robdclark@gmail.com> <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
- <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com> <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
-In-Reply-To: <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Thu, 23 Mar 2023 14:30:24 -0700
-Message-ID: <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
-Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230323-ov8856-otp-v1-0-604f7fd23729@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jimmy Su <jimmy.su@intel.com>, stable@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Max Staudt <mstaudt@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-696ae
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2803; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=cPmW9PIAQV0oW1FFn7JevApQXapAZ6JE7zWGVu77Wy0=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkHNZHIMdRe56gkWocjJataai80hqI5TEZVZSNly25
+ Ts/uY3CJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZBzWRwAKCRDRN9E+zzrEiJO+D/
+ 9II07gziHMA171jdsHqZ9+/rGuhg0AK2NG0ghAZ+0my0yCPcSSLrxJwYfQxYMS9NcFBV4sBz1/AkwI
+ 3orZcbylZAVIJvZxvOmhUgeZotIqj1+A8OCbYkMW8Gy8SFXdds5Y5YT3nGL8GO2WdWHs+AaC316jW0
+ BJ8jBlVFGEt8jG3lxmiw0iESS+rl8EBL85CpYbCM/UgSiu6QcOuUiJwnPy9R1jm54ZE6amhC+u7J7T
+ GVN3sB+KWlxXzDlX8V4eeH9ti+7axyDQWGaNk508KUymqgXAEnhFWP6L51vOJt9HoxJNyLZtCyKaSb
+ +Y8R53bwpWcE4gM7yN9MmbgB89Gf40XEVQeAGyk24AvYdqze5xY2XR3nXDMaGW5bu2C1bcM3vkBc22
+ A0QwdqhHkyTyjVkZb+u7yz1s6Q+6OAqYFPV70CzPtcNAJxAa2yMKRw8c+sb3Zu+LK1Zz7ldpFXC7XN
+ Xt5c+LEezeA0DPcjGw6cXXQoNsB3y8YGoaN3is4lYG/72hpdMUihGua33yTW+BbCHO3RHpxTRzbLEe
+ OdetfsHBoTwYrYPYgRfUgEWbkLJuby5LVQsgsqjbD2bg+n+3qNycWPe7WRNKe/BvEl/wPSt506yY3H
+ AOCxSPxtnJVf38k1UT6La4Aw8igQiT3fvqOtVXWu7GY3mP8ZDx+rE1wlqekw==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,214 +88,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 7:03=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 23.03.23 um 14:54 schrieb Rob Clark:
-> > On Thu, Mar 23, 2023 at 12:35=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 22.03.23 um 23:44 schrieb Rob Clark:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Container fences have burner contexts, which makes the trick to store=
- at
-> >>> most one fence per context somewhat useless if we don't unwrap array =
-or
-> >>> chain fences.
-> >> Mhm, we intentionally kept them not unwrapped since this way they only
-> >> occupy one fence slot.
-> >>
-> >> But it might be better to unwrap them if you add many of those depende=
-ncies.
-> >>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> ---
-> >>> tbh, I'm not sure why we weren't doing this already, unless there is
-> >>> something I'm overlooking
-> >>>
-> >>>    drivers/gpu/drm/scheduler/sched_main.c | 43 +++++++++++++++++-----=
-----
-> >>>    1 file changed, 28 insertions(+), 15 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
-/scheduler/sched_main.c
-> >>> index c2ee44d6224b..f59e5335afbb 100644
-> >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>> @@ -41,20 +41,21 @@
-> >>>     * 4. Entities themselves maintain a queue of jobs that will be sc=
-heduled on
-> >>>     *    the hardware.
-> >>>     *
-> >>>     * The jobs in a entity are always scheduled in the order that the=
-y were pushed.
-> >>>     */
-> >>>
-> >>>    #include <linux/kthread.h>
-> >>>    #include <linux/wait.h>
-> >>>    #include <linux/sched.h>
-> >>>    #include <linux/completion.h>
-> >>> +#include <linux/dma-fence-unwrap.h>
-> >>>    #include <linux/dma-resv.h>
-> >>>    #include <uapi/linux/sched/types.h>
-> >>>
-> >>>    #include <drm/drm_print.h>
-> >>>    #include <drm/drm_gem.h>
-> >>>    #include <drm/gpu_scheduler.h>
-> >>>    #include <drm/spsc_queue.h>
-> >>>
-> >>>    #define CREATE_TRACE_POINTS
-> >>>    #include "gpu_scheduler_trace.h"
-> >>> @@ -665,41 +666,27 @@ void drm_sched_job_arm(struct drm_sched_job *jo=
-b)
-> >>>        sched =3D entity->rq->sched;
-> >>>
-> >>>        job->sched =3D sched;
-> >>>        job->s_priority =3D entity->rq - sched->sched_rq;
-> >>>        job->id =3D atomic64_inc_return(&sched->job_id_count);
-> >>>
-> >>>        drm_sched_fence_init(job->s_fence, job->entity);
-> >>>    }
-> >>>    EXPORT_SYMBOL(drm_sched_job_arm);
-> >>>
-> >>> -/**
-> >>> - * drm_sched_job_add_dependency - adds the fence as a job dependency
-> >>> - * @job: scheduler job to add the dependencies to
-> >>> - * @fence: the dma_fence to add to the list of dependencies.
-> >>> - *
-> >>> - * Note that @fence is consumed in both the success and error cases.
-> >>> - *
-> >>> - * Returns:
-> >>> - * 0 on success, or an error on failing to expand the array.
-> >>> - */
-> >>> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> >>> -                              struct dma_fence *fence)
-> >>> +static int _add_dependency(struct drm_sched_job *job, struct dma_fen=
-ce *fence)
-> >> Please keep the drm_sched_job_ prefix here even for static functions.
-> >> The symbol _add_dependency just sucks in a backtrace, especially when
-> >> it's tail optimized.
-> >>
-> >>>    {
-> >>>        struct dma_fence *entry;
-> >>>        unsigned long index;
-> >>>        u32 id =3D 0;
-> >>>        int ret;
-> >>>
-> >>> -     if (!fence)
-> >>> -             return 0;
-> >>> -
-> >>>        /* Deduplicate if we already depend on a fence from the same c=
-ontext.
-> >>>         * This lets the size of the array of deps scale with the numb=
-er of
-> >>>         * engines involved, rather than the number of BOs.
-> >>>         */
-> >>>        xa_for_each(&job->dependencies, index, entry) {
-> >>>                if (entry->context !=3D fence->context)
-> >>>                        continue;
-> >>>
-> >>>                if (dma_fence_is_later(fence, entry)) {
-> >>>                        dma_fence_put(entry);
-> >>> @@ -709,20 +696,46 @@ int drm_sched_job_add_dependency(struct drm_sch=
-ed_job *job,
-> >>>                }
-> >>>                return 0;
-> >>>        }
-> >>>
-> >>>        ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,=
- GFP_KERNEL);
-> >>>        if (ret !=3D 0)
-> >>>                dma_fence_put(fence);
-> >>>
-> >>>        return ret;
-> >>>    }
-> >>> +
-> >>> +/**
-> >>> + * drm_sched_job_add_dependency - adds the fence as a job dependency
-> >>> + * @job: scheduler job to add the dependencies to
-> >>> + * @fence: the dma_fence to add to the list of dependencies.
-> >>> + *
-> >>> + * Note that @fence is consumed in both the success and error cases.
-> >>> + *
-> >>> + * Returns:
-> >>> + * 0 on success, or an error on failing to expand the array.
-> >>> + */
-> >>> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> >>> +                              struct dma_fence *fence)
-> >> Maybe name the new function drm_sched_job_unwrap_add_dependency or
-> >> something like this.
-> >>
-> >> I need to double check, but I think for some cases we don't need or
-> >> don't even want this in the driver.
-> > I'd be curious to know the cases where you don't want this.. one thing
-> > I was thinking about, what if you have a container fence with two
-> > contained fences.  One is on the same ctx as the job, one is not but
-> > signals sooner.  You end up artificially waiting on both, which seems
-> > sub-optimal.
->
-> Well resv objects don't contain other containers for example.
+It the device is probed in non-zero ACPI D state, the module
+identification is delayed until the first streamon.
 
-I suppose I have the explicit sync case more in mind, where the
-dependent fence ends up being a chain or array (if userspace is
-merging fence fd's).
+The module identification has two parts: deviceID and version. To rea
+the version we have to enable OTP read. This cannot be done during
+streamon, becase it modifies REG_MODE_SELECT.
 
-> Then we also have an use case in amdgpu where fence need to be
-> explicitly waited for even when they are from the same ctx as the job
-> because otherwise we wouldn't see everything cache coherent.
+Since the driver has the same behaviour for all the module versions, do
+not read the module version from the sensor's OTP.
 
-This was the kinda weird case I wanted to make sure I wasn't breaking.
-I remember seeing something fly by for this, but can't find it now or
-remember what amdgpu's solution was..
+Cc: stable@vger.kernel.org
+Fixes: 0e014f1a8d54 ("media: ov8856: support device probe in non-zero ACPI D state")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+To: Dongchun Zhu <dongchun.zhu@mediatek.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@intel.com>
+Cc: Max Staudt <mstaudt@chromium.org>
+Cc: Jimmy Su <jimmy.su@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/media/i2c/ov8856.c | 40 ----------------------------------------
+ 1 file changed, 40 deletions(-)
 
-> On the other hand we currently handle that amdgpu use case differently
-> and the extra overhead of unwrapping fences even if they can't be
-> containers is probably negligible.
->
-> > Anyways, I can make this a new entrypoint which unwraps, and/or rename
-> > the internal static function, if we think this is a good idea.
->
-> If you think that's unnecessary keeping your original approach is fine
-> with me as well.
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index cf8384e09413..b5c7881383ca 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -1709,46 +1709,6 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
+ 		return -ENXIO;
+ 	}
+ 
+-	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
+-			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
+-			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to set otp mode");
+-		return ret;
+-	}
+-
+-	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
+-			       OV8856_REG_VALUE_08BIT,
+-			       OV8856_OTP_LOAD_CTRL_ENABLE);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to enable load control");
+-		return ret;
+-	}
+-
+-	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
+-			      OV8856_REG_VALUE_08BIT, &val);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to read module revision");
+-		return ret;
+-	}
+-
+-	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
+-		 val,
+-		 val == OV8856_2A_MODULE ? "2A" :
+-		 val == OV8856_1B_MODULE ? "1B" : "unknown revision",
+-		 client->addr);
+-
+-	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
+-			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
+-	if (ret) {
+-		dev_err(&client->dev, "failed to exit streaming mode");
+-		return ret;
+-	}
+-
+ 	ov8856->identified = true;
+ 
+ 	return 0;
 
-I'm going to assume unnecessary until someone speaks up with their
-weird specific case ;-)
+---
+base-commit: 9fd6ba5420ba2b637d1ecc6de8613ec8b9c87e5a
+change-id: 20230323-ov8856-otp-112f3cdc74b1
 
-BR,
--R
-
-> Regards,
-> Christian.
->
-> >
-> > BR,
-> > -R
-> >
-> >> Christian.
-> >>
-> >>> +{
-> >>> +     struct dma_fence_unwrap iter;
-> >>> +     struct dma_fence *f;
-> >>> +     int ret =3D 0;
-> >>> +
-> >>> +     dma_fence_unwrap_for_each (f, &iter, fence) {
-> >>> +             ret =3D _add_dependency(job, f);
-> >>> +             if (ret)
-> >>> +                     break;
-> >>> +     }
-> >>> +
-> >>> +     return ret;
-> >>> +}
-> >>>    EXPORT_SYMBOL(drm_sched_job_add_dependency);
-> >>>
-> >>>    /**
-> >>>     * drm_sched_job_add_resv_dependencies - add all fences from the r=
-esv to the job
-> >>>     * @job: scheduler job to add the dependencies to
-> >>>     * @resv: the dma_resv object to get the fences from
-> >>>     * @usage: the dma_resv_usage to use to filter the fences
-> >>>     *
-> >>>     * This adds all fences matching the given usage from @resv to @jo=
-b.
-> >>>     * Must be called with the @resv lock held.
->
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
