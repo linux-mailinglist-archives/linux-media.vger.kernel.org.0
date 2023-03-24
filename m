@@ -2,88 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 908926C7E0E
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 13:31:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 103F76C7E01
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 13:26:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231460AbjCXMae convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 24 Mar 2023 08:30:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
+        id S231236AbjCXM0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 08:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231866AbjCXMaR (ORCPT
+        with ESMTP id S229921AbjCXM0o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 08:30:17 -0400
-X-Greylist: delayed 7683 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Mar 2023 05:30:14 PDT
-Received: from mail.inea.gob.ve (mail.inea.gob.ve [201.248.92.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 094733581;
-        Fri, 24 Mar 2023 05:30:13 -0700 (PDT)
-Received: from mail.inea.gob.ve (localhost.localdomain [127.0.0.1])
-        by mail.inea.gob.ve (Proxmox) with ESMTP id B938B45F43;
-        Fri, 24 Mar 2023 05:21:48 -0400 (-04)
-Received: from correo.inea.gob.ve (unknown [10.10.0.61])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Fri, 24 Mar 2023 08:26:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 612D61A971
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 05:26:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.inea.gob.ve (Proxmox) with ESMTPS id 81A4D45EAA;
-        Fri, 24 Mar 2023 05:21:48 -0400 (-04)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.inea.gob.ve (Postfix) with ESMTP id 0C2AD6E4051E;
-        Fri, 24 Mar 2023 05:21:48 -0400 (EDT)
-Received: from correo.inea.gob.ve ([127.0.0.1])
-        by localhost (correo.inea.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id FWd9RuKWr2Bh; Fri, 24 Mar 2023 05:21:47 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.inea.gob.ve (Postfix) with ESMTP id 37E336E40523;
-        Fri, 24 Mar 2023 05:21:47 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at inea.gob.ve
-Received: from correo.inea.gob.ve ([127.0.0.1])
-        by localhost (correo.inea.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id mIMaT_CCqGI8; Fri, 24 Mar 2023 05:21:47 -0400 (EDT)
-Received: from correo.inea.gob.ve (correo.inea.gob.ve [10.10.0.61])
-        by correo.inea.gob.ve (Postfix) with ESMTP id 523226E40514;
-        Fri, 24 Mar 2023 05:21:45 -0400 (EDT)
-Date:   Fri, 24 Mar 2023 05:21:45 -0400 (EDT)
-From:   Euro Millions <pledezma@inea.gob.ve>
-Reply-To: Euro Millions <3249735289@qq.com>
-Message-ID: <252123914.723735.1679649705313.JavaMail.zimbra@inea.gob.ve>
-Subject: Lottogewinn
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ED58A62A8B
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 12:26:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9ECBC433D2;
+        Fri, 24 Mar 2023 12:26:41 +0000 (UTC)
+Message-ID: <040e5999-21f8-5e1d-f8cd-176173abffa3@xs4all.nl>
+Date:   Fri, 24 Mar 2023 13:26:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [176.42.137.72]
-X-Mailer: Zimbra 8.8.15_GA_4101 (zclient/8.8.15_GA_4101)
-Thread-Index: w+xXl2mCYlwNkQEi4wF9SOBxNe3vcg==
-Thread-Topic: Lottogewinn
-X-Spam-Status: Yes, score=6.8 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,MISSING_HEADERS,REPLYTO_WITHOUT_TO_CC,
-        SPF_HELO_SOFTFAIL,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.9 SPF_HELO_SOFTFAIL SPF: HELO does not match SPF record
-        *      (softfail)
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [3249735289[at]qq.com]
-        *  1.2 MISSING_HEADERS Missing To: header
-        *  1.9 REPLYTO_WITHOUT_TO_CC No description available.
-        *  2.5 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: ******
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ming Qian <ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.4] imx-jpeg: Add support for 12 bit extended jpeg
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Herzlichen Glückwunsch, Sie haben €650.000,00 bei den monatlichen Gewinnspielen von Euro Millions / Google Promo am 23.März 2023 gewonnen.
+The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
 
-Bitte geben Sie die folgenden Informationen ein, damit Ihr Gewinnbetrag an Sie überwiesen werden kann.
+  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
 
-Vollständiger Name:
-Heimatadresse:
-Geschlecht:
-Alter:
-Telefon:
+are available in the Git repository at:
 
-John Andrew
-Online-Koordinator
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4i
 
+for you to fetch changes up to dee124e49dc4393485630f31632bcc4ce5f2a466:
+
+  media: imx-jpeg: Encoder add support for 12bit jpeg (2023-03-24 12:08:59 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Ming Qian (10):
+      media: Add P012 and P012M video format
+      media: Add Y012 video format
+      media: Add Y212 v4l2 format info
+      media: Add YUV48_12 video format
+      media: Add BGR48_12 video format
+      media: Add ABGR64_12 video format
+      media: imx-jpeg: Refine the function mxc_jpeg_find_format
+      media: imx-jpeg: Clear slot next desc ptr if config error
+      media: imx-jpeg: Decoder add support for 12bit jpeg
+      media: imx-jpeg: Encoder add support for 12bit jpeg
+
+ Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst |  28 ++++++
+ Documentation/userspace-api/media/v4l/pixfmt-rgb.rst        |  42 +++++++++
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst   |  15 ++++
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst |  94 ++++++++++++++++++++
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c           |  19 +++-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h           |   5 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c              | 326 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ drivers/media/v4l2-core/v4l2-common.c                       |   6 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c                        |   6 ++
+ include/uapi/linux/videodev2.h                              |   8 ++
+ 10 files changed, 523 insertions(+), 26 deletions(-)
