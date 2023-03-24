@@ -2,81 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CABFE6C761F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 04:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DBE6C7691
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 05:32:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbjCXDHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 23:07:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45126 "EHLO
+        id S229600AbjCXEcp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 24 Mar 2023 00:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbjCXDHy (ORCPT
+        with ESMTP id S229499AbjCXEco (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 23:07:54 -0400
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06BF023847;
-        Thu, 23 Mar 2023 20:07:53 -0700 (PDT)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4PjRwR3XZCz8R039;
-        Fri, 24 Mar 2023 11:07:51 +0800 (CST)
-Received: from xaxapp03.zte.com.cn ([10.88.97.17])
-        by mse-fl2.zte.com.cn with SMTP id 32O37UC7057835;
-        Fri, 24 Mar 2023 11:07:30 +0800 (+08)
-        (envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-        by mapi (Zmail) with MAPI id mid31;
-        Fri, 24 Mar 2023 11:07:31 +0800 (CST)
-Date:   Fri, 24 Mar 2023 11:07:31 +0800 (CST)
-X-Zmail-TransId: 2afa641d13f3ffffffffff9-41a36
-X-Mailer: Zmail v1.0
-Message-ID: <202303241107315726171@zte.com.cn>
-Mime-Version: 1.0
-From:   <ye.xingchen@zte.com.cn>
-To:     <p.zabel@pengutronix.de>
-Cc:     <ezequiel@vanguardiasur.com.ar>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIXSBtZWRpYTogaGFudHJvOiB1c2XCoGRldm1fcmVzZXRfY29udHJvbF9hcnJheV9nZXRfb3B0aW9uYWxfZXhjbHVzaXZlKCk=?=
-Content-Type: text/plain;
-        charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 32O37UC7057835
-X-Fangmail-Gw-Spam-Type: 0
-X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 641D1407.000 by FangMail milter!
-X-FangMail-Envelope: 1679627271/4PjRwR3XZCz8R039/641D1407.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 641D1407.000/4PjRwR3XZCz8R039
-X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Fri, 24 Mar 2023 00:32:44 -0400
+X-Greylist: delayed 550 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Mar 2023 21:32:43 PDT
+Received: from mail.cbkipa.net (gw.cbidc.co.kr [1.246.220.36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 456992886C
+        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 21:32:43 -0700 (PDT)
+Received: by mail.cbkipa.net (Postfix, from userid 500)
+        id 3E542A084D; Fri, 24 Mar 2023 13:33:21 +0900 (KST)
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: ******
+X-Spam-Status: Yes, score=6.7 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
+        FROM_MISSP_REPLYTO,FROM_MISSP_SPF_FAIL,LOTS_OF_MONEY,
+        MONEY_FREEMAIL_REPTO,RCVD_IN_MSPIKE_H2,RCVD_IN_VALIDITY_RPBL,SPF_FAIL,
+        SPF_HELO_FAIL,TO_EQ_FM_DOM_SPF_FAIL,TO_EQ_FM_SPF_FAIL autolearn=no
+        autolearn_force=no version=3.4.6
+Received: from [100.73.43.109] (unknown [223.225.16.155])
+        by mail.cbkipa.net (Postfix) with ESMTPA id A8D56A069D;
+        Fri, 24 Mar 2023 13:33:12 +0900 (KST)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Quick Loans
+To:     Recipients <education@mail.cbkipa.net>
+From:   Finance Service <education@mail.cbkipa.net>
+Date:   Fri, 24 Mar 2023 09:52:50 +0530
+Reply-To: infoinnoxloanservice@aol.com
+Message-Id: <20230324043321.3E542A084D@mail.cbkipa.net>
+X-Spam-Report: *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [1.246.220.36 listed in bl.score.senderscore.com]
+        *  0.0 SPF_HELO_FAIL SPF: HELO does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=helo;id=mail.cbkipa.net;ip=1.246.220.36;r=lindbergh.monkeyblade.net]
+        *  0.9 SPF_FAIL SPF: sender does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=education%40mail.cbkipa.net;ip=1.246.220.36;r=lindbergh.monkeyblade.net]
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [1.246.220.36 listed in wl.mailspike.net]
+        *  0.0 FROM_MISSP_SPF_FAIL No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.9 FROM_MISSP_REPLYTO From misspaced, has Reply-To
+        *  1.1 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.5 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+        *  0.0 TO_EQ_FM_DOM_SPF_FAIL To domain == From domain and external SPF
+        *       failed
+        *  0.0 TO_EQ_FM_SPF_FAIL To == From and external SPF failed
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ye Xingchen <ye.xingchen@zte.com.cn>
-
-Switch to devm_reset_control_array_get_optional_exclusive() API.
-
-Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
----
- drivers/media/platform/verisilicon/hantro_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index b0aeedae7b65..143a9a2edc4a 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -945,7 +945,7 @@ static int hantro_probe(struct platform_device *pdev)
- 			return PTR_ERR(vpu->clocks[0].clk);
- 	}
-
--	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
-+	vpu->resets = devm_reset_control_array_get_optional_exclusive(&pdev->dev);
- 	if (IS_ERR(vpu->resets))
- 		return PTR_ERR(vpu->resets);
-
--- 
-2.25.1
+Innox Finance Company annual New Year loans are offered to local and international customers even in the most remote parts of the world with a minimum amount of ten thousand ($10,000.00) to a maximum of thirty million ($30,000,000.00) and a repayment schedule from 1 to 30 years offered with 2% low interest. Apply now by sending your(Full Name,Loan Amount,Mob No,Loan Duration) via email.
