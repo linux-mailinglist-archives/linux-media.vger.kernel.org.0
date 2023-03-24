@@ -2,34 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5846C8102
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 16:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C4366C814E
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 16:35:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231806AbjCXPSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 11:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44604 "EHLO
+        id S232013AbjCXPfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 11:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231878AbjCXPSS (ORCPT
+        with ESMTP id S232516AbjCXPe6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 11:18:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0199CA0B;
-        Fri, 24 Mar 2023 08:18:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 75B9C62B74;
-        Fri, 24 Mar 2023 15:18:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6113C433D2;
-        Fri, 24 Mar 2023 15:18:10 +0000 (UTC)
-Message-ID: <68ba7b3f-57f5-3969-5036-2c8d08273548@xs4all.nl>
-Date:   Fri, 24 Mar 2023 16:18:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+        Fri, 24 Mar 2023 11:34:58 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 955D220545
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 08:34:52 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id a5so1802487qto.6
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 08:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1679672091;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7FyBbkUlSzWUDUg7FSl6pltsSXVFIHYA7e4KXdYYzK0=;
+        b=MeRC33lk6v1nX1CaLMpuOD7McLymhdBaxID6EIllMJ/odTnOgZ3Ls7Ufy+LF90tZc3
+         Rukbh2vhZd09yzD7IbWoKlFToE7vKOFmwn1MlDeyeK2QwZRl3EaVkSQlWGqiEQlqMsp7
+         +9v2PHmuFRGG9NieLrA0J6+yO3Y+KmaQ1RDeU1+L6KYByp+SPGdB4x5pwH1MnsWM0ylM
+         u8RqbExRZdZwI4k+Yxkf1E1Ncu/Jj4EjQsyS+95WiNCaJHSGdxvcEnqY5rb+M9AJs79D
+         Hq3hRsBDyx/SQLzfVXCtTwZyf2mN6bBbx9A8WJIWFxsqFrARC4TK+bTN+cXf/4XHlGwY
+         bS8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679672091;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7FyBbkUlSzWUDUg7FSl6pltsSXVFIHYA7e4KXdYYzK0=;
+        b=QupOOB8m34wxscTCpt3w236sOGu/XDbPSeBM2JYk9ivJhE3S/Kda5PDQ0EnTFCpTAi
+         AdzuwMta3YYgWhZ7Wl9Pgw/gfp3eWS2dpAAOQxhObLe+YpOB/CCi0xjDn/z5r5j3Pr35
+         U1Y7ir5P7EOY8I2Yi58WMRNPhTf6eMm8PxC5YgQT6Tu0/vAYuyAVqlsT/FEoFNoyeVE+
+         S3EKtLkrTvWmz9AHnrJdXXZC1U0Pgq4P1gwWZ7pLyYMaLekDvGtRYHQCQBNYD7M77Go2
+         pTteIdQO9gwmzXtjqzbxhPJ5JhajkiwjXJFjmz4I1Xkv6o0jsCZWfg4MaiIt274fYy4o
+         6iRw==
+X-Gm-Message-State: AO0yUKUlyUnhQ74evbZmSq9qKZCKgHYDjHfIEvE01a02qAmW/HZXM1A7
+        pGc3lagLgajQTytdk12aYj+w0A==
+X-Google-Smtp-Source: AK7set/k7jemVRQn2HhZJ/81On3zU02ry4zvQi9KTc7/Sa7tSuj5SNuZNPCX6T0rkNYDxGsmo9XXJQ==
+X-Received: by 2002:ac8:5f0b:0:b0:3e1:c341:f618 with SMTP id x11-20020ac85f0b000000b003e1c341f618mr5351655qta.65.1679672091486;
+        Fri, 24 Mar 2023 08:34:51 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id h26-20020ac846da000000b003bfb5fd72a7sm12745420qto.86.2023.03.24.08.34.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 08:34:51 -0700 (PDT)
+Message-ID: <6f2979d33526e5ccdc32cf096415d8309fc91d3d.camel@ndufresne.ca>
 Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     David Laight <David.Laight@ACULAB.COM>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -64,68 +88,111 @@ Cc:     David Laight <David.Laight@ACULAB.COM>,
         "linux-rockchip@lists.infradead.org" 
         <linux-rockchip@lists.infradead.org>,
         "kernel@collabora.com" <kernel@collabora.com>
+Date:   Fri, 24 Mar 2023 11:34:48 -0400
+In-Reply-To: <68ba7b3f-57f5-3969-5036-2c8d08273548@xs4all.nl>
 References: <20230313135916.862852-1-benjamin.gaignard@collabora.com>
- <20230313135916.862852-3-benjamin.gaignard@collabora.com>
- <20230313181155.GC22646@pendragon.ideasonboard.com>
- <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
- <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
- <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
- <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
- <20230319233358.GD20234@pendragon.ideasonboard.com>
- <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
- <20230322150153.GO20234@pendragon.ideasonboard.com>
- <2d6480e36ce061a63440d1e11d52b02e57ba746d.camel@ndufresne.ca>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <2d6480e36ce061a63440d1e11d52b02e57ba746d.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+         <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+         <20230313181155.GC22646@pendragon.ideasonboard.com>
+         <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
+         <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
+         <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
+         <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
+         <20230319233358.GD20234@pendragon.ideasonboard.com>
+         <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
+         <20230322150153.GO20234@pendragon.ideasonboard.com>
+         <2d6480e36ce061a63440d1e11d52b02e57ba746d.camel@ndufresne.ca>
+         <68ba7b3f-57f5-3969-5036-2c8d08273548@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/03/2023 16:14, Nicolas Dufresne wrote:
-> Le mercredi 22 mars 2023 à 17:01 +0200, Laurent Pinchart a écrit :
->> On Wed, Mar 22, 2023 at 10:50:52AM -0400, Nicolas Dufresne wrote:
->>> Hi Laurent,
->>>
->>> Le lundi 20 mars 2023 à 01:33 +0200, Laurent Pinchart a écrit :
->>>>> The typical usage is that applications allocate N buffers with the
->>>>> VIDIOC_REQBUFS ioctl, and in most cases that's all they use.
->>>>
->>>> Note that once we get DELETE_BUF (or DELETE_BUFS) support I'd like to
->>>> encourage applications to use the new API, and deprecate REQBUFS
->>>> (dropping it isn't on my radar, as it would take forever before no
->>>> userspace uses it anymore).
->>>
->>> I was wondering if you can extend on this. I'm worried the count semantic might
->>> prevent emulating it over create_bufs() ops, but if that works, did you meant to
->>> emulate it so driver no longer have to implement reqbufs() if they have
->>> create_bufs() ?
->>
->> For drivers it should be fairly simply, as the reqbufs and create_bufs
->> ioctl handlers should just point to the corresponding videobuf2 helpers.
->>
->> What I meant is that I'd like to encourage userspace to use the
->> VIDIOC_CREATE_BUFS ioctl instead of VIDIOC_REQBUFS.
->>
-> 
-> I'm not sure what rationale I can give implementer to "encourage" them to use a
-> more complex API that needs to copy over the FMT (which has just been set),
-> specially in the initial pre-allocation case. For most, CREATE_BUFS after SMT
-> will look like a very redundant and counter intuitive thing. Maybe you have a
-> more optimistic view on the matter ? Or you have a better idea how we could give
-> a meaning to having a fmt there on the initial case where the allocation matches
-> the queue FMT ?
+Le vendredi 24 mars 2023 =C3=A0 16:18 +0100, Hans Verkuil a =C3=A9crit=C2=
+=A0:
+> On 24/03/2023 16:14, Nicolas Dufresne wrote:
+> > Le mercredi 22 mars 2023 =C3=A0 17:01 +0200, Laurent Pinchart a =C3=A9c=
+rit=C2=A0:
+> > > On Wed, Mar 22, 2023 at 10:50:52AM -0400, Nicolas Dufresne wrote:
+> > > > Hi Laurent,
+> > > >=20
+> > > > Le lundi 20 mars 2023 =C3=A0 01:33 +0200, Laurent Pinchart a =C3=A9=
+crit=C2=A0:
+> > > > > > The typical usage is that applications allocate N buffers with =
+the
+> > > > > > VIDIOC_REQBUFS ioctl, and in most cases that's all they use.
+> > > > >=20
+> > > > > Note that once we get DELETE_BUF (or DELETE_BUFS) support I'd lik=
+e to
+> > > > > encourage applications to use the new API, and deprecate REQBUFS
+> > > > > (dropping it isn't on my radar, as it would take forever before n=
+o
+> > > > > userspace uses it anymore).
+> > > >=20
+> > > > I was wondering if you can extend on this. I'm worried the count se=
+mantic might
+> > > > prevent emulating it over create_bufs() ops, but if that works, did=
+ you meant to
+> > > > emulate it so driver no longer have to implement reqbufs() if they =
+have
+> > > > create_bufs() ?
+> > >=20
+> > > For drivers it should be fairly simply, as the reqbufs and create_buf=
+s
+> > > ioctl handlers should just point to the corresponding videobuf2 helpe=
+rs.
+> > >=20
+> > > What I meant is that I'd like to encourage userspace to use the
+> > > VIDIOC_CREATE_BUFS ioctl instead of VIDIOC_REQBUFS.
+> > >=20
+> >=20
+> > I'm not sure what rationale I can give implementer to "encourage" them =
+to use a
+> > more complex API that needs to copy over the FMT (which has just been s=
+et),
+> > specially in the initial pre-allocation case. For most, CREATE_BUFS aft=
+er SMT
+> > will look like a very redundant and counter intuitive thing. Maybe you =
+have a
+> > more optimistic view on the matter ? Or you have a better idea how we c=
+ould give
+> > a meaning to having a fmt there on the initial case where the allocatio=
+n matches
+> > the queue FMT ?
+>=20
+> I wouldn't mind if we can make a much nicer CREATE_BUFS variant with just=
+ the
+> size instead of a format. That was in hindsight a really bad idea, terrib=
+le
+> over-engineering.
 
-I wouldn't mind if we can make a much nicer CREATE_BUFS variant with just the
-size instead of a format. That was in hindsight a really bad idea, terrible
-over-engineering.
+Note that all DRM allocators also includes width/height and some format rel=
+ated
+info (or the full info). This is because the driver deals with the alignmen=
+t
+requirements. In some use cases (I have inter frame dynamic control in mind
+here) the fmt could be a mean to feedback the alignment (like bytesperline)=
+ back
+to the application where the stream is no longer homogeneous on the FMT.
 
-Regards,
+That being said, If we move toward a size base allocator API, we could also=
+ just
+point back to an existing HEAP (or export an new heap if none are valid). A=
+nd
+define the sizeimage(s) is now that information you need from the FMT to
+allocate anything + which heap needs to be used for the current setup.
 
-	Hans
+Nicolas
+
+>=20
+> Regards,
+>=20
+> 	Hans
+
