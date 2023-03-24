@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9410F6C7926
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 08:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD99B6C7937
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 08:50:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbjCXHo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 03:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
+        id S230177AbjCXHuR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 03:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbjCXHo1 (ORCPT
+        with ESMTP id S229868AbjCXHuQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 03:44:27 -0400
+        Fri, 24 Mar 2023 03:50:16 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDDCD1D928;
-        Fri, 24 Mar 2023 00:44:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB402231FC;
+        Fri, 24 Mar 2023 00:50:15 -0700 (PDT)
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA265A49;
-        Fri, 24 Mar 2023 08:44:22 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 120A5A49;
+        Fri, 24 Mar 2023 08:50:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679643863;
-        bh=2Tapk5XEOQVqQ5UEO4XSEevk9flH+97v0R3Cx7Crdfw=;
+        s=mail; t=1679644214;
+        bh=YgvDXz+vZzs0D8BefWx7SM6QtN8f7nIR0mzWtnOonxg=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RqWzXHTeQpLEObA35yBDAMaErWpznI7fIhwe01EGNff+8dliGLy2wIpxz4nIRH+5j
-         JRq0EaPVDnpsfqni3H9fol23cBDxo9IsBf0DABfOI7a8r8BPmI222aMPeupgJZrYbx
-         QZvrsKFF29EkC0ZdQoHkOzFR8KglALVOisIur27E=
-Message-ID: <562c5bf2-eeb0-b579-99b3-5a1a18b132b3@ideasonboard.com>
-Date:   Fri, 24 Mar 2023 07:44:19 +0000
+        b=aUKKyC6L/T4hp2Gb5Sr57a45bxKI7tUW43YC5AEk/J9hkwmsoYh332QGrbSXbFUZ4
+         JFGtPGSJHY5EgH5BPGZ5Wl0ACSZg3dupy0Hp7ncWwBBqduk0VhSYsoOUN3tbI6biu5
+         XRMVVgXhJXx2EW43CS4dmdGyl61sG53qZOwurUso=
+Message-ID: <ea3247b5-3e5b-8fea-bbfb-329065900774@ideasonboard.com>
+Date:   Fri, 24 Mar 2023 07:50:11 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 1/8] usb: gadget: uvc: use fourcc printk helper
+Subject: Re: [PATCH 2/8] usb: gadget: uvc: fix return code of REQBUFS
 Content-Language: en-US
 To:     Michael Tretter <m.tretter@pengutronix.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -39,9 +39,9 @@ Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
         linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
         kernel@pengutronix.de
 References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
- <20230323-uvc-gadget-cleanup-v1-1-e41f0c5d9d8e@pengutronix.de>
+ <20230323-uvc-gadget-cleanup-v1-2-e41f0c5d9d8e@pengutronix.de>
 From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230323-uvc-gadget-cleanup-v1-1-e41f0c5d9d8e@pengutronix.de>
+In-Reply-To: <20230323-uvc-gadget-cleanup-v1-2-e41f0c5d9d8e@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -53,43 +53,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Morning Michael
+Hi Michael
 
 On 23/03/2023 11:41, Michael Tretter wrote:
-> There is a format helper for printing fourcc codes. Use that one instead
-> of manually formatting the pixelformat for printing.
+> On success, VIDIOC_REQBUFS should return 0, not the number of allocated
+> buffers. As uvcg_alloc_buffers() is directly called by regbufs, it has
+> to return the correct error codes.
+
+
+s/regbufs/reqbufs
+
 >
 > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 > ---
 
 
+This probably wants a Fixes: tag?
+
+
 Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
->   drivers/usb/gadget/function/uvc_v4l2.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
+>   drivers/usb/gadget/function/uvc_queue.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
 >
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index 3f0a9795c0d4..13c7ba06f994 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -240,16 +240,13 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
->   	struct uvc_video *video = &uvc->video;
->   	struct uvcg_format *uformat;
->   	struct uvcg_frame *uframe;
-> -	u8 *fcc;
+> diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+> index 0aa3d7e1f3cc..f14f75b93aaa 100644
+> --- a/drivers/usb/gadget/function/uvc_queue.c
+> +++ b/drivers/usb/gadget/function/uvc_queue.c
+> @@ -179,11 +179,7 @@ void uvcg_free_buffers(struct uvc_video_queue *queue)
+>   int uvcg_alloc_buffers(struct uvc_video_queue *queue,
+>   			      struct v4l2_requestbuffers *rb)
+>   {
+> -	int ret;
+> -
+> -	ret = vb2_reqbufs(&queue->queue, rb);
+> -
+> -	return ret ? ret : rb->count;
+> +	return vb2_reqbufs(&queue->queue, rb);
+>   }
 >   
->   	if (fmt->type != video->queue.queue.type)
->   		return -EINVAL;
->   
-> -	fcc = (u8 *)&fmt->fmt.pix.pixelformat;
-> -	uvcg_dbg(&uvc->func, "Trying format 0x%08x (%c%c%c%c): %ux%u\n",
-> -		fmt->fmt.pix.pixelformat,
-> -		fcc[0], fcc[1], fcc[2], fcc[3],
-> -		fmt->fmt.pix.width, fmt->fmt.pix.height);
-> +	uvcg_dbg(&uvc->func, "Trying format %p4cc: %ux%u\n",
-> +		 &fmt->fmt.pix.pixelformat,
-> +		 fmt->fmt.pix.width, fmt->fmt.pix.height);
->   
->   	uformat = find_format_by_pix(uvc, fmt->fmt.pix.pixelformat);
->   	if (!uformat)
+>   int uvcg_query_buffer(struct uvc_video_queue *queue, struct v4l2_buffer *buf)
 >
