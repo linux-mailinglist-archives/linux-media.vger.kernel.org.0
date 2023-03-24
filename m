@@ -2,147 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5E806C86B8
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 21:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B0156C86EA
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 21:38:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbjCXUVl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 16:21:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
+        id S232136AbjCXUik (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 16:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbjCXUVk (ORCPT
+        with ESMTP id S232110AbjCXUii (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 16:21:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E91E1A94D;
-        Fri, 24 Mar 2023 13:21:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B21B2A58;
-        Fri, 24 Mar 2023 21:21:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679689295;
-        bh=k082uSrt6jNQq0wYKw9dlktMyGfVT1a6X+VmeRopIhQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KjQE14OQG/1rdUOuBbJvohFSBegnyZS9jPYY5Lhj5m5xjVQ1OJPx/QPJJxHmEGiXk
-         oxQ6r8iqbugo67bppEFw0YuiMMMT9fwCwGbS8mMgppoOdT1QGXkMOAVYQ8ww48etkK
-         37OWSXgkj0n17Xxk29IxOG2ZMCYZdkbUbUbV7Czo=
-Date:   Fri, 24 Mar 2023 22:21:42 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        "tfiga@chromium.org" <tfiga@chromium.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "ming.qian@nxp.com" <ming.qian@nxp.com>,
-        "shijie.qin@nxp.com" <shijie.qin@nxp.com>,
-        "eagle.zhou@nxp.com" <eagle.zhou@nxp.com>,
-        "bin.liu@mediatek.com" <bin.liu@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
-        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
-        "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
-        "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
-        "quic_vgarodia@quicinc.com" <quic_vgarodia@quicinc.com>,
-        "agross@kernel.org" <agross@kernel.org>,
-        "andersson@kernel.org" <andersson@kernel.org>,
-        "konrad.dybcio@linaro.org" <konrad.dybcio@linaro.org>,
-        "ezequiel@vanguardiasur.com.ar" <ezequiel@vanguardiasur.com.ar>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "kernel@collabora.com" <kernel@collabora.com>
-Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
-Message-ID: <20230324202142.GB23868@pendragon.ideasonboard.com>
-References: <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
- <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
- <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
- <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
- <20230319233358.GD20234@pendragon.ideasonboard.com>
- <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
- <20230322150153.GO20234@pendragon.ideasonboard.com>
- <2d6480e36ce061a63440d1e11d52b02e57ba746d.camel@ndufresne.ca>
- <68ba7b3f-57f5-3969-5036-2c8d08273548@xs4all.nl>
- <6f2979d33526e5ccdc32cf096415d8309fc91d3d.camel@ndufresne.ca>
+        Fri, 24 Mar 2023 16:38:38 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177531E1C1;
+        Fri, 24 Mar 2023 13:38:38 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id om3-20020a17090b3a8300b0023efab0e3bfso6199398pjb.3;
+        Fri, 24 Mar 2023 13:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679690317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UpfYsPLth4MHWQZy4hoycC7tFlnErWweN4IdkgXtblQ=;
+        b=dhSZUMs3WEMLMAiouToHsa6c1XEcau983DamW3FfSgP7i+RACbSvNKbhA2Cvjfn26/
+         sopbbSpkqF3to1OxdDd7JZM/ie9IzJWoANyizZjLWHAl+PVttHTVK+04HROysUkB0Lee
+         2vaaJJygJySloO/wpR2i3rRcXYrTrA7zBpmhIWCQ1FRpPEcGWCIyqEVYALmTsKWK71kj
+         ZAc7IP0D38xkhPmYrf4ldrt9cXkDL+oCQVPrBeBGvVAd9IrMw0xzZ4+qrO3GahyWn0YD
+         INZg05kse8JzXU3QPSRA6jDaI+ND4W9rgotf7hRjQmKVEqCw//nLb9TRz7+WF2buJh6B
+         yvgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679690317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UpfYsPLth4MHWQZy4hoycC7tFlnErWweN4IdkgXtblQ=;
+        b=OENK52bHU8kM2F8AXAhUvWTDIxdmt8Qxma3yKPDLerixwPUuu4xrfHUFGSkqe7oUgx
+         3tV5Tk3R/gDAMtNSRyr+M3ciBDTJEdwWuey9Rrk6TQKF+QADOTqU0+HY28V1JxGh1T9k
+         dm0A8xRemFq9+XMhSlrD1G7IRzHbbLxwb/+LzAFC63IqGm1SETwXhkEewC6g/PncdJ2R
+         ITFiCeh4FTXCIIpY+veFo/Qn37iTrEFiMAFAdm9DMgMeQ+fdp5FNbctcTTio0X8YL28K
+         FsPf6aAdQgo/sop8sYRFoKvPePwYrCPuZxW1F8iuuymvthY/faYf4jR7QkEoWtHi3R7Q
+         4/Xw==
+X-Gm-Message-State: AAQBX9dkRChX1X6MtC3/tyGk/Am4NIj3MDkNKFx1g2A3b//VHh4CpgoT
+        N8OMi9x0upvBe4uqIuEwZYJhmvgB0nE=
+X-Google-Smtp-Source: AKy350Z6a6EpSZcpgWRYW72xNNVmQy0tgNvMAdFFnlz4s+uqNWeqXbqFINm/dVCXK9QpiYsE38rw1Q==
+X-Received: by 2002:a17:903:684:b0:19d:297:f30b with SMTP id ki4-20020a170903068400b0019d0297f30bmr3336555plb.19.1679690317100;
+        Fri, 24 Mar 2023 13:38:37 -0700 (PDT)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id f17-20020a170902ab9100b001966d94cb2esm14503431plr.288.2023.03.24.13.38.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 13:38:36 -0700 (PDT)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Young <sean@mess.org>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Ravi Kumar V <kumarrav@codeaurora.org>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS), Matthew Lear <matthew.lear@broadcom.com>
+Subject: [PATCH v2 0/2] Correct gpio-ir-recv wakeup capability
+Date:   Fri, 24 Mar 2023 13:38:31 -0700
+Message-Id: <20230324203833.3540187-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6f2979d33526e5ccdc32cf096415d8309fc91d3d.camel@ndufresne.ca>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 24, 2023 at 11:34:48AM -0400, Nicolas Dufresne wrote:
-> Le vendredi 24 mars 2023 à 16:18 +0100, Hans Verkuil a écrit :
-> > On 24/03/2023 16:14, Nicolas Dufresne wrote:
-> > > Le mercredi 22 mars 2023 à 17:01 +0200, Laurent Pinchart a écrit :
-> > > > On Wed, Mar 22, 2023 at 10:50:52AM -0400, Nicolas Dufresne wrote:
-> > > > > Le lundi 20 mars 2023 à 01:33 +0200, Laurent Pinchart a écrit :
-> > > > > > > The typical usage is that applications allocate N buffers with the
-> > > > > > > VIDIOC_REQBUFS ioctl, and in most cases that's all they use.
-> > > > > > 
-> > > > > > Note that once we get DELETE_BUF (or DELETE_BUFS) support I'd like to
-> > > > > > encourage applications to use the new API, and deprecate REQBUFS
-> > > > > > (dropping it isn't on my radar, as it would take forever before no
-> > > > > > userspace uses it anymore).
-> > > > > 
-> > > > > I was wondering if you can extend on this. I'm worried the count semantic might
-> > > > > prevent emulating it over create_bufs() ops, but if that works, did you meant to
-> > > > > emulate it so driver no longer have to implement reqbufs() if they have
-> > > > > create_bufs() ?
-> > > > 
-> > > > For drivers it should be fairly simply, as the reqbufs and create_bufs
-> > > > ioctl handlers should just point to the corresponding videobuf2 helpers.
-> > > > 
-> > > > What I meant is that I'd like to encourage userspace to use the
-> > > > VIDIOC_CREATE_BUFS ioctl instead of VIDIOC_REQBUFS.
-> > > > 
-> > > 
-> > > I'm not sure what rationale I can give implementer to "encourage" them to use a
-> > > more complex API that needs to copy over the FMT (which has just been set),
-> > > specially in the initial pre-allocation case. For most, CREATE_BUFS after SMT
-> > > will look like a very redundant and counter intuitive thing. Maybe you have a
-> > > more optimistic view on the matter ? Or you have a better idea how we could give
-> > > a meaning to having a fmt there on the initial case where the allocation matches
-> > > the queue FMT ?
-> > 
-> > I wouldn't mind if we can make a much nicer CREATE_BUFS variant with just the
-> > size instead of a format. That was in hindsight a really bad idea, terrible
-> > over-engineering.
-> 
-> Note that all DRM allocators also includes width/height and some format related
-> info (or the full info). This is because the driver deals with the alignment
-> requirements. In some use cases (I have inter frame dynamic control in mind
-> here) the fmt could be a mean to feedback the alignment (like bytesperline) back
-> to the application where the stream is no longer homogeneous on the FMT.
-> 
-> That being said, If we move toward a size base allocator API, we could also just
-> point back to an existing HEAP (or export an new heap if none are valid). And
-> define the sizeimage(s) is now that information you need from the FMT to
-> allocate anything + which heap needs to be used for the current setup.
+This small patch series fixes the gpio-ir-recv binding and driver to
+first indicate that it can be a wake-up source for the system, and
+second actually make that happen.
 
-If we could move away from allocating buffers within V4L2 to only
-importing buffers allocated through the DMA heaps API, I'd be very
-happy. That won't be simple though. Maybe a good candidate for
-discussions during the media summit in Prague this year ?
+Changes in v2:
+- corrected the indentation of the description for "wakeup-source"
+
+Florian Fainelli (2):
+  dt-bindings: media: gpio-ir-receiver: Document wakeup-souce property
+  media: rc: gpio-ir-recv: Fix support for wake-up
+
+ Documentation/devicetree/bindings/media/gpio-ir-receiver.yaml | 3 +++
+ drivers/media/rc/gpio-ir-recv.c                               | 2 ++
+ 2 files changed, 5 insertions(+)
 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
