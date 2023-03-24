@@ -2,67 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 121D66C7E63
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 14:02:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CA0A6C7E9B
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 14:18:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231902AbjCXNCy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 09:02:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48214 "EHLO
+        id S231311AbjCXNSi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 09:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231477AbjCXNCx (ORCPT
+        with ESMTP id S229508AbjCXNSh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 09:02:53 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E450C20563;
-        Fri, 24 Mar 2023 06:02:46 -0700 (PDT)
-Received: from [192.168.2.179] (109-252-120-116.nat.spd-mgts.ru [109.252.120.116])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Fri, 24 Mar 2023 09:18:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62F3E10261
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 06:18:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8A0A16602E0E;
-        Fri, 24 Mar 2023 13:02:42 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679662964;
-        bh=kpqXq6UeGgXsVu6TLQM8ko29kV7748olljvXmD9n2oU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=fJhdF/6EuVwtZqtUK9BHmxcGAPcgYm67pizoTOiLS9liSDI+PCTMcPyPeBk8giObt
-         6N51SXsvFnXt++WjdZLVZiBKxkCrEf3urnxFeWOwQaHqT1pxqh9M8a1IxjtCcKhU3d
-         k7MFMRzZ8bzXLYC9jwq5TkCmdptLjCRdWSe/uQlUXSFwpLLJ+5u+GpP+UO16L2DpnU
-         dUl+S4RWnEFc5tSuWFJT1WKLt5N+xstLYPLcN+K3CMNL8f7DKjRxEAEXTsDnaS7aYL
-         Vr7Tog2S9Zg7P9ovovoOE1lojrwScdl3WKEZhgPXKrTnRJeD1wG6PV7NEvTvYlcqBm
-         r1IDDo9CdQSqw==
-Message-ID: <5a16edd7-3e68-1f94-0ff1-24668fc43501@collabora.com>
-Date:   Fri, 24 Mar 2023 16:02:39 +0300
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F224762AD7
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 13:18:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CCCC4339B;
+        Fri, 24 Mar 2023 13:18:34 +0000 (UTC)
+Message-ID: <71d4adac-e844-aec0-e7e4-b47900cc940a@xs4all.nl>
+Date:   Fri, 24 Mar 2023 14:18:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
+Subject: Re: cec-ctl does not monitor key presses from my tv remote control
 Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, jernel@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-3-benjamin.gaignard@collabora.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230321102855.346732-3-benjamin.gaignard@collabora.com>
+To:     John 1000 <john1000@telfort.nl>
+References: <1216962218.457209.1679601732095@kpc.webmail.kpnmail.nl>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <1216962218.457209.1679601732095@kpc.webmail.kpnmail.nl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,15 +45,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/21/23 13:28, Benjamin Gaignard wrote:
-> +	q->bufs = kmalloc_array(q->max_num_bufs, sizeof(*q->bufs), GFP_KERNEL | __GFP_ZERO);
-> +	if (!q->bufs)
-> +		return -ENOMEM;
-> +
+Hi John,
 
-Use kcalloc()
+On 23/03/2023 21:02, John 1000 wrote:
+> Key presses from my televison remote control via CEC are not being monitored by cec-ctl -m.
+> I use the HDMI port next to the headphone jack from my Raspberry Pi 4B
+>  
+> cec-ctl -d/dev/cec1 --tv -S | grep Philips
+> gives
+> Vendor ID : 0x00903e (Philips)
+>  
+> cec-ctl -d/dev/cec1 --test-power-cycle
+> turns the TV on and off in a cycle.
+> => CEC works correctly.
+>  
+> I also tried cec-ctl -d /dev/cec1 -M which returns:
+> Monitor All mode is not supported, falling back to regular monitoring
+>  
+> In the past I used cec-client, which showed the key pressses.
+>  
+> Will monitoring key presses from a remote control be possible in the future?
 
--- 
-Best regards,
-Dmitry
+I don't see anything in the code that would suggest that it doesn't pass
+on received key presses.
 
+What's the output of 'cec-ctl -d /dev/cec1'?
+
+And why do you configure it as a TV? I assume this is the video source
+to the TV, so this would typically be 'cec-ctl -d/dev/cec1 --playback'.
+
+Regards,
+
+	Hans
