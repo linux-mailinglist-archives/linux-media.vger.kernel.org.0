@@ -2,117 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A8C6C80E5
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 16:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E54F36C80F8
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 16:15:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232157AbjCXPN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 11:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33802 "EHLO
+        id S231933AbjCXPPe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 11:15:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232447AbjCXPNO (ORCPT
+        with ESMTP id S232404AbjCXPPW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 11:13:14 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0488D1B0;
-        Fri, 24 Mar 2023 08:12:56 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A116DE001E;
-        Fri, 24 Mar 2023 15:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1679670775;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=r+i8mUIhWtFV9XGBR7tTV1Ij/OB6oMkb1et6Czsk7zo=;
-        b=OMh9PlANLksoDm/e9yK92YUnsJXBS/POfKawy8xHW9nxfgiKoQbPauHSCwWiE3IocUCGZS
-        vUzyfYwKPKwg0wLAnJLHUclfwpd4Pu4AXDG9PgEyEGzorETZxE+pAQPhzRByVk9mMujomw
-        hexpUhnbpgaNJKJWXc2tOeZ8Nq4X25oQ5PK2sznsE8hT+CB4luzkdCZwSLyMp2RLdZOd0F
-        yECcBPXygUkQLkwC/Qm+T7OtCu9NZu/03hz2C6+2F0hoZnmECKIDTOC9G/dmMTwKdENNlH
-        BFBNkVH1D5yybztsVVufy8SurlRs3ChUkW2UNuzgXJXkodSPBW8vqKbt9zqgGA==
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Adam Pigg <adam@piggz.co.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 9/9] media: sun6i-isp: capture: Implement enum_framesizes
-Date:   Fri, 24 Mar 2023 16:12:28 +0100
-Message-Id: <20230324151228.2778112-10-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
-References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+        Fri, 24 Mar 2023 11:15:22 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31C4C1A678
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 08:14:56 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id t9so1736743qtx.8
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 08:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1679670894;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BlgJl6q6nmXLwoducihQkeA4VjkQWrKTU/XpmLER5K8=;
+        b=QAEyb3y2Vs1mSwY136+bu6SS016Otbf3KKfs9Mlyynm1gBzKn8IBg7DKKBORGVgyRL
+         Wz6AisMNEwAkdbvXM7zJ93PyYVnHMRLt+SqV2+KIzgZGBKfSEA/SvYbGi1DbKwG8+t3X
+         EnXZZz4q60ZBfI96mKWDnSZ2+1OtBHBRk9yySy0hupZdJ1YJ07CTHjT6hQzPp0un5Zi4
+         ZMc2Z4n2f2EN3LAB+6ExoNkdtMUvrlZM9biFAE3RvcusV/CPEzZ0QodUUN6PBVj+S7q1
+         VeHHAUt7o/Jx+ffoh+LeHf8+aj5khtrxdEJIKejig4N0viMRuvBtbR/GYyPRluiAV9Ca
+         /PWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679670894;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BlgJl6q6nmXLwoducihQkeA4VjkQWrKTU/XpmLER5K8=;
+        b=EynoWsPGJsk0aDew2ki5cmkITPo2TZJITeMMJpdYS41TOWiZESrtsRkrBQKeBma3mY
+         d3cQ2KMa0B2NQ4TsWZeGgowVShz9vx9C5JIL4pKMD+E62XMq9Cf0k9tN3sDz65vYCL8k
+         +ZHNZBEER2zVLW12WnXtDuMD/+PYhr05JPB2bWGusB3HVhAVK0oSxv/wqwNnN13pLjm5
+         rrt/mGuhn+50DDvNtjjE/0CccbtgbKlFXL1OGgPaRNgunraJgMUMlnGHtmPSAiIjcySk
+         ranp4Xw+R1NxEQQCA0tgncDpaIsfOx8LXZ8vyxKC7UN0XS4PEowtzD4mCuRiLS1cDN3F
+         6E7g==
+X-Gm-Message-State: AAQBX9eu/WvMAkUtIwJJMnVCcPo50IsQaXiRwDB2fWomhSM+mGNTQHBJ
+        tWOhDmboeonYo9gIik76oUL5ug==
+X-Google-Smtp-Source: AKy350bCWxvUk1MaT4pqUixyno5lVt9EBSSrGyxJa0A4C2Bz3kyCAOSzYiktlm5Ro2rq0tSjC73bYQ==
+X-Received: by 2002:a05:622a:1181:b0:3e3:90f7:b33c with SMTP id m1-20020a05622a118100b003e390f7b33cmr5002528qtk.7.1679670894617;
+        Fri, 24 Mar 2023 08:14:54 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id n14-20020ac8674e000000b003d65e257f10sm4230146qtp.79.2023.03.24.08.14.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 08:14:54 -0700 (PDT)
+Message-ID: <2d6480e36ce061a63440d1e11d52b02e57ba746d.camel@ndufresne.ca>
+Subject: Re: [RFC 2/4] media: videobuf2: Replace bufs array by a list
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        "tfiga@chromium.org" <tfiga@chromium.org>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "ming.qian@nxp.com" <ming.qian@nxp.com>,
+        "shijie.qin@nxp.com" <shijie.qin@nxp.com>,
+        "eagle.zhou@nxp.com" <eagle.zhou@nxp.com>,
+        "bin.liu@mediatek.com" <bin.liu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "tiffany.lin@mediatek.com" <tiffany.lin@mediatek.com>,
+        "andrew-ct.chen@mediatek.com" <andrew-ct.chen@mediatek.com>,
+        "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
+        "quic_vgarodia@quicinc.com" <quic_vgarodia@quicinc.com>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "andersson@kernel.org" <andersson@kernel.org>,
+        "konrad.dybcio@linaro.org" <konrad.dybcio@linaro.org>,
+        "ezequiel@vanguardiasur.com.ar" <ezequiel@vanguardiasur.com.ar>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "kernel@collabora.com" <kernel@collabora.com>
+Date:   Fri, 24 Mar 2023 11:14:52 -0400
+In-Reply-To: <20230322150153.GO20234@pendragon.ideasonboard.com>
+References: <20230313135916.862852-1-benjamin.gaignard@collabora.com>
+         <20230313135916.862852-3-benjamin.gaignard@collabora.com>
+         <20230313181155.GC22646@pendragon.ideasonboard.com>
+         <86df05244d974416903e919d387a0a0b@AcuMS.aculab.com>
+         <e704b505-86d8-c6f2-8546-adccdab72622@xs4all.nl>
+         <dc04d48e34ed40e58f43badd001a81d0@AcuMS.aculab.com>
+         <cbf34cf1-e065-8136-8344-89ca1864f637@xs4all.nl>
+         <20230319233358.GD20234@pendragon.ideasonboard.com>
+         <f085aa9225c573df906bdc7ff032a8fd591b18b3.camel@ndufresne.ca>
+         <20230322150153.GO20234@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Report available frame sizes as a continuous range between the
-hardware min/max limits.
+Le mercredi 22 mars 2023 =C3=A0 17:01 +0200, Laurent Pinchart a =C3=A9crit=
+=C2=A0:
+> On Wed, Mar 22, 2023 at 10:50:52AM -0400, Nicolas Dufresne wrote:
+> > Hi Laurent,
+> >=20
+> > Le lundi 20 mars 2023 =C3=A0 01:33 +0200, Laurent Pinchart a =C3=A9crit=
+=C2=A0:
+> > > > The typical usage is that applications allocate N buffers with the
+> > > > VIDIOC_REQBUFS ioctl, and in most cases that's all they use.
+> > >=20
+> > > Note that once we get DELETE_BUF (or DELETE_BUFS) support I'd like to
+> > > encourage applications to use the new API, and deprecate REQBUFS
+> > > (dropping it isn't on my radar, as it would take forever before no
+> > > userspace uses it anymore).
+> >=20
+> > I was wondering if you can extend on this. I'm worried the count semant=
+ic might
+> > prevent emulating it over create_bufs() ops, but if that works, did you=
+ meant to
+> > emulate it so driver no longer have to implement reqbufs() if they have
+> > create_bufs() ?
+>=20
+> For drivers it should be fairly simply, as the reqbufs and create_bufs
+> ioctl handlers should just point to the corresponding videobuf2 helpers.
+>=20
+> What I meant is that I'd like to encourage userspace to use the
+> VIDIOC_CREATE_BUFS ioctl instead of VIDIOC_REQBUFS.
+>=20
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Co-authored-by: Adam Pigg <adam@piggz.co.uk>
-Signed-off-by: Adam Pigg <adam@piggz.co.uk>
----
- .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 26 +++++++++++++++++++
- 1 file changed, 26 insertions(+)
+I'm not sure what rationale I can give implementer to "encourage" them to u=
+se a
+more complex API that needs to copy over the FMT (which has just been set),
+specially in the initial pre-allocation case. For most, CREATE_BUFS after S=
+MT
+will look like a very redundant and counter intuitive thing. Maybe you have=
+ a
+more optimistic view on the matter ? Or you have a better idea how we could=
+ give
+a meaning to having a fmt there on the initial case where the allocation ma=
+tches
+the queue FMT ?
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-index 5160b93b69ff..a368f90a9beb 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-@@ -487,6 +487,30 @@ static int sun6i_isp_capture_try_fmt(struct file *file, void *private,
- 	return 0;
- }
- 
-+static int
-+sun6i_isp_capture_enum_framesizes(struct file *file, void *fh,
-+				  struct v4l2_frmsizeenum *frmsizeenum)
-+{
-+	const struct sun6i_isp_capture_format *format;
-+
-+	if (frmsizeenum->index > 0)
-+		return -EINVAL;
-+
-+	format = sun6i_isp_capture_format_find(frmsizeenum->pixel_format);
-+	if (!format)
-+		return -EINVAL;
-+
-+	frmsizeenum->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-+	frmsizeenum->stepwise.min_width = SUN6I_ISP_CAPTURE_WIDTH_MIN;
-+	frmsizeenum->stepwise.max_width = SUN6I_ISP_CAPTURE_WIDTH_MAX;
-+	frmsizeenum->stepwise.min_height = SUN6I_ISP_CAPTURE_HEIGHT_MIN;
-+	frmsizeenum->stepwise.max_height = SUN6I_ISP_CAPTURE_HEIGHT_MAX;
-+	frmsizeenum->stepwise.step_width = 1;
-+	frmsizeenum->stepwise.step_height = 1;
-+
-+	return 0;
-+}
-+
- static int sun6i_isp_capture_enum_input(struct file *file, void *private,
- 					struct v4l2_input *input)
- {
-@@ -524,6 +548,8 @@ static const struct v4l2_ioctl_ops sun6i_isp_capture_ioctl_ops = {
- 	.vidioc_s_fmt_vid_cap		= sun6i_isp_capture_s_fmt,
- 	.vidioc_try_fmt_vid_cap		= sun6i_isp_capture_try_fmt,
- 
-+	.vidioc_enum_framesizes		= sun6i_isp_capture_enum_framesizes,
-+
- 	.vidioc_enum_input		= sun6i_isp_capture_enum_input,
- 	.vidioc_g_input			= sun6i_isp_capture_g_input,
- 	.vidioc_s_input			= sun6i_isp_capture_s_input,
--- 
-2.39.2
+Nicolas
 
