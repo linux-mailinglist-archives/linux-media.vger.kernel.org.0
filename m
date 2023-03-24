@@ -2,52 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 247906C7BE4
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 10:49:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C32396C7C66
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 11:18:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjCXJtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 05:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
+        id S231678AbjCXKSt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Mar 2023 06:18:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbjCXJs6 (ORCPT
+        with ESMTP id S231651AbjCXKSs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 05:48:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A73E65A9;
-        Fri, 24 Mar 2023 02:48:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63932A58;
-        Fri, 24 Mar 2023 10:48:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679651334;
-        bh=vNcmCDNvm9Z+LMhyE/DCnHGIcH41sIoiH6gUb/T9Oyk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ysh3w3/jGi24/IlmaDuMS7vCW0BltXvwrGozjgbJ5QMwOIyPY8mO8SWgG3h3UqaJ+
-         8jFCj9gEIxvWtFnOt4gRu+0FKIICui/coR9Bo2c2v7vZkR+neAVAwuNi4VU/E/62+o
-         MTVFDkDfZ8CxM3I3hzCp4gnHVnR/se03/wyh2/W4=
-Date:   Fri, 24 Mar 2023 11:49:00 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Dan Scally <dan.scally@ideasonboard.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 3/8] usb: gadget: uvc: implement s/g_output ioctl
-Message-ID: <20230324094900.GL18895@pendragon.ideasonboard.com>
-References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
- <20230323-uvc-gadget-cleanup-v1-3-e41f0c5d9d8e@pengutronix.de>
- <20230324092021.GC18895@pendragon.ideasonboard.com>
- <79c319ab-1d65-f3cf-473c-ca4cd502c1f9@ideasonboard.com>
- <caa72a5c-a40f-e5e1-84c5-44d376cbe87c@xs4all.nl>
+        Fri, 24 Mar 2023 06:18:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27C5EA5D5
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 03:18:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 99CF8629F8
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 10:18:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9279C433EF
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 10:18:43 +0000 (UTC)
+Message-ID: <8d39dc5d-8831-c12d-7126-3934d52d1108@xs4all.nl>
+Date:   Fri, 24 Mar 2023 11:18:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <caa72a5c-a40f-e5e1-84c5-44d376cbe87c@xs4all.nl>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCHv2 00/19] saa7146: convert to vb2
+To:     linux-media@vger.kernel.org
+References: <20230323155343.2399473-1-hverkuil-cisco@xs4all.nl>
+ <e4f657a5-589b-62bb-142f-ff5c90535b32@xs4all.nl>
+Content-Language: en-US
+In-Reply-To: <e4f657a5-589b-62bb-142f-ff5c90535b32@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,103 +45,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On Fri, Mar 24, 2023 at 10:39:13AM +0100, Hans Verkuil wrote:
-> On 24/03/2023 10:21, Dan Scally wrote:
-> > On 24/03/2023 09:20, Laurent Pinchart wrote:
-> >> Hi Michael,
-> >>
-> >> (CC'ing Hans)
-> >>
-> >> Thank you for the patch.
-> >>
-> >> On Thu, Mar 23, 2023 at 12:41:11PM +0100, Michael Tretter wrote:
-> >>> V4L2 OUTPUT devices should implement ENUM_OUTPUT, G_OUTPUT, and
-> >>> S_OUTPUT. The UVC gadget provides only a single output. Therefore, allow
-> >>> only a single output 0.
-> >>>
-> >>> According to the documentation, "_TYPE_ANALOG" is historical and should
-> >>> be read as "_TYPE_VIDEO".
-> >> I think v4l2-compliance should be fixed to not require those ioctls. As
-> >> this patch clearly shows, they're useless :-)
+On 23/03/2023 18:23, Hans Verkuil wrote:
+> On 23/03/2023 16:53, Hans Verkuil wrote:
+>> This series converts the saa7146 driver to vb2.
+>>
+>> Tested with my mxb board, Hexium Orion and Gemini boards and av7110 boards
+>> (DVB-C and DVB-T).
+>>
+>> I don't have a av7110 card with analog video capture, so that remains
+>> untested.
+>>
+>> Note that the first patch fixes a regression that the removal of overlay
+>> support introduced.
+>>
+>> Regards,
+>>
+>> 	Hans
 > 
-> They are not useless. An application doesn't know how many outputs there are,
-> and what type they are. Just because there is only one output, doesn't mean
-> you can skip this.
+> Just ignore this series, something is still wrong.
+
+No, it's fine after all.
+
+I noticed that the Hexium Gemini card swaps the U and V components, but I discovered
+that it was like that for a long time, even in kernel 5.10.
+
+I can make it work by changing a h_offset value, but I will have to do a bit more
+testing later.
+
+It's independent of this work, so I leave this series as-is.
+
+Regards,
+
+	Hans
+
 > 
-> The application also has to know the capabilities of the output.
-
-In the generic case, possibly, but for the UVC gadget that's not
-relevant. The driver requires a specialized userspace application that
-handles driver-specific events and ioctls to operate, so there's no need
-for output enumeration.
-
-> Now, it can be useful to add some helper functions for this to v4l2-common.c,
-> at least for g/s_output.
-
-I would indeed much rather provide default implementations in
-v4l2-common.c, and call them automatically from v4l2-ioctl.c when the
-driver doesn't provide custom handlers for those ioctls.
-
 > Regards,
 > 
 > 	Hans
 > 
-> > +1 for this vote
+>>
+>> Hans Verkuil (19):
+>>   media: common: saa7146: disable clipping
+>>   common/saa7146: fix VFL direction for vbi output
+>>   media: pci: saa7146: hexium_orion: initialize input 0
+>>   media: saa7146: drop 'dev' and 'resources' from struct saa7146_fh
+>>   media: common: saa7146: drop 'fmt' from struct saa7146_buf
+>>   media: common: saa7146: replace BUG_ON by WARN_ON
+>>   staging: media: av7110: replace BUG_ON by WARN_ON
+>>   media: common: saa7146: fix broken V4L2_PIX_FMT_YUV422P support
+>>   media: common: saa7146: use for_each_sg_dma_page
+>>   media: saa7146: convert to vb2
+>>   media: common: saa7146: fix compliance problems with field handling
+>>   media: common: saa7146: check minimum video format size
+>>   media: common: saa7146: fall back to V4L2_PIX_FMT_BGR24
+>>   media: common: saa7146: allow S_STD(G_STD)
+>>   media: mxb: update the tvnorms when changing input
+>>   media: common: saa7146: add support for missing
+>>     .vidioc_try_fmt_vbi_cap
+>>   media: mxb: allow tuner/input/audio ioctls for vbi
+>>   media: pci: saa7146: advertise only those TV standard that are
+>>     supported
+>>   staging: media: av7110: fix VBI output support
+>>
+>>  drivers/media/common/saa7146/Kconfig         |   2 +-
+>>  drivers/media/common/saa7146/saa7146_core.c  |  40 +-
+>>  drivers/media/common/saa7146/saa7146_fops.c  | 349 +++-------
+>>  drivers/media/common/saa7146/saa7146_hlp.c   |  61 +-
+>>  drivers/media/common/saa7146/saa7146_vbi.c   | 287 ++++-----
+>>  drivers/media/common/saa7146/saa7146_video.c | 642 ++++++-------------
+>>  drivers/media/pci/saa7146/hexium_gemini.c    |  23 +-
+>>  drivers/media/pci/saa7146/hexium_orion.c     |  24 +-
+>>  drivers/media/pci/saa7146/mxb.c              |  53 +-
+>>  drivers/media/pci/ttpci/budget-av.c          |   4 +-
+>>  drivers/staging/media/av7110/av7110.c        |   6 +-
+>>  drivers/staging/media/av7110/av7110_hw.c     |   3 +-
+>>  drivers/staging/media/av7110/av7110_v4l.c    | 116 ++--
+>>  include/media/drv-intf/saa7146_vv.h          |  44 +-
+>>  14 files changed, 598 insertions(+), 1056 deletions(-)
+>>
 > 
-> >>> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> >>> ---
-> >>>   drivers/usb/gadget/function/uvc_v4l2.c | 28 ++++++++++++++++++++++++++++
-> >>>   1 file changed, 28 insertions(+)
-> >>>
-> >>> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> >>> index 13c7ba06f994..4b8bf94e06fc 100644
-> >>> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> >>> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> >>> @@ -377,6 +377,31 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
-> >>>       return 0;
-> >>>   }
-> >>>   +static int
-> >>> +uvc_v4l2_enum_output(struct file *file, void *priv_fh, struct v4l2_output *out)
-> >>> +{
-> >>> +    if (out->index != 0)
-> >>> +        return -EINVAL;
-> >>> +
-> >>> +    out->type = V4L2_OUTPUT_TYPE_ANALOG;
-> >>> +    snprintf(out->name, sizeof(out->name), "UVC");
-> >>> +
-> >>> +    return 0;
-> >>> +}
-> >>> +
-> >>> +static int
-> >>> +uvc_v4l2_g_output(struct file *file, void *priv_fh, unsigned int *i)
-> >>> +{
-> >>> +    *i = 0;
-> >>> +    return 0;
-> >>> +}
-> >>> +
-> >>> +static int
-> >>> +uvc_v4l2_s_output(struct file *file, void *priv_fh, unsigned int i)
-> >>> +{
-> >>> +    return i ? -EINVAL : 0;
-> >>> +}
-> >>> +
-> >>>   static int
-> >>>   uvc_v4l2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *b)
-> >>>   {
-> >>> @@ -547,6 +572,9 @@ const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
-> >>>       .vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
-> >>>       .vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
-> >>>       .vidioc_enum_fmt_vid_out = uvc_v4l2_enum_format,
-> >>> +    .vidioc_enum_output = uvc_v4l2_enum_output,
-> >>> +    .vidioc_g_output = uvc_v4l2_g_output,
-> >>> +    .vidioc_s_output = uvc_v4l2_s_output,
-> >>>       .vidioc_reqbufs = uvc_v4l2_reqbufs,
-> >>>       .vidioc_querybuf = uvc_v4l2_querybuf,
-> >>>       .vidioc_qbuf = uvc_v4l2_qbuf,
 
--- 
-Regards,
-
-Laurent Pinchart
