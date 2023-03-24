@@ -2,175 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5C26C733F
-	for <lists+linux-media@lfdr.de>; Thu, 23 Mar 2023 23:44:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CABFE6C761F
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 04:07:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbjCWWoe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Mar 2023 18:44:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39680 "EHLO
+        id S230495AbjCXDHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Mar 2023 23:07:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjCWWod (ORCPT
+        with ESMTP id S230040AbjCXDHy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Mar 2023 18:44:33 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F3DB75A
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 15:44:31 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id h8so1062968ede.8
-        for <linux-media@vger.kernel.org>; Thu, 23 Mar 2023 15:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1679611470;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CdTVHjsADgrUtpOwBKbWNa8pioeAM2MXvG5m5DIb414=;
-        b=AIwzE2gWam3D++FFiSRHrZNXHgSo1VxpihXId3P6pZlHiOBzWXAMWJ4L8dzVEp6t2W
-         pKQP/XWRlkU3DdEDT1RW4LSYaCX2/kyNQwqHGjEi5C9JfqKreH1ea4SYiOMQYJgBhU1E
-         q4fGN4pQlOB0ukBhe4ZfKxTrQxIMM38h0TEjQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679611470;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CdTVHjsADgrUtpOwBKbWNa8pioeAM2MXvG5m5DIb414=;
-        b=ostQIoodJnJaOaNfA5X7umO4GjI5qevFZAqIpaAbev5dzeHnlla5FeqleW83OvWl5N
-         FiPlA+HqQA1MjRvvXhyqwR0l6ACJDE34r3MWpcDUO5CFBJFVKgztSoRmcPTq1wXAt2TR
-         /IEumCJUW/6gSq+PhOxsEgkOrBbZIXKse64Nf48oZcbMWgvqzYZ1Eg+BumYFjTlebf4u
-         t11Ls7CUXyuHOXalm5wW6+9QYQO5nkOHD8SDDM0bnQh8x5sgRBuy54uqfGscj9iXIghd
-         NFYJh8VrXB01IOI3iAxQVKcqckUXrg9iqwts2IqTNJBFIbokGT7vaqUQkqTi5o/X9zUq
-         NaAQ==
-X-Gm-Message-State: AAQBX9dLoMfEvG2ehEf9v1vVve6Rh4T2r674kjGAQZd7jYCKk5KLmcUX
-        ivJNV6XwpCKRDXrE/Bs6pzZq6w==
-X-Google-Smtp-Source: AKy350ZJP/I9A3v4zuMzczA4RQlJkvjG2p6CEr49BhX1x7mN+ykKSffar9GSBG0y5kjYjVhVqDvlZA==
-X-Received: by 2002:a17:906:27c4:b0:931:c2f0:9437 with SMTP id k4-20020a17090627c400b00931c2f09437mr699584ejc.8.1679611469871;
-        Thu, 23 Mar 2023 15:44:29 -0700 (PDT)
-Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id 12-20020a170906310c00b00926d614b890sm9142408ejx.204.2023.03.23.15.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 15:44:29 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 23 Mar 2023 23:44:20 +0100
-Subject: [PATCH] media: ov8856: Do not check for for module version
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-ov8856-otp-v1-0-604f7fd23729@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jimmy Su <jimmy.su@intel.com>, stable@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Max Staudt <mstaudt@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-696ae
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2803; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=cPmW9PIAQV0oW1FFn7JevApQXapAZ6JE7zWGVu77Wy0=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBkHNZHIMdRe56gkWocjJataai80hqI5TEZVZSNly25
- Ts/uY3CJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCZBzWRwAKCRDRN9E+zzrEiJO+D/
- 9II07gziHMA171jdsHqZ9+/rGuhg0AK2NG0ghAZ+0my0yCPcSSLrxJwYfQxYMS9NcFBV4sBz1/AkwI
- 3orZcbylZAVIJvZxvOmhUgeZotIqj1+A8OCbYkMW8Gy8SFXdds5Y5YT3nGL8GO2WdWHs+AaC316jW0
- BJ8jBlVFGEt8jG3lxmiw0iESS+rl8EBL85CpYbCM/UgSiu6QcOuUiJwnPy9R1jm54ZE6amhC+u7J7T
- GVN3sB+KWlxXzDlX8V4eeH9ti+7axyDQWGaNk508KUymqgXAEnhFWP6L51vOJt9HoxJNyLZtCyKaSb
- +Y8R53bwpWcE4gM7yN9MmbgB89Gf40XEVQeAGyk24AvYdqze5xY2XR3nXDMaGW5bu2C1bcM3vkBc22
- A0QwdqhHkyTyjVkZb+u7yz1s6Q+6OAqYFPV70CzPtcNAJxAa2yMKRw8c+sb3Zu+LK1Zz7ldpFXC7XN
- Xt5c+LEezeA0DPcjGw6cXXQoNsB3y8YGoaN3is4lYG/72hpdMUihGua33yTW+BbCHO3RHpxTRzbLEe
- OdetfsHBoTwYrYPYgRfUgEWbkLJuby5LVQsgsqjbD2bg+n+3qNycWPe7WRNKe/BvEl/wPSt506yY3H
- AOCxSPxtnJVf38k1UT6La4Aw8igQiT3fvqOtVXWu7GY3mP8ZDx+rE1wlqekw==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Thu, 23 Mar 2023 23:07:54 -0400
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06BF023847;
+        Thu, 23 Mar 2023 20:07:53 -0700 (PDT)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mxhk.zte.com.cn (FangMail) with ESMTPS id 4PjRwR3XZCz8R039;
+        Fri, 24 Mar 2023 11:07:51 +0800 (CST)
+Received: from xaxapp03.zte.com.cn ([10.88.97.17])
+        by mse-fl2.zte.com.cn with SMTP id 32O37UC7057835;
+        Fri, 24 Mar 2023 11:07:30 +0800 (+08)
+        (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+        by mapi (Zmail) with MAPI id mid31;
+        Fri, 24 Mar 2023 11:07:31 +0800 (CST)
+Date:   Fri, 24 Mar 2023 11:07:31 +0800 (CST)
+X-Zmail-TransId: 2afa641d13f3ffffffffff9-41a36
+X-Mailer: Zmail v1.0
+Message-ID: <202303241107315726171@zte.com.cn>
+Mime-Version: 1.0
+From:   <ye.xingchen@zte.com.cn>
+To:     <p.zabel@pengutronix.de>
+Cc:     <ezequiel@vanguardiasur.com.ar>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBtZWRpYTogaGFudHJvOiB1c2XCoGRldm1fcmVzZXRfY29udHJvbF9hcnJheV9nZXRfb3B0aW9uYWxfZXhjbHVzaXZlKCk=?=
+Content-Type: text/plain;
+        charset="UTF-8"
+X-MAIL: mse-fl2.zte.com.cn 32O37UC7057835
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 641D1407.000 by FangMail milter!
+X-FangMail-Envelope: 1679627271/4PjRwR3XZCz8R039/641D1407.000/10.5.228.133/[10.5.228.133]/mse-fl2.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 641D1407.000/4PjRwR3XZCz8R039
+X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It the device is probed in non-zero ACPI D state, the module
-identification is delayed until the first streamon.
+From: Ye Xingchen <ye.xingchen@zte.com.cn>
 
-The module identification has two parts: deviceID and version. To rea
-the version we have to enable OTP read. This cannot be done during
-streamon, becase it modifies REG_MODE_SELECT.
+Switch to devm_reset_control_array_get_optional_exclusive() API.
 
-Since the driver has the same behaviour for all the module versions, do
-not read the module version from the sensor's OTP.
-
-Cc: stable@vger.kernel.org
-Fixes: 0e014f1a8d54 ("media: ov8856: support device probe in non-zero ACPI D state")
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
 ---
-To: Dongchun Zhu <dongchun.zhu@mediatek.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bingbu Cao <bingbu.cao@intel.com>
-Cc: Max Staudt <mstaudt@chromium.org>
-Cc: Jimmy Su <jimmy.su@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/media/i2c/ov8856.c | 40 ----------------------------------------
- 1 file changed, 40 deletions(-)
+ drivers/media/platform/verisilicon/hantro_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index cf8384e09413..b5c7881383ca 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -1709,46 +1709,6 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 		return -ENXIO;
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index b0aeedae7b65..143a9a2edc4a 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -945,7 +945,7 @@ static int hantro_probe(struct platform_device *pdev)
+ 			return PTR_ERR(vpu->clocks[0].clk);
  	}
- 
--	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
--			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
--	if (ret)
--		return ret;
--
--	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
--			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
--	if (ret) {
--		dev_err(&client->dev, "failed to set otp mode");
--		return ret;
--	}
--
--	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
--			       OV8856_REG_VALUE_08BIT,
--			       OV8856_OTP_LOAD_CTRL_ENABLE);
--	if (ret) {
--		dev_err(&client->dev, "failed to enable load control");
--		return ret;
--	}
--
--	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
--			      OV8856_REG_VALUE_08BIT, &val);
--	if (ret) {
--		dev_err(&client->dev, "failed to read module revision");
--		return ret;
--	}
--
--	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
--		 val,
--		 val == OV8856_2A_MODULE ? "2A" :
--		 val == OV8856_1B_MODULE ? "1B" : "unknown revision",
--		 client->addr);
--
--	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
--			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
--	if (ret) {
--		dev_err(&client->dev, "failed to exit streaming mode");
--		return ret;
--	}
--
- 	ov8856->identified = true;
- 
- 	return 0;
 
----
-base-commit: 9fd6ba5420ba2b637d1ecc6de8613ec8b9c87e5a
-change-id: 20230323-ov8856-otp-112f3cdc74b1
+-	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
++	vpu->resets = devm_reset_control_array_get_optional_exclusive(&pdev->dev);
+ 	if (IS_ERR(vpu->resets))
+ 		return PTR_ERR(vpu->resets);
 
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.25.1
