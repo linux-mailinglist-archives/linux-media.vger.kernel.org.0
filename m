@@ -2,97 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5176C7B87
-	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 10:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1D5E6C7B9D
+	for <lists+linux-media@lfdr.de>; Fri, 24 Mar 2023 10:38:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231489AbjCXJfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Mar 2023 05:35:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44956 "EHLO
+        id S232068AbjCXJiC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 24 Mar 2023 05:38:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbjCXJft (ORCPT
+        with ESMTP id S231922AbjCXJhh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Mar 2023 05:35:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72AC213515;
-        Fri, 24 Mar 2023 02:35:46 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C534CA49;
-        Fri, 24 Mar 2023 10:35:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679650545;
-        bh=No/DO1GsaTRkETyIPQl/9du9l/hUExXsGUorSh15rRI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=beiLIsghgx23PtLimmTefPOAhoWUatWIFBF+t5wfAivHcBUbZOoyldVxUYdYs9qg+
-         zYmxQBryG0YyAqs1T4QG/0/ECMbqs6SvXVRvFSU+nahjIOBhrIf3JuukLJ2FV5T5qI
-         exJpYnXNjrcA3Vd8lak+9PqGW7s53iG45/8Yj2cY=
-Date:   Fri, 24 Mar 2023 11:35:51 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 6/8] usb: gadget: uvc: try harder to find a valid format
-Message-ID: <20230324093551.GI18895@pendragon.ideasonboard.com>
-References: <20230323-uvc-gadget-cleanup-v1-0-e41f0c5d9d8e@pengutronix.de>
- <20230323-uvc-gadget-cleanup-v1-6-e41f0c5d9d8e@pengutronix.de>
+        Fri, 24 Mar 2023 05:37:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5976428EB0
+        for <linux-media@vger.kernel.org>; Fri, 24 Mar 2023 02:37:22 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1pfdrD-0006dN-EY; Fri, 24 Mar 2023 10:37:11 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1pfdr6-006LkN-S4; Fri, 24 Mar 2023 10:37:04 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1pfdr5-0003E2-Ny; Fri, 24 Mar 2023 10:37:03 +0100
+Message-ID: <e5c022a6d045c6fde70a059b42c5202f112f1452.camel@pengutronix.de>
+Subject: Re: [PATCH] media: hantro:
+ =?ISO-8859-1?Q?use=A0devm=5Freset=5Fcontrol=5F?=
+ =?ISO-8859-1?Q?array=5Fget=5Foptional=5Fexclu?= =?ISO-8859-1?Q?sive=28=29?=
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     ye.xingchen@zte.com.cn
+Cc:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 24 Mar 2023 10:37:03 +0100
+In-Reply-To: <202303241107315726171@zte.com.cn>
+References: <202303241107315726171@zte.com.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230323-uvc-gadget-cleanup-v1-6-e41f0c5d9d8e@pengutronix.de>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
-
-Thank you for the patch.
-
-On Thu, Mar 23, 2023 at 12:41:14PM +0100, Michael Tretter wrote:
-> The TRY_FMT call should try to avoid returning EINVAL. If the requested
-> pixelformat is not supported by the driver, the driver should fall back
-> to it's own default and only then fail the request.
-
-It should actually never fail.
-
-You may recall that I didn't like the TRY_FMT implementation, and I
-still stand by the arguments I provided by then. If you want to handle
-this properly, revert the commits that added format handling to the
-driver.
-
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/usb/gadget/function/uvc_v4l2.c | 4 ++++
->  1 file changed, 4 insertions(+)
+On Fr, 2023-03-24 at 11:07 +0800, ye.xingchen@zte.com.cn wrote:
+> From: Ye Xingchen <ye.xingchen@zte.com.cn>
 > 
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index 3f728f451ed5..c5983bb0a8d1 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -317,11 +317,15 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
->  		 fmt->fmt.pix.width, fmt->fmt.pix.height);
->  
->  	uformat = find_format_by_pix(uvc, fmt->fmt.pix.pixelformat);
-> +	if (!uformat)
-> +		uformat = get_default_format(uvc);
->  	if (!uformat)
->  		return -EINVAL;
->  
->  	uframe = find_closest_frame_by_size(uvc, uformat,
->  				fmt->fmt.pix.width, fmt->fmt.pix.height);
-> +	if (!uframe)
-> +		uframe = get_default_frame(uvc, uformat);
->  	if (!uframe)
->  		return -EINVAL;
->  
+> Switch to devm_reset_control_array_get_optional_exclusive() API.
+> 
+> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
 
--- 
-Regards,
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Laurent Pinchart
+regards
+Philipp
