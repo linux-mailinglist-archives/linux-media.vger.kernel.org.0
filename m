@@ -2,37 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFD106C90BD
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:37:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BFCC6C90CF
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:56:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjCYUhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 16:37:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58412 "EHLO
+        id S229650AbjCYU4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 16:56:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjCYUhF (ORCPT
+        with ESMTP id S229446AbjCYU4F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 16:37:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A68211C
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:37:04 -0700 (PDT)
+        Sat, 25 Mar 2023 16:56:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315EEA5CB;
+        Sat, 25 Mar 2023 13:56:05 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B714F89F
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 21:37:02 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94B6F8BE;
+        Sat, 25 Mar 2023 21:56:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679776623;
-        bh=yyYhKK8lAdctGiIOpZKKpiX6FO9Y6QgrMKHhg3lpMbg=;
-        h=Date:From:To:Subject:From;
-        b=EwjjFiLdZJDu00mDr9XLtrulZojESsGobjjOUAX2xuXP7QVN2YmBZF8X6e0cQ4aTW
-         iDRP/TAIP29anPpXZ4yq7nqEsyRc9qNVIqPx8clMV0PG0/mn2hAHrz/ufXm5fOvf4G
-         XqOi+CsQPUOGT4heWJi05KCWdO1nYGw8XAaedNH0=
-Date:   Sat, 25 Mar 2023 22:37:09 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        s=mail; t=1679777763;
+        bh=8Ltqtewi2anpPoTZHd3yDIcuyfasUrBBCU/+n2ERLro=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EL+XSRS7UYHqOnv87CC8Gr+JJKqm6+32syZ/Gm7Lg99bSAzizWLRCce9kSH+IHF2k
+         vTFhM3sbF+jRxGslIEqeel236EvluCGUXW5U6bTkj6K6wpjEX8mSArpVxifoU1hG8u
+         PRbwrgKD6Pfo8q/By1b7dvOjwyB30wFfl7Y1uH/w=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.4] media: Miscellaneous fixes for Renesas drivers
-Message-ID: <20230325203709.GC19335@pendragon.ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2 0/2] media: i2c: adv7604: Fix handling of video adjustments
+Date:   Sat, 25 Mar 2023 22:56:08 +0200
+Message-Id: <20230325205610.22583-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -42,46 +45,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hello,
 
-The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
+This small series fixes two issues with video adjustments (brightness,
+contrast, saturation and hue) in the adv7604 driver. Patch 1/2 makes
+those controls effective (they currently have no effect), and patch 2/2
+fixes the range of the hue control.
 
-  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
+I have successfully tested the series with an ADV7612, and Hans with the
+ADV7604. The ADV7604 and ADV7611 documentation of the hue control
+differs from the ADV7612, but I believe that's because earlier
+documentation was incorrect.
 
-are available in the Git repository at:
+In patch 2/2 I've decided to represent the hue value as an unsigned
+8-bit integer, mapping to the [0°, 360°[ range. Using a signed value
+would map to the [-180°, 180°[ range instead, without making any other
+difference (and without requiring any modification to the patch other
+than changing the range). I don't have a strong preference between the
+two options, and I'm pretty sure we can freely pick one without any fear
+of an impact on existing userspace applications as patch 1/2 shows that
+the hue control has currently no effect.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-renesas-next-20230325
+Compared to v1, this version fixes a typo in the commit message of patch
+2/2.
 
-for you to fetch changes up to 0b89ff5c03d3a124b5c5a454d6137dd562a36757:
+Laurent Pinchart (2):
+  media: i2c: adv7604: Enable video adjustment
+  media: i2c: adv7604: Fix range of hue control
 
-  media: rcar_fdp1: Fix refcount leak in probe and remove function (2023-03-25 22:30:21 +0200)
-
-----------------------------------------------------------------
-media: Miscellaneous fixes for Renesas drivers
-
-----------------------------------------------------------------
-Gaosheng Cui (1):
-      media: vsp1: Remove unused vsp1_subdev_internal_ops declaration
-
-Laurent Pinchart (1):
-      media: vsp1: Replace vb2_is_streaming() with vb2_start_streaming_called()
-
-Miaoqian Lin (1):
-      media: rcar_fdp1: Fix refcount leak in probe and remove function
-
-Tomi Valkeinen (1):
-      media: vsp1: Add underrun debug print
-
- drivers/media/platform/renesas/rcar_fdp1.c        | 11 ++++++++---
- drivers/media/platform/renesas/vsp1/vsp1_drm.c    |  3 +++
- drivers/media/platform/renesas/vsp1/vsp1_drv.c    | 11 ++++++++++-
- drivers/media/platform/renesas/vsp1/vsp1_entity.h |  2 --
- drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |  2 ++
- drivers/media/platform/renesas/vsp1/vsp1_regs.h   |  2 ++
- drivers/media/platform/renesas/vsp1/vsp1_video.c  |  2 +-
- 7 files changed, 26 insertions(+), 7 deletions(-)
+ drivers/media/i2c/adv7604.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 -- 
 Regards,
 
 Laurent Pinchart
+
