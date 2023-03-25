@@ -2,44 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD5DB6C90D3
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA676C90D9
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:59:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbjCYU4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 16:56:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36764 "EHLO
+        id S230133AbjCYU70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 16:59:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjCYU4J (ORCPT
+        with ESMTP id S229997AbjCYU7Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 16:56:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D40D7C67A;
-        Sat, 25 Mar 2023 13:56:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52B668BE;
-        Sat, 25 Mar 2023 21:56:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679777766;
-        bh=K00sWT6G9YL80+EFBD9tP6tnYHB73AO58k5Tc+jOBG8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A6DQXFOb1/LnlxmH9TcDoM4AchXGYFQAq3pZHBS/e9GkfGJ70rSS6tXhTIn8VTvnc
-         G8jBNghlw8Jjy74NgQGX5u4BbAAZSSSQEjvRdW1yBcLH0FmRmwJq+rRTZcRj1Sry9c
-         Obj3exspNDHQf9jiM4MXu5YHwCU7RX+iwP60HDU8=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 2/2] media: i2c: adv7604: Fix range of hue control
-Date:   Sat, 25 Mar 2023 22:56:10 +0200
-Message-Id: <20230325205610.22583-3-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230325205610.22583-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230325205610.22583-1-laurent.pinchart+renesas@ideasonboard.com>
+        Sat, 25 Mar 2023 16:59:24 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD60930F8
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:59:22 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pgAyv-0072bx-5n; Sat, 25 Mar 2023 20:59:21 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pgAys-00CpZq-UH; Sat, 25 Mar 2023 20:59:18 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] media: Drop unused I2C drivers (#90681)
+Date:   Sat, 25 Mar 2023 20:59:18 +0000
+Message-Id: <20230325205918.3058152-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230325203323.GA19335@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,65 +45,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ADV7604, ADV7611 and ADV7612 software manuals document the CP_HUE
-value differently:
+From: builder@linuxtv.org
 
-- For ADV7604 and ADV7611, the hue is specified as an unsigned 8-bit
-  value, and calculated as
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230325203323.GA19335@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/292348/
+Build time: 00:22:28
+Link: https://lore.kernel.org/linux-media/20230325203323.GA19335@pendragon.ideasonboard.com
 
-  (CP_HUE[7:0] * 180) / 256 - 90
+gpg: Signature made Sat 25 Mar 2023 08:22:38 PM UTC
+gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-  with the range set to [-90°, 90°]. Additionally, the values 0x00, 0x0f
-  and 0xff are documented as corresponding to -90°, 0° and 90°
-  respectively.
+Summary: got 5/8 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-- For ADV7612, the hue is specified as a signed 8-bit value in the range
-  [0°, 360°[ without any formula. Additionally, the value 0x00 is
-  documented as corresponding to 0°.
+Error/warnings:
 
-The ADV7604 and ADV7611 documentation is clearly wrong as the example
-values don't correspond to the formula. Furthermore, the [-90°, 90°]
-range seems incorrect as it would cover only half of the hue space.
+patches/0001-media-i2c-Drop-unused-ad9389b-video-encoder-driver.patch:
 
-The ADV7612 documentation is better, although the range should likely be
-[-180°, 180°[ if the value is signed. Given that the values wrap around,
-this makes no difference in practice.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
 
-The hue values have been verified on ADV7612 to follow the
-documentation. There is a high chance they do as well on ADV7604 and
-ADV7611.
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1974287
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
 
-In any case, all software manuals document the register as 8-bit, so the
-current range of the V4L2 hue control [0, 128] is not correct. Expand it
-to cover the full 8-bit space, using unsigned values to avoid breaking
-any application that may rely on 128 being a valid value.
+patches/0005-media-i2c-Drop-unused-noon010pc30-camera-sensor-driv.patch:
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Changes since v1:
+   checkpatch.pl:
+	$ cat patches/0005-media-i2c-Drop-unused-noon010pc30-camera-sensor-driv.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:69: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-- Fix typo in commit message
----
- drivers/media/i2c/adv7604.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+patches/0006-media-i2c-Drop-unused-s5k6aa-camera-sensor-driver.patch:
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 3af0e67f9edb..3d0898c4175e 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -3548,7 +3548,7 @@ static int adv76xx_probe(struct i2c_client *client)
- 	v4l2_ctrl_new_std(hdl, &adv76xx_ctrl_ops,
- 			V4L2_CID_SATURATION, 0, 255, 1, 128);
- 	v4l2_ctrl_new_std(hdl, &adv76xx_ctrl_ops,
--			V4L2_CID_HUE, 0, 128, 1, 0);
-+			V4L2_CID_HUE, 0, 255, 1, 0);
- 	ctrl = v4l2_ctrl_new_std_menu(hdl, &adv76xx_ctrl_ops,
- 			V4L2_CID_DV_RX_IT_CONTENT_TYPE, V4L2_DV_IT_CONTENT_TYPE_NO_ITC,
- 			0, V4L2_DV_IT_CONTENT_TYPE_NO_ITC);
--- 
-Regards,
+   checkpatch.pl:
+	$ cat patches/0006-media-i2c-Drop-unused-s5k6aa-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:68: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-Laurent Pinchart
+patches/0007-media-i2c-Drop-unused-sr030pc30-camera-sensor-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0007-media-i2c-Drop-unused-sr030pc30-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:65: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0008-media-i2c-Drop-unused-vs6624-camera-sensor-driver.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-i2c-Drop-unused-vs6624-camera-sensor-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:68: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+
+Error #512 when building PDF docs
 
