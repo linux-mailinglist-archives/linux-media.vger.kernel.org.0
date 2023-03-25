@@ -2,42 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D786C90ED
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 22:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 026226C90EF
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 22:24:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230210AbjCYVUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 17:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55242 "EHLO
+        id S230312AbjCYVYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 17:24:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjCYVUj (ORCPT
+        with ESMTP id S229446AbjCYVYJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 17:20:39 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36094C15E
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 14:20:38 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgBJU-007340-LN; Sat, 25 Mar 2023 21:20:36 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgBJS-00DOZV-8p; Sat, 25 Mar 2023 21:20:34 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] media: Zero-initialize structures passed to (#90682)
-Date:   Sat, 25 Mar 2023 21:20:34 +0000
-Message-Id: <20230325212034.3192671-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230325203410.GB19335@pendragon.ideasonboard.com>
-References: 
+        Sat, 25 Mar 2023 17:24:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33120C655;
+        Sat, 25 Mar 2023 14:24:08 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D4688BE;
+        Sat, 25 Mar 2023 22:24:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679779446;
+        bh=XFT2/Of6tXbRCWRlq7XJOvawMJpq1iSEbwMuAA7jtmI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NTSayLYiolEyRvq25V/zs2k6izOy6dAzrT+uZ8qCzA+1UXaAlXEIfRF40WPFAMx12
+         KOZh0OUz2B6gETQ/ItGT1UT56v91NN6/heRGl6fBjYIa2R0apPrV2M1u4XbVYpJmqZ
+         FVl9aYGeQeDufZFDdXGVjATAdLixE+77Yl8LhelA=
+Date:   Sat, 25 Mar 2023 23:24:12 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Adam Pigg <adam@piggz.co.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 5/9] media: sun6i-csi: capture: Rework and separate
+ format validation
+Message-ID: <20230325212412.GC22214@pendragon.ideasonboard.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-6-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230324151228.2778112-6-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,48 +55,179 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Paul,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230325203410.GB19335@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/292348/
-Build time: 00:19:32
-Link: https://lore.kernel.org/linux-media/20230325203410.GB19335@pendragon.ideasonboard.com
+Thank you for the patch.
 
-gpg: Signature made Sat 25 Mar 2023 08:26:18 PM UTC
-gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+On Fri, Mar 24, 2023 at 04:12:24PM +0100, Paul Kocialkowski wrote:
+> Introduce a new sun6i_csi_capture_format_check helper to indicate
+> whether a set of pixel format and mbus code are compatible.
+> Most of the logic is taken from sun6i_csi_capture_link_validate,
+> with extra checks added along the way.
+> 
+> Note that v4l2_format_info is now used for all pixel formats
+> since they should all be listed in the helper at this point.
+> 
+> The motivation behind this change is to pave the way for supporting
+> the mc-style enum_fmt.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 95 ++++++++++---------
+>  1 file changed, 49 insertions(+), 46 deletions(-)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> index cf6aadbc130b..6ce7f1d3ed57 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -327,6 +327,52 @@ static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
+>  	return false;
+>  }
+>  
+> +static bool sun6i_csi_capture_format_check(u32 pixelformat, u32 mbus_code)
+> +{
+> +	const struct sun6i_csi_capture_format *capture_format;
+> +	const struct sun6i_csi_bridge_format *bridge_format;
 
-Summary: got 2/5 patches with issues, being 2 at build time, plus one error when buinding PDF document
+I think I would have named those output_format and input_format
+respectively, as "capture" and "bridge" take a bit more mental
+processing when reading the code. That may be because I'm not familiar
+with the driver though, so feel free to ignore this.
 
-Error/warnings:
+> +	const struct v4l2_format_info *format_info;
+> +
+> +	format_info = v4l2_format_info(pixelformat);
+> +	if (WARN_ON(!format_info))
+> +		return false;
+> +
+> +	capture_format = sun6i_csi_capture_format_find(pixelformat);
+> +	if (WARN_ON(!capture_format))
+> +		return false;
+> +
+> +	bridge_format = sun6i_csi_bridge_format_find(mbus_code);
+> +	if (WARN_ON(!bridge_format))
+> +		return false;
+> +
+> +	/* Raw input is required for non-YUV formats. */
+> +	if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW &&
+> +	    (format_info->pixel_enc == V4L2_PIXEL_ENC_BAYER ||
+> +	     format_info->pixel_enc == V4L2_PIXEL_ENC_RGB ||
+> +	     format_info->pixel_enc == V4L2_PIXEL_ENC_COMPRESSED))
 
-patches/0001-media-Fix-indentation-issues-introduced-by-subdev-wi.patch:
+Unless I'm mistaken, the compressed format check is new. You could split
+it to a separate patch, or at least mention it in the commit message.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+> +		return false;
+> +
+> +	if (format_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+> +		/* YUV input is required for YUV pixels. */
+> +		if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV420 &&
+> +		    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV422)
+> +			return false;
+> +
+> +		/* YUV420 input can't produce (upsampled) YUV422 output. */
+> +		if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_YUV420 &&
+> +		    format_info->vdiv == 1)
+> +			return false;
+> +	}
+> +
+> +	/* Raw input requires a 1:1 match between input and output. */
+> +	if ((bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
+> +	     capture_format->input_format_raw) &&
+> +	    !sun6i_csi_capture_format_match(pixelformat, mbus_code))
+> +			return false;
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1974615
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+Wrong indentation.
 
-patches/0002-media-imx-jpeg-Fix-incorrect-indentation.patch:
+With this fixed,
 
-    allyesconfig: return code #0:
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2489 mxc_jpeg_probe() warn: missing unwind goto?
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> +
+> +	return true;
+> +}
+> +
+>  /* Capture */
+>  
+>  static void
+> @@ -890,28 +936,16 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
+>  		media_entity_to_video_device(link->sink->entity);
+>  	struct sun6i_csi_device *csi_dev = video_get_drvdata(video_dev);
+>  	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
+> -	const struct sun6i_csi_capture_format *capture_format;
+> -	const struct sun6i_csi_bridge_format *bridge_format;
+>  	unsigned int capture_width, capture_height;
+>  	unsigned int bridge_width, bridge_height;
+> -	const struct v4l2_format_info *format_info;
+>  	u32 pixelformat, capture_field;
+>  	u32 mbus_code, bridge_field;
+> -	bool match;
+>  
+>  	sun6i_csi_capture_dimensions(csi_dev, &capture_width, &capture_height);
+> -
+>  	sun6i_csi_capture_format(csi_dev, &pixelformat, &capture_field);
+> -	capture_format = sun6i_csi_capture_format_find(pixelformat);
+> -	if (WARN_ON(!capture_format))
+> -		return -EINVAL;
+>  
+>  	sun6i_csi_bridge_dimensions(csi_dev, &bridge_width, &bridge_height);
+> -
+>  	sun6i_csi_bridge_format(csi_dev, &mbus_code, &bridge_field);
+> -	bridge_format = sun6i_csi_bridge_format_find(mbus_code);
+> -	if (WARN_ON(!bridge_format))
+> -		return -EINVAL;
+>  
+>  	/* No cropping/scaling is supported. */
+>  	if (capture_width != bridge_width || capture_height != bridge_height) {
+> @@ -922,43 +956,12 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
+>  		return -EINVAL;
+>  	}
+>  
+> -	format_info = v4l2_format_info(pixelformat);
+> -	/* Some formats are not listed. */
+> -	if (!format_info)
+> -		return 0;
+> -
+> -	if (format_info->pixel_enc == V4L2_PIXEL_ENC_BAYER &&
+> -	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
+> -		goto invalid;
+> -
+> -	if (format_info->pixel_enc == V4L2_PIXEL_ENC_RGB &&
+> -	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
+> -		goto invalid;
+> -
+> -	if (format_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+> -		if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV420 &&
+> -		    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV422)
+> -			goto invalid;
+> -
+> -		/* YUV420 input can't produce YUV422 output. */
+> -		if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_YUV420 &&
+> -		    format_info->vdiv == 1)
+> -			goto invalid;
+> -	}
+> -
+> -	/* With raw input mode, we need a 1:1 match between input and output. */
+> -	if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
+> -	    capture_format->input_format_raw) {
+> -		match = sun6i_csi_capture_format_match(pixelformat, mbus_code);
+> -		if (!match)
+> -			goto invalid;
+> +	if (!sun6i_csi_capture_format_check(pixelformat, mbus_code)) {
+> +		v4l2_err(v4l2_dev, "invalid input/output format combination\n");
+> +		return -EINVAL;
+>  	}
+>  
+>  	return 0;
+> -
+> -invalid:
+> -	v4l2_err(v4l2_dev, "invalid input/output format combination\n");
+> -	return -EINVAL;
+>  }
+>  
+>  static const struct media_entity_operations sun6i_csi_capture_media_ops = {
 
-Error #512 when building PDF docs
+-- 
+Regards,
 
+Laurent Pinchart
