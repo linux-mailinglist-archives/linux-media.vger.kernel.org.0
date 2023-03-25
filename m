@@ -2,42 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B5E6C90AB
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A63B6C90B8
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:33:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230317AbjCYUTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 16:19:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50390 "EHLO
+        id S229711AbjCYUdU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 16:33:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbjCYUTv (ORCPT
+        with ESMTP id S229460AbjCYUdT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 16:19:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0772DD31D
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:19:50 -0700 (PDT)
+        Sat, 25 Mar 2023 16:33:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89785DF
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:33:18 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DBDA89F;
-        Sat, 25 Mar 2023 21:19:48 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E3EB89F
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 21:33:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679775588;
-        bh=t9Gm2qg6/V2UGvpZMwAY3Fw5/d2Aa94eWo39errrAao=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IItCIk+5v2CF1NaP0YvkhWL4UibVN39HI9AyBpMExOjdnDVJKSuVOBMl7ZjKCCxQo
-         DN7IRwUrBJveGSG9OOMiz5BSr+Evmx5Rl3Bx0QQYeEK06dUtoC+6BbbkD6TsyhQ8mk
-         ShzSvsQ2vFgBYrxwNK7uKNH69NOsWT2AqqfrVdJ4=
-Date:   Sat, 25 Mar 2023 22:19:54 +0200
+        s=mail; t=1679776397;
+        bh=xSqk1aDivsLYRv88PCgHOj4ehWZWdg6fXh0D5uhunGU=;
+        h=Date:From:To:Subject:From;
+        b=fh9lbNH7tvdNG6ZHXAEmlNa6kyXm9XDSEgZFJEvO0KOu9xuPnIslTn1yTqVMj8lAf
+         TifasQy8btTfQ0TQwSFkxP/VRJeVSVFfD7ZyvsBOvxo2gDSVY1OkaBJyfxHvcElh5m
+         MWwtRwO3LTyCLzxHHbNudRP9sJg/4EUIyWhx1pgQ=
+Date:   Sat, 25 Mar 2023 22:33:23 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     linux-sunxi@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Adam Pigg <adam@piggz.co.uk>
-Subject: Re: [PATCH v1 0/2] media: sun6i-csi: Fix format propagation in bridge
-Message-ID: <20230325201954.GA17021@pendragon.ideasonboard.com>
-References: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
+Subject: [GIT PULL FOR v6.4] media: Drop unused I2C drivers
+Message-ID: <20230325203323.GA19335@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -47,36 +42,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Mauro,
 
-Ping for a review. I'd like to get this in v6.4.
+The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
 
-On Wed, Jan 04, 2023 at 06:22:13PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> This small patch series fixes format propagation in the sun6i-csi-bridge
-> subdev from sink pad to source pad. In order to do so, it uses the V4L2
-> subdev active state provided by the V4L2 subdev core (patch 2/2), with a
-> preparatory patch (1/2) that drops direct access to the bridge fields
-> from the capture side.
-> 
-> I haven't tested the patches myself as I lack a hardware platform for
-> this, but Adam (on CC) has successfully tested them. Adam, if you want
-> to reply with a Tested-by tag, that would be appreciated.
-> 
-> Laurent Pinchart (2):
->   media: sun6i-csi: capture: Use subdev operation to access bridge
->     format
->   media: sun6i-csi: subdev: Use subdev active state to store active
->     format
-> 
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 211 ++++++++----------
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  23 +-
->  3 files changed, 110 insertions(+), 133 deletions(-)
-> 
-> 
-> base-commit: 6599e683db1bf22fee74302c47e31b9a42a1c3d2
+  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-pdata-next-20230325
+
+for you to fetch changes up to 1150fb3db5c3b78c1245f4dec87ae8878b27413f:
+
+  media: i2c: Drop unused vs6624 camera sensor driver (2023-03-25 22:21:18 +0200)
+
+----------------------------------------------------------------
+media: Drop unused I2C drivers
+
+----------------------------------------------------------------
+Laurent Pinchart (8):
+      media: i2c: Drop unused ad9389b video encoder driver
+      media: i2c: Drop unused m5mols camera sensor driver
+      media: i2c: Drop unused mt9m032 camera sensor driver
+      media: i2c: Drop unused mt9t001 camera sensor driver
+      media: i2c: Drop unused noon010pc30 camera sensor driver
+      media: i2c: Drop unused s5k6aa camera sensor driver
+      media: i2c: Drop unused sr030pc30 camera sensor driver
+      media: i2c: Drop unused vs6624 camera sensor driver
+
+ Documentation/admin-guide/media/i2c-cardlist.rst |    8 -
+ MAINTAINERS                                      |   30 -
+ drivers/media/i2c/Kconfig                        |   67 -
+ drivers/media/i2c/Makefile                       |    8 -
+ drivers/media/i2c/ad9389b.c                      | 1215 ----------------
+ drivers/media/i2c/m5mols/Kconfig                 |    8 -
+ drivers/media/i2c/m5mols/Makefile                |    4 -
+ drivers/media/i2c/m5mols/m5mols.h                |  349 -----
+ drivers/media/i2c/m5mols/m5mols_capture.c        |  158 ---
+ drivers/media/i2c/m5mols/m5mols_controls.c       |  625 --------
+ drivers/media/i2c/m5mols/m5mols_core.c           | 1051 --------------
+ drivers/media/i2c/m5mols/m5mols_reg.h            |  359 -----
+ drivers/media/i2c/mt9m032.c                      |  891 ------------
+ drivers/media/i2c/mt9t001.c                      |  992 -------------
+ drivers/media/i2c/noon010pc30.c                  |  821 -----------
+ drivers/media/i2c/s5k6aa.c                       | 1652 ----------------------
+ drivers/media/i2c/sr030pc30.c                    |  762 ----------
+ drivers/media/i2c/vs6624.c                       |  854 -----------
+ drivers/media/i2c/vs6624_regs.h                  |  325 -----
+ include/media/i2c/ad9389b.h                      |   37 -
+ include/media/i2c/m5mols.h                       |   25 -
+ include/media/i2c/mt9m032.h                      |   22 -
+ include/media/i2c/mt9t001.h                      |   10 -
+ include/media/i2c/noon010pc30.h                  |   21 -
+ include/media/i2c/s5k6aa.h                       |   48 -
+ include/media/i2c/sr030pc30.h                    |   17 -
+ 26 files changed, 10359 deletions(-)
+ delete mode 100644 drivers/media/i2c/ad9389b.c
+ delete mode 100644 drivers/media/i2c/m5mols/Kconfig
+ delete mode 100644 drivers/media/i2c/m5mols/Makefile
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols.h
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_capture.c
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_controls.c
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_core.c
+ delete mode 100644 drivers/media/i2c/m5mols/m5mols_reg.h
+ delete mode 100644 drivers/media/i2c/mt9m032.c
+ delete mode 100644 drivers/media/i2c/mt9t001.c
+ delete mode 100644 drivers/media/i2c/noon010pc30.c
+ delete mode 100644 drivers/media/i2c/s5k6aa.c
+ delete mode 100644 drivers/media/i2c/sr030pc30.c
+ delete mode 100644 drivers/media/i2c/vs6624.c
+ delete mode 100644 drivers/media/i2c/vs6624_regs.h
+ delete mode 100644 include/media/i2c/ad9389b.h
+ delete mode 100644 include/media/i2c/m5mols.h
+ delete mode 100644 include/media/i2c/mt9m032.h
+ delete mode 100644 include/media/i2c/mt9t001.h
+ delete mode 100644 include/media/i2c/noon010pc30.h
+ delete mode 100644 include/media/i2c/s5k6aa.h
+ delete mode 100644 include/media/i2c/sr030pc30.h
 
 -- 
 Regards,
