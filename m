@@ -2,38 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D126C902D
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 19:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 518786C902F
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 19:49:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229582AbjCYSrr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 14:47:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37020 "EHLO
+        id S229956AbjCYStI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 14:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjCYSrq (ORCPT
+        with ESMTP id S229446AbjCYStH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 14:47:46 -0400
+        Sat, 25 Mar 2023 14:49:07 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E6A2717
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 11:47:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23056CA1B;
+        Sat, 25 Mar 2023 11:49:07 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C4D489F
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 19:47:42 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5689A89F;
+        Sat, 25 Mar 2023 19:49:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679770062;
-        bh=z8tLijHuj8Wsuvo9TcGvxlaEMmFdz2X1M6kvgm8kJSs=;
-        h=Date:From:To:Subject:From;
-        b=wlUwU6vhb04yywHejwvbSd669XfWrUoTNOVJRxi9x9Ea/NVhQKQUULqz9zXHlXXhK
-         gZ2xvA/2v2N7/xPWf7GOmEyH9FZz7+dy18IxVw0sbrIVhDtZM5/+dzc4MS0Yp9TGTs
-         HxoKWRZytAP5bk0NYrELNresJT6vouAk7dY2CR+w=
-Date:   Sat, 25 Mar 2023 20:47:47 +0200
+        s=mail; t=1679770145;
+        bh=6TO2jMVoSqNavdEr1MgvppOe8Bh1r1Q4C3DHa8tQ3q4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YgLccTpaZjo5DQzZVlYqsm7bkOv0nR+CoheXBm71mI9IHN+Nz7Fhn85B9KrSyhB/B
+         0k/cV9Em8j+DqIPWBORcMNHXINhGSjKqdREuNcivfKtvMbcw4Gs5QRYAiTxPnWDOjR
+         T3WWdaQhHK3z3OCpUWzwMiyJ3kCA9YTfgkTssukg=
+Date:   Sat, 25 Mar 2023 20:49:12 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.4] Miscellaneous cleanups and fixes for i.MX media
- drivers
-Message-ID: <20230325184747.GB9876@pendragon.ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, shawnguo@kernel.org,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm
+Subject: Re: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded
+ state variable and function
+Message-ID: <20230325184912.GC9876@pendragon.ideasonboard.com>
+References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
+ <20230307150047.1486186-3-martin.kepplinger@puri.sm>
+ <20230312133706.GJ2545@pendragon.ideasonboard.com>
+ <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
+ <a0a10c7bf7fdf388b7d09ca3ba59e416d4924877.camel@puri.sm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <a0a10c7bf7fdf388b7d09ca3ba59e416d4924877.camel@puri.sm>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -43,48 +55,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Martin,
 
-The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
+On Sat, Mar 25, 2023 at 10:59:47AM +0100, Martin Kepplinger wrote:
+> Am Sonntag, dem 12.03.2023 um 15:04 +0100 schrieb Martin Kepplinger:
+> > Am Sonntag, dem 12.03.2023 um 15:37 +0200 schrieb Laurent Pinchart:
+> > > On Tue, Mar 07, 2023 at 04:00:47PM +0100, Martin Kepplinger wrote:
+> > > > Clean up the driver a bit by inlining the
+> > > > imx8mq_mipi_csi_system_enable()
+> > > > function to the callsites and removing the hs_settle variable
+> > > > from
+> > > > the
+> > > > driver state.
+> > > > 
+> > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > 
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > 
+> > > Could I volunteer you to also drop the struct csi_state state field ?
+> > > :-)
+> > 
+> > sure :) it can become at least a bit more tricky than this patch. I'll
+> > take the time after this is merged.
+> > 
+> > thanks for the fast reviewing
+> 
+> Laurent, are these 2 patches queued up somewhere? I'm used to waiting
+> until they are part of a tree that is part of linux-next before sending
+> something new. Does that make sense?
 
-  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
+I've just sent a pull request to Mauro for v6.4. You can find the patch
+in my tree at
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-imx-next-20230325
-
-for you to fetch changes up to 1f1863b6ca3c12c50407e728d12060f81f6c108c:
-
-  staging: media: imx: Make imx_media_of_add_csi() static (2023-03-25 20:36:10 +0200)
-
-----------------------------------------------------------------
-Miscellaneous cleanups and fixes for i.MX media drivers
-
-----------------------------------------------------------------
-Alexander Stein (2):
-      media: imx: imx7-media-csi: Fix mbus framefmt field init
-      media: imx: imx7-media-csi: Fail on invalid type in VIDIOC_G_SELECTION
-
-Frieder Schrempf (1):
-      media: imx: imx7-media-csi: Fix error handling in imx7_csi_async_register()
-
-Laurent Pinchart (4):
-      staging: media: imx: Drop imx_media_subdev_bound()
-      staging: media: imx: Drop IMX_MEDIA_GRP_ID_CSI
-      staging: media: imx: Drop unused helper functions
-      staging: media: imx: Make imx_media_of_add_csi() static
-
-Martin Kepplinger (2):
-      media: imx: imx8mq-mipi-csi2: Use V4L2 subdev active state
-      media: imx: imx8mq-mipi-csi2: Remove unneeded state variable and function
-
- drivers/media/platform/nxp/imx7-media-csi.c      |  27 ++--
- drivers/staging/media/imx/imx-media-dev-common.c |  14 ---
- drivers/staging/media/imx/imx-media-of.c         |   5 +-
- drivers/staging/media/imx/imx-media-utils.c      |  68 ----------
- drivers/staging/media/imx/imx-media.h            |  13 --
- drivers/staging/media/imx/imx8mq-mipi-csi2.c     | 152 +++++++++--------------
- 6 files changed, 77 insertions(+), 202 deletions(-)
+	git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git media-imx-next-20230325
 
 -- 
 Regards,
