@@ -2,42 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65B686C9106
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 22:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0031B6C9107
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 22:42:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbjCYVlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 17:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
+        id S231248AbjCYVmN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 17:42:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbjCYVlH (ORCPT
+        with ESMTP id S231258AbjCYVmL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 17:41:07 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B0449F2
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 14:41:03 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgBdG-0073Xb-AN; Sat, 25 Mar 2023 21:41:02 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgBdE-00E22O-1k; Sat, 25 Mar 2023 21:41:00 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] media: Miscellaneous fixes for Renesas drivers (#90683)
-Date:   Sat, 25 Mar 2023 21:41:00 +0000
-Message-Id: <20230325214100.3344378-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230325203709.GC19335@pendragon.ideasonboard.com>
-References: 
+        Sat, 25 Mar 2023 17:42:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D857EDB;
+        Sat, 25 Mar 2023 14:42:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A02C98BE;
+        Sat, 25 Mar 2023 22:42:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679780525;
+        bh=CAS+ru0ajwIKIWzCOM/JwX8K8QgHCTE7GYFPL5L+3xo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H2MrBCNWiVjUgxcVGkWWQZNsLizT7wYScyi3l/Y6iGkdX8yP6MEzcOX9Eh9nc+UMw
+         ohq5ygASUG6ikzJWztkAe8SVq4+U0Ljg0EXcxop0u1GDqS5POWL+I/zSB2MTnS3WQx
+         53lDQMMa1U0vCNF9Ot4nEzr/H8JmoxQ7ZsRCpSYI=
+Date:   Sat, 25 Mar 2023 23:42:12 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Adam Pigg <adam@piggz.co.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 8/9] media: sun6i-isp: capture: Implement MC I/O with
+ extended enum_fmt
+Message-ID: <20230325214212.GF22214@pendragon.ideasonboard.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+ <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230324151228.2778112-9-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,58 +55,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Paul,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230325203709.GC19335@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/292349/
-Build time: 00:18:39
-Link: https://lore.kernel.org/linux-media/20230325203709.GC19335@pendragon.ideasonboard.com
+Thank you for the patch.
 
-gpg: Signature made Sat 25 Mar 2023 08:36:08 PM UTC
-gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+On Fri, Mar 24, 2023 at 04:12:27PM +0100, Paul Kocialkowski wrote:
+> This driver needs the media-controller API to operate and should not be
+> considered as a video-device-centric implementation.
+> 
+> Properly report the IO_MC device cap and extend the enum_fmt
+> implementation to support enumeration with an explicit mbus_code.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> index 1595a9607775..5160b93b69ff 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+> @@ -439,6 +439,12 @@ static int sun6i_isp_capture_enum_fmt(struct file *file, void *private,
+>  				      struct v4l2_fmtdesc *fmtdesc)
+>  {
+>  	u32 index = fmtdesc->index;
+> +	u32 mbus_code = fmtdesc->mbus_code;
+> +
+> +	if (mbus_code && !sun6i_isp_proc_format_find(mbus_code))
+> +		return -EINVAL;
+> +
 
-Summary: got 3/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
+This doesn't look right. As far as I understand,
+sun6i_isp_proc_format_find() looks up media bus codes for the ISP sink
+pad. Here you enuemrate pixel formats of the ISP output, so the media
+bus code given by userspace corresponds to the ISP source pad.
 
-Error/warnings:
+I've had a look at sun6i_isp_proc_set_fmt() to see what media bus codes
+are used on the ISP output, and couldn't figure it out as it seems
+incorrectly implemented :-) The function doesn't check format->pad.
 
-patches/0001-media-vsp1-Remove-unused-vsp1_subdev_internal_ops-de.patch:
+> +	/* Capture format is independent from proc format. */
+>  
+>  	if (index >= ARRAY_SIZE(sun6i_isp_capture_formats))
+>  		return -EINVAL;
+> @@ -685,7 +691,8 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+>  
+>  	strscpy(video_dev->name, SUN6I_ISP_CAPTURE_NAME,
+>  		sizeof(video_dev->name));
+> -	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
+> +				 V4L2_CAP_IO_MC;
+>  	video_dev->vfl_dir = VFL_DIR_RX;
+>  	video_dev->release = video_device_release_empty;
+>  	video_dev->fops = &sun6i_isp_capture_fops;
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+-- 
+Regards,
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1974803
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-   checkpatch.pl:
-	$ cat patches/0001-media-vsp1-Remove-unused-vsp1_subdev_internal_ops-de.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 0efdf0f5eaaf ("[media] v4l: vsp1: Implement and use the subdev pad::init_cfg configuration")'
-
-patches/0002-media-vsp1-Replace-vb2_is_streaming-with-vb2_start_s.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-vsp1-Replace-vb2_is_streaming-with-vb2_start_s.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:84: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0003-media-vsp1-Add-underrun-debug-print.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-media-vsp1-Add-underrun-debug-print.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:58: CHECK: Alignment should match open parenthesis
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
