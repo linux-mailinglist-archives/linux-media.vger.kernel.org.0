@@ -2,96 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E566C8C23
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 08:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CFBB6C8CC7
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 09:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231898AbjCYHPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 03:15:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42054 "EHLO
+        id S232037AbjCYIsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 04:48:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232137AbjCYHPF (ORCPT
+        with ESMTP id S231616AbjCYIsA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 03:15:05 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19EAFCA2C;
-        Sat, 25 Mar 2023 00:15:00 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id b20so16191969edd.1;
-        Sat, 25 Mar 2023 00:15:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679728499;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kijlfd+PM0iLIZMF5+sg/CV/MasVvO3Ll6lZ/t4bxdI=;
-        b=FZ77NWTfSvwT9v8ocqKeOx4jjsZG5oQfioG+yB5uQMy343Q3nOmxEvvsbJkARFtPCH
-         PwDPkywFMhLaH8YuxGXhcqrtS7PdWpVXx+6W6Ro4UVAYHdmIbBT1JclOId1f4x5ceYXP
-         PbqbjfdR1rBm87M/EJ0MJGXzmSvs5O4PYwsbuPFjrC9kfmaSxKG9jAvImLdLLsfIkcB+
-         3RV2h09TnxpZo0CjAeJSfq/8vcI2Fj051E8yih2107elwNcbyGKBOQBn0AUu7+JNYaY6
-         rSOUt15DbINLqRQxGtkDhuolo6xMi8HwEnqSfFn0SWCCA2YPunw7GDmC4P8NPacGwyek
-         c2Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679728499;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kijlfd+PM0iLIZMF5+sg/CV/MasVvO3Ll6lZ/t4bxdI=;
-        b=FWENjpNfR+tF7urRJ0dXB0k7Ldf6FYYea0l+6P6QL1CrAl5KqPlQvfxG2Cbzr5XgTV
-         Qkv1YPBXPoAMcS84P/cTPxY2nJf0O38f8JfWtc3Syde1Yi0ODbhYT6hpFTMLT2FP82f0
-         yHC2NjGPNI+ldBZ3lhswQPsekWkHD8zco9C2mP/wUhn5gVD7jeYCjdWcP25Qk+Q1T2+N
-         GNpEVkazWgIspAocu52shkRd7pu/Kyuj9e7xK1wQ8dr7eOH4E67xa+SELb/jGzMjwntk
-         okyaoWiVwBesf29FohqBFYXB/UlUzzTVu5jcgQcOkQv+sKyGMYSk68zW84l6Lyy8fwX7
-         z1dw==
-X-Gm-Message-State: AAQBX9cQ1m0XDeVGDzjr2EhQhd+93iwvFR8HCwb43VdOXgsjUqJmYk2R
-        4t45iHBbsO2G9Yhc5Qbff7M+vgMrZrA=
-X-Google-Smtp-Source: AKy350bVXqlcE3R0ij4TuNgV6ae2ij2U7WNVD9/hsIPrrzW64ZPAegx3gEMchmCP/NzT8DnQVmXMEg==
-X-Received: by 2002:aa7:dad3:0:b0:4fb:999:e04c with SMTP id x19-20020aa7dad3000000b004fb0999e04cmr5766278eds.38.1679728499360;
-        Sat, 25 Mar 2023 00:14:59 -0700 (PDT)
-Received: from kista.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
-        by smtp.gmail.com with ESMTPSA id i23-20020a508717000000b004af6c5f1805sm11822239edb.52.2023.03.25.00.14.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 00:14:59 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Sat, 25 Mar 2023 04:48:00 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A74DBF4
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 01:47:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679734078; x=1711270078;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NcHFcqwXTycpuEKFSID3iofuj7JtaA9K366UVtHEpt0=;
+  b=md7NvM/zr4rziuoj9hdth75ZH7M+PCyiwPsGfz7LYQE8cWppSma151nH
+   sw7TjwbHcp5K/bcxfOz2uu7Ao540Vj3woSCEEIgwr3bkASCb0yJWfyaPz
+   lActKNVjqz0A5xLlkwUpRmfZ0wRdNBsTVvIOAo4u3KQ2/8MKrdOFt5+x3
+   jfO9dOieD/fLlv1Ep1AvDOW5pLyIGg3GyGFvzYijhwfD2x76btwFEN6B/
+   hDwEF0fgJ2Hvp7zFV3sC6Gguc0uXex4ouovAyt3WLOyGQJxpqL191rPXw
+   5wc0Qm6lkOPSdzi/7Zn540/QYyzCzaUmTVno2bHiz66MFZEQi2NomSIpt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="323837065"
+X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
+   d="scan'208";a="323837065"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 01:47:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="793722501"
+X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
+   d="scan'208";a="793722501"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2023 01:47:56 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pfzZ5-000G7r-0B;
+        Sat, 25 Mar 2023 08:47:55 +0000
+Date:   Sat, 25 Mar 2023 16:47:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Stefan Herdler <herdler@nurfuerspam.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Adam Pigg <adam@piggz.co.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 9/9] media: sun6i-isp: capture: Implement enum_framesizes
-Date:   Sat, 25 Mar 2023 08:14:57 +0100
-Message-ID: <7500135.EvYhyI6sBW@kista>
-In-Reply-To: <20230324151228.2778112-10-paul.kocialkowski@bootlin.com>
-References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
- <20230324151228.2778112-10-paul.kocialkowski@bootlin.com>
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>,
+        Soeren Moch <smoch@web.de>
+Subject: Re: [PATCH] Legacy DVB API: completion of documentation
+Message-ID: <202303251637.x35nzuXi-lkp@intel.com>
+References: <50f69514-abbb-2dfb-6060-889aa2c6e02c@nurfuerspam.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50f69514-abbb-2dfb-6060-889aa2c6e02c@nurfuerspam.de>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 24. marec 2023 ob 16:12:28 CET je Paul Kocialkowski napisal(a):
-> Report available frame sizes as a continuous range between the
-> hardware min/max limits.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Co-authored-by: Adam Pigg <adam@piggz.co.uk>
-> Signed-off-by: Adam Pigg <adam@piggz.co.uk>
+Hi Stefan,
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Thank you for the patch! Perhaps something to improve:
 
-Best regards,
-Jernej
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Herdler/Legacy-DVB-API-completion-of-documentation/20230325-094623
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/50f69514-abbb-2dfb-6060-889aa2c6e02c%40nurfuerspam.de
+patch subject: [PATCH] Legacy DVB API: completion of documentation
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/1dee8a08e2a818066aa1453a7370685deb3a5786
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Stefan-Herdler/Legacy-DVB-API-completion-of-documentation/20230325-094623
+        git checkout 1dee8a08e2a818066aa1453a7370685deb3a5786
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303251637.x35nzuXi-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst:155: WARNING: Error in "cpp:function" directive:
+>> Documentation/userspace-api/media/dvb/legacy_dvb_osd.rst:399: WARNING: Error in "cpp:function" directive:
+
+vim +155 Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+
+   154	
+ > 155	.. cpp:function:: int ioctl(int fd, int request = AUDIO_STOP)
+   156	   :name: LEGACY_DVB_AUDIO_STOP
+   157	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
