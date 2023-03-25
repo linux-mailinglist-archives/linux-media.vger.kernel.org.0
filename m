@@ -2,72 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E764D6C90A0
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D0296C90AA
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:19:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231667AbjCYUJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 16:09:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
+        id S230223AbjCYUTv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 16:19:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjCYUJN (ORCPT
+        with ESMTP id S229659AbjCYUTu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 16:09:13 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F2440EF
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:09:12 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4PkVXP3H7xzyRB;
-        Sat, 25 Mar 2023 22:09:08 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1679774950;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UxURUquIh6lnqg3cbLZWiqaPlr2CcImsKif2t0AcJg8=;
-        b=pQ6xwdAUhXHC1oF1y/RDf8lTr5HIrpy9Ak73UOY0jJDY37KWngKMpbs0dnAMly2bboPNG4
-        xvUGKIAedigNvzZADpO65o85GWFkcUeApJhq130whzKHhvq5K5Yu9SsuYICPTphsOSb6UD
-        NFQWC5UXz8VzizqPkAiwhRNClcuOkUc=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1679774950; a=rsa-sha256; cv=none;
-        b=u3qzl2emiFHwcgcHoSJ5gG65YcCirY5uKqucZDJAEaV7nwqdaHXRXtbSGJ8KaoXoMJfrU/
-        SIo1KDN2XjjIQacvYzK9ShzVc2SFX3sENNW/L3a1WkcoByT6Hv0n5OgWDS4stNZ/mRlsV2
-        Ay38N+9bIidw+Lb5L6sH52e8KyeY5yI=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1679774950;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UxURUquIh6lnqg3cbLZWiqaPlr2CcImsKif2t0AcJg8=;
-        b=hrxn99kICAP8asnGqOWwbmnnfy2DUItFbmORybKbeq1zb11uBgM8qDJQDGC+orq8WRMuOZ
-        OtGQ6EWAnQNxJFctMv6lCJvd1HjaMROogC4ejrsRrP2vl3Qm5RvrXoKFxAkby/VxXTJbSE
-        CJZZvT3pZc4rblHNV9VZ4zxRg7zsliY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 147C9634C91;
-        Sat, 25 Mar 2023 22:07:16 +0200 (EET)
-Date:   Sat, 25 Mar 2023 22:07:16 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Mirela Rabulea <mirela.rabulea@nxp.com>, linux-imx@nxp.com,
-        kernel@pengutronix.de
-Subject: Re: [PATCH] media: imx-jpeg: Fix incorrect indentation
-Message-ID: <ZB9UdAw+fv2cboAv@valkosipuli.retiisi.eu>
-References: <20230215160800.12621-1-laurent.pinchart@ideasonboard.com>
+        Sat, 25 Mar 2023 16:19:50 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D605CD309
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:19:48 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pgAMd-0071iM-7s; Sat, 25 Mar 2023 20:19:47 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pgAMa-00C2ok-J0; Sat, 25 Mar 2023 20:19:44 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] Miscellaneous rkisp1 changes (#90680)
+Date:   Sat, 25 Mar 2023 20:19:44 +0000
+Message-Id: <20230325201944.2870720-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230325195946.GF9876@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230215160800.12621-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,13 +45,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 15, 2023 at 06:08:00PM +0200, Laurent Pinchart wrote:
-> Variable initialization code in notify_src_chg() is incorrectly
-> indented. Fix it.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: builder@linuxtv.org
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230325195946.GF9876@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/292343/
+Build time: 00:17:57
+Link: https://lore.kernel.org/linux-media/20230325195946.GF9876@pendragon.ideasonboard.com
 
--- 
-Sakari Ailus
+gpg: Signature made Sat 25 Mar 2023 07:35:05 PM UTC
+gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
+
+Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-rkisp1-Add-NV16M-and-NV61M-to-output-formats.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1975239
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+
+Error #512 when building PDF docs
+
