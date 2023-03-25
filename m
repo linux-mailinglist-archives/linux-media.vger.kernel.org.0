@@ -2,52 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 518786C902F
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 19:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 742D16C9061
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 20:16:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbjCYStI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 14:49:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39242 "EHLO
+        id S229994AbjCYTQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 15:16:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjCYStH (ORCPT
+        with ESMTP id S229446AbjCYTQB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 14:49:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23056CA1B;
-        Sat, 25 Mar 2023 11:49:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5689A89F;
-        Sat, 25 Mar 2023 19:49:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679770145;
-        bh=6TO2jMVoSqNavdEr1MgvppOe8Bh1r1Q4C3DHa8tQ3q4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YgLccTpaZjo5DQzZVlYqsm7bkOv0nR+CoheXBm71mI9IHN+Nz7Fhn85B9KrSyhB/B
-         0k/cV9Em8j+DqIPWBORcMNHXINhGSjKqdREuNcivfKtvMbcw4Gs5QRYAiTxPnWDOjR
-         T3WWdaQhHK3z3OCpUWzwMiyJ3kCA9YTfgkTssukg=
-Date:   Sat, 25 Mar 2023 20:49:12 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, shawnguo@kernel.org,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@puri.sm
-Subject: Re: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded
- state variable and function
-Message-ID: <20230325184912.GC9876@pendragon.ideasonboard.com>
-References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
- <20230307150047.1486186-3-martin.kepplinger@puri.sm>
- <20230312133706.GJ2545@pendragon.ideasonboard.com>
- <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
- <a0a10c7bf7fdf388b7d09ca3ba59e416d4924877.camel@puri.sm>
+        Sat, 25 Mar 2023 15:16:01 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85327DBC8
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 12:16:00 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pg9Ms-007091-Gy; Sat, 25 Mar 2023 19:15:58 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pg9Mp-00An4O-5o; Sat, 25 Mar 2023 19:15:55 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] Miscellaneous cleanups and fixes for i.MX media (#90678)
+Date:   Sat, 25 Mar 2023 19:15:54 +0000
+Message-Id: <20230325191554.2571858-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230325184747.GB9876@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a0a10c7bf7fdf388b7d09ca3ba59e416d4924877.camel@puri.sm>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,41 +45,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+From: builder@linuxtv.org
 
-On Sat, Mar 25, 2023 at 10:59:47AM +0100, Martin Kepplinger wrote:
-> Am Sonntag, dem 12.03.2023 um 15:04 +0100 schrieb Martin Kepplinger:
-> > Am Sonntag, dem 12.03.2023 um 15:37 +0200 schrieb Laurent Pinchart:
-> > > On Tue, Mar 07, 2023 at 04:00:47PM +0100, Martin Kepplinger wrote:
-> > > > Clean up the driver a bit by inlining the
-> > > > imx8mq_mipi_csi_system_enable()
-> > > > function to the callsites and removing the hs_settle variable
-> > > > from
-> > > > the
-> > > > driver state.
-> > > > 
-> > > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > 
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > Could I volunteer you to also drop the struct csi_state state field ?
-> > > :-)
-> > 
-> > sure :) it can become at least a bit more tricky than this patch. I'll
-> > take the time after this is merged.
-> > 
-> > thanks for the fast reviewing
-> 
-> Laurent, are these 2 patches queued up somewhere? I'm used to waiting
-> until they are part of a tree that is part of linux-next before sending
-> something new. Does that make sense?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230325184747.GB9876@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/292335/
+Build time: 00:22:01
+Link: https://lore.kernel.org/linux-media/20230325184747.GB9876@pendragon.ideasonboard.com
 
-I've just sent a pull request to Mauro for v6.4. You can find the patch
-in my tree at
+gpg: Signature made Sat 25 Mar 2023 06:40:10 PM UTC
+gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git media-imx-next-20230325
+Summary: got 1/9 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
--- 
-Regards,
+Error/warnings:
 
-Laurent Pinchart
+patches/0001-media-imx-imx7-media-csi-Fix-error-handling-in-imx7_.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974618
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
+
+
+Error #512 when building PDF docs
+
