@@ -2,42 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D0296C90AA
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:19:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13B5E6C90AB
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:19:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbjCYUTv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 16:19:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
+        id S230317AbjCYUTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 16:19:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjCYUTu (ORCPT
+        with ESMTP id S229805AbjCYUTv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 16:19:50 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D605CD309
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:19:48 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgAMd-0071iM-7s; Sat, 25 Mar 2023 20:19:47 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgAMa-00C2ok-J0; Sat, 25 Mar 2023 20:19:44 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] Miscellaneous rkisp1 changes (#90680)
-Date:   Sat, 25 Mar 2023 20:19:44 +0000
-Message-Id: <20230325201944.2870720-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230325195946.GF9876@pendragon.ideasonboard.com>
-References: 
+        Sat, 25 Mar 2023 16:19:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0772DD31D
+        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 13:19:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DBDA89F;
+        Sat, 25 Mar 2023 21:19:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679775588;
+        bh=t9Gm2qg6/V2UGvpZMwAY3Fw5/d2Aa94eWo39errrAao=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IItCIk+5v2CF1NaP0YvkhWL4UibVN39HI9AyBpMExOjdnDVJKSuVOBMl7ZjKCCxQo
+         DN7IRwUrBJveGSG9OOMiz5BSr+Evmx5Rl3Bx0QQYeEK06dUtoC+6BbbkD6TsyhQ8mk
+         ShzSvsQ2vFgBYrxwNK7uKNH69NOsWT2AqqfrVdJ4=
+Date:   Sat, 25 Mar 2023 22:19:54 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-sunxi@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Adam Pigg <adam@piggz.co.uk>
+Subject: Re: [PATCH v1 0/2] media: sun6i-csi: Fix format propagation in bridge
+Message-ID: <20230325201954.GA17021@pendragon.ideasonboard.com>
+References: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230104162215.31194-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,42 +47,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Paul,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230325195946.GF9876@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/292343/
-Build time: 00:17:57
-Link: https://lore.kernel.org/linux-media/20230325195946.GF9876@pendragon.ideasonboard.com
+Ping for a review. I'd like to get this in v6.4.
 
-gpg: Signature made Sat 25 Mar 2023 07:35:05 PM UTC
-gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+On Wed, Jan 04, 2023 at 06:22:13PM +0200, Laurent Pinchart wrote:
+> Hello,
+> 
+> This small patch series fixes format propagation in the sun6i-csi-bridge
+> subdev from sink pad to source pad. In order to do so, it uses the V4L2
+> subdev active state provided by the V4L2 subdev core (patch 2/2), with a
+> preparatory patch (1/2) that drops direct access to the bridge fields
+> from the capture side.
+> 
+> I haven't tested the patches myself as I lack a hardware platform for
+> this, but Adam (on CC) has successfully tested them. Adam, if you want
+> to reply with a Tested-by tag, that would be appreciated.
+> 
+> Laurent Pinchart (2):
+>   media: sun6i-csi: capture: Use subdev operation to access bridge
+>     format
+>   media: sun6i-csi: subdev: Use subdev active state to store active
+>     format
+> 
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 211 ++++++++----------
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  23 +-
+>  3 files changed, 110 insertions(+), 133 deletions(-)
+> 
+> 
+> base-commit: 6599e683db1bf22fee74302c47e31b9a42a1c3d2
 
-Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+-- 
+Regards,
 
-Error/warnings:
-
-patches/0001-media-rkisp1-Add-NV16M-and-NV61M-to-output-formats.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1975239
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
