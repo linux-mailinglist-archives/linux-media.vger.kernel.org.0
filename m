@@ -2,66 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CFBB6C8CC7
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 09:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DF9F6C8D02
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 11:00:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232037AbjCYIsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 04:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50550 "EHLO
+        id S232066AbjCYJ74 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 05:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231616AbjCYIsA (ORCPT
+        with ESMTP id S230073AbjCYJ7z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 04:48:00 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A74DBF4
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 01:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679734078; x=1711270078;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NcHFcqwXTycpuEKFSID3iofuj7JtaA9K366UVtHEpt0=;
-  b=md7NvM/zr4rziuoj9hdth75ZH7M+PCyiwPsGfz7LYQE8cWppSma151nH
-   sw7TjwbHcp5K/bcxfOz2uu7Ao540Vj3woSCEEIgwr3bkASCb0yJWfyaPz
-   lActKNVjqz0A5xLlkwUpRmfZ0wRdNBsTVvIOAo4u3KQ2/8MKrdOFt5+x3
-   jfO9dOieD/fLlv1Ep1AvDOW5pLyIGg3GyGFvzYijhwfD2x76btwFEN6B/
-   hDwEF0fgJ2Hvp7zFV3sC6Gguc0uXex4ouovAyt3WLOyGQJxpqL191rPXw
-   5wc0Qm6lkOPSdzi/7Zn540/QYyzCzaUmTVno2bHiz66MFZEQi2NomSIpt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="323837065"
-X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="323837065"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 01:47:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="793722501"
-X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="793722501"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Mar 2023 01:47:56 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pfzZ5-000G7r-0B;
-        Sat, 25 Mar 2023 08:47:55 +0000
-Date:   Sat, 25 Mar 2023 16:47:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Stefan Herdler <herdler@nurfuerspam.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>
-Subject: Re: [PATCH] Legacy DVB API: completion of documentation
-Message-ID: <202303251637.x35nzuXi-lkp@intel.com>
-References: <50f69514-abbb-2dfb-6060-889aa2c6e02c@nurfuerspam.de>
+        Sat, 25 Mar 2023 05:59:55 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34CCEDBC5;
+        Sat, 25 Mar 2023 02:59:54 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id D1D42FCE3B;
+        Sat, 25 Mar 2023 02:59:53 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id o8nROS5231e1; Sat, 25 Mar 2023 02:59:53 -0700 (PDT)
+Message-ID: <a0a10c7bf7fdf388b7d09ca3ba59e416d4924877.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1679738393; bh=3Fg+LMktGNv0YxDPBo5MDgiv93LD8o8DA2oXs8mAEOI=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=UNt18uh7UbXW3VYZUaog5fmlbhXAwYfJ2rvrELOOeo09b8xntVL4EH4fKRxlEVw6A
+         HQkTON6k5kBiKLO6Q61QOkQIEKu5VKHRNlR3c9t5Ed8vl1v1YH0/pJUU2WvhFO4RpG
+         vnEArbASOJC31VR6d+SRIQAppYmTV2oyC6DPg2CWR+O39MTBjXFb6K1Hg5JkhuG88i
+         JzA+38BKA943hr1sfDX+qpX2R4yJrpk4lQZ4cD8//Di87T04nNND09wrPvZMeYVzex
+         gJcC1qNzp/2A9pSpi8bGwzQlaVORna9EKpXQ5ip2GDLrCeR1WYESK0aF9VbW5vE2i2
+         xNQDvrchg9e7g==
+Subject: Re: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded
+ state variable and function
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, shawnguo@kernel.org,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm
+Date:   Sat, 25 Mar 2023 10:59:47 +0100
+In-Reply-To: <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
+References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
+         <20230307150047.1486186-3-martin.kepplinger@puri.sm>
+         <20230312133706.GJ2545@pendragon.ideasonboard.com>
+         <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <50f69514-abbb-2dfb-6060-889aa2c6e02c@nurfuerspam.de>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,45 +60,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+Am Sonntag, dem 12.03.2023 um 15:04 +0100 schrieb Martin Kepplinger:
+> Am Sonntag, dem 12.03.2023 um 15:37 +0200 schrieb Laurent Pinchart:
+> > Hi Martin,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Tue, Mar 07, 2023 at 04:00:47PM +0100, Martin Kepplinger wrote:
+> > > Clean up the driver a bit by inlining the
+> > > imx8mq_mipi_csi_system_enable()
+> > > function to the callsites and removing the hs_settle variable
+> > > from
+> > > the
+> > > driver state.
+> > > 
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > Could I volunteer you to also drop the struct csi_state state field
+> > ?
+> > :-)
+> 
+> sure :) it can become at least a bit more tricky than this patch.
+> I'll
+> take the time after this is merged.
+> 
+> thanks for the fast reviewing
 
-Thank you for the patch! Perhaps something to improve:
+Laurent, are these 2 patches queued up somewhere? I'm used to waiting
+until they are part of a tree that is part of linux-next before sending
+something new. Does that make sense?
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.3-rc3 next-20230324]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+thanks,
+                      martin
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Herdler/Legacy-DVB-API-completion-of-documentation/20230325-094623
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/50f69514-abbb-2dfb-6060-889aa2c6e02c%40nurfuerspam.de
-patch subject: [PATCH] Legacy DVB API: completion of documentation
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/1dee8a08e2a818066aa1453a7370685deb3a5786
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Stefan-Herdler/Legacy-DVB-API-completion-of-documentation/20230325-094623
-        git checkout 1dee8a08e2a818066aa1453a7370685deb3a5786
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303251637.x35nzuXi-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst:155: WARNING: Error in "cpp:function" directive:
->> Documentation/userspace-api/media/dvb/legacy_dvb_osd.rst:399: WARNING: Error in "cpp:function" directive:
-
-vim +155 Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-
-   154	
- > 155	.. cpp:function:: int ioctl(int fd, int request = AUDIO_STOP)
-   156	   :name: LEGACY_DVB_AUDIO_STOP
-   157	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
