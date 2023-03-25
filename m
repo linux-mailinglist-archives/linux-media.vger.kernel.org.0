@@ -2,37 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F716C9099
-	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 20:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61DB86C909A
+	for <lists+linux-media@lfdr.de>; Sat, 25 Mar 2023 21:00:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjCYT7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Mar 2023 15:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34136 "EHLO
+        id S231375AbjCYUAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Mar 2023 16:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjCYT7n (ORCPT
+        with ESMTP id S229564AbjCYUA3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Mar 2023 15:59:43 -0400
+        Sat, 25 Mar 2023 16:00:29 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37CE4BF
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 12:59:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE75BF;
+        Sat, 25 Mar 2023 13:00:28 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B86A89F
-        for <linux-media@vger.kernel.org>; Sat, 25 Mar 2023 20:59:40 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DECB89F;
+        Sat, 25 Mar 2023 21:00:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1679774380;
-        bh=0EWNRg3kdGX/QEBgsdDkU2m8pThV40vUGGQ8TwHkQz8=;
-        h=Date:From:To:Subject:From;
-        b=exO+N3a2xuJIl5k7Ceqx59svcsI87w2PyABTvPQyj3r35TvSecIm0uc/N2dNDzbqa
-         JNTJ5FDeQ6acxWA38F821Z4EInMSZw6BOB1myJ8MIbL4N0g8PjB2dRUvAJggeMnoBI
-         hBS0NfN6q1QzV2knAF66u/1EsG6Ku0GlvSsCIEso=
-Date:   Sat, 25 Mar 2023 21:59:46 +0200
+        s=mail; t=1679774426;
+        bh=kViOzdjEgaW2tSk5jaBnv+4F4JR/5Lb7E3XGv99PQUc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vOJFUlz2TvUh0UcyixqmEaM54EnjQhP9Sgs88rh+XpGxQsSR41CZy4tBhSyZl8vw/
+         ioXGhUcBliwEkvKNmu1c7YGugis8hsuzcA3/lRWLy4fSMAq38AivJaDUSUvEaVGYh7
+         4ZhYtysbkcKidnMfInWdlii8QQHJGchtyuW+Th8M=
+Date:   Sat, 25 Mar 2023 22:00:33 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.4] Miscellaneous rkisp1 changes
-Message-ID: <20230325195946.GF9876@pendragon.ideasonboard.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] media: rkisp1: Miscellaneous improvements
+Message-ID: <20230325200033.GG9876@pendragon.ideasonboard.com>
+References: <20221117084217.3892680-1-paul.elder@ideasonboard.com>
+ <20230221135730.zyfg3ainjg7btfzv@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20230221135730.zyfg3ainjg7btfzv@uno.localdomain>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -42,30 +51,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Jacopo,
 
-The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
+On Tue, Feb 21, 2023 at 02:57:30PM +0100, Jacopo Mondi wrote:
+> On Thu, Nov 17, 2022 at 05:42:14PM +0900, Paul Elder wrote:
+> > This patch series adds small improvements to the rkisp1 driver:
+> > - Add NV16M and NV61M output
+> > - Implement ENUM_FRAMESIZES
+> >
+> > As well as a small code cleanup.
+> >
+> > These patches have been sent before individually, so really this is a
+> > resend, which also bunches them together.
+> >
+> > Laurent Pinchart (1):
+> >   media: rkisp1: Make local immutable array variables static const
+> >
+> > Paul Elder (2):
+> >   media: rkisp1: Add NV16M and NV61M to output formats
+> >   media: rkisp1: Implement ENUM_FRAMESIZES
+> 
+> Has this series fell into cracks ? Support for VIDIOC_ENUM_FRAMESIZES
+> in particular is a relevant feature and seems not controversial at all...
 
-  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
+An alternative version of the first patch has been merged already, and
+I've just sent a pull request for the other two.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-rkisp1-next-20230325
-
-for you to fetch changes up to 82472ddf4dab7dbb928aeda104c3275b22045482:
-
-  media: rkisp1: Implement ENUM_FRAMESIZES (2023-03-25 21:17:25 +0200)
-
-----------------------------------------------------------------
-media: rkisp1: Miscellaneous improvements
-
-----------------------------------------------------------------
-Paul Elder (2):
-      media: rkisp1: Add NV16M and NV61M to output formats
-      media: rkisp1: Implement ENUM_FRAMESIZES
-
- .../platform/rockchip/rkisp1/rkisp1-capture.c      | 52 ++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+> >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 64 +++++++++++++++++--
+> >  1 file changed, 60 insertions(+), 4 deletions(-)
 
 -- 
 Regards,
