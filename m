@@ -2,76 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B8E16C95BD
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:46:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D89966C95D2
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbjCZOqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:46:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46926 "EHLO
+        id S230312AbjCZOus (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:50:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbjCZOqr (ORCPT
+        with ESMTP id S231782AbjCZOur (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:46:47 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4FE469D
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:46:47 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id j7so7477440ybg.4
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:46:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679842006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PySFHEEcW5zg+C6SY/zvSXGclm6go1XlSQjQsJ6wGoE=;
-        b=FotWfkCivrbu/cTrlTrpJt5cgpUklrJYkV1H0dQaf5lwqzZU5jFeAKHXSCMSQ8w7F3
-         EelX9HSRs4ET5qCeYroHAiVkEZMFT3jGC74D2O+ZkHYkkBYBTVr69wPr2TDNNiN1HY6Z
-         ZGp0Fk3FXpz/xQWJwIsw/HzgJVmmO+KroJc80R4h79VR/ERtcTuHuVJEIZOCJcaERGbK
-         agbx/9iVYRRRVkYkgz5tvE+c9FuJ2QqD2qzM3TJOnQpXJLEBvgj3xEGlzB1aidQMW9ZN
-         0NHB/et8ql72xjx291svCao93N9djOi9HEXrAhSuzLcSQwhOCC0UvXBHcQ5rOH8LWbal
-         M6Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679842006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PySFHEEcW5zg+C6SY/zvSXGclm6go1XlSQjQsJ6wGoE=;
-        b=Nlf7kC9kkQ7jceWq3LsixrjbG/+J/DisfbLUxvrGt2JRGsnL6fAx9yxWL29sgt2mDY
-         gt7mJnqqr2Hu12IXnH7ccRfEt9vmsLWPQAkwtVE/kZIY9JkTveOu2duPjM0yJY9eEHNI
-         Ro4JuZsIwxVfLd5Tj+FTgHMbci5Gk1TNwP65LskBNuq2kgR2G3JbYfJLK2PhtLI6pKU9
-         wcVh21KR67zlgn6bKJVJhJjrrIWiMP599eYQCKbd4sJOwZj/EnUTc1zmOO6uiqaIsAVE
-         gQCpYD3eWiLuZotiQ0K5+ocVTBICyW5aqHLa4FW0K9cB0qnQc1b1l9TLqzDQk65SuxY3
-         pvZg==
-X-Gm-Message-State: AAQBX9fqXDlduICEClSAkY5OrSPz+sqQYXv1iNw4bznN9f33NwYOVRH+
-        vgxYKOjJTo6V0TOd/xM1VA6QwH/3FYWY+aTxf/HF5w==
-X-Google-Smtp-Source: AKy350aUc1+u41HF8wrsU+fIIFZIwgouek8fNO5l/gfYONaHYyPAZW6jEXI4yQ74cIvqAQrj6LSuw5zsc1wbURaDNvw=
-X-Received: by 2002:a25:db91:0:b0:b75:8ac3:d5d9 with SMTP id
- g139-20020a25db91000000b00b758ac3d5d9mr5184206ybf.3.1679842006101; Sun, 26
- Mar 2023 07:46:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-6-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230326143224.572654-6-u.kleine-koenig@pengutronix.de>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Sun, 26 Mar 2023 07:46:35 -0700
-Message-ID: <CABXOdTfBPE=6OewWAaAY50MFAH8h64WTy2yXHnn8gUnaFCU0Ew@mail.gmail.com>
-Subject: Re: [PATCH 003/117] media: cros-ec-cec: Convert to platform remove
+        Sun, 26 Mar 2023 10:50:47 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDA144AD
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:50:02 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pgRh2-0001PC-9q; Sun, 26 Mar 2023 16:50:00 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pgRh1-006rmD-Ge; Sun, 26 Mar 2023 16:49:59 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1pgRh0-0088dR-Qj; Sun, 26 Mar 2023 16:49:58 +0200
+Date:   Sun, 26 Mar 2023 16:49:59 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH 002/117] media: cec-gpio: Convert to platform remove
  callback returning void
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Scott Chao <scott_chao@wistron.corp-partner.google.com>,
-        Rory Liu <hellojacky0226@hotmail.com>,
-        Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        linux-media@vger.kernel.org, chrome-platform@lists.linux.dev,
-        kernel@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+Message-ID: <20230326144959.woxa5rca7a6umiyz@pengutronix.de>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+ <20230326143224.572654-4-u.kleine-koenig@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="in2s4xjzno4abusf"
+Content-Disposition: inline
+In-Reply-To: <20230326143224.572654-4-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,9 +55,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Mar 26, 2023 at 7:32=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
+
+--in2s4xjzno4abusf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Sun, Mar 26, 2023 at 04:30:28PM +0200, Uwe Kleine-K=F6nig wrote:
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -89,49 +71,35 @@ On Sun, Mar 26, 2023 at 7:32=E2=80=AFAM Uwe Kleine-K=C3=B6nig
 > quest to make the remove callback return void. In the first step of this
 > quest all drivers are converted to .remove_new() which already returns
 > void.
->
+>=20
 > Trivially convert this driver from always returning zero in the remove
 > callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Reviewed-by: Guenter Roeck <groeck@chromium.org>
+I fatfingered sending out this series and this patch is a duplicate,
+please ignore this patch, 001/117 with the otherwise same subject is the
+right one. (They only differ in the number, this patch is advertised as
+001 in the cover letter.)
 
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/m=
-edia/cec/platform/cros-ec/cros-ec-cec.c
-> index 960432230bbf..3d2600af9fc1 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -326,7 +326,7 @@ static int cros_ec_cec_probe(struct platform_device *=
-pdev)
->         return ret;
->  }
->
-> -static int cros_ec_cec_remove(struct platform_device *pdev)
-> +static void cros_ec_cec_remove(struct platform_device *pdev)
->  {
->         struct cros_ec_cec *cros_ec_cec =3D platform_get_drvdata(pdev);
->         struct device *dev =3D &pdev->dev;
-> @@ -346,13 +346,11 @@ static int cros_ec_cec_remove(struct platform_devic=
-e *pdev)
->         cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
->                                          cros_ec_cec->adap);
->         cec_unregister_adapter(cros_ec_cec->adap);
-> -
-> -       return 0;
->  }
->
->  static struct platform_driver cros_ec_cec_driver =3D {
->         .probe =3D cros_ec_cec_probe,
-> -       .remove  =3D cros_ec_cec_remove,
-> +       .remove_new =3D cros_ec_cec_remove,
->         .driver =3D {
->                 .name =3D DRV_NAME,
->                 .pm =3D &cros_ec_cec_pm_ops,
-> --
-> 2.39.2
->
+Sorry,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--in2s4xjzno4abusf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQgW5YACgkQj4D7WH0S
+/k6wAggAnbHaobfhg7pxujqPYx9braRs9FY/FJ7UitIrIF9wScqOJG0Zel2LcUFg
+XIGZZZ2AQEju81mADhwnDNSYx6F2kY945tIbfeneD+W17dASEkjuR4ZWMDDAa9AB
+zFT9v74eElAOpEhmKH89tAG/m+QgVgCrixgu5SLxZzrs9ywIRWyfwPvvDzycaw1Q
+jjElk8LknTIt0Q9XnHlz2qdPicLwaYSV9nZGMBMZKPVnY8XzWU2PXAb415fuZXnF
+8wbD2DZ91SGiDymarpk6ti6ZqabDdMlLe+xrvdjR7/+cn5Aa0V+Eauc/ZdtEMv3D
+h3dckSsLom//py/sdOAff8LiGRJJ/Q==
+=UFky
+-----END PGP SIGNATURE-----
+
+--in2s4xjzno4abusf--
