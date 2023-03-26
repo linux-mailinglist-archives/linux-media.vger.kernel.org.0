@@ -2,51 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6BA56C954A
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC4146C9528
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:32:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbjCZOc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59860 "EHLO
+        id S232400AbjCZOcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232384AbjCZOch (ORCPT
+        with ESMTP id S232339AbjCZOce (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:32:37 -0400
+        Sun, 26 Mar 2023 10:32:34 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 373686593
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AF565AC
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:32 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ3-0007kj-TF; Sun, 26 Mar 2023 16:32:27 +0200
+        id 1pgRQ4-0007kr-D7; Sun, 26 Mar 2023 16:32:28 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ3-006rYp-3e; Sun, 26 Mar 2023 16:32:27 +0200
+        id 1pgRQ3-006rYy-LC; Sun, 26 Mar 2023 16:32:27 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ2-0088Ty-6C; Sun, 26 Mar 2023 16:32:26 +0200
+        id 1pgRQ2-0088U2-Ca; Sun, 26 Mar 2023 16:32:26 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+To:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Scott Chao <scott_chao@wistron.corp-partner.google.com>,
-        Rory Liu <hellojacky0226@hotmail.com>,
-        Ajye Huang <ajye_huang@compal.corp-partner.google.com>
-Cc:     Guenter Roeck <groeck@chromium.org>, linux-media@vger.kernel.org,
-        chrome-platform@lists.linux.dev, kernel@pengutronix.de
-Subject: [PATCH 003/117] media: cros-ec-cec: Convert to platform remove callback returning void
-Date:   Sun, 26 Mar 2023 16:30:30 +0200
-Message-Id: <20230326143224.572654-6-u.kleine-koenig@pengutronix.de>
+        Kevin Hilman <khilman@baylibre.com>
+Cc:     Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
+Subject: [PATCH 004/117] media: ao-cec-g12a: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:30:31 +0200
+Message-Id: <20230326143224.572654-7-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1824; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=7R9wKQxWA44fiXMEYARiwDyElWOf/YQkKOdlXBlMzbk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFZ58QDpXlzM0zNEkr6TWGtNeAotmE8ENdA8i +nW33qtuOqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWeQAKCRCPgPtYfRL+ TppCB/93wZB5ZjDqzIYqffIxt9i6KyyUwipLcXNpswTw47lIhAn5FcKeus4st6tmtZ9gC57A0PS YBGYErj+uD/ZpXkqx+WV8d6Kg8ZdVtdHQT2UJ0oWq7sYZQ5sLUkMiTZpjMTExnDnDQm6UAAdKg2 lsgaq8WvIB1Yx673JBmi/3wfpiOgj6+QafjuBatj9RAIBua1ZEvwp283bA148WxMLjXQKN3n2wA q9iTk9wW6eprs/tlMK9uaLI7sv/IvzqWOueE2Oi2EKEIYzCA8iTG67jNlMMOCOb9WB7ywTIDqO1 x05Bd/N2YZ6DxAgWKoCkhP9CtAHzyI7U270VeZaO15g1WaO1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2005; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=v1wYGsh94W2lZgFeQJwM78nPF+W6bmgfpxjhbc5mNVE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFZ71dphtajewDN9c9hG2KxI9Sc8tzx2SkZbo HDC3rcHxbKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWewAKCRCPgPtYfRL+ Tr6rCACJ5dd9wV3bKSu9kvblrZbNIhyIOzeYRxGMF/5SPdamElcP0qqsv960558Vb6Nz1qeTP3t EhZAqGmghQIP7sia/5v9oWXOQyCtaRoHecq7X+TdL2E1BmiGmGGAh4EWX4PS2etoZ0Cp6Llblr6 yucTSe3Anc9LELmrN5Kq1TCU8/Sxv3L0dGvLR2k+yppvduOlWsD3gZAVlwmRsbVDy7/+mqTu323 GEZb18L83DSZh3DWo8felBcyQVCd+jo/agxDgy7Q+nsBzOzoRjvzMgh6JUI1c8wWCPXvQhNDcwX 92epQ4KNdNKMDy/UhyqnQyHbQtSQgdIb6hS63u8u6hH03pPC
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -75,37 +74,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 ++----
+ drivers/media/cec/platform/meson/ao-cec-g12a.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 960432230bbf..3d2600af9fc1 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -326,7 +326,7 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+diff --git a/drivers/media/cec/platform/meson/ao-cec-g12a.c b/drivers/media/cec/platform/meson/ao-cec-g12a.c
+index 68fe6d6a8178..51294b9b6cd5 100644
+--- a/drivers/media/cec/platform/meson/ao-cec-g12a.c
++++ b/drivers/media/cec/platform/meson/ao-cec-g12a.c
+@@ -744,7 +744,7 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int cros_ec_cec_remove(struct platform_device *pdev)
-+static void cros_ec_cec_remove(struct platform_device *pdev)
+-static int meson_ao_cec_g12a_remove(struct platform_device *pdev)
++static void meson_ao_cec_g12a_remove(struct platform_device *pdev)
  {
- 	struct cros_ec_cec *cros_ec_cec = platform_get_drvdata(pdev);
- 	struct device *dev = &pdev->dev;
-@@ -346,13 +346,11 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
- 	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
- 					 cros_ec_cec->adap);
- 	cec_unregister_adapter(cros_ec_cec->adap);
+ 	struct meson_ao_cec_g12a_device *ao_cec = platform_get_drvdata(pdev);
+ 
+@@ -753,8 +753,6 @@ static int meson_ao_cec_g12a_remove(struct platform_device *pdev)
+ 	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+ 
+ 	cec_unregister_adapter(ao_cec->adap);
 -
 -	return 0;
  }
  
- static struct platform_driver cros_ec_cec_driver = {
- 	.probe = cros_ec_cec_probe,
--	.remove  = cros_ec_cec_remove,
-+	.remove_new = cros_ec_cec_remove,
- 	.driver = {
- 		.name = DRV_NAME,
- 		.pm = &cros_ec_cec_pm_ops,
+ static const struct meson_ao_cec_g12a_data ao_cec_g12a_data = {
+@@ -780,7 +778,7 @@ MODULE_DEVICE_TABLE(of, meson_ao_cec_g12a_of_match);
+ 
+ static struct platform_driver meson_ao_cec_g12a_driver = {
+ 	.probe   = meson_ao_cec_g12a_probe,
+-	.remove  = meson_ao_cec_g12a_remove,
++	.remove_new = meson_ao_cec_g12a_remove,
+ 	.driver  = {
+ 		.name = "meson-ao-cec-g12a",
+ 		.of_match_table = of_match_ptr(meson_ao_cec_g12a_of_match),
 -- 
 2.39.2
 
