@@ -2,46 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F3D76C9533
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3A6D6C952C
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:32:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232454AbjCZOcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:32:48 -0400
+        id S232417AbjCZOco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:32:44 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232369AbjCZOcg (ORCPT
+        with ESMTP id S232356AbjCZOcf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:32:36 -0400
+        Sun, 26 Mar 2023 10:32:35 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135267A80
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925A072B2
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:33 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ7-0007sO-M2; Sun, 26 Mar 2023 16:32:31 +0200
+        id 1pgRQ7-0007sS-NR; Sun, 26 Mar 2023 16:32:31 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ7-006raQ-1A; Sun, 26 Mar 2023 16:32:31 +0200
+        id 1pgRQ7-006raU-41; Sun, 26 Mar 2023 16:32:31 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ6-0088VB-8j; Sun, 26 Mar 2023 16:32:30 +0200
+        id 1pgRQ6-0088VG-FQ; Sun, 26 Mar 2023 16:32:30 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 022/117] media: pxa_camera: Convert to platform remove callback returning void
-Date:   Sun, 26 Mar 2023 16:30:49 +0200
-Message-Id: <20230326143224.572654-25-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 023/117] media: m2m-deinterlace: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:30:50 +0200
+Message-Id: <20230326143224.572654-26-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1842; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=jrpOEJnFdFmE7i1O2jp+S+tb1tnnzMW7ufd8w5AMPfo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFahI/1zsbMz1QYGND+QaSAeuIc3Bcxfwzb5v c/0Ogn7oSGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWoQAKCRCPgPtYfRL+ TrycCACTHTqHQc+UqMuSc7jHh6OWlIq7MSuzDsUjgqkow39rxXgvpnPYqJzMuT9SdUDjUQLND9I 7gbqBGgKiDhMIYKprdV6FF06zgBGTx8mx1UyLfE2P+GqjiMpUXZ707rLpHdeTQrhesA2jNVM5Rx pWcD6UpgyNFpo6FoHmtwf0tNvlAHI92tcx7eSvUBg1v5e3lRF/x+5OZK/9a50G2rgkN3dDjffft 8/xbjp3/wkOg2eui8DtKeUgra9KyWVpDRltH6mwhovoJGFQ59mX1b10d6ryG2eAJCdK512/rANC ilNAoBLX38SjLAlZ+HDh+6G4z7pGobOl127X2tzcGTUVWzea
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1724; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=+x/PkrS1Tyr7WQYINVcetSeb0sHyTBNcxeB7s1QaK1k=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFaisoF7UoJ+hz/n65RKRA7tT7Mcdrihjb9Hs vvJ83uVAEGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWogAKCRCPgPtYfRL+ TrvoB/4kcAmXRkAFInEKf16jZIXtyBsqXvnZTj+B2HEBqMEJv4lNT1QgGw/9P1GAtaHksEBLXzc TqTydptPG5BEwKu/TTe2HlYpo75zNxTDGR6jDTapk7I9Xmi4vZUqEnoFU0U9SVaml/m643uskxJ LikTfj85SZmcs7wwRT8SH4iLye8gysqDCq2MYFGLoQsVCCKQ2y87RASJ106jH7j53w4358cnm6Q h+GWyvmFvlpzPSkRrCIadiGPL+ZmTF50NJXXgse54S8RzTX8o4mEfqfAGM6wfByLsHZ+pOXfHI7 gsif6R8A7lL0pM0SroRzb3mWF64TjjFOylHH7GZNToUbHWPz
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,40 +69,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/platform/intel/pxa_camera.c | 6 ++----
+ drivers/media/platform/m2m-deinterlace.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
-index 54270d6b6f50..99a6973b4b54 100644
---- a/drivers/media/platform/intel/pxa_camera.c
-+++ b/drivers/media/platform/intel/pxa_camera.c
-@@ -2421,7 +2421,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	return err;
+diff --git a/drivers/media/platform/m2m-deinterlace.c b/drivers/media/platform/m2m-deinterlace.c
+index 1f89e71cdccf..96b35a5d6174 100644
+--- a/drivers/media/platform/m2m-deinterlace.c
++++ b/drivers/media/platform/m2m-deinterlace.c
+@@ -984,7 +984,7 @@ static int deinterlace_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int pxa_camera_remove(struct platform_device *pdev)
-+static void pxa_camera_remove(struct platform_device *pdev)
+-static int deinterlace_remove(struct platform_device *pdev)
++static void deinterlace_remove(struct platform_device *pdev)
  {
- 	struct pxa_camera_dev *pcdev = platform_get_drvdata(pdev);
+ 	struct deinterlace_dev *pcdev = platform_get_drvdata(pdev);
  
-@@ -2437,8 +2437,6 @@ static int pxa_camera_remove(struct platform_device *pdev)
+@@ -993,13 +993,11 @@ static int deinterlace_remove(struct platform_device *pdev)
+ 	video_unregister_device(&pcdev->vfd);
  	v4l2_device_unregister(&pcdev->v4l2_dev);
- 
- 	dev_info(&pdev->dev, "PXA Camera driver unloaded\n");
+ 	dma_release_channel(pcdev->dma_chan);
 -
 -	return 0;
  }
  
- static const struct dev_pm_ops pxa_camera_pm = {
-@@ -2459,7 +2457,7 @@ static struct platform_driver pxa_camera_driver = {
- 		.of_match_table = of_match_ptr(pxa_camera_of_match),
+ static struct platform_driver deinterlace_pdrv = {
+ 	.probe		= deinterlace_probe,
+-	.remove		= deinterlace_remove,
++	.remove_new	= deinterlace_remove,
+ 	.driver		= {
+ 		.name	= MEM2MEM_NAME,
  	},
- 	.probe		= pxa_camera_probe,
--	.remove		= pxa_camera_remove,
-+	.remove_new	= pxa_camera_remove,
- };
- 
- module_platform_driver(pxa_camera_driver);
 -- 
 2.39.2
 
