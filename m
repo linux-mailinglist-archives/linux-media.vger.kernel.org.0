@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EA7E6C957E
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AECEE6C9593
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:34:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232583AbjCZOdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:33:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32776 "EHLO
+        id S232496AbjCZOeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232479AbjCZOcx (ORCPT
+        with ESMTP id S232468AbjCZOc5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:32:53 -0400
+        Sun, 26 Mar 2023 10:32:57 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DDB65A4
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96B47DBA
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:54 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQO-0000EN-8j; Sun, 26 Mar 2023 16:32:48 +0200
+        id 1pgRQO-0000Fb-QZ; Sun, 26 Mar 2023 16:32:48 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQM-006rfl-17; Sun, 26 Mar 2023 16:32:46 +0200
+        id 1pgRQM-006rfu-Hs; Sun, 26 Mar 2023 16:32:46 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQL-0088Zb-0O; Sun, 26 Mar 2023 16:32:45 +0200
+        id 1pgRQL-0088Ze-84; Sun, 26 Mar 2023 16:32:45 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Benoit Parrot <bparrot@ti.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 090/117] media: isp: Convert to platform remove callback returning void
-Date:   Sun, 26 Mar 2023 16:31:57 +0200
-Message-Id: <20230326143224.572654-93-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 091/117] media: vpe: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:31:58 +0200
+Message-Id: <20230326143224.572654-94-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1721; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=3VExVSSsO7/B3lm+SWJ9hExfHLfDuHO1c63efMmRrZA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFbxKlUq2guXl9nh7e6yGwM7qnfZSdnk+oogK hBhK9CZAmOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBW8QAKCRCPgPtYfRL+ TqTnB/9siqx02HYG7IroqTm3QTuqlVawrm3Jz/tmn/6HrubQvQP2BeKz/jc4cPAfoJhifjz0WSj E23uYRSLMAc1TmL3EIKtX93vnDLJLk+x5eCYh0i1Su9ct4uLHLD1PqnEqngPYbuLmY/9FGK230N 9TOOhNSX3FWwtyfLfMp8G647sWBlqDXvuK5lKZ2rGNsxhWkw9kyKq4vQOOUL17kkGdrEbBsl+60 aJDLJpBmfxsiIaKMbDuKyRd6y/F0jjwRx+JLn2y/+cdx7zDsVnOrrOGoh2gcKQeluUPa8q7CeUP 3s1a1BvZvv6QUjBhAh4kkfHJybAKJZADoiHtD1C9DZsRFsXQ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1731; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=SaKb+M7SZFcHMEysg5wDiPuqmhYqhK2drrNQp5pds38=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFbyQpp6VepQDtlLVuvwIXNeeOBBOKN6lKs53 4qfFuWzuZeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBW8gAKCRCPgPtYfRL+ TtUdB/0f1ijkgu/EuWxbhugIXF7JLxYQa4loEp6Bfmg+0bZ3jPkWNONnbtqoTONCZ7RJBl3p6tT AUqSpfvoHnZ5WQI4UY05rEfeip3zsuHs3U57X/UtVl02IfcKfk6Ji6F9DmezhQtw1WkEBlSuOkO rdX3S8a30zvU6e7pCO18AgEYi8ku1udFR0+lB/s6NrW0D8Q3XvdFtGiGLNyOwvWUXAD/J3BCEEE uRl18TCPvbSwhHMkGKXhjMZN3SWjAKCJJSGB5+sjYB79HIJg7B29ohzz0Sgw20WBmo7wBKHy2Xb WnC3lRM0usdrwGVWml4gO0vHxU4zI1fiGNyG+ELTlwPUN+gO
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -69,40 +69,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/platform/ti/omap3isp/isp.c | 6 ++----
+ drivers/media/platform/ti/vpe/vpe.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-index e7327e38482d..f3aaa9e76492 100644
---- a/drivers/media/platform/ti/omap3isp/isp.c
-+++ b/drivers/media/platform/ti/omap3isp/isp.c
-@@ -1997,7 +1997,7 @@ static int isp_attach_iommu(struct isp_device *isp)
-  *
-  * Always returns 0.
-  */
--static int isp_remove(struct platform_device *pdev)
-+static void isp_remove(struct platform_device *pdev)
+diff --git a/drivers/media/platform/ti/vpe/vpe.c b/drivers/media/platform/ti/vpe/vpe.c
+index 5b1c5d96a407..6848cbc82f52 100644
+--- a/drivers/media/platform/ti/vpe/vpe.c
++++ b/drivers/media/platform/ti/vpe/vpe.c
+@@ -2622,7 +2622,7 @@ static int vpe_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int vpe_remove(struct platform_device *pdev)
++static void vpe_remove(struct platform_device *pdev)
  {
- 	struct isp_device *isp = platform_get_drvdata(pdev);
+ 	struct vpe_dev *dev = platform_get_drvdata(pdev);
  
-@@ -2014,8 +2014,6 @@ static int isp_remove(struct platform_device *pdev)
- 	v4l2_async_nf_cleanup(&isp->notifier);
- 
- 	kfree(isp);
+@@ -2635,8 +2635,6 @@ static int vpe_remove(struct platform_device *pdev)
+ 	vpe_set_clock_enable(dev, 0);
+ 	vpe_runtime_put(pdev);
+ 	pm_runtime_disable(&pdev->dev);
 -
 -	return 0;
  }
  
- enum isp_of_phy {
-@@ -2476,7 +2474,7 @@ MODULE_DEVICE_TABLE(of, omap3isp_of_table);
+ #if defined(CONFIG_OF)
+@@ -2651,7 +2649,7 @@ MODULE_DEVICE_TABLE(of, vpe_of_match);
  
- static struct platform_driver omap3isp_driver = {
- 	.probe = isp_probe,
--	.remove = isp_remove,
-+	.remove_new = isp_remove,
- 	.id_table = omap3isp_id_table,
- 	.driver = {
- 		.name = "omap3isp",
+ static struct platform_driver vpe_pdrv = {
+ 	.probe		= vpe_probe,
+-	.remove		= vpe_remove,
++	.remove_new	= vpe_remove,
+ 	.driver		= {
+ 		.name	= VPE_MODULE_NAME,
+ 		.of_match_table = of_match_ptr(vpe_of_match),
 -- 
 2.39.2
 
