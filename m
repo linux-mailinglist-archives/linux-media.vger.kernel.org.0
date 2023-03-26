@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B6136C9587
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E480D6C958C
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:34:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232458AbjCZOd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:33:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60602 "EHLO
+        id S232464AbjCZOeD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:34:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbjCZOcy (ORCPT
+        with ESMTP id S232498AbjCZOcz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:32:54 -0400
+        Sun, 26 Mar 2023 10:32:55 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08BC7ED3
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE2D7EDF
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:53 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQO-0000FQ-Qx; Sun, 26 Mar 2023 16:32:48 +0200
+        id 1pgRQO-0000EB-Au; Sun, 26 Mar 2023 16:32:48 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQM-006rfr-GB; Sun, 26 Mar 2023 16:32:46 +0200
+        id 1pgRQL-006rfg-Ue; Sun, 26 Mar 2023 16:32:45 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQK-0088ZT-JA; Sun, 26 Mar 2023 16:32:44 +0200
+        id 1pgRQK-0088ZY-Pj; Sun, 26 Mar 2023 16:32:44 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 088/117] media: vpif_display: Convert to platform remove callback returning void
-Date:   Sun, 26 Mar 2023 16:31:55 +0200
-Message-Id: <20230326143224.572654-91-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 089/117] media: omap_vout: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:31:56 +0200
+Message-Id: <20230326143224.572654-92-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1772; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=5z/UCYi7pnVTwBpUoBR38shL1sqEGMgf8UyTOszeQ1M=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFbvLC73IX76nybiayNjhMhJgp8x2vYKfBY2F E6R2JjpVYyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBW7wAKCRCPgPtYfRL+ Tuh0B/sF7oL6VX9Pz5jq/uTqN8GHNFdUIv/fkfKN7Iooq9sNXYLvtGJ/18zjZDEhZsQWXEheKxJ E+c9hKjm/COZMS2VC5nsxE7A6tnIcuQPKZCRvwoO7k23QZR3Vjvs3NFFc+JduoUHwwIl7+LDjyD eEmKpcA5BmwNoYJoGcnrbv2L5tdpfXc8Y5k2/HN53Tur9kyXRd4oM9EGTP+rREcBlGXA9xFfR49 WPYGxdxWJTBMbXqyh59afAWH8hGVPbeYLQ2Qs7/S2yxc7q29YBBEJsOmjPSdW+KY1iyGZ5JZhb0 NEj915v6Rxm+Heo8LY/+6UorvXf9Nqg4cC3KL/4Wj5LQfN8P
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1781; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=nblhNa8GMIbQ6zHewbCwjyp1L651cE5gn0ls0Q9QTMk=; b=owGbwMvMwMXY3/A7olbonx/jabUkhhSFsA9VejVPo842nfmjHG2ft7pdVEWmm/fApRmL00TWJ 56ut8zvZDRiYWDkYpAVU2Sxb1yTaVUlF9m59t9lmEGsTCBTGLg4BWAibR/Zf3RVVeqLiE3zc3KX nftAek+Wj0RJ7+WWI6vqkrnWPVa8fFa57+pLmQKFAIc04QPpkrUu2ydv2bTOd/u9NUmP4quDfKY vdWpKlAhq2a604sKd94dyVLU/yCgHqZ7UUlj5Sq1p615PKwmtI4ru2/56tBhEzPTzi9Q6vTWo6/ KyXlnFjTH+u4zW+7lYyf387ZX2p+vnVKvfYbyBEdGJsXsZ0+/17W7rjTD1lk3+G7wt+abA/GmP9 9817flcZF32Lt13gcIH1yuv3V/1tgYlnZVe6tl7cfIaH7YFU2xM/6afSdF/Zx8VunL/2ZkbFSZm pthpXFwdmTjrJv8n66UT105kbWp8N3XxifMfYtybleQA
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -69,40 +69,39 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/platform/ti/davinci/vpif_display.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/platform/ti/omap/omap_vout.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
-index b2df81603f62..f8ec2991c667 100644
---- a/drivers/media/platform/ti/davinci/vpif_display.c
-+++ b/drivers/media/platform/ti/davinci/vpif_display.c
-@@ -1305,7 +1305,7 @@ static __init int vpif_probe(struct platform_device *pdev)
- /*
-  * vpif_remove: It un-register channels from V4L2 driver
-  */
--static int vpif_remove(struct platform_device *device)
-+static void vpif_remove(struct platform_device *device)
+diff --git a/drivers/media/platform/ti/omap/omap_vout.c b/drivers/media/platform/ti/omap/omap_vout.c
+index 3e0d9af7ffec..4143274089c3 100644
+--- a/drivers/media/platform/ti/omap/omap_vout.c
++++ b/drivers/media/platform/ti/omap/omap_vout.c
+@@ -1569,7 +1569,7 @@ static void omap_vout_cleanup_device(struct omap_vout_device *vout)
+ 	kfree(vout);
+ }
+ 
+-static int omap_vout_remove(struct platform_device *pdev)
++static void omap_vout_remove(struct platform_device *pdev)
  {
- 	struct channel_obj *ch;
- 	int i;
-@@ -1321,8 +1321,6 @@ static int vpif_remove(struct platform_device *device)
- 		video_unregister_device(&ch->video_dev);
+ 	int k;
+ 	struct v4l2_device *v4l2_dev = platform_get_drvdata(pdev);
+@@ -1587,7 +1587,6 @@ static int omap_vout_remove(struct platform_device *pdev)
+ 		omap_dss_put_device(vid_dev->displays[k]);
  	}
- 	free_vpif_objs();
--
+ 	kfree(vid_dev);
 -	return 0;
  }
  
- #ifdef CONFIG_PM_SLEEP
-@@ -1399,7 +1397,7 @@ static __refdata struct platform_driver vpif_driver = {
- 			.pm	= &vpif_pm_ops,
+ static int __init omap_vout_probe(struct platform_device *pdev)
+@@ -1721,7 +1720,7 @@ static struct platform_driver omap_vout_driver = {
+ 	.driver = {
+ 		.name = VOUT_NAME,
  	},
- 	.probe	= vpif_probe,
--	.remove	= vpif_remove,
-+	.remove_new = vpif_remove,
+-	.remove = omap_vout_remove,
++	.remove_new = omap_vout_remove,
  };
  
- module_platform_driver(vpif_driver);
+ static int __init omap_vout_init(void)
 -- 
 2.39.2
 
