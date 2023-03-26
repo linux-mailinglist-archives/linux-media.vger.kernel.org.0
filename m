@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42C3F6C9561
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055DB6C9569
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbjCZOdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:33:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60334 "EHLO
+        id S232566AbjCZOdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232422AbjCZOco (ORCPT
+        with ESMTP id S232435AbjCZOcq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:32:44 -0400
+        Sun, 26 Mar 2023 10:32:46 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3EDC7DB0
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD717AB1
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:45 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ9-0007ua-Sq; Sun, 26 Mar 2023 16:32:33 +0200
+        id 1pgRQB-0007yF-0u; Sun, 26 Mar 2023 16:32:35 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ8-006rb0-Eg; Sun, 26 Mar 2023 16:32:32 +0200
+        id 1pgRQ9-006rbB-E1; Sun, 26 Mar 2023 16:32:33 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQ7-0088Vf-QB; Sun, 26 Mar 2023 16:32:31 +0200
+        id 1pgRQ8-0088Vj-0T; Sun, 26 Mar 2023 16:32:32 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
@@ -39,15 +39,15 @@ Cc:     AngeloGioacchino Del Regno
         linux-media@vger.kernel.org, kernel@pengutronix.de,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org
-Subject: [PATCH 029/117] media: mtk_vcodec_dec_drv: Convert to platform remove callback returning void
-Date:   Sun, 26 Mar 2023 16:30:56 +0200
-Message-Id: <20230326143224.572654-32-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 030/117] media: mtk_vcodec_enc_drv: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:30:57 +0200
+Message-Id: <20230326143224.572654-33-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1894; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=O6z10/slUyNl2TD3diJ/WCSRZtqpk39pLLrKXrHKrTk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFaptPdsjpR2hYatPNI+aLWKfTwo2bR59OOa/ LPnZBIQs1aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWqQAKCRCPgPtYfRL+ TntbB/0VncSjZPipPwEbM/MkOFDUQEJYwx+uHEot5G61sCpHx1UYJ/7ABORc9e/cM1Eabk724kb 4mGGmjzvCq2fqKy7T4c/GNADCUYQHXz4IvL6wPblz20n+aLcBlFwHy+n9Vf3PQ+bgwmel0OMchB lXXoSynM1iWWiLQEKeJFeolcE9xK0ZIlSCA1L2BuopuervaxVyEJzUeB3sgbCQ8voZ6cuWh2huq mOR8XGkJFulQAQlonFDvGod6TydUJsWAV/osMcOfEfaH6tm0l7cxQiUhEU2DK83bmx02VJ6Ehlv JqqAGF6dB9dEnD88yGwtkNvvYUpbUrQJgLYREDTQ0/av4imk
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1904; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=iWZQWni5H+Z+BEh9nLVGdQ7KridiLmts8udqla8jAqE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFarZ2Tvj6+2UCxNTYlxWwzIXahGDoc2x8SpM QxSpw33l6yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWqwAKCRCPgPtYfRL+ Tk3SB/4iM2L2a0F42ERFVuzNvi9MbRs/YSxe0/SmKJMLjJ7qf9uAbuQqOmOwq8IXUZp9mYXT+Au JJ1rtkxh9JEvX/1ZOAbuM+9+Txn/q6Gr4E8sUaHQ95I9ai0nXKmAJV36oboKqxsjlMZwU6gqHwZ ihvXgnKCeP1IJEIPkvMcXcym6yvfQf+sXr2usGHmOHH1YynvZXA8c3+vur63y3RgclWUe4iIohn yu55dnrJLFQY52srRK/nC+s6p5nm6QQq9sRStI6FjgLhRTMpR0ryrx7NpHI9xmieAv3+9xrKnmG nx3wz4OqYuWyzueoHADdA5vthEXfmswE9gHcw5qrejLVdI/J
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -76,36 +76,36 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 5 ++---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 174a6eec2f54..2fa5c5e6607c 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -487,7 +487,7 @@ static const struct of_device_id mtk_vcodec_match[] = {
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+index 9095186d5495..cd0d5da8195a 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+@@ -451,7 +451,7 @@ static const struct of_device_id mtk_vcodec_enc_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
  
- MODULE_DEVICE_TABLE(of, mtk_vcodec_match);
- 
--static int mtk_vcodec_dec_remove(struct platform_device *pdev)
-+static void mtk_vcodec_dec_remove(struct platform_device *pdev)
+-static int mtk_vcodec_enc_remove(struct platform_device *pdev)
++static void mtk_vcodec_enc_remove(struct platform_device *pdev)
  {
  	struct mtk_vcodec_dev *dev = platform_get_drvdata(pdev);
  
-@@ -509,12 +509,11 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
- 	if (!dev->vdec_pdata->is_subdev_supported)
- 		pm_runtime_disable(dev->pm.dev);
+@@ -466,12 +466,11 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ 	pm_runtime_disable(dev->pm.dev);
  	mtk_vcodec_fw_release(dev->fw_handler);
 -	return 0;
  }
  
- static struct platform_driver mtk_vcodec_dec_driver = {
+ static struct platform_driver mtk_vcodec_enc_driver = {
  	.probe	= mtk_vcodec_probe,
--	.remove	= mtk_vcodec_dec_remove,
-+	.remove_new = mtk_vcodec_dec_remove,
+-	.remove	= mtk_vcodec_enc_remove,
++	.remove_new = mtk_vcodec_enc_remove,
  	.driver	= {
- 		.name	= MTK_VCODEC_DEC_NAME,
- 		.of_match_table = mtk_vcodec_match,
+ 		.name	= MTK_VCODEC_ENC_NAME,
+ 		.of_match_table = mtk_vcodec_enc_match,
 -- 
 2.39.2
 
