@@ -2,113 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEC866C93BD
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 12:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 355D86C951B
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:28:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231821AbjCZKWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 06:22:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54498 "EHLO
+        id S232320AbjCZO2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:28:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230162AbjCZKWi (ORCPT
+        with ESMTP id S230203AbjCZO2u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 06:22:38 -0400
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 742BD44B7
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 03:22:37 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id E011A240266
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 12:22:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1679826155; bh=gJR9k90hH+sr13a0GUurygJMhm/eT12uSIgworv0JdM=;
-        h=Subject:From:To:Cc:Date:From;
-        b=Wb7mJK0uVG6TGC9VM/KQ4ajRKSRGkS7t/laP+v9Huz2QUNvhbx38ZcWpJwrpvJjV/
-         hbPKwkC0ypaHZPMHHYq24z+Z8177adPv3HcmdMEixVvQLIPMW8W/OrlwZ9TSoqiz4M
-         FI4orJ7F7uVcNgJTxExk8WsYbel0Zh+Ic93kzUJ8sGEJzOOtdRJ0Sk8jw5DVWB0maZ
-         68vehUykM3MOgck29lZUI7H4qLVC+s9qUxSqiuTvTNFe/yde6R3Sej3RIQuczkdDjX
-         V2+4R6WLl9/3t1htPkeSPvKRmFkxxpPTeqwZqy17xDUzg/4N4diBf6m6EFkc0A1Wm9
-         s0Hd4oOGisOBA==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4PksT66nXVz9rxN;
-        Sun, 26 Mar 2023 12:22:34 +0200 (CEST)
-Message-ID: <b18c05d52b11c883371ad4a7f18ddc26bad244b8.camel@posteo.de>
-Subject: Re: [PATCH v2] media: hi846: Fix memleak in hi846_init_controls()
-From:   Martin Kepplinger <martink@posteo.de>
-To:     Wei Chen <harperchen1110@gmail.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Sun, 26 Mar 2023 10:22:34 +0000
-In-Reply-To: <20230326092712.139791-1-harperchen1110@gmail.com>
-References: <20230326092712.139791-1-harperchen1110@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Sun, 26 Mar 2023 10:28:50 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 26 Mar 2023 07:28:49 PDT
+Received: from smtp.smtpout.orange.fr (smtp-12.smtpout.orange.fr [80.12.242.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C53571721
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:28:49 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id gRFFphd6xpD2AgRFFplFF9; Sun, 26 Mar 2023 16:21:18 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 26 Mar 2023 16:21:18 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: i2c: ov7670: Use the devm_clk_get_optional() helper
+Date:   Sun, 26 Mar 2023 16:21:16 +0200
+Message-Id: <a6fd15c221a76c92a23afa9b678555d6639acea7.1679840463.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-0.0 required=5.0 tests=RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Sonntag, dem 26.03.2023 um 09:27 +0000 schrieb Wei Chen:
-> hi846_init_controls doesn't clean the allocated ctrl_hdlr
-> in case there is a failure, which causes memleak. Add
-> v4l2_ctrl_handler_free to free the resource properly.
-> 
-> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+Use devm_clk_get_optional() instead of hand writing it.
+This saves some loC and improves the semantic.
 
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/i2c/ov7670.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-Reviewed-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-
-thanks,
-
-                        martin
-
-> ---
-> Changes in v2:
->  - move v4l2_ctrl_handler_free to error tag
->  - handle memleak in other failure positions
-> 
->  drivers/media/i2c/hi846.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> index 7c61873b7198..f86997a261f5 100644
-> --- a/drivers/media/i2c/hi846.c
-> +++ b/drivers/media/i2c/hi846.c
-> @@ -1472,21 +1472,26 @@ static int hi846_init_controls(struct hi846
-> *hi846)
->         if (ctrl_hdlr->error) {
->                 dev_err(&client->dev, "v4l ctrl handler error: %d\n",
->                         ctrl_hdlr->error);
-> -               return ctrl_hdlr->error;
-> +               ret = ctrl_hdlr->error;
-> +               goto error;
->         }
->  
->         ret = v4l2_fwnode_device_parse(&client->dev, &props);
->         if (ret)
-> -               return ret;
-> +               goto error;
->  
->         ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr,
-> &hi846_ctrl_ops,
->                                               &props);
->         if (ret)
-> -               return ret;
-> +               goto error;
->  
->         hi846->sd.ctrl_handler = ctrl_hdlr;
-> 
->         return 0;
-> +
-> +error:
-> +       v4l2_ctrl_handler_free(ctrl_hdlr);
-> +       return ret;
->  }
->  
->  static int hi846_set_video_mode(struct hi846 *hi846, int fps)
-
+diff --git a/drivers/media/i2c/ov7670.c b/drivers/media/i2c/ov7670.c
+index b1bb0833571e..ecbded4f0765 100644
+--- a/drivers/media/i2c/ov7670.c
++++ b/drivers/media/i2c/ov7670.c
+@@ -1894,14 +1894,9 @@ static int ov7670_probe(struct i2c_client *client)
+ 			info->pclk_hb_disable = true;
+ 	}
+ 
+-	info->clk = devm_clk_get(&client->dev, "xclk"); /* optional */
+-	if (IS_ERR(info->clk)) {
+-		ret = PTR_ERR(info->clk);
+-		if (ret == -ENOENT)
+-			info->clk = NULL;
+-		else
+-			return ret;
+-	}
++	info->clk = devm_clk_get_optional(&client->dev, "xclk");
++	if (IS_ERR(info->clk))
++		return PTR_ERR(info->clk);
+ 
+ 	ret = ov7670_init_gpio(client, info);
+ 	if (ret)
+-- 
+2.34.1
 
