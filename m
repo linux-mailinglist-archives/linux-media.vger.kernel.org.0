@@ -2,45 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31A0A6C957B
-	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 777E06C95AB
+	for <lists+linux-media@lfdr.de>; Sun, 26 Mar 2023 16:34:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232587AbjCZOdn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 Mar 2023 10:33:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60622 "EHLO
+        id S232597AbjCZOed (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Mar 2023 10:34:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbjCZOcw (ORCPT
+        with ESMTP id S232544AbjCZOdI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 Mar 2023 10:32:52 -0400
+        Sun, 26 Mar 2023 10:33:08 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6DB7A8F
-        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C2776AF
+        for <linux-media@vger.kernel.org>; Sun, 26 Mar 2023 07:32:58 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQL-00008q-St; Sun, 26 Mar 2023 16:32:45 +0200
+        id 1pgRQL-00006X-KL; Sun, 26 Mar 2023 16:32:45 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQJ-006rej-IW; Sun, 26 Mar 2023 16:32:43 +0200
+        id 1pgRQI-006reW-RP; Sun, 26 Mar 2023 16:32:42 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pgRQH-0088Ye-Pm; Sun, 26 Mar 2023 16:32:41 +0200
+        id 1pgRQI-0088Yh-0m; Sun, 26 Mar 2023 16:32:42 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 075/117] media: hva-v4l2: Convert to platform remove callback returning void
-Date:   Sun, 26 Mar 2023 16:31:42 +0200
-Message-Id: <20230326143224.572654-78-u.kleine-koenig@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
+Subject: [PATCH 076/117] media: dma2d: Convert to platform remove callback returning void
+Date:   Sun, 26 Mar 2023 16:31:43 +0200
+Message-Id: <20230326143224.572654-79-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1803; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=VH1GFq87cVh/dqGErqwrfNw1QtS26SgE3khLKsXZ7O0=; b=owGbwMvMwMXY3/A7olbonx/jabUkhhSFsPvzHDfst82JN/1+7ukslmX3r9r8udolIGuRduf6n rMsdv5cnYzGLAyMXAyyYoos9o1rMq2q5CI71/67DDOIlQlkCgMXpwBMRJOf/a/AiQvFnhsXdk3P WRAhFlcZ9znpVlfz1/uLJ7ly2KlrLNPjEdXnPVnktSPXV8FD2uo/cx7f+U/8J3hkRSwXGnG13RB V95zBoiOVsH5W0UOJrD6BK3wBTM67RK5u12Xb32fq9T2I+aS3kuUfYblrq/+Gvygy/y0actFi09 5T598EdLtfYjFqnuEbV8XTaNeTopMn3aD/3HU+d3WbS3cGb6ZXuFyL4rrzZ/8UVusdbqqsuGjT0 pmh02+u05ax6dxp02hRAXF9mwUvZu+fleGjnPK6u2pipE0ARy+fvdKMW3aCUWFPBJs+73SV/CH6 gIfVYXHZkRlcDkxxlzdXnzBddnbtXx/Xw+8O7RJ/FgsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1826; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Hf03W6FCnuJBdvXuTFOZXNHudlzADbBrZKtBOEpjYlM=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFbhWjaNCRTr78svok4/G/qcUfXFkbJZeABAx T+Yc7umm8eJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBW4QAKCRCPgPtYfRL+ TnPRB/9CMzAkMtzX9t2MUc+yuKmxmHlomkr7f1IZZ919Gdvmp3sWBbFKhor+nE/SbadRaj46216 mFmKZG0eYEnHfvWK/Pvqbj/E5urzyoFTywinaXnKS9jDLFlyz6zSvYosKqQEQNZNzkENDc/MWgp IlT3G5+SvbtX0gNJJ1/fqpZ3lbJWdTHbJ6sk0LIo5o08FNPoQtM8A4UL/aAm81R5Jkl15iyxDeR C0KQE1Dox+swebOdqRUvBar9uRN1Ir4smQEDZhz3fK3xjom0HLGFOF3MWyhGtn2gAKtpKmuc7Za mVzNVmXqG5ZifvWHKntrUJivwDcj7NUQfGk7fF/gVClnMl94
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -69,40 +73,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 6 ++----
+ drivers/media/platform/st/stm32/dma2d/dma2d.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index bb34d6997d99..3a848ca32a0e 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -1422,7 +1422,7 @@ static int hva_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/st/stm32/dma2d/dma2d.c b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+index 9706aa41b5d2..be56d2b5fae9 100644
+--- a/drivers/media/platform/st/stm32/dma2d/dma2d.c
++++ b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+@@ -696,7 +696,7 @@ static int dma2d_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int hva_remove(struct platform_device *pdev)
-+static void hva_remove(struct platform_device *pdev)
+-static int dma2d_remove(struct platform_device *pdev)
++static void dma2d_remove(struct platform_device *pdev)
  {
- 	struct hva_dev *hva = platform_get_drvdata(pdev);
- 	struct device *dev = hva_to_dev(hva);
-@@ -1440,8 +1440,6 @@ static int hva_remove(struct platform_device *pdev)
- 	v4l2_device_unregister(&hva->v4l2_dev);
+ 	struct dma2d_dev *dev = platform_get_drvdata(pdev);
  
- 	dev_info(dev, "%s %s removed\n", HVA_PREFIX, pdev->name);
+@@ -707,8 +707,6 @@ static int dma2d_remove(struct platform_device *pdev)
+ 	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+ 	clk_unprepare(dev->gate);
+ 	clk_put(dev->gate);
 -
 -	return 0;
  }
  
- /* PM ops */
-@@ -1461,7 +1459,7 @@ MODULE_DEVICE_TABLE(of, hva_match_types);
+ static const struct of_device_id stm32_dma2d_match[] = {
+@@ -722,7 +720,7 @@ MODULE_DEVICE_TABLE(of, stm32_dma2d_match);
  
- static struct platform_driver hva_driver = {
- 	.probe  = hva_probe,
--	.remove = hva_remove,
-+	.remove_new = hva_remove,
- 	.driver = {
- 		.name		= HVA_NAME,
- 		.of_match_table	= hva_match_types,
+ static struct platform_driver dma2d_pdrv = {
+ 	.probe		= dma2d_probe,
+-	.remove		= dma2d_remove,
++	.remove_new	= dma2d_remove,
+ 	.driver		= {
+ 		.name = DMA2D_NAME,
+ 		.of_match_table = stm32_dma2d_match,
 -- 
 2.39.2
 
