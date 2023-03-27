@@ -2,77 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 934676C9E1E
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 10:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A17466C9E71
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 10:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233235AbjC0IkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 04:40:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56446 "EHLO
+        id S233397AbjC0IoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 04:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233273AbjC0Ijp (ORCPT
+        with ESMTP id S232594AbjC0IoB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 04:39:45 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44FF483E4
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 01:34:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679906073; x=1711442073;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6khKAQhsm+xNh5X8HrlsOHITWRdeJE4rIHPv7g4TTu4=;
-  b=QvVZXPE+geYCwWKMxuc2yfVNNoy0lWOXIcgTA4d8Htc5j8K6kMy0D+xm
-   ycF3Zy5C1uMiePxh+GM+Zgr4MnfWvWFkX2PCP38vJw+Zxhm3j/O+bku6v
-   Vb5dqR3p6vVC8mCIQwfb0CpnGPoD4nDtCUPIT5g54JZmmTv8oKoSVWsXi
-   W0vHxkF3S/DnHSbs/CK141x7MHGPbk60qSRktiuuvSUT+b8ciHPPEgxOR
-   hrwp0u6iwqRlX7aHLPuEarqY11mLusiz//Yzuml6dRc3HMvQEOejgDq49
-   dx2GtXhug+YNSvosZHvZVMmDmocNk5Dg9K/38xZ3yJ+BSnnoOPNqjekGP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="337713880"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="337713880"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 01:34:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="685891344"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="685891344"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.25.71]) ([10.213.25.71])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 01:34:31 -0700
-Message-ID: <259d6ca2-7d05-5e1a-56c2-faa66bdf65c3@intel.com>
-Date:   Mon, 27 Mar 2023 10:34:29 +0200
+        Mon, 27 Mar 2023 04:44:01 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 454279006;
+        Mon, 27 Mar 2023 01:40:06 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9218E12F3;
+        Mon, 27 Mar 2023 10:39:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1679906392;
+        bh=96V8MppeMF+NW6V4+9f6Y/8BI7H5wf9OEn77H7NjWzg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=OwW4CIk8AgQNqOOsMBz4GOFpDaDXeJ+UDvuNqLtDkpuorKbFNu9H6TyzGli78SZcC
+         +rXsCcVZ8LpLUk4Q3w3alnS5e1je1flvg86mGMK5gMW6WpLk0tqH3IuZk3C8EHEqzb
+         2ve2UVz8JIGdhbZS0MVpTXA6+1GskbA1xGt+5B8s=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [PATCH 071/117] media: s5p_mfc: Convert to platform remove
- callback returning void
-Content-Language: en-US
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230326143224.572654-55-u.kleine-koenig@pengutronix.de>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-55-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 052/117] media: rcar_fdp1: Convert to platform remove callback returning void
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         kernel@pengutronix.de
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
- <20230326143224.572654-74-u.kleine-koenig@pengutronix.de>
-From:   Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230326143224.572654-74-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Date:   Mon, 27 Mar 2023 09:39:50 +0100
+Message-ID: <167990639061.2697263.12613924340988124182@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 26.03.2023 16:31, Uwe Kleine-König wrote:
+Quoting Uwe Kleine-K=C3=B6nig (2023-03-26 15:31:19)
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -80,49 +57,51 @@ On 26.03.2023 16:31, Uwe Kleine-König wrote:
 > quest to make the remove callback return void. In the first step of this
 > quest all drivers are converted to .remove_new() which already returns
 > void.
->
+>=20
 > Trivially convert this driver from always returning zero in the remove
 > callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Regards
-Andrzej
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 > ---
->   drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/media/platform/renesas/rcar_fdp1.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/p=
+latform/renesas/rcar_fdp1.c
+> index 37ecf489d112..d80b3214dfae 100644
+> --- a/drivers/media/platform/renesas/rcar_fdp1.c
+> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
+> @@ -2396,7 +2396,7 @@ static int fdp1_probe(struct platform_device *pdev)
+>         return ret;
+>  }
+> =20
+> -static int fdp1_remove(struct platform_device *pdev)
+> +static void fdp1_remove(struct platform_device *pdev)
+>  {
+>         struct fdp1_dev *fdp1 =3D platform_get_drvdata(pdev);
+> =20
+> @@ -2404,8 +2404,6 @@ static int fdp1_remove(struct platform_device *pdev)
+>         video_unregister_device(&fdp1->vfd);
+>         v4l2_device_unregister(&fdp1->v4l2_dev);
+>         pm_runtime_disable(&pdev->dev);
+> -
+> -       return 0;
+>  }
+> =20
+>  static int __maybe_unused fdp1_pm_runtime_suspend(struct device *dev)
+> @@ -2441,7 +2439,7 @@ MODULE_DEVICE_TABLE(of, fdp1_dt_ids);
+> =20
+>  static struct platform_driver fdp1_pdrv =3D {
+>         .probe          =3D fdp1_probe,
+> -       .remove         =3D fdp1_remove,
+> +       .remove_new     =3D fdp1_remove,
+>         .driver         =3D {
+>                 .name   =3D DRIVER_NAME,
+>                 .of_match_table =3D fdp1_dt_ids,
+> --=20
+> 2.39.2
 >
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> index 9d2cce124a34..e30e54935d79 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> @@ -1431,7 +1431,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
->   }
->   
->   /* Remove the driver */
-> -static int s5p_mfc_remove(struct platform_device *pdev)
-> +static void s5p_mfc_remove(struct platform_device *pdev)
->   {
->   	struct s5p_mfc_dev *dev = platform_get_drvdata(pdev);
->   	struct s5p_mfc_ctx *ctx;
-> @@ -1463,7 +1463,6 @@ static int s5p_mfc_remove(struct platform_device *pdev)
->   	s5p_mfc_unconfigure_dma_memory(dev);
->   
->   	s5p_mfc_final_pm(dev);
-> -	return 0;
->   }
->   
->   #ifdef CONFIG_PM_SLEEP
-> @@ -1690,7 +1689,7 @@ MODULE_DEVICE_TABLE(of, exynos_mfc_match);
->   
->   static struct platform_driver s5p_mfc_driver = {
->   	.probe		= s5p_mfc_probe,
-> -	.remove		= s5p_mfc_remove,
-> +	.remove_new	= s5p_mfc_remove,
->   	.driver	= {
->   		.name	= S5P_MFC_NAME,
->   		.pm	= &s5p_mfc_pm_ops,
-
