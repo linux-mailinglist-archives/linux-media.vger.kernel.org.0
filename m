@@ -2,91 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EAB56C9EB7
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 10:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5C26C9F14
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 11:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233416AbjC0I52 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 04:57:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35316 "EHLO
+        id S232993AbjC0JM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 05:12:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233366AbjC0I4u (ORCPT
+        with ESMTP id S232951AbjC0JMU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 04:56:50 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548F149F0
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 01:54:13 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgicG-007tXr-Cm; Mon, 27 Mar 2023 08:54:12 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pgicD-002QhU-Oj; Mon, 27 Mar 2023 08:54:09 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] Convert to platform remove callback returning (#90835)
-Date:   Mon, 27 Mar 2023 08:54:09 +0000
-Message-Id: <20230327085409.579246-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl>
-References: 
+        Mon, 27 Mar 2023 05:12:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B65044B3
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 02:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679908294;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=+Mwhhk8fBwlRtaARpmqQx2fmC56yDNxCNbzZ+8kUfQw=;
+        b=Q50ysWg1KloAaUZ+I7/4r7ibpl83tDX8HYlkVK4/D9c4/lAQDjog5htNOnM+5aD8GUzLPE
+        EN3EB332td9+zAOVLNfVTQ8QrMyTIrlgBo+43Fu5RjpI2kXiqbALDhYay44v4xpvoE3pkP
+        Xbuu3BU20x0cUoqSm2i0DTTcAXaN0kE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-3-5YI91a9sNZqGjvZpWgWf_w-1; Mon, 27 Mar 2023 05:11:30 -0400
+X-MC-Unique: 5YI91a9sNZqGjvZpWgWf_w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7AF285A5A3;
+        Mon, 27 Mar 2023 09:11:29 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.67.24.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2258D1121330;
+        Mon, 27 Mar 2023 09:11:24 +0000 (UTC)
+From:   Kate Hsuan <hpa@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Xiu Jianfeng <xiujianfeng@huawei.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
+Cc:     Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH] media: v4l2-core: v4l2-ioctl: Printing log with dev_warn() when the pixelformat is unknown
+Date:   Mon, 27 Mar 2023 17:10:51 +0800
+Message-Id: <20230327091051.404184-1-hpa@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Spam-Status: No, score=1.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+The original implementation used WARN() to notify the user of the "unknown
+pixelformat" error. If fmt->description can be found, the function will
+simply return without warnings. Recently, the description had removed from
+uvc since v4l_fill_fmtdesc() can provide such kind of information. However,
+for some of the USB cameras, such as Intel Realsense F200 returns unknown
+format when probe(). Thus, the WARN() message shows and confuses the user.
+This work changed WARN() to dev_warn() to reduce the severity of the
+message.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/292760/
-Build time: 00:01:46
-Link: https://lore.kernel.org/linux-media/f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl
+The returned video format of Intel RealSense F200 is shown as follows.
+kernel: uvcvideo 2-7:1.3: Unknown video format 52564e49-2d90-4a58-920b-773f1f2c556b
+kernel: uvcvideo 2-7:1.3: Unknown video format 49524e49-2d90-4a58-920b-773f1f2c556b
+kernel: uvcvideo 2-7:1.3: Unknown video format 494c4552-1314-f943-a75a-ee6bbf012e23
+kernel: usb 2-7: Found UVC 1.10 device Intel(R) RealSense(TM) 3D Camera (Front F200) (8086:0a66)
 
-gpg: Signature made Mon 27 Mar 2023 07:36:13 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2180107
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Summary: got 2/117 patches with issues, being 2 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-cec-gpio-Convert-to-platform-remove-callback-r.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974917
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-patches/0037-media-mxc-jpeg-Convert-to-platform-remove-callback-r.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-
-
-Error #512 when building PDF docs
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 87f163a89c80..aae987243a5b 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1246,7 +1246,7 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
+ 	return ops->vidioc_enum_output(file, fh, p);
+ }
+ 
+-static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
++static void v4l_fill_fmtdesc(struct video_device *vdev, struct v4l2_fmtdesc *fmt)
+ {
+ 	const unsigned sz = sizeof(fmt->description);
+ 	const char *descr = NULL;
+@@ -1504,7 +1504,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		default:
+ 			if (fmt->description[0])
+ 				return;
+-			WARN(1, "Unknown pixelformat 0x%08x\n", fmt->pixelformat);
++			dev_warn(&vdev->dev, "Unknown pixelformat 0x%08x\n", fmt->pixelformat);
+ 			flags = 0;
+ 			snprintf(fmt->description, sz, "%p4cc",
+ 				 &fmt->pixelformat);
+@@ -1589,7 +1589,7 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+ 		break;
+ 	}
+ 	if (ret == 0)
+-		v4l_fill_fmtdesc(p);
++		v4l_fill_fmtdesc(vdev, p);
+ 	return ret;
+ }
+ 
+-- 
+2.39.2
 
