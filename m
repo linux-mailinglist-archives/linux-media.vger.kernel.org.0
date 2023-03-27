@@ -2,170 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0612C6C9CBD
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F353D6C9CD8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:53:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232479AbjC0Ht7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 03:49:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40502 "EHLO
+        id S232775AbjC0HxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 03:53:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232282AbjC0Htu (ORCPT
+        with ESMTP id S232494AbjC0HxQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 03:49:50 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53F3102
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679903389; x=1711439389;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QqL7KgJQsGJhLnD9zMw+Kv8aTQ6n52oyKBUC4NrWpNY=;
-  b=H+uBNWIRVqguYFiglHM/nu6UGBfcnnMKtH2c8l6+XmEnAQ9bol+F4faD
-   sonYQraa1Itji5g5rdoQkE6S3TTEmdqujyGC9JST5ILjgl6XB4Ln62HPT
-   vzdDX7sxP4avD9AymPusnN8Ya64Jv+nelt7gne2UWgt/ZDKYVpnWFldBv
-   I43a6yibjyx9jOf03lo5qeXr70gwKZAolgP48zaSIQJinVScHIfegHI4S
-   7mytZmIau9GM5/4EDokd4Fm03UrZfAho4UzQ8UaeRlIs9X98kq3BzcenU
-   8sg4tkbCpA8EjpFWDFxjhHgc5VVdzw2CPbBtrQuZsyqQQBX4Pe8AoUYrP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="405126875"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="405126875"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:49:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="929374177"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="929374177"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:49:47 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 67A8612227E;
-        Mon, 27 Mar 2023 10:49:44 +0300 (EEST)
-Date:   Mon, 27 Mar 2023 10:49:44 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Wu, Wentong" <wentong.wu@intel.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "djrscally@gmail.com" <djrscally@gmail.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH v3 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Message-ID: <ZCFKmNKZAPwsIq/j@kekkonen.localdomain>
-References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
- <ZCFD3aW4NRrn69LR@kekkonen.localdomain>
- <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
+        Mon, 27 Mar 2023 03:53:16 -0400
+Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F31E1110
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:53:15 -0700 (PDT)
+Received: by mail.lokoho.com (Postfix, from userid 1001)
+        id 5C0C083CF1; Mon, 27 Mar 2023 08:52:06 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
+        t=1679903594; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=nKI+ApNFpgO6TNcExB/UkHwJrSfS7fvClgAEZx7hI3Ntl+7XrO1VWVV4hWmu45utw
+         OX2xtAMs5YMgCMZEt86Cs3DtGfqxbj79TKzXM6kpsTEWEM6rtS7KJ021TbanO0s2iV
+         jixvRdHcSBEROE9ccB4tIosSr3ngd+r8YiiUofUK2/9dAo/vGpsx+1zR1iMN0E+sSm
+         aFhob4FFcXwG7ePfqYKkxS6DUmwN9QyeG0mabtDDZ8ZObX/By2DZHH1IFOWlsQMHkx
+         Q2CmOZuxK/HkF0dQDX0DjAm0oPHJGmqUQGM9NT2EPMoPoOACvwye3uH7q/k+C5AYTa
+         W4N7t2lltHg9w==
+Received: by mail.lokoho.com for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 07:50:50 GMT
+Message-ID: <20230327074501-0.1.4w.1mgqp.0.22f895b810@lokoho.com>
+Date:   Mon, 27 Mar 2023 07:50:50 GMT
+From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
+To:     <linux-media@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.lokoho.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wentong,
+Dzie=C5=84 dobry,
 
-On Mon, Mar 27, 2023 at 07:33:48AM +0000, Wu, Wentong wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Sent: Monday, March 27, 2023 3:21 PM
-> > 
-> > Hi Wentong,
-> > 
-> > On Mon, Mar 27, 2023 at 02:23:05PM +0800, Wentong Wu wrote:
-> > > Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
-> > > companion chip designed to provide secure and low power vision
-> > > capability to IA platforms. IVSC is available in existing commercial
-> > > platforms from multiple OEMs.
-> > >
-> > > The primary use case of IVSC is to bring in context awareness. IVSC
-> > > interfaces directly with the platform main camera sensor via a CSI-2
-> > > link and processes the image data with the embedded AI engine. The
-> > > detected events are sent over I2C to ISH (Intel Sensor Hub) for
-> > > additional data fusion from multiple sensors. The fusion results are
-> > > used to implement advanced use cases like:
-> > >  - Face detection to unlock screen
-> > >  - Detect user presence to manage backlight setting or waking up
-> > > system
-> > >
-> > > Since the Image Processing Unit(IPU) used on the host processor needs
-> > > to configure the CSI-2 link in normal camera usages, the CSI-2 link
-> > > and camera sensor can only be used in mutually-exclusive ways by host
-> > > IPU and IVSC. By default the IVSC owns the CSI-2 link and camera
-> > > sensor. The IPU driver can take ownership of the CSI-2 link and camera
-> > > sensor using interfaces exported via v4l2 sub-device.
-> > >
-> > > Switching ownership requires an interface with two different hardware
-> > > modules inside IVSC. The software interface to these modules is via
-> > > Intel MEI (The Intel Management Engine) commands. These two hardware
-> > > modules have two different MEI UUIDs to enumerate. These hardware
-> > modules are:
-> > >  - ACE (Algorithm Context Engine): This module is for algorithm
-> > > computing when IVSC owns camera sensor. Also ACE module controls
-> > > camera sensor's ownership. This hardware module is used to set ownership of
-> > camera sensor.
-> > >  - CSI (Camera Serial Interface): This module is used to route camera
-> > > sensor data either to IVSC or to host for IPU driver and application.
-> > >
-> > > IVSC also provides a privacy mode. When privacy mode is turned on,
-> > > camera sensor can't be used. This means that both ACE and host IPU
-> > > can't get image data. And when this mode is turned on, users are
-> > > informed via
-> > > v4l2 control API.
-> > >
-> > > In summary, to acquire ownership of camera by IPU driver, first ACE
-> > > module needs to be informed of ownership and then to setup MIPI CSI-2
-> > > link for the camera sensor and IPU.
-> > >
-> > > Implementation:
-> > > There are two different drivers to handle ACE and CSI hardware modules
-> > > inside IVSC.
-> > >  - ivsc_csi: MEI client driver to send commands and receive
-> > > notifications from CSI module.
-> > >  - ivsc_ace: MEI client driver to send commands and get status from
-> > > ACE module.
-> > > Interface is exposed via v4l2 sub-devcie APIs to acquire and release
-> > > camera sensor and CSI-2 link.
-> > 
-> > Thanks for the update.
-> > 
-> > Could you elaborate the decision of keeping the csi_bridge entirely separate
-> > from the cio2_bridge (to be turned to ipu_bridge first)? Both are doing
-> > essentially the same and using the same data structures, aren't they?
-> 
-> yes, they're doing same thing to bridge the software nodes needed by
-> v4l2, but they have different type devices(pci and mei_client device) and
-> dependency. And they have same SSDB definition in DSDT, so the structures
-> are almost same.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-If there are differences, what are they?
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-What comes to cio2_bridge, the fact that it's related to a PCI device
-doesn't seem to matter after initialisation so it could as well work with
-struct device.
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-> 
-> I have no idea what the ipu bridge would be like, but IVSC csi bridge can
-> be configured via kconfig to enable/disable.
 
-Please work out the details with Bingbu.
-
-And please do wrap your lines at 74 or so.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Pozdrawiam
+Adam Charachuta
