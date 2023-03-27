@@ -2,130 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60DCE6C9EA3
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 10:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EAB56C9EB7
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 10:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232823AbjC0Ixm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 04:53:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58752 "EHLO
+        id S233416AbjC0I52 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 04:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232721AbjC0IxL (ORCPT
+        with ESMTP id S233366AbjC0I4u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 04:53:11 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C6C83E4
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 01:49:03 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id bi9so10298342lfb.12
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 01:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1679906941;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0OZ9R2vraHOOEFqJ3sf/g9tKIkB3HpI+YtgXcUzlZto=;
-        b=AmLxEE3WjRyAsk14UpCcPXQz79LFmXZ3zXDrP4E82oa5lYwtVx2p3YdSYNRD3FhgxP
-         Dr3LFMFc2Kna1kJkOtqojxVCr4JAJHZvFhvqd/0hgB9+1tWcnNW0qUeDh2IIeyGA/VOp
-         BUSflpb2uEveAYH+g1xH+Klf4PgBlVJ33rpoF5IQPWhCuIVF6x/8C/uq5sB9QIJ8QkAQ
-         MiISKy4HP5tJg4x20+PYFX/YV5rxA1XL7hSefr0xXk8iijKPMI9gLna0paJ+POfhsItU
-         QltRqne4QZ2/CjTZXSihkHJytvsTdEJDWS9KIjTh6pYHAt6io3sSr2age3e3y04+KVLR
-         0Eew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679906941;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0OZ9R2vraHOOEFqJ3sf/g9tKIkB3HpI+YtgXcUzlZto=;
-        b=Xgwft1MRU3z5rklgWG+lLP95sItgA8t1YWxybwos7xfEsG2N9v2MgT/sPxwwQOBMDJ
-         RA2NmybrwLV70HI0ETHQ66feMtLPnsVgO5JsKMiHVbqkGWMCpA14L52Ezy0rh6reeVSu
-         MV6Ibqnv6teml+Z2NuWALc6gTZ5235hi2iOVavNyAklhfslpIDaGJIuR71fL7U66iD46
-         xQ0Nye9Vwn5KQuwO/jZzHXkBFDpYW2eoNBTocrJaZPG11NJyGuEe5g+DL3Octl9UTj4C
-         S5jIyuTZqprmj/j/DhoezAsykwE3f9Z0qiDEnGPXk3iHSbUD7f+4vaEIK4KR/PqraF2d
-         Sspg==
-X-Gm-Message-State: AAQBX9fr533vxhM/pNT1ipKBIcbHNfQlfcV76QuPsy8j7rwWJ/5wQxt/
-        kEMf32Q4Kf2UjhIsVetWsozXPA==
-X-Google-Smtp-Source: AKy350b55GpfF768xBnrj3D4dEEHzIuArdMcrHHWJXHeCGeoPhkANvrm0NiDA/bSHE/FteTVyojdAQ==
-X-Received: by 2002:a05:6512:38a9:b0:4b5:7a91:70f5 with SMTP id o9-20020a05651238a900b004b57a9170f5mr3543963lft.63.1679906941368;
-        Mon, 27 Mar 2023 01:49:01 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id u4-20020ac251c4000000b004db1a7e6decsm4581248lfm.205.2023.03.27.01.49.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 01:49:01 -0700 (PDT)
-Date:   Mon, 27 Mar 2023 10:49:00 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 050/117] media: rcar-csi2: Convert to platform remove
- callback returning void
-Message-ID: <ZCFYfD5MUHCPCchu@oden.dyn.berto.se>
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
- <20230326143224.572654-53-u.kleine-koenig@pengutronix.de>
+        Mon, 27 Mar 2023 04:56:50 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548F149F0
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 01:54:13 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pgicG-007tXr-Cm; Mon, 27 Mar 2023 08:54:12 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pgicD-002QhU-Oj; Mon, 27 Mar 2023 08:54:09 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] Convert to platform remove callback returning (#90835)
+Date:   Mon, 27 Mar 2023 08:54:09 +0000
+Message-Id: <20230327085409.579246-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230326143224.572654-53-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-03-26 16:31:17 +0200, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+From: builder@linuxtv.org
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/292760/
+Build time: 00:01:46
+Link: https://lore.kernel.org/linux-media/f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl
 
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-csi2.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> index 174aa6176f54..1632c9a53ac4 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-> @@ -1574,7 +1574,7 @@ static int rcsi2_probe(struct platform_device *pdev)
->  	return ret;
->  }
->  
-> -static int rcsi2_remove(struct platform_device *pdev)
-> +static void rcsi2_remove(struct platform_device *pdev)
->  {
->  	struct rcar_csi2 *priv = platform_get_drvdata(pdev);
->  
-> @@ -1585,12 +1585,10 @@ static int rcsi2_remove(struct platform_device *pdev)
->  	pm_runtime_disable(&pdev->dev);
->  
->  	mutex_destroy(&priv->lock);
-> -
-> -	return 0;
->  }
->  
->  static struct platform_driver rcar_csi2_pdrv = {
-> -	.remove	= rcsi2_remove,
-> +	.remove_new = rcsi2_remove,
->  	.probe	= rcsi2_probe,
->  	.driver	= {
->  		.name	= "rcar-csi2",
-> -- 
-> 2.39.2
-> 
+gpg: Signature made Mon 27 Mar 2023 07:36:13 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
--- 
-Kind Regards,
-Niklas Söderlund
+Summary: got 2/117 patches with issues, being 2 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-cec-gpio-Convert-to-platform-remove-callback-r.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974917
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+patches/0037-media-mxc-jpeg-Convert-to-platform-remove-callback-r.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+
+
+Error #512 when building PDF docs
+
