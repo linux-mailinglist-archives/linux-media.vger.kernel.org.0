@@ -2,144 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A08D16CAAA8
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 18:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 575856CABA1
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 19:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232056AbjC0Qdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 12:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47628 "EHLO
+        id S231717AbjC0RN1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 13:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbjC0Qds (ORCPT
+        with ESMTP id S229525AbjC0RN0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 12:33:48 -0400
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2899E30C3
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 09:33:23 -0700 (PDT)
-Received: by mail-ot1-x32b.google.com with SMTP id k14-20020a9d700e000000b0069faa923e7eso4839682otj.10
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 09:33:23 -0700 (PDT)
+        Mon, 27 Mar 2023 13:13:26 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538102D70
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 10:13:25 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id c29so12406801lfv.3
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 10:13:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679934802;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IVRw/y/HYv4F/ZCjc9fnnqraRDvjr9QFkV7EkmAoUoo=;
-        b=NsGEwEncMw5OwrGyAcLFXDP8Nh1XLl/oTNd4e2FQL4j/+hA+bwkq0Pj3SJRWIIm+zW
-         l2xdO2qqO8Q31zu3WQQ/JMeTFa2YbdHFP9Y+GJqjqimKC0l36mruXhxC2pLryxJt2/Uq
-         vvmV2wsPy0VXiZPxrxnpnAn06my6RUtCE5B0tvSMUPHGTnLa/5pVa9bP6/VdpE2VkzkV
-         0eMdCxJmrUeP086hZ+OHnXYvVweBZNMiacuDiiM1186YuZsHYTADalScYsJMbFwtzC7q
-         7ZoILJl7e7FoFb77mTyg01zd9lQ8CxFuqIaLkO7yq2HWzh26VMMUy5SeF3kSv1hIB5ho
-         Dr2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679934802;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+        d=gmail.com; s=20210112; t=1679937203;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IVRw/y/HYv4F/ZCjc9fnnqraRDvjr9QFkV7EkmAoUoo=;
-        b=Q9JE2WMHlYVRNgPiwlx5kz2M+GeT+ywgEO1W2s3924TO/Jeq9Cgh4ImW+St0Z7tv2X
-         t1MYvSia9670S8oaiJiEGc2L5XN5mjbd2juMF88XVn6js9Upy0mNiDEB14W3l05bKrrJ
-         AlZo8kZbDaFCUYd1iWOLgsjPF4qvxgvqQJcVrKxloEydnqrA0uYUXKuCZJcYXjaG6lsz
-         EXZ+8wUjfR0kvArDuosRem0J48OJRIrQLE8CrU+oGQak5KlBMZwfN+Nm2vYZD1u3xwvG
-         U4Q3Qf0LZtKZ6cSl2KbFJGg/+Y8Yx8DRB7NTwcXpiJ6bIFrrSwKQXoNAoDaIL8yEjNEE
-         4CfA==
-X-Gm-Message-State: AO0yUKWZq/uJDxBrzC/Vh4z9mk4uP9GQIf1tOWEpabr8v2DgC7tchEn4
-        ZEtNE51oBvPWmH3kpnvGC7mznqwSyodeenXfnBRtiJaQdpE=
-X-Google-Smtp-Source: AK7set+gPLiKBGE3pPAPdXcHJboomFksbejP8LUEgDbv6mgtCdo3Wh4kfz+sXPsYdKZeFqyRS+zTh9LpAj0UMmH21mA=
-X-Received: by 2002:a9d:6385:0:b0:690:c81f:d459 with SMTP id
- w5-20020a9d6385000000b00690c81fd459mr3941306otk.3.1679934802014; Mon, 27 Mar
- 2023 09:33:22 -0700 (PDT)
+        bh=SQme2hkuXbQP0Vwc+rzrLN4lvXg4gZyDcnP9H/XM0z8=;
+        b=GoLSaeWTcYSGrrgFmN3ikaTCPUGY6BEzfrMcwTyAfOP2j7hGEKYtH/Y1Zv7kfc/RV4
+         dDJo8b5a8xbrDEKKatUDvd48EsgJLpxW4dC7mgoRldrTbGMhq450f5zoOaGiLYjZaSjX
+         KhmwH++FfIfaFl8axPjzIeMpcUWatiSLsB8Z7GWPFNpfd/+DmypKhB5qJG4+Lc9kobay
+         uTEgTGTyLKWCRtujJIY9KIPmRxBGPLvmMD99TTVVLinlKaq+fCRjDD7qtq3PO+aD5ITJ
+         D0emoo+4YOFCbZaHV/7rqtUEuw0wp//68rSSFUTSNpbQacULRGRb26l9k137SzmcHAhB
+         m/Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679937203;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SQme2hkuXbQP0Vwc+rzrLN4lvXg4gZyDcnP9H/XM0z8=;
+        b=zB9d6CAI9+SP58Y9xgnEScCva7rvrLY1I3uTp6fDx3nFJAfgcFDq0pR74K+t1K6Mcl
+         c8YGyo9sfqpaXF/F2/ahPAGRXSCKXipFl6eQPbHDMtbEmGVokVYI2GsU3ryKQ/bQIVf7
+         TDz8hIffUoF1Ztni577e3MJZSzaRyvbWE4MJsU6z4BxnrmuIfLzvEa4wuBc0wFxk1Q7n
+         sx8RIlqCB2CRs8iWYd9wlJ27Ua29BYJOH7WK4OKnetKVEAQgUiWzLMgCx33aUqc+dU+B
+         0xuFDoWQXiscp8PHcVqh+har2OSW3bGHeAJCQ3Cm7xvXluPrtj13NcykNM9ebl8qrTdN
+         g0xg==
+X-Gm-Message-State: AAQBX9djBeekjXKPlAXw4UQsbPFgmK/obJXOZ/81FAK/CSVIgpKBk/K4
+        9TSAJ9XlZqUn+Owu6kSQDro=
+X-Google-Smtp-Source: AKy350YFeQT9Eynw0IlGPFkcRLc+haznbBibDIK64nCyJjldZFC1A4HLehUz9hMY8/t3D6/zEMNMfw==
+X-Received: by 2002:ac2:5291:0:b0:4cb:2aa:9e58 with SMTP id q17-20020ac25291000000b004cb02aa9e58mr3479070lfm.13.1679937203502;
+        Mon, 27 Mar 2023 10:13:23 -0700 (PDT)
+Received: from [192.168.1.6] ([212.106.161.80])
+        by smtp.gmail.com with ESMTPSA id w2-20020a05651204c200b004da8d947c57sm4756379lfq.149.2023.03.27.10.13.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Mar 2023 10:13:22 -0700 (PDT)
+Message-ID: <40161e2f-5225-8cae-732a-59fc379dd045@gmail.com>
+Date:   Mon, 27 Mar 2023 19:13:21 +0200
 MIME-Version: 1.0
-From:   Shawn Lindberg <shawn.lindberg@gmail.com>
-Date:   Mon, 27 Mar 2023 11:33:11 -0500
-Message-ID: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
-Subject: Extremely long delay between CEC image-view-on an standby.
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: saa7146: please test the vb2 conversion!
+Content-Language: en-US, pl-PL
+To:     Stefan Herdler <herdler@nurfuerspam.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>,
+        Soeren Moch <smoch@web.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+ <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
+ <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
+ <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
+ <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
+ <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+ <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
+ <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
+ <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
+ <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
+ <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
+ <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
+ <20230208100847.3ec87576@coco.lan>
+ <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
+ <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
+ <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
+ <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
+From:   Tomasz Maciej Nowak <tmn505@gmail.com>
+In-Reply-To: <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings, I am having trouble figuring out a very strange problem I'm
-seeing. I have a Raspberry Pi 4B connected via HDMI to a LG projector.
-I have no trouble turning the projector on using the following
-commands:
+W dniu 24.03.2023 o 22:21, Stefan Herdler pisze:
 
-cec-ctl -d0 --tv --cec-version-1.4
-cec-ctl -d0 -t0 --image-view-on
+[...]
 
-I'm using CEC version 1.4 because that is what the projector supports.
-I don't know whether that's necessary or contributing. However, if I
-try to turn the projector off using standby, I get the following and
-the projector does not turn off:
+> There are only DVB-C boards with analog features.
+> 
+> I personally never had cable-TV nor own any DVB-C cards.
+> But I try to find such a card with an analog module on it.
 
-cec-ctl -d0 -t0 -T --standby
-        CEC_ADAP_G_CAPS returned 0 (Success)
-        CEC_ADAP_G_PHYS_ADDR returned 0 (Success)
-        CEC_ADAP_G_LOG_ADDRS returned 0 (Success)
-        CEC_ADAP_G_CONNECTOR_INFO returned 0 (Success)
-Driver Info:
-    Driver Name                : vc4_hdmi
-    Adapter Name               : vc4
-    Capabilities               : 0x0000011e
-        Logical Addresses
-        Transmit
-        Passthrough
-        Remote Control Support
-        Connector Info
-    Driver version             : 5.15.84
-    Available Logical Addresses: 1
-    DRM Connector Info         : card 0, connector 32
-    Physical Address           : f.f.f.f
-    Logical Address Mask       : 0x0000
-    CEC Version                : 1.4
-    Vendor ID                  : 0x000c03 (HDMI)
-    OSD Name                   : 'TV'
-    Logical Addresses          : 1 (Allow RC Passthrough)
+I'm not 100% sure, but there seems to be one offered on "ebay-kleinanzeigen".
+Search for "DVB Board Siemens PCI". I won't post link, since that'll be
+outdated once the offer expires. Unfortunately it's rather on the expensive
+side, for the features it provides today.
 
-      Logical Address          : Not Allocated
-        Primary Device Type    : TV
-        Logical Address Type   : TV
+[...]
 
+Regards
 
-Transmit from Unregistered to TV (15 to 0):
-STANDBY (0x36)
-        CEC_TRANSMIT returned -1 (Machine is not on the network)
+-- 
+TMN
 
-During this time, if I try to poll the projector, it will succeed.
-However, if I monitor events, after a significant amount of time
-(appears to be greater than 20 minutes, although this is difficult to
-verify because of how long it takes) I go will eventually see the
-following:
-
-Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
-    Timestamp: 30981.428s
-Transmitted by Specific to Specific (14 to 14): POLL
-    Tx, Not Acknowledged (4), Max Retries
-    Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), Max Retries
-
-Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
-    Timestamp: 30981.561s
-Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84):
-    phys-addr: 1.0.0.0
-    prim-devtype: tv (0x00)
-    Sequence: 22 Tx Timestamp: 30981.696s
-Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
-    vendor-id: 3075 (0x00000c03)
-    Sequence: 23 Tx Timestamp: 30981.835s
-Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
-    abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
-    reason: invalid-op (0x03)
-    Sequence: 0 Rx Timestamp: 30981.949s
-Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
-    Sequence: 0 Rx Timestamp: 30982.026s
-Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
-    name: TV
-    Sequence: 24 Tx Timestamp: 30982.137s
-
-After this point in time the standby command will succeed and the
-projector will turn off. It's quite inconvenient to have to wait over
-20 minutes to turn the projector back off again. Any idea how I can
-shorten this delay?
