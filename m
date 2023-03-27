@@ -2,220 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC9176CA4AE
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 14:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B10216CA5AE
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 15:24:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232269AbjC0Mxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 08:53:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49868 "EHLO
+        id S232689AbjC0NYl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 09:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231287AbjC0Mx2 (ORCPT
+        with ESMTP id S232306AbjC0NYG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 08:53:28 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 079A51709
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 05:53:25 -0700 (PDT)
-Received: from [192.168.0.192] (unknown [194.146.248.75])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7059866015A6;
-        Mon, 27 Mar 2023 13:53:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1679921604;
-        bh=bhgQciSobL/ZpgAIbaR3LBgVjRRj3Tp/+e7lLLp6Mr8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=B1sAFyiMXwT74Z8N/4CO5KqYMBwERta3cRy988TfLyqGgNu1fMzOEg337hdNiyXPB
-         2jiS6ux0ub0vP2yCHLmypR2Kt7jqKOLPHCDQaDjh8lQnU1xMCU8ntMrmCCtq07iXS0
-         GRJ/sH5cz1PT1OwYkbQHFE9ZciFyAB4DYuIbCKJfxSIMAfCnbqJ0+cfXOee1Pj6NGV
-         JCgBbZIDPKptnuHVE4bMVfkggTQmA5ZODVb6qThcMmVGQOQ3Occ+Z32RMam4cnRqMe
-         68L6zJ6O6ImdKR4vbifEX/ZO1tRxiGaVfjSUX+ZOQRya7jnWSMKNuojig31LeDcLGe
-         edIEEOnzxB6/g==
-Message-ID: <0224abd9-df5b-0c79-6366-a52176a2e45b@collabora.com>
-Date:   Mon, 27 Mar 2023 14:53:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC 1/2] media: uapi: Add VP8 stateless encoder controls
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+        Mon, 27 Mar 2023 09:24:06 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB68422C
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 06:23:31 -0700 (PDT)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <m.tretter@pengutronix.de>)
+        id 1pgmop-00060J-Ql; Mon, 27 Mar 2023 15:23:27 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com
-References: <20230309125651.23911-1-andrzej.p@collabora.com>
- <20230309125651.23911-2-andrzej.p@collabora.com>
- <e0410a7a-250c-851b-147f-a93652e0a131@xs4all.nl>
- <4ddd59e5-4db3-5027-850c-118230926911@collabora.com>
- <421f8157aa11aab997b092f4b1378a8bbd008c18.camel@collabora.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <421f8157aa11aab997b092f4b1378a8bbd008c18.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+        mtr@pengutronix.de
+Subject: [RFC PATCH] media: hantro: respect data_offset in vb2_plane
+Date:   Mon, 27 Mar 2023 15:23:24 +0200
+Message-Id: <20230327132324.1781416-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The vb2_plane in the vb2_v4l2_buffer may have a data_offset, which is
+written by user space to tell the driver that the data starts at an
+offset into the buffer. Currently the hantro driver assumes that the
+data starts directly at the base address of the buffer.
+
+Add the data_offset to the plane dma_address to make sure that the
+encoder actually reads the plane data if the user space put the plane
+data at an offset into the buffer. Otherwise the encoded data may not be
+the data that userspace expected to be encoded.
+
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+---
 Hi,
 
-W dniu 24.03.2023 o 19:49, Nicolas Dufresne pisze:
-> Le mercredi 22 mars 2023 à 11:06 +0100, Andrzej Pietrasiewicz a écrit :
->> Hi Hans,
->>
->> W dniu 21.03.2023 o 14:39, Hans Verkuil pisze:
->>> Hi Andrzej,
->>>
->>> On 09/03/2023 13:56, Andrzej Pietrasiewicz wrote:
->>>> Add uAPI for stateless VP8 encoders.
->>>>
->>>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
->>>> ---
->>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c | 16 ++++
->>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c |  5 ++
->>>>    include/media/v4l2-ctrls.h                |  1 +
->>>>    include/uapi/linux/v4l2-controls.h        | 91 +++++++++++++++++++++++
->>>>    include/uapi/linux/videodev2.h            |  3 +
->>>>    5 files changed, 116 insertions(+)
->>>>
->>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>>> index 29169170880a..5055e75d37bb 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>>> @@ -335,6 +335,9 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
->>>>    	case V4L2_CTRL_TYPE_VP9_FRAME:
->>>>    		pr_cont("VP9_FRAME");
->>>>    		break;
->>>> +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
->>>> +		pr_cont("VP8_ENCODE_PARAMS");
->>>> +		break;
->>>>    	case V4L2_CTRL_TYPE_HEVC_SPS:
->>>>    		pr_cont("HEVC_SPS");
->>>>    		break;
->>>> @@ -568,6 +571,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>>>    	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
->>>>    	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->>>>    	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
->>>> +	struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
->>>>    	struct v4l2_area *area;
->>>>    	void *p = ptr.p + idx * ctrl->elem_size;
->>>>    	unsigned int i;
->>>> @@ -918,6 +922,15 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>>>    			return -EINVAL;
->>>>    		break;
->>>>    
->>>> +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
->>>> +		p_vp8_encode_params = p;
->>>> +		if (p_vp8_encode_params->loop_filter_level > 63)
->>>> +			return -EINVAL;
->>>> +
->>>> +		if (p_vp8_encode_params->sharpness_level > 7)
->>>> +			return -EINVAL;
->>>> +		break;
->>>> +
->>>>    	default:
->>>>    		return -EINVAL;
->>>>    	}
->>>> @@ -1602,6 +1615,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->>>>    	case V4L2_CTRL_TYPE_VP9_FRAME:
->>>>    		elem_size = sizeof(struct v4l2_ctrl_vp9_frame);
->>>>    		break;
->>>> +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
->>>> +		elem_size = sizeof(struct v4l2_ctrl_vp8_encode_params);
->>>> +		break;
->>>>    	case V4L2_CTRL_TYPE_AREA:
->>>>    		elem_size = sizeof(struct v4l2_area);
->>>>    		break;
->>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> index 564fedee2c88..935bd9a07bad 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> @@ -1182,6 +1182,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>>    	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:		return "MPEG-2 Quantisation Matrices";
->>>>    	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:	return "VP9 Probabilities Updates";
->>>>    	case V4L2_CID_STATELESS_VP9_FRAME:			return "VP9 Frame Decode Parameters";
->>>> +	case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:		return "VP8 Encode Parameters";
->>>> +	case V4L2_CID_STATELESS_VP8_ENCODE_QP:			return "VP8 Encode QP";
->>>>    	case V4L2_CID_STATELESS_HEVC_SPS:			return "HEVC Sequence Parameter Set";
->>>>    	case V4L2_CID_STATELESS_HEVC_PPS:			return "HEVC Picture Parameter Set";
->>>>    	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
->>>> @@ -1531,6 +1533,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>>>    	case V4L2_CID_STATELESS_VP9_FRAME:
->>>>    		*type = V4L2_CTRL_TYPE_VP9_FRAME;
->>>>    		break;
->>>> +	case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:
->>>> +		*type = V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS;
->>>> +		break;
->>>
->>> Why isn't V4L2_CID_STATELESS_VP8_ENCODE_QP added here as well? I assume it is of
->>> type INTEGER?
->>>
->>
->> Thanks for pointing that.
->>
->> And it is a simple integer, indeed.
->>
->>> I also wonder if VP9 would have the same control, so that this could be called
->>> V4L2_CID_STATELESS_VPX_ENCODE_QP. On the other hand, that might be overkill.
->>>
->>
->> It seems to me that having a single kind of control for passing the
->> requested QP value for both VP8 and VP9 makes sense. In fact, perhaps not
->> restricting ourselves to VPX would make even more sense?
->>
->> This touches the question of how we do rate control in general in stateless
->> encoders. If the uAPI is to be independent of underlying hardware, then the only
->> parameter userspace passes to the kernel is the required QP (which is determined
->> entirely by userspace using whatever means it considers appropriate, for example
->> judging by the last encoded frame(s) size(s)). Any other kinds of data would
->> probably be somehow hardware-specific. So, I'm wondering if maybe even a
->>
->> V4L2_CID_STATELESS_ENCODE_QP
->>
->> is what we want?
-> 
-> We already have V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY which is bound to
-> V4L2_MPEG_VIDEO_BITRATE_MODE_CQ,
+Most other drivers also assume that the address returned by
+vb2_dma_contig_plane_dma_addr() is the start of the plane data. Maybe it
+would be better to change vb2_dma_contig_plane_dma_addr() to already add
+the data_offset to the plane address. However, there are a few drivers
+that already have a helper that respects the data_offset, but that seems
+to be the exception rather than the rule.
 
-Nice catch. Both are used only by Venus. We could reuse it. But then there's
-the allowed range - which you do discuss below.
+What I am actually trying to achieve is to import a V4L2_PIX_FMT_NV12
+buffer from a Rockchip RGA2 (which doesn't support the multi-planar API)
+as a V4L2_PIX_FMT_NV12M buffer into the Hantro JPEG encoder (which
+doesn't support V4L2_PIX_FMT_NV12). Solving this by importing the same
+FD for each plane with a respective offset is how one would import such
+a buffer with the DRM API. Please tell me, if my approach is wrong and,
+if so, how I should solve it differently.
 
+Michael
+---
+ .../verisilicon/rockchip_vpu2_hw_jpeg_enc.c   | 24 +++++++++++++------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-which seems what we should expect form a
-> stateless encoder. In fact, adding the entire BITRATE_MODE would enable later
-> encoder that has firmware driven rate control to be able to add it easily
-> (similar to what we have in GPUs).
-> 
-> We don't need per frame type QP, as stateless encoder have requests, so we can
-> set the QP for each frame separately anyway.
-> 
->>
->> This, in turn, brings another question of the range and interpretation of values
->> that should be passed through this control. 0-255? 0-100? 0 = no quantization at
->> all (i.e. highest quality) or maybe 0 = lowest possible quality?
-> 
-> It seems V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY has decided to go 0-100 regardless
-> of the CODEC. The API is not very inconsistent, like VPX_IN_QP does not even
-> document a range, and says its for VP8 only. Perhaps we could open it up, and
-> allow per codec range so we can match 1:1 with the CODEC specs ? We could only
-> allow that for stateless if we beleive abstracting it to 0-100 make is better in
-> general. Just that in stateless, we expect that number to be written in the
-> bitstream verbatim.
-> 
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
+index 8395c4d48dd0..05df7768187d 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
+@@ -32,6 +32,16 @@
+ 
+ #define VEPU_JPEG_QUANT_TABLE_COUNT 16
+ 
++static dma_addr_t rockchip_vpu2_plane_dma_addr(struct vb2_buffer *vb,
++					       unsigned int plane_no)
++{
++	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb);
++	dma_addr_t base = vb2_dma_contig_plane_dma_addr(vb, plane_no);
++	unsigned int offset = v4l2_buf->planes[plane_no].data_offset;
++
++	return base + offset;
++}
++
+ static void rockchip_vpu2_set_src_img_ctrl(struct hantro_dev *vpu,
+ 					   struct hantro_ctx *ctx)
+ {
+@@ -79,23 +89,23 @@ static void rockchip_vpu2_jpeg_enc_set_buffers(struct hantro_dev *vpu,
+ 
+ 	WARN_ON(pix_fmt->num_planes > 3);
+ 
+-	vepu_write_relaxed(vpu, vb2_dma_contig_plane_dma_addr(dst_buf, 0) +
++	vepu_write_relaxed(vpu, rockchip_vpu2_plane_dma_addr(dst_buf, 0) +
+ 				ctx->vpu_dst_fmt->header_size,
+ 			   VEPU_REG_ADDR_OUTPUT_STREAM);
+ 	vepu_write_relaxed(vpu, size_left, VEPU_REG_STR_BUF_LIMIT);
+ 
+ 	if (pix_fmt->num_planes == 1) {
+-		src[0] = vb2_dma_contig_plane_dma_addr(src_buf, 0);
++		src[0] = rockchip_vpu2_plane_dma_addr(src_buf, 0);
+ 		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
+ 	} else if (pix_fmt->num_planes == 2) {
+-		src[0] = vb2_dma_contig_plane_dma_addr(src_buf, 0);
+-		src[1] = vb2_dma_contig_plane_dma_addr(src_buf, 1);
++		src[0] = rockchip_vpu2_plane_dma_addr(src_buf, 0);
++		src[1] = rockchip_vpu2_plane_dma_addr(src_buf, 1);
+ 		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
+ 		vepu_write_relaxed(vpu, src[1], VEPU_REG_ADDR_IN_PLANE_1);
+ 	} else {
+-		src[0] = vb2_dma_contig_plane_dma_addr(src_buf, 0);
+-		src[1] = vb2_dma_contig_plane_dma_addr(src_buf, 1);
+-		src[2] = vb2_dma_contig_plane_dma_addr(src_buf, 2);
++		src[0] = rockchip_vpu2_plane_dma_addr(src_buf, 0);
++		src[1] = rockchip_vpu2_plane_dma_addr(src_buf, 1);
++		src[2] = rockchip_vpu2_plane_dma_addr(src_buf, 2);
+ 		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
+ 		vepu_write_relaxed(vpu, src[1], VEPU_REG_ADDR_IN_PLANE_1);
+ 		vepu_write_relaxed(vpu, src[2], VEPU_REG_ADDR_IN_PLANE_2);
+-- 
+2.30.2
 
-Do you mean to relax the 0-100 range of V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY
-and then use this control instead of adding a new one for stateless codecs,
-or to specifically add a new one, modeled after
-V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY?
-
-Regards,
-
-Andrzej
