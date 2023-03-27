@@ -2,245 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 017F36CA910
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 17:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A08D16CAAA8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 18:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232601AbjC0Pca (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 11:32:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53158 "EHLO
+        id S232056AbjC0Qdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 12:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbjC0Pc3 (ORCPT
+        with ESMTP id S230046AbjC0Qds (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 11:32:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53DAC2;
-        Mon, 27 Mar 2023 08:32:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5181E6132F;
-        Mon, 27 Mar 2023 15:32:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABAEDC4339E;
-        Mon, 27 Mar 2023 15:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679931147;
-        bh=f/2piHpw3ZnrfqbQuVx2e9zDHBO/3jdQSMgOHr7fUgI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Uf7haOZlNKZwY496KgXr8ZjlaSRrfAV++oWbg76seCtszHHlgU1C1ncye4Qk/V2kz
-         StEQf1XMyZwTOZ/cnqDbnLJBTooVJ2t2QnaFNeYpIsrT8Oiwgs2t8LijpOjuPl5FCz
-         wi+uXl2N9FXMOxxNp3Saizfkp0Vw0EvdBmv0NR2ZkTTbbi/QTnYwhoHpPOzn6AhfK5
-         aM1iGYvK++y4XO7Pzxh/jUsKut53pMYajBadWckTRzZG34diyNKmek1Y1cQrIjT2Hw
-         /CFI1AoZLOOeRzn6oxii8F19hLdy7PuKHIEmuZWBxKQypuPz5l2TncjN8Eu5njsu1j
-         UTJZdnD20aNtw==
-Received: by mail-lf1-f51.google.com with SMTP id c29so12003440lfv.3;
-        Mon, 27 Mar 2023 08:32:27 -0700 (PDT)
-X-Gm-Message-State: AAQBX9eTxto649xAhlLi2g5m3PdPzcTlk5qCSiL/BxnRwzJ2boSkH73a
-        UeNZMmW8uVd2JT2VpHpII1FIbmGeHFTNHOex3Q==
-X-Google-Smtp-Source: AKy350bW5rYVHuil7fmrbkaSQdUyszcMFvxLxlLqTRSqGk5pqC/YLdf2j3t3MtlGs7578J55uH+BYxLmKoEt/9tHeRM=
-X-Received: by 2002:a19:7419:0:b0:4d8:62e5:4f66 with SMTP id
- v25-20020a197419000000b004d862e54f66mr3484970lfe.7.1679931145672; Mon, 27 Mar
- 2023 08:32:25 -0700 (PDT)
+        Mon, 27 Mar 2023 12:33:48 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2899E30C3
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 09:33:23 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id k14-20020a9d700e000000b0069faa923e7eso4839682otj.10
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 09:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679934802;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IVRw/y/HYv4F/ZCjc9fnnqraRDvjr9QFkV7EkmAoUoo=;
+        b=NsGEwEncMw5OwrGyAcLFXDP8Nh1XLl/oTNd4e2FQL4j/+hA+bwkq0Pj3SJRWIIm+zW
+         l2xdO2qqO8Q31zu3WQQ/JMeTFa2YbdHFP9Y+GJqjqimKC0l36mruXhxC2pLryxJt2/Uq
+         vvmV2wsPy0VXiZPxrxnpnAn06my6RUtCE5B0tvSMUPHGTnLa/5pVa9bP6/VdpE2VkzkV
+         0eMdCxJmrUeP086hZ+OHnXYvVweBZNMiacuDiiM1186YuZsHYTADalScYsJMbFwtzC7q
+         7ZoILJl7e7FoFb77mTyg01zd9lQ8CxFuqIaLkO7yq2HWzh26VMMUy5SeF3kSv1hIB5ho
+         Dr2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679934802;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IVRw/y/HYv4F/ZCjc9fnnqraRDvjr9QFkV7EkmAoUoo=;
+        b=Q9JE2WMHlYVRNgPiwlx5kz2M+GeT+ywgEO1W2s3924TO/Jeq9Cgh4ImW+St0Z7tv2X
+         t1MYvSia9670S8oaiJiEGc2L5XN5mjbd2juMF88XVn6js9Upy0mNiDEB14W3l05bKrrJ
+         AlZo8kZbDaFCUYd1iWOLgsjPF4qvxgvqQJcVrKxloEydnqrA0uYUXKuCZJcYXjaG6lsz
+         EXZ+8wUjfR0kvArDuosRem0J48OJRIrQLE8CrU+oGQak5KlBMZwfN+Nm2vYZD1u3xwvG
+         U4Q3Qf0LZtKZ6cSl2KbFJGg/+Y8Yx8DRB7NTwcXpiJ6bIFrrSwKQXoNAoDaIL8yEjNEE
+         4CfA==
+X-Gm-Message-State: AO0yUKWZq/uJDxBrzC/Vh4z9mk4uP9GQIf1tOWEpabr8v2DgC7tchEn4
+        ZEtNE51oBvPWmH3kpnvGC7mznqwSyodeenXfnBRtiJaQdpE=
+X-Google-Smtp-Source: AK7set+gPLiKBGE3pPAPdXcHJboomFksbejP8LUEgDbv6mgtCdo3Wh4kfz+sXPsYdKZeFqyRS+zTh9LpAj0UMmH21mA=
+X-Received: by 2002:a9d:6385:0:b0:690:c81f:d459 with SMTP id
+ w5-20020a9d6385000000b00690c81fd459mr3941306otk.3.1679934802014; Mon, 27 Mar
+ 2023 09:33:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-In-Reply-To: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Mon, 27 Mar 2023 23:32:13 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__w650cboh38Ptgeq8_smev36-xqzjhFmx9kaBAVMGg_Q@mail.gmail.com>
-Message-ID: <CAAOTY__w650cboh38Ptgeq8_smev36-xqzjhFmx9kaBAVMGg_Q@mail.gmail.com>
-Subject: Re: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane disable
-To:     Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        CK Hu <ck.hu@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Hsin-Yi Wang <hsinyi@chromium.org>
+From:   Shawn Lindberg <shawn.lindberg@gmail.com>
+Date:   Mon, 27 Mar 2023 11:33:11 -0500
+Message-ID: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
+Subject: Extremely long delay between CEC image-view-on an standby.
+To:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Yongqiang:
+Greetings, I am having trouble figuring out a very strange problem I'm
+seeing. I have a Raspberry Pi 4B connected via HDMI to a LG projector.
+I have no trouble turning the projector on using the following
+commands:
 
-Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=
-=8820=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=8811:05=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> Fixes: 41016fe1028e4 (drm: Rename plane->state variables in atomic update=
- and disable)
+cec-ctl -d0 --tv --cec-version-1.4
+cec-ctl -d0 -t0 --image-view-on
 
-[1] has introduction how to add Fixes tag, one information is:
+I'm using CEC version 1.4 because that is what the projector supports.
+I don't know whether that's necessary or contributing. However, if I
+try to turn the projector off using standby, I get the following and
+the projector does not turn off:
 
-please use the =E2=80=98Fixes:=E2=80=99 tag with the first 12 characters of=
- the SHA-1
-ID, and the one line summary. Do not split the tag across multiple
-lines, tags are exempt from the =E2=80=9Cwrap at 75 columns=E2=80=9D rule i=
-n order to
-simplify parsing scripts.
+cec-ctl -d0 -t0 -T --standby
+        CEC_ADAP_G_CAPS returned 0 (Success)
+        CEC_ADAP_G_PHYS_ADDR returned 0 (Success)
+        CEC_ADAP_G_LOG_ADDRS returned 0 (Success)
+        CEC_ADAP_G_CONNECTOR_INFO returned 0 (Success)
+Driver Info:
+    Driver Name                : vc4_hdmi
+    Adapter Name               : vc4
+    Capabilities               : 0x0000011e
+        Logical Addresses
+        Transmit
+        Passthrough
+        Remote Control Support
+        Connector Info
+    Driver version             : 5.15.84
+    Available Logical Addresses: 1
+    DRM Connector Info         : card 0, connector 32
+    Physical Address           : f.f.f.f
+    Logical Address Mask       : 0x0000
+    CEC Version                : 1.4
+    Vendor ID                  : 0x000c03 (HDMI)
+    OSD Name                   : 'TV'
+    Logical Addresses          : 1 (Allow RC Passthrough)
 
-And move this tag to the line before your sign-off tag.
+      Logical Address          : Not Allocated
+        Primary Device Type    : TV
+        Logical Address Type   : TV
 
-[1] https://www.kernel.org/doc/html/v6.2/process/submitting-patches.html
 
+Transmit from Unregistered to TV (15 to 0):
+STANDBY (0x36)
+        CEC_TRANSMIT returned -1 (Machine is not on the network)
 
-> dma buffer release before overlay disable, that will cause
-> m4u translation fault warning.
->
-> add dma buffer control flow in mediatek driver:
-> get dma buffer when drm plane disable
-> put dma buffer when overlay really disable
->
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 25 ++++++++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 17 ++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
->  3 files changed, 43 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index 5071f1263216..9cf1c1778868 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -4,6 +4,7 @@
->   */
->
->  #include <linux/clk.h>
-> +#include <linux/dma-buf.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/mailbox_controller.h>
->  #include <linux/pm_runtime.h>
-> @@ -282,6 +283,23 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(stru=
-ct drm_crtc *crtc,
->         return NULL;
->  }
->
-> +static void mtk_drm_dma_buf_put(struct mtk_drm_crtc *mtk_crtc)
-> +{
-> +       unsigned int i;
-> +
-> +       for (i =3D 0; i < mtk_crtc->layer_nr; i++) {
-> +               struct drm_plane *plane =3D &mtk_crtc->planes[i];
-> +               struct mtk_plane_state *plane_state;
-> +
-> +               plane_state =3D to_mtk_plane_state(plane->state);
-> +
-> +               if (plane_state && plane_state->pending.dma_buf) {
-> +                       dma_buf_put(plane_state->pending.dma_buf);
-> +                       plane_state->pending.dma_buf =3D NULL;
-> +               }
-> +       }
-> +}
-> +
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
->  static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
->  {
-> @@ -322,6 +340,8 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void =
-*mssg)
->                 mtk_crtc->pending_async_planes =3D false;
->         }
->
-> +       mtk_drm_dma_buf_put(mtk_crtc);
-> +
->         mtk_crtc->cmdq_vblank_cnt =3D 0;
->         wake_up(&mtk_crtc->cb_blocking_queue);
->  }
-> @@ -614,9 +634,14 @@ static void mtk_crtc_ddp_irq(void *data)
->         else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank=
-_cnt =3D=3D 0)
->                 DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
->                           drm_crtc_index(&mtk_crtc->base));
-> +
-> +       if (!mtk_crtc->cmdq_client.chan)
-> +               mtk_drm_dma_buf_put(mtk_crtc);
->  #else
->         if (!priv->data->shadow_register)
->                 mtk_crtc_ddp_config(crtc, NULL);
-> +
-> +       mtk_drm_dma_buf_put(mtk_crtc);
->  #endif
->         mtk_drm_finish_page_flip(mtk_crtc);
->  }
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/m=
-ediatek/mtk_drm_plane.c
-> index d54fbf34b000..c169ca49129c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> @@ -12,6 +12,7 @@
->  #include <drm/drm_framebuffer.h>
->  #include <drm/drm_gem_atomic_helper.h>
->  #include <linux/align.h>
-> +#include <linux/dma-buf.h>
->
->  #include "mtk_drm_crtc.h"
->  #include "mtk_drm_ddp_comp.h"
-> @@ -280,6 +281,22 @@ static void mtk_plane_atomic_disable(struct drm_plan=
-e *plane,
->         struct drm_plane_state *new_state =3D drm_atomic_get_new_plane_st=
-ate(state,
->                                                                          =
-  plane);
->         struct mtk_plane_state *mtk_plane_state =3D to_mtk_plane_state(ne=
-w_state);
-> +       struct drm_plane_state *old_state =3D drm_atomic_get_old_plane_st=
-ate(state,
-> +                                                                        =
-  plane);
-> +
-> +       if (old_state && old_state->fb) {
-> +               struct drm_gem_object *gem =3D old_state->fb->obj[0];
-> +
-> +               if (mtk_plane_state->pending.dma_buf) {
+During this time, if I try to poll the projector, it will succeed.
+However, if I monitor events, after a significant amount of time
+(appears to be greater than 20 minutes, although this is difficult to
+verify because of how long it takes) I go will eventually see the
+following:
 
-When this happen, the pending.dma_buf is still accessed by OVL, right?
-So you free this buffer and m4u translation fault occur.
+Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
+    Timestamp: 30981.428s
+Transmitted by Specific to Specific (14 to 14): POLL
+    Tx, Not Acknowledged (4), Max Retries
+    Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), Max Retries
 
-Regards,
-Chun-Kuang.
+Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
+    Timestamp: 30981.561s
+Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84):
+    phys-addr: 1.0.0.0
+    prim-devtype: tv (0x00)
+    Sequence: 22 Tx Timestamp: 30981.696s
+Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
+    vendor-id: 3075 (0x00000c03)
+    Sequence: 23 Tx Timestamp: 30981.835s
+Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
+    abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
+    reason: invalid-op (0x03)
+    Sequence: 0 Rx Timestamp: 30981.949s
+Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
+    Sequence: 0 Rx Timestamp: 30982.026s
+Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
+    name: TV
+    Sequence: 24 Tx Timestamp: 30982.137s
 
-> +                       dma_buf_put(mtk_plane_state->pending.dma_buf);
-> +                       mtk_plane_state->pending.dma_buf =3D NULL;
-> +               }
-> +
-> +               if (gem && gem->dma_buf) {
-> +                       get_dma_buf(gem->dma_buf);
-> +                       mtk_plane_state->pending.dma_buf =3D gem->dma_buf=
-;
-> +               }
-> +       }
->         mtk_plane_state->pending.enable =3D false;
->         wmb(); /* Make sure the above parameter is set before update */
->         mtk_plane_state->pending.dirty =3D true;
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/m=
-ediatek/mtk_drm_plane.h
-> index 8f39011cdbfc..b724e56b7283 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-> @@ -33,6 +33,7 @@ struct mtk_plane_pending_state {
->         bool                            async_dirty;
->         bool                            async_config;
->         enum drm_color_encoding         color_encoding;
-> +       struct dma_buf                  *dma_buf;
->  };
->
->  struct mtk_plane_state {
-> --
-> 2.25.1
->
+After this point in time the standby command will succeed and the
+projector will turn off. It's quite inconvenient to have to wait over
+20 minutes to turn the projector back off again. Any idea how I can
+shorten this delay?
