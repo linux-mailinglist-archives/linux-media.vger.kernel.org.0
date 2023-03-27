@@ -2,232 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EED66C9C51
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CACE6C9CAE
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:47:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232653AbjC0Hhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 03:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        id S232065AbjC0Hrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 03:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232646AbjC0Hhf (ORCPT
+        with ESMTP id S232793AbjC0Hrg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 03:37:35 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6404C32
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:36:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679902613; x=1711438613;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=UnOZG1r3BXNqi/CZCwMONhk2Ly02iQ5bs/WbKWUcKHU=;
-  b=nWeknnnm3HDAUW2++4JSf5mAJhUMt2wXcHqQww5j8RteyTb5NLQrWaam
-   nwd/8grnEK8/FzKT6ZqZHftPMg3mvbUnUBgJCZSkdNrUdRgK3jFktChzF
-   z1iGhiRFoUFQml/7apFTxBDuhWaD4aUKOBIKs6qZZpt3W7j8RrC0bJ1LF
-   kQuFqAsMJkfvaDmkeR01JVSHBqyeh0BkUcwKBWvSZgvLQRed9Fp8UTsUW
-   5S6SNSGhIYgJFYliMoUoa2te/xDU5ROZL6HjjeRb+8nPyVZoZyo3vj384
-   d3Zv9hvK7jRCa92v9s+/71dQszzIeS1B5HIeiksG4nFyUE5DKj/5FRieu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="340227625"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="340227625"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:36:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="747896277"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="747896277"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Mar 2023 00:36:40 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Mar 2023 00:36:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Mar 2023 00:36:39 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Mon, 27 Mar 2023 00:36:39 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Mon, 27 Mar 2023 00:36:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X5b4sl8fdlmT7MYEEB/1Yul0Z92muxnQiN4mR0I5VMAEsGiEX07JEUR9/BXTUAbsTmnoIqvI4cU0UvObqAEsYwY69T2d1uSBQ0bzo5aVA8CmMsbqsZ55gM8w+UeWVilbqORTwZIgYC+AU9OdC6/K8TQZTheFJRf2HtiV0e8RgR0NXB+tASqZpkR5x8H6El7oYWSd/TzrMhxFSdm0+j7xnp8yeE0mORqYbRE6PLwoim3I4HCFdBFCNjnw9+gSXZfF8YSG+yO2d82OK0oYgbXYBvwUrbjuft+4RI+smtoR95LDUS1D4m10bkWs6G68gwBnfOUCpjDaOueouFwWDgQXZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5JCRR02KSY3xBmv26ImVdJM1BQ3ffwOthxH43FJmtzs=;
- b=ZC7dydu4MZmhsDwJ/JKdxrMCbr1f7q8r4/M8F/y4kW/Rzw1HfEddcnjorMZ7zuL+OUGs4xgN5S+mWdrEw6grdTSHC4U8PPCb1fx1z6qahyuAODI3jOua0d5MPC/1LN8e4XwOI5phTbcx+YhcBWVvHMXjuYtqTtMv+eCPfA//wLcvoQcQk6EDSYJjRRqrYowap4Bz4/Yu/XBwSS1Y6I1IIQp45m3qBgcsH+Ry8S2gw+EwsZwVPf6KrjG45u/2zebD8RCkiVBDnlIpObmluZ3PhnrKhiAPqbedw6l34Hi247fagIfwxhvyx+gqnvwtC9d4JJX/GFhoayERSEQ+pzIjdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN2PR11MB4318.namprd11.prod.outlook.com (2603:10b6:208:17a::22)
- by PH0PR11MB5032.namprd11.prod.outlook.com (2603:10b6:510:3a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.28; Mon, 27 Mar
- 2023 07:36:38 +0000
-Received: from MN2PR11MB4318.namprd11.prod.outlook.com
- ([fe80::5252:a6b2:cfa8:5aee]) by MN2PR11MB4318.namprd11.prod.outlook.com
- ([fe80::5252:a6b2:cfa8:5aee%7]) with mapi id 15.20.6178.041; Mon, 27 Mar 2023
- 07:36:37 +0000
-From:   "Wu, Wentong" <wentong.wu@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "djrscally@gmail.com" <djrscally@gmail.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: RE: [PATCH v3 3/3] ACPI: delay enumeration of devices with a _DEP
- pointing to INTC1059 device
-Thread-Topic: [PATCH v3 3/3] ACPI: delay enumeration of devices with a _DEP
- pointing to INTC1059 device
-Thread-Index: AQHZYHSoIMpybNOzaUmhJ49K1Psa268ONIIAgAABrvCAAAWXgIAAAK4g
-Date:   Mon, 27 Mar 2023 07:36:37 +0000
-Message-ID: <MN2PR11MB43182CB5434AC3457C4E8DBE8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
-References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
- <1679898188-14426-4-git-send-email-wentong.wu@intel.com>
- <ZCFAjoaIG2VxtLJr@kekkonen.localdomain>
- <MN2PR11MB43180EF14AEB08D0969AE8378D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
- <ZCFGp3BMRUKlmqoD@kekkonen.localdomain>
-In-Reply-To: <ZCFGp3BMRUKlmqoD@kekkonen.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR11MB4318:EE_|PH0PR11MB5032:EE_
-x-ms-office365-filtering-correlation-id: 7eb8b31b-7680-430a-e6b0-08db2e95ffb6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vIRD0TDwbrevddIEWjY6f9UvsmHH28EeVzb+NoVt7oNOTMPqD0tGiAc1FBi8NDT4eL/Jy2YXxzEqfx9K6wPCeHMkYZf/UYEv7Fj+X+LC7nKcMHIQnjXiQr8Oql4rh2i+M/lcC+mwZTNT36VRH7NTcxBqlTyJdccLHq3M5R1zhz+cEJFkBFj5tvqhjY6SqLe+Al5EC/lTFipEkuZQ8i0o0l94oTebntSedi2mcbA9ai26FwCHlFMFAPZQ7dtPoe5o8UWP1agqKu1b9eRDXITMP2/amte2cwK1pN0IgTlepp3ai+vdn02W8fs23FMYSlTKeqDIXh5lLTmQcm+f5SfmIp5WvNTT5xCYh/QSf255XbdrZCD8afDJpL4YvQUModI4KUNwPkdqIT2KqBIBhMOSpXtksmnCzllKk3nNzpRs7hReS35wwJPjTLHdQyNf47q4QdpWgeG/tZYsoyCG1C4zbN1vFbcE51qQg/xmVIfgkPfTAp92giwSE1fYYMoTPCep9R70N58YylKL/UdwewR+iT89bKcOvG6YcYqtdOHkCRpxU3CqCoPfc4g5INuIw5aj74E+g+5vtwLDH+VQJ6Vpk450A5Znpi6rgm4MFpMXkrRTzw0vfbv1mz/qGU4Q0dsH
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB4318.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199021)(83380400001)(52536014)(41300700001)(33656002)(86362001)(5660300002)(38100700002)(82960400001)(8936002)(122000001)(54906003)(478600001)(7696005)(71200400001)(76116006)(66556008)(64756008)(6916009)(8676002)(66946007)(4326008)(66476007)(66446008)(2906002)(55016003)(38070700005)(186003)(6506007)(9686003)(26005)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?vYbQjBVA5tcQSV+SEsdIZKn7IagXmCH406sE6Xmlo3NIz6kmUCbY0E0d5Cdy?=
- =?us-ascii?Q?NHwj549kgk1jP1c3AD1ks1R2jctfOnuKd6JjgpaOK/PuTFeAG7tEwF47mz3y?=
- =?us-ascii?Q?ndb2oYl9+bmP8r4Id17SUSCa1Fg0ebxayZaS7VZyX1GvTi5kwkK0WblMZtaT?=
- =?us-ascii?Q?k3w71ZtVSCEPf4hQJOpyxNZCtRi8Xt0d6KRfGJ6DEY8MNP/nLhGuqrV6GO+z?=
- =?us-ascii?Q?IBdjd1t6VgkjKh5J60CMjoVvC0KiYlujn2Uxe2zkRj3n8Y1XIY2NKn071QbW?=
- =?us-ascii?Q?RscBvvaJQ2xmuCQu7xBpuQgshRtimMu+zM89O+KMcuzJMX+ysUT4Sqae3dOB?=
- =?us-ascii?Q?RqHxLTy+tCI59vJlfmihXDeT09hlqa7lfmrB9rWc1ciPIFpi7H8ttLgfBbg/?=
- =?us-ascii?Q?RVj/cieaTtWW6twPpLyIvDiKLz1a3hEm9J4v6wF7uo0Ej3J08itxyG3//JsA?=
- =?us-ascii?Q?+25cx79Qvwv4kZb/9IDtWg6obqD813cq+niKTKcYp7HH0JwOnX8oU217vBFO?=
- =?us-ascii?Q?PqDVDiabufVd11i+rR780Zhh/Ce3ktbG4bwYwAExEsgOk3bWZlVoqLHcCv91?=
- =?us-ascii?Q?bYmjiHlOI4C3mTLZqrMNHF4aQuG3NiPwx28bi1NOIWxuygQXfk4wn5wVu9Ov?=
- =?us-ascii?Q?J9KILul5fNFSK3R+H+gSYnzUWQDuJXOOHEHvhOvv4oZB3QONzq+kpGoT38ac?=
- =?us-ascii?Q?1gsnHap8fdAK2lQL4HUfy71oPXLRRwVxJB0amNoPQObmQ5q6NN3o1KERhob8?=
- =?us-ascii?Q?G7f6b5nxp+hdHPBrxDQ9nqxEWkoQ8ak5MCzDtznGOpNdnwwKU3/UV4M6C6iF?=
- =?us-ascii?Q?OwQIn7hCSLGm4py0x3LCcDUZugUde2pMrDLg4UWFScZq8les/ktC4TnkFIqY?=
- =?us-ascii?Q?yKLitZrc7YpCmkrZjM4rmyFiVmeV8V/RfzetZnWL6pu7n2NOHZi3OVXvk82g?=
- =?us-ascii?Q?g1zv3wFAxEIc52jrZeO5HUmKjp0nCXAwF2mx8uQiguHG1EZVlnq473VmoyA6?=
- =?us-ascii?Q?P9vzLSP9u70+RZ3y0Om8LrLaB1XxzOpdNGXX9XFwZaW1u6tqIJ1xPIzdTXdd?=
- =?us-ascii?Q?4zF92A3mbKCir8f+SygjBEGITE40O+/qpl7kb4k4R/Mwg7MhboU1eXzxtDsS?=
- =?us-ascii?Q?iIe/kl+SsVNbX0qa8RXI4BZsQUT+ksurJ3YN7v0m6ysu/rEsfwTZ4DqZgG8v?=
- =?us-ascii?Q?u83rTaWes9oPSYA6X39SeC7CQxIdu3qpCC6AmWHT4OguTCliWP2DsntGzX2t?=
- =?us-ascii?Q?h9qN3smPlylmESSuu3CahuK9d5AGBwAFOa2+1Lxm5ih+n0O3QFI8fLEh8q6f?=
- =?us-ascii?Q?Kbb4GysYmiznHq0Zhk4EhH3D/Nh9bU2zx8smnweOzkXz121C5AWUXVDAWK3B?=
- =?us-ascii?Q?vdJD6M6zQRTrQB+SIpSJ2bjTOk4TA7DWZNDOGljUMfJBeprrnn2GI4T7tfqy?=
- =?us-ascii?Q?alOXXjWCWeLONp/P9/7E9YTBmUHIIrPLCp17wsTSxrSDV4PYBydCd1w+S0rQ?=
- =?us-ascii?Q?YN3STohyTY0w9B8t/bKij4/3bf9nCgkMx6JLyg0eegvNNCrtO9Fjut6JPJua?=
- =?us-ascii?Q?a7sq8Rvne4Wxlmkn+sJ/RiPGjF3mjN1lhBriwTsZ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 27 Mar 2023 03:47:36 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E155262
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:47:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E53C1B80C03
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 07:46:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8A5C433D2;
+        Mon, 27 Mar 2023 07:46:53 +0000 (UTC)
+Message-ID: <f1861c28-28bf-06a7-ac2d-181e082ee662@xs4all.nl>
+Date:   Mon, 27 Mar 2023 09:46:52 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4318.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7eb8b31b-7680-430a-e6b0-08db2e95ffb6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Mar 2023 07:36:37.7769
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Hfjcsj6HwBmLvjwLLv3LLG/OVxNQuMN1Be+qTON9W+pVHjoTBbIPXJtK2J4jvh1VDoulh8Sp8bEQJ1gA3Yn9Ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5032
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.4] Convert to platform remove callback returning
+ void
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
 
+  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
 
-> -----Original Message-----
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Sent: Monday, March 27, 2023 3:33 PM
->=20
-> Hi Wentong,
->=20
-> On Mon, Mar 27, 2023 at 07:17:13AM +0000, Wu, Wentong wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >
-> > > Hi Wentong,
-> > >
-> > > On Mon, Mar 27, 2023 at 02:23:08PM +0800, Wentong Wu wrote:
-> > > > Inside IVSC, switching ownership requires an interface with two
-> > > > different hardware modules, ACE and CSI. The software interface to
-> > > > these modules is based on Intel MEI framework. Usually mei client
-> > > > devices are dynamically created, so the info of consumers
-> > > > depending on mei client devices is not present in the firmware tabl=
-es.
-> > >
-> > > Ouch.
-> >
-> > MEI client devices are not ACPI devices in our case.
-> >
-> > >
-> > > >
-> > > > This causes problems with the probe ordering with respect to
-> > > > drivers for consumers of these mei client devices. But on these
-> > > > camera sensor devices, the ACPI nodes describing the sensors all
-> > > > have a _DEP dependency on the matching INTC1059 ACPI device, so
-> > > > adding INTC1059 to acpi_honor_dep_ids allows solving the
-> > > > probe-ordering problem by delaying the enumeration of ACPI-devices
-> > > > which have a _DEP dependency on
-> > > an INTC1059 device.
-> > >
-> > > What does the INTC1059 device represent?
-> >
-> > This is the IVSC device on which camera sensor has _DEP
-> >
-> >             Device (CVFD)
-> >             {
-> >                 Name (_HID, "INTC1059")  // _HID: Hardware ID
-> >                 Name (_DDN, "Intel CVF Device")  // _DDN: DOS Device Na=
-me
-> >                 Method (SID, 1, Serialized)
-> >                 {
-> >                     Return (HCID (One))
-> >                 }
-> >             }
->=20
-> Should this be interpreted that if you have a _DEP to this device, then t=
-he IVSC is
-> between the sensor and the IPU?
+are available in the Git repository at:
 
-Ok, I can explain more in next version patch set. Thanks
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4j
 
-BR,
-Wentong
+for you to fetch changes up to b167d6717f5992f0fa62a94343aff031dc1565b2:
 
->=20
-> --
-> Kind regards,
->=20
-> Sakari Ailus
+  media: it913x: Convert to platform remove callback returning void (2023-03-27 09:23:52 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Uwe Kleine-König (117):
+      media: cec-gpio: Convert to platform remove callback returning void
+      media: cros-ec-cec: Don't exit early in .remove() callback
+      media: cros-ec-cec: Convert to platform remove callback returning void
+      media: ao-cec-g12a: Convert to platform remove callback returning void
+      media: ao-cec: Convert to platform remove callback returning void
+      media: s5p_cec: Convert to platform remove callback returning void
+      media: seco-cec: Convert to platform remove callback returning void
+      media: stih-cec: Convert to platform remove callback returning void
+      media: stm32-cec: Convert to platform remove callback returning void
+      media: tegra_cec: Convert to platform remove callback returning void
+      media: rtl2832_sdr: Convert to platform remove callback returning void
+      media: zd1301_demod: Convert to platform remove callback returning void
+      media: allegro-core: Convert to platform remove callback returning void
+      media: ge2d: Convert to platform remove callback returning void
+      media: vpu_core: Convert to platform remove callback returning void
+      media: vpu_drv: Convert to platform remove callback returning void
+      media: aspeed-video: Convert to platform remove callback returning void
+      media: atmel-isi: Convert to platform remove callback returning void
+      media: cdns-csi2rx: Convert to platform remove callback returning void
+      media: cdns-csi2tx: Convert to platform remove callback returning void
+      media: coda-common: Convert to platform remove callback returning void
+      media: pxa_camera: Convert to platform remove callback returning void
+      media: m2m-deinterlace: Convert to platform remove callback returning void
+      media: marvell: Simplify remove callback
+      media: marvell: Convert to platform remove callback returning void
+      media: mtk_jpeg_core: Convert to platform remove callback returning void
+      media: mtk_mdp_core: Convert to platform remove callback returning void
+      media: mtk-mdp3-core: Convert to platform remove callback returning void
+      media: mtk_vcodec_dec_drv: Convert to platform remove callback returning void
+      media: mtk_vcodec_enc_drv: Convert to platform remove callback returning void
+      media: mtk_vpu: Convert to platform remove callback returning void
+      media: microchip-csi2dc: Convert to platform remove callback returning void
+      media: microchip-sama5d2-isc: Convert to platform remove callback returning void
+      media: microchip-sama7g5-isc: Convert to platform remove callback returning void
+      media: vde: Convert to platform remove callback returning void
+      media: dw100: Convert to platform remove callback returning void
+      media: mxc-jpeg: Convert to platform remove callback returning void
+      media: imx-mipi-csis: Convert to platform remove callback returning void
+      media: imx-pxp: Convert to platform remove callback returning void
+      media: imx7-media-csi: Convert to platform remove callback returning void
+      media: mx2_emmaprp: Convert to platform remove callback returning void
+      media: camss: Convert to platform remove callback returning void
+      media: venus: Warn only once about problems in .remove()
+      media: venus: Convert to platform remove callback returning void
+      media: vdec: Convert to platform remove callback returning void
+      media: venc: Convert to platform remove callback returning void
+      media: rcar-fcp: Convert to platform remove callback returning void
+      media: rcar-isp: Convert to platform remove callback returning void
+      media: rcar-core: Convert to platform remove callback returning void
+      media: rcar-csi2: Convert to platform remove callback returning void
+      media: rcar_drif: Convert to platform remove callback returning void
+      media: rcar_fdp1: Convert to platform remove callback returning void
+      media: rcar_jpu: Convert to platform remove callback returning void
+      media: renesas-ceu: Convert to platform remove callback returning void
+      media: rzg2l-core: Convert to platform remove callback returning void
+      media: rzg2l-csi2: Convert to platform remove callback returning void
+      media: sh_vou: Convert to platform remove callback returning void
+      media: vsp1_drv: Convert to platform remove callback returning void
+      media: rga: Convert to platform remove callback returning void
+      media: rkisp1-dev: Convert to platform remove callback returning void
+      media: gsc-core: Convert to platform remove callback returning void
+      media: fimc-core: Convert to platform remove callback returning void
+      media: fimc-is-i2c: Convert to platform remove callback returning void
+      media: fimc-is: Convert to platform remove callback returning void
+      media: fimc-lite: Convert to platform remove callback returning void
+      media: media-dev: Convert to platform remove callback returning void
+      media: mipi-csis: Convert to platform remove callback returning void
+      media: camif-core: Convert to platform remove callback returning void
+      media: g2d: Convert to platform remove callback returning void
+      media: jpeg-core: Convert to platform remove callback returning void
+      media: s5p_mfc: Convert to platform remove callback returning void
+      media: bdisp-v4l2: Convert to platform remove callback returning void
+      media: c8sectpfe-core: Convert to platform remove callback returning void
+      media: delta-v4l2: Convert to platform remove callback returning void
+      media: hva-v4l2: Convert to platform remove callback returning void
+      media: dma2d: Convert to platform remove callback returning void
+      media: stm32-dcmi: Convert to platform remove callback returning void
+      media: sun4i_csi: Convert to platform remove callback returning void
+      media: sun6i_csi: Convert to platform remove callback returning void
+      media: sun6i_mipi_csi2: Convert to platform remove callback returning void
+      media: sun8i_a83t_mipi_csi2: Convert to platform remove callback returning void
+      media: sun8i-di: Convert to platform remove callback returning void
+      media: sun8i_rotate: Convert to platform remove callback returning void
+      media: am437x-vpfe: Convert to platform remove callback returning void
+      media: cal: Convert to platform remove callback returning void
+      media: vpif: Convert to platform remove callback returning void
+      media: vpif_capture: Convert to platform remove callback returning void
+      media: vpif_display: Convert to platform remove callback returning void
+      media: omap_vout: Convert to platform remove callback returning void
+      media: isp: Convert to platform remove callback returning void
+      media: vpe: Convert to platform remove callback returning void
+      media: hantro_drv: Convert to platform remove callback returning void
+      media: via-camera: Convert to platform remove callback returning void
+      media: video-mux: Convert to platform remove callback returning void
+      media: xilinx-csi2rxss: Convert to platform remove callback returning void
+      media: xilinx-tpg: Convert to platform remove callback returning void
+      media: xilinx-vipp: Convert to platform remove callback returning void
+      media: xilinx-vtc: Convert to platform remove callback returning void
+      media: radio-si476x: Convert to platform remove callback returning void
+      media: radio-timb: Convert to platform remove callback returning void
+      media: radio-wl1273: Convert to platform remove callback returning void
+      media: radio-platform-si4713: Convert to platform remove callback returning void
+      media: gpio-ir-recv: Convert to platform remove callback returning void
+      media: img-ir-core: Convert to platform remove callback returning void
+      media: ir-hix5hd2: Convert to platform remove callback returning void
+      media: meson-ir-tx: Convert to platform remove callback returning void
+      media: meson-ir: Convert to platform remove callback returning void
+      media: mtk-cir: Convert to platform remove callback returning void
+      media: st_rc: Convert to platform remove callback returning void
+      media: sunxi-cir: Convert to platform remove callback returning void
+      media: vicodec-core: Convert to platform remove callback returning void
+      media: vidtv_bridge: Convert to platform remove callback returning void
+      media: vim2m: Convert to platform remove callback returning void
+      media: vimc-core: Convert to platform remove callback returning void
+      media: visl-core: Convert to platform remove callback returning void
+      media: vivid-core: Convert to platform remove callback returning void
+      media: it913x: Convert to platform remove callback returning void
+
+ drivers/media/cec/platform/cec-gpio/cec-gpio.c                           |  5 ++---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c                         | 16 ++++++++--------
+ drivers/media/cec/platform/meson/ao-cec-g12a.c                           |  6 ++----
+ drivers/media/cec/platform/meson/ao-cec.c                                |  6 ++----
+ drivers/media/cec/platform/s5p/s5p_cec.c                                 |  5 ++---
+ drivers/media/cec/platform/seco/seco-cec.c                               |  6 ++----
+ drivers/media/cec/platform/sti/stih-cec.c                                |  6 ++----
+ drivers/media/cec/platform/stm32/stm32-cec.c                             |  6 ++----
+ drivers/media/cec/platform/tegra/tegra_cec.c                             |  6 ++----
+ drivers/media/dvb-frontends/rtl2832_sdr.c                                |  6 ++----
+ drivers/media/dvb-frontends/zd1301_demod.c                               |  6 ++----
+ drivers/media/platform/allegro-dvt/allegro-core.c                        |  6 ++----
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c                         |  6 ++----
+ drivers/media/platform/amphion/vpu_core.c                                |  6 ++----
+ drivers/media/platform/amphion/vpu_drv.c                                 |  6 ++----
+ drivers/media/platform/aspeed/aspeed-video.c                             |  6 ++----
+ drivers/media/platform/atmel/atmel-isi.c                                 |  6 ++----
+ drivers/media/platform/cadence/cdns-csi2rx.c                             |  6 ++----
+ drivers/media/platform/cadence/cdns-csi2tx.c                             |  6 ++----
+ drivers/media/platform/chips-media/coda-common.c                         |  5 ++---
+ drivers/media/platform/intel/pxa_camera.c                                |  6 ++----
+ drivers/media/platform/m2m-deinterlace.c                                 |  6 ++----
+ drivers/media/platform/marvell/mmp-driver.c                              | 16 +++-------------
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c                     |  6 ++----
+ drivers/media/platform/mediatek/mdp/mtk_mdp_core.c                       |  5 ++---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c                     |  5 ++---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c              |  5 ++---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c              |  5 ++---
+ drivers/media/platform/mediatek/vpu/mtk_vpu.c                            |  6 ++----
+ drivers/media/platform/microchip/microchip-csi2dc.c                      |  6 ++----
+ drivers/media/platform/microchip/microchip-sama5d2-isc.c                 |  6 ++----
+ drivers/media/platform/microchip/microchip-sama7g5-isc.c                 |  6 ++----
+ drivers/media/platform/nvidia/tegra-vde/vde.c                            |  6 ++----
+ drivers/media/platform/nxp/dw100/dw100.c                                 |  6 ++----
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                           |  6 ++----
+ drivers/media/platform/nxp/imx-mipi-csis.c                               |  6 ++----
+ drivers/media/platform/nxp/imx-pxp.c                                     |  6 ++----
+ drivers/media/platform/nxp/imx7-media-csi.c                              |  6 ++----
+ drivers/media/platform/nxp/mx2_emmaprp.c                                 |  6 ++----
+ drivers/media/platform/qcom/camss/camss.c                                |  6 ++----
+ drivers/media/platform/qcom/venus/core.c                                 |  6 ++----
+ drivers/media/platform/qcom/venus/vdec.c                                 |  6 ++----
+ drivers/media/platform/qcom/venus/venc.c                                 |  6 ++----
+ drivers/media/platform/renesas/rcar-fcp.c                                |  6 ++----
+ drivers/media/platform/renesas/rcar-isp.c                                |  6 ++----
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c                      |  6 ++----
+ drivers/media/platform/renesas/rcar-vin/rcar-csi2.c                      |  6 ++----
+ drivers/media/platform/renesas/rcar_drif.c                               |  8 +++-----
+ drivers/media/platform/renesas/rcar_fdp1.c                               |  6 ++----
+ drivers/media/platform/renesas/rcar_jpu.c                                |  6 ++----
+ drivers/media/platform/renesas/renesas-ceu.c                             |  6 ++----
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c                    |  6 ++----
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c                    |  6 ++----
+ drivers/media/platform/renesas/sh_vou.c                                  |  5 ++---
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c                           |  6 ++----
+ drivers/media/platform/rockchip/rga/rga.c                                |  6 ++----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c                      |  6 ++----
+ drivers/media/platform/samsung/exynos-gsc/gsc-core.c                     |  5 ++---
+ drivers/media/platform/samsung/exynos4-is/fimc-core.c                    |  5 ++---
+ drivers/media/platform/samsung/exynos4-is/fimc-is-i2c.c                  |  6 ++----
+ drivers/media/platform/samsung/exynos4-is/fimc-is.c                      |  6 ++----
+ drivers/media/platform/samsung/exynos4-is/fimc-lite.c                    |  5 ++---
+ drivers/media/platform/samsung/exynos4-is/media-dev.c                    |  8 +++-----
+ drivers/media/platform/samsung/exynos4-is/mipi-csis.c                    |  6 ++----
+ drivers/media/platform/samsung/s3c-camif/camif-core.c                    |  6 ++----
+ drivers/media/platform/samsung/s5p-g2d/g2d.c                             |  5 ++---
+ drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c                      |  6 ++----
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c                         |  5 ++---
+ drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c                         |  6 ++----
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c                 |  6 ++----
+ drivers/media/platform/st/sti/delta/delta-v4l2.c                         |  6 ++----
+ drivers/media/platform/st/sti/hva/hva-v4l2.c                             |  6 ++----
+ drivers/media/platform/st/stm32/dma2d/dma2d.c                            |  6 ++----
+ drivers/media/platform/st/stm32/stm32-dcmi.c                             |  6 ++----
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c                       |  6 ++----
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c                       |  6 ++----
+ drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c           |  6 ++----
+ drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c |  6 ++----
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c                         |  6 ++----
+ drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c                 |  6 ++----
+ drivers/media/platform/ti/am437x/am437x-vpfe.c                           |  6 ++----
+ drivers/media/platform/ti/cal/cal.c                                      |  6 ++----
+ drivers/media/platform/ti/davinci/vpif.c                                 |  6 ++----
+ drivers/media/platform/ti/davinci/vpif_capture.c                         |  5 ++---
+ drivers/media/platform/ti/davinci/vpif_display.c                         |  6 ++----
+ drivers/media/platform/ti/omap/omap_vout.c                               |  5 ++---
+ drivers/media/platform/ti/omap3isp/isp.c                                 |  6 ++----
+ drivers/media/platform/ti/vpe/vpe.c                                      |  6 ++----
+ drivers/media/platform/verisilicon/hantro_drv.c                          |  5 ++---
+ drivers/media/platform/via/via-camera.c                                  |  5 ++---
+ drivers/media/platform/video-mux.c                                       |  6 ++----
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c                          |  6 ++----
+ drivers/media/platform/xilinx/xilinx-tpg.c                               |  6 ++----
+ drivers/media/platform/xilinx/xilinx-vipp.c                              |  6 ++----
+ drivers/media/platform/xilinx/xilinx-vtc.c                               |  6 ++----
+ drivers/media/radio/radio-si476x.c                                       |  6 ++----
+ drivers/media/radio/radio-timb.c                                         |  5 ++---
+ drivers/media/radio/radio-wl1273.c                                       |  6 ++----
+ drivers/media/radio/si4713/radio-platform-si4713.c                       |  6 ++----
+ drivers/media/rc/gpio-ir-recv.c                                          |  6 ++----
+ drivers/media/rc/img-ir/img-ir-core.c                                    |  5 ++---
+ drivers/media/rc/ir-hix5hd2.c                                            |  5 ++---
+ drivers/media/rc/meson-ir-tx.c                                           |  6 ++----
+ drivers/media/rc/meson-ir.c                                              |  6 ++----
+ drivers/media/rc/mtk-cir.c                                               |  6 ++----
+ drivers/media/rc/st_rc.c                                                 |  5 ++---
+ drivers/media/rc/sunxi-cir.c                                             |  6 ++----
+ drivers/media/test-drivers/vicodec/vicodec-core.c                        |  6 ++----
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c                          |  6 ++----
+ drivers/media/test-drivers/vim2m.c                                       |  6 ++----
+ drivers/media/test-drivers/vimc/vimc-core.c                              |  6 ++----
+ drivers/media/test-drivers/visl/visl-core.c                              |  6 ++----
+ drivers/media/test-drivers/vivid/vivid-core.c                            |  5 ++---
+ drivers/media/tuners/it913x.c                                            |  6 ++----
+ 114 files changed, 237 insertions(+), 449 deletions(-)
