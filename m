@@ -2,96 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A56E6C9CB8
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0612C6C9CBD
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232788AbjC0Hsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 03:48:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38134 "EHLO
+        id S232479AbjC0Ht7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 03:49:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232801AbjC0Hs1 (ORCPT
+        with ESMTP id S232282AbjC0Htu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 03:48:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F1A2D73
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:48:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 45F5EB80E9F
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 07:48:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A446C43443;
-        Mon, 27 Mar 2023 07:48:13 +0000 (UTC)
-Message-ID: <27b81968-54ad-0203-9ea5-3f2615dba02e@xs4all.nl>
-Date:   Mon, 27 Mar 2023 09:48:12 +0200
+        Mon, 27 Mar 2023 03:49:50 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53F3102
+        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679903389; x=1711439389;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QqL7KgJQsGJhLnD9zMw+Kv8aTQ6n52oyKBUC4NrWpNY=;
+  b=H+uBNWIRVqguYFiglHM/nu6UGBfcnnMKtH2c8l6+XmEnAQ9bol+F4faD
+   sonYQraa1Itji5g5rdoQkE6S3TTEmdqujyGC9JST5ILjgl6XB4Ln62HPT
+   vzdDX7sxP4avD9AymPusnN8Ya64Jv+nelt7gne2UWgt/ZDKYVpnWFldBv
+   I43a6yibjyx9jOf03lo5qeXr70gwKZAolgP48zaSIQJinVScHIfegHI4S
+   7mytZmIau9GM5/4EDokd4Fm03UrZfAho4UzQ8UaeRlIs9X98kq3BzcenU
+   8sg4tkbCpA8EjpFWDFxjhHgc5VVdzw2CPbBtrQuZsyqQQBX4Pe8AoUYrP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="405126875"
+X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
+   d="scan'208";a="405126875"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:49:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="929374177"
+X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
+   d="scan'208";a="929374177"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:49:47 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 67A8612227E;
+        Mon, 27 Mar 2023 10:49:44 +0300 (EEST)
+Date:   Mon, 27 Mar 2023 10:49:44 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Wu, Wentong" <wentong.wu@intel.com>
+Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "djrscally@gmail.com" <djrscally@gmail.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
+        "Ye, Xiang" <xiang.ye@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: Re: [PATCH v3 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Message-ID: <ZCFKmNKZAPwsIq/j@kekkonen.localdomain>
+References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
+ <ZCFD3aW4NRrn69LR@kekkonen.localdomain>
+ <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Moudy Ho <moudy.ho@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.4] mtk-mdp3: Add support for multiple chips
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 71937240a472ee551ac8de0e7429b9d49884a388:
+Hi Wentong,
 
-  media: ov2685: Select VIDEO_V4L2_SUBDEV_API (2023-03-20 16:32:18 +0100)
+On Mon, Mar 27, 2023 at 07:33:48AM +0000, Wu, Wentong wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Sent: Monday, March 27, 2023 3:21 PM
+> > 
+> > Hi Wentong,
+> > 
+> > On Mon, Mar 27, 2023 at 02:23:05PM +0800, Wentong Wu wrote:
+> > > Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
+> > > companion chip designed to provide secure and low power vision
+> > > capability to IA platforms. IVSC is available in existing commercial
+> > > platforms from multiple OEMs.
+> > >
+> > > The primary use case of IVSC is to bring in context awareness. IVSC
+> > > interfaces directly with the platform main camera sensor via a CSI-2
+> > > link and processes the image data with the embedded AI engine. The
+> > > detected events are sent over I2C to ISH (Intel Sensor Hub) for
+> > > additional data fusion from multiple sensors. The fusion results are
+> > > used to implement advanced use cases like:
+> > >  - Face detection to unlock screen
+> > >  - Detect user presence to manage backlight setting or waking up
+> > > system
+> > >
+> > > Since the Image Processing Unit(IPU) used on the host processor needs
+> > > to configure the CSI-2 link in normal camera usages, the CSI-2 link
+> > > and camera sensor can only be used in mutually-exclusive ways by host
+> > > IPU and IVSC. By default the IVSC owns the CSI-2 link and camera
+> > > sensor. The IPU driver can take ownership of the CSI-2 link and camera
+> > > sensor using interfaces exported via v4l2 sub-device.
+> > >
+> > > Switching ownership requires an interface with two different hardware
+> > > modules inside IVSC. The software interface to these modules is via
+> > > Intel MEI (The Intel Management Engine) commands. These two hardware
+> > > modules have two different MEI UUIDs to enumerate. These hardware
+> > modules are:
+> > >  - ACE (Algorithm Context Engine): This module is for algorithm
+> > > computing when IVSC owns camera sensor. Also ACE module controls
+> > > camera sensor's ownership. This hardware module is used to set ownership of
+> > camera sensor.
+> > >  - CSI (Camera Serial Interface): This module is used to route camera
+> > > sensor data either to IVSC or to host for IPU driver and application.
+> > >
+> > > IVSC also provides a privacy mode. When privacy mode is turned on,
+> > > camera sensor can't be used. This means that both ACE and host IPU
+> > > can't get image data. And when this mode is turned on, users are
+> > > informed via
+> > > v4l2 control API.
+> > >
+> > > In summary, to acquire ownership of camera by IPU driver, first ACE
+> > > module needs to be informed of ownership and then to setup MIPI CSI-2
+> > > link for the camera sensor and IPU.
+> > >
+> > > Implementation:
+> > > There are two different drivers to handle ACE and CSI hardware modules
+> > > inside IVSC.
+> > >  - ivsc_csi: MEI client driver to send commands and receive
+> > > notifications from CSI module.
+> > >  - ivsc_ace: MEI client driver to send commands and get status from
+> > > ACE module.
+> > > Interface is exposed via v4l2 sub-devcie APIs to acquire and release
+> > > camera sensor and CSI-2 link.
+> > 
+> > Thanks for the update.
+> > 
+> > Could you elaborate the decision of keeping the csi_bridge entirely separate
+> > from the cio2_bridge (to be turned to ipu_bridge first)? Both are doing
+> > essentially the same and using the same data structures, aren't they?
+> 
+> yes, they're doing same thing to bridge the software nodes needed by
+> v4l2, but they have different type devices(pci and mei_client device) and
+> dependency. And they have same SSDB definition in DSDT, so the structures
+> are almost same.
 
-are available in the Git repository at:
+If there are differences, what are they?
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4k
+What comes to cio2_bridge, the fact that it's related to a PCI device
+doesn't seem to matter after initialisation so it could as well work with
+struct device.
 
-for you to fetch changes up to 5ec2eafcda3c60ddf695a988e220e80b57031859:
+> 
+> I have no idea what the ipu bridge would be like, but IVSC csi bridge can
+> be configured via kconfig to enable/disable.
 
-  media: platform: mtk-mdp3: reconfigure shared memory (2023-03-27 09:28:09 +0200)
+Please work out the details with Bingbu.
 
-----------------------------------------------------------------
-Tag branch
+And please do wrap your lines at 74 or so.
 
-----------------------------------------------------------------
-Moudy Ho (12):
-      media: platform: mtk-mdp3: fix potential frame size overflow in mdp_try_fmt_mplane()
-      media: platform: mtk-mdp3: add files for chip configuration
-      media: platform: mtk-mdp3: chip config split about component settings
-      media: platform: mtk-mdp3: chip config split about subcomponents
-      media: platform: mtk-mdp3: chip config split about color format
-      media: platform: mtk-mdp3: chip config split about resolution limitations
-      media: platform: mtk-mdp3: chip config split about pipe info
-      media: platform: mtk-mdp3: extend mdp_color format for compressed mode
-      media: platform: mtk-mdp3: dynamically allocate component clocks
-      media: platform: mtk-mdp3: Split general definitions used in MDP3
-      media: platform: mtk-mdp3: decompose hardware-related information in shared memory
-      media: platform: mtk-mdp3: reconfigure shared memory
+-- 
+Kind regards,
 
- drivers/media/platform/mediatek/mdp3/Makefile        |   2 +-
- drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c  | 453 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/mediatek/mdp3/mdp_sm_mt8183.h | 144 ++++++++++++++++++
- drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h   | 189 +++---------------------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h  |  20 +++
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 148 +++++++++++++------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 539 ++++++++++++++++++++++++++++++++++++++++++++------------------------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h |  24 ++-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c |  48 ++----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h |  18 ++-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c  |  28 ++--
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.h  |   1 -
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.c | 293 ++++---------------------------------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.h | 214 +++++++++++++--------------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h |  53 +++++++
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c  | 193 +++++++++++-------------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.h  |  29 +---
- 17 files changed, 1429 insertions(+), 967 deletions(-)
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_cfg_data.c
- create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8183.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-cfg.h
- create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+Sakari Ailus
