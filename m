@@ -2,91 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 731816C9BA0
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B93D6C9BA9
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:10:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbjC0HHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 03:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39100 "EHLO
+        id S232248AbjC0HKB convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 27 Mar 2023 03:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229947AbjC0HHU (ORCPT
+        with ESMTP id S229935AbjC0HKA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 03:07:20 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1483D26B1
-        for <linux-media@vger.kernel.org>; Mon, 27 Mar 2023 00:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679900838; x=1711436838;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GsHx+oTBjWEttw7JPCduNG7URU+sDjS215M7IzcZ+FI=;
-  b=mwvplt6O4QnPLjeSqsNflBiNp+7shxQA6Egj5f9SsYa5nQMDaDEwOar9
-   YdR3Tf+cQjUBNSyfz7VptJPi+BNAKaORIyaaQPxX+3uhGXjlQqctJyDy8
-   VY7uQz2gOGY0MYVIflf/mwS+p32BpjU8LLTx0aFGbbL81VWZljFvgXl4u
-   suoJp64YSqeCzKXUdmNC3tHQZ9DV2twPipvtjzcWPx3zHdtkUiw1IZFpU
-   pZVYdLTNZfeRdCTpRRGavV4xDcA95wFtx44rILDVcsLglSGJFZ2f6mFQN
-   EnNzk1mZt4h64/DMVFIT6YoTMhbyHIQzCmUNTdXhuIvMMj5StxG8Y7JKD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="342598126"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="342598126"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:07:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="683362726"
-X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; 
-   d="scan'208";a="683362726"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 00:06:57 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id C60E61218A3;
-        Mon, 27 Mar 2023 10:06:54 +0300 (EEST)
-Date:   Mon, 27 Mar 2023 10:06:54 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Wentong Wu <wentong.wu@intel.com>
-Cc:     hdegoede@redhat.com, djrscally@gmail.com,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com
-Subject: Re: [PATCH v3 3/3] ACPI: delay enumeration of devices with a _DEP
- pointing to INTC1059 device
-Message-ID: <ZCFAjoaIG2VxtLJr@kekkonen.localdomain>
-References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
- <1679898188-14426-4-git-send-email-wentong.wu@intel.com>
+        Mon, 27 Mar 2023 03:10:00 -0400
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F354223;
+        Mon, 27 Mar 2023 00:09:59 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id k17so9178437ybm.11;
+        Mon, 27 Mar 2023 00:09:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679900998;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zm/i78Y1B477CpiZq/AT0pA1dKvGwwrNWCLMjpg/Ojw=;
+        b=AaVKgHLJFDLf+HF2QMSEkSMqXVy9gp7mmChpyeMHGLJCsFqNckpj4DybJzsTu3tcwl
+         h+aF5OphW0p06kmT4RNNRqYenLkNtdzn2p6m2Dw/COeLGEQbj0SF8KHMmMCTYhP3fH/z
+         RH6fB78byrc7VoJXdOHgwzcCIORYGS2UZkCL2avhQ4XU/oq7JUgtqc6qjHM4smQB9dbK
+         t0RnwYKHE/KDN+JE/N0op4GXvvhDJrZOtYmWIhP01lu0G9SNPHxq6B3q7cDdUxnti9Nk
+         LOqVGGa6XR/WtZGNXGw/E7sLkVMnj5rKkkOjWdzeEgPqfBe/wW9fkkiQvzzJeSkvBpBT
+         kIxA==
+X-Gm-Message-State: AAQBX9fWp1aD7ft9FmHzNb5o3JgCsDIsUn28/0lRTJ8ZbwxTjRSELL06
+        m2/tt+Y97VQdSpJ4qu3BKBOCJWvBi8Y6yg==
+X-Google-Smtp-Source: AKy350a/viNA/nMYs57wv4qXp7Zzyn7YwWov50xNnR2tGh69/u+/bAzp8zjSuMcy2Zi6Wa5GhIDS8g==
+X-Received: by 2002:a25:3715:0:b0:b66:dff3:5906 with SMTP id e21-20020a253715000000b00b66dff35906mr17284623yba.8.1679900998477;
+        Mon, 27 Mar 2023 00:09:58 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id n10-20020a05690211ca00b00b7767ca7478sm2125620ybu.21.2023.03.27.00.09.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Mar 2023 00:09:58 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id z83so9225054ybb.2;
+        Mon, 27 Mar 2023 00:09:58 -0700 (PDT)
+X-Received: by 2002:a25:6b0e:0:b0:a27:3ecc:ffe7 with SMTP id
+ g14-20020a256b0e000000b00a273eccffe7mr7573842ybc.3.1679900998181; Mon, 27 Mar
+ 2023 00:09:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1679898188-14426-4-git-send-email-wentong.wu@intel.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-52-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230326143224.572654-52-u.kleine-koenig@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Mar 2023 09:09:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXNgC4=skBWgE_=C55CNhdTBSnggsWokUUgpWFMX2UdQQ@mail.gmail.com>
+Message-ID: <CAMuHMdXNgC4=skBWgE_=C55CNhdTBSnggsWokUUgpWFMX2UdQQ@mail.gmail.com>
+Subject: Re: [PATCH 049/117] media: rcar-core: Convert to platform remove
+ callback returning void
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        kernel@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wentong,
+On Sun, Mar 26, 2023 at 4:33 PM Uwe Kleine-König
+<u.kleine-koenig@pengutronix.de> wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-On Mon, Mar 27, 2023 at 02:23:08PM +0800, Wentong Wu wrote:
-> Inside IVSC, switching ownership requires an interface with two different
-> hardware modules, ACE and CSI. The software interface to these modules is
-> based on Intel MEI framework. Usually mei client devices are dynamically
-> created, so the info of consumers depending on mei client devices is not
-> present in the firmware tables.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Ouch.
+Gr{oetje,eeting}s,
 
-> 
-> This causes problems with the probe ordering with respect to drivers for
-> consumers of these mei client devices. But on these camera sensor devices,
-> the ACPI nodes describing the sensors all have a _DEP dependency on the
-> matching INTC1059 ACPI device, so adding INTC1059 to acpi_honor_dep_ids
-> allows solving the probe-ordering problem by delaying the enumeration of
-> ACPI-devices which have a _DEP dependency on an INTC1059 device.
-
-What does the INTC1059 device represent?
+                        Geert
 
 -- 
-Sakari Ailus
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
