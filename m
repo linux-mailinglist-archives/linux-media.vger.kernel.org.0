@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 413276C9BAE
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8ECC6C9BB0
+	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 09:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232208AbjC0HKu convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 27 Mar 2023 03:10:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41808 "EHLO
+        id S231968AbjC0HLV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 27 Mar 2023 03:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231986AbjC0HKp (ORCPT
+        with ESMTP id S229935AbjC0HLU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 03:10:45 -0400
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABA1D49CB;
-        Mon, 27 Mar 2023 00:10:39 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id r187so9211023ybr.6;
-        Mon, 27 Mar 2023 00:10:39 -0700 (PDT)
+        Mon, 27 Mar 2023 03:11:20 -0400
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F1E422D;
+        Mon, 27 Mar 2023 00:11:19 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id e65so9177036ybh.10;
+        Mon, 27 Mar 2023 00:11:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679901038;
+        d=1e100.net; s=20210112; t=1679901078;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=Zm/i78Y1B477CpiZq/AT0pA1dKvGwwrNWCLMjpg/Ojw=;
-        b=K1I/ihwK5RaJx2tS5wwuVxpoMaFD+NOfsc5n78ZiCHnmuvX+HySeV/QsZLz//NFNT4
-         dA08r//mMEgL8EA3hWStcOsifg/YvGABWWVELiofKZPskqkLfooVPx0hWNNDN/6HNSUt
-         4OydlbppEkVv1iTuikgH+CwZ49TbRMz2oirUOldnyH4iYDYMINwVcq/8IDoWVyeXiI8v
-         u8mJIqOnY9NPWm353sggGn3NnUNsO26PmirkKxDvDBAGRwQLZ0chmQP/l2zwDT58Q43b
-         X2J8NdEkrnUKSKNwjnuG8ddTbNBohQXcVYnuUWNG6xw/YI12Jtp+B77W59RAZRg208/j
-         7btA==
-X-Gm-Message-State: AAQBX9eP9JYPSQc6K1wVao8rE+wN0ecpczPZZr++RySUqhzHI8B3f0LI
-        Kv/QGNf/4phL8Iu7yQeai6PvGupplMjbJg==
-X-Google-Smtp-Source: AKy350blic/SEABVkPpjwYNbPA+NiXE4dDOPTFDod3N9AwPhm4b5W9XOTOYfLRLoTkNHp3zfleikbQ==
-X-Received: by 2002:a25:2584:0:b0:997:e3f5:d0cd with SMTP id l126-20020a252584000000b00997e3f5d0cdmr10570912ybl.45.1679901038714;
-        Mon, 27 Mar 2023 00:10:38 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id v74-20020a25c54d000000b00b7767ca747fsm2123216ybe.28.2023.03.27.00.10.38
+        b=DyBYSNSTHuze+3Wd7C2o/1Ng/uXB64MswWtMhsk5lBOG841mvskWnytrkQDnGKqEIX
+         fzbOrgio+hJu7dTZyuE5MGCsy6BtpP2/fqKSTnOHFQmIWWoIsMmIxDBNEivd5rkucDD4
+         Knx7SZXyZhKXkr1ihNp0gHZAcwXiprcSsZspyf/UBBvzW+S5jTeHg/4v3xcX/wveq++Y
+         MEWN9A5Qwr6iWlFJSRdVClIsmtMZt87yXv21dpel4vwwuD5GojxNki9f6ZrRkeliuJUk
+         M+X66/HW8S5q5M9yiSsmHvH0OiAvUgbYmehIFCzxjZ301+Hw3hSS5QaPT4TrX+CLarF4
+         o5GQ==
+X-Gm-Message-State: AAQBX9cQxgEVnEccvNNvGxWyMlCMFDBvQY9xr+l0HTUM/0s/dsE0bVNR
+        VA9n+Qws/D8nJg1TP6qWP14cEcCJdiJihQ==
+X-Google-Smtp-Source: AKy350bQJvS4jmiHslK48ktRnkHmqMZ8W2Mt8dKGl9qmtpKIN6qaygE6YJeXKMQQJdMTJivQtXIA/A==
+X-Received: by 2002:a25:dc82:0:b0:b72:1171:6366 with SMTP id y124-20020a25dc82000000b00b7211716366mr10516392ybe.30.1679901078609;
+        Mon, 27 Mar 2023 00:11:18 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id a19-20020a25ae13000000b00b7767ca7471sm2145805ybj.14.2023.03.27.00.11.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Mar 2023 00:10:38 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id k17so9180502ybm.11;
-        Mon, 27 Mar 2023 00:10:38 -0700 (PDT)
+        Mon, 27 Mar 2023 00:11:18 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id k17so9182643ybm.11;
+        Mon, 27 Mar 2023 00:11:18 -0700 (PDT)
 X-Received: by 2002:a05:6902:722:b0:a09:314f:a3ef with SMTP id
- l2-20020a056902072200b00a09314fa3efmr6473040ybt.12.1679901037915; Mon, 27 Mar
- 2023 00:10:37 -0700 (PDT)
+ l2-20020a056902072200b00a09314fa3efmr6474159ybt.12.1679901078299; Mon, 27 Mar
+ 2023 00:11:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-51-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230326143224.572654-51-u.kleine-koenig@pengutronix.de>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-56-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230326143224.572654-56-u.kleine-koenig@pengutronix.de>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 27 Mar 2023 09:10:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVFs7hz3UgJgqZr26RkK7atyfLmP9iCSyxA=o-zoRdd9A@mail.gmail.com>
-Message-ID: <CAMuHMdVFs7hz3UgJgqZr26RkK7atyfLmP9iCSyxA=o-zoRdd9A@mail.gmail.com>
-Subject: Re: [PATCH 048/117] media: rcar-isp: Convert to platform remove
+Date:   Mon, 27 Mar 2023 09:11:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXfqrRtZ+8iMp40FZF8j6-KuYDZhMvH3AQfpgE65vO+ow@mail.gmail.com>
+Message-ID: <CAMuHMdXfqrRtZ+8iMp40FZF8j6-KuYDZhMvH3AQfpgE65vO+ow@mail.gmail.com>
+Subject: Re: [PATCH 053/117] media: rcar_jpu: Convert to platform remove
  callback returning void
 To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+Cc:     Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         kernel@pengutronix.de
