@@ -2,388 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29FC16CB675
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 08:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B056CB81D
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 09:33:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230328AbjC1GBl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 02:01:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46442 "EHLO
+        id S230272AbjC1HdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 03:33:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjC1GBk (ORCPT
+        with ESMTP id S230288AbjC1HdE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 02:01:40 -0400
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 025871BF6;
-        Mon, 27 Mar 2023 23:01:37 -0700 (PDT)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 32S61D6s073625;
-        Tue, 28 Mar 2023 01:01:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1679983273;
-        bh=zXRPR0/LMqYUvH3KPAGu22WhsJJCxSMAtgRNXt6WQDU=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=E2cVj9hwoNCFEqRRzr0HQCj10yDNrkjh0fsVMllbd5YYTnhGayZrWVYMtFuuzf0De
-         LTIBDQ2tdJZZo+YG92y+ldXqaD3mdT67vDVAGW04dUO/roePBJxxhjK1V2bqCfVa2K
-         +fF1TaBpE9a5sEuQf/ep4MayE+sM8ekAr4w/iHUc=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 32S61DAD110393
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 28 Mar 2023 01:01:13 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 28
- Mar 2023 01:01:13 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 28 Mar 2023 01:01:13 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 32S61CO1129343;
-        Tue, 28 Mar 2023 01:01:12 -0500
-Date:   Tue, 28 Mar 2023 11:31:12 +0530
-From:   Jai Luthra <j-luthra@ti.com>
-To:     Martyn Welch <martyn.welch@collabora.com>
-CC:     Vaishnav Achath <vaishnav.a@ti.com>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <mripard@kernel.org>,
-        <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
+        Tue, 28 Mar 2023 03:33:04 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F2F40D7
+        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 00:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679988761; x=1711524761;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ePLR83qJhh3fK9KNqW0Z2lH4DvtQ54OJBZYx+Cd8Mkk=;
+  b=O0eYrcUULPZbHkpWrpAKn6nET/rsvfrv6CIWNzFw4BhcgbWWphpGhNqT
+   gKKc9CMr3Bk/I+M3OcGsV+k4V820b5au1a+af9Hx9ECYDiK1rkNbRuvtZ
+   JwBvWXMw33jXET0XJJYIJgXgd60uMvMcnV6l3H7MKY64I01A959FFhuG6
+   SS5FCB2BBJnejTPycd3rqqN7202K+tL1ft77P2nF9Yh2a62VcmBRnAK/a
+   7QkJ+tIKwneHz6K9FAAT47CWwn6/BiAlD0XF1IqWP6cdyUyq+XsFSHKpP
+   JKJi8NRFTy87XMP59F3GQ3gXDUaoRrN3x7DAWzc7F6GkSGvodMrmLhbRQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320894172"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="320894172"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 00:32:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="1013443457"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="1013443457"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2023 00:32:31 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 28 Mar 2023 00:32:30 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 28 Mar 2023 00:32:30 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 28 Mar 2023 00:32:29 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 28 Mar 2023 00:32:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F3C2YfmJp1mL3cbIwmZ8QF7YvASlKKuyXDwlxU0KwLstRoAm/8gddnM7rSOy7z/7fkRvJ7Or9xbl3l5JzmaKB+Hn4WdZxQZSdrGUsFYaPe7J3T0THMRm6xf8/csuirGmjYNjpzJbaveljDrFT3PZz8KIJAI25lMxDJLBbXLnWhxLlUJwzqhENHFtkuKl9bSndrXT2yFAs1x+1cSoxVaziftY8H+qp6lUnfF+rGDvtQTQFJCQSzsLoQgZRlXppJG10ZzWCP6INtY4Peoks+OEpgcxdKBBaqQ1iyOksZudgciTdMGO6OfEoWDfxLqlua2KBHC8xQK7r/afCdgQ0/4tig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IAo8EmlKL6dKUVOAJoOUJiTvQIFsDlUNxHVAjw5Sbdc=;
+ b=mnvuy61HUgf/Bqcq2dBXszAe0glktRFiiS7fsUQjTpfa13PV7rklKN4CfUSXOiKIbRZ/73XQ7TW3ogtAsbVsJdzy3HZq9ugoviUqRntGs0vMKYvqpWNLJ0gOSZ+iSrFwkme93R/yKcmtpSnPgfH9Lqock4hH6Mv7ceGK0N+S7vX+0j+ZlFKMKRChzu6+MucgF+wxVTPoXwkfpmw61iM9FVI4HGBz3ysUD99465gx7f6OhDxN+LJjOyFlOzXeNuTWbBJYW+rrImsSA5eZedrHUH4109GaXPZ161zIHaKMI4s8M+h8FCEEb+UwXz4Nn+ZM0mcbFNvemVJO/cjGNDo8Vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4316.namprd11.prod.outlook.com (2603:10b6:5:205::16)
+ by DM8PR11MB5576.namprd11.prod.outlook.com (2603:10b6:8:37::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Tue, 28 Mar
+ 2023 07:32:27 +0000
+Received: from DM6PR11MB4316.namprd11.prod.outlook.com
+ ([fe80::933f:f96c:bec5:5ef3]) by DM6PR11MB4316.namprd11.prod.outlook.com
+ ([fe80::933f:f96c:bec5:5ef3%7]) with mapi id 15.20.6222.030; Tue, 28 Mar 2023
+ 07:32:27 +0000
+From:   "Wu, Wentong" <wentong.wu@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "djrscally@gmail.com" <djrscally@gmail.com>,
+        "laurent.pinchart@ideasonboard.com" 
         <laurent.pinchart@ideasonboard.com>,
-        <sakari.ailus@linux.intel.com>, <tomi.valkeinen@ideasonboard.com>,
-        <linux-kernel@vger.kernel.org>, <bparrot@ti.com>,
-        <niklas.soderlund+renesas@ragnatech.se>, <devarsht@ti.com>,
-        <praneeth@ti.com>, <u-kumar1@ti.com>, <vigneshr@ti.com>,
-        <nm@ti.com>
-Subject: Re: [PATCH v7 00/13] CSI2RX support on J721E
-Message-ID: <vdjxsuaf4zoy4zzc7t2lif2jf2stdwn5ovq2eybdifnbbsknd2@cyotd7s37a3d>
-References: <20230314115516.667-1-vaishnav.a@ti.com>
- <e184448c9db8df55e03e855f7c7338066f45025a.camel@collabora.com>
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
+        "Ye, Xiang" <xiang.ye@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: RE: [PATCH v3 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Thread-Topic: [PATCH v3 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Thread-Index: AQHZYHShR1ChohFeu0+//9oZbrf/X68OOHSAgAABHtCAAAboAIAAAM4AgAAdFQCAAWwbkA==
+Date:   Tue, 28 Mar 2023 07:32:27 +0000
+Message-ID: <DM6PR11MB4316138CF6D8D300C007B4DE8D889@DM6PR11MB4316.namprd11.prod.outlook.com>
+References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
+ <ZCFD3aW4NRrn69LR@kekkonen.localdomain>
+ <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
+ <ZCFKmNKZAPwsIq/j@kekkonen.localdomain>
+ <MN2PR11MB431892069628328E614F03498D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
+ <ZCFjqu4P9AcNbMoZ@kekkonen.localdomain>
+In-Reply-To: <ZCFjqu4P9AcNbMoZ@kekkonen.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4316:EE_|DM8PR11MB5576:EE_
+x-ms-office365-filtering-correlation-id: dee299e8-61d8-4759-fe07-08db2f5e94e2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Sa+JIJ594H74LAKM/gUXmI03P79ld5SYTRQpfY8FRakcQiDQj945vvMZ012AiqBytUYNBlcLUEZeLdbq1vxz34S71r55LZSWK+gjmNXEFt23hn8TUPrvcKbWO3i4GX38Y/tuPIt314TOGtlcG10CofUmvtQHIMAXjy9Ex0InEvdJVGqEnZT33Lm1bbq6et1OaJ+nLpqEr05yvyulfXaUFVU/gN64Xkntf0cCq0ve1q2zOBbRr4IC0x6tBirbHXL3lBOApY0VtAqXqMqEscrFwaBXskTZiPLgprFM3Dz0I6lU5MHvvXQNgW2y1YJBy/btgrhTdzkovxmPb+tFVozNIiimA1N2txNCXKp0lumu/2iOD828L/fvPrEGTZKMCoEVHV8O5il0VhRnloYlU4fryHDriECfQGVYcHNAbH/uZZxtQq2nhd/F1NLayFCCJsBFKebQA7yKnp6FYQBzx+Q/ekJ3obxlSYdOWNpp0bZPhAb2UHJZDDOXhhLMBXBRIqUCo37U+RRoJiwC0QcJh0lCLAqXGFZxAcfxo9Njy/6XDqg4tNaaPkNS7GjbQugfDcv+aPPLwu25BX/uH1htdS1x20CGvQs7ynxil63TEfYOxkNthb1VqNd2Kyd6urge+O/k
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4316.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(39860400002)(346002)(366004)(376002)(136003)(451199021)(54906003)(7696005)(478600001)(8936002)(52536014)(9686003)(26005)(6506007)(316002)(71200400001)(66899021)(64756008)(66446008)(66946007)(6916009)(8676002)(66476007)(186003)(76116006)(66556008)(4326008)(41300700001)(82960400001)(122000001)(33656002)(55016003)(5660300002)(2906002)(38070700005)(38100700002)(86362001)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?r5cgcz9/efc3PEPGc5IbCAV5etWoinJ7T/M4+FXEpnG4nnx/mdtM0O9V1fPY?=
+ =?us-ascii?Q?SjPeye4OGfV+xsAlt0qGBBGuuI8q5z4fDnWdPkP03oj5XlPMG3iG7o5S+23G?=
+ =?us-ascii?Q?dLWXFZ5SCZmjy24VcfSJcTVDy2plcFm0OOZKsLzZeooRjI8Zk9byzUlSDbYd?=
+ =?us-ascii?Q?atlp+cUBrwzdShXfKjpQefOOQWH8+J8HuSVTknwh88SIXHTWjo3MDZtO8xRv?=
+ =?us-ascii?Q?pawQjwaCgY/we+H7+gMADNHMEDVadutayYnixhkF4/WB37AzjR37aMWVyGpI?=
+ =?us-ascii?Q?f0j54VZSUVlNh4Xk3ZIZbqS/2ao+PsoXDYzhLNgMTFz1d4XIJ7x3hS9GKSnT?=
+ =?us-ascii?Q?mgyEdomZqkeW/AVX2KTC4psvajqb7jflW5AQHB/2e1lmxBLHAL8rP2W/esSJ?=
+ =?us-ascii?Q?aJI6Idlf9Tgi9DHiKlps8qSa3kijefT5OK2SwCon2swdho+FBf2LRlhNLDeC?=
+ =?us-ascii?Q?SReGdk3cBLECkN1jbZns1E4YMYDfeXOTTTZqakZraAqd5qIwcey8+uz5jcZ6?=
+ =?us-ascii?Q?szislVml6d85rO7Z4KgAeKyuIQmSVqfv+r00mRjhHeok5VQ+F3E1V3BXA1VW?=
+ =?us-ascii?Q?CiOYVZSnUAWCFMBCAgIFNCXadki3prlg63IlD64PZFqpbcdUgj3L26dRJI4d?=
+ =?us-ascii?Q?/TjRvzkNO5l5OQUPOxZpnIUQGhuS2c0sSHJBfECuvaMTjI8PLsCffW/rLA6C?=
+ =?us-ascii?Q?g95eY3E7JRQVir0a5232819rjtQRvIACCsNu0kZGZcEx0hcApFSodDU2uFcK?=
+ =?us-ascii?Q?UejZles/EqWLNVV75g44wpa9sdI9Cpp6O0lPgK8R0rUSsE4EO11kApCHm9Bi?=
+ =?us-ascii?Q?EccvJXVUDbAVWIIpqClJmrsq7xG+At2Up0jkD5j9bXLKaAcgzwV4VNSiPpeV?=
+ =?us-ascii?Q?dMcfa1OS6znzzF27GXRAw4PVOPWMT7B3OhzvSjufkdrht0DuvWE9VSfSv14k?=
+ =?us-ascii?Q?Flqs3DpTRx6bdRE17Q7eSAdrTMf9QNgjn05BRg2nxr4FQ2xzL37i92MiKzF1?=
+ =?us-ascii?Q?3D34fdT6VWQo4nsvUD7cQnBPbBHl6vBkAd8/P155H/kfMgZEhXGiIgSt7LK5?=
+ =?us-ascii?Q?ItlvtD2WugLwNWalzRyVMqfgkoVbMzHfTCIgeRm2rLNJXbuj7N41fLbpCeza?=
+ =?us-ascii?Q?TSE4CC3gSUySrcfrY9tbUGqtjYyYxv3SsDojBdQIlGNVPE4MYiX02XZFxmJx?=
+ =?us-ascii?Q?N6LqvoAUlwtWWUpA69FEDhX3zk+1bJbwl/RiOqzfyBrrjV86XLH5Lxheg8Fm?=
+ =?us-ascii?Q?ZdpSsgIVIVEfE7H70yxvEFLJO2IfAvi/Lj5Kxat91a177pW/MxNptbaCMgYx?=
+ =?us-ascii?Q?5bpA7Gs/XiXye2WwllPx8TAewqGqLpiHExVDk59J+7/FLln0sdgzZVgJ6Udr?=
+ =?us-ascii?Q?1tvlqfQZy6asbS5HH0uLEl825JFG3pwRMsgKHPv4I91P2OCQDqaL6gp1diMX?=
+ =?us-ascii?Q?YE9EEl/gnhTXAA5rKYG7uIsE5PkuWLJl/aknIYwIef2MN/6p8hDk6CfPgKrT?=
+ =?us-ascii?Q?0Wf33s+g9ByM83u2Bu25OL6L/PquMxk/DYs4tmk0Yrlkxby3YOrVdcLAknuk?=
+ =?us-ascii?Q?hBLbfG9+8Qxom/6wkLW7m6Ms9Qn0DCwv6QtXAo45?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5frzlxni7pxdkqyf"
-Content-Disposition: inline
-In-Reply-To: <e184448c9db8df55e03e855f7c7338066f45025a.camel@collabora.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4316.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dee299e8-61d8-4759-fe07-08db2f5e94e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2023 07:32:27.4198
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pq+kEi6fTJrxIppWLRrffTo6OEeJBsnB92hpj6kZOcnpcrxSP110KYSuzCqCX1cMws7AbC2a5cCiv3JM1ln1og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5576
+X-OriginatorOrg: intel.com
 X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---5frzlxni7pxdkqyf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Martyn,
 
-Thanks for the tests.
-
-On Mar 23, 2023 at 19:36:18 +0000, Martyn Welch wrote:
-> On Tue, 2023-03-14 at 17:25 +0530, Vaishnav Achath wrote:
-> > Hi,
-> >=20
-> > This series adds support for CSI2 capture on J721E. It includes some
-> > fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper
-> > driver.
-> >=20
-> > This is a V7 of the below V6 series,
-> > https://lore.kernel.org/all/20220121142904.4091481-1-p.yadav@ti.com/
-> >=20
-> > Since Pratyush moved out of TI, I will be working on upstreaming the
-> > TI CSI2RX wrapper support.
-> >=20
-> > Tested on TI's J721E EVM with LI OV5640 sensor module.
-> > https://gist.github.com/vaishnavachath/f030a257d5b6569817bc9deab1c4fa77
-> >=20
-> > Also, Tested on TI AM62-SK with Pcam5C OV5640 module.
-> > https://gist.github.com/vaishnavachath/ff2605faa92f1a6ab5670426da28ccee
-> >=20
+> -----Original Message-----
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Sent: Monday, March 27, 2023 5:37 PM
 >=20
-> Hi Vaishnav,
+> Hi Wentong,
 >=20
-> I assume I'm doing something wrong. I have a TI AM62-SK and the Pcam5C
-> OV5640 module. I've been trying to test this with gstreamer using the
-> following command:
+> On Mon, Mar 27, 2023 at 08:13:29AM +0000, Wu, Wentong wrote:
+> >
+> >
+> > > -----Original Message-----
+> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Sent: Monday, March 27, 2023 3:50 PM
+> > >
+> > > Hi Wentong,
+> > >
+> > > On Mon, Mar 27, 2023 at 07:33:48AM +0000, Wu, Wentong wrote:
+> > > >
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > Sent: Monday, March 27, 2023 3:21 PM
+> > > > >
+> > > > > Hi Wentong,
+> > > > >
+> > > > > On Mon, Mar 27, 2023 at 02:23:05PM +0800, Wentong Wu wrote:
+> > > > > > Intel Visual Sensing Controller (IVSC), codenamed "Clover
+> > > > > > Falls", is a companion chip designed to provide secure and low
+> > > > > > power vision capability to IA platforms. IVSC is available in
+> > > > > > existing commercial platforms from multiple OEMs.
+> > > > > >
+> > > > > > The primary use case of IVSC is to bring in context awareness.
+> > > > > > IVSC interfaces directly with the platform main camera sensor
+> > > > > > via a CSI-2 link and processes the image data with the
+> > > > > > embedded AI engine. The detected events are sent over I2C to
+> > > > > > ISH (Intel Sensor
+> > > > > > Hub) for additional data fusion from multiple sensors. The
+> > > > > > fusion results are used to implement advanced use cases like:
+> > > > > >  - Face detection to unlock screen
+> > > > > >  - Detect user presence to manage backlight setting or waking
+> > > > > > up system
+> > > > > >
+> > > > > > Since the Image Processing Unit(IPU) used on the host
+> > > > > > processor needs to configure the CSI-2 link in normal camera
+> > > > > > usages, the
+> > > > > > CSI-2 link and camera sensor can only be used in
+> > > > > > mutually-exclusive ways by host IPU and IVSC. By default the
+> > > > > > IVSC owns the CSI-2 link and camera sensor. The IPU driver can
+> > > > > > take ownership of the CSI-2 link and camera sensor using
+> > > > > > interfaces exported
+> > > via v4l2 sub-device.
+> > > > > >
+> > > > > > Switching ownership requires an interface with two different
+> > > > > > hardware modules inside IVSC. The software interface to these
+> > > > > > modules is via Intel MEI (The Intel Management Engine) commands=
+.
+> > > > > > These two hardware modules have two different MEI UUIDs to
+> > > > > > enumerate. These hardware
+> > > > > modules are:
+> > > > > >  - ACE (Algorithm Context Engine): This module is for
+> > > > > > algorithm computing when IVSC owns camera sensor. Also ACE
+> > > > > > module controls camera sensor's ownership. This hardware
+> > > > > > module is used to set ownership of
+> > > > > camera sensor.
+> > > > > >  - CSI (Camera Serial Interface): This module is used to route
+> > > > > > camera sensor data either to IVSC or to host for IPU driver and
+> application.
+> > > > > >
+> > > > > > IVSC also provides a privacy mode. When privacy mode is turned
+> > > > > > on, camera sensor can't be used. This means that both ACE and
+> > > > > > host IPU can't get image data. And when this mode is turned
+> > > > > > on, users are informed via
+> > > > > > v4l2 control API.
+> > > > > >
+> > > > > > In summary, to acquire ownership of camera by IPU driver,
+> > > > > > first ACE module needs to be informed of ownership and then to
+> > > > > > setup MIPI CSI-2 link for the camera sensor and IPU.
+> > > > > >
+> > > > > > Implementation:
+> > > > > > There are two different drivers to handle ACE and CSI hardware
+> > > > > > modules inside IVSC.
+> > > > > >  - ivsc_csi: MEI client driver to send commands and receive
+> > > > > > notifications from CSI module.
+> > > > > >  - ivsc_ace: MEI client driver to send commands and get status
+> > > > > > from ACE module.
+> > > > > > Interface is exposed via v4l2 sub-devcie APIs to acquire and
+> > > > > > release camera sensor and CSI-2 link.
+> > > > >
+> > > > > Thanks for the update.
+> > > > >
+> > > > > Could you elaborate the decision of keeping the csi_bridge
+> > > > > entirely separate from the cio2_bridge (to be turned to ipu_bridg=
+e first)?
+> > > > > Both are doing essentially the same and using the same data
+> > > > > structures,
+> > > aren't they?
+> > > >
+> > > > yes, they're doing same thing to bridge the software nodes needed
+> > > > by v4l2, but they have different type devices(pci and mei_client
+> > > > device) and dependency. And they have same SSDB definition in
+> > > > DSDT, so the structures are almost same.
+> > >
+> > > If there are differences, what are they?
+> > >
+> > The properties of swnode are same, because we need same info to
+> > configure CSI2. But csi bridge can get sensor connected to IVSC by
+> > dependency info instead of just polling the only supported sensors for
+> > ipu. Also IVSC
 >=20
-> gst-launch-1.0 -v v4l2src device=3D/dev/video0 num-buffers=3D10 ! video/x-
-> raw, width=3D640, height=3D480, format=3DUYVY, framerate=3D30/1 ! jpegenc=
- !
-> multifilesink location=3Dtest%d.jpg
+> It's totally fine the method for finding the sensor is different, this sh=
+ould be an
+> extra argument for the bridge init function and a small number of lines o=
+f
+> additional code.
 >=20
-> However I've not been able to get this working, failing with this
-> failure unless I patch in some changes I found in the TI BSP:
+> > doesn't need vcm. And the topology of dependency is different.
 >=20
-> [   28.083635] cdns-mipi-dphy-rx 30110000.phy: DPHY wait for lane ready
-> timeout
-> [   28.090905] cdns-csi2rx 30101000.csi-bridge: Failed to configure
-> external DPHY: -110
+> The VCM is optional for current cio2_bridge, too.
+>=20
+> It also seems that this currently creates swnodes on mei csi side only fo=
+r the
+> connection towards the sensor, not the IPU.
 
-That is expected as currently the DPHY driver does not release the SW=20
-reset which all SoCs since J721E SR1.0 expect. See the patch linked by=20
-Vaishnav below.
+IPU could find the MEI CSI software node by software_node_find_by_name,
+and then setup the bridge between MEI CSI and IPU.
+
+> At the moment you can't reliably
+> add software nodes to a device that has may be already probing so both of
+> these should be created at the same time.
+
+If you're worried about sequence, IPU driver could make software node and
+register it, MEI CSI bridge could find IPU software node by software_node_f=
+ind_by_name,
+if the return value is NULL, driver will defer the probe.
 
 >=20
-> The changes (and the device tree nodes I added, which might be
-> wrong...) can be found here:
+> >
+> > > What comes to cio2_bridge, the fact that it's related to a PCI
+> > > device doesn't seem to matter after initialisation so it could as wel=
+l work
+> with struct device.
+> > >
+> > > >
+> > > > I have no idea what the ipu bridge would be like, but IVSC csi
+> > > > bridge can be configured via kconfig to enable/disable.
+> > >
+> > > Please work out the details with Bingbu.
+> >
+> > @bingbu.cao@linux.intel.com @Sakari Ailus Please share your design idea
+> here.
+> > What the ipu bridge would be like?  What's the responsibility of ipu br=
+idge?
 >=20
-> https://gitlab.collabora.com/martyn/linux/-/commits/am625-sk-ov5640
+> I'd expect Bingbu to have patches to turn the current cio2_bridge to an
+> ipu_bridge at some point. These should come on top of those patches.
+
+When will this be ready if you already make the plan? But could you please =
+help
+review my other patches except bridge?
+
+Thanks
+Wentong
 >=20
-> Any ideas what I'm doing wrong?
+> --
+> Kind regards,
 >=20
-> Martyn
->=20
-> > For all newer TI platforms that TI J721E Silicon Revision 1.0, below
-> > update
-> > to DPHY RX driver is needed:
-> > https://lore.kernel.org/all/20230314073137.2153-1-vaishnav.a@ti.com/
-
-^
-
-With that patch and this series on top of linux-next, I was able to get=20
-Pcam5C capturing with SK-AM62. Although I did face issues with the=20
-sensor framerate and had to revert a few recent sensor commits, not sure=20
-why exactly yet. But here is the working branch with all the changes:=20
-https://github.com/jailuthra/linux/commits/b4/csi_single
-
-Let us know if you face any other issues during your tests.
-
-> >=20
-> > Changes in v7:
-> > - For patch 10/13 ("Add CSI2RX upport for J721E"):
-> > - Fix incorrect value written in SHIM_PSI_CFG0_DST_TAG
-> > - Drop support for 2X8 formats.
-> > - Update maintainer to Vaishnav as Pratyush moved out of TI.
-> > - Address Sakari's review comments:
-> > - Update MAX_HEIGHT_LINES, MAX_WIDTH_BYTES to prevent overflow.
-> > - Assign dma_slave_config during declaration, drop memset().
-> > - dma_release_channel() on slave_config failure.
-> > - provide entity ops for the vdev entity with link_validate().
-> > - mutex_destroy() on ti_csi2rx_probe failure path.
-> > - Drop busy check in remove().
-> > - mutex_destroy() in ti_csi2rx_remove().
-> > - Address Laurent's review comments:
-> > - Update entries in Makefile in alphabetical order.
-> > - include headers in alphabetical order.
-> > - Drop redundant CSI DT defines and use from media/mipi-csi2.h.
-> > - Rename csi_df to csi_dt.
-> > - Drop v4l2_colorspace from ti_csi2rx_fmt and set default in
-> > =A0 ti_csi2rx_v4l2_init()
-> > - Adjust field and not return EINVAL in ti_csi2rx_try_fmt_vid_cap().
-> > - inline ti_csi2rx_video_register().
-> > - start DMA before starting source subdev.
-> > - move buffer cleanup to separate function
-> > ti_csi2rx_cleanup_buffers()
-> > =A0 to be used in ti_csi2rx_stop_streaming() and
-> > ti_csi2rx_start_streaming()
-> > =A0 failure path.
-> > - Drop VB2_USERPTR, VB2_READ and V4L2_CAP_READWRITE.
-> > - For patch 4/13 ("media: cadence: csi2rx: Add external DPHY
-> > support"):
-> > - Fix multiplier and divider in v4l2_get_link_freq() which caused
-> > =A0 failures during streaming.
-> >=20
-> > Changes in v6:
-> > - Move the lock around the dereference for framefmt in
-> > =A0 csi2rx_{get,set}_fmt() instead of when we get the pointer.
-> > - Do not return an error when an unsupported format is set. Instead
-> > =A0 adjust the code to the first format in the list.
-> > - Drop variable bpp and use fmt->bpp directly.
-> > - Drop variable got_pm. Call phy_pm_runtime_put() unconditionally
-> > since
-> > =A0 it will just return an error if runtime PM is not enabled.
-> > - Drop transcoding from the commit message.
-> > - Make csi2rx_media_ops const.
-> >=20
-> > Changes in v5:
-> > - Cleanup notifier in csi2rx_parse_dt() after the call to
-> > =A0 v4l2_async_nf_add_fwnode_remote().
-> > - Use YUV 1X16 formats instead of 2X8.
-> > - Only error out when phy_pm_runtime_get_sync() returns a negative
-> > =A0 value. A positive value can be returned if the phy was already
-> > =A0 resumed.
-> > - Do not query the source subdev for format. Use the newly added
-> > =A0 internal format instead.
-> > - Make i unsigned.
-> > - Change %d to %u
-> > - Add dependency on PHY_CADENCE_DPHY_RX instead of PHY_CADENCE_DPHY
-> > =A0 since the Rx mode DPHY now has a separate driver.
-> > - Drop ti_csi2rx_validate_pipeline(). Pipeline validation should be
-> > done
-> > =A0 at media_pipeline_start().
-> > - Do not assign flags.
-> > - Fix error handling in ti_csi2rx_start_streaming(). Free up vb2
-> > buffers
-> > =A0 when media_pipeline_start() fails.
-> > - Move clock description in comments under the clocks property.
-> > - Make ports required.
-> > - Add link validation to cdns-csi2rx driver.
-> >=20
-> > Changes in v4:
-> > - Drop the call to set PHY submode. It is now being done via
-> > compatible
-> > =A0 on the DPHY side.
-> > - Acquire the media device's graph_mutex before starting the graph
-> > walk.
-> > - Call media_graph_walk_init() and media_graph_walk_cleanup() when
-> > =A0 starting and ending the graph walk respectively.
-> > - Reduce max frame height and width in enum_framesizes. Currently
-> > they
-> > =A0 are set to UINT_MAX but they must be a multiple of step_width, so
-> > they
-> > =A0 need to be rounded down. Also, these values are absurdly large
-> > which
-> > =A0 causes some userspace applications like gstreamer to trip up. While
-> > it
-> > =A0 is not generally right to change the kernel for an application bug,
-> > it
-> > =A0 is not such a big deal here. This change is replacing one set of
-> > =A0 absurdly large arbitrary values with another set of smaller but
-> > still
-> > =A0 absurdly large arbitrary values. Both limits are unlikely to be hit
-> > in
-> > =A0 practice.
-> > - Add power-domains property.
-> > - Drop maxItems from clock-names.
-> > - Drop the type for data-lanes.
-> > - Drop uniqueItems from data-lanes. Move it to video-interfaces.yaml
-> > =A0 instead.
-> > - Drop OV5640 runtime pm patch. It seems to be a bit complicated and
-> > it
-> > =A0 is not exactly necessary for this series. Any CSI-2 camera will
-> > work
-> > =A0 just fine, OV5640 just happens to be the one I tested with. I don't
-> > =A0 want it to block this series. I will submit it as a separate patch
-> > =A0 later.
-> >=20
-> > Changes in v3:
-> > - Use v4l2_get_link_freq() to calculate pixel clock.
-> > - Move DMA related fields in struct ti_csi2rx_dma.
-> > - Protect DMA buffer queue with a spinlock to make sure the queue
-> > buffer
-> > =A0 and DMA callback don't race on it.
-> > - Track the current DMA state. It might go idle because of a lack of
-> > =A0 buffers. This state can be used to restart it if needed.
-> > - Do not include the current buffer in the pending queue. It is
-> > slightly
-> > =A0 better modelling than leaving it at the head of the pending queue.
-> > - Use the buffer as the callback argument, and add a reference to csi
-> > in it.
-> > - If queueing a buffer to DMA fails, the buffer gets leaked and DMA
-> > gets
-> > =A0 stalled with. Instead, report the error to vb2 and queue the next
-> > =A0 buffer in the pending queue.
-> > - DMA gets stalled if we run out of buffers since the callback is the
-> > =A0 only one that fires subsequent transfers and it is no longer being
-> > =A0 called. Check for that when queueing buffers and restart DMA if
-> > =A0 needed.
-> > - Do not put of node until we are done using the fwnode.
-> > - Set inital format to UYVY 640x480.
-> > - Add compatible: contains: const: cdns,csi2rx to allow SoC specific
-> > =A0 compatible.
-> > - Add more constraints for data-lanes property.
-> >=20
-> > Changes in v2:
-> > - Use phy_pm_runtime_get_sync() and phy_pm_runtime_put() before
-> > making
-> > =A0 calls to set PHY mode, etc. to make sure it is ready.
-> > - Use dmaengine_get_dma_device() instead of directly accessing
-> > =A0 dma->device->dev.
-> > - Do not set dst_addr_width when configuring slave DMA.
-> > - Move to a separate subdir and rename to j721e-csi2rx.c
-> > - Convert compatible to ti,j721e-csi2rx.
-> > - Move to use Media Controller centric APIs.
-> > - Improve cleanup in probe when one of the steps fails.
-> > - Add colorspace to formats database.
-> > - Set hw_revision on media_device.
-> > - Move video device initialization to probe time instead of register
-> > time.
-> > - Rename to ti,j721e-csi2rx.yaml
-> > - Add an entry in MAINTAINERS.
-> > - Add a description for the binding.
-> > - Change compatible to ti,j721e-csi2rx to make it SoC specific.
-> > - Remove description from dmas, reg, power-domains.
-> > - Remove a limit of 2 from #address-cells and #size-cells.
-> > - Fix add ^ to csi-bridge subnode regex.
-> > - Make ranges mandatory.
-> > - Add unit address in example.
-> > - Add a reference to cdns,csi2rx in csi-bridge subnode.
-> > - Expand the example to include the csi-bridge subnode as well.
-> > - Re-order subject prefixes.
-> > - Convert OV5640 to use runtime PM and drop Cadence CSI2RX s_power
-> > patch.
-> > - Drop subdev call wrappers from cdns-csi2rx.
-> > - Move VPE and CAL to a separate subdir.
-> > - Rename ti-csi2rx.c to j721e-csi2rx.c
-> >=20
-> > Pratyush Yadav (13):
-> > =A0 media: cadence: csi2rx: Unregister v4l2 async notifier
-> > =A0 media: cadence: csi2rx: Cleanup media entity properly
-> > =A0 media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
-> > =A0 media: cadence: csi2rx: Add external DPHY support
-> > =A0 media: cadence: csi2rx: Soft reset the streams before starting
-> > capture
-> > =A0 media: cadence: csi2rx: Set the STOP bit when stopping a stream
-> > =A0 media: cadence: csi2rx: Fix stream data configuration
-> > =A0 media: cadence: csi2rx: Populate subdev devnode
-> > =A0 media: cadence: csi2rx: Add link validation
-> > =A0 media: ti: Add CSI2RX support for J721E
-> > =A0 media: dt-bindings: Make sure items in data-lanes are unique
-> > =A0 media: dt-bindings: Add DT bindings for TI J721E CSI2RX driver
-> > =A0 media: dt-bindings: Convert Cadence CSI2RX binding to YAML
-> >=20
-> > =A0.../devicetree/bindings/media/cdns,csi2rx.txt |=A0 100 --
-> > =A0.../bindings/media/cdns,csi2rx.yaml=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=
-=A0 176 +++
-> > =A0.../bindings/media/ti,j721e-csi2rx.yaml=A0=A0=A0=A0=A0=A0 |=A0 101 ++
-> > =A0.../bindings/media/video-interfaces.yaml=A0=A0=A0=A0=A0 |=A0=A0=A0 1=
- +
-> > =A0MAINTAINERS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0=A0 7 +
-> > =A0drivers/media/platform/cadence/cdns-csi2rx.c=A0 |=A0 273 ++++-
-> > =A0drivers/media/platform/ti/Kconfig=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 |=A0=A0 12 +
-> > =A0drivers/media/platform/ti/Makefile=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
-|=A0=A0=A0 1 +
-> > =A0.../media/platform/ti/j721e-csi2rx/Makefile=A0=A0 |=A0=A0=A0 2 +
-> > =A0.../platform/ti/j721e-csi2rx/j721e-csi2rx.c=A0=A0 | 1022
-> > +++++++++++++++++
-> > =A010 files changed, 1580 insertions(+), 115 deletions(-)
-> > =A0delete mode 100644
-> > Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-> > =A0create mode 100644
-> > Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> > =A0create mode 100644 Documentation/devicetree/bindings/media/ti,j721e-
-> > csi2rx.yaml
-> > =A0create mode 100644 drivers/media/platform/ti/j721e-csi2rx/Makefile
-> > =A0create mode 100644 drivers/media/platform/ti/j721e-csi2rx/j721e-
-> > csi2rx.c
-> >=20
->=20
-
-Thanks,
-Jai
-
---5frzlxni7pxdkqyf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmQigqYACgkQQ96R+SSa
-cUW4IxAAv/O/HmkE7L/2vf0rgmKUplhz2cBz0GJTef5PlI/gOWtzcRknYE4/HQg8
-5TqmDNy1jbfa7ER1J+1wvXrjL2rvyKXJZ6SmlqLNMCl6b8tvquFrx9rWjVfbf0Lf
-Nu2VmUEDTeVePrp+7ElM7WKvKihWeXCMgHKJhUeQUZJuyKVjLEw8BZIPnFNpp652
-vr2/Zhjtf7nnQloy8r1OrIILqLJFyv9G/cKr3T3iwAtIN+aTOXrKgQsyuGTqTpLx
-UksHACYpFtyTMNorSSZYrAvGC04NquPRg1Zy72DGZkLIBp0AByrmkUgndh0btFqg
-WYkPRzJryIwbr5y6lInN5gzdz/Sj53LoJ3dNq6lqN6+FdYL7iPZEZZtkujomkEey
-Uk5LDjrwD7Gdg15LbDKYbUbC6dNn7zNxXN/QW/Y35VUtteWvsgGaWvHDSC2ox8h3
-fWdt0EcPLUDnbZlzSDMTP3UryUDSSllToZKh0z+sXSwlLoTSwNHOoy6/HsaK4kI7
-VxkB2gyIOFuBsDGg2647Lep97MLgG0yQtFnlKNiPBk5RrxC7WIPO4M8HDewrQ3mD
-8b6nfZv9XBpi7YgO4JaFTJ98rreVYNUM2vhmHeFMoaIg75p3WwV0+wLvRHeW98x1
-6unZvQ6bTCyIya0cGMssgZTUWw0LrG18iHdbn2LIIQFOOcBV4W0=
-=08as
------END PGP SIGNATURE-----
-
---5frzlxni7pxdkqyf--
+> Sakari Ailus
