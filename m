@@ -2,117 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8E56CAE21
-	for <lists+linux-media@lfdr.de>; Mon, 27 Mar 2023 21:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4DB36CB4F6
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 05:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbjC0TGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Mar 2023 15:06:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56416 "EHLO
+        id S232134AbjC1Dir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Mar 2023 23:38:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjC0TGB (ORCPT
+        with ESMTP id S231841AbjC1Diq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Mar 2023 15:06:01 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E83D2134;
-        Mon, 27 Mar 2023 12:06:00 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id q6so4346231iot.2;
-        Mon, 27 Mar 2023 12:06:00 -0700 (PDT)
+        Mon, 27 Mar 2023 23:38:46 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8C9171F;
+        Mon, 27 Mar 2023 20:38:45 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id le6so10382976plb.12;
+        Mon, 27 Mar 2023 20:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679943960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q/6pCbry1/ETo4U2530l82j/Esz1dkFEPg21dCL6WTw=;
-        b=qEjf8I4GOQ3ShgwJE6dqrPcG9qSLP1lpAnbSL/0QwbfT1gw6trLRerbTznbRPCRWGl
-         ptSbtzVddhG0DF8sVXgPL8e0GpPUdTihkFWyQ2IeBBZCx3d9pTXVufkQvN4Ln2eoFpho
-         minaZRNBe4lO/t3G2g5qBtUXF96q+1EmUvZVp86unc7ExQxECI7xGikVOPtjmWcztXlO
-         RvVP3tNTL8YCaIKjtdq6QujfVIMo6xUontUVN+nJQBg/aNtTfhXedAA3JZ25BODvyIt1
-         EK3lQYu0LF0cIkZghChlDy5bfu+7aBMkXpcUyHtmnra0GZc1Y0wCFi+hqwWmUvZdo855
-         UU9g==
+        d=gmail.com; s=20210112; t=1679974725;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Bli4V9RIcx7UIAAcKmOg4gk20edyuK7KxYvBcBo2/s=;
+        b=U/r9ZPAtmhT6KPbEZeT7y/tdL3siKa7zh/Mrny+2Byt0XZ4/fJcDP2E2+w+zcci8+K
+         TZv1BQYJpBpDpfX7QgVIvkE3dzM51Z3qVRs1Ofqo6y/ZkjsUEF7XPjEzH9PxZFc2hhNQ
+         HeGzJivrDKQQoYrRnGQwW9eOM5KBdMkJIV3NGEjE8kqOwqPF/4qGnA/jASBXCjtqxH/M
+         kD+3f1pR5a4CJusr0IEtuVUGKOye8wzyPDMqq734YPS6c6R4FauOSSI/doueoLc+YynE
+         8dqPnATOGJHuHo63kYNEJJvf0u+oRW9xHIvxdyH6IUg18cKF2WIlTFeKx9buTGuaKUQd
+         miIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679943960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q/6pCbry1/ETo4U2530l82j/Esz1dkFEPg21dCL6WTw=;
-        b=iu727alM6AIfswEzBidd94Bvvv3RjV4VxcRG3RL81zYj52kIlZ9Z1wRZsY0IsB9bl/
-         USjWHGNPelS6lf4MMAJpylHHMaOipDC2x4G60KiIodzHogkDnBn873kh+mLsCPeqTqhT
-         WRoh+fh5OpaQ1fb7vpYKfoEOmAAwHBs3V8exFY44PLfm0MErB6Fu0a37rpZQB9CHJidz
-         NpgfwSLgY+j6bGCJGDgCvai7jv2vuTaiPonEfX3HZi+9VI0oI7KInf37rUZGOngiKpZv
-         klT/j/43UQq1DUdFqxGCNcaqsHBmwx3LUO8mrcl0cJxeTSGVt5/wu9XH2wPUlIG7RQ0q
-         YJDg==
-X-Gm-Message-State: AO0yUKUFZVkaX7+wbTTyTMfDjxIiPPKBxkxgILMru+uoiu5rUd+G8mAS
-        kHEXtWvwNCTeRBWx/OgtecrvL7FnVyphkBN//vQ=
-X-Google-Smtp-Source: AK7set+YB0mgSsfhYO28hAVommFXrSJ7Khtm4bPRuGYAQdnaWKxQKYL1vrIABfxBGJd0YlxvVRZhRVs+2KV9z5cUoZY=
-X-Received: by 2002:a02:2208:0:b0:3ad:65e:e489 with SMTP id
- o8-20020a022208000000b003ad065ee489mr5198516jao.1.1679943959800; Mon, 27 Mar
- 2023 12:05:59 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679974725;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Bli4V9RIcx7UIAAcKmOg4gk20edyuK7KxYvBcBo2/s=;
+        b=wAawpEiDoGPGp9vvQgPavvMD5QA5LiqmcIa2whqXA9WNN3+/2xlPU8FIMn8gyiWPp6
+         7oIZf+cnjwl4aQREwuG23Wo3HIZesbz/1OTQHCPKHNdKRspWwRn/a6hd+qExqzRWwyhd
+         oLK3ZCQAF7QF6M4douGycuJWLMRy5Be2ojVwqiGI8HkTYET52bpbYrGYpREHfsXaHWXn
+         MsO4fwwp5QLSCI8gQnaOg4gX4tu9STu7u/JUCVmyWLFe796s63NiwBWHQ73zaaAABGQt
+         0Ra6YvhDvgvC9lIE5FR7TuQ27tY/PkmntOcBQpOmu7+BICnBZ5UUY3ZsiIhs2DczTDw5
+         JX3w==
+X-Gm-Message-State: AO0yUKUtsFG0+LRIUf1e8gy2WoTPwxw8c8WqAWck71fkGlU61s46hYmZ
+        w6sYiRsazkpMZ/V84p6Ai8Y=
+X-Google-Smtp-Source: AK7set/aVH5S1sm1SSXyRQWuNszdlff2pAGRCKbEZk8j0f8hRpEK0LA5+g62IVfKehxoHHLZYJaxIA==
+X-Received: by 2002:a05:6a20:65b:b0:da:bb5f:41ed with SMTP id 27-20020a056a20065b00b000dabb5f41edmr12120700pzm.61.1679974724468;
+        Mon, 27 Mar 2023 20:38:44 -0700 (PDT)
+Received: from localhost.localdomain ([210.113.67.100])
+        by smtp.gmail.com with ESMTPSA id c4-20020aa78804000000b005dd65169628sm20435648pfo.144.2023.03.27.20.38.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 20:38:44 -0700 (PDT)
+From:   Jason Kim <sukbeom.kim@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jason Kim <sukbeom.kim@gmail.com>
+Subject: [PATCH] media: mc-device: remove unnecessary __must_check
+Date:   Tue, 28 Mar 2023 12:14:59 +0900
+Message-Id: <20230328031459.15500-1-sukbeom.kim@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com>
-In-Reply-To: <20230308155322.344664-1-robdclark@gmail.com>
-From:   Matt Turner <mattst88@gmail.com>
-Date:   Mon, 27 Mar 2023 15:05:48 -0400
-Message-ID: <CAEdQ38FGQe_z2T2vUCsSYvH52WZc75OPCCFYOSEKJ9MzXq0ynw@mail.gmail.com>
-Subject: Re: [PATCH v10 00/15] dma-fence: Deadline awareness
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Rob Clark <robdclark@chromium.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Liu Shixin <liushixin2@huawei.com>,
-        Sean Paul <sean@poorly.run>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Vinod Polimera <quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 8, 2023 at 10:53=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> This series adds a deadline hint to fences, so realtime deadlines
-> such as vblank can be communicated to the fence signaller for power/
-> frequency management decisions.
->
-> This is partially inspired by a trick i915 does, but implemented
-> via dma-fence for a couple of reasons:
->
-> 1) To continue to be able to use the atomic helpers
-> 2) To support cases where display and gpu are different drivers
->
-> This iteration adds a dma-fence ioctl to set a deadline (both to
-> support igt-tests, and compositors which delay decisions about which
-> client buffer to display), and a sw_sync ioctl to read back the
-> deadline.  IGT tests utilizing these can be found at:
+In the file mc-device.c, the function
+media_device_register_entity_notify() does not need to have the
+__must_check attribute since it returns only a value of 0.
+Therefore, we can remove this attribute and change the function's
+return type.
 
+Signed-off-by: Jason Kim <sukbeom.kim@gmail.com>
+---
+ drivers/media/mc/mc-device.c           | 3 +--
+ drivers/media/usb/au0828/au0828-core.c | 9 ++-------
+ include/media/media-device.h           | 5 ++---
+ 3 files changed, 5 insertions(+), 12 deletions(-)
 
-I read through the series and didn't spot anything. Have a rather weak
+diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+index 9e56d2ad6b94..0259ffbdcbc2 100644
+--- a/drivers/media/mc/mc-device.c
++++ b/drivers/media/mc/mc-device.c
+@@ -770,13 +770,12 @@ int __must_check __media_device_register(struct media_device *mdev,
+ }
+ EXPORT_SYMBOL_GPL(__media_device_register);
+ 
+-int __must_check media_device_register_entity_notify(struct media_device *mdev,
++void media_device_register_entity_notify(struct media_device *mdev,
+ 					struct media_entity_notify *nptr)
+ {
+ 	mutex_lock(&mdev->graph_mutex);
+ 	list_add_tail(&nptr->list, &mdev->entity_notify);
+ 	mutex_unlock(&mdev->graph_mutex);
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(media_device_register_entity_notify);
+ 
+diff --git a/drivers/media/usb/au0828/au0828-core.c b/drivers/media/usb/au0828/au0828-core.c
+index a8a72d5fbd12..64739f403663 100644
+--- a/drivers/media/usb/au0828/au0828-core.c
++++ b/drivers/media/usb/au0828/au0828-core.c
+@@ -627,14 +627,9 @@ static int au0828_media_device_register(struct au0828_dev *dev,
+ 	/* register entity_notify callback */
+ 	dev->entity_notify.notify_data = (void *) dev;
+ 	dev->entity_notify.notify = (void *) au0828_media_graph_notify;
+-	ret = media_device_register_entity_notify(dev->media_dev,
++	media_device_register_entity_notify(dev->media_dev,
+ 						  &dev->entity_notify);
+-	if (ret) {
+-		dev_err(&udev->dev,
+-			"Media Device register entity_notify Error: %d\n",
+-			ret);
+-		return ret;
+-	}
++
+ 	/* set enable_source */
+ 	mutex_lock(&dev->media_dev->graph_mutex);
+ 	dev->media_dev->source_priv = (void *) dev;
+diff --git a/include/media/media-device.h b/include/media/media-device.h
+index 1345e6da688a..5fa89baf9666 100644
+--- a/include/media/media-device.h
++++ b/include/media/media-device.h
+@@ -373,7 +373,7 @@ void media_device_unregister_entity(struct media_entity *entity);
+  *    media_entity_notify callbacks are invoked.
+  */
+ 
+-int __must_check media_device_register_entity_notify(struct media_device *mdev,
++void media_device_register_entity_notify(struct media_device *mdev,
+ 					struct media_entity_notify *nptr);
+ 
+ /**
+@@ -453,11 +453,10 @@ static inline int media_device_register_entity(struct media_device *mdev,
+ static inline void media_device_unregister_entity(struct media_entity *entity)
+ {
+ }
+-static inline int media_device_register_entity_notify(
++static inline void media_device_register_entity_notify(
+ 					struct media_device *mdev,
+ 					struct media_entity_notify *nptr)
+ {
+-	return 0;
+ }
+ static inline void media_device_unregister_entity_notify(
+ 					struct media_device *mdev,
+-- 
+2.34.1
 
-Reviewed-by: Matt Turner <mattst88@gmail.com>
-
-Thanks!
