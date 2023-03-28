@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD3516CBD7D
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 13:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 247406CBDA2
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 13:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232786AbjC1LY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 07:24:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39270 "EHLO
+        id S232891AbjC1L2H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 07:28:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232709AbjC1LY4 (ORCPT
+        with ESMTP id S232709AbjC1L2A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 07:24:56 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2369C420A
-        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 04:24:45 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id er13so7202068edb.9
-        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 04:24:45 -0700 (PDT)
+        Tue, 28 Mar 2023 07:28:00 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5657ED3
+        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 04:27:39 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id x3so48127002edb.10
+        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 04:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680002683;
+        d=linaro.org; s=google; t=1680002857;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Txe7uJQPR2nDK1P+LQfymF0Vj2fh07HQjUTOq/VHeHo=;
-        b=CrxI3ylcVubjMUKEXXu8bsXSYOe9+/zZ/uRtLBRgnrUEoB6OlARpwq8++0Ji4S+oIw
-         vqrAzDfEY26cPWkYWG54ovQsJN6MMoPRgQzVS9a452iZ31S+kCX2korLcFCWGhPbcRoZ
-         Kqxz2jzijcWu+a6rxsyRMbQ3YxaU48iqOH7/4amDr3++qjZic7oJ0LnsH4DGcRNM4uuN
-         eLbZyua73hJ3jPeWcc9gxl74sHY0lm3CPY3Hyeh6YEGqcAxkckSpbORTLJP7IILD+/Gc
-         UtbUmt5a9+m05K1+o2EtDWEXybefS+gLzcccO7YsBpt1ga4H9Rr4tTNm/qyPJzPrNGVh
-         GfBA==
+        bh=GAkHG8mXBvC5XRqLHF9TQwBYaBntZMzJhH4KgLmDku4=;
+        b=gOhh4hk8a4hUCtDKd8je1OeGypCqSJxEta4qbGoxzHKHb7k/9Apn1HjJAOD/bBRbIu
+         SjawJOAMKp5jiy92aW7BogohcUHvK+ph1kw5DxqmTi9L1wL4s5E7lkVe0N5Vnlve4Ozy
+         limmsxOgjspbytr67X0LofbLRnie2OvVo2HwGcwENJULiIKleGy06iehnvd+6KKjwEud
+         oZy0po20oRcPrkvTx+xkiJjSo7g2qGTPcztIc/qKe1q9arHwumTIZ5eRDD/Xqx9HCQtO
+         RuK5uHxqSyFmPcPddZz8aOOHgwm4vb3uTQQYqoweMzjkSxJa9oF7gzdtBY/0EeIAkMKH
+         ce4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680002683;
+        d=1e100.net; s=20210112; t=1680002857;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Txe7uJQPR2nDK1P+LQfymF0Vj2fh07HQjUTOq/VHeHo=;
-        b=RTPTRVqabo42martTvbE60cnymx9L7Dt3suA2+pS4p2jXpSaBcK2jyoCPjiro6t+7w
-         3GpefFJmZHQ143seq4kB2wJ6b0VwFYVAiHeKheBsOVBPj1FiEGSKldPnUUhqK7Kdgs+u
-         RLK4WDH3G6pepwZMMFqBE6TlVEMkjC5rvQnCwIVV9ACOIwNEiV+oMSelGe4vUbd8OtNw
-         uNLbX9MWuRQBIWOXYb4WSasWqDJLRh97NUqsyqXmhwMyWEI1VIgsEVok9vogdUPR83pc
-         I/NsrtZ9PKhU0YzOgDgCOHwpz6qM/w3IykQsvIRkpW+gxgAPqFx/PlT9mYTtHhXJtcnn
-         uXZQ==
-X-Gm-Message-State: AAQBX9eONayRUFcgZADCrDwQ9+Sgbr6MnvQuyKlOPicHP4tMOBaZSk5Z
-        YlxgF6K4UZ7hsEOmq/OY756aeQ==
-X-Google-Smtp-Source: AKy350aeCXuSCaeyTE1+441Z2Q8lpW7oxRtm/f+dtXenGerUN/SITI91MceCYB10iQgW68qgO29f+g==
-X-Received: by 2002:aa7:c846:0:b0:4fb:8d3c:3b86 with SMTP id g6-20020aa7c846000000b004fb8d3c3b86mr14403988edt.1.1680002683642;
-        Tue, 28 Mar 2023 04:24:43 -0700 (PDT)
+        bh=GAkHG8mXBvC5XRqLHF9TQwBYaBntZMzJhH4KgLmDku4=;
+        b=snhlJDfH+7e9dfvaT5gwOq2EGbogQVc1voFQsk4uwUYmKz02FZl3IY2onmK8ixULhK
+         Txf3q87jactQth5nuS8LXNKtNqUtEclX9yBI7QK8dAmH3MJ3zMkWEBi6ahQCXlPmjPb6
+         SFoi9nbDD7ecIhiDJczUo8e1EssMsuSrTBXu0g1X1sG7d4knLDUdkpM8sr019lXdNF+j
+         U2TX5h2EfsXZlIyYE+VVauTlAZMxXavxNtgWA7r1G+fnXcLIoWJybeKwtD6FIJNHMjv9
+         096XrPiegCDsKMhHJMIjx+s/q8hqfXKfrKb3KJwUrUAH1NQD7fwccsSj45pyEYS/4Fk7
+         U55A==
+X-Gm-Message-State: AAQBX9d/z8zeYwHNFL28UOx7o2o9PCkb3At2oRq2Ai2eD0ifXlKyikE3
+        OeKHSwqMHJFvW8+8ZN5vmzlAnA==
+X-Google-Smtp-Source: AKy350b2FhVFE6LLZfo4qn82JGV0SdYzuoXmH5qTv2+u5e34yodQIjAQ3Qx3NTtmHQ+Iw5gC+n3T7Q==
+X-Received: by 2002:a17:906:d7a2:b0:92a:f756:28fa with SMTP id pk2-20020a170906d7a200b0092af75628famr14832481ejb.31.1680002857486;
+        Tue, 28 Mar 2023 04:27:37 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:9e92:dca6:241d:71b6? ([2a02:810d:15c0:828:9e92:dca6:241d:71b6])
-        by smtp.gmail.com with ESMTPSA id c24-20020a50d658000000b00501d5432f2fsm10880211edj.60.2023.03.28.04.24.42
+        by smtp.gmail.com with ESMTPSA id rk28-20020a170907215c00b00933b38505f9sm12628495ejb.152.2023.03.28.04.27.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Mar 2023 04:24:43 -0700 (PDT)
-Message-ID: <f4ffe354-5d92-bf74-6584-ad53018911eb@linaro.org>
-Date:   Tue, 28 Mar 2023 13:24:42 +0200
+        Tue, 28 Mar 2023 04:27:37 -0700 (PDT)
+Message-ID: <5ccd01bb-6df3-736b-4cc8-72f44370a0fb@linaro.org>
+Date:   Tue, 28 Mar 2023 13:27:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
@@ -93,9 +93,52 @@ On 28/03/2023 13:04, Aakarsh Jain wrote:
 > ---
 > changes since v6:
 > kept hw properties for Exynos3250 and Exynos4 
+> under different if:then condition.
+> 
+> changes since v5:
+> kept compatible strings under enum
+> sorted compatible strings
+> added iommu maxItems:2
+> Added indentation with 4 spaces in dts example
+> 
+> changes since v4:
+> Removed items from oneOf section
+> dropped black line
+> defined the iommus names items as
+> items:
+> -const left
+> -const right
+> 
+> changes since v3:
+> fixed dt-schema warnings and errors while running make dtbs_check and make dt_binding_check for ARMv7
+> Since, obsolete properties are not part of dt-node so we are not including these properties in dt-schema.
+> 
+> changes since v2:
+> changed Commit message from Adds to Convert
+> Removed text "This file has moved to samsung,s5p-mfc.yaml" from s5p-mfc.txt
+> fixed dt-schema warnings and errors while running make dtbs_check and make dt_binding_check
+> 
+> changes since v1:
+> fixed dt-schema warnings and errors while running make dtbs_check and make dt_binding_check
+> Removed description.
+> Listed items.
+> Added allOf:if:then for restricting two items to specific compatible
+> 
+> This patch is independent from the previous MFC v12 patch series for HW3 support.
+>  .../devicetree/bindings/media/s5p-mfc.txt     |  78 --------
+>  .../bindings/media/samsung,s5p-mfc.yaml       | 184 ++++++++++++++++++
+>  2 files changed, 184 insertions(+), 78 deletions(-)
 
+This patch does not apply. Please double check your setup.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Applying: dt-bindings: media: s5p-mfc: convert bindings to json-schema
+Patch failed at 0001 dt-bindings: media: s5p-mfc: convert bindings to
+json-schema
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
+error: dev/null: does not exist in index
+hint: Use 'git am --show-current-patch=diff' to see the failed patch
 
 Best regards,
 Krzysztof
