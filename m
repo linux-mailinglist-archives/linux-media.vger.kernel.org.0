@@ -2,248 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E52F6CCAEE
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 21:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27C666CCD19
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 00:20:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbjC1TtC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 15:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35190 "EHLO
+        id S229563AbjC1WUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 18:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjC1TtB (ORCPT
+        with ESMTP id S229637AbjC1WUk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 15:49:01 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 532D01996
-        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 12:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680032940; x=1711568940;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qIu6p69T5udUNYsfJospEfuU8VKNZUrQzOfJb5s3IHs=;
-  b=G/lhKslgzWkFic2VIBGrViBm00s2TMOQhE0qD3aHlLYJuzPXJR0itSKL
-   kuuvJjKJzJvBeqP0xmGFvwX3Z+dNJ3DUvmfUnM66HP9FlkfYNsZUcQW8j
-   dcpqzh5jzMNbk6BCxHFm3dOKwU84W2V/zIQYbcAOHpQKka23DFOdW0of1
-   GhSPKSKKQpnKsfvlQsFflo7UJeQLuahggMj4SXFuVs908wSaJIPSFGSJm
-   32q1KwcBSbkWWI9/qnK/heCsHWOcsHHO5CeO17/mqZEy7Pei5nz/L4/qi
-   XVN0GQCh6r7HzfaI4Lna9NnpK+OCqgXy2MZ5WAfSSJsackLw/dRyVBvzC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="426947724"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="426947724"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 12:49:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="827608805"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="827608805"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 12:48:57 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 1489B11F937;
-        Tue, 28 Mar 2023 22:48:55 +0300 (EEST)
-Date:   Tue, 28 Mar 2023 22:48:55 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Wu, Wentong" <wentong.wu@intel.com>
-Cc:     "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "djrscally@gmail.com" <djrscally@gmail.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH v3 0/3] media: pci: intel: ivsc: Add driver of Intel
- Visual Sensing Controller(IVSC)
-Message-ID: <ZCNEp6NmeDElNMRs@kekkonen.localdomain>
-References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
- <ZCFD3aW4NRrn69LR@kekkonen.localdomain>
- <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
- <ZCFKmNKZAPwsIq/j@kekkonen.localdomain>
- <MN2PR11MB431892069628328E614F03498D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
- <ZCFjqu4P9AcNbMoZ@kekkonen.localdomain>
- <DM6PR11MB4316138CF6D8D300C007B4DE8D889@DM6PR11MB4316.namprd11.prod.outlook.com>
+        Tue, 28 Mar 2023 18:20:40 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8015730F0
+        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 15:20:05 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id g19so4605579lfr.9
+        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 15:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680041986;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tEK2AHmPRbaja0kizq1EyPodYA6ZJcgPYzcG0gXYKYI=;
+        b=q+YU76Gd6WGYFNVVLHZvAuwfYWumPa/BQQWslec5WU6lTTzbWw4GhIBAP5EY/dwv+B
+         hURbVmN47F5F5HvNCqtEWOdAtx1k4rg1TcxgpYtQHo9eH1quQgtg1lZcO1xq2yTttk1O
+         7MAJzp35j8z1EUnH8VEKF1A6Gcm+NLP67AyahZ87zn/ihoTNiZy+6399BozHf57gKAML
+         ocezdBAJqak1jGjNSL92jqNkeImfhZ7uU7VU8tRHGPs8MeW8DpH19JYTKOk97XnprVKj
+         8ngD2qnbc0QhtmAAnEPI6Vnu129S+H31GKAjXjvrIgZS0qVHRL3SIY/+4JYXBu1nRfHV
+         Jueg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680041986;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tEK2AHmPRbaja0kizq1EyPodYA6ZJcgPYzcG0gXYKYI=;
+        b=uW2TluDhc2Q3aNWzAa2WrQtYH1v9vdHIJhM3reDGG5kU8Gc3oqJv9x6LCdVEpiag9K
+         htvvPTlyhEQFIIWmNoYk72LZMpGl0h3fCpFDaYx6dtEfP8RSoAFEOIM9/ixCwFCSdFN0
+         iHwrznomsBK3r8580/HvIklur+GQ6sxK+bNxj2QcjgmJ+U/zF+SjYbps6HpamV36+Gvr
+         IxO+CjbAhYWv8SpBsn6e+2OryThwqKx3mkYBrwohQEuK3Jb0Pq4IDK2xsl0CnZLxaZWl
+         TKK0Bqmk5O54CiXFujYAkQBONN/Dse7DM8MXNURxwZ/ESPfvjs3S1CYbjXpou0s1Chis
+         cSXw==
+X-Gm-Message-State: AAQBX9fPvjS+xhK398IIjFKbpgo3UN1GGINd7/uBAFE3uzpj+lhYb7sB
+        pYYgTpGL0/UpmM6y8T6QxND1RQ==
+X-Google-Smtp-Source: AKy350bheb2joASkyyWIlropafXmRcQapFB3f/1GsMtxBdIsgZ26u3T0Q8GTnz+rHTWe2SJIZoDMig==
+X-Received: by 2002:ac2:5d66:0:b0:4d5:a689:7f9d with SMTP id h6-20020ac25d66000000b004d5a6897f9dmr4731051lft.57.1680041986405;
+        Tue, 28 Mar 2023 15:19:46 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+        by smtp.gmail.com with ESMTPSA id u1-20020ac248a1000000b004db51387ad6sm5236931lfg.129.2023.03.28.15.19.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Mar 2023 15:19:46 -0700 (PDT)
+Message-ID: <c611c390-2cf3-2abe-82aa-67538b823d62@linaro.org>
+Date:   Wed, 29 Mar 2023 01:19:45 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4316138CF6D8D300C007B4DE8D889@DM6PR11MB4316.namprd11.prod.outlook.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4] venus: Enable sufficient sequence change support for
+ sc7180 and fix for Decoder STOP command issue.
+Content-Language: en-GB
+To:     Viswanath Boma <quic_vboma@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_vgarodia@quicinc.com,
+        quic_dikshita@quicinc.com
+Cc:     stanimir.k.varbanov@gmail.com,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>
+References: <20230323130153.8229-1-quic_vboma@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230323130153.8229-1-quic_vboma@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 07:32:27AM +0000, Wu, Wentong wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Sent: Monday, March 27, 2023 5:37 PM
-> > 
-> > Hi Wentong,
-> > 
-> > On Mon, Mar 27, 2023 at 08:13:29AM +0000, Wu, Wentong wrote:
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > Sent: Monday, March 27, 2023 3:50 PM
-> > > >
-> > > > Hi Wentong,
-> > > >
-> > > > On Mon, Mar 27, 2023 at 07:33:48AM +0000, Wu, Wentong wrote:
-> > > > >
-> > > > >
-> > > > > > -----Original Message-----
-> > > > > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > Sent: Monday, March 27, 2023 3:21 PM
-> > > > > >
-> > > > > > Hi Wentong,
-> > > > > >
-> > > > > > On Mon, Mar 27, 2023 at 02:23:05PM +0800, Wentong Wu wrote:
-> > > > > > > Intel Visual Sensing Controller (IVSC), codenamed "Clover
-> > > > > > > Falls", is a companion chip designed to provide secure and low
-> > > > > > > power vision capability to IA platforms. IVSC is available in
-> > > > > > > existing commercial platforms from multiple OEMs.
-> > > > > > >
-> > > > > > > The primary use case of IVSC is to bring in context awareness.
-> > > > > > > IVSC interfaces directly with the platform main camera sensor
-> > > > > > > via a CSI-2 link and processes the image data with the
-> > > > > > > embedded AI engine. The detected events are sent over I2C to
-> > > > > > > ISH (Intel Sensor
-> > > > > > > Hub) for additional data fusion from multiple sensors. The
-> > > > > > > fusion results are used to implement advanced use cases like:
-> > > > > > >  - Face detection to unlock screen
-> > > > > > >  - Detect user presence to manage backlight setting or waking
-> > > > > > > up system
-> > > > > > >
-> > > > > > > Since the Image Processing Unit(IPU) used on the host
-> > > > > > > processor needs to configure the CSI-2 link in normal camera
-> > > > > > > usages, the
-> > > > > > > CSI-2 link and camera sensor can only be used in
-> > > > > > > mutually-exclusive ways by host IPU and IVSC. By default the
-> > > > > > > IVSC owns the CSI-2 link and camera sensor. The IPU driver can
-> > > > > > > take ownership of the CSI-2 link and camera sensor using
-> > > > > > > interfaces exported
-> > > > via v4l2 sub-device.
-> > > > > > >
-> > > > > > > Switching ownership requires an interface with two different
-> > > > > > > hardware modules inside IVSC. The software interface to these
-> > > > > > > modules is via Intel MEI (The Intel Management Engine) commands.
-> > > > > > > These two hardware modules have two different MEI UUIDs to
-> > > > > > > enumerate. These hardware
-> > > > > > modules are:
-> > > > > > >  - ACE (Algorithm Context Engine): This module is for
-> > > > > > > algorithm computing when IVSC owns camera sensor. Also ACE
-> > > > > > > module controls camera sensor's ownership. This hardware
-> > > > > > > module is used to set ownership of
-> > > > > > camera sensor.
-> > > > > > >  - CSI (Camera Serial Interface): This module is used to route
-> > > > > > > camera sensor data either to IVSC or to host for IPU driver and
-> > application.
-> > > > > > >
-> > > > > > > IVSC also provides a privacy mode. When privacy mode is turned
-> > > > > > > on, camera sensor can't be used. This means that both ACE and
-> > > > > > > host IPU can't get image data. And when this mode is turned
-> > > > > > > on, users are informed via
-> > > > > > > v4l2 control API.
-> > > > > > >
-> > > > > > > In summary, to acquire ownership of camera by IPU driver,
-> > > > > > > first ACE module needs to be informed of ownership and then to
-> > > > > > > setup MIPI CSI-2 link for the camera sensor and IPU.
-> > > > > > >
-> > > > > > > Implementation:
-> > > > > > > There are two different drivers to handle ACE and CSI hardware
-> > > > > > > modules inside IVSC.
-> > > > > > >  - ivsc_csi: MEI client driver to send commands and receive
-> > > > > > > notifications from CSI module.
-> > > > > > >  - ivsc_ace: MEI client driver to send commands and get status
-> > > > > > > from ACE module.
-> > > > > > > Interface is exposed via v4l2 sub-devcie APIs to acquire and
-> > > > > > > release camera sensor and CSI-2 link.
-> > > > > >
-> > > > > > Thanks for the update.
-> > > > > >
-> > > > > > Could you elaborate the decision of keeping the csi_bridge
-> > > > > > entirely separate from the cio2_bridge (to be turned to ipu_bridge first)?
-> > > > > > Both are doing essentially the same and using the same data
-> > > > > > structures,
-> > > > aren't they?
-> > > > >
-> > > > > yes, they're doing same thing to bridge the software nodes needed
-> > > > > by v4l2, but they have different type devices(pci and mei_client
-> > > > > device) and dependency. And they have same SSDB definition in
-> > > > > DSDT, so the structures are almost same.
-> > > >
-> > > > If there are differences, what are they?
-> > > >
-> > > The properties of swnode are same, because we need same info to
-> > > configure CSI2. But csi bridge can get sensor connected to IVSC by
-> > > dependency info instead of just polling the only supported sensors for
-> > > ipu. Also IVSC
-> > 
-> > It's totally fine the method for finding the sensor is different, this should be an
-> > extra argument for the bridge init function and a small number of lines of
-> > additional code.
-> > 
-> > > doesn't need vcm. And the topology of dependency is different.
-> > 
-> > The VCM is optional for current cio2_bridge, too.
-> > 
-> > It also seems that this currently creates swnodes on mei csi side only for the
-> > connection towards the sensor, not the IPU.
-> 
-> IPU could find the MEI CSI software node by software_node_find_by_name,
-> and then setup the bridge between MEI CSI and IPU.
-> 
-> > At the moment you can't reliably
-> > add software nodes to a device that has may be already probing so both of
-> > these should be created at the same time.
-> 
-> If you're worried about sequence, IPU driver could make software node and
-> register it, MEI CSI bridge could find IPU software node by software_node_find_by_name,
-> if the return value is NULL, driver will defer the probe.
+On 23/03/2023 15:01, Viswanath Boma wrote:
+> For VP9 bitstreams, there could be a change in resolution at interframe,
+> for driver to get notified of such resolution change,
+> enable the property in video firmware.
+> Also, EOS handling is now made same in video firmware across all V6 SOCs,
+> hence above a certain firmware version, the driver handling is
+> made generic for all V6s
 
-The IPU driver would also need to figure out whether a given sensor should
-be behind the IVSC. I imagine it'll be hard to achieve this reasonably
-neatly if you split the implementation into different parts --- both of
-which need the same information from the same place (and in neither case
-it's under the same device than to which the driver is bound).
+Having "Do abc. Also do defgh." is a clear sign that this patch should 
+be split into two.
 
 > 
-> > 
-> > >
-> > > > What comes to cio2_bridge, the fact that it's related to a PCI
-> > > > device doesn't seem to matter after initialisation so it could as well work
-> > with struct device.
-> > > >
-> > > > >
-> > > > > I have no idea what the ipu bridge would be like, but IVSC csi
-> > > > > bridge can be configured via kconfig to enable/disable.
-> > > >
-> > > > Please work out the details with Bingbu.
-> > >
-> > > @bingbu.cao@linux.intel.com @Sakari Ailus Please share your design idea
-> > here.
-> > > What the ipu bridge would be like?  What's the responsibility of ipu bridge?
-> > 
-> > I'd expect Bingbu to have patches to turn the current cio2_bridge to an
-> > ipu_bridge at some point. These should come on top of those patches.
+> Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> ---
+> Since v3 : Addressed comments to rectify email address.
 > 
-> When will this be ready if you already make the plan? But could you please help
-> review my other patches except bridge?
+>   drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
+>   drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
+>   drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
+>   drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
+>   drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
+>   5 files changed, 41 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 32551c2602a9..ee8b70a34656 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -202,6 +202,11 @@ struct venus_core {
+>   	unsigned int core0_usage_count;
+>   	unsigned int core1_usage_count;
+>   	struct dentry *root;
+> +	struct venus_img_version {
+> +		u32 major;
+> +		u32 minor;
+> +		u32 rev;
+> +	} venus_ver;
+>   };
+>   
+>   struct vdec_controls {
+> @@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>   	return NULL;
+>   }
+>   
+> +static inline int
+> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
+> +			vminor && (core)->venus_ver.rev >= vrev);
+> +}
+> +
+> +static inline int
+> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
+> +			vminor && (core)->venus_ver.rev <= vrev);
+> +}
+>   #endif
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index bc3f8ff05840..9efe04961890 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+>   		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
+>   		break;
+>   	}
+> +	case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
+>   	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
+>   		struct hfi_enable *in = pdata;
+>   		struct hfi_enable *en = prop_data;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index 105792a68060..c8aaf870829c 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -469,6 +469,8 @@
+>   #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH			0x1003007
+>   #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT			0x1003009
+>   #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE			0x100300a
+> +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
+> +								0x0100300b
+>   
+>   /*
+>    * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
+> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> index df96db3761a7..07ac0fcd2852 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>   }
+>   
+>   static void
+> -sys_get_prop_image_version(struct device *dev,
+> +sys_get_prop_image_version(struct venus_core *core,
+>   			   struct hfi_msg_sys_property_info_pkt *pkt)
+>   {
+> +	struct device *dev = core->dev;
+>   	u8 *smem_tbl_ptr;
+>   	u8 *img_ver;
+>   	int req_bytes;
+> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>   		return;
+>   
+>   	img_ver = pkt->data;
+> +	if (IS_V4(core))
+> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+> +	else if (IS_V6(core))
+> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>   
+>   	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>   
+> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>   
+>   	switch (pkt->property) {
+>   	case HFI_PROPERTY_SYS_IMAGE_VERSION:
+> -		sys_get_prop_image_version(dev, pkt);
+> +		sys_get_prop_image_version(core, pkt);
+>   		break;
+>   	default:
+>   		dev_dbg(dev, VDBGL "unknown property data\n");
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4ceaba37e2e5..36c88858ea9d 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+>   
+>   		fdata.buffer_type = HFI_BUFFER_INPUT;
+>   		fdata.flags |= HFI_BUFFERFLAG_EOS;
+> -		if (IS_V6(inst->core))
+> +		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
 
-Please configure your e-mail client to wrap your lines at most at 74
-characters or so.
+This should go into a separate patch.
 
-I think it's binding this all together that is the concern, the individual
-drivers much less so.
+>   			fdata.device_addr = 0;
+>   		else
+>   			fdata.device_addr = 0xdeadb000;
+> @@ -671,6 +671,16 @@ static int vdec_set_properties(struct venus_inst *inst)
+>   			return ret;
+>   	}
+>   
+> +	/* Enabling sufficient sequence change support for VP9 */
+> +	if (of_device_is_compatible(inst->core->dev->of_node, "qcom,sc7180-venus")) {
+
+Let me repeat my question from v3:
+
+Is it really specific just to sc7180 or will it be applicable to any
+other platform using venus-5.4 firmware?
+
+> +		if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
+> +			ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
+> +			ret = hfi_session_set_property(inst, ptype, &en);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +	}
+> +
+>   	ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
+>   	conceal = ctr->conceal_color & 0xffff;
+>   	conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
 
 -- 
-Regards,
+With best wishes
+Dmitry
 
-Sakari Ailus
