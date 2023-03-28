@@ -2,135 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A256CC3EA
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 16:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 899BD6CC381
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 16:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233659AbjC1O6W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 10:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34416 "EHLO
+        id S233490AbjC1Oyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 10:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233657AbjC1O6P (ORCPT
+        with ESMTP id S233462AbjC1Oya (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 10:58:15 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A97E1B8;
-        Tue, 28 Mar 2023 07:58:13 -0700 (PDT)
+        Tue, 28 Mar 2023 10:54:30 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0DBC15D
+        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 07:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680015492; x=1711551492;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7fPOIVZSj3TCOVHNpPirZFp1vZjCF6d5kjRz6Qcnziw=;
-  b=l/UDuprClahBfn4/g9gvjd8H/H/+XcBiAKSvJ3dVZKvA0Y/+VPvicyvB
-   vEdnQcBdHeFBiukst8FtJjDIEwnPyb9EDM+PmzuTegRaC8QrlOVIbt6s3
-   itZlLbqrCnOQgtFQ9JUf8k3fQm3/iHdboDWEIlqSJzRYUIkbRS52Nu2B1
-   shSGkkn+D+TrX8KJ7CNCDzt8H/2gfCm6tHV1AYNKGnG8bSdjGSPfHSduI
-   HsTK3oXol4sJ+GyqqkC4IdzE50jg4zcgCWsI/SFE290KXH4K18Z7Vt5YO
-   0W2JWoWGsStTToHYU6VD8mt6b6LAltETi36B9IQ+Wm40Yecq4/AGqf96z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="342995442"
+  t=1680015269; x=1711551269;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mHHfSv/FKoHsi1GumqSSHU8t+jTzPvKm5l1cvRxFO3c=;
+  b=cTSKxPgxOmgN6YeAUZunGLeiELnQXvMsk8bRdBN57wjQSvp9L7IOqIdX
+   9Ocr6xtEqovKpSVIZJLCZDiOcwy1smo9H6Sb+obBw2u1vXDynnM6f7zmN
+   +48NxSxqWTy/Ah/B0jldBAcwHdXDdtYtZrOXH5d1Gpe51bU7hF7cUxyfS
+   zNAyFlWGzm/RwxLilAf0S/sbvokGEdTB99++rZmJGq2zx0e/qfBMSYDi7
+   Nu/FlRPisNgcj7sODZg2x7Q5cr5PGDytADTyU+H1+jqte4vvTkIU3hRlr
+   yYKGOxMh2SL3ged1r9ubGbeQzgnz0+wnfeddLrohiW2jwxNYTDpXH9Iy7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="342175172"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="342995442"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:56:57 -0700
+   d="scan'208";a="342175172"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:53:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="634075053"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="929909925"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="634075053"
+   d="scan'208";a="929909925"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:56:57 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 4330011F937;
-        Tue, 28 Mar 2023 17:48:35 +0300 (EEST)
-Date:   Tue, 28 Mar 2023 17:48:35 +0300
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:52:52 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 80A9A122809;
+        Tue, 28 Mar 2023 17:52:49 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v7 01/10] ACPI: scan: Remove the second DSDT traversal
-Message-ID: <ZCL+QxYmVzFzVe1E@kekkonen.localdomain>
-References: <20230328101303.1458570-1-sakari.ailus@linux.intel.com>
- <20230328101303.1458570-2-sakari.ailus@linux.intel.com>
- <ZCL9eWARHqzYuQyV@smile.fi.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     jacopo.mondi@ideasonboard.com
+Subject: [PATCH v2 1/1] Documentation: v4l: Document rotation and orientation for sensor drivers
+Date:   Tue, 28 Mar 2023 17:52:48 +0300
+Message-Id: <20230328145248.1489994-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZCL9eWARHqzYuQyV@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Document how rotation and orientation should be taken into account in
+writing camera sensor drivers.
 
-Thank you for the review.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+since v1:
 
-On Tue, Mar 28, 2023 at 05:45:13PM +0300, Andy Shevchenko wrote:
-> On Tue, Mar 28, 2023 at 01:12:54PM +0300, Sakari Ailus wrote:
-> > Collect the devices with _DEP into a list and continue processing them
-> > after a full traversal, instead of doing a full second traversal of the
-> > tree.
-> > 
-> > This makes the second DSDT traversal pass unnecessary as we already have
-> > the nodes we're interested in in a linked list.
-> 
-> ...
-> 
-> > +/**
-> > + * struct acpi_postponed_handle - A postponed ACPI handle
-> > + * @handle: The postponed handle
-> > + * @list: Entry in a postponed list
-> > + *
-> > + * One such entry represents an ACPI handle the scanning of which has been
-> > + * postponed.
-> > + */
-> > +struct acpi_postponed_handle {
-> > +	acpi_handle handle;
-> > +	struct list_head list;
-> > +};
-> 
-> If you put the list to be the first member, container_of() against it becomes a
-> no-op at compile time. Have you checked the code generation if you swap these
-> members?
+Use speclial double quotes around functions to use non-proportional font for
+them.
 
-I haven't checked but that would seem like a reasonable thing to do. A
-pointer to the handle isn't used, unlike it is for the list.
+ Documentation/driver-api/media/camera-sensor.rst      | 11 +++++++++++
+ .../userspace-api/media/v4l/ext-ctrls-camera.rst      |  1 +
+ 2 files changed, 12 insertions(+)
 
-> 
-> > +/**
-> > + * struct acpi_scan_context - Context for scanning ACPI devices
-> > + * @device: The first encountered device, typically the root of the scanned tree
-> > + * @postponed_head: The list head of the postponed ACPI handles
-> > + */
-> > +struct acpi_scan_context {
-> > +	struct acpi_device *device;
-> > +	struct list_head postponed_head;
-> > +};
-> 
-> Ditto.
-> 
-> ...
-> 
-> > +/**
-> > + * acpi_bus_handle_postpone - Add an ACPI handle to a given postponed list
-> > + * @handle: The ACPI handle
-> > + * @head: Postponed list head
-> > + *
-> > + * Add a given ACPI handle to a list of ACPI objects for which the creation
-> > + * of the device objects is to be postponed.
-> 
-> `kernel-doc -v ...` complains on the absence of Return section. Is it the same
-> for you?
-
-That may well be. These comments wouldn't necessarily even need to be
-kernel-doc as the rest isn't so documented either. I can of course fix the
-error while leaving these kernel-doc.
-
+diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+index c7d4891bd24e..2618a91b0d85 100644
+--- a/Documentation/driver-api/media/camera-sensor.rst
++++ b/Documentation/driver-api/media/camera-sensor.rst
+@@ -151,3 +151,14 @@ used to obtain device's power state after the power state transition:
+ The function returns a non-zero value if it succeeded getting the power count or
+ runtime PM was disabled, in either of which cases the driver may proceed to
+ access the device.
++
++Rotation and orientation
++------------------------
++
++Some systems have been implemented so that the camera sensor has been mounted
++upside down compared to its natural mounting rotation. In such a case, the
++:ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>` control
++shall indicate the mounting rotation.
++
++Use ``v4l2_fwnode_device_parse()`` to obtain this information and
++``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls.
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+index daa4f40869f8..29fe22da52a2 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+@@ -536,6 +536,7 @@ enum v4l2_scene_mode -
+       - The camera is not directly attached to the device and is freely movable.
+ 
+ 
++.. _v4l2-camera-sensor-rotation:
+ 
+ ``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
+     This read-only control describes the rotation correction in degrees in the
 -- 
-Kind regards,
+2.30.2
 
-Sakari Ailus
