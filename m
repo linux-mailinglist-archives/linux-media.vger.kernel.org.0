@@ -2,68 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5563E6CC9C0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 19:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C299F6CCA78
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 21:12:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbjC1Rz2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 13:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
+        id S229745AbjC1TMF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 15:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbjC1Rz0 (ORCPT
+        with ESMTP id S229617AbjC1TME (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 13:55:26 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1448BE3B1;
-        Tue, 28 Mar 2023 10:55:23 -0700 (PDT)
+        Tue, 28 Mar 2023 15:12:04 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D36730D5;
+        Tue, 28 Mar 2023 12:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680026122; x=1711562122;
+  t=1680030723; x=1711566723;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2VwTQJIr4BTFvryXJU5QaWYWC5ASSVnz8DiJqX6T0i8=;
-  b=GnM5rVll0VeUkxAjxhtfsrG/yvmwple2JP5F6K0wD+D/FD4V8dPUOeeH
-   ikEN3zm8JO/F/X+vz/0rM+93nEuOtP6+B0TcsKnALVumSfDuhJXQ5v7Se
-   wJtBjyPEssE2Z1XTj7hVPLKayY9aqfiH5S6W33GZHiF0UnGGnNCjyWHRo
-   AByCMhQAUPiLykwXcrLCmSzVEykN9h8gu4tcHj9skNfrgBOwnLNoM8Bjx
-   vipIey0FKg830pvmHWUjZTtd8tc8r4AC64Gy8Bb+gz6ZKmZVaUmpkFiuS
-   yqoFR9WjTw/VSRh9jMdiiv7D8EHfCQ5Yk5F3L2rPytCt4vaelVfBUnwJ5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="342235632"
+  bh=F28h8BboTlD4hxAMQwVSAaJn2J0QV00xO/MfRS2Fz/U=;
+  b=PFHkgPIbAq2Euz983/YaAi8Ugx5FGCSTPB2ZN1JQ/uzWRanCrzZPbNLB
+   IYcF+6yNrD24pxE4aRSAWSrPwZRUruAnuGJiTIJvRggwP1e0vK6yk/Wp9
+   6tc8oZhejfBObsxwHTxFSqUznxqwGyAKczemklahFb/Tb51Qo6RKqoQN8
+   lKAb3exzC0H+jRDlF+2p2rO0miZBtpvC1RR0r/nbIrxnH5GxmceVO47bW
+   aNu+BoYXkamOI/5cYfytwLb/XJcZQO3jnxV67lt1cOwvJTGKnSss+vOoh
+   mxpsnifOKBBLxLg4iwWi7iOG+pQvLajx60ExlfHm03BWL7bCSNKvE8vA2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340689653"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="342235632"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 10:55:20 -0700
+   d="scan'208";a="340689653"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 12:12:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="677459329"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="807930517"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="677459329"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Mar 2023 10:55:17 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1phDXP-000Iml-0d;
-        Tue, 28 Mar 2023 17:55:15 +0000
-Date:   Wed, 29 Mar 2023 01:54:52 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com
-Cc:     oe-kbuild-all@lists.linux.dev, andrew-ct.chen@mediatek.com,
-        yunfei.dong@mediatek.com, mchehab@kernel.org,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Wei Chen <harperchen1110@gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Fix potential array
- out-of-bounds in decoder queue_setup
-Message-ID: <202303290137.F9lOyCT4-lkp@intel.com>
-References: <20230328100951.536955-1-harperchen1110@gmail.com>
+   d="scan'208";a="807930517"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 12:12:01 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 6C83611F937;
+        Tue, 28 Mar 2023 22:11:58 +0300 (EEST)
+Date:   Tue, 28 Mar 2023 22:11:58 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v7 06/10] ACPI: scan: Generate software nodes based on
+ MIPI DisCo for Imaging
+Message-ID: <ZCM7/nmXMlCawrwr@kekkonen.localdomain>
+References: <20230328101303.1458570-1-sakari.ailus@linux.intel.com>
+ <20230328101303.1458570-7-sakari.ailus@linux.intel.com>
+ <ZCMNAR3VJAzOZww3@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230328100951.536955-1-harperchen1110@gmail.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+In-Reply-To: <ZCMNAR3VJAzOZww3@smile.fi.intel.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,68 +66,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wei,
+Hi Adnry,
 
-Thank you for the patch! Perhaps something to improve:
+On Tue, Mar 28, 2023 at 06:51:29PM +0300, Andy Shevchenko wrote:
+> On Tue, Mar 28, 2023 at 01:12:59PM +0300, Sakari Ailus wrote:
+> > Generate software nodes for driver use, based on MIPI DisCo for Imaging
+> > definitions.
+> > 
+> > During the (sub-)namespace walk, ACPI device nodes are created but the
+> > drivers aren't probed for the devices yet. A convenient way to determine
+> > which ACPI devices this applies to is to find a hierarchical data node that
+> > begins with "mipi-img-port-". These devices need software nodes that need
+> > to be present before probing, and can only be constructed once the related
+> > _CRS CSI2 records have been parsed.
+> 
+> ...
+> 
+> > -	static const char mipi_port_prefix[] = "mipi-img-port-";
+> > -	char mipi_port_name[sizeof(mipi_port_prefix) + 2];
+> > +	char mipi_port_name[sizeof(MIPI_IMG_PORT_PREFIX) + 2];
+> >  
+> >  	if (snprintf(mipi_port_name, sizeof(mipi_port_name), "%s%u",
+> > -		     mipi_port_prefix, port) >= sizeof(mipi_port_name)) {
+> > +		     MIPI_IMG_PORT_PREFIX, port) >= sizeof(mipi_port_name)) {
+> 
+> You are modifying lines you just brought by the previous patch. Why this mess?
+> 
+> ...
+> 
+> > -static void acpi_bus_handle_postpone(acpi_handle handle,
+> > -				     struct list_head *head)
+> > +static void acpi_bus_handle_postpone(acpi_handle handle, struct list_head *head)
+> 
+> Unrelated change?
+> 
+> ...
+> 
+> > +/**
+> > + * acpi_bus_device_postpone - Add an ACPI device to a given postponed list
+> > + * @device: The ACPI device
+> > + * @head: Postponed list head
+> > + *
+> > + * Add a given ACPI device to a list of ACPI objects for which the creation
+> > + * of the device objects is to be postponed.
+> > + */
+> > +void acpi_bus_device_postpone(struct acpi_device *device,
+> > +			      struct list_head *head)
+> 
+> Taking into account above indentation, why not to have them on one line to
+> begin with?
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.3-rc4 next-20230328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Chen/media-mediatek-vcodec-Fix-potential-array-out-of-bounds-in-decoder-queue_setup/20230328-181142
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230328100951.536955-1-harperchen1110%40gmail.com
-patch subject: [PATCH] media: mediatek: vcodec: Fix potential array out-of-bounds in decoder queue_setup
-config: csky-randconfig-r013-20230327 (https://download.01.org/0day-ci/archive/20230329/202303290137.F9lOyCT4-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/caa43627286fb5f3b0b3af7e01e1baeca5c5f9cc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Wei-Chen/media-mediatek-vcodec-Fix-potential-array-out-of-bounds-in-decoder-queue_setup/20230328-181142
-        git checkout caa43627286fb5f3b0b3af7e01e1baeca5c5f9cc
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/media/platform/mediatek/vcodec/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303290137.F9lOyCT4-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/div64.h:27,
-                    from ./arch/csky/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/videodev2.h:59,
-                    from include/media/v4l2-event.h:16,
-                    from drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c:8:
-   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c: In function 'vb2ops_vdec_queue_setup':
->> include/linux/compiler.h:56:26: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
-      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                          ^
-   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c:756:17: note: in expansion of macro 'if'
-     756 |                 if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-         |                 ^~
-
-
-vim +/else +56 include/linux/compiler.h
-
-2bcd521a684cc9 Steven Rostedt 2008-11-21  50  
-2bcd521a684cc9 Steven Rostedt 2008-11-21  51  #ifdef CONFIG_PROFILE_ALL_BRANCHES
-2bcd521a684cc9 Steven Rostedt 2008-11-21  52  /*
-2bcd521a684cc9 Steven Rostedt 2008-11-21  53   * "Define 'is'", Bill Clinton
-2bcd521a684cc9 Steven Rostedt 2008-11-21  54   * "Define 'if'", Steven Rostedt
-2bcd521a684cc9 Steven Rostedt 2008-11-21  55   */
-a15fd609ad53a6 Linus Torvalds 2019-03-20 @56  #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-a15fd609ad53a6 Linus Torvalds 2019-03-20  57  
+I'll address these for v8.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Kind regards,
+
+Sakari Ailus
