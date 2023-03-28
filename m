@@ -2,98 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DD8D6CBF82
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 14:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A5E86CC0C9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 15:29:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbjC1Mo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 08:44:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34290 "EHLO
+        id S232788AbjC1N3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 09:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231238AbjC1Mox (ORCPT
+        with ESMTP id S232647AbjC1N3d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 08:44:53 -0400
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 109EE93C3;
-        Tue, 28 Mar 2023 05:44:24 -0700 (PDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-536af432ee5so227762287b3.0;
-        Tue, 28 Mar 2023 05:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680007463;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYM0LDWTymu0bPPL77EcCh7NegRUDjN6g7FPTmBma/w=;
-        b=JjUm88X4RKhTtd8pJK8O1h2ETqz0s9W+HLALN2xHbiPTPfx1d8GbfHK/c+50Xmbiac
-         Ys39w7Ej6CYzi+oVWrgRXPPeQEBJX9vBzHBeQAd9wzYeOdpgH15oJSwE0jfgGwIbLGg7
-         DIuD9nQBp3cRYtL3ShOuygmcXUEP2gHyrhDv7xD9REhX0s2dInRyXhvV94ED3A3ejcTL
-         IiCblLp/u0v1OJBS31IHUN7MnBDYm95/eE+XjeBUSOepAfcJtqFAa3E8FSsfu8QSyG2B
-         Pxa5JTOCnsKpRW90ZZJC4222jn4OVmCHyZwFh/f3MJnDJbtniqa6Gniaf1zfcuo0Kj95
-         1ySA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680007463;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UYM0LDWTymu0bPPL77EcCh7NegRUDjN6g7FPTmBma/w=;
-        b=j+Kp/W4Xsb9OpKFDz1/IpYlbQqbO6jN0QT1AlP7HyeLuH0j/HqrM4vuSolH010RIgn
-         gC32g0loUsWemPH53bcUjCknhPal/v6PucblO05vo5XIvPQ6eTpalWoKsMGHtlrR/dDx
-         7HbeULeIGLfHIAiyxB5gE/TtDW2oeGEJBgI+mSxernxE0BWuuvbSaIFcO9tzgSMGpKpc
-         raQGMp5jkudNunGWTWkQpD3D0Wh2EaPbTc+yamLz7EpLyeXJ067vGT3nutvoAqYu6bTP
-         FxF0BVHMN6JiK3sZU6H9MSjrWvtfAG6Ldia4h0r6Q/jsSM54emGHlqmRs3pTOWS/602V
-         oFjw==
-X-Gm-Message-State: AAQBX9cpUTgcREwayZZDJvLmrCaYEVnN9oI7gz4ytsHzVX18VaJ5fd02
-        BM3+1yZEc8m/WHcKb/NJQTATXJ99BEw=
-X-Google-Smtp-Source: AKy350aAesljbwFJTOWnmnvUuqGvqeYc/psTJV5UFSUS1mOGIiScDqwFviK0fhCbJqKaZamJKjvPYQ==
-X-Received: by 2002:a81:5a83:0:b0:544:7850:b62f with SMTP id o125-20020a815a83000000b005447850b62fmr14323652ywb.18.1680007463076;
-        Tue, 28 Mar 2023 05:44:23 -0700 (PDT)
-Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk. [143.89.191.119])
-        by smtp.gmail.com with ESMTPSA id n38-20020a81af26000000b00545a08184d5sm2382152ywh.101.2023.03.28.05.44.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Mar 2023 05:44:22 -0700 (PDT)
-From:   Wei Chen <harperchen1110@gmail.com>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tue, 28 Mar 2023 09:29:33 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57133A5C9;
+        Tue, 28 Mar 2023 06:29:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680010168; x=1711546168;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tQTkT+hUldu+rXz3mb+LVVHL+mcEWhZt7e4D4RyAuNs=;
+  b=PnwKNHjOwDrC9pV3GmBuNyiTYk/IwWo9ZoeACKyvj4dA0yDpWloViYuk
+   H9X2jORUdfDuq2lVwvw9046wTy76gg2Ru3Fa2BraIKQA+HGzh5cUumgt/
+   xmpP1hZPU55YOljumq9PO7KknlTvEg0oztYHAxunhdzxgNX2gdB6KNiRS
+   SFNbGOikncGVaSmbrZTrOYo/A4rS9rGA/CJ9MsMzk65i7L7EU4DkAmzWr
+   JQndu0JCDSZeNpYVH9Gxc68P2vx8McHe4oD893Gij0wPIWG8rgLXcpbC7
+   9lCiahsZdFcPU3sgwWO7BC9MzxQc21m1mE/2gX1A5SG3+7uItkjPiKZbF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403174813"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="403174813"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 06:29:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="794803518"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="794803518"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2023 06:29:05 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ph9No-000IYf-2B;
+        Tue, 28 Mar 2023 13:29:04 +0000
+Date:   Tue, 28 Mar 2023 21:28:06 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com
+Cc:     oe-kbuild-all@lists.linux.dev, andrew-ct.chen@mediatek.com,
+        yunfei.dong@mediatek.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
         Wei Chen <harperchen1110@gmail.com>
-Subject: [PATCH] media: dvb-usb: dw2102: Fix uninit-value in su3000_read_mac_address
-Date:   Tue, 28 Mar 2023 12:44:16 +0000
-Message-Id: <20230328124416.560889-1-harperchen1110@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix potential array
+ out-of-bounds in decoder queue_setup
+Message-ID: <202303282152.CXxK3RNH-lkp@intel.com>
+References: <20230328100951.536955-1-harperchen1110@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328100951.536955-1-harperchen1110@gmail.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In su3000_read_mac_address, if i2c_transfer fails to execute two
-messages, array mac address will not be initialized. Without handling
-such error, later in function dvb_usb_adapter_dvb_init, proposed_mac
-is accessed before initialization.
+Hi Wei,
 
-Fix this error by returning a negative value if message execution fails.
+Thank you for the patch! Perhaps something to improve:
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
----
- drivers/media/usb/dvb-usb/dw2102.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.3-rc4 next-20230328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
-index 0ca764282c76..8747960e6146 100644
---- a/drivers/media/usb/dvb-usb/dw2102.c
-+++ b/drivers/media/usb/dvb-usb/dw2102.c
-@@ -946,7 +946,7 @@ static int su3000_read_mac_address(struct dvb_usb_device *d, u8 mac[6])
- 	for (i = 0; i < 6; i++) {
- 		obuf[1] = 0xf0 + i;
- 		if (i2c_transfer(&d->i2c_adap, msg, 2) != 2)
--			break;
-+			return -1;
- 		else
- 			mac[i] = ibuf[0];
- 	}
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Chen/media-mediatek-vcodec-Fix-potential-array-out-of-bounds-in-decoder-queue_setup/20230328-181142
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230328100951.536955-1-harperchen1110%40gmail.com
+patch subject: [PATCH] media: mediatek: vcodec: Fix potential array out-of-bounds in decoder queue_setup
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230328/202303282152.CXxK3RNH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/caa43627286fb5f3b0b3af7e01e1baeca5c5f9cc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Wei-Chen/media-mediatek-vcodec-Fix-potential-array-out-of-bounds-in-decoder-queue_setup/20230328-181142
+        git checkout caa43627286fb5f3b0b3af7e01e1baeca5c5f9cc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303282152.CXxK3RNH-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c: In function 'vb2ops_vdec_queue_setup':
+>> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c:756:20: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+     756 |                 if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+         |                    ^
+
+
+vim +/else +756 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+
+   739	
+   740	int vb2ops_vdec_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+   741				    unsigned int *nplanes, unsigned int sizes[],
+   742				    struct device *alloc_devs[])
+   743	{
+   744		struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(vq);
+   745		struct mtk_q_data *q_data;
+   746		unsigned int i;
+   747	
+   748		q_data = mtk_vdec_get_q_data(ctx, vq->type);
+   749	
+   750		if (q_data == NULL) {
+   751			mtk_v4l2_err("vq->type=%d err\n", vq->type);
+   752			return -EINVAL;
+   753		}
+   754	
+   755		if (*nplanes) {
+ > 756			if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+   757				if (*nplanes != q_data->fmt->num_planes)
+   758					return -EINVAL;
+   759			else
+   760				if (*nplanes != 1)
+   761					return -EINVAL;
+   762	
+   763			for (i = 0; i < *nplanes; i++) {
+   764				if (sizes[i] < q_data->sizeimage[i])
+   765					return -EINVAL;
+   766			}
+   767		} else {
+   768			if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+   769				*nplanes = q_data->fmt->num_planes;
+   770			else
+   771				*nplanes = 1;
+   772	
+   773			for (i = 0; i < *nplanes; i++)
+   774				sizes[i] = q_data->sizeimage[i];
+   775		}
+   776	
+   777		mtk_v4l2_debug(1,
+   778				"[%d]\t type = %d, get %d plane(s), %d buffer(s) of size 0x%x 0x%x ",
+   779				ctx->id, vq->type, *nplanes, *nbuffers,
+   780				sizes[0], sizes[1]);
+   781	
+   782		return 0;
+   783	}
+   784	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
