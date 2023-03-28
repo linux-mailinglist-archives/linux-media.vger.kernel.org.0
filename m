@@ -2,60 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD4266CC64F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 17:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1AB6CC6F3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 17:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234055AbjC1P3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 11:29:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33260 "EHLO
+        id S233901AbjC1Ppq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 11:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbjC1P3X (ORCPT
+        with ESMTP id S233410AbjC1Pp1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 11:29:23 -0400
+        Tue, 28 Mar 2023 11:45:27 -0400
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 626E8FF03;
-        Tue, 28 Mar 2023 08:28:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDA2CA5C5;
+        Tue, 28 Mar 2023 08:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680017290; x=1711553290;
+  t=1680018307; x=1711554307;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rWzmYaZOEqfDUK9iwpHFpSX6GO5J3KqMZk9wrDzikz4=;
-  b=XZ5CDz27XSFOA1Ikg2JoG73FO5HnL04WGGLFZyh7k+2+4VkMB0Bigq3D
-   X8fKaBv2YNebEHawqxw5IjLZhzofYFA0uQxKVPAsYNTGNe4PqK2/W16R1
-   Z52mkhYJKOzunbtUiD6tPEnwXqfa2mgzEW0pG/1I/guaJaD0Fj7/FVUfN
-   NIYlzB3zVJofBZkaweAqPVoA+0aRoCADb/OF2gTf3eaNZBMlQazs2BfY/
-   FkBEBUNfiZwsQ8K2zV0ur5B2PpRAI/hO+8Q5zBh5tde0owzdA8jQ34vWl
-   Q2JB26mJP/u2+H5aRvUEOoELvW48TiekxhrmPmDKydS9pmWNZNq6FeAnf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="324495848"
+  bh=yjwcvbrE0LatVPMR8h6pQwwZImyW4TofRG3h7cfvXgA=;
+  b=XO9jcgd12PsMuK3EHdTDWUy7NZ4clGAMExhxjqIQvFbeQ997EFSCgQAg
+   0Vpi4WtRn0r2+N3j2ma/UMqUPxr/fGkn9w3H3MN1dHbjmVX5agyH0jFO0
+   s1lVKsaksTGuk3m9RrpF//lC5po34EDmCjzcGWRPHdBCwUcQjrvR6UMdb
+   GuWdLiUbc6j/RX7fUBwh28WBRFGrt/RYNFT9j1dBE7IjLc0ziKoeHTnsJ
+   aSwLfEHYGdVkv8/Kd7m9jOH37npVCOhajM2JSXM8F1VYBDSpRNB4CgkYi
+   xdsqh2iidnS8wuxUaB4gcotTZ9MY6F0NeXE2AvTCa+jXNFbj+qiGTRc76
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="324501561"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="324495848"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 08:27:18 -0700
+   d="scan'208";a="324501561"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 08:44:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="929954251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="827506050"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="929954251"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 08:27:12 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id C017411F937;
-        Tue, 28 Mar 2023 18:27:09 +0300 (EEST)
-Date:   Tue, 28 Mar 2023 18:27:09 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="827506050"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 28 Mar 2023 08:44:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1phBV3-009gDi-0k;
+        Tue, 28 Mar 2023 18:44:41 +0300
+Date:   Tue, 28 Mar 2023 18:44:40 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
         rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v7 03/10] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <ZCMHTZgXnLCWjCje@kekkonen.localdomain>
+Subject: Re: [PATCH v7 05/10] ACPI: property: Prepare generating swnodes for
+ ACPI and DisCo for Imaging
+Message-ID: <ZCMLaKpPrdl6kDIT@smile.fi.intel.com>
 References: <20230328101303.1458570-1-sakari.ailus@linux.intel.com>
- <20230328101303.1458570-4-sakari.ailus@linux.intel.com>
- <ZCMDyVoFWizx+tOp@smile.fi.intel.com>
+ <20230328101303.1458570-6-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZCMDyVoFWizx+tOp@smile.fi.intel.com>
+In-Reply-To: <20230328101303.1458570-6-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
@@ -65,89 +67,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+On Tue, Mar 28, 2023 at 01:12:58PM +0300, Sakari Ailus wrote:
+> Prepare generating software nodes for information parsed from ACPI _CRS for
+> CSI-2 as well as MIPI DisCo for Imaging spec. The software nodes are
+> compliant with existing ACPI or DT definitions and are parsed by relevant
+> drivers without changes.
 
-Thank you for the review.
+...
 
-On Tue, Mar 28, 2023 at 06:12:09PM +0300, Andy Shevchenko wrote:
-> On Tue, Mar 28, 2023 at 01:12:56PM +0300, Sakari Ailus wrote:
-> > Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
-> > configuration, associate it with appropriate devices and allocate memory for
-> > software nodes needed to create a DT-like data structure for drivers.
-> 
-> ...
-> 
-> > +struct acpi_scan_context {
-> > +	struct acpi_device *device;
-> > +	struct list_head postponed_head;
-> 
-> Make it first?
+>  #define NO_CSI2_PORT (UINT_MAX - 1)
 
-Soon this isn't the only list here, only one of them can be first. But I
-guess there is some benefit nonetheless.
+Has it been used before this patch?
 
-> 
-> > +	struct acpi_scan_context_csi2 csi2;
-> > +};
-> 
-> ...
-> 
-> > +void acpi_bus_scan_check_crs_csi2(acpi_handle handle, struct acpi_scan_context *ctx)
-> > +{
-> > +	struct scan_check_crs_csi2_context inst_context = {
-> > +		.handle = handle,
-> > +		.res_head = LIST_HEAD_INIT(inst_context.res_head),
-> > +	};
-> > +	struct crs_csi2 *csi2;
-> > +
-> > +	acpi_walk_resources(handle, METHOD_NAME__CRS,
-> > +			    scan_check_crs_csi2_instance, &inst_context);
-> > +
-> > +	if (list_empty(&inst_context.res_head))
-> > +		return;
-> > +
-> > +	/*
-> > +	 * Found entry, so allocate memory for it, fill it and add it to the
-> > +	 * list.
-> > +	 */
-> > +	csi2 = kmalloc(sizeof(*csi2), GFP_KERNEL);
-> > +	if (!csi2)
-> 
-> Who is going to release resources allocated in the callback above?
+...
 
-This is done by crs_csi2_release(), called from acpi_bus_scan_crs_csi2().
+> +/* Print graph port name into a buffer, return non-zero if failed. */
+> +#define GRAPH_PORT_NAME(var, num)					    \
+> +	(snprintf((var), sizeof(var), SWNODE_GRAPH_PORT_NAME_FMT, (num)) >= \
+> +	 sizeof(var))
 
-> 
-> > +		return; /* There's nothing we really can do about this. */
-> > +
-> > +	csi2->handle = handle;
-> > +	list_replace(&inst_context.res_head, &csi2->buses);
-> > +	list_add(&csi2->list, &ctx->csi2.crs_csi2_head);
-> > +
-> > +	/* This handle plus remote handles in _CRS CSI2 resource descriptors */
-> > +	ctx->csi2.handle_count += 1 + inst_context.handle_count;
-> > +}
-> 
-> ...
-> 
-> > +	/*
-> > +	 * Allocate memory for ports, node pointers (number of nodes +
-> > +	 * 1 (guardian), nodes (root + number of ports * 2 (for for
-> > +	 * every port there is an endpoint)).
-> > +	 */
-> 
-> for for ?
-> 
-> I am a bit lost here. Can you put the above in more mathematical language?
+This macro evaluates sizeof(var) twice. Is it a problem?
 
-The first "for" is in the sense of "because". I can replace it if you think
-it'd be clearer that way. 
+...
 
-There is simply a single endpoint for every port, as DisCo for Imaging does
-not support the notion of endpoints (where you could have multiple
-connections with more endpoints).
+> +#define NEXT_PROPERTY(index, max)				\
+> +	(WARN_ON(++(index) > ACPI_DEVICE_SWNODE_##max + 1) ?	\
+> +	 ACPI_DEVICE_SWNODE_##max : (index) - 1)
+
+This macro full of interesting effects. On top of that it's written in
+hard-to-read form.
+
+Why not at least
+
+#define NEXT_PROPERTY(index, max)				\
+	(WARN_ON((index) > ACPI_DEVICE_SWNODE_##max) ?	\
+	 ACPI_DEVICE_SWNODE_##max : (index)++)
+
+?
+
+...
+
+> +	ret = fwnode_property_count_u8(mipi_port_fwnode, "mipi-img-lane-polarities");
+> +	if (ret > 0) {
+> +		unsigned int bytes = min_t(unsigned int, ret, sizeof(val));
+> +
+> +		fwnode_property_read_u8_array(mipi_port_fwnode,
+> +					      "mipi-img-lane-polarities",
+> +					      val, bytes);
+> +
+> +		/* Total number of lanes here is clock lane + data lanes */
+> +		if (bytes * BITS_PER_TYPE(u8) >= 1 + num_lanes) {
+> +			unsigned int i;
+> +
+> +			/* Move polarity bits to the lane polarity u32 array */
+> +			for (i = 0; i < 1 + num_lanes; i++)
+> +				port->lane_polarities[i] =
+> +					(bool)(val[i >> 3] & (1 << (i & 7)));
+
+Casting to bool?!
+
+Can we read the array and convert it to bitmap, then this voodoo-ish code can
+be simplified to
+
+	for_each_set_bit(i, ...)
+		..._polarities[i] = 1;
+
+(assuming initially they are 0:s)?
+
+> +			port->ep_props[NEXT_PROPERTY(*ep_prop_index, EP_LANE_POLARITIES)] =
+> +				PROPERTY_ENTRY_U32_ARRAY_LEN("lane-polarities",
+> +							     port->lane_polarities,
+> +							     1 + num_lanes);
+> +		} else {
+> +			acpi_handle_warn(acpi_device_handle(device),
+> +					 "too few lane polarity bytes (%u)\n",
+> +					 bytes);
+> +		}
+> +	}
 
 -- 
-Kind regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
