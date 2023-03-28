@@ -2,152 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 644506CC5B9
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 17:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABE196CC64C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 17:29:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233813AbjC1PRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 11:17:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54990 "EHLO
+        id S233232AbjC1P3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 11:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232729AbjC1PQs (ORCPT
+        with ESMTP id S233163AbjC1P3V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 11:16:48 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD86B10A80;
-        Tue, 28 Mar 2023 08:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680016564; x=1711552564;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vb59PNyUVqWjggbHwzdHKWwpkLGvflNshiCzVN0hkbE=;
-  b=ZY1tca7oBmAqqFVp3SzfAv/qSR5FOg+QMd9cXbF3jJ8+B3zxhRw2S/6p
-   WWep2s7IC8/hp+OfQlFM8JZnqnZPcoS/t2G4E9vZ1yZD1KWh65pVMNfZP
-   2PlwF61OolStTA1KuHcB+kfM7su9mdrJVHhbgrUmWDT3vcdmOogTmUrkf
-   mJ1lpAbs4QfjjxEZ7kHdY2E5MdxRtyBxF0hZBkJ4G77iwgjiCAyl59A1a
-   iWwcVQWReRSkp6c3SJlJQqgVla00NuwEN1CSsSTeh7TeMOeciykWBqeiZ
-   opWxNgEBcNTEmynA0nWz/sgrA2BDfjJAAWbcco3+Fd4V2Hb02Ca9Ylz9y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="405533633"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="405533633"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 08:12:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="716516123"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="716516123"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2023 08:12:10 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1phAzZ-009fhT-1h;
-        Tue, 28 Mar 2023 18:12:09 +0300
-Date:   Tue, 28 Mar 2023 18:12:09 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v7 03/10] ACPI: property: Parse _CRS CSI-2 descriptor
-Message-ID: <ZCMDyVoFWizx+tOp@smile.fi.intel.com>
-References: <20230328101303.1458570-1-sakari.ailus@linux.intel.com>
- <20230328101303.1458570-4-sakari.ailus@linux.intel.com>
+        Tue, 28 Mar 2023 11:29:21 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82201AD01;
+        Tue, 28 Mar 2023 08:28:06 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.41:33662.1507456959
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+        by 189.cn (HERMES) with SMTP id ED66E10019C;
+        Tue, 28 Mar 2023 23:22:50 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id a7f154ba0091421fba88d50f9f096b13 for lkp@intel.com;
+        Tue, 28 Mar 2023 23:22:52 CST
+X-Transaction-ID: a7f154ba0091421fba88d50f9f096b13
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <027cf6d5-6de2-3424-7a81-a43ab689c3d4@189.cn>
+Date:   Tue, 28 Mar 2023 23:22:50 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230328101303.1458570-4-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v8 2/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     kernel test robot <lkp@intel.com>,
+        Sui Jingfeng <15330273260@189.cn>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Li Yi <liyi@loongson.cn>
+References: <20230320100131.1277034-3-15330273260@189.cn>
+ <202303281754.jWI20j2C-lkp@intel.com>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <202303281754.jWI20j2C-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.6 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 01:12:56PM +0300, Sakari Ailus wrote:
-> Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
-> configuration, associate it with appropriate devices and allocate memory for
-> software nodes needed to create a DT-like data structure for drivers.
+HI,
 
-...
+On 2023/3/28 17:27, kernel test robot wrote:
+> Hi Sui,
+>
+> Thank you for the patch! Perhaps something to improve:
+>
+> [auto build test WARNING on drm-misc/drm-misc-next]
+> [also build test WARNING on linus/master v6.3-rc4 next-20230328]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20230320100131.1277034-3-15330273260%40189.cn
+> patch subject: [PATCH v8 2/2] drm: add kms driver for loongson display controller
+> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281754.jWI20j2C-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/80b4115f44993f4ebf47b1cb9e8f02953575b977
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
+>          git checkout 80b4115f44993f4ebf47b1cb9e8f02953575b977
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/accel/ drivers/gpu/drm/loongson/ drivers/iio/light/ drivers/media/pci/intel/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303281754.jWI20j2C-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> drivers/gpu/drm/loongson/lsdc_drv.c:232:11: warning: variable 'gpu' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>             else if (descp->chip == CHIP_LS7A2000)
+>                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     drivers/gpu/drm/loongson/lsdc_drv.c:235:7: note: uninitialized use occurs here
+>             if (!gpu) {
+>                  ^~~
+>     drivers/gpu/drm/loongson/lsdc_drv.c:232:7: note: remove the 'if' if its condition is always true
+>             else if (descp->chip == CHIP_LS7A2000)
+>                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     drivers/gpu/drm/loongson/lsdc_drv.c:217:21: note: initialize the variable 'gpu' to silence this warning
+>             struct pci_dev *gpu;
+>                                ^
+>                                 = NULL
+>     1 warning generated.
+> --
 
-> +struct acpi_scan_context {
-> +	struct acpi_device *device;
-> +	struct list_head postponed_head;
+In practice,  either  descp->chip == CHIP_LS7A2000 or descp->chip == 
+CHIP_LS7A1000 will be happened at runtime.
 
-Make it first?
+the variable 'gpu' is guaranteed to be initialized when code run at  
+drivers/gpu/drm/loongson/lsdc_drv.c:235
 
-> +	struct acpi_scan_context_csi2 csi2;
-> +};
+This warnning is almost wrong here.
 
-...
+>>> drivers/gpu/drm/loongson/lsdc_pll.c:188:14: warning: variable 'diff' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>                                     else if (clock_khz < computed)
+>                                              ^~~~~~~~~~~~~~~~~~~~
+>     drivers/gpu/drm/loongson/lsdc_pll.c:191:9: note: uninitialized use occurs here
+>                                     if (diff < min) {
+>                                         ^~~~
+>     drivers/gpu/drm/loongson/lsdc_pll.c:188:10: note: remove the 'if' if its condition is always true
+>                                     else if (clock_khz < computed)
+>                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+>     drivers/gpu/drm/loongson/lsdc_pll.c:177:22: note: initialize the variable 'diff' to silence this warning
+>                                     unsigned int diff;
+>                                                      ^
+>                                                       = 0
+>     1 warning generated.
 
-> +void acpi_bus_scan_check_crs_csi2(acpi_handle handle, struct acpi_scan_context *ctx)
-> +{
-> +	struct scan_check_crs_csi2_context inst_context = {
-> +		.handle = handle,
-> +		.res_head = LIST_HEAD_INIT(inst_context.res_head),
-> +	};
-> +	struct crs_csi2 *csi2;
-> +
-> +	acpi_walk_resources(handle, METHOD_NAME__CRS,
-> +			    scan_check_crs_csi2_instance, &inst_context);
-> +
-> +	if (list_empty(&inst_context.res_head))
-> +		return;
-> +
-> +	/*
-> +	 * Found entry, so allocate memory for it, fill it and add it to the
-> +	 * list.
-> +	 */
-> +	csi2 = kmalloc(sizeof(*csi2), GFP_KERNEL);
-> +	if (!csi2)
+Here the robot is also wrong here in practice,
 
-Who is going to release resources allocated in the callback above?
+because either  if (clock_khz >= computed) or else if (clock_khz < 
+computed) will be happen.
 
-> +		return; /* There's nothing we really can do about this. */
-> +
-> +	csi2->handle = handle;
-> +	list_replace(&inst_context.res_head, &csi2->buses);
-> +	list_add(&csi2->list, &ctx->csi2.crs_csi2_head);
-> +
-> +	/* This handle plus remote handles in _CRS CSI2 resource descriptors */
-> +	ctx->csi2.handle_count += 1 + inst_context.handle_count;
-> +}
+'diff' variable is guaranteed to be initialized.
 
-...
-
-> +	/*
-> +	 * Allocate memory for ports, node pointers (number of nodes +
-> +	 * 1 (guardian), nodes (root + number of ports * 2 (for for
-> +	 * every port there is an endpoint)).
-> +	 */
-
-for for ?
-
-I am a bit lost here. Can you put the above in more mathematical language?
-
-> +	overflow = check_mul_overflow(sizeof(*ads->ports) +
-> +				      sizeof(*ads->nodes) * 2 +
-> +				      sizeof(*ads->nodeptrs) * 2,
-> +				      ports_count, &alloc_size);
-> +	overflow = overflow ||
-> +		   check_add_overflow(sizeof(*ads) + sizeof(*ads->nodes) +
-> +				      sizeof(*ads->nodeptrs) * 2,
-> +				      alloc_size, &alloc_size);
-> +	if (overflow) {
-> +		acpi_handle_warn(handle,
-> +				 "too many _CRS CSI2 resource handles (%zu)",
-> +				 ports_count);
-> +		return;
-> +	}
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+> vim +232 drivers/gpu/drm/loongson/lsdc_drv.c
+>
+>     212	
+>     213	static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
+>     214					   const struct lsdc_desc *descp)
+>     215	{
+>     216		struct drm_device *ddev = &ldev->base;
+>     217		struct pci_dev *gpu;
+>     218		resource_size_t base, size;
+>     219	
+>     220		/*
+>     221		 * The GPU and display controller in LS7A1000/LS7A2000 are separated
+>     222		 * PCIE devices, they are two devices not one. The DC does not has a
+>     223		 * dedicate VRAM bar, because the BIOS engineer choose to assign the
+>     224		 * VRAM to the GPU device. Sadly, after years application, this form
+>     225		 * as a convention for loongson integrated graphics. Bar 2 of the GPU
+>     226		 * device contain the base address and size of the VRAM, both the GPU
+>     227		 * and the DC can access the on-board VRAM as long as the DMA address
+>     228		 * emitted fall in [base, base + size).
+>     229		 */
+>     230		if (descp->chip == CHIP_LS7A1000)
+>     231			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A15, NULL);
+>   > 232		else if (descp->chip == CHIP_LS7A2000)
+>     233			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A25, NULL);
+>     234	
+>     235		if (!gpu) {
+>     236			drm_warn(ddev, "No GPU device found\n");
+>     237			return -ENODEV;
+>     238		}
+>     239	
+>     240		base = pci_resource_start(gpu, 2);
+>     241		size = pci_resource_len(gpu, 2);
+>     242	
+>     243		ldev->vram_base = base;
+>     244		ldev->vram_size = size;
+>     245	
+>     246		drm_info(ddev, "dedicated vram start: 0x%llx, size: %uMB\n",
+>     247			 (u64)base, (u32)(size >> 20));
+>     248	
+>     249		return 0;
+>     250	}
+>     251	
+>
