@@ -2,113 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C58A66CC233
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 16:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 264876CC27B
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 16:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbjC1Ogk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 10:36:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53024 "EHLO
+        id S233222AbjC1Opr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 10:45:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjC1Ogj (ORCPT
+        with ESMTP id S233210AbjC1Opd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 10:36:39 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2664C16D
-        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 07:36:02 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id x3so50522450edb.10
-        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 07:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680014161;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wkUxb1yN1awxacFzY/nANVpb9fbOuHgLElxbE/XrNOY=;
-        b=NlviKrSbiJ6rmZgJIY/VL8iDRUl4VMonk0wujvV6GNcBmtzluNhpICT0Ja8dp/Vq5S
-         E12AjeI1kEPzOpELfj85huH7m+wcQNlsZUvXLh2BTTSDx69C/CZbREsIyCRacau4esz8
-         9JjbHSf9ZeMxxUKW7MMmvK1ZHj+IN0PaUa121RQ1T3xzdXJ3EN58hs2I17dfxln2/qj2
-         snkgsiCg3lpu7PXAar871dT+anpr7PKrJANZhDXc8QN1MEambLNUHKzREzOOz9nat2IS
-         DaxIhouOXvHf2ylVwaO6joJJQFLbZ4AGllwWd5o6JbDaHMhvpCNa6aJofxgfBT9xTGDt
-         aAAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680014161;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wkUxb1yN1awxacFzY/nANVpb9fbOuHgLElxbE/XrNOY=;
-        b=M7LWoxswJz2uzOBjupj2tuvgm+Mcn+3Qaz2B1SR/mmfk0xyEbMS4/nz4QaoBrERLHN
-         jMgHkZLaUTwkkGa72BQkXO4ks+0luAgYS5yUiCHd0VFzQJLXE9cseklzIDcOY2DqCwPd
-         N/UtS83cBRLm3pHiHoZESx1WqLu6CpVIodBjfr2+dnjEdMKixfWjdKJivYVbn7uSqqHN
-         dXWGXiMxmnUgHgFsUyHCSb3XOd3n8JVOJq3yHUlPRJDkDFpXkor8ZfuOlLO+XOS7tgpI
-         atlR9/7s4sV6DphSd+xh76bV0QMv4F1y8mLStPnTTPCL1/bXesxaHdfB42c1opvgG1OL
-         wyYQ==
-X-Gm-Message-State: AAQBX9fm+ohifelT8w5hrm+ocxWQPA9cG2HBLP8ITdlo9XOLylBaEM+d
-        XmD5DEqHAD7mWET1jN+HnV2W/A==
-X-Google-Smtp-Source: AKy350aMxSkeVpVehYPInFnohdXS1ZEfyugD9A3W5oUCVFJdHZugT2owddmW86nqFx5ryQ4w12jsRw==
-X-Received: by 2002:a17:906:3449:b0:93b:b8f3:225d with SMTP id d9-20020a170906344900b0093bb8f3225dmr15892263ejb.15.1680014161037;
-        Tue, 28 Mar 2023 07:36:01 -0700 (PDT)
-Received: from [10.105.135.205] ([88.128.92.162])
-        by smtp.gmail.com with ESMTPSA id p25-20020a50cd99000000b004bf76fdfdb3sm15808831edi.26.2023.03.28.07.35.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Mar 2023 07:36:00 -0700 (PDT)
-Message-ID: <ad96f28a-7b2d-a58b-50fb-648063ed0b18@linaro.org>
-Date:   Tue, 28 Mar 2023 16:35:59 +0200
+        Tue, 28 Mar 2023 10:45:33 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA55D52E;
+        Tue, 28 Mar 2023 07:45:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680014718; x=1711550718;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vgWwPnAjZQYBYL4Bwwf4wc9rslKPq0416E/mW3l6AG0=;
+  b=NfDWb2/B+0WGy4yfs4are1sscEMLKdUB/SC73nXqQ7Ibx7fkZKHJZxBe
+   yP4uBiHOwoNabPLwBKZ2950fV9BM4alCUh5MK3hMtvmMlOc/B7N9FA3+g
+   /HMqnzafCb8F9DstruotEdjuYLC2Z+w/bVbNcTRpSTfmcSXs6J2C1c0KO
+   9L8MWJ97fJw/MBaV8hkxlDx+HJXt1lkas6/8wfDI9M4qMBr/DnX7QZW/+
+   A/KXgcwc1VRngWuWMJ+FQygy9/GiMTlWy+wbB4zgt2RiYZL72T8z67EXB
+   /opzLVoXcjNs50fEArKkeIdZvHj/yFTOLCQSmRvDmTO/Rsp4svEg6DzKK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="339305535"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="339305535"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 07:45:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="686453207"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="686453207"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Mar 2023 07:45:15 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1phAZV-009fEo-1c;
+        Tue, 28 Mar 2023 17:45:13 +0300
+Date:   Tue, 28 Mar 2023 17:45:13 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v7 01/10] ACPI: scan: Remove the second DSDT traversal
+Message-ID: <ZCL9eWARHqzYuQyV@smile.fi.intel.com>
+References: <20230328101303.1458570-1-sakari.ailus@linux.intel.com>
+ <20230328101303.1458570-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [Patch v7] dt-bindings: media: s5p-mfc: convert bindings to
- json-schema
-Content-Language: en-US
-To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com
-References: <CGME20230328114738epcas5p475b8fa1d1e86bbb86d004afe365e0259@epcas5p4.samsung.com>
- <20230328114729.61436-1-aakarsh.jain@samsung.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230328114729.61436-1-aakarsh.jain@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328101303.1458570-2-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/03/2023 13:47, Aakarsh Jain wrote:
-> Convert s5p-mfc bindings to DT schema format using json-schema.
+On Tue, Mar 28, 2023 at 01:12:54PM +0300, Sakari Ailus wrote:
+> Collect the devices with _DEP into a list and continue processing them
+> after a full traversal, instead of doing a full second traversal of the
+> tree.
 > 
-> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-> ---
-> changes since v6:
+> This makes the second DSDT traversal pass unnecessary as we already have
+> the nodes we're interested in in a linked list.
 
-This is a friendly reminder during the review process.
+...
 
-It looks like you received a tag and forgot to add it.
+> +/**
+> + * struct acpi_postponed_handle - A postponed ACPI handle
+> + * @handle: The postponed handle
+> + * @list: Entry in a postponed list
+> + *
+> + * One such entry represents an ACPI handle the scanning of which has been
+> + * postponed.
+> + */
+> +struct acpi_postponed_handle {
+> +	acpi_handle handle;
+> +	struct list_head list;
+> +};
 
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions. However, there's no need to repost patches *only* to add the
-tags. The upstream maintainer will do that for acks received on the
-version they apply.
+If you put the list to be the first member, container_of() against it becomes a
+no-op at compile time. Have you checked the code generation if you swap these
+members?
 
-https://elixir.bootlin.com/linux/v5.17/source/Documentation/process/submitting-patches.rst#L540
+> +/**
+> + * struct acpi_scan_context - Context for scanning ACPI devices
+> + * @device: The first encountered device, typically the root of the scanned tree
+> + * @postponed_head: The list head of the postponed ACPI handles
+> + */
+> +struct acpi_scan_context {
+> +	struct acpi_device *device;
+> +	struct list_head postponed_head;
+> +};
 
-If a tag was not added on purpose, please state why and what changed.
+Ditto.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+...
 
-Best regards,
-Krzysztof
+> +/**
+> + * acpi_bus_handle_postpone - Add an ACPI handle to a given postponed list
+> + * @handle: The ACPI handle
+> + * @head: Postponed list head
+> + *
+> + * Add a given ACPI handle to a list of ACPI objects for which the creation
+> + * of the device objects is to be postponed.
+
+`kernel-doc -v ...` complains on the absence of Return section. Is it the same
+for you?
+
+> + */
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
