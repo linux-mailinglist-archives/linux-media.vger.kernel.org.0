@@ -2,103 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC9E6CBA83
-	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 11:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24A0B6CBA9A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Mar 2023 11:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjC1J0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 05:26:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56136 "EHLO
+        id S232244AbjC1J2k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 05:28:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbjC1J0T (ORCPT
+        with ESMTP id S230174AbjC1J2j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 05:26:19 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E766D3594;
-        Tue, 28 Mar 2023 02:26:17 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-53d277c1834so218115697b3.10;
-        Tue, 28 Mar 2023 02:26:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679995577;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ET0WBr8YKj1eA2HA94tcZdb4WGxsEVdQEBVDSPWcXmw=;
-        b=ppqY09tR5sm5z/8am1ZM/TA22i7RRKVosNObZmQENqBuGmq0qFa3z6+AU30BDAWaRH
-         T63QvKfFrfHG1qJRPM1WwUh6BFifu9+IY7NUIZDUShGEbQAAQUw73zQc/vtEdc9wCI7H
-         xulnhBsPInc/baHhMI8TX7vRk/XxAX6vkJ3IXXIxHlVVF9u8Oybr7n9gShKedxdmVWDS
-         8VRyybuct7TJUyoFc1GcZpsk33fQvGLwSexTKr02icIJhD03NJCMpc6ZdYZy26Lo/CGs
-         Z5xJ96oXOPDg47iISpBvR8yIN0Ame90ncVHPzeg9fzf9irtVmlZ/Eh3gZf/W+HRToGXH
-         qjog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679995577;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ET0WBr8YKj1eA2HA94tcZdb4WGxsEVdQEBVDSPWcXmw=;
-        b=yM7ejoU+xDXIZESefbUnTcsnnWk5MOI+IVEHTBDiy5GqfeY4Hldj70mwFHQMvmHlPp
-         stEIlYG9CV7nHHGPPQsSyOzVVo94OZpYJBUZkrpCzHf44sZMPNF+xLHbNk/+awvaFQCN
-         QrlJJUIPyjAgAtbqixbRAyhXhsioreISZqlrB+bLf/jPwPVMjy22FexiV0dIc1+3HsrT
-         iGjNNxK+R4ftyxw3nMBmyR1ehYrQhBxU88ic2sO8qHvQ0Y08iowjp60yEonq3ZlOZGZ4
-         lb9wUfWwvqZMKkCt1ozJ/KUjv8RwybJctlgMApPTKTnw1MHWnPYrxIwt2Jz8CBz7yal/
-         ijSw==
-X-Gm-Message-State: AAQBX9cg7MJvBJoNxZYLaOphVMJLm6QJzGi528lqFvERFumXNfhSkunc
-        fiEYwFL4ifL29Th5iIpb1/c=
-X-Google-Smtp-Source: AKy350YCbe1C6CuK51osRGy+cn0oCfy2X0sSC78oKe+SrwmzPgwW20fbW4MMNHKDKvLhSihDW1AmGw==
-X-Received: by 2002:a81:5b45:0:b0:541:a189:bc74 with SMTP id p66-20020a815b45000000b00541a189bc74mr14986512ywb.41.1679995577070;
-        Tue, 28 Mar 2023 02:26:17 -0700 (PDT)
-Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk. [143.89.191.119])
-        by smtp.gmail.com with ESMTPSA id a67-20020a811a46000000b00545a0818482sm2328586ywa.18.2023.03.28.02.26.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Mar 2023 02:26:16 -0700 (PDT)
-From:   Wei Chen <harperchen1110@gmail.com>
-To:     tiffany.lin@mediatek.com
-Cc:     andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Wei Chen <harperchen1110@gmail.com>
-Subject: [PATCH] media: vcodec: Fix potential array out-of-bounds in vb2ops_venc_queue_setup
-Date:   Tue, 28 Mar 2023 09:26:08 +0000
-Message-Id: <20230328092608.523933-1-harperchen1110@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 28 Mar 2023 05:28:39 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 726B96180;
+        Tue, 28 Mar 2023 02:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679995683; x=1711531683;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/WXek2QrxRQfHYNGEo8wCjFsnFgypZubTj2Ft+Tco2g=;
+  b=DHvc+JCwtaQS2PIOkSCS2yHhN6S+wB9bjvON/bfZKIAEWM501CBJbS6o
+   EYMSD+IMRZ4JVssUbiGW4LkhjYQ0W718TTsL8BQOKbGu1GWO4kX8e04ft
+   eSKp7EcOo+CGBJ+/EOEFMsSfww2Ej7nEjOCh2+QGxXpDt/b7bkwRGgbOn
+   Zz9sb0nKJgE3OE/p24B0wEqgvFWJoazUyg5axhZMQdKKBjYllpsZescDd
+   5HouBF6siR2zNrgHHQpqVswIAlHkBd1OWumMIbZ3PwOXoJuzaPWYYZKnp
+   Zo+5RHioGYGFL99uEZIYaOO96xu95SAxNHqD82GKByGi7Ugg50ohKK+v2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="339243143"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
+   d="scan'208";a="339243143"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 02:28:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="748341275"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="748341275"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Mar 2023 02:27:59 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ph5cU-000IQt-0k;
+        Tue, 28 Mar 2023 09:27:58 +0000
+Date:   Tue, 28 Mar 2023 17:27:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sui Jingfeng <15330273260@189.cn>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        suijingfeng <suijingfeng@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Li Yi <liyi@loongson.cn>
+Subject: Re: [PATCH v8 2/2] drm: add kms driver for loongson display
+ controller
+Message-ID: <202303281754.jWI20j2C-lkp@intel.com>
+References: <20230320100131.1277034-3-15330273260@189.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320100131.1277034-3-15330273260@189.cn>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-variable *nplanes is provided by user via system call argument. The
-possible value of q_data->fmt->num_planes is 1-3, while the value
-of *nplanes can be 1-8. The array access by index i can cause array
-out-of-bounds.
+Hi Sui,
 
-Fix this bug by checking *nplanes against the array size.
+Thank you for the patch! Perhaps something to improve:
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 2 ++
- 1 file changed, 2 insertions(+)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.3-rc4 next-20230328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-index d65800a3b89d..1ea02f9136f6 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-@@ -821,6 +821,8 @@ static int vb2ops_venc_queue_setup(struct vb2_queue *vq,
- 		return -EINVAL;
- 
- 	if (*nplanes) {
-+		if (*nplanes != q_data->fmt->num_planes)
-+			return -EINVAL;
- 		for (i = 0; i < *nplanes; i++)
- 			if (sizes[i] < q_data->sizeimage[i])
- 				return -EINVAL;
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230320100131.1277034-3-15330273260%40189.cn
+patch subject: [PATCH v8 2/2] drm: add kms driver for loongson display controller
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281754.jWI20j2C-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/80b4115f44993f4ebf47b1cb9e8f02953575b977
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
+        git checkout 80b4115f44993f4ebf47b1cb9e8f02953575b977
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/accel/ drivers/gpu/drm/loongson/ drivers/iio/light/ drivers/media/pci/intel/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303281754.jWI20j2C-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/loongson/lsdc_drv.c:232:11: warning: variable 'gpu' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           else if (descp->chip == CHIP_LS7A2000)
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_drv.c:235:7: note: uninitialized use occurs here
+           if (!gpu) {
+                ^~~
+   drivers/gpu/drm/loongson/lsdc_drv.c:232:7: note: remove the 'if' if its condition is always true
+           else if (descp->chip == CHIP_LS7A2000)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_drv.c:217:21: note: initialize the variable 'gpu' to silence this warning
+           struct pci_dev *gpu;
+                              ^
+                               = NULL
+   1 warning generated.
+--
+>> drivers/gpu/drm/loongson/lsdc_pll.c:188:14: warning: variable 'diff' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                                   else if (clock_khz < computed)
+                                            ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_pll.c:191:9: note: uninitialized use occurs here
+                                   if (diff < min) {
+                                       ^~~~
+   drivers/gpu/drm/loongson/lsdc_pll.c:188:10: note: remove the 'if' if its condition is always true
+                                   else if (clock_khz < computed)
+                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_pll.c:177:22: note: initialize the variable 'diff' to silence this warning
+                                   unsigned int diff;
+                                                    ^
+                                                     = 0
+   1 warning generated.
+
+
+vim +232 drivers/gpu/drm/loongson/lsdc_drv.c
+
+   212	
+   213	static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
+   214					   const struct lsdc_desc *descp)
+   215	{
+   216		struct drm_device *ddev = &ldev->base;
+   217		struct pci_dev *gpu;
+   218		resource_size_t base, size;
+   219	
+   220		/*
+   221		 * The GPU and display controller in LS7A1000/LS7A2000 are separated
+   222		 * PCIE devices, they are two devices not one. The DC does not has a
+   223		 * dedicate VRAM bar, because the BIOS engineer choose to assign the
+   224		 * VRAM to the GPU device. Sadly, after years application, this form
+   225		 * as a convention for loongson integrated graphics. Bar 2 of the GPU
+   226		 * device contain the base address and size of the VRAM, both the GPU
+   227		 * and the DC can access the on-board VRAM as long as the DMA address
+   228		 * emitted fall in [base, base + size).
+   229		 */
+   230		if (descp->chip == CHIP_LS7A1000)
+   231			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A15, NULL);
+ > 232		else if (descp->chip == CHIP_LS7A2000)
+   233			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A25, NULL);
+   234	
+   235		if (!gpu) {
+   236			drm_warn(ddev, "No GPU device found\n");
+   237			return -ENODEV;
+   238		}
+   239	
+   240		base = pci_resource_start(gpu, 2);
+   241		size = pci_resource_len(gpu, 2);
+   242	
+   243		ldev->vram_base = base;
+   244		ldev->vram_size = size;
+   245	
+   246		drm_info(ddev, "dedicated vram start: 0x%llx, size: %uMB\n",
+   247			 (u64)base, (u32)(size >> 20));
+   248	
+   249		return 0;
+   250	}
+   251	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
