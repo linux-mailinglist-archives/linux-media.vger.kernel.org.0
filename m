@@ -2,61 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 033D06CF159
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 19:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB17C6CF20F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 20:21:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbjC2Rq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 13:46:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40278 "EHLO
+        id S229511AbjC2SVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 14:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbjC2Rqz (ORCPT
+        with ESMTP id S229436AbjC2SVM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 13:46:55 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3E55B96
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 10:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680112013; x=1711648013;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=olMmfaYG76WJaUSjtUKbOoTEBkHfPzBHtu+/8m2+LtU=;
-  b=S6R5EvDJam582pNOO+XbZsA0Su6gwm7oyD3J/d7+9qBpPpkxMcm3W+Dk
-   rzE7HmiGAdL8kXMZBn89JiuLISfJsiW8J2p5ag8GM1Ko5eRnQHqCec/XK
-   UkrUx8GdyMc0WwFdFL8orr7M1GtlVQ+oeqguNvFh9N9CEY7J8yVECGi5q
-   083yw4L7u6d0OdmNRSDT9khoBfbFJBXWpbDtfKfWiSoNjimfjNTzGsuep
-   JGXTuoedCgwPK+0Ltz7sqccaSaCrwblc++UGj2XkpDdiPQPmUB6vj0FYb
-   eixScl+MaXgoFqoYcBQfxc+FItd+XAWFO4Q1XpR9+l3CYJFLkThpGFHUf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427227391"
-X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="427227391"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 10:46:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="773665575"
-X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="773665575"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 10:46:52 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 46E8D1224D2;
-        Wed, 29 Mar 2023 20:46:50 +0300 (EEST)
-Date:   Wed, 29 Mar 2023 20:46:50 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: ccs: Add V4L2 controls from properties
-Message-ID: <ZCR5iuHo0Sl1qB7a@kekkonen.localdomain>
-References: <20230328121625.1472037-1-sakari.ailus@linux.intel.com>
- <20230328121625.1472037-3-sakari.ailus@linux.intel.com>
- <20230329163113.uz7bcsmnhkerjtiv@uno.localdomain>
+        Wed, 29 Mar 2023 14:21:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F3A49D5
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 11:21:11 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03FB74D5;
+        Wed, 29 Mar 2023 20:21:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680114069;
+        bh=XtgHUhNQsxzRDRc1Z0rtLtQyf1/g1GYSnuqSTm7eTVg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hkLSzILwNLi+2N2ZXyFM7dykqKDtXEu1Eatx6EqYnj0RHNif4TU26L87DZarG/LOi
+         yJJCWncGSF6xmRYtNR+Ul6v2N4wugyv0SgT+evZzq35/eRFjEpbq+OI6H7GfsvX47X
+         ILj2R416LU1CoTzmrxE+nMH667z3CEHKVCq0axy4=
+Date:   Wed, 29 Mar 2023 20:21:06 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH v2 1/1] Documentation: v4l: Document rotation and
+ orientation for sensor drivers
+Message-ID: <20230329182106.xi2k5diul3jixq3z@uno.localdomain>
+References: <20230328145248.1489994-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230329163113.uz7bcsmnhkerjtiv@uno.localdomain>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+In-Reply-To: <20230328145248.1489994-1-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,24 +46,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 06:31:13PM +0200, Jacopo Mondi wrote:
-> > @@ -946,10 +954,10 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
-> >
-> >  	sensor->hflip = v4l2_ctrl_new_std(
-> >  		&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-> > -		V4L2_CID_HFLIP, 0, 1, 1, default_flip);
-> > +		V4L2_CID_HFLIP, 0, 1, 1, props.rotation == 180);
-> 
-> Ah! ignore my comments on 1/2 :)
-> 
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Hi Sakari
+   sorry, I missed this one!
 
-Thanks, Jacopo!
+On Tue, Mar 28, 2023 at 05:52:48PM +0300, Sakari Ailus wrote:
+> Document how rotation and orientation should be taken into account in
+> writing camera sensor drivers.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> since v1:
+>
+> Use speclial double quotes around functions to use non-proportional font for
+> them.
+>
+>  Documentation/driver-api/media/camera-sensor.rst      | 11 +++++++++++
+>  .../userspace-api/media/v4l/ext-ctrls-camera.rst      |  1 +
+>  2 files changed, 12 insertions(+)
+>
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index c7d4891bd24e..2618a91b0d85 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -151,3 +151,14 @@ used to obtain device's power state after the power state transition:
+>  The function returns a non-zero value if it succeeded getting the power count or
+>  runtime PM was disabled, in either of which cases the driver may proceed to
+>  access the device.
+> +
+> +Rotation and orientation
+> +------------------------
+> +
+> +Some systems have been implemented so that the camera sensor has been mounted
+> +upside down compared to its natural mounting rotation. In such a case, the
+> +:ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>` control
+> +shall indicate the mounting rotation.
 
-Could you also check the documentation patch?
+I would put it in imperative form for driver developers
 
-I suppose we'll be good after this one? Or are there still drivers that
-have differing behaviour?
+"Some systems have been implemented so that the camera sensor has been mounted
+upside down compared to its natural mounting rotation. In such a case,
+drivers should register the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+<v4l2-camera-sensor-rotation>` control to report the information to
+userspace."
 
--- 
-Sakari Ailus
+I would also specify how drivers should initialize their flip controls
+
+"Mode-based sensor driver implementations that have any vertical or
+horizontal flips embedded in the register programming sequences should
+initialize the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls with the
+values programmed by the register sequences.
+
+Drivers which implement writable flip controls could automatically
+compensate for the sensor's mounting rotation and shall reflect that in
+the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls initial and default values."
+
+> +
+> +Use ``v4l2_fwnode_device_parse()`` to obtain this information and
+> +``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls.
+
+I would also mention the orientation control before introducing
+v4l2_fwnode_device_parse.
+
+"Sensor drivers should also report their mounting orientation with the
+:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+
+Both controls can be registered by using the ``v4l2_fwnode_device_parse()``
+function to obtain this information from the firmware interface and
+``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls."
+
+How does this work for you ?
+
+
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index daa4f40869f8..29fe22da52a2 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -536,6 +536,7 @@ enum v4l2_scene_mode -
+>        - The camera is not directly attached to the device and is freely movable.
+>
+>
+> +.. _v4l2-camera-sensor-rotation:
+>
+>  ``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
+>      This read-only control describes the rotation correction in degrees in the
+> --
+> 2.30.2
+>
