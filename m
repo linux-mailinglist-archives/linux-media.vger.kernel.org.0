@@ -2,151 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A926CEEBF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 18:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A0D26CEF4A
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 18:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjC2QHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 12:07:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41936 "EHLO
+        id S229517AbjC2QZw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 12:25:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231220AbjC2QHV (ORCPT
+        with ESMTP id S229768AbjC2QZv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 12:07:21 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDBB469C
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 09:06:36 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so19046405pjp.1
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 09:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1680105970;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RGeLND7CqNFElzj+KkwONKJwoCGzjwKOWHOimvr2vj4=;
-        b=dEY+jYtIsCskXn4yrVQKzXxJC4HO5IXF7ys7nIF2JgIK56FLpAZFcmvRdHb9rNKs8/
-         uNwZEWcvfOAWOSTUsVQ+ksf9XpXhLeNvGxtk7GYqu2uYtKLU9ReXV+M5Tmakhh9KNZvJ
-         tO29jH2j0HYJX87tWo4XuHeuxP23u7/uK3TJw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105970;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RGeLND7CqNFElzj+KkwONKJwoCGzjwKOWHOimvr2vj4=;
-        b=3HuAT75fzJAanJyim+5Q6FfOdx+qkVPV700VfHsHY8RQ35QdJcnmAVeHX8ATegfB5Y
-         rV5RCS+s1PXHX1fVOzCsHZWet9xJ0VTgNG6AAm7DpoRXkRFf4xE/y2CvfBZ1w+rv8pcI
-         3mbJtNX9HDKmj6z6s8S5MQ2KgQ8xxWrx992+gJTiq8feDNjfGkm/78DSICrRzWrT+zdG
-         1eZtQtY7zXscUwag+KT6+8bivL6yYW3rNr4He7G09yCcGsXKYoE8znvSIwGWLJe0n1Rn
-         YopO1ETU/YMAkkTfwDaabf49CY97rA3p9qhXTWnRji6LP8ag3RTg63cKe/pX97ZzpTGU
-         GlrQ==
-X-Gm-Message-State: AAQBX9cXcadmFP2uYSE7jHpcpGd1m2j7g7EbEMGHzJEvROVaVU7W1Xi+
-        l7rE1CaVnrTU8p1dZ+xMaIQTNyT4d55vexa6O0c=
-X-Google-Smtp-Source: AKy350aWqcSsTT5KoitAAdI6qGyo2zjkFILV5I11Efy1MMmQatABS82QbUaRvdoTncepKct5l1pkDw==
-X-Received: by 2002:a17:902:d0d1:b0:1a2:73d8:5a87 with SMTP id n17-20020a170902d0d100b001a273d85a87mr1935838pln.5.1680105970208;
-        Wed, 29 Mar 2023 09:06:10 -0700 (PDT)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com. [209.85.216.53])
-        by smtp.gmail.com with ESMTPSA id j1-20020a17090276c100b00195f0fb0c18sm23180081plt.31.2023.03.29.09.06.09
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 09:06:09 -0700 (PDT)
-Received: by mail-pj1-f53.google.com with SMTP id d13so14518976pjh.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 09:06:09 -0700 (PDT)
-X-Received: by 2002:a17:902:ce83:b0:1a0:4321:920e with SMTP id
- f3-20020a170902ce8300b001a04321920emr7390726plg.12.1680105969005; Wed, 29 Mar
- 2023 09:06:09 -0700 (PDT)
+        Wed, 29 Mar 2023 12:25:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F9635B7
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 09:25:44 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 174BBAD0;
+        Wed, 29 Mar 2023 18:25:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680107142;
+        bh=WjLhBrLcxeGlPSrAr0GqvALrn8OcwCa6tho+fziDCDk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gGfcKHObzRFeOWVDIvEgZDs8+VEAiq3p91zEfzaFk6dysuUirT8aEEK6oqVs8PEuU
+         C6Q6qXJ3+2x7U20R7LWUEsxsANueg1E9tpBOHvkd9/e/0LnJXqgQAjjvPuGxJ3nd5g
+         4wxmjivIOIfvUZ5EIGRP6Dd8hXu5zCk+Kb6wwz6M=
+Date:   Wed, 29 Mar 2023 18:25:37 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH 1/2] media: ccs: Align flipping behaviour with other
+ drivers
+Message-ID: <20230329162537.7t4aqbil7tr4htk2@uno.localdomain>
+References: <20230328121625.1472037-1-sakari.ailus@linux.intel.com>
+ <20230328121625.1472037-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-In-Reply-To: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 29 Mar 2023 18:05:57 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
-Message-ID: <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
-Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown pixelformats
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        regressions@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230328121625.1472037-2-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Hi Sakari
 
-Thanks for the patch.
-
-I believe the user can fetch this info from lsusb, so this is kind of
-duplicated info, and this is why it was removed.
-
-Is there an app that uses this unknown format code ? Or the only
-complaint is that WARN() is too loud for the user?
-
-Regards!
-
-On Wed, 29 Mar 2023 at 14:39, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On Tue, Mar 28, 2023 at 03:16:24PM +0300, Sakari Ailus wrote:
+> No longer mirror flipping controls if the sensor is mounted upside down.
+> Instead, change the default flip control values.
 >
-> If the fcc is 0 (indicating an unknown GUID format), then fill in the
-> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
+> This way the behaviour of the flipping controls and rotation of the sensor
+> are aligned with the rest of the drivers.
 >
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7aefa76a42b3..2f1ced1212cd 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
->                 } else {
->                         dev_info(&streaming->intf->dev,
->                                  "Unknown video format %pUl\n", &buffer[5]);
-> +                       snprintf(format->name, sizeof(format->name), "%pUl\n",
-> +                                &buffer[5]);
-Don't we need at least 38 chars for this?
-
-https://docs.kernel.org/core-api/printk-formats.html#uuid-guid-addresses
-
-
-> +
->                         format->fcc = 0;
->                 }
+>  drivers/media/i2c/ccs/ccs-core.c | 29 ++++-------------------------
+>  drivers/media/i2c/ccs/ccs.h      |  1 -
+>  2 files changed, 4 insertions(+), 26 deletions(-)
 >
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 35453f81c1d9..fc6f9e7d8506 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
->         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
->                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
->         fmt->pixelformat = format->fcc;
-> +       if (format->name[0])
-> +               strscpy(fmt->description, format->name,
-> +                       sizeof(fmt->description));
-> +
->         return 0;
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 4a14d7e5d9f2..431dd7d24cdc 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -569,8 +569,6 @@ static u32 ccs_pixel_order(struct ccs_sensor *sensor)
+>  			flip |= CCS_IMAGE_ORIENTATION_VERTICAL_FLIP;
+>  	}
+>
+> -	flip ^= sensor->hvflip_inv_mask;
+> -
+>  	dev_dbg(&client->dev, "flip %u\n", flip);
+>  	return sensor->default_pixel_order ^ flip;
 >  }
+> @@ -632,8 +630,6 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (sensor->vflip->val)
+>  			orient |= CCS_IMAGE_ORIENTATION_VERTICAL_FLIP;
 >
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 9a596c8d894a..22656755a801 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -264,6 +264,8 @@ struct uvc_format {
->         u32 fcc;
->         u32 flags;
+> -		orient ^= sensor->hvflip_inv_mask;
+> -
+>  		ccs_update_mbus_formats(sensor);
 >
-> +       char name[32];
-> +
->         unsigned int nframes;
->         struct uvc_frame *frame;
->  };
->
+>  		break;
+> @@ -800,6 +796,8 @@ static const struct v4l2_ctrl_ops ccs_ctrl_ops = {
+>  static int ccs_init_controls(struct ccs_sensor *sensor)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> +	int default_flip sensor->hwcfg.module_board_orient ==
 
+I think there's something wrong here :)
 
---
-Ricardo Ribalda
+> +		CCS_MODULE_BOARD_ORIENT_180;
+
+I would also be tempted to suggest dropping module_board_orient
+completely and store the rotation value directly. But then you would
+have to compare it to "180", "0" etc etc. Maybe it's not a good idea.
+
+Or maybe instead of removing hvflip_inv_mask you could keep it and
+remove module_board_orient instead, so that v and h flips can be
+considered in isolation.
+
+The rest of the patch looks good to me
+
+Thanks
+   j
+
+>  	int rval;
+>
+>  	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 17);
+> @@ -948,10 +946,10 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+>
+>  	sensor->hflip = v4l2_ctrl_new_std(
+>  		&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+> -		V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +		V4L2_CID_HFLIP, 0, 1, 1, default_flip);
+>  	sensor->vflip = v4l2_ctrl_new_std(
+>  		&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+> -		V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +		V4L2_CID_VFLIP, 0, 1, 1, default_flip);
+>
+>  	sensor->vblank = v4l2_ctrl_new_std(
+>  		&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+> @@ -3437,25 +3435,6 @@ static int ccs_probe(struct i2c_client *client)
+>  	if (rval < 0)
+>  		goto out_free_ccs_limits;
+>
+> -	/*
+> -	 * Handle Sensor Module orientation on the board.
+> -	 *
+> -	 * The application of H-FLIP and V-FLIP on the sensor is modified by
+> -	 * the sensor orientation on the board.
+> -	 *
+> -	 * For CCS_BOARD_SENSOR_ORIENT_180 the default behaviour is to set
+> -	 * both H-FLIP and V-FLIP for normal operation which also implies
+> -	 * that a set/unset operation for user space HFLIP and VFLIP v4l2
+> -	 * controls will need to be internally inverted.
+> -	 *
+> -	 * Rotation also changes the bayer pattern.
+> -	 */
+> -	if (sensor->hwcfg.module_board_orient ==
+> -	    CCS_MODULE_BOARD_ORIENT_180)
+> -		sensor->hvflip_inv_mask =
+> -			CCS_IMAGE_ORIENTATION_HORIZONTAL_MIRROR |
+> -			CCS_IMAGE_ORIENTATION_VERTICAL_FLIP;
+> -
+>  	rval = ccs_call_quirk(sensor, limits);
+>  	if (rval) {
+>  		dev_err(&client->dev, "limits quirks failed\n");
+> diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
+> index 6beac375cc48..ea8909f011d9 100644
+> --- a/drivers/media/i2c/ccs/ccs.h
+> +++ b/drivers/media/i2c/ccs/ccs.h
+> @@ -243,7 +243,6 @@ struct ccs_sensor {
+>  	u8 scale_m;
+>  	u8 scaling_mode;
+>
+> -	u8 hvflip_inv_mask; /* H/VFLIP inversion due to sensor orientation */
+>  	u8 frame_skip;
+>  	u16 embedded_start; /* embedded data start line */
+>  	u16 embedded_end;
+> --
+> 2.30.2
+>
