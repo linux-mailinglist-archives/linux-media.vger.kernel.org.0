@@ -2,285 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D34D56CD1E5
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 08:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C36A96CD372
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 09:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbjC2GBv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 02:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        id S229612AbjC2HkY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 03:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjC2GBq (ORCPT
+        with ESMTP id S229571AbjC2HkX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 02:01:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B07D35A6;
-        Tue, 28 Mar 2023 23:01:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CCC4A61A82;
-        Wed, 29 Mar 2023 06:01:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16E3C433D2;
-        Wed, 29 Mar 2023 06:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1680069696;
-        bh=e/e6NgdEZBs2gg1Cm6BMOjLHkLUW706EtV0baW7i3Cs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=xAQ1QLtHNl3VGdQI8eo0aMCA+N1c6Jp6cmHVTqfAsqGxOZbUtpAX4EmAAL7AYc8mI
-         o1CQIAb94vbIFPP9ar0cHjEnGGM65toxXnzGeVFxRtzy7MlggMZUyksM+WbxXeebLd
-         tA6noEMjfiC04wvtznOvNb5AveWkY+ZsWE/zJyV4=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mike Isely <isely@pobox.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH] media: pvrusb2: clean up unneeded complexity in pvrusb2 class logic
-Date:   Wed, 29 Mar 2023 08:01:32 +0200
-Message-Id: <20230329060132.2688621-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.0
+        Wed, 29 Mar 2023 03:40:23 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FD9B1
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 00:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680075622; x=1711611622;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n6+ByagvBnHjWLxN/dRdWnYrtXRVukugcdoCCLXLmkw=;
+  b=K4yHO6sF3Bdp9XGQRpuYFos0E45b/KIgoFzT7IxswygrRQquKpqrbcpj
+   kC8SPaNPLN7EefYvRMKpzKa+EmBnmsCh2K3c4fzgZDgBhBRk1h6R4oxHu
+   AjDMUnqzKvqgUZ/J66ZVPNAfwokn/Lu+7GMs+kzsNZNb0kObney2WEeU6
+   QFd+ojJPv2h+7msv5c4vFcjy2kHPjrpmqd+1g+4zz/kpdGrERq8YJnzMa
+   5iWr/1GA6k7ObQvrV3ni6z3KEoSrVQzC7rqqyS8aVcFTegxcLvhE//C1K
+   gCyYtOr1UGEHU79cgZYIDNr1PyetYOTjIfryhgYlE68IT80AOnSiremBR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340826190"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
+   d="scan'208";a="340826190"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 00:40:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="930201554"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; 
+   d="scan'208";a="930201554"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 00:39:58 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 158DE1224D2;
+        Wed, 29 Mar 2023 10:39:56 +0300 (EEST)
+Date:   Wed, 29 Mar 2023 10:39:56 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Wu, Wentong" <wentong.wu@intel.com>
+Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "djrscally@gmail.com" <djrscally@gmail.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
+        "Ye, Xiang" <xiang.ye@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Subject: Re: [PATCH v3 0/3] media: pci: intel: ivsc: Add driver of Intel
+ Visual Sensing Controller(IVSC)
+Message-ID: <ZCPrTJ9Xg2dkxbu2@kekkonen.localdomain>
+References: <1679898188-14426-1-git-send-email-wentong.wu@intel.com>
+ <ZCFD3aW4NRrn69LR@kekkonen.localdomain>
+ <MN2PR11MB43184340CB813FFCE47AA68B8D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
+ <ZCFKmNKZAPwsIq/j@kekkonen.localdomain>
+ <MN2PR11MB431892069628328E614F03498D8B9@MN2PR11MB4318.namprd11.prod.outlook.com>
+ <ZCFjqu4P9AcNbMoZ@kekkonen.localdomain>
+ <DM6PR11MB4316138CF6D8D300C007B4DE8D889@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <ZCNEp6NmeDElNMRs@kekkonen.localdomain>
+ <MN2PR11MB43182A9175011A4C8E3A31068D899@MN2PR11MB4318.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7499; i=gregkh@linuxfoundation.org; h=from:subject; bh=e/e6NgdEZBs2gg1Cm6BMOjLHkLUW706EtV0baW7i3Cs=; b=owGbwMvMwCRo6H6F97bub03G02pJDCnKV2x2+TROuyKQ+aZlrayIcPPcJW170uPmq4j8vFTV7 nFahzG6I5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACbSbMKwYHNn4bJPcWtPLNhy 8v9kTvdFPPk22QzzC6cYsyWz/1N/YBZrKumXvC48Q+IeAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MN2PR11MB43182A9175011A4C8E3A31068D899@MN2PR11MB4318.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pvrusb2 driver struct class logic was dynamically creating a class
-that should have just been static as it did not do anything special and
-was only a wrapper around a stock "struct class" implementation.  Clean
-this all up by making a static struct class and modifying the code to
-correctly reference it.
+Hi Wentong,
 
-By doing so, lots of unneeded lines of code were removed, and #ifdef
-logic was cleaned up so that the .c files are not cluttered up with
-extra complexity following the proper kernel coding style.
+On Wed, Mar 29, 2023 at 12:42:06AM +0000, Wu, Wentong wrote:
+> > > > > > > I have no idea what the ipu bridge would be like, but IVSC csi
+> > > > > > > bridge can be configured via kconfig to enable/disable.
+> > > > > >
+> > > > > > Please work out the details with Bingbu.
+> > > > >
+> > > > > @bingbu.cao@linux.intel.com @Sakari Ailus Please share your design
+> > > > > idea
+> > > > here.
+> > > > > What the ipu bridge would be like?  What's the responsibility of ipu bridge?
+> > > >
+> > > > I'd expect Bingbu to have patches to turn the current cio2_bridge to
+> > > > an ipu_bridge at some point. These should come on top of those patches.
+> > >
+> > > When will this be ready if you already make the plan? But could you
+> > > please help review my other patches except bridge?
+> > 
+> > Please configure your e-mail client to wrap your lines at most at 74 characters
+> > or so.
+> > 
+> > I think it's binding this all together that is the concern, the individual drivers
+> > much less so.
+> 
+> Thanks, I would remove the csi bridge in next version.
+> 
+> Ok, the IPU bridge will also cover the bridge between IVSC and sensor.
+> 
+> BTW, please hans and laurent help take a look the mei_csi and mei_ace
+> patch.
 
-Cc: Mike Isely <isely@pobox.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
-Note: I would like to take this through the driver-core tree as I have
-later struct class cleanups that depend on this change being made to the
-tree if that's ok with the maintainer of this file.
+I can review them. However they can't be tested without the bridge code in
+place. I'm therefore leaning towards merging them all at the same time,
+when we know how this looks like in the end and can actually test the
+patches.
 
- drivers/media/usb/pvrusb2/pvrusb2-main.c  | 18 ++-----
- drivers/media/usb/pvrusb2/pvrusb2-sysfs.c | 59 +++++++----------------
- drivers/media/usb/pvrusb2/pvrusb2-sysfs.h | 16 +++---
- 3 files changed, 29 insertions(+), 64 deletions(-)
-
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-main.c b/drivers/media/usb/pvrusb2/pvrusb2-main.c
-index ce4d566e4e5a..721dafd2c14b 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-main.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-main.c
-@@ -16,9 +16,7 @@
- #include "pvrusb2-context.h"
- #include "pvrusb2-debug.h"
- #include "pvrusb2-v4l2.h"
--#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
- #include "pvrusb2-sysfs.h"
--#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
- 
- #define DRIVER_AUTHOR "Mike Isely <isely@pobox.com>"
- #define DRIVER_DESC "Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner"
-@@ -36,10 +34,6 @@ int pvrusb2_debug = DEFAULT_DEBUG_MASK;
- module_param_named(debug,pvrusb2_debug,int,S_IRUGO|S_IWUSR);
- MODULE_PARM_DESC(debug, "Debug trace mask");
- 
--#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
--static struct pvr2_sysfs_class *class_ptr = NULL;
--#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
--
- static void pvr_setup_attach(struct pvr2_context *pvr)
- {
- 	/* Create association with v4l layer */
-@@ -48,9 +42,7 @@ static void pvr_setup_attach(struct pvr2_context *pvr)
- 	/* Create association with dvb layer */
- 	pvr2_dvb_create(pvr);
- #endif
--#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
--	pvr2_sysfs_create(pvr,class_ptr);
--#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
-+	pvr2_sysfs_create(pvr);
- }
- 
- static int pvr_probe(struct usb_interface *intf,
-@@ -115,9 +107,7 @@ static int __init pvr_init(void)
- 		return ret;
- 	}
- 
--#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
--	class_ptr = pvr2_sysfs_class_create();
--#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
-+	pvr2_sysfs_class_create();
- 
- 	ret = usb_register(&pvr_driver);
- 
-@@ -141,9 +131,7 @@ static void __exit pvr_exit(void)
- 
- 	pvr2_context_global_done();
- 
--#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
--	pvr2_sysfs_class_destroy(class_ptr);
--#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
-+	pvr2_sysfs_class_destroy();
- 
- 	pvr2_trace(PVR2_TRACE_INIT,"pvr_exit complete");
- }
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
-index 3e42e209be37..a8c0b513e58e 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
-@@ -66,10 +66,6 @@ struct pvr2_sysfs_ctl_item {
- 	char name[80];
- };
- 
--struct pvr2_sysfs_class {
--	struct class class;
--};
--
- static ssize_t show_name(struct device *class_dev,
- 			 struct device_attribute *attr,
- 			 char *buf)
-@@ -487,15 +483,6 @@ static void pvr2_sysfs_tear_down_controls(struct pvr2_sysfs *sfp)
- }
- 
- 
--static void pvr2_sysfs_class_release(struct class *class)
--{
--	struct pvr2_sysfs_class *clp;
--	clp = container_of(class,struct pvr2_sysfs_class,class);
--	pvr2_sysfs_trace("Destroying pvr2_sysfs_class id=%p",clp);
--	kfree(clp);
--}
--
--
- static void pvr2_sysfs_release(struct device *class_dev)
- {
- 	pvr2_sysfs_trace("Releasing class_dev id=%p",class_dev);
-@@ -503,6 +490,12 @@ static void pvr2_sysfs_release(struct device *class_dev)
- }
- 
- 
-+static struct class pvr2_class = {
-+	.name		= "pvrusb2",
-+	.dev_release	= pvr2_sysfs_release,
-+};
-+
-+
- static void class_dev_destroy(struct pvr2_sysfs *sfp)
- {
- 	struct device *dev;
-@@ -614,8 +607,7 @@ static ssize_t unit_number_show(struct device *class_dev,
- }
- 
- 
--static void class_dev_create(struct pvr2_sysfs *sfp,
--			     struct pvr2_sysfs_class *class_ptr)
-+static void class_dev_create(struct pvr2_sysfs *sfp)
- {
- 	struct usb_device *usb_dev;
- 	struct device *class_dev;
-@@ -628,7 +620,7 @@ static void class_dev_create(struct pvr2_sysfs *sfp,
- 
- 	pvr2_sysfs_trace("Creating class_dev id=%p",class_dev);
- 
--	class_dev->class = &class_ptr->class;
-+	class_dev->class = &pvr2_class;
- 
- 	dev_set_name(class_dev, "%s",
- 		     pvr2_hdw_get_device_identifier(sfp->channel.hdw));
-@@ -753,47 +745,30 @@ static void pvr2_sysfs_internal_check(struct pvr2_channel *chp)
- }
- 
- 
--struct pvr2_sysfs *pvr2_sysfs_create(struct pvr2_context *mp,
--				     struct pvr2_sysfs_class *class_ptr)
-+void pvr2_sysfs_create(struct pvr2_context *mp)
- {
- 	struct pvr2_sysfs *sfp;
- 	sfp = kzalloc(sizeof(*sfp),GFP_KERNEL);
--	if (!sfp) return sfp;
-+	if (!sfp)
-+		return;
- 	pvr2_trace(PVR2_TRACE_STRUCT,"Creating pvr2_sysfs id=%p",sfp);
- 	pvr2_channel_init(&sfp->channel,mp);
- 	sfp->channel.check_func = pvr2_sysfs_internal_check;
- 
--	class_dev_create(sfp,class_ptr);
--	return sfp;
-+	class_dev_create(sfp);
- }
- 
- 
--
--struct pvr2_sysfs_class *pvr2_sysfs_class_create(void)
-+void pvr2_sysfs_class_create(void)
- {
--	struct pvr2_sysfs_class *clp;
--	clp = kzalloc(sizeof(*clp),GFP_KERNEL);
--	if (!clp) return clp;
--	pvr2_sysfs_trace("Creating and registering pvr2_sysfs_class id=%p",
--			 clp);
--	clp->class.name = "pvrusb2";
--	clp->class.class_release = pvr2_sysfs_class_release;
--	clp->class.dev_release = pvr2_sysfs_release;
--	if (class_register(&clp->class)) {
--		pvr2_sysfs_trace(
--			"Registration failed for pvr2_sysfs_class id=%p",clp);
--		kfree(clp);
--		clp = NULL;
--	}
--	return clp;
-+	if (class_register(&pvr2_class))
-+		pvr2_sysfs_trace("Registration failed for pvr2_sysfs_class");
- }
- 
- 
--void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *clp)
-+void pvr2_sysfs_class_destroy(void)
- {
--	pvr2_sysfs_trace("Unregistering pvr2_sysfs_class id=%p", clp);
--	if (clp)
--		class_unregister(&clp->class);
-+	class_unregister(&pvr2_class);
- }
- 
- 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
-index ac580ff39b5f..375a5372e95c 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
-@@ -10,13 +10,15 @@
- #include <linux/sysfs.h>
- #include "pvrusb2-context.h"
- 
--struct pvr2_sysfs;
--struct pvr2_sysfs_class;
-+#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
-+void pvr2_sysfs_class_create(void);
-+void pvr2_sysfs_class_destroy(void);
-+void pvr2_sysfs_create(struct pvr2_context *mp);
-+#else
-+static inline void pvr2_sysfs_class_create(void) { }
-+static inline void pvr2_sysfs_class_destroy(void) { }
-+static inline void pvr2_sysfs_create(struct pvr2_context *mp) { }
-+#endif
- 
--struct pvr2_sysfs_class *pvr2_sysfs_class_create(void);
--void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *);
--
--struct pvr2_sysfs *pvr2_sysfs_create(struct pvr2_context *,
--				     struct pvr2_sysfs_class *);
- 
- #endif /* __PVRUSB2_SYSFS_H */
 -- 
-2.40.0
+Regards,
 
+Sakari Ailus
