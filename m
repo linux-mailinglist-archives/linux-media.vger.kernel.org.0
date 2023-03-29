@@ -2,150 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B796CF238
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 20:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B42D26CF3CC
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 21:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229595AbjC2Shc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 14:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37252 "EHLO
+        id S229815AbjC2T4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 15:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbjC2Sha (ORCPT
+        with ESMTP id S229532AbjC2T4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 14:37:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE052108
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 11:36:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1680115003;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hngQVU0oLMQxvv+u8vuy/0tao+EP9VOUUrq5Ry57HH0=;
-        b=NfawVM0UTrCFNn4aijnuwGS0LbdxcPKUgBJE9lISadnSPcJgyi7UeVvJulNVcaY23ZYKql
-        96OIxqfNmmR1EycKIjCshA9RFV1xJwqLO4byXlvmccKQFChKwivh2mrbfIegFEN5g8c5uo
-        olvngEOtPPTzBmmB24fC0n5ZU8vrKUk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-379-sn7DrJLAPwaOxqYiWca-hg-1; Wed, 29 Mar 2023 14:36:36 -0400
-X-MC-Unique: sn7DrJLAPwaOxqYiWca-hg-1
-Received: by mail-ed1-f71.google.com with SMTP id t14-20020a056402240e00b004fb36e6d670so23457585eda.5
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 11:36:36 -0700 (PDT)
+        Wed, 29 Mar 2023 15:56:37 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D41D83
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 12:56:36 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id r84so11232630oih.11
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 12:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680119795;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jV6SSLxGVe+qYUxVNOJbFfaBH6mCI2Ov23QNqXSmBuo=;
+        b=XMSrBd96upboFRYPHREoSIWbEsF+SJl/KFxK09Xw++mN9oBgIKY5qXvDfCXnuUyeJY
+         nIeWQXeA5aenk78/WixSo0lsyWV3wIfPH14Ap4CrDVt4OvC1B9fMbO/6CACIR0LuKgv3
+         V52o7jL5LXZ4LeMhFrqCoaXd4VcvOhOML9XP9LNB4SHpU3Uaw6l8+l2SEx6YS0YpPdkH
+         LNPZbvnx9nvNRWX7QZrWDM2/n/Cm2dG8wf6jkMzEEMF/M2Pw0kKSBzI31FACj4GUGrhL
+         Hr1tY5G3jPMhyADpQpcD0sVeHVc7nyqskupYfTm5bCulLJW9bJXQwzuOvl7OQ/dH3DG5
+         BRGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680114996;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hngQVU0oLMQxvv+u8vuy/0tao+EP9VOUUrq5Ry57HH0=;
-        b=i0uw+uGKJaj3SXvjgS7fjIb6HMlVjtiiZXYNjI7Sw9/PAEh0vQSowGcsihf2GfZNzK
-         e14asVTvqMozaeZOeUiFr/Kn87MHjRaJVRQmCWJ6vtzvQ8mTXWGEjVSfRw9nUfMSHw92
-         Bm7i5L795bwZWmtOa4ykf682dLLZLvZnloFxsrL7mvjrclNeCmlWrANkZJ0l1BogyFVl
-         7eX29tZiMm5VOylUFZ6UVlSASp0isbX80rdi5I1G0SX3QhvOdxwU9STaJHqdRZ6k8VjZ
-         rX99qEAD3YYIjBitPvBbdIAp+8EJguVFhmRr7xYND86Hr24AtSDepF8T9EbZy3A0UOzj
-         DFGw==
-X-Gm-Message-State: AAQBX9cP0sXbAEuZMa0nSzOUMy71ZYWa1MWwQOBLhe3Tmbmmy8Obm+KL
-        NfbgcbnWvMGBZbvvbCw2S6JdLL5wrO3JOMCkviGaoCR3mLOpLyC3BkherEpM7vgv2uSb5F9ztY9
-        y8GmBvMRtQYM9v94yBuGKXHM=
-X-Received: by 2002:aa7:d806:0:b0:4fc:3777:f630 with SMTP id v6-20020aa7d806000000b004fc3777f630mr20222277edq.0.1680114995917;
-        Wed, 29 Mar 2023 11:36:35 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YgAX3gSQ0Z/vFKnB7klGJAaJ5a7qzVG7cAkRa+s694WTIbr4FbtGfu5jYyUuzo6PEfwjSlBw==
-X-Received: by 2002:aa7:d806:0:b0:4fc:3777:f630 with SMTP id v6-20020aa7d806000000b004fc3777f630mr20222267edq.0.1680114995671;
-        Wed, 29 Mar 2023 11:36:35 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id m10-20020a50998a000000b004e48f8df7e2sm17522994edb.72.2023.03.29.11.36.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 11:36:34 -0700 (PDT)
-Message-ID: <ffdf7e17-580c-ed13-c37a-bd795e116427@redhat.com>
-Date:   Wed, 29 Mar 2023 20:36:33 +0200
+        d=1e100.net; s=20210112; t=1680119795;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jV6SSLxGVe+qYUxVNOJbFfaBH6mCI2Ov23QNqXSmBuo=;
+        b=GOCUDpDahtKhfOSGjvKL7xkUyGCf0rcDY1vN60lj6UaMqBaiibkOynb8toiCjJe0lL
+         e/96BuU20gf1cSQ/imd/OZ7Y/m2njoeLk8n+zRWzIxMbY94/myHn8T+ZEK678TrxJ0+H
+         aqsQJgjEAGNjUdcqA9547yPDs4JyczgFyv6OezhWsEoTeXgquStF0lJJqODiRKBsdwqs
+         dV/EW8BFPp36MWhgJ50OscFFC+W/EUJ+a4mbL0XF5CJHFc1Dai0J2Snnh1tD2ccqhbAo
+         VkcM/z8vkpUhEo/hWCpwXs1QuLzwBfP/slyWyDbXj/cGpqsl9ZAaaCLbCKIcUcRh2KUl
+         Kbow==
+X-Gm-Message-State: AO0yUKULoNrxV3qsi/qNOhCD2F3HMyIOlnHTsZVJVT2Y+9jMMPgO5uHp
+        PXk+CGEF+Uvth3Q5OJmjw+UZ5p/7FTdc80kM4om/J3AmtJw=
+X-Google-Smtp-Source: AK7set8d4CdHlpOrOblt0T2OnrvuQWYym2nNmrqqQ3JyIMn9updQnfalkDo/IDJOOAdqMHNIUOQBCctV//xtJnx6R9s=
+X-Received: by 2002:aca:1b09:0:b0:383:fcba:70e6 with SMTP id
+ b9-20020aca1b09000000b00383fcba70e6mr5486844oib.1.1680119795444; Wed, 29 Mar
+ 2023 12:56:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
- pixelformats
-Content-Language: en-US, nl
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     regressions@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
+ <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl>
+In-Reply-To: <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl>
+From:   Shawn Lindberg <shawn.lindberg@gmail.com>
+Date:   Wed, 29 Mar 2023 14:56:24 -0500
+Message-ID: <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
+Subject: Re: Extremely long delay between CEC image-view-on an standby.
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Tue, Mar 28, 2023 at 2:58=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl> w=
+rote:
+>
+> > cec-ctl -d0 --tv --cec-version-1.4
+>
+> That's wrong, the RPi is a Playback device, not a TV. So use --playback i=
+nstead.
+>
+> You should also add this line to the config.txt:
+>
+> hdmi_ignore_cec=3D1
+>
+> otherwise the RPi's firmware tries to process CEC messages as well.
 
-On 3/29/23 14:28, Hans Verkuil wrote:
-> If the fcc is 0 (indicating an unknown GUID format), then fill in the
-> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+Oh, I thought that the TV/playback command was indicating what sort of
+device the connected device is. This wasn't clear from the man page,
+either. Thank you for that. I made the change to config.txt and
+strangely when the RPi rebooted (I have it set to do this
+automatically once a day) the projector automatically turned on. I
+have never experienced this before.
 
-Thanks, patch looks good to me:
+> > During this time, if I try to poll the projector, it will succeed.
+> > However, if I monitor events, after a significant amount of time
+> > (appears to be greater than 20 minutes, although this is difficult to
+> > verify because of how long it takes) I go will eventually see the
+> > following:
+> >
+> > Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
+> >     Timestamp: 30981.428s
+>
+> Now it appears to be able to read the EDID again and it has a valid
+> physical address.
+>
+> > Transmitted by Specific to Specific (14 to 14): POLL
+> >     Tx, Not Acknowledged (4), Max Retries
+> >     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), Max=
+ Retries
+> >
+> > Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
+> >     Timestamp: 30981.561s
+> > Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84):
+> >     phys-addr: 1.0.0.0
+> >     prim-devtype: tv (0x00)
+> >     Sequence: 22 Tx Timestamp: 30981.696s
+> > Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
+> >     vendor-id: 3075 (0x00000c03)
+> >     Sequence: 23 Tx Timestamp: 30981.835s
+> > Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
+> >     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
+> >     reason: invalid-op (0x03)
+> >     Sequence: 0 Rx Timestamp: 30981.949s
+> > Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
+> >     Sequence: 0 Rx Timestamp: 30982.026s
+> > Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
+> >     name: TV
+> >     Sequence: 24 Tx Timestamp: 30982.137s
+> >
+> > After this point in time the standby command will succeed and the
+> > projector will turn off. It's quite inconvenient to have to wait over
+> > 20 minutes to turn the projector back off again. Any idea how I can
+> > shorten this delay?
+>
+> There is something weird about your setup and EDID. I can't really tell
+> what it is.
 
-FWIW:
+After making the above changes and retesting, the behavior didn't
+change. I still get the device not connected message and the invalid
+physical address when I try to do standby. I should also note that one
+way around this issue is to reboot the RPi. For some reason that seems
+to get around the long delay in getting the physical address.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+I don't know what would be strange about my set up other than the
+projector itself and a couple of lines I uncommented in the config.txt
+to set the RPi to use HDMI even if the projector is not on at the time
+of booting. Is there more information I can provide that would allow
+us to figure out what's going on? If you are correct that for some
+reason it is just not reading the EDID, is there a way to manually
+provide that? I don't know much about it, but it's a static property
+of the device (the projector in this case), right?
 
-Regards,
-
-Hans
-
-> ---
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7aefa76a42b3..2f1ced1212cd 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
->  		} else {
->  			dev_info(&streaming->intf->dev,
->  				 "Unknown video format %pUl\n", &buffer[5]);
-> +			snprintf(format->name, sizeof(format->name), "%pUl\n",
-> +				 &buffer[5]);
-> +
->  			format->fcc = 0;
->  		}
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 35453f81c1d9..fc6f9e7d8506 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
->  	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
->  		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
->  	fmt->pixelformat = format->fcc;
-> +	if (format->name[0])
-> +		strscpy(fmt->description, format->name,
-> +			sizeof(fmt->description));
-> +
->  	return 0;
->  }
-> 
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 9a596c8d894a..22656755a801 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -264,6 +264,8 @@ struct uvc_format {
->  	u32 fcc;
->  	u32 flags;
-> 
-> +	char name[32];
-> +
->  	unsigned int nframes;
->  	struct uvc_frame *frame;
->  };
-> 
-
+Thanks,
+Shawn
