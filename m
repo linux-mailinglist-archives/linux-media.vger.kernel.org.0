@@ -2,63 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B42D26CF3CC
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 21:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 797AC6CF519
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 23:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229815AbjC2T4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 15:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48880 "EHLO
+        id S229825AbjC2VRY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 17:17:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjC2T4h (ORCPT
+        with ESMTP id S229436AbjC2VRX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 15:56:37 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D41D83
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 12:56:36 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id r84so11232630oih.11
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 12:56:36 -0700 (PDT)
+        Wed, 29 Mar 2023 17:17:23 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6661708
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 14:17:22 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id eh3so68613771edb.11
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 14:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680119795;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jV6SSLxGVe+qYUxVNOJbFfaBH6mCI2Ov23QNqXSmBuo=;
-        b=XMSrBd96upboFRYPHREoSIWbEsF+SJl/KFxK09Xw++mN9oBgIKY5qXvDfCXnuUyeJY
-         nIeWQXeA5aenk78/WixSo0lsyWV3wIfPH14Ap4CrDVt4OvC1B9fMbO/6CACIR0LuKgv3
-         V52o7jL5LXZ4LeMhFrqCoaXd4VcvOhOML9XP9LNB4SHpU3Uaw6l8+l2SEx6YS0YpPdkH
-         LNPZbvnx9nvNRWX7QZrWDM2/n/Cm2dG8wf6jkMzEEMF/M2Pw0kKSBzI31FACj4GUGrhL
-         Hr1tY5G3jPMhyADpQpcD0sVeHVc7nyqskupYfTm5bCulLJW9bJXQwzuOvl7OQ/dH3DG5
-         BRGQ==
+        d=gmail.com; s=20210112; t=1680124641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=poqoV9DLa63J5k0SYffopawcwmWY2ewpwxbFLEKtvMA=;
+        b=MI21zzWNl5FqFiMz+xn8XxDYlrBbi24RQFsVCvEWMjTV1bdtRNhn9dpMJD4AfYjdkq
+         7scPv4hpuAfJAxYDP0awnzhCGBTeTYGvp1c2SAVixGf7bKIWz+plHcZvB8fDGAQqVqMF
+         d5+l+boDLpr475cPSzj8vLze79MvWJAFiv4DEjJI9JDNb6J0lq55arwFU/DYCadneGjk
+         w1b5PJXzGQzFSxEqPbY3o8Ak6/Cnvj1mZ1TE24Pm2Ukm7pEwc9N3BZ56s/Zg8EB8pjtn
+         xH+nOjggDZR5xAR9IoRY4Srpufiv8mx0FxIcjsTpr9WytIVv2ukKwCkaBge84vAnaMuB
+         Da9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680119795;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jV6SSLxGVe+qYUxVNOJbFfaBH6mCI2Ov23QNqXSmBuo=;
-        b=GOCUDpDahtKhfOSGjvKL7xkUyGCf0rcDY1vN60lj6UaMqBaiibkOynb8toiCjJe0lL
-         e/96BuU20gf1cSQ/imd/OZ7Y/m2njoeLk8n+zRWzIxMbY94/myHn8T+ZEK678TrxJ0+H
-         aqsQJgjEAGNjUdcqA9547yPDs4JyczgFyv6OezhWsEoTeXgquStF0lJJqODiRKBsdwqs
-         dV/EW8BFPp36MWhgJ50OscFFC+W/EUJ+a4mbL0XF5CJHFc1Dai0J2Snnh1tD2ccqhbAo
-         VkcM/z8vkpUhEo/hWCpwXs1QuLzwBfP/slyWyDbXj/cGpqsl9ZAaaCLbCKIcUcRh2KUl
-         Kbow==
-X-Gm-Message-State: AO0yUKULoNrxV3qsi/qNOhCD2F3HMyIOlnHTsZVJVT2Y+9jMMPgO5uHp
-        PXk+CGEF+Uvth3Q5OJmjw+UZ5p/7FTdc80kM4om/J3AmtJw=
-X-Google-Smtp-Source: AK7set8d4CdHlpOrOblt0T2OnrvuQWYym2nNmrqqQ3JyIMn9updQnfalkDo/IDJOOAdqMHNIUOQBCctV//xtJnx6R9s=
-X-Received: by 2002:aca:1b09:0:b0:383:fcba:70e6 with SMTP id
- b9-20020aca1b09000000b00383fcba70e6mr5486844oib.1.1680119795444; Wed, 29 Mar
- 2023 12:56:35 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680124641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=poqoV9DLa63J5k0SYffopawcwmWY2ewpwxbFLEKtvMA=;
+        b=qqGhlyNMalEtmtQUnWfh6QHmF2puwr1fMphjKkGnxVyeQ83D2Wuq2jcPTrgjYXuuAl
+         SAvajPTNwTwpGcELNlaVjJa4omQzf7ZZ72ALfObxImZ8Zn3oyChMq0e2e8J/YHc+KR+/
+         Yeil0ztWH34DzDr16dv9CWSUg4galFumWu8AGwMb7dWG3z6SqR6YuwfhLxr/+WPQ0Mw0
+         bhluPflxGVvfabv3QBBPlOpNKPLhnuGBmz8I/aqLAgaLg6krfbQEZu6DI+u7VNfCRCvh
+         5qVIVueIzvd1lSAuVevzIC/UMWveAfdXgNuw2f7GiPTvpYGESuYQ5K8EzvmYESRiO+ln
+         RS4w==
+X-Gm-Message-State: AAQBX9dveHf9PxnbTgQuN/srLVuatUkzdYFBEGUnyZHXCz7kn2y01lCy
+        KfKa7CvrfB4QXYQpjtDarob4KVHxH0Q=
+X-Google-Smtp-Source: AKy350Yttf2skMmviko3u/UyaLDZIrL8KIz19Paio6qtxqXMDbKs8wcnhMxrItzvIb7ec02EqBp0kQ==
+X-Received: by 2002:a17:907:1819:b0:931:dcd4:4ff0 with SMTP id lg25-20020a170907181900b00931dcd44ff0mr24734315ejc.75.1680124640969;
+        Wed, 29 Mar 2023 14:17:20 -0700 (PDT)
+Received: from aero-laptop.. (hst-221-24.medicom.bg. [84.238.221.24])
+        by smtp.gmail.com with ESMTPSA id n18-20020a170906379200b0093237bd4bc3sm16399361ejc.116.2023.03.29.14.17.20
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Mar 2023 14:17:20 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.4] Venus updates
+Date:   Thu, 30 Mar 2023 00:16:55 +0300
+Message-Id: <20230329211655.100276-1-stanimir.k.varbanov@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
- <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl>
-In-Reply-To: <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl>
-From:   Shawn Lindberg <shawn.lindberg@gmail.com>
-Date:   Wed, 29 Mar 2023 14:56:24 -0500
-Message-ID: <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
-Subject: Re: Extremely long delay between CEC image-view-on an standby.
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -69,85 +68,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 28, 2023 at 2:58=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> > cec-ctl -d0 --tv --cec-version-1.4
->
-> That's wrong, the RPi is a Playback device, not a TV. So use --playback i=
-nstead.
->
-> You should also add this line to the config.txt:
->
-> hdmi_ignore_cec=3D1
->
-> otherwise the RPi's firmware tries to process CEC messages as well.
+Hi Mauro,
 
-Oh, I thought that the TV/playback command was indicating what sort of
-device the connected device is. This wasn't clear from the man page,
-either. Thank you for that. I made the change to config.txt and
-strangely when the RPi rebooted (I have it set to do this
-automatically once a day) the projector automatically turned on. I
-have never experienced this before.
+This time Venus updates includes:
 
-> > During this time, if I try to poll the projector, it will succeed.
-> > However, if I monitor events, after a significant amount of time
-> > (appears to be greater than 20 minutes, although this is difficult to
-> > verify because of how long it takes) I go will eventually see the
-> > following:
-> >
-> > Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
-> >     Timestamp: 30981.428s
->
-> Now it appears to be able to read the EDID again and it has a valid
-> physical address.
->
-> > Transmitted by Specific to Specific (14 to 14): POLL
-> >     Tx, Not Acknowledged (4), Max Retries
-> >     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), Max=
- Retries
-> >
-> > Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
-> >     Timestamp: 30981.561s
-> > Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84):
-> >     phys-addr: 1.0.0.0
-> >     prim-devtype: tv (0x00)
-> >     Sequence: 22 Tx Timestamp: 30981.696s
-> > Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
-> >     vendor-id: 3075 (0x00000c03)
-> >     Sequence: 23 Tx Timestamp: 30981.835s
-> > Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
-> >     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
-> >     reason: invalid-op (0x03)
-> >     Sequence: 0 Rx Timestamp: 30981.949s
-> > Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
-> >     Sequence: 0 Rx Timestamp: 30982.026s
-> > Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
-> >     name: TV
-> >     Sequence: 24 Tx Timestamp: 30982.137s
-> >
-> > After this point in time the standby command will succeed and the
-> > projector will turn off. It's quite inconvenient to have to wait over
-> > 20 minutes to turn the projector back off again. Any idea how I can
-> > shorten this delay?
->
-> There is something weird about your setup and EDID. I can't really tell
-> what it is.
+ - A fix for capture format enumeration.
+ - A fix for handling decoder start cmd.
+ - A fix for H265 decoder failure.
+ - Adds encoder commands support.
+ - DT-binding re-organizations.
+ - Adds support for QP range for HFI versions 4xx and 6xx.
 
-After making the above changes and retesting, the behavior didn't
-change. I still get the device not connected message and the invalid
-physical address when I try to do standby. I should also note that one
-way around this issue is to reboot the RPi. For some reason that seems
-to get around the long delay in getting the physical address.
+Please pull.
 
-I don't know what would be strange about my set up other than the
-projector itself and a couple of lines I uncommented in the config.txt
-to set the RPi to use HDMI even if the projector is not on at the time
-of booting. Is there more information I can provide that would allow
-us to figure out what's going on? If you are correct that for some
-reason it is just not reading the EDID, is there a way to manually
-provide that? I don't know much about it, but it's a static property
-of the device (the projector in this case), right?
+regards,
+Stan
 
-Thanks,
-Shawn
+The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+
+  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-for-v6.4
+
+for you to fetch changes up to dfc416974aab7cc1c3f5b4a2b607badac27e9cf8:
+
+  venus: Add support for min/max qp range. (2023-03-29 23:58:01 +0300)
+
+----------------------------------------------------------------
+Venus updates for v6.4
+
+----------------------------------------------------------------
+Dikshita Agarwal (1):
+      venus: venc: add handling for VIDIOC_ENCODER_CMD
+
+Javier Martinez Canillas (1):
+      media: venus: dec: Fix capture formats enumeration order
+
+Krzysztof Kozlowski (9):
+      media: venus: drop unused opp_table field documentation
+      media: dt-bindings: qcom,venus: cleanup
+      media: dt-bindings: qcom,venus: split common properties
+      media: dt-bindings: qcom,msm8996-venus: document interconnects
+      media: dt-bindings: qcom,sc7180-venus: document OPP table
+      media: dt-bindings: qcom,sc7280-venus: document OPP table
+      media: dt-bindings: qcom,sdm845-venus-v2: document OPP table
+      media: dt-bindings: qcom,sm8250-venus: document OPP table
+      media: dt-bindings: qcom,venus: document firmware-name
+
+Michał Krawczyk (1):
+      media: venus: dec: Fix handling of the start cmd
+
+Viswanath Boma (2):
+      venus: Fix for H265 decoding failure.
+      venus: Add support for min/max qp range.
+
+ .../bindings/media/qcom,msm8916-venus.yaml         |  86 ++++--------
+ .../bindings/media/qcom,msm8996-venus.yaml         | 146 +++++++++------------
+ .../bindings/media/qcom,sc7180-venus.yaml          |  97 ++++++--------
+ .../bindings/media/qcom,sc7280-venus.yaml          | 132 ++++++++-----------
+ .../bindings/media/qcom,sdm660-venus.yaml          | 144 ++++++++------------
+ .../bindings/media/qcom,sdm845-venus-v2.yaml       | 108 ++++++---------
+ .../bindings/media/qcom,sdm845-venus.yaml          | 104 ++++++---------
+ .../bindings/media/qcom,sm8250-venus.yaml          | 122 +++++++----------
+ .../bindings/media/qcom,venus-common.yaml          |  73 +++++++++++
+ drivers/media/platform/qcom/venus/core.h           |  10 +-
+ drivers/media/platform/qcom/venus/hfi_cmds.c       |  23 ++++
+ drivers/media/platform/qcom/venus/hfi_helper.h     |  18 +++
+ .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |   4 +-
+ drivers/media/platform/qcom/venus/vdec.c           |  16 ++-
+ drivers/media/platform/qcom/venus/venc.c           | 107 +++++++++++++--
+ 15 files changed, 607 insertions(+), 583 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,venus-common.yaml
