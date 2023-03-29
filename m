@@ -2,262 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60E666CCFEF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 04:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D34D56CD1E5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 08:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjC2C1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 22:27:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39750 "EHLO
+        id S229903AbjC2GBv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 02:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjC2C1D (ORCPT
+        with ESMTP id S229520AbjC2GBq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 22:27:03 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4BC1C2728;
-        Tue, 28 Mar 2023 19:27:00 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:60248.2003268682
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id 73AE21002BE;
-        Wed, 29 Mar 2023 10:26:54 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id aa981a0edace4612916c58baf46d0016 for nathan@kernel.org;
-        Wed, 29 Mar 2023 10:26:58 CST
-X-Transaction-ID: aa981a0edace4612916c58baf46d0016
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <207dfcfa-0fae-ffaa-3e2d-9dbd944a9ad2@189.cn>
-Date:   Wed, 29 Mar 2023 10:26:53 +0800
+        Wed, 29 Mar 2023 02:01:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B07D35A6;
+        Tue, 28 Mar 2023 23:01:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CCC4A61A82;
+        Wed, 29 Mar 2023 06:01:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16E3C433D2;
+        Wed, 29 Mar 2023 06:01:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1680069696;
+        bh=e/e6NgdEZBs2gg1Cm6BMOjLHkLUW706EtV0baW7i3Cs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=xAQ1QLtHNl3VGdQI8eo0aMCA+N1c6Jp6cmHVTqfAsqGxOZbUtpAX4EmAAL7AYc8mI
+         o1CQIAb94vbIFPP9ar0cHjEnGGM65toxXnzGeVFxRtzy7MlggMZUyksM+WbxXeebLd
+         tA6noEMjfiC04wvtznOvNb5AveWkY+ZsWE/zJyV4=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mike Isely <isely@pobox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: pvrusb2: clean up unneeded complexity in pvrusb2 class logic
+Date:   Wed, 29 Mar 2023 08:01:32 +0200
+Message-Id: <20230329060132.2688621-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v8 2/2] drm: add kms driver for loongson display
- controller
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     kernel test robot <lkp@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Li Yi <liyi@loongson.cn>
-References: <20230320100131.1277034-3-15330273260@189.cn>
- <202303281754.jWI20j2C-lkp@intel.com>
- <027cf6d5-6de2-3424-7a81-a43ab689c3d4@189.cn>
- <20230328170636.GA1986005@dev-arch.thelio-3990X>
-Content-Language: en-US
-From:   Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230328170636.GA1986005@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7499; i=gregkh@linuxfoundation.org; h=from:subject; bh=e/e6NgdEZBs2gg1Cm6BMOjLHkLUW706EtV0baW7i3Cs=; b=owGbwMvMwCRo6H6F97bub03G02pJDCnKV2x2+TROuyKQ+aZlrayIcPPcJW170uPmq4j8vFTV7 nFahzG6I5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACbSbMKwYHNn4bJPcWtPLNhy 8v9kTvdFPPk22QzzC6cYsyWz/1N/YBZrKumXvC48Q+IeAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.6 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The pvrusb2 driver struct class logic was dynamically creating a class
+that should have just been static as it did not do anything special and
+was only a wrapper around a stock "struct class" implementation.  Clean
+this all up by making a static struct class and modifying the code to
+correctly reference it.
 
-On 2023/3/29 01:06, Nathan Chancellor wrote:
-> On Tue, Mar 28, 2023 at 11:22:50PM +0800, Sui Jingfeng wrote:
->> HI,
->>
->> On 2023/3/28 17:27, kernel test robot wrote:
->>> Hi Sui,
->>>
->>> Thank you for the patch! Perhaps something to improve:
->>>
->>> [auto build test WARNING on drm-misc/drm-misc-next]
->>> [also build test WARNING on linus/master v6.3-rc4 next-20230328]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
->>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>> patch link:    https://lore.kernel.org/r/20230320100131.1277034-3-15330273260%40189.cn
->>> patch subject: [PATCH v8 2/2] drm: add kms driver for loongson display controller
->>> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281754.jWI20j2C-lkp@intel.com/config)
->>> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
->>> reproduce (this is a W=1 build):
->>>           wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>           chmod +x ~/bin/make.cross
->>>           # https://github.com/intel-lab-lkp/linux/commit/80b4115f44993f4ebf47b1cb9e8f02953575b977
->>>           git remote add linux-review https://github.com/intel-lab-lkp/linux
->>>           git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
->>>           git checkout 80b4115f44993f4ebf47b1cb9e8f02953575b977
->>>           # save the config file
->>>           mkdir build_dir && cp config build_dir/.config
->>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
->>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/accel/ drivers/gpu/drm/loongson/ drivers/iio/light/ drivers/media/pci/intel/
->>>
->>> If you fix the issue, kindly add following tag where applicable
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Link: https://lore.kernel.org/oe-kbuild-all/202303281754.jWI20j2C-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>):
->>>
->>>>> drivers/gpu/drm/loongson/lsdc_drv.c:232:11: warning: variable 'gpu' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->>>              else if (descp->chip == CHIP_LS7A2000)
->>>                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_drv.c:235:7: note: uninitialized use occurs here
->>>              if (!gpu) {
->>>                   ^~~
->>>      drivers/gpu/drm/loongson/lsdc_drv.c:232:7: note: remove the 'if' if its condition is always true
->>>              else if (descp->chip == CHIP_LS7A2000)
->>>                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_drv.c:217:21: note: initialize the variable 'gpu' to silence this warning
->>>              struct pci_dev *gpu;
->>>                                 ^
->>>                                  = NULL
->>>      1 warning generated.
->>> --
->> In practice,  either  descp->chip == CHIP_LS7A2000 or descp->chip ==
->> CHIP_LS7A1000 will be happened at runtime.
->>
->> the variable 'gpu' is guaranteed to be initialized when code run at
->> drivers/gpu/drm/loongson/lsdc_drv.c:235
->>
->> This warnning is almost wrong here.
-> Clang's semantic analysis happens before optimizations, meaning it does
-> not perform interprocedural analysis, so it does not have enough
-> information at this point to tell that. Either just initialize gpu to
-> NULL and let the existing 'if (!gpu)' handle it or add a separate else
-> branch that warns about an unhandled chip value so that it is obvious
-> what needs to be done if someone forgets to update this statement when a
-> new chip is supported by this driver.
+By doing so, lots of unneeded lines of code were removed, and #ifdef
+logic was cleaned up so that the .c files are not cluttered up with
+extra complexity following the proper kernel coding style.
 
-Right,  I overlook the point you mentioned previously.
+Cc: Mike Isely <isely@pobox.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Note: I would like to take this through the driver-core tree as I have
+later struct class cleanups that depend on this change being made to the
+tree if that's ok with the maintainer of this file.
 
-And I just have a new idea,  using pci_get_domain_bus_and_slot function
+ drivers/media/usb/pvrusb2/pvrusb2-main.c  | 18 ++-----
+ drivers/media/usb/pvrusb2/pvrusb2-sysfs.c | 59 +++++++----------------
+ drivers/media/usb/pvrusb2/pvrusb2-sysfs.h | 16 +++---
+ 3 files changed, 29 insertions(+), 64 deletions(-)
 
-to handle this.  the DC and the GPU have the same pci bus number and  
-domain number.
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-main.c b/drivers/media/usb/pvrusb2/pvrusb2-main.c
+index ce4d566e4e5a..721dafd2c14b 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-main.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-main.c
+@@ -16,9 +16,7 @@
+ #include "pvrusb2-context.h"
+ #include "pvrusb2-debug.h"
+ #include "pvrusb2-v4l2.h"
+-#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+ #include "pvrusb2-sysfs.h"
+-#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+ 
+ #define DRIVER_AUTHOR "Mike Isely <isely@pobox.com>"
+ #define DRIVER_DESC "Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner"
+@@ -36,10 +34,6 @@ int pvrusb2_debug = DEFAULT_DEBUG_MASK;
+ module_param_named(debug,pvrusb2_debug,int,S_IRUGO|S_IWUSR);
+ MODULE_PARM_DESC(debug, "Debug trace mask");
+ 
+-#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+-static struct pvr2_sysfs_class *class_ptr = NULL;
+-#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+-
+ static void pvr_setup_attach(struct pvr2_context *pvr)
+ {
+ 	/* Create association with v4l layer */
+@@ -48,9 +42,7 @@ static void pvr_setup_attach(struct pvr2_context *pvr)
+ 	/* Create association with dvb layer */
+ 	pvr2_dvb_create(pvr);
+ #endif
+-#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+-	pvr2_sysfs_create(pvr,class_ptr);
+-#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
++	pvr2_sysfs_create(pvr);
+ }
+ 
+ static int pvr_probe(struct usb_interface *intf,
+@@ -115,9 +107,7 @@ static int __init pvr_init(void)
+ 		return ret;
+ 	}
+ 
+-#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+-	class_ptr = pvr2_sysfs_class_create();
+-#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
++	pvr2_sysfs_class_create();
+ 
+ 	ret = usb_register(&pvr_driver);
+ 
+@@ -141,9 +131,7 @@ static void __exit pvr_exit(void)
+ 
+ 	pvr2_context_global_done();
+ 
+-#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+-	pvr2_sysfs_class_destroy(class_ptr);
+-#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
++	pvr2_sysfs_class_destroy();
+ 
+ 	pvr2_trace(PVR2_TRACE_INIT,"pvr_exit complete");
+ }
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+index 3e42e209be37..a8c0b513e58e 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+@@ -66,10 +66,6 @@ struct pvr2_sysfs_ctl_item {
+ 	char name[80];
+ };
+ 
+-struct pvr2_sysfs_class {
+-	struct class class;
+-};
+-
+ static ssize_t show_name(struct device *class_dev,
+ 			 struct device_attribute *attr,
+ 			 char *buf)
+@@ -487,15 +483,6 @@ static void pvr2_sysfs_tear_down_controls(struct pvr2_sysfs *sfp)
+ }
+ 
+ 
+-static void pvr2_sysfs_class_release(struct class *class)
+-{
+-	struct pvr2_sysfs_class *clp;
+-	clp = container_of(class,struct pvr2_sysfs_class,class);
+-	pvr2_sysfs_trace("Destroying pvr2_sysfs_class id=%p",clp);
+-	kfree(clp);
+-}
+-
+-
+ static void pvr2_sysfs_release(struct device *class_dev)
+ {
+ 	pvr2_sysfs_trace("Releasing class_dev id=%p",class_dev);
+@@ -503,6 +490,12 @@ static void pvr2_sysfs_release(struct device *class_dev)
+ }
+ 
+ 
++static struct class pvr2_class = {
++	.name		= "pvrusb2",
++	.dev_release	= pvr2_sysfs_release,
++};
++
++
+ static void class_dev_destroy(struct pvr2_sysfs *sfp)
+ {
+ 	struct device *dev;
+@@ -614,8 +607,7 @@ static ssize_t unit_number_show(struct device *class_dev,
+ }
+ 
+ 
+-static void class_dev_create(struct pvr2_sysfs *sfp,
+-			     struct pvr2_sysfs_class *class_ptr)
++static void class_dev_create(struct pvr2_sysfs *sfp)
+ {
+ 	struct usb_device *usb_dev;
+ 	struct device *class_dev;
+@@ -628,7 +620,7 @@ static void class_dev_create(struct pvr2_sysfs *sfp,
+ 
+ 	pvr2_sysfs_trace("Creating class_dev id=%p",class_dev);
+ 
+-	class_dev->class = &class_ptr->class;
++	class_dev->class = &pvr2_class;
+ 
+ 	dev_set_name(class_dev, "%s",
+ 		     pvr2_hdw_get_device_identifier(sfp->channel.hdw));
+@@ -753,47 +745,30 @@ static void pvr2_sysfs_internal_check(struct pvr2_channel *chp)
+ }
+ 
+ 
+-struct pvr2_sysfs *pvr2_sysfs_create(struct pvr2_context *mp,
+-				     struct pvr2_sysfs_class *class_ptr)
++void pvr2_sysfs_create(struct pvr2_context *mp)
+ {
+ 	struct pvr2_sysfs *sfp;
+ 	sfp = kzalloc(sizeof(*sfp),GFP_KERNEL);
+-	if (!sfp) return sfp;
++	if (!sfp)
++		return;
+ 	pvr2_trace(PVR2_TRACE_STRUCT,"Creating pvr2_sysfs id=%p",sfp);
+ 	pvr2_channel_init(&sfp->channel,mp);
+ 	sfp->channel.check_func = pvr2_sysfs_internal_check;
+ 
+-	class_dev_create(sfp,class_ptr);
+-	return sfp;
++	class_dev_create(sfp);
+ }
+ 
+ 
+-
+-struct pvr2_sysfs_class *pvr2_sysfs_class_create(void)
++void pvr2_sysfs_class_create(void)
+ {
+-	struct pvr2_sysfs_class *clp;
+-	clp = kzalloc(sizeof(*clp),GFP_KERNEL);
+-	if (!clp) return clp;
+-	pvr2_sysfs_trace("Creating and registering pvr2_sysfs_class id=%p",
+-			 clp);
+-	clp->class.name = "pvrusb2";
+-	clp->class.class_release = pvr2_sysfs_class_release;
+-	clp->class.dev_release = pvr2_sysfs_release;
+-	if (class_register(&clp->class)) {
+-		pvr2_sysfs_trace(
+-			"Registration failed for pvr2_sysfs_class id=%p",clp);
+-		kfree(clp);
+-		clp = NULL;
+-	}
+-	return clp;
++	if (class_register(&pvr2_class))
++		pvr2_sysfs_trace("Registration failed for pvr2_sysfs_class");
+ }
+ 
+ 
+-void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *clp)
++void pvr2_sysfs_class_destroy(void)
+ {
+-	pvr2_sysfs_trace("Unregistering pvr2_sysfs_class id=%p", clp);
+-	if (clp)
+-		class_unregister(&clp->class);
++	class_unregister(&pvr2_class);
+ }
+ 
+ 
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
+index ac580ff39b5f..375a5372e95c 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
++++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
+@@ -10,13 +10,15 @@
+ #include <linux/sysfs.h>
+ #include "pvrusb2-context.h"
+ 
+-struct pvr2_sysfs;
+-struct pvr2_sysfs_class;
++#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
++void pvr2_sysfs_class_create(void);
++void pvr2_sysfs_class_destroy(void);
++void pvr2_sysfs_create(struct pvr2_context *mp);
++#else
++static inline void pvr2_sysfs_class_create(void) { }
++static inline void pvr2_sysfs_class_destroy(void) { }
++static inline void pvr2_sysfs_create(struct pvr2_context *mp) { }
++#endif
+ 
+-struct pvr2_sysfs_class *pvr2_sysfs_class_create(void);
+-void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *);
+-
+-struct pvr2_sysfs *pvr2_sysfs_create(struct pvr2_context *,
+-				     struct pvr2_sysfs_class *);
+ 
+ #endif /* __PVRUSB2_SYSFS_H */
+-- 
+2.40.0
 
-The slot number of the dc and gpu is also same(6), only the function 
-number is different.
-
-
-For ls7a1000,  what lspci -t -nnn -vvv show is:
-
--[0000:00]-+-00.0  Loongson Technology LLC Hyper Transport Bridge 
-Controller [0014:7a00]
-
-            ...
-
-            +-06.0  Loongson Technology LLC Vivante GPU (Graphics 
-Processing Unit) [0014:7a15]
-            +-06.1  Loongson Technology LLC DC (Display Controller) 
-[0014:7a06]
-
-            ...
-
-
-For ls7a2000, what lspci -t -nnn -vvv show is:
-
--[0000:00]-+-00.0  Loongson Technology LLC Hyper Transport Bridge 
-Controller [0014:7a00]
-            +-00.1  Loongson Technology LLC Hyper Transport Bridge 
-Controller [0014:7a10]
-            ...
-            +-06.0  Loongson Technology LLC LoongGPU Device [0014:7a25]
-            +-06.1  Loongson Technology LLC DC (Display Controller) 
-Device [0014:7a36]
-            +-06.2  Loongson Technology LLC Audio Device [0014:7a37]
-
-             ...
-
-So
-
-pdev_gpu = pci_get_domain_bus_and_slot(pci_domain_nr(pdev_dc->bus),
-                            pdev_dc->bus->number,
-                            PCI_DEVFN(6, 0));
-
-
-can help to handle all case, will this be ok?
-
-
->>>>> drivers/gpu/drm/loongson/lsdc_pll.c:188:14: warning: variable 'diff' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->>>                                      else if (clock_khz < computed)
->>>                                               ^~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_pll.c:191:9: note: uninitialized use occurs here
->>>                                      if (diff < min) {
->>>                                          ^~~~
->>>      drivers/gpu/drm/loongson/lsdc_pll.c:188:10: note: remove the 'if' if its condition is always true
->>>                                      else if (clock_khz < computed)
->>>                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->>>      drivers/gpu/drm/loongson/lsdc_pll.c:177:22: note: initialize the variable 'diff' to silence this warning
->>>                                      unsigned int diff;
->>>                                                       ^
->>>                                                        = 0
->>>      1 warning generated.
->> Here the robot is also wrong here in practice,
->>
->> because either  if (clock_khz >= computed) or else if (clock_khz < computed)
->> will be happen.
->>
->> 'diff' variable is guaranteed to be initialized.
-> Make that clearer by turning 'else if (clock_khz < computed)' into just
-> 'else' as the warning suggests? I do not see why the condition is
-> specified at all if it is just an 'else' in practice.
-
-Yes, you are right.
-
-The test robot do find something,  i will fix this at next version.
-
-> Cheers,
-> Nathan
->
->>> vim +232 drivers/gpu/drm/loongson/lsdc_drv.c
->>>
->>>      212	
->>>      213	static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
->>>      214					   const struct lsdc_desc *descp)
->>>      215	{
->>>      216		struct drm_device *ddev = &ldev->base;
->>>      217		struct pci_dev *gpu;
->>>      218		resource_size_t base, size;
->>>      219	
->>>      220		/*
->>>      221		 * The GPU and display controller in LS7A1000/LS7A2000 are separated
->>>      222		 * PCIE devices, they are two devices not one. The DC does not has a
->>>      223		 * dedicate VRAM bar, because the BIOS engineer choose to assign the
->>>      224		 * VRAM to the GPU device. Sadly, after years application, this form
->>>      225		 * as a convention for loongson integrated graphics. Bar 2 of the GPU
->>>      226		 * device contain the base address and size of the VRAM, both the GPU
->>>      227		 * and the DC can access the on-board VRAM as long as the DMA address
->>>      228		 * emitted fall in [base, base + size).
->>>      229		 */
->>>      230		if (descp->chip == CHIP_LS7A1000)
->>>      231			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A15, NULL);
->>>    > 232		else if (descp->chip == CHIP_LS7A2000)
->>>      233			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A25, NULL);
->>>      234	
->>>      235		if (!gpu) {
->>>      236			drm_warn(ddev, "No GPU device found\n");
->>>      237			return -ENODEV;
->>>      238		}
->>>      239	
->>>      240		base = pci_resource_start(gpu, 2);
->>>      241		size = pci_resource_len(gpu, 2);
->>>      242	
->>>      243		ldev->vram_base = base;
->>>      244		ldev->vram_size = size;
->>>      245	
->>>      246		drm_info(ddev, "dedicated vram start: 0x%llx, size: %uMB\n",
->>>      247			 (u64)base, (u32)(size >> 20));
->>>      248	
->>>      249		return 0;
->>>      250	}
->>>      251	
->>>
