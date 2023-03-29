@@ -2,49 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F5C86CF0E9
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 19:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D473C6CF132
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 19:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230340AbjC2RVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 13:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
+        id S229825AbjC2ReJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 13:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbjC2RVF (ORCPT
+        with ESMTP id S229457AbjC2ReH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 13:21:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4131A6187
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 10:21:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D9CB161DD2
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 17:21:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B50C433D2;
-        Wed, 29 Mar 2023 17:21:00 +0000 (UTC)
-Message-ID: <7bcc8593-a98d-6faa-2ec5-3cf59137cbcb@xs4all.nl>
-Date:   Wed, 29 Mar 2023 19:20:59 +0200
+        Wed, 29 Mar 2023 13:34:07 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8010340CF
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 10:34:06 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-544f7c176easo306077637b3.9
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 10:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680111245;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FkhSHYXGUkelGLddLL9XxpvQOEW/tExrcv6+2UzDYDE=;
+        b=n0OywWT13KnixyTrL6xWwL/YCYs3pAn4NIXv/vJLeUEmB3MmVqpKHPXmlGZf5ULv3L
+         4umQgIlsCE9BnmxT4CA8x5UxyVE40FaJTiIQ1mK4hrBleVL8KsAKqXYcbsIMA06Tfb5w
+         Lp8g8rSiPxmM11mj5lF9khSmyGA4JDw/Oq9STyD6GWTic2wFUFvWnk8jCGuUCkWDe+27
+         MTo3xPt/5+Vsy/t222qaUVtwNi4NmL3uENWpQWMYlAgDIx8a02YgrPG5V6tvRoztj67b
+         ssIKQtr4wdBqYDQLGbaQE6pE/wr8zK9fAYYKgUK8yFswZB4D465oyCgzA7EYe4cFWjJL
+         0Rag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680111245;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FkhSHYXGUkelGLddLL9XxpvQOEW/tExrcv6+2UzDYDE=;
+        b=luXEcCA1kMZ+hPhBnoC5jmisv9znvR2heHTnCtEyAKhQGVgZBDzAE0wKyTXOpwH1KP
+         6prdE0zUIQc84KAzF6IeV1ob2E+IXgMo9PVhTNpBOOaVO26SsgepeFul5tNlP0WHYSUG
+         bwXYReEbxP+ve4qEavEvaL0KX//xiMCSdts+++PS52yxif5ATvtbwKmaPHm995tbdSUM
+         4RxnsgoRHY8Etopu87IClGi0BDkbI+Ocmlr//OsxDPhCGdm+rCP0j+uqmeLPYwHJXVr/
+         Qgt2PVkzky0vNZai0ffdjf1VJ48i37Gr5kWvbnlLJv9Q/N+zOg0SsH25Rns6O8pzMNyz
+         CLgw==
+X-Gm-Message-State: AAQBX9dNB5LUBuoIlY9ZzaTFHzI7EHAYEJPqEBp4KFJx5XUL2nRSZHtA
+        Bpqtnsih8/CYlLGbbIw9nKO4aplCykEpMX4/mhlVGQ==
+X-Google-Smtp-Source: AKy350YSAiJVafWtSYuOVU/LPqdMmXdDZ6HnyVg9UY77oBkynTdOACK4jIBqjOvpQYqYtA8u/oBQ0c6lKWosKHziNRw=
+X-Received: by 2002:a05:690c:b94:b0:541:698b:7bdb with SMTP id
+ ck20-20020a05690c0b9400b00541698b7bdbmr1851456ywb.2.1680111245693; Wed, 29
+ Mar 2023 10:34:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
- pixelformats
-Content-Language: en-US
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        regressions@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
- <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+References: <20230323130153.8229-1-quic_vboma@quicinc.com> <c611c390-2cf3-2abe-82aa-67538b823d62@linaro.org>
+ <9f5bce7e-2b8a-0b71-3a80-0b4f86d9f908@quicinc.com> <E98548DB-5085-4036-9F6C-DC22A604A0C2@linaro.org>
+ <b2e16887-bc35-c933-2107-6e8faa439770@quicinc.com>
+In-Reply-To: <b2e16887-bc35-c933-2107-6e8faa439770@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Wed, 29 Mar 2023 20:33:54 +0300
+Message-ID: <CAA8EJpotBtz8Dw9QsLX5Li2ON=QuxWFGZkaiYw9Ac-XerNEEag@mail.gmail.com>
+Subject: Re: [PATCH v4] venus: Enable sufficient sequence change support for
+ sc7180 and fix for Decoder STOP command issue.
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        andersson@kernel.org, konrad.dybcio@linaro.org,
+        quic_dikshita@quicinc.com, Viswanath Boma <quic_vboma@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,94 +75,121 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/03/2023 18:05, Ricardo Ribalda wrote:
-> Hi Hans
-> 
-> Thanks for the patch.
-> 
-> I believe the user can fetch this info from lsusb, so this is kind of
-> duplicated info, and this is why it was removed.
+On Wed, 29 Mar 2023 at 20:16, Vikash Garodia <quic_vgarodia@quicinc.com> wr=
+ote:
+>
+>
+> On 3/29/2023 7:06 PM, Dmitry Baryshkov wrote:
+> > 29 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2023 =D0=B3. 10:48:23 GMT+03:00, Vika=
+sh Garodia <quic_vgarodia@quicinc.com> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> On 3/29/2023 3:49 AM, Dmitry Baryshkov wrote:
+> >>> On 23/03/2023 15:01, Viswanath Boma wrote:
+> >>>> For VP9 bitstreams, there could be a change in resolution at interfr=
+ame,
+> >>>> for driver to get notified of such resolution change,
+> >>>> enable the property in video firmware.
+> >>>> Also, EOS handling is now made same in video firmware across all V6 =
+SOCs,
+> >>>> hence above a certain firmware version, the driver handling is
+> >>>> made generic for all V6s
+> >>> Having "Do abc. Also do defgh." is a clear sign that this patch shoul=
+d be split into two.
+> >> I agree, it could have split into patches. The patch introduces way to=
+ store venus firmware
+> >>
+> >> version and take some decision for various version. For ex. here STOP =
+handling and enabling
+> >>
+> >> DRC event for specific firmware revision and onwards. Since both the h=
+andling was primarily
+> >>
+> >> dependent of firmware version, and since the handlings were smaller, i=
+t was combined as single
+> >>
+> >> patch. Let me know, if you have any further review comments, else, wil=
+l raise a new version with
+> >>
+> >> 2 patches probably.
+> > Thanks!
+> >
+> >>>> Signed-off-by: Vikash Garodia <vgarodia@qti.qualcomm.com>
+> >>>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> >>>> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> >>>> ---
+> >>>> Since v3 : Addressed comments to rectify email address.
+> >>>>
+> >>>>    drivers/media/platform/qcom/venus/core.h       | 18 +++++++++++++=
++++++
+> >>>>    drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
+> >>>>    drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
+> >>>>    drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
+> >>>>    drivers/media/platform/qcom/venus/vdec.c       | 12 +++++++++++-
+> >>>>    5 files changed, 41 insertions(+), 3 deletions(-)
+> >>>>
+> > (Skipped)
+> >
+> >
+> >
+> >>>> @@ -671,6 +671,16 @@ static int vdec_set_properties(struct venus_ins=
+t *inst)
+> >>>>                return ret;
+> >>>>        }
+> >>>>    +    /* Enabling sufficient sequence change support for VP9 */
+> >>>> +    if (of_device_is_compatible(inst->core->dev->of_node, "qcom,sc7=
+180-venus")) {
+> >>> Let me repeat my question from v3:
+> >>>
+> >>> Is it really specific just to sc7180 or will it be applicable to any
+> >>> other platform using venus-5.4 firmware?
+> >> The HFI "HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT" is=
+ implemented
+> >>
+> >> only for sc7180. Calling this for any other venus-5.4 would error out =
+the session with error as
+> >>
+> >> unsupported property from firmware.
+> >
+> > How can we be sure that other platforms do not end up using sc7180 firm=
+ware? Or that sc7180 didn't end up using some other firmware?
+> >
+> > I see generic  qcom/venus-5.4/venus.mbn in Linux firmware. It's version=
+ is VIDEO.VE.5.4-00053-PROD-1. It can be used with any unfused device which=
+ uses firmware 5.4
+>
+> Driver defines resources for every platforms and there it specifies the
+> firmware to be used for that platform. For ex, for sc7180, the firmware
+> is specified at [1].
 
-You got to set some description, so using the GUID this seems best.
+And note that the firmware doesn't have an SoC name in it. This file
+will be used by all unfused devices that use 5.4 firmware family.
 
-> Is there an app that uses this unknown format code ? Or the only
-> complaint is that WARN() is too loud for the user?
+> The various firmware supported by different platforms are also available
+> in linux firmware.
+>
+> [1]
+> https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/media/platform/q=
+com/venus/core.c#L765
 
-Normally drivers do not pass on unknown formats, but if a driver does,
-then I want a WARN. If a driver does this legitimately (and I understand
-that's the case for UVC), then the driver should fill in the description
-to avoid this WARN.
+And in that file sc7180 is the only platform having firmware 5.4.
 
-> 
-> Regards!
-> 
-> On Wed, 29 Mar 2023 at 14:39, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> If the fcc is 0 (indicating an unknown GUID format), then fill in the
->> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
->> ---
->> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
->> index 7aefa76a42b3..2f1ced1212cd 100644
->> --- a/drivers/media/usb/uvc/uvc_driver.c
->> +++ b/drivers/media/usb/uvc/uvc_driver.c
->> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
->>                 } else {
->>                         dev_info(&streaming->intf->dev,
->>                                  "Unknown video format %pUl\n", &buffer[5]);
->> +                       snprintf(format->name, sizeof(format->name), "%pUl\n",
->> +                                &buffer[5]);
-> Don't we need at least 38 chars for this?
+I think that the check for sc7180 is redundant. Just check that the
+firmware is from 5.4 family and it is 5.4.51 or newer.
 
-Yes. But all we have is 31 chars, so we take what we can :-)
+> >>>> +        if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
+> >>>> +            ptype =3D HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQ=
+CHANGE_EVENT;
+> >>>> +            ret =3D hfi_session_set_property(inst, ptype, &en);
+> >>>> +            if (ret)
+> >>>> +                return ret;
+> >>>> +        }
+> >>>> +    }
+> >>>> +
+> >>>>        ptype =3D HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
+> >>>>        conceal =3D ctr->conceal_color & 0xffff;
+> >>>>        conceal |=3D ((ctr->conceal_color >> 16) & 0xffff) << 10;
 
-This is what uvc did before this was removed.
 
-Regards,
 
-	Hans
-
-> 
-> https://docs.kernel.org/core-api/printk-formats.html#uuid-guid-addresses
-> 
-> 
->> +
->>                         format->fcc = 0;
->>                 }
->>
->> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
->> index 35453f81c1d9..fc6f9e7d8506 100644
->> --- a/drivers/media/usb/uvc/uvc_v4l2.c
->> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
->> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
->>         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
->>                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
->>         fmt->pixelformat = format->fcc;
->> +       if (format->name[0])
->> +               strscpy(fmt->description, format->name,
->> +                       sizeof(fmt->description));
->> +
->>         return 0;
->>  }
->>
->> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
->> index 9a596c8d894a..22656755a801 100644
->> --- a/drivers/media/usb/uvc/uvcvideo.h
->> +++ b/drivers/media/usb/uvc/uvcvideo.h
->> @@ -264,6 +264,8 @@ struct uvc_format {
->>         u32 fcc;
->>         u32 flags;
->>
->> +       char name[32];
->> +
->>         unsigned int nframes;
->>         struct uvc_frame *frame;
->>  };
->>
-> 
-> 
-> --
-> Ricardo Ribalda
-
+--=20
+With best wishes
+Dmitry
