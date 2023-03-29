@@ -2,296 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AD36CCFC8
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 04:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E666CCFEF
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 04:27:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjC2CGc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Mar 2023 22:06:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58030 "EHLO
+        id S229610AbjC2C1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Mar 2023 22:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbjC2CGb (ORCPT
+        with ESMTP id S229451AbjC2C1D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Mar 2023 22:06:31 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26821FC3
-        for <linux-media@vger.kernel.org>; Tue, 28 Mar 2023 19:06:29 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1phLCl-008wkD-Nx; Wed, 29 Mar 2023 02:06:27 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1phLCj-006CI7-Cs; Wed, 29 Mar 2023 02:06:24 +0000
-Date:   Wed, 29 Mar 2023 02:06:24 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <705322354.2.1680055584628@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #313
+        Tue, 28 Mar 2023 22:27:03 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4BC1C2728;
+        Tue, 28 Mar 2023 19:27:00 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:60248.2003268682
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 73AE21002BE;
+        Wed, 29 Mar 2023 10:26:54 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id aa981a0edace4612916c58baf46d0016 for nathan@kernel.org;
+        Wed, 29 Mar 2023 10:26:58 CST
+X-Transaction-ID: aa981a0edace4612916c58baf46d0016
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <207dfcfa-0fae-ffaa-3e2d-9dbd944a9ad2@189.cn>
+Date:   Wed, 29 Mar 2023 10:26:53 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v8 2/2] drm: add kms driver for loongson display
+ controller
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     kernel test robot <lkp@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Li Yi <liyi@loongson.cn>
+References: <20230320100131.1277034-3-15330273260@189.cn>
+ <202303281754.jWI20j2C-lkp@intel.com>
+ <027cf6d5-6de2-3424-7a81-a43ab689c3d4@189.cn>
+ <20230328170636.GA1986005@dev-arch.thelio-3990X>
+Content-Language: en-US
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20230328170636.GA1986005@dev-arch.thelio-3990X>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.6 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/313/display/redirect>
 
-Changes:
+On 2023/3/29 01:06, Nathan Chancellor wrote:
+> On Tue, Mar 28, 2023 at 11:22:50PM +0800, Sui Jingfeng wrote:
+>> HI,
+>>
+>> On 2023/3/28 17:27, kernel test robot wrote:
+>>> Hi Sui,
+>>>
+>>> Thank you for the patch! Perhaps something to improve:
+>>>
+>>> [auto build test WARNING on drm-misc/drm-misc-next]
+>>> [also build test WARNING on linus/master v6.3-rc4 next-20230328]
+>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>> And when submitting patch, we suggest to use '--base' as documented in
+>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
+>>> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+>>> patch link:    https://lore.kernel.org/r/20230320100131.1277034-3-15330273260%40189.cn
+>>> patch subject: [PATCH v8 2/2] drm: add kms driver for loongson display controller
+>>> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230328/202303281754.jWI20j2C-lkp@intel.com/config)
+>>> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+>>> reproduce (this is a W=1 build):
+>>>           wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>>           chmod +x ~/bin/make.cross
+>>>           # https://github.com/intel-lab-lkp/linux/commit/80b4115f44993f4ebf47b1cb9e8f02953575b977
+>>>           git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>>           git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230320-180408
+>>>           git checkout 80b4115f44993f4ebf47b1cb9e8f02953575b977
+>>>           # save the config file
+>>>           mkdir build_dir && cp config build_dir/.config
+>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/accel/ drivers/gpu/drm/loongson/ drivers/iio/light/ drivers/media/pci/intel/
+>>>
+>>> If you fix the issue, kindly add following tag where applicable
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Link: https://lore.kernel.org/oe-kbuild-all/202303281754.jWI20j2C-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>>> drivers/gpu/drm/loongson/lsdc_drv.c:232:11: warning: variable 'gpu' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>>>              else if (descp->chip == CHIP_LS7A2000)
+>>>                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>      drivers/gpu/drm/loongson/lsdc_drv.c:235:7: note: uninitialized use occurs here
+>>>              if (!gpu) {
+>>>                   ^~~
+>>>      drivers/gpu/drm/loongson/lsdc_drv.c:232:7: note: remove the 'if' if its condition is always true
+>>>              else if (descp->chip == CHIP_LS7A2000)
+>>>                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>      drivers/gpu/drm/loongson/lsdc_drv.c:217:21: note: initialize the variable 'gpu' to silence this warning
+>>>              struct pci_dev *gpu;
+>>>                                 ^
+>>>                                  = NULL
+>>>      1 warning generated.
+>>> --
+>> In practice,  either  descp->chip == CHIP_LS7A2000 or descp->chip ==
+>> CHIP_LS7A1000 will be happened at runtime.
+>>
+>> the variable 'gpu' is guaranteed to be initialized when code run at
+>> drivers/gpu/drm/loongson/lsdc_drv.c:235
+>>
+>> This warnning is almost wrong here.
+> Clang's semantic analysis happens before optimizations, meaning it does
+> not perform interprocedural analysis, so it does not have enough
+> information at this point to tell that. Either just initialize gpu to
+> NULL and let the existing 'if (!gpu)' handle it or add a separate else
+> branch that warns about an unhandled chip value so that it is obvious
+> what needs to be done if someone forgets to update this statement when a
+> new chip is supported by this driver.
+
+Right,  I overlook the point you mentioned previously.
+
+And I just have a new idea,  using pci_get_domain_bus_and_slot function
+
+to handle this.  the DC and the GPU have the same pci bus number and  
+domain number.
+
+The slot number of the dc and gpu is also same(6), only the function 
+number is different.
 
 
-------------------------------------------
-Started by an SCM change
-[Pipeline] Start of Pipeline
-[Pipeline] node
-Running on slave0 in /var/lib/jenkins/workspace/linux-media
-[Pipeline] {
-[Pipeline] timeout
-Timeout set to expire in 6 hr 0 min
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (build)
-[Pipeline] parallel
-[Pipeline] { (Branch: i386 and docs)
-[Pipeline] { (Branch: x86_64 (builtin/mod))
-[Pipeline] { (Branch: arm/aarch64 (builtin))
-[Pipeline] stage
-[Pipeline] { (i386 and docs)
-[Pipeline] stage
-[Pipeline] { (x86_64 (builtin/mod))
-[Pipeline] stage
-[Pipeline] { (arm/aarch64 (builtin))
-[Pipeline] node
-[Pipeline] node
-[Pipeline] node
-Running on slave2 in /var/lib/jenkins/workspace/linux-media
-[Pipeline] {
-Running on slave0 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] checkout
-[Pipeline] checkout
-The recommended git tool is: NONE
-The recommended git tool is: NONE
-Running on slave1 in /var/lib/jenkins/workspace/linux-media
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (docs)
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] checkout
-The recommended git tool is: NONE
-No credentials specified
-No credentials specified
-Fetching changes from the remote Git repository
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media/.git # timeout=10
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media@2/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-No credentials specified
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media@2/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-Checking out Revision eeac8ede17557680855031c6f305ece2378af326 (refs/remotes/origin/master)
-Commit message: "Linux 6.3-rc2"
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f eeac8ede17557680855031c6f305ece2378af326 # timeout=10
- > git rev-list --no-walk 57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8 # timeout=10
-Checking out Revision eeac8ede17557680855031c6f305ece2378af326 (refs/remotes/origin/master)
-Commit message: "Linux 6.3-rc2"
-The recommended git tool is: NONE
-No credentials specified
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_tree.git'
-[GitCheckoutListener] Found previous build 'linux-media #254' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '57c3b9f'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit 'eeac8ed' as starting point
-[GitCheckoutListener] -> Recorded 200 new commits
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@63ad91d6'
-[Pipeline] sh
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f eeac8ede17557680855031c6f305ece2378af326 # timeout=10
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=x86_64_mod allmodconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
- > git rev-parse HEAD^{commit} # timeout=10
-  GEN     Makefile
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-  GEN     Makefile
-Checking out Revision eeac8ede17557680855031c6f305ece2378af326 (refs/remotes/origin/master)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
-Commit message: "Linux 6.3-rc2"
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=docs allmodconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-  GEN     Makefile
- > git checkout -f eeac8ede17557680855031c6f305ece2378af326 # timeout=10
-#
-# No change to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-+ make O=docs -j9 init
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-make[1]: Nothing to be done for 'init'.
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-+ make O=docs htmldocs
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ ./scripts/config --file x86_64_mod/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_mod -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-make[3]: Nothing to be done for 'html'.
-Using alabaster theme
-  GEN     Makefile
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-+ ./scripts/config --file arm_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (i386 (builtin))
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=i386 ARCH=i386 allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-+ ./scripts/config --file i386/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=i386 ARCH=i386 -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  CHK     kernel/kheaders_data.tar.xz
-  CHK     kernel/kheaders_data.tar.xz
-Kernel: arch/x86/boot/bzImage is ready  (#51)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-  LD      vmlinux.o
-Kernel: arch/x86/boot/bzImage is ready  (#4)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ make O=x86_64_yes allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-+ ./scripts/config --file x86_64_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_yes -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  LD      vmlinux.o
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media@2/Makefile:1231: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-make: *** [Makefile:226: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch arm/aarch64 (builtin)
-vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x2d8: call to vmread_error_trampoline() leaves .noinstr.text section
-vmlinux.o: warning: objtool: lkdtm_UNSET_SMEP+0xe1: relocation to !ENDBR: native_write_cr4+0x40
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1231: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:226: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+For ls7a1000,  what lspci -t -nnn -vvv show is:
+
+-[0000:00]-+-00.0  Loongson Technology LLC Hyper Transport Bridge 
+Controller [0014:7a00]
+
+            ...
+
+            +-06.0  Loongson Technology LLC Vivante GPU (Graphics 
+Processing Unit) [0014:7a15]
+            +-06.1  Loongson Technology LLC DC (Display Controller) 
+[0014:7a06]
+
+            ...
+
+
+For ls7a2000, what lspci -t -nnn -vvv show is:
+
+-[0000:00]-+-00.0  Loongson Technology LLC Hyper Transport Bridge 
+Controller [0014:7a00]
+            +-00.1  Loongson Technology LLC Hyper Transport Bridge 
+Controller [0014:7a10]
+            ...
+            +-06.0  Loongson Technology LLC LoongGPU Device [0014:7a25]
+            +-06.1  Loongson Technology LLC DC (Display Controller) 
+Device [0014:7a36]
+            +-06.2  Loongson Technology LLC Audio Device [0014:7a37]
+
+             ...
+
+So
+
+pdev_gpu = pci_get_domain_bus_and_slot(pci_domain_nr(pdev_dc->bus),
+                            pdev_dc->bus->number,
+                            PCI_DEVFN(6, 0));
+
+
+can help to handle all case, will this be ok?
+
+
+>>>>> drivers/gpu/drm/loongson/lsdc_pll.c:188:14: warning: variable 'diff' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+>>>                                      else if (clock_khz < computed)
+>>>                                               ^~~~~~~~~~~~~~~~~~~~
+>>>      drivers/gpu/drm/loongson/lsdc_pll.c:191:9: note: uninitialized use occurs here
+>>>                                      if (diff < min) {
+>>>                                          ^~~~
+>>>      drivers/gpu/drm/loongson/lsdc_pll.c:188:10: note: remove the 'if' if its condition is always true
+>>>                                      else if (clock_khz < computed)
+>>>                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>>      drivers/gpu/drm/loongson/lsdc_pll.c:177:22: note: initialize the variable 'diff' to silence this warning
+>>>                                      unsigned int diff;
+>>>                                                       ^
+>>>                                                        = 0
+>>>      1 warning generated.
+>> Here the robot is also wrong here in practice,
+>>
+>> because either  if (clock_khz >= computed) or else if (clock_khz < computed)
+>> will be happen.
+>>
+>> 'diff' variable is guaranteed to be initialized.
+> Make that clearer by turning 'else if (clock_khz < computed)' into just
+> 'else' as the warning suggests? I do not see why the condition is
+> specified at all if it is just an 'else' in practice.
+
+Yes, you are right.
+
+The test robot do find something,  i will fix this at next version.
+
+> Cheers,
+> Nathan
+>
+>>> vim +232 drivers/gpu/drm/loongson/lsdc_drv.c
+>>>
+>>>      212	
+>>>      213	static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
+>>>      214					   const struct lsdc_desc *descp)
+>>>      215	{
+>>>      216		struct drm_device *ddev = &ldev->base;
+>>>      217		struct pci_dev *gpu;
+>>>      218		resource_size_t base, size;
+>>>      219	
+>>>      220		/*
+>>>      221		 * The GPU and display controller in LS7A1000/LS7A2000 are separated
+>>>      222		 * PCIE devices, they are two devices not one. The DC does not has a
+>>>      223		 * dedicate VRAM bar, because the BIOS engineer choose to assign the
+>>>      224		 * VRAM to the GPU device. Sadly, after years application, this form
+>>>      225		 * as a convention for loongson integrated graphics. Bar 2 of the GPU
+>>>      226		 * device contain the base address and size of the VRAM, both the GPU
+>>>      227		 * and the DC can access the on-board VRAM as long as the DMA address
+>>>      228		 * emitted fall in [base, base + size).
+>>>      229		 */
+>>>      230		if (descp->chip == CHIP_LS7A1000)
+>>>      231			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A15, NULL);
+>>>    > 232		else if (descp->chip == CHIP_LS7A2000)
+>>>      233			gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A25, NULL);
+>>>      234	
+>>>      235		if (!gpu) {
+>>>      236			drm_warn(ddev, "No GPU device found\n");
+>>>      237			return -ENODEV;
+>>>      238		}
+>>>      239	
+>>>      240		base = pci_resource_start(gpu, 2);
+>>>      241		size = pci_resource_len(gpu, 2);
+>>>      242	
+>>>      243		ldev->vram_base = base;
+>>>      244		ldev->vram_size = size;
+>>>      245	
+>>>      246		drm_info(ddev, "dedicated vram start: 0x%llx, size: %uMB\n",
+>>>      247			 (u64)base, (u32)(size >> 20));
+>>>      248	
+>>>      249		return 0;
+>>>      250	}
+>>>      251	
+>>>
