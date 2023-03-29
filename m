@@ -2,97 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 606906CD95B
-	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 14:29:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E066CDAF7
+	for <lists+linux-media@lfdr.de>; Wed, 29 Mar 2023 15:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjC2M3D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Mar 2023 08:29:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40284 "EHLO
+        id S230370AbjC2NhC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Mar 2023 09:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbjC2M3C (ORCPT
+        with ESMTP id S230117AbjC2NhA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Mar 2023 08:29:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06BEE4229
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 05:28:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9DC80B822EF
-        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 12:28:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 786CAC433D2;
-        Wed, 29 Mar 2023 12:28:54 +0000 (UTC)
-Message-ID: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-Date:   Wed, 29 Mar 2023 14:28:52 +0200
+        Wed, 29 Mar 2023 09:37:00 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE52049F8
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 06:36:53 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id g17so20259931lfv.4
+        for <linux-media@vger.kernel.org>; Wed, 29 Mar 2023 06:36:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680097012;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9t0Oxs5o529jLZnGAk7kSGCT9H5QuX2QCpk9jCjT158=;
+        b=rv53BqeDOYXL7QYjJYKIRjaH0bQg0DOtF/1I57jYuJG/Ca7GKv6aAEc2CpLgBKDoHe
+         FpZ66fx/5eM8XjTukY7b5gg3+mwxNq6NKxZ1cveygQhNLw/aQL/FmqADoy/nXQiYX5Kj
+         abX2ZxB9qySnRzLNqDNPUFfXfQNVqHT7Mu2JBgns07RHXOXs/X/g0Yss0ru66IUYKlUo
+         xIqjl5VHGJRYxVW2sLvAU2V90/RV0vYxakbXC/HzbEq9RmuvP+vWOLVJppC8v2Dg7r61
+         kIWK5BE3ZeLX2v2GWqvXrSflFxVRnAgct+XD3zIuIAV76vEUIQF0BVhJiHIML6SK2Fmj
+         eDew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680097012;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9t0Oxs5o529jLZnGAk7kSGCT9H5QuX2QCpk9jCjT158=;
+        b=xzgpzjyVwDOqy6IcWtlpowBtBHNY3nmHEAFf7ncQPusxKFUPTy1ey71in17YShZVjB
+         UKn1Ngr5qQ2jN9fmkTOQosNbFu4ZC3MDU4S0sost9/QZgGO++dcaEKREXduwrzebZVsz
+         XQzadRY4Ey0o8qr/VS2cOd3PVw5exS23I7WEkZmUSn7bh594lyNLywSL/Th0HxD7YAYa
+         PUmy7flglFPJ7vBHQvYofLxis63Ge7nEq2siNiVhgGm1FabL6//BUF7PIGe6va2YoYIH
+         zDJMcl1dGN1gjEtsSFjh4MxjKfuKpvfyq6L5GeYf5Fr/1/mgPVtzA8Qjk/lUBIs9irId
+         j6EA==
+X-Gm-Message-State: AAQBX9cETAWJCHyAXk6XwuMIUsxh/K0bHE003lOWBFuGdgPaOyusyLOA
+        yJnykKrcGni3aBzl7QrcJKdSag==
+X-Google-Smtp-Source: AKy350aSNBnWsSycc2KOVvgOy7wVZZLhaPHIPkPzHRi2UrpSTxgIJtY+yHTb2NgmVQCqFs6+D1Miow==
+X-Received: by 2002:a19:c50c:0:b0:4dd:840d:462 with SMTP id w12-20020a19c50c000000b004dd840d0462mr765030lfe.21.1680097012016;
+        Wed, 29 Mar 2023 06:36:52 -0700 (PDT)
+Received: from [127.0.0.1] (85-76-160-246-nat.elisa-mobile.fi. [85.76.160.246])
+        by smtp.gmail.com with ESMTPSA id f24-20020ac251b8000000b004eb15952669sm737164lfk.141.2023.03.29.06.36.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Mar 2023 06:36:51 -0700 (PDT)
+Date:   Wed, 29 Mar 2023 16:36:45 +0300
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        andersson@kernel.org, konrad.dybcio@linaro.org
+CC:     quic_dikshita@quicinc.com, Viswanath Boma <quic_vboma@quicinc.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4=5D_venus=3A_Enable?= =?US-ASCII?Q?_sufficient_sequence_change_s?= =?US-ASCII?Q?upport_for_sc7180_and_fix_for_Decoder_STOP_command_issue=2E?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <9f5bce7e-2b8a-0b71-3a80-0b4f86d9f908@quicinc.com>
+References: <20230323130153.8229-1-quic_vboma@quicinc.com> <c611c390-2cf3-2abe-82aa-67538b823d62@linaro.org> <9f5bce7e-2b8a-0b71-3a80-0b4f86d9f908@quicinc.com>
+Message-ID: <E98548DB-5085-4036-9F6C-DC22A604A0C2@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     regressions@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: usb: uvc: fill in description for unknown pixelformats
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the fcc is 0 (indicating an unknown GUID format), then fill in the
-description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
+29 =D0=BC=D0=B0=D1=80=D1=82=D0=B0 2023 =D0=B3=2E 10:48:23 GMT+03:00, Vikash=
+ Garodia <quic_vgarodia@quicinc=2Ecom> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>On 3/29/2023 3:49 AM, Dmitry Baryshkov wrote:
+>> On 23/03/2023 15:01, Viswanath Boma wrote:
+>>> For VP9 bitstreams, there could be a change in resolution at interfram=
+e,
+>>> for driver to get notified of such resolution change,
+>>> enable the property in video firmware=2E
+>>> Also, EOS handling is now made same in video firmware across all V6 SO=
+Cs,
+>>> hence above a certain firmware version, the driver handling is
+>>> made generic for all V6s
+>>=20
+>> Having "Do abc=2E Also do defgh=2E" is a clear sign that this patch sho=
+uld be split into two=2E
+>
+>I agree, it could have split into patches=2E The patch introduces way to =
+store venus firmware
+>
+>version and take some decision for various version=2E For ex=2E here STOP=
+ handling and enabling
+>
+>DRC event for specific firmware revision and onwards=2E Since both the ha=
+ndling was primarily
+>
+>dependent of firmware version, and since the handlings were smaller, it w=
+as combined as single
+>
+>patch=2E Let me know, if you have any further review comments, else, will=
+ raise a new version with
+>
+>2 patches probably=2E
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
----
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 7aefa76a42b3..2f1ced1212cd 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
- 		} else {
- 			dev_info(&streaming->intf->dev,
- 				 "Unknown video format %pUl\n", &buffer[5]);
-+			snprintf(format->name, sizeof(format->name), "%pUl\n",
-+				 &buffer[5]);
-+
- 			format->fcc = 0;
- 		}
+Thanks!
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 35453f81c1d9..fc6f9e7d8506 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
- 	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
- 		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
- 	fmt->pixelformat = format->fcc;
-+	if (format->name[0])
-+		strscpy(fmt->description, format->name,
-+			sizeof(fmt->description));
-+
- 	return 0;
- }
+>
+>>>=20
+>>> Signed-off-by: Vikash Garodia <vgarodia@qti=2Equalcomm=2Ecom>
+>>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc=2Ecom>
+>>> Tested-by: Nathan Hebert <nhebert@chromium=2Eorg>
+>>> ---
+>>> Since v3 : Addressed comments to rectify email address=2E
+>>>=20
+>>> =C2=A0 drivers/media/platform/qcom/venus/core=2Eh=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 18 ++++++++++++++++++
+>>> =C2=A0 drivers/media/platform/qcom/venus/hfi_cmds=2Ec=C2=A0=C2=A0 |=C2=
+=A0 1 +
+>>> =C2=A0 drivers/media/platform/qcom/venus/hfi_helper=2Eh |=C2=A0 2 ++
+>>> =C2=A0 drivers/media/platform/qcom/venus/hfi_msgs=2Ec=C2=A0=C2=A0 | 11=
+ +++++++++--
+>>> =C2=A0 drivers/media/platform/qcom/venus/vdec=2Ec=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 12 +++++++++++-
+>>> =C2=A0 5 files changed, 41 insertions(+), 3 deletions(-)
+>>>=20
 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 9a596c8d894a..22656755a801 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -264,6 +264,8 @@ struct uvc_format {
- 	u32 fcc;
- 	u32 flags;
+(Skipped)
 
-+	char name[32];
-+
- 	unsigned int nframes;
- 	struct uvc_frame *frame;
- };
+
+
+>>> @@ -671,6 +671,16 @@ static int vdec_set_properties(struct venus_inst =
+*inst)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 return ret;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0 +=C2=A0=C2=A0=C2=A0 /* Enabling sufficient sequence change supp=
+ort for VP9 */
+>>> +=C2=A0=C2=A0=C2=A0 if (of_device_is_compatible(inst->core->dev->of_no=
+de, "qcom,sc7180-venus")) {
+>>=20
+>> Let me repeat my question from v3:
+>>=20
+>> Is it really specific just to sc7180 or will it be applicable to any
+>> other platform using venus-5=2E4 firmware?
+>
+>The HFI "HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT" is im=
+plemented
+>
+>only for sc7180=2E Calling this for any other venus-5=2E4 would error out=
+ the session with error as
+>
+>unsupported property from firmware=2E
+
+
+How can we be sure that other platforms do not end up using sc7180 firmwar=
+e? Or that sc7180 didn't end up using some other firmware?
+
+I see generic  qcom/venus-5=2E4/venus=2Embn in Linux firmware=2E It's vers=
+ion is VIDEO=2EVE=2E5=2E4-00053-PROD-1=2E It can be used with any unfused d=
+evice which uses firmware 5=2E4
+
+>
+>>=20
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (is_fw_rev_or_newer(ins=
+t->core, 5, 4, 51)) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pt=
+ype =3D HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+t =3D hfi_session_set_property(inst, ptype, &en);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
+ (ret)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ptype =3D HFI_PROPERTY_PARAM_VDEC_CONCE=
+AL_COLOR;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 conceal =3D ctr->conceal_color & 0xffff=
+;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 conceal |=3D ((ctr->conceal_color >> 16=
+) & 0xffff) << 10;
+>>=20
 
