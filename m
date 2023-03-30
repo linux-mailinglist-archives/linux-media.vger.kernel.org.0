@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 129096D0425
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 13:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F14596D0427
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 13:59:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbjC3L7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 07:59:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60994 "EHLO
+        id S231614AbjC3L7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 07:59:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbjC3L7S (ORCPT
+        with ESMTP id S231472AbjC3L7T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 07:59:18 -0400
+        Thu, 30 Mar 2023 07:59:19 -0400
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB88CA24B
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:59:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5409BA255
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680177557; x=1711713557;
+  t=1680177558; x=1711713558;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/IZJ23BqUrVQR8XLBbfJMcyYu1OfY0V9V/AWPGGpC1k=;
-  b=ghUxrjh2vRb0sBFtsfQpLTR+B4wP9TUuLFv2LzP5wpJ++Xbk9Q816/GZ
-   Figm9cGhrip5wnN0vHGLWTNZrN0iAet3L9oT4G/GE/EsKdFd5N9rshNcI
-   XIATetsQnCtkyYDBSv703Zd605RmsqLIaDXg+PcuCQ3cSMDdEcKGlQlh6
-   byp2PWecb5kx8DtCtCw4P7htJnk9UNqUvoI1abBHBKIUAjEZ+cRZkiFvV
-   1rXNX/zwfqjpeHyuMQrC6neMC+MCusKbuzYdCkQ4UK0RSU+FFlQWWBqHU
-   fPur3mm4nbidGP0ei1jop6husniyHgl+237OfPxxcnN/0wbkogSxGAket
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="406111442"
+  bh=PjfW0NsAB15O0lY7WC1k+zVwG+q0AVXNp46d/1lPZws=;
+  b=PawWMlCKog3FP9zn+4Lv1shdqPcrN91rLLpAORAUHrwkQGjRFZx5eWeW
+   xIKt11qqvjXTvsxIXAM94s40Q2SGEZJrPe7BmWp0sdqWxWxruWUYqnGjD
+   /BWTmFN13GfgkqVb2RGvZVPMB9FTi+qibJAepudnk+YwLjRuo9LUydpaZ
+   5XzDoORoYt4YmTr+CTUXnvL4MYflM3Brsy9GFWniGPRAp9RpwJaYGM/8J
+   rFHWUuMLYSzq6DvHVlvNjNuPvqA8gN2l3uXKN1ZZYPZElC3z2fMpDzA+y
+   3IyndgLpDuTjFiYXD3gJ5WsRNdUv7j4E7f66w9FgPJOvCNtLpxNVx1WvU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="406111453"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="406111442"
+   d="scan'208";a="406111453"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:13 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714952926"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714952928"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="714952926"
+   d="scan'208";a="714952928"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:10 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:12 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 2C574122457;
-        Thu, 30 Mar 2023 14:59:08 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 762DB1224B6;
+        Thu, 30 Mar 2023 14:59:09 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
@@ -50,9 +50,9 @@ Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: [PATCH 10/18] media: pxa_camera: Register V4L2 device early, fix probe error handling
-Date:   Thu, 30 Mar 2023 14:58:45 +0300
-Message-Id: <20230330115853.1628216-11-sakari.ailus@linux.intel.com>
+Subject: [PATCH 11/18] media: marvell: cafe: Register V4L2 device earlier
+Date:   Thu, 30 Mar 2023 14:58:46 +0300
+Message-Id: <20230330115853.1628216-12-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
 References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
@@ -68,103 +68,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Register V4L2 device before initialising the notifier. This way the device
-is available to the notifier from the beginning.
-
-Also fix error handling in probe.
+Register V4L2 device before the async notifier so the struct device will
+be available for the notifier.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/intel/pxa_camera.c | 30 +++++++++++++----------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+ drivers/media/platform/marvell/cafe-driver.c | 12 ++++++++++--
+ drivers/media/platform/marvell/mcam-core.c   |  6 ------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
-index b848a2a9032f..31ae220ee4f3 100644
---- a/drivers/media/platform/intel/pxa_camera.c
-+++ b/drivers/media/platform/intel/pxa_camera.c
-@@ -2289,6 +2289,10 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	if (IS_ERR(pcdev->clk))
- 		return PTR_ERR(pcdev->clk);
+diff --git a/drivers/media/platform/marvell/cafe-driver.c b/drivers/media/platform/marvell/cafe-driver.c
+index dd1bba70bd79..4d8843623255 100644
+--- a/drivers/media/platform/marvell/cafe-driver.c
++++ b/drivers/media/platform/marvell/cafe-driver.c
+@@ -536,6 +536,11 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto out_pdown;
  
-+	err = v4l2_device_register(&pdev->dev, &pcdev->v4l2_dev);
-+	if (err)
-+		return err;
++	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
++	if (ret)
++		goto out_smbus_shutdown;
 +
- 	v4l2_async_nf_init(&pcdev->notifier);
- 	pcdev->res = res;
- 	pcdev->pdata = pdev->dev.platform_data;
-@@ -2306,10 +2310,10 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	} else if (pdev->dev.of_node) {
- 		err = pxa_camera_pdata_from_dt(&pdev->dev, pcdev);
- 	} else {
--		return -ENODEV;
-+		err = -ENODEV;
- 	}
- 	if (err < 0)
--		return err;
-+		goto exit_notifier_cleanup;
++
+ 	v4l2_async_nf_init(&mcam->notifier);
  
- 	if (!(pcdev->platform_flags & (PXA_CAMERA_DATAWIDTH_8 |
- 			PXA_CAMERA_DATAWIDTH_9 | PXA_CAMERA_DATAWIDTH_10))) {
-@@ -2342,8 +2346,10 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	 * Request the regions.
+ 	asd = v4l2_async_nf_add_i2c(&mcam->notifier,
+@@ -544,12 +549,12 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 				    struct v4l2_async_connection);
+ 	if (IS_ERR(asd)) {
+ 		ret = PTR_ERR(asd);
+-		goto out_smbus_shutdown;
++		goto out_v4l2_device_unregister;
+ 	}
+ 
+ 	ret = mccic_register(mcam);
+ 	if (ret)
+-		goto out_smbus_shutdown;
++		goto out_v4l2_device_unregister;
+ 
+ 	clkdev_create(mcam->mclk, "xclk", "%d-%04x",
+ 		i2c_adapter_id(cam->i2c_adapter), ov7670_info.addr);
+@@ -565,6 +570,8 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 
+ out_mccic_shutdown:
+ 	mccic_shutdown(mcam);
++out_v4l2_device_unregister:
++	v4l2_device_unregister(&mcam->v4l2_dev);
+ out_smbus_shutdown:
+ 	cafe_smbus_shutdown(cam);
+ out_pdown:
+@@ -587,6 +594,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ static void cafe_shutdown(struct cafe_camera *cam)
+ {
+ 	mccic_shutdown(&cam->mcam);
++	v4l2_device_unregister(&cam->mcam.v4l2_dev);
+ 	cafe_smbus_shutdown(cam);
+ 	free_irq(cam->pdev->irq, cam);
+ 	pci_iounmap(cam->pdev, cam->mcam.regs);
+diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
+index b74a362ec075..2ecdcbcb37fd 100644
+--- a/drivers/media/platform/marvell/mcam-core.c
++++ b/drivers/media/platform/marvell/mcam-core.c
+@@ -1866,10 +1866,6 @@ int mccic_register(struct mcam_camera *cam)
+ 	/*
+ 	 * Register with V4L
  	 */
- 	base = devm_ioremap_resource(&pdev->dev, res);
--	if (IS_ERR(base))
--		return PTR_ERR(base);
-+	if (IS_ERR(base)) {
-+		err = PTR_ERR(base);
-+		goto exit_notifier_cleanup;
-+	}
+-	ret = v4l2_device_register(cam->dev, &cam->v4l2_dev);
+-	if (ret)
+-		goto out;
+-
+ 	mutex_init(&cam->s_mutex);
+ 	cam->state = S_NOTREADY;
+ 	mcam_set_config_needed(cam, 1);
+@@ -1915,7 +1911,6 @@ int mccic_register(struct mcam_camera *cam)
  
- 	pcdev->irq = irq;
- 	pcdev->base = base;
-@@ -2352,7 +2358,8 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	pcdev->dma_chans[0] = dma_request_chan(&pdev->dev, "CI_Y");
- 	if (IS_ERR(pcdev->dma_chans[0])) {
- 		dev_err(&pdev->dev, "Can't request DMA for Y\n");
--		return PTR_ERR(pcdev->dma_chans[0]);
-+		err = PTR_ERR(pcdev->dma_chans[0]);
-+		goto exit_notifier_cleanup;
- 	}
- 
- 	pcdev->dma_chans[1] = dma_request_chan(&pdev->dev, "CI_U");
-@@ -2392,23 +2399,17 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	pxa_camera_activate(pcdev);
- 
- 	platform_set_drvdata(pdev, pcdev);
--	err = v4l2_device_register(&pdev->dev, &pcdev->v4l2_dev);
--	if (err)
--		goto exit_deactivate;
- 
- 	err = pxa_camera_init_videobuf2(pcdev);
- 	if (err)
--		goto exit_notifier_cleanup;
-+		goto exit_deactivate;
- 
- 	pcdev->notifier.ops = &pxa_camera_sensor_ops;
- 	err = v4l2_async_nf_register(&pcdev->v4l2_dev, &pcdev->notifier);
- 	if (err)
--		goto exit_notifier_cleanup;
-+		goto exit_deactivate;
- 
- 	return 0;
--exit_notifier_cleanup:
--	v4l2_async_nf_cleanup(&pcdev->notifier);
--	v4l2_device_unregister(&pcdev->v4l2_dev);
- exit_deactivate:
- 	pxa_camera_deactivate(pcdev);
- 	tasklet_kill(&pcdev->task_eof);
-@@ -2418,6 +2419,9 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	dma_release_channel(pcdev->dma_chans[1]);
- exit_free_dma_y:
- 	dma_release_channel(pcdev->dma_chans[0]);
-+exit_notifier_cleanup:
-+	v4l2_async_nf_cleanup(&pcdev->notifier);
-+	v4l2_device_unregister(&pcdev->v4l2_dev);
- 	return err;
+ out:
+ 	v4l2_async_nf_unregister(&cam->notifier);
+-	v4l2_device_unregister(&cam->v4l2_dev);
+ 	v4l2_async_nf_cleanup(&cam->notifier);
+ 	return ret;
  }
- 
+@@ -1937,7 +1932,6 @@ void mccic_shutdown(struct mcam_camera *cam)
+ 		mcam_free_dma_bufs(cam);
+ 	v4l2_ctrl_handler_free(&cam->ctrl_handler);
+ 	v4l2_async_nf_unregister(&cam->notifier);
+-	v4l2_device_unregister(&cam->v4l2_dev);
+ 	v4l2_async_nf_cleanup(&cam->notifier);
+ }
+ EXPORT_SYMBOL_GPL(mccic_shutdown);
 -- 
 2.30.2
 
