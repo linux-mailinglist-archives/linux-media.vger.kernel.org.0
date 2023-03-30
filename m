@@ -2,107 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD25C6D083F
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 16:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E1C6D0868
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 16:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231886AbjC3O1a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 10:27:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35354 "EHLO
+        id S231886AbjC3Ogo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 10:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbjC3O13 (ORCPT
+        with ESMTP id S231396AbjC3Ogn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 10:27:29 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27235114;
-        Thu, 30 Mar 2023 07:27:28 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id dw14so12640454pfb.6;
-        Thu, 30 Mar 2023 07:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680186447;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lT1BKGfQqFBUgSJ293/p9fRof3Zd4Kmxm7+XqMUW1Yw=;
-        b=iJyOXHNKCdBXBK/TazEMoDQzyTokg0h/SwmbFN3hXJwbXICH2T5W2AU7tv/RuQUoRG
-         ztJ6V1vbRB24yil7fx96GQhb9VakUsL1WXyXtgHfyNXPj1dO1gmugDFNVKzY3kp+DRfq
-         TPNmv1QTpkdWFJM6GNW6CLXAAAw8pLNd2cLd0vPEo3S8Bc4GCWfe/hyTiJ9Jnmyw55LO
-         6GLFMCHZIs3iHs7gLMxbgj0A9vluHvsMtwPoYr9Jo7PoIWfDGS3T96U1L2X4SP23X2pF
-         /H4vZxVe3eK8cbVhQFgUaFQBiCgzJOClQHeqVVsfbsghZdnoHhJG4rKUdF5ta3xS1anL
-         +SQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680186447;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lT1BKGfQqFBUgSJ293/p9fRof3Zd4Kmxm7+XqMUW1Yw=;
-        b=B250tu/3gXvWYzrMNPFiNVQ7F17MUBHYfcMOMCf6kPsaNaLlK8MvE3fJlGNXVtDAD1
-         Cs0AGKHrgXNilY0Du1y3KWPsgtnZ0Z+e4Lj4J2a2N+xYPPOnqPWVfQNLzbnB1ENNEhea
-         l423Cws4IyCiYXsosZetqcm0059cAKWd0hKht6JvDlQ8CjYxpxGGnlFdjygKbmfEzilI
-         xRHeNejguNV94PSkXtVPHd8wsye2Ui2wDLIxovfvHmNosn9CJIBaz1G8Pbc1yE1O2Cb4
-         zNo1GRlSuZzUAPA5AH0kqvDfUjzoLpvZjb3ZUpcf2yjBBMQFND6ujjc3tqriEG6e25oL
-         ZOYg==
-X-Gm-Message-State: AAQBX9d0+WEiHzurgPMxvbmYmH5XZ0zFt0d3OBgTa5ZjKCEzZH9v2iW5
-        EdcN4O8CYbvWdEf8FeYvNTd0hoAlyto=
-X-Google-Smtp-Source: AKy350Y7rTtG18MNfmqE4A3kTB8R6xRJGDHDAoNmFmObn5jQOspYcFH6ZMZP7du4K/SydIl/ebTE/g==
-X-Received: by 2002:aa7:9597:0:b0:627:df8d:350f with SMTP id z23-20020aa79597000000b00627df8d350fmr23098126pfj.4.1680186447492;
-        Thu, 30 Mar 2023 07:27:27 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id h4-20020aa786c4000000b00627ed4e23e0sm21673169pfo.101.2023.03.30.07.27.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 07:27:27 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Greg Hackmann <ghackmann@google.com>,
-        Rob Clark <robdclark@gmail.com>,
-        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] dma-buf/sync_file: Fix doc build warning
-Date:   Thu, 30 Mar 2023 07:27:20 -0700
-Message-Id: <20230330142720.882045-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Thu, 30 Mar 2023 10:36:43 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD1D5BA0
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 07:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1680186995; i=ps.report@gmx.net;
+        bh=2P0Lesg+bviUAuKIQ64qnjkT3y/8RPBLOWMVVl+n8do=;
+        h=X-UI-Sender-Class:From:To:Subject:Date;
+        b=JDDP1OH3Njb9W5rBWsvTxgHzUYeCv1HHFV8ajwdPK8o+WZnc4HnzMD1FuRy4uRggf
+         D6vNbmvo0e/lvR69AYxv2MxHuAo3xwgjlQ0NRgXRGHdVwXoE8JJzxjHhhMa1OFBUZq
+         7APnqGHkppcWFyQ3hGNg70agj+U3TSX4Zxqvmf837H/X5KhOtAxJQcqQdnQiAo9R+n
+         qwCY0go7YNvVope1Qs7wg/JIPjocmpxG2RA496WXy53bagX428rO29Yp0uO05KxUYc
+         /YKVbQHOXVqOkPPo55duGHWuWbTKXBf4LVIsrMT2+ukN8fG7CTsALjvmJOC5cHmroP
+         mN9aQ085xssCQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.fritz.box ([62.216.208.135]) by mail.gmx.net
+ (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1ML9uK-1q06jJ2gqI-00IGAJ for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023
+ 16:36:35 +0200
+From:   Peter Seiderer <ps.report@gmx.net>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils v1] v4l2-tracer: fix trace path name creation
+Date:   Thu, 30 Mar 2023 16:36:35 +0200
+Message-Id: <20230330143635.17991-1-ps.report@gmx.net>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:qliWxEy0dZQ/HtVpw/cv6drgktvQM5SQYdZa/fMbpjn0E2We9pF
+ 3wuE3Z+N9ghk5bCCfv8hRfU6MuEUgzw2Eb33efgy+DYRcLrDS6XydlX9m3p90crDzHaR6Lx
+ rq3f1M/De7QuA0YqOOhnU2cyYeY7uw2LBKYqn3Kf1G89I63PUBbM/gLjvf+zYwkeLccTfNw
+ guuH4jDDroyMBa3juoTFA==
+UI-OutboundReport: notjunk:1;M01:P0:9hW9hsizV1s=;DibXIlbJKXJOB9bkdkVLulCoyNE
+ 5UdmUempXg+KJpx0v8yWf3v0Iwhnvv/p99nkj00/0RPr2DamymZMBrpJh11gJa0Y5yttfSTOc
+ 3hFNdIh/zIUyjB5EarYQgarYlKTkBRR/kpFuVn86Cye/ihB4Y5BqRaCawqLyt1jzFseivpr2I
+ anVkRZKNUhfSheHx9ZIp13wlWOVowW6ftRiqbSxh0mKU1dfxp/cnkKmGTg3nTdSe3xa9o3sfG
+ saBQ4E6+/VqT9o4wXm2cpoMpG4WBdfO2fYfv3vuqsU1mA+hbbieOjRiCZ1gVTYc/Us8Z1Mp+B
+ e5LUxr3YJvLC5yiaQMhQglBS76Jh7P60LhUyYocMEYxfs/AJlyy3OqmKJwgPcZQwaoerwqak3
+ A+0TaqgNH/mKq9MjhUhvxtwtfwjmSpDZKDLcZ0MDPkvO8jc9syU/EvoLEW9OZBHnhfeHNraw5
+ pjNFxnKGCYAfhk9SBEncRMfzR4g3kCBpkfonb0fKQcvW5HGJLNs16kciwK1PIxwS1E1/vs2Bs
+ kiWq2Ak4PEvPPAfPhQLXHjZg36OzyIyqJxVozZwBbDPitYtP/Mm0O8OnkmJdEbYUwmb978zGx
+ p5AszsNK4FCB4JEzNmkjAY5+DKPrNt8nH4Knqu062ED0pJoKJ0q+5wcoOVMbb/pzSV1t5AlgZ
+ pQ3SDIDK3qIXH3T5lHKqiTkfzoWo5sV9nv59q07meY68Cg3VZn/TnX8DQzeLYmDHE7ebW7xnD
+ vyMiYZQeipSxDy2c3fYAJg0Id/sCv+z8u78aZRtavrD7u6+2VyTCGEsDRvgAOJ+B4mD8E9OI8
+ h/UcW6y3bkpn/69G+IvC6lgQwa6ortgXaUnRDYUjaiyLdH/HxqjEzH+2uOd72Tk4n4/RlSHUp
+ XlKRVi+dbwg7dAKDZ6Kc373wLy9vNYpU4jfeJgggKy/KcrUOAMU0o3ss+Cm5Y3t5I8ZhJ3lu7
+ 9p8/Mw==
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,MIME_BASE64_TEXT,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
-
-Fixes warning:
-
-  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
-
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- include/uapi/linux/sync_file.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index d61752dca4c6..ff1f38889dcf 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -56,7 +56,7 @@ struct sync_fence_info {
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-- * @num_fences	number of fences in the sync_file
-+ * @num_fences:	number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
--- 
-2.39.2
-
+Rml4IHRyYWNlIHBhdGggbmFtZSBjcmVhdGlvbiBmb3IgcG9vciBtYW4ncyBkZXZlbG9wbWVudCBi
+b2FyZHMKKGUuZy4gUmFzcGJlcnJ5IFBpKSB3aXRob3V0IFJUQyAoc3RhcnRpbmcgYXQgdW5peCBl
+cG9jaGUgYWthIHRpbWUgMCkKYnkgZm9yY2luZyBpbml0aWFsIHRyYWNlX2lkIGNyZWF0aW9uIHdp
+dGggNiB2YWxpZCBkaWdpdHMuCgpGaXhlczoKCiAgdGVybWluYXRlIGNhbGxlZCBhZnRlciB0aHJv
+d2luZyBhbiBpbnN0YW5jZSBvZiAnc3RkOjpvdXRfb2ZfcmFuZ2UnCiAgICB3aGF0KCk6ICBiYXNp
+Y19zdHJpbmc6OnN1YnN0cjogX19wb3MgKHdoaWNoIGlzIDUpID4gdGhpcy0+c2l6ZSgpICh3aGlj
+aCBpcyAzKQogIEFib3J0ZWQKClNpZ25lZC1vZmYtYnk6IFBldGVyIFNlaWRlcmVyIDxwcy5yZXBv
+cnRAZ214Lm5ldD4KLS0tCiB1dGlscy92NGwyLXRyYWNlci92NGwyLXRyYWNlci5jcHAgfCA2ICsr
+LS0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRp
+ZmYgLS1naXQgYS91dGlscy92NGwyLXRyYWNlci92NGwyLXRyYWNlci5jcHAgYi91dGlscy92NGwy
+LXRyYWNlci92NGwyLXRyYWNlci5jcHAKaW5kZXggY2I4NzNkODMuLjFhOWE3ZDc1IDEwMDY0NAot
+LS0gYS91dGlscy92NGwyLXRyYWNlci92NGwyLXRyYWNlci5jcHAKKysrIGIvdXRpbHMvdjRsMi10
+cmFjZXIvdjRsMi10cmFjZXIuY3BwCkBAIC0yNDEsMTEgKzI0MSw5IEBAIGludCB0cmFjZXIoaW50
+IGFyZ2MsIGNoYXIgKmFyZ3ZbXSwgYm9vbCByZXRyYWNlKQogCQl0cmFjZV9pZCA9IGpzb25fZmls
+ZV9uYW1lLnN1YnN0cigwLCBqc29uX2ZpbGVfbmFtZS5maW5kKCIuanNvbiIpKTsKIAkJdHJhY2Vf
+aWQgKz0gIl9yZXRyYWNlIjsKIAl9IGVsc2UgewotCQljb25zdCBpbnQgdGltZXN0YW1wX3N0YXJ0
+X3BvcyA9IDU7Ci0JCXRyYWNlX2lkID0gc3RkOjp0b19zdHJpbmcodGltZShudWxscHRyKSk7Ci0J
+CS8vIHRyYWNlX2lkID0gdHJhY2VfaWQuc3Vic3RyKHRpbWVzdGFtcF9zdGFydF9wb3MsIHN0ZDo6
+c3RyaW5nOjpucG9zKSArICJfdHJhY2UiOworCQljb25zdCBpbnQgdGltZXN0YW1wX3N0YXJ0X3Bv
+cyA9IDE7CisJCXRyYWNlX2lkID0gc3RkOjp0b19zdHJpbmcoMTAwMDAwICsgdGltZShudWxscHRy
+KSAlIDEwMDAwMCk7CiAJCXRyYWNlX2lkID0gdHJhY2VfaWQuc3Vic3RyKHRpbWVzdGFtcF9zdGFy
+dF9wb3MpICsgIl90cmFjZSI7Ci0KIAl9CiAJc2V0ZW52KCJUUkFDRV9JRCIsIHRyYWNlX2lkLmNf
+c3RyKCksIDApOwogCXN0ZDo6c3RyaW5nIHRyYWNlX2ZpbGVuYW1lID0gdHJhY2VfaWQgKyAiLmpz
+b24iOwotLSAKMi40MC4wCgo=
