@@ -2,92 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49E1C6D0868
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 16:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 168DA6D089F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 16:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231886AbjC3Ogo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 10:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44270 "EHLO
+        id S231787AbjC3Osj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 10:48:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231396AbjC3Ogn (ORCPT
+        with ESMTP id S230458AbjC3Osi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 10:36:43 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD1D5BA0
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 07:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1680186995; i=ps.report@gmx.net;
-        bh=2P0Lesg+bviUAuKIQ64qnjkT3y/8RPBLOWMVVl+n8do=;
-        h=X-UI-Sender-Class:From:To:Subject:Date;
-        b=JDDP1OH3Njb9W5rBWsvTxgHzUYeCv1HHFV8ajwdPK8o+WZnc4HnzMD1FuRy4uRggf
-         D6vNbmvo0e/lvR69AYxv2MxHuAo3xwgjlQ0NRgXRGHdVwXoE8JJzxjHhhMa1OFBUZq
-         7APnqGHkppcWFyQ3hGNg70agj+U3TSX4Zxqvmf837H/X5KhOtAxJQcqQdnQiAo9R+n
-         qwCY0go7YNvVope1Qs7wg/JIPjocmpxG2RA496WXy53bagX428rO29Yp0uO05KxUYc
-         /YKVbQHOXVqOkPPo55duGHWuWbTKXBf4LVIsrMT2+ukN8fG7CTsALjvmJOC5cHmroP
-         mN9aQ085xssCQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost.fritz.box ([62.216.208.135]) by mail.gmx.net
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1ML9uK-1q06jJ2gqI-00IGAJ for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023
- 16:36:35 +0200
-From:   Peter Seiderer <ps.report@gmx.net>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v4l-utils v1] v4l2-tracer: fix trace path name creation
-Date:   Thu, 30 Mar 2023 16:36:35 +0200
-Message-Id: <20230330143635.17991-1-ps.report@gmx.net>
+        Thu, 30 Mar 2023 10:48:38 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ABCE900D
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 07:48:35 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id i5so77699809eda.0
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 07:48:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680187714;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MbBZmiUq2SewGcB1WQ+odX7aRajPGQ6kWC2rF4Mgtf0=;
+        b=Nc1Hr4zJ2vyjsAlR1T1xygY7Kxe1+rOnyI09qThvo1i8qN8V9YBdAB+BBuFHfxwmry
+         r+x+2S3VtqKOe6cwUmKc6cQFEb0Ev1h26bAjeMlZfx91hbSUO0JXFmFMCRPeCiYM7gMB
+         +q80FXNXgmqMy6nwfVM+zpKtQ1wQoA4KzHiMZ+fdqw68FORQPDzxPWxBvpufUc5R3emx
+         IhKqb9RnGWdNHMH5clEGKGbNasoqv2SDZiYLIMx9t0i3l/FV9702vTavwHepDK5iwFhw
+         LyLNdj0FAVNL0fwGOp484mgbG/ysf9MSGhFssjvOtJ/RRmS5lbFhuEFd9JcAFw8NcI3Y
+         4wvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680187714;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MbBZmiUq2SewGcB1WQ+odX7aRajPGQ6kWC2rF4Mgtf0=;
+        b=wtuq941IvmowSaUtdEv6Aa7XV5Faw05gqrUVCVrja1lzTJJ3wbKIdyGe0tSg5i1xH6
+         OVLEaNm5nud1WeBwtgLw8xGP6/kPKa17vROjvObFr0+/8hNNaIzCPqF985xHjlhfWZ2b
+         pKvetfRlINqk3nMZ+s6RoKESErLQsLoayaFJOP+0cPJNdaYqk68dv1A5Bswu0X0aJlFx
+         8YEHaEHnnCjNbAcNxFJlpsploYLLOhwTy4nGET9snbFODuMwB0hOahXQ/OaxtySy1i9d
+         PyGsKW7UrkZc5Jli1aHD/sqin+SwkagerdYsd9m67nkP/fzIh+nMa5avrWqkdLOjxP1K
+         DaeQ==
+X-Gm-Message-State: AAQBX9dfAvqEL0m+BJlqUg5UYaJBefz3iIitPLFHJ1wWwxrFlubcEeSZ
+        N8+2+eL8DI1bA4Z4T8OLcNxj6w==
+X-Google-Smtp-Source: AKy350YgGVveoKiwxdvAXb7x4ZQpu4bN4K0kADwQ0U5BBvXLwkgwalT41WFx3DIBZt95Obg1RD5Wog==
+X-Received: by 2002:a17:906:b28c:b0:931:baf:259 with SMTP id q12-20020a170906b28c00b009310baf0259mr25192648ejz.63.1680187713837;
+        Thu, 30 Mar 2023 07:48:33 -0700 (PDT)
+Received: from sleipner.berto.se (p54ac5f91.dip0.t-ipconnect.de. [84.172.95.145])
+        by smtp.googlemail.com with ESMTPSA id vq2-20020a170907a4c200b0093e9fb91837sm7830426ejc.76.2023.03.30.07.48.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 07:48:33 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/3] media: dt-bindings: media: Add bindings for video capture on R-Car V4H
+Date:   Thu, 30 Mar 2023 16:47:28 +0200
+Message-Id: <20230330144731.3017858-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:qliWxEy0dZQ/HtVpw/cv6drgktvQM5SQYdZa/fMbpjn0E2We9pF
- 3wuE3Z+N9ghk5bCCfv8hRfU6MuEUgzw2Eb33efgy+DYRcLrDS6XydlX9m3p90crDzHaR6Lx
- rq3f1M/De7QuA0YqOOhnU2cyYeY7uw2LBKYqn3Kf1G89I63PUBbM/gLjvf+zYwkeLccTfNw
- guuH4jDDroyMBa3juoTFA==
-UI-OutboundReport: notjunk:1;M01:P0:9hW9hsizV1s=;DibXIlbJKXJOB9bkdkVLulCoyNE
- 5UdmUempXg+KJpx0v8yWf3v0Iwhnvv/p99nkj00/0RPr2DamymZMBrpJh11gJa0Y5yttfSTOc
- 3hFNdIh/zIUyjB5EarYQgarYlKTkBRR/kpFuVn86Cye/ihB4Y5BqRaCawqLyt1jzFseivpr2I
- anVkRZKNUhfSheHx9ZIp13wlWOVowW6ftRiqbSxh0mKU1dfxp/cnkKmGTg3nTdSe3xa9o3sfG
- saBQ4E6+/VqT9o4wXm2cpoMpG4WBdfO2fYfv3vuqsU1mA+hbbieOjRiCZ1gVTYc/Us8Z1Mp+B
- e5LUxr3YJvLC5yiaQMhQglBS76Jh7P60LhUyYocMEYxfs/AJlyy3OqmKJwgPcZQwaoerwqak3
- A+0TaqgNH/mKq9MjhUhvxtwtfwjmSpDZKDLcZ0MDPkvO8jc9syU/EvoLEW9OZBHnhfeHNraw5
- pjNFxnKGCYAfhk9SBEncRMfzR4g3kCBpkfonb0fKQcvW5HGJLNs16kciwK1PIxwS1E1/vs2Bs
- kiWq2Ak4PEvPPAfPhQLXHjZg36OzyIyqJxVozZwBbDPitYtP/Mm0O8OnkmJdEbYUwmb978zGx
- p5AszsNK4FCB4JEzNmkjAY5+DKPrNt8nH4Knqu062ED0pJoKJ0q+5wcoOVMbb/pzSV1t5AlgZ
- pQ3SDIDK3qIXH3T5lHKqiTkfzoWo5sV9nv59q07meY68Cg3VZn/TnX8DQzeLYmDHE7ebW7xnD
- vyMiYZQeipSxDy2c3fYAJg0Id/sCv+z8u78aZRtavrD7u6+2VyTCGEsDRvgAOJ+B4mD8E9OI8
- h/UcW6y3bkpn/69G+IvC6lgQwa6ortgXaUnRDYUjaiyLdH/HxqjEzH+2uOd72Tk4n4/RlSHUp
- XlKRVi+dbwg7dAKDZ6Kc373wLy9vNYpU4jfeJgggKy/KcrUOAMU0o3ss+Cm5Y3t5I8ZhJ3lu7
- 9p8/Mw==
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,MIME_BASE64_TEXT,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rml4IHRyYWNlIHBhdGggbmFtZSBjcmVhdGlvbiBmb3IgcG9vciBtYW4ncyBkZXZlbG9wbWVudCBi
-b2FyZHMKKGUuZy4gUmFzcGJlcnJ5IFBpKSB3aXRob3V0IFJUQyAoc3RhcnRpbmcgYXQgdW5peCBl
-cG9jaGUgYWthIHRpbWUgMCkKYnkgZm9yY2luZyBpbml0aWFsIHRyYWNlX2lkIGNyZWF0aW9uIHdp
-dGggNiB2YWxpZCBkaWdpdHMuCgpGaXhlczoKCiAgdGVybWluYXRlIGNhbGxlZCBhZnRlciB0aHJv
-d2luZyBhbiBpbnN0YW5jZSBvZiAnc3RkOjpvdXRfb2ZfcmFuZ2UnCiAgICB3aGF0KCk6ICBiYXNp
-Y19zdHJpbmc6OnN1YnN0cjogX19wb3MgKHdoaWNoIGlzIDUpID4gdGhpcy0+c2l6ZSgpICh3aGlj
-aCBpcyAzKQogIEFib3J0ZWQKClNpZ25lZC1vZmYtYnk6IFBldGVyIFNlaWRlcmVyIDxwcy5yZXBv
-cnRAZ214Lm5ldD4KLS0tCiB1dGlscy92NGwyLXRyYWNlci92NGwyLXRyYWNlci5jcHAgfCA2ICsr
-LS0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRp
-ZmYgLS1naXQgYS91dGlscy92NGwyLXRyYWNlci92NGwyLXRyYWNlci5jcHAgYi91dGlscy92NGwy
-LXRyYWNlci92NGwyLXRyYWNlci5jcHAKaW5kZXggY2I4NzNkODMuLjFhOWE3ZDc1IDEwMDY0NAot
-LS0gYS91dGlscy92NGwyLXRyYWNlci92NGwyLXRyYWNlci5jcHAKKysrIGIvdXRpbHMvdjRsMi10
-cmFjZXIvdjRsMi10cmFjZXIuY3BwCkBAIC0yNDEsMTEgKzI0MSw5IEBAIGludCB0cmFjZXIoaW50
-IGFyZ2MsIGNoYXIgKmFyZ3ZbXSwgYm9vbCByZXRyYWNlKQogCQl0cmFjZV9pZCA9IGpzb25fZmls
-ZV9uYW1lLnN1YnN0cigwLCBqc29uX2ZpbGVfbmFtZS5maW5kKCIuanNvbiIpKTsKIAkJdHJhY2Vf
-aWQgKz0gIl9yZXRyYWNlIjsKIAl9IGVsc2UgewotCQljb25zdCBpbnQgdGltZXN0YW1wX3N0YXJ0
-X3BvcyA9IDU7Ci0JCXRyYWNlX2lkID0gc3RkOjp0b19zdHJpbmcodGltZShudWxscHRyKSk7Ci0J
-CS8vIHRyYWNlX2lkID0gdHJhY2VfaWQuc3Vic3RyKHRpbWVzdGFtcF9zdGFydF9wb3MsIHN0ZDo6
-c3RyaW5nOjpucG9zKSArICJfdHJhY2UiOworCQljb25zdCBpbnQgdGltZXN0YW1wX3N0YXJ0X3Bv
-cyA9IDE7CisJCXRyYWNlX2lkID0gc3RkOjp0b19zdHJpbmcoMTAwMDAwICsgdGltZShudWxscHRy
-KSAlIDEwMDAwMCk7CiAJCXRyYWNlX2lkID0gdHJhY2VfaWQuc3Vic3RyKHRpbWVzdGFtcF9zdGFy
-dF9wb3MpICsgIl90cmFjZSI7Ci0KIAl9CiAJc2V0ZW52KCJUUkFDRV9JRCIsIHRyYWNlX2lkLmNf
-c3RyKCksIDApOwogCXN0ZDo6c3RyaW5nIHRyYWNlX2ZpbGVuYW1lID0gdHJhY2VfaWQgKyAiLmpz
-b24iOwotLSAKMi40MC4wCgo=
+Hello,
+
+This small series and bindings for all modules involved in video capture
+on Renesas R-Car V4H.
+
+Niklas Söderlund (3):
+  media: dt-bindings: media: renesas,isp: Add binding for V4H
+  media: dt-bindings: media: renesas,csi2: Add binding for V4H
+  media: dt-bindings: media: renesas,vin: Add binding for V4H
+
+ Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 +
+ Documentation/devicetree/bindings/media/renesas,isp.yaml  | 1 +
+ Documentation/devicetree/bindings/media/renesas,vin.yaml  | 1 +
+ 3 files changed, 3 insertions(+)
+
+-- 
+2.40.0
+
