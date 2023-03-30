@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 597466D0429
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 13:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 023C56D042A
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 13:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbjC3L7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 07:59:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32884 "EHLO
+        id S231601AbjC3L70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 07:59:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231599AbjC3L7V (ORCPT
+        with ESMTP id S231602AbjC3L7W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 07:59:21 -0400
+        Thu, 30 Mar 2023 07:59:22 -0400
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37088A5C6
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:59:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D0EA268
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680177560; x=1711713560;
+  t=1680177561; x=1711713561;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QnYr+GdHWgEC8Ufdp0MbAqGXIwoveyexkk4PM4EYNqY=;
-  b=GYF/t3x+mAXuaAUnMojN+QrbTrW3SWDcmb0aaCGR7W0+j985izgHIjNM
-   WbtlXe6ivKwaxKxXTlxWXUzjcURPPN723z5a/ODPYlX5fnnE19nhDbFjU
-   E7eWI9Prv+4992ABshnTAnct8pTuZG7DGLP6tra3JLv24pYj9tnFdYUoP
-   6EcNkjlZ9gqGq5IjaTGYi3dpoyeifeVBelhlmpt9DKPI+Ha9oLHE/v1sB
-   LKga1sVd2HQ+wG9e9Kk4ftY4s0iinmhxwzHOjIX4qjaJa4U1wklUuIBcq
-   SANGZAUMlU2GsgpheQrOhq4F0z64c4PkHbqF2h7pUTS/17ch2RII7dstP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="406111481"
+  bh=7+tj6F5gYcmOTf3VG2sl3XwioJ0wPHoLADJpRhcgQTE=;
+  b=PMnCmzcwza2mOZHb2t9i9sE3Uz87BrlETwo+LrQijoNL7x3KtXE35P0h
+   ABmksojIJt3Jlzeq+jjZfAw/nY0DMp4vWnoW0mToQTY2ik/DQGw6+j9HD
+   LuB5inqeERkAlyF8nc7zxnE6OJNlKIDq69Ph3ahsSSh/LrkjemUulsvM9
+   DDnLplgbfGt5Y7vaM93OEL652eU75mQpwKVXa0S2PgJMDSjRxVUry1WrD
+   WB43A8OI9bPHhcWFcX40Bvy6s0z36l9h45hctJmooOhJyKqnZOP2AeKaa
+   0A7T4Zt3cK82aefFQGfNHKE1iwoHK7FvhNoaAqgHyKBEauzEn/FSmuCea
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="406111492"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="406111481"
+   d="scan'208";a="406111492"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:19 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714952932"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714952933"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="714952932"
+   d="scan'208";a="714952933"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:16 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:17 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id BAD1712259B;
-        Thu, 30 Mar 2023 14:59:13 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 03D57122457;
+        Thu, 30 Mar 2023 14:59:14 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
@@ -50,9 +50,9 @@ Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: [PATCH 14/18] media: xilinx-vipp: Init async notifier after registering V4L2 device
-Date:   Thu, 30 Mar 2023 14:58:49 +0300
-Message-Id: <20230330115853.1628216-15-sakari.ailus@linux.intel.com>
+Subject: [PATCH 15/18] media: davinci: Init async notifier after registering V4L2 device
+Date:   Thu, 30 Mar 2023 14:58:50 +0300
+Message-Id: <20230330115853.1628216-16-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
 References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
@@ -74,30 +74,62 @@ available to the notifier right from the beginning.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/xilinx/xilinx-vipp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../media/platform/ti/davinci/vpif_capture.c    | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
-index 70e7a1f6ed3b..83430633ed28 100644
---- a/drivers/media/platform/xilinx/xilinx-vipp.c
-+++ b/drivers/media/platform/xilinx/xilinx-vipp.c
-@@ -516,6 +516,8 @@ static int xvip_graph_init(struct xvip_composite_device *xdev)
- 		goto done;
+diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
+index 2bbd7017f67c..728865ad44b7 100644
+--- a/drivers/media/platform/ti/davinci/vpif_capture.c
++++ b/drivers/media/platform/ti/davinci/vpif_capture.c
+@@ -1608,18 +1608,12 @@ static __init int vpif_probe(struct platform_device *pdev)
+ 	int res_idx = 0;
+ 	int i, err;
+ 
+-	pdev->dev.platform_data = vpif_capture_get_pdata(pdev);
+-	if (!pdev->dev.platform_data) {
+-		dev_warn(&pdev->dev, "Missing platform data.  Giving up.\n");
+-		return -EINVAL;
+-	}
+-
+ 	vpif_dev = &pdev->dev;
+ 
+ 	err = initialize_vpif();
+ 	if (err) {
+ 		v4l2_err(vpif_dev->driver, "Error initializing vpif\n");
+-		goto cleanup;
++		return err;
  	}
  
-+	v4l2_async_nf_init(&xdev->notifier);
+ 	err = v4l2_device_register(vpif_dev, &vpif_obj.v4l2_dev);
+@@ -1655,6 +1649,12 @@ static __init int vpif_probe(struct platform_device *pdev)
+ 		goto vpif_unregister;
+ 	}
+ 
++	pdev->dev.platform_data = vpif_capture_get_pdata(pdev);
++	if (!pdev->dev.platform_data) {
++		dev_warn(&pdev->dev, "Missing platform data.  Giving up.\n");
++		goto probe_subdev_out;
++	}
 +
- 	/* Parse the graph to extract a list of subdevice DT nodes. */
- 	ret = xvip_graph_parse(xdev);
- 	if (ret < 0) {
-@@ -596,7 +598,6 @@ static int xvip_composite_probe(struct platform_device *pdev)
+ 	if (!vpif_obj.config->asd_sizes[0]) {
+ 		int i2c_id = vpif_obj.config->i2c_adapter_id;
  
- 	xdev->dev = &pdev->dev;
- 	INIT_LIST_HEAD(&xdev->dmas);
--	v4l2_async_nf_init(&xdev->notifier);
+@@ -1695,14 +1695,13 @@ static __init int vpif_probe(struct platform_device *pdev)
+ 	return 0;
  
- 	ret = xvip_composite_v4l2_init(xdev);
- 	if (ret < 0)
+ probe_subdev_out:
++	v4l2_async_nf_cleanup(&vpif_obj.notifier);
+ 	/* free sub devices memory */
+ 	kfree(vpif_obj.sd);
+ vpif_unregister:
+ 	v4l2_device_unregister(&vpif_obj.v4l2_dev);
+ vpif_free:
+ 	free_vpif_objs();
+-cleanup:
+-	v4l2_async_nf_cleanup(&vpif_obj.notifier);
+ 
+ 	return err;
+ }
 -- 
 2.30.2
 
