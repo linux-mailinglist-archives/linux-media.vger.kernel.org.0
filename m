@@ -2,46 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6056D0B03
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 18:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0DC6D0F99
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 22:01:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbjC3Q1d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 12:27:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
+        id S229613AbjC3UBS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 16:01:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbjC3Q1c (ORCPT
+        with ESMTP id S229491AbjC3UBK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 12:27:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CFABBB3
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 09:27:30 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A14976E1;
-        Thu, 30 Mar 2023 18:27:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680193648;
-        bh=1H0/Rsm2TnDwX+QGfUummj1ND+yaVraWmAf7M0rQb5k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DCufdDamh21YoF3PkHtVPNHOupScV50Fm8/Hng8XWVzY9lez6ljDtCv9WvNjRCpQJ
-         LLruQ9k/ptylW+UO01ABX1GxlhXkpF7JmLVgQUmEwVX0n4Cwd8RJRcKxaLZ61HvyFy
-         9zmwZO6XKe+N8DynwRCkwc9B1+JHIdcgrx7GFUWE=
-Date:   Thu, 30 Mar 2023 18:27:25 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 1/1] Documentation: v4l: Document rotation and
- orientation for sensor drivers
-Message-ID: <20230330162725.5jubjq2muh6ztfhd@uno.localdomain>
-References: <20230328145248.1489994-1-sakari.ailus@linux.intel.com>
- <20230329182106.xi2k5diul3jixq3z@uno.localdomain>
- <ZCVNR+nMpUoNuVnX@kekkonen.localdomain>
+        Thu, 30 Mar 2023 16:01:10 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141861024E
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 13:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1680206461; i=ps.report@gmx.net;
+        bh=dsTOcrG0G0qHAXL5u31LdiSEcypvWwBcVuNvFlK9TEQ=;
+        h=X-UI-Sender-Class:From:To:Subject:Date;
+        b=gB7izNYn8UmkAkuqw02chX42rOE9v8TkLhFuiX/x9VV2rB3AoljrnXbzQ5ZsjefLw
+         prRdUMJjv4bgCV++s88UHSK9BHUNsTyGtMNB48SNvszWZ/r/S0CWGf7rQg4NP/Qhl/
+         V1jF24QQWVnCVMWnTloonyvFBBMPNBLh0PpQm/EIGUL+dhovFTaga89mZzb2006Yvw
+         t57Ayjf9CXt4oFnabF/Yrqn2DKr8S3/AiLAm1/wC+ONw8+6Si+nw/uuNDzPL/3xgk2
+         t2RF36xsDIo2LrWIXbDm83atLB6AZ1lXPYB65P+APCAnqViMzOSNLhlkh9JWogN//V
+         ylWQtXIslNVdg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.fritz.box ([62.216.208.135]) by mail.gmx.net
+ (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MMXUD-1pygME0iyF-00JdrU for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023
+ 22:01:01 +0200
+From:   Peter Seiderer <ps.report@gmx.net>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils v1] meson: re-enable qv4l2 without Qt OpenGL support
+Date:   Thu, 30 Mar 2023 22:01:00 +0200
+Message-Id: <20230330200100.4363-1-ps.report@gmx.net>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZCVNR+nMpUoNuVnX@kekkonen.localdomain>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:u/VTeQ0y2hRlREl50QE2Ut8jhYquKSbSmGCuD2WQufI94p0Q06s
+ PzRZwENg0juZuOzbL9EbB2ZF+OFDB9LC6HIK3Z5CP2YCcH+UxVlEx5q9vgpPS3CZiv/yS+L
+ yFeBIZpe/qNY2XrCCYD012ij4wlM1xQbj5j3TjfD0OT/YDn5/Ef6VgsMkNYINK2lqOqL7Z5
+ dTOsaL/hy72FfwTAoE1kw==
+UI-OutboundReport: notjunk:1;M01:P0:MAu5/0nQVSU=;5ly0n1SNQCW/dxGKr5m75rJeHyu
+ or0nVsAuX3Yrfs1s8zMbf1CnBlNY1E6prnxZKMGRHnGJfH5goKG/mh19bAT0hq2+3wFhJ3Vs5
+ YSzLmjBGuHytyNAvBZ2AxPEwoVPaA3HBNDtOd35unnwj/fMbiwMp+U2Q8nMQHJPZWj+tOt6bF
+ A3/2k9finOR3rzAgh/fkbnkGTKOcRujqfnsN10LiHjyS0ddWFaoBWgi4tLkeFbn3oHlPuhuwV
+ RWGgX/c+1IAC9/+YFc95711MfUZqeMLzvjMU2xg39pR31nFTXU+QBf3S4rqPOh2ZlLradHh8R
+ CNqRaryN6h7J/qZmPQ7VXThxNxB1vIOSnWI6XI4dy5VgI9/l1i53FNAlRdAeYZ5N6Il5D7hZI
+ nhQD3C6+TX057pu0x7wE/hngp5NHt2TDsTQHPg+F1ntH1l34Jz8qnhGCnp3sLNrdEHdOkMCtu
+ Cy+Ht8fmoPKqa8/D6ZTIZIj2dqJpT3j34A7yR3sP+dPmvt4fwRXodhj7mVpUMsfaqe+ICjQvs
+ pm/7jnyAG1zZYwa17cE7ei8ywXOjzJNtcKFEirPE790Y/Ur0NKdsoh3WUgrvhP3ZxLwEBJbks
+ MhWZOpmszaeZnIp2s1BBquC84viTdMAkEICz1a6FC2qUweq3NDI48DVI4dXXUTZVnYjFR8aJ2
+ WPmBwEp+d45bO0Gt91vEnQRUQHyfTx4UG3xb8+cNTf3fQNTAAq+y1DDx+WPR8zcTgaQNCY+Ez
+ snJxSvJQZernF83VtGX0r3DAfH7na81HS04YVe2h2/8Dc7r0T9P0awLf0l0SFyOY9UGnQwUo3
+ 4RtwqOii3sOOIFYT227caSNAw1IzOm6whehmfmF550GEoFKjhp7T6VqJyDj8Qs0WNWtkLxAuY
+ kJKSMxfvt4eRDIEJd/daVqAf1rcrojy2RvI+dAa1+7bTK1kNi63PblSwPOm9FichH4VzY64Ha
+ HlgyYGbElhuSYhQv4r7JDJPBbEk=
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,MIME_BASE64_TEXT,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,116 +67,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
-
-On Thu, Mar 30, 2023 at 11:50:15AM +0300, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Wed, Mar 29, 2023 at 08:21:06PM +0200, Jacopo Mondi wrote:
-> > Hi Sakari
-> >    sorry, I missed this one!
->
-> No problem.
->
-> >
-> > On Tue, Mar 28, 2023 at 05:52:48PM +0300, Sakari Ailus wrote:
-> > > Document how rotation and orientation should be taken into account in
-> > > writing camera sensor drivers.
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > > since v1:
-> > >
-> > > Use speclial double quotes around functions to use non-proportional font for
-> > > them.
-> > >
-> > >  Documentation/driver-api/media/camera-sensor.rst      | 11 +++++++++++
-> > >  .../userspace-api/media/v4l/ext-ctrls-camera.rst      |  1 +
-> > >  2 files changed, 12 insertions(+)
-> > >
-> > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > index c7d4891bd24e..2618a91b0d85 100644
-> > > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > @@ -151,3 +151,14 @@ used to obtain device's power state after the power state transition:
-> > >  The function returns a non-zero value if it succeeded getting the power count or
-> > >  runtime PM was disabled, in either of which cases the driver may proceed to
-> > >  access the device.
-> > > +
-> > > +Rotation and orientation
-> > > +------------------------
-> > > +
-> > > +Some systems have been implemented so that the camera sensor has been mounted
-> > > +upside down compared to its natural mounting rotation. In such a case, the
-> > > +:ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>` control
-> > > +shall indicate the mounting rotation.
-> >
-> > I would put it in imperative form for driver developers
-> >
-> > "Some systems have been implemented so that the camera sensor has been mounted
-> > upside down compared to its natural mounting rotation. In such a case,
-> > drivers should register the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> > <v4l2-camera-sensor-rotation>` control to report the information to
-> > userspace."
->
-> That is in conditional, suggesting it isn't mandatory. Is that what you
-> wanted to say?
->
-
-"drivers shall register..." ?
-
-> >
-> > I would also specify how drivers should initialize their flip controls
-> >
-> > "Mode-based sensor driver implementations that have any vertical or
-> > horizontal flips embedded in the register programming sequences should
-> > initialize the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls with the
-> > values programmed by the register sequences.
->
-> I'd use "shall" also here. I can't think of a reasonable exception as it
-> breaks how this is meant to work for user space.
->
-
-Yes, I agree
-
-> >
-> > Drivers which implement writable flip controls could automatically
-> > compensate for the sensor's mounting rotation and shall reflect that in
-> > the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls initial and default values."
->
-> Good point. For existing drivers (such as CCS or IMX258) this could help
-> existing users but I'm not sure I'd do this for new drivers. Comments and
-> opinions would be welcome from others, too. Cc Laurent, too.
->
-> >
-> > > +
-> > > +Use ``v4l2_fwnode_device_parse()`` to obtain this information and
-> > > +``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls.
-> >
-> > I would also mention the orientation control before introducing
-> > v4l2_fwnode_device_parse.
-> >
-> > "Sensor drivers should also report their mounting orientation with the
-> > :ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
-> >
-> > Both controls can be registered by using the ``v4l2_fwnode_device_parse()``
-> > function to obtain this information from the firmware interface and
-> > ``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls."
-> >
-> > How does this work for you ?
->
-> I'd just use "shall" here, too.
->
-
-Agree on this as well
-
-> This applies of course to new drivers only, many existing ones are missing
-> these bits.
->
-
-I know :( It's however worth it to encourage new drivers to do that!
-
-> --
-> Kind regards,
->
-> Sakari Ailus
+UmUtZW5hYmxlIHF2NGwyIHdpdGhvdXQgUXQgT3BlbkdMIHN1cHBvcnQgKGFzIHBvc3NpYmxlIHdp
+dGggdGhlCmxlZ2FjeSBhdXRvY29uZi9hdXRvbWFrZSBidWlsZCBzeXN0ZW0pLgoKU2lnbmVkLW9m
+Zi1ieTogUGV0ZXIgU2VpZGVyZXIgPHBzLnJlcG9ydEBnbXgubmV0PgotLS0KIG1lc29uLmJ1aWxk
+ICAgICAgICAgICAgICAgfCAxMCArKysrKystLS0tCiB1dGlscy9xdjRsMi9tZXNvbi5idWlsZCAg
+IHwgIDMgKystCiB1dGlscy9xdmlkY2FwL21lc29uLmJ1aWxkIHwgIDIgKy0KIDMgZmlsZXMgY2hh
+bmdlZCwgOSBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21lc29u
+LmJ1aWxkIGIvbWVzb24uYnVpbGQKaW5kZXggMWU3NmIwZjQuLmIyNzQ1MGVhIDEwMDY0NAotLS0g
+YS9tZXNvbi5idWlsZAorKysgYi9tZXNvbi5idWlsZApAQCAtNzAsOCArNzAsNyBAQCBpZiBkZXBf
+YWxzYS5mb3VuZCgpCiAgICAgY29uZi5zZXQoJ0hBVkVfQUxTQScsIDEpCiBlbmRpZgogCi1kZXBf
+Z2wgPSBkZXBlbmRlbmN5KCdnbCcsIHJlcXVpcmVkIDogZ2V0X29wdGlvbigncXZpZGNhcCcpLmVu
+YWJsZWQoKSBvcgotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdldF9vcHRp
+b24oJ3F2NGwyJykuZW5hYmxlZCgpKQorZGVwX2dsID0gZGVwZW5kZW5jeSgnZ2wnLCByZXF1aXJl
+ZCA6IGdldF9vcHRpb24oJ3F2aWRjYXAnKS5lbmFibGVkKCkpCiBkZXBfZ2x1ID0gZGVwZW5kZW5j
+eSgnZ2x1JywgcmVxdWlyZWQgOiBmYWxzZSkKIAogZGVwX2pzb25jID0gZGVwZW5kZW5jeSgnanNv
+bi1jJywgcmVxdWlyZWQgOiBnZXRfb3B0aW9uKCd2NGwyLXRyYWNlcicpLCB2ZXJzaW9uIDogJz49
+MC4xNScpCkBAIC04MCw5ICs3OSwxMiBAQCBkZXBfbGliZGwgPSBjYy5maW5kX2xpYnJhcnkoJ2Rs
+JykKIGRlcF9saWJlbGYgPSBjYy5maW5kX2xpYnJhcnkoJ2VsZicsIHJlcXVpcmVkIDogZ2V0X29w
+dGlvbignYnBmJykpCiBkZXBfbGlibSA9IGNjLmZpbmRfbGlicmFyeSgnbScpCiBkZXBfbGlicnQg
+PSBjYy5maW5kX2xpYnJhcnkoJ3J0JykKLWRlcF9xdDUgPSBkZXBlbmRlbmN5KCdxdDUnLCBtb2R1
+bGVzOiBbJ0NvcmUnLCAnR3VpJywgJ1dpZGdldHMnLCAnT3BlbkdMJ10sCitkZXBfcXQ1ID0gZGVw
+ZW5kZW5jeSgncXQ1JywgbW9kdWxlczogWydDb3JlJywgJ0d1aScsICdXaWRnZXRzJ10sCiAgICAg
+ICAgICAgICAgICAgICAgICByZXF1aXJlZCA6IGdldF9vcHRpb24oJ3F2aWRjYXAnKS5lbmFibGVk
+KCkgb3IgZ2V0X29wdGlvbigncXY0bDInKS5lbmFibGVkKCkpCiAKK2RlcF9xdDVfb3BlbmdsID0g
+ZGVwZW5kZW5jeSgncXQ1JywgbW9kdWxlczogWydPcGVuR0wnXSwKKyAgICAgICAgICAgICAgICAg
+ICAgIHJlcXVpcmVkIDogZ2V0X29wdGlvbigncXZpZGNhcCcpLmVuYWJsZWQoKSkKKwogZGVwX2xp
+YmJwZiA9IGRlcGVuZGVuY3koJ2xpYmJwZicsIHJlcXVpcmVkIDogZ2V0X29wdGlvbignYnBmJyks
+IHZlcnNpb24gOiAnPj0wLjcnKQogCiBkZXBfc2RsID0gZGVwZW5kZW5jeSgnU0RMMicsIHJlcXVp
+cmVkOiBmYWxzZSkKQEAgLTI5MSw3ICsyOTMsNyBAQCBxdDVfb3BlbmdsX3Rlc3QgPSAnJycKICNl
+bmRpZgogJycnCiBoYXZlX3F0NV9vcGVuZ2wgPSBjcHAuY29tcGlsZXMocXQ1X29wZW5nbF90ZXN0
+LAotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlcGVuZGVuY2llcyA6IFtkZXBfZ2ws
+IGRlcF9xdDVdLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlcGVuZGVuY2llcyA6
+IFtkZXBfZ2wsIGRlcF9xdDUsIGRlcF9xdDVfb3BlbmdsXSwKICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBhcmdzIDogJy1mUElDJykKIGlmIGhhdmVfcXQ1X29wZW5nbAogICAgIGNvbmYu
+c2V0KCdIQVZFX1FUR0wnLCAxKQpkaWZmIC0tZ2l0IGEvdXRpbHMvcXY0bDIvbWVzb24uYnVpbGQg
+Yi91dGlscy9xdjRsMi9tZXNvbi5idWlsZAppbmRleCA1NDY3NmJlOC4uNDg2MGUzMzEgMTAwNjQ0
+Ci0tLSBhL3V0aWxzL3F2NGwyL21lc29uLmJ1aWxkCisrKyBiL3V0aWxzL3F2NGwyL21lc29uLmJ1
+aWxkCkBAIC0xLDQgKzEsNCBAQAotaWYgZ2V0X29wdGlvbigncXY0bDInKS5kaXNhYmxlZCgpIG9y
+IG5vdCBkZXBfZ2wuZm91bmQoKSBvciBub3QgZGVwX3F0NS5mb3VuZCgpCitpZiBnZXRfb3B0aW9u
+KCdxdjRsMicpLmRpc2FibGVkKCkgb3Igbm90IGRlcF9xdDUuZm91bmQoKQogICAgIHN1YmRpcl9k
+b25lKCkKIGVuZGlmCiAKQEAgLTMzLDYgKzMzLDcgQEAgcXY0bDJfZGVwcyA9IFsKICAgICBkZXBf
+bGlidjRsMnV0aWwsCiAgICAgZGVwX2xpYnY0bGNvbnZlcnQsCiAgICAgZGVwX3F0NSwKKyAgICBk
+ZXBfcXQ1X29wZW5nbCwKICAgICBkZXBfdGhyZWFkcywKIF0KIApkaWZmIC0tZ2l0IGEvdXRpbHMv
+cXZpZGNhcC9tZXNvbi5idWlsZCBiL3V0aWxzL3F2aWRjYXAvbWVzb24uYnVpbGQKaW5kZXggZmFh
+ZTE4ZmIuLjA0NGQ4Mjk3IDEwMDY0NAotLS0gYS91dGlscy9xdmlkY2FwL21lc29uLmJ1aWxkCisr
+KyBiL3V0aWxzL3F2aWRjYXAvbWVzb24uYnVpbGQKQEAgLTQsNyArNCw3IEBAIGlmIHF2aWRjYXBf
+b3B0aW9uLmVuYWJsZWQoKSBhbmQgbm90IGhhdmVfcXQ1X29wZW5nbAogICAgIGVycm9yKCdxdmlk
+Y2FwIGVuYWJsZWQgYnV0IFF0NSBpcyBtaXNzaW5nIE9wZW5HTCBzdXBwb3J0JykKIGVuZGlmCiAK
+LWlmIHF2aWRjYXBfb3B0aW9uLmRpc2FibGVkKCkgb3Igbm90IGRlcF9nbC5mb3VuZCgpIG9yIG5v
+dCBkZXBfcXQ1LmZvdW5kKCkgb3Igbm90IGhhdmVfcXQ1X29wZW5nbAoraWYgcXZpZGNhcF9vcHRp
+b24uZGlzYWJsZWQoKSBvciBub3QgZGVwX2dsLmZvdW5kKCkgb3Igbm90IGRlcF9xdDVfb3Blbmds
+LmZvdW5kKCkgb3Igbm90IGhhdmVfcXQ1X29wZW5nbAogICAgIHN1YmRpcl9kb25lKCkKIGVuZGlm
+CiAKLS0gCjIuNDAuMAoK
