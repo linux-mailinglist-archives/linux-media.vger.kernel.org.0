@@ -2,89 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2E6C6D02C0
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 13:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A6C46D041B
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 13:59:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbjC3LPh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 07:15:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52768 "EHLO
+        id S230425AbjC3L7D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 07:59:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231566AbjC3LPd (ORCPT
+        with ESMTP id S229988AbjC3L7C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 07:15:33 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DCDF128
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:15:32 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id j11so24002701lfg.13
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680174930;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WwvbvPXxPR5P20tad4wCr/Qfgy5335Pq0zA9tfCxpKA=;
-        b=bkwQUmdxhpi3uUU2Y7ja2F5fdp36Y7SeDu1dPbTtby9zQ0qSkBTwFD07jJpv9NZjHz
-         gGe0IGcRJlBporhV+Z7MFmrhZuOatgn533LRXq1l17e1mdaqYcyFBZoVGJjuGsy7rbVp
-         tjuzhLD9OEkwDlvxoNwVymXmdbSdwzx/CSQhQ008qPqgdP9TnEBkedk10kh1W93eiHfE
-         7V88RcMkuCrmsHr8gmvuXHl3h8RitZuTb94MVmtpey0Vg1CSVXPcEhrZuVjsYz3YpTR8
-         ooQfexdx/5Gr7jEdNzj4/cAATF2XbZg2YNKhYDll85BhcrF2tc/EUz+De3pUJVABxFBr
-         uWGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680174930;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WwvbvPXxPR5P20tad4wCr/Qfgy5335Pq0zA9tfCxpKA=;
-        b=ENRdR7Jx168YBGOgK7Sile+PCmhi0eqzcpVDOBqp+tH5808UDQzjRzU+pHMvCaUacJ
-         4EQx8vz1nisXEdBHF8t/7pVJtR8Rj4AZ8/ELh9piIICp29XThfIg7S24y0aKaQnZkN17
-         lvOjPOsqfGhUlgATnO0Sp/B4XXndCCZ0Z0O+biN+59vgYYKnJqAMO6WmrphccRF7VeVU
-         a+fslF2+d/IH3WQGBHWFb2S8jxWZ7PceH4J3EfoL2/P9k/lpyGwhaD2L2zu7P9t1AFCd
-         /JBWYKbqTnQEoVO79Ee+Si7oAAv2ixCsRiHLwp6XxRgZ7k00Q3qgYiB7PXD+rCYYN527
-         9aRQ==
-X-Gm-Message-State: AAQBX9eJ+OoBoYhAVN5X03sKLYwmAgBp64Vv/TDtbEERWkrzSpWay8BR
-        ayfn9wU3J8Kk2WaAIjoa7x6xjA==
-X-Google-Smtp-Source: AKy350bTOJ6lsUvwVh84YWuxK0Emo+2xVWmF9qOLHP6Qocwsnd7NzOt+vZ6c9SDIhu9IYzkj9Q6Iiw==
-X-Received: by 2002:ac2:482d:0:b0:4dd:9f86:859d with SMTP id 13-20020ac2482d000000b004dd9f86859dmr6189857lft.13.1680174930341;
-        Thu, 30 Mar 2023 04:15:30 -0700 (PDT)
-Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
-        by smtp.gmail.com with ESMTPSA id y28-20020ac255bc000000b004e846990cf0sm5864650lfg.11.2023.03.30.04.15.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Mar 2023 04:15:29 -0700 (PDT)
-Message-ID: <58b9c5bb-e70c-67b3-e0d9-9aaaa4d4caf5@linaro.org>
-Date:   Thu, 30 Mar 2023 13:15:28 +0200
+        Thu, 30 Mar 2023 07:59:02 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3036FA24B
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 04:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680177541; x=1711713541;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ym6m14y3NMAFvdrU29p8KczAOiAtsNpHaGz191R2Eyg=;
+  b=h52JkzMwIu33HoAVqN4qznND3YYgogiGsap5gWK8LZgC7twpfzUE6sfw
+   IROjf4c2xkmvx8LVMm9Y7uMIuJbRcgNlunPbK77qSbCn1Eo24YOxp6YMo
+   kCiU2VPM++aufwIBEmjS7fRcMXBnLdRo3KwQqSXOssmnsiTVDctQQNoBr
+   qbwmvt0hnB6JcLBumInROh462jgfCC4HNLqCj6eNVMs9tPL38J4bNe3Av
+   fV7BxaLQfC3n1165gC0vrxknzYhHPt6Mym4m9JhtoHPg77oqvUyXYoJuK
+   K4q3+Slom+FyFc09WOAXq9CxtTGh5JgjYylT7NZQOfj1sZQzUVcVqvTLI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="406111319"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="406111319"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:59:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="714952898"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
+   d="scan'208";a="714952898"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 04:58:57 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id E45AE122457;
+        Thu, 30 Mar 2023 14:58:53 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: [PATCH 00/18] Separate links and async sub-devices
+Date:   Thu, 30 Mar 2023 14:58:35 +0300
+Message-Id: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 02/18] media: venus: Introduce VPU version distinction
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
-References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-2-58c2c88384e9@linaro.org>
- <cf2eee18-a6c9-2a9b-84fa-3e2351c413e8@quicinc.com>
- <f8833364-854e-3f04-db7a-82a29682b0c9@linaro.org>
- <0e85caec-f6ec-fbd4-1815-8df9769bffcf@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <0e85caec-f6ec-fbd4-1815-8df9769bffcf@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,86 +66,141 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
+This set adds support for multiple downstream links in an async
+sub-device, by separating the sub-device registration from the link
+creation.
 
-On 30.03.2023 13:02, Vikash Garodia wrote:
-> On 3/2/2023 5:07 PM, Konrad Dybcio wrote:
->>
->> On 2.03.2023 08:12, Dikshita Agarwal wrote:
->>> On 2/28/2023 8:54 PM, Konrad Dybcio wrote:
->>>> The Video Processing Unit hardware version is the differentiator,
->>>> based on which we should decide which code paths to take in hw
->>>> init. Up until now, we've relied on HFI versions, but that was
->>>> just a happy accident between recent SoCs. Add a field in the
->>>> res struct and add correlated definitions that will be used to
->>>> account for the aforementioned differences.
->>>>
->>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>> ---
->>>>    drivers/media/platform/qcom/venus/core.h | 15 +++++++++++++++
->>>>    1 file changed, 15 insertions(+)
->>>>
->>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->>>> index 32551c2602a9..4b785205c5b1 100644
->>>> --- a/drivers/media/platform/qcom/venus/core.h
->>>> +++ b/drivers/media/platform/qcom/venus/core.h
->>>> @@ -48,6 +48,14 @@ struct bw_tbl {
->>>>        u32 peak_10bit;
->>>>    };
->>>>    +enum vpu_version {
->>>> +    VPU_VERSION_AR50, /* VPU4 */
->>>> +    VPU_VERSION_AR50_LITE, /* VPU4.4 */
->>>> +    VPU_VERSION_IRIS1, /* VPU5 */
-> 
-> There was Venus3X, followed by a different generation of video hardware. Driver just extended the versions for next generation incrementally.
-> 
-> Existing versions in driver are not the VPU versions, so we can drop them from comments.
-Ack!
+A new concept, V4L2 async connection is added. Generally async notifiers
+have a number of connections but at that level there is no knowledge of
+how many sub-devices they will connect to. The bound and unbound callbacks
+now work on connections. For the existing drivers there's only one
+connection so I do not expect regressions because of that.
 
-> 
->>>> +    VPU_VERSION_IRIS2,
->>>> +    VPU_VERSION_IRIS2_1,
->>>> +};
->>>> +
->>>>    struct venus_resources {
->>>>        u64 dma_mask;
->>>>        const struct freq_tbl *freq_tbl;
->>>> @@ -71,6 +79,7 @@ struct venus_resources {
->>>>        const char * const resets[VIDC_RESETS_NUM_MAX];
->>>>        unsigned int resets_num;
->>>>        enum hfi_version hfi_version;
->>>> +    enum vpu_version vpu_version;
->>>>        u8 num_vpp_pipes;
->>>>        u32 max_load;
->>>>        unsigned int vmem_id;
->>>> @@ -473,6 +482,12 @@ struct venus_inst {
->>>>    #define IS_V4(core)    ((core)->res->hfi_version == HFI_VERSION_4XX)
->>>>    #define IS_V6(core)    ((core)->res->hfi_version == HFI_VERSION_6XX)
->>>>    +#define IS_AR50(core)        ((core)->res->vpu_version == VPU_VERSION_AR50)
->>>> +#define IS_AR50_LITE(core)    ((core)->res->vpu_version == VPU_VERSION_AR50_LITE)
->>>> +#define IS_IRIS1(core)        ((core)->res->vpu_version == VPU_VERSION_IRIS1)
->>>> +#define IS_IRIS2(core)        ((core)->res->vpu_version == VPU_VERSION_IRIS2)
->>>> +#define IS_IRIS2_1(core)    ((core)->res->vpu_version == VPU_VERSION_IRIS2_1)
->>>> +
->>>>    #define ctrl_to_inst(ctrl)    \
->>>>        container_of((ctrl)->handler, struct venus_inst, ctrl_handler)
->>>>    
->>> Adding VPU version check seems a good idea to me. Can we remove HFI Version checks now?
->> If all implementations using VPU x.y *always* use the
->> same HFI generation for given x, y, we could.
-> 
-> HFIs generally does not change, so we can be sure that they would always use the same HFI.
-> 
-> We might add a new interface (HFI) for a feature requirement, but always support the existing ones.
-Okay, will do. Thanks!
+Async sub-device fwnode matching will now take place between the device
+(the dev field of struct v4l2_subdev) and a struct v4l2_async_connection
+(an endpoint for devices that have endpoints or the device for those that
+do not). This is because the graph data structure only describes
+point-to-point connections so therefore defining one end of the connection
+defines the entire connection.
 
-Konrad
-> 
->>
->> That said, I think keeping it as-is would be convenient
->> from the maintainability standpoint if nothing else.. For
->> example functions that only appear in ancient msm-3.10
->> releases can be easily guarded with IS_V1 or what have you
->> without having to dig up all n VPU revisions.
->>
->> Konrad
+This set is unlikely to address all needs people have related to the async
+framework but I think that beyond what it does, it paves some way for
+addressing more of those additional needs.
+
+To be frank, I'd like to get rid of the entire V4L2 async framework, but
+it would require allowing much more dynamic driver initialisation,
+including sub-devices and device nodes popping up in the system in the
+order and extent there is successfully probed hardware. Until that, and
+this may well be the entire foreseeable future, we have at least some of
+this complexity.
+
+There's a bugfix, too, in the first patch. That should be merged
+separately. The rest depends on it so I'm sending it as part of the set.
+
+since RFC v1:
+
+- Address missing API usage changes in a lot of drivers.
+
+- Fix compilation problems in intermediate patches.
+
+- Move V4L2 device registration earlier or move notifier initialisation
+  and fwnode endpoint parsing past the current V4L2 device registration
+  (patches 11--16).
+
+Sakari Ailus (18):
+  media: v4l: async: Return async sub-devices to subnotifier list
+  media: v4l: async: Add some debug prints
+  media: v4l: async: Simplify async sub-device fwnode matching
+  media: v4l: async: Make V4L2 async match information a struct
+  media: v4l: async: Clean testing for duplicated async subdevs
+  media: v4l: async: Only pass match information for async subdev
+    validation
+  media: v4l: async: Clean up list heads and entries
+  media: v4l: async: Rename v4l2_async_subdev as v4l2_async_connection
+  media: v4l: async: Differentiate connecting and creating sub-devices
+  media: pxa_camera: Register V4L2 device early, fix probe error
+    handling
+  media: marvell: cafe: Register V4L2 device earlier
+  media: am437x-vpfe: Register V4L2 device early
+  media: omap3isp: Initialise V4L2 async notifier later
+  media: xilinx-vipp: Init async notifier after registering V4L2 device
+  media: davinci: Init async notifier after registering V4L2 device
+  media: qcom: Initialise V4L2 async notifier later
+  media: v4l: async: Set v4l2_device in async notifier init
+  Documentation: media: Document sub-device notifiers
+
+ .../driver-api/media/v4l2-subdev.rst          |  16 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      |   3 -
+ drivers/media/i2c/max9286.c                   |  27 +-
+ drivers/media/i2c/rdacm20.c                   |  15 +-
+ drivers/media/i2c/rdacm21.c                   |  15 +-
+ drivers/media/i2c/st-mipid02.c                |  12 +-
+ drivers/media/i2c/tc358746.c                  |  13 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  14 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  12 +-
+ drivers/media/platform/atmel/atmel-isi.h      |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  10 +-
+ drivers/media/platform/intel/pxa_camera.c     |  46 +-
+ drivers/media/platform/marvell/cafe-driver.c  |  19 +-
+ drivers/media/platform/marvell/mcam-core.c    |  12 +-
+ drivers/media/platform/marvell/mmp-driver.c   |   6 +-
+ .../platform/microchip/microchip-csi2dc.c     |  11 +-
+ .../platform/microchip/microchip-isc-base.c   |   4 +-
+ .../media/platform/microchip/microchip-isc.h  |   2 +-
+ .../microchip/microchip-sama5d2-isc.c         |   9 +-
+ .../microchip/microchip-sama7g5-isc.c         |   9 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |  10 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |  10 +-
+ drivers/media/platform/qcom/camss/camss.c     |  26 +-
+ drivers/media/platform/qcom/camss/camss.h     |   2 +-
+ drivers/media/platform/renesas/rcar-isp.c     |  12 +-
+ .../platform/renesas/rcar-vin/rcar-core.c     |  26 +-
+ .../platform/renesas/rcar-vin/rcar-csi2.c     |  12 +-
+ .../platform/renesas/rcar-vin/rcar-vin.h      |   4 +-
+ drivers/media/platform/renesas/rcar_drif.c    |  12 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |  10 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  14 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |   2 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  12 +-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     |  12 +-
+ .../platform/samsung/exynos4-is/media-dev.c   |  11 +-
+ .../platform/samsung/exynos4-is/media-dev.h   |   2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  12 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  10 +-
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |   8 +-
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   2 +-
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |  10 +-
+ .../sun8i_a83t_mipi_csi2.c                    |  10 +-
+ .../media/platform/ti/am437x/am437x-vpfe.c    |  37 +-
+ .../media/platform/ti/am437x/am437x-vpfe.h    |   2 +-
+ drivers/media/platform/ti/cal/cal.c           |  10 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |  33 +-
+ drivers/media/platform/ti/omap3isp/isp.c      |  17 +-
+ drivers/media/platform/video-mux.c            |  10 +-
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  29 +-
+ drivers/media/v4l2-core/v4l2-async.c          | 601 +++++++++++-------
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  20 +-
+ .../media/deprecated/atmel/atmel-isc-base.c   |   4 +-
+ .../media/deprecated/atmel/atmel-isc.h        |   2 +-
+ .../deprecated/atmel/atmel-sama5d2-isc.c      |   9 +-
+ .../deprecated/atmel/atmel-sama7g5-isc.c      |   4 +-
+ drivers/staging/media/imx/imx-media-csi.c     |  10 +-
+ .../staging/media/imx/imx-media-dev-common.c  |   8 +-
+ drivers/staging/media/imx/imx-media-dev.c     |   2 +-
+ drivers/staging/media/imx/imx-media-of.c      |   4 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |  12 +-
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  |  10 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |   6 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |   2 +-
+ drivers/staging/media/tegra-video/vi.c        |  18 +-
+ drivers/staging/media/tegra-video/vi.h        |   2 +-
+ include/media/davinci/vpif_types.h            |   2 +-
+ include/media/v4l2-async.h                    | 181 +++---
+ include/media/v4l2-fwnode.h                   |  10 +-
+ include/media/v4l2-subdev.h                   |   2 +-
+ 69 files changed, 825 insertions(+), 708 deletions(-)
+
+-- 
+2.30.2
