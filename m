@@ -2,167 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74B206D0818
-	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 16:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD25C6D083F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Mar 2023 16:27:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232404AbjC3OWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 10:22:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54344 "EHLO
+        id S231886AbjC3O1a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 10:27:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232525AbjC3OWM (ORCPT
+        with ESMTP id S230401AbjC3O13 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 10:22:12 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799F0CDD6
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 07:21:44 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id h25so24733811lfv.6
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 07:21:44 -0700 (PDT)
+        Thu, 30 Mar 2023 10:27:29 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27235114;
+        Thu, 30 Mar 2023 07:27:28 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id dw14so12640454pfb.6;
+        Thu, 30 Mar 2023 07:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680186103;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LZvTRWMF7/T0WORHr47mJyaqCmNwg2xrooAflTpNfBs=;
-        b=7yga/rNeiOQI1G+vCKlrD/yBinf905YNrF4q2qJzVZq4lSpnW1TeMEGSn+wscJW8NR
-         v8+BwqJ557kMZxOQXWAukf8m8aRH4VSZtiMcH2f5OrZaj+ghTq9CE9oZeQwOIKa0A880
-         jQsVQ6YH/pFN1iVT0nmkobfpWtYm3lKtO4YXF2Hn4zI/M1xIHHGumzByTkymq4luUjdP
-         mGuKiFOm/YNLlV6+RDBQY64KosOEIy3yuFVemIq2WaAtj9U6TFP7JRvQJ7vSDkbhf3a7
-         uuUFGJ43ci6IwsMy2yDRUkZR2Krunx2DPaetjf/Dg4RbBNA+5B2LH4N504vxKs900uLw
-         Kmjg==
+        d=gmail.com; s=20210112; t=1680186447;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lT1BKGfQqFBUgSJ293/p9fRof3Zd4Kmxm7+XqMUW1Yw=;
+        b=iJyOXHNKCdBXBK/TazEMoDQzyTokg0h/SwmbFN3hXJwbXICH2T5W2AU7tv/RuQUoRG
+         ztJ6V1vbRB24yil7fx96GQhb9VakUsL1WXyXtgHfyNXPj1dO1gmugDFNVKzY3kp+DRfq
+         TPNmv1QTpkdWFJM6GNW6CLXAAAw8pLNd2cLd0vPEo3S8Bc4GCWfe/hyTiJ9Jnmyw55LO
+         6GLFMCHZIs3iHs7gLMxbgj0A9vluHvsMtwPoYr9Jo7PoIWfDGS3T96U1L2X4SP23X2pF
+         /H4vZxVe3eK8cbVhQFgUaFQBiCgzJOClQHeqVVsfbsghZdnoHhJG4rKUdF5ta3xS1anL
+         +SQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680186103;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZvTRWMF7/T0WORHr47mJyaqCmNwg2xrooAflTpNfBs=;
-        b=4rz7JUn0Dz7AmOkcHckPd+Z1wTwC+o5IeoLrMarprHQqWyjkSkcL3nLwwbW7WUdVfr
-         a9sgvPpsF6LsvtNVigL12m5VL1OWGWtJwgn17l1q/akpJYvI5vyxBXjLM2g6KzHZgO4O
-         ge8Fxl59dQMp0bMZ7j2wpLQItHKiijx6/XDHHTXwWYLF4bXruUPGINptK6/MvmMEjf/X
-         qOldPFWWCkRKwZ8DGowEboBSB2yYoUkE6nhkhIqsG/pcxmxeOXciG3lTTsNwLqq8kl7G
-         GbBVuiGeIHMtDfBw4NR/Ov0q12+4UYg86XMO34QjhDP+4wQkkWExQEeauHJfXYU7o7sj
-         SoAA==
-X-Gm-Message-State: AAQBX9f2i3sZfQt+r1ftZ045C2GpznZT0jQ333d10vjx6v8rtemdMTsS
-        PJi34gpKNOBqh3ZhNSeZlMzqVQ==
-X-Google-Smtp-Source: AKy350YECrkik6R+Kynv4HmFYKRQI8IuMi2oBMuYeAMQDu2ZkiBEE31wDNbkec+44kyQ715XQh1CTQ==
-X-Received: by 2002:ac2:42c3:0:b0:4dd:98bd:411a with SMTP id n3-20020ac242c3000000b004dd98bd411amr6722286lfl.51.1680186102691;
-        Thu, 30 Mar 2023 07:21:42 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id f24-20020a19ae18000000b004eb0f3b33a0sm1687678lfc.0.2023.03.30.07.21.41
+        d=1e100.net; s=20210112; t=1680186447;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lT1BKGfQqFBUgSJ293/p9fRof3Zd4Kmxm7+XqMUW1Yw=;
+        b=B250tu/3gXvWYzrMNPFiNVQ7F17MUBHYfcMOMCf6kPsaNaLlK8MvE3fJlGNXVtDAD1
+         Cs0AGKHrgXNilY0Du1y3KWPsgtnZ0Z+e4Lj4J2a2N+xYPPOnqPWVfQNLzbnB1ENNEhea
+         l423Cws4IyCiYXsosZetqcm0059cAKWd0hKht6JvDlQ8CjYxpxGGnlFdjygKbmfEzilI
+         xRHeNejguNV94PSkXtVPHd8wsye2Ui2wDLIxovfvHmNosn9CJIBaz1G8Pbc1yE1O2Cb4
+         zNo1GRlSuZzUAPA5AH0kqvDfUjzoLpvZjb3ZUpcf2yjBBMQFND6ujjc3tqriEG6e25oL
+         ZOYg==
+X-Gm-Message-State: AAQBX9d0+WEiHzurgPMxvbmYmH5XZ0zFt0d3OBgTa5ZjKCEzZH9v2iW5
+        EdcN4O8CYbvWdEf8FeYvNTd0hoAlyto=
+X-Google-Smtp-Source: AKy350Y7rTtG18MNfmqE4A3kTB8R6xRJGDHDAoNmFmObn5jQOspYcFH6ZMZP7du4K/SydIl/ebTE/g==
+X-Received: by 2002:aa7:9597:0:b0:627:df8d:350f with SMTP id z23-20020aa79597000000b00627df8d350fmr23098126pfj.4.1680186447492;
+        Thu, 30 Mar 2023 07:27:27 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+        by smtp.gmail.com with ESMTPSA id h4-20020aa786c4000000b00627ed4e23e0sm21673169pfo.101.2023.03.30.07.27.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 07:21:42 -0700 (PDT)
-Date:   Thu, 30 Mar 2023 16:21:41 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thu, 30 Mar 2023 07:27:27 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Rob Clark <robdclark@chromium.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: staging: max96712: Add support for 3-lane C-PHY
-Message-ID: <ZCWa9XbK5qlm67rz@oden.dyn.berto.se>
-References: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
+        Greg Hackmann <ghackmann@google.com>,
+        Rob Clark <robdclark@gmail.com>,
+        linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] dma-buf/sync_file: Fix doc build warning
+Date:   Thu, 30 Mar 2023 07:27:20 -0700
+Message-Id: <20230330142720.882045-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: Rob Clark <robdclark@chromium.org>
 
-Gentle ping on this patch.
+Fixes warning:
 
-On 2023-02-11 15:46:14 +0100, Niklas Söderlund wrote:
-> Add basic support for outputting the test patterns on a 3-lane CSI-2
-> C-PHY bus. As the driver only can output frames form its internal test
-> pattern generator, enabling C-PHY output is as simple as setting the
-> output mode to C-PHY instead of D-PHY.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++++----
->  1 file changed, 30 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index 99b333b68198..d93dd985fb27 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -30,6 +30,7 @@ struct max96712_priv {
->  	struct regmap *regmap;
->  	struct gpio_desc *gpiod_pwdn;
->  
-> +	bool cphy;
->  	struct v4l2_mbus_config_mipi_csi2 mipi;
->  
->  	struct v4l2_subdev sd;
-> @@ -127,10 +128,18 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
->  	/* Select 2x4 mode. */
->  	max96712_write(priv, 0x8a0, 0x04);
->  
-> -	/* Configure a 4-lane DPHY using PHY0 and PHY1. */
->  	/* TODO: Add support for 2-lane and 1-lane configurations. */
-> -	/* TODO: Add support CPHY mode. */
-> -	max96712_write(priv, 0x94a, 0xc0);
-> +	if (priv->cphy) {
-> +		/* Configure a 3-lane C-PHY using PHY0 and PHY1. */
-> +		max96712_write(priv, 0x94a, 0xa0);
-> +
-> +		/* Configure C-PHY timings. */
-> +		max96712_write(priv, 0x8ad, 0x3f);
-> +		max96712_write(priv, 0x8ae, 0x7d);
-> +	} else {
-> +		/* Configure a 4-lane D-PHY using PHY0 and PHY1. */
-> +		max96712_write(priv, 0x94a, 0xc0);
-> +	}
->  
->  	/* Configure lane mapping for PHY0 and PHY1. */
->  	/* TODO: Add support for lane swapping. */
-> @@ -332,8 +341,9 @@ static int max96712_parse_dt(struct max96712_priv *priv)
->  {
->  	struct fwnode_handle *ep;
->  	struct v4l2_fwnode_endpoint v4l2_ep = {
-> -		.bus_type = V4L2_MBUS_CSI2_DPHY
-> +		.bus_type = V4L2_MBUS_UNKNOWN,
->  	};
-> +	unsigned int supported_lanes;
->  	int ret;
->  
->  	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(&priv->client->dev), 4,
-> @@ -350,8 +360,22 @@ static int max96712_parse_dt(struct max96712_priv *priv)
->  		return -EINVAL;
->  	}
->  
-> -	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != 4) {
-> -		dev_err(&priv->client->dev, "Only 4 data lanes supported\n");
-> +	switch (v4l2_ep.bus_type) {
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		supported_lanes = 4;
-> +		priv->cphy = false;
-> +		break;
-> +	case V4L2_MBUS_CSI2_CPHY:
-> +		supported_lanes = 3;
-> +		priv->cphy = true;
-> +		break;
-> +	default:
-> +		dev_err(&priv->client->dev, "Unsupported bus-type %u\n", v4l2_ep.bus_type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != supported_lanes) {
-> +		dev_err(&priv->client->dev, "Only %u data lanes supported\n", supported_lanes);
->  		return -EINVAL;
->  	}
->  
-> -- 
-> 2.39.1
-> 
+  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
 
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ include/uapi/linux/sync_file.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index d61752dca4c6..ff1f38889dcf 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -56,7 +56,7 @@ struct sync_fence_info {
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+- * @num_fences	number of fences in the sync_file
++ * @num_fences:	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
 -- 
-Kind Regards,
-Niklas Söderlund
+2.39.2
+
