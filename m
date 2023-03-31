@@ -2,81 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 555086D1CC9
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 11:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E80766D1CB0
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 11:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232000AbjCaJnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 05:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34316 "EHLO
+        id S231891AbjCaJlF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 05:41:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232054AbjCaJnP (ORCPT
+        with ESMTP id S230505AbjCaJlE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 05:43:15 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6F51F783;
-        Fri, 31 Mar 2023 02:42:49 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Fri, 31 Mar 2023 05:41:04 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455A5A6;
+        Fri, 31 Mar 2023 02:41:03 -0700 (PDT)
+Received: from [192.168.0.192] (unknown [194.146.248.75])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4PnwLD2CtzzyRB;
-        Fri, 31 Mar 2023 12:42:12 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1680255734;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=puXl1O5LTLm6mQC1hY7tBUYCwI/kPsGafEK/CuEAVhM=;
-        b=J8sJddVL9ds5RZrJJVE6QICLnEV+Q9LHZ3tVXQLhln9EOv4JZIIC3LBuXaj1ZsSrkZa9w1
-        og3HojgJki8ayz+ESSOdoY8S6QuOWuFEsaIiOLBNRQjxQnx3O7ZlOg6uhTaSkMava9NMhL
-        U3tRe1L9TtmAIV8EHwlxC9E5XE1pcsk=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1680255734; a=rsa-sha256; cv=none;
-        b=tAa0IExFH7cbCQ2EDGsYFAeoVVC77NOWpDz8LScrE6s6R0r7Y3vaxujy9NXEdFmoA0Yxg4
-        bFb0iQFY0ajiHBi9ZZJYyXEOQTEddl9VlwRuMN4fS8NLzD9khLqmPy9rFHhHoC+a0WwvTV
-        eOe8iUQii5P/kjSunKAurL6TyVoyOo8=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1680255734;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=puXl1O5LTLm6mQC1hY7tBUYCwI/kPsGafEK/CuEAVhM=;
-        b=d6sCkbwuvAkqzIyKF1nM1fVHhznKjvI5Jza4Ahb0FDDIdZrz/VMR5XqnNLd6/kPnSn+x8L
-        cEw5mhMGG3Vc17amBKOhb483aKjp6NW6K5CUWFo+TVwpby55wuV70/2wcBKiji7DchldNY
-        s5xt9+D4z5TiVc32lFsLpFzLNJe9usg=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 03A26634C99;
-        Fri, 31 Mar 2023 12:39:56 +0300 (EEST)
-Date:   Fri, 31 Mar 2023 12:39:56 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: ov2685: convert to dtschema
-Message-ID: <ZCaqbL4plknXYPCT@valkosipuli.retiisi.eu>
-References: <20230129-ov2685-improvements-v4-0-e71985c5c848@z3ntu.xyz>
- <20230129-ov2685-improvements-v4-2-e71985c5c848@z3ntu.xyz>
- <ZCacNEbg8cJo0VAm@valkosipuli.retiisi.eu>
- <9AF47749-12CB-40D5-A300-170A35390CFD@z3ntu.xyz>
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 480DF6603130;
+        Fri, 31 Mar 2023 10:41:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680255661;
+        bh=5/vUvHtI483hEvXzPFjmdM6/v042ox+SyVhBgPweyfc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=IA2jSXiD9Eg2q7EqsltfuzR7o8zucquaK7dqov/Bwn+/7znsoAAgHEtq0V+qw8Agp
+         eFeXdCAFoJBi1qQxbFQ9x0VM9ahpwftaBV2xQ5KdrEDad6aCnaZ0/AIgbacMfwidah
+         UCeSlR1vyfPuw1ssQjzIJNIbAUgSug848qdbPWF4PicQDHegHfbW5RSNbRi1jni0Px
+         XvHKHNwuNijFnssPm05PCGDycybOjNIQR9Wwt1b71Whm9hZfsHKLjmzGTap1qRXNvI
+         xRq0v+jdw7MV1XbnL0nZLjGOWsm8/AKpoeQ05Yd5xn2SuN2uB9S7+JxuwvQQ93o+xB
+         74x2xGtsCHmew==
+Message-ID: <c6ce737d-25cc-7f22-7c0f-c0ba1420e57d@collabora.com>
+Date:   Fri, 31 Mar 2023 11:40:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9AF47749-12CB-40D5-A300-170A35390CFD@z3ntu.xyz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 0/3] usb: gadget: functionfs: DMABUF import interface
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     michael.hennerich@analog.com, nuno.sa@analog.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20230322092118.9213-1-paul@crapouillou.net>
+Content-Language: en-US
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20230322092118.9213-1-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,32 +61,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Hi Paul,
 
-On Fri, Mar 31, 2023 at 11:18:29AM +0200, Luca Weiss wrote:
-> >> +        properties:
-> >> +          data-lanes:
-> >> +            maxItems: 1
-> >
-> >This should be 2 --- the sensor supports two lanes (even if the driver
-> >doesn't).
+W dniu 22.03.2023 o 10:21, Paul Cercueil pisze:
+> Hi,
 > 
-> Right, for some reason the product brief mentions that it features "a
-> single-lane MIPI interface" but the datasheet I have writes that it has a
-> 2-lane MIPI serial output, so I guess it does support two lanes?
-
-I suppose the datasheet is right. Well, if someone proves otherwise, we can
-always change this.
-
+> This small patchset adds three new IOCTLs that can be used to attach,
+> detach, or transfer from/to a DMABUF object.
 > 
-> >
-> >I can address this when applying if that's ok.
+> Changes since v1:
+> - patch [2/3] is new. I had to reuse a piece of code that was already
+>    duplicated in the driver, so I factorized the code.
+> - Make ffs_dma_resv_lock() static
+> - Add MODULE_IMPORT_NS(DMA_BUF);
+> - The attach/detach functions are now performed without locking the
+>    eps_lock spinlock. The transfer function starts with the spinlock
+>    unlocked, then locks it before allocating and queueing the USB
+>    transfer.
 > 
-> That would be nice, thanks!
 
-Done, thanks!
+Can you share an example use case for these new features?
+Is there a userspace that excercises the new ioctls?
 
--- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Andrzej
