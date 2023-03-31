@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F28E56D23A5
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F5DD6D23C8
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:15:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232977AbjCaPJU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 31 Mar 2023 11:09:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35162 "EHLO
+        id S232429AbjCaPPF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 31 Mar 2023 11:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232358AbjCaPJO (ORCPT
+        with ESMTP id S233156AbjCaPPE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 11:09:14 -0400
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF2A4209;
-        Fri, 31 Mar 2023 08:09:04 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-544f7c176easo420089977b3.9;
-        Fri, 31 Mar 2023 08:09:04 -0700 (PDT)
+        Fri, 31 Mar 2023 11:15:04 -0400
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87DAC1CBA9;
+        Fri, 31 Mar 2023 08:14:55 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-54601d90118so265040327b3.12;
+        Fri, 31 Mar 2023 08:14:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680275343;
+        d=1e100.net; s=20210112; t=1680275694;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WMxAUybU8NHLeEsxZ/TrAWgALQQNzyIHivQ9AaJJubk=;
-        b=fAp34U6/XPnnAXuKNIQyIITz55mEKQq7P3/I8F1brCUiFjiShQwTKRlPuH96PiCdjh
-         FfEWnnxMTd5dDZyr+mziWcY8icth+6QjVGaJye0Bju4F4wnB1D2OAvB+ax3xmEXMITGr
-         pfjszsEQaOUKd6qN0FwviERR8hI681VWwYlC0ZGZvpmpWWjVTAwhOxwC9EvuZCyQ7zFH
-         AEMyX9cGyIwezF1A3vDxfrhY0bNdDo55gorWbXJi44k3Kb7t33O1zEjO2Unwt8rZGV92
-         yw6s0vQGWWzvBY9cP0TtvC2sFaCMuqvKKYWyjF3bzW/QaqYsQMPwPm86jhZQDhzAbJvi
-         dBFQ==
-X-Gm-Message-State: AAQBX9c/7ua6lhj92/eMED5NP9DB3WGXFABEGRFGXITPrdT87af6b1wD
-        zSr6taXcURP3FNUZVuTxmn3jGLEDNab6rA==
-X-Google-Smtp-Source: AKy350YYVhhnvTqMOGVd7utlC8CemwYFHNUdDhkcRLED6fo1CE63GIkeLUtyhj3A1ZhzstU/TPuGMg==
-X-Received: by 2002:a81:1954:0:b0:546:2a87:ce9c with SMTP id 81-20020a811954000000b005462a87ce9cmr7441399ywz.12.1680275342986;
-        Fri, 31 Mar 2023 08:09:02 -0700 (PDT)
+        bh=RWgHRMVasG7nDW/oXg1Gn0gxLEITRLu6jYb9r+As/UQ=;
+        b=M8kG/2ViLAhn9U0zvuCVf74FdL8tRHbVN5lQR1a0PlnaKIP0pdA3m5VJbDRNhpcwMA
+         4kBRr+zvl51VXiSFZPd966cTaetZe89nI2PTCA+rSikCcnGDXLBAGSWyjXwylX10B7mW
+         JHuUGulaC9wy2DUmduLP7olOdci20V5iK6New6yQYy8sOVK+i5hm3iDiNXdvMzHTDp51
+         LI4PxwznyTVBhd/9XbL+9+pqHJyfq1un+KjWfhaWju54RvwFXF62xJ/oXjvD8ZNlQF6f
+         RayTo8CsPGeENunyvpUVyjrXW2ExAxX/eiAEBXRLJGjtrxiAmif1+vIScabF7ZIUhlf+
+         rLkg==
+X-Gm-Message-State: AAQBX9eoVa1ft6fKFO7mHyVz/G/rBbwtU+r33lwLrRU3U4zMN8u7GURl
+        pqnrSeClHeTDdXikPP9KG85FFjh3iCaqMw==
+X-Google-Smtp-Source: AKy350b+7EJaz9B3Zg9GG2rbkRWaXUjuix3rX5/EWcWFl2Yc69EPzqCAKFr968Rd0g4ucwtVLFAuJw==
+X-Received: by 2002:a81:92c8:0:b0:543:dca5:8407 with SMTP id j191-20020a8192c8000000b00543dca58407mr24902591ywg.28.1680275694490;
+        Fri, 31 Mar 2023 08:14:54 -0700 (PDT)
 Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id l14-20020a81250e000000b00545f7c7cc8csm565332ywl.93.2023.03.31.08.09.02
+        by smtp.gmail.com with ESMTPSA id i11-20020a81f20b000000b00545a08184cbsm574389ywm.91.2023.03.31.08.14.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 08:09:02 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5456249756bso420135767b3.5;
-        Fri, 31 Mar 2023 08:09:02 -0700 (PDT)
-X-Received: by 2002:a81:b28a:0:b0:544:5fc7:f01f with SMTP id
- q132-20020a81b28a000000b005445fc7f01fmr13224551ywh.4.1680275342387; Fri, 31
- Mar 2023 08:09:02 -0700 (PDT)
+        Fri, 31 Mar 2023 08:14:54 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5456249756bso420475047b3.5;
+        Fri, 31 Mar 2023 08:14:54 -0700 (PDT)
+X-Received: by 2002:a81:ac19:0:b0:545:5e70:323f with SMTP id
+ k25-20020a81ac19000000b005455e70323fmr2450399ywh.4.1680275694152; Fri, 31 Mar
+ 2023 08:14:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230331141431.3820311-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20230331141431.3820311-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 31 Mar 2023 17:08:50 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWXxUy67noYCq3d2HOKD0rvzmoL=xPGHZ=0GjToJosNNA@mail.gmail.com>
-Message-ID: <CAMuHMdWXxUy67noYCq3d2HOKD0rvzmoL=xPGHZ=0GjToJosNNA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: falcon-csi-dsi: Set bus-type for MAX96712
+Date:   Fri, 31 Mar 2023 17:14:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com>
+Message-ID: <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Require setting
+ bus-type property
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -70,34 +71,60 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Niklas,
 
-Thanks for your patch!
-
 On Fri, Mar 31, 2023 at 4:15 PM Niklas Söderlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> Specify the bus-type property for all three connected MAX96712.
-
-Probably this can use a little bit more explanation?
-E.g. what does not work?
-
+> The MAX96712 can support both CSI-2 C-PHY and D-PHY bus. Document the
+> supported bus-types and make the property mandatory.
+>
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
 
-Does this need a Fixes: tag?
-Fixes: 283252132cb578cf ("arm64: dts: renesas: falcon-csi-dsi: Add and
-connect MAX96712")
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> @@ -65,9 +65,14 @@ properties:
+>
+>              properties:
+>                data-lanes: true
+> +              bus-type:
+> +                enum:
+> +                  - 1 # CSI-2 C-PHY
+> +                  - 4 # CSI-2 D-PHY
 
-Note that a backport to v6.1 and earlier will depend on a backport of
-commit f7eeb00845934851 ("media: dt-bindings: media: Add macros for
-video interface bus types") in v6.2, too.
+Perhaps use/refer to the symbolic names, too?
+
+Sounds like an opportunity for improvement for
+Documentation/devicetree/bindings/media/video-interfaces.yaml, too.
+
+>
+>              required:
+>                - data-lanes
+> +              - bus-type
+>
+>      required:
+>        - port@4
+> @@ -82,6 +87,7 @@ additionalProperties: false
+>  examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+>
+>      i2c@e6508000 {
+>              #address-cells = <1>;
+> @@ -101,6 +107,7 @@ examples:
+>                              port@4 {
+>                                      reg = <4>;
+>                                      max96712_out0: endpoint {
+> +                                            bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+>                                              clock-lanes = <0>;
+>                                              data-lanes = <1 2 3 4>;
+>                                              remote-endpoint = <&csi40_in>;
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
