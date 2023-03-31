@@ -2,69 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 967176D15AF
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 04:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F466D15B6
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 04:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbjCaCin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Mar 2023 22:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51424 "EHLO
+        id S229646AbjCaClh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Mar 2023 22:41:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbjCaCim (ORCPT
+        with ESMTP id S229677AbjCaClg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Mar 2023 22:38:42 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE541CDCF
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 19:38:39 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id a44so2967997ljr.10
-        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 19:38:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112; t=1680230318;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cnjJbCFJ84xSw6+b+YYcpjgJUgGf7WAv7FcMkr2usx4=;
-        b=mKGdDFJCcNtHk6Tmk3hrqlX+z+CDnpVSXLIsUXdBK3RDTeH65Z3Nz8troQzRChNX/9
-         Ns8vSOnfC+Li8gfKlROPPj0QLVI5dYjfohmLos/AOrFCipBn4LOezDujZr2Azw09xY7/
-         S/LZt3QwX5HV454c6o0UXsJRdEU/c/W2Mhc0S+oW8p7JmV6Axt/qCRpurhotBDpcC3GY
-         phiRJfHgzA0riXKI44yGM7KiqhsViRMVCp5XIN2jA74Do0fEHlEX0Hw3bANQcRGHk0O2
-         8ekr7LSfEdER1scE+qkwOMZ8OiF3lf38IiYjKENYUft2zQYajIdhCQVklDFrXol/5dyn
-         XQ4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680230318;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cnjJbCFJ84xSw6+b+YYcpjgJUgGf7WAv7FcMkr2usx4=;
-        b=jYgv6s90Tegu8LxlDqsWcDyINO34rq/qk/vkFAECiycqXcMi/vtSgG2cobtBC0mGJg
-         0uPT1Cmj126WOGIkcOMT0oF0XDpPewn30Et4r8Emy7nFwUzGGqbBxEX+CgVgVF5YmTvb
-         mfRfd8+JJGce2UtF4GBFf0ezo/IEEKuBSI37Tim/NUgXGAh1c7enmuijNN+H/Z6w1rtW
-         C+rwFrON1aPmCkgb3OxPgazYeKgiy+9fqqFn2awzvSH0/aIS9OFs48h8G/Liwr9c8M7Z
-         abguy6viMDn8LkXXtZ/yzSIg88fwgQt77w0zwqq2EH156bkjy8Ite4cyoCWFgZQeMoZ9
-         OIUA==
-X-Gm-Message-State: AAQBX9f+L4Np3+XW1c3h8d8qBJW1d8ig9ij9Lkf2J3Br+xBvaYjWnSb3
-        otjexAHrErVv23o3FToSJHnpYWxsoOE75F5YicW73g==
-X-Google-Smtp-Source: AKy350bRKZHNRV7Itzh8Oh1f8CZmHVlPGbkbKOlllyOEVc3Yf4lEzadXN7Cw5QbSnxAwFXkd4e6vqT8qeEfB2+/0OVM=
-X-Received: by 2002:a2e:6a0d:0:b0:295:93eb:e790 with SMTP id
- f13-20020a2e6a0d000000b0029593ebe790mr7879693ljc.5.1680230317918; Thu, 30 Mar
- 2023 19:38:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230313154132.3684181-1-zyytlz.wz@163.com>
-In-Reply-To: <20230313154132.3684181-1-zyytlz.wz@163.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Thu, 30 Mar 2023 23:38:25 -0300
-Message-ID: <CAAEAJfAjND_Bj9HRBae22eO7cG_Xm=AX93bL+CPEb24-sitWTg@mail.gmail.com>
-Subject: Re: [PATCH v3] media: hantro: fix use after free bug in hantro_remove
- due to race condition
-To:     Zheng Wang <zyytlz.wz@163.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        Thu, 30 Mar 2023 22:41:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29FBCDCF
+        for <linux-media@vger.kernel.org>; Thu, 30 Mar 2023 19:41:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AE6162209
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 02:41:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1245EC433D2
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 02:41:32 +0000 (UTC)
+Date:   Fri, 31 Mar 2023 04:41:31 +0200
+Message-ID: <9c6da73e9ddc046da83bfbd0afe95547.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,90 +36,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Zheng,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Mon, Mar 13, 2023 at 12:42=E2=80=AFPM Zheng Wang <zyytlz.wz@163.com> wro=
-te:
->
-> In hantro_probe, vpu->watchdog_work is bound with
-> hantro_watchdog. Then hantro_end_prepare_run may
-> be called to start the work.
->
-> If we close the file or remove the module which will
-> call hantro_release and hantro_remove to make cleanup,
+Results of the daily build of media_tree:
 
-It's not possible to close the file or remove the module while a watchdog i=
-s
-scheduled.
+date:			Fri Mar 31 03:00:08 CEST 2023
+media-tree git hash:	71937240a472ee551ac8de0e7429b9d49884a388
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	2432069e9786d995da627fccc88589ec690cc3e8
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8305-g2fad699a-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-That's because the watchdog is active only during a mem2mem job,
-and the file won't be closed until the job is done.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-v4l2_m2m_ctx_release calls v4l2_m2m_cancel_jobw
-which waits until the job is done.
+Detailed results are available here:
 
-If you can confirm it's possible to remove or close the file
-while a job is running, that would be a driver bug.
+https://hverkuil.home.xs4all.nl/logs/Friday.log
 
-Thanks for the patch, but it's not needed.
+Detailed regression test results are available here:
 
-Regards,
-Ezequiel
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
 
-> there may be an unfinished work. The possible sequence
-> is as follows, which will cause a typical UAF bug.
->
-> The same thing will happen in hantro_release, and use
-> ctx after freeing it.
->
-> Fix it by canceling the work before cleanup in hantro_release.
->
-> CPU0                  CPU1
->
->                     |hantro_watchdog
-> hantro_remove     |
->   v4l2_m2m_release  |
->     kfree(m2m_dev); |
->                     |
->                     | v4l2_m2m_get_curr_priv
->                     |   m2m_dev->curr_ctx //use
->
-> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> ---
-> v3:
-> - use cancel_delayed_work_sync instead of cancel_delayed_work and add it =
-to
-> hantro_release suggested by Hans Verkuil
->
-> v2:
-> - move the cancel-work-related code to hantro_remove suggested by Hans Ve=
-rkuil
-> ---
->  drivers/media/platform/verisilicon/hantro_drv.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index b0aeedae7b65..86a4c0fa8c7d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -597,6 +597,7 @@ static int hantro_release(struct file *filp)
->         struct hantro_ctx *ctx =3D
->                 container_of(filp->private_data, struct hantro_ctx, fh);
->
-> +       cancel_delayed_work_sync(&ctx->dev->watchdog_work);
->         /*
->          * No need for extra locking because this was the last reference
->          * to this file.
-> @@ -1099,6 +1100,7 @@ static int hantro_remove(struct platform_device *pd=
-ev)
->
->         v4l2_info(&vpu->v4l2_dev, "Removing %s\n", pdev->name);
->
-> +       cancel_delayed_work_sync(&vpu->watchdog_work);
->         media_device_unregister(&vpu->mdev);
->         hantro_remove_dec_func(vpu);
->         hantro_remove_enc_func(vpu);
-> --
-> 2.25.1
->
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
