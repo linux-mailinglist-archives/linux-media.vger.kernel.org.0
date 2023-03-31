@@ -2,65 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C69BE6D18B5
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 09:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C786D1943
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 10:03:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230358AbjCaHgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 03:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36442 "EHLO
+        id S230047AbjCaIDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 04:03:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjCaHgo (ORCPT
+        with ESMTP id S231126AbjCaIDu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 03:36:44 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA31199B
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 00:36:43 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4PnsYP0bckzyRB
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 10:36:39 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1680248201;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=KkxBJic83uV+nKCuETqbEkWXGA+Qr1jtIJC30ET9Lgc=;
-        b=BDGQEfQ6OiP0JKKAaWasCDD8m4dxRqyoL4RI1cJ1qVL9EOWDnlXv4OHT8SRZcj/HSJTjZj
-        M3B+qqnSu9CxVhytRyhoZ7yqqGgdnEDuUCTY2kVSzt31Lz8YL69ag2pulemWnmvVk9x/J6
-        SwuCWF0gsWerzXGcexdmMEpCk9U3KI4=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1680248201; a=rsa-sha256; cv=none;
-        b=OLyfeAyNu0UY7Otg9NAEcDn02mDDmQl3l/dQByJWX8DdTdCM3D3NLhwnpBueKs5N14hQXE
-        Ptdcyd2zDwiwvFVkXahAL3hhFPWoad9CsF+qxPSDui0DhvXnNef4MxxItA++B/wc9GUPsZ
-        Vdo/7z1AeHcLhZJFrOGKJnIbSLRPbjw=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1680248201;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=KkxBJic83uV+nKCuETqbEkWXGA+Qr1jtIJC30ET9Lgc=;
-        b=VmKY00Ihc1rR4KmLKM4b5aUy9hYpqfoYBEqUOTcUu7jjZbQX5INQqZy0MazdmlDANPL9u4
-        s/rHuxcf7t0wuSAw9Y5kbDQPeU8E6RO9I41zW/HMBBAT7lPANFU/biW5oovtho9Uasnv/J
-        A8dKUUq9NoLT/Ed8yNq/gjKiBEb5rNY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AA365634C99
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 10:34:24 +0300 (EEST)
-Date:   Fri, 31 Mar 2023 10:34:24 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT FIXES FOR 6.3] Fix ov5670 probe crash on ACPI
-Message-ID: <ZCaNAGCFLG7p78yd@valkosipuli.retiisi.eu>
+        Fri, 31 Mar 2023 04:03:50 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485CCD322
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 01:03:45 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pi9jb-00A1RK-Ps; Fri, 31 Mar 2023 08:03:43 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pi9jZ-00Ev52-0b; Fri, 31 Mar 2023 08:03:41 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR 6.3] Fix ov5670 probe crash on ACPI (#90947)
+Date:   Fri, 31 Mar 2023 08:03:40 +0000
+Message-Id: <20230331080340.3555962-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZCaNAGCFLG7p78yd@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,36 +45,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here's a small but important fix for the ov5670 driver.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZCaNAGCFLG7p78yd@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/293890/
+Build time: 00:20:40
+Link: https://lore.kernel.org/linux-media/ZCaNAGCFLG7p78yd@valkosipuli.retiisi.eu
 
-Please pull.
+gpg: Signature made Fri 31 Mar 2023 07:32:51 AM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-ov5670-Fix-probe-on-ACPI.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974609
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
 
 
-The following changes since commit 55f1ecb1199000932cf82e357841cc7498ac904f:
+Error #512 when building PDF docs
 
-  media: v4l: subdev: Make link validation safer (2023-03-18 08:48:15 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.3-3
-
-for you to fetch changes up to cb688e9463d6e77325980373ac306e282d59eee4:
-
-  media: ov5670: Fix probe on ACPI (2023-03-30 16:22:13 +0300)
-
-----------------------------------------------------------------
-Fix ov5670 probe on ACPI
-
-----------------------------------------------------------------
-Sakari Ailus (1):
-      media: ov5670: Fix probe on ACPI
-
- drivers/media/i2c/ov5670.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
