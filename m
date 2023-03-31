@@ -2,165 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 827A06D2957
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 22:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D5B56D2999
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 22:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233084AbjCaUXl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 16:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
+        id S232157AbjCaUqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 16:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231858AbjCaUXl (ORCPT
+        with ESMTP id S231609AbjCaUqO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 16:23:41 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 092B01EFF2
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 13:23:40 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id w13so6201689oik.2
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 13:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680294219;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P59x6BdhOC5Y7nOh4z8mldmNz5baNSsCARZd2JDo8Bg=;
-        b=MFa6UW6I9YSg7KkzIb68Ex6AqNaR2ILqghEfEP9KmJ8QHA+2RTw/ksB60/XZ101/NB
-         Fd3/WYJe510PxAGjpVehMQIrkX954aqKu92Nc4a4t1RAg7p+e1huxj6T87OioE0953nX
-         9JiHYCV2xoDlaAXQ8n/I0Y/NPqNLCJRBPh00IQoOK/KGwj4e0YEYgAj5kvaOOjMy0ky5
-         0bpQdlQGrM6+kJdX31EXRh9ldbwaGbVIhgrDUpdS6RXc0PqrycCAsrVwuM7GVZa3Ucj7
-         mggzkTgMrLxyHvgFMkI2QUDH/NK/3RCwBz9+HpFKz5Qj3zWhNcYX2V6t0RIic07xAEnY
-         eCXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680294219;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P59x6BdhOC5Y7nOh4z8mldmNz5baNSsCARZd2JDo8Bg=;
-        b=sW2rLxcgPagHnZZit6zxjvds6FCx35mAEaAGJipuX1awsByfZajsNgjI2jXZvgf+EH
-         4I5MxPhsj239rg9MeiOciXWpYo1LzkBQ1CfY4jztoulOG9cpWGm0leqoo1/qvLiZGchF
-         cSWRqdOaeT07g5m5BedNwYkY/cNunckOpAZ+mxxllfWrnCvyhjzDoF3byCP/7oqS5ca7
-         YwpMOOF/v2PaeuBNLo3xfNuXW8eH0zMRAb8DPKdHI1IRvD91Eb7YGjkk3930IzeEHfpe
-         OcPFzHm9ojFrd1wuKhHDJ9bNmZFBIfw4bcuNlRm8Vo5K9fiHDwK8a6yCeJSUnG25yl/P
-         U30g==
-X-Gm-Message-State: AO0yUKVxuXEZ7NTcoyzncyZAtuSZK6vkBCTuxLHknplQD4HvUaYsq0ck
-        uU2nYa8pOJ3LRMWo1YRXC6xrS/ocdPVTtfINOKZVEHWMTP8=
-X-Google-Smtp-Source: AK7set8HBDH8mBgPROwpz6HwHgErB3N3y8wZVdNvaR5ojxYSznGQuK1zfu0EXlQI3J+XOeqlsnljhW9pIHmOe2PM/Ko=
-X-Received: by 2002:aca:1b09:0:b0:384:23ce:10e7 with SMTP id
- b9-20020aca1b09000000b0038423ce10e7mr7397756oib.1.1680294219035; Fri, 31 Mar
- 2023 13:23:39 -0700 (PDT)
+        Fri, 31 Mar 2023 16:46:14 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E09B2220E
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 13:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+        t=1680295569; i=ps.report@gmx.net;
+        bh=dd5rEfw18YdB4YEbE4JvD+pnVSzlgDTVm2XE24vfeBs=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+        b=qAUgkia4E0Xs3r7ASROBQb3OSfZm43Dr32zzdWcwX04kfTTg/z3DTieumxESz8pNK
+         wcUeGTabq6gh/zBMYb+5pmcaseJ0nd5CtEPoJRXMKT7vOzoGkxgaMrzwEGnbMUNUUR
+         O3v3S9dAqKRhH+cKKksatltqZjCDorJdNSHNk06tZAvFlPLAdFir1o9hzMQLRch8rC
+         jIXEEkP3VLyrKagAmU5c5JMw2vxW9xGhyXWJpLKLxk0D6aCYXipsAjYf5pG3t3pLW5
+         oZ0hnEY4sM+eXE3D9rJLg9FyCwumeuifIRQSGJ4R9rnQsmKGG8zbpVPTgR0IyrIWsz
+         Rt0rsMbB1Qq/g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost ([62.216.208.135]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mqs0X-1qD3p21rBx-00ms7P; Fri, 31
+ Mar 2023 22:46:09 +0200
+Date:   Fri, 31 Mar 2023 22:46:08 +0200
+From:   Peter Seiderer <ps.report@gmx.net>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v4l-utils v1] v4l2-tracer: fix 'symbol mmap64/open64 is
+ already defined' compile failure
+Message-ID: <20230331224608.2e1bf935@gmx.net>
+In-Reply-To: <c7249ba0-f1f4-f199-7a1b-5dde2b79c920@xs4all.nl>
+References: <20230330150606.20483-1-ps.report@gmx.net>
+        <c7249ba0-f1f4-f199-7a1b-5dde2b79c920@xs4all.nl>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
- <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl> <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
-In-Reply-To: <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
-From:   Shawn Lindberg <shawn.lindberg@gmail.com>
-Date:   Fri, 31 Mar 2023 15:23:28 -0500
-Message-ID: <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com>
-Subject: Re: Extremely long delay between CEC image-view-on an standby.
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Provags-ID: V03:K1:GhtsrTrS8lwdcA2G7bLIma8K9hl4ME/70wlyjqk6Sl/xlql9wrA
+ z36fkX7VQpffm98icA4SV2my8HCHcusBGDZJ2qlsHwsnBjsyfy9sE33XV6LcEDzahtL9Pqu
+ WC6fXpNfNUU2attPX21Jr2B0aW+7Hdb7qKMY24U3XeqvSjmilUSXkrXXtJ6SnqTF9tk9I2U
+ rNzuVxaPZ3rNv+pIUcxRA==
+UI-OutboundReport: notjunk:1;M01:P0:g8FhULCZVNo=;PKob1wlrOZF13HkO7iXTlpr+4li
+ aoZf/JjLfHPxmOZep3h4zLMRyQHxzEGrHjy/WG9UmNnGfGYwLuDJz72+WTvkoCbtSKOGb0Jya
+ TTsjo+JBEaGjiVaLwz8VV1ISSz9YO8wgYEdVnPffSad4wSjCUSgttWXySlCorXuLQa8rXX6+/
+ v9fw7HRqzn5B6bTqHnxOPW+RTiIIZjgeDAQEQjRvNrGoZ34o6BXEbadTxQTXuz67YCjLk8G5E
+ 7j6Qq8jfeS1gDD18QBgle/gQ6Z8QGANgGBkKzvGE8rEhrkNWAHpnGX0e1roWE4Uw8LL9+0+jn
+ QupvRxsakxkjOyGQb4mxpvui5Jw7RAfLMJvfUR3KCucReMqKhD+/pG5yWnuvkui5TFqC17BSS
+ DuSGXSky/zRFs5TUYt9MEvmGDj1MnUHaYT3xEeeGA+LfucKD0X49x32vyokMGpIBuOAq0PV+4
+ 3SpSjEyflnJWEveOO/zfN0gl+auEfeeyCKM69mUk3xQ9yFnqs1PNwTlKMddFU+AjxUSeHYg3J
+ IGKZ/xbtNIkTy9+16QQ6L0nmXE/hd34YTQaSaE/2MYha3hy+K/F3M4GaQh5HDfbVKEUVEgkM3
+ I/oqpkR5iC02PvA5DlgMdtRlzo0uiv4T2LteGJoxnNLmGDw/hClmHlCDJfCLwcqj3BA8011w1
+ RDogafKJpzg+g1cleMQUqQlTdEI4/dOcNnGd0rPC6toeT2p26BMe368q4aSCn3pvoQp1stzif
+ x3+1NcGNSrmgHKyVKkw6l8r8Vp/mno8pOH7t4WxcxmDSMk9M7kTEQejojDWGP+ok3WuffwKIY
+ plICUieMu3fQc4xOMWWclerl9+5K0BeD2LXTqxBjr3IQqgh9DkFV6tA+xtEf6p/3whNUgYR4X
+ 2JzxYtT0l3NvXzEPvHHMWONOIF5Qu9MpZ8eF2JMjaq7XBPpHPdshwfmFnO7b+vpphicUAuyJD
+ SFxjpAFoQDmFIMUHFCIZR4eW/tw=
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 2:56=E2=80=AFPM Shawn Lindberg <shawn.lindberg@gmai=
-l.com> wrote:
->
-> On Tue, Mar 28, 2023 at 2:58=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl>=
- wrote:
-> >
-> > > cec-ctl -d0 --tv --cec-version-1.4
-> >
-> > That's wrong, the RPi is a Playback device, not a TV. So use --playback=
- instead.
-> >
-> > You should also add this line to the config.txt:
-> >
-> > hdmi_ignore_cec=3D1
-> >
-> > otherwise the RPi's firmware tries to process CEC messages as well.
->
-> Oh, I thought that the TV/playback command was indicating what sort of
-> device the connected device is. This wasn't clear from the man page,
-> either. Thank you for that. I made the change to config.txt and
-> strangely when the RPi rebooted (I have it set to do this
-> automatically once a day) the projector automatically turned on. I
-> have never experienced this before.
+Hello Hans,
 
-Further update on this. I continue to see the projector automatically
-power on every time the RPi does its daily reboot, so I think I may
-have to remove the hdmi_ignore_cec from the config.txt. Especially
-since I can't figure out how to reliably shut the projector back off
-again.
+On Fri, 31 Mar 2023 10:27:18 +0200, Hans Verkuil <hverkuil@xs4all.nl> wrot=
+e:
 
-> > > During this time, if I try to poll the projector, it will succeed.
-> > > However, if I monitor events, after a significant amount of time
-> > > (appears to be greater than 20 minutes, although this is difficult to
-> > > verify because of how long it takes) I go will eventually see the
-> > > following:
-> > >
-> > > Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
-> > >     Timestamp: 30981.428s
-> >
-> > Now it appears to be able to read the EDID again and it has a valid
-> > physical address.
-> >
-> > > Transmitted by Specific to Specific (14 to 14): POLL
-> > >     Tx, Not Acknowledged (4), Max Retries
-> > >     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), M=
-ax Retries
-> > >
-> > > Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
-> > >     Timestamp: 30981.561s
-> > > Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84=
-):
-> > >     phys-addr: 1.0.0.0
-> > >     prim-devtype: tv (0x00)
-> > >     Sequence: 22 Tx Timestamp: 30981.696s
-> > > Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
-> > >     vendor-id: 3075 (0x00000c03)
-> > >     Sequence: 23 Tx Timestamp: 30981.835s
-> > > Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
-> > >     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
-> > >     reason: invalid-op (0x03)
-> > >     Sequence: 0 Rx Timestamp: 30981.949s
-> > > Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
-> > >     Sequence: 0 Rx Timestamp: 30982.026s
-> > > Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
-> > >     name: TV
-> > >     Sequence: 24 Tx Timestamp: 30982.137s
-> > >
-> > > After this point in time the standby command will succeed and the
-> > > projector will turn off. It's quite inconvenient to have to wait over
-> > > 20 minutes to turn the projector back off again. Any idea how I can
-> > > shorten this delay?
-> >
-> > There is something weird about your setup and EDID. I can't really tell
-> > what it is.
+> Hi Peter,
 >
-> After making the above changes and retesting, the behavior didn't
-> change. I still get the device not connected message and the invalid
-> physical address when I try to do standby. I should also note that one
-> way around this issue is to reboot the RPi. For some reason that seems
-> to get around the long delay in getting the physical address.
+> On 30/03/2023 17:06, Peter Seiderer wrote:
+> > Compiling for RPi4 (64-bit) using buildroot failes with the following
+> > error:
+> >
+> >   .../host/bin/aarch64-buildroot-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I.=
+./.. -I../../utils/common -I.../aarch64-buildroot-linux-gnu/sysroot/usr/in=
+clude/json-c -I../../lib/include -Wall -Wpointer-arith -D_GNU_SOURCE -I../=
+../include -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=
+=3D64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=3D64 -=
+Os -g0 -D_FORTIFY_SOURCE=3D1 -std=3Dgnu++11 -c libv4l2tracer.cpp  -fPIC -D=
+PIC -o .libs/libv4l2tracer_la-libv4l2tracer.o
+> >   /tmp/ccfbectY.s: Assembler messages:
+> >   /tmp/ccfbectY.s:208: Error: symbol `open64' is already defined
+> >   /tmp/ccfbectY.s:762: Error: symbol `mmap64' is already defined
+> >
+> > The preprocessor output shows:
+> >
+> >   [...]
+> >   extern "C" {
+> >   # 61 ".../host/aarch64-buildroot-linux-gnu/sysroot/usr/include/sys/m=
+man.h" 3 4
+> >   extern void * mmap (void *__addr, size_t __len, int __prot, int __fl=
+ags, int __fd, __off64_t __offset) noexcept (true) __asm__ ("" "mmap64");
+> >   [...]
+> >   extern void *mmap64 (void *__addr, size_t __len, int __prot,
+> >          int __flags, int __fd, __off64_t __offset) noexcept (true);
+> >
+> > And host/aarch64-buildroot-linux-gnu/sysroot/usr/include/sys/mman.h:
+> >
+> >   56 #ifndef __USE_FILE_OFFSET64
+> >   57 extern void *mmap (void *__addr, size_t __len, int __prot,
+> >   58                    int __flags, int __fd, __off_t __offset) __THR=
+OW;
+> >   59 #else
+> >   60 # ifdef __REDIRECT_NTH
+> >   61 extern void * __REDIRECT_NTH (mmap,
+> >   62                               (void *__addr, size_t __len, int __=
+prot,
+> >   63                                int __flags, int __fd, __off64_t _=
+_offset),
+> >   64                               mmap64);
+> >   65 # else
+> >   66 #  define mmap mmap64
+> >   67 # endif
+> >   68 #endif
+> >   69 #ifdef __USE_LARGEFILE64
+> >   70 extern void *mmap64 (void *__addr, size_t __len, int __prot,
+> >   71                      int __flags, int __fd, __off64_t __offset) _=
+_THROW;
+> >   72 #endif
+> >
+> > Fix it by applying the same undef _LARGEFILE_SOURCE/_FILE_OFFSET_BITS,
+> > define _LARGEFILE64_SOURCE as in as in lib/libv4l1/v4l1compat.c
 >
-> I don't know what would be strange about my set up other than the
-> projector itself and a couple of lines I uncommented in the config.txt
-> to set the RPi to use HDMI even if the projector is not on at the time
-> of booting. Is there more information I can provide that would allow
-> us to figure out what's going on? If you are correct that for some
-> reason it is just not reading the EDID, is there a way to manually
-> provide that? I don't know much about it, but it's a static property
-> of the device (the projector in this case), right?
+> If I look at 'man feature_test_macros', then that man page suggests that
+> _LARGEFILE64_SOURCE is out of date and instead you should use
+> '#define _FILE_OFFSET_BITS 64'.
+>
+> Can you test that? If this works, then it should be applied to v4l1compa=
+t.c
+> as well.
 
-Since I noticed that the physical address is populated properly when
-the RPi is booted while the projector is turned on, I did that and
-then tried using the get-edid utility to see if I could read the EDID
-block and save it to a file. Unfortunately, this didn't work, as the
-utility reports that there was no EDID available on any of the buses.
-So once again I am out of ideas.
+Did you mean as utils/v4l2-tracer/meson.build all ready does:
+
+ 73 libv4l2_tracer_cpp_args =3D [
+ 74     # Meson enables large file support unconditionally, which redirect=
+s file
+ 75     # operations to 64-bit versions. This results in some symbols bein=
+g
+ 76     # renamed, for instance open() being renamed to open64(). As the l=
+ibrary
+ 77     # needs to provide both 32-bit and 64-bit versions of file operati=
+ons,
+ 78     # disable transparent large file support.
+ 79     '-U_FILE_OFFSET_BITS',
+ 80     '-D_FILE_OFFSET_BITS=3D32',
+ 81     '-D_LARGEFILE64_SOURCE',
+ 82 ]
+
+Did my previous test against the 1.24.1 release using the autoconf/automak=
+e
+build system...
+
+A quick (compile) test for lib/libv4l1/v4l1compat.c with
+
+	#undef _FILE_OFFSET_BITS
+	#define _FILE_OFFSET_BITS 32
+	#define _LARGEFILE64_SOURCE 1
+
+seems to work...
+
+>
+> >
+> > Signed-off-by: Peter Seiderer <ps.report@gmx.net>
+> > ---
+> > Notes:
+> >
+> >   - maybe the 'defined(linux) && defined(__GLIBC__)' protection
+> >     present in lib/libv4l1/v4l1compat.c for open64/mmap64 is needed
+> >     for non glibc compiles of utils/v4l2-tracer/libv4l2tracer.cpp too?
+>
+> I think we need this too. If nothing else, it is consistent.
+
+So this patch should be o.k. for the stable-1.24 branch?
+
+Will send one adding the 'defined(linux) && defined(__GLIBC__)' to
+v4l2-tracer and one changing the in-file undef/define to the
+meson.build solution for lib/libv4l1/v4l1compat.c (in case this
+is o.k. here)...
+
+Regards,
+Peter
+
+>
+> Regards,
+>
+> 	Hans
+>
+> > ---
+> >  utils/v4l2-tracer/libv4l2tracer.cpp | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/utils/v4l2-tracer/libv4l2tracer.cpp b/utils/v4l2-tracer/l=
+ibv4l2tracer.cpp
+> > index a9f039c7..1e3900db 100644
+> > --- a/utils/v4l2-tracer/libv4l2tracer.cpp
+> > +++ b/utils/v4l2-tracer/libv4l2tracer.cpp
+> > @@ -3,6 +3,11 @@
+> >   * Copyright 2022 Collabora Ltd.
+> >   */
+> >
+> > +/* ensure we see *64 variants and they aren't transparently used */
+> > +#undef _LARGEFILE_SOURCE
+> > +#undef _FILE_OFFSET_BITS
+> > +#define _LARGEFILE64_SOURCE 1
+> > +
+> >  #include "trace.h"
+> >  #include <dlfcn.h>
+> >  #include <stdarg.h>
+>
+
