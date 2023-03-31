@@ -2,191 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDF4B6D2024
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 14:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDBD86D2107
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 14:59:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232323AbjCaMYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 08:24:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38958 "EHLO
+        id S232651AbjCaM7y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 08:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232302AbjCaMY3 (ORCPT
+        with ESMTP id S232723AbjCaM7x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 08:24:29 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8621FD3D;
-        Fri, 31 Mar 2023 05:24:06 -0700 (PDT)
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4Pnzx01Z1Hz49QBT;
-        Fri, 31 Mar 2023 15:24:04 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1680265444;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=baET9cubz4N9wt7gVurSp9qJQ/b3e8TRSP9pS9RzYcg=;
-        b=oEe2RT1iwQ0iDNX+xUPU0BDMNp0ZRMOo2nWuKpF943JA5i6qvrmJmspQOkPxnjxTpcf56O
-        ZBjexm1wq6TOz03YamNaYOtXroafVWrf16oujddPzBRupxNj30Twkxw5j3J5VQP0xdekKO
-        dNL1/ESU//4EsBLULRgtZ2aIayJs3B/2kPf7ZTcdJ/xsEnW5jFzzTusNlGTS5KcDv5UI72
-        bIG+QSU2hzEOmVBbkiiPaZfe80UnN6DVcS901BzpzoYgbdhBoM+26y/vrL+ow/B8O+O1sI
-        vNRfAM9+HFgr/PdW80X1tE85b5Q0X28qOAIsMzl83cnHZh9Bnjd57fJXMH39xw==
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4Pnzwk3lZXzyRB;
-        Fri, 31 Mar 2023 15:23:50 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1680265431;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=baET9cubz4N9wt7gVurSp9qJQ/b3e8TRSP9pS9RzYcg=;
-        b=bwMffGnN8GUjWoNBxMqSfgs0ezYRrSCo3ebiFUVa7X08hsIyy4UJ2uAw2kFDJ/TopV1fVJ
-        D+0H71Dhv42Vg6JoM0fb9vLHJ1Ae5Blk+ce3g+DNX1ZaqpOFFVe2iqCgolsERcQLjAE2Wo
-        vcMIA1puDPmkLUrTspL/oy+HOq6KynM=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1680265431; a=rsa-sha256; cv=none;
-        b=oL1crNEDL7zy2VeG+72aM1EjV3fNvXLPgpwADvQXvSt1Dv05+u/29DAudHFRlFvJUeMxoH
-        s3fpchlSmmJUbdG9/fn/jBmE8axs5KpJC8YjyKLdXvy/cfhpefK2KmutqvwkN3hZub9Dhe
-        iizdvf6u79FMH50+XrI0nI01qNFG6yQ=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1680265431;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=baET9cubz4N9wt7gVurSp9qJQ/b3e8TRSP9pS9RzYcg=;
-        b=NliZAsa9umrzonZ2F/8aHOmiSdzsga442wg+ZtgrNp3yZK6t8Cn309hssV3RZdqrAUuXAr
-        WCbsF3PhNhZlFkd+GUuOp5A7KsojwAmISXdHd/EgWZErIT+5zc6tsmafZKAH3McIKeVb8F
-        FBYqs5tcBsRjs8z67AQzpDKol2fch2E=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DA1F4634C99;
-        Fri, 31 Mar 2023 15:21:34 +0300 (EEST)
-Date:   Fri, 31 Mar 2023 15:21:34 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: staging: max96712: Add support for 3-lane C-PHY
-Message-ID: <ZCbQTjL+Gy+Poeu/@valkosipuli.retiisi.eu>
-References: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
+        Fri, 31 Mar 2023 08:59:53 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF9C58A7C
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 05:59:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680267581; x=1711803581;
+  h=subject:to:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding;
+  bh=1VwBzQZUb1569TlFP1pZ870lSn8rNGgpYZVy+dpCWEA=;
+  b=myu6bNiluDSN9qmw0GWgIIiRQsnoENR/OStrytasuR3W8qsXBOpLEMxs
+   qNYACof0p44VLNbOnY2P/ZaUyC18/4KK1nf9SGEZDfzcbIe0oQ41eZv96
+   zuTqUPNqJ1Qs5Ak8V7oToakGdtdAIU9rnnieh74SanEkhWeo+aKHLVnnv
+   VLRPg9olVg6Q64a/PqsyAn9UT53HrdZKfn8BHM+nfyRjAjeDkKlzpTRJ5
+   /A6rHzi+I95hvtOVXcF7B8M4CjCG5z3DiKY6h97XyRnj8rWgdb5I2MbFJ
+   3FVMsBjNYK2us8KCqdJlwGFegkNk7BR8OlNMq9O+Rhfg0cJZo5VkXMBrf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="321097024"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
+   d="scan'208";a="321097024"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 05:59:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="859312209"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
+   d="scan'208";a="859312209"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
+  by orsmga005.jf.intel.com with ESMTP; 31 Mar 2023 05:59:39 -0700
+Subject: Re: [PATCH v2] media: ipu3-cio2: support more camera sensors in
+ cio2-bridge
+To:     Dan Scally <dan.scally@ideasonboard.com>, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, djrscally@gmail.com
+References: <20230303181504.1813469-1-bingbu.cao@intel.com>
+ <f5ce2815-a875-25a4-269d-69b30ce534b7@ideasonboard.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <06f27826-356d-2ed1-2b28-2de59cfae14b@linux.intel.com>
+Date:   Fri, 31 Mar 2023 21:00:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <f5ce2815-a875-25a4-269d-69b30ce534b7@ideasonboard.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hejssan,
 
-On Sat, Feb 11, 2023 at 03:46:14PM +0100, Niklas Söderlund wrote:
-> Add basic support for outputting the test patterns on a 3-lane CSI-2
-> C-PHY bus. As the driver only can output frames form its internal test
-> pattern generator, enabling C-PHY output is as simple as setting the
-> output mode to C-PHY instead of D-PHY.
+On 3/6/23 5:34 PM, Dan Scally wrote:
+> Good morning Bingbu
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++++----
->  1 file changed, 30 insertions(+), 6 deletions(-)
+> On 03/03/2023 18:15, bingbu.cao@intel.com wrote:
+>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>
+>> Add more camera sensors into the supported camera sensors list
+>> to make cio2-bridge to support more camera sensors.
+>>
+>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 > 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index 99b333b68198..d93dd985fb27 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -30,6 +30,7 @@ struct max96712_priv {
->  	struct regmap *regmap;
->  	struct gpio_desc *gpiod_pwdn;
->  
-> +	bool cphy;
->  	struct v4l2_mbus_config_mipi_csi2 mipi;
->  
->  	struct v4l2_subdev sd;
-> @@ -127,10 +128,18 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
->  	/* Select 2x4 mode. */
->  	max96712_write(priv, 0x8a0, 0x04);
->  
-> -	/* Configure a 4-lane DPHY using PHY0 and PHY1. */
->  	/* TODO: Add support for 2-lane and 1-lane configurations. */
-> -	/* TODO: Add support CPHY mode. */
-> -	max96712_write(priv, 0x94a, 0xc0);
-> +	if (priv->cphy) {
-> +		/* Configure a 3-lane C-PHY using PHY0 and PHY1. */
-> +		max96712_write(priv, 0x94a, 0xa0);
-> +
-> +		/* Configure C-PHY timings. */
-> +		max96712_write(priv, 0x8ad, 0x3f);
-> +		max96712_write(priv, 0x8ae, 0x7d);
-> +	} else {
-> +		/* Configure a 4-lane D-PHY using PHY0 and PHY1. */
-> +		max96712_write(priv, 0x94a, 0xc0);
-> +	}
->  
->  	/* Configure lane mapping for PHY0 and PHY1. */
->  	/* TODO: Add support for lane swapping. */
-> @@ -332,8 +341,9 @@ static int max96712_parse_dt(struct max96712_priv *priv)
->  {
->  	struct fwnode_handle *ep;
->  	struct v4l2_fwnode_endpoint v4l2_ep = {
-> -		.bus_type = V4L2_MBUS_CSI2_DPHY
-> +		.bus_type = V4L2_MBUS_UNKNOWN,
+> Thanks; this looks ok to me now:
+> 
+> 
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> 
+Sakari, 
 
-The bindings don't require setting bus-type. Please change the bindings as
-well. And assume D-PHY in the driver if bus-type isn't set.
+Will you pick this change?
 
->  	};
-> +	unsigned int supported_lanes;
->  	int ret;
->  
->  	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(&priv->client->dev), 4,
-> @@ -350,8 +360,22 @@ static int max96712_parse_dt(struct max96712_priv *priv)
->  		return -EINVAL;
->  	}
->  
-> -	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != 4) {
-> -		dev_err(&priv->client->dev, "Only 4 data lanes supported\n");
-> +	switch (v4l2_ep.bus_type) {
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		supported_lanes = 4;
-> +		priv->cphy = false;
-> +		break;
-> +	case V4L2_MBUS_CSI2_CPHY:
-> +		supported_lanes = 3;
-> +		priv->cphy = true;
-> +		break;
-> +	default:
-> +		dev_err(&priv->client->dev, "Unsupported bus-type %u\n", v4l2_ep.bus_type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != supported_lanes) {
-> +		dev_err(&priv->client->dev, "Only %u data lanes supported\n", supported_lanes);
->  		return -EINVAL;
->  	}
->  
+>> ---
+>> Changes from v1:
+>>   - remove some sensors without available drivers
+>>   - add .link_frequencies for each sensor
+>>
+>> ---
+>>   drivers/media/pci/intel/ipu3/cio2-bridge.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+>> index dfefe0d8aa95..d59bec8a94e2 100644
+>> --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
+>> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+>> @@ -29,6 +29,14 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
+>>       CIO2_SENSOR_CONFIG("INT347E", 1, 319200000),
+>>       /* Omnivision OV2680 */
+>>       CIO2_SENSOR_CONFIG("OVTI2680", 0),
+>> +    /* Omnivision ov8856 */
+>> +    CIO2_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
+>> +    /* Omnivision ov2740 */
+>> +    CIO2_SENSOR_CONFIG("INT3474", 1, 360000000),
+>> +    /* Hynix hi556 */
+>> +    CIO2_SENSOR_CONFIG("INT3537", 1, 437000000),
+>> +    /* Omnivision ov13b10 */
+>> +    CIO2_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
+>>   };
+>>     static const struct cio2_property_names prop_names = {
 
 -- 
-Hälsningar,
-
-Sakari Ailus
+Best regards,
+Bingbu Cao
