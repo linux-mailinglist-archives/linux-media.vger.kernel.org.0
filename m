@@ -2,270 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B836D2361
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6666D239A
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:08:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233092AbjCaPAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 11:00:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
+        id S232294AbjCaPID (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 11:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232731AbjCaPAK (ORCPT
+        with ESMTP id S230226AbjCaPIB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 11:00:10 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAA91D933
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 07:59:52 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:a07e::580])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id BD8D7660319A;
-        Fri, 31 Mar 2023 15:59:49 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680274790;
-        bh=xv/rpdUq4p5K5XILaYm5iabxVB2D5+/1ru7CEpOaTtM=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Rf0wfvFRYoFK0vqowseBXIsQaxFm9YBmVjbHxnHSZarHYs189Mu5ISSXjdMPAqSe6
-         79hRjh+i3m2dQ4huNaLKFd2p2TdgdD5ArqXpDAHM9RaZiCEwhwVMQz3V4EMGFHa64M
-         QrGdoPWlMwKg5/UdkbmuC3p+rSW5vykuYmrtDnH7v8DMrmmIFhEwwlVe8/VD6nAhEE
-         WI1Kss9TIixm8182WZ/nv3ZplA5ESFAjsm8yaopvVf85Ih2mMbRR92/e5jjD/I4Nb7
-         9eAYUv2bJdKJ6dR37IJCCGN3EAqY1eqwEGnkN4ARU8n1Tgqw7jPZFbGIj3f3FxIouv
-         9rmfepla2WoLw==
-Message-ID: <e9ed845111cf791650156c85e1c7c0765749f256.camel@collabora.com>
-Subject: Re: [RFC 1/2] media: uapi: Add VP8 stateless encoder controls
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+        Fri, 31 Mar 2023 11:08:01 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09EA61FD23
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:07:47 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id o44so16550585qvo.4
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680275266;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=A12k4KB7ebXlDgbV8iGTgTpjb9CZpe/iCFGufVrwogk=;
+        b=3qdTx722YwxkHAtxvy1VcRPVzeSppIZZUpd4Ue1d6L4glpGtNWvZHh9bVaBSusS8ay
+         Wl/pD5Cew3yHVv3hGo/oSWUvINtlUJZoQVQKXSiBh01mPUx2+CAxSokhAAq5jYGGzM/V
+         nI5Zk/HzHivGGjtO5vgjUY9yFDmdC/ndrx3ESo4FYCZNkyKoYqAZNBqQrx6BEPQ3LGl7
+         PvmUVM1yQ/DokeO9qmNbjZrPVBvLSjkPf5qHBjW6rrfDF7vrxqkzv3ciLgen+XGJkQlO
+         jfs8AEVqfZSEVX3h1OfQfKWpgGsEJZ7kiWtuFVrZmTjfGtK2WalmPaotGJoRQzIyT7WX
+         vvGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680275266;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A12k4KB7ebXlDgbV8iGTgTpjb9CZpe/iCFGufVrwogk=;
+        b=cQQ3i50GBwxYjlUyxzGFn7Aps6t1LFl4m7uv2vpeBFfkjf+6Si/gXwa7wAAAzkzKnA
+         zueyUlJnaJa92I9vgeOwBd+dVyMfebfLmtDIPrl/dLL9cipip04gX5RfZuUTm2ikqsq+
+         yj5HagNukhf2HUiHI1kCYGDszs6SWf0uiGjgQ4kCOruUPSWYVv38y/3E8+yI0SWnhitL
+         roBLWTkPJfuLukad/6cBcgvGdgOmglTW1AT+WunxPZqZkfigAFTttDfqJY0401EJzWKx
+         TZXZyRpcwGeyM9/tVPnyuqWyQtgnYZsptpjUr5iJOhTaA57Zmvpq4nkZjY6hnM0WMpa7
+         3PTg==
+X-Gm-Message-State: AAQBX9dq1ulCvam5i+PUSLSPkUvbIaRRmsuNMVlCrf6sJQh3NALttLKu
+        qFvWRxiDMuQUVUxewqzkQRurhQ==
+X-Google-Smtp-Source: AKy350acTVSkbB/Xv5a/ig05pzT/j5zP0MCg579jrpttL+7LBR8Fa6PYr2Oj2TKovED/UKAXzXvXeQ==
+X-Received: by 2002:a05:6214:f0f:b0:56e:a9d4:428a with SMTP id gw15-20020a0562140f0f00b0056ea9d4428amr40684485qvb.1.1680275266127;
+        Fri, 31 Mar 2023 08:07:46 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
+        by smtp.gmail.com with ESMTPSA id mn7-20020a0562145ec700b005dd8b93459fsm657878qvb.55.2023.03.31.08.07.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 08:07:45 -0700 (PDT)
+Message-ID: <1f1a5acbd8951cfec250b78fff5a9fec731c3488.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH] media: hantro: respect data_offset in vb2_plane
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com
-Date:   Fri, 31 Mar 2023 10:59:41 -0400
-In-Reply-To: <0224abd9-df5b-0c79-6366-a52176a2e45b@collabora.com>
-References: <20230309125651.23911-1-andrzej.p@collabora.com>
-         <20230309125651.23911-2-andrzej.p@collabora.com>
-         <e0410a7a-250c-851b-147f-a93652e0a131@xs4all.nl>
-         <4ddd59e5-4db3-5027-850c-118230926911@collabora.com>
-         <421f8157aa11aab997b092f4b1378a8bbd008c18.camel@collabora.com>
-         <0224abd9-df5b-0c79-6366-a52176a2e45b@collabora.com>
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+        mtr@pengutronix.de
+Date:   Fri, 31 Mar 2023 11:07:44 -0400
+In-Reply-To: <20230327132324.1781416-1-m.tretter@pengutronix.de>
+References: <20230327132324.1781416-1-m.tretter@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Micheal,
 
-Le lundi 27 mars 2023 =C3=A0 14:53 +0200, Andrzej Pietrasiewicz a =C3=A9cri=
-t=C2=A0:
+Le lundi 27 mars 2023 =C3=A0 15:23 +0200, Michael Tretter a =C3=A9crit=C2=
+=A0:
+> The vb2_plane in the vb2_v4l2_buffer may have a data_offset, which is
+> written by user space to tell the driver that the data starts at an
+> offset into the buffer. Currently the hantro driver assumes that the
+> data starts directly at the base address of the buffer.
+>=20
+> Add the data_offset to the plane dma_address to make sure that the
+> encoder actually reads the plane data if the user space put the plane
+> data at an offset into the buffer. Otherwise the encoded data may not be
+> the data that userspace expected to be encoded.
+>=20
+
+The data_offset for this purpose have limited use, and this usage is only v=
+alid
+for encoders (OUTPUT queues). Would it be possible to state this clearly in=
+ the
+subject ?
+
+>=20
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> ---
 > Hi,
 >=20
-> W dniu 24.03.2023 o=C2=A019:49, Nicolas Dufresne pisze:
-> > Le mercredi 22 mars 2023 =C3=A0 11:06 +0100, Andrzej Pietrasiewicz a =
-=C3=A9crit=C2=A0:
-> > > Hi Hans,
-> > >=20
-> > > W dniu 21.03.2023 o=C2=A014:39, Hans Verkuil pisze:
-> > > > Hi Andrzej,
-> > > >=20
-> > > > On 09/03/2023 13:56, Andrzej Pietrasiewicz wrote:
-> > > > > Add uAPI for stateless VP8 encoders.
-> > > > >=20
-> > > > > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> > > > > ---
-> > > > >    drivers/media/v4l2-core/v4l2-ctrls-core.c | 16 ++++
-> > > > >    drivers/media/v4l2-core/v4l2-ctrls-defs.c |  5 ++
-> > > > >    include/media/v4l2-ctrls.h                |  1 +
-> > > > >    include/uapi/linux/v4l2-controls.h        | 91 +++++++++++++++=
-++++++++
-> > > > >    include/uapi/linux/videodev2.h            |  3 +
-> > > > >    5 files changed, 116 insertions(+)
-> > > > >=20
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/=
-media/v4l2-core/v4l2-ctrls-core.c
-> > > > > index 29169170880a..5055e75d37bb 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> > > > > @@ -335,6 +335,9 @@ void v4l2_ctrl_type_op_log(const struct v4l2_=
-ctrl *ctrl)
-> > > > >    	case V4L2_CTRL_TYPE_VP9_FRAME:
-> > > > >    		pr_cont("VP9_FRAME");
-> > > > >    		break;
-> > > > > +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
-> > > > > +		pr_cont("VP8_ENCODE_PARAMS");
-> > > > > +		break;
-> > > > >    	case V4L2_CTRL_TYPE_HEVC_SPS:
-> > > > >    		pr_cont("HEVC_SPS");
-> > > > >    		break;
-> > > > > @@ -568,6 +571,7 @@ static int std_validate_compound(const struct=
- v4l2_ctrl *ctrl, u32 idx,
-> > > > >    	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
-> > > > >    	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> > > > >    	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
-> > > > > +	struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
-> > > > >    	struct v4l2_area *area;
-> > > > >    	void *p =3D ptr.p + idx * ctrl->elem_size;
-> > > > >    	unsigned int i;
-> > > > > @@ -918,6 +922,15 @@ static int std_validate_compound(const struc=
-t v4l2_ctrl *ctrl, u32 idx,
-> > > > >    			return -EINVAL;
-> > > > >    		break;
-> > > > >   =20
-> > > > > +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
-> > > > > +		p_vp8_encode_params =3D p;
-> > > > > +		if (p_vp8_encode_params->loop_filter_level > 63)
-> > > > > +			return -EINVAL;
-> > > > > +
-> > > > > +		if (p_vp8_encode_params->sharpness_level > 7)
-> > > > > +			return -EINVAL;
-> > > > > +		break;
-> > > > > +
-> > > > >    	default:
-> > > > >    		return -EINVAL;
-> > > > >    	}
-> > > > > @@ -1602,6 +1615,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(stru=
-ct v4l2_ctrl_handler *hdl,
-> > > > >    	case V4L2_CTRL_TYPE_VP9_FRAME:
-> > > > >    		elem_size =3D sizeof(struct v4l2_ctrl_vp9_frame);
-> > > > >    		break;
-> > > > > +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
-> > > > > +		elem_size =3D sizeof(struct v4l2_ctrl_vp8_encode_params);
-> > > > > +		break;
-> > > > >    	case V4L2_CTRL_TYPE_AREA:
-> > > > >    		elem_size =3D sizeof(struct v4l2_area);
-> > > > >    		break;
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/=
-media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > index 564fedee2c88..935bd9a07bad 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > > @@ -1182,6 +1182,8 @@ const char *v4l2_ctrl_get_name(u32 id)
-> > > > >    	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:		return "MPEG-2 Q=
-uantisation Matrices";
-> > > > >    	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:	return "VP9 Proba=
-bilities Updates";
-> > > > >    	case V4L2_CID_STATELESS_VP9_FRAME:			return "VP9 Frame Decode=
- Parameters";
-> > > > > +	case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:		return "VP8 Encode =
-Parameters";
-> > > > > +	case V4L2_CID_STATELESS_VP8_ENCODE_QP:			return "VP8 Encode QP"=
-;
-> > > > >    	case V4L2_CID_STATELESS_HEVC_SPS:			return "HEVC Sequence Par=
-ameter Set";
-> > > > >    	case V4L2_CID_STATELESS_HEVC_PPS:			return "HEVC Picture Para=
-meter Set";
-> > > > >    	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:		return "HEVC Slic=
-e Parameters";
-> > > > > @@ -1531,6 +1533,9 @@ void v4l2_ctrl_fill(u32 id, const char **na=
-me, enum v4l2_ctrl_type *type,
-> > > > >    	case V4L2_CID_STATELESS_VP9_FRAME:
-> > > > >    		*type =3D V4L2_CTRL_TYPE_VP9_FRAME;
-> > > > >    		break;
-> > > > > +	case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:
-> > > > > +		*type =3D V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS;
-> > > > > +		break;
-> > > >=20
-> > > > Why isn't V4L2_CID_STATELESS_VP8_ENCODE_QP added here as well? I as=
-sume it is of
-> > > > type INTEGER?
-> > > >=20
-> > >=20
-> > > Thanks for pointing that.
-> > >=20
-> > > And it is a simple integer, indeed.
-> > >=20
-> > > > I also wonder if VP9 would have the same control, so that this coul=
-d be called
-> > > > V4L2_CID_STATELESS_VPX_ENCODE_QP. On the other hand, that might be =
-overkill.
-> > > >=20
-> > >=20
-> > > It seems to me that having a single kind of control for passing the
-> > > requested QP value for both VP8 and VP9 makes sense. In fact, perhaps=
- not
-> > > restricting ourselves to VPX would make even more sense?
-> > >=20
-> > > This touches the question of how we do rate control in general in sta=
-teless
-> > > encoders. If the uAPI is to be independent of underlying hardware, th=
-en the only
-> > > parameter userspace passes to the kernel is the required QP (which is=
- determined
-> > > entirely by userspace using whatever means it considers appropriate, =
-for example
-> > > judging by the last encoded frame(s) size(s)). Any other kinds of dat=
-a would
-> > > probably be somehow hardware-specific. So, I'm wondering if maybe eve=
-n a
-> > >=20
-> > > V4L2_CID_STATELESS_ENCODE_QP
-> > >=20
-> > > is what we want?
-> >=20
-> > We already have V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY which is bound to
-> > V4L2_MPEG_VIDEO_BITRATE_MODE_CQ,
->=20
-> Nice catch. Both are used only by Venus. We could reuse it. But then ther=
-e's
-> the allowed range - which you do discuss below.
->=20
->=20
-> which seems what we should expect form a
-> > stateless encoder. In fact, adding the entire BITRATE_MODE would enable=
- later
-> > encoder that has firmware driven rate control to be able to add it easi=
-ly
-> > (similar to what we have in GPUs).
-> >=20
-> > We don't need per frame type QP, as stateless encoder have requests, so=
- we can
-> > set the QP for each frame separately anyway.
-> >=20
-> > >=20
-> > > This, in turn, brings another question of the range and interpretatio=
-n of values
-> > > that should be passed through this control. 0-255? 0-100? 0 =3D no qu=
-antization at
-> > > all (i.e. highest quality) or maybe 0 =3D lowest possible quality?
-> >=20
-> > It seems V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY has decided to go 0-100 r=
-egardless
-> > of the CODEC. The API is not very inconsistent, like VPX_IN_QP does not=
- even
-> > document a range, and says its for VP8 only. Perhaps we could open it u=
-p, and
-> > allow per codec range so we can match 1:1 with the CODEC specs ? We cou=
-ld only
-> > allow that for stateless if we beleive abstracting it to 0-100 make is =
-better in
-> > general. Just that in stateless, we expect that number to be written in=
- the
-> > bitstream verbatim.
-> >=20
->=20
-> Do you mean to relax the 0-100 range of V4L2_CID_MPEG_VIDEO_CONSTANT_QUAL=
-ITY
-> and then use this control instead of adding a new one for stateless codec=
-s,
-> or to specifically add a new one, modeled after
-> V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY?
+> Most other drivers also assume that the address returned by
+> vb2_dma_contig_plane_dma_addr() is the start of the plane data. Maybe it
+> would be better to change vb2_dma_contig_plane_dma_addr() to already add
+> the data_offset to the plane address. However, there are a few drivers
+> that already have a helper that respects the data_offset, but that seems
+> to be the exception rather than the rule.
 
-
-Yes, I'd relax the range overall. And then, specifically for stateless, I'd
-require it to match the codec spec specified range.
+I had this discussion recently, and its a bit hardware specific. Some HW ma=
+y
+support any random offset, in which case you will program the original (and
+aligned) address, and program the offset in the HW. But some HW may not, in
+which case you need to add alignment validation in the driver.
 
 >=20
-> Regards,
+> What I am actually trying to achieve is to import a V4L2_PIX_FMT_NV12
+> buffer from a Rockchip RGA2 (which doesn't support the multi-planar API)
+> as a V4L2_PIX_FMT_NV12M buffer into the Hantro JPEG encoder (which
+> doesn't support V4L2_PIX_FMT_NV12). Solving this by importing the same
+> FD for each plane with a respective offset is how one would import such
+> a buffer with the DRM API. Please tell me, if my approach is wrong and,
+> if so, how I should solve it differently.
+
+The approach is fine, this is the only valid usage of data_offset when pass=
+ed by
+userspace. Though, you are making your live much more difficult then needed=
+,
+adding NV12 (contiguous) support to the jpeg encoder should be fairly easy =
+too.
+
 >=20
-> Andrzej
+> Michael
+> ---
+>  .../verisilicon/rockchip_vpu2_hw_jpeg_enc.c   | 24 +++++++++++++------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc=
+.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
+> index 8395c4d48dd0..05df7768187d 100644
+> --- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
+> +++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
+> @@ -32,6 +32,16 @@
+> =20
+>  #define VEPU_JPEG_QUANT_TABLE_COUNT 16
+> =20
+> +static dma_addr_t rockchip_vpu2_plane_dma_addr(struct vb2_buffer *vb,
+> +					       unsigned int plane_no)
+> +{
+> +	struct vb2_v4l2_buffer *v4l2_buf =3D to_vb2_v4l2_buffer(vb);
+> +	dma_addr_t base =3D vb2_dma_contig_plane_dma_addr(vb, plane_no);
+> +	unsigned int offset =3D v4l2_buf->planes[plane_no].data_offset;
+> +
+> +	return base + offset;
+
+As the offset is not being passed as a control to the HW, you need to go ba=
+ck to
+the datasheet, and figure-out what is the required alignment. This aligment=
+ then
+needs to be validated. I don't know the exact answer for you, we don't chec=
+k the
+dma address because they are all page aligned, so its not needed.
+
+If the alignment is not acceptable, you have to fail synchronously in
+VIDIOC_QBUF, so that userspace knows and can fallback to copy.
+
+> +}
+> +
+>  static void rockchip_vpu2_set_src_img_ctrl(struct hantro_dev *vpu,
+>  					   struct hantro_ctx *ctx)
+>  {
+> @@ -79,23 +89,23 @@ static void rockchip_vpu2_jpeg_enc_set_buffers(struct=
+ hantro_dev *vpu,
+> =20
+>  	WARN_ON(pix_fmt->num_planes > 3);
+> =20
+> -	vepu_write_relaxed(vpu, vb2_dma_contig_plane_dma_addr(dst_buf, 0) +
+> +	vepu_write_relaxed(vpu, rockchip_vpu2_plane_dma_addr(dst_buf, 0) +
+>  				ctx->vpu_dst_fmt->header_size,
+>  			   VEPU_REG_ADDR_OUTPUT_STREAM);
+>  	vepu_write_relaxed(vpu, size_left, VEPU_REG_STR_BUF_LIMIT);
+> =20
+>  	if (pix_fmt->num_planes =3D=3D 1) {
+> -		src[0] =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
+> +		src[0] =3D rockchip_vpu2_plane_dma_addr(src_buf, 0);
+>  		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
+>  	} else if (pix_fmt->num_planes =3D=3D 2) {
+> -		src[0] =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
+> -		src[1] =3D vb2_dma_contig_plane_dma_addr(src_buf, 1);
+> +		src[0] =3D rockchip_vpu2_plane_dma_addr(src_buf, 0);
+> +		src[1] =3D rockchip_vpu2_plane_dma_addr(src_buf, 1);
+>  		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
+>  		vepu_write_relaxed(vpu, src[1], VEPU_REG_ADDR_IN_PLANE_1);
+>  	} else {
+> -		src[0] =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
+> -		src[1] =3D vb2_dma_contig_plane_dma_addr(src_buf, 1);
+> -		src[2] =3D vb2_dma_contig_plane_dma_addr(src_buf, 2);
+> +		src[0] =3D rockchip_vpu2_plane_dma_addr(src_buf, 0);
+> +		src[1] =3D rockchip_vpu2_plane_dma_addr(src_buf, 1);
+> +		src[2] =3D rockchip_vpu2_plane_dma_addr(src_buf, 2);
+>  		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
+>  		vepu_write_relaxed(vpu, src[1], VEPU_REG_ADDR_IN_PLANE_1);
+>  		vepu_write_relaxed(vpu, src[2], VEPU_REG_ADDR_IN_PLANE_2);
 
