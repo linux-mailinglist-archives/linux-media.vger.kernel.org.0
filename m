@@ -2,75 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2767B6D22C2
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 16:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B836D2361
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232691AbjCaOi5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 10:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44124 "EHLO
+        id S233092AbjCaPAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 11:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232401AbjCaOi4 (ORCPT
+        with ESMTP id S232731AbjCaPAK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 10:38:56 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC8A1D91B;
-        Fri, 31 Mar 2023 07:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680273535; x=1711809535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s4bXc6SA5sSnGSuRn29n954qgJk/hR6Pf1DFYwbffoE=;
-  b=hwik/fcREj0ZGGwJSjextlR7JszmDnJ7gDrkfvBz5zxa5sZgRM6g8vgw
-   dwheRx2VKUhYIHmfTN80jtVyWQl5ciuK1XjEdUnGmLsQbx3TX/RB29706
-   E5iOsoBynpw1GU4nCk8ddpWZXsSKCKqMXuoASodmGHMCqp9MutMZtNX4r
-   gvHY7bNxkFjAr6AIKT0j6zQgZ49S8pmGmYvNSx6dSqaSiEc0M7yiey3K7
-   ADoULqNxgUkJFcu0NsSL1kglpYka7V6EMC7cLRRpoxSLzflzlHysUxwkS
-   POqAlqktSA5/FIz1JtZMsh+rXXJX5vEkM9NyMYuhBD6MP5hETFuTyY+Tk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="343128147"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="343128147"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 07:38:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="859349319"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="859349319"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 31 Mar 2023 07:38:47 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1piFtp-000Ls4-38;
-        Fri, 31 Mar 2023 14:38:41 +0000
-Date:   Fri, 31 Mar 2023 22:38:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Fri, 31 Mar 2023 11:00:10 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FAA91D933
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 07:59:52 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:a07e::580])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id BD8D7660319A;
+        Fri, 31 Mar 2023 15:59:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680274790;
+        bh=xv/rpdUq4p5K5XILaYm5iabxVB2D5+/1ru7CEpOaTtM=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Rf0wfvFRYoFK0vqowseBXIsQaxFm9YBmVjbHxnHSZarHYs189Mu5ISSXjdMPAqSe6
+         79hRjh+i3m2dQ4huNaLKFd2p2TdgdD5ArqXpDAHM9RaZiCEwhwVMQz3V4EMGFHa64M
+         QrGdoPWlMwKg5/UdkbmuC3p+rSW5vykuYmrtDnH7v8DMrmmIFhEwwlVe8/VD6nAhEE
+         WI1Kss9TIixm8182WZ/nv3ZplA5ESFAjsm8yaopvVf85Ih2mMbRR92/e5jjD/I4Nb7
+         9eAYUv2bJdKJ6dR37IJCCGN3EAqY1eqwEGnkN4ARU8n1Tgqw7jPZFbGIj3f3FxIouv
+         9rmfepla2WoLw==
+Message-ID: <e9ed845111cf791650156c85e1c7c0765749f256.camel@collabora.com>
+Subject: Re: [RFC 1/2] media: uapi: Add VP8 stateless encoder controls
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v3 9/9] media: starfive: Add Starfive Camera Subsystem
- driver
-Message-ID: <202303312218.LXqt9wcT-lkp@intel.com>
-References: <20230331121826.96973-10-jack.zhu@starfivetech.com>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com
+Date:   Fri, 31 Mar 2023 10:59:41 -0400
+In-Reply-To: <0224abd9-df5b-0c79-6366-a52176a2e45b@collabora.com>
+References: <20230309125651.23911-1-andrzej.p@collabora.com>
+         <20230309125651.23911-2-andrzej.p@collabora.com>
+         <e0410a7a-250c-851b-147f-a93652e0a131@xs4all.nl>
+         <4ddd59e5-4db3-5027-850c-118230926911@collabora.com>
+         <421f8157aa11aab997b092f4b1378a8bbd008c18.camel@collabora.com>
+         <0224abd9-df5b-0c79-6366-a52176a2e45b@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230331121826.96973-10-jack.zhu@starfivetech.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,82 +64,208 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
+Hi,
 
-I love your patch! Perhaps something to improve:
+Le lundi 27 mars 2023 =C3=A0 14:53 +0200, Andrzej Pietrasiewicz a =C3=A9cri=
+t=C2=A0:
+> Hi,
+>=20
+> W dniu 24.03.2023 o=C2=A019:49, Nicolas Dufresne pisze:
+> > Le mercredi 22 mars 2023 =C3=A0 11:06 +0100, Andrzej Pietrasiewicz a =
+=C3=A9crit=C2=A0:
+> > > Hi Hans,
+> > >=20
+> > > W dniu 21.03.2023 o=C2=A014:39, Hans Verkuil pisze:
+> > > > Hi Andrzej,
+> > > >=20
+> > > > On 09/03/2023 13:56, Andrzej Pietrasiewicz wrote:
+> > > > > Add uAPI for stateless VP8 encoders.
+> > > > >=20
+> > > > > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> > > > > ---
+> > > > >    drivers/media/v4l2-core/v4l2-ctrls-core.c | 16 ++++
+> > > > >    drivers/media/v4l2-core/v4l2-ctrls-defs.c |  5 ++
+> > > > >    include/media/v4l2-ctrls.h                |  1 +
+> > > > >    include/uapi/linux/v4l2-controls.h        | 91 +++++++++++++++=
+++++++++
+> > > > >    include/uapi/linux/videodev2.h            |  3 +
+> > > > >    5 files changed, 116 insertions(+)
+> > > > >=20
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/=
+media/v4l2-core/v4l2-ctrls-core.c
+> > > > > index 29169170880a..5055e75d37bb 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > > > > @@ -335,6 +335,9 @@ void v4l2_ctrl_type_op_log(const struct v4l2_=
+ctrl *ctrl)
+> > > > >    	case V4L2_CTRL_TYPE_VP9_FRAME:
+> > > > >    		pr_cont("VP9_FRAME");
+> > > > >    		break;
+> > > > > +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
+> > > > > +		pr_cont("VP8_ENCODE_PARAMS");
+> > > > > +		break;
+> > > > >    	case V4L2_CTRL_TYPE_HEVC_SPS:
+> > > > >    		pr_cont("HEVC_SPS");
+> > > > >    		break;
+> > > > > @@ -568,6 +571,7 @@ static int std_validate_compound(const struct=
+ v4l2_ctrl *ctrl, u32 idx,
+> > > > >    	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+> > > > >    	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> > > > >    	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+> > > > > +	struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
+> > > > >    	struct v4l2_area *area;
+> > > > >    	void *p =3D ptr.p + idx * ctrl->elem_size;
+> > > > >    	unsigned int i;
+> > > > > @@ -918,6 +922,15 @@ static int std_validate_compound(const struc=
+t v4l2_ctrl *ctrl, u32 idx,
+> > > > >    			return -EINVAL;
+> > > > >    		break;
+> > > > >   =20
+> > > > > +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
+> > > > > +		p_vp8_encode_params =3D p;
+> > > > > +		if (p_vp8_encode_params->loop_filter_level > 63)
+> > > > > +			return -EINVAL;
+> > > > > +
+> > > > > +		if (p_vp8_encode_params->sharpness_level > 7)
+> > > > > +			return -EINVAL;
+> > > > > +		break;
+> > > > > +
+> > > > >    	default:
+> > > > >    		return -EINVAL;
+> > > > >    	}
+> > > > > @@ -1602,6 +1615,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(stru=
+ct v4l2_ctrl_handler *hdl,
+> > > > >    	case V4L2_CTRL_TYPE_VP9_FRAME:
+> > > > >    		elem_size =3D sizeof(struct v4l2_ctrl_vp9_frame);
+> > > > >    		break;
+> > > > > +	case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
+> > > > > +		elem_size =3D sizeof(struct v4l2_ctrl_vp8_encode_params);
+> > > > > +		break;
+> > > > >    	case V4L2_CTRL_TYPE_AREA:
+> > > > >    		elem_size =3D sizeof(struct v4l2_area);
+> > > > >    		break;
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/=
+media/v4l2-core/v4l2-ctrls-defs.c
+> > > > > index 564fedee2c88..935bd9a07bad 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > > > @@ -1182,6 +1182,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > > > >    	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:		return "MPEG-2 Q=
+uantisation Matrices";
+> > > > >    	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:	return "VP9 Proba=
+bilities Updates";
+> > > > >    	case V4L2_CID_STATELESS_VP9_FRAME:			return "VP9 Frame Decode=
+ Parameters";
+> > > > > +	case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:		return "VP8 Encode =
+Parameters";
+> > > > > +	case V4L2_CID_STATELESS_VP8_ENCODE_QP:			return "VP8 Encode QP"=
+;
+> > > > >    	case V4L2_CID_STATELESS_HEVC_SPS:			return "HEVC Sequence Par=
+ameter Set";
+> > > > >    	case V4L2_CID_STATELESS_HEVC_PPS:			return "HEVC Picture Para=
+meter Set";
+> > > > >    	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:		return "HEVC Slic=
+e Parameters";
+> > > > > @@ -1531,6 +1533,9 @@ void v4l2_ctrl_fill(u32 id, const char **na=
+me, enum v4l2_ctrl_type *type,
+> > > > >    	case V4L2_CID_STATELESS_VP9_FRAME:
+> > > > >    		*type =3D V4L2_CTRL_TYPE_VP9_FRAME;
+> > > > >    		break;
+> > > > > +	case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:
+> > > > > +		*type =3D V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS;
+> > > > > +		break;
+> > > >=20
+> > > > Why isn't V4L2_CID_STATELESS_VP8_ENCODE_QP added here as well? I as=
+sume it is of
+> > > > type INTEGER?
+> > > >=20
+> > >=20
+> > > Thanks for pointing that.
+> > >=20
+> > > And it is a simple integer, indeed.
+> > >=20
+> > > > I also wonder if VP9 would have the same control, so that this coul=
+d be called
+> > > > V4L2_CID_STATELESS_VPX_ENCODE_QP. On the other hand, that might be =
+overkill.
+> > > >=20
+> > >=20
+> > > It seems to me that having a single kind of control for passing the
+> > > requested QP value for both VP8 and VP9 makes sense. In fact, perhaps=
+ not
+> > > restricting ourselves to VPX would make even more sense?
+> > >=20
+> > > This touches the question of how we do rate control in general in sta=
+teless
+> > > encoders. If the uAPI is to be independent of underlying hardware, th=
+en the only
+> > > parameter userspace passes to the kernel is the required QP (which is=
+ determined
+> > > entirely by userspace using whatever means it considers appropriate, =
+for example
+> > > judging by the last encoded frame(s) size(s)). Any other kinds of dat=
+a would
+> > > probably be somehow hardware-specific. So, I'm wondering if maybe eve=
+n a
+> > >=20
+> > > V4L2_CID_STATELESS_ENCODE_QP
+> > >=20
+> > > is what we want?
+> >=20
+> > We already have V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY which is bound to
+> > V4L2_MPEG_VIDEO_BITRATE_MODE_CQ,
+>=20
+> Nice catch. Both are used only by Venus. We could reuse it. But then ther=
+e's
+> the allowed range - which you do discuss below.
+>=20
+>=20
+> which seems what we should expect form a
+> > stateless encoder. In fact, adding the entire BITRATE_MODE would enable=
+ later
+> > encoder that has firmware driven rate control to be able to add it easi=
+ly
+> > (similar to what we have in GPUs).
+> >=20
+> > We don't need per frame type QP, as stateless encoder have requests, so=
+ we can
+> > set the QP for each frame separately anyway.
+> >=20
+> > >=20
+> > > This, in turn, brings another question of the range and interpretatio=
+n of values
+> > > that should be passed through this control. 0-255? 0-100? 0 =3D no qu=
+antization at
+> > > all (i.e. highest quality) or maybe 0 =3D lowest possible quality?
+> >=20
+> > It seems V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY has decided to go 0-100 r=
+egardless
+> > of the CODEC. The API is not very inconsistent, like VPX_IN_QP does not=
+ even
+> > document a range, and says its for VP8 only. Perhaps we could open it u=
+p, and
+> > allow per codec range so we can match 1:1 with the CODEC specs ? We cou=
+ld only
+> > allow that for stateless if we beleive abstracting it to 0-100 make is =
+better in
+> > general. Just that in stateless, we expect that number to be written in=
+ the
+> > bitstream verbatim.
+> >=20
+>=20
+> Do you mean to relax the 0-100 range of V4L2_CID_MPEG_VIDEO_CONSTANT_QUAL=
+ITY
+> and then use this control instead of adding a new one for stateless codec=
+s,
+> or to specifically add a new one, modeled after
+> V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY?
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v6.3-rc4 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230331121826.96973-10-jack.zhu%40starfivetech.com
-patch subject: [PATCH v3 9/9] media: starfive: Add Starfive Camera Subsystem driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230331/202303312218.LXqt9wcT-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/421adbf9815b633e8bac5da7146c33aac01e283c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
-        git checkout 421adbf9815b633e8bac5da7146c33aac01e283c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/
+Yes, I'd relax the range overall. And then, specifically for stateless, I'd
+require it to match the codec spec specified range.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303312218.LXqt9wcT-lkp@intel.com/
+>=20
+> Regards,
+>=20
+> Andrzej
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/starfive/stf_camss.c:41:5: warning: no previous prototype for 'stfcamss_get_mem_res' [-Wmissing-prototypes]
-      41 | int stfcamss_get_mem_res(struct platform_device *pdev,
-         |     ^~~~~~~~~~~~~~~~~~~~
---
->> drivers/media/platform/starfive/stf_isp.c:627:5: warning: no previous prototype for 'isp_close' [-Wmissing-prototypes]
-     627 | int isp_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-         |     ^~~~~~~~~
---
-   drivers/media/platform/starfive/stf_vin.c: In function 'stf_vin_map_isp_pad':
->> drivers/media/platform/starfive/stf_vin.c:99:24: warning: implicit conversion from 'enum isp_line_id' to 'enum isp_pad_id' [-Wenum-conversion]
-      99 |                 pad_id = vin_map_isp_line(line);
-         |                        ^
-   drivers/media/platform/starfive/stf_vin.c: In function 'vin_output_init_addrs':
->> drivers/media/platform/starfive/stf_vin.c:683:20: warning: variable 'pong_addr' set but not used [-Wunused-but-set-variable]
-     683 |         dma_addr_t pong_addr;
-         |                    ^~~~~~~~~
-   drivers/media/platform/starfive/stf_vin.c: At top level:
-   drivers/media/platform/starfive/stf_vin.c:33:32: warning: 'vin_formats_raw' defined but not used [-Wunused-const-variable=]
-      33 | static const struct vin_format vin_formats_raw[] = {
-         |                                ^~~~~~~~~~~~~~~
-
-
-vim +/stfcamss_get_mem_res +41 drivers/media/platform/starfive/stf_camss.c
-
-    40	
-  > 41	int stfcamss_get_mem_res(struct platform_device *pdev,
-    42				 struct stfcamss *stfcamss)
-    43	{
-    44		stfcamss->syscon_base =
-    45			devm_platform_ioremap_resource_byname(pdev, "syscon");
-    46		if (IS_ERR(stfcamss->syscon_base))
-    47			return PTR_ERR(stfcamss->syscon_base);
-    48	
-    49		stfcamss->isp_base =
-    50			devm_platform_ioremap_resource_byname(pdev, "isp");
-    51		if (IS_ERR(stfcamss->isp_base))
-    52			return PTR_ERR(stfcamss->isp_base);
-    53	
-    54		return 0;
-    55	}
-    56	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
