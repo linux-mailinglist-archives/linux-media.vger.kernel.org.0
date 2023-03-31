@@ -2,122 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F12426D1967
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 10:07:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 978DF6D196A
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 10:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbjCaIHy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 04:07:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52162 "EHLO
+        id S230304AbjCaIIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 04:08:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbjCaIHs (ORCPT
+        with ESMTP id S230171AbjCaIIv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 04:07:48 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1902A1B7F9
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 01:07:38 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id i9so21525466wrp.3
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 01:07:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680250056; x=1682842056;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ImAx/oxEO+lHncb/ZesUrhnsKkwvaeFgdPZ5ntmrUCc=;
-        b=hYo4gicJ5iiWIczEayogdArsTd/kZGrWvZCCUMX3xMI5zAQdHFRuAbIoBVeIBqDAgH
-         FJxD0MqerkjCX9WWpHSiZ7e/xTPyB/vJVvg0ljtZjKl8fAu7Hb445g4runNQ54Khlytt
-         FDXG6UAQlWs7j5IrYRxDSFLw4uwK5o+YAGCbUDquW2wcBVBmYlvZJfzZ0E6ermR/dzli
-         RjcJEtPK9Ogov/77E+LAGgTGsApkCcjRbpokrNABdqBq6C3mQuJ1PInhiLRSACuThEuJ
-         c6G/X/E6qD+1meI/eILbI8AcGgjdztgDveeEwV9RyPaYMV7sX5aWqHzUX+EXQ81PNy22
-         uOPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680250056; x=1682842056;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ImAx/oxEO+lHncb/ZesUrhnsKkwvaeFgdPZ5ntmrUCc=;
-        b=PkVlZtb/K3PdKUbaPdOaIj1eNDRoUn+BHJPXF4/PJQAbb2uizBltESOFQeWl+/7HgJ
-         /J66Fn0ktZ4c0p3MhgxzdohTwEBOBhJtxJ2/mMn9xwhuLfwhV6QR0LNYNp1SwbXFjsj3
-         PvYLKCipPeQtALu0hF4/rFxUknIdN4aCaP9w9whClvox3EoBbafNJUt13V8OYqjO++PU
-         ob2ZA7eIWuI+187pFxE50zp+DzlMRo5dDWpUCeJKNufRCuq8v3/fS8sWnHWfEucMqyKO
-         gPBRsZW1yfkj/cDX4ywfPGmfZtKBDfQZ5fgY3kk9Z8OmJ9YGc7gJ523VSRDOTgVcEnFe
-         hhKA==
-X-Gm-Message-State: AAQBX9fem8wWdsABw+tIYjMOnpLxN6Xg5ZvW38+ADlgktpO3uYiNhGRa
-        3xeCLGckXBj0k0ym/qqxPy/gfw==
-X-Google-Smtp-Source: AKy350bxs9ZUM/3ex/YLlrgnbmR/q9tIRVwQaAUTFOf3rSiGvAR3/p8XfIs+BByVofxargQ0oFGabg==
-X-Received: by 2002:a5d:45c1:0:b0:2d0:bba8:38f3 with SMTP id b1-20020a5d45c1000000b002d0bba838f3mr22407216wrs.14.1680250056391;
-        Fri, 31 Mar 2023 01:07:36 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id s12-20020adfeccc000000b002da1261aa44sm1514267wro.48.2023.03.31.01.07.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 01:07:35 -0700 (PDT)
-Message-ID: <f26174aa-a6ca-151c-2602-2f39b40bb7da@linaro.org>
-Date:   Fri, 31 Mar 2023 09:07:34 +0100
+        Fri, 31 Mar 2023 04:08:51 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2194A1BC;
+        Fri, 31 Mar 2023 01:08:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8667DB82CDB;
+        Fri, 31 Mar 2023 08:08:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308B3C433D2;
+        Fri, 31 Mar 2023 08:08:45 +0000 (UTC)
+Message-ID: <ee171553-c8e4-1128-2a5a-db2b450f8224@xs4all.nl>
+Date:   Fri, 31 Mar 2023 10:08:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v7 0/4] media: camss: sm8250: Virtual channels support for
- SM8250
+Subject: Re: [PATCH] media: pvrusb2: clean up unneeded complexity in pvrusb2
+ class logic
 Content-Language: en-US
-To:     Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        "Milen Mitkov (Consultant) (QUIC)" <quic_mmitkov@quicinc.com>,
-        "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        Jigarkumar Zala <jzala@quicinc.com>,
-        "todor.too@gmail.com" <todor.too@gmail.com>,
-        "nicolas.dechesne@linaro.org" <nicolas.dechesne@linaro.org>
-Cc:     "agross@kernel.org" <agross@kernel.org>,
-        "konrad.dybcio@somainline.org" <konrad.dybcio@somainline.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        Chandan Gera <cgera@qti.qualcomm.com>,
-        Guru Chinnabhandar <gchinnab@quicinc.com>,
-        Alireza Yasan <ayasan@qti.qualcomm.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>
-References: <20221209094037.1148-1-quic_mmitkov@quicinc.com>
- <662d68f7-6160-263d-6e4d-e3687d5cf8eb@quicinc.com>
- <7565d38c-d8f4-39e0-8547-fbb511f6d649@quicinc.com>
- <894e3ce6-0f2b-608b-ec4e-09083704f429@linaro.org>
- <8243cc42-236c-20e3-74dc-1f130ab1dcf6@quicinc.com>
- <BYAPR02MB557503013F05BF1EA1E1300CC28F9@BYAPR02MB5575.namprd02.prod.outlook.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <BYAPR02MB557503013F05BF1EA1E1300CC28F9@BYAPR02MB5575.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     Mike Isely <isely@pobox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20230329060132.2688621-1-gregkh@linuxfoundation.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230329060132.2688621-1-gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/03/2023 07:20, Azam Sadiq Pasha Kapatrala Syed wrote:
-> + Nico (Linaro)
-> Hi Team
+On 29/03/2023 08:01, Greg Kroah-Hartman wrote:
+> The pvrusb2 driver struct class logic was dynamically creating a class
+> that should have just been static as it did not do anything special and
+> was only a wrapper around a stock "struct class" implementation.  Clean
+> this all up by making a static struct class and modifying the code to
+> correctly reference it.
 > 
-> Would like to know if anything is pending form our end as we want to get the patches mainlined?
+> By doing so, lots of unneeded lines of code were removed, and #ifdef
+> logic was cleaned up so that the .c files are not cluttered up with
+> extra complexity following the proper kernel coding style.
 > 
-> Thanks,
-> Azam
+> Cc: Mike Isely <isely@pobox.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-I'd like to get a clearer picture on this
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[   90.535909] qcom-camss ac6a000.camss: VFE HW Version = 2.0.1
-[   90.545756] qcom-camss ac6a000.camss: CSIPHY 3PH HW Version = 0x40010000
-[   90.546358] qcom-camss ac6a000.camss: CSID HW Version = 2.0.1
-[   90.546365] qcom-camss ac6a000.camss: csid_link_setup: Enabled CSID 
-virtual channels mask 0x1
-[   90.547675] qcom-camss ac6a000.camss: csid_link_setup: Enabled CSID 
-virtual channels mask 0x0
+> ---
+> Note: I would like to take this through the driver-core tree as I have
+> later struct class cleanups that depend on this change being made to the
+> tree if that's ok with the maintainer of this file.
 
-Using the IMX577 sensor on the RB5 we get his pretty odd virtual 
-channels mask.
+That's fine!
 
-If userspace is sending this in, the question I have is why. Surely with 
-a sensor that doesn't have a VC there should be no impact on user-space.
+Regards,
 
----
-bod
+	Hans
+
+> 
+>  drivers/media/usb/pvrusb2/pvrusb2-main.c  | 18 ++-----
+>  drivers/media/usb/pvrusb2/pvrusb2-sysfs.c | 59 +++++++----------------
+>  drivers/media/usb/pvrusb2/pvrusb2-sysfs.h | 16 +++---
+>  3 files changed, 29 insertions(+), 64 deletions(-)
+> 
+> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-main.c b/drivers/media/usb/pvrusb2/pvrusb2-main.c
+> index ce4d566e4e5a..721dafd2c14b 100644
+> --- a/drivers/media/usb/pvrusb2/pvrusb2-main.c
+> +++ b/drivers/media/usb/pvrusb2/pvrusb2-main.c
+> @@ -16,9 +16,7 @@
+>  #include "pvrusb2-context.h"
+>  #include "pvrusb2-debug.h"
+>  #include "pvrusb2-v4l2.h"
+> -#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+>  #include "pvrusb2-sysfs.h"
+> -#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+>  
+>  #define DRIVER_AUTHOR "Mike Isely <isely@pobox.com>"
+>  #define DRIVER_DESC "Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner"
+> @@ -36,10 +34,6 @@ int pvrusb2_debug = DEFAULT_DEBUG_MASK;
+>  module_param_named(debug,pvrusb2_debug,int,S_IRUGO|S_IWUSR);
+>  MODULE_PARM_DESC(debug, "Debug trace mask");
+>  
+> -#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+> -static struct pvr2_sysfs_class *class_ptr = NULL;
+> -#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+> -
+>  static void pvr_setup_attach(struct pvr2_context *pvr)
+>  {
+>  	/* Create association with v4l layer */
+> @@ -48,9 +42,7 @@ static void pvr_setup_attach(struct pvr2_context *pvr)
+>  	/* Create association with dvb layer */
+>  	pvr2_dvb_create(pvr);
+>  #endif
+> -#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+> -	pvr2_sysfs_create(pvr,class_ptr);
+> -#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+> +	pvr2_sysfs_create(pvr);
+>  }
+>  
+>  static int pvr_probe(struct usb_interface *intf,
+> @@ -115,9 +107,7 @@ static int __init pvr_init(void)
+>  		return ret;
+>  	}
+>  
+> -#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+> -	class_ptr = pvr2_sysfs_class_create();
+> -#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+> +	pvr2_sysfs_class_create();
+>  
+>  	ret = usb_register(&pvr_driver);
+>  
+> @@ -141,9 +131,7 @@ static void __exit pvr_exit(void)
+>  
+>  	pvr2_context_global_done();
+>  
+> -#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+> -	pvr2_sysfs_class_destroy(class_ptr);
+> -#endif /* CONFIG_VIDEO_PVRUSB2_SYSFS */
+> +	pvr2_sysfs_class_destroy();
+>  
+>  	pvr2_trace(PVR2_TRACE_INIT,"pvr_exit complete");
+>  }
+> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+> index 3e42e209be37..a8c0b513e58e 100644
+> --- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+> +++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
+> @@ -66,10 +66,6 @@ struct pvr2_sysfs_ctl_item {
+>  	char name[80];
+>  };
+>  
+> -struct pvr2_sysfs_class {
+> -	struct class class;
+> -};
+> -
+>  static ssize_t show_name(struct device *class_dev,
+>  			 struct device_attribute *attr,
+>  			 char *buf)
+> @@ -487,15 +483,6 @@ static void pvr2_sysfs_tear_down_controls(struct pvr2_sysfs *sfp)
+>  }
+>  
+>  
+> -static void pvr2_sysfs_class_release(struct class *class)
+> -{
+> -	struct pvr2_sysfs_class *clp;
+> -	clp = container_of(class,struct pvr2_sysfs_class,class);
+> -	pvr2_sysfs_trace("Destroying pvr2_sysfs_class id=%p",clp);
+> -	kfree(clp);
+> -}
+> -
+> -
+>  static void pvr2_sysfs_release(struct device *class_dev)
+>  {
+>  	pvr2_sysfs_trace("Releasing class_dev id=%p",class_dev);
+> @@ -503,6 +490,12 @@ static void pvr2_sysfs_release(struct device *class_dev)
+>  }
+>  
+>  
+> +static struct class pvr2_class = {
+> +	.name		= "pvrusb2",
+> +	.dev_release	= pvr2_sysfs_release,
+> +};
+> +
+> +
+>  static void class_dev_destroy(struct pvr2_sysfs *sfp)
+>  {
+>  	struct device *dev;
+> @@ -614,8 +607,7 @@ static ssize_t unit_number_show(struct device *class_dev,
+>  }
+>  
+>  
+> -static void class_dev_create(struct pvr2_sysfs *sfp,
+> -			     struct pvr2_sysfs_class *class_ptr)
+> +static void class_dev_create(struct pvr2_sysfs *sfp)
+>  {
+>  	struct usb_device *usb_dev;
+>  	struct device *class_dev;
+> @@ -628,7 +620,7 @@ static void class_dev_create(struct pvr2_sysfs *sfp,
+>  
+>  	pvr2_sysfs_trace("Creating class_dev id=%p",class_dev);
+>  
+> -	class_dev->class = &class_ptr->class;
+> +	class_dev->class = &pvr2_class;
+>  
+>  	dev_set_name(class_dev, "%s",
+>  		     pvr2_hdw_get_device_identifier(sfp->channel.hdw));
+> @@ -753,47 +745,30 @@ static void pvr2_sysfs_internal_check(struct pvr2_channel *chp)
+>  }
+>  
+>  
+> -struct pvr2_sysfs *pvr2_sysfs_create(struct pvr2_context *mp,
+> -				     struct pvr2_sysfs_class *class_ptr)
+> +void pvr2_sysfs_create(struct pvr2_context *mp)
+>  {
+>  	struct pvr2_sysfs *sfp;
+>  	sfp = kzalloc(sizeof(*sfp),GFP_KERNEL);
+> -	if (!sfp) return sfp;
+> +	if (!sfp)
+> +		return;
+>  	pvr2_trace(PVR2_TRACE_STRUCT,"Creating pvr2_sysfs id=%p",sfp);
+>  	pvr2_channel_init(&sfp->channel,mp);
+>  	sfp->channel.check_func = pvr2_sysfs_internal_check;
+>  
+> -	class_dev_create(sfp,class_ptr);
+> -	return sfp;
+> +	class_dev_create(sfp);
+>  }
+>  
+>  
+> -
+> -struct pvr2_sysfs_class *pvr2_sysfs_class_create(void)
+> +void pvr2_sysfs_class_create(void)
+>  {
+> -	struct pvr2_sysfs_class *clp;
+> -	clp = kzalloc(sizeof(*clp),GFP_KERNEL);
+> -	if (!clp) return clp;
+> -	pvr2_sysfs_trace("Creating and registering pvr2_sysfs_class id=%p",
+> -			 clp);
+> -	clp->class.name = "pvrusb2";
+> -	clp->class.class_release = pvr2_sysfs_class_release;
+> -	clp->class.dev_release = pvr2_sysfs_release;
+> -	if (class_register(&clp->class)) {
+> -		pvr2_sysfs_trace(
+> -			"Registration failed for pvr2_sysfs_class id=%p",clp);
+> -		kfree(clp);
+> -		clp = NULL;
+> -	}
+> -	return clp;
+> +	if (class_register(&pvr2_class))
+> +		pvr2_sysfs_trace("Registration failed for pvr2_sysfs_class");
+>  }
+>  
+>  
+> -void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *clp)
+> +void pvr2_sysfs_class_destroy(void)
+>  {
+> -	pvr2_sysfs_trace("Unregistering pvr2_sysfs_class id=%p", clp);
+> -	if (clp)
+> -		class_unregister(&clp->class);
+> +	class_unregister(&pvr2_class);
+>  }
+>  
+>  
+> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
+> index ac580ff39b5f..375a5372e95c 100644
+> --- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
+> +++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.h
+> @@ -10,13 +10,15 @@
+>  #include <linux/sysfs.h>
+>  #include "pvrusb2-context.h"
+>  
+> -struct pvr2_sysfs;
+> -struct pvr2_sysfs_class;
+> +#ifdef CONFIG_VIDEO_PVRUSB2_SYSFS
+> +void pvr2_sysfs_class_create(void);
+> +void pvr2_sysfs_class_destroy(void);
+> +void pvr2_sysfs_create(struct pvr2_context *mp);
+> +#else
+> +static inline void pvr2_sysfs_class_create(void) { }
+> +static inline void pvr2_sysfs_class_destroy(void) { }
+> +static inline void pvr2_sysfs_create(struct pvr2_context *mp) { }
+> +#endif
+>  
+> -struct pvr2_sysfs_class *pvr2_sysfs_class_create(void);
+> -void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *);
+> -
+> -struct pvr2_sysfs *pvr2_sysfs_create(struct pvr2_context *,
+> -				     struct pvr2_sysfs_class *);
+>  
+>  #endif /* __PVRUSB2_SYSFS_H */
+
