@@ -2,119 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ECB66D1C78
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 11:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 555086D1CC9
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 11:43:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232204AbjCaJeJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 05:34:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40386 "EHLO
+        id S232000AbjCaJnZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 05:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232127AbjCaJdz (ORCPT
+        with ESMTP id S232054AbjCaJnP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 05:33:55 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2386F1D2F7;
-        Fri, 31 Mar 2023 02:33:26 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        Fri, 31 Mar 2023 05:43:15 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6F51F783;
+        Fri, 31 Mar 2023 02:42:49 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Pnw7y6y75z49QHd;
-        Fri, 31 Mar 2023 12:33:18 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1680255203;
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4PnwLD2CtzzyRB;
+        Fri, 31 Mar 2023 12:42:12 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1680255734;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=3gdxuNf+Axr67LtZ9uJ4KzAt1BhlIlNW7JVJbQsQ2a4=;
-        b=uXy9sQTh/lvsZhI8D39u2L7eRoKWTZqYrBObxWhgUi19wSqbDOo4bkQAA+JNPylXaevKjR
-        wX/cLSrqWnxfqJwi4d4ID9rAxNsHIQ112pOwbAz1+s30nbtRPb6oqSXDqy0o4h7CfBdn81
-        s1JlPIRZe3B6HLaH92Oc2D9xJ34xUDkPrP/OS869Ave1kMhR/xsCCUgB4wRAPKdfbzqn8Q
-        4NBmnKpHUV3JDk48b1eihaTahad1sEMxctjY6q+Mq3Mf/JTxKV3XBLkyiQBlnv++n6jGvW
-        yezJnJeADvPG6kYbfW+aVWBXvLybXRjXRe60kZFJgPe2xX0mMZR7Lch8VRNzcg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1680255203; a=rsa-sha256;
-        cv=none;
-        b=Y2mZwfIhcSXk29ca9bHqTLn/zar/UzrZyA15qi7nfy1qho/19EEqw6j7C++olU6O/EUuKU
-        B73TSoLjdSUX5WFyBllNzObNCbJXuRpOSRgBgBK3g8xAchzvJOMYNwAh/cO0vFbwaSOjLO
-        W57CeqdPyNDzZMbFKXxktS6jOQQf77Ed8EhR3rB1SsZFqGMfgZ1PCVbGLAnhW41lId6jf7
-        IB8nQDQboFRYhBKJR5eC2GYQbfmhaCsdtitIvOYg3sNpbt5sLSVuLlgp1bElmbkenu+2rB
-        oFaropMfL/y7VZmCxvcb3bmKAx/tUBavgkBuB4pwuJyqT4vlrmiCXgXks7v1EQ==
+        bh=puXl1O5LTLm6mQC1hY7tBUYCwI/kPsGafEK/CuEAVhM=;
+        b=J8sJddVL9ds5RZrJJVE6QICLnEV+Q9LHZ3tVXQLhln9EOv4JZIIC3LBuXaj1ZsSrkZa9w1
+        og3HojgJki8ayz+ESSOdoY8S6QuOWuFEsaIiOLBNRQjxQnx3O7ZlOg6uhTaSkMava9NMhL
+        U3tRe1L9TtmAIV8EHwlxC9E5XE1pcsk=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1680255734; a=rsa-sha256; cv=none;
+        b=tAa0IExFH7cbCQ2EDGsYFAeoVVC77NOWpDz8LScrE6s6R0r7Y3vaxujy9NXEdFmoA0Yxg4
+        bFb0iQFY0ajiHBi9ZZJYyXEOQTEddl9VlwRuMN4fS8NLzD9khLqmPy9rFHhHoC+a0WwvTV
+        eOe8iUQii5P/kjSunKAurL6TyVoyOo8=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1680255203;
+        s=meesny; t=1680255734;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=3gdxuNf+Axr67LtZ9uJ4KzAt1BhlIlNW7JVJbQsQ2a4=;
-        b=E2uOv63ikqvai+QjOg9zREzxnZCJkC84meEtQzTTa7nzCuzXVI/dbifCOExzIHLQM+BepV
-        EhNPoaAmQE2hr0gXNblU6SPC5ScIEEimrRd6DPY63TxoJS0wWHczl2ukMPynVMubfz6EpD
-        +T6xspQJ+7wT8ELSfD0u8gPTVc0hH6hzm3iHcSdXGG24mqVNCEDwlhgjnLaH+fGLfKAhaa
-        JmbkXn/Bp2/+tNw6qjbUHnekPOVMDTR/SQcDPFtlSFpR8xDynoJrmaIN2I5J4xnWeLb3wS
-        U/KGktAh2MVh6tv7vpwbCl7mMQXJIK4IMlAWJDRshfxdjuNAysNfaJKHXHR4xg==
+        bh=puXl1O5LTLm6mQC1hY7tBUYCwI/kPsGafEK/CuEAVhM=;
+        b=d6sCkbwuvAkqzIyKF1nM1fVHhznKjvI5Jza4Ahb0FDDIdZrz/VMR5XqnNLd6/kPnSn+x8L
+        cEw5mhMGG3Vc17amBKOhb483aKjp6NW6K5CUWFo+TVwpby55wuV70/2wcBKiji7DchldNY
+        s5xt9+D4z5TiVc32lFsLpFzLNJe9usg=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D0C70634C99;
-        Fri, 31 Mar 2023 12:31:03 +0300 (EEST)
-Date:   Fri, 31 Mar 2023 12:31:03 +0300
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 03A26634C99;
+        Fri, 31 Mar 2023 12:39:56 +0300 (EEST)
+Date:   Fri, 31 Mar 2023 12:39:56 +0300
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Joe Tessler <jrt@google.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Benoit Parrot <bparrot@ti.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
-Message-ID: <ZCaoVwRuxVOTZdI4@valkosipuli.retiisi.eu>
-References: <20230320233944.2920964-1-robh@kernel.org>
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 2/3] media: dt-bindings: ov2685: convert to dtschema
+Message-ID: <ZCaqbL4plknXYPCT@valkosipuli.retiisi.eu>
+References: <20230129-ov2685-improvements-v4-0-e71985c5c848@z3ntu.xyz>
+ <20230129-ov2685-improvements-v4-2-e71985c5c848@z3ntu.xyz>
+ <ZCacNEbg8cJo0VAm@valkosipuli.retiisi.eu>
+ <9AF47749-12CB-40D5-A300-170A35390CFD@z3ntu.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320233944.2920964-1-robh@kernel.org>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+In-Reply-To: <9AF47749-12CB-40D5-A300-170A35390CFD@z3ntu.xyz>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -122,21 +84,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi Luca,
 
-On Mon, Mar 20, 2023 at 06:39:42PM -0500, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+On Fri, Mar 31, 2023 at 11:18:29AM +0200, Luca Weiss wrote:
+> >> +        properties:
+> >> +          data-lanes:
+> >> +            maxItems: 1
+> >
+> >This should be 2 --- the sensor supports two lanes (even if the driver
+> >doesn't).
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Right, for some reason the product brief mentions that it features "a
+> single-lane MIPI interface" but the datasheet I have writes that it has a
+> 2-lane MIPI serial output, so I guess it does support two lanes?
 
-This patch contains changes to Qualcomm bindings that have been already
-made by other patches by Krzysztof. I think these took some time to get
-merged to the media tree.
+I suppose the datasheet is right. Well, if someone proves otherwise, we can
+always change this.
 
-I've dropped those, the result is here:
+> 
+> >
+> >I can address this when applying if that's ok.
+> 
+> That would be nice, thanks!
 
-<URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?id=d75cae0884e80bba486f85e82b33a1dae3c9c976>
+Done, thanks!
 
 -- 
 Kind regards,
