@@ -2,74 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DDCE6D23DF
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5896D2404
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:30:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233054AbjCaPUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 11:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        id S232439AbjCaPav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 11:30:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232710AbjCaPUN (ORCPT
+        with ESMTP id S232590AbjCaPau (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 11:20:13 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F402D43
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:20:12 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id g9so16535024qvt.8
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:20:12 -0700 (PDT)
+        Fri, 31 Mar 2023 11:30:50 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9EA11D2E7
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:30:47 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id k37so29470011lfv.0
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680276012;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cwobtvlu1ApCEa1mWvDaiiIx0D8/aosKTXPfSOE5S6o=;
-        b=QJSPoywaO0m7h68iu3eDbeHedBVSgLj+mDP5AeRmUcQQBFoA1dRd8/32uNuU5OQoYw
-         APXYxRRawaw/eWkf40t+JgcrS6Pngh3q1jAmNC31QF0yiKmLo/S/MoAO3V+TyxS50/uO
-         qoDM5EeuK6iZDK0ZefkIuyyh66Lp7idbaP/tDSwOHkQxLplswBqrAmuEKbu1hJhIJ1w4
-         X7zpq4C9qnPM2JlRTfzaKjYF7GYQWEz6E0d2xJiLtwuP46VYvO2XyRSJpNbDTHp7B/eQ
-         3wuBes6k2WJ9mQuuih8+dzN4rQlbbuV5SNe7qAm+J8j4P9uvE7ib/HX3G6XB3tuAlqSh
-         z3gA==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680276646;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6A0iWjO3lEyBsPaMGHtQd+BJD8tKNmM9E/ONQ1qr1SM=;
+        b=LkFgRfPeFp/22S5euUb4OH6Lb5B6FGAqmU6JcIMbkQMDclMy9HM2TsKtQGzptucalQ
+         GRsYBVyRN51WNzia2nlyopOLglIN2uRM3O45Mv6b1phweAjPhXsiLG3riIDe7qkyPCws
+         30F1DGBkW9tZrcKptQYOYgdDaeOepY5D3uf6gTfgs5nahxwLhTYbgbtpkezNoF6RQzoX
+         Jo+CtOtcvYsJBMXbnAkc6NbePi9qp20UxIl8WpiieJ/EwpnUzyk6lqT5xrKvbs+6BN4f
+         ZckBg0zrEIJgm4/nZbbwM1bZ4EOoUQtTbi6xLWHRaE6yjpKE2E8+pXPx4TTgJunzYqge
+         1wcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680276012;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cwobtvlu1ApCEa1mWvDaiiIx0D8/aosKTXPfSOE5S6o=;
-        b=Eg6ECrMNvB19BAmEwd868WzBNAtFvYU1LYnDXaUq97JqLgSfkqHu0zR41tVbhH+Hpk
-         KquD136ErqUU2KtH17eoR58rN+rw5oQjTJRXnmeXqCaI8oy7Pfni+b5F2+ZXJF8fbamm
-         vPNxFk+LHQyRNB5Mu0oScEjBejny5e4jr2BA+u1+omnbeCJpMbZRqNhcM/s7vT0ToVtF
-         vGyYQu6/cBLItUNi88bI4dZO8Z5y1PhyGJ9voiMDHas5fbrO1rZ1Y9PUyX41ka2pUAW6
-         mFCJlP5BYv3UV3tKw22Hs0q87ohUyKZASs2r++J/P7tBYDZn+20LG0iJdjYy29+qmSaD
-         dYFg==
-X-Gm-Message-State: AAQBX9cH1I2yI9C1+XnNMTdT5KFMmdRRTH3vZ1epNUbOmxgvrDUHQWOw
-        3LI74PQ18l5+//CBL5f09KsXEg==
-X-Google-Smtp-Source: AKy350ZLa5XcprT/+Eis3sIfxUEgg4anw3KcRdAqzKFKQ+/JzSzTBaKU52DQJgcOf72oHNOKmWeACA==
-X-Received: by 2002:a05:6214:27e5:b0:5df:44f2:e97d with SMTP id jt5-20020a05621427e500b005df44f2e97dmr15254434qvb.19.1680276012017;
-        Fri, 31 Mar 2023 08:20:12 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
-        by smtp.gmail.com with ESMTPSA id ml11-20020a056214584b00b005dd8b9345aasm653254qvb.66.2023.03.31.08.20.11
+        d=1e100.net; s=20210112; t=1680276646;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6A0iWjO3lEyBsPaMGHtQd+BJD8tKNmM9E/ONQ1qr1SM=;
+        b=vqRjCTnpBgBE2W6r3diUKLFY6HZ9mUHaN0r4j7poqreYb+YvrbWnPDh76FEQEGsBdU
+         gX+LlRMR2buRt+VS6fms1nDDa7a/Tq9kgdpTQTTgGphRiuRpeeE+DSVIWBMS+6fKggRi
+         6EDIPSqQytuaXISBDgsqtKdHE1Lnb0qpAqx87KPe/EykQHlAksHd9rYIhdPpa32aGyJ3
+         8S4pO4dDVfHXDA+TcnnuQTJwGd4PwHPC56ubmJy/z02S9NWT+mdi7eECzAAUZ3xp3tFF
+         y+jcODT6JxlQHqXc8RozULrITnK+v6CSKtyVf1/J9TT80IH0pn6jtusJ/vfHG9y+78aD
+         rM/A==
+X-Gm-Message-State: AAQBX9dNxPjmvy+puUxvjsKn9UH/o4sO2/8zs0R8PTrzT0vLQ+woixcJ
+        sXNYeucevPeBf+8ZmDc7G1veUw==
+X-Google-Smtp-Source: AKy350YepSvuw2t6ZjhbyE64IUjssjT5anPkoiKQnBEdq9dZJrA10z16qjpoc2CUOMaPBfuz3d57Zw==
+X-Received: by 2002:a05:6512:38a9:b0:4eb:10b:a8ed with SMTP id o9-20020a05651238a900b004eb010ba8edmr7665971lft.64.1680276646126;
+        Fri, 31 Mar 2023 08:30:46 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id l13-20020ac24a8d000000b004b550c26949sm411994lfp.290.2023.03.31.08.30.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 08:20:11 -0700 (PDT)
-Message-ID: <df3e49a5f8c03cf9b67698d008cd1b99578835a2.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: mediatek: vcodec: Fix potential array
- out-of-bounds in decoder queue_setup
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com
-Cc:     andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Date:   Fri, 31 Mar 2023 11:20:10 -0400
-In-Reply-To: <20230328100951.536955-1-harperchen1110@gmail.com>
-References: <20230328100951.536955-1-harperchen1110@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Fri, 31 Mar 2023 08:30:45 -0700 (PDT)
+Date:   Fri, 31 Mar 2023 17:30:45 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: falcon-csi-dsi: Set bus-type for
+ MAX96712
+Message-ID: <ZCb8pZic2NILOER/@oden.dyn.berto.se>
+References: <20230331141431.3820311-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWXxUy67noYCq3d2HOKD0rvzmoL=xPGHZ=0GjToJosNNA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWXxUy67noYCq3d2HOKD0rvzmoL=xPGHZ=0GjToJosNNA@mail.gmail.com>
 X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,51 +76,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Geert,
 
-Le mardi 28 mars 2023 =C3=A0 10:09 +0000, Wei Chen a =C3=A9crit=C2=A0:
-> variable *nplanes is provided by user via system call argument. The
-> possible value of q_data->fmt->num_planes is 1-3, while the value
-> of *nplanes can be 1-8. The array access by index i can cause array
-> out-of-bounds.
->=20
-> Fix this bug by checking *nplanes against the array size.
->=20
-> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
-> ---
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/dr=
-ivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> index 641f533c417f..cae34cc7c807 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-> @@ -753,6 +753,13 @@ int vb2ops_vdec_queue_setup(struct vb2_queue *vq, un=
-signed int *nbuffers,
->  	}
-> =20
->  	if (*nplanes) {
-> +		if (vq->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +			if (*nplanes !=3D q_data->fmt->num_planes)
-> +				return -EINVAL;
-> +		else
-> +			if (*nplanes !=3D 1)
-> +				return -EINVAL;
-> +
->  		for (i =3D 0; i < *nplanes; i++) {
->  			if (sizes[i] < q_data->sizeimage[i])
->  				return -EINVAL;
+Thanks for your comments.
 
+On 2023-03-31 17:08:50 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> Thanks for your patch!
+> 
+> On Fri, Mar 31, 2023 at 4:15 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Specify the bus-type property for all three connected MAX96712.
+> 
+> Probably this can use a little bit more explanation?
+> E.g. what does not work?
 
-A bit of context, *nplanes is non zero only when called from VIDIOC_CREATE_=
-BUFS.
-I think this highlights a bigger problem around the format in
-VIDIOC_CREATE_BUFS. The format should be validated through TRY_FMT in some =
-ways,
-notably to apply the HW required alignment, but also to avoid having to val=
-idate
-that lower in the stack.
+Everything works both with and without this patch. This is done in 
+preparation to making the property mandatory. The default behavior when 
+parsing a node without this property is to default to D-PHY. So this is 
+just playing it safe and future prof tings as the default parsing comes 
+from the V4L2 core and not the driver itself.
 
-Nicolas
+> 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> LGTM, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Does this need a Fixes: tag?
+> Fixes: 283252132cb578cf ("arm64: dts: renesas: falcon-csi-dsi: Add and
+> connect MAX96712")
+> 
+> Note that a backport to v6.1 and earlier will depend on a backport of
+> commit f7eeb00845934851 ("media: dt-bindings: media: Add macros for
+> video interface bus types") in v6.2, too.
 
+In a perfect word it would. But since the change is backward compatible 
+I'm not sure it's worth the effort given the dependency on the macro 
+definitions? If you think this is a good idea maybe a separate patch 
+posted for stable that uses the numerical values directly?
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+-- 
+Kind Regards,
+Niklas Söderlund
