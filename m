@@ -2,74 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 705FE6D2423
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 623E76D242F
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:41:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232852AbjCaPjd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 11:39:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59248 "EHLO
+        id S232223AbjCaPle convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 31 Mar 2023 11:41:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232735AbjCaPjc (ORCPT
+        with ESMTP id S229967AbjCaPlc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 11:39:32 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04E571DFA6
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:39:30 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id c29so29473408lfv.3
-        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680277169;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=N+as+NayVksRu6SDWg6aXR/sKU+BcGjHDT4W4PKmc8s=;
-        b=GO3ibCXGaCQSV4fx7fCxdObCCXVAX9pEETTq39QCNWBveM8SAJi3UbzHWECIv5MoaO
-         ++X6X44GVwoEFoLv0nX5oCN20JJjy5EekaLxOHitjSoYl9I1XM4tKxEeyGo5T76sRT1Z
-         CwuOZtiDMv8WjbbQoKOBT6TobPil9+7bisgAC+TFyrxo2EaAg2QJD0H6QOd/U27SDAqg
-         vD2/4nlVhb+zZBhTZOFXa91zKk4RNoKGcLjeuotxPFgY//e5heRC6AgQIhwO7ctymeRZ
-         8+eGW36C8VwNhXI8ErfINEVyP5wNAvYD8g0DkLGUbftl5yUjtnbwY65hA2TPajSHgGFs
-         W2Bw==
+        Fri, 31 Mar 2023 11:41:32 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22C64C35;
+        Fri, 31 Mar 2023 08:41:31 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-54601d90118so266500797b3.12;
+        Fri, 31 Mar 2023 08:41:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680277169;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N+as+NayVksRu6SDWg6aXR/sKU+BcGjHDT4W4PKmc8s=;
-        b=X03fheXuY/e1cLxtkYD8g2rXzEczP++SCNw4eZ8qHXByUHzJ1zVxHhU13V6n/W913l
-         +K26B5Nd5MNMn0wPb1hs+8WcxS0T8e4PV+6c5zhKCCEFRKBHQzL09/2DJHAfLyeZZwsO
-         RouP45OwNszAbkHxKpjBCrWNYZzbl2JGQ+xJlZdfYRUGcOSWQ5nEd5JiEaquijWK1f65
-         yupdW0Db2awBSvDyu5Ca+flp2NoEVGJnyNK8/26l3bNM2e68HgdN4OrjjWPQpRpcN6pX
-         XH/8T0Pzt8reEF+kuL4Msg2FD8FEKCcibQDtqZ1j2k7vtN7xvmbl4NxtceZnH99VyKZg
-         grQA==
-X-Gm-Message-State: AAQBX9flFDnRoK7YjcwqZ1/fdoEI25r1Xcqo50qDypjk0H8O324r2JVj
-        Q8qvKaZsxoDGywjh+Ej9llC37kBQe0BIqfAbWKvjdg==
-X-Google-Smtp-Source: AKy350Y5TIECnO9hqjIWB11Jhi5O0RsRMMvnaWdJIBUVBZfdlBnzQF9wxjQDP6Gr3BDvlKKt6CY9Fg==
-X-Received: by 2002:ac2:44b4:0:b0:4eb:c85:bdc2 with SMTP id c20-20020ac244b4000000b004eb0c85bdc2mr7269144lfm.2.1680277168831;
-        Fri, 31 Mar 2023 08:39:28 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id q27-20020ac25a1b000000b004ea887347c2sm420733lfn.211.2023.03.31.08.39.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 08:39:28 -0700 (PDT)
-Date:   Fri, 31 Mar 2023 17:39:27 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        d=1e100.net; s=20210112; t=1680277290;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PgxC0qijgs744nSQRmKCAm4LhEekXjRl+Ej8SDIB8FI=;
+        b=NH0L8ArU8tRtFM+kaiR/xat1SKfbmQt7Lzzyl5mEYLT8pjJrrxu5Og2kMg1We9Vtyo
+         oq4DgKc/jawvaCGauBgSJ1fNwqXHx817tpvKHT59epYHxNXdE1l8BN17UsFLxvX9zphf
+         MeeOUQp/peeHzcj3KUAm4KQqpTOVf4UOJii3kgIFBIOMAAJHITHUPXSsr+8kSCNzQiMC
+         p22P62og6fmH61He7JgJ/AnoviknAOlkKYPB3SWeszgJ1s6lF+Oott/lv/aCqwd4xaCw
+         3CGNw3keK0/K64A6IMC4Sv6tda1/Hhwutl8jiOmZ/tdQwcno7Ng25Lb/uvtl/9VdLOE2
+         2LeQ==
+X-Gm-Message-State: AAQBX9eO97K5tiPoAWpOCcKOeKxP9a4JksgsRunPwhLu3wEaaUbg5VkZ
+        ABR4mlo4NcrmM+biMbcgLZ5gVpZCQSp9Bg==
+X-Google-Smtp-Source: AKy350ZuvMARbwW4frqW9ccfMEPDz1Su+1tDa9NsuEFcGWzQq1qWXzBLdF56szdXDg1eKSsTLSioig==
+X-Received: by 2002:a0d:c241:0:b0:541:676f:b3e with SMTP id e62-20020a0dc241000000b00541676f0b3emr25840903ywd.39.1680277290588;
+        Fri, 31 Mar 2023 08:41:30 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id t4-20020a817804000000b00545a0818493sm599112ywc.35.2023.03.31.08.41.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Mar 2023 08:41:30 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id r187so27877910ybr.6;
+        Fri, 31 Mar 2023 08:41:29 -0700 (PDT)
+X-Received: by 2002:a25:bb85:0:b0:b7c:1144:a708 with SMTP id
+ y5-20020a25bb85000000b00b7c1144a708mr11537151ybg.12.1680277289547; Fri, 31
+ Mar 2023 08:41:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com> <ZCb+r/IoEtf6RO5O@oden.dyn.berto.se>
+In-Reply-To: <ZCb+r/IoEtf6RO5O@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 31 Mar 2023 17:41:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWiUwmc29-K7XOUeUk8WQ-cgJAxJm+dNOOX700uCOM6Cw@mail.gmail.com>
+Message-ID: <CAMuHMdWiUwmc29-K7XOUeUk8WQ-cgJAxJm+dNOOX700uCOM6Cw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Require setting
+ bus-type property
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Require setting
- bus-type property
-Message-ID: <ZCb+r/IoEtf6RO5O@oden.dyn.berto.se>
-References: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com>
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,90 +71,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Hi Niklas,
 
-On 2023-03-31 17:14:42 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Fri, Mar 31, 2023 at 4:15 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > The MAX96712 can support both CSI-2 C-PHY and D-PHY bus. Document the
-> > supported bus-types and make the property mandatory.
+On Fri, Mar 31, 2023 at 5:39 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2023-03-31 17:14:42 +0200, Geert Uytterhoeven wrote:
+> > On Fri, Mar 31, 2023 at 4:15 PM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > The MAX96712 can support both CSI-2 C-PHY and D-PHY bus. Document the
+> > > supported bus-types and make the property mandatory.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Thanks for your patch!
-> 
-> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> > @@ -65,9 +65,14 @@ properties:
+> > Thanks for your patch!
 > >
-> >              properties:
-> >                data-lanes: true
-> > +              bus-type:
-> > +                enum:
-> > +                  - 1 # CSI-2 C-PHY
-> > +                  - 4 # CSI-2 D-PHY
-> 
-> Perhaps use/refer to the symbolic names, too?
-
-I tired that, but dt_binding_check complained.
-
-$ cat Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-...
-  bus-type:
-    enum:
-      - MEDIA_BUS_TYPE_CSI2_CPHY
-      - MEDIA_BUS_TYPE_CSI2_DPHY
-...
-
-$ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-...
-.../obj/Documentation/devicetree/bindings/media/i2c/maxim,max96712.example.dtb: 
-gmsl-deserializer@49: ports:port@4:endpoint:bus-type:0: [4] is not one of ['MEDIA_BUS_TYPE_CSI2_CPHY', 'MEDIA_BUS_TYPE_CSI2_DPHY']
-
-Or did I misunderstand you? I checked other bindings and the numerical 
-values where used in all media/i2c bindings.
-
-> 
-> Sounds like an opportunity for improvement for
-> Documentation/devicetree/bindings/media/video-interfaces.yaml, too.
-> 
+> > > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> > > @@ -65,9 +65,14 @@ properties:
+> > >
+> > >              properties:
+> > >                data-lanes: true
+> > > +              bus-type:
+> > > +                enum:
+> > > +                  - 1 # CSI-2 C-PHY
+> > > +                  - 4 # CSI-2 D-PHY
 > >
-> >              required:
-> >                - data-lanes
-> > +              - bus-type
-> >
-> >      required:
-> >        - port@4
-> > @@ -82,6 +87,7 @@ additionalProperties: false
-> >  examples:
-> >    - |
-> >      #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/media/video-interfaces.h>
-> >
-> >      i2c@e6508000 {
-> >              #address-cells = <1>;
-> > @@ -101,6 +107,7 @@ examples:
-> >                              port@4 {
-> >                                      reg = <4>;
-> >                                      max96712_out0: endpoint {
-> > +                                            bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> >                                              clock-lanes = <0>;
-> >                                              data-lanes = <1 2 3 4>;
-> >                                              remote-endpoint = <&csi40_in>;
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> > Perhaps use/refer to the symbolic names, too?
+>
+> I tired that, but dt_binding_check complained.
+>
+> $ cat Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> ...
+>   bus-type:
+>     enum:
+>       - MEDIA_BUS_TYPE_CSI2_CPHY
+>       - MEDIA_BUS_TYPE_CSI2_DPHY
+> ...
+>
+> $ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> ...
+> .../obj/Documentation/devicetree/bindings/media/i2c/maxim,max96712.example.dtb:
+> gmsl-deserializer@49: ports:port@4:endpoint:bus-type:0: [4] is not one of ['MEDIA_BUS_TYPE_CSI2_CPHY', 'MEDIA_BUS_TYPE_CSI2_DPHY']
+>
+> Or did I misunderstand you? I checked other bindings and the numerical
+> values where used in all media/i2c bindings.
+
+Yeah, I don't think you can do it that way.
+But this should work:
+
+     - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
+     - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
