@@ -2,280 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 271AD6D215E
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 15:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 948B06D216E
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 15:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232239AbjCaNTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 09:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53942 "EHLO
+        id S231992AbjCaNYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 09:24:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231775AbjCaNTZ (ORCPT
+        with ESMTP id S231311AbjCaNYJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 09:19:25 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D1AE7DB2;
-        Fri, 31 Mar 2023 06:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680268764; x=1711804764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gxic0WeyAasMhMzpUzw3VNflVXphLY/Tnxv/avoryWE=;
-  b=bRQRSBk4VO/FcOehCrEnPBQuayDjGUN0r+enLyVU6XlzH/Q1AembXjK+
-   ArDksKPTLtovHPxc6FuK7E31OfTFwMCgprinP+AhT05l6n4SdbuvMEch8
-   fqVKotGmjCZRocK/DadcACt+12xOi49DXaA3NNL0psb1ekhFWolfCbvZG
-   wAzhorK6J8h+3qoPiMSs/XFUHDseogo52xDn+M4Rswu1I6g8Ft6iiPPIl
-   LzGX/Pltb910R1d98tylfckDhwzz+VKvH0l3dN+n5JCTDdXNea4JJGT4W
-   4x0iEHeAyAExmQ++XNmQ2KTUUzyF+l/Jjnp6xyVZ6Bv1yEAgwYZrmyWw6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="340172745"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="340172745"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 06:19:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="717708084"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
-   d="scan'208";a="717708084"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 06:19:16 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 6480E11F931;
-        Fri, 31 Mar 2023 16:19:13 +0300 (EEST)
-Date:   Fri, 31 Mar 2023 16:19:13 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Vaishnav Achath <vaishnav.a@ti.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        mripard@kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-        linux-kernel@vger.kernel.org, bparrot@ti.com,
-        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
-        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
-        nm@ti.com, martyn.welch@collabora.com
-Subject: Re: [PATCH v7 04/13] media: cadence: csi2rx: Add external DPHY
- support
-Message-ID: <ZCbd0a9xkfSkNjgT@kekkonen.localdomain>
-References: <20230314115516.667-1-vaishnav.a@ti.com>
- <20230314115516.667-5-vaishnav.a@ti.com>
+        Fri, 31 Mar 2023 09:24:09 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB7C1A453
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 06:24:07 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id bi9so28818446lfb.12
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 06:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112; t=1680269046;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VjpLOI3kSsLp1gVZchxWXjr+GzjeRq4bQKOT/rGECHc=;
+        b=k6VpTCz8m7yY9UO+Z8Kq37FoucGH9SmTn+GG5Ty/VFU7GPo6RZjgea5kxGA/4Q8J5G
+         TaQMUYiuHX/H5Y8eL2z8E0xAjMfhuGWFoFstMPctnys9jeJbymbYF5Fp/NL5KFQBVPsF
+         UmMs90pAJekpX0iWuTXatUFs8v42Q5R8AxfEqJY+lpy7S3TSpKj6/7nDO6ArxnpNDxEg
+         nzrIKoCsRuunhSH9eYZ1yPkE/Evv4Jw2GP95Q3pkoYHpvDahSIQ8hdj/n8+Ua7NTydRx
+         gUMaJywRILFGmeFCnEbsx4lwmA3mWn0De4JCZx7XaSgpsZZdXf9KBfkuL8SKNAeVf2l5
+         xT+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680269046;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VjpLOI3kSsLp1gVZchxWXjr+GzjeRq4bQKOT/rGECHc=;
+        b=cPMETo/uNAortpC1Cm37bwsSVOte3dt1xSlNdaceFPyZi0v9qNuMeR+0aJK3JDnYHB
+         jd47iGz/0xxyZcpTllwh9yVCwwVk7W51DeHTEh386yPzwSoiU99Ja+KGJJHT+9k1z8+K
+         DFx9C3HY74Vo4xs9VSF6/BbsuEXZbe1eV4G+O/8aECSBOpVROQuDOLzDTwx672yc/YvR
+         JV+nufgVi7t7f7StnWEdI+winIchg+4UowkmMor4MvFWa7FVGmjN0B9RQ5SilhkX+ox1
+         0rt64rg4xHwJ9L+SPvZNEfPgGxeTisOcrvITlYlp+y91nO8rEY7sGqpAv4gNHvfx/5S8
+         CFHw==
+X-Gm-Message-State: AAQBX9cN1JOQlYgwuEB8Z0vdPzoRjpAALySe0Ln44yNpUy9bgLVAsjS2
+        2c3D9QoQCoo9IGd55oqF9M0aWrrbMLwbKQsx8v80Yw==
+X-Google-Smtp-Source: AKy350Z6c33duEF6XeCh63NhZZ25Lzx4R6jqMducoYlMxRAYohiTLSDqQXavR/EpUfiN/KVTf+qCKQ==
+X-Received: by 2002:a05:6512:49c:b0:4dc:84c2:96f1 with SMTP id v28-20020a056512049c00b004dc84c296f1mr6691209lfq.22.1680269046047;
+        Fri, 31 Mar 2023 06:24:06 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id t24-20020ac24c18000000b004db3e03e201sm379574lfq.6.2023.03.31.06.24.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 06:24:05 -0700 (PDT)
+Date:   Fri, 31 Mar 2023 15:24:04 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: staging: max96712: Add support for 3-lane C-PHY
+Message-ID: <ZCbe9D+LxbWveekE@oden.dyn.berto.se>
+References: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
+ <ZCbQTjL+Gy+Poeu/@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230314115516.667-5-vaishnav.a@ti.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZCbQTjL+Gy+Poeu/@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vaishnav,
+Hej Sakari,
 
-On Tue, Mar 14, 2023 at 05:25:07PM +0530, Vaishnav Achath wrote:
-> From: Pratyush Yadav <p.yadav@ti.com>
-> 
-> Some platforms like TI's J721E can have the CSI2RX paired with an
-> external DPHY. Add support to enable and configure the DPHY using the
-> generic PHY framework.
-> 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> Signed-off-by: Vaishnav Achath <vaishnav.a@ti.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> 
-> Changes in v7:
-> - Fix multiplier and divider in v4l2_get_link_freq() which caused
->   failures during streaming.
-> 
-> Changes in v6:
-> - Drop variable bpp and use fmt->bpp directly.
-> - Drop variable got_pm. Call phy_pm_runtime_put() unconditionally since
->   it will just return an error if runtime PM is not enabled.
-> - Add Laurent's R-by.
-> 
-> Changes in v5:
-> - Only error out when phy_pm_runtime_get_sync() returns a negative
->   value. A positive value can be returned if the phy was already
->   resumed.
-> - Do not query the source subdev for format. Use the newly added
->   internal format instead.
-> 
-> Changes in v4:
-> - Drop the call to set PHY submode. It is now being done via compatible
->   on the DPHY side.
-> 
-> Changes in v3:
-> - Use v4l2_get_link_freq() to calculate pixel clock.
-> 
-> Changes in v2:
-> - Use phy_pm_runtime_get_sync() and phy_pm_runtime_put() before making
->   calls to set PHY mode, etc. to make sure it is ready.
-> 
->  drivers/media/platform/cadence/cdns-csi2rx.c | 90 +++++++++++++++++---
->  1 file changed, 80 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index ae3ebdb3890d..6933626adfc8 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -30,6 +30,12 @@
->  #define CSI2RX_STATIC_CFG_DLANE_MAP(llane, plane)	((plane) << (16 + (llane) * 4))
->  #define CSI2RX_STATIC_CFG_LANES_MASK			GENMASK(11, 8)
->  
-> +#define CSI2RX_DPHY_LANE_CTRL_REG		0x40
-> +#define CSI2RX_DPHY_CL_RST			BIT(16)
-> +#define CSI2RX_DPHY_DL_RST(i)			BIT((i) + 12)
-> +#define CSI2RX_DPHY_CL_EN			BIT(4)
-> +#define CSI2RX_DPHY_DL_EN(i)			BIT(i)
-> +
->  #define CSI2RX_STREAM_BASE(n)		(((n) + 1) * 0x100)
->  
->  #define CSI2RX_STREAM_CTRL_REG(n)		(CSI2RX_STREAM_BASE(n) + 0x000)
-> @@ -137,6 +143,49 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
->  	writel(0, csi2rx->base + CSI2RX_SOFT_RESET_REG);
->  }
->  
-> +static int csi2rx_configure_external_dphy(struct csi2rx_priv *csi2rx)
-> +{
-> +	union phy_configure_opts opts = { };
-> +	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-> +	const struct csi2rx_fmt *fmt;
-> +	s64 pixel_clock;
-> +	int ret;
-> +
-> +	fmt = csi2rx_get_fmt_by_code(csi2rx->fmt.code);
-> +
-> +	/*
-> +	 * Do not divide by the number of lanes here. That will be done by
-> +	 * phy_mipi_dphy_get_default_config().
-> +	 */
-> +	pixel_clock = v4l2_get_link_freq(csi2rx->source_subdev->ctrl_handler,
-> +					 fmt->bpp, 2 * csi2rx->num_lanes);
-> +	if (pixel_clock < 0)
-> +		return pixel_clock;
-> +
-> +	ret = phy_mipi_dphy_get_default_config(pixel_clock, 1, 1, cfg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = phy_pm_runtime_get_sync(csi2rx->dphy);
-> +	if (ret < 0 && ret != -ENOTSUPP)
-> +		return ret;
-> +
-> +	ret = phy_power_on(csi2rx->dphy);
-> +	if (ret)
-> +		goto out;
+Tack för din feedback.
 
-You shouldn't need both phy_pm_runtime_get_sync() and phy_power_on(). It
-would seem like that phy_power_on() is what drivers are intended to use.
+On 2023-03-31 15:21:34 +0300, Sakari Ailus wrote:
 
-> +
-> +	ret = phy_configure(csi2rx->dphy, &opts);
-> +	if (ret) {
-> +		/* Can't do anything if it fails. Ignore the return value. */
-> +		phy_power_off(csi2rx->dphy);
-> +		goto out;
-> +	}
-> +
-> +out:
-> +	phy_pm_runtime_put(csi2rx->dphy);
-> +	return ret;
-> +}
-> +
->  static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  {
->  	unsigned int i;
-> @@ -175,6 +224,17 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  	if (ret)
->  		goto err_disable_pclk;
->  
-> +	/* Enable DPHY clk and data lanes. */
-> +	if (csi2rx->dphy) {
-> +		reg = CSI2RX_DPHY_CL_EN | CSI2RX_DPHY_CL_RST;
-> +		for (i = 0; i < csi2rx->num_lanes; i++) {
-> +			reg |= CSI2RX_DPHY_DL_EN(csi2rx->lanes[i] - 1);
-> +			reg |= CSI2RX_DPHY_DL_RST(csi2rx->lanes[i] - 1);
-> +		}
-> +
-> +		writel(reg, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
-> +	}
-> +
->  	/*
->  	 * Create a static mapping between the CSI virtual channels
->  	 * and the output stream.
-> @@ -205,10 +265,21 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  	if (ret)
->  		goto err_disable_pixclk;
->  
-> +	if (csi2rx->dphy) {
-> +		ret = csi2rx_configure_external_dphy(csi2rx);
-> +		if (ret) {
-> +			dev_err(csi2rx->dev,
-> +				"Failed to configure external DPHY: %d\n", ret);
-> +			goto err_disable_sysclk;
-> +		}
-> +	}
-> +
->  	clk_disable_unprepare(csi2rx->p_clk);
->  
->  	return 0;
->  
-> +err_disable_sysclk:
-> +	clk_disable_unprepare(csi2rx->sys_clk);
->  err_disable_pixclk:
->  	for (; i > 0; i--)
->  		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
-> @@ -236,6 +307,13 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->  
->  	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
->  		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
-> +
-> +	if (csi2rx->dphy) {
-> +		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
-> +
-> +		if (phy_power_off(csi2rx->dphy))
-> +			dev_warn(csi2rx->dev, "Couldn't power off DPHY\n");
-> +	}
->  }
->  
->  static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
-> @@ -432,15 +510,6 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
->  		return PTR_ERR(csi2rx->dphy);
->  	}
->  
-> -	/*
-> -	 * FIXME: Once we'll have external D-PHY support, the check
-> -	 * will need to be removed.
-> -	 */
-> -	if (csi2rx->dphy) {
-> -		dev_err(&pdev->dev, "External D-PHY not supported yet\n");
-> -		return -EINVAL;
-> -	}
-> -
->  	ret = clk_prepare_enable(csi2rx->p_clk);
->  	if (ret) {
->  		dev_err(&pdev->dev, "Couldn't prepare and enable P clock\n");
-> @@ -470,7 +539,7 @@ static int csi2rx_get_resources(struct csi2rx_priv *csi2rx,
->  	 * FIXME: Once we'll have internal D-PHY support, the check
->  	 * will need to be removed.
->  	 */
-> -	if (csi2rx->has_internal_dphy) {
-> +	if (!csi2rx->dphy && csi2rx->has_internal_dphy) {
->  		dev_err(&pdev->dev, "Internal D-PHY not supported yet\n");
->  		return -EINVAL;
->  	}
-> @@ -595,6 +664,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->  	dev_info(&pdev->dev,
->  		 "Probed CSI2RX with %u/%u lanes, %u streams, %s D-PHY\n",
->  		 csi2rx->num_lanes, csi2rx->max_lanes, csi2rx->max_streams,
-> +		 csi2rx->dphy ? "external" :
->  		 csi2rx->has_internal_dphy ? "internal" : "no");
->  
->  	return 0;
+...
+
+> > @@ -332,8 +341,9 @@ static int max96712_parse_dt(struct 
+> > max96712_priv *priv)
+> >  {
+> >  	struct fwnode_handle *ep;
+> >  	struct v4l2_fwnode_endpoint v4l2_ep = {
+> > -		.bus_type = V4L2_MBUS_CSI2_DPHY
+> > +		.bus_type = V4L2_MBUS_UNKNOWN,
+> 
+> The bindings don't require setting bus-type. Please change the bindings as
+> well. And assume D-PHY in the driver if bus-type isn't set.
+
+Thanks for spotting this, I will send out an update to update the 
+binding to require setting bus-type.
+
+About updating the driver to assume D-PHY if bus-type is not set. I 
+wonder if we can avoid that and keep the driver change as is? The only 
+in-tree user of this binding is in r8a779a0-falcon-csi-dsi.dtsi, and I 
+intend to send out a patch to set the bus-type for that together with 
+the updated bindings.
+
+I have tested this driver change on the Falcon board and if bus-type is 
+not explicitly set in the DTS it is reported as D-PHY and everything 
+works as expected. So if I
+
+- Send out a patch to update the bindings to require bus-type being set.
+- Send out patch to update the only in-tree use of the driver to set 
+  bus-type.
+
+Can't we avoid issues in the future by not assuming no bus-type is D-PHY 
+in the driver while still being backward compatible with the old DTS?
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Kind Regards,
+Niklas Söderlund
