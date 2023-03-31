@@ -2,131 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F5DD6D23C8
-	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DDCE6D23DF
+	for <lists+linux-media@lfdr.de>; Fri, 31 Mar 2023 17:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232429AbjCaPPF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 31 Mar 2023 11:15:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41034 "EHLO
+        id S233054AbjCaPUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 11:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233156AbjCaPPE (ORCPT
+        with ESMTP id S232710AbjCaPUN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 11:15:04 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87DAC1CBA9;
-        Fri, 31 Mar 2023 08:14:55 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-54601d90118so265040327b3.12;
-        Fri, 31 Mar 2023 08:14:55 -0700 (PDT)
+        Fri, 31 Mar 2023 11:20:13 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7F402D43
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:20:12 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id g9so16535024qvt.8
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 08:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680276012;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cwobtvlu1ApCEa1mWvDaiiIx0D8/aosKTXPfSOE5S6o=;
+        b=QJSPoywaO0m7h68iu3eDbeHedBVSgLj+mDP5AeRmUcQQBFoA1dRd8/32uNuU5OQoYw
+         APXYxRRawaw/eWkf40t+JgcrS6Pngh3q1jAmNC31QF0yiKmLo/S/MoAO3V+TyxS50/uO
+         qoDM5EeuK6iZDK0ZefkIuyyh66Lp7idbaP/tDSwOHkQxLplswBqrAmuEKbu1hJhIJ1w4
+         X7zpq4C9qnPM2JlRTfzaKjYF7GYQWEz6E0d2xJiLtwuP46VYvO2XyRSJpNbDTHp7B/eQ
+         3wuBes6k2WJ9mQuuih8+dzN4rQlbbuV5SNe7qAm+J8j4P9uvE7ib/HX3G6XB3tuAlqSh
+         z3gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680275694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RWgHRMVasG7nDW/oXg1Gn0gxLEITRLu6jYb9r+As/UQ=;
-        b=M8kG/2ViLAhn9U0zvuCVf74FdL8tRHbVN5lQR1a0PlnaKIP0pdA3m5VJbDRNhpcwMA
-         4kBRr+zvl51VXiSFZPd966cTaetZe89nI2PTCA+rSikCcnGDXLBAGSWyjXwylX10B7mW
-         JHuUGulaC9wy2DUmduLP7olOdci20V5iK6New6yQYy8sOVK+i5hm3iDiNXdvMzHTDp51
-         LI4PxwznyTVBhd/9XbL+9+pqHJyfq1un+KjWfhaWju54RvwFXF62xJ/oXjvD8ZNlQF6f
-         RayTo8CsPGeENunyvpUVyjrXW2ExAxX/eiAEBXRLJGjtrxiAmif1+vIScabF7ZIUhlf+
-         rLkg==
-X-Gm-Message-State: AAQBX9eoVa1ft6fKFO7mHyVz/G/rBbwtU+r33lwLrRU3U4zMN8u7GURl
-        pqnrSeClHeTDdXikPP9KG85FFjh3iCaqMw==
-X-Google-Smtp-Source: AKy350b+7EJaz9B3Zg9GG2rbkRWaXUjuix3rX5/EWcWFl2Yc69EPzqCAKFr968Rd0g4ucwtVLFAuJw==
-X-Received: by 2002:a81:92c8:0:b0:543:dca5:8407 with SMTP id j191-20020a8192c8000000b00543dca58407mr24902591ywg.28.1680275694490;
-        Fri, 31 Mar 2023 08:14:54 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id i11-20020a81f20b000000b00545a08184cbsm574389ywm.91.2023.03.31.08.14.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Mar 2023 08:14:54 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5456249756bso420475047b3.5;
-        Fri, 31 Mar 2023 08:14:54 -0700 (PDT)
-X-Received: by 2002:a81:ac19:0:b0:545:5e70:323f with SMTP id
- k25-20020a81ac19000000b005455e70323fmr2450399ywh.4.1680275694152; Fri, 31 Mar
- 2023 08:14:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 31 Mar 2023 17:14:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com>
-Message-ID: <CAMuHMdXANL4RwjqcqGsjJa8_R2ExefnWbsOfayHLegzHsjpP8Q@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Require setting
- bus-type property
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+        d=1e100.net; s=20210112; t=1680276012;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cwobtvlu1ApCEa1mWvDaiiIx0D8/aosKTXPfSOE5S6o=;
+        b=Eg6ECrMNvB19BAmEwd868WzBNAtFvYU1LYnDXaUq97JqLgSfkqHu0zR41tVbhH+Hpk
+         KquD136ErqUU2KtH17eoR58rN+rw5oQjTJRXnmeXqCaI8oy7Pfni+b5F2+ZXJF8fbamm
+         vPNxFk+LHQyRNB5Mu0oScEjBejny5e4jr2BA+u1+omnbeCJpMbZRqNhcM/s7vT0ToVtF
+         vGyYQu6/cBLItUNi88bI4dZO8Z5y1PhyGJ9voiMDHas5fbrO1rZ1Y9PUyX41ka2pUAW6
+         mFCJlP5BYv3UV3tKw22Hs0q87ohUyKZASs2r++J/P7tBYDZn+20LG0iJdjYy29+qmSaD
+         dYFg==
+X-Gm-Message-State: AAQBX9cH1I2yI9C1+XnNMTdT5KFMmdRRTH3vZ1epNUbOmxgvrDUHQWOw
+        3LI74PQ18l5+//CBL5f09KsXEg==
+X-Google-Smtp-Source: AKy350ZLa5XcprT/+Eis3sIfxUEgg4anw3KcRdAqzKFKQ+/JzSzTBaKU52DQJgcOf72oHNOKmWeACA==
+X-Received: by 2002:a05:6214:27e5:b0:5df:44f2:e97d with SMTP id jt5-20020a05621427e500b005df44f2e97dmr15254434qvb.19.1680276012017;
+        Fri, 31 Mar 2023 08:20:12 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
+        by smtp.gmail.com with ESMTPSA id ml11-20020a056214584b00b005dd8b9345aasm653254qvb.66.2023.03.31.08.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Mar 2023 08:20:11 -0700 (PDT)
+Message-ID: <df3e49a5f8c03cf9b67698d008cd1b99578835a2.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix potential array
+ out-of-bounds in decoder queue_setup
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Wei Chen <harperchen1110@gmail.com>, tiffany.lin@mediatek.com
+Cc:     andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Date:   Fri, 31 Mar 2023 11:20:10 -0400
+In-Reply-To: <20230328100951.536955-1-harperchen1110@gmail.com>
+References: <20230328100951.536955-1-harperchen1110@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi,
 
-On Fri, Mar 31, 2023 at 4:15 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The MAX96712 can support both CSI-2 C-PHY and D-PHY bus. Document the
-> supported bus-types and make the property mandatory.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Le mardi 28 mars 2023 =C3=A0 10:09 +0000, Wei Chen a =C3=A9crit=C2=A0:
+> variable *nplanes is provided by user via system call argument. The
+> possible value of q_data->fmt->num_planes is 1-3, while the value
+> of *nplanes can be 1-8. The array access by index i can cause array
+> out-of-bounds.
+>=20
+> Fix this bug by checking *nplanes against the array size.
+>=20
+> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+> ---
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/dr=
+ivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> index 641f533c417f..cae34cc7c807 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> @@ -753,6 +753,13 @@ int vb2ops_vdec_queue_setup(struct vb2_queue *vq, un=
+signed int *nbuffers,
+>  	}
+> =20
+>  	if (*nplanes) {
+> +		if (vq->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> +			if (*nplanes !=3D q_data->fmt->num_planes)
+> +				return -EINVAL;
+> +		else
+> +			if (*nplanes !=3D 1)
+> +				return -EINVAL;
+> +
+>  		for (i =3D 0; i < *nplanes; i++) {
+>  			if (sizes[i] < q_data->sizeimage[i])
+>  				return -EINVAL;
 
-Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> @@ -65,9 +65,14 @@ properties:
->
->              properties:
->                data-lanes: true
-> +              bus-type:
-> +                enum:
-> +                  - 1 # CSI-2 C-PHY
-> +                  - 4 # CSI-2 D-PHY
+A bit of context, *nplanes is non zero only when called from VIDIOC_CREATE_=
+BUFS.
+I think this highlights a bigger problem around the format in
+VIDIOC_CREATE_BUFS. The format should be validated through TRY_FMT in some =
+ways,
+notably to apply the HW required alignment, but also to avoid having to val=
+idate
+that lower in the stack.
 
-Perhaps use/refer to the symbolic names, too?
+Nicolas
 
-Sounds like an opportunity for improvement for
-Documentation/devicetree/bindings/media/video-interfaces.yaml, too.
-
->
->              required:
->                - data-lanes
-> +              - bus-type
->
->      required:
->        - port@4
-> @@ -82,6 +87,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
->
->      i2c@e6508000 {
->              #address-cells = <1>;
-> @@ -101,6 +107,7 @@ examples:
->                              port@4 {
->                                      reg = <4>;
->                                      max96712_out0: endpoint {
-> +                                            bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
->                                              clock-lanes = <0>;
->                                              data-lanes = <1 2 3 4>;
->                                              remote-endpoint = <&csi40_in>;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
