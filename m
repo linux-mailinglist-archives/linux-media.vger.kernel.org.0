@@ -2,140 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 750DB6D3400
-	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 23:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7EE6D33FD
+	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 22:55:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbjDAVAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Apr 2023 17:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53384 "EHLO
+        id S229811AbjDAUz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Apr 2023 16:55:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjDAVAe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 17:00:34 -0400
-X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 01 Apr 2023 14:00:32 PDT
-Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7977B1A474
-        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 14:00:32 -0700 (PDT)
-Received: (qmail 1969 invoked by uid 990); 1 Apr 2023 20:53:49 -0000
-Authentication-Results: devico.uberspace.de;
-        auth=pass (plain)
+        with ESMTP id S229452AbjDAUz4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 16:55:56 -0400
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CCA8133
+        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 13:55:54 -0700 (PDT)
+Received: by mail-oo1-xc2c.google.com with SMTP id n6-20020a4abd06000000b0053b59893660so4063183oop.0
+        for <linux-media@vger.kernel.org>; Sat, 01 Apr 2023 13:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680382554;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zEebtX0gBqn6oK3wEB881X7URlB383c9JV1sVM2h4oQ=;
+        b=nX1/npWRmJyyRQCll79Xf8X2no9NVtbBqKSvEJ320GopGc9KxDjXuoYoSOLiqtYnTk
+         a8IFV2IN89xeKeSPpBsRKv36RX9fgi2fG9eSJv+mAmqdhlzkX7qBCCH/Cyr5x9PmYCVe
+         bWrJMCCay2/1lWnXGA0ssT3ibyEYL0MWU9jvr3icUHatf9qUUxkwHCwzXBixanGm/RK7
+         wymdkoNZ9FH5pOEoIhF2DpKpzHart3ITuBbcrtW3tDTOKwB7vjF4NJeu2yoP6Nxi/wAI
+         43DvZHUybnI4DKOnGPhGd5KcyCgJwWI1mcKmLVT+phEafb7+3sIMeLTL60vkWgbtdnA1
+         uvQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680382554;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zEebtX0gBqn6oK3wEB881X7URlB383c9JV1sVM2h4oQ=;
+        b=A6jTidyKDfqorRRveEe+XY/NFbP8jTEK3z2Tx0uFiXZuAth5xaKvp7RXbcjr58t2WV
+         8TRjnom4dKVWFJwiiuybyQB6l5MVO4DRvyaNsb9iMDbSdEb9FGqe2RVxjXm9L7A3A4ga
+         Fy3lEAMUS1Jtx93FfMtEF9tClqt03kbhcZsd/FwOQi9LuVoMOkcOHSVgIz6pi56X0Zq7
+         bdf48OtrjCHoiCVXP2Y6txF9NiY1DM4h93nDk8A//KS5IxSSx4AxtwDi7pwsoAF3I1w2
+         GJyrxiEJGhlZHk7xlivDsR9U7LqcXy7GEqYMH5XkyXoBcr5gNYO5POHCbfohsCjyX1tJ
+         fpQQ==
+X-Gm-Message-State: AO0yUKVfaF8wyaVPYpGj9E+Q57q4CTx2szGQm98r5ATleKC16QYX8bc3
+        HaAYaVXboAnQ6O1CjngFWCpAp4YjqYspVaTik4abhgvm/Sg=
+X-Google-Smtp-Source: AK7set9+HOc7QWfkVxsTLN/BdAxYlFdttkMlQnKOXBmN8dCU5w1HHgQ24pfzDAdNi2dHAC5ipAJqPZv+ZfdvebWxMss=
+X-Received: by 2002:a4a:e5cf:0:b0:52e:17e2:7d4c with SMTP id
+ r15-20020a4ae5cf000000b0052e17e27d4cmr9843840oov.1.1680382553884; Sat, 01 Apr
+ 2023 13:55:53 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Sat, 01 Apr 2023 20:53:48 +0000
-Content-Type: text/plain; charset="utf-8"
+References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
+ <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl> <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
+ <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com> <6dabaf27-1d68-b6e5-12c3-cbef79867fc1@xs4all.nl>
+In-Reply-To: <6dabaf27-1d68-b6e5-12c3-cbef79867fc1@xs4all.nl>
+From:   Shawn Lindberg <shawn.lindberg@gmail.com>
+Date:   Sat, 1 Apr 2023 15:55:43 -0500
+Message-ID: <CAC6x6iuOvHuRC7cUzA4N0TR2Ue6g55buhQ1-pD0_i1VvBaSaiw@mail.gmail.com>
+Subject: Re: Extremely long delay between CEC image-view-on an standby.
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From:   "Leonard Lausen" <leonard@lausen.nl>
-Message-ID: <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
-TLS-Required: No
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-To:     "Javier Martinez Canillas" <javierm@redhat.com>,
-        "Dikshita Agarwal" <quic_dikshita@quicinc.com>,
-        "Vikash Garodia" <vgarodia@qti.qualcomm.com>,
-        "Linux regressions mailing list" <regressions@lists.linux.dev>,
-        "Stanimir Varbanov" <stanimir.k.varbanov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, mka@chromium.org,
-        "Albert Esteve" <aesteve@redhat.com>, stanimir.varbanov@linaro.org,
-        "Enric Balletbo i Serra" <eballetb@redhat.com>,
-        "Andy Gross" <agross@kernel.org>,
-        "Bjorn Andersson" <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        "Fritz Koenig" <frkoenig@google.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-In-Reply-To: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
-References: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
- <20230207102254.1446461-1-javierm@redhat.com>
- <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
- <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
- <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
- <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
- <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
- <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
- <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
- <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
- <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
- <87edq9hj4w.fsf@minerva.mail-host-address-is-not-set>
- <d18fac76-6b77-a446-5fe0-7236556e9187@quicinc.com>
- <0c84724d-08d4-ddcb-5f71-4eb8261240c6@quicinc.com>
-X-Rspamd-Bar: -
-X-Rspamd-Report: MIME_GOOD(-0.1) BAYES_HAM(-2.911118) SUSPICIOUS_RECIPS(1.5)
-X-Rspamd-Score: -1.511118
-Received: from unknown (HELO unkown) (::1)
-        by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA; Sat, 01 Apr 2023 22:53:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=lausen.nl; s=uberspace;
-        h=from;
-        bh=aA2msNrvcbbehcgKux4cUf7WB087VIC6mCd6AEtUyEQ=;
-        b=s4XtsGVE1M/EVfLROVnFJKY2m/ZJILlhO+a2J5zOVsO9r/5JzqHXwZOaORDxQewy+/oLt/E13Z
-        HvywSLWvByzGU9FYoycym8dl/qvMUXsLGg76aiYxtRz6nMJTK6ObltrPRW4UXHjh49Nt5/w6snor
-        uZ/vF9mVBfnhYTOKqsh/167Ga0AzjuczYNQVXHHPAxfb022TAWlmScJj1evxBryqU3t/8XGf4OjU
-        Tdqcrynq20Xdv+DjkzxvJ0KElIi6CbYvd4/C9S+wu4TcVGEpjZNGByI6Ht1xE3auxBpkHazadRza
-        KR8P07gnacvy3pxinaTz10ClHrkxtuqMFuqmbMV6eemFAm8+gKf7uuy7FHHbV4g8QSrVqiokM3VD
-        VOCU7qDxTb5ddA+BTgHMOEoeNUfMe2ZxeZVCOv1CC11c9jzKHtGUxu3IGfEB+pqykhVSd1OMmvnu
-        qSt+lruwuDGYb6fnmI0Spko/H8WYomjH8zE3F1O7TiAA06PjkpoZfXlmrvo6x0v/QU7n0vbGgEZq
-        RrgV4YDpxPtJ3yzXK3VxTaxKk7VOA+LNmz/wZ8hvh3BFY/S7poQ+cJzfBkX6BGMtxd+Lgxu/wcr1
-        IYadB4A2ajHkUHnNaYkufpaNtqKB/5pnw29CNGAcn+DPkO7f5BvSS5HMdBncjiuJyuaXzX/ozbfD
-        c=
-X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-        MSGID_FROM_MTA_HEADER,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Javier, Dikshita, Stan,
-
-the revert wasn't applied to v6.2 series. Can you please apply it and inc=
-lude it for v6.2.10?
-
-March 6, 2023 at 5:43 AM, "Javier Martinez Canillas" <javierm@redhat.com>=
- wrote:
->> On 3/1/2023 3:15 PM, Dikshita Agarwal wrote:
->>> On 2/28/2023 9:33 PM, Javier Martinez Canillas wrote:
->>>> Javier Martinez Canillas<javierm@redhat.com>  writes:
->>>>> Vikash Garodia<vgarodia@qti.qualcomm.com>  writes:
->>>>>
->>>>>> Stan, could you please help with the revert and a pull request hav=
-ing this revert
->>>>>> alongwith other pending changes ?
->>>>>>
->>>>> Other fix posted is "media: venus: dec: Fix capture formats enumera=
-tion order":
->>>>>
->>>>> https://patchwork.kernel.org/project/linux-media/patch/202302100818=
-35.2054482-1-javierm@redhat.com/
->>
->> Hi Javier,
->>
->> Thanks for this patch "media: venus: dec: Fix capture formats
->> enumeration order".
->>
->> Somehow I can't find it in my mailbox to be able to reply there.
->>
->> Could you please explain what is the regression you see here?
->>
+On Sat, Apr 1, 2023 at 3:17=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl> wr=
+ote:
 >
->You can find the thread and explanation of the issue here:
+> On 31/03/2023 22:23, Shawn Lindberg wrote:
+> > On Wed, Mar 29, 2023 at 2:56=E2=80=AFPM Shawn Lindberg <shawn.lindberg@=
+gmail.com> wrote:
+> >>
+> >> On Tue, Mar 28, 2023 at 2:58=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.=
+nl> wrote:
+> >>>
+> >>>> cec-ctl -d0 --tv --cec-version-1.4
+> >>>
+> >>> That's wrong, the RPi is a Playback device, not a TV. So use --playba=
+ck instead.
+> >>>
+> >>> You should also add this line to the config.txt:
+> >>>
+> >>> hdmi_ignore_cec=3D1
+> >>>
+> >>> otherwise the RPi's firmware tries to process CEC messages as well.
+> >>
+> >> Oh, I thought that the TV/playback command was indicating what sort of
+> >> device the connected device is. This wasn't clear from the man page,
+> >> either. Thank you for that. I made the change to config.txt and
+> >> strangely when the RPi rebooted (I have it set to do this
+> >> automatically once a day) the projector automatically turned on. I
+> >> have never experienced this before.
+> >
+> > Further update on this. I continue to see the projector automatically
+> > power on every time the RPi does its daily reboot, so I think I may
+> > have to remove the hdmi_ignore_cec from the config.txt. Especially
+> > since I can't figure out how to reliably shut the projector back off
+> > again.
 >
->https://lore.kernel.org/lkml/Y+KPW18o%2FDa+N8UI@google.com/T/
+> From what I can tell, the Raspberry Pi doesn't transmit anything over CEC
+> at boot time, regardless of whether hdmi_ignore_cec is present or not.
+> That's with a Raspberry Pi 4B. It might be different for an RPi 3.
+
+That is strange. I am also using a Raspberry Pi 4B. I do have the
+following changes to my config.txt:
+
+# uncomment if hdmi display is not detected and composite is being output
+hdmi_force_hotplug=3D1
+
+# uncomment to force a specific HDMI mode (this will force VGA)
+hdmi_group=3D1
+hdmi_mode=3D16
+
+# Additional line added to prevent firmware from processing CEC messages.
+hdmi_ignore_cec=3D1
+
+
+> >>>> During this time, if I try to poll the projector, it will succeed.
+> >>>> However, if I monitor events, after a significant amount of time
+> >>>> (appears to be greater than 20 minutes, although this is difficult t=
+o
+> >>>> verify because of how long it takes) I go will eventually see the
+> >>>> following:
+> >>>>
+> >>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
+> >>>>     Timestamp: 30981.428s
+> >>>
+> >>> Now it appears to be able to read the EDID again and it has a valid
+> >>> physical address.
+> >>>
+> >>>> Transmitted by Specific to Specific (14 to 14): POLL
+> >>>>     Tx, Not Acknowledged (4), Max Retries
+> >>>>     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), =
+Max Retries
+> >>>>
+> >>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
+> >>>>     Timestamp: 30981.561s
+> >>>> Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x8=
+4):
+> >>>>     phys-addr: 1.0.0.0
+> >>>>     prim-devtype: tv (0x00)
+> >>>>     Sequence: 22 Tx Timestamp: 30981.696s
+> >>>> Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
+> >>>>     vendor-id: 3075 (0x00000c03)
+> >>>>     Sequence: 23 Tx Timestamp: 30981.835s
+> >>>> Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
+> >>>>     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
+> >>>>     reason: invalid-op (0x03)
+> >>>>     Sequence: 0 Rx Timestamp: 30981.949s
+> >>>> Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
+> >>>>     Sequence: 0 Rx Timestamp: 30982.026s
+> >>>> Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
+> >>>>     name: TV
+> >>>>     Sequence: 24 Tx Timestamp: 30982.137s
+> >>>>
+> >>>> After this point in time the standby command will succeed and the
+> >>>> projector will turn off. It's quite inconvenient to have to wait ove=
+r
+> >>>> 20 minutes to turn the projector back off again. Any idea how I can
+> >>>> shorten this delay?
+> >>>
+> >>> There is something weird about your setup and EDID. I can't really te=
+ll
+> >>> what it is.
+> >>
+> >> After making the above changes and retesting, the behavior didn't
+> >> change. I still get the device not connected message and the invalid
+> >> physical address when I try to do standby. I should also note that one
+> >> way around this issue is to reboot the RPi. For some reason that seems
+> >> to get around the long delay in getting the physical address.
+> >>
+> >> I don't know what would be strange about my set up other than the
+> >> projector itself and a couple of lines I uncommented in the config.txt
+> >> to set the RPi to use HDMI even if the projector is not on at the time
+> >> of booting. Is there more information I can provide that would allow
+> >> us to figure out what's going on? If you are correct that for some
+> >> reason it is just not reading the EDID, is there a way to manually
+> >> provide that? I don't know much about it, but it's a static property
+> >> of the device (the projector in this case), right?
+> >
+> > Since I noticed that the physical address is populated properly when
+> > the RPi is booted while the projector is turned on, I did that and
+> > then tried using the get-edid utility to see if I could read the EDID
+> > block and save it to a file. Unfortunately, this didn't work, as the
+> > utility reports that there was no EDID available on any of the buses.
+> > So once again I am out of ideas.
 >
->But Stanimir already picked it and sent a PR for v6.3 including it.
+> The EDID also appears in /sys:
+>
+> /sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid
+> /sys/devices/platform/gpu/drm/card1/card1-HDMI-A-2/edid
+>
+> get-edid works fine on my RPi 4B, so if that doesn't work, then it really
+> looks like there is something weird going on with your projector.
 
-While "media: venus: dec: Fix capture formats enumeration order" may have=
- been
-applied to v6.3, this still leaves the regression introduced by "venus:
-firmware: Correct non-pix start and end addresses". As pointed out by Mat=
-thias
-Kaehlcke, the commit prevents SC7180 and sc7280 AOSS from entering sleep =
-mode
-during system suspend. This is a serious regression in v6.2 kernel series=
-.
+Thank you for that. Based on this information with the projector on
+during boot, I was able to get the following output from parse-edid. I
+did not copy the entire output, just a snippet to indicate that it is
+able to get a valid EDID at boot time.
 
-Best regards,
-Leonard Lausen
+cat /sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid | parse-edid
+Checksum Correct
+
+Section "Monitor"
+    Identifier "LG PROJECTOR"
+    ModelName "LG PROJECTOR"
+    VendorName "GSM"
+    # Monitor Manufactured week 33 of 2017
+    # EDID version 1.3
+    # Digital Display
+    DisplaySize 1600 900
+    Gamma 2.20
+    Option "DPMS" "false"
+    Horizsync 30-83
+    VertRefresh 58-62
+    # Maximum pixel clock is 160MHz
+    #Not giving standard mode: 640x480, 60Hz
+
+In summary, it seems that at boot time and after waiting an extended
+amount of time after turning on the projector using the image-view-on
+command, the EDID file is available and valid. So although my
+projector may be strange, I am guessing that there must be a way to
+manually provide the EDID file, force the physical address, or some
+other workaround/solution. However, I'm certainly no expert in this
+area so I would defer to those of you who are.
+
+Thanks,
+Shawn
