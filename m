@@ -2,137 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD6E06D2E59
-	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 07:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29A2A6D2F10
+	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 10:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233179AbjDAFRV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Apr 2023 01:17:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60740 "EHLO
+        id S233633AbjDAIRV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Apr 2023 04:17:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbjDAFRU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 01:17:20 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF99FF0D;
-        Fri, 31 Mar 2023 22:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680326238; x=1711862238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qe5YQmBy6JiuD2SFWD335bK1/XLd/LkYkrn4i1M8DjE=;
-  b=jClM9VJDPqbMguh+TPDnt8mbd3RadCt2VXMAD5ksFTonChbx1eKRXcrT
-   8QrSshKrKv8fWqqqKgJWuTPLxoqYpjwltl5tMYUzINBjD8RYfYcQtnzXZ
-   fds9SvP12/OqsVqch4KLBZyDIkhu5L6ijcM4ssPOnmlAora/ryIOOZHHZ
-   lgpLz86Z6dBG5Ga5jruN27ElYvB354geRyA0zDmNKa1ijpzAlBoSIf9gS
-   KTkQNJTCs42kfr/tr1AGG2nlDHjmAeE9UYr0R4GjQ9HXHTX3/mMMQISgA
-   uHiZ4TNcapG6cf1LiFPj1aGFwy9HNxQVIY/rxUU/xT6bP2LF15P0RA3+M
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="427902172"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="427902172"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 22:17:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="931430206"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="931430206"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Mar 2023 22:17:14 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1piTc1-000MUn-0t;
-        Sat, 01 Apr 2023 05:17:13 +0000
-Date:   Sat, 1 Apr 2023 13:16:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jack.zhu@starfivetech.com, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v3 9/9] media: starfive: Add Starfive Camera Subsystem
- driver
-Message-ID: <202304011300.mT9MprJK-lkp@intel.com>
-References: <20230331121826.96973-10-jack.zhu@starfivetech.com>
+        with ESMTP id S233518AbjDAIRU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 04:17:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789AB7ED9
+        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 01:17:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 270BFB8336C
+        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 08:17:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F34BC433EF;
+        Sat,  1 Apr 2023 08:17:15 +0000 (UTC)
+Message-ID: <6dabaf27-1d68-b6e5-12c3-cbef79867fc1@xs4all.nl>
+Date:   Sat, 1 Apr 2023 10:17:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230331121826.96973-10-jack.zhu@starfivetech.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: Extremely long delay between CEC image-view-on an standby.
+Content-Language: en-US
+To:     Shawn Lindberg <shawn.lindberg@gmail.com>,
+        linux-media@vger.kernel.org
+References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
+ <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl>
+ <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
+ <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
+On 31/03/2023 22:23, Shawn Lindberg wrote:
+> On Wed, Mar 29, 2023 at 2:56 PM Shawn Lindberg <shawn.lindberg@gmail.com> wrote:
+>>
+>> On Tue, Mar 28, 2023 at 2:58 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>>
+>>>> cec-ctl -d0 --tv --cec-version-1.4
+>>>
+>>> That's wrong, the RPi is a Playback device, not a TV. So use --playback instead.
+>>>
+>>> You should also add this line to the config.txt:
+>>>
+>>> hdmi_ignore_cec=1
+>>>
+>>> otherwise the RPi's firmware tries to process CEC messages as well.
+>>
+>> Oh, I thought that the TV/playback command was indicating what sort of
+>> device the connected device is. This wasn't clear from the man page,
+>> either. Thank you for that. I made the change to config.txt and
+>> strangely when the RPi rebooted (I have it set to do this
+>> automatically once a day) the projector automatically turned on. I
+>> have never experienced this before.
+> 
+> Further update on this. I continue to see the projector automatically
+> power on every time the RPi does its daily reboot, so I think I may
+> have to remove the hdmi_ignore_cec from the config.txt. Especially
+> since I can't figure out how to reliably shut the projector back off
+> again.
 
-I love your patch! Perhaps something to improve:
+From what I can tell, the Raspberry Pi doesn't transmit anything over CEC
+at boot time, regardless of whether hdmi_ignore_cec is present or not.
+That's with a Raspberry Pi 4B. It might be different for an RPi 3.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v6.3-rc4 next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+>>>> During this time, if I try to poll the projector, it will succeed.
+>>>> However, if I monitor events, after a significant amount of time
+>>>> (appears to be greater than 20 minutes, although this is difficult to
+>>>> verify because of how long it takes) I go will eventually see the
+>>>> following:
+>>>>
+>>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
+>>>>     Timestamp: 30981.428s
+>>>
+>>> Now it appears to be able to read the EDID again and it has a valid
+>>> physical address.
+>>>
+>>>> Transmitted by Specific to Specific (14 to 14): POLL
+>>>>     Tx, Not Acknowledged (4), Max Retries
+>>>>     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), Max Retries
+>>>>
+>>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
+>>>>     Timestamp: 30981.561s
+>>>> Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84):
+>>>>     phys-addr: 1.0.0.0
+>>>>     prim-devtype: tv (0x00)
+>>>>     Sequence: 22 Tx Timestamp: 30981.696s
+>>>> Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
+>>>>     vendor-id: 3075 (0x00000c03)
+>>>>     Sequence: 23 Tx Timestamp: 30981.835s
+>>>> Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
+>>>>     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
+>>>>     reason: invalid-op (0x03)
+>>>>     Sequence: 0 Rx Timestamp: 30981.949s
+>>>> Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
+>>>>     Sequence: 0 Rx Timestamp: 30982.026s
+>>>> Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
+>>>>     name: TV
+>>>>     Sequence: 24 Tx Timestamp: 30982.137s
+>>>>
+>>>> After this point in time the standby command will succeed and the
+>>>> projector will turn off. It's quite inconvenient to have to wait over
+>>>> 20 minutes to turn the projector back off again. Any idea how I can
+>>>> shorten this delay?
+>>>
+>>> There is something weird about your setup and EDID. I can't really tell
+>>> what it is.
+>>
+>> After making the above changes and retesting, the behavior didn't
+>> change. I still get the device not connected message and the invalid
+>> physical address when I try to do standby. I should also note that one
+>> way around this issue is to reboot the RPi. For some reason that seems
+>> to get around the long delay in getting the physical address.
+>>
+>> I don't know what would be strange about my set up other than the
+>> projector itself and a couple of lines I uncommented in the config.txt
+>> to set the RPi to use HDMI even if the projector is not on at the time
+>> of booting. Is there more information I can provide that would allow
+>> us to figure out what's going on? If you are correct that for some
+>> reason it is just not reading the EDID, is there a way to manually
+>> provide that? I don't know much about it, but it's a static property
+>> of the device (the projector in this case), right?
+> 
+> Since I noticed that the physical address is populated properly when
+> the RPi is booted while the projector is turned on, I did that and
+> then tried using the get-edid utility to see if I could read the EDID
+> block and save it to a file. Unfortunately, this didn't work, as the
+> utility reports that there was no EDID available on any of the buses.
+> So once again I am out of ideas.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230331121826.96973-10-jack.zhu%40starfivetech.com
-patch subject: [PATCH v3 9/9] media: starfive: Add Starfive Camera Subsystem driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230401/202304011300.mT9MprJK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/421adbf9815b633e8bac5da7146c33aac01e283c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jack-Zhu/media-dt-bindings-Add-bindings-for-JH7110-Camera-Subsystem/20230331-202001
-        git checkout 421adbf9815b633e8bac5da7146c33aac01e283c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+The EDID also appears in /sys:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011300.mT9MprJK-lkp@intel.com/
+/sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid
+/sys/devices/platform/gpu/drm/card1/card1-HDMI-A-2/edid
 
-All warnings (new ones prefixed by >>):
+get-edid works fine on my RPi 4B, so if that doesn't work, then it really
+looks like there is something weird going on with your projector.
 
-   drivers/media/platform/starfive/stf_vin.c: In function 'stf_vin_map_isp_pad':
-   drivers/media/platform/starfive/stf_vin.c:99:24: warning: implicit conversion from 'enum isp_line_id' to 'enum isp_pad_id' [-Wenum-conversion]
-      99 |                 pad_id = vin_map_isp_line(line);
-         |                        ^
-   drivers/media/platform/starfive/stf_vin.c: In function 'vin_output_init_addrs':
-   drivers/media/platform/starfive/stf_vin.c:683:20: warning: variable 'pong_addr' set but not used [-Wunused-but-set-variable]
-     683 |         dma_addr_t pong_addr;
-         |                    ^~~~~~~~~
-   At top level:
->> drivers/media/platform/starfive/stf_vin.c:33:32: warning: 'vin_formats_raw' defined but not used [-Wunused-const-variable=]
-      33 | static const struct vin_format vin_formats_raw[] = {
-         |                                ^~~~~~~~~~~~~~~
+Regards,
 
-
-vim +/vin_formats_raw +33 drivers/media/platform/starfive/stf_vin.c
-
-    32	
-  > 33	static const struct vin_format vin_formats_raw[] = {
-    34		{ MEDIA_BUS_FMT_SBGGR12_1X12, 12},
-    35		{ MEDIA_BUS_FMT_SRGGB12_1X12, 12},
-    36		{ MEDIA_BUS_FMT_SGRBG12_1X12, 12},
-    37		{ MEDIA_BUS_FMT_SGBRG12_1X12, 12},
-    38	};
-    39	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+	Hans
