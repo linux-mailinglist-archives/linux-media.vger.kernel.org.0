@@ -2,157 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29A2A6D2F10
-	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 10:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CCB86D2FC4
+	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 12:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233633AbjDAIRV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Apr 2023 04:17:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50984 "EHLO
+        id S229575AbjDAK7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Apr 2023 06:59:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233518AbjDAIRU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 04:17:20 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789AB7ED9
-        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 01:17:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 270BFB8336C
-        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 08:17:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F34BC433EF;
-        Sat,  1 Apr 2023 08:17:15 +0000 (UTC)
-Message-ID: <6dabaf27-1d68-b6e5-12c3-cbef79867fc1@xs4all.nl>
-Date:   Sat, 1 Apr 2023 10:17:13 +0200
+        with ESMTP id S229458AbjDAK7q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 06:59:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8500CA246
+        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 03:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680346738;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=n0m9899QyNGgz290CASKStrnyLjXT/71L/LfFmt6KFA=;
+        b=ZGiM/DcPo60NG4NnyQcZf6LfainS6XCZbkXzqtlIbh+npI1ho+6tOBB7Nm7Q0U9k6hKaNS
+        NIqaK643lYRBrMMpPKatYpQvQCn6vv5lbMeSCPQ+/BWazBOWPBXOEnJ8/41XEZbEiVDD3O
+        HCbGr0nnIlXl63w+FGz8Gnsgj5pepc8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-609-FbLjDWZeMWeQA6FVsN2ZTQ-1; Sat, 01 Apr 2023 06:58:57 -0400
+X-MC-Unique: FbLjDWZeMWeQA6FVsN2ZTQ-1
+Received: by mail-ed1-f70.google.com with SMTP id b18-20020a50b412000000b0050234a3ad75so30262814edh.23
+        for <linux-media@vger.kernel.org>; Sat, 01 Apr 2023 03:58:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680346736;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n0m9899QyNGgz290CASKStrnyLjXT/71L/LfFmt6KFA=;
+        b=GicRA2iV5bzFwPJ0dEO5/ulCTkV8mvROdNglCuMtrRnP1fePo6lEmGb7S9ZDv2N9rW
+         s1XZKIIAjQjXrhahEkDOmqzpFSu7Zb5cufSY8k8pg426JlBf4NiKD7R6oR1UBDEP+SI2
+         pJrBsTv0olXP07khtPK01cor4GMXmzDdt9xhuaNxRXg7AUqO3VInjj+yjzXLhlV0WpHA
+         xLB0XUfHVM7jZjki7LIgC0Z9Jzg85O5Kz9vguZ3C/ignfpODSsDlrfE4mnQragMNv/uR
+         yV/5rEqCAjVN+/Pazu9xyuNxxL5wXZt9XLA1X444AS+ROGvUEAh80OrJVi29pCJGWGx7
+         1xdw==
+X-Gm-Message-State: AAQBX9ceT7F92eAmBaUnhNhn+Gy2yN2Q6rZevs08ywJHHFIohJYseU2k
+        /G5riCxUa9IUcyAufh7frKHayEgY3yuzslvqZo/HcMPtiTOEAULbi8dxSwt1d8ik+XBqwvoszI2
+        qFjjxsEDjKseXWFfQTPT+7Qo=
+X-Received: by 2002:a17:906:3a45:b0:88a:cbd1:e663 with SMTP id a5-20020a1709063a4500b0088acbd1e663mr31508687ejf.6.1680346736710;
+        Sat, 01 Apr 2023 03:58:56 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZtIShdxbTjbgmzNxznavZmuyezGlgZdr5OMmOztDE+cRHOW3xJQH9hVSALTDDGl9RQcTxppg==
+X-Received: by 2002:a17:906:3a45:b0:88a:cbd1:e663 with SMTP id a5-20020a1709063a4500b0088acbd1e663mr31508674ejf.6.1680346736398;
+        Sat, 01 Apr 2023 03:58:56 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 11-20020a170906010b00b0093344ef3764sm1949606eje.57.2023.04.01.03.58.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Apr 2023 03:58:55 -0700 (PDT)
+Message-ID: <109be822-9439-cd5a-c7f7-c63516f92099@redhat.com>
+Date:   Sat, 1 Apr 2023 12:58:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: Extremely long delay between CEC image-view-on an standby.
-Content-Language: en-US
-To:     Shawn Lindberg <shawn.lindberg@gmail.com>,
-        linux-media@vger.kernel.org
-References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
- <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl>
- <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
- <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com>
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 02/10] media: atomisp: Remove continuous mode support
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230221145906.8113-1-hdegoede@redhat.com>
+ <20230221145906.8113-3-hdegoede@redhat.com>
+ <Y/TqBBdU7dbYPIsW@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y/TqBBdU7dbYPIsW@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 31/03/2023 22:23, Shawn Lindberg wrote:
-> On Wed, Mar 29, 2023 at 2:56 PM Shawn Lindberg <shawn.lindberg@gmail.com> wrote:
+Hi Andy,
+
+Thank you for the reviews!
+
+On 2/21/23 16:57, Andy Shevchenko wrote:
+> On Tue, Feb 21, 2023 at 03:58:58PM +0100, Hans de Goede wrote:
+>> Continues mode is a special mode where 2 /dev/video devices can be active
+>> at the same time. Either the video-preview + video nodes or the
+>> viewfinder (for still capture) + capture nodes.
 >>
->> On Tue, Mar 28, 2023 at 2:58 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>>
->>>> cec-ctl -d0 --tv --cec-version-1.4
->>>
->>> That's wrong, the RPi is a Playback device, not a TV. So use --playback instead.
->>>
->>> You should also add this line to the config.txt:
->>>
->>> hdmi_ignore_cec=1
->>>
->>> otherwise the RPi's firmware tries to process CEC messages as well.
+>> For the video-preview + video-recording case modern userspace will
+>> use a single stream multiplexed by pipewire.
 >>
->> Oh, I thought that the TV/playback command was indicating what sort of
->> device the connected device is. This wasn't clear from the man page,
->> either. Thank you for that. I made the change to config.txt and
->> strangely when the RPi rebooted (I have it set to do this
->> automatically once a day) the projector automatically turned on. I
->> have never experienced this before.
+>> The still-capture case is extra special only starting the preview
+>> stream and then relying on a custom ATOMISP_IOC_S_CONT_CAPTURE_CONFIG
+>> ioctl to set things up followed by a second stream on to capture
+>> the amount of configured still pictures. While running the sensor
+>> at full resolution all the time. This case too is better handled
+>> with dma-buf + GPU downscaling for the view-finder rather then all this
+>> custom special code. Besises this the ioctl expects a bunch of special
+>> non error checked conditions to be met otherwise things will crash/hang.
+>>
+>> The continues mode also involves a special cases all over the code
+>> getting in the way of further cleanups and simplifying the code to
+>> using just 1 /dev/video# node. So lets remove it and the
+>> related custom ATOMISP_IOC_S_CONT_CAPTURE_CONFIG ioctl.
 > 
-> Further update on this. I continue to see the projector automatically
-> power on every time the RPi does its daily reboot, so I think I may
-> have to remove the hdmi_ignore_cec from the config.txt. Especially
-> since I can't figure out how to reliably shut the projector back off
-> again.
+> ...
+> 
+>> +	ret = atomisp_set_fmt_to_snr(vdev, &s_fmt,
+>> +				     f->fmt.pix.pixelformat, padding_w,
+> 
+> At least one parameter can be moved to the previous line.
 
-From what I can tell, the Raspberry Pi doesn't transmit anything over CEC
-at boot time, regardless of whether hdmi_ignore_cec is present or not.
-That's with a Raspberry Pi 4B. It might be different for an RPi 3.
+Ack, fixed in my local tree which I will push to:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+When I'm done processing your other review remarks.
 
 > 
->>>> During this time, if I try to poll the projector, it will succeed.
->>>> However, if I monitor events, after a significant amount of time
->>>> (appears to be greater than 20 minutes, although this is difficult to
->>>> verify because of how long it takes) I go will eventually see the
->>>> following:
->>>>
->>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
->>>>     Timestamp: 30981.428s
->>>
->>> Now it appears to be able to read the EDID again and it has a valid
->>> physical address.
->>>
->>>> Transmitted by Specific to Specific (14 to 14): POLL
->>>>     Tx, Not Acknowledged (4), Max Retries
->>>>     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4), Max Retries
->>>>
->>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
->>>>     Timestamp: 30981.561s
->>>> Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0x84):
->>>>     phys-addr: 1.0.0.0
->>>>     prim-devtype: tv (0x00)
->>>>     Sequence: 22 Tx Timestamp: 30981.696s
->>>> Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87):
->>>>     vendor-id: 3075 (0x00000c03)
->>>>     Sequence: 23 Tx Timestamp: 30981.835s
->>>> Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
->>>>     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
->>>>     reason: invalid-op (0x03)
->>>>     Sequence: 0 Rx Timestamp: 30981.949s
->>>> Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
->>>>     Sequence: 0 Rx Timestamp: 30982.026s
->>>> Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
->>>>     name: TV
->>>>     Sequence: 24 Tx Timestamp: 30982.137s
->>>>
->>>> After this point in time the standby command will succeed and the
->>>> projector will turn off. It's quite inconvenient to have to wait over
->>>> 20 minutes to turn the projector back off again. Any idea how I can
->>>> shorten this delay?
->>>
->>> There is something weird about your setup and EDID. I can't really tell
->>> what it is.
->>
->> After making the above changes and retesting, the behavior didn't
->> change. I still get the device not connected message and the invalid
->> physical address when I try to do standby. I should also note that one
->> way around this issue is to reboot the RPi. For some reason that seems
->> to get around the long delay in getting the physical address.
->>
->> I don't know what would be strange about my set up other than the
->> projector itself and a couple of lines I uncommented in the config.txt
->> to set the RPi to use HDMI even if the projector is not on at the time
->> of booting. Is there more information I can provide that would allow
->> us to figure out what's going on? If you are correct that for some
->> reason it is just not reading the EDID, is there a way to manually
->> provide that? I don't know much about it, but it's a static property
->> of the device (the projector in this case), right?
+>> +				     padding_h, dvs_env_w, dvs_env_h);
+>> +	if (ret) {
+>> +		dev_warn(isp->dev,
+>> +			 "Set format to sensor failed with %d\n", ret);
+>> +		return -EINVAL;
 > 
-> Since I noticed that the physical address is populated properly when
-> the RPi is booted while the projector is turned on, I did that and
-> then tried using the get-edid utility to see if I could read the EDID
-> block and save it to a file. Unfortunately, this didn't work, as the
-> utility reports that there was no EDID available on any of the buses.
-> So once again I am out of ideas.
+> ...
+> 
+>>  	case ATOMISP_RUN_MODE_PREVIEW:
+>> -		if (!asd->continuous_mode->val) {
+>> -			if (pipe_id == IA_CSS_PIPE_ID_PREVIEW)
+>> -				return true;
+>> +		if (pipe_id == IA_CSS_PIPE_ID_PREVIEW)
+>> +			return true;
+>>  
+>> -			return false;
+>> -		}
+>> -		fallthrough;
+>> +		return false;
+> 
+> 		return pipe_id == IA_CSS_PIPE_ID_PREVIEW;
 
-The EDID also appears in /sys:
+I agree that that is cleaner, but there are a bunch of other cases
+in this switch case which are not touched by this patch and
+they all follow the same pattern as which the modified cases
+use after this patch, e.g. :
 
-/sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid
-/sys/devices/platform/gpu/drm/card1/card1-HDMI-A-2/edid
+        case ATOMISP_RUN_MODE_STILL_CAPTURE:
+                if (pipe_id == IA_CSS_PIPE_ID_CAPTURE)
+                        return true;
 
-get-edid works fine on my RPi 4B, so if that doesn't work, then it really
-looks like there is something weird going on with your projector.
+                return false;
+
+So this patch basically makes all of them consistent with
+each other. So I'm going to keep this as is.
 
 Regards,
 
-	Hans
+Hans
+
+
+
+> 
+> ...
+> 
+>>  	case ATOMISP_RUN_MODE_VIDEO:
+>> -		if (!asd->continuous_mode->val) {
+>> -			if (pipe_id == IA_CSS_PIPE_ID_VIDEO ||
+>> -			    pipe_id == IA_CSS_PIPE_ID_YUVPP)
+>> -				return true;
+>> -			else
+>> -				return false;
+>> -		}
+>> -		fallthrough;
+>> +		if (pipe_id == IA_CSS_PIPE_ID_VIDEO || pipe_id == IA_CSS_PIPE_ID_YUVPP)
+>> +			return true;
+>> +
+>> +		return false;
+> 
+> Similar.
+> 
+
