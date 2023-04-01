@@ -2,340 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB78C6D3261
-	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 17:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 750DB6D3400
+	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 23:00:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbjDAP2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Apr 2023 11:28:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
+        id S229988AbjDAVAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Apr 2023 17:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjDAP2J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 11:28:09 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFAB1E73D
-        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 08:28:07 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id cj15so16962695qtb.5
-        for <linux-media@vger.kernel.org>; Sat, 01 Apr 2023 08:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1680362886;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DniKdMjY/ZXiWG4Rr8bTykeSjt897IFpe4FHAfn2mwM=;
-        b=77eWsgBO2iY/OSNNtMhAhMwrqTVKj/Ye7JZBFk6U5fNkxxqNNnWeVmf67iihfey+pL
-         y0e9Gp8GzcozXjaWaSJclOkhyfYmMk11a7ToXLT/5POkz/XFLd6ZNBwUuBHs/NCzMlnX
-         9DdtqEUFx+a8HEL7fAUFcsaU9EDIeSUV6kTk210j3NPfEcGd7uv+nHfI+Jbau+E3NEac
-         gbXiiiApZ9ZUaXDQE9ruwOV3hASg1F0KhXd5LLYWvHUIkTnTfpTvyxnhCou6mYZohX4N
-         Fu/UTIgO48UXXR+j7S7Y1nBDoRzaPHi6eOkWuSFo0n7jZE+7PQqqCmbehrTQVnD/RX5A
-         7rXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680362886;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DniKdMjY/ZXiWG4Rr8bTykeSjt897IFpe4FHAfn2mwM=;
-        b=C7pHebVZNipsrP7Vcd0FdGcu1OPCn3cuzwHQf4f6q9n4sacJFr4ANhqtd/29uglwBY
-         pdgsL+o99lID72Kl9ODQcofxHN55qrSQsKXKk4MByWF2sHNElMJbNMqITn3A3HXgYUEN
-         0/jQ9DD2GABa6/uwHbr5amIh3ZcxkCDD4Up/TunRFEGon8jmPVq8Sf1kndBlQy++mLHM
-         P3GoxxE/KPk2b1pwr6XUVZbaPquCxIAvMTcSlAAQlOf+XxOZOE8AwHha2PT700xXPOji
-         i8G9W8+WzLXJah4MprsYBTnFzaDcxtx53up+yPEdKUPA02fnJcAKYUgunjG/bZY47kxE
-         y+cw==
-X-Gm-Message-State: AO0yUKUh/zbYgDd+1Lo7lWr4iTpyAFKZlo7pHoCuHYPOSXf1f8SE4HGD
-        OHnBGaL30fWrvDLu7/lsVMyU1nvepCMrxUaVXBaaUg==
-X-Google-Smtp-Source: AK7set/T3tKL3E2WCw/4JciIB4Juddip9EwSk3paV6/pvHD6kybzKqRSuxrEeloKdNzZEBKHwei5ZQ==
-X-Received: by 2002:a05:622a:647:b0:3bf:d9ee:882d with SMTP id a7-20020a05622a064700b003bfd9ee882dmr48395644qtb.40.1680362886107;
-        Sat, 01 Apr 2023 08:28:06 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:a07e::580])
-        by smtp.gmail.com with ESMTPSA id f11-20020ac8470b000000b003e3860f12f7sm454683qtp.56.2023.04.01.08.28.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Apr 2023 08:28:05 -0700 (PDT)
-Message-ID: <415e2013019e8f4b2193130050d6123e469782ca.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH] media: hantro: respect data_offset in vb2_plane
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Date:   Sat, 01 Apr 2023 11:28:04 -0400
-In-Reply-To: <20230331162449.GF7238@pengutronix.de>
-References: <20230327132324.1781416-1-m.tretter@pengutronix.de>
-         <1f1a5acbd8951cfec250b78fff5a9fec731c3488.camel@ndufresne.ca>
-         <20230331162449.GF7238@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        with ESMTP id S229452AbjDAVAe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Apr 2023 17:00:34 -0400
+X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 01 Apr 2023 14:00:32 PDT
+Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7977B1A474
+        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 14:00:32 -0700 (PDT)
+Received: (qmail 1969 invoked by uid 990); 1 Apr 2023 20:53:49 -0000
+Authentication-Results: devico.uberspace.de;
+        auth=pass (plain)
 MIME-Version: 1.0
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Date:   Sat, 01 Apr 2023 20:53:48 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From:   "Leonard Lausen" <leonard@lausen.nl>
+Message-ID: <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
+TLS-Required: No
+Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
+ addresses"
+To:     "Javier Martinez Canillas" <javierm@redhat.com>,
+        "Dikshita Agarwal" <quic_dikshita@quicinc.com>,
+        "Vikash Garodia" <vgarodia@qti.qualcomm.com>,
+        "Linux regressions mailing list" <regressions@lists.linux.dev>,
+        "Stanimir Varbanov" <stanimir.k.varbanov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, mka@chromium.org,
+        "Albert Esteve" <aesteve@redhat.com>, stanimir.varbanov@linaro.org,
+        "Enric Balletbo i Serra" <eballetb@redhat.com>,
+        "Andy Gross" <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        "Fritz Koenig" <frkoenig@google.com>,
+        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>
+In-Reply-To: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
+References: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
+ <20230207102254.1446461-1-javierm@redhat.com>
+ <DM8PR02MB8169809493BF2822E6C29EECF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
+ <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
+ <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
+ <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
+ <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
+ <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
+ <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
+ <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
+ <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
+ <87edq9hj4w.fsf@minerva.mail-host-address-is-not-set>
+ <d18fac76-6b77-a446-5fe0-7236556e9187@quicinc.com>
+ <0c84724d-08d4-ddcb-5f71-4eb8261240c6@quicinc.com>
+X-Rspamd-Bar: -
+X-Rspamd-Report: MIME_GOOD(-0.1) BAYES_HAM(-2.911118) SUSPICIOUS_RECIPS(1.5)
+X-Rspamd-Score: -1.511118
+Received: from unknown (HELO unkown) (::1)
+        by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA; Sat, 01 Apr 2023 22:53:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=lausen.nl; s=uberspace;
+        h=from;
+        bh=aA2msNrvcbbehcgKux4cUf7WB087VIC6mCd6AEtUyEQ=;
+        b=s4XtsGVE1M/EVfLROVnFJKY2m/ZJILlhO+a2J5zOVsO9r/5JzqHXwZOaORDxQewy+/oLt/E13Z
+        HvywSLWvByzGU9FYoycym8dl/qvMUXsLGg76aiYxtRz6nMJTK6ObltrPRW4UXHjh49Nt5/w6snor
+        uZ/vF9mVBfnhYTOKqsh/167Ga0AzjuczYNQVXHHPAxfb022TAWlmScJj1evxBryqU3t/8XGf4OjU
+        Tdqcrynq20Xdv+DjkzxvJ0KElIi6CbYvd4/C9S+wu4TcVGEpjZNGByI6Ht1xE3auxBpkHazadRza
+        KR8P07gnacvy3pxinaTz10ClHrkxtuqMFuqmbMV6eemFAm8+gKf7uuy7FHHbV4g8QSrVqiokM3VD
+        VOCU7qDxTb5ddA+BTgHMOEoeNUfMe2ZxeZVCOv1CC11c9jzKHtGUxu3IGfEB+pqykhVSd1OMmvnu
+        qSt+lruwuDGYb6fnmI0Spko/H8WYomjH8zE3F1O7TiAA06PjkpoZfXlmrvo6x0v/QU7n0vbGgEZq
+        RrgV4YDpxPtJ3yzXK3VxTaxKk7VOA+LNmz/wZ8hvh3BFY/S7poQ+cJzfBkX6BGMtxd+Lgxu/wcr1
+        IYadB4A2ajHkUHnNaYkufpaNtqKB/5pnw29CNGAcn+DPkO7f5BvSS5HMdBncjiuJyuaXzX/ozbfD
+        c=
+X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+        MSGID_FROM_MTA_HEADER,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 31 mars 2023 =C3=A0 18:24 +0200, Michael Tretter a =C3=A9crit=
-=C2=A0:
-> Hi Nicolas,
->=20
-> On Fri, 31 Mar 2023 11:07:44 -0400, Nicolas Dufresne wrote:
-> > Le lundi 27 mars 2023 =C3=A0 15:23 +0200, Michael Tretter a =C3=A9crit=
-=C2=A0:
-> > > The vb2_plane in the vb2_v4l2_buffer may have a data_offset, which is
-> > > written by user space to tell the driver that the data starts at an
-> > > offset into the buffer. Currently the hantro driver assumes that the
-> > > data starts directly at the base address of the buffer.
-> > >=20
-> > > Add the data_offset to the plane dma_address to make sure that the
-> > > encoder actually reads the plane data if the user space put the plane
-> > > data at an offset into the buffer. Otherwise the encoded data may not=
- be
-> > > the data that userspace expected to be encoded.
-> > >=20
-> >=20
-> > The data_offset for this purpose have limited use, and this usage is on=
-ly valid
-> > for encoders (OUTPUT queues). Would it be possible to state this clearl=
-y in the
-> > subject ?
->=20
-> I'll update the subject.
->=20
-> >=20
-> > >=20
-> > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > > ---
-> > > Hi,
-> > >=20
-> > > Most other drivers also assume that the address returned by
-> > > vb2_dma_contig_plane_dma_addr() is the start of the plane data. Maybe=
- it
-> > > would be better to change vb2_dma_contig_plane_dma_addr() to already =
-add
-> > > the data_offset to the plane address. However, there are a few driver=
-s
-> > > that already have a helper that respects the data_offset, but that se=
-ems
-> > > to be the exception rather than the rule.
-> >=20
-> > I had this discussion recently, and its a bit hardware specific. Some H=
-W may
-> > support any random offset, in which case you will program the original =
-(and
-> > aligned) address, and program the offset in the HW. But some HW may not=
-, in
-> > which case you need to add alignment validation in the driver.
->=20
-> This makes sense, but it's still a bit surprising that some drivers don't
-> respect the data_offset. Maybe there should be a check that warns or retu=
-rns
-> an error to userspace if the data_offset is set but ignored by the driver=
-?
-> With such an error, the behavior of vb2_dma_contig_plane_dma_addr() would=
- be
-> obvious. OTOH, the warning would have to be added in the driver, too.
+Hi Javier, Dikshita, Stan,
 
-I would not be surprised if this is yet another "after the fact" API, or th=
-at we
-didn't realize that by adding it, it became mandatory, Hans has been adding
-capability flags for all the old one. My suggestion, cause there is no way =
-we
-can fix all the drivers is to introduce:
+the revert wasn't applied to v6.2 series. Can you please apply it and inc=
+lude it for v6.2.10?
 
-  V4L2_BUF_CAP_SUPPORTS_DATA_OFFSET
+March 6, 2023 at 5:43 AM, "Javier Martinez Canillas" <javierm@redhat.com>=
+ wrote:
+>> On 3/1/2023 3:15 PM, Dikshita Agarwal wrote:
+>>> On 2/28/2023 9:33 PM, Javier Martinez Canillas wrote:
+>>>> Javier Martinez Canillas<javierm@redhat.com>  writes:
+>>>>> Vikash Garodia<vgarodia@qti.qualcomm.com>  writes:
+>>>>>
+>>>>>> Stan, could you please help with the revert and a pull request hav=
+ing this revert
+>>>>>> alongwith other pending changes ?
+>>>>>>
+>>>>> Other fix posted is "media: venus: dec: Fix capture formats enumera=
+tion order":
+>>>>>
+>>>>> https://patchwork.kernel.org/project/linux-media/patch/202302100818=
+35.2054482-1-javierm@redhat.com/
+>>
+>> Hi Javier,
+>>
+>> Thanks for this patch "media: venus: dec: Fix capture formats
+>> enumeration order".
+>>
+>> Somehow I can't find it in my mailbox to be able to reply there.
+>>
+>> Could you please explain what is the regression you see here?
+>>
+>
+>You can find the thread and explanation of the issue here:
+>
+>https://lore.kernel.org/lkml/Y+KPW18o%2FDa+N8UI@google.com/T/
+>
+>But Stanimir already picked it and sent a PR for v6.3 including it.
 
-At least we could fix userspace to avoid it if its not set. By the way, you=
-'d be
-impressed how many time we "fixed" GPU and Display drivers because they for=
-got
-to take an offset into account.
+While "media: venus: dec: Fix capture formats enumeration order" may have=
+ been
+applied to v6.3, this still leaves the regression introduced by "venus:
+firmware: Correct non-pix start and end addresses". As pointed out by Mat=
+thias
+Kaehlcke, the commit prevents SC7180 and sc7280 AOSS from entering sleep =
+mode
+during system suspend. This is a serious regression in v6.2 kernel series=
+.
 
->=20
-> >=20
-> > >=20
-> > > What I am actually trying to achieve is to import a V4L2_PIX_FMT_NV12
-> > > buffer from a Rockchip RGA2 (which doesn't support the multi-planar A=
-PI)
-> > > as a V4L2_PIX_FMT_NV12M buffer into the Hantro JPEG encoder (which
-> > > doesn't support V4L2_PIX_FMT_NV12). Solving this by importing the sam=
-e
-> > > FD for each plane with a respective offset is how one would import su=
-ch
-> > > a buffer with the DRM API. Please tell me, if my approach is wrong an=
-d,
-> > > if so, how I should solve it differently.
-> >=20
-> > The approach is fine, this is the only valid usage of data_offset when =
-passed by
-> > userspace. Though, you are making your live much more difficult then ne=
-eded,
-> > adding NV12 (contiguous) support to the jpeg encoder should be fairly e=
-asy too.
->=20
-> It is fairly easy to add this in the driver, but the negotiation in GStre=
-amer
-> is becomes a bit cumbersome as the caps don't distinguish between
-> V4L2_PIX_FMT_NV12 and V4L2_PIX_FMT_NV12M and the encoder will prefer
-> V4L2_PIX_FMT_NV12M if NV12 is negotiated. Letting userspace explicitly st=
-ate
-> the offset of the second plane makes things easier as well. Thus, I disca=
-rded
-> the option of adding NV12 contiguous support to this encoder.
->=20
-
-By the way, currently encoder imports only works by pure luck. You have to =
-fix
-GStreamer video encoder, the authors (yes I'm on of them) forgot to apply t=
-he
-alignment from the imported buffers, so sometimes that padding will screw-u=
-p
-your image. In short, it completely ignores the incoming bytesperline, whic=
-h is
-a terrible idea. Guillaume Desmottes introduced a try_import() function tha=
-t
-update the FMT and SELECTION with the padding.
-
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/=
-gst-plugins-good/sys/v4l2/gstv4l2object.c#L5372
-
-For CAPTURE queues (his use case was v4l2src), this is handled by the buffe=
-r
-pool already:
-
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/=
-gst-plugins-good/sys/v4l2/gstv4l2bufferpool.c#L796
-
-But for OUTPUT queue (sink pads), it has to be handled by the element, like
-v4l2transform does today (in theory, we should also re-validate every buffe=
-r, in
-case it changes, but V4L2 allocator makes the fallback impractical):
-
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/=
-gst-plugins-good/sys/v4l2/gstv4l2transform.c#L909
-
-But you'll see this is missing here:
-
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/=
-gst-plugins-good/sys/v4l2/gstv4l2videoenc.c#L742
-
-DMAbuf importation in this plugin is highly experimental, and missing a lot=
- of
-bits (and may also fail to detect some of the V4L2 API limitations). So far=
-,
-folks have been adding bits they need, the challenge in adding everything i=
-s
-that most folks can't actually test it. And so you are warned now, you'll k=
-now
-what to do if it fails randomly on you with a completely broken image.
-
-I personally think its great that you fix that data_offset here, but clearl=
-y
-GStreamer use of it will generally not work until we patch all drivers that
-literally don't support it to fail QBUF. But that won't make it great, as
-userspace won't have a clue if it could have switch NV12M -> NV12.=20
-
-I think updating this function, which purpose is exactly that, to prefer
-changing the format to NV12 rather then padding the same dmabuf N times thr=
-ough
-NV12M would improve a lot the general import support.
-
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/=
-gst-plugins-good/sys/v4l2/gstv4l2object.c#L4766
-
-Hope this is useful information for the success of your project. In any cas=
-es,
-your patches are part of the right direction, and one step further.
-
->=20
-> >=20
-> > >=20
-> > > Michael
-> > > ---
-> > >  .../verisilicon/rockchip_vpu2_hw_jpeg_enc.c   | 24 +++++++++++++----=
---
-> > >  1 file changed, 17 insertions(+), 7 deletions(-)
-> > >=20
-> > > diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg=
-_enc.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
-> > > index 8395c4d48dd0..05df7768187d 100644
-> > > --- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
-> > > +++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
-> > > @@ -32,6 +32,16 @@
-> > > =20
-> > >  #define VEPU_JPEG_QUANT_TABLE_COUNT 16
-> > > =20
-> > > +static dma_addr_t rockchip_vpu2_plane_dma_addr(struct vb2_buffer *vb=
-,
-> > > +					       unsigned int plane_no)
-> > > +{
-> > > +	struct vb2_v4l2_buffer *v4l2_buf =3D to_vb2_v4l2_buffer(vb);
-> > > +	dma_addr_t base =3D vb2_dma_contig_plane_dma_addr(vb, plane_no);
-> > > +	unsigned int offset =3D v4l2_buf->planes[plane_no].data_offset;
-> > > +
-> > > +	return base + offset;
-> >=20
-> > As the offset is not being passed as a control to the HW, you need to g=
-o back to
-> > the datasheet, and figure-out what is the required alignment. This alig=
-ment then
-> > needs to be validated. I don't know the exact answer for you, we don't =
-check the
-> > dma address because they are all page aligned, so its not needed.
-> >=20
-> > If the alignment is not acceptable, you have to fail synchronously in
-> > VIDIOC_QBUF, so that userspace knows and can fallback to copy.
->=20
-> I will add the necessary checks and send a proper version of the patch.
->=20
-> Thanks a lot!
->=20
-> Michael
->=20
-
-Thanks to you,
-Nicolas
-
->=20
->=20
-> >=20
-> > > +}
-> > > +
-> > >  static void rockchip_vpu2_set_src_img_ctrl(struct hantro_dev *vpu,
-> > >  					   struct hantro_ctx *ctx)
-> > >  {
-> > > @@ -79,23 +89,23 @@ static void rockchip_vpu2_jpeg_enc_set_buffers(st=
-ruct hantro_dev *vpu,
-> > > =20
-> > >  	WARN_ON(pix_fmt->num_planes > 3);
-> > > =20
-> > > -	vepu_write_relaxed(vpu, vb2_dma_contig_plane_dma_addr(dst_buf, 0) +
-> > > +	vepu_write_relaxed(vpu, rockchip_vpu2_plane_dma_addr(dst_buf, 0) +
-> > >  				ctx->vpu_dst_fmt->header_size,
-> > >  			   VEPU_REG_ADDR_OUTPUT_STREAM);
-> > >  	vepu_write_relaxed(vpu, size_left, VEPU_REG_STR_BUF_LIMIT);
-> > > =20
-> > >  	if (pix_fmt->num_planes =3D=3D 1) {
-> > > -		src[0] =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
-> > > +		src[0] =3D rockchip_vpu2_plane_dma_addr(src_buf, 0);
-> > >  		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
-> > >  	} else if (pix_fmt->num_planes =3D=3D 2) {
-> > > -		src[0] =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
-> > > -		src[1] =3D vb2_dma_contig_plane_dma_addr(src_buf, 1);
-> > > +		src[0] =3D rockchip_vpu2_plane_dma_addr(src_buf, 0);
-> > > +		src[1] =3D rockchip_vpu2_plane_dma_addr(src_buf, 1);
-> > >  		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
-> > >  		vepu_write_relaxed(vpu, src[1], VEPU_REG_ADDR_IN_PLANE_1);
-> > >  	} else {
-> > > -		src[0] =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
-> > > -		src[1] =3D vb2_dma_contig_plane_dma_addr(src_buf, 1);
-> > > -		src[2] =3D vb2_dma_contig_plane_dma_addr(src_buf, 2);
-> > > +		src[0] =3D rockchip_vpu2_plane_dma_addr(src_buf, 0);
-> > > +		src[1] =3D rockchip_vpu2_plane_dma_addr(src_buf, 1);
-> > > +		src[2] =3D rockchip_vpu2_plane_dma_addr(src_buf, 2);
-> > >  		vepu_write_relaxed(vpu, src[0], VEPU_REG_ADDR_IN_PLANE_0);
-> > >  		vepu_write_relaxed(vpu, src[1], VEPU_REG_ADDR_IN_PLANE_1);
-> > >  		vepu_write_relaxed(vpu, src[2], VEPU_REG_ADDR_IN_PLANE_2);
-> >=20
-> >=20
-
+Best regards,
+Leonard Lausen
