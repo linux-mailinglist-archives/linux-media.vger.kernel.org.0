@@ -2,94 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CBCA6D2B5B
-	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 00:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 342BC6D2C43
+	for <lists+linux-media@lfdr.de>; Sat,  1 Apr 2023 03:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232426AbjCaWiN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Mar 2023 18:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
+        id S232373AbjDABFw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Mar 2023 21:05:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232048AbjCaWiK (ORCPT
+        with ESMTP id S229988AbjDABFv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Mar 2023 18:38:10 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC8F20C1B;
-        Fri, 31 Mar 2023 15:38:09 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id l27so23908253wrb.2;
-        Fri, 31 Mar 2023 15:38:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680302288;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5v7xvunvsYzy+j0hJpOC0u3uISSu7pltf/PiT/5Sg7Y=;
-        b=lAWH/t8UWEC0Dbj/7E4iCzDWL65Pjl/KK4pGG+Flgo2FlpmvtGPO5bUBNNEpD3TwY5
-         M82t7cOddg3svU6CiicWPJOolJTe08Mt2Y9MAMLGZEHSwzRTVTqxcWnhf3q0Jh+ZCvIU
-         AcQ/nZLKLdJIbf5NYHqdlrlpHPHo0UtOiG1q7LNZ+V7cy4RAKS1wRgj2te9RZ/WqLNEO
-         CBC4ldPMZnPWdbB5VtU7NcukguQQ63bqdW+LkhCZQAB1N2tOc9a5q4LbiRTCepyAXFEk
-         CjDao7IUoeiu+bjSur2mfg7cv7q8JdOGzcppkqca4SwCUqfXU52C09xd+/8VGYjPPmdT
-         8Y6A==
+        Fri, 31 Mar 2023 21:05:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1821C1E8
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 18:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680311102;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ZezcjhdJnPBqT5fIkJeXVlzuTEM0bkI2yB633mRrHn4=;
+        b=irzOkqPi7uoaQOXSVtqyhzCSyg/HlKzm2RQV0w8durDmcej9mSdMl6kdRUYWEtmGjihFNj
+        hiGhZ9PMQtbYbpt2s2K4wjJ9Q2RboX8xs1nIl2TA0nWMGtl0ebJcieOpatOMldlcDwdEgl
+        /hZk6Arctl0hzzevylwFDTICzXbuONA=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-31-Z6O40gpsN7inxfjo8_5dIw-1; Fri, 31 Mar 2023 21:05:00 -0400
+X-MC-Unique: Z6O40gpsN7inxfjo8_5dIw-1
+Received: by mail-qv1-f69.google.com with SMTP id r4-20020ad44044000000b005ad0ce58902so10494666qvp.5
+        for <linux-media@vger.kernel.org>; Fri, 31 Mar 2023 18:05:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680302288;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5v7xvunvsYzy+j0hJpOC0u3uISSu7pltf/PiT/5Sg7Y=;
-        b=Y8A0jaspsoQMG7+KHFiAoeG1A1bMfNi75hhayun1+jTrSTSSSXwHA1+vnTo1OPY4D+
-         bw7y8Gb0V5LXR4IDlEcr8qo1L5l+GyQnegXnCoDYoYHAIXesLjaBT+kX3xpdR9K+94Xe
-         GWRjvdS2v48PuA2jSCg18RUZz3/dcu47nAcl/2/zY4jlznP+2tLrkuzxXMC9tTEs6lIb
-         JWVvkDZk0mksDJz2fFzNG61e77AQaiEPVR8CPUqZ8yKVCOnk57g4HxfPdU2GUUuqcmXC
-         O1wwUlQdGvz6Rzo+Je0IAsRTVM3pSxwciaMtodGnnO6IGvH/XYDIDKVbM9KpWoxE6w1N
-         1nlA==
-X-Gm-Message-State: AAQBX9fsvLII4a09e0p+ScYgWepslU8hdv+dxBMmFfbh2+kQ0EdndmT0
-        MRpGnL7Y0DI8XGbEG2uKJwV8Kw31KR0=
-X-Google-Smtp-Source: AKy350a2mJOf0+8PkcWAKztd5VJjFp413ZWnOwlRgDf6WMzPU7qHVCqIdlVC+ETZ4yHt15B9a2vxNg==
-X-Received: by 2002:a5d:4d11:0:b0:2d2:d324:e44f with SMTP id z17-20020a5d4d11000000b002d2d324e44fmr21024396wrt.16.1680302287918;
-        Fri, 31 Mar 2023 15:38:07 -0700 (PDT)
-Received: from debian ([63.135.72.41])
-        by smtp.gmail.com with ESMTPSA id l12-20020a5d560c000000b002cfe685bfd6sm3189226wrv.108.2023.03.31.15.38.07
+        d=1e100.net; s=20210112; t=1680311100;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZezcjhdJnPBqT5fIkJeXVlzuTEM0bkI2yB633mRrHn4=;
+        b=QYqc6qAMjJevk8etCP6R98HEjy4IvYXoRYKtV8OGWyEoefzwk9NlEk1oKC3Kj6nNIM
+         ToxcFchDerCmV79yUP9NaDBbtu1s81VufCAukI0iN1fkvvUGVGCGe4rfxd+PxJqk+kce
+         FPab2dxY36gWl6N+FVRaQXdKZPEktQKxGd2NyYL2HP6HtKem/r45e0znyjfGNcYO9zbG
+         EQjVCf4Wk1pw+dTGsydyr9UjQcIbsipFxA388ErydcLkSjxXskqs76FLsHKd7Y4GRdVX
+         Q1TSGbFhy3EYxk2XnUiEfjU/DwYXYXonWks5EvdmXmddHa9z6bDeww1eK9WthHqjBU/H
+         PuXA==
+X-Gm-Message-State: AO0yUKXfoNP2daXcYNfV47z7ES4Ar9g6qE0waePAdgOeThaHvpDYsYd7
+        ++5t/H6g6+yAs9MMFPoCPZO3+/vulBBbHQfEKmIjShUOx5RIp7PL7124wk+u3P7WRXj6fRX8owm
+        uUYvqyGEblQ4rslIEE73w5aY=
+X-Received: by 2002:a05:622a:594:b0:3bf:db0a:c105 with SMTP id c20-20020a05622a059400b003bfdb0ac105mr47836556qtb.6.1680311100444;
+        Fri, 31 Mar 2023 18:05:00 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9G4/WUx6L3PsHLq2UxivRskDVehlN2TbR8kJzcUk6OcCVFU7GWx4dbSv+XR5SXUmN8++dfFA==
+X-Received: by 2002:a05:622a:594:b0:3bf:db0a:c105 with SMTP id c20-20020a05622a059400b003bfdb0ac105mr47836535qtb.6.1680311100209;
+        Fri, 31 Mar 2023 18:05:00 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id i187-20020a3786c4000000b006f9f3c0c63csm1061634qkd.32.2023.03.31.18.04.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Mar 2023 15:38:07 -0700 (PDT)
-Date:   Fri, 31 Mar 2023 23:38:06 +0100
-From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: mainline build failure due to 02852c01f654 ("media: i2c: imx290:
- Initialize runtime PM before subdev")
-Message-ID: <ZCdgzm2NOSQc5qAL@debian>
+        Fri, 31 Mar 2023 18:04:59 -0700 (PDT)
+From:   Tom Rix <trix@redhat.com>
+To:     mchehab@kernel.org, nathan@kernel.org, ndesaulniers@google.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, Tom Rix <trix@redhat.com>
+Subject: [PATCH] [media] mb86a20s: remove unused active_layers variable
+Date:   Fri, 31 Mar 2023 21:04:56 -0400
+Message-Id: <20230401010456.1866555-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+clang with W=1 reports
+drivers/media/dvb-frontends/mb86a20s.c:1572:6: error: variable
+  'active_layers' set but not used [-Werror,-Wunused-but-set-variable]
+        int active_layers = 0, pre_ber_layers = 0, post_ber_layers = 0;
+            ^
+This variable is not used so remove it.
 
-The mainline kernel branch had been failing last few weeks for alpha,
-csky and s390 allmodconfig with the error:
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/media/dvb-frontends/mb86a20s.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-drivers/media/i2c/imx290.c:1093:12: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]
- 1093 | static int imx290_runtime_suspend(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~~~~~
-drivers/media/i2c/imx290.c:1085:12: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]
- 1085 | static int imx290_runtime_resume(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~~~~
-
-git bisect pointed to 02852c01f654 ("media: i2c: imx290: Initialize runtime PM before subdev")
-
-I will be happy to test any patch or provide any extra log if needed.
-
-
+diff --git a/drivers/media/dvb-frontends/mb86a20s.c b/drivers/media/dvb-frontends/mb86a20s.c
+index b74b9afed9a2..125fed4891ba 100644
+--- a/drivers/media/dvb-frontends/mb86a20s.c
++++ b/drivers/media/dvb-frontends/mb86a20s.c
+@@ -1569,7 +1569,7 @@ static int mb86a20s_get_stats(struct dvb_frontend *fe, int status_nr)
+ 	u32 t_post_bit_error = 0, t_post_bit_count = 0;
+ 	u32 block_error = 0, block_count = 0;
+ 	u32 t_block_error = 0, t_block_count = 0;
+-	int active_layers = 0, pre_ber_layers = 0, post_ber_layers = 0;
++	int pre_ber_layers = 0, post_ber_layers = 0;
+ 	int per_layers = 0;
+ 
+ 	dev_dbg(&state->i2c->dev, "%s called.\n", __func__);
+@@ -1589,9 +1589,6 @@ static int mb86a20s_get_stats(struct dvb_frontend *fe, int status_nr)
+ 
+ 	for (layer = 0; layer < NUM_LAYERS; layer++) {
+ 		if (c->isdbt_layer_enabled & (1 << layer)) {
+-			/* Layer is active and has rc segments */
+-			active_layers++;
+-
+ 			/* Handle BER before vterbi */
+ 			rc = mb86a20s_get_pre_ber(fe, layer,
+ 						  &bit_error, &bit_count);
 -- 
-Regards
-Sudip
+2.27.0
+
