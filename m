@@ -2,738 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E6876D394E
-	for <lists+linux-media@lfdr.de>; Sun,  2 Apr 2023 18:50:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D1C6D39F0
+	for <lists+linux-media@lfdr.de>; Sun,  2 Apr 2023 21:09:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbjDBQt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Apr 2023 12:49:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34822 "EHLO
+        id S230522AbjDBTI7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Apr 2023 15:08:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231262AbjDBQtk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 12:49:40 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2C81D843;
-        Sun,  2 Apr 2023 09:49:31 -0700 (PDT)
-Received: from workpc.. (109-252-124-32.nat.spd-mgts.ru [109.252.124.32])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C0C9F66031A2;
-        Sun,  2 Apr 2023 17:49:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680454169;
-        bh=KZz1i5pHAtFpbfkfyURA6HRF/mHH8iwaCD4+giOfPa4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T1w+/B+rCiQNniUh8BILdB3wpwwkyjXRBg1GtNGF6N9+ixAyVD+pme+CNr/NXcHUG
-         hbpj1AKH0S0QtZoX69i22MSo6Vg3iaiytEnsUi0DwgHC+CX3d+jAAsv8C43dtOsJ34
-         qfCJQ1aM5uxPcA+PWKZUo61yhJJnGkeauECB6NjXgnwjW+UP7xY5L+JeI5VV72oUgu
-         HFagUNb9qsD2uDfyk6VqNFlQS4vSapb4eSGjglxcVMD98hO/5a+TP9xWNYAnSIBp6N
-         ANDOswSAucGfZb6GxoYUMHdNrLfJEWd8j7AWFbbteQhL3DzlxOYhCkrq6sPFn/eOeO
-         5NapmtjeYdxsQ==
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        kernel@collabora.com
-Subject: [PATCH v1 7/7] drm/shmem-helper: Switch to reservation lock
-Date:   Sun,  2 Apr 2023 19:48:26 +0300
-Message-Id: <20230402164826.752842-8-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
-References: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
+        with ESMTP id S229448AbjDBTI6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 15:08:58 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9693CAF33
+        for <linux-media@vger.kernel.org>; Sun,  2 Apr 2023 12:08:57 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id x17so4372667qtv.7
+        for <linux-media@vger.kernel.org>; Sun, 02 Apr 2023 12:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680462535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/6vGHaP71nCPJi8tDOSzi4yqzoQPXYxz/JscVm6tWxs=;
+        b=lRwepOBeX/whQTuJp8lkQIW/KHwhpwKOWUtEwEB1Tz2x+a4Pao2uVK8h+2mbyl4YnF
+         jfu6mlItY0hbZjPQFVvJQv44f9RrRkCGMfTjzdKuO7DtIONuxfYsylVIJNdLwJMutVUb
+         klaO+84G1FrlgPCP08WXWSsO868uDZCz7oveudjeVeWB/nQNOq5kSe226t5lKDm4zwnC
+         MQSA5Z6aaLaw9A/Ej4DJHEY0XZ6oVPLU3mL+5nEi0YIj/ode41KIO8C6IwiCwT2B2NiP
+         Ka519ipy4Ugh+MDqf7PWdYSDPCY4zlZiXYnxGeBN9QUqOEBEUUkVocbROmbQ+VVx6oiT
+         LVPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680462535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/6vGHaP71nCPJi8tDOSzi4yqzoQPXYxz/JscVm6tWxs=;
+        b=C/ImqGv9HPJO8jJ4HhL/6QOwd0sdVGW5Yr9kRIqw0KpKXbuMaUR2aym6uXuKeKD+yj
+         59qsha151dZ6tCJqr6TJDfEJp+FTP7Ng+n0ZzkCK2MdhIiTO3OzD7yP/kYw85dehPfbr
+         poenOXpgUL7vIThKH8NaE5TUlQ5mUCZAiSeRcAuTbsTbfaL2ai6/BTS981MYFCCKSYvE
+         wHX3TW3MlPtpYPzfYLXaeby5q786zyXFq6I88dMxuW4qUbW4/nfVzE3kcgMPgsU2aXU2
+         YdwSUOv5V5QJ1xI8XK3M8SObaoFskRADhfL8esgsodysKqGe9aE+zgQIngosKoDBzd4k
+         GDeA==
+X-Gm-Message-State: AO0yUKWkNlaq9p2XZPP2XKbgvMbNuLltehMRtw8fMVkTgrsZEWo9/KjL
+        Jmt4CmWP0OfjC3yCC/XMA0WtNE/b8BVqoWGEkas=
+X-Google-Smtp-Source: AKy350YMMhhboqdA7tdBl5JWcQE+bn5RxowQEuPrGZbal2cPuuAoJUkN4fpgLD5wAIs7fAzdEsaXKmFHmoEeyxkwjXE=
+X-Received: by 2002:ac8:5905:0:b0:3c0:3c09:a4a4 with SMTP id
+ 5-20020ac85905000000b003c03c09a4a4mr12665801qty.0.1680462535625; Sun, 02 Apr
+ 2023 12:08:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230401145926.596216-1-hdegoede@redhat.com> <20230401145926.596216-27-hdegoede@redhat.com>
+In-Reply-To: <20230401145926.596216-27-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 2 Apr 2023 21:08:19 +0200
+Message-ID: <CAHp75VfkeQNAwSAbTGFMObsZ1L-BqCN6uDfWohCNSy=eKtTM6g@mail.gmail.com>
+Subject: Re: [PATCH 26/28] media: atomisp: Remove struct atomisp_sub_device
+ index field
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace all drm-shmem locks with a GEM reservation lock. This makes locks
-consistent with dma-buf locking convention where importers are responsible
-for holding reservation lock for all operations performed over dma-bufs,
-preventing deadlock between dma-buf importers and exporters.
+On Sat, Apr 1, 2023 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Remove the struct atomisp_sub_device.
+>
+> This was used for 2 things:
+>
+> 1. In dev_dbg() messages
+> 2. To set the name of the v4l2_subdev for each struct atomisp_sub_device
+>
+> Now that only 1 subdev is used neither is useful anymore. Remove the _%d
+> postfix from the v4l2_subdev name and remove the logging of the asd index
+> from the dev_dbg() messages.
+>
+> In case of the atomisp_s_input() check to see if an input/sensor has
+> already been assigned to another subdev the entire check no longer
+> makes sense, so instead of changing the dev_err() message there just
+> drop the entire check.
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c        | 217 ++++++++----------
- drivers/gpu/drm/lima/lima_gem.c               |   8 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
- include/drm/drm_gem_shmem_helper.h            |  14 +-
- 6 files changed, 120 insertions(+), 151 deletions(-)
+There are already dev_dbg() calls w/o __func__. Hence it makes sense
+(to me) to drop __func__ in the ones you touched in this patch.
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 4ea6507a77e5..8fc2a3277486 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -88,8 +88,6 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
- 	if (ret)
- 		goto err_release;
- 
--	mutex_init(&shmem->pages_lock);
--	mutex_init(&shmem->vmap_lock);
- 	INIT_LIST_HEAD(&shmem->madv_list);
- 
- 	if (!private) {
-@@ -141,11 +139,13 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
--	drm_WARN_ON(obj->dev, shmem->vmap_use_count);
--
- 	if (obj->import_attach) {
- 		drm_prime_gem_destroy(obj, shmem->sgt);
- 	} else {
-+		dma_resv_lock(shmem->base.resv, NULL);
-+
-+		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
-+
- 		if (shmem->sgt) {
- 			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
- 					  DMA_BIDIRECTIONAL, 0);
-@@ -154,18 +154,18 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
- 		}
- 		if (shmem->pages)
- 			drm_gem_shmem_put_pages(shmem);
--	}
- 
--	drm_WARN_ON(obj->dev, shmem->pages_use_count);
-+		drm_WARN_ON(obj->dev, shmem->pages_use_count);
-+
-+		dma_resv_unlock(shmem->base.resv);
-+	}
- 
- 	drm_gem_object_release(obj);
--	mutex_destroy(&shmem->pages_lock);
--	mutex_destroy(&shmem->vmap_lock);
- 	kfree(shmem);
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
- 
--static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
-+static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 	struct page **pages;
-@@ -197,35 +197,16 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
- }
- 
- /*
-- * drm_gem_shmem_get_pages - Allocate backing pages for a shmem GEM object
-+ * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-  * @shmem: shmem GEM object
-  *
-- * This function makes sure that backing pages exists for the shmem GEM object
-- * and increases the use count.
-- *
-- * Returns:
-- * 0 on success or a negative error code on failure.
-+ * This function decreases the use count and puts the backing pages when use drops to zero.
-  */
--int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-+void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
--	int ret;
- 
--	drm_WARN_ON(obj->dev, obj->import_attach);
--
--	ret = mutex_lock_interruptible(&shmem->pages_lock);
--	if (ret)
--		return ret;
--	ret = drm_gem_shmem_get_pages_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_shmem_get_pages);
--
--static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
--{
--	struct drm_gem_object *obj = &shmem->base;
-+	dma_resv_assert_held(shmem->base.resv);
- 
- 	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
- 		return;
-@@ -243,20 +224,32 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
- 			  shmem->pages_mark_accessed_on_put);
- 	shmem->pages = NULL;
- }
-+EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
--/*
-- * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-- * @shmem: shmem GEM object
-- *
-- * This function decreases the use count and puts the backing pages when use drops to zero.
-- */
--void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
-+static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
- {
--	mutex_lock(&shmem->pages_lock);
--	drm_gem_shmem_put_pages_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
-+	struct drm_gem_object *obj = &shmem->base;
-+	int ret;
-+
-+	dma_resv_assert_held(shmem->base.resv);
-+
-+	drm_WARN_ON(obj->dev, obj->import_attach);
-+
-+	ret = drm_gem_shmem_get_pages(shmem);
-+
-+	return ret;
-+}
-+
-+static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
-+{
-+	struct drm_gem_object *obj = &shmem->base;
-+
-+	dma_resv_assert_held(shmem->base.resv);
-+
-+	drm_WARN_ON(obj->dev, obj->import_attach);
-+
-+	drm_gem_shmem_put_pages(shmem);
- }
--EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- 
- /**
-  * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
-@@ -271,10 +264,15 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
-+	int ret;
- 
--	drm_WARN_ON(obj->dev, obj->import_attach);
-+	ret = dma_resv_lock_interruptible(obj->resv, NULL);
-+	if (ret)
-+		return ret;
-+	ret = drm_gem_shmem_pin_locked(shmem);
-+	dma_resv_unlock(shmem->base.resv);
- 
--	return drm_gem_shmem_get_pages(shmem);
-+	return ret;
- }
- EXPORT_SYMBOL(drm_gem_shmem_pin);
- 
-@@ -289,14 +287,29 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
--	drm_WARN_ON(obj->dev, obj->import_attach);
--
--	drm_gem_shmem_put_pages(shmem);
-+	dma_resv_lock(obj->resv, NULL);
-+	drm_gem_shmem_unpin_locked(shmem);
-+	dma_resv_unlock(shmem->base.resv);
- }
- EXPORT_SYMBOL(drm_gem_shmem_unpin);
- 
--static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
--				     struct iosys_map *map)
-+/*
-+ * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-+ * @shmem: shmem GEM object
-+ * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
-+ *       store.
-+ *
-+ * This function makes sure that a contiguous kernel virtual address mapping
-+ * exists for the buffer backing the shmem GEM object. It hides the differences
-+ * between dma-buf imported and natively allocated objects.
-+ *
-+ * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
-+		       struct iosys_map *map)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 	int ret = 0;
-@@ -312,6 +325,8 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 	} else {
- 		pgprot_t prot = PAGE_KERNEL;
- 
-+		dma_resv_assert_held(shmem->base.resv);
-+
- 		if (shmem->vmap_use_count++ > 0) {
- 			iosys_map_set_vaddr(map, shmem->vaddr);
- 			return 0;
-@@ -346,45 +361,30 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 
- 	return ret;
- }
-+EXPORT_SYMBOL(drm_gem_shmem_vmap);
- 
- /*
-- * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-+ * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
-  * @shmem: shmem GEM object
-- * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
-- *       store.
-- *
-- * This function makes sure that a contiguous kernel virtual address mapping
-- * exists for the buffer backing the shmem GEM object. It hides the differences
-- * between dma-buf imported and natively allocated objects.
-+ * @map: Kernel virtual address where the SHMEM GEM object was mapped
-  *
-- * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
-+ * This function cleans up a kernel virtual address mapping acquired by
-+ * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
-+ * zero.
-  *
-- * Returns:
-- * 0 on success or a negative error code on failure.
-+ * This function hides the differences between dma-buf imported and natively
-+ * allocated objects.
-  */
--int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
--		       struct iosys_map *map)
--{
--	int ret;
--
--	ret = mutex_lock_interruptible(&shmem->vmap_lock);
--	if (ret)
--		return ret;
--	ret = drm_gem_shmem_vmap_locked(shmem, map);
--	mutex_unlock(&shmem->vmap_lock);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_shmem_vmap);
--
--static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
--					struct iosys_map *map)
-+void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
-+			  struct iosys_map *map)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 
- 	if (obj->import_attach) {
- 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
- 	} else {
-+		dma_resv_assert_held(shmem->base.resv);
-+
- 		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
- 			return;
- 
-@@ -397,26 +397,6 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
- 
- 	shmem->vaddr = NULL;
- }
--
--/*
-- * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
-- * @shmem: shmem GEM object
-- * @map: Kernel virtual address where the SHMEM GEM object was mapped
-- *
-- * This function cleans up a kernel virtual address mapping acquired by
-- * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
-- * zero.
-- *
-- * This function hides the differences between dma-buf imported and natively
-- * allocated objects.
-- */
--void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
--			  struct iosys_map *map)
--{
--	mutex_lock(&shmem->vmap_lock);
--	drm_gem_shmem_vunmap_locked(shmem, map);
--	mutex_unlock(&shmem->vmap_lock);
--}
- EXPORT_SYMBOL(drm_gem_shmem_vunmap);
- 
- static int
-@@ -447,24 +427,24 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
-  */
- int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
- {
--	mutex_lock(&shmem->pages_lock);
-+	dma_resv_assert_held(shmem->base.resv);
- 
- 	if (shmem->madv >= 0)
- 		shmem->madv = madv;
- 
- 	madv = shmem->madv;
- 
--	mutex_unlock(&shmem->pages_lock);
--
- 	return (madv >= 0);
- }
- EXPORT_SYMBOL(drm_gem_shmem_madvise);
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
-+void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
- 	struct drm_device *dev = obj->dev;
- 
-+	dma_resv_assert_held(shmem->base.resv);
-+
- 	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
- 
- 	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
-@@ -472,7 +452,7 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- 	kfree(shmem->sgt);
- 	shmem->sgt = NULL;
- 
--	drm_gem_shmem_put_pages_locked(shmem);
-+	drm_gem_shmem_put_pages(shmem);
- 
- 	shmem->madv = -1;
- 
-@@ -488,17 +468,6 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- 
- 	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
- }
--EXPORT_SYMBOL(drm_gem_shmem_purge_locked);
--
--bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
--{
--	if (!mutex_trylock(&shmem->pages_lock))
--		return false;
--	drm_gem_shmem_purge_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
--
--	return true;
--}
- EXPORT_SYMBOL(drm_gem_shmem_purge);
- 
- /**
-@@ -551,7 +520,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	/* We don't use vmf->pgoff since that has the fake offset */
- 	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
- 
--	mutex_lock(&shmem->pages_lock);
-+	dma_resv_lock(shmem->base.resv, NULL);
- 
- 	if (page_offset >= num_pages ||
- 	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-@@ -563,7 +532,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
- 	}
- 
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- 	return ret;
- }
-@@ -575,7 +544,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
- 
- 	drm_WARN_ON(obj->dev, obj->import_attach);
- 
--	mutex_lock(&shmem->pages_lock);
-+	dma_resv_lock(shmem->base.resv, NULL);
- 
- 	/*
- 	 * We should have already pinned the pages when the buffer was first
-@@ -585,7 +554,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
- 	if (!drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
- 		shmem->pages_use_count++;
- 
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- 	drm_gem_vm_open(vma);
- }
-@@ -595,7 +564,10 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
- 	struct drm_gem_object *obj = vma->vm_private_data;
- 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 
-+	dma_resv_lock(shmem->base.resv, NULL);
- 	drm_gem_shmem_put_pages(shmem);
-+	dma_resv_unlock(shmem->base.resv);
-+
- 	drm_gem_vm_close(vma);
- }
- 
-@@ -633,7 +605,10 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
- 		return ret;
- 	}
- 
-+	dma_resv_lock(shmem->base.resv, NULL);
- 	ret = drm_gem_shmem_get_pages(shmem);
-+	dma_resv_unlock(shmem->base.resv);
-+
- 	if (ret)
- 		return ret;
- 
-@@ -699,7 +674,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
- 
- 	drm_WARN_ON(obj->dev, obj->import_attach);
- 
--	ret = drm_gem_shmem_get_pages_locked(shmem);
-+	ret = drm_gem_shmem_get_pages(shmem);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -721,7 +696,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
- 	sg_free_table(sgt);
- 	kfree(sgt);
- err_put_pages:
--	drm_gem_shmem_put_pages_locked(shmem);
-+	drm_gem_shmem_put_pages(shmem);
- 	return ERR_PTR(ret);
- }
- 
-@@ -746,11 +721,11 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- 	int ret;
- 	struct sg_table *sgt;
- 
--	ret = mutex_lock_interruptible(&shmem->pages_lock);
-+	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
- 	if (ret)
- 		return ERR_PTR(ret);
- 	sgt = drm_gem_shmem_get_pages_sgt_locked(shmem);
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- 	return sgt;
- }
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 10252dc11a22..4f9736e5f929 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -34,7 +34,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
- 
- 	new_size = min(new_size, bo->base.base.size);
- 
--	mutex_lock(&bo->base.pages_lock);
-+	dma_resv_lock(bo->base.base.resv, NULL);
- 
- 	if (bo->base.pages) {
- 		pages = bo->base.pages;
-@@ -42,7 +42,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
- 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
- 				       sizeof(*pages), GFP_KERNEL | __GFP_ZERO);
- 		if (!pages) {
--			mutex_unlock(&bo->base.pages_lock);
-+			dma_resv_unlock(bo->base.base.resv);
- 			return -ENOMEM;
- 		}
- 
-@@ -56,13 +56,13 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
- 		struct page *page = shmem_read_mapping_page(mapping, i);
- 
- 		if (IS_ERR(page)) {
--			mutex_unlock(&bo->base.pages_lock);
-+			dma_resv_unlock(bo->base.base.resv);
- 			return PTR_ERR(page);
- 		}
- 		pages[i] = page;
- 	}
- 
--	mutex_unlock(&bo->base.pages_lock);
-+	dma_resv_unlock(bo->base.base.resv);
- 
- 	ret = sg_alloc_table_from_pages(&sgt, pages, i, 0,
- 					new_size, GFP_KERNEL);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index bbada731bbbd..d9dda6acdfac 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -407,6 +407,10 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 
- 	bo = to_panfrost_bo(gem_obj);
- 
-+	ret = dma_resv_lock_interruptible(bo->base.base.resv, NULL);
-+	if (ret)
-+		goto out_put_object;
-+
- 	mutex_lock(&pfdev->shrinker_lock);
- 	mutex_lock(&bo->mappings.lock);
- 	if (args->madv == PANFROST_MADV_DONTNEED) {
-@@ -444,7 +448,8 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- out_unlock_mappings:
- 	mutex_unlock(&bo->mappings.lock);
- 	mutex_unlock(&pfdev->shrinker_lock);
--
-+	dma_resv_unlock(bo->base.base.resv);
-+out_put_object:
- 	drm_gem_object_put(gem_obj);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-index bf0170782f25..6a71a2555f85 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-@@ -48,14 +48,14 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
- 	if (!mutex_trylock(&bo->mappings.lock))
- 		return false;
- 
--	if (!mutex_trylock(&shmem->pages_lock))
-+	if (!dma_resv_trylock(shmem->base.resv))
- 		goto unlock_mappings;
- 
- 	panfrost_gem_teardown_mappings_locked(bo);
--	drm_gem_shmem_purge_locked(&bo->base);
-+	drm_gem_shmem_purge(&bo->base);
- 	ret = true;
- 
--	mutex_unlock(&shmem->pages_lock);
-+	dma_resv_unlock(shmem->base.resv);
- 
- unlock_mappings:
- 	mutex_unlock(&bo->mappings.lock);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 666a5e53fe19..0679df57f394 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -443,6 +443,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	struct panfrost_gem_mapping *bomapping;
- 	struct panfrost_gem_object *bo;
- 	struct address_space *mapping;
-+	struct drm_gem_object *obj;
- 	pgoff_t page_offset;
- 	struct sg_table *sgt;
- 	struct page **pages;
-@@ -465,15 +466,16 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	page_offset = addr >> PAGE_SHIFT;
- 	page_offset -= bomapping->mmnode.start;
- 
--	mutex_lock(&bo->base.pages_lock);
-+	obj = &bo->base.base;
-+
-+	dma_resv_lock(obj->resv, NULL);
- 
- 	if (!bo->base.pages) {
- 		bo->sgts = kvmalloc_array(bo->base.base.size / SZ_2M,
- 				     sizeof(struct sg_table), GFP_KERNEL | __GFP_ZERO);
- 		if (!bo->sgts) {
--			mutex_unlock(&bo->base.pages_lock);
- 			ret = -ENOMEM;
--			goto err_bo;
-+			goto err_unlock;
- 		}
- 
- 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
-@@ -481,9 +483,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		if (!pages) {
- 			kvfree(bo->sgts);
- 			bo->sgts = NULL;
--			mutex_unlock(&bo->base.pages_lock);
- 			ret = -ENOMEM;
--			goto err_bo;
-+			goto err_unlock;
- 		}
- 		bo->base.pages = pages;
- 		bo->base.pages_use_count = 1;
-@@ -491,7 +492,6 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		pages = bo->base.pages;
- 		if (pages[page_offset]) {
- 			/* Pages are already mapped, bail out. */
--			mutex_unlock(&bo->base.pages_lock);
- 			goto out;
- 		}
- 	}
-@@ -502,14 +502,11 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
- 		pages[i] = shmem_read_mapping_page(mapping, i);
- 		if (IS_ERR(pages[i])) {
--			mutex_unlock(&bo->base.pages_lock);
- 			ret = PTR_ERR(pages[i]);
- 			goto err_pages;
- 		}
- 	}
- 
--	mutex_unlock(&bo->base.pages_lock);
--
- 	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
- 	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
- 					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
-@@ -528,6 +525,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
- 
- out:
-+	dma_resv_unlock(obj->resv);
-+
- 	panfrost_gem_mapping_put(bomapping);
- 
- 	return 0;
-@@ -536,6 +535,8 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	sg_free_table(sgt);
- err_pages:
- 	drm_gem_shmem_put_pages(&bo->base);
-+err_unlock:
-+	dma_resv_unlock(obj->resv);
- err_bo:
- 	panfrost_gem_mapping_put(bomapping);
- 	return ret;
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 5994fed5e327..20ddcd799df9 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -26,11 +26,6 @@ struct drm_gem_shmem_object {
- 	 */
- 	struct drm_gem_object base;
- 
--	/**
--	 * @pages_lock: Protects the page table and use count
--	 */
--	struct mutex pages_lock;
--
- 	/**
- 	 * @pages: Page table
- 	 */
-@@ -65,11 +60,6 @@ struct drm_gem_shmem_object {
- 	 */
- 	struct sg_table *sgt;
- 
--	/**
--	 * @vmap_lock: Protects the vmap address and use count
--	 */
--	struct mutex vmap_lock;
--
- 	/**
- 	 * @vaddr: Kernel virtual address of the backing memory
- 	 */
-@@ -109,7 +99,6 @@ struct drm_gem_shmem_object {
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
- void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- 
--int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
-@@ -128,8 +117,7 @@ static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem
- 		!shmem->base.dma_buf && !shmem->base.import_attach;
- }
- 
--void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
--bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
-+void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- 
- struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
- struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
--- 
-2.39.2
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 15 +++++-------
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 23 ++++---------------
+>  .../media/atomisp/pci/atomisp_subdev.c        |  3 +--
+>  .../media/atomisp/pci/atomisp_subdev.h        |  5 ----
+>  4 files changed, 11 insertions(+), 35 deletions(-)
+>
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/st=
+aging/media/atomisp/pci/atomisp_cmd.c
+> index d0386dcb24ce..28663d6fc4dd 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -523,9 +523,8 @@ irqreturn_t atomisp_isr(int irq, void *dev)
+>                 while (ia_css_dequeue_isys_event(&eof_event.event) =3D=3D=
+ 0) {
+>                         atomisp_eof_event(&isp->asd, eof_event.event.exp_=
+id);
+>                         dev_dbg_ratelimited(isp->dev,
+> -                                           "%s ISYS event: EOF exp_id %d=
+, asd %d\n",
+> -                                           __func__, eof_event.event.exp=
+_id,
+> -                                           isp->asd.index);
+> +                                           "%s ISYS event: EOF exp_id %d=
+\n",
+> +                                           __func__, eof_event.event.exp=
+_id);
+>                 }
+>
+>                 irq_infos &=3D ~IA_CSS_IRQ_INFO_ISYS_EVENTS_READY;
+> @@ -3302,9 +3301,8 @@ int atomisp_set_parameters(struct video_device *vde=
+v,
+>         }
+>
+>         dev_dbg(asd->isp->dev,
+> -               "%s: set parameter(per_frame_setting %d) for asd%d with i=
+sp_config_id %d of %s\n",
+> -               __func__, arg->per_frame_setting, asd->index,
+> -               arg->isp_config_id, vdev->name);
+> +               "%s: set parameter(per_frame_setting %d) isp_config_id %d=
+ of %s\n",
+> +               __func__, arg->per_frame_setting, arg->isp_config_id, vde=
+v->name);
+>
+>         if (IS_ISP2401) {
+>                 if (atomisp_is_vf_pipe(pipe) && arg->per_frame_setting) {
+> @@ -4515,9 +4513,8 @@ int atomisp_set_fmt(struct video_device *vdev, stru=
+ct v4l2_format *f)
+>                 return -EINVAL;
+>
+>         dev_dbg(isp->dev,
+> -               "setting resolution %ux%u on pad %u for asd%d, bytesperli=
+ne %u\n",
+> -               f->fmt.pix.width, f->fmt.pix.height, source_pad,
+> -               asd->index, f->fmt.pix.bytesperline);
+> +               "setting resolution %ux%u on pad %u bytesperline %u\n",
+> +               f->fmt.pix.width, f->fmt.pix.height, source_pad, f->fmt.p=
+ix.bytesperline);
+>
+>         v4l2_fh_init(&fh.vfh, vdev);
+>
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/=
+staging/media/atomisp/pci/atomisp_ioctl.c
+> index 14700afd92c2..384f31fc66c5 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> @@ -671,18 +671,6 @@ static int atomisp_s_input(struct file *file, void *=
+fh, unsigned int input)
+>                 return -EINVAL;
+>         }
+>
+> -       /*
+> -        * check whether the request camera:
+> -        * 1: already in use
+> -        * 2: if in use, whether it is used by other streams
+> -        */
+> -       if (isp->inputs[input].asd && isp->inputs[input].asd !=3D asd) {
+> -               dev_err(isp->dev,
+> -                       "%s, camera is already used by stream: %d\n", __f=
+unc__,
+> -                       isp->inputs[input].asd->index);
+> -               return -EBUSY;
+> -       }
+> -
+>         camera =3D isp->inputs[input].camera;
+>         if (!camera) {
+>                 dev_err(isp->dev, "%s, no camera\n", __func__);
+> @@ -1106,9 +1094,8 @@ static int atomisp_dqbuf_wrapper(struct file *file,=
+ void *fh, struct v4l2_buffer
+>         buf->reserved2 =3D pipe->frame_config_id[buf->index];
+>
+>         dev_dbg(isp->dev,
+> -               "dqbuf buffer %d (%s) for asd%d with exp_id %d, isp_confi=
+g_id %d\n",
+> -               buf->index, vdev->name, asd->index, buf->reserved >> 16,
+> -               buf->reserved2);
+> +               "dqbuf buffer %d (%s) with exp_id %d, isp_config_id %d\n"=
+,
+> +               buf->index, vdev->name, buf->reserved >> 16, buf->reserve=
+d2);
+>         return 0;
+>  }
+>
+> @@ -1186,8 +1173,7 @@ int atomisp_start_streaming(struct vb2_queue *vq, u=
+nsigned int count)
+>
+>         mutex_lock(&isp->mutex);
+>
+> -       dev_dbg(isp->dev, "Start stream on pad %d for asd%d\n",
+> -               atomisp_subdev_source_pad(vdev), asd->index);
+> +       dev_dbg(isp->dev, "Start stream on pad %d\n", atomisp_subdev_sour=
+ce_pad(vdev));
+>
+>         ret =3D atomisp_pipe_check(pipe, false);
+>         if (ret)
+> @@ -1320,8 +1306,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+>
+>         mutex_lock(&isp->mutex);
+>
+> -       dev_dbg(isp->dev, "Stop stream on pad %d for asd%d\n",
+> -               atomisp_subdev_source_pad(vdev), asd->index);
+> +       dev_dbg(isp->dev, "Stop stream on pad %d\n", atomisp_subdev_sourc=
+e_pad(vdev));
+>
+>         /*
+>          * There is no guarantee that the buffers queued to / owned by th=
+e ISP
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers=
+/staging/media/atomisp/pci/atomisp_subdev.c
+> index 143176bc684a..a0acfdb87177 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> @@ -918,7 +918,7 @@ static int isp_subdev_init_entities(struct atomisp_su=
+b_device *asd)
+>         int ret;
+>
+>         v4l2_subdev_init(sd, &isp_subdev_v4l2_ops);
+> -       sprintf(sd->name, "ATOMISP_SUBDEV_%d", asd->index);
+> +       sprintf(sd->name, "ATOMISP_SUBDEV");
+>         v4l2_set_subdevdata(sd, asd);
+>         sd->flags |=3D V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEV=
+NODE;
+>
+> @@ -1161,7 +1161,6 @@ int atomisp_subdev_init(struct atomisp_device *isp)
+>  {
+>         int ret;
+>
+> -       isp->asd.index =3D 0;
+>         isp->asd.isp =3D isp;
+>         isp_subdev_init_params(&isp->asd);
+>         ret =3D isp_subdev_init_entities(&isp->asd);
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers=
+/staging/media/atomisp/pci/atomisp_subdev.h
+> index 117803f3cbd1..fee663bc415a 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+> @@ -315,11 +315,6 @@ struct atomisp_sub_device {
+>         unsigned int streaming;
+>         bool stream_prepared; /* whether css stream is created */
+>
+> -       /* subdev index: will be used to show which subdev is holding the
+> -        * resource, like which camera is used by which subdev
+> -        */
+> -       unsigned int index;
+> -
+>         unsigned int latest_preview_exp_id; /* CSS ZSL/SDV raw buffer id =
+*/
+>
+>         unsigned int mipi_frame_size;
+> --
+> 2.39.1
+>
 
+
+--=20
+With Best Regards,
+Andy Shevchenko
