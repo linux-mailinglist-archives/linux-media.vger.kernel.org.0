@@ -2,77 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C806D370F
-	for <lists+linux-media@lfdr.de>; Sun,  2 Apr 2023 12:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72AF96D37A5
+	for <lists+linux-media@lfdr.de>; Sun,  2 Apr 2023 13:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbjDBKLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Apr 2023 06:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60902 "EHLO
+        id S230290AbjDBL3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Apr 2023 07:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231177AbjDBKLB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 06:11:01 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBAF32C9FB
-        for <linux-media@vger.kernel.org>; Sun,  2 Apr 2023 03:10:09 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id v1so26486537wrv.1
-        for <linux-media@vger.kernel.org>; Sun, 02 Apr 2023 03:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680430208;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oJUg9OLH/5Ml0QmjIOFkTWdqHbUIclLcTpwqdBIn5BM=;
-        b=ZtbubFDTE4rQIRXmrW/kfkAvzjlFBveeEeXLTnS620/3TdUvAbdVI8zBN8m9kj0uwl
-         z1MCkISX/gR+Vr4vLhGaG4/nfKbIfgzFffk2SnQcFnU5B6rAlGa8Rnp1++fuF0FyCPbs
-         SJDfTAosAV8WtkmSmHaaLUgM4zaiuSsZuN/ZYxL2En8uFqNX6M49N0RYifgIpLlbSF2M
-         +PTek+Ez8SYr/y1lnGm6734ZVLFeE3XUg9xF4s2c/osV+epdZvTclXi03rYeTTD6QK75
-         IXRAWe4matsK5vEAzrxXH4ZzprWsF/RuT4JWYQ2MrFel1fe0oyrOyr2m4w4gIK3GceD8
-         eE7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680430208;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oJUg9OLH/5Ml0QmjIOFkTWdqHbUIclLcTpwqdBIn5BM=;
-        b=mhiBmgoCW7OReWP2aHvio5/9M2DmcbOCouVDfnrDy3cRCMpdpEpkRzH6VATcgXnyQX
-         R4MJfRVDkYq70wtVk1VDIenV5humguCeh069v8gnOzGqmZTecrohVaR0oXmDG8mqMKOQ
-         zBRuofzLAQWRt8CgLowFi84AMBvLglNLCiN+EZirRv8pr9MGFLrQCk8QBdnXjltKksIG
-         fylRA4jvWTHESkOiZKw1qF79Qt2dp18XhBTSmt4Aoltj3Is4WiiJM3FpNvLihPwon3z8
-         QQziWcKrM4QMjAtpkX1MffDzxGL4+Zvh+bjb6K37awvKljb8ezu9Tdmt+UyZsR1uokRj
-         je5w==
-X-Gm-Message-State: AAQBX9dd4HVccw/Fn1wkTfDO6Zw2ZTDeQ7707GsUBWW0NLlT++6DNpJH
-        J7ILAkaMwMRbOmIvBIETKOwUc9cTafcbw3umti4=
-X-Google-Smtp-Source: AKy350br90QYKGz7LROIUmBmDJoipmvkUvaSwu7HwV2VRWKxKRivLM6J9SavVB3Ua5pUJpAHDPDGIk9NuHRq+rh+7+c=
-X-Received: by 2002:a5d:6d09:0:b0:2cf:ef9f:33f6 with SMTP id
- e9-20020a5d6d09000000b002cfef9f33f6mr4566495wrq.1.1680430208065; Sun, 02 Apr
- 2023 03:10:08 -0700 (PDT)
+        with ESMTP id S229591AbjDBL3M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 07:29:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C781EFD3;
+        Sun,  2 Apr 2023 04:29:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A432611C0;
+        Sun,  2 Apr 2023 11:29:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB48C433EF;
+        Sun,  2 Apr 2023 11:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680434950;
+        bh=O7FvGnaQoAlD46duLUMHPDdQnP0Mle8dOr2IFMWfzLE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=KL+N3+UL88woFkI24eWRtK6AMLcd0MJ9b5DGulMTGFzLRGCyC3/yw1q4qzdq1W8Hj
+         2+8qglRRKJlXIwTpoM79NplLOomgc+gaCPEOLHow5DMYmWFnMwuN3LnzcMwdD5FtGJ
+         ywP0kZ7lFV9OIOEh+dkPYuruyJJ4vrIJSo4lY7THQXTUbF9odJdaw8umU6hw7YOs14
+         h1on6wMg50DN00J2k/Am+fgqIPN8lKv2sDAZk1mAIEvsWflrAasJpLSj7j68TnK1D/
+         /n65eKa0Nv7SgfLq3vGDxnK3RkJrjIrVi/DpN0n/WLYyriQYG7rAFDW0Kb5p5PNCde
+         79B6ZnoozFt8w==
+Message-ID: <e200be05-4066-b6d8-badd-c7726741356d@kernel.org>
+Date:   Sun, 2 Apr 2023 13:29:06 +0200
 MIME-Version: 1.0
-Received: by 2002:adf:f250:0:b0:2db:f90:6ffc with HTTP; Sun, 2 Apr 2023
- 03:10:07 -0700 (PDT)
-Reply-To: stephenbord61@yahoo.com
-From:   Stephen Bordeuax <standardcharteredbanco.uk@gmail.com>
-Date:   Sun, 2 Apr 2023 11:10:07 +0100
-Message-ID: <CAF_vit0ZRgnXnnqsNsp9wLcKeBOTUDS2cTE-tF9E38b8VuNDNQ@mail.gmail.com>
-Subject: =?UTF-8?Q?Palun_v=C3=B5iksite_oma_s=C3=B5numis_t=C3=A4psustada?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Require setting
+ bus-type property
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230331141032.3817866-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Head p=C3=A4eva
+On 31/03/2023 16:10, Niklas Söderlund wrote:
+> The MAX96712 can support both CSI-2 C-PHY and D-PHY bus. Document the
+> supported bus-types and make the property mandatory.
 
-Olen Stephen Bordeaux, Bordeaux' advokaadib=C3=BCroo advokaat. V=C3=B5tsin
-teiega =C3=BChendust seoses varalahkunud dr Edwini fondi kinnisvaraga,
-mille summa on 8,5 miljonit dollarit, mis tuleb teie kontole tagasi
-tuua. Lisaks soovin, et vastaksite selle tehingu puhul
-konfidentsiaalselt.
+Why making it mandatory? Commit msg should focus on "why" because "what"
+is easy to see.
 
-Stephen Bordeaux
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> Hi,
+> 
+> This is done in conjunction with adding C-PHY support to the driver,
+> patches on list. The current driver only supports D-PHY so this was
+> assumed in the driver.
+> 
+> There is a single user of this binding, r8a779a0-falcon-csi-dsi.dtsi. A
+> separate patch to update that binding with a bus-type property is be
+> submitted.
+> 
+> Without the property present the driver fall-back to D-PHY (even with
+> the C-PHY work applied). So this change is backward compatible with old
+> versions of the only effected DTS file.
+> ---
+
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC.  It might happen, that command when run on an older
+kernel, gives you outdated entries.  Therefore please be sure you base
+your patches on recent Linux kernel.
+
+>  .../devicetree/bindings/media/i2c/maxim,max96712.yaml      | 7 +++++++
+>  1 file changed, 7 insertions(+)
+
+
+Best regards,
+Krzysztof
+
