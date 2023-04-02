@@ -2,141 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 588166D358D
-	for <lists+linux-media@lfdr.de>; Sun,  2 Apr 2023 07:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47C106D35B7
+	for <lists+linux-media@lfdr.de>; Sun,  2 Apr 2023 08:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbjDBFDN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Apr 2023 01:03:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41156 "EHLO
+        id S229591AbjDBGH1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Apr 2023 02:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjDBFDK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 01:03:10 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84DFA1EA27;
-        Sat,  1 Apr 2023 22:03:07 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1piprn-0003eO-Bq; Sun, 02 Apr 2023 07:02:59 +0200
-Message-ID: <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
-Date:   Sun, 2 Apr 2023 07:02:58 +0200
+        with ESMTP id S229437AbjDBGH0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 02:07:26 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EBD20C3A
+        for <linux-media@vger.kernel.org>; Sat,  1 Apr 2023 23:07:25 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id cr18so21687234qtb.0
+        for <linux-media@vger.kernel.org>; Sat, 01 Apr 2023 23:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680415644;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KH7t2kaUO8Iy6sUPECDL9yjuPDXuH3Ffmk7Y4RNb/d4=;
+        b=W9O0G1uqd6LjQSW4U14s189y+IrL3lI6TdhoLhLelR/HC50PljM/mJQ4lyehH8BFjw
+         pLsFmJbm4b0DDwluzb4OTogEIMb+Ox36dovF/DUQoWKZiGlM4Cbico4Wtj+dpoWcLQ0S
+         bdwoqwO6uq25DlMTFzbw18MUkV0tqooSaXLSOerglVo2Sfs6Kn7bsUGmzlgIkumlfTe3
+         0pB77Sql5HQz8NMg/mFuHNIS1vOAXD/tqclrlFRgfWgFkEHeVcxHKz9qNQZlh2tZGUeT
+         2V2RWfs27IWqM2a1fAYoQlWIe+xjJXs5b+xtj9shJjenUbrxswZHuAYa9V7Zt4FGIZ93
+         qGBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680415644;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KH7t2kaUO8Iy6sUPECDL9yjuPDXuH3Ffmk7Y4RNb/d4=;
+        b=ricf1w3pehPeNrojnRsjXGrAZl0GAyUmOgULhY4yWTZWCHxwU1rprzyrLg52Jj5hix
+         8kulwIGOIiVMfIvfG1PAkJBrv0lXndpNHr8y9UbnZ/8UPAkJnQrL1Kl/Go959xknkQgJ
+         KfcCGAyptKA2O1QYeCj8zvHGnFD4BgpdBw64bncUA1KIq5B7WfpfXbCCKQzKG3BQPOIi
+         KsAhC96kuyBdRufXurBKVlSt0xLazedQz6C+AhoRv/RlBZK9ELPUMNccp+vDGX2pi6Ld
+         RLwxj2J1QwrkxXJkSchVQLN8TIfJc0UK+d1zFYe4E+SDDL5QEEEvQLrpHIO0XxCwD2GB
+         zqJA==
+X-Gm-Message-State: AAQBX9ddSW/JdPGOz/BOzW0OUlwBc6XGnGy+TbZis4NZnzy+qjgLGUcB
+        CCnOTtG1OP/7gUJhEcDwcoWjhQK5g+uEYZqHMwU=
+X-Google-Smtp-Source: AK7set9GYX72o9UpjvFY6ErkOLywxp5zAw5Gb/lJrqcu867HE9VPSlV/av8m0jOCPESPEpZunezKkpt12EjXQVA11Yo=
+X-Received: by 2002:ac8:5905:0:b0:3de:1720:b54b with SMTP id
+ 5-20020ac85905000000b003de1720b54bmr11766064qty.0.1680415644696; Sat, 01 Apr
+ 2023 23:07:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-Content-Language: en-US, de-DE
-To:     Leonard Lausen <leonard@lausen.nl>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, mka@chromium.org,
-        Albert Esteve <aesteve@redhat.com>,
-        stanimir.varbanov@linaro.org,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        Fritz Koenig <frkoenig@google.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
- <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
- <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
- <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
- <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
- <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
- <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
- <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
- <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
- <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
- <87edq9hj4w.fsf@minerva.mail-host-address-is-not-set>
- <d18fac76-6b77-a446-5fe0-7236556e9187@quicinc.com>
- <0c84724d-08d4-ddcb-5f71-4eb8261240c6@quicinc.com>
- <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1680411787;3e27d53d;
-X-HE-SMSGID: 1piprn-0003eO-Bq
-X-Spam-Status: No, score=-0.0 required=5.0 tests=NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230221145906.8113-1-hdegoede@redhat.com> <20230221145906.8113-3-hdegoede@redhat.com>
+ <Y/TqBBdU7dbYPIsW@smile.fi.intel.com> <109be822-9439-cd5a-c7f7-c63516f92099@redhat.com>
+In-Reply-To: <109be822-9439-cd5a-c7f7-c63516f92099@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 2 Apr 2023 08:06:48 +0200
+Message-ID: <CAHp75Vd+sgvgQRQhi9FZOL9=ura9g8+xr8ez73XcmRf7Uy11LQ@mail.gmail.com>
+Subject: Re: [PATCH 02/10] media: atomisp: Remove continuous mode support
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andy@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, Apr 1, 2023 at 12:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Hi Andy,
+>
+> Thank you for the reviews!
+>
+> On 2/21/23 16:57, Andy Shevchenko wrote:
+> > On Tue, Feb 21, 2023 at 03:58:58PM +0100, Hans de Goede wrote:
+> >> Continues mode is a special mode where 2 /dev/video devices can be act=
+ive
+> >> at the same time. Either the video-preview + video nodes or the
+> >> viewfinder (for still capture) + capture nodes.
+> >>
+> >> For the video-preview + video-recording case modern userspace will
+> >> use a single stream multiplexed by pipewire.
+> >>
+> >> The still-capture case is extra special only starting the preview
+> >> stream and then relying on a custom ATOMISP_IOC_S_CONT_CAPTURE_CONFIG
+> >> ioctl to set things up followed by a second stream on to capture
+> >> the amount of configured still pictures. While running the sensor
+> >> at full resolution all the time. This case too is better handled
+> >> with dma-buf + GPU downscaling for the view-finder rather then all thi=
+s
+> >> custom special code. Besises this the ioctl expects a bunch of special
+> >> non error checked conditions to be met otherwise things will crash/han=
+g.
+> >>
+> >> The continues mode also involves a special cases all over the code
+> >> getting in the way of further cleanups and simplifying the code to
+> >> using just 1 /dev/video# node. So lets remove it and the
+> >> related custom ATOMISP_IOC_S_CONT_CAPTURE_CONFIG ioctl.
+> >
+> > ...
+> >
+> >> +    ret =3D atomisp_set_fmt_to_snr(vdev, &s_fmt,
+> >> +                                 f->fmt.pix.pixelformat, padding_w,
+> >
+> > At least one parameter can be moved to the previous line.
+>
+> Ack, fixed in my local tree which I will push to:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=3D=
+media-atomisp
+>
+> When I'm done processing your other review remarks.
+>
+> >
+> >> +                                 padding_h, dvs_env_w, dvs_env_h);
+> >> +    if (ret) {
+> >> +            dev_warn(isp->dev,
+> >> +                     "Set format to sensor failed with %d\n", ret);
+> >> +            return -EINVAL;
+> >
+> > ...
+> >
+> >>      case ATOMISP_RUN_MODE_PREVIEW:
+> >> -            if (!asd->continuous_mode->val) {
+> >> -                    if (pipe_id =3D=3D IA_CSS_PIPE_ID_PREVIEW)
+> >> -                            return true;
+> >> +            if (pipe_id =3D=3D IA_CSS_PIPE_ID_PREVIEW)
+> >> +                    return true;
+> >>
+> >> -                    return false;
+> >> -            }
+> >> -            fallthrough;
+> >> +            return false;
+> >
+> >               return pipe_id =3D=3D IA_CSS_PIPE_ID_PREVIEW;
+>
+> I agree that that is cleaner, but there are a bunch of other cases
+> in this switch case which are not touched by this patch and
+> they all follow the same pattern as which the modified cases
+> use after this patch, e.g. :
+>
+>         case ATOMISP_RUN_MODE_STILL_CAPTURE:
+>                 if (pipe_id =3D=3D IA_CSS_PIPE_ID_CAPTURE)
+>                         return true;
+>
+>                 return false;
+>
+> So this patch basically makes all of them consistent with
+> each other. So I'm going to keep this as is.
 
+So, I haven't checked the patch series of 28, but perhaps the above is
+a good candidate to have across the entire code, so we reduce the
+codebase.
+...
 
-On 01.04.23 22:53, Leonard Lausen wrote:
-> Hi Javier, Dikshita, Stan,
-> 
-> the revert wasn't applied to v6.2 series. Can you please apply it and include it for v6.2.10?
-> 
-> March 6, 2023 at 5:43 AM, "Javier Martinez Canillas" <javierm@redhat.com> wrote:
->>> On 3/1/2023 3:15 PM, Dikshita Agarwal wrote:
->>>> On 2/28/2023 9:33 PM, Javier Martinez Canillas wrote:
->>>>> Javier Martinez Canillas<javierm@redhat.com>  writes:
->>>>>> Vikash Garodia<vgarodia@qti.qualcomm.com>  writes:
->>>>>>
->>>>>>> Stan, could you please help with the revert and a pull request having this revert
->>>>>>> alongwith other pending changes ?
->>>>>>>
->>>>>> Other fix posted is "media: venus: dec: Fix capture formats enumeration order":
->>>>>>
->>>>>> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
->>>
->>> Hi Javier,
->>>
->>> Thanks for this patch "media: venus: dec: Fix capture formats
->>> enumeration order".
->>>
->>> Somehow I can't find it in my mailbox to be able to reply there.
->>>
->>> Could you please explain what is the regression you see here?
->>>
->>
->> You can find the thread and explanation of the issue here:
->>
->> https://lore.kernel.org/lkml/Y+KPW18o%2FDa+N8UI@google.com/T/
->>
->> But Stanimir already picked it and sent a PR for v6.3 including it.
-> 
-> While "media: venus: dec: Fix capture formats enumeration order" may have been
-> applied to v6.3,
+> >>      case ATOMISP_RUN_MODE_VIDEO:
+> >> -            if (!asd->continuous_mode->val) {
+> >> -                    if (pipe_id =3D=3D IA_CSS_PIPE_ID_VIDEO ||
+> >> -                        pipe_id =3D=3D IA_CSS_PIPE_ID_YUVPP)
+> >> -                            return true;
+> >> -                    else
+> >> -                            return false;
+> >> -            }
+> >> -            fallthrough;
+> >> +            if (pipe_id =3D=3D IA_CSS_PIPE_ID_VIDEO || pipe_id =3D=3D=
+ IA_CSS_PIPE_ID_YUVPP)
+> >> +                    return true;
+> >> +
+> >> +            return false;
+> >
+> > Similar.
 
-To me it looks like it was submitted[1], but not yet applied even to the
-media tree[2] -- while guess, maybe due problems mentioned in[3]? Or am
-I missing something?
-
-[1]
-https://lore.kernel.org/all/20230329211655.100276-1-stanimir.k.varbanov@gmail.com/
-[2] https://git.linuxtv.org/media_tree.git/log/?h=fixes
-[3]
-https://lore.kernel.org/all/20230329214310.2503484-1-jenkins@linuxtv.org/
-
-> this still leaves the regression introduced by "venus:
-> firmware: Correct non-pix start and end addresses". As pointed out by Matthias
-> Kaehlcke, the commit prevents SC7180 and sc7280 AOSS from entering sleep mode
-> during system suspend. This is a serious regression in v6.2 kernel series.
-
-That fix is sitting in the media tree for a while and afaics still
-hasn't been sent to Linus (which is needed to get this fixed in 6.2.y).
-
-Mauro, could you maybe take care of that?
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+--=20
+With Best Regards,
+Andy Shevchenko
