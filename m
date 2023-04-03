@@ -2,93 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DFC76D40C5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 11:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 490A26D40FF
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 11:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232134AbjDCJiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 05:38:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34726 "EHLO
+        id S231848AbjDCJpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 05:45:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231712AbjDCJhd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 05:37:33 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17FEA10AAA
-        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 02:36:46 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id l37so16686112wms.2
-        for <linux-media@vger.kernel.org>; Mon, 03 Apr 2023 02:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680514570; x=1683106570;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NiK96Bry+c2Jm2Eb8M9h8qg9G560Gmy2VnETNtoLtls=;
-        b=A4l2Y34BwcuIyM9i7D9eGANAA1LR7rAACOXiugyXWswLl/jDkefLNlPD7kbYiERhT+
-         UxNmubqWx5Gdf88suvUq2dSLkLD/pB3Iyi+jpICdli5D3bmRnkePqnbM3SAnUAcNdQJj
-         BqheTJHCF1KFL1OVgW4vQKVhOAQiyVPMHo40DQ+jtzrVc0bLKuGbH/LQKHJci2MIYzWV
-         JJi1ysG1zxR0ALjf2ARHWpl6cYA6QmAwcRXI/JQpXlueJi+AOC036KaRPh3HHPoN2uAT
-         EKnGXwT3ftJA0S6w+1wjrGc0a4MSYnlXrY3PELK9k5ol41WWzfizs5Q25fpWKVdAcE9y
-         iJng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680514570; x=1683106570;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NiK96Bry+c2Jm2Eb8M9h8qg9G560Gmy2VnETNtoLtls=;
-        b=j++k3UiwtPRZs6vuI1igAKOamETQW9zsESpT29kMumyA1g9wG2r/ZwG7na0o+IJ/kk
-         kBqb/9PkMtoUt3tZA3AP5vYDUE1XNHInSm1qiGlovaF0WRyR5rNoFwzBEUNmb9fmDkxQ
-         UdciOXu/uBnUWXmb+vpI9K+ApLf21PA1aPTlOxCrOTE5x62iaxd48Cy+cQyQJN2eCQQ0
-         yU1TJKgScOw1WddpxByvp9CcMbM/n+HoM31+1NwIJ+deIeQofUx9YvCtUdxcAK/BHo4V
-         dUEhZvKkesNSYwNvnPvBpG11CIFpaomjr2ETkMZ+bH1/fFQQhL7OvQ8cWlmdw+BakLmR
-         wuEg==
-X-Gm-Message-State: AO0yUKUZHHFrJxeQuqAq+DKKLzGr4Mumf31OUYMHEuoqn3ZXLSvJD65/
-        /kgrAGVD7F7ZQeJ8x8e7vc24XWBYOHy4/5+UhUo=
-X-Google-Smtp-Source: AK7set8kfVcFXNAg4rzguXqadQYgXcebtx8mWLPA3y3bRUw2FuZkTqp7LDtYMQ45ksvjO+u++W+0rA==
-X-Received: by 2002:a7b:c850:0:b0:3ed:29db:cb80 with SMTP id c16-20020a7bc850000000b003ed29dbcb80mr26030199wml.18.1680514570393;
-        Mon, 03 Apr 2023 02:36:10 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id y22-20020a7bcd96000000b003ee42696acesm11486529wmj.16.2023.04.03.02.36.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 02:36:09 -0700 (PDT)
-Message-ID: <d26dfea3-8438-6012-386c-91ec43e1db1d@linaro.org>
-Date:   Mon, 3 Apr 2023 10:36:08 +0100
+        with ESMTP id S231744AbjDCJo5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 05:44:57 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C708111643;
+        Mon,  3 Apr 2023 02:44:29 -0700 (PDT)
+X-UUID: 073fa346d20411edb6b9f13eb10bd0fe-20230403
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=EHJLyaDloXo64Cbva9s+jdVQPscInXF4sT/C8pUOcqU=;
+        b=RDa7M/psoS9CVrNzXYX+j64JFQ3nozNMmRgVCPVrWDspit1EE7a5iP7dMDRFMPGyUa2pPwbQb4lVQs4H30tXuXdA8b4Sqm3TSciKRceMvBGlES2GsJesf4I2Ac9+ofRoPP303CTROPT3/NhuHVanxh3q48268XmnL3ZnBtc7Ric=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22,REQID:b58f632c-3e4b-4051-a69c-9b3ed96ccbeb,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:120426c,CLOUDID:c75424b5-beed-4dfc-bd9c-e1b22fa6ccc4,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: 073fa346d20411edb6b9f13eb10bd0fe-20230403
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 589057485; Mon, 03 Apr 2023 17:43:46 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Mon, 3 Apr 2023 17:43:44 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Mon, 3 Apr 2023 17:43:44 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <maoguang.meng@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>
+Subject: [PATCH] media: mediatek: vcodec: Coverity issues in encoder driver
+Date:   Mon, 3 Apr 2023 17:43:42 +0800
+Message-ID: <20230403094342.27498-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 0/4] media: camss: sm8250: Virtual channels support for
- SM8250
-Content-Language: en-US
-To:     "Milen Mitkov (Consultant)" <quic_mmitkov@quicinc.com>,
-        Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        Jigarkumar Zala <jzala@quicinc.com>,
-        "todor.too@gmail.com" <todor.too@gmail.com>,
-        "nicolas.dechesne@linaro.org" <nicolas.dechesne@linaro.org>
-Cc:     "agross@kernel.org" <agross@kernel.org>,
-        "konrad.dybcio@somainline.org" <konrad.dybcio@somainline.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        Chandan Gera <cgera@qti.qualcomm.com>,
-        Guru Chinnabhandar <gchinnab@quicinc.com>,
-        Alireza Yasan <ayasan@qti.qualcomm.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>
-References: <20221209094037.1148-1-quic_mmitkov@quicinc.com>
- <662d68f7-6160-263d-6e4d-e3687d5cf8eb@quicinc.com>
- <7565d38c-d8f4-39e0-8547-fbb511f6d649@quicinc.com>
- <894e3ce6-0f2b-608b-ec4e-09083704f429@linaro.org>
- <8243cc42-236c-20e3-74dc-1f130ab1dcf6@quicinc.com>
- <BYAPR02MB557503013F05BF1EA1E1300CC28F9@BYAPR02MB5575.namprd02.prod.outlook.com>
- <f26174aa-a6ca-151c-2602-2f39b40bb7da@linaro.org>
- <7b3cb8a6-8306-f001-5701-af3b482421e9@quicinc.com>
- <d500c5bb-7aca-ae0d-f23e-495cd049e422@linaro.org>
- <d653be97-337f-dc09-786c-b13304c643fe@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <d653be97-337f-dc09-786c-b13304c643fe@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,87 +67,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/04/2023 10:20, Milen Mitkov (Consultant) wrote:
-> 
-> On 03/04/2023 12:16, Bryan O'Donoghue wrote:
->> On 03/04/2023 09:38, Milen Mitkov (Consultant) wrote:
->>> On 31/03/2023 11:07, Bryan O'Donoghue wrote:
->>>> On 31/03/2023 07:20, Azam Sadiq Pasha Kapatrala Syed wrote:
->>>>> + Nico (Linaro)
->>>>> Hi Team
->>>>>
->>>>> Would like to know if anything is pending form our end as we want 
->>>>> to get the patches mainlined?
->>>>>
->>>>> Thanks,
->>>>> Azam
->>>>
->>>> I'd like to get a clearer picture on this
->>>>
->>>> [   90.535909] qcom-camss ac6a000.camss: VFE HW Version = 2.0.1
->>>> [   90.545756] qcom-camss ac6a000.camss: CSIPHY 3PH HW Version = 
->>>> 0x40010000
->>>> [   90.546358] qcom-camss ac6a000.camss: CSID HW Version = 2.0.1
->>>> [   90.546365] qcom-camss ac6a000.camss: csid_link_setup: Enabled 
->>>> CSID virtual channels mask 0x1
->>>> [   90.547675] qcom-camss ac6a000.camss: csid_link_setup: Enabled 
->>>> CSID virtual channels mask 0x0
->>>>
->>>> Using the IMX577 sensor on the RB5 we get his pretty odd virtual 
->>>> channels mask.
->>>>
->>>> If userspace is sending this in, the question I have is why. Surely 
->>>> with a sensor that doesn't have a VC there should be no impact on 
->>>> user-space.
->>>>
->>>> ---
->>>> bod
->>>
->>> Hey Bryan,
->>>
->>> what media-ctl commands are you using? I can't recreate this on my 
->>> side. I am using this set of commands to test (with the default 
->>> imx577 driver without any multiple virtual channels outputs) and am 
->>> getting only the first message (virtual channels mask 0x1):
->>>
->>> media-ctl --reset
->>> media-ctl -v -d /dev/media0 -V '"imx577 
->>> '22-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
->>> media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/4056x3040]'
->>> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
->>> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
->>> media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
->>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
->>>
->>> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F 
->>> /dev/video0
->>>
->>>
->>> Thanks,
->>>
->>> Milen
->>
->> Its a dev_dbg() so "#define DEBUG 1" in 
->> drivers/media/platform/qcom/camss/camss-csid.c
->>
->> ---
->> bod
->>
-> Yes, I enabled the dev_dbg(). I just see only one message with regards 
-> to the channels mask. Just this one:
-> 
-> [   90.546365] qcom-camss ac6a000.camss: csid_link_setup: Enabled CSID 
-> virtual channels mask 0x1
-> 
-> so I wonder if you're testing with a different set of media-ctl/yavta 
-> commands.
+CERT-C Characters and Strings:
+check core id is in valid range:
+dev->reg_base[dev->venc_pdata->core_id] evaluates to an address
+that could be at negative offset of an array.
 
-No. I'm asking about how this _used_ to be.
+CERT-C Expression:
+check buf is not NULL before used:
+Dereferencing buf, which is known to be NULL.
 
-If the iteration through the masks went away - then why did it go away ? 
-libcamera version, a change you have made since - V5 I think it was when 
-we discussed this last ?
-
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 ---
-bod
+ .../platform/mediatek/vcodec/mtk_vcodec_enc.c    |  2 +-
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c         | 16 ++++++++++++----
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+index d65800a3b89d..db65e77bd373 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+@@ -943,7 +943,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		 * FIXME: This check is not needed as only active buffers
+ 		 * can be marked as done.
+ 		 */
+-		if (buf->state == VB2_BUF_STATE_ACTIVE) {
++		if (buf && buf->state == VB2_BUF_STATE_ACTIVE) {
+ 			mtk_v4l2_debug(0, "[%d] id=%d, type=%d, %d -> VB2_BUF_STATE_QUEUED",
+ 					ctx->id, i, q->type,
+ 					(int)buf->state);
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+index 9095186d5495..125d5722d07b 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+@@ -89,16 +89,24 @@ static irqreturn_t mtk_vcodec_enc_irq_handler(int irq, void *priv)
+ 	struct mtk_vcodec_ctx *ctx;
+ 	unsigned long flags;
+ 	void __iomem *addr;
++	int core_id;
+ 
+ 	spin_lock_irqsave(&dev->irqlock, flags);
+ 	ctx = dev->curr_ctx;
+ 	spin_unlock_irqrestore(&dev->irqlock, flags);
+ 
+-	mtk_v4l2_debug(1, "id=%d coreid:%d", ctx->id, dev->venc_pdata->core_id);
+-	addr = dev->reg_base[dev->venc_pdata->core_id] +
+-				MTK_VENC_IRQ_ACK_OFFSET;
++	core_id = dev->venc_pdata->core_id;
++	if (core_id < 0 || core_id >= NUM_MAX_VCODEC_REG_BASE) {
++		mtk_v4l2_err("Invalid core id: %d, ctx id: %d",
++			     core_id, ctx->id);
++		return IRQ_HANDLED;
++	}
++
++	mtk_v4l2_debug(1, "id: %d, core id: %d", ctx->id, core_id);
++
++	addr = dev->reg_base[core_id] + MTK_VENC_IRQ_ACK_OFFSET;
+ 
+-	ctx->irq_status = readl(dev->reg_base[dev->venc_pdata->core_id] +
++	ctx->irq_status = readl(dev->reg_base[core_id] +
+ 				(MTK_VENC_IRQ_STATUS_OFFSET));
+ 
+ 	clean_irq_status(ctx->irq_status, addr);
+-- 
+2.25.1
 
