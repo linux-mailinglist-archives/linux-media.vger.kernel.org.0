@@ -2,120 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 651F46D4655
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 15:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2ADD6D465C
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 16:02:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232559AbjDCN6i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 09:58:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36470 "EHLO
+        id S232685AbjDCOCL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 10:02:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232069AbjDCN6h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 09:58:37 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E35FF06;
-        Mon,  3 Apr 2023 06:58:34 -0700 (PDT)
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C1E0B6601F5E;
-        Mon,  3 Apr 2023 14:58:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680530313;
-        bh=ixIV9Kz+uewOLYiqqFhy82v54fEkXWHbGspKjRC248k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SaNTiyCxtsTBxZ/2tp3PafuYNJ2CoPgEdX+/EHgjOoY29DuraoeQcFjLkv4BZPRx7
-         B2K+3KWVoalzw5XZsD/DEL329RB1eKD8bKAMVcqdK5mVcINSysDQUlpD1menV6YwEj
-         VdBTQMAyx1oxQBGCZKe4i8FBmi7QejeIviWrQBRYA2Q7YcnFHsmxQrqkYaHJ2wke34
-         UQz1Es76KbbwB54FLQGmsNT+fqeuiL0Hoc1LPnwPhlYs1q5pMCcgaGMbQlmhDgjzFU
-         +hjK23Pi37+dRqn+waQ/LfIDKcpardjweIM003mSfJpEPEiOkGpfdePryjwzixnotU
-         DAPR0TDlkRQwA==
-Date:   Mon, 3 Apr 2023 09:58:23 -0400
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Yong Wu <yong.wu@mediatek.com>
-Cc:     Joerg Roedel <joro@8bytes.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
-        jianjiao.zeng@mediatek.com, Yunfei Dong <yunfei.dong@mediatek.com>,
-        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
-        chengci.xu@mediatek.com, youlin.pei@mediatek.com,
-        anan.sun@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rob Herring <robh@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v6 01/14] dt-bindings: media: mediatek,vcodec: Remove
- dma-ranges property
-Message-ID: <3a73c940-d97b-4d5c-a546-b5ee257a12f9@notapiano>
-References: <20230403091337.26745-1-yong.wu@mediatek.com>
- <20230403091337.26745-2-yong.wu@mediatek.com>
+        with ESMTP id S230269AbjDCOCK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 10:02:10 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B547A8B;
+        Mon,  3 Apr 2023 07:02:09 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id k17so34837434ybm.11;
+        Mon, 03 Apr 2023 07:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680530528;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lcw7CsrgJYECAzGsrUJFDPn/CnlU4ZU6smKnWO17Ae0=;
+        b=mQkUbNiW0esw3jO4JiIlQGq18gSiAY8UYiaxcqykrSwc0GcoaqBnZZu81I2uh9b0A1
+         W6RjLKVl30VbyvmM/i2idv4uDHjf5FsqWULm9+rm3Udncrc7RYR9sp4j0tZI9B5C0IeM
+         KJ6dIETWJXYUssvxdq7zIlxWYs6U8PNgxsMnWgN1GeHA35xgTsIgpY/M/wt5uVyYIUTO
+         1veRDy7QiJ266iCrtchYEjv/qrTEZGxr+Taia7wTuyk8xUV4ZxqlRoIhCQbw5PKoCN8Z
+         Q0p/8+oh/fauIXLqwmbEL27+SsDuOGh54qu2EJI8cbIlYbOVNcXPsmzRsEnUX/ScLG1P
+         3rbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680530528;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lcw7CsrgJYECAzGsrUJFDPn/CnlU4ZU6smKnWO17Ae0=;
+        b=F7qSnwmRAAsDkUoUfmkjWYprdCFxze+WdgmpwWX0E72EpF0JF4jUrMN10RTTRnoN4m
+         FHrkHL3lYZOBha5eyLmXrK/qlNhMilc15FEbDLeSSEYiDbUbDpBsgzghz4ACdLuIaFgs
+         eqXTKPopNKFwYnNdgIxjPY74BFs39FaYcLY1CtopmQpv7A5pAPTgLllOEvd+PzFIoZ7/
+         gfYlA/d2xxQiVtIS1hASYaiG1Sl9KUIqsQPPeKXTfodUeAXbgXUM+QGXsF0Vgmcaes4o
+         p+dHe4BjqzKn7eSvaNZTuY7d90t7Qa7cs3QLV1Fr5ob/F24f5L0ydDIBWcgGBANzHGjQ
+         CUaQ==
+X-Gm-Message-State: AAQBX9cMTYEYWKQ3WSNOuFYyv51Asn6wPl9dU/5e1yNZy9ubUFU+Ty1o
+        cMmhu0A3cLY6oj7O0zBu30ta/296umgUIK7VOAI=
+X-Google-Smtp-Source: AKy350YKHmOqiL7IpC/Sx2Cu1gKrbtmOye3W2UwR6MNJrI4YJ78lzeG0UeVfyco2byZJzLJuVgOf3PGgek6XPCmFY1c=
+X-Received: by 2002:a05:6902:1247:b0:b78:4b00:7772 with SMTP id
+ t7-20020a056902124700b00b784b007772mr22643916ybu.5.1680530528529; Mon, 03 Apr
+ 2023 07:02:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230403091337.26745-2-yong.wu@mediatek.com>
+References: <20230402164826.752842-1-dmitry.osipenko@collabora.com> <20230402164826.752842-8-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230402164826.752842-8-dmitry.osipenko@collabora.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Mon, 3 Apr 2023 15:01:57 +0100
+Message-ID: <CACvgo529Rji9oVdSX81NJhXf9bF6jq1OTLhDff9CjHvfKLS4tA@mail.gmail.com>
+Subject: Re: [PATCH v1 7/7] drm/shmem-helper: Switch to reservation lock
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, kernel@collabora.com,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 03, 2023 at 05:13:24PM +0800, Yong Wu wrote:
-[..]
-> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-> @@ -76,11 +76,6 @@ properties:
->        The node of system control processor (SCP), using
->        the remoteproc & rpmsg framework.
->  
-> -  dma-ranges:
-> -    maxItems: 1
-> -    description: |
-> -      Describes the physical address space of IOMMU maps to memory.
-> -
->    "#address-cells":
->      const: 2
->  
-> @@ -203,7 +198,6 @@ required:
->    - reg
->    - iommus
->    - mediatek,scp
-> -  - dma-ranges
->    - ranges
->  
->  if:
-> @@ -236,7 +230,6 @@ examples:
->              compatible = "mediatek,mt8192-vcodec-dec";
->              mediatek,scp = <&scp>;
->              iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
-> -            dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
->              #address-cells = <2>;
->              #size-cells = <2>;
->              ranges = <0 0 0 0x16000000 0 0x40000>;
+Hi Dmitry,
 
-Hi,
+On Sun, 2 Apr 2023 at 17:49, Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
 
-this change was also done in another patch [1], and it is already queued for the
-media tree [2], so you'll need to remove this part of your patch in order to
-avoid conflicts.
+> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+>  {
+> -       mutex_lock(&shmem->pages_lock);
+> -       drm_gem_shmem_put_pages_locked(shmem);
+> -       mutex_unlock(&shmem->pages_lock);
+> +       struct drm_gem_object *obj = &shmem->base;
+> +       int ret;
+> +
+> +       dma_resv_assert_held(shmem->base.resv);
+> +
+> +       drm_WARN_ON(obj->dev, obj->import_attach);
+> +
 
-[1] https://lore.kernel.org/all/20230303013842.23259-3-allen-kh.cheng@mediatek.com/
-[2] https://lore.kernel.org/all/98c48690-631d-1086-9b7c-004c61cc8dbb@xs4all.nl/#t
+We don't need this WARN_ON to happen with a reservation lock, do we?
+If so, let's leave that in the caller.
 
-Thanks,
-Nícolas
+> +       ret = drm_gem_shmem_get_pages(shmem);
+> +
+> +       return ret;
+> +}
+> +
+> +static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+> +{
+> +       struct drm_gem_object *obj = &shmem->base;
+> +
+> +       dma_resv_assert_held(shmem->base.resv);
+> +
+> +       drm_WARN_ON(obj->dev, obj->import_attach);
+> +
+
+Ditto.
+
+With that the series is:
+Reviewed-by; Emil Velikov <emil.l.velikov@gmail.com>
+
+HTH
+-Emil
