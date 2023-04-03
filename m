@@ -2,163 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BAF6D415A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 11:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B156D41D0
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 12:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231896AbjDCJy1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 05:54:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39672 "EHLO
+        id S232408AbjDCKTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 06:19:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231364AbjDCJyT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 05:54:19 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0EAF46A9
-        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 02:53:53 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id b20so114928285edd.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Apr 2023 02:53:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680515630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LJlrdDbF9+4E4VB54zkQelJria6H4TDQP9yMZcAgHLg=;
-        b=oCGbWw21DqLjWGRThvdqExQX1aM36eMkLTFG0IRkiJSHh1Ifh6zq0c7Lm1E5lEXkrd
-         GjMSeirGrQkQi6Wl/ykRryRlCeIKTf7xt4v5rSlDW6+rRANWCpNLE1hUcqSuGMk+QNz2
-         cFhTbrssxOzG/pM9oLemV/vjGoxTb6Lu4axMMrbuMNaBOLb4sh5qRBPMUcEtaQ19SgAJ
-         XDXM2P2B0MnRQhtlZF6Nu2uJ8/IdPtNKuXXZ8SnI3Rk3FENQGGVx6cG5te3EfKXp/daG
-         nWFgfZSlZUK7/k3mtT5rrpQ8mdFR8sL88d+7WkjW5hj2IYLfWrfIzmTNErOfYDgheEOr
-         s3BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680515630;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LJlrdDbF9+4E4VB54zkQelJria6H4TDQP9yMZcAgHLg=;
-        b=OIlqTXEUQNBRYlJXlvjZBM20N1ZQlJkg6lPaQcD4kQfjHyNt6ZtMqyi0XIm2w1ibkK
-         3QTb8JLHMlgUmP5h05dLwenZgwvX0hoX+jpNryyuRh/5gQ6eZK96LtkUFzbBSH48ZLHA
-         8PWbGK6UI9ldv2o6g+cYPFvQToUGFFZimegr+PhrwnkoWIwC0i/WYFbc3Hthj7Ee7CGV
-         UYICPs24cFRRZvmWOXwX7+T5xGpfljFSCPiy1AYt4XXggDeTRdI4atxYF2EbiHsmCN5p
-         bVaaL2oIrkcSSBoEd0ZZdC6XVRbFm6kG5onG1JmqG8MutOoiwCZZSo2MhROM3Hp83J9Q
-         F3Dg==
-X-Gm-Message-State: AAQBX9e2RN06909HCqNVb3C7z7YqiYchWewhU0n7q7nCizQ/6mMmNlcC
-        hNqP71RCUXsmaGouFHF/dD1ciA==
-X-Google-Smtp-Source: AKy350a0a1bWE0yN8qnslUgf71yktHZaBm3SnfLl9tiApjHozALcTanZo2RJWIL/xhh3Ze7qTXYG6Q==
-X-Received: by 2002:a17:907:d10:b0:925:6bcb:4796 with SMTP id gn16-20020a1709070d1000b009256bcb4796mr20077828ejc.38.1680515630517;
-        Mon, 03 Apr 2023 02:53:50 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:ae90:d80:1069:4805? ([2a02:810d:15c0:828:ae90:d80:1069:4805])
-        by smtp.gmail.com with ESMTPSA id u13-20020a1709063b8d00b0093e261cc8bcsm4337535ejf.58.2023.04.03.02.53.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 02:53:50 -0700 (PDT)
-Message-ID: <c86d2388-609c-528e-b250-90bd85b97264@linaro.org>
-Date:   Mon, 3 Apr 2023 11:53:49 +0200
+        with ESMTP id S231961AbjDCKTT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 06:19:19 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B2112BF3;
+        Mon,  3 Apr 2023 03:19:07 -0700 (PDT)
+Received: from [192.168.2.163] (109-252-124-32.nat.spd-mgts.ru [109.252.124.32])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7E3D56601F5E;
+        Mon,  3 Apr 2023 11:19:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680517146;
+        bh=oUsrnUvVWFNCO2I8SuCXiTW/AVZU2rkXoBafHs5oU3Y=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=lULd60iyGYARm3PqzyHmdn7asLZYd2d8dPWIEjvXyMF07YzyTnsdvZi2dYUGyyKAu
+         hmW8XBPJQ6/iNKJHewWO+8Ak6W2rS3OU/OVGVuet7EP1bZyS1GNzWJz8c1D/Ip+QLK
+         LN/UrIG7gufbNIC48TTRIRA99cicPtqUQT7ij8l6h/yE2i1Jt468aGCYN6B6ZSPq6V
+         NB0nVByIN7hCp3ntdWTkFDGH9uP7rozub9VgUCThwJg6vLpuPNZpnl+83FFlS5pOuL
+         5iEzz4yl/t408u97uSNIW7ZmNXhyVTF0D6zS6/I4Rov2Y+ceq8S1Pn9+WjLchRvvIg
+         nb8/Tklw6SA6A==
+Message-ID: <80cdf100-ef3c-23ae-5adf-bcf97fa85e72@collabora.com>
+Date:   Mon, 3 Apr 2023 13:19:01 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v3 3/9] media: dt-bindings: cadence-csi2rx: Convert to DT
- schema
+Subject: Re: [PATCH v1 0/7] Move dma-buf mmap() reservation locking down to
+ exporters
 Content-Language: en-US
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, changhuang.liang@starfivetech.com
-References: <20230331121826.96973-1-jack.zhu@starfivetech.com>
- <20230331121826.96973-4-jack.zhu@starfivetech.com>
- <0aa3a039-daf3-7e05-6da9-258335a5ca20@linaro.org>
- <9c132e62-7830-90bf-2c3e-1568a54eb6ec@starfivetech.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <9c132e62-7830-90bf-2c3e-1568a54eb6ec@starfivetech.com>
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        kernel@collabora.com
+References: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/04/2023 11:48, Jack Zhu wrote:
+On 4/2/23 19:48, Dmitry Osipenko wrote:
+> This patchset makes dma-buf exporters responisble for taking care of
+> the reservation lock. I also included patch that moves drm-shmem to use
+> reservation lock, to let CI test the whole set. I'm going to take all
+> the patches via the drm-misc tree, please give an ack.
 > 
+> Previous policy stated that dma-buf core takes the lock around mmap()
+> callback. Which meant that both importers and exporters shouldn't touch
+> the reservation lock in the mmap() code path. This worked well until
+> Intel-CI found a deadlock problem in a case of self-imported dma-buf [1].
 > 
-> On 2023/4/1 4:12, Krzysztof Kozlowski wrote:
->> On 31/03/2023 14:18, Jack Zhu wrote:
->>> Convert DT bindings document for Cadence MIPI-CSI2 RX controller
->>> to DT schema format.
->>>
->>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
->>> ---
->>>  .../devicetree/bindings/media/cdns,csi2rx.txt | 100 ----------
->>>  .../bindings/media/cdns,csi2rx.yaml           | 174 ++++++++++++++++++
->>>  MAINTAINERS                                   |   1 +
->>>  3 files changed, 175 insertions(+), 100 deletions(-)
->>>  delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
->>>  create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
->>> deleted file mode 100644
->>> index 6b02a0657ad9..000000000000
->>> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
->>> +++ /dev/null
->>> @@ -1,100 +0,0 @@
->>> -Cadence MIPI-CSI2 RX controller
->>> -===============================
->>> -
->>> -The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
->>> -lanes in input, and 4 different pixel streams in output.
->>> -
->>> -Required properties:
->>> -  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
->>
->>
->> ...
->>
->>> +$id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Cadence MIPI-CSI2 RX controller
->>> +
->>> +maintainers:
->>> +  - Maxime Ripard <mripard@kernel.org>
->>> +
->>> +description:
->>> +  The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
->>> +  lanes in input, and 4 different pixel streams in output.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: cdns,csi2rx
->>
->> That's not equivalent conversion and your commit msg does no mention any
->> drops in compatibles.
->>
-> The equivalent conversion refers to 'an SoC-specific compatible'?
+> The problem happens when userpace mmaps a self-imported dma-buf, i.e.
+> mmaps the dma-buf FD. DRM core treats self-imported dma-bufs as own GEMs
+> [2]. There is no way to differentiate a prime GEM from a normal GEM for
+> drm-shmem in drm_gem_shmem_mmap(), which resulted in a deadlock problem
+> for drm-shmem mmap() code path once it's switched to use reservation lock.
+> 
+> It was difficult to fix the drm-shmem problem without adjusting dma-buf
+> locking policy. In parctice not much changed from importers perspective
+> because previosly dma-buf was taking the lock in between of importers
+> and exporters. Now this lock is shifted down to exporters.
+> 
+> [1] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_114671v2/shard-snb5/igt@prime_vgem@sync@rcs0.html
+> [2] https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/drm_prime.c#L924
+> 
+> Dmitry Osipenko (7):
+>   Revert "media: videobuf2: Assert held reservation lock for dma-buf
+>     mmapping"
+>   Revert "dma-buf/heaps: Assert held reservation lock for dma-buf
+>     mmapping"
+>   Revert "udmabuf: Assert held reservation lock for dma-buf mmapping"
+>   Revert "fastrpc: Assert held reservation lock for dma-buf mmapping"
+>   Revert "drm: Assert held reservation lock for dma-buf mmapping"
+>   dma-buf: Change locking policy for mmap()
+>   drm/shmem-helper: Switch to reservation lock
+> 
+>  drivers/dma-buf/dma-buf.c                     |  17 +-
+>  drivers/dma-buf/heaps/cma_heap.c              |   3 -
+>  drivers/dma-buf/heaps/system_heap.c           |   3 -
+>  drivers/dma-buf/udmabuf.c                     |   2 -
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 217 ++++++++----------
+>  drivers/gpu/drm/drm_prime.c                   |   2 -
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 -
+>  drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+>  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   2 -
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
+>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+>  drivers/gpu/drm/tegra/gem.c                   |   2 -
+>  .../common/videobuf2/videobuf2-dma-contig.c   |   3 -
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |   3 -
+>  .../common/videobuf2/videobuf2-vmalloc.c      |   3 -
+>  drivers/misc/fastrpc.c                        |   3 -
+>  include/drm/drm_gem_shmem_helper.h            |  14 +-
+>  18 files changed, 123 insertions(+), 193 deletions(-)
+> 
 
-Yes.
+Intel's IGT passed[1] (see Tests section) with the new locking policy,
+which failed previously for the "drm/shmem-helper: Switch to reservation
+lock" patch.
 
-> I'm not sure that, is it enough to add a description (drop an 'SoC-specific compatible')
-> to my next version commit message?
+[1] https://patchwork.freedesktop.org/series/116000/
 
-Original binding did not allow csi2rx compatible alone. Your binding
-here allows it, thus it is not simple conversion.
-
-I think patch 5 should be squashed here - with proper explanation.
-Usually new compatibles should not be messed with conversion, but this
-conversion on its own does not make much sense.
-
-
-
+-- 
 Best regards,
-Krzysztof
+Dmitry
 
