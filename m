@@ -2,235 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17AC66D53F2
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 23:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F41D6D5485
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 00:06:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233728AbjDCVtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 17:49:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
+        id S233745AbjDCWGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 18:06:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233558AbjDCVsw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 17:48:52 -0400
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD2541FDC;
-        Mon,  3 Apr 2023 14:48:39 -0700 (PDT)
-Received: by mail-oo1-f47.google.com with SMTP id m6-20020a4ae846000000b0053b9059edd5so4864604oom.3;
-        Mon, 03 Apr 2023 14:48:39 -0700 (PDT)
+        with ESMTP id S233494AbjDCWGs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 18:06:48 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4E726AD;
+        Mon,  3 Apr 2023 15:06:48 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id s19so18486859pgi.0;
+        Mon, 03 Apr 2023 15:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680559607; x=1683151607;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oJCa9oZ04Ks8sMazcFO/VKQNTdXem14KycuV76f0rrc=;
+        b=FHX/VJiKxcQNIunXX6dEEzh3e6W+9GpDmGjmr7CIxo0y1LST4Tzaoih3CiVSXBTJn5
+         HBbbIK8BCCN0pK0okxMRS3OFyVfjlFo8BpqPTLva+NvrpfMYfM8X5zOPRmyZ4xhnu9VQ
+         i3jSLwr/1vhkcA6aXT66mAHIbnro4FiRw/8N9C+gQn5xwsM2EvNjPpXatQdPMK9BYcrK
+         wgwgJq6r6ULGp5rZ7YAKtaqlYxp8n3P2Un+12bC0BlusxY5ljFkaQP4JirRfHMU29ezS
+         jRuz2+ouLT58Dy2repjboyQuKAa+k+Ujj/Rd3eTvc35JhJHhziwjIln9zKiY0HbI4fnc
+         e92A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680558519;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wrphn2RbQxhqb4KnvKWMrPJ8i5lbLoF9mCmsVowmwkg=;
-        b=dQ5nS698k9OhHk0Tvx2SpY/D+cCpd5/J3pfIF7O9NliTzHuk6sbG25fYnjyM5bgVIi
-         oiZ58+OyR+UIc/AWdsQSDVxN6nXjZtlN7AMk4f5O41Hr9GMjCwTJ2zvc0/hEV9fe3sKf
-         Zc7gulW+WJyxhqkk0W6XflCvtaUN3gs3ohJ9q4WJ3/EfIhn9po8R0AT092k9STaVfoHj
-         4gLoNTn5r5wts6YQaCrjM6molAbyIT/OhW2MtnG1xfk/ZjIn9V8/ngUMAajvQm2UBVh3
-         hanaSAat6cwxKGRkeHs1ljPyKt0B7iX0tpnTpI5G5YoTWH3DtHPDJeDoObj51PY2Dt9x
-         pGIQ==
-X-Gm-Message-State: AAQBX9euhph1sCwHpyToYrHoqmdeQogtWrZXrb9caBD/v8Zi39TKJXyI
-        Jqs/KZJEkE4QDRy825hi4g==
-X-Google-Smtp-Source: AKy350bjK0iTokfHBX3EJX8gHNogmylb/8/qT4XjwPfgChu7PTa1Yi9Ja5tOQ1XLB74XQSBBBWF+Mw==
-X-Received: by 2002:a4a:2c0e:0:b0:537:f9d4:a44c with SMTP id o14-20020a4a2c0e000000b00537f9d4a44cmr420692ooo.5.1680558518842;
-        Mon, 03 Apr 2023 14:48:38 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w129-20020a4a5d87000000b005414543377asm1113130ooa.20.2023.04.03.14.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 14:48:38 -0700 (PDT)
-Received: (nullmailer pid 1932535 invoked by uid 1000);
-        Mon, 03 Apr 2023 21:48:37 -0000
-Date:   Mon, 3 Apr 2023 16:48:37 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jack Zhu <jack.zhu@starfivetech.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v3 1/9] media: dt-bindings: Add bindings for JH7110
- Camera Subsystem
-Message-ID: <20230403214837.GA1925690-robh@kernel.org>
-References: <20230331121826.96973-1-jack.zhu@starfivetech.com>
- <20230331121826.96973-2-jack.zhu@starfivetech.com>
- <91874e63-553f-ced5-ce32-309ac2ebf6e5@linaro.org>
- <b8d25a66-6464-78fe-b39b-ebb8a7f1a99c@starfivetech.com>
+        d=1e100.net; s=20210112; t=1680559607; x=1683151607;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oJCa9oZ04Ks8sMazcFO/VKQNTdXem14KycuV76f0rrc=;
+        b=1u1qo3NH+FtzyOe2KmGEy/ul8f4NeaXY6lYhimWIELi1u/Y8VFQHuPYrz6tWlM5K4h
+         Fo0wMshunFfdYpMBKReo7tEcATNj9TwNlge1ywBCTpi714sLQXYXvj15rKhu2LzpcY6w
+         ubTBdWD96wIBGB7IrnrtWCczzEK5vzY9Z1K9Vwb+bVfZZGbeZUZm3GoDBpN3l/+fIgx4
+         EW7MfhTnb4SUaobOgVbMOmg2ojr47nfqbGfhVAg2bmsK8zM5U1cB52lKmaS5Gygd+CLD
+         TYhgz4WTbfAQph6cVTfSjRYicqo4Zn8qEQgB7Wb1PPRBM3NUTy/xVfW5HNLCPyMWiavU
+         XZ4Q==
+X-Gm-Message-State: AAQBX9fcVE1VgaBOWn4gqr+zeVxQef5OSriawRc3dDA5fUlWcyBWVZVN
+        dvyzhG1A5MMRzlWBhdEPeM1VhKWcNxvHsQ==
+X-Google-Smtp-Source: AKy350ZdXGE6cpbpmVZYo9Rg3/ffEZdfUGFP72Tgn4WpghMdGFVbRqHiowBWfPTd0tPVnKF/cGUnsQ==
+X-Received: by 2002:a62:7bc4:0:b0:5e2:da34:4aaf with SMTP id w187-20020a627bc4000000b005e2da344aafmr172473pfc.4.1680559606801;
+        Mon, 03 Apr 2023 15:06:46 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id 9-20020aa79149000000b0062dd28aaca6sm7341178pfi.212.2023.04.03.15.06.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 15:06:46 -0700 (PDT)
+Message-ID: <4cea1e91-f0d4-291f-813d-353f8b9d2a5e@gmail.com>
+Date:   Mon, 3 Apr 2023 15:06:44 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8d25a66-6464-78fe-b39b-ebb8a7f1a99c@starfivetech.com>
-X-Spam-Status: No, score=0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 0/2] Correct gpio-ir-recv wakeup capability
+Content-Language: en-US
+To:     linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sean Young <sean@mess.org>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Ravi Kumar V <kumarrav@codeaurora.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Matthew Lear <matthew.lear@broadcom.com>
+References: <20230324203833.3540187-1-f.fainelli@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20230324203833.3540187-1-f.fainelli@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 03, 2023 at 05:14:25PM +0800, Jack Zhu wrote:
+On 3/24/23 13:38, Florian Fainelli wrote:
+> This small patch series fixes the gpio-ir-recv binding and driver to
+> first indicate that it can be a wake-up source for the system, and
+> second actually make that happen.
 > 
+> Changes in v2:
+> - corrected the indentation of the description for "wakeup-source"
 > 
-> On 2023/4/1 4:09, Krzysztof Kozlowski wrote:
-> > On 31/03/2023 14:18, Jack Zhu wrote:
-> >> Add the bindings documentation for Starfive JH7110 Camera Subsystem
-> >> which is used for handing image sensor data.
-> >> 
-> >> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
-> >> ---
-> >>  .../bindings/media/starfive,jh7110-camss.yaml | 159 ++++++++++++++++++
-> >>  MAINTAINERS                                   |   7 +
-> >>  2 files changed, 166 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> >> 
-> >> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> >> new file mode 100644
-> >> index 000000000000..0235c70e7793
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> >> @@ -0,0 +1,159 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> >> +
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Starfive SoC CAMSS ISP
-> >> +
-> >> +maintainers:
-> >> +  - Jack Zhu <jack.zhu@starfivetech.com>
-> >> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
-> >> +
-> >> +description:
-> >> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC. It
-> >> +  consists of a VIN controller (Video In Controller, a top-level control until)
-> >> +  and an ISP.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: starfive,jh7110-camss
-> >> +
-> >> +  reg:
-> >> +    maxItems: 2
-> >> +
-> >> +  reg-names:
-> >> +    items:
-> >> +      - const: syscon
-> >> +      - const: isp
-> >> +
-> >> +  clocks:
-> >> +    maxItems: 7
-> >> +
-> >> +  clock-names:
-> >> +    items:
-> >> +      - const: apb_func
-> >> +      - const: wrapper_clk_c
-> >> +      - const: dvp_inv
-> >> +      - const: axiwr
-> >> +      - const: mipi_rx0_pxl
-> >> +      - const: ispcore_2x
-> >> +      - const: isp_axi
-> >> +
-> >> +  resets:
-> >> +    maxItems: 6
-> >> +
-> >> +  reset-names:
-> >> +    items:
-> >> +      - const: wrapper_p
-> >> +      - const: wrapper_c
-> >> +      - const: axird
-> >> +      - const: axiwr
-> >> +      - const: isp_top_n
-> >> +      - const: isp_top_axi
-> >> +
-> >> +  power-domains:
-> >> +    items:
-> >> +      - description: JH7110 ISP Power Domain Switch Controller.
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 4
-> >> +
-> >> +  ports:
-> >> +    $ref: /schemas/graph.yaml#/properties/ports
-> >> +
-> >> +    properties:
-> >> +      port@0:
-> >> +        $ref: /schemas/graph.yaml#/properties/port
-> >> +        unevaluatedProperties: false
-> >> +        description:
-> >> +          Input port for receiving DVP data.
-> >> +
-> >> +        properties:
-> >> +          endpoint:
-> >> +            $ref: video-interfaces.yaml#
-> > 
-> > I don't think we use video-interfaces with port. Are you sure this works
-> > fine? Please extend the example with appropriate properties to check...
-> > 
-> Thank you for your review.
-> the following change, is it OK?
+> Florian Fainelli (2):
+>    dt-bindings: media: gpio-ir-receiver: Document wakeup-souce property
+>    media: rc: gpio-ir-recv: Fix support for wake-up
 
-What Krzysztof meant is port@0 needs to $ref '$defs/port-base' rather 
-then 'properties/port' to work with video-interfaces.yaml. If you made 
-that change, then this is fine.
+Ping? Someone maintaining this driver?
+-- 
+Florian
 
-> 
-> endpoint:
->             $ref: video-interfaces.yaml#
->             unevaluatedProperties: false
->             
->             properties:
->               bus-width:
->                 const: 8
-> 
->               data-shift:
->                 const: 2
-> 
-> in example:
-> 	port@0 {
->                 reg = <0>;
->                 vin_from_sc2235: endpoint {
->                     remote-endpoint = <&sc2235_to_vin>;
->                     bus-width = <8>;
->                     data-shift = <2>;
->                     hsync-active = <1>;
->                     vsync-active = <0>;
->                     pclk-sample = <1>;
->                 };
-> 	};
-> 
-> 
-> >> +            unevaluatedProperties: false
-> >> +
-> >> +      port@1:
-> >> +        $ref: /schemas/graph.yaml#/properties/port
-> >> +        unevaluatedProperties: false
-> >> +        description:
-> >> +          Input port for receiving CSI data.
-> >> +
-> >> +        properties:
-> >> +          endpoint:
-> >> +            $ref: video-interfaces.yaml#
-> >> +            unevaluatedProperties: false
-> > 
-> > Same concerns here.
-> > 
-> for port@1, We don't use any properties as the allwinner,sun6i-a31-isp.yaml file.
-> Use the following modification, I don't know if it is ok?
-
-Yes.
- 
-> port@1:
->         $ref: /schemas/graph.yaml#/properties/port
->         description: Input port for receiving CSI data.
-
-Rob
