@@ -2,68 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE2A6D3C31
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 05:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0526C6D3D5E
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 08:32:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbjDCDoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Apr 2023 23:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
+        id S231481AbjDCGcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 02:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbjDCDoh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 23:44:37 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A3B93CE;
-        Sun,  2 Apr 2023 20:44:37 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id l184so7536316pgd.11;
-        Sun, 02 Apr 2023 20:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680493476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ABIEor5TUeJHEYPxHRe9G0HA55UHNeIWMnGb6d3/ufo=;
-        b=f0TkVixjbShwJwnR/hrlNRRc9BwBH0b435kvRm7U9rP7IKq5Ia1oZXCXK7uEGvQ18d
-         0QRO+414ydA1cOGQgSodGoIGMG0CaO7Iq3oRJvwTV+X3ZZPF0GGMKlaBn+Pi/WXM/31M
-         akn+QLbs+rcWP9z5OlnllAVIyu0u1EkVsTwxRCyq55UHkRbDVqDppMLdld4z+dXfBw7v
-         opyJ/PoHzEYcgpA/00VuHvryvq4ljWoj0cTodmeNWfIrcq8nPBc25HYGNIj1tsauCoJz
-         Ylcqvd2SWYYZrO0GDP6rAE6yn+3bQhdee1JwbKYczl8W5wrD0++tE/OPfhVV6O+p29x/
-         osxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680493476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ABIEor5TUeJHEYPxHRe9G0HA55UHNeIWMnGb6d3/ufo=;
-        b=pjfEU8gwG3Bf6rLiGyxdMH3QDAU4k1uG2wt3x7LsTBq3KWHoFSNQ/d1lKVE9jDLnFt
-         TDQJqIE9XXGQ+jeO4kCh/7HuQG2pyuSBEJBffFDedxos8wFWFf7CW/1BPZx+JCPTKa9F
-         bx7dg6Hj97zMlpG7fj3tbAhEj5kYM54lAAZ2N8MBdbrJwGQeJEJiedJKWK07AUtMU8/g
-         GpKeLp3g+ZIr4DD9XBE+hc4+/wLuDG8CF1GBzyjMrWGvxTPAl3pOy1CDwEh/UFcU4nS7
-         jvIdE0uXtqoBJSBB/SzTFUNYOdMbvMxm+GQCwVP17V/ndovSChGxWctRlLSnNha33yGa
-         AnQg==
-X-Gm-Message-State: AAQBX9dz4BvBgNVHLYqxhhBeYDFRUd8h370mbyZLot03nXjRpdYW7Kml
-        RIMHgE+FpaYd/e3FqdbR9ZxuWm1hOjMb6s3OIG0=
-X-Google-Smtp-Source: AKy350bWZfPX2SN3YYi/hFG3M2gCBUBYb4wgj6bMZme/ir4hqykgeRQrFyjod1786jAdXSyrywhtwreTcmY1+T2ZsB0=
-X-Received: by 2002:a05:6a00:881:b0:62d:dd8d:56ac with SMTP id
- q1-20020a056a00088100b0062ddd8d56acmr5249726pfj.0.1680493476386; Sun, 02 Apr
- 2023 20:44:36 -0700 (PDT)
+        with ESMTP id S229670AbjDCGcX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 02:32:23 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760EC172B;
+        Sun,  2 Apr 2023 23:32:22 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pjDjk-0004mY-CR; Mon, 03 Apr 2023 08:32:16 +0200
+Message-ID: <8d55f6e3-b573-7f63-bfed-4aa73bdc473a@leemhuis.info>
+Date:   Mon, 3 Apr 2023 08:32:15 +0200
 MIME-Version: 1.0
-References: <20230313154132.3684181-1-zyytlz.wz@163.com> <CAAEAJfAjND_Bj9HRBae22eO7cG_Xm=AX93bL+CPEb24-sitWTg@mail.gmail.com>
-In-Reply-To: <CAAEAJfAjND_Bj9HRBae22eO7cG_Xm=AX93bL+CPEb24-sitWTg@mail.gmail.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Mon, 3 Apr 2023 11:44:24 +0800
-Message-ID: <CAJedcCyr2DEux=bSU+4Ksgz69ouEHebhmcmoCa2ysYB1YiOaNQ@mail.gmail.com>
-Subject: Re: [PATCH v3] media: hantro: fix use after free bug in hantro_remove
- due to race condition
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, p.zabel@pengutronix.de,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
+ addresses"
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+To:     Leonard Lausen <leonard@lausen.nl>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Vikash Garodia <vgarodia@qti.qualcomm.com>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, mka@chromium.org,
+        Albert Esteve <aesteve@redhat.com>,
+        stanimir.varbanov@linaro.org,
+        Enric Balletbo i Serra <eballetb@redhat.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        Fritz Koenig <frkoenig@google.com>,
+        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+References: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
+ <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
+ <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
+ <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
+ <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
+ <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
+ <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
+ <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
+ <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
+ <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
+ <87edq9hj4w.fsf@minerva.mail-host-address-is-not-set>
+ <d18fac76-6b77-a446-5fe0-7236556e9187@quicinc.com>
+ <0c84724d-08d4-ddcb-5f71-4eb8261240c6@quicinc.com>
+ <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
+ <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
+In-Reply-To: <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1680503542;a339c812;
+X-HE-SMSGID: 1pjDjk-0004mY-CR
+X-Spam-Status: No, score=-2.4 required=5.0 tests=NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -72,103 +76,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ezequiel Garcia <ezequiel@vanguardiasur.com.ar> =E4=BA=8E2023=E5=B9=B43=E6=
-=9C=8831=E6=97=A5=E5=91=A8=E4=BA=94 10:38=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi Zheng,
->
-> On Mon, Mar 13, 2023 at 12:42=E2=80=AFPM Zheng Wang <zyytlz.wz@163.com> w=
-rote:
-> >
-> > In hantro_probe, vpu->watchdog_work is bound with
-> > hantro_watchdog. Then hantro_end_prepare_run may
-> > be called to start the work.
-> >
-> > If we close the file or remove the module which will
-> > call hantro_release and hantro_remove to make cleanup,
->
-> It's not possible to close the file or remove the module while a watchdog=
- is
-> scheduled.
->
-> That's because the watchdog is active only during a mem2mem job,
-> and the file won't be closed until the job is done.
->
-> v4l2_m2m_ctx_release calls v4l2_m2m_cancel_jobw
-> which waits until the job is done.
->
-> If you can confirm it's possible to remove or close the file
-> while a job is running, that would be a driver bug.
->
-> Thanks for the patch, but it's not needed.
->
+On 02.04.23 07:02, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 01.04.23 22:53, Leonard Lausen wrote:
+>>
+>> the revert wasn't applied to v6.2 series. Can you please apply it and include it for v6.2.10?
 
-Hi Ezequiel,
+I pointed Linus to this and he merged the revert directly; and it's
+already queued for the next 6.2.y release:
 
-Thanks for your detailed analysis. Got it :)
+https://lore.kernel.org/all/CAHk-%3DwhRs_MavKCqtV3%3DK31dq9Z6HzbaG8Uxo-EV%3DuRxdsXduA@mail.gmail.com/
+https://git.kernel.org/torvalds/c/f95b8ea79c47c0ad3d18f45ad538f9970e414d1f
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/commit/?id=902f9eb696dfdd40e88d99bafa34ea25f1f9e927
 
-Best regards,
-Zheng
+Now to the remaining venus regression:
 
-> Regards,
-> Ezequiel
->
-> > there may be an unfinished work. The possible sequence
-> > is as follows, which will cause a typical UAF bug.
-> >
-> > The same thing will happen in hantro_release, and use
-> > ctx after freeing it.
-> >
-> > Fix it by canceling the work before cleanup in hantro_release.
-> >
-> > CPU0                  CPU1
-> >
-> >                     |hantro_watchdog
-> > hantro_remove     |
-> >   v4l2_m2m_release  |
-> >     kfree(m2m_dev); |
-> >                     |
-> >                     | v4l2_m2m_get_curr_priv
-> >                     |   m2m_dev->curr_ctx //use
-> >
-> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > ---
-> > v3:
-> > - use cancel_delayed_work_sync instead of cancel_delayed_work and add i=
-t to
-> > hantro_release suggested by Hans Verkuil
-> >
-> > v2:
-> > - move the cancel-work-related code to hantro_remove suggested by Hans =
-Verkuil
-> > ---
-> >  drivers/media/platform/verisilicon/hantro_drv.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/=
-media/platform/verisilicon/hantro_drv.c
-> > index b0aeedae7b65..86a4c0fa8c7d 100644
-> > --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> > @@ -597,6 +597,7 @@ static int hantro_release(struct file *filp)
-> >         struct hantro_ctx *ctx =3D
-> >                 container_of(filp->private_data, struct hantro_ctx, fh)=
-;
-> >
-> > +       cancel_delayed_work_sync(&ctx->dev->watchdog_work);
-> >         /*
-> >          * No need for extra locking because this was the last referenc=
-e
-> >          * to this file.
-> > @@ -1099,6 +1100,7 @@ static int hantro_remove(struct platform_device *=
-pdev)
-> >
-> >         v4l2_info(&vpu->v4l2_dev, "Removing %s\n", pdev->name);
-> >
-> > +       cancel_delayed_work_sync(&vpu->watchdog_work);
-> >         media_device_unregister(&vpu->mdev);
-> >         hantro_remove_dec_func(vpu);
-> >         hantro_remove_enc_func(vpu);
-> > --
-> > 2.25.1
-> >
+>> March 6, 2023 at 5:43 AM, "Javier Martinez Canillas" <javierm@redhat.com> wrote:
+>>>> On 3/1/2023 3:15 PM, Dikshita Agarwal wrote:
+>>>>> On 2/28/2023 9:33 PM, Javier Martinez Canillas wrote:
+>>>>>> Javier Martinez Canillas<javierm@redhat.com>  writes:
+>>>>>>> Vikash Garodia<vgarodia@qti.qualcomm.com>  writes:
+>>>>>>>
+>>>>>>>> Stan, could you please help with the revert and a pull request having this revert
+>>>>>>>> alongwith other pending changes ?
+>>>>>>>>
+>>>>>>> Other fix posted is "media: venus: dec: Fix capture formats enumeration order":
+>>>>>>>
+>>>>>>> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
+>>>>
+>>>> Hi Javier,
+>>>>
+>>>> Thanks for this patch "media: venus: dec: Fix capture formats
+>>>> enumeration order".
+>>>>
+>>>> Somehow I can't find it in my mailbox to be able to reply there.
+>>>>
+>>>> Could you please explain what is the regression you see here?
+>>>>
+>>>
+>>> You can find the thread and explanation of the issue here:
+>>>
+>>> https://lore.kernel.org/lkml/Y+KPW18o%2FDa+N8UI@google.com/T/
+>>>
+>>> But Stanimir already picked it and sent a PR for v6.3 including it.
+>>
+>> While "media: venus: dec: Fix capture formats enumeration order" may have been
+>> applied to v6.3,
+> 
+> To me it looks like it was submitted[1], but not yet applied even to the
+> media tree[2] -- while guess, maybe due problems mentioned in[3]? Or am
+> I missing something?
+> 
+> [1]
+> https://lore.kernel.org/all/20230329211655.100276-1-stanimir.k.varbanov@gmail.com/
+> [2] https://git.linuxtv.org/media_tree.git/log/?h=fixes
+> [3]
+> https://lore.kernel.org/all/20230329214310.2503484-1-jenkins@linuxtv.org/
+
+I only notice now: from [1] above it looks like that regression fix was
+applied to a tree that seems to be intended for 6.4. Is that okay for
+everybody, or should we ask Linus to pick this up as well (unless of
+course Mauro shows up and forwards the patch, of course)? They fix a
+regression from 5.19 afaics, so not a fresh problem, but apparently one
+that bugged a few people recently.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
