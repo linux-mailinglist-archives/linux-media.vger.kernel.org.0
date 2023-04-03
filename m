@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A7586D52AD
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 22:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC55A6D52B3
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 22:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233460AbjDCUkI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 16:40:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59580 "EHLO
+        id S233462AbjDCUkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 16:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233465AbjDCUkG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 16:40:06 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F646170F
-        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 13:40:03 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id b20so122348938edd.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Apr 2023 13:40:03 -0700 (PDT)
+        with ESMTP id S233479AbjDCUkV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 16:40:21 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652AE35B3
+        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 13:40:19 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id h8so122374410ede.8
+        for <linux-media@vger.kernel.org>; Mon, 03 Apr 2023 13:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112; t=1680554402;
+        d=googlemail.com; s=20210112; t=1680554418;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
         bh=ZlKcaKh18h+QBmr9urMB1rRvxToOGdnmDwwJL+gmwVk=;
-        b=KNd/boOKN6y2/PjCeVSU+vPcnQDoudhrGK0UpOmstKZonIbjoJzZS04aRj0j+mOZvK
-         qgAyo97MIqwMwrM8H/UbXggTC2XfwOQZMVPsoNvnyIdTQiGHCUkF/20T+wZJ5rc+Ybuz
-         2tui8GG9it6Qj5JxWUxzmAhPLlJgmxez7I05/TBVd3Y/KNcHdvmUk+jCfGGMcrLDvQEs
-         HehtOTvpmtXFkgyq1ZxUuo3Rv32Z5AfdBR2WKja9oU5HJdQk+3dp7A0JbboHMqEBdXBF
-         PLDxGF6TvSJLzi04fxak3Pfyqo2rObKBCbjqkvWsmVOlAX/z6vIQEtcYvTaxUsavxKfi
-         seWw==
+        b=BMZvPQArT6h6XAkPe0OPKQrQ55fdDpO/cH35li3iHsHBaTSnwYmx1aFRxaHK3KDHUL
+         o7yD07+StCRHQn0A0Cww0DhLYho5DhzMB4kSkCE9qjS1ODIQsGB5t/AA8GEs6Qw/QqRk
+         ZOulcEdAtTTB2qoZFw9PoJOviXQJ9f+5V7k5DoHoPXyS5rux2EAHa+Zng7t3NTWPqSDX
+         Z3euIwde/GKvVd4HnCnmF8z99zQA3s7ZIxKdM7C3bNAohCh3G7SeNCS+HWkkKOICClgs
+         02jvCKhaFLXIwWDzhoRKn/+FFYmZ1GEz2YOAa+d9U9Xxh7r2Yji2n2VeWi8GKUxUcd45
+         w60w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680554402;
+        d=1e100.net; s=20210112; t=1680554418;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=ZlKcaKh18h+QBmr9urMB1rRvxToOGdnmDwwJL+gmwVk=;
-        b=x8twHCK6is/aXwguspb99xQK52tydwaMGMD1aEwFSroUi8ND/4LhXNX36w5ZjZBsip
-         uKkpCwEpdb18dwnRW1vxvOep76SYQtpAazGLbkkpJo/16hGPx4RGcXTMGrnJYG+ImgpX
-         oObRG6lYm30RZhI6yUpJXuR1Uewv/ex4Bxyaxb85TbwrAEMjkPIvvHRxqhOuHADSQvYh
-         lgPUt6W23KO/0U3Vmz/QS8jUQTMYNOtqguVs8qBCNS1PSE4WoKAH07kVO0BlQc+cMVjm
-         nQ5pdvf6KbnKlYCcwOzQlFvq43P4PLF4NeafiXs0JgV8fgfgRnXV4SSXxnEgR8POwvlM
-         EebA==
-X-Gm-Message-State: AAQBX9fsKrk/bcf0tdCGEzs4LBYEms7AQ3sstxcgUpIC7ig/YSUtWZEy
-        HpCZHNZBVE4N6FG9dGb76fLRElDVJ/tnlRmm3eo=
-X-Google-Smtp-Source: AKy350aH9R6cBFgVsiy0JqLI7fVfIZFzryyfFLxVuvDgg1GsqbpxdaHQ2NTwI3X5cLKiWPBFLPLXff/v+f2giwpeCRw=
-X-Received: by 2002:a17:907:6b8f:b0:932:4577:6705 with SMTP id
- rg15-20020a1709076b8f00b0093245776705mr599ejc.6.1680554401878; Mon, 03 Apr
- 2023 13:40:01 -0700 (PDT)
+        b=pADR25ulSBB2c52hh6aWtVai5YUIc8BbgAdjNneNvKt1XDRcNyoudT/RXCEwD2q/O4
+         br4wdXQ7elKZMOHy1ooB/W04Jt7ZWWTDVDedV1mZNlOxWMbcUU2smHkuvYs8bFp/ZbXS
+         oG+F2I5QaXVHwLhPl8N2NEMJYDeX29tctkgFtz3ys9KheJYLlwVFdhAvr+3r1dTZLQgo
+         fDQDAVD7iYNpvzkdM67vQwzmEP/ToaxQ3gNfy1+ltCTzFwVRDphwtr/xlOEmQfwu3JPt
+         Bsc4+O8kK0vs80gwWgFRl98t9PYeLuSJRtE2xkiG96dWCzEo6EwIH4nB3QB8J+I/i/d2
+         9M+A==
+X-Gm-Message-State: AAQBX9cOdyvHqJvqiS1FKX6UBufXSLgsxsM8yvnuo2fKyPJSvjlAOiGr
+        C9ql1P5PfbU2VaMWLQUfGh0aGupBgNzMlcedPGU=
+X-Google-Smtp-Source: AKy350byv7mgJhm8ZtaUlXtjWxuFXmilHBYn3b+1HsF9CF5BT0PhB4h6mOSxbN3cLf7k3KyBR1bX2lw22Yrpb/PcA+s=
+X-Received: by 2002:a17:906:4ac5:b0:92f:cbfe:1635 with SMTP id
+ u5-20020a1709064ac500b0092fcbfe1635mr19738927ejt.6.1680554417483; Mon, 03 Apr
+ 2023 13:40:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-7-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230326143224.572654-7-u.kleine-koenig@pengutronix.de>
+References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de> <20230326143224.572654-17-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230326143224.572654-17-u.kleine-koenig@pengutronix.de>
 From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Mon, 3 Apr 2023 22:39:51 +0200
-Message-ID: <CAFBinCC1div=aEyEt6BBO_kQvf-R2hqpP8t6KTGtjyxOy2RVrQ@mail.gmail.com>
-Subject: Re: [PATCH 004/117] media: ao-cec-g12a: Convert to platform remove
- callback returning void
+Date:   Mon, 3 Apr 2023 22:40:06 +0200
+Message-ID: <CAFBinCDwrqd5zGWZVfrn3bebpMSrDwaY7dpR_Y+i-oEXiv088A@mail.gmail.com>
+Subject: Re: [PATCH 014/117] media: ge2d: Convert to platform remove callback
+ returning void
 To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kevin Hilman <khilman@baylibre.com>,
         Jerome Brunet <jbrunet@baylibre.com>,
