@@ -2,178 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7756D3ACD
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 00:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F087C6D3B18
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 02:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjDBWZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Apr 2023 18:25:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39996 "EHLO
+        id S230433AbjDCA1s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Apr 2023 20:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjDBWZN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 18:25:13 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96ACC76B6
-        for <linux-media@vger.kernel.org>; Sun,  2 Apr 2023 15:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
-        s=s31663417; t=1680474300; i=herdler@nurfuerspam.de;
-        bh=1GweAsWzAwMp9CUEE1q8P9dlAUPT+CRm6Yb2MY020B4=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=CJusBI6tCM5mD9XyLZ35XlyXecfUDrymNwuy7unv2DEQp0oNxcQTpFY2Gout+Agjf
-         Pl5WULeQ7ok6Oo0tuRmar1OuTwcxKQ4xcaWjaeg7flZceKIABHISHEV7asHbVn2dc9
-         oGBGyzcRiczS1tZFmNmyiBLxXvKIKy72k/H0b1ihgCnnqsrxGZv+fKHSwMMP5fzwSg
-         kR7XDflfGLNgy27CFXL9rHCS75VTemHsVt7AYJMZ2aUOBSn7sVoCyU15hOfDOCQAjn
-         /z5WIxarFeXAxTsupZDcgKQqz4ItA5SOxJepgyCkkYj+mbgX+90YX0lyO85yJ+sEFW
-         epNJcvkl8HHKA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([217.113.187.51]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MdNcG-1qIQsm28xc-00ZLqz; Mon, 03
- Apr 2023 00:25:00 +0200
-Message-ID: <5b5a1dc0-96c4-c3c4-a24b-1917b39f8292@nurfuerspam.de>
-Date:   Mon, 3 Apr 2023 00:25:00 +0200
+        with ESMTP id S230421AbjDCA1q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Apr 2023 20:27:46 -0400
+Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1A62728F
+        for <linux-media@vger.kernel.org>; Sun,  2 Apr 2023 17:27:43 -0700 (PDT)
+Received: (qmail 7203 invoked by uid 990); 3 Apr 2023 00:27:41 -0000
+Authentication-Results: devico.uberspace.de;
+        auth=pass (plain)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] Legacy DVB API: completion of documentation
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
- <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
- <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
- <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
- <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
- <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
- <20230208100847.3ec87576@coco.lan>
- <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
- <50f69514-abbb-2dfb-6060-889aa2c6e02c@nurfuerspam.de>
- <decd5d71-f06e-5873-5ebf-7028107f65ee@nurfuerspam.de>
- <20230327192826.65ae299d@sal.lan>
-Content-Language: en-US
-From:   Stefan Herdler <herdler@nurfuerspam.de>
-In-Reply-To: <20230327192826.65ae299d@sal.lan>
-Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 03 Apr 2023 00:27:41 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:N40m6VvzA1OlSsvLYo7aGRo6yYY1JyR+uqpl5dZAa/hORyRinn1
- HxqZjl+WDdWEp72A/byn+obuZMW7MqM5LIPZdga41pq0ldpFhW4KhUHt3v6mKYZe5Qa3xCP
- tm/V+nRyIkNQLoz1xHfV9NwJucVnBsBfu7y11GSXszvHK9hyDbP3X5z5uDSMcLlfYyhm0B+
- YwBRr8X6hAXB/WXVVhKBA==
-UI-OutboundReport: notjunk:1;M01:P0:YSMyJjCbgMQ=;hruIH/SucvOQHJ2zaUlKfv+A1CC
- 1uqPbdX3TUIehAFqho8xUo1Ynk/1LtualkTWp6V96sf8ZSjEKXfyhGb5y6tR5NPX4woxKiC2E
- dSoRuVLZux0PaHO1/EbTkzskBkpGoTW6Gg7kZhOcr4hLHysUynu9zM+Le3ydDyB9sKheHx5yX
- p8CQixfzb2wQY78C6oXN/jA80i6ZoK5KOBGQXwkF/l+TX9drkycWf+RnWCBWhxT95KLUPlPOR
- WvvhmHyLsNCCW4npWBCh+Ktz4RoS1yC6hM98HWFqRXcOJa5OrFVatasW2LBLExvNJbN6/icVE
- Zd2Lm5idRdC4mtiR7i3/oBRrz19jTmY6gSuvW2A81yMWGbSgw+cBRkRwnkzj0rAt2L/iq5n3Y
- ai0R7EVgF0/anUSY2bVh7pXU+6QI+9qqpG7+TFX2Q/3wrXER/LLB7yrXoHTJjIGzwfh5dE7jZ
- zWc7Vxx9tC9ywowljUpYZTxCX1DpFoKd+RLEUyWwvr1jRkRRfBoL+8kVSadc26SF72YvQWjNA
- rwBTBrfRrK1guStP7vS5kHi2WGAbC6NtkdhpsHvdENK9q3McA/96eRkYjEXghxuYIz96WLdrJ
- FikuS3nmikxXgemuLmVS5k7rTm/LZ+eqOG+25WAqp/FU3A3KMULNebWY0rZJHLCM5utlgQQ4t
- sUA+9ZJqGCZUKWLXr8d1mNFknG3TdxLLm3jlIThCYJa3J+6gb+Tbh97USA78Ac2Iea8VXcK5+
- VRgODhxLsAOe7rCDVYnUvR1zaKvT9LVSaUZU462qh8A5TZ3UP3uim28xAp0QLrkgyQmcXs9Bd
- RZg7MntyQSpdTyPc8KFKFue3P1Lx3wao728XQDdDofapihmk3yrPyFVbDnZ5MjyBHAQzvhVpc
- 8KpHVT1lO0nk3gXZa+1gDLXjhRy04rD218ninhmETed6c4iOzDIcvucLXtu+YQoP3WMLxA7R6
- OtQLCg==
-X-Spam-Status: No, score=1.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+From:   "Leonard Lausen" <leonard@lausen.nl>
+Message-ID: <32657b4f2c8cf1219b8705db6cba7606b0119274@lausen.nl>
+TLS-Required: No
+Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
+ addresses"
+To:     "Linux regressions mailing list" <regressions@lists.linux.dev>,
+        "Javier Martinez Canillas" <javierm@redhat.com>,
+        "Dikshita Agarwal" <quic_dikshita@quicinc.com>,
+        "Vikash Garodia" <vgarodia@qti.qualcomm.com>,
+        "Stanimir Varbanov" <stanimir.k.varbanov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, mka@chromium.org,
+        "Albert Esteve" <aesteve@redhat.com>, stanimir.varbanov@linaro.org,
+        "Enric Balletbo i Serra" <eballetb@redhat.com>,
+        "Andy Gross" <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        "Fritz Koenig" <frkoenig@google.com>,
+        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>
+In-Reply-To: <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
+References: <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
+ <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
+ <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
+ <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
+ <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
+ <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
+ <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
+ <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
+ <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
+ <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
+ <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
+ <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
+ <87edq9hj4w.fsf@minerva.mail-host-address-is-not-set>
+ <d18fac76-6b77-a446-5fe0-7236556e9187@quicinc.com>
+ <0c84724d-08d4-ddcb-5f71-4eb8261240c6@quicinc.com>
+ <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
+X-Rspamd-Bar: /
+X-Rspamd-Report: MIME_GOOD(-0.1) BAYES_HAM(-1.374321) SUSPICIOUS_RECIPS(1.5)
+X-Rspamd-Score: 0.025678
+Received: from unknown (HELO unkown) (::1)
+        by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA; Mon, 03 Apr 2023 02:27:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=lausen.nl; s=uberspace;
+        h=from;
+        bh=kU8/0hotsYPclOG1hg3ZENcMEY6U3LCuivpAib0hr74=;
+        b=oC2wAnUm5H1OfB4XE/nU3cIGhovmM0C/NHSvx/T3dtJPxU5ClHd670Y96FE5Xpc7+cRnzBfXyY
+        CqDSaOiEufS1Xt6wI74NpLW9F6W7IRr9nvJfcLJ91899z2S3hI7+fQF7AovSXO0StymLLNqzjZ+y
+        jnevWcL3mzmwAGEOpIvyej/4/gY4dD6SusGrTvDWBzTDWjtrxNfV67qE5xRLZ3/kWzf6GVzWD+0/
+        FBK0UXaeEwR3RFDetJK8G8Ju1ILF+ulWMaUtPksvjmYl4R+xoLmUOdP/0RIGtjghzbhw5ETnhi5L
+        O6aKnvAL8SraIF6FAJRWKjdbdhXflW/J9vAXjn/rASftHFS8Ex0C5J4g+uPuxE9H06i4ytQY2QIH
+        eIA/F7RFdSuc8kC2y0t6J6FUS1TGn3kKVZeY1EDwbrdcrTLG/oTzCVtuMk2f7x8gA3J6HXLXeAFg
+        K7mhsONNUH0+VSP+a5Qywsu43APiNCPcZBsPmWstvlVwWecKPRYp9GG1dRigizL52jsjl5/fSnhR
+        wVWN6WWwuhCmIOQmGaRcKDdT33/wcXAPxPvxiONKKIuSwKHeagUv8CkiMf/Nzuj0B7KmVZp6SduX
+        3fM5TGylJn+0JX58BPPmuABItZu1WqkyCmryH9if0xay/y77h45i2s9JPguG5WTQJ9YsRtHQIK01
+        0=
+X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+        MSGID_FROM_MTA_HEADER,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+April 2, 2023 at 1:02 AM, <regressions@leemhuis.info> wrote:
+> > this still leaves the regression introduced by "venus:
+> >  firmware: Correct non-pix start and end addresses". As pointed out b=
+y Matthias
+> >  Kaehlcke, the commit prevents SC7180 and sc7280 AOSS from entering s=
+leep mode
+> >  during system suspend. This is a serious regression in v6.2 kernel s=
+eries.
+> >=20
+>=20That fix is sitting in the media tree for a while and afaics still
+> hasn't been sent to Linus (which is needed to get this fixed in 6.2.y).
+> Mauro, could you maybe take care of that?
 
-I just want to say thank you, for your very detailed review. It helps me a=
- lot.
-Now I know for sure which kind details have been missed.
-Reading and writing such a documentation is definitely a different thing.
+I see the revert made it to 6.3-rc5 as commit f95b8ea7. Now it just needs=
+ to
+be included for v6.2.10
 
-On 27/03/23 20:28, Mauro Carvalho Chehab wrote:
-[...]
->
->>> At least everything in the header-files is in the documentation now. I=
- hope, I have done it sufficiently.
->
-> Good! It took me quite a while to read everything... At the end, as was
-> a little tired, so I probably missed things.
->
-> Next time, please split this on a patch series, in order to make
-> easier for the poor reviewers to look into it ;-)
-
-I have to apologies. I just realized, that it got that long,
-while reading your answer.
-I should have tried to scroll down to the end, before sending ;-).
-
-
-[...]
-
->
->>> I haven't found any useful hint how to get rid of them.
->>> Should I switch to "code-block:: c" instead?
->>> But there are a lot of this warnings from other files too. It seems I'=
-m mot the only one with this problem.
->> I switched to "code-block".
->> Now there are no warnings anymore.
->
-> For things like ioctl, code-blocks are preferred. For other things,
-> better to keep the warnings and not use code-block where not needed. The
-> warnings are part of the Sphinx cross-reference system, which tries to
-> create references to the C domain functions and data types.
->
-> Unfortunately, Sphinx has a known bug that it is hit when the same symbo=
-l
-> name is used with different meanings e.g., on C declarations like those:
->
-> 	struct foo;
-> 	enum foo;
-> 	typedef foo;
-> 	foo() {}
->
-> Each one has a different type. So, `foo` cross-references depend on
-> the context. Right now, Sphinx will just consider them to be attempts
-> to re-define an existing name. There's already patches fixing it
-> Sphinx upstream, but (last time I checked) not applied yet as those
-> would cause regressions on intersphinx.
->
->> This functions shouldn't be referenced from outside this document anywa=
-y.
->
-> No, we link the header files with the documentation, exactly to
-> generate cross-references and detect gaps at the docsO.k., I thought thi=
-s applies only to the inline-documentation generated from
-source-code.
-But it makes sense now.
-
-Thanks to your tips I was able to find the solution for this problem in
-minutes.
-One of the versions I tried was already almost right. But I haven't seen i=
-t.
-
-
-
-I already noticed, that not everything of the API is in use by the AV7110
-driver, but I forgot it in the remarks.
-I will provide a list next time.
-
-I had searched for the declarations from the header-files in the projects
-including them.
-Almost everything was found in the AV7110 driver, only 2 or 3 items were
-missing. And this rest seems to be used elsewhere.
-My first target was to make the documentation consistent to the headers.
-So I kept them, at least for now.
-
-
-
-I'll mail again when I'm finished, but it may take a while.
-
-Regards
-Stefan
+Thank you
+Leonard Lausen
