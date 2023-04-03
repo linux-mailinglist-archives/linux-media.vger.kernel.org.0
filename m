@@ -2,55 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC79B6D50BC
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 20:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86EC96D5144
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 21:24:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233250AbjDCShc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 14:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
+        id S231828AbjDCTYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 15:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232354AbjDCShc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 14:37:32 -0400
-Received: from aposti.net (aposti.net [89.234.176.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9308899;
-        Mon,  3 Apr 2023 11:37:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1680547048;
+        with ESMTP id S231411AbjDCTYt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 15:24:49 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178A5E7C;
+        Mon,  3 Apr 2023 12:24:47 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Pr16v6hS3z49Q0d;
+        Mon,  3 Apr 2023 22:24:39 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1680549885;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=bnQrvEz/F0HtMo61MRMevGwpunBFI0o/+wdfXFhszQw=;
-        b=wmGIpaAeX3wlUIVZdWVbWY5RMVdmTF8B40N5sXTdehP85NEPptugaqHw+XJX2cPDclj4WM
-        atYeygViHa62jb9sd3JFz3XJkkiptTMr2M6qClT8yr7YS7UCHzJiq2HgKhRuPR2z7rVKai
-        SbXDqG7PskUUFgyASdtczeEkdEVJmqg=
-Message-ID: <6a75a551b3ef3fc7cf9281db0b69167a570130c2.camel@crapouillou.net>
-Subject: Re: [PATCH v3 11/11] Documentation: iio: Document high-speed DMABUF
- based API
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Vinod Koul <vkoul@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-doc@vger.kernel.org
-Date:   Mon, 03 Apr 2023 20:37:26 +0200
-In-Reply-To: <87zg7p7xz4.fsf@meer.lwn.net>
-References: <20230403154800.215924-1-paul@crapouillou.net>
-         <20230403154955.216148-1-paul@crapouillou.net>
-         <20230403154955.216148-2-paul@crapouillou.net>
-         <87zg7p7xz4.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        bh=Tp5qcqPaxivMIuFMRKaAe5HT8V/qPK5f6UKZnTDqXZs=;
+        b=wj8iMdaB6O5svgBz97QcbFfxl9pOUa1PNhWR6/nMI8DJ/TlBNBIzxaoXQ4xFtAVcllZBGn
+        1h11XWEmzs+t+7S8wZmoH14Ni8IZIiAbMuwhBvBpaZQSxGqHI3PBS4/eRQdeOwpNSUUZ4Q
+        9oD4KR5OR/7ixTFuQJjiBae6kKroRXjgsr1oQ1YHFdRtSRUWdkyXT6ydrbBKs2fI2Nf6at
+        KgPm5BT3ib2zzo+p3tbEYZMZCdzbPUGlXdxIKRq6Wl3LoBqS5w7Tcdh9ze+jq4BX8ZDee1
+        E31/c03A+3U1KSnRAQJPWWdm9O+j4FuxlElRkzejBkCFdfXldIoFoa2cL7+rAQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1680549885; a=rsa-sha256;
+        cv=none;
+        b=pTLkgQTxUMn8kAT5W3Z+ogFont60P6E8KePKCXivg0tBgmGITjjXMVNgPLPZmGVszTwkb9
+        8xmV8K+JZuzm7F5CFJy//1r6ial5+VTAqVELsLbmuuAMfOY1FbI3yDkl8ZCGK0ToM5mF6F
+        iXE23DARwHLsLEzlUBnPniLP4sabKK6I8VHkzWvPos67ec7cBwbNsoN6VKbLTay13Lx0Te
+        srYyEk9eLJ72MlypaetY0e3iRJp+oyVh9XtQdLwdV+Gk7bvcCtArTcbo8tYuuL7peYlIWK
+        3MAa6H4E+TVhwLzsPEbZwvIuhCayXj1Up3OmaEuUmeKIlKMxGrnJHjS1tylKqw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1680549885;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Tp5qcqPaxivMIuFMRKaAe5HT8V/qPK5f6UKZnTDqXZs=;
+        b=nDY5LUXsU7qY8CejlN+YlEuCBrJE/yaOwuV73ThTDfxvd8Q/gVoeJnKw2jhXh4fy8A7SPX
+        04/1VA27KvucaNF6obkcJs2PPrdTE0lqb28f0pJOkLQXoIeseCKj3IvDUyXnBCVMbpl03s
+        yasLIby0zyRIhZg4rK6kfJ04rUVkkEFvNGm5TZYXULNkyhoQREHpmP/LL8JdsOm0Nmc2LH
+        0bmnev2mHgSMrVvTzXkiub2kKx9ZZcsn7/QC6F+28qWZ7KKjWBErPDIXmgXOy47iBBRRO6
+        0ZiawUTptzsFdcFQ0UPZ510Z4RUtHySIcAMki/r3tFx2/Ka+zwbnh9UJRyw49Q==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4C2E2634C91;
+        Mon,  3 Apr 2023 22:22:09 +0300 (EEST)
+Date:   Mon, 3 Apr 2023 22:22:08 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Joe Tessler <jrt@google.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Benoit Parrot <bparrot@ti.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] media: dt-bindings: Drop unneeded quotes
+Message-ID: <ZCsnYGMkV2Zrw3fJ@valkosipuli.retiisi.eu>
+References: <20230320233944.2920964-1-robh@kernel.org>
+ <ZCaoVwRuxVOTZdI4@valkosipuli.retiisi.eu>
+ <36febd82-85b2-aa4d-c7e0-6343b119e0cc@gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <36febd82-85b2-aa4d-c7e0-6343b119e0cc@gmail.com>
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,117 +126,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonathan,
+Hi Stan,
 
-Le lundi 03 avril 2023 =C3=A0 10:05 -0600, Jonathan Corbet a =C3=A9crit=C2=
-=A0:
-> Paul Cercueil <paul@crapouillou.net> writes:
->=20
-> One nit:
->=20
-> > Document the new DMABUF based API.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: linux-doc@vger.kernel.org
-> >=20
-> > ---
-> > v2: - Explicitly state that the new interface is optional and is
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 not implemented by all drivers.
-> > =C2=A0=C2=A0=C2=A0 - The IOCTLs can now only be called on the buffer FD=
- returned
-> > by
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IIO_BUFFER_GET_FD_IOCTL.
-> > =C2=A0=C2=A0=C2=A0 - Move the page up a bit in the index since it is co=
-re stuff
-> > and not
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 driver-specific.
-> > v3: Update the documentation to reflect the new API.
-> > ---
-> > =C2=A0Documentation/iio/dmabuf_api.rst | 59
-> > ++++++++++++++++++++++++++++++++
-> > =C2=A0Documentation/iio/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 2 ++
-> > =C2=A02 files changed, 61 insertions(+)
-> > =C2=A0create mode 100644 Documentation/iio/dmabuf_api.rst
-> >=20
-> > diff --git a/Documentation/iio/dmabuf_api.rst
-> > b/Documentation/iio/dmabuf_api.rst
-> > new file mode 100644
-> > index 000000000000..4d70372c7ebd
-> > --- /dev/null
-> > +++ b/Documentation/iio/dmabuf_api.rst
-> > @@ -0,0 +1,59 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +High-speed DMABUF interface for IIO
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +1. Overview
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +The Industrial I/O subsystem supports access to buffers through a
-> > +file-based interface, with read() and write() access calls through
-> > the
-> > +IIO device's dev node.
-> > +
-> > +It additionally supports a DMABUF based interface, where the
-> > userspace
-> > +can attach DMABUF objects (externally created) to a IIO buffer,
-> > and
-> > +subsequently use them for data transfers.
-> > +
-> > +A userspace application can then use this interface to share
-> > DMABUF
-> > +objects between several interfaces, allowing it to transfer data
-> > in a
-> > +zero-copy fashion, for instance between IIO and the USB stack.
-> > +
-> > +The userspace application can also memory-map the DMABUF objects,
-> > and
-> > +access the sample data directly. The advantage of doing this vs.
-> > the
-> > +read() interface is that it avoids an extra copy of the data
-> > between the
-> > +kernel and userspace. This is particularly useful for high-speed
-> > devices
-> > +which produce several megabytes or even gigabytes of data per
-> > second.
-> > +It does however increase the userspace-kernelspace synchronization
-> > +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs
-> > have to
-> > +be used for data integrity.
-> > +
-> > +2. User API
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +As part of this interface, three new IOCTLs have been added. These
-> > three
-> > +IOCTLs have to be performed on the IIO buffer's file descriptor,
-> > +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-> > +
-> > +``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-> > +----------------------------------------------------------------
-> > +
-> > +Attach the DMABUF object, identified by its file descriptor, to
-> > the IIO
-> > +buffer. Returns zero on success, and a negative errno value on
-> > error.
->=20
-> Rather than abusing subsections, this would be better done as a
-> description list:
->=20
-> =C2=A0 IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Attach the DMABUF object, identified by it=
-s file descriptor, to
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the IIO buffer. Returns zero on success, a=
-nd a negative errno
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value on error.
+How are you doing?
 
-Noted, thanks.
+On Mon, Apr 03, 2023 at 08:26:28PM +0300, Stanimir Varbanov wrote:
+> Hei Sakari,
+> 
+> On 31.03.23 г. 12:31 ч., Sakari Ailus wrote:
+> > Hi Rob,
+> > 
+> > On Mon, Mar 20, 2023 at 06:39:42PM -0500, Rob Herring wrote:
+> > > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> > > checking for this can be enabled in yamllint.
+> > > 
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > 
+> > This patch contains changes to Qualcomm bindings that have been already
+> > made by other patches by Krzysztof. I think these took some time to get
+> > merged to the media tree.
+> > 
+> > I've dropped those, the result is here:
+> > 
+> > <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?id=d75cae0884e80bba486f85e82b33a1dae3c9c976>
+> > 
+> 
+> Do you think it will fix this pull request failure?
+> 
+> https://lore.kernel.org/all/20230329214310.2503484-1-jenkins@linuxtv.org/
 
-Cheers,
--Paul
+Ah, it seems to be the same issue here.
+
+The patch has been merged via my tree, whereas the rest of the patchset was
+apparently merged by Hans earlier on.
+
+<URL:https://patchwork.linuxtv.org/project/linux-media/list/?series=9531&submitter=&state=*&q=&archive=&delegate=>
+
+-- 
+Kind regards,
+
+Sakari Ailus
