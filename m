@@ -2,145 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0526C6D3D5E
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 08:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D526D3E82
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 09:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbjDCGcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 02:32:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
+        id S231248AbjDCH5z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 03:57:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbjDCGcX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 02:32:23 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760EC172B;
-        Sun,  2 Apr 2023 23:32:22 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pjDjk-0004mY-CR; Mon, 03 Apr 2023 08:32:16 +0200
-Message-ID: <8d55f6e3-b573-7f63-bfed-4aa73bdc473a@leemhuis.info>
-Date:   Mon, 3 Apr 2023 08:32:15 +0200
+        with ESMTP id S231723AbjDCH5x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 03:57:53 -0400
+Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447607685
+        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 00:57:51 -0700 (PDT)
+Received: by mail-io1-f80.google.com with SMTP id i189-20020a6b3bc6000000b00758a1ed99c2so17405083ioa.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Apr 2023 00:57:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680508670; x=1683100670;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+55Ep96w1GrdicGs3q+SqcOATmhIDqVCR7yAN3WUpu0=;
+        b=EkeBFV3EOoQ674Qimx0HeC+SRrsm0af4Tb33qEkRJYXWtgAFBtwzHXqCn7YKNNvZHY
+         onXK57FMx/QFlF+YyJ0p+7dPy0i87mfswwUOL2ur3n6E8+E9m8ZobsDlp9NpVJ1smzQ8
+         K+W6DaX8rAkhhQop8acDQCZP7JkhezkwqZXsjIbVq+bdu4bQ2/n2sax3OkbaOx4P5DqZ
+         haz7dpj0BFpqG1J469qQAwH59jMEniQGEHwK7IM5k9y/E1rrSWp9emQCk1HaT4e9sNAF
+         ktuM1asn5ziWOp3FtfSAzUhZDkusU8qbMvVEh1gjSGvb4uVWss8lt5oHszeQbwBY57m4
+         aKyw==
+X-Gm-Message-State: AO0yUKUplUvaW73Lqqdm5OkJy4v+FrygAsO09yommzvu6jEvMSaENQ9y
+        unFQVRKOENhwmywJ2OEizLniFm3Wsk5UrPlI/mKWwkH16Ms7
+X-Google-Smtp-Source: AK7set/HiIOOOPEDz4KuXoTXHsmn3Z20SY1XF49Ui+ReesLTOXpveKjoXONsOCIz8MDc6aeGYhCkGZ+nmfXmrxhlSLzUCteDhDPn
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] Revert "venus: firmware: Correct non-pix start and end
- addresses"
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-To:     Leonard Lausen <leonard@lausen.nl>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, mka@chromium.org,
-        Albert Esteve <aesteve@redhat.com>,
-        stanimir.varbanov@linaro.org,
-        Enric Balletbo i Serra <eballetb@redhat.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        Fritz Koenig <frkoenig@google.com>,
-        "Rajeshwar Kurapaty (QUIC)" <quic_rkurapat@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-References: <87edq2dus1.fsf@minerva.mail-host-address-is-not-set>
- <ef09bc9f-d570-be11-238b-bd34063917fc@redhat.com>
- <70c01751-1dd7-c4bd-a96e-94dea437aa40@redhat.com>
- <DM8PR02MB81696369DBFE619E43F81EEFF3DE9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <e87344c6-acef-7f3f-5cac-24961dbd9401@redhat.com>
- <6f97a117-0d9c-e21b-9adf-50f2233ba9e3@leemhuis.info>
- <ea283f0a-ca72-447e-ce87-68c1bbee793e@leemhuis.info>
- <CAFOAJEdBbzqkGVqw+vgNYNxyaTHwvjFyskTwjycP820L2tOctA@mail.gmail.com>
- <b548da46-bf91-6f1c-4b63-4002109056bc@leemhuis.info>
- <9a0bfef8-0b5d-f4d0-a8a5-4bbcacc5c0fb@leemhuis.info>
- <DM8PR02MB8169E16569616870A583B376F3AB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <87356wn6xf.fsf@minerva.mail-host-address-is-not-set>
- <87edq9hj4w.fsf@minerva.mail-host-address-is-not-set>
- <d18fac76-6b77-a446-5fe0-7236556e9187@quicinc.com>
- <0c84724d-08d4-ddcb-5f71-4eb8261240c6@quicinc.com>
- <a2fec0a5855150966fa5a920216c205032965f98@lausen.nl>
- <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
-In-Reply-To: <12c5a8f2-3082-68a2-e973-18fb957068ac@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1680503542;a339c812;
-X-HE-SMSGID: 1pjDjk-0004mY-CR
-X-Spam-Status: No, score=-2.4 required=5.0 tests=NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Received: by 2002:a02:2282:0:b0:3fe:88a4:1da2 with SMTP id
+ o124-20020a022282000000b003fe88a41da2mr15167577jao.4.1680508670436; Mon, 03
+ Apr 2023 00:57:50 -0700 (PDT)
+Date:   Mon, 03 Apr 2023 00:57:50 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000057e9d305f869eaa0@google.com>
+Subject: [syzbot] [dri?] general protection fault in drm_crtc_next_vblank_start
+From:   syzbot <syzbot+54280c5aea19802490b5@syzkaller.appspotmail.com>
+To:     airlied@gmail.com, airlied@redhat.com, christian.koenig@amd.com,
+        daniel.vetter@ffwll.ch, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        robdclark@chromium.org, sean@poorly.run, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=3.1 required=5.0 tests=FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02.04.23 07:02, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 01.04.23 22:53, Leonard Lausen wrote:
->>
->> the revert wasn't applied to v6.2 series. Can you please apply it and include it for v6.2.10?
+Hello,
 
-I pointed Linus to this and he merged the revert directly; and it's
-already queued for the next 6.2.y release:
+syzbot found the following issue on:
 
-https://lore.kernel.org/all/CAHk-%3DwhRs_MavKCqtV3%3DK31dq9Z6HzbaG8Uxo-EV%3DuRxdsXduA@mail.gmail.com/
-https://git.kernel.org/torvalds/c/f95b8ea79c47c0ad3d18f45ad538f9970e414d1f
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/commit/?id=902f9eb696dfdd40e88d99bafa34ea25f1f9e927
+HEAD commit:    a6d9e3034536 Add linux-next specific files for 20230330
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1001d1cdc80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=aceb117f7924508e
+dashboard link: https://syzkaller.appspot.com/bug?extid=54280c5aea19802490b5
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13435a2ec80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=139c9c21c80000
 
-Now to the remaining venus regression:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ec1f900ea929/disk-a6d9e303.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fabbf89c0d22/vmlinux-a6d9e303.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/1ed05d6192fa/bzImage-a6d9e303.xz
 
->> March 6, 2023 at 5:43 AM, "Javier Martinez Canillas" <javierm@redhat.com> wrote:
->>>> On 3/1/2023 3:15 PM, Dikshita Agarwal wrote:
->>>>> On 2/28/2023 9:33 PM, Javier Martinez Canillas wrote:
->>>>>> Javier Martinez Canillas<javierm@redhat.com>  writes:
->>>>>>> Vikash Garodia<vgarodia@qti.qualcomm.com>  writes:
->>>>>>>
->>>>>>>> Stan, could you please help with the revert and a pull request having this revert
->>>>>>>> alongwith other pending changes ?
->>>>>>>>
->>>>>>> Other fix posted is "media: venus: dec: Fix capture formats enumeration order":
->>>>>>>
->>>>>>> https://patchwork.kernel.org/project/linux-media/patch/20230210081835.2054482-1-javierm@redhat.com/
->>>>
->>>> Hi Javier,
->>>>
->>>> Thanks for this patch "media: venus: dec: Fix capture formats
->>>> enumeration order".
->>>>
->>>> Somehow I can't find it in my mailbox to be able to reply there.
->>>>
->>>> Could you please explain what is the regression you see here?
->>>>
->>>
->>> You can find the thread and explanation of the issue here:
->>>
->>> https://lore.kernel.org/lkml/Y+KPW18o%2FDa+N8UI@google.com/T/
->>>
->>> But Stanimir already picked it and sent a PR for v6.3 including it.
->>
->> While "media: venus: dec: Fix capture formats enumeration order" may have been
->> applied to v6.3,
-> 
-> To me it looks like it was submitted[1], but not yet applied even to the
-> media tree[2] -- while guess, maybe due problems mentioned in[3]? Or am
-> I missing something?
-> 
-> [1]
-> https://lore.kernel.org/all/20230329211655.100276-1-stanimir.k.varbanov@gmail.com/
-> [2] https://git.linuxtv.org/media_tree.git/log/?h=fixes
-> [3]
-> https://lore.kernel.org/all/20230329214310.2503484-1-jenkins@linuxtv.org/
+The issue was bisected to:
 
-I only notice now: from [1] above it looks like that regression fix was
-applied to a tree that seems to be intended for 6.4. Is that okay for
-everybody, or should we ask Linus to pick this up as well (unless of
-course Mauro shows up and forwards the patch, of course)? They fix a
-regression from 5.19 afaics, so not a fresh problem, but apparently one
-that bugged a few people recently.
+commit d39e48ca80c0960b039cb38633957f0040f63e1a
+Author: Rob Clark <robdclark@chromium.org>
+Date:   Fri Sep 3 18:47:54 2021 +0000
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+    drm/atomic-helper: Set fence deadline for vblank
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d260c9c80000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=11d260c9c80000
+console output: https://syzkaller.appspot.com/x/log.txt?x=16d260c9c80000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+54280c5aea19802490b5@syzkaller.appspotmail.com
+Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
+
+[drm] Initialized udl 0.0.1 20120220 for 1-1:0.0 on minor 2
+[drm] Initialized udl on minor 2
+udl 1-1:0.0: [drm] *ERROR* Read EDID byte 0 failed err ffffffb9
+udl 1-1:0.0: [drm] Cannot find any crtc or sizes
+general protection fault, probably for non-canonical address 0xdffffc0000000028: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]
+CPU: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.3.0-rc4-next-20230330-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:drm_crtc_next_vblank_start+0xb3/0x2b0 drivers/gpu/drm/drm_vblank.c:1003
+Code: e8 01 00 00 48 69 db 38 02 00 00 48 b8 00 00 00 00 00 fc ff df 49 03 9d 38 03 00 00 4c 8d ab 44 01 00 00 4c 89 ea 48 c1 ea 03 <0f> b6 14 02 4c 89 e8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 67
+RSP: 0018:ffffc900000e6bb0 EFLAGS: 00010207
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000028 RSI: ffffffff849f2afb RDI: ffff888079558338
+RBP: ffffc900000e6c48 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000010 R12: ffff8880795590d8
+R13: 0000000000000144 R14: ffff8880795590d8 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f17191c7688 CR3: 00000000281af000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ set_fence_deadline drivers/gpu/drm/drm_atomic_helper.c:1531 [inline]
+ drm_atomic_helper_wait_for_fences+0x1b4/0x780 drivers/gpu/drm/drm_atomic_helper.c:1578
+ drm_atomic_helper_commit drivers/gpu/drm/drm_atomic_helper.c:2007 [inline]
+ drm_atomic_helper_commit+0x1bd/0x370 drivers/gpu/drm/drm_atomic_helper.c:1979
+ drm_atomic_commit+0x20a/0x300 drivers/gpu/drm/drm_atomic.c:1503
+ drm_client_modeset_commit_atomic+0x69b/0x7e0 drivers/gpu/drm/drm_client_modeset.c:1045
+ drm_client_modeset_commit_locked+0x149/0x580 drivers/gpu/drm/drm_client_modeset.c:1148
+ drm_client_modeset_commit+0x51/0x80 drivers/gpu/drm/drm_client_modeset.c:1174
+ drm_fb_helper_single_fb_probe drivers/gpu/drm/drm_fb_helper.c:1983 [inline]
+ __drm_fb_helper_initial_config_and_unlock+0x118a/0x1510 drivers/gpu/drm/drm_fb_helper.c:2169
+ drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:2259 [inline]
+ drm_fb_helper_initial_config+0x42/0x60 drivers/gpu/drm/drm_fb_helper.c:2251
+ drm_fbdev_generic_client_hotplug+0x1ab/0x270 drivers/gpu/drm/drm_fbdev_generic.c:281
+ drm_fbdev_generic_setup+0x127/0x3b0 drivers/gpu/drm/drm_fbdev_generic.c:343
+ udl_usb_probe+0x120/0x190 drivers/gpu/drm/udl/udl_drv.c:120
+ usb_probe_interface+0x30f/0x960 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x240/0xca0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:795
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:825
+ __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:953
+ bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1025
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11c4/0x1c50 drivers/base/core.c:3616
+ usb_set_configuration+0x10ee/0x1af0 drivers/usb/core/message.c:2171
+ usb_generic_driver_probe+0xcf/0x130 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd8/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x240/0xca0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:795
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:825
+ __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:953
+ bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1025
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x11c4/0x1c50 drivers/base/core.c:3616
+ usb_new_device+0xcb2/0x19d0 drivers/usb/core/hub.c:2575
+ hub_port_connect drivers/usb/core/hub.c:5407 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5551 [inline]
+ port_event drivers/usb/core/hub.c:5711 [inline]
+ hub_event+0x2d9e/0x4e40 drivers/usb/core/hub.c:5793
+ process_one_work+0x99a/0x15e0 kernel/workqueue.c:2405
+ worker_thread+0x67d/0x10c0 kernel/workqueue.c:2552
+ kthread+0x33e/0x440 kernel/kthread.c:379
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:drm_crtc_next_vblank_start+0xb3/0x2b0 drivers/gpu/drm/drm_vblank.c:1003
+Code: e8 01 00 00 48 69 db 38 02 00 00 48 b8 00 00 00 00 00 fc ff df 49 03 9d 38 03 00 00 4c 8d ab 44 01 00 00 4c 89 ea 48 c1 ea 03 <0f> b6 14 02 4c 89 e8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 67
+RSP: 0018:ffffc900000e6bb0 EFLAGS: 00010207
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000028 RSI: ffffffff849f2afb RDI: ffff888079558338
+RBP: ffffc900000e6c48 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000010 R12: ffff8880795590d8
+R13: 0000000000000144 R14: ffff8880795590d8 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f17191c7688 CR3: 000000002b398000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	e8 01 00 00 48       	callq  0x48000006
+   5:	69 db 38 02 00 00    	imul   $0x238,%ebx,%ebx
+   b:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  12:	fc ff df
+  15:	49 03 9d 38 03 00 00 	add    0x338(%r13),%rbx
+  1c:	4c 8d ab 44 01 00 00 	lea    0x144(%rbx),%r13
+  23:	4c 89 ea             	mov    %r13,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
+  2e:	4c 89 e8             	mov    %r13,%rax
+  31:	83 e0 07             	and    $0x7,%eax
+  34:	83 c0 03             	add    $0x3,%eax
+  37:	38 d0                	cmp    %dl,%al
+  39:	7c 08                	jl     0x43
+  3b:	84 d2                	test   %dl,%dl
+  3d:	0f                   	.byte 0xf
+  3e:	85                   	.byte 0x85
+  3f:	67                   	addr32
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
