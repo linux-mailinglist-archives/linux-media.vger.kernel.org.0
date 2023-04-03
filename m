@@ -2,100 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F41D6D5485
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 00:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6BCA6D54A7
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 00:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233745AbjDCWGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 18:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
+        id S233132AbjDCWTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 18:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233494AbjDCWGs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 18:06:48 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4E726AD;
-        Mon,  3 Apr 2023 15:06:48 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id s19so18486859pgi.0;
-        Mon, 03 Apr 2023 15:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680559607; x=1683151607;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oJCa9oZ04Ks8sMazcFO/VKQNTdXem14KycuV76f0rrc=;
-        b=FHX/VJiKxcQNIunXX6dEEzh3e6W+9GpDmGjmr7CIxo0y1LST4Tzaoih3CiVSXBTJn5
-         HBbbIK8BCCN0pK0okxMRS3OFyVfjlFo8BpqPTLva+NvrpfMYfM8X5zOPRmyZ4xhnu9VQ
-         i3jSLwr/1vhkcA6aXT66mAHIbnro4FiRw/8N9C+gQn5xwsM2EvNjPpXatQdPMK9BYcrK
-         wgwgJq6r6ULGp5rZ7YAKtaqlYxp8n3P2Un+12bC0BlusxY5ljFkaQP4JirRfHMU29ezS
-         jRuz2+ouLT58Dy2repjboyQuKAa+k+Ujj/Rd3eTvc35JhJHhziwjIln9zKiY0HbI4fnc
-         e92A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680559607; x=1683151607;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oJCa9oZ04Ks8sMazcFO/VKQNTdXem14KycuV76f0rrc=;
-        b=1u1qo3NH+FtzyOe2KmGEy/ul8f4NeaXY6lYhimWIELi1u/Y8VFQHuPYrz6tWlM5K4h
-         Fo0wMshunFfdYpMBKReo7tEcATNj9TwNlge1ywBCTpi714sLQXYXvj15rKhu2LzpcY6w
-         ubTBdWD96wIBGB7IrnrtWCczzEK5vzY9Z1K9Vwb+bVfZZGbeZUZm3GoDBpN3l/+fIgx4
-         EW7MfhTnb4SUaobOgVbMOmg2ojr47nfqbGfhVAg2bmsK8zM5U1cB52lKmaS5Gygd+CLD
-         TYhgz4WTbfAQph6cVTfSjRYicqo4Zn8qEQgB7Wb1PPRBM3NUTy/xVfW5HNLCPyMWiavU
-         XZ4Q==
-X-Gm-Message-State: AAQBX9fcVE1VgaBOWn4gqr+zeVxQef5OSriawRc3dDA5fUlWcyBWVZVN
-        dvyzhG1A5MMRzlWBhdEPeM1VhKWcNxvHsQ==
-X-Google-Smtp-Source: AKy350ZdXGE6cpbpmVZYo9Rg3/ffEZdfUGFP72Tgn4WpghMdGFVbRqHiowBWfPTd0tPVnKF/cGUnsQ==
-X-Received: by 2002:a62:7bc4:0:b0:5e2:da34:4aaf with SMTP id w187-20020a627bc4000000b005e2da344aafmr172473pfc.4.1680559606801;
-        Mon, 03 Apr 2023 15:06:46 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id 9-20020aa79149000000b0062dd28aaca6sm7341178pfi.212.2023.04.03.15.06.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 15:06:46 -0700 (PDT)
-Message-ID: <4cea1e91-f0d4-291f-813d-353f8b9d2a5e@gmail.com>
-Date:   Mon, 3 Apr 2023 15:06:44 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 0/2] Correct gpio-ir-recv wakeup capability
-Content-Language: en-US
-To:     linux-kernel@vger.kernel.org
+        with ESMTP id S230501AbjDCWTa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 18:19:30 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B12273E;
+        Mon,  3 Apr 2023 15:19:29 -0700 (PDT)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5631766030F1;
+        Mon,  3 Apr 2023 23:19:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680560368;
+        bh=MfmeAyMP4kZnUtbedObZ5J3MvrkjTUU/2hwYA1Mdx6w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eBDhs8F64dEDL9yF4U+vgr0Qx7wzZGhhYKMmrBTgpyflQKR+FKgXbpmO2QUH8zLMA
+         ve/hZuMzhviSVvmZQU+kwgqk9e5zC2CWTUjAJpIyuNV9wZC2XP50X7nTakcK9KuNhl
+         ijrk+HItTJtFXltBIUHqFsfxyQQY18X0JN26j95u7VKSdoBxNlNxjTE655MSrgyqES
+         dav8ToW4kZeyaWNNjEQYeOcT9tdkpFaVXLhDPPNlhJc6Pi8WeTFNRSwRqvtYA8NUI6
+         nrTqdIAyh5rOusfsagIrdCFoDcChchq+COk5gwBb4SF61y4BKFXzQm+ZA/7LozXiF4
+         nahUY/UinXnVA==
+Date:   Mon, 3 Apr 2023 18:19:21 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Matthias Brugger <matthias.bgg@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sean Young <sean@mess.org>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Ravi Kumar V <kumarrav@codeaurora.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Matthew Lear <matthew.lear@broadcom.com>
-References: <20230324203833.3540187-1-f.fainelli@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230324203833.3540187-1-f.fainelli@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, yunfei.dong@mediatek.com,
+        Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+Subject: Re: [RESEND 0/6] media: mediatek: Update video decoder nodes for
+ MT8195 and MT8192
+Message-ID: <4ebd1c9f-0460-4436-8e17-0e46e88f4828@notapiano>
+References: <20230303013842.23259-1-allen-kh.cheng@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230303013842.23259-1-allen-kh.cheng@mediatek.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/24/23 13:38, Florian Fainelli wrote:
-> This small patch series fixes the gpio-ir-recv binding and driver to
-> first indicate that it can be a wake-up source for the system, and
-> second actually make that happen.
+On Fri, Mar 03, 2023 at 09:38:36AM +0800, Allen-KH Cheng wrote:
+> This series is based on matthias github v6.3-tmp. Since there is a
+> dependence in the following series, I resend a series for them.
 > 
-> Changes in v2:
-> - corrected the indentation of the description for "wakeup-source"
+> patchwork.kernel.org/project/linux-mediatek/list/?series=702423
+> patchwork.kernel.org/project/linux-mediatek/list/?series=702078
+
+Hi Matthias,
+
+this series has been completely reviewed and tested for a while, and the
+bindings patches were already picked up by Hans and are on their way to 6.4 [1].
+So could you please pick the devicetree patches?
+
+Thanks,
+Nícolas
+
+[1] https://lore.kernel.org/all/98c48690-631d-1086-9b7c-004c61cc8dbb@xs4all.nl/
+
 > 
-> Florian Fainelli (2):
->    dt-bindings: media: gpio-ir-receiver: Document wakeup-souce property
->    media: rc: gpio-ir-recv: Fix support for wake-up
-
-Ping? Someone maintaining this driver?
--- 
-Florian
-
+> Allen-KH Cheng (3):
+>   media: dt-bindings: media: mediatek: Rename child node names for
+>     decoder
+>   media: dt-bindings: media: mediatek: Remove "dma-ranges" property for
+>     decoder
+>   arm64: dts: mt8192: Add video-codec nodes
+> 
+> Yunfei Dong (3):
+>   media: dt-bindings: media: mediatek: vcodec: adapt to the
+>     'clock-names' of different platforms
+>   media: dt-bindings: media: mediatek: vcodec: Change the max reg value
+>     to 2
+>   arm64: dts: mt8195: Add video decoder node
+> 
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 113 +++++++-----------
+>  arch/arm64/boot/dts/mediatek/mt8192.dtsi      |  59 +++++++++
+>  arch/arm64/boot/dts/mediatek/mt8195.dtsi      |  70 +++++++++++
+>  3 files changed, 173 insertions(+), 69 deletions(-)
+> 
+> -- 
+> 2.18.0
+> 
