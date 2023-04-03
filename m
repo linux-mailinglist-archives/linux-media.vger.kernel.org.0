@@ -2,50 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B62856D4C1F
-	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 17:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B268E6D4C1C
+	for <lists+linux-media@lfdr.de>; Mon,  3 Apr 2023 17:40:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232948AbjDCPk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 11:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44824 "EHLO
+        id S232942AbjDCPk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Apr 2023 11:40:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232929AbjDCPk0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 11:40:26 -0400
+        with ESMTP id S229866AbjDCPkZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 11:40:25 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0A4326B9
-        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 08:40:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A576726A5
+        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 08:40:24 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI8-0004cF-Pm; Mon, 03 Apr 2023 17:40:20 +0200
+        id 1pjMI9-0004dE-EM; Mon, 03 Apr 2023 17:40:21 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI7-008ibA-U6; Mon, 03 Apr 2023 17:40:19 +0200
+        id 1pjMI8-008ibF-9k; Mon, 03 Apr 2023 17:40:20 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1pjMI7-00AHxC-6k; Mon, 03 Apr 2023 17:40:19 +0200
+        id 1pjMI7-00AHxH-C1; Mon, 03 Apr 2023 17:40:19 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
-To:     Neil Armstrong <neil.armstrong@linaro.org>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>
-Cc:     Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Subject: [PATCH 12/24] staging: media: meson: vdec: Convert to platform remove callback returning void
-Date:   Mon,  3 Apr 2023 17:40:02 +0200
-Message-Id: <20230403154014.2564054-13-u.kleine-koenig@pengutronix.de>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        kernel@pengutronix.de
+Subject: [PATCH 13/24] staging: media: omap4iss: Convert to platform remove callback returning void
+Date:   Mon,  3 Apr 2023 17:40:03 +0200
+Message-Id: <20230403154014.2564054-14-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1583; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=P35Ck+M/VCEEhMxrFcldV2WJMFcTdpa/K3Pjr50rJgY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNC+Co7HXuwCgK9dynbHKEeaG/SrHOkFUjJf PSTTykY77WJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzQgAKCRCPgPtYfRL+ Tq8iB/9x4510NGqWNWqDe3F7xIdKw4MHr48k3D6ErVInKJ8cbY2e9hxwfh+QDDN2NrfyEORhugN dAVuUglboK+yBgqO2sRgzqPeiCe4YxZ0DSE8qz+ZWFeja9SnkRipTWUYSlvA/j79DeEK6qkp+z6 1U1iy14P7YzLKp53mlAYIzl3dRTWwjzsNGPfjxMBxBmDPkztxADjGiTbtewobyMMP6ciUNY0atm D2kYwZNSDgy5gX00iy1hHAj69rYE9VGYUgikPMjRT3vifLU5IiaHa0CL0d2nb1PZNTCa4hqxXt1 Q7+vQd/NqegyuVe3qIBq99mNdpZje2hyLylux42jeV10bvTj
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1710; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=LmttZmjRipsYfunmAVzJW77JKrXaCtcrPUXwbO+3O+o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkKvNEs/ISVMXu+uvDduq6KvwDWXFnAeckCQiAJ K6+3i+469aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCrzRAAKCRCPgPtYfRL+ Tvw8B/4yHEFO6+EDpP4SnSGogp/Z2+nk8ljGPuz0Huq4ih/Atu70vz35GiRFCSBNOCLvHk4oqVA X2Xln/pEg8nHoBfT4JqHx4xv9zeMZF7enIQLUk0yIGjRiW0bGLadKBmtGn6GYmp0QVIyy/aPD4z uYagMWp7KNB9t44WH2F9emFxhNbBGi8QU7wOxSUgKOvdpRsFqO6yrnirz2FoBBkbuB26srB8vA5 8oVOfijSGh7HxUD2ghdR5wnlfifaPCg/WRVD5MLy6pSOgn9bm01xChiA4HVbTXvAFSIraqXC82m kY7KDY1cNT5gHMziSJyAkWVhwcNMVNds1PO8rj6qDlnMTKAk
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -74,35 +70,39 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/media/meson/vdec/vdec.c | 6 ++----
+ drivers/staging/media/omap4iss/iss.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 52f224d8def1..5ca4b1200831 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -1106,19 +1106,17 @@ static int vdec_probe(struct platform_device *pdev)
+diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+index fa2a36d829d3..0c4283bb48ad 100644
+--- a/drivers/staging/media/omap4iss/iss.c
++++ b/drivers/staging/media/omap4iss/iss.c
+@@ -1323,15 +1323,13 @@ static int iss_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int vdec_remove(struct platform_device *pdev)
-+static void vdec_remove(struct platform_device *pdev)
+-static int iss_remove(struct platform_device *pdev)
++static void iss_remove(struct platform_device *pdev)
  {
- 	struct amvdec_core *core = platform_get_drvdata(pdev);
+ 	struct iss_device *iss = platform_get_drvdata(pdev);
  
- 	video_unregister_device(core->vdev_dec);
- 	v4l2_device_unregister(&core->v4l2_dev);
+ 	iss_unregister_entities(iss);
+ 	media_entity_enum_cleanup(&iss->crashed);
+ 	iss_cleanup_modules(iss);
 -
 -	return 0;
  }
  
- static struct platform_driver meson_vdec_driver = {
- 	.probe = vdec_probe,
--	.remove = vdec_remove,
-+	.remove_new = vdec_remove,
+ static const struct platform_device_id omap4iss_id_table[] = {
+@@ -1342,7 +1340,7 @@ MODULE_DEVICE_TABLE(platform, omap4iss_id_table);
+ 
+ static struct platform_driver iss_driver = {
+ 	.probe		= iss_probe,
+-	.remove		= iss_remove,
++	.remove_new	= iss_remove,
+ 	.id_table	= omap4iss_id_table,
  	.driver = {
- 		.name = "meson-vdec",
- 		.of_match_table = vdec_dt_match,
+ 		.name	= "omap4iss",
 -- 
 2.39.2
 
