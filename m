@@ -2,108 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DC026D5B24
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 10:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 156F16D5B2C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 10:47:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234059AbjDDIom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 04:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
+        id S233988AbjDDIrJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 04:47:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbjDDIoj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 04:44:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A571FDE;
-        Tue,  4 Apr 2023 01:44:24 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6385E7F8;
-        Tue,  4 Apr 2023 10:44:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680597862;
-        bh=UAYPK5/gF5Yn/7iYTIsOzOrTSuOlbQ9JOwY52h/wB3Y=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Qm9b6ucAqlnEKobBHyn6JP7rNDuY0ZV0BBs4ikgCuFEfVy2A9fmqXEWeFBJgibMTV
-         hctKTrcRQF7HwHkol9IbCGLxmbJnwGRE9BtAj7bT45nVmN8o3miW3Ud2XhxLy+Bzsl
-         bSKIyV+TwssBbMevmus026XRT6qbn7Vq6PHm6mlY=
-Message-ID: <28707378-c4e7-38b6-48f5-63b0834c18c9@ideasonboard.com>
-Date:   Tue, 4 Apr 2023 11:44:18 +0300
+        with ESMTP id S233886AbjDDIrH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 04:47:07 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14B5A4
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 01:47:04 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id D2E9C40018;
+        Tue,  4 Apr 2023 08:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1680598023;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6bINFhzmdTa6KM0KrBA3I4IJBmsVMvlZkHyY+xaRQxU=;
+        b=dChcN4ngozhcMpNR78w+uaWsrIAVm7KxfS+aUBZJCJXVFBM6f/+RfKc3FMcV4GJF1aTzlN
+        4i9uym1+1FD9mojS2vCSmI1v6+o0Kvf52vZhYK6n8jxBFl4quiafnvmiKCcVnXQ4tWjl9A
+        qqcWcV4NmN6JlArqb9HCpLB7JKhjezRewCdlVzjI4kb2ijzKvsFP/ZXSf1wk9Mjet9tBa/
+        cpPmB/2rpC6S/B3TVnsRbE4ywJvrtBzAW5qy46bK4p4mPNRQK5iaJ8PhlDAHiwuurzoQBR
+        mdOBgUXHV1vzdd5W7K8hPll8vVAQgfLzOMSWuZj4zstXCfonxgN+qUb0coX54w==
+Date:   Tue, 4 Apr 2023 10:47:00 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 15/24] staging: media: sunxi: cedrus: Convert to platform
+ remove callback returning void
+Message-ID: <ZCvkBEddzwUDcdu-@aptenodytes>
+References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
+ <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v7 00/13] CSI2RX support on J721E
-Content-Language: en-US
-To:     Vaishnav Achath <vaishnav.a@ti.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
-Cc:     linux-kernel@vger.kernel.org, bparrot@ti.com,
-        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
-        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
-        nm@ti.com, martyn.welch@collabora.com
-References: <20230314115516.667-1-vaishnav.a@ti.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230314115516.667-1-vaishnav.a@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gTlsYDrwY4RlCnWi"
+Content-Disposition: inline
+In-Reply-To: <20230403154014.2564054-16-u.kleine-koenig@pengutronix.de>
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/03/2023 13:55, Vaishnav Achath wrote:
-> Hi,
-> 
-> This series adds support for CSI2 capture on J721E. It includes some
-> fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper driver.
 
-I get some errors with 'v4l2-compliance -m /dev/media0', which also causes:
+--gTlsYDrwY4RlCnWi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[   51.185172] ------------[ cut here ]------------
-[   51.189786] WARNING: CPU: 1 PID: 174 at mm/page_alloc.c:5568 __alloc_pages+0x684/0xd24
-[   51.197698] Modules linked in:
-[   51.200743] CPU: 1 PID: 174 Comm: v4l2-compliance Not tainted 6.3.0-rc5+ #12
-[   51.207772] Hardware name: Texas Instruments J721e EVM (DT)
-[   51.213326] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   51.220269] pc : __alloc_pages+0x684/0xd24
-[   51.224353] lr : __dma_direct_alloc_pages.constprop.0+0x1d4/0x2a0
-[   51.230431] sp : ffff800009fd37b0
-[   51.233732] x29: ffff800009fd37b0 x28: ffff000801ad18e0 x27: 0000000000000001
-[   51.240852] x26: 0000000000000010 x25: ffff800009fd3b18 x24: ffff800008112c60
-[   51.247971] x23: 0000000000000010 x22: 00000000ffffffff x21: 0000000000000cc0
-[   51.255089] x20: 0000000010000000 x19: 0000000000000000 x18: 0000000000000000
-[   51.262208] x17: 0000000000000000 x16: 0000000000000000 x15: 00000000fff7a238
-[   51.269326] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-[   51.276444] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-[   51.283562] x8 : ffff000802c4a200 x7 : 0000000000000000 x6 : 0000000000000000
-[   51.290680] x5 : 0000000000000000 x4 : ffff0008022a0000 x3 : 0000000000000000
-[   51.297798] x2 : 0000000000000000 x1 : 0000000000000001 x0 : ffff80000937a000
-[   51.304916] Call trace:
-[   51.307350]  __alloc_pages+0x684/0xd24
-[   51.311086]  __dma_direct_alloc_pages.constprop.0+0x1d4/0x2a0
-[   51.316814]  dma_direct_alloc+0x210/0x33c
-[   51.320809]  dma_alloc_attrs+0x80/0xf4
-[   51.324548]  vb2_dc_alloc+0xa0/0x184
-[   51.328114]  __vb2_queue_alloc+0x19c/0x490
-[   51.332197]  vb2_core_reqbufs+0x250/0x45c
-[   51.336192]  vb2_ioctl_reqbufs+0xb0/0xe8
-[   51.340103]  v4l_reqbufs+0x50/0x64
-[   51.343494]  __video_do_ioctl+0x18c/0x3ec
-[   51.347489]  video_usercopy+0x214/0x6c4
-[   51.351312]  video_ioctl2+0x18/0x24
-[   51.354788]  v4l2_ioctl+0x40/0x60
-[   51.358088]  v4l2_compat_ioctl32+0x90/0xb4
-[   51.362171]  __arm64_compat_sys_ioctl+0x14c/0x170
-[   51.366860]  invoke_syscall+0x48/0x114
-[   51.370599]  el0_svc_common.constprop.0+0x44/0xf4
-[   51.375288]  do_el0_svc_compat+0x20/0x44
-[   51.379198]  el0_svc_compat+0x2c/0x84
-[   51.382848]  el0t_32_sync_handler+0x98/0x148
-[   51.387102]  el0t_32_sync+0x194/0x198
-[   51.390752] ---[ end trace 0000000000000000 ]---
-[   51.395408] ti-udma 31150000.dma-controller: dma alloc of size 268435456 failed
+Hi,
 
-  Tomi
+On Mon 03 Apr 23, 17:40, Uwe Kleine-K=C3=B6nig wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks,
+
+Paul
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index a43d5ff66716..3c62376c3e94 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -543,7 +543,7 @@ static int cedrus_probe(struct platform_device *pdev)
+>  	return ret;
+>  }
+> =20
+> -static int cedrus_remove(struct platform_device *pdev)
+> +static void cedrus_remove(struct platform_device *pdev)
+>  {
+>  	struct cedrus_dev *dev =3D platform_get_drvdata(pdev);
+> =20
+> @@ -558,8 +558,6 @@ static int cedrus_remove(struct platform_device *pdev)
+>  	v4l2_device_unregister(&dev->v4l2_dev);
+> =20
+>  	cedrus_hw_remove(dev);
+> -
+> -	return 0;
+>  }
+> =20
+>  static const struct cedrus_variant sun4i_a10_cedrus_variant =3D {
+> @@ -706,7 +704,7 @@ static const struct dev_pm_ops cedrus_dev_pm_ops =3D {
+> =20
+>  static struct platform_driver cedrus_driver =3D {
+>  	.probe		=3D cedrus_probe,
+> -	.remove		=3D cedrus_remove,
+> +	.remove_new	=3D cedrus_remove,
+>  	.driver		=3D {
+>  		.name		=3D CEDRUS_NAME,
+>  		.of_match_table	=3D of_match_ptr(cedrus_dt_match),
+> --=20
+> 2.39.2
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--gTlsYDrwY4RlCnWi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmQr5AQACgkQ3cLmz3+f
+v9HVoAf/ZFWVcxlp+nKEAO4U+Wc8jLdyCLr/KHKRR6ahmcD5jYhiFeROgA8zoYFM
+PFQveoIR1/Eu6MERX4KvcEOWnQ960Exa+DJZCFi2mC5dXq+0C97drEX8VC0LoFY+
+1NjNTmiXA4ztPohliyR6tMw2AfeEsBk58wX3L6Zo7xNxnpV2cCZOlUMYk+BPiGfT
+/FIHYsHUmhsdbqWJdx9h95J0B9GzXxK97aOt/NAfjMjVR9fLv4pFeysqfH44uHFa
+uggwWp2oAC8aBWd/tKL/EvjWgrlM1pyL0NwvLCUqrZj04/H7B9x39Mv9VRXIRPR2
+ql8OOUb/Od90EdIjkP0Xy87lsVGOSw==
+=V70N
+-----END PGP SIGNATURE-----
+
+--gTlsYDrwY4RlCnWi--
