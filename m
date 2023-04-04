@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 607186D6B61
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 20:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAD866D6BC9
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 20:25:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236187AbjDDSSa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 14:18:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35536 "EHLO
+        id S236078AbjDDSZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 14:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235807AbjDDSSa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 14:18:30 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6319C44B9
-        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 11:18:28 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id h11so36502384lfu.8
-        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 11:18:28 -0700 (PDT)
+        with ESMTP id S235378AbjDDSYf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 14:24:35 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361FF46A8
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 11:22:50 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id b6so14811105ljr.1
+        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 11:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680632306;
+        d=linaro.org; s=google; t=1680632561;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mwj94M7IXiRkpXzS0kpJXSI6UJpeRp+IXnxxWI2fhS0=;
-        b=ndd2JaCzNh/i8RPI/N0M4bQjsPmKPtle9ldN+YMoQ0+NYMNwX0XxpkWkPSu7N4ub9N
-         cx9wzG73k7bJC9GPDtb/P/TC9WT1uMs4ngdCV7wVlgvi9c4XR8t1KazlsibBVnvYD/sv
-         XCIt8xngG+YTTKbeuD/VpID2dNvwzCIOH8J1jmF1AfgnEDvKBBCqVtaigxduSCExjnrz
-         bQCfIZ1qQh8uh3HfZmf0N/lrElDV2jv0E4ld7SpQsL1ianRj73n0ZqKwDm7Wl/B5bOPG
-         MAa4MECyqe78hsg3VC/05TVv9zV9nEjVLHntUFo+Usd9xCe9Ue5UaaVkyacNaNq8sAxu
-         onJg==
+        bh=gCsbCvTCgaRyB9wS8Q3xuu2Nx7yr20kYCx9UApEX9HE=;
+        b=pQcruk62SM9JprxSleDZCweUkHcc4/pN6Kips+B4RetrsoJ93Zl/p7/I+7ioy39a12
+         MyyB70JpxZAVqwfnWDBHmRCvPBHsJoav64L4iXUAxbJd1tgsoNLKgymK1qwFbkRyGYmW
+         QHUm3wl3IrJnzAgetDDf5GmFfSRz14i4ag1z6/wH8F0g6POEHgmh9auN+RwtxJWPTxem
+         kIPKuiUnumQwR/O2GGdImFAf+o68qzeNMUSAtIIL+m2gnfWiWH+1uxP+0ijmdjRCqiHh
+         45KC4gvcUShNhJzGIe8fZhptv58ayfS1GevgkcXmPale8V4hkxYvyDq+DFxMzbvOy3ql
+         ZR4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680632306;
+        d=1e100.net; s=20210112; t=1680632561;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mwj94M7IXiRkpXzS0kpJXSI6UJpeRp+IXnxxWI2fhS0=;
-        b=uUNKpDT/ke5gkEdknHeJpp9KvBwPuAWmak8H6+HuVTlzqf7q59Rbm6LJ7mFJx62qD2
-         nubuyKGq84PkMOHUMYtCCkDsQEfoxid6sfDnGNC3EI96EFKFZyucIlj2HJRuTVbTROIx
-         JKeMTrtd5S6IhYi8mPHqYJtWn7KM8XuWLmXlDpbIqKcf9zpyaeRWNEZESCzr9FFN4bqw
-         x7rhuYzN3tWkGnH3hg7YnMe3yZ6p/NoSW6a52S2sJ19zlrQ/54Cbm0skVB8VjIorskYV
-         tQpcf1ZRGu/PWeJ/IY73dtzp0fvFnwSJ5fwNx+tm/ieAGW1MLmy5+HSDjgoeXmZ8TiL5
-         eE7A==
-X-Gm-Message-State: AAQBX9emjSdV5rztgLVx3/20waRoMSey+tCjuYgqYoNyZ1wDUuObTvZ9
-        8uyS47OLwYvSjttf9pTO6/2Huw==
-X-Google-Smtp-Source: AKy350Z6I0H5kzeFMVDCpRA4on3SoYOdt2agRTNTZBqaG9b4x3mC+71DDkuUpUMIEoFQ/XF92mdg9A==
-X-Received: by 2002:ac2:43d1:0:b0:4dc:65c0:c74e with SMTP id u17-20020ac243d1000000b004dc65c0c74emr34507lfl.29.1680632306644;
-        Tue, 04 Apr 2023 11:18:26 -0700 (PDT)
+        bh=gCsbCvTCgaRyB9wS8Q3xuu2Nx7yr20kYCx9UApEX9HE=;
+        b=jaXUZhgt0ebGrA/i44P2lWDF8wJIt66UqoTCNNsbtdGZhXCAv/mDdDgTu7fNC1z306
+         eb4gPlISNTjWu/slqaNihxNKdwwR5+mqemn6RPGU+Eh+9JxcNmbWbRN9hl+YKGorAzr0
+         bYqEZIk5VsU36EDSmrmQXHWG9czlKiGnYccg1GXG3yrHOLA0ehsSlMX1CFXf+f6fet+y
+         TL5vAN86gBcNYhDsGskrSMaR1Ug9OSxv8smbuwQjNU6x0kLhoASOEREPVDlbzteW6ojk
+         U30r/80v5cw8P1xfC4VtWGsuufpZzuCQ79spBulsVzAsinhsafX331PukY+uXoItQ2uD
+         dUvQ==
+X-Gm-Message-State: AAQBX9cFkyjGJbC+26j4gOolxzOQp/HEy1LhQULZA0E4YAeSJn48Pj7X
+        4UCrwYawY6adXHMUrvbRIC8tCg==
+X-Google-Smtp-Source: AKy350amooGyjgE60rmOZStLcfFrZJssPaQsBXH+2h13GWe5K3DiXU/Zh3sujpFhXylGHNj2nd9Iow==
+X-Received: by 2002:a2e:99d4:0:b0:299:5d3a:4f29 with SMTP id l20-20020a2e99d4000000b002995d3a4f29mr1184378ljj.31.1680632560746;
+        Tue, 04 Apr 2023 11:22:40 -0700 (PDT)
 Received: from [192.168.1.101] (abxh37.neoplus.adsl.tpnet.pl. [83.9.1.37])
-        by smtp.gmail.com with ESMTPSA id x4-20020a19f604000000b004eaf8613bc3sm2440370lfe.284.2023.04.04.11.18.25
+        by smtp.gmail.com with ESMTPSA id m14-20020a19520e000000b004cb1de3f487sm2428259lfb.104.2023.04.04.11.22.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 11:18:26 -0700 (PDT)
-Message-ID: <7511d03b-5b88-d1c2-d756-4781b12d5296@linaro.org>
-Date:   Tue, 4 Apr 2023 20:18:24 +0200
+        Tue, 04 Apr 2023 11:22:40 -0700 (PDT)
+Message-ID: <8f0404d0-659d-0855-15dd-8a45f6fd1871@linaro.org>
+Date:   Tue, 4 Apr 2023 20:22:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH 1/3] venus: add firmware version based check
+Subject: Re: [PATCH 2/3] venus: enable sufficient sequence change support for
+ vp9
 Content-Language: en-US
 To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
         linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
@@ -63,9 +64,9 @@ To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         Viswanath Boma <quic_vboma@quicinc.com>
 References: <1680589032-26046-1-git-send-email-quic_dikshita@quicinc.com>
- <1680589032-26046-2-git-send-email-quic_dikshita@quicinc.com>
+ <1680589032-26046-3-git-send-email-quic_dikshita@quicinc.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1680589032-26046-2-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1680589032-26046-3-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -81,100 +82,68 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 4.04.2023 08:17, Dikshita Agarwal wrote:
-> Add firmware version based checks to enable/disable
-> features for different SOCs.
+> VP9 supports resolution change at interframe.
+> Currenlty, if sequence change is detected at interframe and
+> resources are sufficient, sequence change event is not raised
+> by firmware to driver until the next keyframe.
+> This change add the HFI to notify the sequence change in this
+> case to driver.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
 > Tested-by: Nathan Hebert <nhebert@chromium.org>
 > ---
->  drivers/media/platform/qcom/venus/core.h     | 18 ++++++++++++++++++
->  drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
->  2 files changed, 27 insertions(+), 2 deletions(-)
+>  drivers/media/platform/qcom/venus/hfi_cmds.c   | 1 +
+>  drivers/media/platform/qcom/venus/hfi_helper.h | 2 ++
+>  drivers/media/platform/qcom/venus/vdec.c       | 8 ++++++++
+>  3 files changed, 11 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 32551c2..ee8b70a 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -202,6 +202,11 @@ struct venus_core {
->  	unsigned int core0_usage_count;
->  	unsigned int core1_usage_count;
->  	struct dentry *root;
-> +	struct venus_img_version {
-> +		u32 major;
-> +		u32 minor;
-> +		u32 rev;
-> +	} venus_ver;
->  };
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index 930b743..e2539b5 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+>  		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
+>  		break;
+>  	}
+> +	case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
+>  	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
+>  		struct hfi_enable *in = pdata;
+>  		struct hfi_enable *en = prop_data;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index d2d6719..20516b4 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -469,6 +469,8 @@
+>  #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH			0x1003007
+>  #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT			0x1003009
+>  #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE			0x100300a
+> +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
+> +								0x0100300b
 >  
->  struct vdec_controls {
-> @@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->  	return NULL;
->  }
+>  /*
+>   * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4ceaba3..f0394b9 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -671,6 +671,14 @@ static int vdec_set_properties(struct venus_inst *inst)
+>  			return ret;
+>  	}
 >  
-> +static inline int
-> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-So this is trying to find the revision of a MAJ.MIN firmware release..
-
-Is the MAJ.MIN part supposed to stay constant for a specific version of
-a Venus block (say idk, IRIS2) and only the VREV part is supposed to
-be updated with both feature and security developments?
-
-> +{
-> +	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
-> +			vminor && (core)->venus_ver.rev >= vrev);
-return ((core)->venus_ver.major == vmajor &&
-	(core)->venus_ver.minor == vminor &&
-	(core)->venus_ver.rev >= vrev);
-
-for readability
+> +	/* Enabling sufficient sequence change support for VP9 */
+> +	if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
+> +		ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
+> +		ret = hfi_session_set_property(inst, ptype, &en);
+> +		if (ret)
+> +			return ret;
+> +	}
+Does it never have to be turned off? Or does it happen automatically
+at session closure?
 
 Konrad
-> +}
 > +
-> +static inline int
-> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
-> +			vminor && (core)->venus_ver.rev <= vrev);
-> +}
->  #endif
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> index df96db3..07ac0fc 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->  }
->  
->  static void
-> -sys_get_prop_image_version(struct device *dev,
-> +sys_get_prop_image_version(struct venus_core *core,
->  			   struct hfi_msg_sys_property_info_pkt *pkt)
->  {
-> +	struct device *dev = core->dev;
->  	u8 *smem_tbl_ptr;
->  	u8 *img_ver;
->  	int req_bytes;
-> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->  		return;
->  
->  	img_ver = pkt->data;
-> +	if (IS_V4(core))
-> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
-> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
-> +	else if (IS_V6(core))
-> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
-> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->  
->  	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
->  
-> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->  
->  	switch (pkt->property) {
->  	case HFI_PROPERTY_SYS_IMAGE_VERSION:
-> -		sys_get_prop_image_version(dev, pkt);
-> +		sys_get_prop_image_version(core, pkt);
->  		break;
->  	default:
->  		dev_dbg(dev, VDBGL "unknown property data\n");
+>  	ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
+>  	conceal = ctr->conceal_color & 0xffff;
+>  	conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
