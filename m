@@ -2,76 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAE546D5A6D
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 10:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BB896D5A9A
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 10:19:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234101AbjDDILb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 04:11:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
+        id S234113AbjDDIT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 04:19:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234030AbjDDILU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 04:11:20 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1975D1BFB;
-        Tue,  4 Apr 2023 01:11:18 -0700 (PDT)
-X-UUID: 43bd0ea0d2c011eda9a90f0bb45854f4-20230404
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=3wEaoqC2uVpKwjysc4h3Pq7cma8qpw1BEVmgLuijeno=;
-        b=W3GQevhlAUOI5S+n+w7D+Sjrncv4HztBIvMS87QwGcbuOhhauh2Wayfr+Um+1uTDl/WzdYlaLfo+TTpXtbe1IYFnKmQ4CS85tH4mvDBOZIjj9qdJmXOse0iVhlCfS8a8es5OSrTsn/FR05Wl6HNMtSp++HSB6rseQ5I1CVbVCYw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:dbaaf889-9cf7-4ae0-8196-cbdfb40883aa,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-5
-X-CID-META: VersionHash:120426c,CLOUDID:3cb336b5-beed-4dfc-bd9c-e1b22fa6ccc4,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 43bd0ea0d2c011eda9a90f0bb45854f4-20230404
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2043590714; Tue, 04 Apr 2023 16:11:13 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Tue, 4 Apr 2023 16:11:11 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Tue, 4 Apr 2023 16:11:10 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
-        <nfraprado@collabora.com>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v4,8/8] media: mediatek: vcodec: Add dbgfs help function
-Date:   Tue, 4 Apr 2023 16:11:02 +0800
-Message-ID: <20230404081102.30713-9-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230404081102.30713-1-yunfei.dong@mediatek.com>
-References: <20230404081102.30713-1-yunfei.dong@mediatek.com>
+        with ESMTP id S233715AbjDDIT0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 04:19:26 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368DC1B7;
+        Tue,  4 Apr 2023 01:19:25 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id t19so30773230qta.12;
+        Tue, 04 Apr 2023 01:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680596364;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RyAgd7k00Jn6xZLlebeLFamYLWizoMoW9K/GRPwc3dg=;
+        b=pwVfYyPY1UfiRNk0Hi87uHSSri7v4X0yYMw110CSHHON2xMyGnnJxg7ZNPlvqotfhi
+         ljmPif0yEX0Hx6Hr3Qj57uoM8V64/JFkN4tg090Bi48eviUKr3gnV1t63ewxGfi17QvQ
+         vxP7KaJZQDgBdedfTUNVj082l6KaYKt3KWMq2GqvHKHqB/8+/YqXqUZP0drruu85IWZQ
+         ziiknoasbwGJxjURMhpSQWmogB/Bc7j9X1s/sk4DYlh+1HYpst0LvGRsTeboW04/p/gT
+         TveyNEmUIP4WDq/9iS1MZuqTwmtuEwl139LIWPqhE38V4bSJMm9/O7CRW+CRvipydE0I
+         uZHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680596364;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RyAgd7k00Jn6xZLlebeLFamYLWizoMoW9K/GRPwc3dg=;
+        b=mgXOikEFV5DaRGBcf/jIGc3iT+l2KlqoO9hJZaBrg/cdvNPLPYW1lpUYJyn5WORUKN
+         sSli1Sec4qKksIFgKMNypmMLSPt3aGDYi5PR/lUQUxW5rlmWbyjjK2A0vV56rmR2BUvN
+         UH6ayQDW3DKICCL/KwizjQ4WXNbwJL1pAPu4T/H20+2qFI9c5D02YC4CfZr8HmhiSX3z
+         krkWreVCkt7YNWBWAcE3DeRIC9FWcjDfEiTREHorHUOht0k0pY5fSjdImKyqHzoCBKu4
+         D1G7KX7JS6fxW8Fl0sQspD4C3sLS8Iao9Ril1wFmoP7yDHoPUulsEmCX8+g4Oe/bZd/y
+         HVFw==
+X-Gm-Message-State: AAQBX9c4gHyPr88/u5nSiZhsM/efgDp3iaSCatqLGuzM7W9ODnAS0vad
+        uCUIqTvQUuZIV9aRDl+vlIXff0+icrQNBuSw5kc=
+X-Google-Smtp-Source: AKy350aqztpTVhGayDoqCgfpJ8XiDnAnyrZL24EhQPW+Hr0DWknjkulIkCnsZH6G7zxfeTXJ0ah3Pg==
+X-Received: by 2002:a05:622a:5ce:b0:3bd:1081:b939 with SMTP id d14-20020a05622a05ce00b003bd1081b939mr38131941qtb.0.1680596364236;
+        Tue, 04 Apr 2023 01:19:24 -0700 (PDT)
+Received: from ?IPv6:2003:f6:ef05:8700:853c:3ba5:d710:3c1d? (p200300f6ef058700853c3ba5d7103c1d.dip0.t-ipconnect.de. [2003:f6:ef05:8700:853c:3ba5:d710:3c1d])
+        by smtp.gmail.com with ESMTPSA id p11-20020a05620a22ab00b00706b09b16fasm3417693qkh.11.2023.04.04.01.19.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Apr 2023 01:19:23 -0700 (PDT)
+Message-ID: <9f5cac46e38897f54c5246bf400e8888324abad8.camel@gmail.com>
+Subject: Re: [PATCH v3 07/11] iio: core: Add new DMABUF interface
+ infrastructure
+From:   Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Vinod Koul <vkoul@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        dmaengine@vger.kernel.org, linux-media@vger.kernel.org
+Date:   Tue, 04 Apr 2023 10:21:27 +0200
+In-Reply-To: <2dac030470ffe74b6d21a1e6510afcefaf58cd6a.camel@crapouillou.net>
+References: <20230403154800.215924-1-paul@crapouillou.net>
+         <20230403154800.215924-8-paul@crapouillou.net>
+         <798e1ff0651da8e4b113d30bf8cec2a7a0e6898f.camel@gmail.com>
+         <2dac030470ffe74b6d21a1e6510afcefaf58cd6a.camel@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,62 +83,214 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Getting dbgfs help information with command "echo -help > vdec".
+On Tue, 2023-04-04 at 09:55 +0200, Paul Cercueil wrote:
+> Hi Nuno,
+>=20
+> Le mardi 04 avril 2023 =C3=A0 09:32 +0200, Nuno S=C3=A1 a =C3=A9crit=C2=
+=A0:
+> > On Mon, 2023-04-03 at 17:47 +0200, Paul Cercueil wrote:
+> > > Add the necessary infrastructure to the IIO core to support a new
+> > > optional DMABUF based interface.
+> > >=20
+> > > With this new interface, DMABUF objects (externally created) can be
+> > > attached to a IIO buffer, and subsequently used for data transfer.
+> > >=20
+> > > A userspace application can then use this interface to share DMABUF
+> > > objects between several interfaces, allowing it to transfer data in
+> > > a
+> > > zero-copy fashion, for instance between IIO and the USB stack.
+> > >=20
+> > > The userspace application can also memory-map the DMABUF objects,
+> > > and
+> > > access the sample data directly. The advantage of doing this vs.
+> > > the
+> > > read() interface is that it avoids an extra copy of the data
+> > > between
+> > > the
+> > > kernel and userspace. This is particularly userful for high-speed
+> > > devices which produce several megabytes or even gigabytes of data
+> > > per
+> > > second.
+> > >=20
+> > > As part of the interface, 3 new IOCTLs have been added:
+> > >=20
+> > > IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
+> > > =C2=A0Attach the DMABUF object identified by the given file descripto=
+r
+> > > to
+> > > the
+> > > =C2=A0buffer.
+> > >=20
+> > > IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
+> > > =C2=A0Detach the DMABUF object identified by the given file descripto=
+r
+> > > from
+> > > =C2=A0the buffer. Note that closing the IIO buffer's file descriptor
+> > > will
+> > > =C2=A0automatically detach all previously attached DMABUF objects.
+> > >=20
+> > > IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
+> > > =C2=A0Request a data transfer to/from the given DMABUF object. Its fi=
+le
+> > > =C2=A0descriptor, as well as the transfer size and flags are provided=
+ in
+> > > the
+> > > =C2=A0"iio_dmabuf" structure.
+> > >=20
+> > > These three IOCTLs have to be performed on the IIO buffer's file
+> > > descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+> > >=20
+> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >=20
+> > > ---
+> > > v2: Only allow the new IOCTLs on the buffer FD created with
+> > > =C2=A0=C2=A0=C2=A0 IIO_BUFFER_GET_FD_IOCTL().
+> > >=20
+> > > v3: - Get rid of the old IOCTLs. The IIO subsystem does not create
+> > > or
+> > > =C2=A0=C2=A0=C2=A0 manage DMABUFs anymore, and only attaches/detaches=
+ externally
+> > > =C2=A0=C2=A0=C2=A0 created DMABUFs.
+> > > =C2=A0=C2=A0=C2=A0 - Add IIO_BUFFER_DMABUF_CYCLIC to the supported fl=
+ags.
+> > > ---
+> > > =C2=A0drivers/iio/industrialio-buffer.c | 402
+> > > ++++++++++++++++++++++++++++++
+> > > =C2=A0include/linux/iio/buffer_impl.h=C2=A0=C2=A0 |=C2=A0 22 ++
+> > > =C2=A0include/uapi/linux/iio/buffer.h=C2=A0=C2=A0 |=C2=A0 22 ++
+> > > =C2=A03 files changed, 446 insertions(+)
+> > >=20
+> > > diff --git a/drivers/iio/industrialio-buffer.c
+> > > b/drivers/iio/industrialio-buffer.c
+> > > index 80c78bd6bbef..5d88e098b3e7 100644
+> > > --- a/drivers/iio/industrialio-buffer.c
+> > > +++ b/drivers/iio/industrialio-buffer.c
+> > > @@ -13,10 +13,14 @@
+> > > =C2=A0#include <linux/kernel.h>
+> > > =C2=A0#include <linux/export.h>
+> > > =C2=A0#include <linux/device.h>
+> > > +#include <linux/dma-buf.h>
+> > > +#include <linux/dma-fence.h>
+> > > +#include <linux/dma-resv.h>
+> > > =C2=A0#include <linux/file.h>
+> > > =C2=A0#include <linux/fs.h>
+> > > =C2=A0#include <linux/cdev.h>
+> > > =C2=A0#include <linux/slab.h>
+> > > +#include <linux/mm.h>
+> > > =C2=A0#include <linux/poll.h>
+> > > =C2=A0#include <linux/sched/signal.h>
+> > > =C2=A0
+> > > @@ -28,11 +32,41 @@
+> > > =C2=A0#include <linux/iio/buffer.h>
+> > > =C2=A0#include <linux/iio/buffer_impl.h>
+> > > =C2=A0
+> > > +#define DMABUF_ENQUEUE_TIMEOUT_MS 5000
+> > > +
+> > > +struct iio_dma_fence;
+> > > +
+> > > +struct iio_dmabuf_priv {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct list_head entry;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct kref ref;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct iio_buffer *buffer;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct iio_dma_buffer_bloc=
+k *block;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u64 context;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0spinlock_t lock;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_buf_attachment =
+*attach;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct iio_dma_fence *fenc=
+e;
+> > > +};
+> > > +
+> > > +struct iio_dma_fence {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_fence base;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct iio_dmabuf_priv *pr=
+iv;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct sg_table *sgt;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0enum dma_data_direction di=
+r;
+> > > +};
+> > > +
+> > > =C2=A0static const char * const iio_endian_prefix[] =3D {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0[IIO_BE] =3D "be",
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0[IIO_LE] =3D "le",
+> > > =C2=A0};
+> > > =C2=A0
+> > > +static inline struct iio_dma_fence *to_iio_dma_fence(struct
+> > > dma_fence *fence)
+> > > +{
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return container_of(fence,=
+ struct iio_dma_fence, base);
+> > > +}
+> > > +
+> >=20
+> > Kind of a nitpick but I only see this being used once so I would
+> > maybe
+> > use plain 'container_of()' as you are already doing for:
+> >=20
+> > ... =3D container_of(ref, struct iio_dmabuf_priv, ref);
+> >=20
+> > So I would at least advocate for consistency. I would also probably
+> > ditch the inline but I guess that is more a matter of
+> > style/preference.
+>=20
+> Yep, at least it should be consistent.
+>=20
+> >=20
+> > > =C2=A0static bool iio_buffer_is_active(struct iio_buffer *buf)
+> > > =C2=A0{
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return !list_empty(&b=
+uf->buffer_list);
+> > > @@ -329,6 +363,7 @@ void iio_buffer_init(struct iio_buffer *buffer)
+> > > =C2=A0{
+> > >=20
+> >=20
+> > ...
+> >=20
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0priv =3D attach->importer_=
+priv;
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0list_del_init(&priv->entry=
+);
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0iio_buffer_dmabuf_put(atta=
+ch);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0iio_buffer_dmabuf_put(atta=
+ch);
+> > > +
+> >=20
+> > Is this intended? Looks suspicious...
+>=20
+> It is intended, yes. You want to release the dma_buf_attachment that's
+> created in iio_buffer_attach_dmabuf(), and you need to call
+> iio_buffer_find_attachment() to get a pointer to it, which also gets a
+> second reference - so it needs to unref twice.
+>=20
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 24 ++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+I see..
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-index 237d0dc8a1fc..2372fc449b45 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-@@ -52,6 +52,23 @@ static void mtk_vdec_dbgfs_get_format_type(struct mtk_vcodec_ctx *ctx, char *buf
- 	*used += curr_len;
- }
- 
-+static void mtk_vdec_dbgfs_get_help(char *buf, int *used, int total)
-+{
-+	int curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "help: (1: echo -'info' > vdec 2: cat vdec)\n");
-+	*used += curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "\t-picinfo: get resolution\n");
-+	*used += curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "\t-format: get output & capture queue format\n");
-+	*used += curr_len;
-+}
-+
- static ssize_t mtk_vdec_dbgfs_write(struct file *filp, const char __user *ubuf,
- 				    size_t count, loff_t *ppos)
- {
-@@ -84,6 +101,11 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	if (strstr(dbgfs->dbgfs_buf, "-help")) {
-+		mtk_vdec_dbgfs_get_help(buf, &used_len, total_len);
-+		goto read_buffer;
-+	}
-+
- 	if (strstr(dbgfs->dbgfs_buf, "-picinfo"))
- 		dbgfs_index[MTK_VDEC_DBGFS_PICINFO] = true;
- 
-@@ -110,7 +132,7 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 			mtk_vdec_dbgfs_get_format_type(ctx, buf, &used_len, total_len);
- 	}
- 	mutex_unlock(&dbgfs->dbgfs_lock);
--
-+read_buffer:
- 	ret = simple_read_from_buffer(ubuf, count, ppos, buf, used_len);
- 	kfree(buf);
- 	return ret;
--- 
-2.18.0
+...
+
+
+> >=20
+> > > +out_dmabuf_put:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_buf_put(dmabuf);
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
+> > > +}
+> > >=20
+> >=20
+> > Hmmm, what about the legacy buffer? We should also support this
+> > interface using it, right? Otherwise, using one of the new IOCTL in
+> > iio_device_buffer_ioctl() (or /dev/iio:device0) will error out.
+>=20
+> According to Jonathan the old chardev route is deprecated, and it's
+> fine not to support the IOCTL there.
+>=20
+
+Oh, alright then... Better that way indeed!
+
+- Nuno S=C3=A1
 
