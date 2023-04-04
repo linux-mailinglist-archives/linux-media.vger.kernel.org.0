@@ -2,81 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 245156D5B05
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 10:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DC026D5B24
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 10:44:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233847AbjDDIjF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 4 Apr 2023 04:39:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46224 "EHLO
+        id S234059AbjDDIom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 04:44:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233789AbjDDIjE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 04:39:04 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C59561BF5
-        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 01:39:03 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1pjcBt-0001y3-Bi; Tue, 04 Apr 2023 10:38:57 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1pjcBs-008sIK-J9; Tue, 04 Apr 2023 10:38:56 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1pjcBr-00035A-Tv; Tue, 04 Apr 2023 10:38:55 +0200
-Message-ID: <c89386c4da3be10793e8989447b7e19944625d76.camel@pengutronix.de>
-Subject: Re: [PATCH 11/24] staging: media: imx8mq-mipi-csi2: Convert to
- platform remove callback returning void
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Date:   Tue, 04 Apr 2023 10:38:55 +0200
-In-Reply-To: <20230403154014.2564054-12-u.kleine-koenig@pengutronix.de>
-References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
-         <20230403154014.2564054-12-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1+deb11u1 
+        with ESMTP id S229693AbjDDIoj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 04:44:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A571FDE;
+        Tue,  4 Apr 2023 01:44:24 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6385E7F8;
+        Tue,  4 Apr 2023 10:44:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680597862;
+        bh=UAYPK5/gF5Yn/7iYTIsOzOrTSuOlbQ9JOwY52h/wB3Y=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Qm9b6ucAqlnEKobBHyn6JP7rNDuY0ZV0BBs4ikgCuFEfVy2A9fmqXEWeFBJgibMTV
+         hctKTrcRQF7HwHkol9IbCGLxmbJnwGRE9BtAj7bT45nVmN8o3miW3Ud2XhxLy+Bzsl
+         bSKIyV+TwssBbMevmus026XRT6qbn7Vq6PHm6mlY=
+Message-ID: <28707378-c4e7-38b6-48f5-63b0834c18c9@ideasonboard.com>
+Date:   Tue, 4 Apr 2023 11:44:18 +0300
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v7 00/13] CSI2RX support on J721E
+Content-Language: en-US
+To:     Vaishnav Achath <vaishnav.a@ti.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, bparrot@ti.com,
+        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
+        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
+        nm@ti.com, martyn.welch@collabora.com
+References: <20230314115516.667-1-vaishnav.a@ti.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230314115516.667-1-vaishnav.a@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mo, 2023-04-03 at 17:40 +0200, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+On 14/03/2023 13:55, Vaishnav Achath wrote:
+> Hi,
 > 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> This series adds support for CSI2 capture on J721E. It includes some
+> fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper driver.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+I get some errors with 'v4l2-compliance -m /dev/media0', which also causes:
 
-regards
-Philipp
+[   51.185172] ------------[ cut here ]------------
+[   51.189786] WARNING: CPU: 1 PID: 174 at mm/page_alloc.c:5568 __alloc_pages+0x684/0xd24
+[   51.197698] Modules linked in:
+[   51.200743] CPU: 1 PID: 174 Comm: v4l2-compliance Not tainted 6.3.0-rc5+ #12
+[   51.207772] Hardware name: Texas Instruments J721e EVM (DT)
+[   51.213326] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   51.220269] pc : __alloc_pages+0x684/0xd24
+[   51.224353] lr : __dma_direct_alloc_pages.constprop.0+0x1d4/0x2a0
+[   51.230431] sp : ffff800009fd37b0
+[   51.233732] x29: ffff800009fd37b0 x28: ffff000801ad18e0 x27: 0000000000000001
+[   51.240852] x26: 0000000000000010 x25: ffff800009fd3b18 x24: ffff800008112c60
+[   51.247971] x23: 0000000000000010 x22: 00000000ffffffff x21: 0000000000000cc0
+[   51.255089] x20: 0000000010000000 x19: 0000000000000000 x18: 0000000000000000
+[   51.262208] x17: 0000000000000000 x16: 0000000000000000 x15: 00000000fff7a238
+[   51.269326] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+[   51.276444] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
+[   51.283562] x8 : ffff000802c4a200 x7 : 0000000000000000 x6 : 0000000000000000
+[   51.290680] x5 : 0000000000000000 x4 : ffff0008022a0000 x3 : 0000000000000000
+[   51.297798] x2 : 0000000000000000 x1 : 0000000000000001 x0 : ffff80000937a000
+[   51.304916] Call trace:
+[   51.307350]  __alloc_pages+0x684/0xd24
+[   51.311086]  __dma_direct_alloc_pages.constprop.0+0x1d4/0x2a0
+[   51.316814]  dma_direct_alloc+0x210/0x33c
+[   51.320809]  dma_alloc_attrs+0x80/0xf4
+[   51.324548]  vb2_dc_alloc+0xa0/0x184
+[   51.328114]  __vb2_queue_alloc+0x19c/0x490
+[   51.332197]  vb2_core_reqbufs+0x250/0x45c
+[   51.336192]  vb2_ioctl_reqbufs+0xb0/0xe8
+[   51.340103]  v4l_reqbufs+0x50/0x64
+[   51.343494]  __video_do_ioctl+0x18c/0x3ec
+[   51.347489]  video_usercopy+0x214/0x6c4
+[   51.351312]  video_ioctl2+0x18/0x24
+[   51.354788]  v4l2_ioctl+0x40/0x60
+[   51.358088]  v4l2_compat_ioctl32+0x90/0xb4
+[   51.362171]  __arm64_compat_sys_ioctl+0x14c/0x170
+[   51.366860]  invoke_syscall+0x48/0x114
+[   51.370599]  el0_svc_common.constprop.0+0x44/0xf4
+[   51.375288]  do_el0_svc_compat+0x20/0x44
+[   51.379198]  el0_svc_compat+0x2c/0x84
+[   51.382848]  el0t_32_sync_handler+0x98/0x148
+[   51.387102]  el0t_32_sync+0x194/0x198
+[   51.390752] ---[ end trace 0000000000000000 ]---
+[   51.395408] ti-udma 31150000.dma-controller: dma alloc of size 268435456 failed
+
+  Tomi
+
