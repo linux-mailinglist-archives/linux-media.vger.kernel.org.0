@@ -2,89 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83BC56D6AE8
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 19:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 607186D6B61
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 20:18:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232888AbjDDRwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 13:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        id S236187AbjDDSSa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 14:18:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234950AbjDDRwP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 13:52:15 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C72530D6
-        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 10:52:12 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id br6so43343350lfb.11
-        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 10:52:12 -0700 (PDT)
+        with ESMTP id S235807AbjDDSSa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 14:18:30 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6319C44B9
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 11:18:28 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id h11so36502384lfu.8
+        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 11:18:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680630730;
+        d=linaro.org; s=google; t=1680632306;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IrQ9Nk/ZqyT6PCBf5HyzrcvGRnNXSx6wEgKVrWsu1Ww=;
-        b=gryqHmNGVwdHcrupS+brUu78qIBxYUYs6tcxtpAJ5KJhB465EyC79ukjwZGMdR0uv3
-         wDE+owTqx8cu/iO1u/E9scdJAVcy26TBfYuXdeqPXJo23dXfPXXUBNqRD08bODIk2pF6
-         xsSHZW+kxwoiRRefP7TySqeEKmF/BYFyU1iTj7KRo5slDUAySfC0SjSxAO2vC08xwe/t
-         qjZ8RJi7L93v3rFgkxK4xCMDt641++armwBXRQoV6FAtVPhuFOu0G0NhBKv8s6FOsmEv
-         7GRnfLSR3xQLqIdTZCofvFSh3LrBeFDZE2v65KP5y8ocpP1J7RwAKrZBICdLlY9UFAsn
-         b/Bg==
+        bh=Mwj94M7IXiRkpXzS0kpJXSI6UJpeRp+IXnxxWI2fhS0=;
+        b=ndd2JaCzNh/i8RPI/N0M4bQjsPmKPtle9ldN+YMoQ0+NYMNwX0XxpkWkPSu7N4ub9N
+         cx9wzG73k7bJC9GPDtb/P/TC9WT1uMs4ngdCV7wVlgvi9c4XR8t1KazlsibBVnvYD/sv
+         XCIt8xngG+YTTKbeuD/VpID2dNvwzCIOH8J1jmF1AfgnEDvKBBCqVtaigxduSCExjnrz
+         bQCfIZ1qQh8uh3HfZmf0N/lrElDV2jv0E4ld7SpQsL1ianRj73n0ZqKwDm7Wl/B5bOPG
+         MAa4MECyqe78hsg3VC/05TVv9zV9nEjVLHntUFo+Usd9xCe9Ue5UaaVkyacNaNq8sAxu
+         onJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680630730;
+        d=1e100.net; s=20210112; t=1680632306;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IrQ9Nk/ZqyT6PCBf5HyzrcvGRnNXSx6wEgKVrWsu1Ww=;
-        b=0aDgg1OiDBrbsRWPFH+uxgtsh0HjrNx/8cLhKrdQ+vEOzZsol4a9Gp/1QsPJDnoNsV
-         3mY2+r0QRephwW35KncryfDYQJZeUn3JSXJ9x6HlSalO7WsD4tpmjvf9J0k6HovFxhsW
-         j6q9hTEjgYycyE5fXUIsl+OstlEyKKUvh+kCbuRAlhvOL3YpxNtAubdM7om4ng0yh4oo
-         sjYvHZxr0jSJOngfGEjJswe9aR6ysvN0RhgP4dlN5AK9iDLQgZVth7nx/GF1ZYqlliOw
-         XMOz4Jlgps2i57CXlK80N3AKnHqrdaTBWtK1We00MnFCLFWfGSBemP268PEOn2xm8WfL
-         iDsA==
-X-Gm-Message-State: AAQBX9e5TDiXnPFyJOKClYLh7KxfK0CBKB0y8W1wCgBuhukXMVRYqwEd
-        gPgLwCwzKjt8VZZ1fpR8rxCT3g==
-X-Google-Smtp-Source: AKy350bPKGXIlcrnZI/qixYG1byf7Rly7InMsFsRfB8gb/+aPlSEzEY2IBTwrqlfQ7Yiny/IOPBszQ==
-X-Received: by 2002:ac2:4e49:0:b0:4db:19fb:6a7 with SMTP id f9-20020ac24e49000000b004db19fb06a7mr858515lfr.60.1680630730335;
-        Tue, 04 Apr 2023 10:52:10 -0700 (PDT)
+        bh=Mwj94M7IXiRkpXzS0kpJXSI6UJpeRp+IXnxxWI2fhS0=;
+        b=uUNKpDT/ke5gkEdknHeJpp9KvBwPuAWmak8H6+HuVTlzqf7q59Rbm6LJ7mFJx62qD2
+         nubuyKGq84PkMOHUMYtCCkDsQEfoxid6sfDnGNC3EI96EFKFZyucIlj2HJRuTVbTROIx
+         JKeMTrtd5S6IhYi8mPHqYJtWn7KM8XuWLmXlDpbIqKcf9zpyaeRWNEZESCzr9FFN4bqw
+         x7rhuYzN3tWkGnH3hg7YnMe3yZ6p/NoSW6a52S2sJ19zlrQ/54Cbm0skVB8VjIorskYV
+         tQpcf1ZRGu/PWeJ/IY73dtzp0fvFnwSJ5fwNx+tm/ieAGW1MLmy5+HSDjgoeXmZ8TiL5
+         eE7A==
+X-Gm-Message-State: AAQBX9emjSdV5rztgLVx3/20waRoMSey+tCjuYgqYoNyZ1wDUuObTvZ9
+        8uyS47OLwYvSjttf9pTO6/2Huw==
+X-Google-Smtp-Source: AKy350Z6I0H5kzeFMVDCpRA4on3SoYOdt2agRTNTZBqaG9b4x3mC+71DDkuUpUMIEoFQ/XF92mdg9A==
+X-Received: by 2002:ac2:43d1:0:b0:4dc:65c0:c74e with SMTP id u17-20020ac243d1000000b004dc65c0c74emr34507lfl.29.1680632306644;
+        Tue, 04 Apr 2023 11:18:26 -0700 (PDT)
 Received: from [192.168.1.101] (abxh37.neoplus.adsl.tpnet.pl. [83.9.1.37])
-        by smtp.gmail.com with ESMTPSA id u14-20020a056512040e00b004dc83d04840sm2417541lfk.79.2023.04.04.10.52.08
+        by smtp.gmail.com with ESMTPSA id x4-20020a19f604000000b004eaf8613bc3sm2440370lfe.284.2023.04.04.11.18.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 10:52:09 -0700 (PDT)
-Message-ID: <955cd520-3881-0c22-d818-13fe9a47e124@linaro.org>
-Date:   Tue, 4 Apr 2023 19:52:08 +0200
+        Tue, 04 Apr 2023 11:18:26 -0700 (PDT)
+Message-ID: <7511d03b-5b88-d1c2-d756-4781b12d5296@linaro.org>
+Date:   Tue, 4 Apr 2023 20:18:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH 01/18] media: venus: hfi_venus: Set
- venus_sys_idle_indicator to false on V6
+Subject: Re: [PATCH 1/3] venus: add firmware version based check
 Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Bryan O'Donoghue <pure.logic@nexus-software.ie>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Marek <jonathan@marek.ca>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230228-topic-venus-v1-0-58c2c88384e9@linaro.org>
- <20230228-topic-venus-v1-1-58c2c88384e9@linaro.org>
- <99eeebc6-69aa-c6ba-139b-92672c299747@linaro.org>
- <893851c9-c8be-ed7f-ebde-5d90b9313f6d@linaro.org>
- <48ac4272-0e11-d943-e950-0be8d93fb036@linaro.org>
- <b7f0c568-72b7-3342-decc-784cd5f68b1a@linaro.org>
- <1091d8b4-3dd3-427b-2fcb-c3e0d32b0a3b@linaro.org>
- <aa8db9a1-ac11-acbe-1a05-b60c39989bc1@nexus-software.ie>
- <28b0eed5-6e80-e424-70bb-ba984fdbc1ac@quicinc.com>
- <909746ad-a6b9-18d8-cb43-b2460c7181d0@linaro.org>
- <e93ba74a-ccde-c6bd-4302-8884144d615d@quicinc.com>
- <bf5e30fa-5014-5585-3b8e-b1a8d2f95549@quicinc.com>
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viswanath Boma <quic_vboma@quicinc.com>
+References: <1680589032-26046-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680589032-26046-2-git-send-email-quic_dikshita@quicinc.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <bf5e30fa-5014-5585-3b8e-b1a8d2f95549@quicinc.com>
+In-Reply-To: <1680589032-26046-2-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -97,145 +80,101 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 30.03.2023 12:44, Vikash Garodia wrote:
-> On 3/24/2023 2:46 PM, Dikshita Agarwal wrote:
->>
->>
->> On 3/20/2023 8:24 PM, Konrad Dybcio wrote:
->>> On 2.03.2023 07:39, Dikshita Agarwal wrote:
->>>> On 2/28/2023 10:23 PM, Bryan O'Donoghue wrote:
->>>>> On 28/02/2023 15:41, Konrad Dybcio wrote:
->>>>>>> Can you test it and make sure ?
->>>>>> As I mentioned in the cover letter, 8250 still seems to work with this
->>>>>> patchset. I have no idea how one would go about validating the
->>>>>> functionality enabled through this call.
->>>>> We offlined about this.
->>>>>
->>>>> I think it is correct to say you don't have access to a display to test this on sm8250.
->>>>>
->>>>> I do so, I will try this out for you, though I'll wait for your V2 for this series.
->>>>>
->>>>> ---
->>>>> bod
->>>> Hi Konrad,
->>>>
->>>> I understand from your commit text, setting this indicator for AR50L is causing issue with suspend.
->>>>
->>>> Ideally it shouldn't cause any such issue. I checked with FW team and got to know that this property is not supported on AR50LT so if you set it there should be some property not supported error.
->>>>
->>>> In my opinion it would be good to replace these versions checks with VPU version check you have introduced in your other patch and keep this setting for current targets and not set wherever not needed eg AR50LT.
->>> So.. I did *something* and I'm no longer getting a jump to EDL.
->>>
->>> The *something* being knocking off hfi_core_suspend().
->>>
->>> If I send a sys_idle_indicator = true, I get (reformatted for
->>> better legibility):
->>>
->>>
->>> [    0.576543] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_H:HostDr:unkn:--------:-> IMAGE_VARIANT_STRING=PROD
->>>
->>> [    0.603818] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_H:HostDr:unkn:--------:-> OEM_IMAGE_VERSION_STRING=CRM
->>>
->>> [    0.608633] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_H:HostDr:unkn:--------:-> BUILD_TIME: Mar 15 2021 04:24:58
->>>
->>> [    0.608644] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_L:HostDr:unkn:--------:-> Host cmd 0x10005
->>>
->>> [    0.608655] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_E:HostDr:unkn:--------:-> VenusHostDriver_SetSysProperty(1019): HostDriver:  VenusHostDriver_SetSysProperty unsupport property!
->>>
->>> [    0.608667] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_E:HostDr:unkn:--------:-> WaitForHWidle(408): VENUS is idle, no HW is running
->>>
->>> [    0.650759] qcom-venus 5a00000.video-codec: VenusFW  :
->>> <VFW_E:HostDr:unkn:--------:-> assert_loop(433):
->>> FW Assertion - Z:/b/venus_proc/venus/drivers/src/VenusHostDriver.c:1020:5ab9a
->>
->> this "unsupported property" error and then the assert from FW is expected on AR50LT if driver sets HFI_PROPERTY_SYS_IDLE_INDICATOR to FW.
->>
->> As I mentioned in my other reply, this property doesn't need to be set by driver now, FW internally always enables it.
->>
->>> Which then crashes Venus for good (perhaps we're missing a
->>> handler for such errors that would hard reset the hw), meaning
->>> trying to access it through ffmpeg will result in it never firing
->>> any IRQs, so no submitted commands ever complete.
->>>
->>> With this information, after uncommenting the hfi_core_suspend
->>> call and changing:
->>>
->>> [1]
->>> --- hfi_venus.c : venus_suspend_3xx() --
->>>
->>> - venus_prepare_power_collapse(hdev, true);
->>> + venus_prepare_power_collapse(hdev, false);
->>>
->>> ----------------------------------------
->>>
->>> I was able to test further. Turning the ARM9 core off messes
->>> with the sys_idle things. Perhaps some power sequencing is
->>> wrong. The diff I just mentioned comes from the fact that
->>> AR50L will never ever ever send a PC_PREP_DONE ack, or at
->>> least downstream never expects it (or any other HFI6XX
->>> target FWIW) to do so.
->>>
->>>
->>> Now, I also realized the adjacent set_power_control doesn't seem to be used at
->>> all on msm-4.19 techpack/video. Testing all the possible combinations, I get
->>> (to make it extra clear, with all the powerdown stuff in place and only diff
->>> [1] in place atop what I already had before):
->>>
->>>
->>> [set_idle_message] [set_power_control] [result]
->>> 0 0 - no crash at boot, venus doesn't work ->
->>>     "Too many packets buffered for output stream 0:1."
->>>
->>> 0 1 - no crash at boot, ffmpeg hangs near vdec session init ->
->>>     jump to EDL shortly after
->>>
->>> 1 0 - hang at boot, even before display subsys initializes ->
->>>     platform totally hangs
->>>
->>> 1 1 - same as (1, 0), probably due to sys_idle_indicator being on ->
->>>     platform totally hangs as well
->>>
->>> Perhaps (0, 0) is "good" and things can be worked up from there?
->>> Can you recheck with the firmware team if this is expected?
->>
->> I will check regarding set_power_control(HFI_PROPERTY_SYS_CODEC_POWER_PLANE_CTRL) with FW team and get back.
->>
-> HFI_PROPERTY_SYS_IDLE_INDICATOR is not supported beyond 8916 (which is versioned as V1 in video driver). This can be dropped.
+On 4.04.2023 08:17, Dikshita Agarwal wrote:
+> Add firmware version based checks to enable/disable
+> features for different SOCs.
 > 
-> Since the property is not functionally active, it is upto firmware when they might decide to start error out as unsupported property.
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> ---
+>  drivers/media/platform/qcom/venus/core.h     | 18 ++++++++++++++++++
+>  drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
+>  2 files changed, 27 insertions(+), 2 deletions(-)
 > 
-> SYS_CODEC_POWER_PLANE_CTRL is supported for AR50/AR50L/IRIS1/2. It is a mandatory HFI to get the required power benefits.
-> 
-> vcodec0 GDSC should be also configured as HW_CTRL while setting POWER_PLANE_CTRL to firmware.
-> 
-Okay that's very good to know. To sum it up, the outcome you would
-expect is (more or less):
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 32551c2..ee8b70a 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -202,6 +202,11 @@ struct venus_core {
+>  	unsigned int core0_usage_count;
+>  	unsigned int core1_usage_count;
+>  	struct dentry *root;
+> +	struct venus_img_version {
+> +		u32 major;
+> +		u32 minor;
+> +		u32 rev;
+> +	} venus_ver;
+>  };
+>  
+>  struct vdec_controls {
+> @@ -500,4 +505,17 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>  	return NULL;
+>  }
+>  
+> +static inline int
+> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+So this is trying to find the revision of a MAJ.MIN firmware release..
 
-- static bool venus_sys_idle_indicator = true;
+Is the MAJ.MIN part supposed to stay constant for a specific version of
+a Venus block (say idk, IRIS2) and only the VREV part is supposed to
+be updated with both feature and security developments?
 
-[...]
+> +{
+> +	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
+> +			vminor && (core)->venus_ver.rev >= vrev);
+return ((core)->venus_ver.major == vmajor &&
+	(core)->venus_ver.minor == vminor &&
+	(core)->venus_ver.rev >= vrev);
 
-- if(IS_V4(hdev->core) || IS_V6(hdev->core))
--	venus_sys_idle_indicator = true;
-
-+ venus_sys_idle_indicator = IS_V1(hdev->core);
-
-
-?
+for readability
 
 Konrad
->> Thanks,
->>
->> Dikshita
->>
->>> Konrad
->>>> Thanks,
->>>>
->>>> Dikshita
->>>>
+> +}
+> +
+> +static inline int
+> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor && (core)->venus_ver.minor ==
+> +			vminor && (core)->venus_ver.rev <= vrev);
+> +}
+>  #endif
+> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> index df96db3..07ac0fc 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>  }
+>  
+>  static void
+> -sys_get_prop_image_version(struct device *dev,
+> +sys_get_prop_image_version(struct venus_core *core,
+>  			   struct hfi_msg_sys_property_info_pkt *pkt)
+>  {
+> +	struct device *dev = core->dev;
+>  	u8 *smem_tbl_ptr;
+>  	u8 *img_ver;
+>  	int req_bytes;
+> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>  		return;
+>  
+>  	img_ver = pkt->data;
+> +	if (IS_V4(core))
+> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+> +	else if (IS_V6(core))
+> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>  
+>  	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>  
+> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>  
+>  	switch (pkt->property) {
+>  	case HFI_PROPERTY_SYS_IMAGE_VERSION:
+> -		sys_get_prop_image_version(dev, pkt);
+> +		sys_get_prop_image_version(core, pkt);
+>  		break;
+>  	default:
+>  		dev_dbg(dev, VDBGL "unknown property data\n");
