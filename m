@@ -2,110 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2936D56B4
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 04:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DED936D56BB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 04:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231444AbjDDCZl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Apr 2023 22:25:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35858 "EHLO
+        id S232453AbjDDC0x convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 3 Apr 2023 22:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjDDCZk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 22:25:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611741BEF
-        for <linux-media@vger.kernel.org>; Mon,  3 Apr 2023 19:25:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CECD7F8;
-        Tue,  4 Apr 2023 04:25:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680575137;
-        bh=i9klPCWMa8/2rFc4/MSCGVBV7ZJdrrxvQYjM9CpoxKA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cCN+0G6GlL5pcWmwq0HzLpI+zrqBCdBCIwul27p7cX8yeUamNafK3g2iQSt80pWg5
-         I9lMjCivTk04VKcuFrweOg4a1VqP2a/5FmEU3/Rpx36mxJM5ASM1gfj64gQ20WlcLj
-         OgLF2l4BiMnKRRQ8hHIzQ7YWKfGFqgxlYMJXQzAw=
-Date:   Tue, 4 Apr 2023 05:25:45 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 13/24] staging: media: omap4iss: Convert to platform
- remove callback returning void
-Message-ID: <20230404022545.GB16648@pendragon.ideasonboard.com>
-References: <20230403154014.2564054-1-u.kleine-koenig@pengutronix.de>
- <20230403154014.2564054-14-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S232267AbjDDC0w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Apr 2023 22:26:52 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780181BFE;
+        Mon,  3 Apr 2023 19:26:47 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 61CFD24E227;
+        Tue,  4 Apr 2023 10:26:45 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 4 Apr
+ 2023 10:26:45 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 4 Apr
+ 2023 10:26:44 +0800
+Message-ID: <d7f04e2c-270f-a7dd-726b-ca0073e4d6a3@starfivetech.com>
+Date:   Tue, 4 Apr 2023 10:26:44 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230403154014.2564054-14-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3 3/9] media: dt-bindings: cadence-csi2rx: Convert to DT
+ schema
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        "Todor Tomov" <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230331121826.96973-1-jack.zhu@starfivetech.com>
+ <20230331121826.96973-4-jack.zhu@starfivetech.com>
+ <0aa3a039-daf3-7e05-6da9-258335a5ca20@linaro.org>
+ <9c132e62-7830-90bf-2c3e-1568a54eb6ec@starfivetech.com>
+ <c86d2388-609c-528e-b250-90bd85b97264@linaro.org>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <c86d2388-609c-528e-b250-90bd85b97264@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=NICE_REPLY_A,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Uwe,
 
-Thank you for the patch.
 
-On Mon, Apr 03, 2023 at 05:40:03PM +0200, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+On 2023/4/3 17:53, Krzysztof Kozlowski wrote:
+> On 03/04/2023 11:48, Jack Zhu wrote:
+>> 
+>> 
+>> On 2023/4/1 4:12, Krzysztof Kozlowski wrote:
+>>> On 31/03/2023 14:18, Jack Zhu wrote:
+>>>> Convert DT bindings document for Cadence MIPI-CSI2 RX controller
+>>>> to DT schema format.
+>>>>
+>>>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+>>>> ---
+>>>>  .../devicetree/bindings/media/cdns,csi2rx.txt | 100 ----------
+>>>>  .../bindings/media/cdns,csi2rx.yaml           | 174 ++++++++++++++++++
+>>>>  MAINTAINERS                                   |   1 +
+>>>>  3 files changed, 175 insertions(+), 100 deletions(-)
+>>>>  delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+>>>>  create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+>>>> deleted file mode 100644
+>>>> index 6b02a0657ad9..000000000000
+>>>> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+>>>> +++ /dev/null
+>>>> @@ -1,100 +0,0 @@
+>>>> -Cadence MIPI-CSI2 RX controller
+>>>> -===============================
+>>>> -
+>>>> -The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
+>>>> -lanes in input, and 4 different pixel streams in output.
+>>>> -
+>>>> -Required properties:
+>>>> -  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
+>>>
+>>>
+>>> ...
+>>>
+>>>> +$id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Cadence MIPI-CSI2 RX controller
+>>>> +
+>>>> +maintainers:
+>>>> +  - Maxime Ripard <mripard@kernel.org>
+>>>> +
+>>>> +description:
+>>>> +  The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
+>>>> +  lanes in input, and 4 different pixel streams in output.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: cdns,csi2rx
+>>>
+>>> That's not equivalent conversion and your commit msg does no mention any
+>>> drops in compatibles.
+>>>
+>> The equivalent conversion refers to 'an SoC-specific compatible'?
 > 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> Yes.
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/staging/media/omap4iss/iss.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>> I'm not sure that, is it enough to add a description (drop an 'SoC-specific compatible')
+>> to my next version commit message?
 > 
-> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-> index fa2a36d829d3..0c4283bb48ad 100644
-> --- a/drivers/staging/media/omap4iss/iss.c
-> +++ b/drivers/staging/media/omap4iss/iss.c
-> @@ -1323,15 +1323,13 @@ static int iss_probe(struct platform_device *pdev)
->  	return ret;
->  }
->  
-> -static int iss_remove(struct platform_device *pdev)
-> +static void iss_remove(struct platform_device *pdev)
->  {
->  	struct iss_device *iss = platform_get_drvdata(pdev);
->  
->  	iss_unregister_entities(iss);
->  	media_entity_enum_cleanup(&iss->crashed);
->  	iss_cleanup_modules(iss);
-> -
-> -	return 0;
->  }
->  
->  static const struct platform_device_id omap4iss_id_table[] = {
-> @@ -1342,7 +1340,7 @@ MODULE_DEVICE_TABLE(platform, omap4iss_id_table);
->  
->  static struct platform_driver iss_driver = {
->  	.probe		= iss_probe,
-> -	.remove		= iss_remove,
-> +	.remove_new	= iss_remove,
->  	.id_table	= omap4iss_id_table,
->  	.driver = {
->  		.name	= "omap4iss",
-
--- 
-Regards,
-
-Laurent Pinchart
+> Original binding did not allow csi2rx compatible alone. Your binding
+> here allows it, thus it is not simple conversion.
+> 
+> I think patch 5 should be squashed here - with proper explanation.
+> Usually new compatibles should not be messed with conversion, but this
+> conversion on its own does not make much sense.
+> 
+Ok, I will merge patch 5 into the patch, and add explanation in my
+commit msg.
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
