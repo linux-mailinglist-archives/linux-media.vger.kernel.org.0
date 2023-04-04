@@ -2,112 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A5436D6015
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 14:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78EE36D62AE
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 15:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234354AbjDDMU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 08:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51494 "EHLO
+        id S234936AbjDDNXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 09:23:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233732AbjDDMTf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 08:19:35 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03E11FC8
-        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 05:18:12 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso19932116wmo.0
-        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 05:18:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680610691;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/Rk3uvvW8PAwi02APdNw6PKdSJ6T5Oh+HjtvsG16res=;
-        b=No+QAmwNYWRCZO4MIzcrGu0flbeBG+aX8tI+kv2vNp6LvMp01A7E0/H7Qu8o/IUTUS
-         +e1FYm7qAHDydJqcoW2jB5aroG0gDcClTIgHfcL98DvVFe8aXB9Vni9vnozV+NuWhC99
-         Tz752/R0hB7lZEdRl7dpfxqKVv+6MQNWzbkuJFc1Ktu29U/ryYdPAHpp5DGJ5YJjjaZB
-         J4JEzrrrwaIMaK9+hUwchEUpyOLQeU5Z+rI51JNtT0AoIn30qLhK3bNVj015mcDQz6OX
-         IpJnUNfmUbWUDBBLCIfyF4PwzfInRaR2lRFfAIxduCKoGvawZnT9nFUVO9Ldd5vvVcgZ
-         /ACg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680610691;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Rk3uvvW8PAwi02APdNw6PKdSJ6T5Oh+HjtvsG16res=;
-        b=engdOMVzHmcoGqAzGzQe0tyU1iDVRk311tuDKgg+t/bLfgbknN+8aoC+cIej2zfqfa
-         XhO074p/1WKUliasQTdidFHVMnhCxfEYZLUpT5sHPjxRk0ETi+o5/jWejC7xu1HDDFFR
-         bVLZI2KI3a7T+gW50mLyji7DSQEjYFTLE7RTmF3EXrFZ+hDW7e0ypr0JOtFcYfOYO1Sh
-         680Pg41uGHlqgmMPwETwi2WqgO6/uyEuJ/UvS4FD+g1mHj3bX8rSSmGFBQWAr1VTSFos
-         nECu6Dse/42qxypbjdekIUkPNG0UFbwr3avtNKGaAcVrHSt2R1+Pbvk1AB8ls4FN667m
-         R1Rg==
-X-Gm-Message-State: AAQBX9dQlQVWKs5Br+lUGHG848MyZEUzgloM+8SzvVrPF474lyv+kd3l
-        ew2CU7cQ/MVtFwH6/HHaEqY=
-X-Google-Smtp-Source: AKy350aAfxv5nHECMoEuJPlsOpj9ETEzvBvfU7tebeF49stNmNRgeDW5aDmh4CftRdj2JXSCC1GxWA==
-X-Received: by 2002:a7b:c4c6:0:b0:3eb:3945:d3fd with SMTP id g6-20020a7bc4c6000000b003eb3945d3fdmr1987669wmk.14.1680610691203;
-        Tue, 04 Apr 2023 05:18:11 -0700 (PDT)
-Received: from [192.168.0.8] (static-3-123-228-77.ipcom.comunitel.net. [77.228.123.3])
-        by smtp.gmail.com with ESMTPSA id bd6-20020a05600c1f0600b003ef36ef3833sm22099416wmb.8.2023.04.04.05.18.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 05:18:10 -0700 (PDT)
-Message-ID: <0b39109a-bd30-c681-2c6a-d26a4eae1fdb@gmail.com>
-Date:   Tue, 4 Apr 2023 14:18:09 +0200
+        with ESMTP id S234887AbjDDNW7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 09:22:59 -0400
+Received: from www381.your-server.de (www381.your-server.de [78.46.137.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F4A115;
+        Tue,  4 Apr 2023 06:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
+        s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID;
+        bh=KS/PAoriGWh0QOffAFISIzaXM+OMfc5TD47VKbQqGh4=; b=TUkvrOCa+EQWog7XwVqSljA8HD
+        qs2uTEGpr2nmASxWKFA1vB2Poh7nyFNj9w113QvxnlY4tvxhsqQrxoawdCD+od0ySVNeXsqFy4n/2
+        xN6eIdhOYuaq2NIb+WxMh7ji1niYAtbXtxi2rwSnmoJoX6zYA4tUeYPjTDsB4DAA2WqtTUsd7Z2V3
+        RzKDrAnDsG9wF57PofWXZXvYGQlwAQpuNtcQY9AVARJSbzI+L7nCHVRvUSPqc1UzD/ruTSJGDJu8+
+        7iUzG8xnoqjZxlDbVFmxCRzWhp85EjGK/W0E2LUhIlWifeS/8ATIx7/eW3GFWoN6562CF6JaPr/rp
+        EVd7tMug==;
+Received: from sslproxy04.your-server.de ([78.46.152.42])
+        by www381.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <lars@metafoo.de>)
+        id 1pjgch-0008PQ-BV; Tue, 04 Apr 2023 15:22:55 +0200
+Received: from [2604:5500:c0e5:eb00:da5e:d3ff:feff:933b]
+        by sslproxy04.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <lars@metafoo.de>)
+        id 1pjgcg-0003TQ-Ou; Tue, 04 Apr 2023 15:22:54 +0200
+Message-ID: <370bccc6-e418-a05f-2c3b-6a17b02392a2@metafoo.de>
+Date:   Tue, 4 Apr 2023 06:22:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: Adding support to NPG Real DVB-T Hybrid PCI Express [cx23885]
-To:     JLA <neonmann@gmail.com>, linux-media@vger.kernel.org
-References: <CAG2KHmfuFcX6L_rchAeV3bzpcj00d_XNbPL7FHtHJUVHXzf3wA@mail.gmail.com>
+Subject: Re: [PATCH v3 07/11] iio: core: Add new DMABUF interface
+ infrastructure
 Content-Language: en-US
-From:   =?UTF-8?Q?Jos=c3=a9_Manuel_Alcaraz_Pelegrina?= <jmaphys@gmail.com>
-In-Reply-To: <CAG2KHmfuFcX6L_rchAeV3bzpcj00d_XNbPL7FHtHJUVHXzf3wA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Paul Cercueil <paul@crapouillou.net>,
+        =?UTF-8?Q?Nuno_S=c3=a1?= <noname.nuno@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        dmaengine@vger.kernel.org, linux-media@vger.kernel.org
+References: <20230403154800.215924-1-paul@crapouillou.net>
+ <20230403154800.215924-8-paul@crapouillou.net>
+ <798e1ff0651da8e4b113d30bf8cec2a7a0e6898f.camel@gmail.com>
+ <2dac030470ffe74b6d21a1e6510afcefaf58cd6a.camel@crapouillou.net>
+From:   Lars-Peter Clausen <lars@metafoo.de>
+In-Reply-To: <2dac030470ffe74b6d21a1e6510afcefaf58cd6a.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: lars@metafoo.de
+X-Virus-Scanned: Clear (ClamAV 0.103.8/26865/Tue Apr  4 09:24:56 2023)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-El 12/7/19 a las 16:38, JLA escribió:
-> I have a NPG Real DVB-T Hybrid PCI Express capture card, it is a
-> DVB/Analog PAL/FM hybrid card based around the cx23885 chip. I've
-> taken some pictures and checked the cx23885-cards files and it seems
-> most of the parts are there and I would like to add the card entry for
-> this model.
-> I can, if needed, probe the card with a logic analyzer.
-> 
-> ICs found on board:
->  * Conexant CX23885-13Z
->  * Intel CE6353 [Clone of Zarlink ZL10353 ?] (DVB-T Demodulator)
->  * XCeive XC3028ACQ (RF tuner and analog IF demodulator) (Not in
-> tuner.h but on wiki?)
->  * PI5V33OSQE 2-way (analog?) multiplexer
-> 
-> Windows driver ships with the `AV88PCIE.SYS` file and a somewhat
-> documented .inf file with it.
-> 
-> Any help on how should I proceed adding support for this card appreciated.
-
-This card is supported by the cx23885 driver. Try
-
-sudo modprobe cx23885 card=12
-
-It's necessary to have the firmware for the XC3028. See 
-https://www.linuxtv.org/wiki/index.php/Xceive_XC3028/XC2028#How_to_Obtain_the_Firmware
-to obtain it or google it.
-It runs for me and I can see the dvb tv with kaffeine.
-
-> 
-> Best regards.
-> 
-
-José Manuel
-
-
-
+On 4/4/23 00:55, Paul Cercueil wrote:
+> [...]
+>>> +       priv = attach->importer_priv;
+>>> +       list_del_init(&priv->entry);
+>>> +
+>>> +       iio_buffer_dmabuf_put(attach);
+>>> +       iio_buffer_dmabuf_put(attach);
+>>> +
+>> Is this intended? Looks suspicious...
+> It is intended, yes. You want to release the dma_buf_attachment that's
+> created in iio_buffer_attach_dmabuf(), and you need to call
+> iio_buffer_find_attachment() to get a pointer to it, which also gets a
+> second reference - so it needs to unref twice.
+Let's add a comment documenting that.
