@@ -2,147 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B736D6CEE
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 21:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B67A6D6D3B
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 21:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbjDDTFr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 15:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40040 "EHLO
+        id S236087AbjDDTdU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 15:33:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235574AbjDDTFl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 15:05:41 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D0546B5
-        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 12:05:07 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id j11so43586303lfg.13
-        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 12:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680635104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b5dgMuodeZyHzVT6FAH17HFaS4nHaYRdl9cH8QECjHA=;
-        b=PNK48df4b81vGypDdYK41csF7ttvhDtcCM36t2Rf9srpmo6sWIaTkikR70C+xjmQwY
-         HDdkLrvZoMeUdOfWQx+Kki6hp4deeHR+RAcu+jD3t7PESXxSJHtHsp88mPpvu5VLJUt7
-         bGVODPHVLvxQYnzwJCVNBtqGywiLz0O/TyTMMK96AO5FiSvDWOr0ySpXFlma52Szu6+z
-         C0tWn2pnb7WKrgE2PJFTfxalZFWbnr7wN0xYeVcyeWulOakmFDI0m+8o+Ffl5W4oiCxt
-         pTmo68/Kb9tMkL1hVes1MgcRjxFmECX+wkAvLLAK91ji9LyWQwc8LFjSh1VcgoOf1ghq
-         py1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680635104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b5dgMuodeZyHzVT6FAH17HFaS4nHaYRdl9cH8QECjHA=;
-        b=wP/XqjLe51e/uQHD8bQKViZZXVGpyByQzkt0WA2Y4YyuvNqbiHb+JIzfc16bItAkbe
-         R19LlAen2kZSd3X3z/R9PHJ2GboX5g0aqdy9W5mEaH/3SFdLt1bTop62wrd0AqbnDzFf
-         xHsTabfq8YHjaUrUNPRQ7rNKx4hTAkasOHolxpjw5ntcGlz0ZwdcrJ/UQW1qfVzQszPW
-         yOlgiHpt7hWseHIoRi4qyeNVDM7UrneOBhw5B1tIWjkywZxKhVcnO4/OrhuzdHXGHm0v
-         Q9AiSnERho/qknOHd4rymgRMH+if3SHiXqbBVw0pkt+qy4ycfeUc5SdJgnFKA6b3ZXXb
-         j7FQ==
-X-Gm-Message-State: AAQBX9fFGo5yIu0TeJnTAy6XkgRljpQM1HQqVlqJeB+tggbNt/ILKbfG
-        EIxqJV/ZQ4/0VEbmoMZT2xbHKw==
-X-Google-Smtp-Source: AKy350ZJm7DCWcawFstZhDR/T62LoyF1dMnhZc8JIB9o1LYekSdv0olD4QHgqYZPKKmJfDgn2RcvxA==
-X-Received: by 2002:ac2:561b:0:b0:4eb:2a26:babf with SMTP id v27-20020ac2561b000000b004eb2a26babfmr89283lfd.0.1680635104208;
-        Tue, 04 Apr 2023 12:05:04 -0700 (PDT)
-Received: from [192.168.1.101] (abxh37.neoplus.adsl.tpnet.pl. [83.9.1.37])
-        by smtp.gmail.com with ESMTPSA id v16-20020ac25610000000b004caf992bba9sm2467420lfd.268.2023.04.04.12.05.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 12:05:03 -0700 (PDT)
-Message-ID: <2c3a823c-4620-1557-39ff-1db169aeb7aa@linaro.org>
-Date:   Tue, 4 Apr 2023 21:05:02 +0200
+        with ESMTP id S236048AbjDDTdQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 15:33:16 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A45F468F
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 12:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680636795; x=1712172795;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tuh2U1V60gLfcIqfEnMvA+rLklUo7l0V/ArXG6BYHY8=;
+  b=Iv0arGGSAUV8RtL7YvwaZoTdqy6aopT5Id61CErTachmZmxiS1ISgOPL
+   r9aU9Rnd9DCCkJwLWQwg5iFcFCmPf/0jzryDdgW567jIVc8BPJZEWIwza
+   SDKDPdpv6Ft8HaNVKHwKis7yxcfI5YYu/XOC28xvTwdhHSzQI6fzTI2l6
+   om7R+gdCSvzwFJfFsWODyj6JDD3iOBG41z5aumM/l4gxlzBT54ckm4SP9
+   WUGPK6ggg4yuJBwaoPoIq34/nBark6EPnateOsgkKkU+sAKIJYDKtvmg8
+   Qz/1BkCekPMHkOD3sAyou+0cv3PhsD2Q0bDbRwerfhC5g6WLNO/lA9pJD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="370104300"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
+   d="scan'208";a="370104300"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 12:33:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="689009508"
+X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
+   d="scan'208";a="689009508"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 12:33:12 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1BA0B121399;
+        Tue,  4 Apr 2023 22:23:47 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     jacopo.mondi@ideasonboard.com
+Subject: [PATCH v2 0/2] Align CCS driver behaviour regarding flipping and rotation
+Date:   Tue,  4 Apr 2023 22:23:45 +0300
+Message-Id: <20230404192347.1798323-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 2/3] venus: enable sufficient sequence change support for
- vp9
-Content-Language: en-US
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viswanath Boma <quic_vboma@quicinc.com>
-References: <1680589032-26046-1-git-send-email-quic_dikshita@quicinc.com>
- <1680589032-26046-3-git-send-email-quic_dikshita@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1680589032-26046-3-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
+This set aligns the behaviour of flipping controls with other drivers and
+adds CAMERA_SENSOR_ROTATION and CAMERA_SENSOR_ORIENTATION controls to the
+CCS driver.
 
-On 4.04.2023 08:17, Dikshita Agarwal wrote:
-> VP9 supports resolution change at interframe.
-> Currenlty, if sequence change is detected at interframe and
-> resources are sufficient, sequence change event is not raised
-> by firmware to driver until the next keyframe.
-> This change add the HFI to notify the sequence change in this
-> case to driver.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> Tested-by: Nathan Hebert <nhebert@chromium.org>
-> ---
->  drivers/media/platform/qcom/venus/hfi_cmds.c   | 1 +
->  drivers/media/platform/qcom/venus/hfi_helper.h | 2 ++
->  drivers/media/platform/qcom/venus/vdec.c       | 8 ++++++++
->  3 files changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 930b743..e2539b5 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
->  		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
->  		break;
->  	}
-> +	case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
->  	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
->  		struct hfi_enable *in = pdata;
->  		struct hfi_enable *en = prop_data;
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index d2d6719..20516b4 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -469,6 +469,8 @@
->  #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH			0x1003007
->  #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT			0x1003009
->  #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE			0x100300a
-> +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
-> +								0x0100300b
-Also, nit: this one has a leading zero, whereas other properties don't
+The changes to flipping are that the flipping controls are no longer
+inverted if the sensor is mounted upside down. The flipping control still
+default enabled if the sensor is so mounted.
 
-Konrad
->  
->  /*
->   * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4ceaba3..f0394b9 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -671,6 +671,14 @@ static int vdec_set_properties(struct venus_inst *inst)
->  			return ret;
->  	}
->  
-> +	/* Enabling sufficient sequence change support for VP9 */
-> +	if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
-> +		ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
-> +		ret = hfi_session_set_property(inst, ptype, &en);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
->  	conceal = ctr->conceal_color & 0xffff;
->  	conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
+since v1:
+
+- Default is always no flip. Rotation isn't enabled in current DTS, and
+  this is a better option going forward.
+
+Sakari Ailus (2):
+  media: ccs: Align flipping behaviour with other drivers
+  media: ccs: Add V4L2 controls from properties
+
+ drivers/media/i2c/ccs/ccs-core.c | 52 +++++++-------------------------
+ drivers/media/i2c/ccs/ccs.h      | 14 ---------
+ 2 files changed, 11 insertions(+), 55 deletions(-)
+
+-- 
+2.30.2
+
