@@ -2,94 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7A96D57DA
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 07:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 772D36D58A1
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 08:18:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233270AbjDDFHA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 01:07:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47736 "EHLO
+        id S233586AbjDDGSS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 02:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbjDDFG7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 01:06:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C4B1BE1;
-        Mon,  3 Apr 2023 22:06:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0B74DD;
-        Tue,  4 Apr 2023 07:06:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680584816;
-        bh=BM4y5PjB7Ht/ou9MwaKxwHoLKvy3DMIrcmMHl5T7fqw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ceYbo2KWKKOwyoEKbR33mOzI1oQqktBtd9nAq58r974UdcFk+rt29bLcrQk63+9Jt
-         5iWeG7pzDlru2wXrx+nKmh5R+PYAiQSRe9dabsKyglg3PVMl2nnw+zafbGaFQpSjZm
-         NMG/ElLIaNZ6AJAxueQLv0B3obsEATfE9iJCnqvM=
-Date:   Tue, 4 Apr 2023 08:07:03 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jack Zhu <jack.zhu@starfivetech.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v3 8/9] media: cadence: Add support for JH7110 SoC
-Message-ID: <20230404050703.GO16648@pendragon.ideasonboard.com>
-References: <20230331121826.96973-1-jack.zhu@starfivetech.com>
- <20230331121826.96973-9-jack.zhu@starfivetech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230331121826.96973-9-jack.zhu@starfivetech.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        with ESMTP id S233413AbjDDGSQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 02:18:16 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6DF1BD7;
+        Mon,  3 Apr 2023 23:17:59 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 333ATM9X029579;
+        Tue, 4 Apr 2023 06:17:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=dOcWD7hwOiecoarohEbN981aTy62qme7WLPGbsPkvIY=;
+ b=X2vJAaqOHgwYJ80O3MvPFAqd5yMlSwNGSDk3fv8WB8CXjrpXpcLkNGpqGUJffFgmf7Ve
+ mA9WTcbDfrDEVNZfKhtpnhCqWRqYRbsJxytrKbf3lIpBEn0x609I4jNqJ1kX4is3MTUR
+ ozr4eieEU2YbiBGjGWzglIvGzsdGxF+Jo5sCxKqEb26kmavpfN/RaZYV2+piNYPLdVsJ
+ htzHCIR101uOJDfjZENBB30WelRorLsx+mcKXezobQCcKHSVckvjEXHBVY6884Flih/X
+ Tm4uzj1KVSfkzpWqb41KE4c6BXVsxblZi04fY6UHAaEDH9IlRLQre1nlDP8lpMThazKY RQ== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pqw36tetb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 04 Apr 2023 06:17:19 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 3346HF5J025295;
+        Tue, 4 Apr 2023 06:17:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3ppdpkhu3g-1;
+        Tue, 04 Apr 2023 06:17:15 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3346HFWI025190;
+        Tue, 4 Apr 2023 06:17:15 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3346HFhr025188;
+        Tue, 04 Apr 2023 06:17:15 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+        id 9519632EE; Tue,  4 Apr 2023 11:47:14 +0530 (+0530)
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+To:     linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH 0/3] fix decoder issues with firmware version check
+Date:   Tue,  4 Apr 2023 11:47:09 +0530
+Message-Id: <1680589032-26046-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0ftWUsmWInntVOaIrzhF3do2H3vksrzX
+X-Proofpoint-GUID: 0ftWUsmWInntVOaIrzhF3do2H3vksrzX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-03_19,2023-04-03_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ phishscore=0 clxscore=1015 malwarescore=0 adultscore=0 mlxscore=0
+ mlxlogscore=792 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304040057
+X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
+This series includes the changes to
+  - add firmware version based check to enable/disable some feature.
+  - add support of new HFI to notify sequence change event to
+    driver during resolution change at interframe.
+  - use firmware version based check to fix EOS handling for different
+    firmware versions.
 
-Thank you for the patch.
+With this series, divided the previous version [1] into
+multiple patches as suggested in review comments.
 
-On Fri, Mar 31, 2023 at 08:18:25PM +0800, Jack Zhu wrote:
-> Add support for Starfive JH7110 SoC which
-> has the cadence csi2 receiver.
+[1] https://patchwork.kernel.org/project/linux-media/list/?series=733169
 
-This fits on one line:
+Dikshita Agarwal (3):
+  venus: add firmware version based check
+  venus: enable sufficient sequence change support for vp9
+  venus: fix EOS handling in decoder stop command
 
-Add support for Starfive JH7110 SoC which has the cadence csi2 receiver.
-
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/cadence/cdns-csi2rx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index add982edce64..5e36b994b8d5 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -560,6 +560,7 @@ static int csi2rx_remove(struct platform_device *pdev)
->  }
->  
->  static const struct of_device_id csi2rx_of_table[] = {
-> +	{ .compatible = "starfive,jh7110-csi2rx" },
->  	{ .compatible = "cdns,csi2rx" },
->  	{ },
->  };
+ drivers/media/platform/qcom/venus/core.h       | 18 ++++++++++++++++++
+ drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
+ drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
+ drivers/media/platform/qcom/venus/hfi_msgs.c   | 11 +++++++++--
+ drivers/media/platform/qcom/venus/vdec.c       | 10 +++++++++-
+ 5 files changed, 39 insertions(+), 3 deletions(-)
 
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
