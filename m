@@ -2,107 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23EC26D5F52
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 13:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 663C36D5FAC
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 13:55:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234432AbjDDLnO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 07:43:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47684 "EHLO
+        id S234036AbjDDLzb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 07:55:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234430AbjDDLnN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 07:43:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5270A199E;
-        Tue,  4 Apr 2023 04:43:11 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0AD17F8;
-        Tue,  4 Apr 2023 13:43:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680608589;
-        bh=BU08CCqdOeu/LcxZYn91p63mOw0uMiEjv7Vyull9bio=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JNUDGUqCcv8f8HzS+lS/1m2zv6gYP0td+9UvvUVNxX/SDC77d6YSxdOWqqXzm5ic0
-         mx+p5z3OCbWOF7u64uukvn9kGi1YHb7j+0TD1VPdhcAsxEKcvw9VGHIczHh6GHSv6A
-         YW+SsEC27lT3WHXKN1Brsjx+NkT2BnhFR5unsrhk=
-Message-ID: <781c9273-24c5-8b0d-b810-a5eb9b98679e@ideasonboard.com>
-Date:   Tue, 4 Apr 2023 14:43:05 +0300
+        with ESMTP id S230507AbjDDLzX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 07:55:23 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F773C18
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 04:54:48 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id q19so29437505wrc.5
+        for <linux-media@vger.kernel.org>; Tue, 04 Apr 2023 04:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680609286;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ub5MfHarz5HIFxeHnc0/0vIpMZsfBSyoJJ2fMfi2n3w=;
+        b=OWGzAysNdv7vtzv2I1l0Maw3i/FfyrC/I+0z3WMOleOjQnnFdJ+MwokWJJY61fBjcJ
+         Kg5JiFhviZqh+T8gUJ731fAAe+yJyoebamMKaap9VaJaBbEOX8GpFuTpeBkL98IZW5TV
+         b6YKm6Q89Bs0uOPVATlr5oFf3/0T0BWdgbL84q/RYAXcR5Iq6au0CCmS5iC34poIeNLo
+         98/i6d6tJgJY7m8Nxc4GLnBpcu5Vt/6vEGmqANaj9sDx47G99tunLOErsQlUzkIZ4RW2
+         8yoLiKd2RZWZ3ieOo/y8WdoFV+1qDWXQbAImD5xrpX+d94Q4x4HAFVQz9Nlkg/wgQ3cm
+         N7nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680609286;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ub5MfHarz5HIFxeHnc0/0vIpMZsfBSyoJJ2fMfi2n3w=;
+        b=7bHRPAmiLJPOEliV+uXRatlXzHp8vHVrl7XulLzgk54osrUaaGbh2qhsa8oKSaLz58
+         GM9Zt7CTThXFWJkWyEqKtdBCSq+5a51QQkTK1Z4GBfcOyeHba4tqIbC9t9wptaWJrllr
+         C/ihE1IbMwd+E9Dq9HJjKSwWi7paGRi4kphd46u9eFXfYUzFaNWVWq068A5AKdIbExdt
+         gDnKvRT5YA9rUR9NhsOJS+6FdscByth93jKA8qxieS6kXxeu4M0FxWqYNaTo6uRtHx8n
+         FMRAGEwdt1p7fJqwBe0nA7npLqbYF3xtVF0vG7UayIjJn8NiMSWug1hnQVW0fOjLbNVW
+         FwJg==
+X-Gm-Message-State: AAQBX9cS0+wim9G0bqLcaIcqakyObgw8dXLHCpMuDOJcWu5OsEZkloXx
+        qJUi76WIJxc2sK2ra4KrNBZLeRQoe+/3wQ==
+X-Google-Smtp-Source: AKy350bqoOu2+oGtXiuUj0JtAz8qQxzCa/AOVO93Gf7INco1HFmQWfLHQaa6o+ucHzwMzhEEpGWVgQ==
+X-Received: by 2002:adf:f786:0:b0:2e5:151e:89f1 with SMTP id q6-20020adff786000000b002e5151e89f1mr1550251wrp.8.1680609286251;
+        Tue, 04 Apr 2023 04:54:46 -0700 (PDT)
+Received: from [192.168.0.8] (static-3-123-228-77.ipcom.comunitel.net. [77.228.123.3])
+        by smtp.gmail.com with ESMTPSA id m2-20020a5d4a02000000b002d75ef32032sm12140310wrq.68.2023.04.04.04.54.45
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Apr 2023 04:54:45 -0700 (PDT)
+Message-ID: <e4260d41-2295-53ed-12d1-3c039eddd94f@gmail.com>
+Date:   Tue, 4 Apr 2023 13:54:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v7 10/13] media: ti: Add CSI2RX support for J721E
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vaishnav Achath <vaishnav.a@ti.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        mripard@kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, sakari.ailus@linux.intel.com,
-        linux-kernel@vger.kernel.org, bparrot@ti.com,
-        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
-        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
-        nm@ti.com, martyn.welch@collabora.com
-References: <20230314115516.667-1-vaishnav.a@ti.com>
- <20230314115516.667-11-vaishnav.a@ti.com>
- <20230324181425.GM18895@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230324181425.GM18895@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+To:     linux-media@vger.kernel.org
+From:   =?UTF-8?Q?Jos=c3=a9_Manuel_Alcaraz_Pelegrina?= <jmaphys@gmail.com>
+Subject: Help with support for AverTV Hc82
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/03/2023 20:14, Laurent Pinchart wrote:
+Hello,
 
->> +static int ti_csi2rx_link_validate_get_fmt(struct media_pad *pad,
->> +					   struct v4l2_subdev_format *fmt)
->> +{
->> +	if (is_media_entity_v4l2_subdev(pad->entity)) {
->> +		struct v4l2_subdev *sd =
->> +			media_entity_to_v4l2_subdev(pad->entity);
->> +
->> +		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
->> +		fmt->pad = pad->index;
->> +		return v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
-> 
-> This will crash with any source that uses the subdev active state. You
-> can't pass NULL for the state here.
-> 
-> How about exporting v4l2_subdev_link_validate_get_format() instead, to
-> replace this function ?
+I have a old AverTV Hybrid NanoExpress card sold several years ago by DELL that runs well on Windows, but I would like to make it working on Linux. 
+There were several models of this card as described in https://linuxtv.org/wiki/index.php/AVerMedia_AVerTV_Hybrid_NanoExpress. Apart from the Avermedia models there are others sold by Dell that they labelled as HC82 (DVB) and HC82 (ASTC). Mine is HC82 (DVB).
 
-I don't think that's a good idea, or needed. 
-v4l2_subdev_link_validate_get_format() is an internal helper. Exporting 
-it would potentially make maintenance more difficult in the future.
+Dell has a Diagnostic tool that give this information:
 
-Here, you know the source is the cdns csi2rx. It's always a subdev, so 
-is_media_entity_v4l2_subdev() is not needed (I'm not sure why it's used 
-in v4l2_subdev_link_validate_get_format either...).
+[21:59:19] === Device Information ===
+[21:59:19] Capture filter friendlyname:AVerMedia 716x BDA Analog Capture
+[21:59:19] Model Name:                 AVerMedia HC82 (Hybrid DVBT)
+[21:59:19] Transmission Interface:     PCI Express
+[21:59:19] Supported Standards:        NTSC/PAL/SECAM/DVB-T
+[21:59:19] TV Tuner:                   TDA18271
+[21:59:19] Audio/Video Decoder:        SAA7136
+[21:59:19] Encoder:                    N/A
+[21:59:19] Ditial TV Demodulator:      ZL10353
+[21:59:19] === Driver Version ===
+[21:59:19] Bridge:                     Error!
+[21:59:19] === Test Results ===
+[21:59:19] Tuner Product ID:           131
+[21:59:19] AVDeocder Revision ID:   0x8000
+[21:59:19] Demodulator Chip ID:        20
+[21:59:19] Get Device Information:     [PASS]
+[21:59:19] TV Tuner:                   [PASS]
+[21:59:19] Audio/Video Decoder:        [PASS]
+[21:59:19] Digital TV Demodulator:     [PASS]
+[21:59:19] --- Test End ---
 
-You can use v4l2_subdev_call_state_active() to call the get_fmt here.
+The card has a SAA7160 PCI Express based audio and video bridge, a DVB demodulator ZL10353 (perhaps a CE6353), a TDA18271 tuner and a SAA7136 A/V Decoder.
 
-Also, the fmt doesn't seem to be initialized to zero, so it'll contain 
-garbage in, e.g. the stream field.
+In order to try to install a driver for linux I followed the instructions given in https://www.vdr-portal.de/forum/index.php?thread/134377-tt-s2-6400-saa716x-kompilieren-unter-20-04/ to patch the linux sources:
 
-Moving to another topic, cdns-csi2rx driver is already (before this 
-series) in upstream, but afaics j7 is the only user for it. In other 
-words, it's not in use before this series.
+#!/bin/sh
+#
+# Build modules under Ubuntu-20.04 LTS for TechnoTrend DVB S2-6400
+# Based on https://www.vdr-portal.de/forum/index.php?thread/132415-tt-s2-6400-saa716x-kompilieren-unter-18-04/&postID=1337903#post1337903
+#
 
-I think it would make sense to convert cdns-csi2rx to use subdev state 
-first, before adding the j7 csi2rx. That shouldn't be much work, and 
-will clean up the driver nicely. With that you could also simplify the 
-ti_csi2rx_link_validate by just locking the cdns csi2rx state, and using 
-it directly, without using get_fmt and getting the copy of the format. 
-It would also help later when adding streams support.
+URL=https://github.com/s-moch/linux-saa716x/compare
+BUILDDIR=~/linux-saa716x
+LOGFILE=$BUILDDIR/linux-saa716x.log
+KERNELVERSION=$(uname -r)
+KMAJOR=$(uname -r | cut -d'.' -f1)
+KMINOR=$(uname -r | cut -d'.' -f2)
+KSOURCE=$(uname -r | cut -d'-' -f1)
+DIFF=saa716x-$KMAJOR.$KMINOR.diff
+sudo apt install fakeroot build-essential devscripts libncurses5 libncurses5-dev bison flex libssl-dev pv wget linux-source-$KSOURCE linux-headers-$KERNELVERSION
+rm -rf $BUILDDIR
+mkdir -p $BUILDDIR
+cd $BUILDDIR
+wget $URL/$DIFF
+echo "Kernel Sources entpacken..." 
+pv /usr/src/linux-source-$KSOURCE.tar.bz2 | bzip2 -d | tar x
+cd linux-source-$KSOURCE
+cp /boot/config-$KERNELVERSION .config
+cp /usr/src/linux-headers-$KERNELVERSION/Module.symvers .
+printf "#\n# Kernelversion: $KERNELVERSION\n#\n" >$LOGFILE
+patch -p1 < ../$DIFF | tee -a $LOGFILE
+printf "y\nm\nm\nm\nm\n" | make oldconfig | tee -a $LOGFILE
+make KERNELVERSION=$KERNELVERSION -j6 modules_prepare | tee -a $LOGFILE
+make KERNELVERSION=$KERNELVERSION -j6 M=drivers/media/pci/saa716x/ modules | tee -a $LOGFILE
+sudo cp drivers/media/pci/saa716x/saa716x_core.ko /lib/modules/$KERNELVERSION/kernel/drivers/media/pci/
+sudo cp drivers/media/pci/saa716x/saa716x_ff.ko /lib/modules/$KERNELVERSION/kernel/drivers/media/pci/
+sudo depmod $KERNELVERSION
 
-Personally I'd go straight to streams support, as adding it afterwards 
-might have some pain points (based on my CAL experience...). At least 
-WIP streams patches on top would be a very good thing to have, as they 
-will highlight if there are any major changes needed.
+adding a line to copy saa716x_hybrid.ko module when created.
 
-  Tomi
+I modified the saa716x_hybrid.h and saa716x_hybrid.c to adapt them to AverTV Hybrid NanoExpress HC82 card (I deleted the code for the others cards, sorry):
 
+saa716x_hybrid.h
+
+#ifndef __SAA716x_HYBRID_H
+#define __SAA716x_HYBRID_H
+
+
+#define AVERMEDIA   0x1461
+
+#define AVERMEDIA_HC82  0x0555
+
+#endif /* __SAA716x_HYBRID_H */
+
+
+and saa716x_hybrid.c
+
+/*
+ * Avermedia Hybrid NanoExpress DVB-T
+ *
+ * DVB-T Test
+ */
+
+#define SAA716x_MODEL_AVERMEDIA_HC82          "AVERMEDIA NanoExpress Hybrid"
+#define SAA716x_DEV_AVERMEDIA_HC82            "DVB-T + Analog"
+
+//#if 0
+// These data are from a old version of the driver by Manu Abraham, but I'm not sure this parameters correspond to this model.
+static struct zl10353_config saa716x_hc82_zl10353_config = {
+        .demod_address          = 0x1f ,
+        .adc_clock              = 450560,
+        .if2                    = 361667,
+        .no_tuner               = 1,
+        .parallel_ts            = 1,
+};
+//#endif
+
+
+static int saa716x_hc82_frontend_attach(struct saa716x_adapter *adapter, int count)
+{
+
+    struct saa716x_dev *saa716x = adapter->saa716x;
+
+    struct saa716x_i2c *demod_i2c = &saa716x->i2c[SAA716x_I2C_BUS_B];
+
+        pci_dbg(saa716x->pdev, "Adapter (%d) Power ON", count);
+        pci_dbg(saa716x->pdev, "Adapter (%d) SAA716x frontend Init",
+             count);
+        pci_dbg(saa716x->pdev, "Adapter (%d) Device ID=%02x", count,
+             saa716x->pdev->subsystem_device);
+
+        adapter->fe = zl10353_attach(&saa716x_hc82_zl10353_config,&demod_i2c->i2c_adapter);
+
+    return 0;
+
+
+    }
+
+
+The script executes without errors and the module saa716x_hybrid.ko is generated. When loaded with sudo modprobe saa716x_hybrid the output of dmesg is:
+
+[ 3978.615919] SAA716x Hybrid 0000:0d:00.0: found a AVERMEDIA NanoExpress Hybrid PCIe card
+[ 3978.616140] SAA716x Hybrid 0000:0d:00.0:  SAA7160 Rev 3, irq: 25 (MSI)
+[ 3978.661590] dvbdev: DVB: registering new adapter (SAA716x dvb adapter)
+[ 3978.765613] SAA716x Hybrid 0000:0d:00.0: I2C transfer error, msg 0, addr = 0x1f, len=1, flags=0x0
+[ 3978.765628] zl10353_read_register: readreg error (reg=127, ret==-5)
+[ 3978.765636] SAA716x Hybrid 0000:0d:00.0: A frontend driver was not found for [1131:7160] subsystem [1461:0555]
+
+So, the card is detected but the frontend is not loaded. In fact, the dvb device is created and also you could found the next devices:
+
+/dev/dvb/adapter0
+/dev/dvb/adapter0/demux0
+/dev/dvb/adapter0/dvr0
+/dev/dvb/adapter0/net0
+
+Perhaps I need more information about the card but I have no idea what to do next. Any suggestions would be appreciated.
+
+Thanks.
+
+José Manuel
+
+Sorry if I have send this mail to the owner of the list too. 
