@@ -2,125 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BC6D6D5DAE
-	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 12:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23EC26D5F52
+	for <lists+linux-media@lfdr.de>; Tue,  4 Apr 2023 13:43:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234392AbjDDKjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 06:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49086 "EHLO
+        id S234432AbjDDLnO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 07:43:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234439AbjDDKjU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 06:39:20 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76549171D;
-        Tue,  4 Apr 2023 03:39:13 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id eh3so128611837edb.11;
-        Tue, 04 Apr 2023 03:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680604752;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8TAuZ0PtqVxheJX/XYIa5i4oZ4FXMmbdGspIEeO9eUw=;
-        b=bgyCThAF+8sMIDcasIh8qSZ6FAcAjCDfLXxzuuotVVkJIyTRRxDa+eSmuUsKEA7iLj
-         lrnsRhWkKneIigE0RwZsthL7h+BI/ZnlgEoMZRezQun9D2Hgcn3rLt6X1/q6hATzdAXK
-         AZFBbOx+U6NPmVyqXn8IsnZ3cVWuWKZC+ANq2K4UP3EhScpl0NlHpOLzZaiwBhSmt1P+
-         5H8ZCLryyDbZ+8y0w8+9KnyYJZmuSGhCqLDHM0g4hD/cushyjxmtEnrlWLVBfyzTentm
-         B6YyZWu3pZZWup9tlBQUwvv2zvwxk/Ugt/G2NwpMPyEXmF62N0ybTHUXT+x+Mt4gMn+T
-         Tq5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680604752;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8TAuZ0PtqVxheJX/XYIa5i4oZ4FXMmbdGspIEeO9eUw=;
-        b=g0C0I3J+OtcLtvnL9lczQRq4RDzHB8ptXwYtI3sf+rrZaARk2RyUC65XKwRSPi5J+x
-         6FwNS6UDV1eMQGRsFMwvn9bO6WUh0Zycr4N7W84+YKPqkqKMbauF+RaXqIAyuQ5WB83S
-         b39b+5v3olzlFwP47m+lyrEEhvAGKyNQ3RXnV+3VUeLqfFc9mfUUjliL9LzQmQ6P9Ida
-         3mJlb5mBYAHSXNMGiEnyMRE3Oq+O/WrsYyw6vTqFPF+4h7OBp6g/aQlDHkEJII4fZv8i
-         uGy89fgZ3i+XsFg8B1KVwSGN8cjpT9W0qd82vGEFH2jShI97216qAhfu+Hzbsg9DGXFJ
-         SJlg==
-X-Gm-Message-State: AAQBX9cKWoGvZtHGX9+4nw+91wjTszrOm2a4AHK9Mcrpxal9DnpS5MT5
-        PDE46g8NfeYq0R+CXgrSYiE=
-X-Google-Smtp-Source: AKy350aIS/qxzfWTte5DntlDSUzLqJrxd469YnglrNx8o7gMuZnHY5R9pwDwGKxEmiCggwCN2qNVOA==
-X-Received: by 2002:a05:6402:1611:b0:501:e22f:86b9 with SMTP id f17-20020a056402161100b00501e22f86b9mr1922202edv.36.1680604751865;
-        Tue, 04 Apr 2023 03:39:11 -0700 (PDT)
-Received: from orome (p200300e41f1c0800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1c:800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id s17-20020a50ab11000000b004af7191fe35sm5726232edc.22.2023.04.04.03.39.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 03:39:11 -0700 (PDT)
-Date:   Tue, 4 Apr 2023 12:39:10 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 035/117] media: vde: Convert to platform remove callback
- returning void
-Message-ID: <ZCv-ThTIKwSfa04P@orome>
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
- <20230326143224.572654-38-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S234430AbjDDLnN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 07:43:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5270A199E;
+        Tue,  4 Apr 2023 04:43:11 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0AD17F8;
+        Tue,  4 Apr 2023 13:43:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680608589;
+        bh=BU08CCqdOeu/LcxZYn91p63mOw0uMiEjv7Vyull9bio=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=JNUDGUqCcv8f8HzS+lS/1m2zv6gYP0td+9UvvUVNxX/SDC77d6YSxdOWqqXzm5ic0
+         mx+p5z3OCbWOF7u64uukvn9kGi1YHb7j+0TD1VPdhcAsxEKcvw9VGHIczHh6GHSv6A
+         YW+SsEC27lT3WHXKN1Brsjx+NkT2BnhFR5unsrhk=
+Message-ID: <781c9273-24c5-8b0d-b810-a5eb9b98679e@ideasonboard.com>
+Date:   Tue, 4 Apr 2023 14:43:05 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="B6X9HR6LpXW+mtR8"
-Content-Disposition: inline
-In-Reply-To: <20230326143224.572654-38-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v7 10/13] media: ti: Add CSI2RX support for J721E
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vaishnav Achath <vaishnav.a@ti.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        mripard@kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, sakari.ailus@linux.intel.com,
+        linux-kernel@vger.kernel.org, bparrot@ti.com,
+        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
+        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
+        nm@ti.com, martyn.welch@collabora.com
+References: <20230314115516.667-1-vaishnav.a@ti.com>
+ <20230314115516.667-11-vaishnav.a@ti.com>
+ <20230324181425.GM18895@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230324181425.GM18895@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 24/03/2023 20:14, Laurent Pinchart wrote:
 
---B6X9HR6LpXW+mtR8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> +static int ti_csi2rx_link_validate_get_fmt(struct media_pad *pad,
+>> +					   struct v4l2_subdev_format *fmt)
+>> +{
+>> +	if (is_media_entity_v4l2_subdev(pad->entity)) {
+>> +		struct v4l2_subdev *sd =
+>> +			media_entity_to_v4l2_subdev(pad->entity);
+>> +
+>> +		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>> +		fmt->pad = pad->index;
+>> +		return v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
+> 
+> This will crash with any source that uses the subdev active state. You
+> can't pass NULL for the state here.
+> 
+> How about exporting v4l2_subdev_link_validate_get_format() instead, to
+> replace this function ?
 
-On Sun, Mar 26, 2023 at 04:31:02PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->=20
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/media/platform/nvidia/tegra-vde/vde.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+I don't think that's a good idea, or needed. 
+v4l2_subdev_link_validate_get_format() is an internal helper. Exporting 
+it would potentially make maintenance more difficult in the future.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Here, you know the source is the cdns csi2rx. It's always a subdev, so 
+is_media_entity_v4l2_subdev() is not needed (I'm not sure why it's used 
+in v4l2_subdev_link_validate_get_format either...).
 
---B6X9HR6LpXW+mtR8
-Content-Type: application/pgp-signature; name="signature.asc"
+You can use v4l2_subdev_call_state_active() to call the get_fmt here.
 
------BEGIN PGP SIGNATURE-----
+Also, the fmt doesn't seem to be initialized to zero, so it'll contain 
+garbage in, e.g. the stream field.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmQr/k0ACgkQ3SOs138+
-s6GKPA/+MBOnENM2ZHI9eWMwJrKYN73vSF7agqISx7bWAgVX73nqugtTbPQLQZZN
-hDrdM9ZKaGXM+cgpSDDkMXBfaq/Dm02l5aFE0/hs8oIQS/FyqQg0hqkCoW7BfFek
-pdYyGTpW+CUWWc3f12MIw4r401XyfJxJzjV8pw0VupJpPWiGxRabuh9m23MmeTm4
-lzT3lc3CnEorX86mm2HI5UnLX0Zk86WH9QBkF8CcJsUfv0fM0YKA2KQxghHulJ8K
-4TQ3EgUnDOMA6qnUpIPt8lPFDwnxMpxeQjrhCLbjjRFI6nu1wfMuF82cYopw/Ol4
-ndnI6/wP4VMOfJ0XjpoKLWMLUv19NX6+iDtLON3voY1ssGPu/svl4k0KjYZ7PMnT
-5nDvM9JFrpAK/6o3mtMtzGV3x7ge7+s5gu/lLzfAODK3Npwfl/kZI4EIRw8rmchn
-0+EV4ZCwuMpmGCFy4ahJGuufCW6OxNRcZVHRFE3TsCPBwcjBIqLTZNZsnucFTCjc
-LwuZ9WB3plV2hgrBIK0VyyUSUR3cR+9wEiXnM7dGgnfOdMUbK6+/pQOGBPcmDv0F
-f7cP09r6ec+iGlU4Q/X4qitn6OJk3i1pSQHeEyUFb6IWSyWbXq5WKuFwIt6u2Ug6
-Fo0npGuvOKj+zJoixu6yInwv+EDmckuCZdhja8OuHmEDdY9gBCQ=
-=Qywk
------END PGP SIGNATURE-----
+Moving to another topic, cdns-csi2rx driver is already (before this 
+series) in upstream, but afaics j7 is the only user for it. In other 
+words, it's not in use before this series.
 
---B6X9HR6LpXW+mtR8--
+I think it would make sense to convert cdns-csi2rx to use subdev state 
+first, before adding the j7 csi2rx. That shouldn't be much work, and 
+will clean up the driver nicely. With that you could also simplify the 
+ti_csi2rx_link_validate by just locking the cdns csi2rx state, and using 
+it directly, without using get_fmt and getting the copy of the format. 
+It would also help later when adding streams support.
+
+Personally I'd go straight to streams support, as adding it afterwards 
+might have some pain points (based on my CAL experience...). At least 
+WIP streams patches on top would be a very good thing to have, as they 
+will highlight if there are any major changes needed.
+
+  Tomi
+
