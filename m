@@ -2,111 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2E56D7CE3
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 14:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EFFA6D7D00
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 14:55:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238035AbjDEMpK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 08:45:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53934 "EHLO
+        id S237957AbjDEMzn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 08:55:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238085AbjDEMpH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 08:45:07 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C9F1BC5;
-        Wed,  5 Apr 2023 05:45:06 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pk2Vc-0005Va-JN; Wed, 05 Apr 2023 14:45:04 +0200
-Message-ID: <92c59571-2df0-026b-ea8e-f693c2ecfd69@leemhuis.info>
-Date:   Wed, 5 Apr 2023 14:45:04 +0200
+        with ESMTP id S238051AbjDEMzm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 08:55:42 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21F9530FE;
+        Wed,  5 Apr 2023 05:55:33 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Ps4Ny5fhqz49Q2n;
+        Wed,  5 Apr 2023 15:55:30 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1680699331;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HNlTPAbjdtS26ypADnDdofnih8dcbhDcszLgzK/cR+0=;
+        b=bI7FZgFMqo//ViNpPq7jYGOxhp9IesTmsJVAX0Eo5c7D6ga+bpA92xBtBLRiDa9OwVSrtB
+        +nTDzTQyID4tjKmyR4TpS6doUA0xu8HagJGnoUI1ngkqbOnCQ0kQXPcLBEg6IUJ4SDciCC
+        IP/xkhXdI3xIZg/BGvX14LVBrLDyalGAFndCb2cPuA0SuyamIe/odMhJ4qRDrxga8XD2NF
+        1BcP1VNcgLJ/q3W7gBpKWa8Qb2FVAI5Ty3xw5CacKhOpctyoyqJWA6xbewDwXwRm6dj1WX
+        gtzqg4asxpRsgZbuV22pRytuzAGrzszawafHtnK6HEEyYK88RKkafZi7jRkL4Q==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1680699331; a=rsa-sha256;
+        cv=none;
+        b=MrEsYbXqv8x/IMkRuiqwAMNR6s6kHHfREWcaSzHUlSnPlVxxCEFP4SvbobAFIE1KJFwxA7
+        EJb0safaC+6u0omwm4fTd2nLoG8cQXPPIgbQUa2ZBgiPUXx4VbqB1BDQrFYGUWOmLB+vwc
+        /JGJ9XupAVcHPBvz6jWZrwsE1BYJCmdPavY2J5RbuzuDsRr/W4PY6vJjtCwgsQfCvkaay2
+        dhCf9FW/OFifHqghRQ0W4nCY2ldntAk0iM7UOiYRWeYeMvVFG731jAF5W5g3yoRG0k1g0r
+        r5tKjqnVCCOMAZQlqdsWfRHlt0rHnW1uNw+QHUKc8ug4lmgGjyP71Dcf+sYzpg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1680699331;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HNlTPAbjdtS26ypADnDdofnih8dcbhDcszLgzK/cR+0=;
+        b=O3PXthfiZO+Fw2/XArNmAJKVG3Dgdv2a5dBezMRzTrzIdijwbbllX/PEhcBeeoWKBaL7Ql
+        JKzBCk2hJxmd6TJexn04kUM5Tx3zWbMXYwKPqNC5Ei0+6cKRYVaXJa4d8JZhpUaMU0in0Z
+        iVjXPu7h+Yw2BTDulmUTZmjZ/0vVDlyiJ61AAFZkg2cxV3fxNYeEUuVzk38jq+ZzGgUS+3
+        pUbeU6L0Fonff3Hny5UndBPqIqAyXbyTmpDv1HUbAXLXy6S9teYzedAM3aNsAgQiE4i0KF
+        jp47D47tioQ6Yp4vhsfE+qcuInNEXyvv5NbS2OPLVWBRH14qoYGvtiAbO44PrA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4B2A7634C91;
+        Wed,  5 Apr 2023 15:52:53 +0300 (EEST)
+Date:   Wed, 5 Apr 2023 15:52:52 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@puri.sm, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] media: hi846: fix usage of
+ pm_runtime_get_if_in_use()
+Message-ID: <ZC1vJNIGeEu+xi+i@valkosipuli.retiisi.eu>
+References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
+ <20230405092904.1129395-2-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 2/3] venus: firmware: Correct non-pix start and end
- addresses
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     Matthias Kaehlcke <mka@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Nathan Hebert <nhebert@chromium.org>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
-          Linux regressions mailing list 
-          <regressions@lists.linux.dev>
-References: <20221005083730.963322-1-stanimir.varbanov@linaro.org>
- <20221005083730.963322-3-stanimir.varbanov@linaro.org>
- <Y9LSMap+jRxbtpC8@google.com>
- <b2007bc9-b05f-eb17-a373-9587b01d3788@leemhuis.info>
-In-Reply-To: <b2007bc9-b05f-eb17-a373-9587b01d3788@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1680698706;98d2f05d;
-X-HE-SMSGID: 1pk2Vc-0005Va-JN
-X-Spam-Status: No, score=-1.4 required=5.0 tests=NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230405092904.1129395-2-martin.kepplinger@puri.sm>
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[TLDR: This mail in primarily relevant for Linux kernel regression
-tracking. See link in footer if these mails annoy you.]
+Hi Martin,
 
-On 05.02.23 12:00, Linux kernel regression tracking (#adding) wrote:
-
-> On 26.01.23 20:19, Matthias Kaehlcke wrote:
+On Wed, Apr 05, 2023 at 11:29:03AM +0200, Martin Kepplinger wrote:
+> pm_runtime_get_if_in_use() does not only return nonzero values when
+> the device is in use, it can return a negative errno too.
 > 
->> On Wed, Oct 05, 2022 at 11:37:29AM +0300, Stanimir Varbanov wrote:
->>> The default values for those registers are zero.
->>>
->>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>> ---
->>>  drivers/media/platform/qcom/venus/firmware.c | 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
->>> index 3851cedc3329..71e43611d1cf 100644
->>> --- a/drivers/media/platform/qcom/venus/firmware.c
->>> +++ b/drivers/media/platform/qcom/venus/firmware.c
->>> @@ -38,8 +38,8 @@ static void venus_reset_cpu(struct venus_core *core)
->>>  	writel(fw_size, wrapper_base + WRAPPER_FW_END_ADDR);
->>>  	writel(0, wrapper_base + WRAPPER_CPA_START_ADDR);
->>>  	writel(fw_size, wrapper_base + WRAPPER_CPA_END_ADDR);
->>> -	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
->>> -	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
->>> +	writel(0, wrapper_base + WRAPPER_NONPIX_START_ADDR);
->>> +	writel(0, wrapper_base + WRAPPER_NONPIX_END_ADDR);
->>>  
->>>  	if (IS_V6(core)) {
->>>  		/* Bring XTSS out of reset */
->>
->> I found that this commit prevents the AOSS from entering sleep mode during
->> system suspend at least on sc7180 and sc7280. AOSS not entering sleep mode
->> leads to a (apparently significant) increase in S3 power consumption, on
->> trogdor and herobrine it prevents the system from staying suspended, because
->> the embedded controller detect the condition and wakes the sytem up again.
+> And especially during resuming from system suspend, when runtime pm
+> is not yet up again, this can very well happen. And in such a case
+> the subsequent pm_runtime_put() call would result in a refcount underflow!
+
+I think this issue should have a more generic solution, it's very difficult
+to address this in drivers only with the current APIs.
+
+pm_runtime_get_if_in_use() will also return an error if runtime PM is
+disabled, so this patch will break the driver for that configuration.
+
 > 
-> Thanks for the report. To be sure the issue doesn't fall through the
-> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-> tracking bot:
+> Fix it by correctly using pm_runtime_get_if_in_use().
 > 
-> #regzbot ^introduced a837e5161cfffbb32
-> #regzbot title meida: venus: firmware: AOSS doesn't seel anymore on at
-> least sc7180 and sc7280
-> #regzbot ignore-activity
-	
-#regzbot fix: f95b8ea79c47c0ad
-#regzbot ignore-activity
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> ---
+>  drivers/media/i2c/hi846.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> index 5b5ea5425e984..0b0eda2e223cd 100644
+> --- a/drivers/media/i2c/hi846.c
+> +++ b/drivers/media/i2c/hi846.c
+> @@ -1544,7 +1544,7 @@ static int hi846_set_ctrl(struct v4l2_ctrl *ctrl)
+>  					 exposure_max);
+>  	}
+>  
+> -	if (!pm_runtime_get_if_in_use(&client->dev))
+> +	if (pm_runtime_get_if_in_use(&client->dev) <= 0)
+>  		return 0;
+>  
+>  	switch (ctrl->id) {
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+-- 
+Kind regards,
 
-
+Sakari Ailus
