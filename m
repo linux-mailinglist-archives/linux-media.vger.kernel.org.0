@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DE76D7FD0
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 16:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F7B26D801C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 16:55:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238357AbjDEOoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 10:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56304 "EHLO
+        id S238360AbjDEOzR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 10:55:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237745AbjDEOoS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 10:44:18 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3021630D4
-        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 07:44:17 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-4fd1f2a0f82so63917a12.1
-        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 07:44:17 -0700 (PDT)
+        with ESMTP id S238305AbjDEOzQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 10:55:16 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2AABE50
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 07:55:12 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-930bc91df7bso116943566b.1
+        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 07:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680705855; x=1683297855;
+        d=ffwll.ch; s=google; t=1680706511;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9lLnJ1+P3Iu2mYgt/o+7cyTWl5Q1ydZ9Nz1cnrQ5Nmc=;
-        b=UJzXtPPwq73Eu+NmBlgfXI9JxlVitZ4kXrO0pETGtZxMEVTi1y5WaveTdET9Z1qul9
-         Rq1swKdnVflb+zz6G7f5yZdKkLbBRw/SLhrRIHaGaQOz0gUUHsYs1b1srMn29K4/4HYD
-         j+tBSrvp2UABDduixiEjXDgqUUDvyx/FKcfCE=
+        bh=MOaR+m1IdKafTORqEeSKI9ra6GC/lDyynNYDfbx3OGU=;
+        b=VOcQEAwu5WIl2BXbkiz++NKRv+L2KBXjYnQVvHuoDd8AYVukZMZAp7Kh8e2RwoLTO6
+         cOGPDQ+oJuNjOiImUXbZmozOYjQC5Pmo78cdP+qD8uAna23UHG4I4ZO0cW7zwr4ZeKau
+         aHnRQL6kE7IfsbbjCxwiUTLPTY+vlPLfyqntA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680705855; x=1683297855;
+        d=1e100.net; s=20210112; t=1680706511;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9lLnJ1+P3Iu2mYgt/o+7cyTWl5Q1ydZ9Nz1cnrQ5Nmc=;
-        b=2Pnvh2TI/9s7aPXChdB1dtM8qHzHPjWo6Nm0JMY4fJtLYkAVg4iTixcHvf5rXz5RcP
-         z7uz8vgH9zD+SP9pVh9zdzKKfWt4WH3GMAwjFC8GCKudX4JBDGOdh1YiBbw1JxHNNDjs
-         UKkqWT1FA2K3NsxmlLdDYmVlqwMViRbF2w/fE3/stH3zc4ZREI63Pn0d2lwMCu/4BTdT
-         j21Byqdl4261fQ9zES/8yi+CQLdmyNcJP6w6uwMOFqVAUcZnuAJxi+5QEK6B/3lVYYBy
-         p4FwnfrqoRSlBT+LKMeaBzJpKuwfArIRHPyy40vUenC58vVvtdiCZSSIMAOaKMt3/jeD
-         Kv0g==
-X-Gm-Message-State: AAQBX9dPc4m6jwuliha9q6BpJ7bl8Fg5/1H5Ak0GKpRlxnD2fQKaH2Cv
-        YzYn/EZSCw94xIZ7VFjpk0VPfA==
-X-Google-Smtp-Source: AKy350bDxZoWmLNeFdkBJ8tM2X67oz1ppfs8T2swdma6bs6jcrru0HiaIH7cchQxIu2ClUv18HSI+A==
-X-Received: by 2002:a05:6402:268e:b0:502:ffd:74a1 with SMTP id w14-20020a056402268e00b005020ffd74a1mr2119026edd.2.1680705855694;
-        Wed, 05 Apr 2023 07:44:15 -0700 (PDT)
+        bh=MOaR+m1IdKafTORqEeSKI9ra6GC/lDyynNYDfbx3OGU=;
+        b=FbWS11SrU/++NDIoUsMGulL+9f7vsVxN3xKVcVjIjloW491MeVCnf59eeXKrHrTS2g
+         IXHsA3e3d859pQ8YEAAvaLOJAcsC3c5TpXfn35GhkG3VM8++at9p63pJBghe6bdlx9fC
+         pCYu6cNBsc4Wu01y1KDBhscbO+uPBswBBMDKQsIbb/6AgLITPpi24b9RZzXZUNDlk7Lq
+         nuV68rI3XvJxUFJFLK2uMiDQ5pvgYDmMyHFAx850jTXUwXj7kk1wu5kW+U/WKsyt88l8
+         ES6n1imc3PaMItAxs70wqj65IK1U9bv3SRy7Mm3rMrFo8TbxRTA+OP3FwF5ghvb98vxf
+         gjQQ==
+X-Gm-Message-State: AAQBX9e+NZZZPAkzx3OLD8sZUwrXrvM1Nc6cDVUTmpY6ByWEPdAufIuB
+        36RpBcF+1vryBx4WixVsZotusQ==
+X-Google-Smtp-Source: AKy350bSVmKQEeeS1X8+Q1+6RPrW42vDuHh4vOBA13B/ImZaryj0w4jta/xaGwUENLHN7VRkn928jQ==
+X-Received: by 2002:a17:906:5195:b0:92c:fc0:b229 with SMTP id y21-20020a170906519500b0092c0fc0b229mr2784171ejk.0.1680706511286;
+        Wed, 05 Apr 2023 07:55:11 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id l2-20020a50c102000000b004fa012332ecsm7403362edf.1.2023.04.05.07.44.14
+        by smtp.gmail.com with ESMTPSA id ty25-20020a170907c71900b00948ca65d61fsm3581129ejc.140.2023.04.05.07.55.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 07:44:15 -0700 (PDT)
-Date:   Wed, 5 Apr 2023 16:44:13 +0200
+        Wed, 05 Apr 2023 07:55:10 -0700 (PDT)
+Date:   Wed, 5 Apr 2023 16:55:08 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Asahi Lina <lina@asahilina.net>
 Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -72,9 +72,9 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi driver for Apple AGX
- GPUs
-Message-ID: <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
+Subject: Re: [PATCH RFC 13/18] drm/gem: Add a flag to control whether objects
+ can be exported
+Message-ID: <ZC2LzME5uHT3JDht@phenom.ffwll.local>
 Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -98,11 +98,11 @@ Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-13-917ff5bc80a8@asahilina.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+In-Reply-To: <20230307-rust-drm-v1-13-917ff5bc80a8@asahilina.net>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
@@ -113,24 +113,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
-> +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
-> +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
-> +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
-> +}
+On Tue, Mar 07, 2023 at 11:25:38PM +0900, Asahi Lina wrote:
+> Drivers may want to support driver-private objects, which cannot be
+> shared. This allows them to share a single lock and enables other
+> optimizations.
+> 
+> Add an `exportable` field to drm_gem_object, which blocks PRIME export
+> if set to false. It is initialized to true in
+> drm_gem_private_object_init.
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-So maybe my expectations for rust typing is a bit too much, but I kinda
-expected this to be fully generic:
+Two comments on this:
 
-- trait Driver (drm_driver) knows the driver's object type
-- a generic create_handle function could ensure that for drm_file (which
-  is always for a specific drm_device and hence Driver) can ensure at the
-  type level that you only put the right objects into the drm_file
-- a generic lookup_handle function on the drm_file knows the Driver trait
-  and so can give you back the right type right away.
+- for kernel objects which userspace never access itself the usual
+  approach is to simply not install a gem handle on that drm_file. If
+  userspace doesn't even have a handle they also can't export it. I think
+  that should take care of the kernel object case you have in the asahi
+  driver.
 
-Why the wrapping, what do I miss?
+- for the vm-private object case you need some more checks anyway, since
+  you can't even use such objects on a different vm within the same
+  drm_file. Maybe the gpuva helpers can eventually cover this, but in
+  general these driver cases are handled by simply overwriting the
+  ->export case, you can check there for vm_id.is_none() and if that's not
+  the case, hand the actual exporting to the helper function.
+
+  Whether this is done in the rust wrappers and you keep the
+  set_exportable or just in asahi code is kinda meh, but personally for
+  consistency I'd put that into asahi code. Imo it's much clearer when you
+  explicitly list (by coding them into your export impl) the reasons why a
+  buffer isn't exportable, instead of forcing people to chase
+  set_exportable calls throughout the codebase. But also a bit matters of
+  taste :-)
+
+Either way (unless a missed a case) this should imo be handled in asahi
+code and not in C or the rust glue.
 -Daniel
+
+> ---
+>  drivers/gpu/drm/drm_gem.c   | 1 +
+>  drivers/gpu/drm/drm_prime.c | 5 +++++
+>  include/drm/drm_gem.h       | 8 ++++++++
+>  3 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 7a3cb08dc942..152ad9295a8d 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -166,6 +166,7 @@ void drm_gem_private_object_init(struct drm_device *dev,
+>  
+>  	drm_vma_node_reset(&obj->vma_node);
+>  	INIT_LIST_HEAD(&obj->lru_node);
+> +	obj->exportable = true;
+>  }
+>  EXPORT_SYMBOL(drm_gem_private_object_init);
+>  
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index f924b8b4ab6b..9d2dd982580e 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -391,6 +391,11 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
+>  		return dmabuf;
+>  	}
+>  
+> +	if (!obj->exportable) {
+> +		dmabuf = ERR_PTR(-EINVAL);
+> +		return dmabuf;
+> +	}
+> +
+>  	if (obj->funcs && obj->funcs->export)
+>  		dmabuf = obj->funcs->export(obj, flags);
+>  	else
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 772a4adf5287..852dec3cf763 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -361,6 +361,14 @@ struct drm_gem_object {
+>  	 * The current LRU list that the GEM object is on.
+>  	 */
+>  	struct drm_gem_lru *lru;
+> +
+> +	/**
+> +	 * @exportable:
+> +	 *
+> +	 * Whether this GEM object can be exported via the drm_gem_object_funcs->export
+> +	 * callback. Defaults to true.
+> +	 */
+> +	bool exportable;
+>  };
+>  
+>  /**
+> 
+> -- 
+> 2.35.1
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
