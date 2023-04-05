@@ -2,43 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B84516D737A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 06:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19DF06D73D0
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 07:41:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236925AbjDEEni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 00:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
+        id S236745AbjDEFlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 01:41:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236915AbjDEEnf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 00:43:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8697640C8;
-        Tue,  4 Apr 2023 21:43:32 -0700 (PDT)
+        with ESMTP id S236386AbjDEFk7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 01:40:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3993C3F
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 22:40:58 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64F355B8;
-        Wed,  5 Apr 2023 06:43:28 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0586B8B;
+        Wed,  5 Apr 2023 07:40:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680669810;
-        bh=1/zgwbk0HHZpH2fLrao2DhUrM/SdpsYEtdJ59e3tKI8=;
+        s=mail; t=1680673256;
+        bh=2Q3iFXtJmiGY4ViXa3utfZr9zKv+txh/KB3oeG+1uDw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fuMoTS3RFqWamEJ0gYxWKt6QXUSJ9rZbv2JRGzQXS1QwopeB8KkanXIWFap6V3z8t
-         m7eZGPRly//rRJfkxSc5b2hWSeFHAk8kd8AYftrdcSzxogXPJyWGY07foZ73OjYPlm
-         m/2ja25j5ASGTZuUU8OUcSLgKgWed6RE6REFsqcY=
-Date:   Wed, 5 Apr 2023 07:43:37 +0300
+        b=kyJFQHrsiOMWYwrq5OAjs6SUPxh4gJqB4/wvAPwUkFjkzIxeSOe5qwDrPpky28XqP
+         FDoqIGeZTQu/SWl8mJypb/tLrslicHmgnEZSjjzeUNOEGBiiUjqImYw1iRnPo01HCx
+         TATHqNE5AIIJZWLvvZk9iA0HTSsrPHbcYZuHsvwY=
+Date:   Wed, 5 Apr 2023 08:41:02 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [RFC] usb: gadget: uvc: sane shutdown on soft streamoff
-Message-ID: <20230405044337.GQ9915@pendragon.ideasonboard.com>
-References: <20230402200122.2919202-1-m.grzeschik@pengutronix.de>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] Documentation: v4l: Document rotation and
+ orientation for sensor drivers
+Message-ID: <20230405054102.GV9915@pendragon.ideasonboard.com>
+References: <20230328145248.1489994-1-sakari.ailus@linux.intel.com>
+ <20230329182106.xi2k5diul3jixq3z@uno.localdomain>
+ <ZCVNR+nMpUoNuVnX@kekkonen.localdomain>
+ <20230330162725.5jubjq2muh6ztfhd@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230402200122.2919202-1-m.grzeschik@pengutronix.de>
+In-Reply-To: <20230330162725.5jubjq2muh6ztfhd@uno.localdomain>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -48,107 +49,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hello,
 
-(CC'ing Dan)
+On Thu, Mar 30, 2023 at 06:27:25PM +0200, Jacopo Mondi wrote:
+> On Thu, Mar 30, 2023 at 11:50:15AM +0300, Sakari Ailus wrote:
+> > On Wed, Mar 29, 2023 at 08:21:06PM +0200, Jacopo Mondi wrote:
+> > > On Tue, Mar 28, 2023 at 05:52:48PM +0300, Sakari Ailus wrote:
+> > > > Document how rotation and orientation should be taken into account in
+> > > > writing camera sensor drivers.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > > since v1:
+> > > >
+> > > > Use speclial double quotes around functions to use non-proportional font for
+> > > > them.
+> > > >
+> > > >  Documentation/driver-api/media/camera-sensor.rst      | 11 +++++++++++
+> > > >  .../userspace-api/media/v4l/ext-ctrls-camera.rst      |  1 +
+> > > >  2 files changed, 12 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > > index c7d4891bd24e..2618a91b0d85 100644
+> > > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > > @@ -151,3 +151,14 @@ used to obtain device's power state after the power state transition:
+> > > >  The function returns a non-zero value if it succeeded getting the power count or
+> > > >  runtime PM was disabled, in either of which cases the driver may proceed to
+> > > >  access the device.
+> > > > +
+> > > > +Rotation and orientation
+> > > > +------------------------
+> > > > +
+> > > > +Some systems have been implemented so that the camera sensor has been mounted
+> > > > +upside down compared to its natural mounting rotation. In such a case, the
+> > > > +:ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>` control
+> > > > +shall indicate the mounting rotation.
+> > >
+> > > I would put it in imperative form for driver developers
+> > >
+> > > "Some systems have been implemented so that the camera sensor has been mounted
+> > > upside down compared to its natural mounting rotation. In such a case,
 
-Thank you for the patch.
+I'd simplify it further:
 
-On Sun, Apr 02, 2023 at 10:01:22PM +0200, Michael Grzeschik wrote:
-> Pending requests in the gadget hardware get dequeued and returned with
-> ECONNRESET when the available endpoint is not available anymore. This
-> can be caused by an unplugged cable or the decision to shutdown the
-> stream, e.g. by switching the alt setting.
+"Some systems have the camera sensor mounted upside down compared to its
+natural mounting rotation. In such cases, "
+
+More words can add clarity, but when they don't, excess words should be
+removed :-)
+
+> > > drivers should register the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > > <v4l2-camera-sensor-rotation>` control to report the information to
+> > > userspace."
+> >
+> > That is in conditional, suggesting it isn't mandatory. Is that what you
+> > wanted to say?
 > 
-> In both cases the returned completion handler is marking the gadget
-> with UVC_QUEUE_DISCONNECTED by calling uvcg_queue_cancel.
-> 
-> Since in userspace applications there might be two threads, one for the
-> bufferqueueing and one to handle the uvc events. It is likely that the
-> bufferqueueing thread did not receive the UVC_EVENT_STREAMOFF coming
-> from the alt_setting change early enough and still tries to queue a
-> buffer into the already disconnected marked device.
+> "drivers shall register..." ?
 
-Does this require two threads in userspace, or can it also happen in a
-single-threaded application ? It seems like a typical race condition
-between a userspace ioctl and a kernel-generated event.
+Sounds good, maybe with s/register/expose/. Or
 
-> This leads buf_prepare to return ENODEV, which usually makes the
-> userspace application quit.
-> 
-> To fix the soft-shutdown case this patch is marking the alt setting
-> change before disabling the endpoint. This way the still completing
-> requests on the disabled endpoint can call uvcg_queue_cancel without
-> marking the device disconnected.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> ---
-> Hi Laurent!
-> 
-> We are running into this issue in gstreamer when the host is stopping
-> the stream. In fact I am unsure if this is not also an issue when the
-> real unplug will appear.
+"drivers shall expose the information to userspace with the
+:ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>`
+control."
 
-Isn't this something that should be fixed in userspace (possibly in
-addition to a kernel change to make userspace's life easier) ? Userspace
-should be able to gracefully handle the device getting stopped. What
-GStreamer element are you using, and is it an issue with the GStreamer
-element, or with the application ?
+> > > I would also specify how drivers should initialize their flip controls
+> > >
+> > > "Mode-based sensor driver implementations that have any vertical or
 
-> Since the v4l2 device is available all the time, and the streamoff
-> callback is cleaning up all the pending buffers in uvc_video_enable(0),
-> also the ones that got queued in this short time window of:
-> 
->  alt_setting(0) -> userspace event handling -> streamoff ioctl
-> 
-> Would it not be also possible to just drop the whole
-> UVC_QUEUE_DISCONNECTED mechanism?
+s/driver implementations/drivers/
 
-Do you mean accepting the buffers queued by userspace, even if the
-driver knows (or can know) they will never be sent out ?
+(still chasing extraneous words)
 
->  drivers/usb/gadget/function/f_uvc.c     | 3 ++-
->  drivers/usb/gadget/function/uvc_video.c | 5 +++--
->  2 files changed, 5 insertions(+), 3 deletions(-)
+> > > horizontal flips embedded in the register programming sequences should
+> > > initialize the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls with the
+> > > values programmed by the register sequences.
+> >
+> > I'd use "shall" also here. I can't think of a reasonable exception as it
+> > breaks how this is meant to work for user space.
 > 
-> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> index 5e919fb6583301..01ab8c07d85be9 100644
-> --- a/drivers/usb/gadget/function/f_uvc.c
-> +++ b/drivers/usb/gadget/function/f_uvc.c
-> @@ -337,6 +337,8 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
->  		if (uvc->state != UVC_STATE_STREAMING)
->  			return 0;
->  
-> +		uvc->state = UVC_STATE_CONNECTED;
-> +
->  		if (uvc->video.ep)
->  			usb_ep_disable(uvc->video.ep);
->  
-> @@ -344,7 +346,6 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
->  		v4l2_event.type = UVC_EVENT_STREAMOFF;
->  		v4l2_event_queue(&uvc->vdev, &v4l2_event);
->  
-> -		uvc->state = UVC_STATE_CONNECTED;
->  		return 0;
->  
->  	case 1:
-> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> index dd1c6b2ca7c6f3..2f36fef3824f8e 100644
-> --- a/drivers/usb/gadget/function/uvc_video.c
-> +++ b/drivers/usb/gadget/function/uvc_video.c
-> @@ -265,9 +265,10 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
->  		queue->flags |= UVC_QUEUE_DROP_INCOMPLETE;
->  		break;
->  
-> -	case -ESHUTDOWN:	/* disconnect from host. */
-> +	case -ESHUTDOWN:	/* disconnect from host or streamoff pending */
->  		uvcg_dbg(&video->uvc->func, "VS request cancelled.\n");
-> -		uvcg_queue_cancel(queue, 1);
-> +		uvcg_queue_cancel(queue,
-> +				  uvc->state != UVC_STATE_STREAMING ? 0 : 1);
->  		break;
->  
->  	default:
+> Yes, I agree
+
+Agreed. I'd drop "Mode-based" though, I don't think that's relevant,
+other drivers may do something similar.
+
+> > > Drivers which implement writable flip controls could automatically
+> > > compensate for the sensor's mounting rotation and shall reflect that in
+> > > the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls initial and default values."
+> >
+> > Good point. For existing drivers (such as CCS or IMX258) this could help
+> > existing users but I'm not sure I'd do this for new drivers. Comments and
+> > opinions would be welcome from others, too. Cc Laurent, too.
+
+I wouldn't for new drivers, no, and even for IMX258 and CCS, I'm tempted
+to not keep that backward compatibility. We need to assess whether or
+not it would cause breakages in practice, if the risk is very low, I'd
+favour consistency. This is especially the case for CCS.
+
+> > > > +
+> > > > +Use ``v4l2_fwnode_device_parse()`` to obtain this information and
+> > > > +``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls.
+> > >
+> > > I would also mention the orientation control before introducing
+> > > v4l2_fwnode_device_parse.
+> > >
+> > > "Sensor drivers should also report their mounting orientation with the
+> > > :ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > >
+> > > Both controls can be registered by using the ``v4l2_fwnode_device_parse()``
+> > > function to obtain this information from the firmware interface and
+> > > ``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls."
+> > >
+> > > How does this work for you ?
+> >
+> > I'd just use "shall" here, too.
+> 
+> Agree on this as well
+> 
+> > This applies of course to new drivers only, many existing ones are missing
+> > these bits.
+> 
+> I know :( It's however worth it to encourage new drivers to do that!
 
 -- 
 Regards,
