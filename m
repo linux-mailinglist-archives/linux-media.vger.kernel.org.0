@@ -2,90 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B966D7E1A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 15:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11C146D7EF1
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 16:15:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238058AbjDENwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 09:52:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33532 "EHLO
+        id S238409AbjDEOPM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 10:15:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238021AbjDENwu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 09:52:50 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD6EBCE
-        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 06:52:48 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-4fd1f2a0f82so56344a12.1
-        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 06:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680702767; x=1683294767;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gXtQjGw17H5KOM9fCmdg0BPHMgZVeRXg+E6JWWNf2fI=;
-        b=P+Lx3ar4PUX0HJk98OXE7iFGrn7nhB+lYPUC8wXGiqKRy6S70N3Ng45OxWoAGkfH1s
-         bNGpklNDiWeffGTYk5+TLlWg/ifLkO87VVaScR4HmPnJwhm+ZkQqXXkQwIS1t6bm72zP
-         mSLYN71g8EKZQ6qxtP5GskYiCOT405XyL84Mg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680702767; x=1683294767;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gXtQjGw17H5KOM9fCmdg0BPHMgZVeRXg+E6JWWNf2fI=;
-        b=3T6YXtBzP8mAQCW/gjlqmWfP0oVgYPkXR+CWiGbVmecrNAG0TuUaPsBxHJ0rPsylp9
-         0Aw+eEmu4EO/Y1s8g7qUtz8ScZoHTQVpGnXe50s4a8nk1FSpKrwPBzEtD54Ngo5LvqqU
-         Qp51PfFVezL145hUc/PrcynNmcEjeg/UNmRtji3U/oOCOlUMQMG8qFvLDUH3x3xhsuhp
-         9AwscAc/PUE6r2a2FCaSeMwnoh9c6nU5u/YE8j6+rEwUreccCbvbLu6cP42ZhN2e+cAr
-         Q/5aUXgBsk9vJWO6WJ5zQuUnWDbIiXjWYkmskb5A0spDOm2BSgXdaCei6CrhmiSZyHmw
-         +76Q==
-X-Gm-Message-State: AAQBX9fscbK9qnZJBGSdS+B2FpnUkWCm7obpqBjOoX3Jih1Pdw4xvsbS
-        PzMtzHxMdI3dnLUYbsNZSEdkFQ==
-X-Google-Smtp-Source: AKy350YRt7QlO0W2+ZPyrVbabYLe9e11BeFrLSx/MNYzH+68ns/TWKRF8HkPS+0QYOxACPnonTzaJA==
-X-Received: by 2002:a05:6402:524e:b0:4fd:2978:d80 with SMTP id t14-20020a056402524e00b004fd29780d80mr2100686edd.1.1680702767368;
-        Wed, 05 Apr 2023 06:52:47 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id ee55-20020a056402293700b004aef147add6sm7218800edb.47.2023.04.05.06.52.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 06:52:46 -0700 (PDT)
-Date:   Wed, 5 Apr 2023 15:52:44 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Asahi Lina <lina@asahilina.net>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        with ESMTP id S238339AbjDEOPK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 10:15:10 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2057.outbound.protection.outlook.com [40.107.244.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291A959D8;
+        Wed,  5 Apr 2023 07:14:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QCYn8g0b2AbMx/0C9yU/Ph43xr3JKznmlVtn7Nz+ZNKe4bTjcLLDnFsZsx5D/QClPhDytVFzb7lIxAr/PPrWb7iIMWJSQ3y2C4X4cfJX8rD/IgaHNfnown+hkG4ngWd+irEO+SWftr2DWLcjAlCk0Lzv26rGvgz0+f8AntmTLudDtgbRvebxh+a7IEzcM6WRQWMWWm3U61PO8iaTt72jDX4k7x4FC8MfnosSzDoDj35ZplR+D/JuUaMjiFBEVksSI4BUu+jaLnEO2FDzRFkbH4vc0gyQ6t2ftorlCtwZIb84Ryo3yuDfcBpVp6sw6ukrbRsMfnzRuCA8cYh6brcV3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=INSvVes12oim6c/N1vy4SGbvRUSVDv11ZE30GMkAWOU=;
+ b=JYw58WLAPVuBnZTFBd90ca6YTC57rjZnFljAWsuG9npYKc1n4MmWVSm9nj8OWD7KrPdNWaJ1v7XR+6aHGpztamJCAELYz0uBzrdgvk73g5BpgeF9wQMQtcbY8ZkWRqod2PAn2cdFHlhwp+fOpg4mvW5ZNN/vftvJhhNeHIN5uqxoKTsslz8JDDdED5RbSY7DNCRha6Pbv7gIFr8hki2N+qb4Rj08BxwXV0z8Tc0IU7zeIw+kTYHBrrUuKIQVvv5ZhePq1NvjjLECy5QZ3VlpVNQ/bt6BhuEHe7yCtsB0gFPvqb83lPGI+QnY+43xJsLDSgUzKokMw0Q/VAtZk2vXwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=INSvVes12oim6c/N1vy4SGbvRUSVDv11ZE30GMkAWOU=;
+ b=Nk7Ueb4/JPB4x07LgQOR1uo6L/oD9SzncQel9iYVAshSVdFh9bda1l926rUI9gh3glreBscpL4F0iekrrgyAfz4dNmZXyEbTiA39fBD+P3Y9XSx3JIbc8PVKomGV9ARXNqu9Z1hk/ZqOlxNgAEedHY8GVTwrIkb/aHfP8F9d7Wg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB8250.namprd12.prod.outlook.com (2603:10b6:8:db::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
+ 2023 14:14:19 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
+ 14:14:19 +0000
+Message-ID: <20502c4c-c987-3117-119a-2fd38ae5f607@amd.com>
+Date:   Wed, 5 Apr 2023 16:14:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Content-Language: en-US
+To:     Asahi Lina <lina@asahilina.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
         Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the
- scheduler is torn down
-Message-ID: <ZC19LIsNlhFC+7ME@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Jarkko Sakkinen <jarkko@kernel.org>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -98,14 +68,76 @@ Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <ZC16Q8MhHEcutX1b@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZC16Q8MhHEcutX1b@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0185.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB8250:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8893a67c-cc2a-48ae-24ee-08db35e00bd1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XhIcQy0YBAxRM6hrAWIZTRgtPXS/EbsbxjQM5yetl2NuyS629JB1WnEOwstmkZc1QI+06zwWQiCyWzgLc3ZpVwFFYHctD8vc2sSGXAxTKO+6ZQhaRIT10YJ9MGH49Hh1aGrKPaJkysggvNZ5fZflZwRfCHq0C37XJ6ltRGUDgotRo9wMTRb1O2nOEw0DcRxHllX8jVeLilDVdl3cSkkRK8JA9oc0fbmMHlWy+VTEqTduW9UbF7y19cJWg6PBo1cmcChV40M4LfT33pztpBZ3/1irn6WXM8jXbVks40926UyAtRd3dkbwvL+GZg9Y3eGgnRM60KnCygy8Q5SUvxCzefTESD/1s8Zea3k/9/zk/Vhjwb/37tazK0IYUnA7qFpjKyTKT5zCrLKt0P7xIsVwehTBY7fBCdBeVjfFGfOen8oqK0cLQYTXbQ5kD5XYV7CZejKfY6CpbbwTHpW0xUv6HMAoGJ9gsiMQv/9ZHMrpii6QStYqsHei7tTTGiIVy9GEJ32LixCXiM7pvRRRfW6JunGvsu7XD+HBcZG5drCLLLTd3i0Q0mp7d2KUwBEkZC+tweFNPfAOL7f8le48HwlBMMpmhRp+n4VoHogBzoo25RTDZ8SlvH4T9/T/47EYRkCq9Kh5nuyGw13wc/A+ubd6ygp/BUMV5Vjv+asO0qQ9I7KF1M0Bdja5W9WZX81mBdJP
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(451199021)(31686004)(2906002)(86362001)(5660300002)(38100700002)(66946007)(7416002)(478600001)(66476007)(66556008)(8936002)(110136005)(41300700001)(186003)(316002)(36756003)(8676002)(31696002)(6512007)(6506007)(83380400001)(921005)(966005)(6486002)(2616005)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vnh5c0RVM3dBQVZVSi84aEh5ZlZYNHhSNmIyMUh0SVpyaCtiN3ZCMzNrOG90?=
+ =?utf-8?B?Q0ZiWnEwU3VORlZQaGVoL2hya1dkMzZWTmRPSzZuNUxwU2M5MHhvRXU5YkYr?=
+ =?utf-8?B?R29sdzFuNmMwUkh5ZXRzcXBsd05BTDJwQ1JqSGR5MCtMYnkzRUdnM0NaM01s?=
+ =?utf-8?B?NHV0aytza1VUeUFncUNyRll1YnpFMm5SSTQ1WmpaUW5pWnhCNDFEWFFIMVFz?=
+ =?utf-8?B?dTdXdHRtUnp2Z2J1REFoVllRNjQzZENKekpwM2x5M3hhQlA1d3pMdmcyOENM?=
+ =?utf-8?B?dTQ4M0I0MHk4U3lwMVAzWlJZQ3RMdXgvdGd5NE43dEVzQ1I2UGpSRElvNDkv?=
+ =?utf-8?B?ZUpQWEk0TXBiYlZPWlBSTFR2STZiRzZ6MFA2VlJtSUZyVXpFbFVPM0NGT3hn?=
+ =?utf-8?B?LzBISXRJd25CUG5GWTFab3JGR0hKdFY3bDJSV29NUjlmMEcxOXpSWEYzdnlP?=
+ =?utf-8?B?bGpsbXljYjJTQkpZbmhBMzl3OHc0TFlTMGpaK1ovVG9LbWF3d0M1Rlc4MWQw?=
+ =?utf-8?B?TFlVWkdINGYrY1BKKzhzZmVZWkxHUzlsQVhCRHJPVldsangwbFZ5ai9iVWZG?=
+ =?utf-8?B?Z0V4N3lwd043RHVVY1hOZHMrT05Wc0Y1L2NOMHUwMkoxRE5JZThnT24wVkpW?=
+ =?utf-8?B?YjY1MUE3aVpGUzZVNGlPOUxhbXoyWGQ0MUR0OUE5K0lXbXlzQnFacGloOEkz?=
+ =?utf-8?B?QTA1U1h4TmVlYlF4RTlERUc2elpWL0YvZkhYTC83RkRVR045aTB3a00zUXFw?=
+ =?utf-8?B?UVFnalJjTm02Q2hzbFBCSHF2ZkxNZzExSTU0NjljZzIva2lRUFpyVmNNRk1B?=
+ =?utf-8?B?UjFNSzNNR1ZCRHFPUVZpL1F6RGQzN1dUZlJvb0pSaTJnNE16SVo5Z0RZV3JQ?=
+ =?utf-8?B?WW1SLzJvZFk3QVdLekNyK3NJTlQ5R0ppVGNyN0dTbWhKaFVFY1NCeXF6RTlt?=
+ =?utf-8?B?NXVNRWdwbEFKbzIrQXgwc0xWUk5mZDdqRXQ1T1JVRU01ZFpuVlhIUTNZS0lp?=
+ =?utf-8?B?ZTlXNkF6eFBUOWNWdXZnUUxHNEpBTU9ERVlXVzhUVG1ubk5JWVlHYWVrMTNL?=
+ =?utf-8?B?dlZROUVlUXhiRDd4N3R3UHVub0tGekQ0Uk5GZ1d0VFlkbUVzTm1WZUN4dFhr?=
+ =?utf-8?B?OXMrM2lZNERHT0pRbFFleUJ1QWdkcnd4TlAzaXRIUDUrdmk2aG5jRFNaajJN?=
+ =?utf-8?B?T2RHeU1vVWxjcFZ4MlV1WGVHRjVPVXI1eXhkT3ArWlhkMytxdnp5bGpFVFhS?=
+ =?utf-8?B?SUNURU93ZHBLNXRPMDh2SzhOcHZ3cy9NclF2ck8wTWVKbUtPc3pQR3pycXVB?=
+ =?utf-8?B?andxRnZRNEdzWmc2MFJ3QUhnbnZkZG91WWUyVm93T2tZYU5vS3Nxb0lNc1lF?=
+ =?utf-8?B?QmNHbGsxV2ZsaU9OMGlEQ3l6UUNXakF6ajFhK21OWUZrNTdkS0h4alJ4VlFl?=
+ =?utf-8?B?T2ViS0VrMHNhdDhmM3U1djNkeUh4OXFaaktTVHR3UXNmeFlLVGV1WU00TW9N?=
+ =?utf-8?B?dXdHc2xBcmk4ZmRNcFExUlVoUWZkTnhUUTIvTkhLdzJHU2dqQ0tJZWdGczBy?=
+ =?utf-8?B?dkx3V0NRL1ZGRXh0VW9ueTdtVFlpTEJMNTg4YitsbkpNb2VzWmRDZjNOUEtk?=
+ =?utf-8?B?bndOMWFILzExSVZ3RkhuRG5vck5aT3hEUDA1VEIyYmtyNDJnRkgvMzkzVjho?=
+ =?utf-8?B?b0RZRHZTRFJSVTI5aHdkSGp3MlRDOVZpVVlFVllSUUZWdTRoV0hOemdwSG1V?=
+ =?utf-8?B?UEdVZWZWb2R6Z1Avd2N1WStOVmtoZDN2OXV4M3AyVE1NUnRFSEZiSFlOR0NB?=
+ =?utf-8?B?Y20zYWkrQ0MxaDBlTXAzYm1leTJoSDZSNWw3LzRHTTc4L1J5M056ZDVNYWFR?=
+ =?utf-8?B?eTJ0V29YclpKN2xsRUwybW9aWEJlYncrTW11ZXU0K1plKzZWUDRjbldnak0x?=
+ =?utf-8?B?bExnTFl1RXFZYVVHT3hnR1NvMVhlak5JakRSTzBRZWM3c2NyVHpFUXlKNTdQ?=
+ =?utf-8?B?SUxaNkZyY2NJVDFVcU5OQTZLSElTOUg3b0RwV0QvV0FFUjZremJwNFVCODZK?=
+ =?utf-8?B?SGpwamhMWXI5N3VHWWVzNWlxd2JkWDAwaEk3NnVJeFJ6aXo5Rmg1ekU4UlM5?=
+ =?utf-8?B?eFc2aFRBTXpJTFlLbFFBdTR4UlBhV3JCczBONlMzZ0doRkU1eGM0UTlwc2Qy?=
+ =?utf-8?Q?QsJIb08Aqlbtd+x/hmwWfVdKRsDZUbtuE+1kWrHDFTg1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8893a67c-cc2a-48ae-24ee-08db35e00bd1
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 14:14:19.1971
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WuN51GNP278rC9aU/qcPvn+vuwJYq8yjL0qcuqZaxbfZEoKE1zZFsPCMOsDQ4VMI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8250
+X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -113,108 +145,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 07, 2023 at 11:25:36PM +0900, Asahi Lina wrote:
-> drm_sched_fini() currently leaves any pending jobs dangling, which
-> causes segfaults and other badness when job completion fences are
-> signaled after the scheduler is torn down.
-> 
-> Explicitly detach all jobs from their completion callbacks and free
-> them. This makes it possible to write a sensible safe abstraction for
-> drm_sched, without having to externally duplicate the tracking of
-> in-flight jobs.
-> 
-> This shouldn't regress any existing drivers, since calling
-> drm_sched_fini() with any pending jobs is broken and this change should
-> be a no-op if there are no pending jobs.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 27 +++++++++++++++++++++++++--
->  1 file changed, 25 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 5c0add2c7546..0aab1e0aebdd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1119,10 +1119,33 @@ EXPORT_SYMBOL(drm_sched_init);
->  void drm_sched_fini(struct drm_gpu_scheduler *sched)
->  {
->  	struct drm_sched_entity *s_entity;
-> +	struct drm_sched_job *s_job, *tmp;
->  	int i;
->  
-> -	if (sched->thread)
-> -		kthread_stop(sched->thread);
-> +	if (!sched->thread)
-> +		return;
-> +
-> +	/*
-> +	 * Stop the scheduler, detaching all jobs from their hardware callbacks
-> +	 * and cleaning up complete jobs.
-> +	 */
-> +	drm_sched_stop(sched, NULL);
-> +
-> +	/*
-> +	 * Iterate through the pending job list and free all jobs.
-> +	 * This assumes the driver has either guaranteed jobs are already stopped, or that
-> +	 * otherwise it is responsible for keeping any necessary data structures for
-> +	 * in-progress jobs alive even when the free_job() callback is called early (e.g. by
-> +	 * putting them in its own queue or doing its own refcounting).
-> +	 */
+Am 05.04.23 um 15:40 schrieb Daniel Vetter:
+> On Tue, Mar 07, 2023 at 11:25:35PM +0900, Asahi Lina wrote:
+>> Some hardware may require more complex resource utilization accounting
+>> than the simple job count supported by drm_sched internally. Add a
+>> can_run_job callback to allow drivers to implement more logic before
+>> deciding whether to run a GPU job.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> Ok scheduler rules, or trying to summarize the entire discussion:
+>
+> dma_fence rules are very tricky. The two main chapters in the docs are
+>
+> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#dma-fence-cross-driver-contract
+> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+>
+> Unforutunately I don't think it's possible to check this at compile time,
+> thus far all we can do is validate at runtime. I've posted two patches for
+> this:
+>
+> https://lore.kernel.org/dri-devel/20201023122216.2373294-17-daniel.vetter@ffwll.ch/
+> https://lore.kernel.org/dri-devel/20201023122216.2373294-20-daniel.vetter@ffwll.ch/
+>
+> Unfortunately most drivers are buggy and get this completely wrong, so
+> realistically we'd need to make this a per-driver opt-out and annotate all
+> current drivers. Well except amdgpu is correct by now I think (they'd
+> still need to test that).
 
-This comment makes me wonder whether we shouldn't go one step further and
-have a drm_sched_quiescent, which waits for any in-flight jobs to complete
-and cancels everything else. Because even if rust guarantees that you
-don't have any memory bugs, if you just leak things by sprinkling
-reference-counted pointer wrappers everywhere you still have a semantic
-bug.
+There is still one potential memory allocation in the run_job callback 
+in amdgpu which I wasn't able to fix yet.
 
-Except now it's much harder to realize that because there's no Oops and
-KASAN doesn't tell you about it either. I think it would be much better if
-the scheduler code and rust abstraction provider drivers the correct
-lifetimes and very strongly encourage them to only have borrowed
-references and not additional refcounting of their own.
+But that one is purely academic and could potentially be trivially 
+replaced with using GFP_ATOMIC if we ever have to.
 
-I think Christian mentioned that this would block in close() or context
-destruction, which is no good at all. And with the 1:1
-drm_scheduler:drm_sched_entity design for there's no other place. This is
-way I've suggested in the Xe threads that we should make the current
-drm_scheduler an implementation detail hidden from drivers, with a new
-drm_scheduler which is always per-engine for all cases as the driver api
-interface.  And the internal scheduler attached to either that (for
-current drivers) or drm_sched_entity (for fw scheduling drivers) as
-needed. With that
-- the sched_entity cleanup could take care of this code here for the fw
-  scheduler case
-- the drm_sched_fini could take care of blocking appropriately before the
-  driver is unloaded for any lagging in-flight jobs, without blocking
-  userspace
-- drivers should not end up with any need to reference-count either
-  per-ctx/drm_sched_entity or per-drm_sched_job data, ever
+Christian.
 
-Because any comment that's along the lines of "drivers need to refcount"
-is bad business, because it either means leaks (rust) or crashes (C). I
-much prefer when drivers have to put in extra effort to get things wrong
-because by default the lifetimes are Just Right(tm).
--Daniel
+>   And Rob Clark is working on patches to fix up
+> msm.
+>
+> I think best here is if you work together with Rob to make sure these
+> annotations are mandatory for any rust drivers (I don't want new buggy
+> drivers at least). Would also be great to improve the kerneldoc for all
+> the driver hooks to explain these restrictions and link to the relevant
+> kerneldocs (there's also one for the dma_fence signalling annotations
+> which might be worth linking too).
+>
+> I don't see any way to make this explicit in rust types, it's really only
+> something runtime tests (using lockdep) can catch. Somewhat disappointing.
+>
+> For the other things discussed here:
+>
+> - Option<Dma_Fence> as the return value for ->prepare_job makes sense to
+>    me.
+>
+> - I don't see any way a driver can use ->can_run_job without breaking the
+>    above rules, that really doesn't sound like a good idea to me.
+>
+> Cheers, Daniel
+>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
+>>   include/drm/gpu_scheduler.h            |  8 ++++++++
+>>   2 files changed, 18 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 4e6ad6e122bc..5c0add2c7546 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
+>>   		if (!entity)
+>>   			continue;
+>>   
+>> +		if (sched->ops->can_run_job) {
+>> +			sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+>> +			if (!sched_job) {
+>> +				complete_all(&entity->entity_idle);
+>> +				continue;
+>> +			}
+>> +			if (!sched->ops->can_run_job(sched_job))
+>> +				continue;
+>> +		}
+>> +
+>>   		sched_job = drm_sched_entity_pop_job(entity);
+>>   
+>>   		if (!sched_job) {
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index 9db9e5e504ee..bd89ea9507b9 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
+>>   	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
+>>   					 struct drm_sched_entity *s_entity);
+>>   
+>> +	/**
+>> +	 * @can_run_job: Called before job execution to check whether the
+>> +	 * hardware is free enough to run the job.  This can be used to
+>> +	 * implement more complex hardware resource policies than the
+>> +	 * hw_submission limit.
+>> +	 */
+>> +	bool (*can_run_job)(struct drm_sched_job *sched_job);
+>> +
+>>   	/**
+>>            * @run_job: Called to execute the job once all of the dependencies
+>>            * have been resolved.  This may be called multiple times, if
+>>
+>> -- 
+>> 2.35.1
+>>
 
-> +	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
-> +		spin_lock(&sched->job_list_lock);
-> +		list_del_init(&s_job->list);
-> +		spin_unlock(&sched->job_list_lock);
-> +		sched->ops->free_job(s_job);
-> +	}
-> +
-> +	kthread_stop(sched->thread);
->  
->  	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
->  		struct drm_sched_rq *rq = &sched->sched_rq[i];
-> 
-> -- 
-> 2.35.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
