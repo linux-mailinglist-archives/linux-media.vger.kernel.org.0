@@ -2,137 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B1A66D8A35
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 00:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B3046D8A8D
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 00:28:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbjDEWBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 18:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42094 "EHLO
+        id S230345AbjDEW2q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 18:28:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjDEWBA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 18:01:00 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68DDB76AE
-        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 15:00:59 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id r11so37589782wrr.12
-        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 15:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680732058; x=1683324058;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/i+LcbbWpppF7guNitk2xP/me4zUXkwEvVEGYX1QYxY=;
-        b=qa5y5ELMJ1WPrCf+fGxlE/fhAvU65vRbTsQGLBO7Z2MNaWJijdFEH9q2aFb6T9T66F
-         NXtX9dCIzHHDaFYI3N3ptoBX+4cke3klfRTgtI6mCeI/GIOHa+1MxhL/+HZ+Ae+RsITw
-         gyf7R1I21k+pYU0xVLUFN1PT+sstI5Os52ggxQX2x+fiUneckYuKNJxkvN5GAlmb7ZWQ
-         xb3WybGRE2Dkx1EKfnaRgyjhre0w4GdF4B054oo3HGEnse6f6fxJaDtUriDxqcclOMBa
-         R6OFnTwLZTznvzH90WtPQ2wuTbotuN6acor39tJqi9EV6zAgw/2Ad1SvIJIdC+qkCvF6
-         kFIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680732058; x=1683324058;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/i+LcbbWpppF7guNitk2xP/me4zUXkwEvVEGYX1QYxY=;
-        b=phXMrWhqwIXtm/QOfIGM2RAFANmPmcUuqHnWtOL+eCmzQGkJNbUC+JCtQgeerq7i56
-         C0fZCJ3gfzTbO3T/RZm+Aci451tfrmKJBraboVvi+EWGvmB4+U6s7w/9+bcV4rXnomVG
-         ix/cjBJkVJwPeY+c6c+T6K/HzmS6qDstSD3WMwm9ypMOoiieUqqBZFP8usA8mJD0re1L
-         t/L6JRryYDk6iGnRIPqFkrAWSx1rVUbDjUpbaD3LpIDB9t4Xw+yEDPdAm/sJpSKIwxCX
-         G2mZVzBNf4lmuurVTxQxEnUA03uNCUC9Hgmn2b/hDEAI3B41dsrK40DtirVYWODwvQmd
-         aHGw==
-X-Gm-Message-State: AAQBX9cCyKENS63kRxL8j3yVpQc1FpMuXE/XwbJEyDM5J8n6XFPlzADI
-        r42yL3Dnq425QO2aQSY5BmbgHOwvilw=
-X-Google-Smtp-Source: AKy350Z0elpU/gOKOtddmkKjwsRA4bod3l3O4FfnJ8TseEy9ZgOt+uwQ3GApu15Y19YsTOUJaNQS/Q==
-X-Received: by 2002:adf:f6cb:0:b0:2cf:ec49:958b with SMTP id y11-20020adff6cb000000b002cfec49958bmr4438009wrp.12.1680732057778;
-        Wed, 05 Apr 2023 15:00:57 -0700 (PDT)
-Received: from aero-laptop.. (hst-221-70.medicom.bg. [84.238.221.70])
-        by smtp.gmail.com with ESMTPSA id y13-20020adff14d000000b002c55306f6edsm16011761wro.54.2023.04.05.15.00.57
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 15:00:57 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.4 v3] Venus updates
-Date:   Thu,  6 Apr 2023 01:00:47 +0300
-Message-Id: <20230405220047.305248-1-stanimir.k.varbanov@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229461AbjDEW2p (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 18:28:45 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC4E192
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 15:28:44 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pkBcR-00DLgF-3U; Wed, 05 Apr 2023 22:28:43 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pkBcO-00BX3O-Nl; Wed, 05 Apr 2023 22:28:40 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4 v3] Venus updates (#91080)
+Date:   Wed,  5 Apr 2023 22:28:40 +0000
+Message-Id: <20230405222840.2748620-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230405220047.305248-1-stanimir.k.varbanov@gmail.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-This time Venus updates includes:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230405220047.305248-1-stanimir.k.varbanov@gmail.com/
+Build log: https://builder.linuxtv.org/job/patchwork/295205/
+Build time: 00:21:26
+Link: https://lore.kernel.org/linux-media/20230405220047.305248-1-stanimir.k.varbanov@gmail.com
 
- - A fix for capture format enumeration.
- - A fix for handling decoder start cmd.
- - A fix for H265 decoder failure.
- - Adds encoder commands support.
- - Adds support for QP range for HFI versions 4xx and 6xx.
- - Correct P010 buffer alignment.
+gpg: Signature made Wed 05 Apr 2023 09:48:58 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-Please pull.
+Summary: got 1/7 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-regards,
-Stan
+Error/warnings:
 
-Chnages since v2:
- Fixed error/warn in patches/0003-venus-venc-add-handling-for-VIDIOC_ENCODER_CMD.patch,
- and add one more ready to merge patch which corrects P010 buffer alignment.
-  
-Changes since v1:
- In this v2 pull request the DT-binding re-organizations and cleanup
- patchset from Krzysztof has been dropped, it is already part of
- Sakari's dt-binding pull request.
+patches/0001-media-venus-drop-unused-opp_table-field-documentatio.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1974592
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2854 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
 
 
-The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+Error #512 when building PDF docs
 
-  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-for-v6.4-v3
-
-for you to fetch changes up to 683710ec363d4e7499d3fb61ca160ff8aada45f1:
-
-  media: venus: Correct P010 buffer alignment (2023-04-05 19:48:27 +0300)
-
-----------------------------------------------------------------
-Venus updates for v6.4 v3
-
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      venus: venc: add handling for VIDIOC_ENCODER_CMD
-
-Fritz Koenig (1):
-      media: venus: Correct P010 buffer alignment
-
-Javier Martinez Canillas (1):
-      media: venus: dec: Fix capture formats enumeration order
-
-Krzysztof Kozlowski (1):
-      media: venus: drop unused opp_table field documentation
-
-Michał Krawczyk (1):
-      media: venus: dec: Fix handling of the start cmd
-
-Viswanath Boma (2):
-      venus: Fix for H265 decoding failure.
-      venus: Add support for min/max qp range.
-
- drivers/media/platform/qcom/venus/core.h           |  10 +-
- drivers/media/platform/qcom/venus/helpers.c        |   4 +-
- drivers/media/platform/qcom/venus/hfi_cmds.c       |  23 +++++
- drivers/media/platform/qcom/venus/hfi_helper.h     |  18 ++++
- .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |   4 +-
- drivers/media/platform/qcom/venus/vdec.c           |  23 ++++-
- drivers/media/platform/qcom/venus/venc.c           | 109 +++++++++++++++++++--
- 7 files changed, 173 insertions(+), 18 deletions(-)
