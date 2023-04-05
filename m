@@ -2,61 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DC4A6D727F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 04:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 211F56D72BA
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 05:37:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236556AbjDECaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 22:30:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50172 "EHLO
+        id S236575AbjDEDhV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 23:37:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235178AbjDECau (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 22:30:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97317BB;
-        Tue,  4 Apr 2023 19:30:45 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 622C2905;
-        Wed,  5 Apr 2023 04:30:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680661841;
-        bh=92JxqutkaA7MOBZzEsI8JVLAVvvA2FVlO8U5Q3EjmSo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mWO+SH7/XV27sw9R9Rw+KgqItm8rURI5GQYFV1sl6pR8XqDB6GW41gIU2YwetbYJf
-         AtRC/91JVGQs52YzgrvoES/zkyNKZ3kM/rEVQD8Wdrh/kfYVzeVJvyDFcz5Eo0QXhG
-         Cc25z/I3g+l6D2expqUK61OIFTqhI2ZjYHVrjfc4=
-Date:   Wed, 5 Apr 2023 05:30:48 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
- .vidioc_enum_fmt_vid_cap to return all formats
-Message-ID: <20230405023048.GD9915@pendragon.ideasonboard.com>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
- <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
- <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
- <20230404161251.272cc78b@booty>
+        with ESMTP id S231589AbjDEDhU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 23:37:20 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BFE40F7
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 20:37:17 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pjtxT-00CYl9-LL; Wed, 05 Apr 2023 03:37:15 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pjtxR-008FZU-1y; Wed, 05 Apr 2023 03:37:13 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sean Young <sean@mess.org>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] gpio-ir-recv wakeup (#91059)
+Date:   Wed,  5 Apr 2023 03:37:13 +0000
+Message-Id: <20230405033713.1966434-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZCvYK3gpMw25Zz+u@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230404161251.272cc78b@booty>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,38 +44,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+From: builder@linuxtv.org
 
-On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
-> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
-> 
-> > Hi Luca,
-> > 
-> > I finally found the time to test this series. It looks OK, except for this patch.
-> 
-> Thank you very much for taking the time!
-> 
-> > The list of supported formats really has to be the intersection of what the tegra
-> > supports and what the sensor supports.
-> > 
-> > Otherwise you would advertise pixelformats that cannot be used, and the application
-> > would have no way of knowing that.
-> 
-> As far as I understand, I think we should rather make this driver fully
-> behave as an MC-centric device. It is already using MC quite
-> successfully after all.
-> 
-> Do you think this is correct?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZCvYK3gpMw25Zz+u@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/294986/
+Build time: 00:19:33
+Link: https://lore.kernel.org/linux-media/ZCvYK3gpMw25Zz+u@gofer.mess.org
 
-Given the use cases for this driver, I agree.
+gpg: Signature made Tue 04 Apr 2023 07:51:34 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-> If you do, then I think the plan would be:
-> 
->  - Add the V4L2_CAP_IO_MC flag
->  - As the mbus_code in get_format appropriately
->  - Leave the changes in this patch unmodified otherwise
+Summary: got 2/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
--- 
-Regards,
+Error/warnings:
 
-Laurent Pinchart
+patches/0001-dt-bindings-media-gpio-ir-receiver-Document-wakeup-s.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1977210
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 57 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+patches/0002-media-rc-gpio-ir-recv-Fix-support-for-wake-up.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-rc-gpio-ir-recv-Fix-support-for-wake-up.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:14: WARNING: Reported-by: should be immediately followed by Link: with a URL to the report
+
+
+Error #512 when building PDF docs
+
