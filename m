@@ -2,146 +2,366 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 436CB6D83C6
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 18:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B0256D83E5
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 18:40:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbjDEQey (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 12:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40894 "EHLO
+        id S233062AbjDEQk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 12:40:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjDEQem (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 12:34:42 -0400
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB214C05;
-        Wed,  5 Apr 2023 09:34:34 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: linasend@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id C249242118;
-        Wed,  5 Apr 2023 16:34:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1680712471;
-        bh=6hylb8a77OJ3/6TutdrbcroO5JBsT18Y4Xu7BzXejGw=;
-        h=From:Date:Subject:To:Cc;
-        b=chhqqtkmWEaznb7IhslQ4k6vCZ9b05y+1BohQOSZdF0KfLWPl9YEYaVZUkD/9RyIc
-         i7wRMevcE7TkrcRJVxAGc94mZRg+Yn17e9A8kfsq9ip3U0iCZo9tsbAA2tLhPr+UvA
-         aIyr/KgYGpy9ehdywhqG45ZVN5qPcAfH6BN4mqFuZFgPpk/dzozEbk09CfMT0tnQpv
-         p3/HkoNnMULgvQC6U5IxN54kV9JqxToq4pJ3aQAAHwOuMkR5Rmbg7QrmoSdb6QyJHk
-         dThstomiEaLe2w6c+9tIRPQrM+SuR0JwZDdON1C0+YRqSrhGGAolVxmebjOMMHEXIp
-         Jq2vQqhXUhBWw==
-From:   Asahi Lina <lina@asahilina.net>
-Date:   Thu, 06 Apr 2023 01:34:24 +0900
-Subject: [PATCH] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
+        with ESMTP id S232661AbjDEQkZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 12:40:25 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0DA0611A;
+        Wed,  5 Apr 2023 09:40:22 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:49358.1442670072
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id ACFAB100212;
+        Thu,  6 Apr 2023 00:40:17 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id df0d463a81a442a0b10347c0bc8a8624 for emil.l.velikov@gmail.com;
+        Thu, 06 Apr 2023 00:40:20 CST
+X-Transaction-ID: df0d463a81a442a0b10347c0bc8a8624
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <ad715c40-70de-0fa8-37e9-2d80ee0ebe36@189.cn>
+Date:   Thu, 6 Apr 2023 00:40:17 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
-X-B4-Tracking: v=1; b=H4sIAA+jLWQC/x2N0QrCMAxFf2Xk2Ui7lkH9FfEhyzJbkCoJG8LYv
- 9v6eM7lcA8w0SIGt+EAlb1YedcG/jIAZ6pPwbI0htGNwUU3oXGWZXuJ4kYrekwpCofIxClAq2Y
- ywVmpcu7dPl0DKnvsvu8flbV8/4/3x3n+ADlzkZqBAAAA
-To:     Luben Tuikov <luben.tuikov@amd.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, asahi@lists.linux.dev,
-        Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680712468; l=3168;
- i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=6hylb8a77OJ3/6TutdrbcroO5JBsT18Y4Xu7BzXejGw=;
- b=fzl6uj6vopdSACbk9q9OzJ8heI46PdmDbHAcqBaoh1l1UFL2j12a/YUF57upGiukq6/uONr+R
- hwqMsz+jDU+D5GSwQeO1fkTh3sdTwJhx8RE2wWtch/ifppZ6JFHBOhM
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Christian Koenig <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        nathan@kernel.org, linux-media@vger.kernel.org
+References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
+ <20230403171304.2157326-3-suijingfeng@loongson.cn>
+ <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.8 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A signaled scheduler fence can outlive its scheduler, since fences are
-independently reference counted. Therefore, we can't reference the
-scheduler in the get_timeline_name() implementation.
+Hi,
 
-Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
-dma-bufs reference fences from GPU schedulers that no longer exist.
+On 2023/4/4 22:10, Emil Velikov wrote:
+> Greetings Sui Jingfeng,
+>
+> I haven't been around drm-land for a while and this is the first
+> driver I skim through in a few years. So take the following
+> suggestions with a healthy pinch of salt.
+>
+> Hope that helps o/
+Emil, we love your reviews,
+> On Mon, 3 Apr 2023 at 18:13, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>
+>>    v7 -> v8:
+>>     1) Zero a compile warnnings on 32-bit platform, compile with W=1
+>>     2) Revise lsdc_bo_gpu_offset() and minor cleanup
+>>     3) Pageflip tested on the virtual terminal with following commands
+>>
+>>        modetest -M loongson -s 32:1920x1080 -v
+>>        modetest -M loongson -s 34:1920x1080 -v -F tiles
+>>
+> I could be wrong, but my understanding is that new drivers should be
+> capable of running under Xorg and/or Wayland compositor. There is also
+> the IGT test suite, which can help verify and validate the driver's
+> behaviour:
+>
+> https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html
+>
+Yet it may take more time to give full answer for all of your concerns.
 
-Signed-off-by: Asahi Lina <lina@asahilina.net>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
- drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
- include/drm/gpu_scheduler.h              | 5 +++++
- 3 files changed, 14 insertions(+), 2 deletions(-)
+Currently, drm/loongson driver do works under Xorg(X server),
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 15d04a0ec623..8b3b949b2ce8 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -368,7 +368,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
- 
- 		/*
- 		 * Fence is from the same scheduler, only need to wait for
--		 * it to be scheduled
-+		 * it to be scheduled.
-+		 *
-+		 * Note: s_fence->sched could have been freed and reallocated
-+		 * as another scheduler. This false positive case is okay, as if
-+		 * the old scheduler was freed all of its jobs must have
-+		 * signaled their completion fences.
- 		 */
- 		fence = dma_fence_get(&s_fence->scheduled);
- 		dma_fence_put(entity->dependency);
-diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-index 7fd869520ef2..33b145dfa38c 100644
---- a/drivers/gpu/drm/scheduler/sched_fence.c
-+++ b/drivers/gpu/drm/scheduler/sched_fence.c
-@@ -66,7 +66,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
- static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
- {
- 	struct drm_sched_fence *fence = to_drm_sched_fence(f);
--	return (const char *)fence->sched->name;
-+	return (const char *)fence->sched_name;
- }
- 
- static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
-@@ -168,6 +168,8 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
- 	unsigned seq;
- 
- 	fence->sched = entity->rq->sched;
-+	strlcpy(fence->sched_name, entity->rq->sched->name,
-+		sizeof(fence->sched_name));
- 	seq = atomic_inc_return(&entity->fence_seq);
- 	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
- 		       &fence->lock, entity->fence_context, seq);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 9db9e5e504ee..49f019731891 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -295,6 +295,11 @@ struct drm_sched_fence {
-          * @lock: the lock used by the scheduled and the finished fences.
-          */
- 	spinlock_t			lock;
-+        /**
-+         * @sched_name: the name of the scheduler that owns this fence. We
-+         * keep a copy here since fences can outlive their scheduler.
-+         */
-+	char sched_name[16];
-         /**
-          * @owner: job owner for debugging
-          */
+link[1] is a short video which can prove that the driver actually works 
+very well.
 
----
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-change-id: 20230406-scheduler-uaf-1-994ec34cac93
+Note that it use the generic modesetting driver on userspace.
 
-Thank you,
-~~ Lina
+We could provide more videos if necessary.
 
+
+We are carry on the IGT test suite, we feedback the test result once it 
+finished on our platform.
+
+I'm not familiar with it before, previously we only focus on the basic 
+unit tests came with libdrm.
+
+
+I will answer rest questions in a latter time, please wait a moment.
+
+>
+>> +static void lsdc_crtc_reset(struct drm_crtc *crtc)
+>> +{
+>> +       struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
+>> +       struct drm_device *ddev = crtc->dev;
+>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>> +       struct lsdc_crtc_state *priv_crtc_state;
+>> +       unsigned int index = dispipe->index;
+>> +       u32 val;
+>> +
+>> +       val = LSDC_PF_XRGB8888 | CFG_RESET_N;
+>> +       if (ldev->descp->chip == CHIP_LS7A2000)
+>> +               val |= LSDC_DMA_STEP_64_BYTES;
+>> +
+>> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val);
+>> +
+>> +       if (ldev->descp->chip == CHIP_LS7A2000) {
+>> +               val = PHY_CLOCK_EN | PHY_DATA_EN;
+>> +               lsdc_crtc_wreg32(ldev, LSDC_CRTC0_PANEL_CONF_REG, index, val);
+>> +       }
+>> +
+> AFAICT no other driver touches the HW in their reset callback. Should
+> the above be moved to another callback?
+>
+>
+>
+>> +static void lsdc_crtc_atomic_enable(struct drm_crtc *crtc,
+>> +                                   struct drm_atomic_state *state)
+>> +{
+>> +       val = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, index);
+>> +       /* clear old dma step settings */
+>> +       val &= ~CFG_DMA_STEP_MASK;
+>> +
+>> +       if (descp->chip == CHIP_LS7A2000) {
+>> +               /*
+>> +                * Using large dma step as much as possible,
+>> +                * for improve hardware DMA efficiency.
+>> +                */
+>> +               if (width_in_bytes % 256 == 0)
+>> +                       val |= LSDC_DMA_STEP_256_BYTES;
+>> +               else if (width_in_bytes % 128 == 0)
+>> +                       val |= LSDC_DMA_STEP_128_BYTES;
+>> +               else if (width_in_bytes % 64 == 0)
+>> +                       val |= LSDC_DMA_STEP_64_BYTES;
+>> +               else  /* width_in_bytes % 32 == 0 */
+>> +                       val |= LSDC_DMA_STEP_32_BYTES;
+>> +       }
+>> +
+>> +       clk_func->update(pixpll, &priv_state->pparms);
+>> +
+> Without knowing the hardware, the clk_func abstraction seems quite
+> arbitrary and unnecessary. It should be introduced when there is a
+> use-case for it.
+>
+>
+>> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val | CFG_OUTPUT_EN);
+>> +
+>> +       drm_crtc_vblank_on(crtc);
+>> +}
+>> +
+>
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/loongson/lsdc_debugfs.c
+>> +void lsdc_debugfs_init(struct drm_minor *minor)
+>> +{
+>> +#ifdef CONFIG_DEBUG_FS
+>> +       drm_debugfs_create_files(lsdc_debugfs_list,
+>> +                                ARRAY_SIZE(lsdc_debugfs_list),
+>> +                                minor->debugfs_root,
+>> +                                minor);
+>> +#endif
+>> +}
+> Should probably build the file when debugfs is enabled and provide
+> no-op stub in the header. See nouveau for an example.
+>
+>
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+>> +static const struct lsdc_desc dc_in_ls7a1000 = {
+>> +       .chip = CHIP_LS7A1000,
+>> +       .num_of_crtc = LSDC_NUM_CRTC,
+>> +       .max_pixel_clk = 200000,
+>> +       .max_width = 2048,
+>> +       .max_height = 2048,
+>> +       .num_of_hw_cursor = 1,
+>> +       .hw_cursor_w = 32,
+>> +       .hw_cursor_h = 32,
+>> +       .pitch_align = 256,
+>> +       .mc_bits = 40,
+>> +       .has_vblank_counter = false,
+>> +       .has_scan_pos = true,
+>> +       .has_builtin_i2c = true,
+>> +       .has_vram = true,
+>> +       .has_hpd_reg = false,
+>> +       .is_soc = false,
+>> +};
+>> +
+>> +static const struct lsdc_desc dc_in_ls7a2000 = {
+>> +       .chip = CHIP_LS7A2000,
+>> +       .num_of_crtc = LSDC_NUM_CRTC,
+>> +       .max_pixel_clk = 350000,
+>> +       .max_width = 4096,
+>> +       .max_height = 4096,
+>> +       .num_of_hw_cursor = 2,
+>> +       .hw_cursor_w = 64,
+>> +       .hw_cursor_h = 64,
+>> +       .pitch_align = 64,
+>> +       .mc_bits = 40, /* support 48, but use 40 for backward compatibility */
+>> +       .has_vblank_counter = true,
+>> +       .has_scan_pos = true,
+>> +       .has_builtin_i2c = true,
+>> +       .has_vram = true,
+>> +       .has_hpd_reg = true,
+>> +       .is_soc = false,
+>> +};
+>> +
+> Roughly a quarter of the above are identical. It might be better to
+> drop them for now and re-introduce as needed with future code.
+>
+>> +const char *chip_to_str(enum loongson_chip_family chip)
+>> +{
+>> +       if (chip == CHIP_LS7A2000)
+>> +               return "LS7A2000";
+>> +
+>> +       if (chip == CHIP_LS7A1000)
+>> +               return "LS7A1000";
+>> +
+> If it were me, I would add the name into the lsdc_desc.
+>
+>
+>> +static enum drm_mode_status
+>> +lsdc_mode_config_mode_valid(struct drm_device *ddev,
+>> +                           const struct drm_display_mode *mode)
+>> +{
+>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>> +       const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB8888);
+> Short-term hard coding a format is fine, but there should be a comment
+> describing why.
+>
+>> +       u64 min_pitch = drm_format_info_min_pitch(info, 0, mode->hdisplay);
+>> +       u64 fb_size = min_pitch * mode->vdisplay;
+>> +
+>> +       if (fb_size * 3 > ldev->vram_size) {
+> Why are we using 3 here? Please add an inline comment.
+>
+>
+>> +static const struct dev_pm_ops lsdc_pm_ops = {
+>> +       .suspend = lsdc_pm_suspend,
+>> +       .resume = lsdc_pm_resume,
+>> +       .freeze = lsdc_pm_freeze,
+>> +       .thaw = lsdc_pm_thaw,
+>> +       .poweroff = lsdc_pm_freeze,
+>> +       .restore = lsdc_pm_resume,
+>> +};
+>> +
+> The above section (and functions) should probably be wrapped in a
+> CONFIG_PM_SLEEP block.
+>
+>
+>
+>> +static const struct pci_device_id lsdc_pciid_list[] = {
+>> +       {PCI_VENDOR_ID_LOONGSON, 0x7a06, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_LS7A1000},
+>> +       {PCI_VENDOR_ID_LOONGSON, 0x7a36, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_LS7A2000},
+>> +       {0, 0, 0, 0, 0, 0, 0}
+>> +};
+>> +
+>> +static int __init loongson_module_init(void)
+>> +{
+>> +       while ((pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev))) {
+>> +               if (pdev->vendor != PCI_VENDOR_ID_LOONGSON) {
+>> +                       pr_info("Discrete graphic card detected, abort\n");
+>> +                       return 0;
+>> +               }
+>> +       }
+> You can set the class/class_mask in the lsdc_pciid_list and drop this
+> loop. The vendor is already listed above and checked by core.
+>
+>
+>
+>> +++ b/drivers/gpu/drm/loongson/lsdc_drv.h
+>> @@ -0,0 +1,324 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright (C) 2022 Loongson Corporation
+>> + *
+> We're in 2023, update the year across the files?
+>
+>
+>
+>> +struct lsdc_gem {
+>> +       /* @mutex: protect objects list */
+>> +       struct mutex mutex;
+>> +       struct list_head objects;
+>> +};
+>> +
+>> +struct lsdc_device {
+>> +       struct drm_device base;
+>> +       struct ttm_device bdev;
+>> +
+>> +       /* @descp: features description of the DC variant */
+>> +       const struct lsdc_desc *descp;
+>> +
+>> +       struct pci_dev *gpu;
+>> +
+>> +       /* @reglock: protects concurrent access */
+>> +       spinlock_t reglock;
+>> +       void __iomem *reg_base;
+>> +       resource_size_t vram_base;
+>> +       resource_size_t vram_size;
+>> +
+>> +       resource_size_t gtt_size;
+>> +
+>> +       struct lsdc_display_pipe dispipe[LSDC_NUM_CRTC];
+>> +
+>> +       struct lsdc_gem gem;
+>> +
+> Last time I looked there was no other driver with a list of gem
+> objects (and a mutex) in its device struct. Are you sure we need this?
+>
+> Very few drivers use TTM directly and I think you want to use
+> drm_gem_vram_helper or drm_gem_ttm_helper instead.
+>
+>
+>
+>> +static int ls7a1000_pixpll_param_update(struct lsdc_pll * const this,
+>> +                                       struct lsdc_pll_parms const *pin)
+>> +{
+>> +       void __iomem *reg = this->mmio;
+>> +       unsigned int counter = 0;
+>> +       bool locked;
+>> +       u32 val;
+>> +
+>> +       /* Bypass the software configured PLL, using refclk directly */
+>> +       val = readl(reg + 0x4);
+>> +       val &= ~(1 << 8);
+>> +       writel(val, reg + 0x4);
+>> +
+> There are a lot of magic numbers in this function. Let's define them
+> properly in the header.
+>
+>
+>
+>> +/* Helpers for chip detection */
+>> +bool lsdc_is_ls2k2000(void);
+>> +bool lsdc_is_ls2k1000(void);
+>> +unsigned int loongson_cpu_get_prid(u8 *impl, u8 *rev);
+>
+> Since this revision does pci_devices only, we don't need this detection right?
+>
+>
+> Hope that helps,
+> Emil
