@@ -2,159 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C7A6D78A7
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 11:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D35606D795A
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 12:13:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237507AbjDEJmx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 05:42:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51374 "EHLO
+        id S237629AbjDEKNt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 06:13:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbjDEJmu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 05:42:50 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5543D5272;
-        Wed,  5 Apr 2023 02:42:45 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3359bdDg030345;
-        Wed, 5 Apr 2023 09:42:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=rifoQKjJ7dW24fVehVkxpHsAT1KcDWFIbp13UKPByL8=;
- b=QGC7siTwURkXN4YuMBdzjR36hsYWv9pMoDRLaRJMRSrJympGvenDwT6wiQAnZwGKH5X5
- aVFl/mBV/ZSZNNPqcVQIW0dyv0og/zzxvM2jpxVXuHQLVglsD52IR0f7XGQprhirINzX
- +01bSGIJxBEnu4GIskCchImQdeg1XbgNyNKiYfXsiXmbRSKHKmIt6wOGg/Tmq1g9+TSZ
- uWISnAWyGe+rPz4NGCoOBUm4OXxU7lgIicx4v6KNv3fTsxKTqdtKghB2jzhSP2rGDbBz
- a5A9/ts7830oVmpwm0oiJ0wYBZPoiJO6E+DQ41q/HXe7Uc9MOKqG4c35GlHJkgaGypOh KQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prpg228fr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Apr 2023 09:42:40 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3359gdfr008109
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 5 Apr 2023 09:42:39 GMT
-Received: from [10.50.42.101] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 5 Apr 2023
- 02:42:35 -0700
-Message-ID: <75ba0395-7c82-0b72-b954-41c8e4e026d2@quicinc.com>
-Date:   Wed, 5 Apr 2023 15:12:31 +0530
+        with ESMTP id S231226AbjDEKNs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 06:13:48 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C2651995
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 03:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680689627; x=1712225627;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=opccJBHBu0Opk5ADjsij5C9Gcfq/2A4genkizgj2AGw=;
+  b=IlzPg8Sy88zzmOd7safqerStEUPm+boVs5moFhX9Z8pNseX5Gz5NXRd2
+   qpRFAuvMAYFZVeF16Krsz5f/Qc898VF3owyaJiSGAKAHjZzLVxRS+JQR4
+   dooHVxgGuWtPFlqoemfy+mTgAExdG9HT11zQmT+34ez53sFfyrFv+MW9Y
+   YjC3ThziruJ/WzuWgq1uzgZ0r9gBPs4dQlOZ7+moZM5KKzTrPI7vabn5U
+   6Q+YripCxXikiWwp21OLg630//cZNch5TAkeRk5M0TtDz5qbsMxjXD4rz
+   OgJHVfw+vpAvsBbrFJEyVvCMCmZaq6InLHbj3oiEZxbuio7w1ZeZz8oP1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="339908342"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="339908342"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 03:13:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="680232851"
+X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
+   d="scan'208";a="680232851"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 03:13:44 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 263741218A3;
+        Wed,  5 Apr 2023 13:13:42 +0300 (EEST)
+Date:   Wed, 5 Apr 2023 13:13:42 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] Documentation: v4l: Document rotation and
+ orientation for sensor drivers
+Message-ID: <ZC1J1oWaulW7uUvC@kekkonen.localdomain>
+References: <20230328145248.1489994-1-sakari.ailus@linux.intel.com>
+ <20230329182106.xi2k5diul3jixq3z@uno.localdomain>
+ <ZCVNR+nMpUoNuVnX@kekkonen.localdomain>
+ <20230330162725.5jubjq2muh6ztfhd@uno.localdomain>
+ <20230405054102.GV9915@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] media: venus: dec: Fix handling of the start cmd
-Content-Language: en-US
-To:     =?UTF-8?Q?Micha=c5=82_Krawczyk?= <mk@semihalf.com>,
-        Vikash Garodia <vgarodia@qti.qualcomm.com>
-CC:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mw@semihalf.com" <mw@semihalf.com>
-References: <20230130105423.1338554-1-mk@semmihalf.com>
- <20230130135418.1604455-1-mk@semmihalf.com>
- <CAJMMOfNJV+eOqTgUoLLWKQe2MJ=6fXL3aaP6d=YrSBQvfhOXiA@mail.gmail.com>
- <DM8PR02MB8169B2AC8918F8E31628F61AF3DB9@DM8PR02MB8169.namprd02.prod.outlook.com>
- <CAJMMOfN-6fgN0VohA5ViwVXmNWtA13ycfZFoO4ys9_CLes0feA@mail.gmail.com>
- <CAJMMOfM41dfqx0NoiHGE=8X5hoRHo1=qPEp4KXLP1kygestEJQ@mail.gmail.com>
- <CAJMMOfN6tUzGZOkP6ZXbKCr-vszqf3nnRM-dhXfpOUSiHr2EHA@mail.gmail.com>
- <CAJMMOfNzkp9wFfwmov3T8f3KheY4hzu+4AnwXf7iLjKRQQbDzA@mail.gmail.com>
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <CAJMMOfNzkp9wFfwmov3T8f3KheY4hzu+4AnwXf7iLjKRQQbDzA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: oUrpwQV6wvXmIrzISV6AWiZPe9skmCcS
-X-Proofpoint-ORIG-GUID: oUrpwQV6wvXmIrzISV6AWiZPe9skmCcS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_05,2023-04-04_05,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- bulkscore=0 impostorscore=0 clxscore=1011 priorityscore=1501
- suspectscore=0 mlxscore=0 spamscore=0 mlxlogscore=944 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304050089
-X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230405054102.GV9915@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
-On 4/5/2023 2:59 PM, Michał Krawczyk wrote:
-> Hi,
->
-> just a kindly reminder about the patch.
->
-> Thanks,
-> Michał
+On Wed, Apr 05, 2023 at 08:41:02AM +0300, Laurent Pinchart wrote:
+> Hello,
+> 
+> On Thu, Mar 30, 2023 at 06:27:25PM +0200, Jacopo Mondi wrote:
+> > On Thu, Mar 30, 2023 at 11:50:15AM +0300, Sakari Ailus wrote:
+> > > On Wed, Mar 29, 2023 at 08:21:06PM +0200, Jacopo Mondi wrote:
+> > > > On Tue, Mar 28, 2023 at 05:52:48PM +0300, Sakari Ailus wrote:
+> > > > > Document how rotation and orientation should be taken into account in
+> > > > > writing camera sensor drivers.
+> > > > >
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > > since v1:
+> > > > >
+> > > > > Use speclial double quotes around functions to use non-proportional font for
+> > > > > them.
+> > > > >
+> > > > >  Documentation/driver-api/media/camera-sensor.rst      | 11 +++++++++++
+> > > > >  .../userspace-api/media/v4l/ext-ctrls-camera.rst      |  1 +
+> > > > >  2 files changed, 12 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > > > index c7d4891bd24e..2618a91b0d85 100644
+> > > > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > > > @@ -151,3 +151,14 @@ used to obtain device's power state after the power state transition:
+> > > > >  The function returns a non-zero value if it succeeded getting the power count or
+> > > > >  runtime PM was disabled, in either of which cases the driver may proceed to
+> > > > >  access the device.
+> > > > > +
+> > > > > +Rotation and orientation
+> > > > > +------------------------
+> > > > > +
+> > > > > +Some systems have been implemented so that the camera sensor has been mounted
+> > > > > +upside down compared to its natural mounting rotation. In such a case, the
+> > > > > +:ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>` control
+> > > > > +shall indicate the mounting rotation.
+> > > >
+> > > > I would put it in imperative form for driver developers
+> > > >
+> > > > "Some systems have been implemented so that the camera sensor has been mounted
+> > > > upside down compared to its natural mounting rotation. In such a case,
+> 
+> I'd simplify it further:
+> 
+> "Some systems have the camera sensor mounted upside down compared to its
+> natural mounting rotation. In such cases, "
+> 
+> More words can add clarity, but when they don't, excess words should be
+> removed :-)
 
-Hi Michal,
+Works for me.
 
-this patch is part of latest PR 
-https://patchwork.linuxtv.org/project/linux-media/patch/20230404192722.144496-1-stanimir.k.varbanov@gmail.com/ 
+> 
+> > > > drivers should register the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> > > > <v4l2-camera-sensor-rotation>` control to report the information to
+> > > > userspace."
+> > >
+> > > That is in conditional, suggesting it isn't mandatory. Is that what you
+> > > wanted to say?
+> > 
+> > "drivers shall register..." ?
+> 
+> Sounds good, maybe with s/register/expose/. Or
+> 
+> "drivers shall expose the information to userspace with the
+> :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION <v4l2-camera-sensor-rotation>`
+> control."
+> 
+> > > > I would also specify how drivers should initialize their flip controls
+> > > >
+> > > > "Mode-based sensor driver implementations that have any vertical or
+> 
+> s/driver implementations/drivers/
+> 
+> (still chasing extraneous words)
+> 
+> > > > horizontal flips embedded in the register programming sequences should
+> > > > initialize the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls with the
+> > > > values programmed by the register sequences.
+> > >
+> > > I'd use "shall" also here. I can't think of a reasonable exception as it
+> > > breaks how this is meant to work for user space.
+> > 
+> > Yes, I agree
+> 
+> Agreed. I'd drop "Mode-based" though, I don't think that's relevant,
+> other drivers may do something similar.
 
+I'll change these for v3.
 
-Thanks,
+> 
+> > > > Drivers which implement writable flip controls could automatically
+> > > > compensate for the sensor's mounting rotation and shall reflect that in
+> > > > the V4L2_CID_HFLIP and V4L2_CID_VFLIP controls initial and default values."
+> > >
+> > > Good point. For existing drivers (such as CCS or IMX258) this could help
+> > > existing users but I'm not sure I'd do this for new drivers. Comments and
+> > > opinions would be welcome from others, too. Cc Laurent, too.
+> 
+> I wouldn't for new drivers, no, and even for IMX258 and CCS, I'm tempted
+> to not keep that backward compatibility. We need to assess whether or
+> not it would cause breakages in practice, if the risk is very low, I'd
+> favour consistency. This is especially the case for CCS.
 
-Dikshita
+I've actually already posted patches doing just this for CCS.
 
-> pt., 10 mar 2023 o 16:05 Michał Krawczyk <mk@semihalf.com> napisał(a):
->> Hi,
->>
->> Any update on this patch? It would be great if we could make some
->> progress there (and, hopefully, finally merge it :))
->>
->> Thanks,
->> Michał
->>
->> pt., 10 lut 2023 o 16:18 Michał Krawczyk <mk@semihalf.com> napisał(a):
->>> Hi,
->>>
->>> I'm wondering if there are any more comments for this patch? I would
->>> be happy to clarify anything that's unclear or improve the code if
->>> needed.
->>>
->>> I know it's pretty late, but it would be really great if this fix
->>> could land before v6.2 is released, so I'd appreciate your help and
->>> review.
->>>
->>> Thank you,
->>> Michał
->>>
->>> wt., 7 lut 2023 o 12:15 Michał Krawczyk <mk@semihalf.com> napisał(a):
->>>> wt., 7 lut 2023 o 10:54 Vikash Garodia <vgarodia@qti.qualcomm.com> napisał(a):
->>>>> I have reviewed the patch, and the drain sequence handling looks good to me.
->>>>> Could you share some details on the test client which you are using to catch this issue ?
->>>> Hi Vikash,
->>>>
->>>> Thank you for looking at the code!
->>>>
->>>> I've been testing it using the Chromium implementation of the V4L2
->>>> codec [1]. Meanwhile, we were running a test suite which changes the
->>>> encryption method in the middle of the video decoding. This triggers
->>>> the flush behavior and the Chromium sends the stop/start cmd to the
->>>> V4L2 kernel component, and the test expects the video to continue the
->>>> playback normally. Unfortunately, it was causing a stall of the video
->>>> at the same time.
->>>>
->>>> [1] https://source.chromium.org/chromium/chromium/src/+/main:media/gpu/v4l2/
->>>>
->>>>>> Thank you,
->>>>>> Michał
->>>>> Thanks,
->>>>> Vikash
+> 
+> > > > > +
+> > > > > +Use ``v4l2_fwnode_device_parse()`` to obtain this information and
+> > > > > +``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls.
+> > > >
+> > > > I would also mention the orientation control before introducing
+> > > > v4l2_fwnode_device_parse.
+> > > >
+> > > > "Sensor drivers should also report their mounting orientation with the
+> > > > :ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> > > >
+> > > > Both controls can be registered by using the ``v4l2_fwnode_device_parse()``
+> > > > function to obtain this information from the firmware interface and
+> > > > ``v4l2_ctrl_new_fwnode_properties()`` to generate the appropriate controls."
+> > > >
+> > > > How does this work for you ?
+> > >
+> > > I'd just use "shall" here, too.
+> > 
+> > Agree on this as well
+> > 
+> > > This applies of course to new drivers only, many existing ones are missing
+> > > these bits.
+> > 
+> > I know :( It's however worth it to encourage new drivers to do that!
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
