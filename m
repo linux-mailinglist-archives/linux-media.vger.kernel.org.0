@@ -2,48 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19F996D747C
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 08:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38CC26D7481
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 08:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236706AbjDEGkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 02:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
+        id S236865AbjDEGl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 02:41:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231191AbjDEGkT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 02:40:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C17F1FE7
-        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 23:40:16 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F120B905;
-        Wed,  5 Apr 2023 08:40:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680676814;
-        bh=H8F32ksNjUi4T3xN6eAKo1dKAXzTCF2dH1JCOI+L858=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=voe0Qmedgq49Hs1FoNUU1bfsZTUKcSrsI8xmgPuSvsFDipiG/1x3YRn2nRO77le9w
-         CPeQ1bTiZJVu5449yvEW2WM+Zef/7Rp67rmtqQHNhvWgto+LgRfpq6C6q1wbP66TDS
-         ZLniVG1DcM2NTAog18LigCQlqi5DfRAN4gTxhow8=
-Date:   Wed, 5 Apr 2023 09:40:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        regressions@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
-        "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
- pixelformats
-Message-ID: <20230405064020.GZ9915@pendragon.ideasonboard.com>
-References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
- <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
- <7bcc8593-a98d-6faa-2ec5-3cf59137cbcb@xs4all.nl>
+        with ESMTP id S231191AbjDEGl6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 02:41:58 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2F11FE7;
+        Tue,  4 Apr 2023 23:41:56 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3353g7Er017906;
+        Wed, 5 Apr 2023 06:41:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=aQAQQtsT5e6+vLdaoAjRE4Dj+TiRwbJphmZ7LZWsMdQ=;
+ b=i1jRXWFnZnwrj1oNYMlGdYRZiDizC76CIGcGHUGSdlrC33WTalAmhAxcSFNtUtgZhyQJ
+ 4nMDJVSiH2JvExA7FOI/Or2B9quo6na9Y3X/Uq/pNj6rC+AAhM7aXlnlzKli40JjH2GB
+ Rt2XeJMXR8XRqw5J8FDJZ0ZxCw9tVQeOYwVvlQqBhWvBfJphW2f4lvt1DNDLBoUyYDTz
+ NrS+FaeZuQejzhI73+FeJnboirAa+1SgDOCIRo7dbQIKzbQXATVrrbLU6Hl5rSPe3kc7
+ FQ4tS/eAshLMAsot+R0pekL0WWWu6VUZcABxKm8jH5CzEaSJWd2MPkeWssjz/VOczmnh /g== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prnvg20ag-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 05 Apr 2023 06:41:51 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3356foaq031530
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 5 Apr 2023 06:41:50 GMT
+Received: from [10.50.42.101] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 4 Apr 2023
+ 23:41:46 -0700
+Message-ID: <62cc41a2-ff48-40b9-eb89-69e352e6f6e9@quicinc.com>
+Date:   Wed, 5 Apr 2023 12:11:43 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7bcc8593-a98d-6faa-2ec5-3cf59137cbcb@xs4all.nl>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 3/3] venus: fix EOS handling in decoder stop command
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        <linux-media@vger.kernel.org>, <stanimir.k.varbanov@gmail.com>,
+        <quic_vgarodia@quicinc.com>, <agross@kernel.org>,
+        <andersson@kernel.org>, <mchehab@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        "Viswanath Boma" <quic_vboma@quicinc.com>
+References: <1680589032-26046-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680589032-26046-4-git-send-email-quic_dikshita@quicinc.com>
+ <93b78f82-d2db-fc1d-4bad-732f7a1b33de@linaro.org>
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <93b78f82-d2db-fc1d-4bad-732f7a1b33de@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: m1RwIexUAcCcMo38kAq_cfAf8aOJymA9
+X-Proofpoint-ORIG-GUID: m1RwIexUAcCcMo38kAq_cfAf8aOJymA9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_02,2023-04-04_05,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050061
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,102 +82,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-On Wed, Mar 29, 2023 at 07:20:59PM +0200, Hans Verkuil wrote:
-> On 29/03/2023 18:05, Ricardo Ribalda wrote:
-> > Hi Hans
-> > 
-> > Thanks for the patch.
-> > 
-> > I believe the user can fetch this info from lsusb, so this is kind of
-> > duplicated info, and this is why it was removed.
-> 
-> You got to set some description, so using the GUID this seems best.
-> 
-> > Is there an app that uses this unknown format code ? Or the only
-> > complaint is that WARN() is too loud for the user?
-> 
-> Normally drivers do not pass on unknown formats, but if a driver does,
-> then I want a WARN. If a driver does this legitimately (and I understand
-> that's the case for UVC), then the driver should fill in the description
-> to avoid this WARN.
+On 4/4/2023 11:54 PM, Konrad Dybcio wrote:
+>
+> On 4.04.2023 08:17, Dikshita Agarwal wrote:
+>> Use firmware version based check to assign correct
+>> device address for EOS buffer to fix the EOS handling
+>> with different firmware version.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+>> Tested-by: Nathan Hebert <nhebert@chromium.org>
+>> ---
+> Does it only concern fw 1.0.xx?
+>
+> Konrad
 
-In hindsight we shouldn't have added a text description to formats :-)
+that's right.
 
-> > On Wed, 29 Mar 2023 at 14:39, Hans Verkuil wrote:
-> >>
-> >> If the fcc is 0 (indicating an unknown GUID format), then fill in the
-> >> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
-> >>
-> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
-> >> ---
-> >> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> >> index 7aefa76a42b3..2f1ced1212cd 100644
-> >> --- a/drivers/media/usb/uvc/uvc_driver.c
-> >> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> >> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >>                 } else {
-> >>                         dev_info(&streaming->intf->dev,
-> >>                                  "Unknown video format %pUl\n", &buffer[5]);
-> >> +                       snprintf(format->name, sizeof(format->name), "%pUl\n",
-> >> +                                &buffer[5]);
-> > Don't we need at least 38 chars for this?
-> 
-> Yes. But all we have is 31 chars, so we take what we can :-)
-> 
-> This is what uvc did before this was removed.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > https://docs.kernel.org/core-api/printk-formats.html#uuid-guid-addresses
-> > 
-> >> +
-> >>                         format->fcc = 0;
-> >>                 }
-> >>
-> >> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> >> index 35453f81c1d9..fc6f9e7d8506 100644
-> >> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> >> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> >> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
-> >>         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
-> >>                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
-> >>         fmt->pixelformat = format->fcc;
-> >> +       if (format->name[0])
-> >> +               strscpy(fmt->description, format->name,
-> >> +                       sizeof(fmt->description));
-> >> +
-> >>         return 0;
-> >>  }
-> >>
-> >> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> >> index 9a596c8d894a..22656755a801 100644
-> >> --- a/drivers/media/usb/uvc/uvcvideo.h
-> >> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> >> @@ -264,6 +264,8 @@ struct uvc_format {
-> >>         u32 fcc;
-> >>         u32 flags;
-> >>
-> >> +       char name[32];
-> >> +
+changes were made in later firmware (newer than 1.0.87) to
 
-I'd not really nice to have to store the name for every format, when we
-know it will very rarely be used.
+make the behavior generic across all supported SOCs.
 
-One alternative option would be to store the GUID, which would halve the
-amount of memory. Another option would be to stop reporting those
-formats to userspace in uvc_ioctl_enum_fmt(). They can't be selected
-anyway, they have no unique 4CC.
+Thanks,
 
-> >>         unsigned int nframes;
-> >>         struct uvc_frame *frame;
-> >>  };
+Dikshita
 
--- 
-Regards,
-
-Laurent Pinchart
+>>   drivers/media/platform/qcom/venus/vdec.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+>> index f0394b9..c59b34f 100644
+>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>> @@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+>>   
+>>   		fdata.buffer_type = HFI_BUFFER_INPUT;
+>>   		fdata.flags |= HFI_BUFFERFLAG_EOS;
+>> -		if (IS_V6(inst->core))
+>> +		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
+>>   			fdata.device_addr = 0;
+>>   		else
+>>   			fdata.device_addr = 0xdeadb000;
