@@ -2,76 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E28236D7150
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 02:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DC4A6D727F
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 04:30:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236595AbjDEAdp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Apr 2023 20:33:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
+        id S236556AbjDECaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Apr 2023 22:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235609AbjDEAdo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 20:33:44 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C982040FB;
-        Tue,  4 Apr 2023 17:33:42 -0700 (PDT)
-Received: from [192.168.2.153] (109-252-119-170.nat.spd-mgts.ru [109.252.119.170])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 28F00660315A;
-        Wed,  5 Apr 2023 01:33:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680654820;
-        bh=via3dJkBW0Q8Yv2lNNPhM1xz+EXuwPR73o7cexB8slY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=aDnntxld9l5U1838pxs7NIC4zlfcPtaKCwF2NGov7MOFh4qL466qI5WvAOWi6K/p+
-         ZkhfEgrvEKpMEAEWNeA7+GiBxa7JYxR6fyecM+semPnPuQACmYxaGCmugo9Vqkyj3n
-         TQAGZC8fpSAaeF3FJbLOWfw3N1n5vgRXhihKtWuKAGqn5BtzqJ0qQUiTihANTbojgg
-         DHjAQGEVYOV2cTUTTPSllrvfZEYWoAokSc+lIt5KXU7UGGB6hiyPdXEn5ssBoxrSVS
-         RQ8UUiSIQrVm2QmeQgmDwrKAXz4J2Gt2o2A//CeZjkd23tpyvvZJfu3pHQ/4RTUZZw
-         nnt2kzHwFxcGA==
-Message-ID: <91788325-5050-9cf8-9246-5496d9db4df3@collabora.com>
-Date:   Wed, 5 Apr 2023 03:33:22 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 5/7] Revert "drm: Assert held reservation lock for
- dma-buf mmapping"
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomi Valkeinen <tomba@kernel.org>,
+        with ESMTP id S235178AbjDECau (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Apr 2023 22:30:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97317BB;
+        Tue,  4 Apr 2023 19:30:45 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 622C2905;
+        Wed,  5 Apr 2023 04:30:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680661841;
+        bh=92JxqutkaA7MOBZzEsI8JVLAVvvA2FVlO8U5Q3EjmSo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mWO+SH7/XV27sw9R9Rw+KgqItm8rURI5GQYFV1sl6pR8XqDB6GW41gIU2YwetbYJf
+         AtRC/91JVGQs52YzgrvoES/zkyNKZ3kM/rEVQD8Wdrh/kfYVzeVJvyDFcz5Eo0QXhG
+         Cc25z/I3g+l6D2expqUK61OIFTqhI2ZjYHVrjfc4=
+Date:   Wed, 5 Apr 2023 05:30:48 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        kernel@collabora.com
-References: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
- <20230402164826.752842-6-dmitry.osipenko@collabora.com>
- <7854897f-67f8-e82c-3edf-e8ef923d2474@amd.com>
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <7854897f-67f8-e82c-3edf-e8ef923d2474@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Richard Leitner <richard.leitner@skidata.com>
+Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
+ .vidioc_enum_fmt_vid_cap to return all formats
+Message-ID: <20230405023048.GD9915@pendragon.ideasonboard.com>
+References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
+ <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
+ <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
+ <20230404161251.272cc78b@booty>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230404161251.272cc78b@booty>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,31 +64,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/3/23 18:17, Christian König wrote:
-> Am 02.04.23 um 18:48 schrieb Dmitry Osipenko:
->> Don't assert held dma-buf reservation lock on memory mapping of exported
->> buffer.
->>
->> We're going to change dma-buf mmap() locking policy such that exporters
->> will have to handle the lock. The previous locking policy caused deadlock
->> problem for DRM drivers in a case of self-imported dma-bufs, it's solved
->> by moving the lock down to exporters.
-> 
-> I only checked the TTM code path and think that at least that one should
-> work fine.
-> 
->> Fixes: 39ce25291871 ("drm: Assert held reservation lock for dma-buf
->> mmapping")
-> 
-> This here is not really a "fix" for the previous patch. We just found
-> that we didn't like the behavior and so reverted the original patch.
-> 
-> A "Reverts..." comment in the commit message would be more appropriate I
-> think.
+Hi Luca,
 
-Ack, will drop the fixes tag in v2. Thank you and Emil for the review.
+On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
+> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
+> 
+> > Hi Luca,
+> > 
+> > I finally found the time to test this series. It looks OK, except for this patch.
+> 
+> Thank you very much for taking the time!
+> 
+> > The list of supported formats really has to be the intersection of what the tegra
+> > supports and what the sensor supports.
+> > 
+> > Otherwise you would advertise pixelformats that cannot be used, and the application
+> > would have no way of knowing that.
+> 
+> As far as I understand, I think we should rather make this driver fully
+> behave as an MC-centric device. It is already using MC quite
+> successfully after all.
+> 
+> Do you think this is correct?
+
+Given the use cases for this driver, I agree.
+
+> If you do, then I think the plan would be:
+> 
+>  - Add the V4L2_CAP_IO_MC flag
+>  - As the mbus_code in get_format appropriately
+>  - Leave the changes in this patch unmodified otherwise
 
 -- 
-Best regards,
-Dmitry
+Regards,
 
+Laurent Pinchart
