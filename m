@@ -2,43 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 659D66D7D58
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 15:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF6B6D7DE6
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 15:40:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238125AbjDENGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 09:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50426 "EHLO
+        id S238315AbjDENk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 09:40:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237126AbjDENGT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 09:06:19 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC237EA
-        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 06:06:17 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:1cf0:b3bc:c785:4625])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1D3114C0;
-        Wed,  5 Apr 2023 15:06:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680699975;
-        bh=OoClEUJcOHI5Pp/Q6w0rCz0K1yX2giKUn5/rIi6H648=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W4QOrFWi9m5j/dqzQMMM3GERmwo6l7uDoCYFv0Vn39LxakEw/2gdR+tPwUJJq9OAi
-         2k8Sfr3x2J6+43OQuhL2YsPcMBDPiXcsK6+mQP8q8tTz8M7IXfem31bOZsZpvGM8GJ
-         tJX7cdgMvE9TVDnVIvlC+j6Iam/LFsVOFjiUKgyw=
-Date:   Wed, 5 Apr 2023 15:06:12 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 1/1] Documentation: v4l: Document rotation and
- orientation for sensor drivers
-Message-ID: <20230405130612.gqxmddu5qt56rfav@uno.localdomain>
-References: <20230405101646.1804044-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S238303AbjDENkZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 09:40:25 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4693849F9
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 06:40:23 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-4fd1f2a0f82so54344a12.1
+        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 06:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1680702022; x=1683294022;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b9JAWiy7ir3X1MkEG4eNi/e4F+J8Za1YQw6cD7xkcWQ=;
+        b=I5E2dILRk/qwr/JqR3XN+WpGsAtsDJaxeFQY1kUaSs0iN97G9an9tQIRfByNhSo3Fv
+         Ff7L1Qa6nX+1WNgzPrDJCXNhBjfKdK+ltAGeuDGEIOao3yXMv9PbqZW75aBC3kcWfhHT
+         GgTwkxsMaG6WpXcP3/tIq5SA+L5RLr7H0a6uQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680702022; x=1683294022;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9JAWiy7ir3X1MkEG4eNi/e4F+J8Za1YQw6cD7xkcWQ=;
+        b=r8KyNwpSK4WHHcGo7OyYAoEsmIpeL7ddcadME8WyZS9Bme2JLwkAw0yK8oWA6OLNkl
+         cDJMvB82p1gq44AtTLoam29bfvmvXFlaNmlgmYYZ5ZbwDUBMtyWmlM1rURMnQjoC0fuU
+         sGl890foqBwxeFmMveWxKyV/Yziua2aCKa/gFdKonW3ryJ71UwvT1BDYn1mThjJ5A8nr
+         zlpxDpyqzaV/hBIn1ywBcf5O5kj4zUEg8V4p+J2aswuXyUsBBMxrBNtfRK9GdUsEM4rO
+         tCKGkoZBxowbc885+pMDrjnaFAAMP8mspcjmW12TjR/DvfQVSNiSd1ReXaUUxarOpd7F
+         pUyw==
+X-Gm-Message-State: AAQBX9c29YC/1M3mZ3WLlHpZ+4ISrmKkJtDdaVM/+ZkiIy2wJ31byRoa
+        qUAY1z0Lz0rm3qLhoE1+aLsTSg==
+X-Google-Smtp-Source: AKy350b3xCy9gL5DOFrdll8pOoEph0xjt04z4AL+Sh79KZNLfnPVo8bTbbVanjj+1/+QMr0G8qmUvA==
+X-Received: by 2002:a05:6402:4413:b0:502:1f7b:f0a6 with SMTP id y19-20020a056402441300b005021f7bf0a6mr2233711eda.0.1680702021702;
+        Wed, 05 Apr 2023 06:40:21 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id s25-20020a50d499000000b005027dd7c403sm6937947edi.66.2023.04.05.06.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 06:40:21 -0700 (PDT)
+Date:   Wed, 5 Apr 2023 15:40:19 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Asahi Lina <lina@asahilina.net>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Message-ID: <ZC16Q8MhHEcutX1b@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230405101646.1804044-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,69 +112,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+On Tue, Mar 07, 2023 at 11:25:35PM +0900, Asahi Lina wrote:
+> Some hardware may require more complex resource utilization accounting
+> than the simple job count supported by drm_sched internally. Add a
+> can_run_job callback to allow drivers to implement more logic before
+> deciding whether to run a GPU job.
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-On Wed, Apr 05, 2023 at 01:16:46PM +0300, Sakari Ailus wrote:
-> Document how rotation and orientation should be taken into account in
-> writing camera sensor drivers.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Ok scheduler rules, or trying to summarize the entire discussion:
+
+dma_fence rules are very tricky. The two main chapters in the docs are
+
+https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#dma-fence-cross-driver-contract
+https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+
+Unforutunately I don't think it's possible to check this at compile time,
+thus far all we can do is validate at runtime. I've posted two patches for
+this:
+
+https://lore.kernel.org/dri-devel/20201023122216.2373294-17-daniel.vetter@ffwll.ch/
+https://lore.kernel.org/dri-devel/20201023122216.2373294-20-daniel.vetter@ffwll.ch/
+
+Unfortunately most drivers are buggy and get this completely wrong, so
+realistically we'd need to make this a per-driver opt-out and annotate all
+current drivers. Well except amdgpu is correct by now I think (they'd
+still need to test that). And Rob Clark is working on patches to fix up
+msm.
+
+I think best here is if you work together with Rob to make sure these
+annotations are mandatory for any rust drivers (I don't want new buggy
+drivers at least). Would also be great to improve the kerneldoc for all
+the driver hooks to explain these restrictions and link to the relevant
+kerneldocs (there's also one for the dma_fence signalling annotations
+which might be worth linking too).
+
+I don't see any way to make this explicit in rust types, it's really only
+something runtime tests (using lockdep) can catch. Somewhat disappointing.
+
+For the other things discussed here:
+
+- Option<Dma_Fence> as the return value for ->prepare_job makes sense to
+  me.
+
+- I don't see any way a driver can use ->can_run_job without breaking the
+  above rules, that really doesn't sound like a good idea to me.
+
+Cheers, Daniel
+
 > ---
-> since v1:
->
-> - Simplify language (Laurent's suggestion) and add note on flipping
->   controls (Jacopo).
->
-> - Improve the last paragraph, say this is about rotation and orientation.
->
->  Documentation/driver-api/media/camera-sensor.rst | 16 ++++++++++++++++
->  .../userspace-api/media/v4l/ext-ctrls-camera.rst |  1 +
->  2 files changed, 17 insertions(+)
->
-> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> index c7d4891bd24e..61caa7901c51 100644
-> --- a/Documentation/driver-api/media/camera-sensor.rst
-> +++ b/Documentation/driver-api/media/camera-sensor.rst
-> @@ -151,3 +151,19 @@ used to obtain device's power state after the power state transition:
->  The function returns a non-zero value if it succeeded getting the power count or
->  runtime PM was disabled, in either of which cases the driver may proceed to
->  access the device.
+>  drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
+>  include/drm/gpu_scheduler.h            |  8 ++++++++
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 4e6ad6e122bc..5c0add2c7546 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
+>  		if (!entity)
+>  			continue;
+>  
+> +		if (sched->ops->can_run_job) {
+> +			sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+> +			if (!sched_job) {
+> +				complete_all(&entity->entity_idle);
+> +				continue;
+> +			}
+> +			if (!sched->ops->can_run_job(sched_job))
+> +				continue;
+> +		}
 > +
-> +Rotation and orientation
-> +------------------------
+>  		sched_job = drm_sched_entity_pop_job(entity);
+>  
+>  		if (!sched_job) {
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 9db9e5e504ee..bd89ea9507b9 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
+>  	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
+>  					 struct drm_sched_entity *s_entity);
+>  
+> +	/**
+> +	 * @can_run_job: Called before job execution to check whether the
+> +	 * hardware is free enough to run the job.  This can be used to
+> +	 * implement more complex hardware resource policies than the
+> +	 * hw_submission limit.
+> +	 */
+> +	bool (*can_run_job)(struct drm_sched_job *sched_job);
 > +
-> +Some systems have the camera sensor mounted upside down compared to its natural
-> +mounting rotation. In such cases, drivers shall expose the information to
-> +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> +<v4l2-camera-sensor-rotation>` control.
-> +
-> +Sensor drivers that have any vertical or horizontal flips embedded in the
-> +register programming sequences shall initialize the V4L2_CID_HFLIP and
-> +V4L2_CID_VFLIP controls with the values programmed by the register sequences.
-> +
+>  	/**
+>           * @run_job: Called to execute the job once all of the dependencies
+>           * have been resolved.  This may be called multiple times, if
+> 
+> -- 
+> 2.35.1
+> 
 
-Just a note about the paragraph about ORIENTATION I suggested on the
-previous version. If it was left out intentionally:
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
-> +Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
-> +information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
-> +register the appropriate controls.
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> index daa4f40869f8..29fe22da52a2 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> @@ -536,6 +536,7 @@ enum v4l2_scene_mode -
->        - The camera is not directly attached to the device and is freely movable.
->
->
-> +.. _v4l2-camera-sensor-rotation:
->
->  ``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
->      This read-only control describes the rotation correction in degrees in the
-> --
-> 2.30.2
->
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
