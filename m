@@ -2,147 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D146D7441
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 08:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19F996D747C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 08:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236899AbjDEGMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 02:12:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60832 "EHLO
+        id S236706AbjDEGkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 02:40:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236979AbjDEGMh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 02:12:37 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F1C212A;
-        Tue,  4 Apr 2023 23:12:36 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id r11so35001028wrr.12;
-        Tue, 04 Apr 2023 23:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680675155; x=1683267155;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NbX3TeyHNDS5eFyrTFp/ekNijmuXxfBTS/ZCafcqI+U=;
-        b=bUhpcLkgBDZrHVZX/L1h/2Q8sXiQ6RyrYFilkMFWpG0sY/GfKGd5qB2i1l6gA//NG3
-         fRRSo/kfie/96PKlLt6ErGc1CPHXQaShszYqpkeDgmsFIjL/LBqU2lFYdhkm1aRGmB6F
-         jEOxRM7UqZGqzGIOg6TqhRCh5eVwzibtSj4lkIE3qr01Vtyy/RTa7bFQdPW2606wzGSa
-         dP6J4JH2NFOk1soEQHgsdYQRPdg8oVIFKuBq0GvZKXxiw6e4fniT6Rf0WAUEpeLYVjxr
-         vPMA+WzKf1Ub+5XanQp1qebcD/+BLP6UCbsSVoln9DjdjpqUk43g+NyhlT6ifhe8KmdZ
-         bScw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680675155; x=1683267155;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NbX3TeyHNDS5eFyrTFp/ekNijmuXxfBTS/ZCafcqI+U=;
-        b=Z+EksUA/3xN1zXrOOjOI6M6x/q5V23wZjJQf3WxjAQZBeZZCRLan8Z5dqtQGmWVsXu
-         vN7fxs9DiHHypM5cCs0B5jJA11r5fVKJGJQJtJ2f6F2tx9lCmI/Y2N9q0NpiZurAwnk0
-         LJBYWK8Lz6vUxB1AbudOzJzf2uxwE7YCzAob2GliMY36JCRZ4mJevUED10bPBgJHS0U9
-         WMoSDcYXVwaB+PRqd7Ux/bZkQAPucCBjfZyBPKa/1duX+L0mWDKfXqaN5cvcr9v14yyd
-         wWwrHs7IDxwe6GTyJ6r9DvNO19ExZrchmCKokH1c1m3YPXJRTwPZQTWCzjmkt/44u58e
-         6cyA==
-X-Gm-Message-State: AAQBX9fesl9QiVI6PkbGzg9zR5OT8wX7uHmc0LievzAuLJAf4zdZYNjF
-        C4xny+FoX/bHl5wzRmAE66w=
-X-Google-Smtp-Source: AKy350bOpHgbA24Ur04Byt7cLkAIYy73rtEZzt7rBi1+vMa4OyfNdKs7IG2LFotuIQlQaC8twTLdjw==
-X-Received: by 2002:a5d:4d41:0:b0:2cb:76d4:42ea with SMTP id a1-20020a5d4d41000000b002cb76d442eamr2862131wru.36.1680675154909;
-        Tue, 04 Apr 2023 23:12:34 -0700 (PDT)
-Received: from [192.168.1.45] (hst-221-66.medicom.bg. [84.238.221.66])
-        by smtp.gmail.com with ESMTPSA id c18-20020a05600c0ad200b003ed2276cd0dsm1026572wmr.38.2023.04.04.23.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 23:12:34 -0700 (PDT)
-Message-ID: <e962ecc5-1a41-14b4-5c98-f9f1ac284267@gmail.com>
-Date:   Wed, 5 Apr 2023 09:12:33 +0300
+        with ESMTP id S231191AbjDEGkT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 02:40:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C17F1FE7
+        for <linux-media@vger.kernel.org>; Tue,  4 Apr 2023 23:40:16 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F120B905;
+        Wed,  5 Apr 2023 08:40:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680676814;
+        bh=H8F32ksNjUi4T3xN6eAKo1dKAXzTCF2dH1JCOI+L858=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=voe0Qmedgq49Hs1FoNUU1bfsZTUKcSrsI8xmgPuSvsFDipiG/1x3YRn2nRO77le9w
+         CPeQ1bTiZJVu5449yvEW2WM+Zef/7Rp67rmtqQHNhvWgto+LgRfpq6C6q1wbP66TDS
+         ZLniVG1DcM2NTAog18LigCQlqi5DfRAN4gTxhow8=
+Date:   Wed, 5 Apr 2023 09:40:20 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        regressions@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+        "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
+ pixelformats
+Message-ID: <20230405064020.GZ9915@pendragon.ideasonboard.com>
+References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
+ <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
+ <7bcc8593-a98d-6faa-2ec5-3cf59137cbcb@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3] venus: venc: add handling for VIDIOC_ENCODER_CMD
-Content-Language: en-US, bg-BG
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        nicolas@ndufresne.ca
-References: <1672843496-14111-1-git-send-email-quic_dikshita@quicinc.com>
-From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <1672843496-14111-1-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7bcc8593-a98d-6faa-2ec5-3cf59137cbcb@xs4all.nl>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
-
-On 4.01.23 г. 16:44 ч., Dikshita Agarwal wrote:
-> Add handling for below commands in encoder:
-> 1. V4L2_ENC_CMD_STOP
-> 2. V4L2_ENC_CMD_START
+On Wed, Mar 29, 2023 at 07:20:59PM +0200, Hans Verkuil wrote:
+> On 29/03/2023 18:05, Ricardo Ribalda wrote:
+> > Hi Hans
+> > 
+> > Thanks for the patch.
+> > 
+> > I believe the user can fetch this info from lsusb, so this is kind of
+> > duplicated info, and this is why it was removed.
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> You got to set some description, so using the GUID this seems best.
 > 
-> ---
-> change since v2:
->    add a check to return EBUSY if CMD_START is called
->    in VENUS_ENC_STATE_DRAIN state
+> > Is there an app that uses this unknown format code ? Or the only
+> > complaint is that WARN() is too loud for the user?
 > 
->   drivers/media/platform/qcom/venus/core.h |  9 +++++
->   drivers/media/platform/qcom/venus/venc.c | 66 ++++++++++++++++++++++++++++++++
->   2 files changed, 75 insertions(+)
+> Normally drivers do not pass on unknown formats, but if a driver does,
+> then I want a WARN. If a driver does this legitimately (and I understand
+> that's the case for UVC), then the driver should fill in the description
+> to avoid this WARN.
+
+In hindsight we shouldn't have added a text description to formats :-)
+
+> > On Wed, 29 Mar 2023 at 14:39, Hans Verkuil wrote:
+> >>
+> >> If the fcc is 0 (indicating an unknown GUID format), then fill in the
+> >> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
+> >>
+> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+> >> ---
+> >> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> >> index 7aefa76a42b3..2f1ced1212cd 100644
+> >> --- a/drivers/media/usb/uvc/uvc_driver.c
+> >> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> >> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >>                 } else {
+> >>                         dev_info(&streaming->intf->dev,
+> >>                                  "Unknown video format %pUl\n", &buffer[5]);
+> >> +                       snprintf(format->name, sizeof(format->name), "%pUl\n",
+> >> +                                &buffer[5]);
+> > Don't we need at least 38 chars for this?
 > 
+> Yes. But all we have is 31 chars, so we take what we can :-)
+> 
+> This is what uvc did before this was removed.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > https://docs.kernel.org/core-api/printk-formats.html#uuid-guid-addresses
+> > 
+> >> +
+> >>                         format->fcc = 0;
+> >>                 }
+> >>
+> >> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> >> index 35453f81c1d9..fc6f9e7d8506 100644
+> >> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> >> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> >> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+> >>         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+> >>                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+> >>         fmt->pixelformat = format->fcc;
+> >> +       if (format->name[0])
+> >> +               strscpy(fmt->description, format->name,
+> >> +                       sizeof(fmt->description));
+> >> +
+> >>         return 0;
+> >>  }
+> >>
+> >> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> >> index 9a596c8d894a..22656755a801 100644
+> >> --- a/drivers/media/usb/uvc/uvcvideo.h
+> >> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> >> @@ -264,6 +264,8 @@ struct uvc_format {
+> >>         u32 fcc;
+> >>         u32 flags;
+> >>
+> >> +       char name[32];
+> >> +
 
-> +static int
-> +venc_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *cmd)
-> +{
-> +	struct venus_inst *inst = to_inst(file);
-> +	struct hfi_frame_data fdata = {0};
-> +	int ret = 0;
-> +
-> +	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	mutex_lock(&inst->lock);
-> +
-> +	if (cmd->cmd == V4L2_ENC_CMD_STOP &&
-> +	    inst->enc_state == VENUS_ENC_STATE_ENCODING) {
-> +		/*
-> +		 * Implement V4L2_ENC_CMD_STOP by enqueue an empty buffer on
-> +		 * encoder input to signal EOS.
-> +		 */
-> +		if (!(inst->streamon_out && inst->streamon_cap))
-> +			goto unlock;
-> +
-> +		fdata.buffer_type = HFI_BUFFER_INPUT;
-> +		fdata.flags |= HFI_BUFFERFLAG_EOS;
-> +		fdata.device_addr = 0xdeadb000;
-> +
-> +		ret = hfi_session_process_buf(inst, &fdata);
-> +
-> +		inst->enc_state = VENUS_ENC_STATE_DRAIN;
-> +	} else if (cmd->cmd == V4L2_ENC_CMD_START) {
-> +		if (inst->enc_state == VENUS_ENC_STATE_DRAIN)
-unlock the mutex!
+I'd not really nice to have to store the name for every format, when we
+know it will very rarely be used.
 
-			ret = -EBUSY;
-			goto unlock;
+One alternative option would be to store the GUID, which would halve the
+amount of memory. Another option would be to stop reporting those
+formats to userspace in uvc_ioctl_enum_fmt(). They can't be selected
+anyway, they have no unique 4CC.
 
-> +			return -EBUSY;
-> +		if (inst->enc_state == VENUS_ENC_STATE_STOPPED) {
-> +			vb2_clear_last_buffer_dequeued(&inst->fh.m2m_ctx->cap_q_ctx.q);
-> +			inst->enc_state = VENUS_ENC_STATE_ENCODING;
-> +		}
-> +	}
-> +
-> +unlock:
-> +	mutex_unlock(&inst->lock);
-> +	return ret;
-> +}
-> +
+> >>         unsigned int nframes;
+> >>         struct uvc_frame *frame;
+> >>  };
 
 -- 
-regards,
-Stan
+Regards,
+
+Laurent Pinchart
