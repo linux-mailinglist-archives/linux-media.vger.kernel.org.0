@@ -2,218 +2,265 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85E196D85B1
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 20:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49C0E6D85DF
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 20:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234012AbjDESKI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 14:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
+        id S231167AbjDESUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 14:20:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234269AbjDESJz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 14:09:55 -0400
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2065.outbound.protection.outlook.com [40.107.96.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78347191;
-        Wed,  5 Apr 2023 11:09:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E/M2AQMz2e483f/a1PhJtTz+TJy7KH22br3xZJ1vBJ53GFN+OIEuYoQ3BTbJ+hzBy2K632w3lS/9/8ikMNJy1CCpr3AA/HPRB3aVUoz1Y57pq5jQfsF1BE5W3i0kolo50XKf5cYMIBWkm/Bu0gpEEPFJzsx2cFbtZkqVLDqfSO08ju3sHnkP5wzc2Go8enbyA9qDMcAnphpW15hJ/8p/jBZtF4Jv28hWqZBmSiIDIs6Tb/XCII4SP9R2kqt/Og+V4eu2ynuSrGDXCtUANufmtsSfRzvAbSQMz/m34orPaIQFA/fTf+KF8CfB437UfBLW7pgFU1He2vczNFm73HvHbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ibJqSDTJZCmxvmzaOjOl96sffaTI+Zr5lYH6My4Ag3g=;
- b=N5EMeuGI/nG4F+Edoml/v+IVSbh1XK57nVdSFddFS1hNmtiNofGRw5gHRPfpVTskuys+sVvIk+nvTJfq9CK3kDkiUVTv2uTkIfExWRj5rKpzxq2V5zE9jchJ0V4u7kUryGmnyWszGWaKfto2CesAXbWZ1k0lhop/68+F+p9smMtHG5whSPJsW9GxjWWUELTOCRznI8ZCTROTlGD+1AgLNW+DsMMI8jbU0ZbnMzl25j4rHWSDQrwetvygRPj2O+o/OcxmudweDbN4HN4Af7gdawE7m/G8JKCkeiwL75DZWzDKo2C5GGI/Gpr/8B2UkgliPvJNT2xQQKGJMCwZtubcHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ibJqSDTJZCmxvmzaOjOl96sffaTI+Zr5lYH6My4Ag3g=;
- b=yLC6KSKY99m/JM+zwob57IcpWmu1DZz/BC17D9sksT38nXlwpphtv7nNYw5kqlJerFoJ819OHKMGqvYPeoWdeHAWppY+SOfcLPQr3lO7RJ5CAETTsN0TMYcH6k+1Rvi2iQsHqW6/bINoYr5Wv89mV4DCesMr4Xolex1js5/P4lI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- MW4PR12MB6973.namprd12.prod.outlook.com (2603:10b6:303:20a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.30; Wed, 5 Apr
- 2023 18:09:48 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8299:158a:c296:de80]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8299:158a:c296:de80%6]) with mapi id 15.20.6254.033; Wed, 5 Apr 2023
- 18:09:48 +0000
-Message-ID: <9c0cac54-fbf5-902e-20f2-f1d58c027f38@amd.com>
-Date:   Wed, 5 Apr 2023 14:09:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-CA
-To:     Asahi Lina <lina@asahilina.net>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, asahi@lists.linux.dev
-References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
-From:   Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-In-Reply-To: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0180.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:110::26) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+        with ESMTP id S233866AbjDESUX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 14:20:23 -0400
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD7976A2
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 11:20:13 -0700 (PDT)
+Received: by mail-oo1-xc2f.google.com with SMTP id m6-20020a4ae846000000b0053b9059edd5so5795677oom.3
+        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 11:20:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680718812;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V9jOIe9jAULaqUqaJ+7wO9sggYCb5mf0un4+3YcFzBY=;
+        b=feJWB2vDo0pj8BmkRhsX5vPNLb3T7czB7kEX65Vvw7xND6k4cmrnRnNVK34T3JnvHk
+         LOK7/AFxPif85Dx2VywU7fN2fHS8cUzUvgpUwMBKpLzeJ8Gfi6op9qUcKiBTz7JKmi+l
+         bbKtSwdCpqIkUWWn3XqQpxm3CfjzB+fJN5/PWFCeARXLwt+oEQD0Ww254xU9QHgcsGNn
+         oIGqEy6SkcXDs3DdrF2nnEG5e9TQczsgUsFFQmEN5sceKi8TC6iIg6lP9sMO2JU2Y0KK
+         lRWQ9pCEVnTWZSxNvfJHwHkXE3U1divoZ5uKEZgEQe/0Jil+L7HFZGYV9KxUHPRtBv5c
+         Kr2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680718812;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V9jOIe9jAULaqUqaJ+7wO9sggYCb5mf0un4+3YcFzBY=;
+        b=5RSfl056y4XyNe4UT2B7s1P93OMVunpehqArwDnZ6+YqPH7ltDoGT1TzCz6upPs8jA
+         +8NDlAJldn4MPHct35FsJrTDTrVbvB253L0KqKtovM83dsV1Rr4SResE0uTc5ctOx3mF
+         RieTbS3fPTHsCyiAWy9wLpl2yIMco90LfEcvJuu76W+Bb9k68eAcZLWqN9anlCcXCzis
+         tqpzMs/EM3EytW/9FUY/lpWLc1l2ZaktW6PRkSJJZrTANyL5Y68xR+T3i5gbvZ//Ua6s
+         9rxHLGf0jDa/gSNoSWazlCEi1BbT+zA49sal3udKjA7LRv6eYnL7Xlwltk7Rd1ebGIjV
+         ZPKA==
+X-Gm-Message-State: AAQBX9egDL+blG3l2uJhJhrQYu4WFJ87JDlAbdjUO7hQOYUpoI0uUoOL
+        VMOySc6YRb9eF56o9EsGHwVS8BBCPQ77I1kXljel/xuBusU=
+X-Google-Smtp-Source: AKy350Y8UNNWKGZvBANAPqfOOF2aeTG4xnJjdhnIyyTrMvZWm+Hd39dm3MvtEUeaJJYCksoE6qMRy5DifzqcZkMtpcE=
+X-Received: by 2002:a4a:e792:0:b0:53b:4b20:b0a7 with SMTP id
+ x18-20020a4ae792000000b0053b4b20b0a7mr2478516oov.1.1680718812224; Wed, 05 Apr
+ 2023 11:20:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|MW4PR12MB6973:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2bce625-abd3-4eee-d0bd-08db3600f148
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DBLWtzMn4C0P77rCD+/NF3doSnfLutEC99y9kmuKYjWBoTNR/ME7K0R0GfAPX1E2L96CS8ByZYl7OMwcjxvck1dXLTnBcf3VXocDTh0mUTDlmBMe6dzvEhTd3l0wvwVxLuXpZ4B2/HgiE4LyI2k3UNXglF/UOaZzRFFA7sfoSEESYkCql+fHIMIOaWiiPTeoZGh4u1psV28zs5ZBVDzOJlKHAjJ02p7hymwhJeMYY7qdMsdO5icXl80Qd26noattP9RM6oKP5eAk58ygUYgnPgrhws0sNpxf9bhc43/RWIL6k7P7IgbwoFVFOjTVocMG1FfWgDCcH8mnCrhXsj5ae6wTghv41nx4iIwohovilN9dviGKdo2+4GLv6Fc47mYxMkx2KTAEfjcxCzxSIioIev8Mi1+rT4f0BRP1c6siJXx1FiypogsWgBGAgfngSNzA8MA7u9LBEgLnOD3ORaSIdxewmO6549wsQCA7QaM5G+fZOyNr0Ae/MH8YQllB4ejU2Rap9GvwaZFobFVfoIGIV4Xh5mx+hIMyPBJ9CIQhVXEsBTy6py95xiZ1iYq+LZOvnEiWpKy5YwDV0tEdmCnddXqM/ma3WG5Mnj7q5gfCtiXMOzU5BoLmpHSa/C9d7IMyeHdKl2T3k0bdZVJFKJT1qg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(451199021)(6666004)(83380400001)(2616005)(6486002)(6512007)(478600001)(316002)(6636002)(26005)(110136005)(53546011)(186003)(6506007)(2906002)(44832011)(5660300002)(36756003)(38100700002)(4326008)(41300700001)(66476007)(66556008)(31696002)(8936002)(86362001)(8676002)(66946007)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGQzalJoUW1SZmZEZ0VaNkVDVVN0TUtCWHdZWWhnNTB0L0J5MmwvQjYxd0tL?=
- =?utf-8?B?NThPa3ZqeVgrMEZremFrcXpwVjJjRTRJRHUyMWZCdmo4VTQ0WCtuRUNoZkFF?=
- =?utf-8?B?aFVTVDBoajhiL1N5Qzhld1BUbURhS0FOQW9YS1NjMFhTUUNSODhKVUJEeXhZ?=
- =?utf-8?B?bDJGMEZZTVc4TmxES3Jiek9ZNDd0MnFVQ0RKM0hGOWtLOWczUVVZKzFpdHBM?=
- =?utf-8?B?TmkvU2xUTmcvTHF2allPUnJOWmZQS0hDZXFiMnJQVFZBVGJ0Y1RIMFBaRE9O?=
- =?utf-8?B?QnlpNzdtNnBxenQ2RjBtcmZMeGpTc0pDRWFWREdsM2Z4SERHRTdldkpKaE5M?=
- =?utf-8?B?VVNKWExFWWJKSWhVaXJZaSs5OEFqeGJBejFTaDNMNXRzR0hlc2I1ZTdIdFR6?=
- =?utf-8?B?NURzdEVIQ2V2QmplbjF6VXM4UmR0cEI3bUNWaiszaTJvenNxaDhZWVQ0c3dy?=
- =?utf-8?B?cVdLRTZaekZnVVdDQStnVnlTbGJ0YWN6YlFTY2JWbUxSYWxaOGZrT1RkOGlB?=
- =?utf-8?B?cWdVbSt1QTVBME02TGxtVzVSaVZhd3FvdnNGeGZsTHhwbWxyd21XUTlxYXFq?=
- =?utf-8?B?Y2kxT0VrSWxWVmhkQ0xRREpRTkIxRXV3U1VYRUR4RmJ6VURzc1dWbEM1cjkx?=
- =?utf-8?B?emxzN0xua3JWclNzdTkxT0hIcFhuc3dSaS9QWG5uK0k0WkZDR2YwMGN4MnlN?=
- =?utf-8?B?VGk5N29NQlRHV1Y5Ni9PWElHNm5xaEszRlBmK2ZsMDlYZy9nYmtzVEFiTkVO?=
- =?utf-8?B?cW5sNWlZYXh5M2xDYTVkQmt3NHFUdTN5WGdpQXA0VkNqNXg2VVk2NTcrWkVU?=
- =?utf-8?B?WW42bWQ1MllRVUhib0NNSW5LRUFmMlFrUjEzTmVZYUJiSjFaWE16RCtHS2FI?=
- =?utf-8?B?SmwzYzRMNDhpMEUyV1J3VktoNm5XUTh5OVFBQk9ndWEzNW5XbnJKMHhmZFM0?=
- =?utf-8?B?eEo4aGxXc3ZmZHpJUTBZVmxqOU45SG80OUhNQWpwL2F2UEpmN0FuUWVlenB1?=
- =?utf-8?B?N2dhNWM3bVFkZGtsV3dMeXcvVG03eDZtWEthU0lhSzRjNFVMbHB4SFg4c01t?=
- =?utf-8?B?MUZRaXYwamVMTDJkL1NhdERMMFVCd09SVzhrZHVsWFpianZXSHRPM2JqbXMw?=
- =?utf-8?B?MnYrelVDMUpFN2NFamRvMStxSDRnNFJBOERoaFVSdGxwc1RDb2hnR282SmQ2?=
- =?utf-8?B?SEErYkl5TlYyajcvajhnVExCdmVUMFVJU2dRUFBqeW53b0wwbm1udVo4RWhR?=
- =?utf-8?B?OVcwNHNVdHNzMzZsdkJCMkZZSTE0R0g0NkVtOGhNWHRNYzNOUm10VStVUXZj?=
- =?utf-8?B?bGxxYW9tZm5leURGeW9MZzRuNjFxRXJoMGlBUVAwbllnWC9tSDVtYnBuR20w?=
- =?utf-8?B?eDcrQ1A2NnVNcWJwWU5VVWwxS1hGekJlNmZ4ZGUwYWM4bVM5dkNNNU1XYWo5?=
- =?utf-8?B?dlVPYlhuYWVPOTIybTRHaXpNaWowOFUreUxWbFE3dG1UOHlDcitIU0ZDRG4v?=
- =?utf-8?B?bFNicTV5NDFUR1NaMDF5aE55VmVrWFZwbkt0UGRLNEFPNHhVRGZQcWxEOFdW?=
- =?utf-8?B?T3JIZkxUeDNMQmR1RlJIRU0ydjFoT1g5blcraXJpNm9XRDhGTTI3NlVsSmlI?=
- =?utf-8?B?cXZrWkRaclJNYnhnckFIeVVqcFp5SWVSYVlnQnFjRzN3THZGdFBwaWVyTDN2?=
- =?utf-8?B?RHdONDRHM1BkSVV2ZzNQeDZqZEltSG9TYzFKV2xVNGYyaFpHK0JGd0k0SHcr?=
- =?utf-8?B?WGtsRDNhT0lHNU9pU3lkWlNxUUZiMUZPRDgxczZYNHNic1NRd21JaXR6NkFu?=
- =?utf-8?B?dDY3TlVKUjR0SzVES3FaazhUZFVRRmNGNmRXZVMzSVVFS0Vjd0JWQnNUYys1?=
- =?utf-8?B?Tzhvc0xpN0dkYlUzTVgvU2M0UUg5T3ZMZkEydmZVOEFKRitzOUVpelQ1RDdR?=
- =?utf-8?B?c1RTb0JSek45c3V0VHhwNi9sVU9VMGNwL1BxejBPeXdpdUxUMGlCUTJhUUow?=
- =?utf-8?B?YlZHeE1ZZERGanZUc3RlbEY2ZTB5RWJkREx2SHNVU2pJbWg2a014a0Fsd2g1?=
- =?utf-8?B?a0wvVE1EbXhTRlB6aHl1YW51Z3A1NFF0VG91OHJZVzRUMGRvRjJrSkV2SC9z?=
- =?utf-8?Q?Zjv/hPVBjmiVId+9F4AeBeocV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2bce625-abd3-4eee-d0bd-08db3600f148
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 18:09:48.0285
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B6iyZgatnRJHETtBTxT1ounI6WM7lPk0KeZGe0mbLqEl0253zioCRe/AYHJAYJ3v
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6973
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <CAC6x6ivA-zk=NG9MS7bi-_yFarhf=A1ig-Yn9NBy1QuHnN+kow@mail.gmail.com>
+ <2abc1b2f-3f7d-c72a-3c3e-7fde8e3e9c5e@xs4all.nl> <CAC6x6itstZMNpA0=izPDkhNh3RVW=FJz+zr-H3htM0Lqh+mbXQ@mail.gmail.com>
+ <CAC6x6it0_DU1dTO4-F-6_4akyL-ZO-JwS5CQOmaM3+k+Kon07A@mail.gmail.com>
+ <6dabaf27-1d68-b6e5-12c3-cbef79867fc1@xs4all.nl> <CAC6x6iuOvHuRC7cUzA4N0TR2Ue6g55buhQ1-pD0_i1VvBaSaiw@mail.gmail.com>
+In-Reply-To: <CAC6x6iuOvHuRC7cUzA4N0TR2Ue6g55buhQ1-pD0_i1VvBaSaiw@mail.gmail.com>
+From:   Shawn Lindberg <shawn.lindberg@gmail.com>
+Date:   Wed, 5 Apr 2023 13:20:01 -0500
+Message-ID: <CAC6x6iuhVXZoje4WF6FFDxcRgjahR8NPfCugTKwik8vjGXY9gQ@mail.gmail.com>
+Subject: Re: Extremely long delay between CEC image-view-on an standby.
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-04-05 12:34, Asahi Lina wrote:
-> A signaled scheduler fence can outlive its scheduler, since fences are
-> independently reference counted. Therefore, we can't reference the
-> scheduler in the get_timeline_name() implementation.
-> 
-> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
-> dma-bufs reference fences from GPU schedulers that no longer exist.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
+On Sat, Apr 1, 2023 at 3:55=E2=80=AFPM Shawn Lindberg <shawn.lindberg@gmail=
+.com> wrote:
+>
+> On Sat, Apr 1, 2023 at 3:17=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl> =
+wrote:
+> >
+> > On 31/03/2023 22:23, Shawn Lindberg wrote:
+> > > On Wed, Mar 29, 2023 at 2:56=E2=80=AFPM Shawn Lindberg <shawn.lindber=
+g@gmail.com> wrote:
+> > >>
+> > >> On Tue, Mar 28, 2023 at 2:58=E2=80=AFAM Hans Verkuil <hverkuil@xs4al=
+l.nl> wrote:
+> > >>>
+> > >>>> cec-ctl -d0 --tv --cec-version-1.4
+> > >>>
+> > >>> That's wrong, the RPi is a Playback device, not a TV. So use --play=
+back instead.
+> > >>>
+> > >>> You should also add this line to the config.txt:
+> > >>>
+> > >>> hdmi_ignore_cec=3D1
+> > >>>
+> > >>> otherwise the RPi's firmware tries to process CEC messages as well.
+> > >>
+> > >> Oh, I thought that the TV/playback command was indicating what sort =
+of
+> > >> device the connected device is. This wasn't clear from the man page,
+> > >> either. Thank you for that. I made the change to config.txt and
+> > >> strangely when the RPi rebooted (I have it set to do this
+> > >> automatically once a day) the projector automatically turned on. I
+> > >> have never experienced this before.
+> > >
+> > > Further update on this. I continue to see the projector automatically
+> > > power on every time the RPi does its daily reboot, so I think I may
+> > > have to remove the hdmi_ignore_cec from the config.txt. Especially
+> > > since I can't figure out how to reliably shut the projector back off
+> > > again.
+> >
+> > From what I can tell, the Raspberry Pi doesn't transmit anything over C=
+EC
+> > at boot time, regardless of whether hdmi_ignore_cec is present or not.
+> > That's with a Raspberry Pi 4B. It might be different for an RPi 3.
+>
+> That is strange. I am also using a Raspberry Pi 4B. I do have the
+> following changes to my config.txt:
+>
+> # uncomment if hdmi display is not detected and composite is being output
+> hdmi_force_hotplug=3D1
+>
+> # uncomment to force a specific HDMI mode (this will force VGA)
+> hdmi_group=3D1
+> hdmi_mode=3D16
+>
+> # Additional line added to prevent firmware from processing CEC messages.
+> hdmi_ignore_cec=3D1
+>
+>
+> > >>>> During this time, if I try to poll the projector, it will succeed.
+> > >>>> However, if I monitor events, after a significant amount of time
+> > >>>> (appears to be greater than 20 minutes, although this is difficult=
+ to
+> > >>>> verify because of how long it takes) I go will eventually see the
+> > >>>> following:
+> > >>>>
+> > >>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x0000, Conn Info: yes
+> > >>>>     Timestamp: 30981.428s
+> > >>>
+> > >>> Now it appears to be able to read the EDID again and it has a valid
+> > >>> physical address.
+> > >>>
+> > >>>> Transmitted by Specific to Specific (14 to 14): POLL
+> > >>>>     Tx, Not Acknowledged (4), Max Retries
+> > >>>>     Sequence: 21 Tx Timestamp: 30981.561s Tx, Not Acknowledged (4)=
+, Max Retries
+> > >>>>
+> > >>>> Event: State Change: PA: 1.0.0.0, LA mask: 0x4000, Conn Info: yes
+> > >>>>     Timestamp: 30981.561s
+> > >>>> Transmitted by Specific to all (14 to 15): REPORT_PHYSICAL_ADDR (0=
+x84):
+> > >>>>     phys-addr: 1.0.0.0
+> > >>>>     prim-devtype: tv (0x00)
+> > >>>>     Sequence: 22 Tx Timestamp: 30981.696s
+> > >>>> Transmitted by Specific to all (14 to 15): DEVICE_VENDOR_ID (0x87)=
+:
+> > >>>>     vendor-id: 3075 (0x00000c03)
+> > >>>>     Sequence: 23 Tx Timestamp: 30981.835s
+> > >>>> Received from TV to Specific (0 to 14): FEATURE_ABORT (0x00):
+> > >>>>     abort-msg: 132 (0x84, REPORT_PHYSICAL_ADDR)
+> > >>>>     reason: invalid-op (0x03)
+> > >>>>     Sequence: 0 Rx Timestamp: 30981.949s
+> > >>>> Received from TV to Specific (0 to 14): GIVE_OSD_NAME (0x46)
+> > >>>>     Sequence: 0 Rx Timestamp: 30982.026s
+> > >>>> Transmitted by Specific to TV (14 to 0): SET_OSD_NAME (0x47):
+> > >>>>     name: TV
+> > >>>>     Sequence: 24 Tx Timestamp: 30982.137s
+> > >>>>
+> > >>>> After this point in time the standby command will succeed and the
+> > >>>> projector will turn off. It's quite inconvenient to have to wait o=
+ver
+> > >>>> 20 minutes to turn the projector back off again. Any idea how I ca=
+n
+> > >>>> shorten this delay?
+> > >>>
+> > >>> There is something weird about your setup and EDID. I can't really =
+tell
+> > >>> what it is.
+> > >>
+> > >> After making the above changes and retesting, the behavior didn't
+> > >> change. I still get the device not connected message and the invalid
+> > >> physical address when I try to do standby. I should also note that o=
+ne
+> > >> way around this issue is to reboot the RPi. For some reason that see=
+ms
+> > >> to get around the long delay in getting the physical address.
+> > >>
+> > >> I don't know what would be strange about my set up other than the
+> > >> projector itself and a couple of lines I uncommented in the config.t=
+xt
+> > >> to set the RPi to use HDMI even if the projector is not on at the ti=
+me
+> > >> of booting. Is there more information I can provide that would allow
+> > >> us to figure out what's going on? If you are correct that for some
+> > >> reason it is just not reading the EDID, is there a way to manually
+> > >> provide that? I don't know much about it, but it's a static property
+> > >> of the device (the projector in this case), right?
+> > >
+> > > Since I noticed that the physical address is populated properly when
+> > > the RPi is booted while the projector is turned on, I did that and
+> > > then tried using the get-edid utility to see if I could read the EDID
+> > > block and save it to a file. Unfortunately, this didn't work, as the
+> > > utility reports that there was no EDID available on any of the buses.
+> > > So once again I am out of ideas.
+> >
+> > The EDID also appears in /sys:
+> >
+> > /sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid
+> > /sys/devices/platform/gpu/drm/card1/card1-HDMI-A-2/edid
+> >
+> > get-edid works fine on my RPi 4B, so if that doesn't work, then it real=
+ly
+> > looks like there is something weird going on with your projector.
+>
+> Thank you for that. Based on this information with the projector on
+> during boot, I was able to get the following output from parse-edid. I
+> did not copy the entire output, just a snippet to indicate that it is
+> able to get a valid EDID at boot time.
+>
+> cat /sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid | parse-edid
+> Checksum Correct
+>
+> Section "Monitor"
+>     Identifier "LG PROJECTOR"
+>     ModelName "LG PROJECTOR"
+>     VendorName "GSM"
+>     # Monitor Manufactured week 33 of 2017
+>     # EDID version 1.3
+>     # Digital Display
+>     DisplaySize 1600 900
+>     Gamma 2.20
+>     Option "DPMS" "false"
+>     Horizsync 30-83
+>     VertRefresh 58-62
+>     # Maximum pixel clock is 160MHz
+>     #Not giving standard mode: 640x480, 60Hz
+>
+> In summary, it seems that at boot time and after waiting an extended
+> amount of time after turning on the projector using the image-view-on
+> command, the EDID file is available and valid. So although my
+> projector may be strange, I am guessing that there must be a way to
+> manually provide the EDID file, force the physical address, or some
+> other workaround/solution. However, I'm certainly no expert in this
+> area so I would defer to those of you who are.
 
-Thanks for fixing this. If there's no objections, I'll add my tag
-and I'll push this tomorrow. I think this should go in through
-drm-misc-fixes and drm-misc-next.
+I finally found some more time to experiment with this, and I tried
+saving a copy of the EDID while it was available after the machine
+rebooted and the projector automatically turned on. Unsurprisingly,
+after I turned the projector off using standby and then turned it back
+on using image-view-on, the EDID was not available from
+/sys/devices/platform/gpu/drm/card1/card1-HDMI-A-1/edid.
 
-Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+So I tried the following command to see if I could get the physical
+address to update from the saved EDID.
 
-Regards,
-Luben
+cec-ctl -d0 -t0 -T --phys-addr-from-edid projector_edid
+        CEC_ADAP_G_CAPS returned 0 (Success)
+The CEC adapter doesn't allow setting the physical address manually,
+ignore this option.
 
->  drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->  drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->  include/drm/gpu_scheduler.h              | 5 +++++
->  3 files changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 15d04a0ec623..8b3b949b2ce8 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -368,7 +368,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->  
->  		/*
->  		 * Fence is from the same scheduler, only need to wait for
-> -		 * it to be scheduled
-> +		 * it to be scheduled.
-> +		 *
-> +		 * Note: s_fence->sched could have been freed and reallocated
-> +		 * as another scheduler. This false positive case is okay, as if
-> +		 * the old scheduler was freed all of its jobs must have
-> +		 * signaled their completion fences.
->  		 */
->  		fence = dma_fence_get(&s_fence->scheduled);
->  		dma_fence_put(entity->dependency);
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 7fd869520ef2..33b145dfa38c 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -66,7 +66,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->  static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
->  {
->  	struct drm_sched_fence *fence = to_drm_sched_fence(f);
-> -	return (const char *)fence->sched->name;
-> +	return (const char *)fence->sched_name;
->  }
->  
->  static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
-> @@ -168,6 +168,8 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->  	unsigned seq;
->  
->  	fence->sched = entity->rq->sched;
-> +	strlcpy(fence->sched_name, entity->rq->sched->name,
-> +		sizeof(fence->sched_name));
->  	seq = atomic_inc_return(&entity->fence_seq);
->  	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
->  		       &fence->lock, entity->fence_context, seq);
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 9db9e5e504ee..49f019731891 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -295,6 +295,11 @@ struct drm_sched_fence {
->           * @lock: the lock used by the scheduled and the finished fences.
->           */
->  	spinlock_t			lock;
-> +        /**
-> +         * @sched_name: the name of the scheduler that owns this fence. We
-> +         * keep a copy here since fences can outlive their scheduler.
-> +         */
-> +	char sched_name[16];
->          /**
->           * @owner: job owner for debugging
->           */
-> 
-> ---
-> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-> change-id: 20230406-scheduler-uaf-1-994ec34cac93
-> 
-> Thank you,
-> ~~ Lina
-> 
+        CEC_ADAP_S_PHYS_ADDR returned -1 (Inappropriate ioctl for device)
+        CEC_ADAP_G_PHYS_ADDR returned 0 (Success)
+        CEC_ADAP_G_LOG_ADDRS returned 0 (Success)
+        CEC_ADAP_G_CONNECTOR_INFO returned 0 (Success)
 
+I'm not really sure why this would be the case.
