@@ -2,131 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E2B26D7758
-	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 10:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 506446D77A3
+	for <lists+linux-media@lfdr.de>; Wed,  5 Apr 2023 11:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237230AbjDEIut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 04:50:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
+        id S237656AbjDEJAY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 05:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237643AbjDEIuq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 04:50:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DA912736;
-        Wed,  5 Apr 2023 01:50:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8B58D6238A;
-        Wed,  5 Apr 2023 08:50:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26631C4339B;
-        Wed,  5 Apr 2023 08:50:39 +0000 (UTC)
-Message-ID: <dddd76a7-f882-f1dd-0781-fcc1f9b4e060@xs4all.nl>
-Date:   Wed, 5 Apr 2023 10:50:37 +0200
+        with ESMTP id S237657AbjDEJAR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 05:00:17 -0400
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F5C525A
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 02:00:02 -0700 (PDT)
+Received: by mail-io1-f71.google.com with SMTP id h136-20020a6bb78e000000b00758b105cdd3so22149612iof.23
+        for <linux-media@vger.kernel.org>; Wed, 05 Apr 2023 02:00:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680685184; x=1683277184;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NNG1RRAgOc5xNMcVnUF0kEf92wRl9GxQVlJgSil8NBY=;
+        b=U3ZsmrlDuYrqu+1akMjqUFfGiB/PqKRDNOI1FH5p2CG1/KCjDuaYJvj+sFbFQ52xTq
+         k16kAGbl5F0FwOrzTxRhBnga44O4NRJ8MDWLdwD/DBjgpTZNhvuRB7CXifJnGL72Z+US
+         oHarNCHxKpeubYVoBJUjT9jfHS6DzumuBEJJG0P0Jp31Absq0a6kU7wCUz9B0B4LguSp
+         6GuZNR3QHXATj+jBfbMU9UL4WbgyuUwrU019vak1OM3lXPCCXYbQKv5RAcXjsAH+p5T2
+         XnMBs7si5PDVXxU1TzwSYTHhsNnE2zox6RcEnmyDhmp/DvrVxIsbNSA3FXsTlBVx3G6n
+         Ra5A==
+X-Gm-Message-State: AAQBX9ctflrjTmBboV47u67VTJfW2B+HNrwDnsltc72KIPAUy2vCY96A
+        jEa5vs7nsM+EX0l/6kjZks10GAOAmWo7yTOzlU2j/icIrVtC
+X-Google-Smtp-Source: AKy350Z2HfnrBvcIU9j3Lf4yhtRThKMMaUdYCmBJY49mPh3WBG06p6q1dh6WhMI65K8DQBhQ0QIxOVWuM/zbwP8cjt1GG/aws/4y
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
- .vidioc_enum_fmt_vid_cap to return all formats
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>
-References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
- <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
- <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
- <20230404161251.272cc78b@booty>
- <20230405023048.GD9915@pendragon.ideasonboard.com>
- <20230405103134.2ae10766@booty>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230405103134.2ae10766@booty>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Received: by 2002:a02:b19b:0:b0:3f6:e3c2:d4be with SMTP id
+ t27-20020a02b19b000000b003f6e3c2d4bemr3174418jah.0.1680685184237; Wed, 05 Apr
+ 2023 01:59:44 -0700 (PDT)
+Date:   Wed, 05 Apr 2023 01:59:44 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000062c5e105f89303b1@google.com>
+Subject: [syzbot] Monthly staging report
+From:   syzbot <syzbot+list6f64c923a6c14b0e0449@syzkaller.appspotmail.com>
+To:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.6 required=5.0 tests=FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/04/2023 10:31, Luca Ceresoli wrote:
-> Hi Laurent,
-> 
-> On Wed, 5 Apr 2023 05:30:48 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> 
->> Hi Luca,
->>
->> On Tue, Apr 04, 2023 at 04:12:51PM +0200, Luca Ceresoli wrote:
->>> On Wed, 29 Mar 2023 13:16:22 +0200 Hans Verkuil wrote:
->>>   
->>>> Hi Luca,
->>>>
->>>> I finally found the time to test this series. It looks OK, except for this patch.  
->>>
->>> Thank you very much for taking the time!
->>>   
->>>> The list of supported formats really has to be the intersection of what the tegra
->>>> supports and what the sensor supports.
->>>>
->>>> Otherwise you would advertise pixelformats that cannot be used, and the application
->>>> would have no way of knowing that.  
->>>
->>> As far as I understand, I think we should rather make this driver fully
->>> behave as an MC-centric device. It is already using MC quite
->>> successfully after all.
->>>
->>> Do you think this is correct?  
->>
->> Given the use cases for this driver, I agree.
+Hello staging maintainers/developers,
 
-I disagree.
+This is a 30-day syzbot report for the staging subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/staging
 
-This driver doesn't use the media controller for anything at the moment. The
-/dev/mediaX device just shows the internal topology (i.e. connected sensors),
-but otherwise it does nothing.
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 3 issues are still open and 13 have been fixed so far.
 
-While it would be great if we could unlock the ISP on the Tegra, the reality
-is that it is entirely closed source and can't be used in a linux driver, and
-that's not going to change, sadly.
+Some of the still happening issues:
 
-That leaves us with just a basic CSI capture driver. Rather than trying to
-change this driver to a full MC device with no benefits, just drop this change
-and get your code in.
+Crashes Repro Title
+266     Yes   INFO: task hung in r871xu_dev_remove
+              https://syzkaller.appspot.com/bug?extid=f39c1dad0b7db49ca4a8
+236     Yes   INFO: task hung in netdev_run_todo (2)
+              https://syzkaller.appspot.com/bug?extid=9d77543f47951a63d5c1
+50      Yes   memory leak in r8712_init_recv_priv
+              https://syzkaller.appspot.com/bug?extid=1c46f3771695bccbdb3a
 
-Note that this driver will stay in staging since it still fails when I try to
-capture from two sensors at the same time: syncpoint errors start appearing
-in that case. I think there are locking issues. I think I have someone to take
-a look at that, but first I want your series to get merged.
-
-In the very unlikely event that the ISP can be implemented in a linux driver,
-it will probably become a new driver.
-
-Regards,
-
-	Hans
-
-> 
-> Ok, thanks for the feedback. I will send a v5 with this change.
-> 
-> Best regards,
-> Luca
-> 
-
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
