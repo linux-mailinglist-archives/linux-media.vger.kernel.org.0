@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA2E56D9763
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 14:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 335016D97E7
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 15:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237835AbjDFMyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 08:54:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52438 "EHLO
+        id S238199AbjDFNU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 09:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237928AbjDFMyW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 08:54:22 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5597EFE
-        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 05:54:21 -0700 (PDT)
+        with ESMTP id S238146AbjDFNUu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 09:20:50 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C41A5C7
+        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 06:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680785661; x=1712321661;
+  t=1680787218; x=1712323218;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
   bh=O+3sqlq2kDlD4YobXBFrwCJQ9HeDCmuLrh8QcRpeJOg=;
-  b=YZZSeCBZaQhYY4YaW9Nlyrjbj04fHpzM3bWdZuYYu5MamsFvOn9TdZXE
-   k6+zYqges7IVv3KSlv7obpQwZKS+hytaXJRWemRI1dBHIb11Go/8G/ql0
-   c6c72QOlaxJcH8zNhzPz5bptJqfUhmSDdnr2qpEBg1x0LqvQL0B8+8zFE
-   R4FK292TPhIjYfT+toU0px7+mYWl226D3z2X+BDw16T+ngHELcSRLYd7U
-   J4BW7cZh3IeVut9jP0HOAtbuJEUCIqg5+M00G65Ok3VcBuYPeXREinfVW
-   4s6eqTrF3ft/xEbnyo9hC9xvmzPxjHnBFymmbnlj+4sELXlUu7U7ftaJU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="340215107"
+  b=N/Vyxhy8cZiCyYqS2utIBkGWzY0tyHLEtrDXGISANRP4UWEdYnd7EbdW
+   y8aCiybnjX5MjoItD+4V1Xx0pBOl7Pc8QzSMJXX30o7+Xk9qc91ncePT0
+   bp1AtpTUwEQ5UIhFuMWWip2MlhOQSO5thrl8YGBzsdTBn6CWybWOf4Rk2
+   v8s/q8wkxtz53OymzI7pZ8V3SSt1WUR0bWAvvJSTVNRsu4DSC54/k2Y9I
+   2gyhWCVIx0nPt9aOYLNiHt3AobhQm/PRbftZ6CN8Qnl5MJGF9bZZN9R+F
+   L3ldRIHZ14XEFnxp/Fql0pN1y2v59IGziF4m1xxo2Z0ImSqrcrmEDuYBV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="344479225"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="340215107"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 05:54:21 -0700
+   d="scan'208";a="344479225"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 05:55:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="751637472"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="717439568"
 X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="751637472"
+   d="scan'208";a="717439568"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 05:54:20 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 05:55:16 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id BDBBA121387;
-        Thu,  6 Apr 2023 15:54:17 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 06670121387;
+        Thu,  6 Apr 2023 15:55:14 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1pkP6k-00Dm1S-Hs; Thu, 06 Apr 2023 15:52:54 +0300
+        id 1pkP7e-00Dm2L-RI; Thu, 06 Apr 2023 15:53:50 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Cc:     jacopo.mondi@ideaseonboard.com, laurent.pinchart@ideasonboard.com
-Subject: [PATCH v5 1/1] Documentation: v4l: Document rotation and orientation for sensor drivers
-Date:   Thu,  6 Apr 2023 15:52:44 +0300
-Message-Id: <20230406125244.3282817-1-sakari.ailus@linux.intel.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com
+Subject: [RESEND PATCH v5 1/1] Documentation: v4l: Document rotation and orientation for sensor drivers
+Date:   Thu,  6 Apr 2023 15:53:40 +0300
+Message-Id: <20230406125340.3282872-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
