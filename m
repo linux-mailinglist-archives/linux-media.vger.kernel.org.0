@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 416D26D8CC9
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 03:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7817B6D8CD1
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 03:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232271AbjDFBfr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 21:35:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37804 "EHLO
+        id S233074AbjDFBiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 21:38:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbjDFBfq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 21:35:46 -0400
+        with ESMTP id S231889AbjDFBiB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 21:38:01 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D654729F;
-        Wed,  5 Apr 2023 18:35:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A375B83
+        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 18:38:00 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A537E905;
-        Thu,  6 Apr 2023 03:35:42 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C728905;
+        Thu,  6 Apr 2023 03:37:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680744943;
-        bh=12mH4xyNP3DoccOweLixoRft2FfphUv36oa0MAhTESE=;
+        s=mail; t=1680745079;
+        bh=vARwnMR0Y3RTk/V9AydZRLBqI74z6CD5WAMa8rz3elo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NdLVJF2hXGMc4JVzbf4DjfcxQw4IKGODbyGt2WKwxO045zhOnfwn66Fp3GHF7ggCY
-         eiD6Ul9NQP884zJPPMoGBurQkgjBl+OPpokaKBDKlaqsX4cxK6YVa8QI89VieV6ooq
-         ER+dUs3Q1GsNmPmVawe7diniQsqy4f/FHcOS+Xxc=
-Date:   Thu, 6 Apr 2023 04:35:51 +0300
+        b=HiY8c5oSLTpo8CVii852Iv0nikU5Jo5Sbxw3LxPt3CgiGBTJewCj48LGk9CidygB0
+         m2OyzwxX1eyX4gSHKOUznK/PHwSz2nfk0Kwby6yngkB6vu8PY7bgqMpk/blrRSGtT/
+         ETq5sKZlB3VILNsSx6iI2oHg56RLibwc47ps8Tag=
+Date:   Thu, 6 Apr 2023 04:38:07 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     mchehab@kernel.org, kernel@puri.sm, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] media: hi846: preserve the streaming state during
- system suspend
-Message-ID: <20230406013551.GL9915@pendragon.ideasonboard.com>
-References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
- <20230405092904.1129395-3-martin.kepplinger@puri.sm>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v4 1/1] Documentation: v4l: Document rotation and
+ orientation for sensor drivers
+Message-ID: <20230406013807.GM9915@pendragon.ideasonboard.com>
+References: <20230405172720.1842738-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230405092904.1129395-3-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230405172720.1842738-1-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -47,82 +47,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Hi Sakari,
 
 Thank you for the patch.
 
-On Wed, Apr 05, 2023 at 11:29:04AM +0200, Martin Kepplinger wrote:
-> The hi846 driver changed the "streaming" state inside of "start/stop_streaming".
-> The problem is that inside of the (system) suspend callback, it calls
-> "stop_streaming" unconditionally. So streaming would always be stopped
-> when suspending.
+On Wed, Apr 05, 2023 at 08:27:20PM +0300, Sakari Ailus wrote:
+> Document how rotation and orientation should be taken into account in
+> writing camera sensor drivers.
 > 
-> That makes sense with runtime pm for example, after s_stream(..., 0) but
-> does not preserve the "streaming" state during system suspend when
-> currently streaming.
-
-The driver shouldn't need to stop streaming at system suspend time. It
-should have had its .s_stream(0) operation called and shouldn't be
-streaming anymore. If that's not the case, there's an issue somewhere
-else, which should be fixed. The code that stops streaming at system
-suspend and restarts it at system resume should then be dropped from
-this driver.
-
-> Fix this by simply setting the streaming state outside of "start/stop_streaming"
-> which is s_stream().
-> 
-> While at it, improve things a bit by not assigning "1", but the "enable"
-> value we later compare against, and fix one error handling path in resume().
-> 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/i2c/hi846.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> since v3:
 > 
-> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> index 0b0eda2e223cd..1ca6e9407d618 100644
-> --- a/drivers/media/i2c/hi846.c
-> +++ b/drivers/media/i2c/hi846.c
-> @@ -1780,8 +1780,6 @@ static int hi846_start_streaming(struct hi846 *hi846)
->  		return ret;
->  	}
+> - Add a missing paragraph on the ORIENTATION control. Use shall.
+> 
+>  .../driver-api/media/camera-sensor.rst        | 19 +++++++++++++++++++
+>  .../media/v4l/ext-ctrls-camera.rst            |  3 +++
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index c7d4891bd24e..ad9accb3fd40 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -151,3 +151,22 @@ used to obtain device's power state after the power state transition:
+>  The function returns a non-zero value if it succeeded getting the power count or
+>  runtime PM was disabled, in either of which cases the driver may proceed to
+>  access the device.
+> +
+> +Rotation and orientation
+> +------------------------
+> +
+> +Some systems have the camera sensor mounted upside down compared to its natural
+> +mounting rotation. In such cases, drivers shall expose the information to
+> +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
+> +<v4l2-camera-sensor-rotation>` control.
+> +
+> +Sensor drivers that have any vertical or horizontal flips embedded in the
+> +register programming sequences shall initialize the V4L2_CID_HFLIP and
+> +V4L2_CID_VFLIP controls with the values programmed by the register sequences.
+
+This feels out of place, as it covers flipping in the "Rotation and
+orientation" section, and sits between paragraphs related to rotation
+and orientation. I understand this paragraph relates to drivers enabling
+180° rotation through h/v flip, but that's not clear enough.
+
+> +
+> +Sensor drivers shall also report the sensor's mounting orientation with the
+> +:ref:`V4L2_CID_CAMERA_SENSOR_ORIENTATION <v4l2-camera-sensor-orientation>`.
+> +
+> +Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
+> +information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
+> +register the appropriate controls.
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index daa4f40869f8..cdc515c60468 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -506,6 +506,8 @@ enum v4l2_scene_mode -
+>      value down. A value of zero stops the motion if one is in progress
+>      and has no effect otherwise.
 >  
-> -	hi846->streaming = 1;
-> -
->  	dev_dbg(&client->dev, "%s: started streaming successfully\n", __func__);
+> +.. _v4l2-camera-sensor-orientation:
+> +
+>  ``V4L2_CID_CAMERA_ORIENTATION (menu)``
+>      This read-only control describes the camera orientation by reporting its
+>      mounting position on the device where the camera is installed. The control
+> @@ -536,6 +538,7 @@ enum v4l2_scene_mode -
+>        - The camera is not directly attached to the device and is freely movable.
 >  
->  	return ret;
-> @@ -1793,8 +1791,6 @@ static void hi846_stop_streaming(struct hi846 *hi846)
 >  
->  	if (hi846_write_reg(hi846, HI846_REG_MODE_SELECT, HI846_MODE_STANDBY))
->  		dev_err(&client->dev, "failed to stop stream");
-> -
-> -	hi846->streaming = 0;
->  }
+> +.. _v4l2-camera-sensor-rotation:
 >  
->  static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
-> @@ -1816,10 +1812,12 @@ static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
->  		}
->  
->  		ret = hi846_start_streaming(hi846);
-> +		hi846->streaming = enable;
->  	}
->  
->  	if (!enable || ret) {
->  		hi846_stop_streaming(hi846);
-> +		hi846->streaming = 0;
->  		pm_runtime_put(&client->dev);
->  	}
->  
-> @@ -1898,6 +1896,8 @@ static int __maybe_unused hi846_resume(struct device *dev)
->  		if (ret) {
->  			dev_err(dev, "%s: start streaming failed: %d\n",
->  				__func__, ret);
-> +			hi846_stop_streaming(hi846);
-> +			hi846->streaming = 0;
->  			goto error;
->  		}
->  	}
+>  ``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
+>      This read-only control describes the rotation correction in degrees in the
 
 -- 
 Regards,
