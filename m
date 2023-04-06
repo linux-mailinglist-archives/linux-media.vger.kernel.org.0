@@ -2,332 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BCBE6D9DA8
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 18:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC42D6D9E3E
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 19:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239472AbjDFQj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 12:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51240 "EHLO
+        id S239027AbjDFRNe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 13:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238668AbjDFQjz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 12:39:55 -0400
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DA06593;
-        Thu,  6 Apr 2023 09:39:52 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 93BC941EF0;
-        Thu,  6 Apr 2023 16:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1680799189;
-        bh=LLnPl6IqDtKOelee0FA58xfrG/bHv+wl4wafTF3pouw=;
-        h=Date:Subject:To:References:From:Cc:In-Reply-To;
-        b=i9mpSdvB9UpLiF4dJwyQpTOoECSdrx4EIW6m2SfewJUzh2qCh63H/C+aTlWagdgB7
-         DGTgs5BSw46HCJDWxU5Dp/GpkGpQ6R6JN6hwEjVjY5zzK54dY6trbe7qXqt3kiKK0l
-         JMrmvzNozC8RTxRfb9uYhmJWdooVDZFseS70p9rDdkCSSVX7H1AnkBdsDj7y4JjZRf
-         8CckvfyRxAXiC+FDh3bwEYc7CTfmENIqnFp2+sXuMiXE6Qb2SrmUYbEQbNFwhb7VOQ
-         SRuyHaBFa2z2hnqKpFSv2gmd8G+rJR7xUJoFvIgrts3vkHz8m+YULMAYcnsOr1hoYo
-         GCgY/nDSZDgXQ==
-Message-ID: <6e383036-a12e-607d-4448-63cf2124d0b4@asahilina.net>
-Date:   Fri, 7 Apr 2023 01:39:41 +0900
+        with ESMTP id S236914AbjDFRNc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 13:13:32 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 06DAF6A6B;
+        Thu,  6 Apr 2023 10:13:30 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.98,323,1673881200"; 
+   d="scan'208";a="158550875"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Apr 2023 02:13:30 +0900
+Received: from localhost.localdomain (unknown [10.226.93.131])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 060F740380A5;
+        Fri,  7 Apr 2023 02:13:26 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH RESEND v4 1/2] media: dt-bindings: media: renesas,fcp: Document RZ/{G2L,V2L} FCPVD bindings
+Date:   Thu,  6 Apr 2023 18:13:23 +0100
+Message-Id: <20230406171324.837247-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 07/18] rust: drm: mm: Add DRM MM
- Range Allocator abstraction
-Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-7-917ff5bc80a8@asahilina.net>
- <ZC7T92F7K9XTZPZ1@phenom.ffwll.local>
- <2a419eff-3566-0aa3-7185-951edde22abb@asahilina.net>
- <ZC7vjYUnLZqb0FV4@phenom.ffwll.local>
-From:   Asahi Lina <lina@asahilina.net>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-In-Reply-To: <ZC7vjYUnLZqb0FV4@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=3.0 required=5.0 tests=AC_FROM_MANY_DOTS,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/04/2023 01.13, Daniel Vetter wrote:
-> On Fri, Apr 07, 2023 at 12:53:47AM +0900, Asahi Lina wrote:
->> On 06/04/2023 23.15, Daniel Vetter wrote:
->>> On Tue, Mar 07, 2023 at 11:25:32PM +0900, Asahi Lina wrote:
->>>> drm_mm provides a simple range allocator, useful for managing virtual
->>>> address ranges. Add a Rust abstraction to expose this module to Rust
->>>> drivers.
->>>>
->>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>
->>> In the cover letter you mentioned the design open about embedded the lock
->>> into the rust wrappers.
->>>
->>> I think for a first step that's perfectly fine.
->>>
->>> Longer term we might want to ramp up some "proof of locking"
->>> infrastructure in Rust, where callers can supply a lock guard and ideally
->>> rust validates at compile time that it's for the right type, and at
->>> runtime (like lockdep) that it's consistent and the callers don't mix up
->>> locks (like using different locks for the same drm_mm allocator).
->>
->> That proof-of-lock tuff works in Rust too as far as I know.
->>
->> But the general thread safety story in Rust is much simpler, you just use
->> methods that take &mut self when locking is the caller's responsibility.
->> That effectively implies that there can only be one reference that can call
->> those methods at any given time, thanks to the borrow checker. Shared
->> references only give you &self, a locked Mutex upgrades that to &mut self,
->> and that's how you get proof of locking at compile time, through and
->> through, not just for the type but for the specific object.
-> 
-> Hm that still has the problem of making sure that you supply the right
-> lock (for generic abstractions like drm_mm or drm/sched where the lock is
-> supplied by the driver.
+Document FCPVD found in RZ/G2L alike SoCs. FCPVD block is similar to
+FCP for VSP found on R-Car SoC's . It has 3 clocks compared to 1
+clock on fcpv. Introduce new compatibles renesas,r9a07g044-fcpvd
+for RZ/G2{L,LC} and renesas,r9a07g054-fcpvd for RZ/V2L to handle this
+difference.
 
-No no, I mean you don't have to supply the lock at all. The idea is that 
-if you have a mutable reference to the object *at all* then Rust says 
-that's effectively interlocked, whether you achieve that with an actual 
-lock or just by not sharing the object to begin with.
+The 3 clocks are shared between du, vspd and fcpvd. No driver changes
+are required as generic compatible string "renesas,fcpv" will be used
+as a fallback.
 
-This is the standard pattern in Rust. Thread-safe methods take &self, 
-and you can call those from multiple threads at once. Thread-unsafe 
-methods take &mut self, and you can only call them from one thread at 
-once. Mutex is one mechanism that allows you to upgrade a shared &self 
-to a &mut self (while holding the lock). The actual object doesn't know 
-anything about mutexes or locking, it just relies on the more 
-fundamental property that Rust says that if you have a &mut obj, 
-absolutely nobody else does, at any given time, by definition.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v4->v4 Resend:
+ * Rebased to next.
+v3->v4:
+ * Added Rb tag from Rob.
+v2->v3:
+ * Updated the compatibles by replacing items->enum as
+   it is just one item.
+v1->v2:
+ * Documented RZ/{G2,V2}L FCPVD bindings
+ * Introduces new compatibles renesas,r9a07g0{44,54}-fcpvd
+ * Added clock-names property
+ * described clocks.
+---
+ .../bindings/media/renesas,fcp.yaml           | 45 ++++++++++++++++---
+ 1 file changed, 40 insertions(+), 5 deletions(-)
 
-(And then everything also needs to impl Send + Sync for this to work 
-across threads, but that's usually what you want)
-
-Basically if there were to exist a Rust abstraction/object/anything that 
-allows two threads to get ahold of a &mut to the same object at the same 
-time without using unsafe, that abstraction/etc would be broken and 
-unsound (and necessarily have to involve bad unsafe code within, because 
-you can't do that with just safe code, the borrow checker stops you), 
-and the state of affairs of two threads having such a reference is 
-outright undefined behavior in the language model.
-
-> Once we have the lock then yeah borrow checker makes sure you can't screw
-> up, worst case needs a PhantomData (I guess) as toke of proof to pass
-> around the borrowed lifetime (If I got that right from your use of
-> PhantomData in the sched wrappers).
-
-Ah, PhantomData is just a hack because Rust wants you to use all type 
-parameters inside structs even when you don't actually need them for 
-anything because they only have meaning to the abstraction itself. 
-Without it it won't compile. Something something deep type system black 
-magic rules (I'm pretty sure this requirement isn't gratuitous but I 
-don't know what the whole story is here).
-
-The lock does give you a Guard you could pass somewhere as proof, which 
-itself contains a lifetime that ties it to the Mutex, but more 
-importantly that Guard implements DerefMut to give you a &mut to 
-whatever is inside the Mutex, and *that* mutable reference is the proof 
-that you are the sole execution context with the right to access that 
-one particular object. At that point the Guard doesn't matter, and 
-lifetimes tie everything together so you can't stash that &mut somewhere 
-else or anything like that to break the rules (modulo unsafe code, of 
-course!).
-
-> 
->>> There's a lot of libraries in the kernel that have this "caller ensures
->>> locking" pattern. drm/sched also has these requirements.
->>
->> Yup, that all usually maps nicely to &mut self in Rust... except for the
->> issue below.
->>
->>> There's two other things I'd like to bring up on this patch though, just
->>> because it's a good example. But they're both really general points that
->>> apply for all the rust wrappers.
->>>
->>> Documentation:
->>>
->>> In drm we try to document all the interfaces that drivers use with formal
->>> docs. Yes there's some areas that are not great for historical reasons,
->>> but for new stuff and new wrappers we're really trying:
->>>
->>> - This helps in telling internal (even across .c files or in rust across
->>>     modules within a crate) from stuff drivers access. Sure you have static
->>>     in C or pub in rust, but that doesn't tell you whether it's public all
->>>     the way to drivers.
->>>
->>> - ideally docs have a short intro section that explains the main concepts
->>>     and links to the main data structures and functions. Just to give
->>>     readers a good starting point to explore.
->>>
->>> - Linking all the things, so that readers can connect the different parts.
->>>     This is really important in C where e.g. get/put() or any such function
->>>     pairs all needed to be linked together. With rust I'm hoping that
->>>     rustdoc liberally sprinkles links already and we don't have to do this
->>>     as much.
->>>
->>> - Short explainers for parameters. For rust this also means type
->>>     parameters, for those even simplified examples of how drivers are
->>>     supposed to use them would help a lot in reading docs & understanding
->>>     concepts.
->>>
->>> - Ideally links from the rust to the sphinx side to linke relevant
->>>     chapters together. Often the bigger explanations are in .rst files with
->>>     DOT graphs (kms has a bunch I've added) or similar, and it doesn't make
->>>     that much sense to duplicate all that on the rust side I guess. But it
->>>     needs to be discoverable.
->>>
->>> This might be more a discussion topic for the rust people than you
->>> directly. Still needed for the merge-ready patches eventually.
->>
->> I don't know much about the doc gen stuff on the Rust side so yeah, this is
->> something I need to look into to make it pretty and complete...
-> 
->  From what Miguel has shown I think it's all there already, and the only
-> missing pieces are the cross-linking at a chapter level from rustdoc to
-> rst and sphinx to rstdoc too ideally. But I think for most rust wrappers
-> that will be one link each direction only (e.g. C drm_mm linking to
-> kernel::drm::MM and other way round and done). So absolutely no problem if
-> that one item is sorted out post merge once rustdoc/kernel-sphinx are
-> ready.
-> 
->>> Refcounting vs borrowing:
->>>
->>> This is honestly much more the eyebrow raising one than the locking. Very
->>> often on the C side these datastructures all work with borrow semantics,
->>> and you need to explicitly upgrade to a full reference (kref_get or
->>> kref_get_unless_zero, depending whether it's a strong or weak reference)
->>> if you need the object outside of the mutex/lock guard section.
->>>
->>> Again I think for now it's ok, but the sales pitch of rust is that it
->>> enables borrow lifetime checking with no runtime cost. Plus viz the vm
->>> cleanup example, if you have too many strong backreferences the cleanup
->>> flow gets complicated. And it would suck if rust drivers have to add
->>> complexity like the openrefcount for the vm example simply because we
->>> can't model the borrow semantics well enough to be safe.
->>>
->>> So not something that's really bad here, but if we need to resort to full
->>> refcounting already for simple datastructures then I'm getting a bit
->>> worried about how well rust will cope with the really nasty borrowed
->>> reference tricks we're playing in other areas.
->>>
->>> Again more a topic for the rust folks I think than specifically here about
->>> drm_mm wrapping. Just to get things going I think this is fine.
->>
->> Yeeeeah... this is a *specific* problem. Drop.
->>
->> The Allocator<T> itself is perfectly safe to implement without any locking,
->> refcounting, or anything. You just make the methods take &mut self (as they
->> already do), the caller can use it with a single reference or wrap it in an
->> Arc<Mutex<T>> and share it, or whatever.
->>
->> The problem is the Node<A, T>. When you Drop that, it has to go back to the
->> Allocator. But now you're a different object, so no thread safety
->> guarantees. And you need to keep the Allocator alive. So now to make a safe
->> abstraction, you need refcounting and a mutex.
->>
->> Lifetimes just don't work here, sadly. Not for a useful abstraction.
->>
->> I'd love to hear from the other Rust folks whether they have any better
->> ideas...
-> 
-> Hm yeah I think I get the gist of the issue. At time of Drop there's no
-> allocator reference you can borrow and so you're screwed.
-> 
-> In C we tend to solve that by passing both to the unlink/drop stuff (and
-> rust could then ensure that we have legit borrows for both), but I guess
-> that just totally wreaks entire wrapper and makes it really rough to use.
-
-Yup, that's the issue ^^;;
-
-> 
->> One thing that *can* be done is making the Drop illegal (Rust can't do this
->> "natively" but Linux already has hacks for that, we can make it fail to link
->> if the Drop is ever called). Then you'd have to actively return the Node to
->> the Allocator with a free function. Since Drop is forbidden, and Node is
->> pinned, you'd always have to either return Node objects to the Allocator or
->> leak them. You could drop the Allocator before its nodes, but as far as I
->> know drm_mm can safely handle that (though it will complain), and then due
->> to the previous guarantees the *only* thing you could do with orphan nodes
->> is leak their memory, which is safe.
->>
->> It would work... but it breaks the whole Rust automagic Drop stuff.
-> 
-> Yeah I think I see the challenge ...
-> 
->> Thinking about this a bit, I think I want the current mutex/arc semantics
->> for something like a memory allocator (which is one of my primary use cases
->> for drm_mm), since I definitely don't want to be manually returning objects
->> to their allocator all over the place, nor have overarching lifetime
->> requirements that the allocator outlive its objects for safety (that sounds
->> like a can of worms I don't want to open, I'd much rather use a refcount
->> even if I "think" I can prove the lifetime bounds ad-hoc). But for something
->> like a drm_mm that is tracking VA ranges within a VM with all Nodes held
->> internally, maybe I could manage it all internally and have all node
->> destruction be handled via an explicit call into the Allocator.
-> 
-> Yeah I think for gpuva we need to do better, but assuming the gpuva
-> library is in C then rust would just need to encode the safety properties
-> that (hopefully) the C library guarantees ...
-
-Yeah, if this is going to be common C code using drm_mm then it can 
-provide whatever safety properties it wants and use drm_mm in ways not 
-possible with the Rust abstraction, of course.
-
-> And for any driver that just wants to use some range manager the standard
-> wrapping leans heavily on the side of "easy to use".
-> 
->> Maybe the mm abstraction should offer both options? The extra locking can be
->> implemented in terms of the base unlocked version I think (perhaps with some
->> Deref abuse for ergonomics)... I definitely want to hear more opinions about
->> this from other Rust folks, since there are probably other options I haven't
->> considered...
-> 
-> I don't think we need the more raw/tricky one, at least not until we have
-> some serious libraries like gpuva implemented in rust. Or drivers
-> reimplementing the gpuva stuff in their driver :-)
-
-It only just hit me that gpuva is an actual thing that's in RFC. Sounds 
-like I should give it a shot when I do the vm_bind stuff instead of 
-reinventing that wheel (which was my original plan)... sorry if I've 
-been a bit slow here.
-
->> Aside: This, and all the other DRM abstractions, were written before the
->> pin_init stuff from y86 that is in review right now was ready. That may open
->> up more interesting/ergonomic/efficient APIs for some cases, especially
->> where Pin and embedding C types into user objects in some way are involved.
->> So maybe there's room for improvement here. Just a sidenote.
-> 
-> Ah good to know, and yeah that make open some interesting options.
-> -Daniel
-
-~~ Lina
+diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+index 43f2fed8cd33..c6abe719881b 100644
+--- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+@@ -21,15 +21,22 @@ description: |
+ 
+ properties:
+   compatible:
+-    enum:
+-      - renesas,fcpv # FCP for VSP
+-      - renesas,fcpf # FCP for FDP
++    oneOf:
++      - enum:
++          - renesas,fcpv # FCP for VSP
++          - renesas,fcpf # FCP for FDP
++      - items:
++          - enum:
++              - renesas,r9a07g044-fcpvd # RZ/G2{L,LC}
++              - renesas,r9a07g054-fcpvd # RZ/V2L
++          - const: renesas,fcpv         # Generic FCP for VSP fallback
+ 
+   reg:
+     maxItems: 1
+ 
+-  clocks:
+-    maxItems: 1
++  clocks: true
++
++  clock-names: true
+ 
+   iommus:
+     maxItems: 1
+@@ -49,6 +56,34 @@ required:
+ 
+ additionalProperties: false
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,r9a07g044-fcpvd
++              - renesas,r9a07g054-fcpvd
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Main clock
++            - description: Register access clock
++            - description: Video clock
++        clock-names:
++          items:
++            - const: aclk
++            - const: pclk
++            - const: vclk
++      required:
++        - clock-names
++    else:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names: false
++
+ examples:
+   # R8A7795 (R-Car H3) FCP for VSP-D1
+   - |
+-- 
+2.25.1
 
