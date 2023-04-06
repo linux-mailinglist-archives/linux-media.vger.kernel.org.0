@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF436D8E75
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 06:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF3106D8EA0
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 07:03:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234942AbjDFEom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 00:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46320 "EHLO
+        id S234881AbjDFFDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 01:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234940AbjDFEoi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 00:44:38 -0400
+        with ESMTP id S231696AbjDFFDH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 01:03:07 -0400
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF7E9ED8;
-        Wed,  5 Apr 2023 21:44:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E61AE6E9F;
+        Wed,  5 Apr 2023 22:03:05 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: lina@asahilina.net)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 93DFC4245E;
-        Thu,  6 Apr 2023 04:44:24 +0000 (UTC)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 7962F42459;
+        Thu,  6 Apr 2023 05:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-        s=default; t=1680756271;
-        bh=3ATn2J/vFlxbAJnulfzHHynd+iDH6ftF3NoRMRHpd10=;
-        h=Date:Subject:To:References:From:Cc:In-Reply-To;
-        b=FRbmxLHhRTWqrN/GypKdRiUsgh9NYpncpVBbLlPDfLlj91fKVeulR6Db7qEvbctc/
-         bDA1i26jPfonskgiaBpg5IKqNBmPdrzjYcW+pGVgNjc3HmUCo8TiejCmT36elq90//
-         1nveTSM3znRqSb5WBokJazPOZUAabEeLwcUCARuDLfE8POgzOu4uT+pGCKKOsCyDzU
-         gLH+/vBFGNhfMfmYhLpja9wISm7Wa2/wF1CyYGM1P7Q187CBKvak0P9P/vBfFt7HeV
-         b0QeK2jkPmmNU0NKWVZxyojAqfWXQLvZT7ota3vOZysTLXquMi8zVegLgmicRywF7c
-         CZO4+Twgg3FXw==
-Message-ID: <8d28f1d3-14b0-78c5-aa16-e81e2a8a3685@asahilina.net>
-Date:   Thu, 6 Apr 2023 13:44:22 +0900
+        s=default; t=1680757384;
+        bh=9LSGzmx6M9H0xI3wvYbHSNfzzJs4iZ0NJj4FDdwyAIE=;
+        h=Date:Subject:To:References:Cc:From:In-Reply-To;
+        b=kLYzPn+mAQDFNM45Jb7a4fO3xxRPCcwGN935IYwDXFXm6WLjQB+j0Tn3xA5fpOeWq
+         uPwlA/5xFoVUyvPPL5kCib8VXaQEQlkCfLDeRJ7nCNdJzCeibJoxLwTkHy94mPIWmQ
+         JaDW+A26avYbKFJ/YxrNj7maTs9THieWUbFp9acxCxaOXdfyrPjgGkAUyVppUmCXE3
+         hYf4xj1Bq3z9QEGxDWtyL/BHpFnfeGSAR5KUrlmk2VF/JF3CHuyyM4BuX1/fA4cYQb
+         Y+psf0sDIkuFFCF040KYI2vkrObwPDaTWqkCXh6s61gnilCrB3bj5EiQKixZB92Hj5
+         pGyeBIKe1Z0wA==
+Message-ID: <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
+Date:   Thu, 6 Apr 2023 14:02:55 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
@@ -42,8 +42,7 @@ Content-Language: en-US
 To:     David Airlie <airlied@gmail.com>
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
  <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
- <ZC2HtBOaoUAzVCVH@phenom.ffwll.local>
-From:   Asahi Lina <lina@asahilina.net>
+ <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
 Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -65,7 +64,8 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-In-Reply-To: <ZC2HtBOaoUAzVCVH@phenom.ffwll.local>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -77,108 +77,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/04/2023 23.37, Daniel Vetter wrote:
+On 05/04/2023 23.44, Daniel Vetter wrote:
 > On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
->> +/// A generic monotonically incrementing ID used to uniquely identify object instances within the
->> +/// driver.
->> +pub(crate) struct ID(AtomicU64);
->> +
->> +impl ID {
->> +    /// Create a new ID counter with a given value.
->> +    fn new(val: u64) -> ID {
->> +        ID(AtomicU64::new(val))
->> +    }
->> +
->> +    /// Fetch the next unique ID.
->> +    pub(crate) fn next(&self) -> u64 {
->> +        self.0.fetch_add(1, Ordering::Relaxed)
->> +    }
+>> +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
+>> +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
+>> +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
 >> +}
 > 
-> Continuing the theme of me commenting on individual things, I stumbled
-> over this because I noticed that there's a lot of id based lookups where I
-> don't expect them, and started chasing.
+> So maybe my expectations for rust typing is a bit too much, but I kinda
+> expected this to be fully generic:
 > 
-> - For ids use xarray, not atomic counters. Yes I know dma_fence timelines
->    gets this wrong, this goes back to an innocent time where we didn't
->    allocate more than one timeline per engine, and no one fixed it since
->    then. Yes u64 should be big enough for everyone :-/
+> - trait Driver (drm_driver) knows the driver's object type
+> - a generic create_handle function could ensure that for drm_file (which
+>    is always for a specific drm_device and hence Driver) can ensure at the
+>    type level that you only put the right objects into the drm_file
+> - a generic lookup_handle function on the drm_file knows the Driver trait
+>    and so can give you back the right type right away.
 > 
-> - Attaching ID spaces to drm_device is also not great. drm is full of
->    these mistakes. Much better if their per drm_file and so private to each
->    client.
-> 
-> - They shouldn't be used for anything else than uapi id -> kernel object
->    lookup at the beginning of ioctl code, and nowhere else. At least from
->    skimming it seems like these are used all over the driver codebase,
->    which does freak me out. At least on the C side that's a clear indicator
->    for a refcount/lockin/data structure model that's not thought out at
->    all.
-> 
-> What's going on here, what do I miss?
+> Why the wrapping, what do I miss?
 
-These aren't UAPI IDs, they are driver-internal IDs (the UAPI IDs do use 
-xarray and are per-File). Most of them are just for debugging, so that 
-when I enable full debug spam I have some way to correlate different 
-things that are happening together (this subset of interleaved log lines 
-relate to the same submission). Basically just object names that are 
-easier to read (and less of a security leak) than pointers and 
-guaranteed not to repeat. You could get rid of most of them and it 
-wouldn't affect the driver design, it just makes it very hard to see 
-what's going on with debug logs ^^;
+Sigh, so this is one of the many ways I'm trying to work around the 
+"Rust doesn't do subclasses" problem (so we can figure out what the best 
+one is ^^).
 
-There are only two that are ever used for non-debugging purposes: the VM 
-ID, and the File ID. Both are per-device global IDs attached to the VMs 
-(not the UAPI VM objects, but rather the underlyng MMU address space 
-managers they represent, including the kernel-internal ones) and to 
-Files themselves. They are used for destroying GEM objects: since the 
-objects are also device-global across multiple clients, I need a way to 
-do things like "clean up all mappings for this File" or "clean up all 
-mappings for this VM". There's an annoying circular reference between 
-GEM objects and their mappings, which is why this is explicitly coded 
-out in destroy paths instead of naturally happening via Drop semantics 
-(without that cleanup code, the circular reference leaks it).
+The generic shmem::Object::lookup_handle() call *is* fully generic and 
+will get you back a driver-specific object. But since Rust doesn't do 
+subclassing, what you get back isn't a driver-specific type T, but 
+rather a (reference to a) shmem::Object<T>. T represents the inner 
+driver-specific data/functionality (only), and the outer 
+shmem::Object<T> includes the actual drm_gem_shmem_object plus a T. This 
+is backwards from C, where you expect the opposite situation where T 
+contains a shmem object, but that just doesn't work with Rust because 
+there's no way to build a safe API around that model as far as I know.
 
-So e.g. when a File does a GEM close or explicitly asks for all mappings 
-of an object to be removed, it goes out to the (possibly shared) GEM 
-object and tells it to drop all mappings marked as owned by that unique 
-File ID. When an explicit "unmap all in VM" op happens, it asks the GEM 
-object to drop all mappings for that underlying VM ID. Similarly, when a 
-UAPI VM object is dropped (in the Drop impl, so both explicitly and when 
-the whole File/xarray is dropped and such), that does an explicit unmap 
-of a special dummy object it owns which would otherwise leak since it is 
-not tracked as a GEM object owned by that File and therefore not handled 
-by GEM closing. And again along the same lines, the allocators in 
-alloc.rs explicitly destroy the mappings for their backing GEM objects 
-on Drop. All this is due to that annoying circular reference between VMs 
-and GEM objects that I'm not sure how to fix.
+Now the problem is from the higher layers I want object operations that 
+interact with the shmem::Object<T> (that is, they call generic GEM 
+functions on the object). Options so far:
 
-Note that if I *don't* do this (or forget to do it somewhere) the 
-consequence is just that we leak memory, and if you try to destroy the 
-wrong IDs somehow the worst that can happen is you unmap things you 
-shouldn't and fault the GPU (or, in the kernel or kernel-managed user VM 
-cases, potentially the firmware). Rust safety guarantees still keep 
-things from going entirely off the rails within the kernel, since 
-everything that matters is reference counted (which is why these 
-reference cycles are possible at all).
+1. Add an outer wrapper and put that functionality there.
+2. Just have the functions on T as helpers, so you need to call 
+T::foo(obj) instead of obj.foo().
+3. Use the undocumented method receiver trait thing to make 
+shmem::Object<T> a valid `self` type, plus add auto-Deref to 
+shmem::Object. Then obj.foo() works.
 
-This all started when I was looking at the panfrost driver for 
-reference. It does the same thing except it uses actual pointers to the 
-owning entities instead of IDs, and pointer comparison (see 
-panfrost_gem_close). Of course you could try do that in Rust too 
-(literally storing and comparing raw pointers that aren't owned 
-references), but then you're introducing a Pin<> requirement on those 
-objects to make their addresses stable and it feels way more icky and 
-error-prone than unique IDs (since addresses can be reused). panfrost 
-only has a single mmu (what I call the raw VM) per File while I have an 
-arbitrary number, which is why I end up with the extra 
-distinction/complexity of both File and VM IDs, but the concept is the same.
+#1 is what I use here. #2 is how the driver-specific File ioctl 
+callbacks are implemented, and also sched::Job<T>. #3 is used for fence 
+callbacks (FenceObject<T>). None of them are great, and I'd love to hear 
+what people think of the various options...
 
-Some of this is going to be refactored when I implement arbitrary VM 
-range mapping/unmapping, which would be a good time to improve this... 
-but is there something particularly wrong/broken about the way I'm doing 
-it now that I missed? I figured unique u64 IDs would be a pretty safe 
-way to identify entities and cleanup the mappings when needed.
+There are other unexplored options, like in this GEM case it could be 
+covered with a driver-internal auxiliary trait impl'd on 
+shmem::Object<T> buuut that doesn't work when you actually need 
+callbacks on T itself to circle back to shmem::Object<T>, as is the case 
+with File/Job/FenceObject.
 
 ~~ Lina
 
