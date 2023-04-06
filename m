@@ -2,511 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3746DA515
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 23:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6556DA5F0
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 00:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232471AbjDFV6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 17:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44954 "EHLO
+        id S238089AbjDFWn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 18:43:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239167AbjDFV5W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 17:57:22 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1863AF3A;
-        Thu,  6 Apr 2023 14:56:46 -0700 (PDT)
-Received: from localhost.localdomain (unknown [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dwlsalmeida)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id EF76666031F2;
-        Thu,  6 Apr 2023 22:56:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680818205;
-        bh=GNp7AViZIGE3DK9wiwiWUEJC1nCGATb7ALyHIa7a9B0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bpIGYfCsaJRyOC8eRp5YeEPoPe/m0+JQp4xIuVbCmbz3cDkoATTSuzVyjASAmxw98
-         NhD1w/cu5YVIII8bjiu3pmrDKGfe0pKgvNZ/Mo7/M7HspPpC8AIBkOlZNTM6tqcpUj
-         b+rdSCZnQ7Lo/N8l/5u7ZxMWt8/qU6N6KyhuFvtBbpg3OUbeiMZxdVDLjuqDe0BYP5
-         +Mx5LEzM2NfCuQ64U3S79QvlaJtifHrRunS6UyMoYftG6MqZsksV29HIKm2tAbbyx5
-         kp0LOD3NNbtQ8vGmZAMQBXTKdvlWZogvvcUV9jlGMOoDjqpoabCbvYSWr9Imp05SOR
-         /FZM5IbtatfvQ==
-From:   Daniel Almeida <daniel.almeida@collabora.com>
-To:     wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        hverkuil@xs4all.nl
-Cc:     Daniel Almeida <daniel.almeida@collabora.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH 6/6] rust: media: add v4l2 rust sample
-Date:   Thu,  6 Apr 2023 18:56:15 -0300
-Message-Id: <20230406215615.122099-7-daniel.almeida@collabora.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230406215615.122099-1-daniel.almeida@collabora.com>
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+        with ESMTP id S230210AbjDFWnZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 18:43:25 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2765E72A6
+        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 15:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
+        s=s31663417; t=1680820992; i=herdler@nurfuerspam.de;
+        bh=FDgFS9/PckMQN8MoHF3RmebXboUWpTDEbAnhvvuGlGk=;
+        h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
+        b=S7tcAv5lrb++1K7BS9qtJmZW449JYwJnQtDxFdrqlvT0ViXQ9aqy59IseSV2pqn57
+         pIOsLJM+djglM4Fczk9QkZ3frwDO6tulIz9Cu0GdmZRnha7uObA4x97PivCcJCBxr2
+         U9UXTCz1Y4SM0ur+msOxlCXjDmB7Er1+hYMM6H3SjxRoNO1Myr8pkoZKuur8ICHM8S
+         gWrFzsRdykCDrEab4GnJvIEwCx/aBvC/cMAU+I9z2gQC/Ajw5VprnW3GI3VX+3PFX4
+         khu0P8UtKkqUZDn4pj4SkVe3KBh02wVRh1T9zTM5Joj6bdlweCiDvoyyX8HJuuomLK
+         mq9CeKeN1IvrA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [127.0.0.1] ([185.101.173.13]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQXN-1qa2yr1673-00sLhk; Fri, 07
+ Apr 2023 00:43:12 +0200
+Message-ID: <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
+Date:   Fri, 7 Apr 2023 00:43:11 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Subject: Re: saa7146: please test the vb2 conversion!
+Content-Language: de-DE, en-US
+From:   Stefan Herdler <herdler@nurfuerspam.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>,
+        Soeren Moch <smoch@web.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+ <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
+ <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
+ <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
+ <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
+ <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+ <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
+ <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
+ <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
+ <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
+ <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
+ <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
+ <20230208100847.3ec87576@coco.lan>
+ <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
+ <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
+ <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
+ <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
+In-Reply-To: <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:61O72qIQu4kTLt4/0Sk9OzbnGtX1E8cdbYtkm4ruhdxXl3PLQKe
+ kspoj9pcWXZuBX0DFgSdg4GjEUjwzgivuiNhNRPVNAwaVFzitU0kR0y7ro9W93dh77tXJmX
+ MkzWrCBCDc3W/yoz6iu2addK6Za9IU9gMkdtnYpA+/zSrNeZ8+mGTETOluHcAeBlS+oR2gP
+ /yFCqbFjdETT61zANyVEQ==
+UI-OutboundReport: notjunk:1;M01:P0:XKvOnJE68AI=;cZ11f4U5f00Q72SdW+t9LJngWuh
+ ui3rSAt8frYOHNtgEqggzbKgoAkpCSWRCsfFzS1xH2hxTqGGa/rS1oUKU1VUigEn/9YErTehg
+ PggZOoBDDehvNfETHOlzzELg3QdUJHCoiYJP7+TWc+LvKeHR465riez5XXhL1C4wV+AjbC7QH
+ dCphIPOKidA1VODco1/bwTs2sziJQ2WLjtaTxeVrUF8757VymR2Eg8fCFaUlllMzTegvN9FB6
+ oOCUYjHrfWTcqB4zlLOaqrzlWKDReU38ob9J0TCqGO98xRWNFvwPISqdPigJ338ntNF2YVgZ5
+ gtPU4UeHr00je2h7/uz7IulwP7xonvPaQqB0x4ASDpQ0hveVUPIEb6luvg2+c7G+rgU8vB+5j
+ XLaHP3dEy+fIty7yfMdL+tGLjd4aPoTAfph1+pYt0cPJz06xiyLKqe/PcBO9zAiFXyCXDI7/K
+ DCqxt/Y6k+nHRpBLOWTPKosjsrbpem2qnKd1pfvOrMrVKrL3aOa8RMafu/tvffdyqa/iUM3XN
+ yADTWavEoVYrS9+Q8Tn7aU64XQNCl+t0NQqVURpcAnSKF9XOfuQwBb9lu0uxqAeF/U3p5vaz7
+ QGD3Ad9770/+jb8D5os+psjiRma6EBTGjIQTme/pyj0P02in1HPTC42Ro97QfABTx+RvhRtSk
+ 9ahm1Dthl2zGoRcLGsZ5ryJhCy1aUomfgAfkME3AdCD0gzbeAuBzK5mQkPiHGiZ0PitKygNYO
+ FpPyPDuo4nuDCy3yvg8wMeJhy4I2T9yUQNlwpHQyH06zJYt9cGzz4yC6m39QI2pTzE6UNzp3m
+ w6gm845Dj8JKooKOwft1jXk9SEcapGk4fbfHtPlLlNn1P1wD+6OjehNyHvTePlHsWE/aBywX8
+ vcdJruKXyhWpOnN+xnTOQ282H0Bhh7UJI4zvRLV5x7GZjwbE2tGggbNba4P+TQoRgAAilasRT
+ 0CURxkFKuI6KgYnDWrl/tJq7eKY=
+X-Spam-Status: No, score=1.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a v4l2 rust sample. The sample driver showcases the current support
-available in the media module. It also proves that the device will
-indeed probe by printing a message to the terminal indicating that
-no error took place.
+Hi Hans,
 
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
----
- samples/rust/Kconfig      |  11 ++
- samples/rust/Makefile     |   1 +
- samples/rust/rust_v4l2.rs | 403 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 415 insertions(+)
- create mode 100644 samples/rust/rust_v4l2.rs
+I'm sorry for my late replay, but it was quiet troublesome to build
+a kernel with the patch, also running on the rest of my hardware.
 
-diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
-index 189c10ced6d4..4bdea8210ae0 100644
---- a/samples/rust/Kconfig
-+++ b/samples/rust/Kconfig
-@@ -163,4 +163,15 @@ config SAMPLE_RUST_SELFTESTS
- 
- 	  If unsure, say N.
- 
-+config SAMPLE_RUST_V4L2
-+	tristate "V4L2 driver"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV
-+	select VIDEOBUF2_DMA_SG
-+
-+	help
-+	  This option builds the V4L2 example.
-+
-+	  If unsure, say N.
-+
- endif # SAMPLES_RUST
-diff --git a/samples/rust/Makefile b/samples/rust/Makefile
-index 420bcefeb082..5ffa621f3968 100644
---- a/samples/rust/Makefile
-+++ b/samples/rust/Makefile
-@@ -15,5 +15,6 @@ obj-$(CONFIG_SAMPLE_RUST_NETFILTER)		+= rust_netfilter.o
- obj-$(CONFIG_SAMPLE_RUST_ECHO_SERVER)		+= rust_echo_server.o
- obj-$(CONFIG_SAMPLE_RUST_FS)			+= rust_fs.o
- obj-$(CONFIG_SAMPLE_RUST_SELFTESTS)		+= rust_selftests.o
-+obj-$(CONFIG_SAMPLE_RUST_V4L2)		+= rust_v4l2.o
- 
- subdir-$(CONFIG_SAMPLE_RUST_HOSTPROGS)		+= hostprogs
-diff --git a/samples/rust/rust_v4l2.rs b/samples/rust/rust_v4l2.rs
-new file mode 100644
-index 000000000000..6742af36ac0a
---- /dev/null
-+++ b/samples/rust/rust_v4l2.rs
-@@ -0,0 +1,403 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust V4L2 sample.
-+
-+use core::cell::UnsafeCell;
-+use core::clone::Clone;
-+
-+use kernel::bindings;
-+use kernel::error;
-+use kernel::media::v4l2;
-+use kernel::media::videobuf2;
-+use kernel::platform;
-+use kernel::prelude::*;
-+use kernel::sync::smutex::Mutex;
-+use kernel::sync::Arc;
-+
-+pub(crate) struct Driver {
-+    _reg: Pin<Box<kernel::driver::Registration<kernel::platform::Adapter<Self>>>>,
-+    _pdev: Pin<Box<PlatformDevice>>,
-+}
-+
-+impl v4l2::dev::Driver for Driver {
-+    type DriverData = Arc<DeviceData>;
-+}
-+
-+pub(crate) struct Registrations {
-+    video: Pin<Box<v4l2::dev::VideoRegistration<Driver>>>,
-+    v4l2: Pin<Box<v4l2::device::V4l2Registration>>,
-+}
-+
-+type DeviceData = kernel::device::Data<Registrations, (), V4l2Data>;
-+
-+pub(crate) struct V4l2Data {
-+    pub(crate) _device: Arc<kernel::device::Device>,
-+    _vb2_queue: Mutex<videobuf2::core::Queue<Driver>>,
-+}
-+
-+#[vtable]
-+impl videobuf2::core::QueueOperations for Driver {
-+    type DriverSpecificData = Vb2QueueData;
-+
-+    type PrivateData = Box<videobuf2::core::PrivateData<bindings::vb2_v4l2_buffer, Vb2QueueData>>;
-+
-+    fn queue_setup(
-+        _queue: &videobuf2::core::QueueRef,
-+        _private_data: &mut Self::PrivateData,
-+        _num_buffers: &mut u32,
-+        _num_planes: &mut u32,
-+        _sizes: &mut [u32],
-+    ) -> Result {
-+        let _vb2_queue_data = _private_data.driver_specific_mut();
-+        pr_debug!("queue_setup called.\n");
-+        Ok(())
-+    }
-+
-+    fn start_streaming(
-+        _queue: &videobuf2::core::QueueRef,
-+        _private_data: &mut Self::PrivateData,
-+        _count: u32,
-+    ) -> Result {
-+        pr_info!("start_streaming called.\n");
-+        Ok(())
-+    }
-+
-+    fn stop_streaming(_queue: &videobuf2::core::QueueRef, _private_data: &mut Self::PrivateData) {
-+        pr_info!("stop_streaming called.\n");
-+    }
-+
-+    fn buf_init(
-+        _buffer: &videobuf2::core::Buffer,
-+        _private_data: &mut Self::PrivateData,
-+    ) -> Result {
-+        pr_info!("buf_init called.\n");
-+        Ok(())
-+    }
-+
-+    fn buf_prepare(
-+        _buffer: &videobuf2::core::Buffer,
-+        _private_data: &mut Self::PrivateData,
-+    ) -> Result {
-+        pr_info!("buf_prepare called.\n");
-+        Ok(())
-+    }
-+
-+    fn buf_cleanup(_buffer: &videobuf2::core::Buffer, _private_data: &mut Self::PrivateData) {
-+        pr_info!("buf_cleanup called.\n");
-+    }
-+
-+    fn buf_queue(_buffer: &videobuf2::core::Buffer, _private_data: &mut Self::PrivateData) {
-+        pr_info!("buf_queue called.\n");
-+    }
-+}
-+
-+pub(crate) struct Vb2QueueData {}
-+
-+impl platform::Driver for Driver {
-+    type Data = Arc<DeviceData>;
-+
-+    kernel::define_of_id_table! {(), [
-+         (kernel::of::DeviceId::Compatible(b"v4l2"), None),
-+    ]}
-+
-+    fn probe(
-+        pdev: &mut platform::Device,
-+        _: core::option::Option<&Self::IdInfo>,
-+    ) -> Result<Self::Data> {
-+        let dev = kernel::device::Device::from_dev(pdev);
-+
-+        pr_debug!("V4L2 Rust Sample Probing!\n");
-+
-+        let v4l2_reg = v4l2::device::V4l2Registration::new()?;
-+
-+        let fops = v4l2::dev::V4l2FileOperations {
-+            open: Some(bindings::v4l2_fh_open),
-+            poll: Some(bindings::vb2_fop_poll),
-+            mmap: Some(bindings::vb2_fop_mmap),
-+            read: Some(bindings::vb2_fop_read),
-+        };
-+
-+        let ioctls = v4l2::dev::V4l2IoctlOperations {
-+            reqbufs: Some(bindings::vb2_ioctl_reqbufs),
-+            querybuf: Some(bindings::vb2_ioctl_querybuf),
-+            qbuf: Some(bindings::vb2_ioctl_qbuf),
-+            expbuf: Some(bindings::vb2_ioctl_expbuf),
-+            dqbuf: Some(bindings::vb2_ioctl_dqbuf),
-+            create_bufs: Some(bindings::vb2_ioctl_create_bufs),
-+            prepare_buf: Some(bindings::vb2_ioctl_prepare_buf),
-+            streamon: Some(bindings::vb2_ioctl_streamon),
-+            streamoff: Some(bindings::vb2_ioctl_streamoff),
-+            // prepare_streaming: None,
-+            // unprepare_streaming: None,
-+        };
-+
-+        let video_reg =
-+            v4l2::dev::VideoRegistration::<Driver>::new(&dev, v4l2_reg.device(), fops, ioctls)?;
-+
-+        let dev = Arc::try_new(dev)?;
-+
-+        let io_modes = [
-+            videobuf2::core::IoModes::Mmap,
-+            videobuf2::core::IoModes::DmaBuf,
-+        ];
-+
-+        let timestamp_flags = [v4l2::mmap::BufferFlag::TimestampMonotonic];
-+
-+        let queue_data = Vb2QueueData {};
-+
-+        let queue_data = Box::try_new(videobuf2::core::PrivateData::new(queue_data))?;
-+        let queue_data = Some(queue_data);
-+
-+        let vb2_mutex = unsafe { kernel::sync::ffi_mutex::FfiMutex::new() };
-+        let mut vb2_mutex = Pin::from(Box::try_new(vb2_mutex)?);
-+        kernel::ffi_mutex_init!(vb2_mutex.as_mut(), "Vb2Queue::lock");
-+
-+        let create_info = videobuf2::core::QueueCreateInfo {
-+            buf_type: v4l2::enums::BufType::VideoCapture,
-+            io_modes: &io_modes,
-+            dev: dev.clone(),
-+            timestamp_flags: &timestamp_flags,
-+            lock: Some(vb2_mutex),
-+            min_buffers_needed: 1,
-+            gfp_flags: bindings::___GFP_DMA32,
-+            mem_ops: videobuf2::core::MemOps::DmaSg,
-+            requires_requests: false,
-+            supports_requests: false,
-+            private_data: queue_data,
-+        };
-+
-+        let vb2_queue = videobuf2::core::Queue::<Self>::new(create_info)?;
-+
-+        let data = kernel::new_device_data!(
-+            Registrations {
-+                video: Pin::new(Box::try_new(video_reg).unwrap()),
-+                v4l2: Pin::new(Box::try_new(v4l2_reg).unwrap()),
-+            },
-+            (),
-+            V4l2Data {
-+                _device: dev,
-+                _vb2_queue: kernel::sync::smutex::Mutex::new(vb2_queue),
-+            },
-+            "V4l2::Registrations"
-+        )?;
-+
-+        let data = Arc::<DeviceData>::from(data);
-+        let capabilities = [
-+            v4l2::capabilities::Capabilities::VideoCapture,
-+            v4l2::capabilities::Capabilities::Streaming,
-+        ];
-+
-+        let mut pinned_regs = data.registrations().ok_or(ENXIO)?;
-+        let mut pinned_regs_mut = pinned_regs.as_pinned_mut();
-+
-+        let dev = kernel::device::Device::from_dev(pdev);
-+        kernel::v4l2_device_register!(pinned_regs_mut.v4l2.as_mut(), &dev)?;
-+        pr_debug!("Sucessfully registered v4l2 device");
-+
-+        kernel::video_device_register!(
-+            pinned_regs_mut.video.as_mut(),
-+            data.clone(),
-+            v4l2::dev::VflDevNodeType::Video,
-+            -1,
-+            &capabilities,
-+        )?;
-+
-+        pr_info!("V4L2 Rust Sample Probed!\n");
-+        drop(pinned_regs);
-+        Ok(data)
-+    }
-+}
-+
-+#[vtable]
-+impl v4l2::ioctls::Operations for Driver {
-+    type PrivateData = Arc<DeviceData>;
-+
-+    fn vidioc_querycap(
-+        _private_data: &mut Self::PrivateData,
-+        _cap: v4l2::capabilities::CapabilitiesRef,
-+    ) -> Result {
-+        pr_info!("vidioc_querycap called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_enum_fmt_vid_cap(
-+        _private_data: &mut Self::PrivateData,
-+        mut f: v4l2::format::FormatDescRef,
-+    ) -> Result {
-+        pr_info!("vidioc_enum_fmt_vid_cap called");
-+        // Set NV12 to avoid spam by some apps when this module is loaded.
-+        f.set_pixel_format(842094158);
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_enum_framesizes(
-+        _private_data: &mut Self::PrivateData,
-+        _fsize: v4l2::framesize::FrameSizeRef,
-+    ) -> Result {
-+        pr_info!("vidioc_enum_framesizes called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_g_fmt_vid_cap(
-+        _private_data: &mut Self::PrivateData,
-+        _f: v4l2::format::FormatRef,
-+    ) -> Result {
-+        pr_info!("vidioc_g_fmt_vid_cap called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_s_fmt_vid_cap(
-+        _private_data: &mut Self::PrivateData,
-+        _f: v4l2::format::FormatRef,
-+    ) -> Result {
-+        pr_info!("vidioc_s_fmt_vid_cap called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_try_fmt_vid_cap(
-+        _private_data: &mut Self::PrivateData,
-+        _f: v4l2::format::FormatRef,
-+    ) -> Result {
-+        pr_info!("vidioc_try_fmt_vid_cap called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_reqbufs(
-+        _private_data: &mut Self::PrivateData,
-+        _b: v4l2::mmap::RequestBuffersRef,
-+    ) -> Result {
-+        pr_info!("vidioc_reqbufs called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_querybuf(_private_data: &mut Self::PrivateData, _b: v4l2::mmap::BufferRef) -> Result {
-+        pr_info!("vidioc_querybuf called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_qbuf(_private_data: &mut Self::PrivateData, _b: v4l2::mmap::BufferRef) -> Result {
-+        pr_info!("vidioc_qbuf called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_expbuf(
-+        _private_data: &mut Self::PrivateData,
-+        _e: v4l2::mmap::ExportBufferRef,
-+    ) -> Result {
-+        pr_info!("vidioc_expbuf called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_dqbuf(_private_data: &mut Self::PrivateData, _b: v4l2::mmap::BufferRef) -> Result {
-+        pr_info!("vidioc_dqbuf called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_create_bufs(
-+        _private_data: &mut Self::PrivateData,
-+        _b: v4l2::mmap::CreateBuffersRef,
-+    ) -> Result {
-+        pr_info!("vidioc_create_bufs called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_prepare_buf(
-+        _private_data: &mut Self::PrivateData,
-+        _b: v4l2::mmap::BufferRef,
-+    ) -> Result {
-+        pr_info!("vidioc_prepare_buf called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_streamon(_private_data: &mut Self::PrivateData, _i: v4l2::enums::BufType) -> Result {
-+        pr_info!("vidioc_streamon called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_streamoff(_private_data: &mut Self::PrivateData, _i: v4l2::enums::BufType) -> Result {
-+        pr_info!("vidioc_streamoff called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_enum_input(
-+        _private_data: &mut Self::PrivateData,
-+        _inp: v4l2::inputs::InputRef,
-+    ) -> Result {
-+        pr_info!("vidioc_enum_input called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_g_input(_private_data: &mut Self::PrivateData, _i: &mut u32) -> Result {
-+        pr_info!("vidioc_g_input called");
-+        core::result::Result::Ok(())
-+    }
-+
-+    fn vidioc_s_input(_private_data: &mut Self::PrivateData, _i: u32) -> Result {
-+        pr_info!("vidioc_s_input called");
-+        core::result::Result::Ok(())
-+    }
-+}
-+
-+/// An owned platform device registered by a driver. This is useful for virtual
-+/// drivers, such as this one, since they will not be probed by matching against
-+/// the device tree.
-+struct PlatformDevice(core::cell::UnsafeCell<bindings::platform_device>);
-+
-+// SAFETY: I assume _all_ devices should be OK to be moved to any thread.
-+unsafe impl Send for PlatformDevice {}
-+// SAFETY: Platform device does not expose its inner FFI type.
-+unsafe impl Sync for PlatformDevice {}
-+
-+impl Drop for PlatformDevice {
-+    fn drop(&mut self) {
-+        // SAFETY: no references to this type are alive here.
-+        let platform_device = self.0.get();
-+        // SAFETY: an FFI call to a previously registered device.
-+        unsafe { bindings::platform_device_unregister(platform_device) }
-+    }
-+}
-+
-+unsafe impl kernel::device::RawDevice for PlatformDevice {
-+    fn raw_device(&self) -> *mut bindings::device {
-+        // SAFETY: no references to this type are alive here.
-+        let platform_device = self.0.get();
-+        // SAFETY: pointer is valid since it was previously registered when the
-+        // module was registered.
-+        unsafe { &mut (*platform_device).dev as _ }
-+    }
-+}
-+
-+impl kernel::Module for Driver {
-+    fn init(name: &'static CStr, module: &'static ThisModule) -> Result<Self> {
-+        // Register as platform driver
-+        let reg: Pin<Box<kernel::driver::Registration<kernel::platform::Adapter<Self>>>> =
-+            kernel::platform::Registration::new_pinned(name, module)?;
-+
-+        let mut platform_device = kernel::bindings::platform_device::default();
-+        let name = kernel::c_str!("rust_v4l2");
-+        platform_device.name = name.as_char_ptr();
-+
-+        let platform_device = Box::try_new(PlatformDevice(UnsafeCell::new(platform_device)))?;
-+        let mut platform_device = Pin::from(platform_device);
-+
-+        let platform_device = unsafe {
-+            let res = bindings::platform_device_register(platform_device.as_mut().0.get());
-+
-+            error::to_result(res)?;
-+            platform_device
-+        };
-+
-+        Ok(Self {
-+            _reg: reg,
-+            _pdev: platform_device, /* This obviously must be kept alive as well, otherwise massive faults will ensure */
-+        })
-+    }
-+}
-+
-+module! {
-+    type: Driver,
-+    name: "rust_v4l2",
-+    author: "Daniel Almeida",
-+    description: "Minimal Rust V4L2 example driver",
-+    license: "GPL",
-+}
--- 
-2.40.0
 
+On 24/03/23 22:21, Stefan Herdler wrote:
+> Hi Hans,
+>
+> great to read, that it is finally done, thank you for your work!
+>
+>
+> On 24/03/23 11:40 Hans Verkuil wrote:
+>> On 24/03/2023 11:37, Hans Verkuil wrote:
+>>> Hi all,
+>>>
+>>> I finished the vb2 conversion and tested what I could test. I am missi=
+ng
+>>> 'full featured' hardware, so I could not test the analog video capture=
+ part
+> There is some miss understanding.
+> At VDR 'full featured' refers to all DVB-cards with decoder and OSD.
+>
+> I wasn't aware, that this definition doesn't seem to be common, sorry.
+>>> of that. It's not clear to me if VBI capture is also supported on thos=
+e
+>>> cards, if so, then that needs to be tested as well.
+
+I have talked to the "cable-guys" and they didn't know about VBI capture.
+
+The whole analog capture of this cards was never very popular with VDR.
+The signal had to be encoded on the fly, this was never reliable as the
+PVR-cards with encoder.
+
+I think it is o.k. to leave it untested.
+>>>
+>>> Note that there is one userspace-facing change: the VBI output setting=
+s
+>>> are kept, even if the vbi device is closed by the application.
+>>>
+>>> Before you had to open the vbi device, format the slice VBI output, an=
+d
+>>> write sliced VBI data to it. Closing the device would reset how VBI ou=
+tput
+>>> behaves. That is not in spec with the V4L2 API. The format is kept aft=
+er
+>>> the device is closed.
+>>>
+>>> Any application that uses VBI output and that wants to keep the same
+>>> behavior would have to call VIDIOC_S_FMT with a struct v4l2_sliced_vbi=
+_format
+>>> with a service_set field set to 0 to indicate that you don't want to
+>>> output any VBI anymore.
+
+VBI output is used to switch the aspect-ratio via WSS.
+this should be supported by any av7110 card.
+
+The software is run a daemon or plugin, so the userspace-facing change
+shouldn't matter.
+
+I'll test this as soon as possible.
+
+
+
+
+I've done only basic testing so far, but unfortunately it already failed.
+
+The test:
+Switch to a channel[*] and view the decoded video with tvtime.
+
+The resulting picture is corrupted.
+Almost green with some pink traces at the outlines.
+
+It reminds me to YCbCr component-yideo on a RGB-input.
+Maybe the input-format of saa7146 not set correctly?
+
+The OSD is equally affected, but the card seems to run stable.
+
+
+
+* I used VDR for this, but it shouldn't matter.
+
+Regards
+Stefan
+
+>>>
+>>> If this is a problem, then I can make a module option that selects the=
+ old
+>>> behavior.
+>>>
+>>> BTW, if anyone has a spare full-featured card (i.e. with analog video =
+capture
+>>> as well), then I would love to take it off your hands so that I can te=
+st that
+>>> myself!
+> There are only DVB-C boards with analog features.
+>
+> I personally never had cable-TV nor own any DVB-C cards.
+> But I try to find such a card with an analog module on it.
+>>>
+>>> This series has been tested on the two Hexium boards, the mxb board, a=
+nd two
+>>> av7710 boards (DVB-C and DVB-T).
+>
+> I can test on the DVB-S hardware.
+>
+> But let me finish the API-documentation fist, it is almost done.
+> There are only the complains from chackpatch left to fix, I hope it is d=
+one quickly.
+>
+>
+> Regards
+> Stefan
+>
+>
+>>
+>> It does help if I point to the patches :-)
+>>
+>> The patch series is here:
+>>
+>> https://patchwork.linuxtv.org/project/linux-media/list/?series=3D10140
+>>
+>> It's also in my git tree:
+>>
+>> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=3Dsaa7146-clean
+>>
+>> Regards,
+>>
+>> 	Hans
