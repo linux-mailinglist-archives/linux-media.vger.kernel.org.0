@@ -2,106 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37AD96D9EE9
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 19:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DD0B6DA50C
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 23:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238761AbjDFRgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 13:36:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55914 "EHLO
+        id S229612AbjDFV5g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 17:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238941AbjDFRgA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 13:36:00 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52A6AF34
-        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 10:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680802539; x=1712338539;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=zvXshHIa3YjXSGNNCAC9emMeIMc0az5Ire1m5X/tLaI=;
-  b=XjrV6dn5eBPe5DXT3sbJCZPlAwY1gDmjlbdbmdX57CSDVHB4oZx3GeDJ
-   bdo+r8JGpfnETsEqzODhzcDX3Ys/6OBFUoEjDXbZlFTGAUdAU5t0IfJcg
-   xpEiAXAlzGTGr8SOYABXY43IkyEqbU0+6V7ebMa10tXnKPmR6dVzdaNgI
-   xK5q2yGOG/RPgQKeqoijaX/5Mr6F5k5V83eAKH3FjHbqtCMBVjA2yHkvN
-   tHUVyi59IeVgOIDBuipeH5jgEM+7pBKrfSPN16032aSpoU94y7lNZ0dl5
-   BjpBzmkTyoBSbXLRmsMuuVpCxDnFqOT0B5Dhn4s3Evw/UHghAPTd2zcm8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="370629625"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="370629625"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 10:34:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="664558678"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="664558678"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 10:34:35 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id D6C56122DD4
-        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 20:34:33 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 4/4] media: ccs: Document CCS static data file names
-Date:   Thu,  6 Apr 2023 20:34:28 +0300
-Message-Id: <20230406173428.19855-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230406173428.19855-1-sakari.ailus@linux.intel.com>
-References: <20230406173428.19855-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S239550AbjDFV5D (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 17:57:03 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C975BDD5;
+        Thu,  6 Apr 2023 14:56:28 -0700 (PDT)
+Received: from localhost.localdomain (unknown [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dwlsalmeida)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 68D0466031CD;
+        Thu,  6 Apr 2023 22:56:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1680818186;
+        bh=+RgTu+XfjA67kcgtbr4jnvnSVYYMZKKcrwsr5PcOo+k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DTHL20v/Q8Ki3aG9tnnoZYgKIGKiE5EBuqVh+LWBf1aDRi1NFcwl6nzRahU1gchvk
+         +x+W/ElzVuklOi/tQasYuLzTGAQQJigW/L8GhPv3eG3/xnSxfgmm5JJ7m9SehQ5lsM
+         H530ekYEuBAQMQ6CY7PxbltBn2Umo9d4ojJrSKeqN45Zt3mu4Qo5ldMFIS9q0Nndto
+         X5PzFfEOuGGzpyApL5+7O2DOA/WSpLnF4Vtf+cRdJGYd3W96LJ3kSTLJmWux0cphi6
+         C7c8yhzBwAi7sX8Mxy3OYSPyW2S5yMUM72mPUGU6an1dm00s3uZ1cbWt7vxp+WdY0f
+         FiexTUhRRMZWw==
+From:   Daniel Almeida <daniel.almeida@collabora.com>
+To:     wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl
+Cc:     Daniel Almeida <daniel.almeida@collabora.com>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH 0/6] Initial Rust V4L2 support
+Date:   Thu,  6 Apr 2023 18:56:09 -0300
+Message-Id: <20230406215615.122099-1-daniel.almeida@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the firmware file names for CCS static data for CCS, SMIA++ and
-SMIA devices.
+Hi all, this is my first attempt at adding Rust support to the
+media subsystem.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../driver-api/media/drivers/ccs/ccs.rst      | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+It adds just enough support to write a clone of the virtio-camera
+prototype written by my colleague, Dmitry Osipenko, available at [0].
 
-diff --git a/Documentation/driver-api/media/drivers/ccs/ccs.rst b/Documentation/driver-api/media/drivers/ccs/ccs.rst
-index b461c8aa2a16..7389204afcb8 100644
---- a/Documentation/driver-api/media/drivers/ccs/ccs.rst
-+++ b/Documentation/driver-api/media/drivers/ccs/ccs.rst
-@@ -56,6 +56,28 @@ analogue data is never read from the pixel matrix that are outside the
- configured selection rectangle that designates crop. The difference has an
- effect in device timing and likely also in power consumption.
- 
-+CCS static data
-+---------------
-+
-+The MIPI CCS driver supports CCS static data for all compliant devices,
-+including not just those compliant with CCS 1.1 but also CCS 1.0 and SMIA(++).
-+For CCS the file names are formed as
-+
-+	ccs/ccs-sensor-vvvv-mmmm-rrrr.fw (sensor) and
-+	ccs/ccs-module-vvvv-mmmm-rrrr.fw (module).
-+
-+For SMIA++ compliant devices the corresponding file names are
-+
-+	ccs/smiapp-sensor-vv-mmmm-rr.fw (sensor) and
-+	ccs/smiapp-module-vv-mmmm-rrrr.fw (module).
-+
-+For SMIA (non-++) compliant devices the static data file name is
-+
-+	ccs/smia-sensor-vv-mmmm-rr.fw (sensor).
-+
-+vvvv or vv denotes MIPI and SMIA manufacturer IDs respectively, mmmm model ID
-+and rrrr or rr revision number.
-+
- Register definition generator
- -----------------------------
- 
+Basically, there's support for video_device_register,
+v4l2_device_register and for some ioctls in v4l2_ioctl_ops. There is
+also some initial vb2 support, alongside some wrappers for some types
+found in videodev2.h.
+
+I wrote a sample Rust driver just to prove that this probes, and
+that you get a message on dmesg whenever an ioctl is called.
+
+As there is no actual implementation for any of the ioctls, this module
+can misbehave with some programs. I can work around this in a future
+submission.
+
+Note that this is based on the rust branch, as opposed to rust-next. The
+reasoning is simple: I expect this series to just kickstart some
+discussion around the subject. Actual upstreaming can come up much
+later, at which point I can rebase on the rust branch.
+
+Lastly, the origins of this series trace back to a v4l2 virtIO driver I
+was writing in Rust. As the project was eventually shelved for other
+reasons, I picked both the virtIO and the v4l2 bindings into their own
+patches which I am now in the process of submitting. This is to say that
+I tested this code with said driver and CrosVM in the past, and it
+worked ok.
+
+Please let me know your thoughts.
+
+[0]: https://gitlab.collabora.com/dmitry.osipenko/linux-kernel-rd/-/commit/055a2c322e931a8b388f864f1db81bbdfd525602
+
+Daniel Almeida (6):
+  rust: media: add the media module
+  rust: media: add initial videodev2.h abstractions
+  rust: sync: introduce FfiMutex
+  rust: media: videobuf2: add a videobuf2 abstraction
+  rust: media: add {video|v4l2}_device_register support
+  rust: media: add v4l2 rust sample
+
+ rust/bindings/bindings_helper.h        |   8 +
+ rust/kernel/lib.rs                     |   2 +
+ rust/kernel/media/mod.rs               |   6 +
+ rust/kernel/media/v4l2/capabilities.rs |  80 ++++
+ rust/kernel/media/v4l2/dev.rs          | 369 +++++++++++++++
+ rust/kernel/media/v4l2/device.rs       | 115 +++++
+ rust/kernel/media/v4l2/enums.rs        | 135 ++++++
+ rust/kernel/media/v4l2/format.rs       | 178 ++++++++
+ rust/kernel/media/v4l2/framesize.rs    | 176 +++++++
+ rust/kernel/media/v4l2/inputs.rs       | 104 +++++
+ rust/kernel/media/v4l2/ioctls.rs       | 608 +++++++++++++++++++++++++
+ rust/kernel/media/v4l2/mmap.rs         |  81 ++++
+ rust/kernel/media/v4l2/mod.rs          |  13 +
+ rust/kernel/media/videobuf2/core.rs    | 552 ++++++++++++++++++++++
+ rust/kernel/media/videobuf2/mod.rs     |   5 +
+ rust/kernel/sync.rs                    |   1 +
+ rust/kernel/sync/ffi_mutex.rs          |  70 +++
+ samples/rust/Kconfig                   |  11 +
+ samples/rust/Makefile                  |   1 +
+ samples/rust/rust_v4l2.rs              | 403 ++++++++++++++++
+ 20 files changed, 2918 insertions(+)
+ create mode 100644 rust/kernel/media/mod.rs
+ create mode 100644 rust/kernel/media/v4l2/capabilities.rs
+ create mode 100644 rust/kernel/media/v4l2/dev.rs
+ create mode 100644 rust/kernel/media/v4l2/device.rs
+ create mode 100644 rust/kernel/media/v4l2/enums.rs
+ create mode 100644 rust/kernel/media/v4l2/format.rs
+ create mode 100644 rust/kernel/media/v4l2/framesize.rs
+ create mode 100644 rust/kernel/media/v4l2/inputs.rs
+ create mode 100644 rust/kernel/media/v4l2/ioctls.rs
+ create mode 100644 rust/kernel/media/v4l2/mmap.rs
+ create mode 100644 rust/kernel/media/v4l2/mod.rs
+ create mode 100644 rust/kernel/media/videobuf2/core.rs
+ create mode 100644 rust/kernel/media/videobuf2/mod.rs
+ create mode 100644 rust/kernel/sync/ffi_mutex.rs
+ create mode 100644 samples/rust/rust_v4l2.rs
+
 -- 
-2.30.2
+2.40.0
 
