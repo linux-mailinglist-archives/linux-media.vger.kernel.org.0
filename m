@@ -2,245 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C11D6D98A5
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 15:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE006D98C3
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 15:57:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237978AbjDFNy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 09:54:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
+        id S238850AbjDFN5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 09:57:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236877AbjDFNyY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 09:54:24 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 162A69EF6
-        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 06:54:23 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-502208f7cb3so149086a12.0
-        for <linux-media@vger.kernel.org>; Thu, 06 Apr 2023 06:54:23 -0700 (PDT)
+        with ESMTP id S238854AbjDFN5P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 09:57:15 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC3AAD03
+        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 06:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680789261;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6IAw+w9FZQ7jDjRJq27qAY9c4XuwhViWVLB/Lio4RVQ=;
-        b=KUt1ik1nEQ7opDVbPc0+qo1l68PyDK102Q81UoQaowFU8oZQnUfLRTEOuJ9PSGKkF9
-         1A++BO2vwnWo6oGsrOMP/rydGG7O9rF5mope4P/Qj/zFDIW2ytENDapXtkf6DwjeImGW
-         MHY6SgpblxvywBYjXMGqP2wvATzKf0VPUDBZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680789261;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6IAw+w9FZQ7jDjRJq27qAY9c4XuwhViWVLB/Lio4RVQ=;
-        b=mZm+IVyTxN3d6bVzmoBuyLZqdu5u7t5jd6UjZJfQWCyW/U3ZPjCn4ttPGpUoWxRe/g
-         BWahqRmiE8E12I6AnMQEDdCrTmG+WA36OmcXkwy+hMrum8HOCFCzJNcUqAjgMfJFM1o8
-         lsQeOAGDROBzD0qgsb48Th+dMj0AF5pqUsmkWTSCXLlT1c4tcHO9A28CUz4tQ2phaBHe
-         19VcGiJEJtN5IHCucJ58836C+YfpEFxPI0Bc17OuX6jKzpN5UMwyNFiUMZhZmfEivnsd
-         tWHMjwKSAXSg/i8D+8vAoZA4k3DpRau+PVD047X5E6jAuld23yb7jR/a00KmbFh0Uc4g
-         NRLw==
-X-Gm-Message-State: AAQBX9f9sbmf5eAVBNTCPFtVnpWA726w/Ct07nmykx4xFDgCAHxUjiov
-        /qArjITGRCSAGGMFjJn2ELRX7g==
-X-Google-Smtp-Source: AKy350ZFFNJj4gsovzONFkSByKDMlu/5sletbJfi957R7h+pF/JrehHotXoowZWg8fkRD5nMlej5Mg==
-X-Received: by 2002:a17:906:3f12:b0:947:8734:a058 with SMTP id c18-20020a1709063f1200b009478734a058mr4982175ejj.4.1680789261344;
-        Thu, 06 Apr 2023 06:54:21 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id e4-20020a17090681c400b00925ce7c7705sm839581ejx.162.2023.04.06.06.54.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 06:54:20 -0700 (PDT)
-Date:   Thu, 6 Apr 2023 15:54:18 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Asahi Lina <lina@asahilina.net>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
- driver for Apple AGX GPUs
-Message-ID: <ZC7PClluoKmfCMn6@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-        David Airlie <airlied@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
- <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
- <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
- <ZC6sPBuH3vz7vMO2@phenom.ffwll.local>
- <5330cde5-2d04-200f-d606-5467f20a5f7f@asahilina.net>
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1680789404; x=1712325404;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DCBM5qgaJqrAiLml973kMkTtNEpC42AQ7hJXwQsB3Gs=;
+  b=Uncvr8fDB+sTcvQSru4nBsxe26vXRqnr1LDZJWk2vN15KirHPmXDgYAu
+   WGGt98WgzPYXtRjGitCrknv6WW1q9+omlvDeTDcEmFT79LShiefi3uCvC
+   GgCDVEkyab93PWKlPsXLk+mS30kMKF3CEVZf4Zg4ipmngPMAGDw7Gki3m
+   0IcIu+a3mgnVoIGgA7vJKKctAK5+LNwI5IHrxmZFVlubv+C7tb2xNvykx
+   rYxvlkHoXVUDETJPXwFyyXrs7qEBsVM0mldfcVYtTLA+6knwn8fR8dXWw
+   NGDBxFNFS03GubOXbSRTXuWnieTCPru4kbYEXdU37yWamJUEWwjb+8EjP
+   g==;
+X-IronPort-AV: E=Sophos;i="5.98,323,1673910000"; 
+   d="scan'208";a="30197209"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 06 Apr 2023 15:56:42 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 06 Apr 2023 15:56:42 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 06 Apr 2023 15:56:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1680789402; x=1712325402;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DCBM5qgaJqrAiLml973kMkTtNEpC42AQ7hJXwQsB3Gs=;
+  b=kSB+Ihd/KHcOnfl0u2VT0LU2oTkPRWr8jgZil3ldxhCEQECQ0TnxwRqs
+   +An5Lauo/9LtOSms6YPrCMeyAgI32reUhAkNZ3iXMrrWZ9UsL/S8/OUnA
+   eTC90UlbVJIAzNeqFS3ISas+AiMDd/q3E03sGhkGF2FDmgQKz+1Kazh28
+   DDfOIh0WV/i0ESE8P733qbz39Iu77zPL1qCFmfNSeUNwdOiWaBGpGiFBI
+   sKDSPotvV0MJDBVO+2DOxMfQe3KebPD3FrQxpnuBtfrSTMHtVesICkXzv
+   uMZeB7M+2BafXhrRM3/CKK5nVMwgwthraqplBrruXusjD0MIMBFLYS7pl
+   w==;
+X-IronPort-AV: E=Sophos;i="5.98,323,1673910000"; 
+   d="scan'208";a="30197207"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 06 Apr 2023 15:56:42 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 63B63280056;
+        Thu,  6 Apr 2023 15:56:42 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 1/1] media: imx: imx7-media-csi: Set pixfmt field, width, height & sizeimage
+Date:   Thu,  6 Apr 2023 15:56:37 +0200
+Message-Id: <20230406135637.257580-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5330cde5-2d04-200f-d606-5467f20a5f7f@asahilina.net>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 06, 2023 at 10:32:29PM +0900, Asahi Lina wrote:
-> On 06/04/2023 20.25, Daniel Vetter wrote:
-> > On Thu, Apr 06, 2023 at 02:02:55PM +0900, Asahi Lina wrote:
-> > > On 05/04/2023 23.44, Daniel Vetter wrote:
-> > > > On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
-> > > > > +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
-> > > > > +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
-> > > > > +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
-> > > > > +}
-> > > > 
-> > > > So maybe my expectations for rust typing is a bit too much, but I kinda
-> > > > expected this to be fully generic:
-> > > > 
-> > > > - trait Driver (drm_driver) knows the driver's object type
-> > > > - a generic create_handle function could ensure that for drm_file (which
-> > > >     is always for a specific drm_device and hence Driver) can ensure at the
-> > > >     type level that you only put the right objects into the drm_file
-> > > > - a generic lookup_handle function on the drm_file knows the Driver trait
-> > > >     and so can give you back the right type right away.
-> > > > 
-> > > > Why the wrapping, what do I miss?
-> > > 
-> > > Sigh, so this is one of the many ways I'm trying to work around the "Rust
-> > > doesn't do subclasses" problem (so we can figure out what the best one is
-> > > ^^).
-> > > 
-> > > The generic shmem::Object::lookup_handle() call *is* fully generic and will
-> > > get you back a driver-specific object. But since Rust doesn't do
-> > > subclassing, what you get back isn't a driver-specific type T, but rather a
-> > > (reference to a) shmem::Object<T>. T represents the inner driver-specific
-> > > data/functionality (only), and the outer shmem::Object<T> includes the
-> > > actual drm_gem_shmem_object plus a T. This is backwards from C, where you
-> > > expect the opposite situation where T contains a shmem object, but that just
-> > > doesn't work with Rust because there's no way to build a safe API around
-> > > that model as far as I know.
-> > 
-> > Ah I think I just got confused. I did untangle (I think at least) the
-> > Object<T> trick, I guess the only thing that confused me here is why this
-> > is in the shmem module? Or is that the rust problem again?
-> > 
-> > I'd kinda have expected that we'd have a gem::Object<T> here that the
-> > lookup_handle function returns. So for the shmem case I guess that would
-> > then be gem::Object<shmem::Object<T>> for the driver type T with driver
-> > specific stuff? I guess not very pretty ...
-> 
-> Ahh, uh... Yeah, so shmem objects are allocated their own way (the shmem
-> core expects to kfree them in drm_gem_shmem_free) and
-> bindings::drm_gem_shmem_object already contains a bindings::drm_gem_object.
-> Since the composition is already done in the C side, we can't just do it
-> again in Rust cleanly. That's why I have this weird setup with both a common
-> trait for common GEM functionality and separate actual types that both
-> implement it.
+Fixes the following v4l2-comliance errors for VIDIOC_TRY_FMT:
+* !pix.width || !pix.height
+* !pix.sizeimage
+* pix.field == V4L2_FIELD_ANY
 
-Hm this is annoying. For a single driver it doesn't matter, but I do
-expect that once we have more, and especially once we have more libraries
-wrapped (ttm, gpuva, execbuf submit helpers, ...) then the common glue
-really becomes the gem_bo for many of these things.
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+This patch is based on [1] and fixes the last v4l2-compliance errors and
+a 'WARN_ON(!plane_sizes[i])' in vb2_core_reqbufs().
+My platform: TQMa8MQML (imx8mm) + imx327lqr. 
 
-Could we have a GemObject trait which covers this? sole function is an
-unsafe one that gives you the raw C pointer :-) It still means that every
-gem memory manager library needs to impl that trait, but all the
-manager-agnostic bits in the wrappers would be generic? trait would then
-also have the right dependent type to ensure type safety in all this.
+The v4l2-compliance output:
+--8<--
+v4l2-compliance 1.24.1-5010, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 8799081b1436 2023-02-24 17:03:58
 
-Maybe something to discuss in the next meeting with the rust folks.
+Compliance test for imx-capture device /dev/video0:
 
-> Honestly the whole GEM codepath is untested other than the bits inherited by
-> shmem. I'm not sure I'll be able to verify that this all makes sense until
-> another Rust driver comes along that needs something other than shmem. I
-> just felt I had to do *something* for GEM since the hierarchy is there and I
-> needed shmem...
-> 
-> This whole gem stuff is IMO the messiest part of the abstractions though, so
-> I'm happy to turn it on its head if it makes it better and someone has an
-> idea of how to do that ^^
+Driver Info:
+        Driver name      : imx-capture
+        Card type        : imx-capture
+        Bus info         : platform:32e20000.csi
+        Driver version   : 6.3.0
+        Capabilities     : 0xa4200001
+                Video Capture
+                I/O MC
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x24200001
+                Video Capture
+                I/O MC
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : imx7-csi
+        Model            : imx-media
+        Serial           : 
+        Bus info         : platform:32e20000.csi
+        Media version    : 6.3.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.3.0
+Interface Info:
+        ID               : 0x03000006
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000004 (4)
+        Name             : csi capture
+        Function         : V4L2 I/O
+        Pad 0x01000005   : 0: Sink
+          Link 0x02000008: from remote pad 0x1000003 of entity 'csi' (Video Interface Bridge): Data, Enabled, Immutable
 
-Yeah I still haven't worked up enough courage to type up my gem
-abstraction review :-/
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
 
-> > > Now the problem is from the higher layers I want object operations that
-> > > interact with the shmem::Object<T> (that is, they call generic GEM functions
-> > > on the object). Options so far:
-> > > 
-> > > 1. Add an outer wrapper and put that functionality there.
-> > > 2. Just have the functions on T as helpers, so you need to call T::foo(obj)
-> > > instead of obj.foo().
-> > > 3. Use the undocumented method receiver trait thing to make shmem::Object<T>
-> > > a valid `self` type, plus add auto-Deref to shmem::Object. Then obj.foo()
-> > > works.
-> > > 
-> > > #1 is what I use here. #2 is how the driver-specific File ioctl callbacks
-> > > are implemented, and also sched::Job<T>. #3 is used for fence callbacks
-> > > (FenceObject<T>). None of them are great, and I'd love to hear what people
-> > > think of the various options...
-> > > 
-> > > There are other unexplored options, like in this GEM case it could be
-> > > covered with a driver-internal auxiliary trait impl'd on shmem::Object<T>
-> > > buuut that doesn't work when you actually need callbacks on T itself to
-> > > circle back to shmem::Object<T>, as is the case with File/Job/FenceObject.
-> > 
-> > Ok I think I'm completely lost here. But I also havent' looked at how this
-> > is all really used in the driver, it's really just the shmem:: module in
-> > the lookup_handle function which looked strange to me.
-> 
-> Ah, sorry, I misunderstood what you were talking about in my previous email
-> then. That's just a default trait function. It comes from common
-> functionality in the gem module, but shmem::Object implements the trait so
-> it ends up offering it too (lookup_handle() is not duplicated, it only lives
-> in gem, shmem only has to implement going to/from the drm_gem_object pointer
-> so the rest of the methods can use it). That's part of why the type/trait
-> hierarchy is kind of messy here, it's so I can share functionality between
-> both types even though they are pre-composed on the C side.
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
 
-Ok, so it's all already what I expect and I'm just confused with rust
-syntax.
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-> In the end the object types are specialized for any given driver, so you're
-> always getting your own unique kind of object anyway. It's just that drivers
-> based on shmem will go through it to reach the common code and work with a
-> shmem::Object<T>, and drivers using raw gem will use gem::Object<T> instead.
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
 
-Ok, sounds all good.
--Daniel
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+                fail: v4l2-test-formats.cpp(468): !pix.width || !pix.height
+        test VIDIOC_TRY_FMT: FAIL
+                fail: v4l2-test-formats.cpp(468): !pix.width || !pix.height
+        test VIDIOC_S_FMT: FAIL
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+                fail: v4l2-test-formats.cpp(1726): !sel_padded.r.width || !sel_padded.r.height
+                fail: v4l2-test-formats.cpp(1778): testBasicCompose(node, V4L2_BUF_TYPE_VIDEO_CAPTURE)
+        test Composing: FAIL
+        test Scaling: OK
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+                fail: v4l2-test-buffers.cpp(607): q.reqbufs(node, 1)
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+                fail: v4l2-test-buffers.cpp(783): VIDIOC_EXPBUF is supported, but the V4L2_MEMORY_MMAP support is missing or malfunctioning.
+                fail: v4l2-test-buffers.cpp(784): VIDIOC_EXPBUF is supported, but the V4L2_MEMORY_MMAP support is missing, probably due to earlier failing format tests.
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for imx-capture device /dev/video0: 46, Succeeded: 42, Failed: 4, Warnings: 0
+--8<--
+
+Best regards,
+Alexander
+
+[1] https://lore.kernel.org/all/20230321072707.678039-1-alexander.stein@ew.tq-group.com/
+
+ drivers/media/platform/nxp/imx7-media-csi.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
+index 389d7d88b341..1888559a6531 100644
+--- a/drivers/media/platform/nxp/imx7-media-csi.c
++++ b/drivers/media/platform/nxp/imx7-media-csi.c
+@@ -1147,6 +1147,7 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
+ {
+ 	struct v4l2_mbus_framefmt fmt_src;
+ 	const struct imx7_csi_pixfmt *cc;
++	unsigned int walign;
+ 
+ 	/*
+ 	 * Find the pixel format, default to the first supported format if not
+@@ -1175,6 +1176,17 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
+ 	v4l2_fill_mbus_format(&fmt_src, pixfmt, 0);
+ 	imx7_csi_mbus_fmt_to_pix_fmt(pixfmt, &fmt_src, cc);
+ 
++	if (cc->bpp == 8)
++		walign = 8;
++	else
++		walign = 4;
++
++	v4l_bound_align_image(&pixfmt->width, 1, 0xffff / (cc->bpp / 8), walign,
++			      &pixfmt->height, 1, 0xffff, 1, 0);
++
++	pixfmt->sizeimage = (cc->bpp * pixfmt->width * pixfmt->height) / BITS_PER_BYTE;
++	pixfmt->field = V4L2_FIELD_NONE;
++
+ 	if (compose) {
+ 		compose->width = fmt_src.width;
+ 		compose->height = fmt_src.height;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
