@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D82926D8CBB
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 03:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F1096D8CC2
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 03:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234086AbjDFBar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Apr 2023 21:30:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34958 "EHLO
+        id S233910AbjDFBcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Apr 2023 21:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231828AbjDFBaq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 21:30:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6219198D
-        for <linux-media@vger.kernel.org>; Wed,  5 Apr 2023 18:30:44 -0700 (PDT)
+        with ESMTP id S233603AbjDFBcW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Apr 2023 21:32:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93522198D;
+        Wed,  5 Apr 2023 18:32:21 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98917905;
-        Thu,  6 Apr 2023 03:30:41 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52D3B905;
+        Thu,  6 Apr 2023 03:32:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1680744642;
-        bh=Km/eEWTaXj/T1155Gzc//e35P43u2YX2NoC53jy34RM=;
+        s=mail; t=1680744739;
+        bh=ZTzz9+3oWMk0M0ni/2PcSLU5NrXnSAN8kHbSYgtCGNo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cP4v3YGnGVK1EVGKd8b9dNqtEaG1I435T0vWkNyeTIgisXpxZWq0rN74/gshkMmVJ
-         b5aouP07vupgIItnUOACttV3p03QqJIQztpYnih1ksrPupyQF/4sSFOMwHKF9DXvjv
-         JHJTeWaZA0PpphbL57eMr0vrPKxRCztKCMHjPauU=
-Date:   Thu, 6 Apr 2023 04:30:49 +0300
+        b=pADq4QY6jGzku2s9dDWcbRHytMql7GFWieGFpY+b3DGkqXb0nM6KO8bzkVcTT8HYc
+         QEqGT2cHdlmb8O3ixN1bjmkOxyU2yMAUxZDWrDPtXWeVzga+YXMd2J3xHKxC9uSAY0
+         F4DfDxZFesrB1+Y3pTLBEGxBpX5mEhsK+Q1lEkB4=
+Date:   Thu, 6 Apr 2023 04:32:27 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] Documentation: v4l: Document rotation and
- orientation for sensor drivers
-Message-ID: <20230406013049.GI9915@pendragon.ideasonboard.com>
-References: <20230405101646.1804044-1-sakari.ailus@linux.intel.com>
- <20230405130612.gqxmddu5qt56rfav@uno.localdomain>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     mchehab@kernel.org, kernel@puri.sm, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] media: hi846: fix usage of
+ pm_runtime_get_if_in_use()
+Message-ID: <20230406013227.GJ9915@pendragon.ideasonboard.com>
+References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
+ <20230405092904.1129395-2-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230405130612.gqxmddu5qt56rfav@uno.localdomain>
+In-Reply-To: <20230405092904.1129395-2-martin.kepplinger@puri.sm>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -47,77 +47,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Martin,
 
-On Wed, Apr 05, 2023 at 03:06:12PM +0200, Jacopo Mondi wrote:
-> On Wed, Apr 05, 2023 at 01:16:46PM +0300, Sakari Ailus wrote:
-> > Document how rotation and orientation should be taken into account in
-> > writing camera sensor drivers.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > since v1:
-> >
-> > - Simplify language (Laurent's suggestion) and add note on flipping
-> >   controls (Jacopo).
-> >
-> > - Improve the last paragraph, say this is about rotation and orientation.
-> >
-> >  Documentation/driver-api/media/camera-sensor.rst | 16 ++++++++++++++++
-> >  .../userspace-api/media/v4l/ext-ctrls-camera.rst |  1 +
-> >  2 files changed, 17 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > index c7d4891bd24e..61caa7901c51 100644
-> > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > @@ -151,3 +151,19 @@ used to obtain device's power state after the power state transition:
-> >  The function returns a non-zero value if it succeeded getting the power count or
-> >  runtime PM was disabled, in either of which cases the driver may proceed to
-> >  access the device.
-> > +
-> > +Rotation and orientation
-> > +------------------------
-> > +
-> > +Some systems have the camera sensor mounted upside down compared to its natural
-> > +mounting rotation. In such cases, drivers shall expose the information to
-> > +userspace with the :ref:`V4L2_CID_CAMERA_SENSOR_ROTATION
-> > +<v4l2-camera-sensor-rotation>` control.
-> > +
-> > +Sensor drivers that have any vertical or horizontal flips embedded in the
-> > +register programming sequences shall initialize the V4L2_CID_HFLIP and
-> > +V4L2_CID_VFLIP controls with the values programmed by the register sequences.
-> > +
+Thank you for the patch.
 
-I would move this paragraph below the next one, to keep the two
-paragraphs related to the rotation and orientation together. You may
-also want to expand the section title to cover flipping, or add a new
-flipping section (although it's related to rotation).
-
-> Just a note about the paragraph about ORIENTATION I suggested on the
-> previous version. If it was left out intentionally:
-
-And didn't we discuss the fact that sensor drivers shouldn't flip the
-image internally to compensate for the rotation, but instead expose this
-to userspace ? That seems to be missing too.
-
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On Wed, Apr 05, 2023 at 11:29:03AM +0200, Martin Kepplinger wrote:
+> pm_runtime_get_if_in_use() does not only return nonzero values when
+> the device is in use, it can return a negative errno too.
 > 
-> > +Use ``v4l2_fwnode_device_parse()`` to obtain rotation and orientation
-> > +information from system firmware and ``v4l2_ctrl_new_fwnode_properties()`` to
-> > +register the appropriate controls.
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > index daa4f40869f8..29fe22da52a2 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > @@ -536,6 +536,7 @@ enum v4l2_scene_mode -
-> >        - The camera is not directly attached to the device and is freely movable.
-> >
-> >
-> > +.. _v4l2-camera-sensor-rotation:
-> >
-> >  ``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-> >      This read-only control describes the rotation correction in degrees in the
+> And especially during resuming from system suspend, when runtime pm
+> is not yet up again, this can very well happen. And in such a case
+> the subsequent pm_runtime_put() call would result in a refcount underflow!
+> 
+> Fix it by correctly using pm_runtime_get_if_in_use().
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/hi846.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> index 5b5ea5425e984..0b0eda2e223cd 100644
+> --- a/drivers/media/i2c/hi846.c
+> +++ b/drivers/media/i2c/hi846.c
+> @@ -1544,7 +1544,7 @@ static int hi846_set_ctrl(struct v4l2_ctrl *ctrl)
+>  					 exposure_max);
+>  	}
+>  
+> -	if (!pm_runtime_get_if_in_use(&client->dev))
+> +	if (pm_runtime_get_if_in_use(&client->dev) <= 0)
+>  		return 0;
+>  
+>  	switch (ctrl->id) {
 
 -- 
 Regards,
