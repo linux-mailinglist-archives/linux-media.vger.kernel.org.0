@@ -2,56 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 643ED6D9C98
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 17:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE016D9CC8
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 17:54:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239804AbjDFPpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 11:45:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47646 "EHLO
+        id S239269AbjDFPyE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 11:54:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239626AbjDFPpm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 11:45:42 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D84393F7
-        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 08:45:39 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-930bc91df7bso133761966b.1
-        for <linux-media@vger.kernel.org>; Thu, 06 Apr 2023 08:45:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680795937;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o4s/AMWTHPQ0Z3regicJnZ+4belPQ4UloMO8BfOKLAI=;
-        b=UwgzXrcRFsm3HAZ3tj9A9ayYh9opklvikGWNzA8Zs+rKhFCMFyPJ3nM9Qe0o/WrOnt
-         QGdzJUijU5vlI/c0ZV/2+Pr0ECTnQcPIwR+GS0O90gg/zsWfdQg1FJEg/Wu1PTcSUNMK
-         WssImuOUr7pyYoGsDK49IQmNh66lQt8/KxJ7s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680795937;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o4s/AMWTHPQ0Z3regicJnZ+4belPQ4UloMO8BfOKLAI=;
-        b=5iax01cWkyEnq8B0LgJkDWCU+85ulQmgX/tmwMbB8IbXjyEdQQvHVNFYypvmKWicbA
-         AKHzcp+AllOaS+1sUdNhFqVU+m/wGF26pjuBfM1fMvtgBOvt3tH6ZRoYV7FHmnoGfdKi
-         vXebehBeQM5rUMnpkdnm05r1acJhbzKcexLyLSZOK1q46C8oFETlDdrR21WP14aKzKmK
-         Y9ImpGqBkpffHdf/k3+V7Fqrdnld9PjuLUnpZy0kHjV/im3Rv2mQ16GO4PycCzWTkLg8
-         oe/6xCX/GCb7Z+uzd1iYps7JZzj/663OBHxxRKv5DpPMWb5FZQfPEeytzjHa2ORmjukI
-         XJqQ==
-X-Gm-Message-State: AAQBX9ftZqoKLRivwz4b6b9j3stttSnBLNNRnFGRgUMOpOP/Qpyle4dA
-        DBbw0YO2zS9Pm6RGlTQyu7CkAw==
-X-Google-Smtp-Source: AKy350YwqwW1z5k7uN136V0I41uI+PtWwRyr9V7ixGL/0ewgSzzeYzSvJkplfR8X5tYH4vq2nignvA==
-X-Received: by 2002:a17:906:2cd:b0:92f:27c2:13c0 with SMTP id 13-20020a17090602cd00b0092f27c213c0mr5772280ejk.6.1680795937501;
-        Thu, 06 Apr 2023 08:45:37 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id cw10-20020a170906478a00b009486efb9192sm990297ejc.11.2023.04.06.08.45.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 08:45:36 -0700 (PDT)
-Date:   Thu, 6 Apr 2023 17:45:34 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Asahi Lina <lina@asahilina.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        with ESMTP id S229803AbjDFPyC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 11:54:02 -0400
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CAB593E5;
+        Thu,  6 Apr 2023 08:53:58 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id D921642529;
+        Thu,  6 Apr 2023 15:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1680796436;
+        bh=u/0wcm36nXuVm02z3BKP1S61gAbmdYMqyw/tOYXHGbg=;
+        h=Date:Subject:To:References:From:In-Reply-To;
+        b=VGPkywpELPrOy5WERRqLKqfXnUFWiyXfd71Z81jN0DPy6tH/JsyHIpymO1c6+ZhN/
+         wj8XGnA9i2tWyHN4ayd5wTh/CXmSDk5aV7gZhmRplM7utDTkCSqyNgBKtTHjx9sM61
+         2fgTxpiCrbOZkGYSaVxAEkR5tnShBmV8aGJAfxMOvDehTuw/aZxuFvwadAlkOLdFuO
+         CYXoafc6kkIgWFDJYkK6y9siZPGDTvGI8ETsKJ1WRWpUxVjMV5BIU9eYc0+cpBB7f/
+         yeKt0vRxQLpC9keXqLG3eeHamhEymrjHecYNq8oYnkT8qLYgMyl1NFaEQcZwwi9kDC
+         xH8CLjK1n9dWA==
+Message-ID: <2a419eff-3566-0aa3-7185-951edde22abb@asahilina.net>
+Date:   Fri, 7 Apr 2023 00:53:47 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH RFC 07/18] rust: drm: mm: Add DRM MM Range Allocator
+ abstraction
+Content-Language: en-US
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
@@ -59,36 +47,9 @@ Cc:     Asahi Lina <lina@asahilina.net>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH RFC 07/18] rust: drm: mm: Add DRM MM Range Allocator
- abstraction
-Message-ID: <ZC7pHlLFutMWJF1s@phenom.ffwll.local>
-Mail-Followup-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Asahi Lina <lina@asahilina.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Luben Tuikov <luben.tuikov@amd.com>,
         Jarkko Sakkinen <jarkko@kernel.org>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -103,15 +64,12 @@ Mail-Followup-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
  <20230307-rust-drm-v1-7-917ff5bc80a8@asahilina.net>
  <ZC7T92F7K9XTZPZ1@phenom.ffwll.local>
- <CANiq72=E2k7+_cwYw_EjVezk0mWCRqbH4MUjsEmxWgJMh=3AEQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=E2k7+_cwYw_EjVezk0mWCRqbH4MUjsEmxWgJMh=3AEQ@mail.gmail.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZC7T92F7K9XTZPZ1@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -119,157 +77,499 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 06, 2023 at 05:28:59PM +0200, Miguel Ojeda wrote:
-> On Thu, Apr 6, 2023 at 4:15 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > Documentation:
-> >
-> > In drm we try to document all the interfaces that drivers use with formal
-> > docs. Yes there's some areas that are not great for historical reasons,
-> > but for new stuff and new wrappers we're really trying:
-> >
-> > - This helps in telling internal (even across .c files or in rust across
-> >   modules within a crate) from stuff drivers access. Sure you have static
-> >   in C or pub in rust, but that doesn't tell you whether it's public all
-> >   the way to drivers.
+On 06/04/2023 23.15, Daniel Vetter wrote:
+> On Tue, Mar 07, 2023 at 11:25:32PM +0900, Asahi Lina wrote:
+>> drm_mm provides a simple range allocator, useful for managing virtual
+>> address ranges. Add a Rust abstraction to expose this module to Rust
+>> drivers.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
 > 
-> I think you may be talking about the value high-level docs here, but
-> just in case, visibility in Rust is flexible enough to expose (or not)
-> APIs to those that you need. In other words, it does tell you (and
-> enforces!) whether it is public all the way to drivers.
+> In the cover letter you mentioned the design open about embedded the lock
+> into the rust wrappers.
 > 
-> There is also the possibility of even more fancy visibility, but so
-> far we just needed `pub(crate)`.
+> I think for a first step that's perfectly fine.
 > 
-> `rustdoc` also shows/hides things as needed, thus the generated docs
-> for the crate should only show what is usable by others.
-> 
-> Then there is the `kernel` crate split, too.
-> 
-> > - ideally docs have a short intro section that explains the main concepts
-> >   and links to the main data structures and functions. Just to give
-> >   readers a good starting point to explore.
-> 
-> Agreed, this is typically done in Rust in the top-level doc comments
-> (module or crate). For the Rust side of the kernel, we are definitely
-> trying to emphasize the quality of the docs, including compile- and
-> runtime-tested examples.
-> 
-> Regarding linking, `rustdoc` already generates a listing with the
-> contents of each crate/module even if there is no other docs. So as
-> long as the short descriptions of the items are good, it may be fairly
-> readable already, e.g. see
-> https://rust-for-linux.github.io/docs/rust/kernel/sync/index.html for
-> an example in our old `rust` branch. But, of course, you can add extra
-> docs at that level too when there are many things or is unclear what
-> should be used.
-> 
-> Also note that, sometimes, the docs we write are in the type, rather
-> than the module, e.g. see the nice examples Wedson wrote for `RBTree`:
-> https://rust-for-linux.github.io/docs/rust/kernel/rbtree/struct.RBTree.html.
+> Longer term we might want to ramp up some "proof of locking"
+> infrastructure in Rust, where callers can supply a lock guard and ideally
+> rust validates at compile time that it's for the right type, and at
+> runtime (like lockdep) that it's consistent and the callers don't mix up
+> locks (like using different locks for the same drm_mm allocator).
 
-Yeah this all looks great and very hyperlinked.
+That proof-of-lock tuff works in Rust too as far as I know.
 
-I think the only nit I have is that for types with two or more type
-variables (like the rbtree) what each of them should represent in the top
-intro. I can guess it's <Key, Value> and not the other way round, but
-confirmation takes quite a bit of scrolling to check with the function
-types.
+But the general thread safety story in Rust is much simpler, you just 
+use methods that take &mut self when locking is the caller's 
+responsibility. That effectively implies that there can only be one 
+reference that can call those methods at any given time, thanks to the 
+borrow checker. Shared references only give you &self, a locked Mutex 
+upgrades that to &mut self, and that's how you get proof of locking at 
+compile time, through and through, not just for the type but for the 
+specific object.
 
-Otherwise I think perfect api docs.
+> There's a lot of libraries in the kernel that have this "caller ensures
+> locking" pattern. drm/sched also has these requirements.
 
-> > - Linking all the things, so that readers can connect the different parts.
-> >   This is really important in C where e.g. get/put() or any such function
-> >   pairs all needed to be linked together. With rust I'm hoping that
-> >   rustdoc liberally sprinkles links already and we don't have to do this
-> >   as much.
-> 
-> If you mean within doc comments, it does! :) It is called "intra-doc
-> links". Basically, you just write something in-between square
-> brackets, and it is able to create the link to the right thing (in
-> most cases, otherwise you can help it more), e.g.
-> 
->     /// Returns a new [`Foo`].
-> 
-> And, of course, for the rest of things that aren't inside comments, it
-> automatically provides links etc.
-> 
-> There has been work on `rustdoc` on getting "Jump to Definition" and
-> similar features to work on the source view, too.
-> 
-> > - Short explainers for parameters. For rust this also means type
-> >   parameters, for those even simplified examples of how drivers are
-> >   supposed to use them would help a lot in reading docs & understanding
-> >   concepts.
-> 
-> For parameters, we are not forcing to write explanations for every
-> parameter (as in providing a list), but rather writing what is
-> actually useful to know (referring to the parameters as needed). So it
-> depends on a case-by-case.
-> 
-> In any case, in general is clearer what parameters are compared to C,
-> due to the stronger typing. Of course, if one uses integers
-> everywhere, it is as confusing as C. But if one has a type, it is
-> easier to tell, plus one may jump with a click into the explanation of
-> that type etc.
-> 
-> Regarding examples, 100% agreed. And not only that, the examples are
-> enforced to be kept up to date by compiling and running them via KUnit
-> (not yet submitted for mainline, but we have been enforcing it for our
-> old `rust` branch for a long time).
-> 
-> > - Ideally links from the rust to the sphinx side to linke relevant
-> >   chapters together. Often the bigger explanations are in .rst files with
-> >   DOT graphs (kms has a bunch I've added) or similar, and it doesn't make
-> >   that much sense to duplicate all that on the rust side I guess. But it
-> >   needs to be discoverable.
-> 
-> Definitely. One next step is having easy-to-write links to the rST
-> docs. For this, a couple years ago I talked with the `rustdoc`
-> maintainers about having a "External references map file" feature, so
-> that we can link rST documents from the Rust docs, including generated
-> C docs too. For instance, ideally we would be able to use the square
-> brackets around a C type and have it work:
-> 
->     /// Exposes the kernel’s [`struct wait_queue_head`] as a condition variable.
-> 
-> Regarding the bigger explanations: we are trying to keep most of the
-> docs close to the Rust code where it makes sense, as
-> module-level/crate-level docs, rather than as rST docs. This has
-> several benefits, like keeping them closer to the code, the linking
-> features, having them organized equally as the code, no need to know
-> whether there is a doc somewhere or not (e.g. if it is, it is near the
-> code), examples are compiled, etc.
+Yup, that all usually maps nicely to &mut self in Rust... except for the 
+issue below.
 
-Just a quick comment on this, that's the same we do on the C side. Most
-overview chapters are actually DOC: sections pulled in from the code.
-
-What I meant here is that for big overview stuff (like for modesetting how
-the display pipe structures tie together as an example:
-https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#overview)
-it doesn't make sense to duplicate that in rustdoc once more.
-
-> Of course, sometimes longer-form docs and other documents may not make
-> sense as part of any code in particular, or may be shared across C and
-> Rust, etc., and there it may more sense to use `Documentation/` files
-> instead.
+> There's two other things I'd like to bring up on this patch though, just
+> because it's a good example. But they're both really general points that
+> apply for all the rust wrappers.
 > 
-> But, in general, the idea is that, compared to C, most of the docs go
-> into the code. To give an idea of the difference: so far, in our old
-> `rust` branch, we only needed a few documents in `Documentation/`
-> (e.g. the Quick Start guide etc.), and everything else went into the
-> code itself.
+> Documentation:
+> 
+> In drm we try to document all the interfaces that drivers use with formal
+> docs. Yes there's some areas that are not great for historical reasons,
+> but for new stuff and new wrappers we're really trying:
+> 
+> - This helps in telling internal (even across .c files or in rust across
+>    modules within a crate) from stuff drivers access. Sure you have static
+>    in C or pub in rust, but that doesn't tell you whether it's public all
+>    the way to drivers.
+> 
+> - ideally docs have a short intro section that explains the main concepts
+>    and links to the main data structures and functions. Just to give
+>    readers a good starting point to explore.
+> 
+> - Linking all the things, so that readers can connect the different parts.
+>    This is really important in C where e.g. get/put() or any such function
+>    pairs all needed to be linked together. With rust I'm hoping that
+>    rustdoc liberally sprinkles links already and we don't have to do this
+>    as much.
+> 
+> - Short explainers for parameters. For rust this also means type
+>    parameters, for those even simplified examples of how drivers are
+>    supposed to use them would help a lot in reading docs & understanding
+>    concepts.
+> 
+> - Ideally links from the rust to the sphinx side to linke relevant
+>    chapters together. Often the bigger explanations are in .rst files with
+>    DOT graphs (kms has a bunch I've added) or similar, and it doesn't make
+>    that much sense to duplicate all that on the rust side I guess. But it
+>    needs to be discoverable.
+> 
+> This might be more a discussion topic for the rust people than you
+> directly. Still needed for the merge-ready patches eventually.
 
-Maybe drm is the exception, but if you look at our .rst files we also have
-most of our docs in the code:
+I don't know much about the doc gen stuff on the Rust side so yeah, this 
+is something I need to look into to make it pretty and complete...
 
-https://cgit.freedesktop.org/drm/drm/tree/Documentation/gpu/drm-kms-helpers.rst
+> Refcounting vs borrowing:
+> 
+> This is honestly much more the eyebrow raising one than the locking. Very
+> often on the C side these datastructures all work with borrow semantics,
+> and you need to explicitly upgrade to a full reference (kref_get or
+> kref_get_unless_zero, depending whether it's a strong or weak reference)
+> if you need the object outside of the mutex/lock guard section.
+> 
+> Again I think for now it's ok, but the sales pitch of rust is that it
+> enables borrow lifetime checking with no runtime cost. Plus viz the vm
+> cleanup example, if you have too many strong backreferences the cleanup
+> flow gets complicated. And it would suck if rust drivers have to add
+> complexity like the openrefcount for the vm example simply because we
+> can't model the borrow semantics well enough to be safe.
+> 
+> So not something that's really bad here, but if we need to resort to full
+> refcounting already for simple datastructures then I'm getting a bit
+> worried about how well rust will cope with the really nasty borrowed
+> reference tricks we're playing in other areas.
+> 
+> Again more a topic for the rust folks I think than specifically here about
+> drm_mm wrapping. Just to get things going I think this is fine.
 
-The rst files just provide the scaffolding because C dosn't have
-crates/modules hierarchy that would do this for you automatically.
+Yeeeeah... this is a *specific* problem. Drop.
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The Allocator<T> itself is perfectly safe to implement without any 
+locking, refcounting, or anything. You just make the methods take &mut 
+self (as they already do), the caller can use it with a single reference 
+or wrap it in an Arc<Mutex<T>> and share it, or whatever.
+
+The problem is the Node<A, T>. When you Drop that, it has to go back to 
+the Allocator. But now you're a different object, so no thread safety 
+guarantees. And you need to keep the Allocator alive. So now to make a 
+safe abstraction, you need refcounting and a mutex.
+
+Lifetimes just don't work here, sadly. Not for a useful abstraction.
+
+I'd love to hear from the other Rust folks whether they have any better 
+ideas...
+
+One thing that *can* be done is making the Drop illegal (Rust can't do 
+this "natively" but Linux already has hacks for that, we can make it 
+fail to link if the Drop is ever called). Then you'd have to actively 
+return the Node to the Allocator with a free function. Since Drop is 
+forbidden, and Node is pinned, you'd always have to either return Node 
+objects to the Allocator or leak them. You could drop the Allocator 
+before its nodes, but as far as I know drm_mm can safely handle that 
+(though it will complain), and then due to the previous guarantees the 
+*only* thing you could do with orphan nodes is leak their memory, which 
+is safe.
+
+It would work... but it breaks the whole Rust automagic Drop stuff.
+
+Thinking about this a bit, I think I want the current mutex/arc 
+semantics for something like a memory allocator (which is one of my 
+primary use cases for drm_mm), since I definitely don't want to be 
+manually returning objects to their allocator all over the place, nor 
+have overarching lifetime requirements that the allocator outlive its 
+objects for safety (that sounds like a can of worms I don't want to 
+open, I'd much rather use a refcount even if I "think" I can prove the 
+lifetime bounds ad-hoc). But for something like a drm_mm that is 
+tracking VA ranges within a VM with all Nodes held internally, maybe I 
+could manage it all internally and have all node destruction be handled 
+via an explicit call into the Allocator.
+
+Maybe the mm abstraction should offer both options? The extra locking 
+can be implemented in terms of the base unlocked version I think 
+(perhaps with some Deref abuse for ergonomics)... I definitely want to 
+hear more opinions about this from other Rust folks, since there are 
+probably other options I haven't considered...
+
+Aside: This, and all the other DRM abstractions, were written before the 
+pin_init stuff from y86 that is in review right now was ready. That may 
+open up more interesting/ergonomic/efficient APIs for some cases, 
+especially where Pin and embedding C types into user objects in some way 
+are involved. So maybe there's room for improvement here. Just a sidenote.
+
+> 
+> Cheers, Daniel
+> 
+> 
+>> ---
+>>   rust/kernel/drm/mm.rs  | 309 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>   rust/kernel/drm/mod.rs |   1 +
+>>   2 files changed, 310 insertions(+)
+>>
+>> diff --git a/rust/kernel/drm/mm.rs b/rust/kernel/drm/mm.rs
+>> new file mode 100644
+>> index 000000000000..83e27a7dcc7e
+>> --- /dev/null
+>> +++ b/rust/kernel/drm/mm.rs
+>> @@ -0,0 +1,309 @@
+>> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>> +
+>> +//! DRM MM range allocator
+>> +//!
+>> +//! C header: [`include/linux/drm/drm_mm.h`](../../../../include/linux/drm/drm_mm.h)
+>> +
+>> +use crate::{
+>> +    bindings,
+>> +    error::{to_result, Result},
+>> +    str::CStr,
+>> +    sync::{Arc, LockClassKey, LockIniter, Mutex, UniqueArc},
+>> +    types::Opaque,
+>> +};
+>> +
+>> +use alloc::boxed::Box;
+>> +
+>> +use core::{
+>> +    marker::{PhantomData, PhantomPinned},
+>> +    ops::Deref,
+>> +    pin::Pin,
+>> +};
+>> +
+>> +/// Type alias representing a DRM MM node.
+>> +pub type Node<A, T> = Pin<Box<NodeData<A, T>>>;
+>> +
+>> +/// Trait which must be implemented by the inner allocator state type provided by the user.
+>> +pub trait AllocInner<T> {
+>> +    /// Notification that a node was dropped from the allocator.
+>> +    fn drop_object(&mut self, _start: u64, _size: u64, _color: usize, _object: &mut T) {}
+>> +}
+>> +
+>> +impl<T> AllocInner<T> for () {}
+>> +
+>> +/// Wrapper type for a `struct drm_mm` plus user AllocInner object.
+>> +///
+>> +/// # Invariants
+>> +/// The `drm_mm` struct is valid and initialized.
+>> +struct MmInner<A: AllocInner<T>, T>(Opaque<bindings::drm_mm>, A, PhantomData<T>);
+>> +
+>> +/// Represents a single allocated node in the MM allocator
+>> +pub struct NodeData<A: AllocInner<T>, T> {
+>> +    node: bindings::drm_mm_node,
+>> +    mm: Arc<Mutex<MmInner<A, T>>>,
+>> +    valid: bool,
+>> +    /// A drm_mm_node needs to be pinned because nodes reference each other in a linked list.
+>> +    _pin: PhantomPinned,
+>> +    inner: T,
+>> +}
+>> +
+>> +// SAFETY: Allocator ops take the mutex, and there are no mutable actions on the node.
+>> +unsafe impl<A: Send + AllocInner<T>, T: Send> Send for NodeData<A, T> {}
+>> +unsafe impl<A: Send + AllocInner<T>, T: Sync> Sync for NodeData<A, T> {}
+>> +
+>> +/// Available MM node insertion modes
+>> +#[repr(u32)]
+>> +pub enum InsertMode {
+>> +    /// Search for the smallest hole (within the search range) that fits the desired node.
+>> +    ///
+>> +    /// Allocates the node from the bottom of the found hole.
+>> +    Best = bindings::drm_mm_insert_mode_DRM_MM_INSERT_BEST,
+>> +
+>> +    /// Search for the lowest hole (address closest to 0, within the search range) that fits the
+>> +    /// desired node.
+>> +    ///
+>> +    /// Allocates the node from the bottom of the found hole.
+>> +    Low = bindings::drm_mm_insert_mode_DRM_MM_INSERT_LOW,
+>> +
+>> +    /// Search for the highest hole (address closest to U64_MAX, within the search range) that fits
+>> +    /// the desired node.
+>> +    ///
+>> +    /// Allocates the node from the top of the found hole. The specified alignment for the node is
+>> +    /// applied to the base of the node (`Node.start()`).
+>> +    High = bindings::drm_mm_insert_mode_DRM_MM_INSERT_HIGH,
+>> +
+>> +    /// Search for the most recently evicted hole (within the search range) that fits the desired
+>> +    /// node. This is appropriate for use immediately after performing an eviction scan and removing
+>> +    /// the selected nodes to form a hole.
+>> +    ///
+>> +    /// Allocates the node from the bottom of the found hole.
+>> +    Evict = bindings::drm_mm_insert_mode_DRM_MM_INSERT_EVICT,
+>> +}
+>> +
+>> +/// A clonable, interlocked reference to the allocator state.
+>> +///
+>> +/// This is useful to perform actions on the user-supplied `AllocInner<T>` type given just a Node,
+>> +/// without immediately taking the lock.
+>> +#[derive(Clone)]
+>> +pub struct InnerRef<A: AllocInner<T>, T>(Arc<Mutex<MmInner<A, T>>>);
+>> +
+>> +impl<A: AllocInner<T>, T> InnerRef<A, T> {
+>> +    /// Operate on the user `AllocInner<T>` implementation, taking the lock.
+>> +    pub fn with<RetVal>(&self, cb: impl FnOnce(&mut A) -> RetVal) -> RetVal {
+>> +        let mut l = self.0.lock();
+>> +        cb(&mut l.1)
+>> +    }
+>> +}
+>> +
+>> +impl<A: AllocInner<T>, T> NodeData<A, T> {
+>> +    /// Returns the color of the node (an opaque value)
+>> +    pub fn color(&self) -> usize {
+>> +        self.node.color as usize
+>> +    }
+>> +
+>> +    /// Returns the start address of the node
+>> +    pub fn start(&self) -> u64 {
+>> +        self.node.start
+>> +    }
+>> +
+>> +    /// Returns the size of the node in bytes
+>> +    pub fn size(&self) -> u64 {
+>> +        self.node.size
+>> +    }
+>> +
+>> +    /// Operate on the user `AllocInner<T>` implementation associated with this node's allocator.
+>> +    pub fn with_inner<RetVal>(&self, cb: impl FnOnce(&mut A) -> RetVal) -> RetVal {
+>> +        let mut l = self.mm.lock();
+>> +        cb(&mut l.1)
+>> +    }
+>> +
+>> +    /// Return a clonable, detached reference to the allocator inner data.
+>> +    pub fn alloc_ref(&self) -> InnerRef<A, T> {
+>> +        InnerRef(self.mm.clone())
+>> +    }
+>> +
+>> +    /// Return a mutable reference to the inner data.
+>> +    pub fn inner_mut(self: Pin<&mut Self>) -> &mut T {
+>> +        // SAFETY: This is okay because inner is not structural
+>> +        unsafe { &mut self.get_unchecked_mut().inner }
+>> +    }
+>> +}
+>> +
+>> +impl<A: AllocInner<T>, T> Deref for NodeData<A, T> {
+>> +    type Target = T;
+>> +
+>> +    fn deref(&self) -> &Self::Target {
+>> +        &self.inner
+>> +    }
+>> +}
+>> +
+>> +impl<A: AllocInner<T>, T> Drop for NodeData<A, T> {
+>> +    fn drop(&mut self) {
+>> +        if self.valid {
+>> +            let mut guard = self.mm.lock();
+>> +
+>> +            // Inform the user allocator that a node is being dropped.
+>> +            guard
+>> +                .1
+>> +                .drop_object(self.start(), self.size(), self.color(), &mut self.inner);
+>> +            // SAFETY: The MM lock is still taken, so we can safely remove the node.
+>> +            unsafe { bindings::drm_mm_remove_node(&mut self.node) };
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +/// An instance of a DRM MM range allocator.
+>> +pub struct Allocator<A: AllocInner<T>, T> {
+>> +    mm: Arc<Mutex<MmInner<A, T>>>,
+>> +    _p: PhantomData<T>,
+>> +}
+>> +
+>> +impl<A: AllocInner<T>, T> Allocator<A, T> {
+>> +    /// Create a new range allocator for the given start and size range of addresses.
+>> +    ///
+>> +    /// The user may optionally provide an inner object representing allocator state, which will
+>> +    /// be protected by the same lock. If not required, `()` can be used.
+>> +    pub fn new(
+>> +        start: u64,
+>> +        size: u64,
+>> +        inner: A,
+>> +        name: &'static CStr,
+>> +        lock_key: &'static LockClassKey,
+>> +    ) -> Result<Allocator<A, T>> {
+>> +        // SAFETY: We call `Mutex::init_lock` below.
+>> +        let mut mm: Pin<UniqueArc<Mutex<MmInner<A, T>>>> = UniqueArc::try_new(unsafe {
+>> +            Mutex::new(MmInner(Opaque::uninit(), inner, PhantomData))
+>> +        })?
+>> +        .into();
+>> +
+>> +        mm.as_mut().init_lock(name, lock_key);
+>> +
+>> +        unsafe {
+>> +            // SAFETY: The Opaque instance provides a valid pointer, and it is initialized after
+>> +            // this call.
+>> +            bindings::drm_mm_init(mm.lock().0.get(), start, size);
+>> +        }
+>> +
+>> +        Ok(Allocator {
+>> +            mm: mm.into(),
+>> +            _p: PhantomData,
+>> +        })
+>> +    }
+>> +
+>> +    /// Insert a new node into the allocator of a given size.
+>> +    ///
+>> +    /// `node` is the user `T` type data to store into the node.
+>> +    pub fn insert_node(&mut self, node: T, size: u64) -> Result<Node<A, T>> {
+>> +        self.insert_node_generic(node, size, 0, 0, InsertMode::Best)
+>> +    }
+>> +
+>> +    /// Insert a new node into the allocator of a given size, with configurable alignment,
+>> +    /// color, and insertion mode.
+>> +    ///
+>> +    /// `node` is the user `T` type data to store into the node.
+>> +    pub fn insert_node_generic(
+>> +        &mut self,
+>> +        node: T,
+>> +        size: u64,
+>> +        alignment: u64,
+>> +        color: usize,
+>> +        mode: InsertMode,
+>> +    ) -> Result<Node<A, T>> {
+>> +        self.insert_node_in_range(node, size, alignment, color, 0, u64::MAX, mode)
+>> +    }
+>> +
+>> +    /// Insert a new node into the allocator of a given size, with configurable alignment,
+>> +    /// color, insertion mode, and sub-range to allocate from.
+>> +    ///
+>> +    /// `node` is the user `T` type data to store into the node.
+>> +    #[allow(clippy::too_many_arguments)]
+>> +    pub fn insert_node_in_range(
+>> +        &mut self,
+>> +        node: T,
+>> +        size: u64,
+>> +        alignment: u64,
+>> +        color: usize,
+>> +        start: u64,
+>> +        end: u64,
+>> +        mode: InsertMode,
+>> +    ) -> Result<Node<A, T>> {
+>> +        let mut mm_node = Box::try_new(NodeData {
+>> +            // SAFETY: This C struct should be zero-initialized.
+>> +            node: unsafe { core::mem::zeroed() },
+>> +            valid: false,
+>> +            inner: node,
+>> +            mm: self.mm.clone(),
+>> +            _pin: PhantomPinned,
+>> +        })?;
+>> +
+>> +        let guard = self.mm.lock();
+>> +        // SAFETY: We hold the lock and all pointers are valid.
+>> +        to_result(unsafe {
+>> +            bindings::drm_mm_insert_node_in_range(
+>> +                guard.0.get(),
+>> +                &mut mm_node.node,
+>> +                size,
+>> +                alignment,
+>> +                color as core::ffi::c_ulong,
+>> +                start,
+>> +                end,
+>> +                mode as u32,
+>> +            )
+>> +        })?;
+>> +
+>> +        mm_node.valid = true;
+>> +
+>> +        Ok(Pin::from(mm_node))
+>> +    }
+>> +
+>> +    /// Insert a node into the allocator at a fixed start address.
+>> +    ///
+>> +    /// `node` is the user `T` type data to store into the node.
+>> +    pub fn reserve_node(
+>> +        &mut self,
+>> +        node: T,
+>> +        start: u64,
+>> +        size: u64,
+>> +        color: usize,
+>> +    ) -> Result<Node<A, T>> {
+>> +        let mut mm_node = Box::try_new(NodeData {
+>> +            // SAFETY: This C struct should be zero-initialized.
+>> +            node: unsafe { core::mem::zeroed() },
+>> +            valid: false,
+>> +            inner: node,
+>> +            mm: self.mm.clone(),
+>> +            _pin: PhantomPinned,
+>> +        })?;
+>> +
+>> +        mm_node.node.start = start;
+>> +        mm_node.node.size = size;
+>> +        mm_node.node.color = color as core::ffi::c_ulong;
+>> +
+>> +        let guard = self.mm.lock();
+>> +        // SAFETY: We hold the lock and all pointers are valid.
+>> +        to_result(unsafe { bindings::drm_mm_reserve_node(guard.0.get(), &mut mm_node.node) })?;
+>> +
+>> +        mm_node.valid = true;
+>> +
+>> +        Ok(Pin::from(mm_node))
+>> +    }
+>> +
+>> +    /// Operate on the inner user type `A`, taking the allocator lock
+>> +    pub fn with_inner<RetVal>(&self, cb: impl FnOnce(&mut A) -> RetVal) -> RetVal {
+>> +        let mut guard = self.mm.lock();
+>> +        cb(&mut guard.1)
+>> +    }
+>> +}
+>> +
+>> +impl<A: AllocInner<T>, T> Drop for MmInner<A, T> {
+>> +    fn drop(&mut self) {
+>> +        // SAFETY: If the MmInner is dropped then all nodes are gone (since they hold references),
+>> +        // so it is safe to tear down the allocator.
+>> +        unsafe {
+>> +            bindings::drm_mm_takedown(self.0.get());
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +// MmInner is safely Send if the AllocInner user type is Send.
+>> +unsafe impl<A: Send + AllocInner<T>, T> Send for MmInner<A, T> {}
+>> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+>> index c44760a1332f..73fab2dee3af 100644
+>> --- a/rust/kernel/drm/mod.rs
+>> +++ b/rust/kernel/drm/mod.rs
+>> @@ -7,3 +7,4 @@ pub mod drv;
+>>   pub mod file;
+>>   pub mod gem;
+>>   pub mod ioctl;
+>> +pub mod mm;
+>>
+>> -- 
+>> 2.35.1
+>>
+> 
+
+~~ Lina
+
