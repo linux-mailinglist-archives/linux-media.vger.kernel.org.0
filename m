@@ -2,69 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F8B06D9BFD
-	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 17:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA31E6D9C0B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Apr 2023 17:19:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239327AbjDFPRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 11:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44780 "EHLO
+        id S239081AbjDFPTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 11:19:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238637AbjDFPRH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 11:17:07 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A6694C25
-        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 08:16:59 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id n17so28056752uaj.10
-        for <linux-media@vger.kernel.org>; Thu, 06 Apr 2023 08:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1680794218;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dg6TNa2vuEo6vYvQjhHJtmhbqHNEPTWF/K/ZgZoahhs=;
-        b=NJAZS8c1olUUiKSGDc7+qwuZjEfCd4rrJH9E3ERCLLmiydyXhFp0FPr3JMQg0o3K9x
-         mal9+G031qFGrc3FBkIOGnIg7nlgznYx/D5MW5aKxwinwZFD+KrtcNwskvZ9d4ZeXQTS
-         sOUYYRBJwfHceUqm8nnvnWj3HIoIMES9d3w/FZBtKAVFjZIdHZjVPlr7QDLLj9FUiAMV
-         qIuOy85QXFEnu/RQcYju5uYonoQmXig4/uXXmUwystgCgs5fNF9EAVsouK+EiScfWpGC
-         sAMdiyUtR8IIk6IUxJLzYBzFDqXaiH39vuZM850RqRT1ukoOGxri6Exlp/saR5wtRc+g
-         waEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680794218;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dg6TNa2vuEo6vYvQjhHJtmhbqHNEPTWF/K/ZgZoahhs=;
-        b=7z+jz+A8IBhIA0VVQQlC/XHw9DKoONoGARMtZdMxiakTB8Unfalh0cHWAiHxnCfudc
-         yMAVEbnMBTH5cXvHpXEsQAXjcQFU4wbjyIY63BT8GNWL7SBtFCYvZVOF8rUhS6Jk6kC4
-         36gAbkJ4lPXeEiLuKKufMKw9pw0KgL0iDRHhr3UqxaLUVsyfOHmjdBOhcPcff6Mk/SDT
-         fYWQv9rutHNt+PXauZEJKcf3mXNQv9PXnFCOcjigGdFgXTxt7ldJuAFFkoWKYmk9y1EN
-         3CeOyQ/m2tnlIvVgoOSLxiiwwFl2NSDn4C3eI1sObPm5bfZqWrBkbQVKa0yQjIRXSV4b
-         UfoQ==
-X-Gm-Message-State: AAQBX9cHtJwQeKufsDhGdEhfTMIktcTcsgypo//3h1D2lFr6PeoV/zgQ
-        k7NCCs3nxUKgYsFrboPGLRDDLgHw8MC/jNnZbG1PqQ==
-X-Google-Smtp-Source: AKy350Yq/RNSiWTZPYCNZkw4exmVOf8gYNbaIuv4psde+ACRoxCkOzCPCv2vygU6rC5dnsWlipPczVB6GgwF11j0MLg=
-X-Received: by 2002:a1f:b688:0:b0:43c:5f0e:2399 with SMTP id
- g130-20020a1fb688000000b0043c5f0e2399mr7039754vkf.1.1680794218209; Thu, 06
- Apr 2023 08:16:58 -0700 (PDT)
+        with ESMTP id S238150AbjDFPTd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 11:19:33 -0400
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E466893C5;
+        Thu,  6 Apr 2023 08:19:29 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id D5CAF425B3;
+        Thu,  6 Apr 2023 15:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1680794368;
+        bh=Mv0iy3rzKh+GPcAoXtMCCeu811cP3kYIDXX4TiAKdSk=;
+        h=Date:Subject:To:References:From:Cc:In-Reply-To;
+        b=ZCYnjkQsnPGS5k0i/Cw4FJlgtYy6qCj4/L8P/RxWuxeCksVwGQA3KgOq+PetiSjzs
+         HGFlLbuYgTsQgLlEv01ZiCrhuIyucxU157Y9qIY4UMro0ocKwJYfn1OcN6fBT1K4kT
+         6OP79/mO1k87/DdjBP8Tfs4EpR+NYHRgTjxlT4nkAP4JgJphDXFGBpi/zLUdtHiQrv
+         YRI15yZK3g6MVj8pgTXcge4xs3y+bG4riHTZW2Occ2IPhDjo7mS1Cm4/0g3cxqDQEx
+         T14v2OMTTPcWYT0oxQbn5USvsdy6Kb9B23Z4Xakk2wmioIxerLYftz23/jaH/nhM74
+         q+Y4OtA3pOpRQ==
+Message-ID: <829e362c-2e91-0d1e-e37d-8374000aac1c@asahilina.net>
+Date:   Fri, 7 Apr 2023 00:19:19 +0900
 MIME-Version: 1.0
-References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net> <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
-In-Reply-To: <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 6 Apr 2023 16:16:42 +0100
-Message-ID: <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
-Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
- group status controls for zoom and focus
-To:     michael.riesch@wolfvision.net
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Riesch via B4 Relay 
-        <devnull+michael.riesch.wolfvision.net@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Matthias Fend <Matthias.Fend@wolfvision.net>,
-        libcamera-devel@lists.libcamera.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
+ driver for Apple AGX GPUs
+Content-Language: en-US
+To:     Daniel Vetter <daniel@ffwll.ch>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+ <ZC2HtBOaoUAzVCVH@phenom.ffwll.local>
+ <8d28f1d3-14b0-78c5-aa16-e81e2a8a3685@asahilina.net>
+ <ZC6zSnB6pSELiy+I@phenom.ffwll.local>
+ <37e2861d-ab9f-6b83-9186-d9ffc6845e8a@asahilina.net>
+ <ZC7NpGrZWm0EbFhz@phenom.ffwll.local>
+From:   Asahi Lina <lina@asahilina.net>
+Cc:     David Airlie <airlied@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+In-Reply-To: <ZC7NpGrZWm0EbFhz@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,256 +82,383 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael
+On 06/04/2023 22.48, Daniel Vetter wrote:
+> On Thu, Apr 06, 2023 at 10:15:56PM +0900, Asahi Lina wrote:
+>> On 06/04/2023 20.55, Daniel Vetter wrote:
+>>> On Thu, Apr 06, 2023 at 01:44:22PM +0900, Asahi Lina wrote:
+>>>> On 05/04/2023 23.37, Daniel Vetter wrote:
+>>>>> On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
+>>>>>> +/// A generic monotonically incrementing ID used to uniquely identify object instances within the
+>>>>>> +/// driver.
+>>>>>> +pub(crate) struct ID(AtomicU64);
+>>>>>> +
+>>>>>> +impl ID {
+>>>>>> +    /// Create a new ID counter with a given value.
+>>>>>> +    fn new(val: u64) -> ID {
+>>>>>> +        ID(AtomicU64::new(val))
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    /// Fetch the next unique ID.
+>>>>>> +    pub(crate) fn next(&self) -> u64 {
+>>>>>> +        self.0.fetch_add(1, Ordering::Relaxed)
+>>>>>> +    }
+>>>>>> +}
+>>>>>
+>>>>> Continuing the theme of me commenting on individual things, I stumbled
+>>>>> over this because I noticed that there's a lot of id based lookups where I
+>>>>> don't expect them, and started chasing.
+>>>>>
+>>>>> - For ids use xarray, not atomic counters. Yes I know dma_fence timelines
+>>>>>      gets this wrong, this goes back to an innocent time where we didn't
+>>>>>      allocate more than one timeline per engine, and no one fixed it since
+>>>>>      then. Yes u64 should be big enough for everyone :-/
+>>>>>
+>>>>> - Attaching ID spaces to drm_device is also not great. drm is full of
+>>>>>      these mistakes. Much better if their per drm_file and so private to each
+>>>>>      client.
+>>>>>
+>>>>> - They shouldn't be used for anything else than uapi id -> kernel object
+>>>>>      lookup at the beginning of ioctl code, and nowhere else. At least from
+>>>>>      skimming it seems like these are used all over the driver codebase,
+>>>>>      which does freak me out. At least on the C side that's a clear indicator
+>>>>>      for a refcount/lockin/data structure model that's not thought out at
+>>>>>      all.
+>>>>>
+>>>>> What's going on here, what do I miss?
+>>>>
+>>>> These aren't UAPI IDs, they are driver-internal IDs (the UAPI IDs do use
+>>>> xarray and are per-File). Most of them are just for debugging, so that when
+>>>> I enable full debug spam I have some way to correlate different things that
+>>>> are happening together (this subset of interleaved log lines relate to the
+>>>> same submission). Basically just object names that are easier to read (and
+>>>> less of a security leak) than pointers and guaranteed not to repeat. You
+>>>> could get rid of most of them and it wouldn't affect the driver design, it
+>>>> just makes it very hard to see what's going on with debug logs ^^;
+>>>>
+>>>> There are only two that are ever used for non-debugging purposes: the VM ID,
+>>>> and the File ID. Both are per-device global IDs attached to the VMs (not the
+>>>> UAPI VM objects, but rather the underlyng MMU address space managers they
+>>>> represent, including the kernel-internal ones) and to Files themselves. They
+>>>> are used for destroying GEM objects: since the objects are also
+>>>> device-global across multiple clients, I need a way to do things like "clean
+>>>> up all mappings for this File" or "clean up all mappings for this VM".
+>>>> There's an annoying circular reference between GEM objects and their
+>>>> mappings, which is why this is explicitly coded out in destroy paths instead
+>>>> of naturally happening via Drop semantics (without that cleanup code, the
+>>>> circular reference leaks it).
+>>>>
+>>>> So e.g. when a File does a GEM close or explicitly asks for all mappings of
+>>>> an object to be removed, it goes out to the (possibly shared) GEM object and
+>>>> tells it to drop all mappings marked as owned by that unique File ID. When
+>>>> an explicit "unmap all in VM" op happens, it asks the GEM object to drop all
+>>>> mappings for that underlying VM ID. Similarly, when a UAPI VM object is
+>>>> dropped (in the Drop impl, so both explicitly and when the whole File/xarray
+>>>> is dropped and such), that does an explicit unmap of a special dummy object
+>>>> it owns which would otherwise leak since it is not tracked as a GEM object
+>>>> owned by that File and therefore not handled by GEM closing. And again along
+>>>> the same lines, the allocators in alloc.rs explicitly destroy the mappings
+>>>> for their backing GEM objects on Drop. All this is due to that annoying
+>>>> circular reference between VMs and GEM objects that I'm not sure how to fix.
+>>>>
+>>>> Note that if I *don't* do this (or forget to do it somewhere) the
+>>>> consequence is just that we leak memory, and if you try to destroy the wrong
+>>>> IDs somehow the worst that can happen is you unmap things you shouldn't and
+>>>> fault the GPU (or, in the kernel or kernel-managed user VM cases,
+>>>> potentially the firmware). Rust safety guarantees still keep things from
+>>>> going entirely off the rails within the kernel, since everything that
+>>>> matters is reference counted (which is why these reference cycles are
+>>>> possible at all).
+>>>>
+>>>> This all started when I was looking at the panfrost driver for reference. It
+>>>> does the same thing except it uses actual pointers to the owning entities
+>>>> instead of IDs, and pointer comparison (see panfrost_gem_close). Of course
+>>>> you could try do that in Rust too (literally storing and comparing raw
+>>>> pointers that aren't owned references), but then you're introducing a Pin<>
+>>>> requirement on those objects to make their addresses stable and it feels way
+>>>> more icky and error-prone than unique IDs (since addresses can be reused).
+>>>> panfrost only has a single mmu (what I call the raw VM) per File while I
+>>>> have an arbitrary number, which is why I end up with the extra
+>>>> distinction/complexity of both File and VM IDs, but the concept is the same.
+>>>>
+>>>> Some of this is going to be refactored when I implement arbitrary VM range
+>>>> mapping/unmapping, which would be a good time to improve this... but is
+>>>> there something particularly wrong/broken about the way I'm doing it now
+>>>> that I missed? I figured unique u64 IDs would be a pretty safe way to
+>>>> identify entities and cleanup the mappings when needed.
+>>>
+>>> Ok, some attempt at going through the vm_id/file_id stuff. Extremely
+>>> high-level purely informed by having read too many drivers:
+>>>
+>>> First on the drm_file/struct file/file_id. This is the uapi interface
+>>> object, and it's refcounted in the vfs, but that's entirely the vfs'
+>>> business and none of the driver (or even subsystem). Once userspace has
+>>> done the final close() the file is gone, there's no way to ever get
+>>> anything meaningfully out of it because userspace dropped it. So if the
+>>> driver has any kind of backpointer to that's a design bug, because in all
+>>> the place you might want to care (ioctl, fdinfo for schedu stats, any
+>>> other file_operations callback) the vfs ensures it stays alive during the
+>>> callback and you essentially have a borrowed reference.
+>>
+>> Right, there's none of that for the File, and it is not refcounted itself.
+>> Certainly there are no direct references, and as for the IDs: the IDs of
+>> relevant Files live in GEM objects that hold mappings owned by that file. As
+>> part of File close all the GEM objects get closed, which removes those
+>> mappings. So by the time the File goes away there should be no references to
+>> its ID anywhere (other than if I stashed some away for debugging, I forget
+>> whether I did in some child object).
+>>
+>> If this process breaks for some reason (say, stray mappings remain indexed
+>> to a File ID that is gone), that means we leak the mappings, which leaks the
+>> GEM objects themselves and the VM they are mapped to. Not great but not
+>> fireworks either. As long as the DRM core properly calls the GEM close
+>> callback on everything before calling the File close callback though, that
+>> shouldn't happen.
+>>
+>>> I've seen a lot of drivers try to make clever backpointings to stuff
+>>> that's essentially tied to the drm_file, and I've not found a single case
+>>> that made sense. iow, file_id as a lookup thingie needs to go. In
+>>> principle it's the same argument I've made already for the syncobj rust
+>>> wrappers. For specific uses I guess I need some rust reading help, but
+>>> from your description it sounds like the vm_id is much more the core
+>>> piece.
+>>
+>> The file ID is simply how GEM mappings are identified as belonging to an
+>> active file within the mapping list of an object. GEM object close is
+>> literally the only place this ID is ever used for anything other than
+>> passing around:
+>>
+>> /// Callback to drop all mappings for a GEM object owned by a given `File`
+>> fn close(obj: &Object, file: &DrmFile) {
+>>      mod_pr_debug!("DriverObject::close vm_id={:?} id={}\n", obj.vm_id,
+>> obj.id);
+>>      obj.drop_file_mappings(file.inner().file_id());
+>> }
+>>
+>> I could also just iterate through the VM XArray for the File and drop
+>> mappings one VM at a time instead of doing all of them in one go, it's just
+>> slightly more cumbersome (though potentially less code because I could get
+>> rid of all the forwarding the file_id I do now).
+>>
+>> On the other hand, once we implement arbitrary VM maps, I suspect this is
+>> going to go away anyway with the new design, so I'm not really very inclined
+>> to fix it until that happens... ^^
+> 
+> Yeah the driver-managed vm needs a bunch more reference loops and gets
+> awkward fast. the gpuva library might need to keep support for that, but I
+> really hope it's not needed.
+> 
+>>> So for that we have the gpu ctx -> vm -> gem_bos chain of reference. Now
+>>> on the C side if you have a modern driver that uses the
+>>> vm_bind/unbind/gpuva manager approach, the reference counts go in that
+>>> single direction only, anything else is essentially borrowed references
+>>> under protection of a mutex/lock or similar thing (for e.g. going from the
+>>> bo to the vm for eviction).
+>>
+>> Right, so that is what is going to change with the pending refactor. What I
+>> have right now is a design that used to be the old driver-managed VM design
+>> (and still retains part of that for kernel-managed objects) for the old
+>> synchronous demo UAPI, that I then shoehorned into the redesigned vm_bind
+>> UAPI by just not supporting the interesting cases (partial
+>> maps/unmaps/remaps, etc.). This is all temporary, it's just to get us by for
+>> now since OpenGL doesn't need it and there is no usable Vulkan driver that
+>> cares yet... I wanted to focus on the explicit sync and general
+>> sched/queuing part of the new UAPI before I got to the VM bind stuff, since
+>> I figured that would be more interesting (and pulls in all the new
+>> abstractions, plus major perf benefit). So the UAPI itself has vm_bind but
+>> only the "easy" subset of cases are supported by the driver (whole object
+>> maps/unmaps) and the refcounting is still backwards.
+>>
+>> As I said this originally came from the Panfrost design that doesn't have
+>> vm_bind but instead keeps a list of mappings with pointer equality checks in
+>> BOs... so that's why ^^
+>>
+>> Thanks for explaining the design approach though, it's roughly what I had in
+>> mind but it's good to hear I'm on the right track! I'd love to go into more
+>> detail about how to implement vm_bind if you have time though (maybe a
+>> meeting?). In particular things like using the mm allocator to keep track of
+>> mapping ranges and supporting splitting and all that.
+> 
+> Yeah vm_bind sounds like a good topic to discuss. I don't think we'll get
+> all the pieces aligned to land that before asahi, but the driver internals
+> should at least match wrt semantics with that so that the refactoring
+> isn't total pain.
+> 
+>>> In addition to the above chain the xarray in the drm_file also holds
+>>> references to each of these. So far so good, in the drm_file ->postclose
+>>> callback you just walk the xarrays and drop all the references, and
+>>> everything gets cleaned up, at least in the C world.
+>>
+>> In the Rust world you just do nothing since the XArray abstraction knows how
+>> to drop all of its contained objects!
+> 
+> Yeah xarray should work with Drop, but I guess you need a special
+> uapi/open-reference object that knows that it needs to perform additional
+> cleanup (like quiescent the gpu ctx or unamp everything for the vm).
 
-Thanks for the patch.
+Yeah, I already have that for VMs. Since I have a layer between UAPI VM 
+objects and the underlying MMU VM objects, the UAPI VM object Drop impl 
+can take care of explicitly unmapping whatever it needs to, or however 
+that ends up working out with the new design. I prefer that to explicit 
+cleanup code since it means you can't forget to do it.
 
-I've got a personal interest here as I'd love to be able to control a
-couple of CCTV lenses that I have. Those have standard motors with
-potentiometers for position feedback, not stepper motors, but
-otherwise have the same limitations of slow movement.
+Rust is pretty nice for throwing around tiny objects, 1:1 wrappers, or 
+even zero-sized types that just do one thing + Drop in order to make 
+some semantic ergonomic to use. That's how the XArray reservation stuff 
+works: you get back a trivial object that just references the queue (yay 
+lifetimes, no refcounting here) and holds the reservation open, and then 
+you either fill it (which consumes the reservation guard) or drop it 
+(which cleans up the reservation). There's lots of that kind of pattern 
+in kernel Rust and I think we should use it often, it just makes things 
+a lot less error-prone (ScopeGuard is another nice one!)
 
-On Thu, 6 Apr 2023 at 15:31, Michael Riesch via B4 Relay via
-libcamera-devel <libcamera-devel@lists.libcamera.org> wrote:
->
-> From: Michael Riesch <michael.riesch@wolfvision.net>
->
-> Add the controls V4L2_CID_FOCUS_STATUS and V4L2_CID_ZOOM_STATUS that report
-> the status of the zoom lens group and the focus lens group, respectively.
-> The returned data structure contains the current position of the lens group
-> as well as movement indication flags.
->
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-camera.rst   | 48 ++++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-core.c          |  9 ++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  7 ++++
->  include/media/v4l2-ctrls.h                         |  2 +
->  include/uapi/linux/v4l2-controls.h                 | 13 ++++++
->  include/uapi/linux/videodev2.h                     |  2 +
->  6 files changed, 81 insertions(+)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> index daa4f40869f8..3a270bc63f1a 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> @@ -149,6 +149,30 @@ enum v4l2_exposure_metering -
->      to the camera, negative values towards infinity. This is a
->      write-only control.
->
-> +``V4L2_CID_FOCUS_STATUS (struct)``
-> +    The current status of the focus lens group. This is a read-only control.
-> +    The returned data structure contains the current position and movement
-> +    indication flags. The unit of the current position is undefined. Positive
-> +    values move the focus closer to the camera, negative values towards
-> +    infinity. The possible flags are described in the table below.
+>>> But if either due to the uabi being a bit more legacy, or Rust requiring
+>>> that the backpointers are reference-counted from the gem_bo->vma->vm and
+>>> can't follow borrow semantics (afaiui the usual linux list_head pattern of
+>>> walking the list under a lock giving you a borrowed reference for each
+>>> element doesn't work too well in rust?) then that's not a problem, you can
+>>> still all clean it out:
+>>>
+>>> - The key bit is that your vm struct needs both a refcount like kref and
+>>>     a separate open count. Each gpu ctx and the xarray for vm objects in
+>>>     drm_file hold _both_ the kref and the open refcount (in rust the open
+>>>     refcount implies the Arc or things go sideways).
+>>>
+>>> - the other key bit is that drm_file ->postclose does _not_ have simple
+>>>     Drop semantics, it's more explicit.
+>>>
+>>> - in the drm_file lastclose you first walk all the gpu ctx. The simplest
+>>>     semantics is that close() synchronously tears down all leftover gpu ctx,
+>>>     i.e. you unload them from the gpu. Details are under a lot of discussion
+>>>     in the various scheduler threads, but essentially this should ensure
+>>>     that the gpu ctx destruction completely removes all references to the
+>>>     ctx. If instead you have the legacy problem of apps expecting that
+>>>     rendering continues even if they called exit() before it finishes, then
+>>>     it gets more messy. I have no idea whether that's still a problem for
+>>>     new drivers or can be avoided.
+>>>
+>>> - Next up you do the same thing for the vm xarray (which drops both the
+>>>     kref an open refcounts).
+>>>
+>>> - At this point there might still be a ton of vm objects around with
+>>>     elevated kref. Except not, because at this point the open refcount of
+>>>     each vm should have dropped to zero. When that happens the vm object
+>>>     itself is still alive, plus even better for rust, you are in the
+>>>     vm_close(vm) function call so you have a full borrowed reference to
+>>>     that. Which means you can walk the entire address space and unmap
+>>>     everything explicit. Which should get rid of any gem_bo->vma->vm
+>>>     backpointers you have lying around.
+>>>
+>>> - At that point all your vm objects are gone too, because the kref managed
+>>>     backpointers are gone.
+>>>
+>>> - You walk the xarray of gem_bo (well the drm subsystem does that for
+>>>     you), which cleans out the reamining references to gem_bo. Only the
+>>>     gem_bo which are shared with other process or have a dma_buf will
+>>>     survive, like they should.
+>>>
+>>> No leak, no funky driver-internal vm_id based lookup, and with rust we
+>>> should even be able to guarantee you never mix up Arc<Vm> with OpenRef<Vm>
+>>> (or however that exactly works in rust types, I have not much real clue).
+>>
+>> That would totally work, and actually I already use somewhat analogous
+>> mechanisms in other places like firmware queues!
+>>
+>> If this all weren't getting turned on its head for the new VM management I'd
+>> implement it, but hopefully we can agree there's not much point right now...
+>> I'd rather focus on the DRM abstraction design and work on improving the
+>> driver in parallel right now, and then about one kernel cycle or so from now
+>> it should definitely be in a better place for review. Honestly, there are
+>> bigger design problems with the driver right now than these IDs (that I
+>> already know about)... so I want to focus more on the abstractions and their
+>> usage right now than the internal driver design which I *know* has problems
+>> ^^
+> 
+> Yeah I think the only fundamental issue you have is that (if I get this
+> all right) you're trying to clean up mappings from the gem_bo, not from
+> the vm. The gem_bo (unlike the vm) is freely shareable (at least in
+> general), so tying anything else to the lifetime of a gem_bo in any way is
+> a design flaw.
 
-The units are undefined, but positive and negative mean something with
-respect to some unspecified focal distance represented by 0. That
-seems a little odd.
+Yeah, it wasn't nice from the start. Actually the first bit of code I 
+wrote is the MMU code, and originally it was even literally C code based 
+on the panfrost MMU code as-is... I quickly realized that the C wasn't 
+going to be that useful when I started diving into the GEM abstractions, 
+so it got rewritten in Rust early on...
 
-I was going to suggest that it seems to make sense to follow the same
-units as V4L2_CID_FOCUS_ABSOLUTE, but on reading that description in
-[1] it's the same text.
-I suspect there was a little too much copy/paste from
-V4L2_CID_FOCUS_RELATIVE, or the intent was that increasing the value
-brings the focus closer, and decreasing moves it towards infinity.
+So right now it works (and I have no reason to believe it has actual 
+leak bugs lurking today) but it's not a nice design and it's going to 
+get a major refactor/redesign once I switch to proper vm_bind tracking.
 
-If we did specify that it was the same units as
-V4L2_CID_FOCUS_ABSOLUTE, then what would that mean for use with
-V4L2_CID_FOCUS_RELATIVE? Then again the only user of _RELATIVE appears
-to be ov5693 with atomisp and that just maps it onto _ABSOLUTE, so
-potentially it's redundant and could be deprecated.
+> This is similar to dma_fence that can end up absolutely everywhere, and
+> why drm/sched has this decoupling between hw_fence and drm_job fences with
+> wider visibility. i915-gem/i915-scheduler and a lot of the really old
+> drivers all get this wrong, and you end up with either terrible explicit
+> cleanup code that tries to go around looking for all the references that
+> it needs to drop. Or you just leak.
 
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-camera.html
+I think for fences my general approach is going to be to just try to 
+keep to what I'm doing now and minimize the references fences hold, and 
+treat them as a signaling mechanism that ideally doesn't have to hold a 
+reference to anything other than the module. After all, the real king of 
+what needs to be alive is the firmware, and its mechanisms don't map 
+well to fences directly, so I need to do bespoke resource management 
+there anyway (and then just plug it into fences so it can feed into 
+drm_sched and the rest of the world). I don't know if that makes sense, 
+but it feels like it does? I still need to spend a bunch of time 
+thinking about this though...
 
-> +
-> +.. tabularcolumns:: |p{6.8cm}|p{10.7cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_LENS_STATUS_IDLE``
-> +      - Focus lens group is at rest.
-> +    * - ``V4L2_LENS_STATUS_BUSY``
-> +      - Focus lens group is moving.
-> +    * - ``V4L2_LENS_STATUS_REACHED``
-> +      - Focus lens group has reached its target position.
-> +    * - ``V4L2_LENS_STATUS_FAILED``
-> +      - Focus lens group has failed to reach its target position. The driver
-> +       will not transition from this state until another action is performed
-> +       by an application.
+> All these things need to be sorted out at design time so that they're
+> impossible.
 
-When would the lens state transition from V4L2_LENS_STATUS_REACHED to
-V4L2_LENS_STATUS_IDLE?
-If it's reached the position then it is at rest, and being at rest is
-the definition of V4L2_LENS_STATUS_IDLE.
-Likewise the lens always has a target position based on the control
-value, so it's always at V4L2_LENS_STATUS_REACHED when it's not
-moving.
-Is there a need to have 2 states?
+That's the other nice thing about Rust, it makes refactoring a lot 
+faster too! The compiler is really good at annoying you and refusing to 
+compile things until you've fixed all the really dumb mistakes you 
+introduced, and then there's a pretty good chance it'll run and the 
+remaining bugs will be really obvious after that. As much as you learn 
+to hate the compiler, it's so much better than trying to debug things at 
+runtime... ^^
 
-If the position is the same units as V4L2_CID_FOCUS_ABSOLUTE, then do
-you leave the determination of state to the application?
+I'm not sure what your opinion is on this, but personally if you/others 
+were okay with it I wouldn't be too worried about hypothetically merging 
+the driver in the state it's in today, with the expectation to hack 
+major parts of it to bits and pieces over the next few months. I've done 
+it a few times already... it usually doesn't take more than a day or two 
+to make some major refactor to a component and get it back up and 
+running. (I do expect to do a bunch of that cleanup over the next few 
+months before it's even possible to merge anyway, just a hypothetical).
 
->  ``V4L2_CID_FOCUS_AUTO (boolean)``
->      Enables continuous automatic focus adjustments. The effect of manual
->      focus adjustments while this feature is enabled is undefined,
-> @@ -239,6 +263,30 @@ enum v4l2_auto_focus_range -
->      movement. A negative value moves the zoom lens group towards the
->      wide-angle direction. The zoom speed unit is driver-specific.
->
-> +``V4L2_CID_ZOOM_STATUS (struct)``
-> +    The current status of the zoom lens group. This is a read-only control.
-> +    The returned data structure contains the current position and movement
-> +    indication flags. The unit of the current position is driver-specific and
-> +    its value should be a positive integer. The possible flags are described
-> +    in the table below.
-> +
-> +.. tabularcolumns:: |p{6.8cm}|p{10.7cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_LENS_STATUS_IDLE``
-> +      - Zoom lens group is at rest.
-> +    * - ``V4L2_LENS_STATUS_BUSY``
-> +      - Zoom lens group is moving.
-> +    * - ``V4L2_LENS_STATUS_REACHED``
-> +      - Zoom lens group has reached its target position.
-> +    * - ``V4L2_LENS_STATUS_FAILED``
-> +      - Zoom lens group has failed to reach its target position. The driver will
-> +       not transition from this state until another action is performed by an
-> +       application.
-> +
->  ``V4L2_CID_IRIS_ABSOLUTE (integer)``
->      This control sets the camera's aperture to the specified value. The
->      unit is undefined. Larger values open the iris wider, smaller values
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index 29169170880a..f6ad30f311c5 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -350,6 +350,9 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
->         case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
->                 pr_cont("HEVC_DECODE_PARAMS");
->                 break;
-> +       case V4L2_CTRL_TYPE_LENS_STATUS:
-> +               pr_cont("LENS_STATUS");
-> +               break;
->         default:
->                 pr_cont("unknown type %d", ctrl->type);
->                 break;
-> @@ -918,6 +921,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->                         return -EINVAL;
->                 break;
->
-> +       case V4L2_CTRL_TYPE_LENS_STATUS:
-> +               break;
-> +
->         default:
->                 return -EINVAL;
->         }
-> @@ -1605,6 +1611,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->         case V4L2_CTRL_TYPE_AREA:
->                 elem_size = sizeof(struct v4l2_area);
->                 break;
-> +       case V4L2_CTRL_TYPE_LENS_STATUS:
-> +               elem_size = sizeof(struct v4l2_ctrl_lens_status);
-> +               break;
->         default:
->                 if (type < V4L2_CTRL_COMPOUND_TYPES)
->                         elem_size = sizeof(s32);
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 564fedee2c88..9b26a3aa9e9c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1044,6 +1044,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->         case V4L2_CID_CAMERA_ORIENTATION:       return "Camera Orientation";
->         case V4L2_CID_CAMERA_SENSOR_ROTATION:   return "Camera Sensor Rotation";
->         case V4L2_CID_HDR_SENSOR_MODE:          return "HDR Sensor Mode";
-> +       case V4L2_CID_FOCUS_STATUS:             return "Focus, Status";
-> +       case V4L2_CID_ZOOM_STATUS:              return "Zoom, Status";
+>> Rust is really good at getting you to come up with a *safe* design as far as
+>> memory and ownership, but that doesn't mean it's perfectly clean code and
+>> more importantly it does nothing for deadlocks and allocating in the wrong
+>> paths and getting resource allocation semantics right etc etc. The GPU FW
+>> queue stuff is at the very least due for another major refactor/cleanup to
+>> defer resource allocation and actual queuing to job prepare/run time (right
+>> now there's some horrible hacks to do it upfront at submit because I don't
+>> have a mechanism to back-patch job structures with those resource IDs later
+>> at exec time, but I want to add that), and along the way I can also fix the
+>> using job fences to block on pending job count thing that Christian really
+>> wants me to do instead of the can_run_job thing, and then getting all this
+>> resource stuff truly right is also going to mean eventually using fences to
+>> handle blocking on resource exhaustion too (though maybe I can get away with
+>> implementing that a bit later)...
+>>
+>> The driver works stupidly well for how quickly I wrote it, but it still has
+>> all these rough edges that definitely need fixing before it's something I
+>> could say I'm happy with... I'm sure if you start hammering it with evil
+>> workloads you will hit some of its current problems (like I did yesterday
+>> with the deadlocks on GpuContext inval). I also need to learn more about the
+>> subtleties of fence signaling and all that, especially once a shrinker comes
+>> into play...
+> 
+> Yeah I think rust is impressive at creating working code. The real
+> challenge, and really where I see all the short term value at least, is in
+> clarifying the semantics. Because that'll help us to clarify the semantics
+> on the C side too, which gives immediate benefits for everyone. Not just
+> new drivers in rust.
+> 
+> But it's also the part that's really, really hard work.
 
-Is there a need for the comma in the text strings?
+Yup!
 
-Cheers
-  Dave
+~~ Lina
 
->
->         /* FM Radio Modulator controls */
->         /* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1593,6 +1595,11 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->                 *flags |= V4L2_CTRL_FLAG_WRITE_ONLY |
->                           V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
->                 break;
-> +       case V4L2_CID_FOCUS_STATUS:
-> +       case V4L2_CID_ZOOM_STATUS:
-> +               *type = V4L2_CTRL_TYPE_LENS_STATUS;
-> +               *flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_VOLATILE;
-> +               break;
->         case V4L2_CID_FLASH_STROBE_STATUS:
->         case V4L2_CID_AUTO_FOCUS_STATUS:
->         case V4L2_CID_FLASH_READY:
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index e59d9a234631..f7273ffc20c9 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -52,6 +52,7 @@ struct video_device;
->   * @p_hdr10_cll:               Pointer to an HDR10 Content Light Level structure.
->   * @p_hdr10_mastering:         Pointer to an HDR10 Mastering Display structure.
->   * @p_area:                    Pointer to an area.
-> + * @p_lens_status:             Pointer to a lens status structure.
->   * @p:                         Pointer to a compound value.
->   * @p_const:                   Pointer to a constant compound value.
->   */
-> @@ -81,6 +82,7 @@ union v4l2_ctrl_ptr {
->         struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
->         struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->         struct v4l2_area *p_area;
-> +       struct v4l2_ctrl_lens_status *p_lens_status;
->         void *p;
->         const void *p_const;
->  };
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 5e80daa4ffe0..8b037467ba9a 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -993,6 +993,19 @@ enum v4l2_auto_focus_range {
->
->  #define V4L2_CID_HDR_SENSOR_MODE               (V4L2_CID_CAMERA_CLASS_BASE+36)
->
-> +struct v4l2_ctrl_lens_status {
-> +       __u32 flags;
-> +       __s32 current_position;
-> +};
-> +
-> +#define V4L2_LENS_STATUS_IDLE                  (0 << 0)
-> +#define V4L2_LENS_STATUS_BUSY                  (1 << 0)
-> +#define V4L2_LENS_STATUS_REACHED               (1 << 1)
-> +#define V4L2_LENS_STATUS_FAILED                        (1 << 2)
-> +
-> +#define V4L2_CID_FOCUS_STATUS                  (V4L2_CID_CAMERA_CLASS_BASE + 37)
-> +#define V4L2_CID_ZOOM_STATUS                   (V4L2_CID_CAMERA_CLASS_BASE + 38)
-> +
->  /* FM Modulator class control IDs */
->
->  #define V4L2_CID_FM_TX_CLASS_BASE              (V4L2_CTRL_CLASS_FM_TX | 0x900)
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 17a9b975177a..256c21c68720 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1888,6 +1888,8 @@ enum v4l2_ctrl_type {
->         V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS        = 0x0272,
->         V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX      = 0x0273,
->         V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS       = 0x0274,
-> +
-> +       V4L2_CTRL_TYPE_LENS_STATUS              = 0x0300,
->  };
->
->  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
->
-> --
-> 2.30.2
->
