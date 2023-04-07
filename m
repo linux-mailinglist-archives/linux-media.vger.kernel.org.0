@@ -2,57 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E7A46DB187
-	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 19:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BACF6DB18A
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 19:19:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbjDGRTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Apr 2023 13:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53560 "EHLO
+        id S230010AbjDGRT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Apr 2023 13:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230196AbjDGRTB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 13:19:01 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89526420E
-        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 10:18:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680887939; x=1712423939;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=zvXshHIa3YjXSGNNCAC9emMeIMc0az5Ire1m5X/tLaI=;
-  b=bVC/NTEBaB2dN3iE6NHqL4MC1Dioj+m42e6nHDd9vM7GCXuSFkz9R+Ha
-   UYvr/iVpvPr47GaVxfxlZBA3x2bRwjUS44XHvI0Hcw14lR3VwMcIRBo98
-   cVyev7ZQpGUrFh/E7F2Y/OsRqXGwd1O/RycDXXg0hE36ZT6rywiSAso2N
-   mqVODlzRMJHDycX1594lsjnkaFi8DyFO4VA59fokaYF2iY2boXEySd3KV
-   iEwZt9FPG2Ed0LlWKiIVn6WShjG0MvyQIQz1gvzjyVDfiJNAPPZPEbs/1
-   ZhuUYiFf40FBbY+fY7tvnuYpLfyMjsPac+7RgdFlO4usCvGOi0esBjEL8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341782437"
-X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="341782437"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 10:18:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="752103583"
-X-IronPort-AV: E=Sophos;i="5.98,327,1673942400"; 
-   d="scan'208";a="752103583"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 10:18:48 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 8DDF6120D47
-        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 20:09:35 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v2 4/4] media: ccs: Document CCS static data file names
-Date:   Fri,  7 Apr 2023 20:09:31 +0300
-Message-Id: <20230407170931.30842-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230407170931.30842-1-sakari.ailus@linux.intel.com>
-References: <20230407170931.30842-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S230255AbjDGRTo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 13:19:44 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA7DCA03;
+        Fri,  7 Apr 2023 10:19:23 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4PtQ8Q1TtMzyR8;
+        Fri,  7 Apr 2023 20:19:17 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1680887960;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Sx/v6v02tkhyVSJIxoR5pZtA5d+qnL+HKABd0KsDWkk=;
+        b=be7boNoSaCauKSf5nx7KUm+r6UvnLMDwHpf0Qa1a9fuciGNUun+OK1SRSGeD8T5v5fFGw5
+        aTLNE1hacjHpkBakgCN+euY2G497WLc7L7SLEE8F9vDdpu7AwIRmn8RhaFpRcQER5UliSe
+        ijDS2ZLYe2MH/Z+EjJu5J2Du+MqFot8=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1680887960; a=rsa-sha256; cv=none;
+        b=T/CuPIfgtU/10f0gPBOap2JMhmhN1T1u/2qju0MziBT/3Vr4nrzcG8p2NEmQJXH1mNglmb
+        l+cDsGWgIGEVeXP0xI/hnT/jC/w3SxRxQnjqApJmrXbLr88PHNmlIBa65KfWgIeGVLPvN+
+        YWCR/PhsGIdLlCcIdbUQNUpXog/96QI=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1680887960;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Sx/v6v02tkhyVSJIxoR5pZtA5d+qnL+HKABd0KsDWkk=;
+        b=TjfAYh/Fj8WFUjFOKnXU8hsAdoOF0mZs31+RQteSR9hvHGQ5zwPGmuZVTNzFsV0e4pmRa8
+        hdxXGyn2O/tXhz6Dt6g9ytC0xBluqypq9KOIOlrlY22uMfRuNhhXonGd5dgkRgqifIKvY0
+        sE0oX5FaJ5LSrXBQlXSjeEGVAkukOnI=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B46D1634C91;
+        Fri,  7 Apr 2023 20:16:30 +0300 (EEST)
+Date:   Fri, 7 Apr 2023 20:16:30 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: video: constify pointers to
+ hwmon_channel_info
+Message-ID: <ZDBP7vG498h2FQ7N@valkosipuli.retiisi.eu>
+References: <20230407150015.79715-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407150015.79715-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,47 +77,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the firmware file names for CCS static data for CCS, SMIA++ and
-SMIA devices.
+Hi Krzysztof,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../driver-api/media/drivers/ccs/ccs.rst      | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+On Fri, Apr 07, 2023 at 05:00:15PM +0200, Krzysztof Kozlowski wrote:
+> Statically allocated array of pointed to hwmon_channel_info can be made
+> const for safety.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> This depends on hwmon core patch:
+> https://lore.kernel.org/all/20230406203103.3011503-2-krzysztof.kozlowski@linaro.org/
+> 
+> Therefore I propose this should also go via hwmon tree.
 
-diff --git a/Documentation/driver-api/media/drivers/ccs/ccs.rst b/Documentation/driver-api/media/drivers/ccs/ccs.rst
-index b461c8aa2a16..7389204afcb8 100644
---- a/Documentation/driver-api/media/drivers/ccs/ccs.rst
-+++ b/Documentation/driver-api/media/drivers/ccs/ccs.rst
-@@ -56,6 +56,28 @@ analogue data is never read from the pixel matrix that are outside the
- configured selection rectangle that designates crop. The difference has an
- effect in device timing and likely also in power consumption.
- 
-+CCS static data
-+---------------
-+
-+The MIPI CCS driver supports CCS static data for all compliant devices,
-+including not just those compliant with CCS 1.1 but also CCS 1.0 and SMIA(++).
-+For CCS the file names are formed as
-+
-+	ccs/ccs-sensor-vvvv-mmmm-rrrr.fw (sensor) and
-+	ccs/ccs-module-vvvv-mmmm-rrrr.fw (module).
-+
-+For SMIA++ compliant devices the corresponding file names are
-+
-+	ccs/smiapp-sensor-vv-mmmm-rr.fw (sensor) and
-+	ccs/smiapp-module-vv-mmmm-rrrr.fw (module).
-+
-+For SMIA (non-++) compliant devices the static data file name is
-+
-+	ccs/smia-sensor-vv-mmmm-rr.fw (sensor).
-+
-+vvvv or vv denotes MIPI and SMIA manufacturer IDs respectively, mmmm model ID
-+and rrrr or rr revision number.
-+
- Register definition generator
- -----------------------------
- 
+Works for me. Please add:
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Thanks!
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
