@@ -2,93 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3CC06DB1E7
-	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 19:39:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF046DB27D
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 20:08:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbjDGRj0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Apr 2023 13:39:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
+        id S230334AbjDGSIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Apr 2023 14:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbjDGRjH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 13:39:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B90C3C155;
-        Fri,  7 Apr 2023 10:38:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1491E65329;
-        Fri,  7 Apr 2023 17:38:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1B8EC4339E;
-        Fri,  7 Apr 2023 17:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680889123;
-        bh=ShYE/NmpoSW62Nvk+UDzbzXRAyY8hKK3U9ol2L/cDjg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=M0dcZC1PwRN2HkRpAf18Y8Sc3xtdV99EC+vxYRCkvNNAP+f919nIOyOf5C1k+lysA
-         DsIPR1Qt8nC4oUYnjInR8TIxqXfTv7etNNAZFIr8N3Z4pgJcnzOnfgGSt+8WWdyUnl
-         AtCK3R+vmetr+XaPeV8TeeBy7ElBS52aIWcd/f+6IC92wBZ6VtySpHzS+akBWGLAPm
-         9FGQ7rTD0MB43HTwT8UqysfMbMPTFlPqN0cgjcBIFUJ0L4OURVzzGJE92PFWqiUUkv
-         QzbufEidnsWI3M3Syk9Vjk2T1AbA0NyhHej5ZBtJs+zEboLXJ09NMin4l6aPtNNsSc
-         ndslYUpGWzB9w==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Akhil P Oommen <quic_akhilpo@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Luca Weiss <luca@z3ntu.xyz>,
-        Sean Paul <sean@poorly.run>,
-        Nathan Chancellor <nathan@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "open list:DEVICE FREQUENCY DEVFREQ" <linux-pm@vger.kernel.org>,
-        Rob Clark <robdclark@chromium.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
-        freedreno@lists.freedesktop.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, linux-arm-msm@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 00/23] drm/msm+PM+icc: Make job_run() reclaim-safe
-Date:   Fri,  7 Apr 2023 10:41:19 -0700
-Message-Id: <168088927578.2561591.14585371270684166515.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320144356.803762-1-robdclark@gmail.com>
-References: <20230320144356.803762-1-robdclark@gmail.com>
+        with ESMTP id S229845AbjDGSIk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 14:08:40 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F5FAF0D;
+        Fri,  7 Apr 2023 11:08:34 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id bi31so31568717oib.9;
+        Fri, 07 Apr 2023 11:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680890914; x=1683482914;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OyNeQjqjXmdCX5Ucvov2m/XFmLigHPT0qRyQLFkEqn8=;
+        b=TNdSS3Yk8QukDtK86HPd/Qc2P2QkU8X3Na+0m3EtKGrSfCQcutWWJGtGO870giTKJb
+         D+izeuDlG8xMPImwRiHKIWP0KJJ8t5O5c0yx4mNU7DTbcwTay1U4LZioZhtI3Me2sAqT
+         xb2y8xszZ4LQhYUAGjIt99g17l49B6i44E3TASX0DRj4D+l3vMFF+3THFkcyAoEKsa0Z
+         ylpUziCtBKKmgsFwuSkQYsEU01kVpsD5AD8v4daFRlMVEzEI/wggLpihlOJh/DHpGwFt
+         mrl5gkQ/BSsC38P1pYxEMWVnnWu8sybbqN9cpn3TXKKZ9xDmrNJam9ua8LEPGxwO5hF1
+         SVzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680890914; x=1683482914;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OyNeQjqjXmdCX5Ucvov2m/XFmLigHPT0qRyQLFkEqn8=;
+        b=7PpkpbJz78P8dodGZ4NfW6toLSoyfh0DmkgO2kUw0sU3UXJi029dYmlMM/6Gvdi4Zu
+         zNLpeDps3vUHERtW9bjVt5DzoFSH4DV/mO14VS1ebDOPVC/l4RDW53JGsKd0DmdTXULN
+         iZMm+DTOeOAQeA0ccyZUHEIK6c01syUX6rV9VY+fShVLEvo66bxt7I7c9nvA543LxL3Y
+         exphh0o9ZU0KoT1GW2olDHARdqCWVaO7SlZ8rFgpnrMZySkRbAYMeU0qmUCW662Kb5rY
+         4bIpdCg9H1Bm2c3FMe7r7XlNfypqZsWtKc/6lYTpxn1gi92oahe1UnQCtZN3iy/MNhth
+         QJmQ==
+X-Gm-Message-State: AAQBX9fVhh42/T+TVHSa6GXaK5cfAs1Pv2/TcXZlBbOOdWIPJXMDKvvA
+        4Dz8gJ9OVu7Tb3tfCOWILyk=
+X-Google-Smtp-Source: AKy350ZPJGYf188pep6pTQAz0ddSy5x2ncHueGH1lsLIwzcQ23DP1hn7SRmnZ2Jr05GRhE8SbdbIjA==
+X-Received: by 2002:a05:6808:351:b0:389:7d66:131a with SMTP id j17-20020a056808035100b003897d66131amr1433446oie.0.1680890914199;
+        Fri, 07 Apr 2023 11:08:34 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id o11-20020acaf00b000000b0037fa035f4f3sm1899688oih.53.2023.04.07.11.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Apr 2023 11:08:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Fri, 7 Apr 2023 11:08:32 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: video: constify pointers to
+ hwmon_channel_info
+Message-ID: <2294f1fa-019e-4278-804a-3a9ea807b23f@roeck-us.net>
+References: <20230407150015.79715-1-krzysztof.kozlowski@linaro.org>
+ <ZDBP7vG498h2FQ7N@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZDBP7vG498h2FQ7N@valkosipuli.retiisi.eu>
+X-Spam-Status: No, score=0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,
+        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 20 Mar 2023 07:43:22 -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Fri, Apr 07, 2023 at 08:16:30PM +0300, Sakari Ailus wrote:
+> Hi Krzysztof,
 > 
-> Inspired by https://lore.kernel.org/dri-devel/20200604081224.863494-10-daniel.vetter@ffwll.ch/
-> it seemed like a good idea to get rid of memory allocation in job_run()
-> fence signaling path, and use lockdep annotations to yell at us about
-> anything that could deadlock against shrinker/reclaim.  Anything that
-> can trigger reclaim, or block on any other thread that has triggered
-> reclaim, can block the GPU shrinker from releasing memory if it is
-> waiting the job to complete, causing deadlock.
+> On Fri, Apr 07, 2023 at 05:00:15PM +0200, Krzysztof Kozlowski wrote:
+> > Statically allocated array of pointed to hwmon_channel_info can be made
+> > const for safety.
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > 
+> > ---
+> > 
+> > This depends on hwmon core patch:
+> > https://lore.kernel.org/all/20230406203103.3011503-2-krzysztof.kozlowski@linaro.org/
+> > 
+> > Therefore I propose this should also go via hwmon tree.
 > 
-> [...]
+> Works for me. Please add:
+> 
 
-Applied, thanks!
+But not for me. Krzysztof jumped the gun here a bit.
+I do not feel comfortable applying patches for 10+ subsystem
+branches through hwmon. This is asking for trouble.
 
-[20/23] soc: qcom: smd-rpm: Use GFP_ATOMIC in write path
-        commit: 5808c532ca0a983d643319caca44f2bcb148298f
+I created a stable branch at
+git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-const
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+which everyone may use to merge the pre-requisite patch, or wait until
+after the next merge window. 
+
+Guenter
