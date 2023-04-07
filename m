@@ -2,138 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B55AF6DA6BD
-	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 02:59:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBC4B6DA70A
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 03:44:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231404AbjDGA7g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Apr 2023 20:59:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52510 "EHLO
+        id S230351AbjDGBoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Apr 2023 21:44:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbjDGA7f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 20:59:35 -0400
-X-Greylist: delayed 207 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Apr 2023 17:59:33 PDT
-Received: from mail.nfschina.com (unknown [42.101.60.222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08062727;
-        Thu,  6 Apr 2023 17:59:33 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-        by mail.nfschina.com (Postfix) with ESMTP id 2B1261A00B0D;
-        Fri,  7 Apr 2023 08:56:50 +0800 (CST)
-X-Virus-Scanned: amavisd-new at nfschina.com
-Received: from mail.nfschina.com ([127.0.0.1])
-        by localhost (localhost.localdomain [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id cpzkFWlJUWFV; Fri,  7 Apr 2023 08:56:49 +0800 (CST)
-Received: from localhost.localdomain (unknown [180.167.10.98])
-        (Authenticated sender: liqiong@nfschina.com)
-        by mail.nfschina.com (Postfix) with ESMTPA id 00F9E1A00886;
-        Fri,  7 Apr 2023 08:56:48 +0800 (CST)
-From:   Li Qiong <liqiong@nfschina.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Walls <awalls@md.metrocast.net>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Li Qiong <liqiong@nfschina.com>
-Subject: [PATCH] media: pci: remove unnecessary (void*) conversions
-Date:   Fri,  7 Apr 2023 08:55:16 +0800
-Message-Id: <20230407005516.13517-1-liqiong@nfschina.com>
-X-Mailer: git-send-email 2.11.0
-X-Spam-Status: No, score=1.3 required=5.0 tests=RDNS_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+        with ESMTP id S229892AbjDGBoD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Apr 2023 21:44:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDCB658B
+        for <linux-media@vger.kernel.org>; Thu,  6 Apr 2023 18:44:01 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (fp76f193f3.tkyc206.ap.nuro.jp [118.241.147.243])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BE768A4;
+        Fri,  7 Apr 2023 03:43:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1680831839;
+        bh=Wr9wEeOzOa6i1Tqga6rd6LoymutSxiJ8k0W3MgNGGV4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TjRDCRiEo7S/AX0lJe74qTTuoNdMNj3SWpBj2X88KUawdNXpeMQga+Ea98oGloj85
+         noYsgb2Y180sJ7ZFvi5chGMglf4wlOtUkamXmS2v29qNnfmLDP7JeNaCN6ZfZ/Q3fI
+         NIO3FKv8BOqd+VGbqoojPis5rsrX2avYWX54dC7Y=
+Date:   Fri, 7 Apr 2023 04:44:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: i2c: imx290: Add missing \n on
+ dev_err_probe() message
+Message-ID: <20230407014407.GC31272@pendragon.ideasonboard.com>
+References: <20230406095551.952091-1-alexander.stein@ew.tq-group.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230406095551.952091-1-alexander.stein@ew.tq-group.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-No need to cast (void*) pointer to other type.
+Hi Alexander,
 
-Signed-off-by: Li Qiong <liqiong@nfschina.com>
----
- drivers/media/pci/bt8xx/dst_ca.c        | 2 +-
- drivers/media/pci/cx18/cx18-dvb.c       | 4 ++--
- drivers/media/pci/saa7164/saa7164-dvb.c | 4 ++--
- drivers/media/pci/ttpci/budget-core.c   | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/media/pci/bt8xx/dst_ca.c b/drivers/media/pci/bt8xx/dst_ca.c
-index 85fcdc59f0d1..d234a0f404d6 100644
---- a/drivers/media/pci/bt8xx/dst_ca.c
-+++ b/drivers/media/pci/bt8xx/dst_ca.c
-@@ -534,7 +534,7 @@ static long dst_ca_ioctl(struct file *file, unsigned int cmd, unsigned long ioct
- 
- 	mutex_lock(&dst_ca_mutex);
- 	dvbdev = file->private_data;
--	state = (struct dst_state *)dvbdev->priv;
-+	state = dvbdev->priv;
- 	p_ca_message = kmalloc(sizeof (struct ca_msg), GFP_KERNEL);
- 	p_ca_slot_info = kmalloc(sizeof (struct ca_slot_info), GFP_KERNEL);
- 	p_ca_caps = kmalloc(sizeof (struct ca_caps), GFP_KERNEL);
-diff --git a/drivers/media/pci/cx18/cx18-dvb.c b/drivers/media/pci/cx18/cx18-dvb.c
-index 33e5a5b5fab4..cf82360a503d 100644
---- a/drivers/media/pci/cx18/cx18-dvb.c
-+++ b/drivers/media/pci/cx18/cx18-dvb.c
-@@ -234,7 +234,7 @@ static int dvb_register(struct cx18_stream *stream);
- static int cx18_dvb_start_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
--	struct cx18_stream *stream = (struct cx18_stream *) demux->priv;
-+	struct cx18_stream *stream = demux->priv;
- 	struct cx18 *cx;
- 	int ret;
- 	u32 v;
-@@ -305,7 +305,7 @@ static int cx18_dvb_start_feed(struct dvb_demux_feed *feed)
- static int cx18_dvb_stop_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
--	struct cx18_stream *stream = (struct cx18_stream *)demux->priv;
-+	struct cx18_stream *stream = demux->priv;
- 	struct cx18 *cx;
- 	int ret = -EINVAL;
- 
-diff --git a/drivers/media/pci/saa7164/saa7164-dvb.c b/drivers/media/pci/saa7164/saa7164-dvb.c
-index 24421c116b0b..3eb749db1ca7 100644
---- a/drivers/media/pci/saa7164/saa7164-dvb.c
-+++ b/drivers/media/pci/saa7164/saa7164-dvb.c
-@@ -280,7 +280,7 @@ static int saa7164_dvb_start_port(struct saa7164_port *port)
- static int saa7164_dvb_start_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
--	struct saa7164_port *port = (struct saa7164_port *) demux->priv;
-+	struct saa7164_port *port = demux->priv;
- 	struct saa7164_dvb *dvb = &port->dvb;
- 	struct saa7164_dev *dev = port->dev;
- 	int ret = 0;
-@@ -307,7 +307,7 @@ static int saa7164_dvb_start_feed(struct dvb_demux_feed *feed)
- static int saa7164_dvb_stop_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
--	struct saa7164_port *port = (struct saa7164_port *) demux->priv;
-+	struct saa7164_port *port = demux->priv;
- 	struct saa7164_dvb *dvb = &port->dvb;
- 	struct saa7164_dev *dev = port->dev;
- 	int ret = 0;
-diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
-index 5d5796f24469..710595987522 100644
---- a/drivers/media/pci/ttpci/budget-core.c
-+++ b/drivers/media/pci/ttpci/budget-core.c
-@@ -308,7 +308,7 @@ int ttpci_budget_debiwrite(struct budget *budget, u32 config, int addr,
- static int budget_start_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
--	struct budget *budget = (struct budget *) demux->priv;
-+	struct budget *budget = demux->priv;
- 	int status = 0;
- 
- 	dprintk(2, "budget: %p\n", budget);
-@@ -327,7 +327,7 @@ static int budget_start_feed(struct dvb_demux_feed *feed)
- static int budget_stop_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
--	struct budget *budget = (struct budget *) demux->priv;
-+	struct budget *budget = demux->priv;
- 	int status = 0;
- 
- 	dprintk(2, "budget: %p\n", budget);
+On Thu, Apr 06, 2023 at 11:55:51AM +0200, Alexander Stein wrote:
+> Also dev_err_probe message require a trailing \n.
+
+There should be a blank line here.
+
+> Fixes: 63127235bebd ("media: i2c: imx290: Use dev_err_probe()")
+> 
+
+And none here.
+
+But the bug wasn't introduced in the above commit, the \n was missing
+before that, right from the start when the driver was merged in commit
+828dbc299278 ("media: i2c: Add IMX290 CMOS image sensor driver"). I
+would use that commit in the Fixes tag, or drop the Fixes tag
+altogether.
+
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/imx290.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 94bba482af38..5ea25b7acc55 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -1602,7 +1602,7 @@ static int imx290_probe(struct i2c_client *client)
+>  	imx290->xclk = devm_clk_get(dev, "xclk");
+>  	if (IS_ERR(imx290->xclk))
+>  		return dev_err_probe(dev, PTR_ERR(imx290->xclk),
+> -				     "Could not get xclk");
+> +				     "Could not get xclk\n");
+>  
+>  	ret = imx290_get_regulators(dev, imx290);
+>  	if (ret < 0)
+
 -- 
-2.11.0
+Regards,
 
+Laurent Pinchart
