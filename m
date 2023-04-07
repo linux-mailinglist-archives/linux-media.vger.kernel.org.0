@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E41416DAD82
-	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 15:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 960836DAD90
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 15:28:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240845AbjDGN2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Apr 2023 09:28:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35974 "EHLO
+        id S231899AbjDGN2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Apr 2023 09:28:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240818AbjDGN2l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 09:28:41 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A2983F8
-        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 06:28:39 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id a44so24899151ljr.10
-        for <linux-media@vger.kernel.org>; Fri, 07 Apr 2023 06:28:39 -0700 (PDT)
+        with ESMTP id S240831AbjDGN2n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 09:28:43 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28CE3A276
+        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 06:28:41 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id bd22so1381492ljb.5
+        for <linux-media@vger.kernel.org>; Fri, 07 Apr 2023 06:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680874119;
+        d=linaro.org; s=google; t=1680874120;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k0IfW2c7yHYEw+7My0/Z0HZx/BNSO/stFk2dfA3BGq0=;
-        b=Ro0Vd5ko7vTTIJf8sPurw4gyNC9dktQtfFJJl77SMkhAyBP/pGEqpZZrfkq9zQdxen
-         QeNFSfzVP6fKnCXK705/jnJaWfZLdgruEkF/WVCiDDaxQ4ySU9ehYsHiPe+r/Qc0lPZn
-         EokASAgN41BXeNYBcaDHOMxar1uBU09BRlUzAQKJwjLTUL+uhrDoYiIglqvYKboSjlLn
-         QbNjaKhLY+GS7st+gBqJBxuhQ+KfPOYo3FZs9eRJm4aaZm8kdnupDwBHXgnjjeuPxW0V
-         S2P9lkFrRAJ1dr77dnsAMlAVhS+Vgw8ZU8FcCJFPCozDIJoAnciVDnC2yT22pK3t20jj
-         t7Mw==
+        bh=/Qrp16+bclmc99syXIKvGh44pTCvLytsw1x/uNP3QSg=;
+        b=MWDrv93HhCvSMJ+pWQEeXjME20LxtFzYPkQcZoitRui3tk0zoaCTeUS52qZHXvNde9
+         c6lKH/GQM/PwpbqdAfcEs30OVirUSxfyRwfr9wVTomZUnWygA/s+OYksunrSJSR0vDHo
+         3MFcK4fntuQdhsVDW57CWH5jZxgzGdnLjMHwT/zoEIZNs6eu3884a4j2tWhall3dsiRy
+         6lwOVUbjUh7ceAyfBMTg5CaCDONNy2LMfG/4iSU8r1c1LUoyGUVU+OWNlAtBIGWCdWWG
+         dHvgTq82Wuoj/AsonRdRypQq2qbLJmw1R3AW/1OPQwesS8kXt1julgGJFaJ1GRRs339R
+         pLIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680874119;
+        d=1e100.net; s=20210112; t=1680874120;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k0IfW2c7yHYEw+7My0/Z0HZx/BNSO/stFk2dfA3BGq0=;
-        b=3bDF+jxL49v+MuWDhdByKdWzrgzB3dzgpfRdGMupCAwdrshpwxTQt86irGkPeqXNrk
-         9b+0a+68BPmwxO8hVyKM3IHpCHNDXIbhIA/PvMVJ5GJY/7YAYTBM4IUsxjykZH+12BcZ
-         BsYjWcvK9NtXKvt1u8NWGl3i8uy/0TtphCjzmqdHXUg+OqIWS8ccZuKGTNs8ZwiPDnEC
-         fUrnlrwBGiKRRcUfmZBCZHu8m7IdGRrEK4Uxgqi+SMpDJJREpSmZIBGTpvJBFlMJ17Ux
-         TtA4VKU+7umnW1OXe9ATe8/Liiebf1c2ax3KF0VWY/eb0reB7Zqkw8i3nl+K4gh17Qq5
-         AIYg==
-X-Gm-Message-State: AAQBX9eZWZS/xGCU1v5KLSm0ok4Y4aW0PF2ORZ91ug3zJMPfTiPJ8c/9
-        IjIhu+9HvA4FAxQf61c+WJ5n9g==
-X-Google-Smtp-Source: AKy350ZQ30yshVINhFaemYrdT+8iOMgt3F15JZRLYN0ujn/iGtjiu2jaTgtCX9DBh7jQJj5JhlA8EQ==
-X-Received: by 2002:a2e:9a90:0:b0:295:ba22:360 with SMTP id p16-20020a2e9a90000000b00295ba220360mr718548lji.42.1680874118910;
-        Fri, 07 Apr 2023 06:28:38 -0700 (PDT)
+        bh=/Qrp16+bclmc99syXIKvGh44pTCvLytsw1x/uNP3QSg=;
+        b=A5rtaath1eJ0gDiSSg6ZMdi2IHRKKuu8iDoilLTm6wNpC95zV8om0t5Ri8Bse0Q+uv
+         GDJfvUf/YAmwpPBbu5eUTYymUKXF8JtUHvSDJU0GZYrGCSE+P8I5KAKNZyvSr5DBJxXc
+         oWhrD8Fi2cyJmTrOHVtbkr+U0vA0hSI7npZnmTFXNvxF8brXT6emLrW+c2UPcaoY4vmK
+         WykRhzVc8+a+VCmwQzzf8sxO1Zs42CFN4iXkMD3MdbSbqln+D4hCUE04gyK90McVfdFc
+         kgSbxjmybofFikG7qnOXPkpt5bj2UnOEjqHpx5JDqcLN3FTQkGsE20XLW2ZaRDIohCG/
+         kShQ==
+X-Gm-Message-State: AAQBX9fLcOP4Cklu8NUjMIg9bH0Dv8m02E9AO1jEVbHxwtPZYu9c91D3
+        Fv6vYmz/7CJwX6BuJ+tOK7PNCA==
+X-Google-Smtp-Source: AKy350Y1Z3yUxBXAZndb/euEtaLZY2xRexNvc+IuXlQ4YmU+HvZDzwLaGFTqY5mjBTkP47DQL5F+HQ==
+X-Received: by 2002:a05:651c:d1:b0:29b:d4d0:d3f7 with SMTP id 17-20020a05651c00d100b0029bd4d0d3f7mr488284ljr.26.1680874120450;
+        Fri, 07 Apr 2023 06:28:40 -0700 (PDT)
 Received: from [192.168.1.101] (abxh37.neoplus.adsl.tpnet.pl. [83.9.1.37])
-        by smtp.gmail.com with ESMTPSA id h2-20020a2e3a02000000b002a618eb72b1sm811031lja.98.2023.04.07.06.28.37
+        by smtp.gmail.com with ESMTPSA id h2-20020a2e3a02000000b002a618eb72b1sm811031lja.98.2023.04.07.06.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 06:28:38 -0700 (PDT)
+        Fri, 07 Apr 2023 06:28:40 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Fri, 07 Apr 2023 15:28:34 +0200
-Subject: [PATCH 4/6] arm64: dts: qcom: sc7280: Fix up the gic node
+Date:   Fri, 07 Apr 2023 15:28:35 +0200
+Subject: [PATCH 5/6] arm64: dts: qcom: pm8916: Fix pm8941-misc node name
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230407-topic-msm_dtb-v1-4-6efb4196f51f@linaro.org>
+Message-Id: <20230407-topic-msm_dtb-v1-5-6efb4196f51f@linaro.org>
 References: <20230407-topic-msm_dtb-v1-0-6efb4196f51f@linaro.org>
 In-Reply-To: <20230407-topic-msm_dtb-v1-0-6efb4196f51f@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
@@ -76,11 +76,11 @@ Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
         linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org,
         Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680874110; l=1494;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680874110; l=1099;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=gHkzosUqi4bzAs9dpyelWGTDvy9GQH7llzRSHl6mEos=;
- b=vqvoGg7o3fTzGx7vo2BEYDCXp5lvFkui2hVK5Zlj/spa9/z9GyvocahhSArwYxz23Agovl07UXC+
- zft2HNhADd3ZtyJKEv7cFmxO2Z6+RnmniJonP8w9Z7VA7RmgPy76
+ bh=WG/ipbDMuDk+aHJosMLwAyE+K0gF2DpT2uf5CXcw2yY=;
+ b=l6Ef1ydbm+TCxHakiS5bpJ536JObhvG96L9jm9ck1pZ87J3Xfuj6cPA3xSQDrNTU+XHEAEZNXwLp
+ 3xi2ah/ZCF0AOJ2EVoorgNg35Iqy+mIVCj8JSmaBr0148qNfmqRc
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -92,51 +92,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following schema warning:
+Fix the node name to make dtbs_check happy:
 
-gic-its@17a40000: False schema does not allow {'compatible':
-['arm,gic-v3-its'], 'msi-controller': True, '#msi-cells': [[1]],
-'reg': [[0, 396623872, 0, 131072]], 'status': ['disabled']}
-
-And reorder the properties to be more in order with all other nodes.
+qcom/apq8016-sbc.dtb: pmic@0: 'extcon@1300' does not match any of the
+regexes: '(.*)?(wled|leds)@[0-9a-f]+$', '^adc-tm@[0-9a-f]+$',
+'^adc@[0-9a-f]+$', '^audio-codec@[0-9a-f]+$', '^charger@[0-9a-f]+$',
+'^mpps@[0-9a-f]+$', '^nvram@[0-9a-f]+$', '^rtc@[0-9a-f]+$',
+'^temp-alarm@[0-9a-f]+$', '^usb-detect@[0-9a-f]+$',
+'^usb-vbus-regulator@[0-9a-f]+$', '^vibrator@[0-9a-f]+$',
+'gpio@[0-9a-f]+$', 'pinctrl-[0-9]+', 'pon@[0-9a-f]+$'
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ arch/arm64/boot/dts/qcom/pm8916.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 0cdb16316021..3292b046a8d3 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -5182,20 +5182,20 @@ apps_smmu: iommu@15000000 {
- 
- 		intc: interrupt-controller@17a00000 {
- 			compatible = "arm,gic-v3";
--			#address-cells = <2>;
--			#size-cells = <2>;
--			ranges;
--			#interrupt-cells = <3>;
--			interrupt-controller;
- 			reg = <0 0x17a00000 0 0x10000>,     /* GICD */
- 			      <0 0x17a60000 0 0x100000>;    /* GICR * 8 */
- 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
-+			#interrupt-cells = <3>;
-+			interrupt-controller;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
- 
--			gic-its@17a40000 {
-+			msi-controller@17a40000 {
- 				compatible = "arm,gic-v3-its";
-+				reg = <0 0x17a40000 0 0x20000>;
- 				msi-controller;
- 				#msi-cells = <1>;
--				reg = <0 0x17a40000 0 0x20000>;
- 				status = "disabled";
+diff --git a/arch/arm64/boot/dts/qcom/pm8916.dtsi b/arch/arm64/boot/dts/qcom/pm8916.dtsi
+index e2a6b66d8847..f4fb1a92ab55 100644
+--- a/arch/arm64/boot/dts/qcom/pm8916.dtsi
++++ b/arch/arm64/boot/dts/qcom/pm8916.dtsi
+@@ -41,7 +41,7 @@ watchdog {
  			};
  		};
+ 
+-		pm8916_usbin: extcon@1300 {
++		pm8916_usbin: usb-detect@1300 {
+ 			compatible = "qcom,pm8941-misc";
+ 			reg = <0x1300>;
+ 			interrupts = <0x0 0x13 1 IRQ_TYPE_EDGE_BOTH>;
 
 -- 
 2.40.0
