@@ -2,62 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05AF76DA935
-	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 09:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65C316DA9BE
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 10:09:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233056AbjDGHEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Apr 2023 03:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45358 "EHLO
+        id S239104AbjDGIJt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Apr 2023 04:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232540AbjDGHEG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 03:04:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21687F5
-        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 00:04:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B1B8C64B72
-        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 07:04:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C35F4C433D2;
-        Fri,  7 Apr 2023 07:04:02 +0000 (UTC)
-Message-ID: <fc0244d7-1edc-d0f9-1777-65521d781d7b@xs4all.nl>
-Date:   Fri, 7 Apr 2023 09:04:00 +0200
+        with ESMTP id S232454AbjDGIJs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 04:09:48 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061C58A6D
+        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 01:09:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680854987; x=1712390987;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ra6iSt46DPX2UwTRNeNw9qtbvs8JFWB109/C4A+Nz94=;
+  b=b7M8MfRXFjnl+MC0EaMdk7npiS7NaYqp9RSEnLM4/mVEt6Z+COpBhZcc
+   3P/PcS2GU95yEkhEn4aDWxA8THKbR+xGJ1d1GmaUMneNz7lmLVpjaj+44
+   c91e4tcz4zUpEvhWc8K/DJkHDmai/DpnPHOw7oLIOVPo4MeeP6w/Djui8
+   7o3DgZfwIyIURDLWsvSOGaUsIRf1krvR46iihs+uYmeR6M+89uMYFAqr4
+   WkwEGHIJKvYkXihCPtyj58CGb/d0RzTJyDezfEzoH42fln+NvDDhKw1yZ
+   MuEaVlfaCgtJFF6Nwof/kBolvlDJ7qDEJvnKjs1VuVtzPS3zROHDXcnJ9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="331592897"
+X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
+   d="scan'208";a="331592897"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 01:09:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="637636444"
+X-IronPort-AV: E=Sophos;i="5.98,326,1673942400"; 
+   d="scan'208";a="637636444"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 07 Apr 2023 01:09:35 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pkhA6-000SFK-0F;
+        Fri, 07 Apr 2023 08:09:34 +0000
+Date:   Fri, 07 Apr 2023 16:09:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ c6997aabde315cc2507c6306f854ebce417c6b0e
+Message-ID: <642fcfb2.i3NtrjmrouH1MiSa%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: saa7146: please test the vb2 conversion!
-Content-Language: en-US
-To:     Stefan Herdler <herdler@nurfuerspam.de>
-Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <c093e775-e863-f886-e819-e8a929775a89@xs4all.nl>
- <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
- <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
- <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
- <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
- <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
- <20230208100847.3ec87576@coco.lan>
- <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
- <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
- <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
- <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
- <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,131 +63,122 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/04/2023 00:43, Stefan Herdler wrote:
-> Hi Hans,
-> 
-> I'm sorry for my late replay, but it was quiet troublesome to build
-> a kernel with the patch, also running on the rest of my hardware.
-> 
-> 
-> On 24/03/23 22:21, Stefan Herdler wrote:
->> Hi Hans,
->>
->> great to read, that it is finally done, thank you for your work!
->>
->>
->> On 24/03/23 11:40 Hans Verkuil wrote:
->>> On 24/03/2023 11:37, Hans Verkuil wrote:
->>>> Hi all,
->>>>
->>>> I finished the vb2 conversion and tested what I could test. I am missing
->>>> 'full featured' hardware, so I could not test the analog video capture part
->> There is some miss understanding.
->> At VDR 'full featured' refers to all DVB-cards with decoder and OSD.
->>
->> I wasn't aware, that this definition doesn't seem to be common, sorry.
->>>> of that. It's not clear to me if VBI capture is also supported on those
->>>> cards, if so, then that needs to be tested as well.
-> 
-> I have talked to the "cable-guys" and they didn't know about VBI capture.
-> 
-> The whole analog capture of this cards was never very popular with VDR.
-> The signal had to be encoded on the fly, this was never reliable as the
-> PVR-cards with encoder.
-> 
-> I think it is o.k. to leave it untested.
->>>>
->>>> Note that there is one userspace-facing change: the VBI output settings
->>>> are kept, even if the vbi device is closed by the application.
->>>>
->>>> Before you had to open the vbi device, format the slice VBI output, and
->>>> write sliced VBI data to it. Closing the device would reset how VBI output
->>>> behaves. That is not in spec with the V4L2 API. The format is kept after
->>>> the device is closed.
->>>>
->>>> Any application that uses VBI output and that wants to keep the same
->>>> behavior would have to call VIDIOC_S_FMT with a struct v4l2_sliced_vbi_format
->>>> with a service_set field set to 0 to indicate that you don't want to
->>>> output any VBI anymore.
-> 
-> VBI output is used to switch the aspect-ratio via WSS.
-> this should be supported by any av7110 card.
-> 
-> The software is run a daemon or plugin, so the userspace-facing change
-> shouldn't matter.
-> 
-> I'll test this as soon as possible.
-> 
-> 
-> 
-> 
-> I've done only basic testing so far, but unfortunately it already failed.
-> 
-> The test:
-> Switch to a channel[*] and view the decoded video with tvtime.
-> 
-> The resulting picture is corrupted.
-> Almost green with some pink traces at the outlines.
-> 
-> It reminds me to YCbCr component-yideo on a RGB-input.
-> Maybe the input-format of saa7146 not set correctly?
-> 
-> The OSD is equally affected, but the card seems to run stable.
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: c6997aabde315cc2507c6306f854ebce417c6b0e  media: i2c: imx290: Add missing \n on dev_err_probe() message
 
-That's weird. When you are in this state, can you run
-'v4l2-ctl -V -d /dev/videoX' for the video device that tvtime
-is using? I'll try to test it with tvtime as well next week.
-I have done my tests using qvidcap and qv4l2, and that looked fine.
+elapsed time: 725m
 
-Regards,
+configs tested: 103
+configs skipped: 3
 
-	Hans
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> 
-> 
-> * I used VDR for this, but it shouldn't matter.
-> 
-> Regards
-> Stefan
-> 
->>>>
->>>> If this is a problem, then I can make a module option that selects the old
->>>> behavior.
->>>>
->>>> BTW, if anyone has a spare full-featured card (i.e. with analog video capture
->>>> as well), then I would love to take it off your hands so that I can test that
->>>> myself!
->> There are only DVB-C boards with analog features.
->>
->> I personally never had cable-TV nor own any DVB-C cards.
->> But I try to find such a card with an analog module on it.
->>>>
->>>> This series has been tested on the two Hexium boards, the mxb board, and two
->>>> av7710 boards (DVB-C and DVB-T).
->>
->> I can test on the DVB-S hardware.
->>
->> But let me finish the API-documentation fist, it is almost done.
->> There are only the complains from chackpatch left to fix, I hope it is done quickly.
->>
->>
->> Regards
->> Stefan
->>
->>
->>>
->>> It does help if I point to the patches :-)
->>>
->>> The patch series is here:
->>>
->>> https://patchwork.linuxtv.org/project/linux-media/list/?series=10140
->>>
->>> It's also in my git tree:
->>>
->>> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=saa7146-clean
->>>
->>> Regards,
->>>
->>> 	Hans
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r005-20230403   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r034-20230403   gcc  
+arc                  randconfig-r043-20230403   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r001-20230403   clang
+arm                                 defconfig   gcc  
+arm                  randconfig-r021-20230403   clang
+arm                  randconfig-r046-20230403   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r025-20230403   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r011-20230403   gcc  
+hexagon              randconfig-r041-20230403   clang
+hexagon              randconfig-r045-20230403   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230403   clang
+i386                 randconfig-a002-20230403   clang
+i386                 randconfig-a003-20230403   clang
+i386                 randconfig-a004-20230403   clang
+i386                 randconfig-a005-20230403   clang
+i386                 randconfig-a006-20230403   clang
+i386                 randconfig-a011-20230403   gcc  
+i386                 randconfig-a012-20230403   gcc  
+i386                 randconfig-a013-20230403   gcc  
+i386                 randconfig-a014-20230403   gcc  
+i386                 randconfig-a015-20230403   gcc  
+i386                 randconfig-a016-20230403   gcc  
+i386                 randconfig-r035-20230403   clang
+i386                 randconfig-r036-20230403   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r002-20230403   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r002-20230403   gcc  
+m68k         buildonly-randconfig-r006-20230403   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r033-20230403   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r005-20230403   gcc  
+mips                 randconfig-r024-20230403   clang
+mips                 randconfig-r026-20230403   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r014-20230403   gcc  
+nios2                randconfig-r032-20230403   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r001-20230403   gcc  
+parisc               randconfig-r013-20230403   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r016-20230403   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230403   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r004-20230403   clang
+s390                 randconfig-r015-20230403   gcc  
+s390                 randconfig-r044-20230403   gcc  
+sh                               allmodconfig   gcc  
+sparc        buildonly-randconfig-r004-20230403   gcc  
+sparc                               defconfig   gcc  
+sparc64              randconfig-r003-20230403   gcc  
+sparc64              randconfig-r012-20230403   gcc  
+sparc64              randconfig-r022-20230403   gcc  
+sparc64              randconfig-r023-20230403   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230403   clang
+x86_64               randconfig-a002-20230403   clang
+x86_64               randconfig-a003-20230403   clang
+x86_64               randconfig-a004-20230403   clang
+x86_64               randconfig-a005-20230403   clang
+x86_64               randconfig-a006-20230403   clang
+x86_64               randconfig-a011-20230403   gcc  
+x86_64               randconfig-a012-20230403   gcc  
+x86_64               randconfig-a013-20230403   gcc  
+x86_64               randconfig-a014-20230403   gcc  
+x86_64               randconfig-a015-20230403   gcc  
+x86_64               randconfig-a016-20230403   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r003-20230403   gcc  
+xtensa               randconfig-r006-20230403   gcc  
+xtensa               randconfig-r031-20230403   gcc  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
