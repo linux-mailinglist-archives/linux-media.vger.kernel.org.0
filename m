@@ -2,82 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B95F86DB2F0
-	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 20:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAF3C6DB451
+	for <lists+linux-media@lfdr.de>; Fri,  7 Apr 2023 21:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjDGSkw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Apr 2023 14:40:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53086 "EHLO
+        id S229482AbjDGThn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Apr 2023 15:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjDGSkt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 14:40:49 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A49BA27B;
-        Fri,  7 Apr 2023 11:40:47 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4PtRyN3GXLz49Q31;
-        Fri,  7 Apr 2023 21:40:43 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1680892844;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=llMZG6Cdrj65bb8EHwDmL5EqSwP3QUX8jIynIyXHYas=;
-        b=WLS4pKRDEY7h9Pa6gvv56KsPQJmvx4dNOOPpGL1HmsTz2yGpZJ+cJbo/aFeq9OPjrDQ09d
-        uC02+JqZaysNx+zAOQQ/D5X9i3ubsO903AuUf3TUOOXLrHHIYzAuK+vBgnIxHd/RUwkvex
-        RbAJXaV39pYftDaS4RCrknY6A6lyyq+2Y9dVGD53ZH6+Tl1bJVa6Q1YmFxDlgucqIZj5Oj
-        fafZ3wJEZguZwNE/ZDVkEBH3oexD8PYZQ+AoakhCY2/pCy2sjGPQKYDjn40oceFT5/ZqVX
-        a5qZ+DaWhY2I7Esguwd+RimlyvWtjeyY9oximz4qXiaxLX1RJqx+gpDNW4A/bA==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1680892844; a=rsa-sha256;
-        cv=none;
-        b=VCYX4w2gyVr27eZHRjga5u5Jz8LcScEXIhd6AHZBgDRzntGUnrSuK323cV5wOXE/Q8a6pS
-        bSVrh1L4Y1G/GcN4xZQC0B4lWFSJnqP4b3hHhVV5FA94DozFBpmqRc8p+QoqOkvh/o9fT1
-        k0TfVP7dZy1FcPMkSUFTNEwDrGnsqwUZ3fGPW7+ODbu4/Z+GSrY/AF0Zm2c4oPIbSIGnvM
-        c1SPq/8BbH7ynC+cOJx+fXSvn1wktZrCFq2u7C93K4n5hfBOXn+HXQynclwmBYJHRG+MIg
-        myASDdVa9THfsQfmn0i9+xmyFm3IOs3V8AGASVert+/QnUQNoOjuIogxV8nmoA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1680892844;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=llMZG6Cdrj65bb8EHwDmL5EqSwP3QUX8jIynIyXHYas=;
-        b=BeSwG9Ys3zxCEL6i8U1Hpg+ltCtMaaKvGY8ycCQCym59+4pm+bGzDkcUG0uYisyl68Oqs+
-        9V5gq4UGzAwLEobwM9gVbUuP/VMFQ5WSlIllgRacllu64Q+QmIrOwg6MD9JVdth5d6G0/1
-        VjCeD6msSxaVPtHKJpBc8XL9ZFBdtwgtQDB4FaToDvE4oU3E6/k6hvyIlrCEYqV7clxnSD
-        i6I4zUAr/nLfCILmLcDsbvaNgAWArwLm81Y9z+UwcQ6dF6CzlxDQ0kO05OY1xNkXJvYe35
-        t//5oTNslhDQCNiKw3Elq9OOOX34oLgW5EFw5rTL2rxwKti6fF4B3Ye+MPKxWQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E32C1634C91;
-        Fri,  7 Apr 2023 21:37:56 +0300 (EEST)
-Date:   Fri, 7 Apr 2023 21:37:56 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@puri.sm, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] media: hi846: fix usage of
- pm_runtime_get_if_in_use()
-Message-ID: <ZDBjBNu6UXksVSwQ@valkosipuli.retiisi.eu>
-References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
- <20230405092904.1129395-2-martin.kepplinger@puri.sm>
- <ZC1vJNIGeEu+xi+i@valkosipuli.retiisi.eu>
- <cb0c1ad7e00523a43ce6ad73a79e7e396c4b52aa.camel@puri.sm>
+        with ESMTP id S229589AbjDGThm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 15:37:42 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CC295B81
+        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 12:37:40 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pkrty-00EuBx-Cx; Fri, 07 Apr 2023 19:37:38 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pkrtv-000DCl-9b; Fri, 07 Apr 2023 19:37:35 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 6.4] More V4L2 camera sensor patches (#91151)
+Date:   Fri,  7 Apr 2023 19:37:35 +0000
+Message-Id: <20230407193735.50713-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZDBhp9UGNJ+zjDBW@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cb0c1ad7e00523a43ce6ad73a79e7e396c4b52aa.camel@puri.sm>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,45 +44,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+From: builder@linuxtv.org
 
-On Fri, Apr 07, 2023 at 03:31:02PM +0200, Martin Kepplinger wrote:
-> Am Mittwoch, dem 05.04.2023 um 15:52 +0300 schrieb Sakari Ailus:
-> > Hi Martin,
-> > 
-> > On Wed, Apr 05, 2023 at 11:29:03AM +0200, Martin Kepplinger wrote:
-> > > pm_runtime_get_if_in_use() does not only return nonzero values when
-> > > the device is in use, it can return a negative errno too.
-> > > 
-> > > And especially during resuming from system suspend, when runtime pm
-> > > is not yet up again, this can very well happen. And in such a case
-> > > the subsequent pm_runtime_put() call would result in a refcount
-> > > underflow!
-> > 
-> > I think this issue should have a more generic solution, it's very
-> > difficult
-> > to address this in drivers only with the current APIs.
-> > 
-> > pm_runtime_get_if_in_use() will also return an error if runtime PM is
-> > disabled, so this patch will break the driver for that configuration.
-> 
-> ok but the driver is currently broken for any *other* error returned by
-> pm_runtime_get_if_in_use() (than the runtime-PM disabled error).
-> 
-> The execution-path during system-resume I'm interested in gets -EAGAIN
-> here. Would it be ok for you if I'd return early only for that one
-> error only here?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZDBhp9UGNJ+zjDBW@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/295737/
+Build time: 00:55:24
+Link: https://lore.kernel.org/linux-media/ZDBhp9UGNJ+zjDBW@valkosipuli.retiisi.eu
 
-I guess... but I think to address this in a way that's reasonable to
-drivers, we'll need improvements to runtime PM API. A largish number of
-drivers need changes and before doing that we should figure out exactly
-what should be done.
+gpg: Signature made Fri 07 Apr 2023 04:50:37 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
-I thought you could effectively trigger this issue by calling runtime PM
-resume/suspend functions before enabling runtime PM, but this seems to be a
-different case.
+Summary: got 4/32 patches with issues, being 3 at build time, plus one error when buinding PDF document
 
--- 
-Kind regards,
+Error/warnings:
 
-Sakari Ailus
+patches/0001-media-v4l-async-Return-async-sub-devices-to-subnotif.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1977337
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 58 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0006-media-mc-device-remove-unnecessary-__must_check.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974918
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+   checkpatch.pl:
+	$ cat patches/0006-media-mc-device-remove-unnecessary-__must_check.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:30: CHECK: Alignment should match open parenthesis
+	-:49: CHECK: Alignment should match open parenthesis
+	-:70: CHECK: Alignment should match open parenthesis
+	-:78: CHECK: Please use a blank line after function/struct/union/enum declarations
+	-:78: CHECK: Lines should not end with a '('
+
+patches/0008-media-dt-bindings-ov2685-convert-to-dtschema.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-media-dt-bindings-ov2685-convert-to-dtschema.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:31: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:74: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0012-media-Accept-non-subdev-sinks-in-v4l2_create_fwnode_.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974661
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
+
