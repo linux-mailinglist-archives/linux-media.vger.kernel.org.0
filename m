@@ -2,126 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4390E6DB6DE
-	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 01:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF696DB907
+	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 07:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjDGXIP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Apr 2023 19:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35388 "EHLO
+        id S229610AbjDHFMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Apr 2023 01:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229745AbjDGXIK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Apr 2023 19:08:10 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DFAE069;
-        Fri,  7 Apr 2023 16:08:05 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1841c57c221so2222379fac.3;
-        Fri, 07 Apr 2023 16:08:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680908884; x=1683500884;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=0F6rJsxE3aamYqBv3Ml8xVL2zDyuJMNH53v8qppkKDk=;
-        b=VcAN/MwiTqf4yUVTPyCDBbwDfHPWwi1LQ8Aym/RCEG7rZYuQaokxcWDbKiTnvaeDJb
-         s4pTG5n6QjYqlvupI/nhdGEhvjALJ8cP/h8IPizp5pLNKAYyRHO8tsMCsT8Hqkx3diBZ
-         iFA37dWnw7W2+STHpKDZvrFqIYga9zEElqQlk29ncB92zYhXYowN8ft3pU95OVaUuubv
-         3ic05wNoHC7c7UL68PWbnf2FDbwmnKT0od7QUkugOoL+dGo8WBfLhCT/vUYIQclPMWnZ
-         961J07OYKuiCEI2Eot/xbBDcI7SAm2dB/GQJ0LGAPpnO8WVqRhZCav4AcDDBGgHNiYOZ
-         T3Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680908884; x=1683500884;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0F6rJsxE3aamYqBv3Ml8xVL2zDyuJMNH53v8qppkKDk=;
-        b=RjUlYBUjw+z+t5qdST2ljpkUTtqgltFiXR82EjCPbCehCSVRiEZznvpbu1zQBYRbbi
-         UwSAypVk7XIvKldR3ZGGfQrZAm30aVNynqKVKUz5YLQ48pLSocfkQ062LboB0oodsDC8
-         mFnVWAMOAoCC2EcPFJR+jmAwMpjECMTvFt15n8GGZa55p7OEHXgqBj8Optz99EYJU+7j
-         Le43BBVWzlf8XKvmfdFPaXqBpiy4HJtReCBNEOHGK7BkmME1zj0k/4lSVSDkDhqaOzpm
-         qFQoSVS0+ES7TY5+KoHdp0KwqfYuApWd6Ma4wNNY7qNQHoJ9xEyCKZBFpbxvltbNeX1w
-         jn8Q==
-X-Gm-Message-State: AAQBX9cLqmazLCtsW04JNMz57oLZHkpuy9PqNTV/QnOi6i+or00h+rHV
-        F6gOEuvzGE/5QJUtcySTaOc=
-X-Google-Smtp-Source: AKy350ZF+lqnJCB/1jdRyLyjGIXwaAzcAR5fESlrxZmmS/aaHiJKvHSFKr3KvKIZxgPkrUbr/0STBw==
-X-Received: by 2002:a05:6870:64a6:b0:184:2b9d:2b12 with SMTP id cz38-20020a05687064a600b001842b9d2b12mr141951oab.13.1680908884279;
-        Fri, 07 Apr 2023 16:08:04 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id k1-20020a9d7dc1000000b0069fb8bfb4f3sm2047277otn.77.2023.04.07.16.08.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Apr 2023 16:08:03 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <0a9cc901-9634-6fd0-eade-7a512631c62a@roeck-us.net>
-Date:   Fri, 7 Apr 2023 16:08:02 -0700
+        with ESMTP id S229517AbjDHFMe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 01:12:34 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC504B455
+        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 22:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680930752; x=1712466752;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ImMYtZl9B2fP9ofuuzJEsWO1SdKOYbhpNlZTDwpy4j0=;
+  b=XUEQdO4mFQI8eqasIhJTw7fU/CXEC9kL8wI/KurzY8+nycLHinogexfO
+   h8d5K5StYrZTxC3q2juhW/z/xjqJt14f4pAVlavLlSRkyXs3cBARBKQ1+
+   S5gd7u4pIM10k+k62I3mU4gmW5t5XrvUsUHouRbfXq9QZVihgu+cr4/Sp
+   WTXDTgWefHQlfrAObnee3kiISMG55oOmnQGmK2D4pHjUvtktbmgQmLpPK
+   hCFc2YGcAlWjCJSXa2ulieUeb2qR1M/C6joKwvQFzyo2J7KV6GiksjFvK
+   Ayb2Imvj4gtPKCHYB2ArUAXuRSfFjNKRGEu7KLoEqD0S61NoonyLJpG5G
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341865250"
+X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
+   d="scan'208";a="341865250"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 22:12:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="831376436"
+X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
+   d="scan'208";a="831376436"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2023 22:12:31 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pl0sI-000TM3-2c;
+        Sat, 08 Apr 2023 05:12:30 +0000
+Date:   Sat, 08 Apr 2023 13:12:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ 324b83208c9d5839bf6fdbaaae0cb4d2456f22a5
+Message-ID: <6430f7ab.0NM5dfI1n8OfGPoq%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] media: i2c: video: constify pointers to
- hwmon_channel_info
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
-References: <20230407150015.79715-1-krzysztof.kozlowski@linaro.org>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20230407150015.79715-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,
-        FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/7/23 08:00, Krzysztof Kozlowski wrote:
-> Statically allocated array of pointed to hwmon_channel_info can be made
-> const for safety.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> This depends on hwmon core patch:
-> https://lore.kernel.org/all/20230406203103.3011503-2-krzysztof.kozlowski@linaro.org/
-> 
-> Therefore I propose this should also go via hwmon tree.
-> 
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 324b83208c9d5839bf6fdbaaae0cb4d2456f22a5  media: i2c: imx290: Add missing \n on dev_err_probe() message
 
-I am not going to apply patches for 10+ subsystems through the hwmon tree.
-This can only result in chaos. The dependent patch is available at
+elapsed time: 721m
 
-git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-const
+configs tested: 170
+configs skipped: 12
 
-or wait until after the next commit window to apply this patch.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Thanks,
-Guenter
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r005-20230403   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r016-20230403   gcc  
+alpha                randconfig-r034-20230407   gcc  
+alpha                randconfig-r036-20230403   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r004-20230403   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r012-20230406   gcc  
+arc                  randconfig-r016-20230403   gcc  
+arc                  randconfig-r021-20230403   gcc  
+arc                  randconfig-r025-20230403   gcc  
+arc                  randconfig-r033-20230403   gcc  
+arc                  randconfig-r043-20230403   gcc  
+arc                  randconfig-r043-20230407   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r003-20230403   clang
+arm                                 defconfig   gcc  
+arm                  randconfig-r034-20230403   gcc  
+arm                  randconfig-r036-20230407   gcc  
+arm                  randconfig-r046-20230403   clang
+arm                  randconfig-r046-20230407   clang
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r004-20230403   clang
+arm64                               defconfig   gcc  
+arm64                randconfig-r004-20230403   clang
+arm64                randconfig-r015-20230403   gcc  
+arm64                randconfig-r015-20230406   clang
+arm64                randconfig-r016-20230406   clang
+arm64                randconfig-r021-20230405   gcc  
+csky         buildonly-randconfig-r002-20230403   gcc  
+csky         buildonly-randconfig-r003-20230407   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r031-20230403   gcc  
+hexagon              randconfig-r004-20230403   clang
+hexagon              randconfig-r012-20230403   clang
+hexagon              randconfig-r035-20230407   clang
+hexagon              randconfig-r041-20230403   clang
+hexagon              randconfig-r041-20230407   clang
+hexagon              randconfig-r045-20230403   clang
+hexagon              randconfig-r045-20230407   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230403   clang
+i386                 randconfig-a002-20230403   clang
+i386                 randconfig-a003-20230403   clang
+i386                 randconfig-a004-20230403   clang
+i386                 randconfig-a005-20230403   clang
+i386                 randconfig-a006-20230403   clang
+i386                 randconfig-a011-20230403   gcc  
+i386                 randconfig-a012-20230403   gcc  
+i386                          randconfig-a012   gcc  
+i386                 randconfig-a013-20230403   gcc  
+i386                 randconfig-a014-20230403   gcc  
+i386                          randconfig-a014   gcc  
+i386                 randconfig-a015-20230403   gcc  
+i386                 randconfig-a016-20230403   gcc  
+i386                          randconfig-a016   gcc  
+i386                 randconfig-r022-20230403   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r004-20230403   gcc  
+ia64         buildonly-randconfig-r004-20230407   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r002-20230403   gcc  
+ia64                 randconfig-r026-20230403   gcc  
+ia64                 randconfig-r026-20230405   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r022-20230403   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r006-20230403   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r013-20230406   gcc  
+m68k                 randconfig-r014-20230406   gcc  
+m68k                 randconfig-r025-20230405   gcc  
+m68k                 randconfig-r032-20230403   gcc  
+m68k                 randconfig-r032-20230407   gcc  
+microblaze           randconfig-r005-20230403   gcc  
+microblaze           randconfig-r023-20230403   gcc  
+microblaze           randconfig-r023-20230405   gcc  
+microblaze           randconfig-r024-20230403   gcc  
+microblaze           randconfig-r031-20230403   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips         buildonly-randconfig-r006-20230405   gcc  
+mips                 randconfig-r015-20230403   clang
+mips                 randconfig-r034-20230403   gcc  
+mips                 randconfig-r035-20230403   gcc  
+mips                 randconfig-r036-20230403   gcc  
+nios2        buildonly-randconfig-r003-20230403   gcc  
+nios2        buildonly-randconfig-r005-20230403   gcc  
+nios2        buildonly-randconfig-r005-20230407   gcc  
+nios2        buildonly-randconfig-r006-20230403   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r011-20230406   gcc  
+nios2                randconfig-r014-20230403   gcc  
+nios2                randconfig-r033-20230403   gcc  
+nios2                randconfig-r034-20230403   gcc  
+openrisc     buildonly-randconfig-r002-20230405   gcc  
+openrisc             randconfig-r025-20230403   gcc  
+openrisc             randconfig-r035-20230403   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r011-20230403   gcc  
+parisc               randconfig-r022-20230405   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r003-20230403   gcc  
+powerpc              randconfig-r013-20230403   gcc  
+powerpc              randconfig-r015-20230406   clang
+powerpc              randconfig-r031-20230407   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r002-20230403   gcc  
+riscv        buildonly-randconfig-r004-20230405   gcc  
+riscv        buildonly-randconfig-r006-20230407   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r012-20230406   clang
+riscv                randconfig-r014-20230403   gcc  
+riscv                randconfig-r021-20230403   gcc  
+riscv                randconfig-r024-20230405   gcc  
+riscv                randconfig-r042-20230403   gcc  
+riscv                randconfig-r042-20230407   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r001-20230403   gcc  
+s390         buildonly-randconfig-r002-20230407   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r001-20230403   clang
+s390                 randconfig-r003-20230403   clang
+s390                 randconfig-r004-20230403   clang
+s390                 randconfig-r006-20230403   clang
+s390                 randconfig-r044-20230403   gcc  
+s390                 randconfig-r044-20230407   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r016-20230406   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r032-20230403   gcc  
+sparc64      buildonly-randconfig-r002-20230403   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230403   clang
+x86_64               randconfig-a002-20230403   clang
+x86_64               randconfig-a003-20230403   clang
+x86_64               randconfig-a004-20230403   clang
+x86_64               randconfig-a005-20230403   clang
+x86_64               randconfig-a006-20230403   clang
+x86_64               randconfig-a011-20230403   gcc  
+x86_64               randconfig-a012-20230403   gcc  
+x86_64                        randconfig-a012   clang
+x86_64               randconfig-a013-20230403   gcc  
+x86_64               randconfig-a014-20230403   gcc  
+x86_64                        randconfig-a014   clang
+x86_64               randconfig-a015-20230403   gcc  
+x86_64               randconfig-a016-20230403   gcc  
+x86_64                        randconfig-a016   clang
+x86_64               randconfig-k001-20230403   gcc  
+x86_64               randconfig-r012-20230403   gcc  
+x86_64               randconfig-r026-20230403   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r001-20230407   gcc  
 
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: linux-hwmon@vger.kernel.org
-> ---
->   drivers/media/i2c/video-i2c.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-> index dddf9827b314..abd472dcd497 100644
-> --- a/drivers/media/i2c/video-i2c.c
-> +++ b/drivers/media/i2c/video-i2c.c
-> @@ -274,7 +274,7 @@ static const struct hwmon_channel_info amg88xx_temp = {
->   	.config = amg88xx_temp_config,
->   };
->   
-> -static const struct hwmon_channel_info *amg88xx_info[] = {
-> +static const struct hwmon_channel_info * const amg88xx_info[] = {
->   	&amg88xx_temp,
->   	NULL
->   };
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
