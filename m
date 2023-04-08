@@ -2,291 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDFC96DBC8B
-	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 21:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC7B36DBCD9
+	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 22:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbjDHTGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Apr 2023 15:06:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
+        id S229483AbjDHUBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Apr 2023 16:01:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjDHTGx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 15:06:53 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33CE01FC3;
-        Sat,  8 Apr 2023 12:06:48 -0700 (PDT)
-Received: from [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895] (unknown [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S229446AbjDHUA7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 16:00:59 -0400
+X-Greylist: delayed 601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 08 Apr 2023 13:00:58 PDT
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84246A5F6;
+        Sat,  8 Apr 2023 13:00:58 -0700 (PDT)
+Received: from [10.36.2.154] (unknown [46.212.121.255])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: dwlsalmeida)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 453246603133;
-        Sat,  8 Apr 2023 20:06:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1680980806;
-        bh=CofPGuyTFoAUQlXTpv+W3TvW8sbLgzIIn70423fF+5M=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=XTwvstqDEZP7q8sfhAD8ZFhaYI2Z+KrCL5970jrr5Sq4vWw9qXGWTwMP3xA+oAcfe
-         na3SV5DK2LtupVDz/hLmoJ2hb6q40SUsZI6W95ZlhkX6xVA6fna/jsVG6igRiO2o2C
-         qxK92757vu4sKt+R/Wqerf3+aJ3mHBEEgN1ZGZL3izFwZ1hA6vPqplghR3KcgCmrej
-         xZgW5XpMOlFm7WGU4fX76gOXJzKGbNr2m3fny5g1e2kUi1GkJ30i9jBaMNVyRL3ew/
-         ps20GIcQKJGhp5ZFCmt0GddkwKv+oG96FdVqYuhKiiZ9SUnjP/k8l/cXUi46Xq+W2h
-         HamnC7LK+UiFQ==
-Message-ID: <0062de67bfe89653ffdc5e3c564fb24bc1adf3f4.camel@collabora.com>
+        by mail.turbocat.net (Postfix) with ESMTPSA id C831D260025;
+        Sat,  8 Apr 2023 21:43:22 +0200 (CEST)
+Message-ID: <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+Date:   Sat, 8 Apr 2023 21:43:22 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
 Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-From:   Daniel Almeida <daniel.almeida@collabora.com>
-To:     wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        hverkuil@xs4all.nl
+To:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
+        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
 Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@collabora.com
-Date:   Sat, 08 Apr 2023 16:06:31 -0300
-In-Reply-To: <20230406215615.122099-1-daniel.almeida@collabora.com>
 References: <20230406215615.122099-1-daniel.almeida@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Language: en-US
+From:   Hans Petter Selasky <hps@selasky.org>
+In-Reply-To: <20230406215615.122099-1-daniel.almeida@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.1 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-By the way, one of the things I dislike about this series is that
-there's a needless distinction between
+On 4/6/23 23:56, Daniel Almeida wrote:
+> Hi all, this is my first attempt at adding Rust support to the
+> media subsystem.
+> 
+> 
+> Please let me know your thoughts.
+> 
 
-struct Foo(bindgen::foo)
+Hi Daniel,
 
-vs
+I think V4L2 should be written in primarily one language.
 
-struct FooRef(*mut bindgen::foo)
+At first, I think Rust for V4L2 has no benefits for media drivers, 
+webcams, DVB-S/T/T2, pointing tablets and so on. You assume that all 
+code is running inside the kernel and needs to be perfect. But I think 
+you could just aswell implement the next USB webcam V4L2 driver in Perl 
+for that sake.
 
-This gets in the way of having an owned Foo embedded into a larger
-struct. It also gets in the way of instantiating an owned Foo on the
-stack.
+The reason for my point of view, is that I think most of the drivers in 
+media/ should run in user-space, and not inside the kernel. The driver 
+is killed when the device is detached, and all lost memory is reclaimed, 
+automagically. Then there exist proper methods to lock-down all 
+interfaces and file handles, so that device drivers will not do any 
+harm, even if exploited. For example the Capsicum library, I'm using 
+FreeBSD.
 
-My first thought was to use enums:
+Debugging stuff using GDB in user-space, is so much more convenient than 
+debugging stuff inside the kernel. And the development time is much faster.
 
-enum Foo {
-  Owned(bindgen::foo),
-  NotOwned(*mut bindgen::foo),
-}
+The example of secure V4L2 programming is already here:
+https://github.com/hselasky/webcamd
 
-But that would mean that users would invariably pay the price for the
-owned variant always, as enums use as much space as its largest
-variant.
+I would rather like more drive on that, than flowing down the Rust 
+stream. Rust is cool, Java is cool, VM's are cool. The only bad about 
+cool things, is that they are so slow. For many years I completely 
+avoided C++ code for the sake it is very slow to compile, compared to 
+bare C code. And when looking at how Firefox is building using Rust, I 
+am a little worried, why we need so much code in there!
 
-My current understanding is that we can move all the implementations to
-traits, with a suitable bound on AsRef<bindings::foo> and
-AsMut<bindings::foo>.
+Engineering energy would be much more focused, if hardware vendors could 
+agree more about what binary formats to use for their device protocols, 
+than changing the coding language, so that now anyone can be let loose 
+to program in the Linux kernel without risking any damage.
 
-Here is a code example for the wrapper of bindings::v4l2_format (see
-format.rs), which was extended to account for both owned and non-owned
-bindgen types:
+The goal for Linux driver development should be fewer drivers and not 
+more. I'm glad if not everyone out there can do my job writing C-code 
+for device drivers. We don't need more people to mess around there 
+simply. I don't want Linux to become the next Microsoft, with gigabytes 
+of drivers which are never used for anything.
 
+The webcamd daemon already is close to 6 MBytes big on amd64 on FreeBSD. 
+Inside there is support for 510 drivers (counting =y keywords), built 
+straight off Linus Torvalds:
 
-```
-use core::cell::UnsafeCell;
+cat config | grep CONFIG | grep "=y" | wc -l
+      510
 
-/// The shared implementation between Format and FormatRef.
-pub trait FormatImpl: AsRef<bindings::v4l2_format> +
-AsMut<bindings::v4l2_format> {
-    /// Returns the `type_` field.
-    fn type_(&self) -> u32 {
-        self.as_ref().type_
-    }
+ls -l `which webcamd`
+-r-xr-xr-x  1 root  wheel  5915016 Mar 30 19:09 /usr/local/sbin/webcamd
 
-    /// Get the field `field` for the `pix` union member.
-    fn pix_field(&self) -> Result<enums::Field> {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        enums::Field::try_from(pix.field)
-    }
+The USB video class is great, instead of tons of GSPCA devices, then 
+yeah, we don't need to drag around so much legacy binaries, just to make 
+everyone happy. What did Apple do? Custom PCI webcam devices? Why can't 
+they just stick with virtual USB devices, and then have a dual 
+configured device, one config for their own HD codec, and one config for 
+people like me, just needing the framebuffer.
 
-    /// Get the field `width` for the `pix` union member.
-    fn pix_width(&self) -> u32 {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        pix.width
-    }
+You asked for a comment and now you got one!
 
-    /// Get the field `height` for the `pix` union member.
-    fn pix_height(&self) -> u32 {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        pix.height
-    }
-
-    /// Get the field `pixelformat` for the `pix` union member.
-    fn pix_pixelformat(&self) -> u32 {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        pix.pixelformat
-    }
-
-    /// Get the field `bytesperline` for the `pix` union member.
-    fn pix_bytesperline(&self) -> u32 {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        pix.bytesperline
-    }
-
-    /// Get the field `sizeimage` for the `pix` union member.
-    fn pix_sizeimage(&self) -> u32 {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        pix.sizeimage
-    }
-
-    /// Get the field `colorspace` for the `pix` union member.
-    fn pix_colorspace(&self) -> Result<enums::Colorspace> {
-        let fmt =3D self.as_ref();
-        let pix =3D &unsafe { fmt.fmt.pix };
-        enums::Colorspace::try_from(pix.colorspace)
-    }
-
-    /// Set the field `field` for the `pix` union member.
-    fn set_pix_field(&mut self, field: enums::Field) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.field =3D field as u32;
-    }
-
-    /// Set the field `width` for the `pix` union member.
-    fn set_pix_width(&mut self, width: u32) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.width =3D width;
-    }
-
-    /// Set the field `height` for the `pix` union member.
-    fn set_pix_height(&mut self, height: u32) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.height =3D height;
-    }
-
-    /// Set the field `pixelformat` for the `pix` union member.
-    fn set_pix_pixel_format(&mut self, pixel_format: u32) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.pixelformat =3D pixel_format;
-    }
-
-    /// Set the field `bytesperline` for the `pix` union member.
-    fn set_pix_bytesperline(&mut self, bytesperline: u32) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.bytesperline =3D bytesperline;
-    }
-
-    /// Set the field `sizeimage` for the `pix` union member.
-    fn set_pix_sizeimage(&mut self, sizeimage: u32) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.sizeimage =3D sizeimage;
-    }
-
-    /// Set the field `sizeimage` for the `pix` union member.
-    fn set_pix_colorspace(&mut self, colorspace: enums::Colorspace) {
-        let fmt =3D self.as_mut();
-        let pix =3D &mut unsafe { fmt.fmt.pix };
-        pix.colorspace =3D colorspace as u32;
-    }
-}
-
-/// A wrapper over a pointer to `struct v4l2_format`.
-#[derive(Copy, Clone, Debug, PartialEq, PartialOrd)]
-pub struct FormatRef(*mut bindings::v4l2_format);
-
-impl FormatRef {
-    /// # Safety
-    /// The caller must ensure that `ptr` is valid and remains valid
-for the lifetime of the
-    /// returned [`FormatRef`] instance.
-    pub unsafe fn from_ptr(ptr: *mut bindings::v4l2_format) -> Self {
-        Self(ptr)
-    }
-}
-
-impl AsRef<bindings::v4l2_format> for FormatRef {
-    fn as_ref(&self) -> &bindings::v4l2_format {
-        // SAFETY: ptr is safe during the lifetime of [`FormatRef`] as
-per
-        // the safety requirement in `from_ptr()`
-        unsafe { self.0.as_ref().unwrap() }
-    }
-}
-
-impl AsMut<bindings::v4l2_format> for FormatRef {
-    fn as_mut(&mut self) -> &mut bindings::v4l2_format {
-        // SAFETY: ptr is safe during the lifetime of [`FormatRef`] as
-per
-        // the safety requirement in `from_ptr()`
-        unsafe { self.0.as_mut().unwrap() }
-    }
-}
-
-impl FormatImpl for FormatRef {}
-
-/// An owned version of `FormatRef`.
-#[derive(Default)]
-pub struct Format(UnsafeCell<bindings::v4l2_format>);
-
-impl AsRef<bindings::v4l2_format> for Format {
-    fn as_ref(&self) -> &bindings::v4l2_format {
-        // SAFETY:
-        // It is safe to dereference the pointer since it is valid
-whenever this type is instantiated.
-        // It is safe to cast this into a shared reference: because
-this is the
-        // only method that returns &bindings::v4l2_format and because
-we take
-        // &self, the compiler takes care of enforcing the Rust
-reference rules for
-        // us. Thus, enforcing the safety guarantees of
-UnsafeCell::get() by
-        // proxy.
-        unsafe { &*self.0.get() }
-    }
-}
-
-impl AsMut<bindings::v4l2_format> for Format {
-    fn as_mut(&mut self) -> &mut bindings::v4l2_format {
-        // SAFETY:
-        // It is safe to dereference the pointer since it is valid
-whenever this type is instantiated.
-        // It is safe to cast this into an exclusive reference: because
-this is the
-        // only method that returns &mut bindings::v4l2_format and
-because we take
-        // &mut self, the compiler takes care of enforcing the Rust
-reference rules for
-        // us. Thus, enforcing the safety guarantees of
-UnsafeCell::get() by
-        // proxy.
-        unsafe { &mut *self.0.get() }
-    }
-}
-
-impl FormatImpl for Format {}
-
-```
-
-This makes it possible to:
-
-- Share the implementations between Format and FormatRef,
-- Have both Format (while paying the cost of storing the
-bindings::v4l2_format member) and FormatRef (while paying the cost of
-storing a pointer) separately.
-- Be generic over Format and FormatRef when needed, e.g.:
-
-```
-fn some_fn(format: impl FormatImpl) {...}
-```=20
-
-Thoughts?
-
--- Daniel
+--HPS
