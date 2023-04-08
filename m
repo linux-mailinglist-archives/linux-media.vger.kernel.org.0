@@ -2,249 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AF696DB907
-	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 07:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4612A6DB946
+	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 09:16:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjDHFMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Apr 2023 01:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50838 "EHLO
+        id S229796AbjDHHQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Apr 2023 03:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjDHFMe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 01:12:34 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC504B455
-        for <linux-media@vger.kernel.org>; Fri,  7 Apr 2023 22:12:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680930752; x=1712466752;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ImMYtZl9B2fP9ofuuzJEsWO1SdKOYbhpNlZTDwpy4j0=;
-  b=XUEQdO4mFQI8eqasIhJTw7fU/CXEC9kL8wI/KurzY8+nycLHinogexfO
-   h8d5K5StYrZTxC3q2juhW/z/xjqJt14f4pAVlavLlSRkyXs3cBARBKQ1+
-   S5gd7u4pIM10k+k62I3mU4gmW5t5XrvUsUHouRbfXq9QZVihgu+cr4/Sp
-   WTXDTgWefHQlfrAObnee3kiISMG55oOmnQGmK2D4pHjUvtktbmgQmLpPK
-   hCFc2YGcAlWjCJSXa2ulieUeb2qR1M/C6joKwvQFzyo2J7KV6GiksjFvK
-   Ayb2Imvj4gtPKCHYB2ArUAXuRSfFjNKRGEu7KLoEqD0S61NoonyLJpG5G
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="341865250"
-X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="341865250"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2023 22:12:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10673"; a="831376436"
-X-IronPort-AV: E=Sophos;i="5.98,328,1673942400"; 
-   d="scan'208";a="831376436"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2023 22:12:31 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pl0sI-000TM3-2c;
-        Sat, 08 Apr 2023 05:12:30 +0000
-Date:   Sat, 08 Apr 2023 13:12:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 324b83208c9d5839bf6fdbaaae0cb4d2456f22a5
-Message-ID: <6430f7ab.0NM5dfI1n8OfGPoq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        with ESMTP id S229756AbjDHHP6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 03:15:58 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583B5E051
+        for <linux-media@vger.kernel.org>; Sat,  8 Apr 2023 00:15:56 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id h11so49894254lfu.8
+        for <linux-media@vger.kernel.org>; Sat, 08 Apr 2023 00:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680938154;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LUNMkqYPA7+zF4YxnREdArCgZKwdLy10k/38MRYMHX8=;
+        b=rAd0fN1zSuD5cUKXGgg/AITm4qh0a1JH/cQeCa+k90d4LLcYxh9QEvLRSdRnG86leX
+         9dbxElTwR7kzpvzwHVTI6J044N5J5XSJ/mWpg0qAzsefMOr3EQhg4XMawHTCc918M4HI
+         RMN4ID4ztWQRP2Pgwo64FzCj7kSK3AERPd2OYHhlqfvX3VLf4qDqQQYUdqZTVpUDv/1n
+         enjhCAew+Cx5lhIrLVG1fhh045XhIKGjdET6Znf2OBnzaf8IJoXX8NIpTtz87iCSuiyf
+         tnCHzcna+WB7pXRhuI0q39JZxrFOcP90Hq2YHLLNCDm0CtvV992qCt+6GhZRoDJz9GpP
+         o+hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680938154;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LUNMkqYPA7+zF4YxnREdArCgZKwdLy10k/38MRYMHX8=;
+        b=R3AMuyiZyrOIR6+UBKIHcK6SxsTTm2pP0D3B20PJG502/21Hac868F2fAXqqe6OZpV
+         l198jKhiyCZpbuepyUdEOxRodG1GCNalnbnRWAefJmJYZLGrZmwe0LlCSArlGDb7Wto6
+         QHGQIYgbX5GKRxQWUzmMpzBG+JexA/GjibfI0iV0dfc8aBjhm4TOGB9FTDL/eM6GymJa
+         3AqDd4aRG9mzHq6HMX3zpgBke+ae5dr51vqYIfC7k1rOxuJdstnaRR2N6Wpkd9bdelsj
+         Z/r/zsOX2jquEmWrORlD3nzI98Q5ch8gJPavI3oMdI22Ivk/sZsa784baQsnvYqZX2Xo
+         bDTA==
+X-Gm-Message-State: AAQBX9e9Vydk0xwfOQ4OPv+Drnn9fsmKKtT7+QePoqyWCVfQj5NdoC/A
+        ceCS3vlfZiW2paAhMFW3o8ZJ9w==
+X-Google-Smtp-Source: AKy350Z3JLwZSIqbFDcjhwWm3GDt0G6SowXpfJDa2y8R0DOZ/ZHY6IxekzFiQJjq2LlIKVwkfIzC+A==
+X-Received: by 2002:ac2:4c39:0:b0:4eb:c85:bdc2 with SMTP id u25-20020ac24c39000000b004eb0c85bdc2mr1430582lfq.2.1680938154480;
+        Sat, 08 Apr 2023 00:15:54 -0700 (PDT)
+Received: from [192.168.1.101] (abxh37.neoplus.adsl.tpnet.pl. [83.9.1.37])
+        by smtp.gmail.com with ESMTPSA id a14-20020a056512020e00b004cc8207741fsm1075807lfo.93.2023.04.08.00.15.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Apr 2023 00:15:53 -0700 (PDT)
+Message-ID: <514c5c33-df0a-8b4b-a5a2-67abff538efa@linaro.org>
+Date:   Sat, 8 Apr 2023 09:15:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
+Content-Language: en-US
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viswanath Boma <quic_vboma@quicinc.com>
+References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 324b83208c9d5839bf6fdbaaae0cb4d2456f22a5  media: i2c: imx290: Add missing \n on dev_err_probe() message
 
-elapsed time: 721m
 
-configs tested: 170
-configs skipped: 12
+On 7.04.2023 08:25, Dikshita Agarwal wrote:
+> Add firmware version based checks to enable/disable
+> features for different SOCs.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+One extra question: some firmware builds have a TYPE-n suffix like
+PROD-1 in:
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r005-20230403   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r016-20230403   gcc  
-alpha                randconfig-r034-20230407   gcc  
-alpha                randconfig-r036-20230403   gcc  
-arc                              allyesconfig   gcc  
-arc          buildonly-randconfig-r004-20230403   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r012-20230406   gcc  
-arc                  randconfig-r016-20230403   gcc  
-arc                  randconfig-r021-20230403   gcc  
-arc                  randconfig-r025-20230403   gcc  
-arc                  randconfig-r033-20230403   gcc  
-arc                  randconfig-r043-20230403   gcc  
-arc                  randconfig-r043-20230407   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r003-20230403   clang
-arm                                 defconfig   gcc  
-arm                  randconfig-r034-20230403   gcc  
-arm                  randconfig-r036-20230407   gcc  
-arm                  randconfig-r046-20230403   clang
-arm                  randconfig-r046-20230407   clang
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r004-20230403   clang
-arm64                               defconfig   gcc  
-arm64                randconfig-r004-20230403   clang
-arm64                randconfig-r015-20230403   gcc  
-arm64                randconfig-r015-20230406   clang
-arm64                randconfig-r016-20230406   clang
-arm64                randconfig-r021-20230405   gcc  
-csky         buildonly-randconfig-r002-20230403   gcc  
-csky         buildonly-randconfig-r003-20230407   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r031-20230403   gcc  
-hexagon              randconfig-r004-20230403   clang
-hexagon              randconfig-r012-20230403   clang
-hexagon              randconfig-r035-20230407   clang
-hexagon              randconfig-r041-20230403   clang
-hexagon              randconfig-r041-20230407   clang
-hexagon              randconfig-r045-20230403   clang
-hexagon              randconfig-r045-20230407   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230403   clang
-i386                 randconfig-a002-20230403   clang
-i386                 randconfig-a003-20230403   clang
-i386                 randconfig-a004-20230403   clang
-i386                 randconfig-a005-20230403   clang
-i386                 randconfig-a006-20230403   clang
-i386                 randconfig-a011-20230403   gcc  
-i386                 randconfig-a012-20230403   gcc  
-i386                          randconfig-a012   gcc  
-i386                 randconfig-a013-20230403   gcc  
-i386                 randconfig-a014-20230403   gcc  
-i386                          randconfig-a014   gcc  
-i386                 randconfig-a015-20230403   gcc  
-i386                 randconfig-a016-20230403   gcc  
-i386                          randconfig-a016   gcc  
-i386                 randconfig-r022-20230403   gcc  
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r004-20230403   gcc  
-ia64         buildonly-randconfig-r004-20230407   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r002-20230403   gcc  
-ia64                 randconfig-r026-20230403   gcc  
-ia64                 randconfig-r026-20230405   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r022-20230403   gcc  
-m68k                             allmodconfig   gcc  
-m68k         buildonly-randconfig-r006-20230403   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r013-20230406   gcc  
-m68k                 randconfig-r014-20230406   gcc  
-m68k                 randconfig-r025-20230405   gcc  
-m68k                 randconfig-r032-20230403   gcc  
-m68k                 randconfig-r032-20230407   gcc  
-microblaze           randconfig-r005-20230403   gcc  
-microblaze           randconfig-r023-20230403   gcc  
-microblaze           randconfig-r023-20230405   gcc  
-microblaze           randconfig-r024-20230403   gcc  
-microblaze           randconfig-r031-20230403   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips         buildonly-randconfig-r006-20230405   gcc  
-mips                 randconfig-r015-20230403   clang
-mips                 randconfig-r034-20230403   gcc  
-mips                 randconfig-r035-20230403   gcc  
-mips                 randconfig-r036-20230403   gcc  
-nios2        buildonly-randconfig-r003-20230403   gcc  
-nios2        buildonly-randconfig-r005-20230403   gcc  
-nios2        buildonly-randconfig-r005-20230407   gcc  
-nios2        buildonly-randconfig-r006-20230403   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r011-20230406   gcc  
-nios2                randconfig-r014-20230403   gcc  
-nios2                randconfig-r033-20230403   gcc  
-nios2                randconfig-r034-20230403   gcc  
-openrisc     buildonly-randconfig-r002-20230405   gcc  
-openrisc             randconfig-r025-20230403   gcc  
-openrisc             randconfig-r035-20230403   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r011-20230403   gcc  
-parisc               randconfig-r022-20230405   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r003-20230403   gcc  
-powerpc              randconfig-r013-20230403   gcc  
-powerpc              randconfig-r015-20230406   clang
-powerpc              randconfig-r031-20230407   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv        buildonly-randconfig-r002-20230403   gcc  
-riscv        buildonly-randconfig-r004-20230405   gcc  
-riscv        buildonly-randconfig-r006-20230407   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r012-20230406   clang
-riscv                randconfig-r014-20230403   gcc  
-riscv                randconfig-r021-20230403   gcc  
-riscv                randconfig-r024-20230405   gcc  
-riscv                randconfig-r042-20230403   gcc  
-riscv                randconfig-r042-20230407   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r001-20230403   gcc  
-s390         buildonly-randconfig-r002-20230407   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r001-20230403   clang
-s390                 randconfig-r003-20230403   clang
-s390                 randconfig-r004-20230403   clang
-s390                 randconfig-r006-20230403   clang
-s390                 randconfig-r044-20230403   gcc  
-s390                 randconfig-r044-20230407   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r016-20230406   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r032-20230403   gcc  
-sparc64      buildonly-randconfig-r002-20230403   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230403   clang
-x86_64               randconfig-a002-20230403   clang
-x86_64               randconfig-a003-20230403   clang
-x86_64               randconfig-a004-20230403   clang
-x86_64               randconfig-a005-20230403   clang
-x86_64               randconfig-a006-20230403   clang
-x86_64               randconfig-a011-20230403   gcc  
-x86_64               randconfig-a012-20230403   gcc  
-x86_64                        randconfig-a012   clang
-x86_64               randconfig-a013-20230403   gcc  
-x86_64               randconfig-a014-20230403   gcc  
-x86_64                        randconfig-a014   clang
-x86_64               randconfig-a015-20230403   gcc  
-x86_64               randconfig-a016-20230403   gcc  
-x86_64                        randconfig-a016   clang
-x86_64               randconfig-k001-20230403   gcc  
-x86_64               randconfig-r012-20230403   gcc  
-x86_64               randconfig-r026-20230403   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r001-20230407   gcc  
+14:VIDEO.VE.6.0-00042-PROD-1
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Is the -1 a sign of an incremental build, or some "point release" of a
+given fw revision? Does it matter as far as this checking function
+goes?
+
+Konrad
+>  drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
+>  drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
+>  2 files changed, 29 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 32551c2..9d1e4b2 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -202,6 +202,11 @@ struct venus_core {
+>  	unsigned int core0_usage_count;
+>  	unsigned int core1_usage_count;
+>  	struct dentry *root;
+> +	struct venus_img_version {
+> +		u32 major;
+> +		u32 minor;
+> +		u32 rev;
+> +	} venus_ver;
+>  };
+>  
+>  struct vdec_controls {
+> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>  	return NULL;
+>  }
+>  
+> +static inline int
+> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor &&
+> +		(core)->venus_ver.minor == vminor &&
+> +		(core)->venus_ver.rev >= vrev);
+> +}
+> +
+> +static inline int
+> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor &&
+> +		(core)->venus_ver.minor == vminor &&
+> +		(core)->venus_ver.rev <= vrev);
+> +}
+>  #endif
+> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> index df96db3..07ac0fc 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>  }
+>  
+>  static void
+> -sys_get_prop_image_version(struct device *dev,
+> +sys_get_prop_image_version(struct venus_core *core,
+>  			   struct hfi_msg_sys_property_info_pkt *pkt)
+>  {
+> +	struct device *dev = core->dev;
+>  	u8 *smem_tbl_ptr;
+>  	u8 *img_ver;
+>  	int req_bytes;
+> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>  		return;
+>  
+>  	img_ver = pkt->data;
+> +	if (IS_V4(core))
+> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+> +	else if (IS_V6(core))
+> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>  
+>  	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>  
+> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>  
+>  	switch (pkt->property) {
+>  	case HFI_PROPERTY_SYS_IMAGE_VERSION:
+> -		sys_get_prop_image_version(dev, pkt);
+> +		sys_get_prop_image_version(core, pkt);
+>  		break;
+>  	default:
+>  		dev_dbg(dev, VDBGL "unknown property data\n");
