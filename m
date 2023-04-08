@@ -2,180 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4612A6DB946
-	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 09:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45BE56DB957
+	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 09:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbjDHHQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Apr 2023 03:16:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
+        id S229852AbjDHHps convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 8 Apr 2023 03:45:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbjDHHP6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 03:15:58 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583B5E051
-        for <linux-media@vger.kernel.org>; Sat,  8 Apr 2023 00:15:56 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id h11so49894254lfu.8
-        for <linux-media@vger.kernel.org>; Sat, 08 Apr 2023 00:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680938154;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LUNMkqYPA7+zF4YxnREdArCgZKwdLy10k/38MRYMHX8=;
-        b=rAd0fN1zSuD5cUKXGgg/AITm4qh0a1JH/cQeCa+k90d4LLcYxh9QEvLRSdRnG86leX
-         9dbxElTwR7kzpvzwHVTI6J044N5J5XSJ/mWpg0qAzsefMOr3EQhg4XMawHTCc918M4HI
-         RMN4ID4ztWQRP2Pgwo64FzCj7kSK3AERPd2OYHhlqfvX3VLf4qDqQQYUdqZTVpUDv/1n
-         enjhCAew+Cx5lhIrLVG1fhh045XhIKGjdET6Znf2OBnzaf8IJoXX8NIpTtz87iCSuiyf
-         tnCHzcna+WB7pXRhuI0q39JZxrFOcP90Hq2YHLLNCDm0CtvV992qCt+6GhZRoDJz9GpP
-         o+hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680938154;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LUNMkqYPA7+zF4YxnREdArCgZKwdLy10k/38MRYMHX8=;
-        b=R3AMuyiZyrOIR6+UBKIHcK6SxsTTm2pP0D3B20PJG502/21Hac868F2fAXqqe6OZpV
-         l198jKhiyCZpbuepyUdEOxRodG1GCNalnbnRWAefJmJYZLGrZmwe0LlCSArlGDb7Wto6
-         QHGQIYgbX5GKRxQWUzmMpzBG+JexA/GjibfI0iV0dfc8aBjhm4TOGB9FTDL/eM6GymJa
-         3AqDd4aRG9mzHq6HMX3zpgBke+ae5dr51vqYIfC7k1rOxuJdstnaRR2N6Wpkd9bdelsj
-         Z/r/zsOX2jquEmWrORlD3nzI98Q5ch8gJPavI3oMdI22Ivk/sZsa784baQsnvYqZX2Xo
-         bDTA==
-X-Gm-Message-State: AAQBX9e9Vydk0xwfOQ4OPv+Drnn9fsmKKtT7+QePoqyWCVfQj5NdoC/A
-        ceCS3vlfZiW2paAhMFW3o8ZJ9w==
-X-Google-Smtp-Source: AKy350Z3JLwZSIqbFDcjhwWm3GDt0G6SowXpfJDa2y8R0DOZ/ZHY6IxekzFiQJjq2LlIKVwkfIzC+A==
-X-Received: by 2002:ac2:4c39:0:b0:4eb:c85:bdc2 with SMTP id u25-20020ac24c39000000b004eb0c85bdc2mr1430582lfq.2.1680938154480;
-        Sat, 08 Apr 2023 00:15:54 -0700 (PDT)
-Received: from [192.168.1.101] (abxh37.neoplus.adsl.tpnet.pl. [83.9.1.37])
-        by smtp.gmail.com with ESMTPSA id a14-20020a056512020e00b004cc8207741fsm1075807lfo.93.2023.04.08.00.15.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Apr 2023 00:15:53 -0700 (PDT)
-Message-ID: <514c5c33-df0a-8b4b-a5a2-67abff538efa@linaro.org>
-Date:   Sat, 8 Apr 2023 09:15:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
-Content-Language: en-US
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viswanath Boma <quic_vboma@quicinc.com>
-References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
- <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229796AbjDHHpq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 03:45:46 -0400
+Received: from mail.cbkipa.net (gw.cbidc.co.kr [1.246.220.36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BEC0FD323
+        for <linux-media@vger.kernel.org>; Sat,  8 Apr 2023 00:45:35 -0700 (PDT)
+Received: by mail.cbkipa.net (Postfix, from userid 500)
+        id B492AA09D9; Sat,  8 Apr 2023 16:55:50 +0900 (KST)
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: *******
+X-Spam-Status: Yes, score=7.9 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
+        FROM_MISSP_REPLYTO,FROM_MISSP_SPF_FAIL,LOTS_OF_MONEY,
+        MONEY_FREEMAIL_REPTO,RCVD_IN_MSPIKE_H2,SPF_FAIL,SPF_HELO_FAIL,
+        TO_EQ_FM_DOM_SPF_FAIL,TO_EQ_FM_SPF_FAIL autolearn=no
+        autolearn_force=no version=3.4.6
+Received: from [100.125.154.104] (unknown [117.98.4.98])
+        by mail.cbkipa.net (Postfix) with ESMTPA id 1F934A09E1;
+        Sat,  8 Apr 2023 16:55:41 +0900 (KST)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Quick Loans
+To:     Recipients <education@mail.cbkipa.net>
+From:   Finance Service <education@mail.cbkipa.net>
+Date:   Sat, 08 Apr 2023 13:15:14 +0530
+Reply-To: infoinnoxloanservice@aol.com
+Message-Id: <20230408075550.B492AA09D9@mail.cbkipa.net>
+X-Spam-Report: * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [1.246.220.36 listed in wl.mailspike.net]
+        *  0.0 SPF_HELO_FAIL SPF: HELO does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=helo;id=mail.cbkipa.net;ip=1.246.220.36;r=lindbergh.monkeyblade.net]
+        *  0.9 SPF_FAIL SPF: sender does not match SPF record (fail)
+        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=education%40mail.cbkipa.net;ip=1.246.220.36;r=lindbergh.monkeyblade.net]
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.5 FROM_MISSP_SPF_FAIL No description available.
+        *  2.5 FROM_MISSP_REPLYTO From misspaced, has Reply-To
+        *  1.5 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.5 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+        *  0.0 TO_EQ_FM_SPF_FAIL To == From and external SPF failed
+        *  0.0 TO_EQ_FM_DOM_SPF_FAIL To domain == From domain and external SPF
+        *       failed
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 7.04.2023 08:25, Dikshita Agarwal wrote:
-> Add firmware version based checks to enable/disable
-> features for different SOCs.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> Tested-by: Nathan Hebert <nhebert@chromium.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-
-One extra question: some firmware builds have a TYPE-n suffix like
-PROD-1 in:
-
-14:VIDEO.VE.6.0-00042-PROD-1
-
-Is the -1 a sign of an incremental build, or some "point release" of a
-given fw revision? Does it matter as far as this checking function
-goes?
-
-Konrad
->  drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
->  drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
->  2 files changed, 29 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 32551c2..9d1e4b2 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -202,6 +202,11 @@ struct venus_core {
->  	unsigned int core0_usage_count;
->  	unsigned int core1_usage_count;
->  	struct dentry *root;
-> +	struct venus_img_version {
-> +		u32 major;
-> +		u32 minor;
-> +		u32 rev;
-> +	} venus_ver;
->  };
->  
->  struct vdec_controls {
-> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->  	return NULL;
->  }
->  
-> +static inline int
-> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +	return ((core)->venus_ver.major == vmajor &&
-> +		(core)->venus_ver.minor == vminor &&
-> +		(core)->venus_ver.rev >= vrev);
-> +}
-> +
-> +static inline int
-> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +	return ((core)->venus_ver.major == vmajor &&
-> +		(core)->venus_ver.minor == vminor &&
-> +		(core)->venus_ver.rev <= vrev);
-> +}
->  #endif
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> index df96db3..07ac0fc 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->  }
->  
->  static void
-> -sys_get_prop_image_version(struct device *dev,
-> +sys_get_prop_image_version(struct venus_core *core,
->  			   struct hfi_msg_sys_property_info_pkt *pkt)
->  {
-> +	struct device *dev = core->dev;
->  	u8 *smem_tbl_ptr;
->  	u8 *img_ver;
->  	int req_bytes;
-> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->  		return;
->  
->  	img_ver = pkt->data;
-> +	if (IS_V4(core))
-> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
-> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
-> +	else if (IS_V6(core))
-> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
-> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->  
->  	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
->  
-> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->  
->  	switch (pkt->property) {
->  	case HFI_PROPERTY_SYS_IMAGE_VERSION:
-> -		sys_get_prop_image_version(dev, pkt);
-> +		sys_get_prop_image_version(core, pkt);
->  		break;
->  	default:
->  		dev_dbg(dev, VDBGL "unknown property data\n");
+Innox Finance Company annual New Year loans are offered to local and international customers even in the most remote parts of the world with a minimum amount of ten thousand ($10,000.00) to a maximum of thirty million ($30,000,000.00) and a repayment schedule from 1 to 30 years offered with 2% low interest. Apply now by sending your(Full Name,Loan Amount,Mob No,Loan Duration) via email.
