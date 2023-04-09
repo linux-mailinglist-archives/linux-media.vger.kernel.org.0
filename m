@@ -2,116 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC7B36DBCD9
-	for <lists+linux-media@lfdr.de>; Sat,  8 Apr 2023 22:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A95BD6DBEBA
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 07:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbjDHUBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Apr 2023 16:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47052 "EHLO
+        id S229522AbjDIFSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 01:18:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjDHUA7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Apr 2023 16:00:59 -0400
-X-Greylist: delayed 601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 08 Apr 2023 13:00:58 PDT
-Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84246A5F6;
-        Sat,  8 Apr 2023 13:00:58 -0700 (PDT)
-Received: from [10.36.2.154] (unknown [46.212.121.255])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id C831D260025;
-        Sat,  8 Apr 2023 21:43:22 +0200 (CEST)
-Message-ID: <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
-Date:   Sat, 8 Apr 2023 21:43:22 +0200
+        with ESMTP id S229436AbjDIFSw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 01:18:52 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6CB4681;
+        Sat,  8 Apr 2023 22:18:51 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-94a34d34fcfso42497366b.2;
+        Sat, 08 Apr 2023 22:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681017529; x=1683609529;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yWzsHmFTsiaq+FneBSH/AIWJGL7w8YvOi69R91dSNa0=;
+        b=KuvZi04ZpXTayRLEwKZmLOPlLbianewIJBv2eFCbNgUdoDpyE5XDEmajhrZa61bCMr
+         i9Hd4s+Q51V8nAOA4eGbZFAVmUoUUvcqhvPzkYgvNSTeggC2mfe7/E4mSn/+nBme5NFg
+         CffBmvb0m145RobIJAJJKU7WTfAFp+JHt+RUhQRFkjck3mxVlQ3APB164gVXU0gC3uby
+         oOmbWsuZWy9P/S/hX9iqRvFl3tmnyeUAdR8UB2ZOdlX4GkVls8O72MYETrcY4gQRHdUh
+         mKeqah8NV3aS9vMQpy9sptLytJmU5snCpgxe06hSqAJV1vE/L+i8PHj3875UJeum+yj/
+         t3rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681017529; x=1683609529;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yWzsHmFTsiaq+FneBSH/AIWJGL7w8YvOi69R91dSNa0=;
+        b=5y/AejhK5q5WA9Vr5RMpdf0Zi1AbQJu1vYc48xwRb+R+W1VW81WAlIYwaIj4bUG97p
+         uJUmL9nllUSvcMCnfsrDYHRgVCluakj/o7ec91hGTOSIqseQdDBF8fWHoMnCU/HH1QQL
+         Hc5TrOjYa7M7D0xwZVkk50NrBeEZdOZCMeyIY8KkDFO3IWbyKa9GhutWeqzXCG4dCgYR
+         Ga0GwXUha1Dp2Y8GcNqln2V73V7sk2DtncuuL+h8cBFsuikxpxHdpm5C39N/lFZqOq6d
+         ucf1W+gw9QozVGHjU/LJfGznlSujKEkPuWHLdjiBU0eQVj7UYJPIG53q+sH50ngKVCW+
+         CpSA==
+X-Gm-Message-State: AAQBX9epxtLHddemPpF/Dmk+sh1rqk+dAT4d4KC9jl1LqM2m93o7pxKl
+        iAcwBgtfOvK0W6AOc12+fnY=
+X-Google-Smtp-Source: AKy350YpKZlVxKMGgqChtL+x06xB+HKUfuCkDHHkqVaVaNxd9109cJXAB18UcXYtH/+Cw3i9yidY9Q==
+X-Received: by 2002:a50:ed99:0:b0:4ab:d1f4:4b88 with SMTP id h25-20020a50ed99000000b004abd1f44b88mr6569670edr.41.1681017529329;
+        Sat, 08 Apr 2023 22:18:49 -0700 (PDT)
+Received: from [192.168.1.45] (hst-221-10.medicom.bg. [84.238.221.10])
+        by smtp.gmail.com with ESMTPSA id w17-20020a1709062f9100b009331450d04esm3817424eji.178.2023.04.08.22.18.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Apr 2023 22:18:49 -0700 (PDT)
+Message-ID: <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
+Date:   Sun, 9 Apr 2023 08:18:45 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
-        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
-Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
-Content-Language: en-US
-From:   Hans Petter Selasky <hps@selasky.org>
-In-Reply-To: <20230406215615.122099-1-daniel.almeida@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viswanath Boma <quic_vboma@quicinc.com>
+References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
+Content-Language: en-US, bg-BG
+From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+In-Reply-To: <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.1 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/6/23 23:56, Daniel Almeida wrote:
-> Hi all, this is my first attempt at adding Rust support to the
-> media subsystem.
+Hi Dikshita,
+
+Thanks for the patch.
+
+On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
+> Add firmware version based checks to enable/disable
+> features for different SOCs.
 > 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> ---
+>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
+>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
+>   2 files changed, 29 insertions(+), 2 deletions(-)
 > 
-> Please let me know your thoughts.
-> 
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 32551c2..9d1e4b2 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -202,6 +202,11 @@ struct venus_core {
+>   	unsigned int core0_usage_count;
+>   	unsigned int core1_usage_count;
+>   	struct dentry *root;
+> +	struct venus_img_version {
+> +		u32 major;
+> +		u32 minor;
+> +		u32 rev;
+> +	} venus_ver;
+>   };
+>   
+>   struct vdec_controls {
+> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>   	return NULL;
+>   }
+>   
+> +static inline int
+> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor &&
+> +		(core)->venus_ver.minor == vminor &&
+> +		(core)->venus_ver.rev >= vrev);
+> +}
+> +
+> +static inline int
+> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+> +{
+> +	return ((core)->venus_ver.major == vmajor &&
+> +		(core)->venus_ver.minor == vminor &&
+> +		(core)->venus_ver.rev <= vrev);
+> +}
 
-Hi Daniel,
+IMO those two should return bool
 
-I think V4L2 should be written in primarily one language.
+>   #endif
+> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> index df96db3..07ac0fc 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>   }
+>   
+>   static void
+> -sys_get_prop_image_version(struct device *dev,
+> +sys_get_prop_image_version(struct venus_core *core,
+>   			   struct hfi_msg_sys_property_info_pkt *pkt)
+>   {
+> +	struct device *dev = core->dev;
+>   	u8 *smem_tbl_ptr;
+>   	u8 *img_ver;
+>   	int req_bytes;
+> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>   		return;
+>   
+>   	img_ver = pkt->data;
+> +	if (IS_V4(core))
+> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+> +	else if (IS_V6(core))
+> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>   
 
-At first, I think Rust for V4L2 has no benefits for media drivers, 
-webcams, DVB-S/T/T2, pointing tablets and so on. You assume that all 
-code is running inside the kernel and needs to be perfect. But I think 
-you could just aswell implement the next USB webcam V4L2 driver in Perl 
-for that sake.
+what about if IS_V1?
 
-The reason for my point of view, is that I think most of the drivers in 
-media/ should run in user-space, and not inside the kernel. The driver 
-is killed when the device is detached, and all lost memory is reclaimed, 
-automagically. Then there exist proper methods to lock-down all 
-interfaces and file handles, so that device drivers will not do any 
-harm, even if exploited. For example the Capsicum library, I'm using 
-FreeBSD.
+>   	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
 
-Debugging stuff using GDB in user-space, is so much more convenient than 
-debugging stuff inside the kernel. And the development time is much faster.
+this will crash for v1.
 
-The example of secure V4L2 programming is already here:
-https://github.com/hselasky/webcamd
+>   
+> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>   
+>   	switch (pkt->property) {
+>   	case HFI_PROPERTY_SYS_IMAGE_VERSION:
+> -		sys_get_prop_image_version(dev, pkt);
+> +		sys_get_prop_image_version(core, pkt);
+>   		break;
+>   	default:
+>   		dev_dbg(dev, VDBGL "unknown property data\n");
 
-I would rather like more drive on that, than flowing down the Rust 
-stream. Rust is cool, Java is cool, VM's are cool. The only bad about 
-cool things, is that they are so slow. For many years I completely 
-avoided C++ code for the sake it is very slow to compile, compared to 
-bare C code. And when looking at how Firefox is building using Rust, I 
-am a little worried, why we need so much code in there!
-
-Engineering energy would be much more focused, if hardware vendors could 
-agree more about what binary formats to use for their device protocols, 
-than changing the coding language, so that now anyone can be let loose 
-to program in the Linux kernel without risking any damage.
-
-The goal for Linux driver development should be fewer drivers and not 
-more. I'm glad if not everyone out there can do my job writing C-code 
-for device drivers. We don't need more people to mess around there 
-simply. I don't want Linux to become the next Microsoft, with gigabytes 
-of drivers which are never used for anything.
-
-The webcamd daemon already is close to 6 MBytes big on amd64 on FreeBSD. 
-Inside there is support for 510 drivers (counting =y keywords), built 
-straight off Linus Torvalds:
-
-cat config | grep CONFIG | grep "=y" | wc -l
-      510
-
-ls -l `which webcamd`
--r-xr-xr-x  1 root  wheel  5915016 Mar 30 19:09 /usr/local/sbin/webcamd
-
-The USB video class is great, instead of tons of GSPCA devices, then 
-yeah, we don't need to drag around so much legacy binaries, just to make 
-everyone happy. What did Apple do? Custom PCI webcam devices? Why can't 
-they just stick with virtual USB devices, and then have a dual 
-configured device, one config for their own HD codec, and one config for 
-people like me, just needing the framebuffer.
-
-You asked for a comment and now you got one!
-
---HPS
+-- 
+regards,
+Stan
