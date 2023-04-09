@@ -2,66 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 242656DBFEC
-	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 15:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 192AE6DBFF0
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 15:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjDINCq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Apr 2023 09:02:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56660 "EHLO
+        id S229502AbjDINKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 09:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjDINCo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 09:02:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AE3735A5
-        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 06:01:58 -0700 (PDT)
+        with ESMTP id S229462AbjDINKa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 09:10:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E62C40DE
+        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 06:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681045317;
+        s=mimecast20190719; t=1681045782;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ZuvnNk7wAmRbcO6BnXTKaMEXDzW/U+623FcOgVvEcps=;
-        b=KrR5L6n3p8gIlTsvc2tDoVeMlLUM7PlrXDONLFE8A6uGTOd+a0QWcTiOiDk0T5zDbUeP0H
-        CsaRlOia4NeWD5etcgCxfcZZeg5oH/PAKMEaSEbpZEFoJmSUdFgHrILjqnszFrXYMD/hsX
-        RbTimny3yDQvQQ73TxrQcY/p0KHNYvU=
+        bh=c5YmQZZIloFXvDd8K8JWPXYaqpH7SC8zdHi98Lhz8BI=;
+        b=POEo2cG3/F9g/geGPmsyDa+zsD98EIOp2pA33bqMmokqXkkLFUofyXFKGa1NguXIkWXnQm
+        RRw8BqaUymWMfXxtDY5c2vtszg6jVOS2dP53IZlIh3tN30BjgHC9dn/Vfn3igU49+NcV0Q
+        7Rxdw5pI/0jXmADaTjSTK/UdEDtzG4o=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-XEoJrscHPcydH0AaEhDrAQ-1; Sun, 09 Apr 2023 09:01:56 -0400
-X-MC-Unique: XEoJrscHPcydH0AaEhDrAQ-1
-Received: by mail-ed1-f71.google.com with SMTP id j25-20020a508a99000000b004fb36e6d670so1790374edj.5
-        for <linux-media@vger.kernel.org>; Sun, 09 Apr 2023 06:01:56 -0700 (PDT)
+ us-mta-382-JWPb_mo6Nd2ytJFnl-LQJA-1; Sun, 09 Apr 2023 09:09:41 -0400
+X-MC-Unique: JWPb_mo6Nd2ytJFnl-LQJA-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-504899365c9so458562a12.0
+        for <linux-media@vger.kernel.org>; Sun, 09 Apr 2023 06:09:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681045313; x=1683637313;
+        d=1e100.net; s=20210112; t=1681045778; x=1683637778;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZuvnNk7wAmRbcO6BnXTKaMEXDzW/U+623FcOgVvEcps=;
-        b=i50u5d1sDH+vPK3naYeG0TvY4Z8HlTfXY6y+V2Y7FGWIWzkaTJ59B9eaKBZBitnzjr
-         Z7kDjuHIB3fg0fZrblGt0fkSLiI4ACdneKyxbBoh+sjCcMWnrE+iSUULEXiXupqZO5ZK
-         hmp1Tix2tE1AFKxDs+27UolVoy2FQIjYVrgG39r1ihD85EL6vd2qBGwrREpbMM0cDm7Z
-         vBEEvBNcfkdsb8l3zj13a7rl5JL1V4kuJzZWdoANAlN9GzCCN2FbiroEb7ltvHrobCJb
-         dKroPl0mpTIaoP/Lxyc1Rwl9ih+oi2mHTp098x7iXT6laBSh8qNRR+Z6SfXvFXZq7bWF
-         Y2wg==
-X-Gm-Message-State: AAQBX9dwh8rGdnKfpnS+sNeJEbC7KoCzVL9TWG8iHt57pogkkN5DGzXY
-        ojOA2ZXARmpVN2Df9QfW8PlPH33mBjDe3d+cj1jGJ4OQxx/jitGfmdk1FdcYcnOGKdPG6v2Dad8
-        FYizcYTL2Hu2UFuwxYw8rBDo=
-X-Received: by 2002:a17:906:8544:b0:94a:783d:cd1e with SMTP id h4-20020a170906854400b0094a783dcd1emr945333ejy.32.1681045312616;
-        Sun, 09 Apr 2023 06:01:52 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZxbrhUp1Rce4uDyip6rmaIeOpZ7Sl+L+9WUpxm1h5Kt3BSqd+h2jbWYa+ZiPUwsdeDW7mTdw==
-X-Received: by 2002:a17:906:8544:b0:94a:783d:cd1e with SMTP id h4-20020a170906854400b0094a783dcd1emr945309ejy.32.1681045312299;
-        Sun, 09 Apr 2023 06:01:52 -0700 (PDT)
+        bh=c5YmQZZIloFXvDd8K8JWPXYaqpH7SC8zdHi98Lhz8BI=;
+        b=FUNGohJcWxVMMrItDGaVqGKkQVGCq+OOZLTmc89zqZpEkYHmXqPp26uFsldprujOaf
+         A+c9CD4w1YQT1IszOKUdI8Jy68IihRAVeGwxkYv32KNNeYkLVdRXi28s6uISte8I4OBy
+         /XNCfdDGsaFZhUk0K+8gBt8ZozKvtAImtB7Na8/pN5ysL+71BBen+1c5Nhzbiu9OvNKm
+         RjIktd+Ly/nVrKFrR7yWQnudTKUmFe6Ex46LQTEJTZxSue169ezWfENh7yM9v3u+6ofA
+         ELZg4FcZco7dc35VpkV2GXJfb+R/sg/A84LbVoojhKaAHHGRpteqA1peMWD3UUhWwTh0
+         WoJA==
+X-Gm-Message-State: AAQBX9eeLlNRrY9L3M+qSULqaeAEFA86CkDUDaWRbow94/5lvPct1pJR
+        cR62u89t19PI6YamFM4o9pOEks2o+lTJ9qN1/welG8/ahrblQgbls3ThMKozCc3f/l+jdVB6qys
+        BXF1lpt4GMYSWUA4+FuCKcT4=
+X-Received: by 2002:a05:6402:b2e:b0:504:91ce:7b69 with SMTP id bo14-20020a0564020b2e00b0050491ce7b69mr2733977edb.22.1681045778595;
+        Sun, 09 Apr 2023 06:09:38 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YZVqXL7SpwvAn3PSit5J87YxJnMkuycC+oZ4kh4wyXnI7qMQfyBfwTuLZuBqreCQUzWf7p2Q==
+X-Received: by 2002:a05:6402:b2e:b0:504:91ce:7b69 with SMTP id bo14-20020a0564020b2e00b0050491ce7b69mr2733956edb.22.1681045778242;
+        Sun, 09 Apr 2023 06:09:38 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ch1-20020a170906c2c100b009353066595csm4107746ejb.136.2023.04.09.06.01.51
+        by smtp.gmail.com with ESMTPSA id u2-20020a50c2c2000000b00501c96564b5sm3888240edf.93.2023.04.09.06.09.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Apr 2023 06:01:51 -0700 (PDT)
-Message-ID: <7a7d442b-938d-4d99-a368-a6ce917d571b@redhat.com>
-Date:   Sun, 9 Apr 2023 15:01:51 +0200
+        Sun, 09 Apr 2023 06:09:37 -0700 (PDT)
+Message-ID: <ada1cc14-3607-a48b-cdea-7d72ba4db3d1@redhat.com>
+Date:   Sun, 9 Apr 2023 15:09:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 28/28] media: atomisp: gmin_platform: Add Lenovo Ideapad
- Miix 310 gmin_vars
+Subject: Re: [PATCH 00/28] media: atomisp: Further sensor rework + exotic
+ features removal
 Content-Language: en-US, nl
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -73,10 +73,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20230401145926.596216-1-hdegoede@redhat.com>
- <20230401145926.596216-29-hdegoede@redhat.com>
- <CAHp75VcOpL=aL9suDvBxiCK3cqm4vqCwVfwUp9SSFc31H+15cQ@mail.gmail.com>
+ <CAHp75Vd8kcr0YCU7_oCSc8YqW5ZarP4RpQLexGV10A-auZi=Fg@mail.gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VcOpL=aL9suDvBxiCK3cqm4vqCwVfwUp9SSFc31H+15cQ@mail.gmail.com>
+In-Reply-To: <CAHp75Vd8kcr0YCU7_oCSc8YqW5ZarP4RpQLexGV10A-auZi=Fg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
@@ -89,53 +88,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Andy,
 
-On 4/2/23 21:12, Andy Shevchenko wrote:
-> On Sat, Apr 1, 2023 at 5:00 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On 4/2/23 21:13, Andy Shevchenko wrote:
+> On Sat, Apr 1, 2023 at 4:59 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >>
->> The _DSM used to get sensor variables like CsiPort returns the wrong
->> csi-port for the front OV2680 sensor on the Lenovo Ideapad Miix 310
->> add a gmin_vars DMI quirk / override setting the right CsiPort.
+>> Hi All,
 >>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  .../media/atomisp/pci/atomisp_gmin_platform.c | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
+>> Here is another set of atomisp patches from yours truely.
 >>
->> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> index f83de0ffaf16..efcfc133311f 100644
->> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> @@ -304,7 +304,17 @@ static struct gmin_cfg_var surface3_vars[] = {
->>         {},
->>  };
+>> This basically consists of 2 parts:
 >>
->> +static struct gmin_cfg_var lenovo_ideapad_miix_310_vars[] = {
->> +       /* _DSM contains the wrong CsiPort! */
->> +       { "OVTI2680:01_CsiPort", "0" },
->> +       {}
->> +};
->> +
->>  static const struct dmi_system_id gmin_vars[] = {
->> +       /*
->> +        * These DMI ids where present when the atomisp driver was merged into
+>> 1.  Further sensor driver modernization to work towards using standard
+>>     v4l2 sensor drivers instead of atomisp specific copies
+>> 1a. For some sensors some GPIOs have different polarity depending on
+>>     which board they are on and the order in which GPIOs are listed in
+>>     in the ACPI resources also is not consistent between boards.
+>>     Fixing this without relying on per board DMI quirks requires parsing
+>>     the results of a special Intel ACPI _DSM. Add a new
+>>     v4l2_get_acpi_sensor_info() helper for this
+>> 1b. Convert the gc0310 driver to use ACPI runtime pm instead of relying
+>>     on the direct PMIC poking from atomisp_gmin_platform
+>>
+>> 2.  Further work on removing various exotic features, specifically
+>>     prep work + remove support for streaming from 2 sensors at once,
+>>     as discussed here:
+>>     https://lore.kernel.org/linux-media/5309d845-063b-6dd9-529d-0f82654290f2@redhat.com/
 > 
-> IDs
-> were ?
-
-Ack fixed.
-
->> +        * drivers/staging and it is unclear if they are really necessary.
->> +        */
+> Traditionally, for the non-commented ones:
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 > 
-> MRD7 and FFD8 are the reference designs. At least MRD7 is what we have
-> in the lab and we can run some tests there. That's, for example, one
-> which I used to run atomisp before it got removed from the kernel a
-> few years ago.
+> For the rest depending on the severity of the comment. Feel free to
+> add my tag where it makes sense in your opinion (no discussion
+> required).
 
-Right, but do these need the quirks ? Or is our auto-detection code
-good enough to get the right values ?
+Thank you for all the reviews. I've pushed a new version
+addressing all your comments and adding your Reviewd-by to:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+I'll send out a pull-req to Mauro for this, wrapping up
+the atomisp changes for this cycle.
 
 Regards,
 
@@ -143,32 +136,61 @@ Hans
 
 
 
-> 
->>         {
->>                 .ident = "BYT-T FFD8",
->>                 .matches = {
->> @@ -341,6 +351,7 @@ static const struct dmi_system_id gmin_vars[] = {
->>                 },
->>                 .driver_data = i8880_vars,
->>         },
->> +       /* Later added DMI ids, these are confirmed to really be necessary! */
->>         {
->>                 .ident = "Surface 3",
->>                 .matches = {
->> @@ -348,6 +359,14 @@ static const struct dmi_system_id gmin_vars[] = {
->>                 },
->>                 .driver_data = surface3_vars,
->>         },
->> +       {
->> +               .ident = "Lenovo Ideapad Miix 310",
->> +               .matches = {
->> +                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->> +                       DMI_MATCH(DMI_PRODUCT_VERSION, "MIIX 310-10"),
->> +               },
->> +               .driver_data = lenovo_ideapad_miix_310_vars,
->> +       },
->>         {}
->>  };
+>> Hans de Goede (28):
+>>   media: atomisp: Add v4l2_get_acpi_sensor_info() helper
+>>   media: atomisp: ov2680: Use v4l2_get_acpi_sensor_info() for the GPIO
+>>     lookups
+>>   media: atomisp: ov2680: Error handling fixes
+>>   media: atomisp: gc0310: Remove some unused structure definitions
+>>   media: atomisp: gc0310: Remove GC0310_TOK_*
+>>   media: atomisp: gc0310: Simplify gc0310_write_reg_array()
+>>   media: atomisp: gc0310: Remove enum gc0310_tok_type
+>>   media: atomisp: gc0310: Replace custom reg access functions with smbus
+>>     helpers
+>>   media: atomisp: gc0310: Remove non working flip-controls
+>>   media: atomisp: gc0310: Remove read-only exposure control
+>>   media: atomisp: gc0310: Drop custom ATOMISP_IOC_S_EXPOSURE support
+>>   media: atomisp: gc0310: Add exposure and gain controls
+>>   media: atomisp: gc0310: Add error_unlock label to s_stream()
+>>   media: atomisp: gc0310: Modernize and simply set_fmt(), get_fmt(),
+>>     etc.
+>>   media: atomisp: gc0310: Delay power-on till streaming is started
+>>   media: atomisp: gc0310: Add runtime-pm support
+>>   media: atomisp: gc0310: Use devm_kzalloc() for data struct
+>>   media: atomisp: gc0310: Switch over to ACPI powermanagement
+>>   media: atomisp: Remove duplicate atomisp_[start|stop]_streaming
+>>     prototypes
+>>   media: atomisp: Remove continuous mode related code from
+>>     atomisp_set_fmt()
+>>   media: atomisp: Remove custom V4L2_CID_FMT_AUTO control
+>>   media: atomisp: Remove snr_mbus_fmt local var from atomisp_try_fmt()
+>>   media: atomisp: Remove unused ATOM_ISP_MAX_WIDTH_TMP and
+>>     ATOM_ISP_MAX_HEIGHT_TMP
+>>   media: atomisp: Remove atomisp_try_fmt() call from atomisp_set_fmt()
+>>   media: atomisp: Drop support for streaming from 2 sensors at once
+>>   media: atomisp: Remove struct atomisp_sub_device index field
+>>   media: atomisp: gmin_platform: Make DMI quirks take precedence over
+>>     the _DSM table
+>>   media: atomisp: gmin_platform: Add Lenovo Ideapad Miix 310 gmin_vars
+>>
+>>  .../media/atomisp/i2c/atomisp-gc0310.c        | 999 ++++--------------
+>>  .../media/atomisp/i2c/atomisp-ov2680.c        |  33 +-
+>>  drivers/staging/media/atomisp/i2c/gc0310.h    | 416 +++-----
+>>  drivers/staging/media/atomisp/i2c/ov2680.h    |   1 -
+>>  .../media/atomisp/include/linux/atomisp.h     |   2 -
+>>  .../atomisp/include/linux/atomisp_platform.h  |   2 +
+>>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 356 ++-----
+>>  .../media/atomisp/pci/atomisp_compat.h        |   4 +-
+>>  .../media/atomisp/pci/atomisp_compat_css20.c  |  89 +-
+>>  .../staging/media/atomisp/pci/atomisp_fops.c  |   9 +-
+>>  .../media/atomisp/pci/atomisp_gmin_platform.c | 289 ++++-
+>>  .../media/atomisp/pci/atomisp_internal.h      |  20 +-
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.c |  64 +-
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.h |   3 -
+>>  .../media/atomisp/pci/atomisp_subdev.c        | 111 +-
+>>  .../media/atomisp/pci/atomisp_subdev.h        |   6 -
+>>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  36 +-
+>>  17 files changed, 844 insertions(+), 1596 deletions(-)
 >>
 >> --
 >> 2.39.1
