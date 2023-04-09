@@ -2,42 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1323C6DC048
-	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 16:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A98C26DC04A
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 16:10:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbjDIOKl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Apr 2023 10:10:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56108 "EHLO
+        id S229505AbjDIOKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 10:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjDIOKl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 10:10:41 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BD5448D
-        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 07:10:31 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1plVkT-00Fq0e-7B; Sun, 09 Apr 2023 14:10:29 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1plVkP-0066k1-SR; Sun, 09 Apr 2023 14:10:26 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.4-1 (#91152)
-Date:   Sun,  9 Apr 2023 14:10:25 +0000
-Message-Id: <20230409141025.1455835-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <bf274a09-a823-c547-4284-603e8c6da794@redhat.com>
-References: 
+        with ESMTP id S229654AbjDIOKr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 10:10:47 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53703AA0;
+        Sun,  9 Apr 2023 07:10:45 -0700 (PDT)
+Received: from [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895] (unknown [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dwlsalmeida)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9437E66020BC;
+        Sun,  9 Apr 2023 15:10:41 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1681049443;
+        bh=0txPfh3mQOMDuJ+08xBvWsHJQq1bTzoilqnXMcIVR0w=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=EliufXZ0A0w2pwwFVoxncNEmmXebULH7xwC8CHk2LysxJsUrHC5qgh5IewIO+b2P4
+         ICt0YISBFxn7DihYreR5+Fd4cvs119AjCJU61tUuCys5+5toIyZx0U7uHv13jxnDPe
+         WjTlkHqyUxPfQxwjqBcv8ZhGA9japTg5xzwO+/iDtkBhGHi+Ke4Bf0szC9/WZeVYoL
+         ZFaVLY0knzS/QImddsiSZwhybA6WTPm4fPARSi3vHQhwFlz/loRmB8499de6Bgt48A
+         EzHHks9QUaZcos89WSzQBO32/HIceghnL0iWXzD9LJ72fCVW4g2h6pzX0CXE7i4DoY
+         GsEX+ObcibCBw==
+Message-ID: <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+From:   Daniel Almeida <daniel.almeida@collabora.com>
+To:     Hans Petter Selasky <hps@selasky.org>, wedsonaf@gmail.com,
+        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
+Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+Date:   Sun, 09 Apr 2023 11:10:28 -0300
+In-Reply-To: <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+         <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,218 +55,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans! Thank you for chiming in!
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/bf274a09-a823-c547-4284-603e8c6da794@redhat.com/
-Build log: https://builder.linuxtv.org/job/patchwork/296238/
-Build time: 00:52:43
-Link: https://lore.kernel.org/linux-media/bf274a09-a823-c547-4284-603e8c6da794@redhat.com
+There's a few things in your email that I disagree with and that I'd
+like to
+address.
 
-gpg: Signature made Sun 09 Apr 2023 01:06:41 PM UTC
-gpg:                using RSA key BAF03B5D2718411A5E9E177E92EC4779440327DC
-gpg:                issuer "hdegoede@redhat.com"
-gpg: Good signature from "Hans de Goede <hdegoede@redhat.com>" [expired]
-gpg: Note: This key has expired!
-Primary key fingerprint: A1EA 0673 EAD8 B74F 17D2  B9E1 7C31 E21A 98D2 1E0D
-     Subkey fingerprint: BAF0 3B5D 2718 411A 5E9E  177E 92EC 4779 4403 27DC
+> I think V4L2 should be written in primarily one language.
 
-Summary: got 27/39 patches with issues, being 26 at build time, plus one error when buinding PDF document
+It is, in C. This series is about adding *bindings* to write *drivers*
+in Rust
+*for those interested*. The v4l2 core remains untouched, and I don't
+think there
+are any plans to introduce Rust outside of drivers in the kernel at
+all, last I
+heard.
 
-Error/warnings:
+> You assume that all code is running inside the kernel and needs to be
+perfect.
 
-patches/0001-media-atomisp-Remove-depth-mode-support.patch:
+No I do not assume that. In fact, Rust code is absolutely not
+guaranteed to be
+bug free and definitely not "perfect".
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3335 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3434 atomisp_cp_morph_table() warn: missing unwind goto?
+On the other hand, I would take Rust over C any day. Thus I am
+contributing some
+of the infrastructure to make this possible for me and for others.
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2490 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974630
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 57 seconds
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+IMHO I think you're approaching this from the wrong angle. It isn't
+that Linux
+*needs* Rust. It's more about providing a new and safer choice with
+modern ergonomics for developers, is all.
 
-patches/0002-media-atomisp-Remove-continuous-mode-support.patch:
+> I would rather like more drive on that, than flowing down the Rust
+stream.
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3139 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3238 atomisp_cp_morph_table() warn: missing unwind goto?
+These two things are not mutually exclusive :)
 
-patches/0003-media-atomisp-Remove-delayed_init-related-code.patch:
+> Rust is cool, Java is cool, VM's are cool.
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3104 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3203 atomisp_cp_morph_table() warn: missing unwind goto?
+I don't see why Java and virtual machines are being brought into the
+discussion
+for this patchset here. And compilation times are a part of life,
+sadly. Also,
+can you substantiate your claim that Rust is slow?
 
-patches/0004-media-atomisp-Remove-crop_needs_override-from-atomis.patch:
+> Engineering energy would be much more focused, if hardware vendors
+could agree
+more about what binary formats to use for their device protocols,
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3104 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3203 atomisp_cp_morph_table() warn: missing unwind goto?
+I understand, but my patchset is not to blame here. In fact, I have no
+say at
+all over these things.
 
-patches/0005-media-atomisp-Remove-atomisp_css_enable_raw_binning.patch:
+> than changing the coding language
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3104 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3203 atomisp_cp_morph_table() warn: missing unwind goto?
+This simply is not what is happening here. Again this is about giving
+kernel
+developers another *option* of programming language, not about ditching
+C.
 
-patches/0006-media-atomisp-Remove-atomisp_get_metadata_type.patch:
+> that now anyone can be let loose to program in the Linux kernel
+without
+risking any damage
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3097 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3196 atomisp_cp_morph_table() warn: missing unwind goto?
+Who's "anyone"? Plus the review process stays in place, so hardly any
+changes to
+code quality here.
 
-patches/0007-media-atomisp-Remove-unused-SOC_CAMERA-XENON_FLASH-a.patch:
+> I'm glad if not everyone out there can do my job writing C-code for
+device
+drivers. We don't need more people to mess around there  simply.
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3095 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3194 atomisp_cp_morph_table() warn: missing unwind goto?
+Ok we differ strongly here. In particular, I am totally neutral to your
+first
+statement.
 
-patches/0008-media-atomisp-Remove-ATOMISP_USE_YUVPP.patch:
+The reality is that it isn't up to anyone to say who should or
+shouldn't become
+a kernel developer. The resources are out there for anyone to try, and
+if
+maintainers take in their patches, then that's the end of the story.
 
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3090 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3189 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0009-media-atomisp-Remove-yuvpp_mode.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3090 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3189 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0010-media-atomisp-Remove-online_process-setting.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0011-media-atomisp-Remove-remaining-instance-of-call-to-t.patch:
-
-   checkpatch.pl:
-	$ cat patches/0011-media-atomisp-Remove-remaining-instance-of-call-to-t.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:7: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0012-media-atomisp-Add-v4l2_get_acpi_sensor_info-helper.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0013-media-atomisp-ov2680-Use-v4l2_get_acpi_sensor_info-f.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-
-patches/0014-media-atomisp-ov2680-Error-handling-fixes.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-
-patches/0021-media-atomisp-gc0310-Remove-read-only-exposure-contr.patch:
-
-    allyesconfig: return code #512:
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:169:35: error: ‘ctrl_ops’ defined but not used [-Werror=unused-const-variable=]
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:252: drivers/staging/media/atomisp/i2c/atomisp-gc0310.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:494: drivers/staging/media/atomisp/i2c] Error 2
-	make[5]: *** [../scripts/Makefile.build:494: drivers/staging/media/atomisp] Error 2
-	make[4]: *** [../scripts/Makefile.build:494: drivers/staging/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:494: drivers/staging] Error 2
-	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2028: .] Error 2
-	make: *** [Makefile:226: __sub-make] Error 2
-
-patches/0022-media-atomisp-gc0310-Drop-custom-ATOMISP_IOC_S_EXPOS.patch:
-
-    allyesconfig: return code #512:
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:71:35: error: ‘ctrl_ops’ defined but not used [-Werror=unused-const-variable=]
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:252: drivers/staging/media/atomisp/i2c/atomisp-gc0310.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:494: drivers/staging/media/atomisp/i2c] Error 2
-	make[5]: *** [../scripts/Makefile.build:494: drivers/staging/media/atomisp] Error 2
-	make[4]: *** [../scripts/Makefile.build:494: drivers/staging/media] Error 2
-	make[3]: *** [../scripts/Makefile.build:494: drivers/staging] Error 2
-	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2028: .] Error 2
-	make: *** [Makefile:226: __sub-make] Error 2
-
-patches/0027-media-atomisp-gc0310-Add-runtime-pm-support.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:339 gc0310_s_stream() warn: missing error code 'ret'
-
-patches/0028-media-atomisp-gc0310-Use-devm_kzalloc-for-data-struc.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:339 gc0310_s_stream() warn: missing error code 'ret'
-
-patches/0029-media-atomisp-gc0310-Switch-over-to-ACPI-powermanage.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
-
-patches/0030-media-atomisp-Remove-duplicate-atomisp_-start-stop-_.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0031-media-atomisp-Remove-continuous-mode-related-code-fr.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0032-media-atomisp-Remove-custom-V4L2_CID_FMT_AUTO-contro.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0033-media-atomisp-Remove-snr_mbus_fmt-local-var-from-ato.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0034-media-atomisp-Remove-unused-ATOM_ISP_MAX_WIDTH_TMP-a.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0035-media-atomisp-Remove-atomisp_try_fmt-call-from-atomi.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3085 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3184 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0036-media-atomisp-Drop-support-for-streaming-from-2-sens.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3015 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3114 atomisp_cp_morph_table() warn: missing unwind goto?
-
-patches/0037-media-atomisp-Remove-struct-atomisp_sub_device-index.patch:
-
-    allyesconfig: return code #0:
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
-
-
-Error #512 when building PDF docs
-
+-- Daniel
