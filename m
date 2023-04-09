@@ -2,75 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 679E16DC0CD
-	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 19:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1E296DC148
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 22:05:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjDIRKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Apr 2023 13:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41298 "EHLO
+        id S229480AbjDIUFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 16:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjDIRKi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 13:10:38 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D7DA3AB8
-        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 10:10:37 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id l16so3039607ljq.11
-        for <linux-media@vger.kernel.org>; Sun, 09 Apr 2023 10:10:37 -0700 (PDT)
+        with ESMTP id S229445AbjDIUFX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 16:05:23 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E275335B6;
+        Sun,  9 Apr 2023 13:05:22 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id l26-20020a05600c1d1a00b003edd24054e0so3357835wms.4;
+        Sun, 09 Apr 2023 13:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681060235;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QqN5vgtmzxPJB8D1iXb0mZavhJ/16WwLHBHQdEhshG8=;
-        b=UubL+kDMhJ8ZZV8GrkKlNeoK+Fgt9uODY9F/4uOfgJW1A7AczaW3whACUvO6pEmwYL
-         jH/0/DU8xR3P3IFAxdvU3PfgvQQfMQRIvuHMCd+GWd1M7cVq8svh1KU7OJ6S6Yd8hzKJ
-         LcFtLa+10I9bSR/uYcw3XGlxwpHrwY0N0ED4PvVoUyjPy8yRRjdy9b34d50DZhlcu0/O
-         uKK9hPlXunfaTg7ZuGUc3CUlpRr5GPsRF8QKFH8ePIziJpJqtooL750bCFce8owaF5gF
-         SjMiMgmIFJCJij3mQZmX3gomoJq2biZif2JfXMdNvFyWe1uITBGFskXbGw+Ae+Wh43OZ
-         WgbQ==
+        d=gmail.com; s=20210112; t=1681070719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ngtqh6lY40sQa87FOJ7Q2UWB/nz6Pl08B/HLHoV4Hq0=;
+        b=Xgf0dDYycuvGmqNiN2WXKEJtkoCH1kC7TyOUemxXG/tjLD+H5Y2RsKUuLQuobjFb18
+         UqG2mGJb2xLrGlCxYFBRPQjOFDGR1ro46SD3osB1sT9dmfCBTgC6/FBJc2gBfMrvLqQX
+         tB1HB93NwC/N17g3lUGSz0jZW3Qy5h8+nmlB1QmmaKVd1oF/iIus4aUMOpeuuxko6pmL
+         Ul9sCDbAXTae8je+LQr9CnJk14+yeGfQlVLdpXbToSGJgQrVhvv7oibH37vbP9TG0cEL
+         YvZscBXqppQFrYHjzJWdcgiAYrAFl4FG1TfSSYB6460xvwUgb4wG8OfXgSXFCLyZgNs9
+         S6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681060235;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QqN5vgtmzxPJB8D1iXb0mZavhJ/16WwLHBHQdEhshG8=;
-        b=FA+vAWoVfpi1nybPy/bJnxMI8stoISZmcKEQiioW3K40hiwrcerbyxV1ptl4sSkrr7
-         vi/0KWT50Zl69ExxhihZZgLUZysYNcU20dDZl3saQ+QyiCTnpzUnQRmErRiUMTeoXpI/
-         xz1OarH7k1Hu0ra2Tf/E1T35AtPvpRWplLVVD0JXLsTIxVVSUl9fgJs7sM+Vnh6ZEIfc
-         BdO0OZ7fJedYakiG9+Zyc1au9Dzir0WdIalfkF/wU2rzBHJ/St8xQySK/ff3/5IZdlrC
-         hDtEmEbWvZ/uOobQ4YsN0bj9UHqN6VtWXQcTUqD5E8iZXtmPpyfC4pQGCG6jVwnOmcR3
-         yXNA==
-X-Gm-Message-State: AAQBX9d/X3y3iFEd29RtBZg3pl0FwdWJvaiR6hKX+BrA6sR6PhPBFaPJ
-        lSokpKsoOq9CWN4ODS6s8ra3Fw==
-X-Google-Smtp-Source: AKy350bH1RgV7K/b9fCo/Px2MsMXTrmdymWA/1p7u4u57HbI73GPv8Bg4+mkj+1aXbwv6CFc/u6xXA==
-X-Received: by 2002:a2e:9447:0:b0:299:ac61:4e78 with SMTP id o7-20020a2e9447000000b00299ac614e78mr2182673ljh.10.1681060235588;
-        Sun, 09 Apr 2023 10:10:35 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
-        by smtp.gmail.com with ESMTPSA id s17-20020a2e9c11000000b002a773ce93casm364538lji.137.2023.04.09.10.10.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Apr 2023 10:10:35 -0700 (PDT)
-Message-ID: <0f7f2f1d-3b05-ebf1-33fc-e5904200737d@linaro.org>
-Date:   Sun, 9 Apr 2023 20:10:34 +0300
+        d=1e100.net; s=20210112; t=1681070719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ngtqh6lY40sQa87FOJ7Q2UWB/nz6Pl08B/HLHoV4Hq0=;
+        b=U92wfzx7ukUnzWI4uc18WOJt/SCHNnomDC3jhIGiGm/HNtkBUyrqoyvL1XyRWy2JF6
+         cpRhaqV/6SvQ/Nl8nEpovx7+vf7oIL4cQ/Xfej/Mkw34pBHAwJMAN9NtGR8GrYvuNBFw
+         viE03l+dklWdyx7NaKSKf7EkZ2NEhorIbyM8VFB1EUnBJAI/5SCoExt0WwDTy4RoQNk2
+         NLtf84+2VzwgUAwFfO+N5KYFnaQCoMes3YtHJlN3qB2l1LfTmSnsiRoFK+ipH4qbFr3C
+         FgtES9hCpWjYqFYHrEVMetJAomVr4k8TIIyRKMXPfrOJFh5HEk5vdK38Ir6mUW+LYZBy
+         feGw==
+X-Gm-Message-State: AAQBX9cZq0/zkSqjvpaqQAg/gPvTZ1TDYZxbSDMwNRNYPm0q2UiE2nak
+        ajJzyAKgafRCc+ap7WjAlzQ=
+X-Google-Smtp-Source: AKy350aOz9m2VO8vtaf6WmEDkfzKOZGRq9rYc5QamRJ7rCyeFNgRJMSwNWs11M97CF5BWn2A0mFDRg==
+X-Received: by 2002:a05:600c:2048:b0:3ef:8b0:dbb1 with SMTP id p8-20020a05600c204800b003ef08b0dbb1mr3473794wmg.7.1681070718740;
+        Sun, 09 Apr 2023 13:05:18 -0700 (PDT)
+Received: from arch.localdomain ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
+        by smtp.googlemail.com with ESMTPSA id b5-20020adfee85000000b002c557f82e27sm9846711wro.99.2023.04.09.13.05.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Apr 2023 13:05:18 -0700 (PDT)
+From:   Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Cc:     Angel Alberto Carretero <angelalbertoc.r@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: imx: fix macro style error
+Date:   Sun,  9 Apr 2023 22:01:36 +0200
+Message-Id: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/3] venus: enable sufficient sequence change support
- for vp9
-Content-Language: en-GB
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viswanath Boma <quic_vboma@quicinc.com>
-References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
- <1680848758-3947-3-git-send-email-quic_dikshita@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1680848758-3947-3-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,74 +77,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/04/2023 09:25, Dikshita Agarwal wrote:
-> VP9 supports resolution change at interframe.
-> Currenlty, if sequence change is detected at interframe and
-> resources are sufficient, sequence change event is not raised
-> by firmware to driver until the next keyframe.
-> This change add the HFI to notify the sequence change in this
-> case to driver.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+Wrap macro in parenthesis to fix checkpatch error.
 
-Order of sign-offs is incorrect. The SoB of the sender should be the 
-last one.
+Tested it by compiling the driver successfully.
 
-> Tested-by: Nathan Hebert <nhebert@chromium.org>
-> ---
->   drivers/media/platform/qcom/venus/hfi_cmds.c   | 1 +
->   drivers/media/platform/qcom/venus/hfi_helper.h | 2 ++
->   drivers/media/platform/qcom/venus/vdec.c       | 8 ++++++++
->   3 files changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 930b743..e2539b5 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -521,6 +521,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
->   		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*en);
->   		break;
->   	}
-> +	case HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT:
->   	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
->   		struct hfi_enable *in = pdata;
->   		struct hfi_enable *en = prop_data;
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index d2d6719..2e03b6e 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -469,6 +469,8 @@
->   #define HFI_PROPERTY_PARAM_VDEC_PIXEL_BITDEPTH			0x1003007
->   #define HFI_PROPERTY_PARAM_VDEC_PIC_STRUCT			0x1003009
->   #define HFI_PROPERTY_PARAM_VDEC_COLOUR_SPACE			0x100300a
-> +#define HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT \
-> +								0x100300b
->   
->   /*
->    * HFI_PROPERTY_CONFIG_VDEC_COMMON_START
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4ceaba3..f0394b9 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -671,6 +671,14 @@ static int vdec_set_properties(struct venus_inst *inst)
->   			return ret;
->   	}
->   
-> +	/* Enabling sufficient sequence change support for VP9 */
-> +	if (is_fw_rev_or_newer(inst->core, 5, 4, 51)) {
-> +		ptype = HFI_PROPERTY_PARAM_VDEC_ENABLE_SUFFICIENT_SEQCHANGE_EVENT;
-> +		ret = hfi_session_set_property(inst, ptype, &en);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->   	ptype = HFI_PROPERTY_PARAM_VDEC_CONCEAL_COLOR;
->   	conceal = ctr->conceal_color & 0xffff;
->   	conceal |= ((ctr->conceal_color >> 16) & 0xffff) << 10;
+Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 411e907b68eb..eb44c09071de 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -7,7 +7,7 @@
+ #include <linux/module.h>
+ #include "imx-media.h"
+ 
+-#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
++#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+ 
+ /*
+  * List of supported pixel formats for the subdevs.
 -- 
-With best wishes
-Dmitry
+2.40.0
 
