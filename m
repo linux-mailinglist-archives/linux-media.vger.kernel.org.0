@@ -2,74 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A95BD6DBEBA
-	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 07:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 096546DBF59
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 11:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjDIFSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Apr 2023 01:18:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54006 "EHLO
+        id S229558AbjDIJS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 05:18:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjDIFSw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 01:18:52 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6CB4681;
-        Sat,  8 Apr 2023 22:18:51 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-94a34d34fcfso42497366b.2;
-        Sat, 08 Apr 2023 22:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681017529; x=1683609529;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yWzsHmFTsiaq+FneBSH/AIWJGL7w8YvOi69R91dSNa0=;
-        b=KuvZi04ZpXTayRLEwKZmLOPlLbianewIJBv2eFCbNgUdoDpyE5XDEmajhrZa61bCMr
-         i9Hd4s+Q51V8nAOA4eGbZFAVmUoUUvcqhvPzkYgvNSTeggC2mfe7/E4mSn/+nBme5NFg
-         CffBmvb0m145RobIJAJJKU7WTfAFp+JHt+RUhQRFkjck3mxVlQ3APB164gVXU0gC3uby
-         oOmbWsuZWy9P/S/hX9iqRvFl3tmnyeUAdR8UB2ZOdlX4GkVls8O72MYETrcY4gQRHdUh
-         mKeqah8NV3aS9vMQpy9sptLytJmU5snCpgxe06hSqAJV1vE/L+i8PHj3875UJeum+yj/
-         t3rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681017529; x=1683609529;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yWzsHmFTsiaq+FneBSH/AIWJGL7w8YvOi69R91dSNa0=;
-        b=5y/AejhK5q5WA9Vr5RMpdf0Zi1AbQJu1vYc48xwRb+R+W1VW81WAlIYwaIj4bUG97p
-         uJUmL9nllUSvcMCnfsrDYHRgVCluakj/o7ec91hGTOSIqseQdDBF8fWHoMnCU/HH1QQL
-         Hc5TrOjYa7M7D0xwZVkk50NrBeEZdOZCMeyIY8KkDFO3IWbyKa9GhutWeqzXCG4dCgYR
-         Ga0GwXUha1Dp2Y8GcNqln2V73V7sk2DtncuuL+h8cBFsuikxpxHdpm5C39N/lFZqOq6d
-         ucf1W+gw9QozVGHjU/LJfGznlSujKEkPuWHLdjiBU0eQVj7UYJPIG53q+sH50ngKVCW+
-         CpSA==
-X-Gm-Message-State: AAQBX9epxtLHddemPpF/Dmk+sh1rqk+dAT4d4KC9jl1LqM2m93o7pxKl
-        iAcwBgtfOvK0W6AOc12+fnY=
-X-Google-Smtp-Source: AKy350YpKZlVxKMGgqChtL+x06xB+HKUfuCkDHHkqVaVaNxd9109cJXAB18UcXYtH/+Cw3i9yidY9Q==
-X-Received: by 2002:a50:ed99:0:b0:4ab:d1f4:4b88 with SMTP id h25-20020a50ed99000000b004abd1f44b88mr6569670edr.41.1681017529329;
-        Sat, 08 Apr 2023 22:18:49 -0700 (PDT)
-Received: from [192.168.1.45] (hst-221-10.medicom.bg. [84.238.221.10])
-        by smtp.gmail.com with ESMTPSA id w17-20020a1709062f9100b009331450d04esm3817424eji.178.2023.04.08.22.18.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Apr 2023 22:18:49 -0700 (PDT)
-Message-ID: <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
-Date:   Sun, 9 Apr 2023 08:18:45 +0300
+        with ESMTP id S229437AbjDIJSy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 05:18:54 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE3FE4C3A;
+        Sun,  9 Apr 2023 02:18:52 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1plRCF-0005kS-6L; Sun, 09 Apr 2023 11:18:51 +0200
+Message-ID: <1bd64a7f-9bcb-3057-4c51-7144122370fc@leemhuis.info>
+Date:   Sun, 9 Apr 2023 11:18:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viswanath Boma <quic_vboma@quicinc.com>
-References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
- <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
-Content-Language: en-US, bg-BG
-From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+ Thunderbird/102.9.1
+Subject: Re: [regression] Bug 217252 - warning: v4l_enum_fmt+0x125a/0x1c20 -
+ Unknown pixelformat 0x00000000
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <dc8e5276-ef88-648f-9f0d-10151ea62c90@leemhuis.info>
+In-Reply-To: <dc8e5276-ef88-648f-9f0d-10151ea62c90@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1681031932;98b7d79c;
+X-HE-SMSGID: 1plRCF-0005kS-6L
+X-Spam-Status: No, score=-2.9 required=5.0 tests=NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,107 +50,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dikshita,
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-Thanks for the patch.
-
-On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
-> Add firmware version based checks to enable/disable
-> features for different SOCs.
+On 29.03.23 13:25, Linux regression tracking (Thorsten Leemhuis) wrote:
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
-> Tested-by: Nathan Hebert <nhebert@chromium.org>
-> ---
->   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
->   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
->   2 files changed, 29 insertions(+), 2 deletions(-)
+> I noticed a regression report in bugzilla.kernel.org. As many (most?)
+> kernel developers don't keep an eye on it, I decided to forward it by mail.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 32551c2..9d1e4b2 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -202,6 +202,11 @@ struct venus_core {
->   	unsigned int core0_usage_count;
->   	unsigned int core1_usage_count;
->   	struct dentry *root;
-> +	struct venus_img_version {
-> +		u32 major;
-> +		u32 minor;
-> +		u32 rev;
-> +	} venus_ver;
->   };
->   
->   struct vdec_controls {
-> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->   	return NULL;
->   }
->   
-> +static inline int
-> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +	return ((core)->venus_ver.major == vmajor &&
-> +		(core)->venus_ver.minor == vminor &&
-> +		(core)->venus_ver.rev >= vrev);
-> +}
-> +
-> +static inline int
-> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
-> +{
-> +	return ((core)->venus_ver.major == vmajor &&
-> +		(core)->venus_ver.minor == vminor &&
-> +		(core)->venus_ver.rev <= vrev);
-> +}
+> Note, you have to use bugzilla to reach the reporter, as I sadly[1] can
+> not CCed them to mails like this.
+> 
+> Quoting from https://bugzilla.kernel.org/show_bug.cgi?id=217252 :
+> 
+> #regzbot introduced: v5.15..v6.1.21
+> https://bugzilla.kernel.org/show_bug.cgi?id=217252
+> #regzbot title: media: Unknown pixelformat 0x00000000
+> #regzbot ignore-activity
 
-IMO those two should return bool
+Update the status, this was caused by a backport of a recent mainline
+commit to various stable trees.
 
->   #endif
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> index df96db3..07ac0fc 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->   }
->   
->   static void
-> -sys_get_prop_image_version(struct device *dev,
-> +sys_get_prop_image_version(struct venus_core *core,
->   			   struct hfi_msg_sys_property_info_pkt *pkt)
->   {
-> +	struct device *dev = core->dev;
->   	u8 *smem_tbl_ptr;
->   	u8 *img_ver;
->   	int req_bytes;
-> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->   		return;
->   
->   	img_ver = pkt->data;
-> +	if (IS_V4(core))
-> +		sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
-> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
-> +	else if (IS_V6(core))
-> +		sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
-> +		       &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->   
+#regzbot introduced: 50459f103edf
+#regzbot fix: media: usb: uvc: fill in description for unknown pixelformats
+#regzbot ignore-activity
 
-what about if IS_V1?
+For details about the fix see:
+https://lore.kernel.org/all/4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl/
 
->   	dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
-this will crash for v1.
-
->   
-> @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->   
->   	switch (pkt->property) {
->   	case HFI_PROPERTY_SYS_IMAGE_VERSION:
-> -		sys_get_prop_image_version(dev, pkt);
-> +		sys_get_prop_image_version(core, pkt);
->   		break;
->   	default:
->   		dev_dbg(dev, VDBGL "unknown property data\n");
-
--- 
-regards,
-Stan
