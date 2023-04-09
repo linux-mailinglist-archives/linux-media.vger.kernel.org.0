@@ -2,126 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E966DC07C
-	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 16:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F279B6DC0CB
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 19:10:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjDIO5i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Apr 2023 10:57:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39260 "EHLO
+        id S229579AbjDIRKH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 13:10:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjDIO5h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 10:57:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3E93A87
-        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 07:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1681052210;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aWNTC+T89/NbS6zEIyzWIViMD3oe9EFAv6DZLT6hMqg=;
-        b=YDs5QVCyKP5rfQH9Bi9/AwYP3qFK608l/1Qm6XYXFv29KhkLkG5HfaloempNithVZPbP2H
-        dh0hmyYzXSeqZFO6SwQaIWlmtE7TXSomQs4X049fW+xJk3CvDQAen/umdVGfYLCtNBUFX1
-        rt9K5WJ4Fs47c8EzUdUxtuxLqFVaFIA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-639-4av0-MvQNWmdkmWCmn9HgQ-1; Sun, 09 Apr 2023 10:56:49 -0400
-X-MC-Unique: 4av0-MvQNWmdkmWCmn9HgQ-1
-Received: by mail-ed1-f72.google.com with SMTP id c30-20020a50f61e000000b005047e0a0a24so2854998edn.8
-        for <linux-media@vger.kernel.org>; Sun, 09 Apr 2023 07:56:49 -0700 (PDT)
+        with ESMTP id S229463AbjDIRKG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 13:10:06 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ABDE30E8
+        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 10:10:04 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id be27so3364871ljb.12
+        for <linux-media@vger.kernel.org>; Sun, 09 Apr 2023 10:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681060202;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5uCMXg3qktyRsiu4kaOaI9ivh//X7GtEehAzDrbc2ME=;
+        b=TzTEX6yDh1XKr7Lf6+zCMXYxsCPludeRQxOSZIvW7IcRjb75zyNKUmXp/uNv+HRS13
+         YaxahZU6eQKmbNgo6kJ9bFWfrvTIkDRJA0EPArnsb2D5YE0mNTyfJoQ2aBYCt6vJZW6K
+         FJSL/Sz0DRYzXQ8T1I2uFZjdOivJulBQTyVcynYBTVtjR3YmpYWUEqm+S6UP1v3lnGac
+         2bUuBkOiBq8+uEHvdMsHGdqw7WDztqGufjwog3QrvtC2Y9YD+ar7dxfHDvKALRgT2OsI
+         DjRiaBLinsAKY66cFU04BjAWuCQ5AIAfdvQd/nFh/JcQP70nISV0r/gW7rklPKAfg6zL
+         mxTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681052208; x=1683644208;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1681060202;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aWNTC+T89/NbS6zEIyzWIViMD3oe9EFAv6DZLT6hMqg=;
-        b=RJYulaRJBrET4qiZQHxHa8JKdrEz+zSDHreo+7VRPEkMEA1uT1sIraDCZORIMS2acH
-         4lBxXjVwkfDoikv+hDWy/NfCc83Yx78LQJMiiVrhvknWLCYjv2bYyeRklMFLTgdUihJJ
-         vMhPeeaEPBJY2c8Nl/37w2a8QWQO/k64HCcj4IlUoQj0VK7mgLa69RLyF25O9qqLnB5s
-         c0BSGHCxIJDs9eGj9CxOOBwUkbGaM+8y25Ah4rTl1gF3GEwIqVzCHtDKaoFfBC/lnCSn
-         mBJMUEmXj0+shyf8rbsd4CriOeV7l9WEKB9CJD/7sHrJ7FjlljrAn04rgNvv3Sbi6pg+
-         6Avw==
-X-Gm-Message-State: AAQBX9fEbe7OoK7IvCoc9g4636TksmfpLJkR17ishOZbfreMxaP1H2lV
-        P5JgAMQgeLAIG9utoHjfgyiKCjMbLoE+OXJhfe1HR0H09JvwwZc0ZejDl0dJJZ+A1QK8dYYDLhf
-        2pBqgTMeR44kkrwM9ZPQe5dg=
-X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr1581944ejb.37.1681052208342;
-        Sun, 09 Apr 2023 07:56:48 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bEmGIcVuWdVdKFWpbqG7vZEFVGMkj/QWIm3eoFaBYdVH1h4p7xEjmaUtRtHJmdrdIg1KHdTA==
-X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr1581939ejb.37.1681052208086;
-        Sun, 09 Apr 2023 07:56:48 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id s27-20020a1709060c1b00b009475bd8f441sm4179398ejf.60.2023.04.09.07.56.47
+        bh=5uCMXg3qktyRsiu4kaOaI9ivh//X7GtEehAzDrbc2ME=;
+        b=H1f9PHlNvLXHB0b4YJ36/8OJGApXjwsw6X+ZPb8FhrnhkYW6+QrdQLzOYzrJEVpI8x
+         qfWpRhlYJ6LJwWc7AqZ+fSw5qNYsnbV2sn2ts4+9cbNnD54cRAE/LYwX6s3JcBxoGRvi
+         FgIJusaHWoqav0Wiwjqre+arAXdC3m11JiKaBTMszHexxctGxOU57d0TzSj3EdGLaWNP
+         CEjcv+F4E6+aLV1L75DBq1SYb6ehSvUArWJh7HAc1TSllGAwxwUd2uLqFGsEGkyaO/+r
+         v6g2jjdyQzA7S88Sg2dmV8D1bwaVLDC70ejlUJP/UV/xskGJeoyF9pIi44yDnWs/H857
+         WUAw==
+X-Gm-Message-State: AAQBX9fQGdeyGvMFJPuV7KIume17oYHngW7vllCnsChSeCcAj2urnrJy
+        XUtaNq3vFpYlpIyGa1tCnXtHco5AEl2UK7W+CdE=
+X-Google-Smtp-Source: AKy350bhaQbNkHbZKI6ZhxOOPajs7ZcQwLq5npTcqkh7MGlNK5WWLXvyyDDc1hKZq8WdvocVH2qQ0g==
+X-Received: by 2002:a2e:3812:0:b0:2a4:fe3d:d4b2 with SMTP id f18-20020a2e3812000000b002a4fe3dd4b2mr2179483lja.17.1681060202404;
+        Sun, 09 Apr 2023 10:10:02 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+        by smtp.gmail.com with ESMTPSA id z14-20020a2e9b8e000000b00298a81f5d70sm1849710lji.136.2023.04.09.10.10.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Apr 2023 07:56:47 -0700 (PDT)
-Message-ID: <558bf30d-0136-274c-f47a-82ca746ac49d@redhat.com>
-Date:   Sun, 9 Apr 2023 16:56:46 +0200
+        Sun, 09 Apr 2023 10:10:01 -0700 (PDT)
+Message-ID: <ccbf905b-2c0b-e5e2-1ee2-485d3af52247@linaro.org>
+Date:   Sun, 9 Apr 2023 20:10:01 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.4-1 (#91152)
-To:     Jenkins <jenkins@linuxtv.org>, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-References: <20230409141025.1455835-1-jenkins@linuxtv.org>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230409141025.1455835-1-jenkins@linuxtv.org>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 3/3] venus: fix EOS handling in decoder stop command
+Content-Language: en-GB
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viswanath Boma <quic_vboma@quicinc.com>
+References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680848758-3947-4-git-send-email-quic_dikshita@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1680848758-3947-4-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 4/9/23 16:10, Jenkins wrote:
-> From: builder@linuxtv.org
+On 07/04/2023 09:25, Dikshita Agarwal wrote:
+> Use firmware version based check to assign correct
+> device address for EOS buffer to fix the EOS handling
+> with different firmware version.
 > 
-> Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/bf274a09-a823-c547-4284-603e8c6da794@redhat.com/
-> Build log: https://builder.linuxtv.org/job/patchwork/296238/
-> Build time: 00:52:43
-> Link: https://lore.kernel.org/linux-media/bf274a09-a823-c547-4284-603e8c6da794@redhat.com
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+
+Order of sign-offs is incorrect. The SoB of the sender should be the 
+last one.
+
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/media/platform/qcom/venus/vdec.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> gpg: Signature made Sun 09 Apr 2023 01:06:41 PM UTC
-> gpg:                using RSA key BAF03B5D2718411A5E9E177E92EC4779440327DC
-> gpg:                issuer "hdegoede@redhat.com"
-> gpg: Good signature from "Hans de Goede <hdegoede@redhat.com>" [expired]
-> gpg: Note: This key has expired!
-> Primary key fingerprint: A1EA 0673 EAD8 B74F 17D2  B9E1 7C31 E21A 98D2 1E0D
->      Subkey fingerprint: BAF0 3B5D 2718 411A 5E9E  177E 92EC 4779 4403 27DC
-> 
-> Summary: got 27/39 patches with issues, being 26 at build time, plus one error when buinding PDF document
-> 
-> Error/warnings:
-> 
-> patches/0001-media-atomisp-Remove-depth-mode-support.patch:
-> 
->     allyesconfig: return code #0:
-> 	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-> 	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-> 	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-> 	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index f0394b9..c59b34f 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -545,7 +545,7 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+>   
+>   		fdata.buffer_type = HFI_BUFFER_INPUT;
+>   		fdata.flags |= HFI_BUFFERFLAG_EOS;
+> -		if (IS_V6(inst->core))
+> +		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
+>   			fdata.device_addr = 0;
+>   		else
+>   			fdata.device_addr = 0xdeadb000;
 
-ret is initialized to 0 and the intend is to return 0 here ...
-
-
-> 	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3335 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-> 	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3434 atomisp_cp_morph_table() warn: missing unwind goto?
-
-These 2 functions are not changed by this patch, so any problem there is a pre-existing problem.
-
-And the same goes for all the warnings on all the other patches.
-
-Regards,
-
-Hans
-
+-- 
+With best wishes
+Dmitry
 
