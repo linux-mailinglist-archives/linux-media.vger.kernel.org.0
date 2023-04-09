@@ -2,139 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A98C26DC04A
-	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 16:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E966DC07C
+	for <lists+linux-media@lfdr.de>; Sun,  9 Apr 2023 16:57:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbjDIOKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Apr 2023 10:10:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
+        id S229524AbjDIO5i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Apr 2023 10:57:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229654AbjDIOKr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 10:10:47 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53703AA0;
-        Sun,  9 Apr 2023 07:10:45 -0700 (PDT)
-Received: from [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895] (unknown [IPv6:2804:14d:72b4:8284:32a8:8167:f815:2895])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dwlsalmeida)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9437E66020BC;
-        Sun,  9 Apr 2023 15:10:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681049443;
-        bh=0txPfh3mQOMDuJ+08xBvWsHJQq1bTzoilqnXMcIVR0w=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=EliufXZ0A0w2pwwFVoxncNEmmXebULH7xwC8CHk2LysxJsUrHC5qgh5IewIO+b2P4
-         ICt0YISBFxn7DihYreR5+Fd4cvs119AjCJU61tUuCys5+5toIyZx0U7uHv13jxnDPe
-         WjTlkHqyUxPfQxwjqBcv8ZhGA9japTg5xzwO+/iDtkBhGHi+Ke4Bf0szC9/WZeVYoL
-         ZFaVLY0knzS/QImddsiSZwhybA6WTPm4fPARSi3vHQhwFlz/loRmB8499de6Bgt48A
-         EzHHks9QUaZcos89WSzQBO32/HIceghnL0iWXzD9LJ72fCVW4g2h6pzX0CXE7i4DoY
-         GsEX+ObcibCBw==
-Message-ID: <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-From:   Daniel Almeida <daniel.almeida@collabora.com>
-To:     Hans Petter Selasky <hps@selasky.org>, wedsonaf@gmail.com,
-        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
-Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Date:   Sun, 09 Apr 2023 11:10:28 -0300
-In-Reply-To: <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
-         <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 
+        with ESMTP id S229462AbjDIO5h (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Apr 2023 10:57:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3E93A87
+        for <linux-media@vger.kernel.org>; Sun,  9 Apr 2023 07:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681052210;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aWNTC+T89/NbS6zEIyzWIViMD3oe9EFAv6DZLT6hMqg=;
+        b=YDs5QVCyKP5rfQH9Bi9/AwYP3qFK608l/1Qm6XYXFv29KhkLkG5HfaloempNithVZPbP2H
+        dh0hmyYzXSeqZFO6SwQaIWlmtE7TXSomQs4X049fW+xJk3CvDQAen/umdVGfYLCtNBUFX1
+        rt9K5WJ4Fs47c8EzUdUxtuxLqFVaFIA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-639-4av0-MvQNWmdkmWCmn9HgQ-1; Sun, 09 Apr 2023 10:56:49 -0400
+X-MC-Unique: 4av0-MvQNWmdkmWCmn9HgQ-1
+Received: by mail-ed1-f72.google.com with SMTP id c30-20020a50f61e000000b005047e0a0a24so2854998edn.8
+        for <linux-media@vger.kernel.org>; Sun, 09 Apr 2023 07:56:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681052208; x=1683644208;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aWNTC+T89/NbS6zEIyzWIViMD3oe9EFAv6DZLT6hMqg=;
+        b=RJYulaRJBrET4qiZQHxHa8JKdrEz+zSDHreo+7VRPEkMEA1uT1sIraDCZORIMS2acH
+         4lBxXjVwkfDoikv+hDWy/NfCc83Yx78LQJMiiVrhvknWLCYjv2bYyeRklMFLTgdUihJJ
+         vMhPeeaEPBJY2c8Nl/37w2a8QWQO/k64HCcj4IlUoQj0VK7mgLa69RLyF25O9qqLnB5s
+         c0BSGHCxIJDs9eGj9CxOOBwUkbGaM+8y25Ah4rTl1gF3GEwIqVzCHtDKaoFfBC/lnCSn
+         mBJMUEmXj0+shyf8rbsd4CriOeV7l9WEKB9CJD/7sHrJ7FjlljrAn04rgNvv3Sbi6pg+
+         6Avw==
+X-Gm-Message-State: AAQBX9fEbe7OoK7IvCoc9g4636TksmfpLJkR17ishOZbfreMxaP1H2lV
+        P5JgAMQgeLAIG9utoHjfgyiKCjMbLoE+OXJhfe1HR0H09JvwwZc0ZejDl0dJJZ+A1QK8dYYDLhf
+        2pBqgTMeR44kkrwM9ZPQe5dg=
+X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr1581944ejb.37.1681052208342;
+        Sun, 09 Apr 2023 07:56:48 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bEmGIcVuWdVdKFWpbqG7vZEFVGMkj/QWIm3eoFaBYdVH1h4p7xEjmaUtRtHJmdrdIg1KHdTA==
+X-Received: by 2002:a17:906:da8e:b0:94a:6953:602d with SMTP id xh14-20020a170906da8e00b0094a6953602dmr1581939ejb.37.1681052208086;
+        Sun, 09 Apr 2023 07:56:48 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id s27-20020a1709060c1b00b009475bd8f441sm4179398ejf.60.2023.04.09.07.56.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Apr 2023 07:56:47 -0700 (PDT)
+Message-ID: <558bf30d-0136-274c-f47a-82ca746ac49d@redhat.com>
+Date:   Sun, 9 Apr 2023 16:56:46 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [GIT PULL] media: atomisp: Changes for 6.4-1 (#91152)
+To:     Jenkins <jenkins@linuxtv.org>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+References: <20230409141025.1455835-1-jenkins@linuxtv.org>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230409141025.1455835-1-jenkins@linuxtv.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans! Thank you for chiming in!
+Hi,
 
-There's a few things in your email that I disagree with and that I'd
-like to
-address.
+On 4/9/23 16:10, Jenkins wrote:
+> From: builder@linuxtv.org
+> 
+> Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/bf274a09-a823-c547-4284-603e8c6da794@redhat.com/
+> Build log: https://builder.linuxtv.org/job/patchwork/296238/
+> Build time: 00:52:43
+> Link: https://lore.kernel.org/linux-media/bf274a09-a823-c547-4284-603e8c6da794@redhat.com
+> 
+> gpg: Signature made Sun 09 Apr 2023 01:06:41 PM UTC
+> gpg:                using RSA key BAF03B5D2718411A5E9E177E92EC4779440327DC
+> gpg:                issuer "hdegoede@redhat.com"
+> gpg: Good signature from "Hans de Goede <hdegoede@redhat.com>" [expired]
+> gpg: Note: This key has expired!
+> Primary key fingerprint: A1EA 0673 EAD8 B74F 17D2  B9E1 7C31 E21A 98D2 1E0D
+>      Subkey fingerprint: BAF0 3B5D 2718 411A 5E9E  177E 92EC 4779 4403 27DC
+> 
+> Summary: got 27/39 patches with issues, being 26 at build time, plus one error when buinding PDF document
+> 
+> Error/warnings:
+> 
+> patches/0001-media-atomisp-Remove-depth-mode-support.patch:
+> 
+>     allyesconfig: return code #0:
+> 	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+> 	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+> 	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+> 	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
 
-> I think V4L2 should be written in primarily one language.
+ret is initialized to 0 and the intend is to return 0 here ...
 
-It is, in C. This series is about adding *bindings* to write *drivers*
-in Rust
-*for those interested*. The v4l2 core remains untouched, and I don't
-think there
-are any plans to introduce Rust outside of drivers in the kernel at
-all, last I
-heard.
 
-> You assume that all code is running inside the kernel and needs to be
-perfect.
+> 	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3335 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+> 	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3434 atomisp_cp_morph_table() warn: missing unwind goto?
 
-No I do not assume that. In fact, Rust code is absolutely not
-guaranteed to be
-bug free and definitely not "perfect".
+These 2 functions are not changed by this patch, so any problem there is a pre-existing problem.
 
-On the other hand, I would take Rust over C any day. Thus I am
-contributing some
-of the infrastructure to make this possible for me and for others.
+And the same goes for all the warnings on all the other patches.
 
-IMHO I think you're approaching this from the wrong angle. It isn't
-that Linux
-*needs* Rust. It's more about providing a new and safer choice with
-modern ergonomics for developers, is all.
+Regards,
 
-> I would rather like more drive on that, than flowing down the Rust
-stream.
+Hans
 
-These two things are not mutually exclusive :)
 
-> Rust is cool, Java is cool, VM's are cool.
-
-I don't see why Java and virtual machines are being brought into the
-discussion
-for this patchset here. And compilation times are a part of life,
-sadly. Also,
-can you substantiate your claim that Rust is slow?
-
-> Engineering energy would be much more focused, if hardware vendors
-could agree
-more about what binary formats to use for their device protocols,
-
-I understand, but my patchset is not to blame here. In fact, I have no
-say at
-all over these things.
-
-> than changing the coding language
-
-This simply is not what is happening here. Again this is about giving
-kernel
-developers another *option* of programming language, not about ditching
-C.
-
-> that now anyone can be let loose to program in the Linux kernel
-without
-risking any damage
-
-Who's "anyone"? Plus the review process stays in place, so hardly any
-changes to
-code quality here.
-
-> I'm glad if not everyone out there can do my job writing C-code for
-device
-drivers. We don't need more people to mess around there  simply.
-
-Ok we differ strongly here. In particular, I am totally neutral to your
-first
-statement.
-
-The reality is that it isn't up to anyone to say who should or
-shouldn't become
-a kernel developer. The resources are out there for anyone to try, and
-if
-maintainers take in their patches, then that's the end of the story.
-
--- Daniel
