@@ -2,200 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4091A6DC7D0
-	for <lists+linux-media@lfdr.de>; Mon, 10 Apr 2023 16:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 779BE6DCB3E
+	for <lists+linux-media@lfdr.de>; Mon, 10 Apr 2023 20:59:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbjDJOXv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Apr 2023 10:23:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60262 "EHLO
+        id S229609AbjDJS7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Apr 2023 14:59:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjDJOXu (ORCPT
+        with ESMTP id S229523AbjDJS7L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 10:23:50 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3790527B;
-        Mon, 10 Apr 2023 07:23:49 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33ADRMUD008939;
-        Mon, 10 Apr 2023 14:23:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=8S/GHR+g9lweayB9bbfVo8imVnARdZbV+nOs7TD9erw=;
- b=eefmnvBHrXmnx7FaK2z7gfRIrJ5WrKwhlMz5G62S9a51N9iwPY8lvZ0kULwpqugddc9x
- pD/euaR4fbnzvyudlLl/U0xWmkY6E6A6uRCwDoQkoiT2e5D7ZUMYcsSUf3aIIB25znW7
- jru9AFmO4mtkd3PHUKM24WTKUbSek5Z/79jQXPgIx3+wL9btFZnOT0REJOH3IkygYwxY
- Jr6X9h4PBpeV0XmeOXO5WP+0HMvl5am5SrIWQ9slQm5iZ6kYai7pFJg06fV+ddswkbc9
- D2Nmvk1PEkC13aUMH21EcwIoD0XCo6yA5NFwpPKgjBZfDCB5M8JGtLGJ5pBiCavggIhH ww== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ptyktk5r5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Apr 2023 14:23:42 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33AENfZv024935
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Apr 2023 14:23:41 GMT
-Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Mon, 10 Apr 2023 07:23:37 -0700
-From:   <quic_mmitkov@quicinc.com>
-To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <bryan.odonoghue@linaro.org>,
-        <akapatra@quicinc.com>, <jzala@quicinc.com>, <todor.too@gmail.com>
-CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
-        <mchehab@kernel.org>, <cgera@qti.qualcomm.com>,
-        <gchinnab@quicinc.com>, <ayasan@qti.qualcomm.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        Milen Mitkov <quic_mmitkov@quicinc.com>,
-        Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v8 4/4] media: camss: sm8250: Pipeline starting and stopping for multiple virtual channels
-Date:   Mon, 10 Apr 2023 17:22:32 +0300
-Message-ID: <20230410142232.2135-5-quic_mmitkov@quicinc.com>
-X-Mailer: git-send-email 2.37.3.windows.1
-In-Reply-To: <20230410142232.2135-1-quic_mmitkov@quicinc.com>
-References: <20230410142232.2135-1-quic_mmitkov@quicinc.com>
+        Mon, 10 Apr 2023 14:59:11 -0400
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C86F10C7;
+        Mon, 10 Apr 2023 11:59:09 -0700 (PDT)
+Received: from [10.36.2.154] (unknown [46.212.121.255])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id F37982601F3;
+        Mon, 10 Apr 2023 20:59:04 +0200 (CEST)
+Message-ID: <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
+Date:   Mon, 10 Apr 2023 20:59:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: LP3yb63yZrxbaja6RkrtIulY8QAd6Qv6
-X-Proofpoint-ORIG-GUID: LP3yb63yZrxbaja6RkrtIulY8QAd6Qv6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-10_09,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
- clxscore=1015 mlxscore=0 impostorscore=0 mlxlogscore=727 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304100122
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+Content-Language: en-US
+To:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
+        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl
+Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+ <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+From:   Hans Petter Selasky <hps@selasky.org>
+In-Reply-To: <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Milen Mitkov <quic_mmitkov@quicinc.com>
+Hi Daniel,
 
-Use the multistream series function video_device_pipeline_alloc_start
-to allows multiple clients of the same pipeline.
+On 4/9/23 16:10, Daniel Almeida wrote:
+> Hi Hans! Thank you for chiming in!
+> 
+> There's a few things in your email that I disagree with and that I'd
+> like to
+> address.
+> 
+>> I think V4L2 should be written in primarily one language.
+> 
+> It is, in C. This series is about adding *bindings* to write *drivers*
+> in Rust
+> *for those interested*. The v4l2 core remains untouched, and I don't
+> think there
+> are any plans to introduce Rust outside of drivers in the kernel at
+> all, last I
+> heard.
 
-If the VFE entity is used by another instance of the pipeline,
-the pipeline won't be stopped. This allows for stopping and starting
-streams at any point without disrupting the other running streams.
+I see your point, but still I think it is better to have good examples, 
+than to say, there is a room for everything, just come here :-)
 
-To prepare and start multiple virtual channels each CSID source pad
-corresponding to a virtual channel must be linked to the corresponding
-IFE entity. CSID pad 1 (1st source pad) corresponds to virtual
-channel 0, CSID pad 2 corresponds to virtual channel 1 and so on.
-Each of these must be linked to corresponding IFE RDI port.
-E.g. to enable vc 0 on CSID0:
+Adding a dependency to build the Rust compiler even to build one or two 
+V4L2 device drivers, would mean a lot to my small hselasky/webcamd 
+project. It already has to fetch a copy of the Linux kernel, and now has 
+to bootstrap Rust from stage0 to stageN. I personally say no. It's like 
+XCode unfortunately. I download 100's of GBytes of upgrades to XCode, 
+and barely upload one millionth worth of code back to Apple. It's not 
+good. Software developers shouldn't have to download more stuff than 
+they upload?
 
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> 
+>> You assume that all code is running inside the kernel and needs to be
+> perfect.
+> 
+> No I do not assume that. In fact, Rust code is absolutely not
+> guaranteed to be
+> bug free and definitely not "perfect".
 
-To enable vc1 on CSID0:
+The definition of "bugs" may vary of course. I was thinking more like 
+stack exploits, missing validation of arrays and so on.
 
-media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+> On the other hand, I would take Rust over C any day. Thus I am
+> contributing some
+> of the infrastructure to make this possible for me and for others.
+I must admit I'm not a Rust guy and don't see the advantages of Rust 
+like you do.
 
-And so on. Note that on SM8250 each CSID is connected, at the
-hardware level, to only one IFE. Thus, you must link CSID0
-with IFE0, you can't link it with IFE1.
+> IMHO I think you're approaching this from the wrong angle. It isn't
+> that Linux
+> *needs* Rust. It's more about providing a new and safer choice with
+> modern ergonomics for developers, is all.
 
-Example: the following media controller setup expects multiplexed
-sensor data on CSIPHY2. Data will be passed on to CSID0, which will
-demux it to 2 streams - for RDI0 and RD1 ports of IFE0:
+Why not move Linux-V4L2 drivers to user-space? In my opinion Rust is 
+much more easy to get going there than at the kernel level.
 
-media-ctl -v -d /dev/media0 -V '"imx577 '22-001a'":0[fmt:SRGGB10/3840x2160 field:none]'
-media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/3840x2160]'
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/3840x2160]'
-media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
-media-ctl -V '"msm_csid0":2[fmt:SRGGB10/3840x2160]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/3840x2160]'
-media-ctl -V '"msm_vfe0_rdi1":0[fmt:SRGGB10/3840x2160]'
-media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+> 
+>> I would rather like more drive on that, than flowing down the Rust
+> stream.
+> 
+> These two things are not mutually exclusive :)
+> 
+>> Rust is cool, Java is cool, VM's are cool.
+> 
+> I don't see why Java and virtual machines are being brought into the
+> discussion
+> for this patchset here. And compilation times are a part of life,
+> sadly. Also,
+> can you substantiate your claim that Rust is slow?
 
-Note: CSID's entity pad 0 is a sink pad, pads 1..4 are source pads
-To start streaming a v4l2 client must open the corresponding
-/dev/videoN node. For example, with yavta:
+Rust is slow based on my observations building Firefox from sources. The 
+Rust compiler spends a significant amount of time per source file.
 
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 3840x2160 -F /dev/video0
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 3840x2160 -F /dev/video1
+>> Engineering energy would be much more focused, if hardware vendors
+> could agree
+> more about what binary formats to use for their device protocols,
+> 
+> I understand, but my patchset is not to blame here. In fact, I have no
+> say at
+> all over these things.
+> 
+>> than changing the coding language
+> 
+> This simply is not what is happening here. Again this is about giving
+> kernel
+> developers another *option* of programming language, not about ditching
+> C.
 
-Note that IFEs (vfe0, vfe1) on SM8250 have 3 RDI ports and a single
-PIX port and IFELites (vfe2, vfe3) have 4 RDI ports and no PIX port.
+I think this option belongs in user-space and not Linux (the kernel). 
+More stuff should be moved there, that is my view.
 
-Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Acked-by: Robert Foss <robert.foss@linaro.org>
-Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../media/platform/qcom/camss/camss-video.c   | 21 ++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+> 
+>> that now anyone can be let loose to program in the Linux kernel
+> without
+> risking any damage
+> 
+> Who's "anyone"? Plus the review process stays in place, so hardly any
+> changes to
+> code quality here.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 41deda232e4a..12ac7d4d755e 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -351,6 +351,7 @@ static int video_get_subdev_format(struct camss_video *video,
- 	if (subdev == NULL)
- 		return -EPIPE;
- 
-+	memset(&fmt, 0, sizeof(fmt));
- 	fmt.pad = pad;
- 	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 
-@@ -493,9 +494,11 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct v4l2_subdev *subdev;
- 	int ret;
- 
--	ret = video_device_pipeline_start(vdev, &video->pipe);
--	if (ret < 0)
-+	ret = video_device_pipeline_alloc_start(vdev);
-+	if (ret < 0) {
-+		dev_err(video->camss->dev, "Failed to start media pipeline: %d\n", ret);
- 		goto flush_buffers;
-+	}
- 
- 	ret = video_check_format(video);
- 	if (ret < 0)
-@@ -537,6 +540,7 @@ static void video_stop_streaming(struct vb2_queue *q)
- 	struct media_entity *entity;
- 	struct media_pad *pad;
- 	struct v4l2_subdev *subdev;
-+	int ret;
- 
- 	entity = &vdev->entity;
- 	while (1) {
-@@ -551,7 +555,18 @@ static void video_stop_streaming(struct vb2_queue *q)
- 		entity = pad->entity;
- 		subdev = media_entity_to_v4l2_subdev(entity);
- 
--		v4l2_subdev_call(subdev, video, s_stream, 0);
-+		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
-+
-+		if (entity->use_count > 1) {
-+			/* Don't stop if other instances of the pipeline are still running */
-+			dev_dbg(video->camss->dev, "Video pipeline still used, don't stop streaming.\n");
-+			return;
-+		}
-+
-+		if (ret) {
-+			dev_err(video->camss->dev, "Video pipeline stop failed: %d\n", ret);
-+			return;
-+		}
- 	}
- 
- 	video_device_pipeline_stop(vdev);
--- 
-2.37.3
+Maybe the word "anyone" was a bit unclear in this regard. I take that 
+back for now.
 
+>> I'm glad if not everyone out there can do my job writing C-code for
+> device
+> drivers. We don't need more people to mess around there  simply.
+> 
+> Ok we differ strongly here. In particular, I am totally neutral to your
+> first
+> statement.
+> 
+> The reality is that it isn't up to anyone to say who should or
+> shouldn't become
+> a kernel developer. The resources are out there for anyone to try, and
+> if
+> maintainers take in their patches, then that's the end of the story.
+The GPLv2 license should not be the only reason behind Linux developers 
+putting drivers in the kernel-space. I think moving more stuff to 
+user-space would benefit a greater purpose.
+
+Summed up:
+
+My main objection is Rust compiler support for _kernel_ V4L2 drivers. My 
+opinion it belongs to user-space for now and why not do something there 
+instead?
+
+--HPS
