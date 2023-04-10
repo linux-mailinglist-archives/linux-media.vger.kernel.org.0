@@ -2,122 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C5F6DCE3C
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 01:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F31076DCE47
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 01:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230085AbjDJXmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Apr 2023 19:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
+        id S229874AbjDJXsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Apr 2023 19:48:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjDJXmA (ORCPT
+        with ESMTP id S229536AbjDJXsp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 19:42:00 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00E01BC7;
-        Mon, 10 Apr 2023 16:41:58 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id z9so6304319ybs.9;
-        Mon, 10 Apr 2023 16:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681170118; x=1683762118;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2wHFed80X0tDB7uZIMKZwq8AtXe8sVS2+RdD7BlqWJ0=;
-        b=NCUGnMiSZ6pkOvrhy1awB8Mp0kC037Dn24U2kKhyGY5arhtIoF9JOwTtLLjDJ29ghK
-         HYRyjAGHdHWiXtmvajuzgBLBiqilfiW793sO/A6iZ/X180NQHkynsurfdnKu05S3eDHm
-         vr8oPf7qw2lSgtsiIyisxUEKfwMJTtOafdBFp8TpFUTqmjJvlPPnaGEaqSu9ntn+GgLk
-         nsHbVPZbnZRciTdWSU5W3dObfxn5xnThdw3HGLL0iL0BynQ23ZltxCTxyOVRGcXLq5Nj
-         aqIaU/8jC9dAl5X/0f99buX8CfzRYIFT9qUEIgYmUADWs4e8BILhiDprhpdZiCogWxyw
-         BvFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681170118; x=1683762118;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2wHFed80X0tDB7uZIMKZwq8AtXe8sVS2+RdD7BlqWJ0=;
-        b=79nF2l4ufsgDeuPOgJ5H+pCPIzPP5XEI8oOq9xPFqk3cwEfE8Uoz5rraMiLPWIShfp
-         xzxs8pgLtPO6LPmSuNbWSw4PMq2OSW9AE9z65/C8z5zo18fhctyryR8jynJD1vP6sZfq
-         yIbQYuH0AzQrRiz7KU+0isQWtv3E07bXKDKMULF/4ppWd6LLWB5BNL1vTMX2dFcZsHpV
-         r6hua0PxRQUh9uk0T2kTKRF8uAugLYGsWKu8+kpgh8YLGgWVhqzhkGhjsymS5MKkeCNr
-         DeJ+ts96iSEKQqZDbxd2PlXHW6J/K10X4WjDXYNdsFZX24josOpVsRtZSkvBFlIyXEyq
-         fiLg==
-X-Gm-Message-State: AAQBX9cZ/xMK6hxM36uLf7S1Ef1UMYxWUOwIS8tPfUIt7ACshJQEEgGu
-        fKUgdM1ouvhO2LXzW8ReuqRHAv3/Zj8zISOTOEQ=
-X-Google-Smtp-Source: AKy350ZMKc++209kJg1zVkgj3yQq/NKejP9VbGC6SebYPA8wazTUNWYAIGuf1hZCg27F8xbh7+svzQIL1y+oht0gyoI=
-X-Received: by 2002:a25:e0d5:0:b0:b31:34ab:5ca0 with SMTP id
- x204-20020a25e0d5000000b00b3134ab5ca0mr4048180ybg.11.1681170117817; Mon, 10
- Apr 2023 16:41:57 -0700 (PDT)
+        Mon, 10 Apr 2023 19:48:45 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F0F81715;
+        Mon, 10 Apr 2023 16:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681170524; x=1712706524;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HLABFzxIaBKdwMWhvhRoqNf4XliHa9M847b79qETyi0=;
+  b=n3oaUx3W4B5p+hfxHTzGsD62dKB2EcYFNEOQUPEfdhID0YodKSAH4u4f
+   jLSMiEtM39stn4jFcM4H9f2zj1hEgP6x8XNCiv2c2NYFFSmJSj7tHw7SQ
+   BftouZNbh+mXJ+BVkC4z+3xeP3RlBY7WS1ikLDnNWlxG8hcss4UpQuHBU
+   FunXwNBaaav8TO3Fq8biY1EzDD8pNZSJfnptTSKkBPv9dW6co0Zc2sKSD
+   MnlDSHvmLjpuz4F1inlBXx/oWmmxAfF6r+gQSDKO65yPRj8f1ZIdELiNe
+   mfGiDWCgWtplhocoxw376KqENA5vhyvLj48+1jLy2UF5pyhXmNnFwteom
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="332160674"
+X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
+   d="scan'208";a="332160674"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="718761257"
+X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
+   d="scan'208";a="718761257"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.230.103])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:48:43 -0700
+Date:   Mon, 10 Apr 2023 16:48:41 -0700
+From:   Alison Schofield <alison.schofield@intel.com>
+To:     Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx: fix macro style error
+Message-ID: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
+References: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
 MIME-Version: 1.0
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org> <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
- <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
-In-Reply-To: <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 11 Apr 2023 01:41:46 +0200
-Message-ID: <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Hans Petter Selasky <hps@selasky.org>
-Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
-        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 10, 2023 at 8:59=E2=80=AFPM Hans Petter Selasky <hps@selasky.or=
-g> wrote:
->
-> Adding a dependency to build the Rust compiler even to build one or two
-> V4L2 device drivers, would mean a lot to my small hselasky/webcamd
-> project. It already has to fetch a copy of the Linux kernel, and now has
-> to bootstrap Rust from stage0 to stageN. I personally say no. It's like
+On Sun, Apr 09, 2023 at 10:01:36PM +0200, Angel Alberto Carretero wrote:
+> Wrap macro in parenthesis to fix checkpatch error.
+> 
+> Tested it by compiling the driver successfully.
+> 
+> Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+> ---
 
-Do you mean you need to compile `rustc`? Could you please explain why?
-Could you use your distribution's, or fetch the standalone installers
-or cache your own toolchain?
+Hi Angel,
 
-> XCode unfortunately. I download 100's of GBytes of upgrades to XCode,
-> and barely upload one millionth worth of code back to Apple. It's not
-> good. Software developers shouldn't have to download more stuff than
-> they upload?
+The code change looks fine. Here are a few patch style suggestions:
 
-The Rust standalone installers are 2+ orders of magnitude lighter.
+- If you do 'git log --oneline imx-media-utils.c' you'll see that
+  changes in utils file only, seem to have utils in the patch subject
+  prefix. "media: imx: utils:"
 
-> The definition of "bugs" may vary of course. I was thinking more like
-> stack exploits, missing validation of arrays and so on.
+- Commit message is vague. How about being explicit so anyone persuing
+  those one-liners knows exactly what change was made.
+  "Enclose IMX_BUS_FMTS macro in parentheses"
 
-The kernel definitely needs to avoid those. What do you mean?
+- The commit log 'why' is to conform to the kernel coding style, not
+  to fix a checkpatch error. It is good to say Issue found by
+  checkpatch, but that itself is not the 'why'.
 
-> I must admit I'm not a Rust guy and don't see the advantages of Rust
-> like you do.
+Alison
 
-The advantages are fairly clear. The question has always been whether
-the cost is worth those benefits.
-
-> Why not move Linux-V4L2 drivers to user-space? In my opinion Rust is
-> much more easy to get going there than at the kernel level.
-
-That sounds like an orthogonal discussion.
-
-In any case, please note that you would need to install the same Rust
-toolchain to compile them in userspace. So, if you are concerned about
-the size of the toolchain (as you mention above), it would not really
-make a difference.
-
-> Rust is slow based on my observations building Firefox from sources. The
-> Rust compiler spends a significant amount of time per source file.
-
-It is slower than compiling C, but it also provides more features, so
-it seems fair for what we are getting in exchange.
-
-Cheers,
-Miguel
+>  drivers/staging/media/imx/imx-media-utils.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+> index 411e907b68eb..eb44c09071de 100644
+> --- a/drivers/staging/media/imx/imx-media-utils.c
+> +++ b/drivers/staging/media/imx/imx-media-utils.c
+> @@ -7,7 +7,7 @@
+>  #include <linux/module.h>
+>  #include "imx-media.h"
+>  
+> -#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
+> +#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+>  
+>  /*
+>   * List of supported pixel formats for the subdevs.
+> -- 
+> 2.40.0
+> 
