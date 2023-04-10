@@ -2,100 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF7D6DCA94
-	for <lists+linux-media@lfdr.de>; Mon, 10 Apr 2023 20:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 758426DC7C9
+	for <lists+linux-media@lfdr.de>; Mon, 10 Apr 2023 16:23:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbjDJSO7 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 10 Apr 2023 14:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32898 "EHLO
+        id S229727AbjDJOXc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Apr 2023 10:23:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230499AbjDJSOy (ORCPT
+        with ESMTP id S229592AbjDJOXb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 14:14:54 -0400
-X-Greylist: delayed 3937 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Apr 2023 11:14:44 PDT
-Received: from energy.go.ug (unknown [154.72.195.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC041BF8
-        for <linux-media@vger.kernel.org>; Mon, 10 Apr 2023 11:14:44 -0700 (PDT)
-Received: from [192.168.10.4] (port=33825 helo=Exchange1.energy.go.ug)
-        by energy.go.ug with esmtps  (TLS1) tls TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
-        (Exim 4.96)
-        (envelope-from <msmd@energy.go.ug>)
-        id 1plr8K-0002kt-0b;
-        Mon, 10 Apr 2023 16:00:32 +0300
-Received: from [45.80.158.229] (192.168.10.1) by Exchange1.energy.go.ug
- (192.168.10.4) with Microsoft SMTP Server (TLS) id 15.0.847.32; Mon, 10 Apr
- 2023 16:20:34 +0300
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 10 Apr 2023 10:23:31 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D924690;
+        Mon, 10 Apr 2023 07:23:30 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33ABf7NM031205;
+        Mon, 10 Apr 2023 14:23:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=+13TaMI1yd6yDlN1Ssi/u/pjS/aVveiB8fR5X2qpncI=;
+ b=BgKqp0CfeaOQO5lJfMvnHHXNG/3olLmyLZ3/EyDoA6bQpv6/+caTpd1t9p2SGFuBclBR
+ 5On6o3zntobIGJfH50aEWQbarKxmIl77sdd+ZqCAewD7G+FY9ii+uUfT1qil7lXgUVZM
+ B3JnduyTFxHl6bAW8iZSzyOTGcsKygAMl1Cg8EYcqfJKarnKFpPPpT3sVICsbIqw2oJ7
+ 2EVtV1avLwfth14mBhZBtVwc/07SLP6+N3j7D7mrRscSvdZIsIEBHWuDmLK115f375jn
+ snbZwBXLUK2HmqCdTFro6JFAZFBFrtGE5wJv/Wgj3oZpza+ffhAuMRo4yoNYh5ar4l9P LA== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pvgmerfjt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Apr 2023 14:23:20 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33AENJqr021605
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Apr 2023 14:23:19 GMT
+Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Mon, 10 Apr 2023 07:23:16 -0700
+From:   <quic_mmitkov@quicinc.com>
+To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <bryan.odonoghue@linaro.org>,
+        <akapatra@quicinc.com>, <jzala@quicinc.com>, <todor.too@gmail.com>
+CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
+        <mchehab@kernel.org>, <cgera@qti.qualcomm.com>,
+        <gchinnab@quicinc.com>, <ayasan@qti.qualcomm.com>,
+        <laurent.pinchart@ideasonboard.com>,
+        Milen Mitkov <quic_mmitkov@quicinc.com>
+Subject: [PATCH v8 0/4] media: camss: sm8250: Virtual channels support for SM8250
+Date:   Mon, 10 Apr 2023 17:22:28 +0300
+Message-ID: <20230410142232.2135-1-quic_mmitkov@quicinc.com>
+X-Mailer: git-send-email 2.37.3.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: GUTE NACHRICHTEN:
-To:     Recipients <msmd@energy.go.ug>
-From:   Maria Elisabeth Schaeffler <msmd@energy.go.ug>
-Date:   Mon, 10 Apr 2023 15:18:22 +0200
-Reply-To: <info.mariaelisabethschaeffler1@gmail.com>
-Message-ID: <2550b873-463c-453f-b83e-07679a5276bf@Exchange1.energy.go.ug>
-X-Originating-IP: [192.168.10.1]
-X-ClientProxiedBy: Exchange1.energy.go.ug (192.168.10.4) To
- Exchange1.energy.go.ug (192.168.10.4)
-X-Sophos-OBS: success
-X-SASI-Version: Antispam-Engine: 5.1.1, AntispamData: 2023.4.10.153017
-X-SASI-RCODE: 200
-X-SASI-SpamProbability: 87%
-X-SASI-Hits: BODYTEXTP_SIZE_3000_LESS 0.000000, BODY_SIZE_1000_LESS 0.000000,
- BODY_SIZE_2000_LESS 0.000000, BODY_SIZE_5000_LESS 0.000000,
- BODY_SIZE_500_599 0.000000, BODY_SIZE_7000_LESS 0.000000,
- CTE_QUOTED_PRINTABLE 0.000000, FRAUD_WEBMAIL_R_NOT_F 0.100000,
- FROM_NAME_PHRASE 0.000000, FROM_SAME_AS_TO_DOMAIN 0.000000,
- MSGID_SAMEAS_FROM_HEX_844412 0.100000, NO_FUR_HEADER 0.000000,
- OUTBOUND 0.000000, OUTBOUND_SOPHOS 0.000000, REPLYTO_FROM_DIFF_ADDY 0.100000,
- SENDER_NO_AUTH 0.000000, URI_CLASS_SCAM_MAILTO 8.000000,
- WEBMAIL_REPLYTO_NOT_FROM 0.500000, WEBMAIL_SOURCE 0.000000,
- WEBMAIL_XOIP 0.000000, WEBMAIL_X_IP_HDR 0.000000, __CT 0.000000,
- __CTE 0.000000, __CT_TEXT_PLAIN 0.000000, __FRAUD_SUBJ_ALLCAPS 0.000000,
- __FRAUD_WEBMAIL_REPLYTO 0.000000, __FROM_DOMAIN_IN_RCPT 0.000000,
- __FROM_NAME_NOT_IN_ADDR 0.000000, __HAS_FROM 0.000000, __HAS_MSGID 0.000000,
- __HAS_REPLYTO 0.000000, __HAS_XOIP 0.000000, __HEADER_ORDER_FROM 0.000000,
- __MIME_TEXT_P1 0.000000, __MIME_VERSION 0.000000,
- __MSGID_HEX_844412 0.000000, __OUTBOUND_SOPHOS_FUR 0.000000,
- __OUTBOUND_SOPHOS_FUR_IP 0.000000, __PHISH_SPEAR_SUBJECT 0.000000,
- __PHISH_SPEAR_SUBJECT_CAPS 0.000000, __PHISH_SPEAR_SUBJ_SUBJECT 0.000000,
- __REPLYTO_GMAIL 0.000000, __SANE_MSGID 0.000000, __SUBJECT_ALLCAPS 0.000000,
- __SUBJECT_NOLC 0.000000, __SUBJ_SHORT 0.000000, __TO_DOMAIN_IN_FROM 0.000000,
- __TO_DOMAIN_IN_MSGID 0.000000, __TO_HOST_IN_FROM 0.000000,
- __TO_MALFORMED_2 0.000000, __TO_NAME 0.000000,
- __TO_NAME_DIFF_FROM_ACC 0.000000, __TO_REAL_NAMES 0.000000,
- __URI_CLASS_ANY 0.000000
-X-Spam-Status: Yes, score=7.2 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,LOTS_OF_MONEY,MAY_BE_FORGED,
-        MONEY_FREEMAIL_REPTO,RCVD_IN_SORBS_WEB,SPF_FAIL,SPF_HELO_FAIL,
-        SUBJ_ALL_CAPS,TO_EQ_FM_DOM_SPF_FAIL,TO_EQ_FM_SPF_FAIL autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.5 RCVD_IN_SORBS_WEB RBL: SORBS: sender is an abusable web server
-        *      [154.72.195.50 listed in dnsbl.sorbs.net]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [info.mariaelisabethschaeffler1[at]gmail.com]
-        *  0.0 SPF_HELO_FAIL SPF: HELO does not match SPF record (fail)
-        *      [SPF failed: Please see http://www.openspf.org/Why?s=helo;id=energy.go.ug;ip=154.72.195.50;r=lindbergh.monkeyblade.net]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.9 SPF_FAIL SPF: sender does not match SPF record (fail)
-        *      [SPF failed: Please see http://www.openspf.org/Why?s=mfrom;id=msmd%40energy.go.ug;ip=154.72.195.50;r=lindbergh.monkeyblade.net]
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  1.5 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  2.5 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  0.0 TO_EQ_FM_DOM_SPF_FAIL To domain == From domain and external SPF
-        *       failed
-        *  0.0 TO_EQ_FM_SPF_FAIL To == From and external SPF failed
-        *  0.0 MAY_BE_FORGED Relay IP's reverse DNS does not resolve to IP
-X-Spam-Level: *******
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: zRhux4pp8denDiBCBtalXnGR6-1jS08A
+X-Proofpoint-ORIG-GUID: zRhux4pp8denDiBCBtalXnGR6-1jS08A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-10_10,2023-04-06_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 priorityscore=1501 mlxlogscore=999
+ impostorscore=0 adultscore=0 mlxscore=0 malwarescore=0 clxscore=1011
+ bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304100122
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hallo,
+From: Milen Mitkov <quic_mmitkov@quicinc.com>
 
-Ich bin Frau Maria Elisabeth Schaeffler, eine deutsche Wirtschaftsmagnatin, Investorin und Philanthropin. Ich bin der Vorsitzende von Wipro Limited. 25% meines persönlichen Vermögens werden für wohltätige Zwecke ausgegeben. Und ich habe auch versprochen, die restlichen 25% dieses Jahr an Einzelpersonen zu verschenken. Ich habe mich entschlossen, Ihnen 1.000.000,00 Euro zu spenden. Wenn Sie an meiner Spende interessiert sind, kontaktieren Sie mich für weitere Informationen über: info.mariaelisabethschaeffler1@gmail.com
+For v8:
+- Series acked-by Bryan O'Donoghue.
+
+For v7:
+- Fix an issue with output state for different versions of the IFE
+  hardware (for platforms different from QRB5, e.g. QRB3).
+
+For v6:
+- Fix for a potential race condition in csid
+- More detailed description on how to use/test this feature in
+  user-space in the last patch.
+
+For v5:
+- Use entity->use_count instead of s_stream subdev call ret code to
+  check if another instance of the pipeline is running. Prevents an
+  error on 6.1 and up, when stopping one of several simultaneous
+  instances.
+- flush buffers instead of just returning if the pipeline didn't start.
+
+For v4:
+- fixes the warning reported by the kernel test robot
+- tiny code change to enable the vc functionality with the partially-applied
+  multistream patches on linux-next (tested on tag:next-20221010)
+
+For v3:
+- setting the sink pad format on the CSID entity will now propagate the
+  format to the source pads to keep the subdev in a valid internal state.
+- code syntax improvements
+
+For v2:
+- code syntax improvements
+- The info print for the enabled VCs was demoted to a dbg print. Can be
+  enabled with dynamic debug, e.g.:
+echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debug/dynamic_debug/control
+
+NOTE: These changes depend on the multistream series, that as of yet
+is still not merged upstream. However, part of the
+multistream patches are merged in linux-next (tested on
+tag:next-20221010), including the patch that introduces the
+video_device_pipeline_alloc_start() functionality. This allows 
+applying and using this series on linux-next without applying the
+complete multistream set.
+
+The CSID hardware on SM8250 can demux the input data stream into
+maximum of 4 multiple streams depending on virtual channel (vc)
+or data type (dt) configuration.
+
+Situations in which demuxing is useful:
+- HDR sensors that produce a 2-frame HDR output, e.g. a light and a dark frame
+  (the setup we used for testing, with the imx412 sensor),
+  or a 3-frame HDR output - light, medium-lit, dark frame.
+- sensors with additional metadata that is streamed over a different
+  virtual channel/datatype.
+- sensors that produce frames with multiple resolutions in the same pixel
+  data stream
+
+With these changes, the CSID entity has, as it did previously, a single
+sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+virtual channel configuration is determined by which of the source ports
+are linked to an output VFE line. For example, the link below will
+configure the CSID driver to enable vc 0 and vc 1:
+
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+
+which will be demuxed and propagated into /dev/video0
+and /dev/video1 respectively. With this, the userspace can use
+any normal V4L2 client app to start/stop/queue/dequeue from these
+video nodes. Tested with the yavta app.
+
+The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
+msm_vfe0_rdi1,...) must also be configured explicitly.
+
+Note that in order to keep a valid internal subdevice state,
+setting the sink pad format of the CSID subdevice will propagate
+this format to the source pads. However, since the CSID hardware
+can demux the input stream into several streams each of which can 
+be a different format, in that case each source pad's 
+format must be set individually, e.g.:
+
+media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
+
+Milen Mitkov (4):
+  media: camss: sm8250: Virtual channels for CSID
+  media: camss: vfe: Reserve VFE lines on stream start and link to CSID
+  media: camss: vfe-480: Multiple outputs support for SM8250
+  media: camss: sm8250: Pipeline starting and stopping for multiple
+    virtual channels
+
+ .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
+ .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
+ .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+ .../media/platform/qcom/camss/camss-vfe-170.c |  4 +-
+ .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
+ .../platform/qcom/camss/camss-vfe-gen1.c      |  4 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |  1 +
+ .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+ drivers/media/platform/qcom/camss/camss.c     |  2 +-
+ 9 files changed, 138 insertions(+), 64 deletions(-)
+
+-- 
+2.37.3
+
