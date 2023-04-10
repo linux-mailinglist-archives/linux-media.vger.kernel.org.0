@@ -2,61 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E3056DCE39
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 01:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8C5F6DCE3C
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 01:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbjDJXk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Apr 2023 19:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50536 "EHLO
+        id S230085AbjDJXmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Apr 2023 19:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjDJXkY (ORCPT
+        with ESMTP id S229717AbjDJXmA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 19:40:24 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11783211D;
-        Mon, 10 Apr 2023 16:40:23 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id ch3so7394924ybb.4;
-        Mon, 10 Apr 2023 16:40:23 -0700 (PDT)
+        Mon, 10 Apr 2023 19:42:00 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00E01BC7;
+        Mon, 10 Apr 2023 16:41:58 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id z9so6304319ybs.9;
+        Mon, 10 Apr 2023 16:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681170022; x=1683762022;
+        d=gmail.com; s=20210112; t=1681170118; x=1683762118;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NTQtPc1KR8cL03Cu4yvySUtsAqnCh9TcCbpIOpD082E=;
-        b=LvCJtpdvUXGmM5tCLD26vrPYHaTbyVySqbpJLltLM6laOR5DGneYwNdHidQ/0KRQzo
-         fAS5G/mV8BrIRT/7FJPmSRVPu4JmIyI2BIM7LU4APXhshOi0MRmTdq0EJX+ESRyt5Odv
-         DT3aGKmmgweMnnvRcQ+qOHBoiJxHg9DbzjmucNInrCEQrndG/2kJabIALJ5GnVQzi6lF
-         2iehIqncrVGa2AZ70aQbaQHcdWT1zx0wRJ+EW19+YB+HqSfmQ3cCnOyp/WY974BDKMBP
-         uS8ifM14G92fEi8A++D1kZFIrQ0G7OMvvWbO6z8gEYqkFrF3RliA7fV20j/HfJjscxw4
-         33EA==
+        bh=2wHFed80X0tDB7uZIMKZwq8AtXe8sVS2+RdD7BlqWJ0=;
+        b=NCUGnMiSZ6pkOvrhy1awB8Mp0kC037Dn24U2kKhyGY5arhtIoF9JOwTtLLjDJ29ghK
+         HYRyjAGHdHWiXtmvajuzgBLBiqilfiW793sO/A6iZ/X180NQHkynsurfdnKu05S3eDHm
+         vr8oPf7qw2lSgtsiIyisxUEKfwMJTtOafdBFp8TpFUTqmjJvlPPnaGEaqSu9ntn+GgLk
+         nsHbVPZbnZRciTdWSU5W3dObfxn5xnThdw3HGLL0iL0BynQ23ZltxCTxyOVRGcXLq5Nj
+         aqIaU/8jC9dAl5X/0f99buX8CfzRYIFT9qUEIgYmUADWs4e8BILhiDprhpdZiCogWxyw
+         BvFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681170022; x=1683762022;
+        d=1e100.net; s=20210112; t=1681170118; x=1683762118;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NTQtPc1KR8cL03Cu4yvySUtsAqnCh9TcCbpIOpD082E=;
-        b=ynTDW6AAQpuOMsgqkxGCMuU8WtE/z3l2pwjmQmRSNkWEkCk0b+x93CYbV87KhyDP58
-         pIINnhf1a3WudawLr8wBJZVx+MXmCw4K4vw+Ky7D1If5zs/72DMzVkMcpg8kxsuSPTiK
-         7D+5BLGha5X+Zu4JkxQzyGxaQpUnItz0FYTbvlnjeOPPSRpjaunXYD0ZceJ4IAlppEaY
-         lkCyxWPlP4UupDFJxj73X+X2wm3BWpb8GTn1MW2GXC9rKXn7ezZsFgKsIpNmM+N7n5AJ
-         OgWPqQpbJRgizXG0QmDprglVTz8j9n//erBDGnExGQShMqaMGnMqy9HDv+PrM8+9J0F/
-         FHOQ==
-X-Gm-Message-State: AAQBX9dlupK5k9UnSVtt3gg8dTOuLbrGZBuz+o34nsvjkdaokr0iiCCB
-        EzLeuyKCbl075akvIV/ONVDUmbiobhIQNSpMNhk=
-X-Google-Smtp-Source: AKy350byC3UZ5q46Cg3jjcDOCZuOE/5kBZ8jGkWjtaZzjZe5hvjzf3F5KgEQU7es7Q5ChrZQ4u786jZiUPkl5fwvbpA=
-X-Received: by 2002:a25:3157:0:b0:b8e:db4a:a366 with SMTP id
- x84-20020a253157000000b00b8edb4aa366mr4583298ybx.11.1681170022289; Mon, 10
- Apr 2023 16:40:22 -0700 (PDT)
+        bh=2wHFed80X0tDB7uZIMKZwq8AtXe8sVS2+RdD7BlqWJ0=;
+        b=79nF2l4ufsgDeuPOgJ5H+pCPIzPP5XEI8oOq9xPFqk3cwEfE8Uoz5rraMiLPWIShfp
+         xzxs8pgLtPO6LPmSuNbWSw4PMq2OSW9AE9z65/C8z5zo18fhctyryR8jynJD1vP6sZfq
+         yIbQYuH0AzQrRiz7KU+0isQWtv3E07bXKDKMULF/4ppWd6LLWB5BNL1vTMX2dFcZsHpV
+         r6hua0PxRQUh9uk0T2kTKRF8uAugLYGsWKu8+kpgh8YLGgWVhqzhkGhjsymS5MKkeCNr
+         DeJ+ts96iSEKQqZDbxd2PlXHW6J/K10X4WjDXYNdsFZX24josOpVsRtZSkvBFlIyXEyq
+         fiLg==
+X-Gm-Message-State: AAQBX9cZ/xMK6hxM36uLf7S1Ef1UMYxWUOwIS8tPfUIt7ACshJQEEgGu
+        fKUgdM1ouvhO2LXzW8ReuqRHAv3/Zj8zISOTOEQ=
+X-Google-Smtp-Source: AKy350ZMKc++209kJg1zVkgj3yQq/NKejP9VbGC6SebYPA8wazTUNWYAIGuf1hZCg27F8xbh7+svzQIL1y+oht0gyoI=
+X-Received: by 2002:a25:e0d5:0:b0:b31:34ab:5ca0 with SMTP id
+ x204-20020a25e0d5000000b00b3134ab5ca0mr4048180ybg.11.1681170117817; Mon, 10
+ Apr 2023 16:41:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230406215615.122099-1-daniel.almeida@collabora.com>
  <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org> <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
-In-Reply-To: <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+ <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
+In-Reply-To: <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 11 Apr 2023 01:40:11 +0200
-Message-ID: <CANiq72k018LHbL7qqYXuuorD2ayrnTik8WD6MXPZgo5wR6VA9g@mail.gmail.com>
+Date:   Tue, 11 Apr 2023 01:41:46 +0200
+Message-ID: <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
 Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Daniel Almeida <daniel.almeida@collabora.com>
-Cc:     Hans Petter Selasky <hps@selasky.org>, wedsonaf@gmail.com,
+To:     Hans Petter Selasky <hps@selasky.org>
+Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
         ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@collabora.com
@@ -72,19 +73,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Apr 9, 2023 at 4:10=E2=80=AFPM Daniel Almeida
-<daniel.almeida@collabora.com> wrote:
+On Mon, Apr 10, 2023 at 8:59=E2=80=AFPM Hans Petter Selasky <hps@selasky.or=
+g> wrote:
 >
-> and I don't
-> think there
-> are any plans to introduce Rust outside of drivers in the kernel at
-> all, last I
-> heard.
+> Adding a dependency to build the Rust compiler even to build one or two
+> V4L2 device drivers, would mean a lot to my small hselasky/webcamd
+> project. It already has to fetch a copy of the Linux kernel, and now has
+> to bootstrap Rust from stage0 to stageN. I personally say no. It's like
 
-This was indeed our original proposal (actually, for "leaf" modules in
-general, not only device drivers), but where the line is drawn is up
-to the kernel maintainers. For instance, some of them have expressed
-interest in potentially having Rust subsystems in the future.
+Do you mean you need to compile `rustc`? Could you please explain why?
+Could you use your distribution's, or fetch the standalone installers
+or cache your own toolchain?
+
+> XCode unfortunately. I download 100's of GBytes of upgrades to XCode,
+> and barely upload one millionth worth of code back to Apple. It's not
+> good. Software developers shouldn't have to download more stuff than
+> they upload?
+
+The Rust standalone installers are 2+ orders of magnitude lighter.
+
+> The definition of "bugs" may vary of course. I was thinking more like
+> stack exploits, missing validation of arrays and so on.
+
+The kernel definitely needs to avoid those. What do you mean?
+
+> I must admit I'm not a Rust guy and don't see the advantages of Rust
+> like you do.
+
+The advantages are fairly clear. The question has always been whether
+the cost is worth those benefits.
+
+> Why not move Linux-V4L2 drivers to user-space? In my opinion Rust is
+> much more easy to get going there than at the kernel level.
+
+That sounds like an orthogonal discussion.
+
+In any case, please note that you would need to install the same Rust
+toolchain to compile them in userspace. So, if you are concerned about
+the size of the toolchain (as you mention above), it would not really
+make a difference.
+
+> Rust is slow based on my observations building Firefox from sources. The
+> Rust compiler spends a significant amount of time per source file.
+
+It is slower than compiling C, but it also provides more features, so
+it seems fair for what we are getting in exchange.
 
 Cheers,
 Miguel
