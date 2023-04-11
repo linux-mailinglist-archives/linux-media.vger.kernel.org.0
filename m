@@ -2,107 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A42836DDFC2
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 17:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBF0D6DDFDD
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 17:44:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbjDKPdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 11:33:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        id S229848AbjDKPoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 11:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbjDKPdG (ORCPT
+        with ESMTP id S229806AbjDKPoy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 11:33:06 -0400
-X-Greylist: delayed 74038 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 11 Apr 2023 08:33:05 PDT
-Received: from mail.turbocat.net (turbocat.net [88.99.82.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B0B1997;
-        Tue, 11 Apr 2023 08:33:05 -0700 (PDT)
-Received: from [10.36.2.154] (unknown [46.212.121.255])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id 5CBF126235F;
-        Tue, 11 Apr 2023 17:33:03 +0200 (CEST)
-Message-ID: <ca17f815-5779-d37c-e3f8-2a6c2983fe45@selasky.org>
-Date:   Tue, 11 Apr 2023 17:33:01 +0200
+        Tue, 11 Apr 2023 11:44:54 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F1AF3AAA;
+        Tue, 11 Apr 2023 08:44:51 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DB2D710006C; Tue, 11 Apr 2023 16:44:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1681227888; bh=gJjMJGahaI4tDqMGSnFJtVV+yhLoA/zGWC6OQiONgNs=;
+        h=Date:From:To:Subject:From;
+        b=itG1vCnoNZM1cPwHzAQ/prPhh0o9FtCqjcBroB54pY88YIaACXthSNmc4aAlzDsbn
+         mKLKdrbFbrmV7mOLUGPp5dqIXThEksK0JVCfaaewRSpFfn9v999gV7zjBnFPqMBGC6
+         /9EsJRam85qWDfBTmFgMTtE4HUaUuysWKI4DopmhYFJfh08vdFsWtFXej8W6PjfEqL
+         aXP37EerC23NVpAUbc3fTLGXPYeunMiwjDqZkc73AKYyIbeGVI63F0Xc45Ril37gRI
+         9T78F+525ATztbGjyD3qnraZe9zhj/xXtALX9CixGcgryzX0oBgbrgM5tPxiMiZPvV
+         pcJUiPK2a8GfA==
+Date:   Tue, 11 Apr 2023 16:44:48 +0100
+From:   Sean Young <sean@mess.org>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH] bpf: lirc program type should not require SYS_CAP_ADMIN
+Message-ID: <ZDWAcN6wfeXzipHz@gofer.mess.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-Content-Language: en-US
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
-        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
- <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
- <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
- <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
- <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org>
- <CANiq72mv2uYe1x6cy4zUq8XHhAZcYYpt6hVXMG4yQZeqw1kY7Q@mail.gmail.com>
- <1d50d25c-e64b-01f4-029f-8b40b46848fd@selasky.org>
- <CANiq72mbM+WBcvj1TwU2u9kLz=EucLhLR-a5nzZEDa7VJ0s2_A@mail.gmail.com>
-From:   Hans Petter Selasky <hps@selasky.org>
-In-Reply-To: <CANiq72mbM+WBcvj1TwU2u9kLz=EucLhLR-a5nzZEDa7VJ0s2_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/11/23 16:19, Miguel Ojeda wrote:
-> On Tue, Apr 11, 2023 at 3:15 PM Hans Petter Selasky <hps@selasky.org> wrote:
->>
->> If you cannot build a new toolchain without a new kernel.
-> 
+Make it possible to load lirc program type with just CAP_BPF.
 
-Hi,
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ kernel/bpf/syscall.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> Why not?
+diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+index adc83cb82f37..19d9265270b3 100644
+--- a/kernel/bpf/syscall.c
++++ b/kernel/bpf/syscall.c
+@@ -2439,7 +2439,6 @@ static bool is_net_admin_prog_type(enum bpf_prog_type prog_type)
+ 	case BPF_PROG_TYPE_LWT_SEG6LOCAL:
+ 	case BPF_PROG_TYPE_SK_SKB:
+ 	case BPF_PROG_TYPE_SK_MSG:
+-	case BPF_PROG_TYPE_LIRC_MODE2:
+ 	case BPF_PROG_TYPE_FLOW_DISSECTOR:
+ 	case BPF_PROG_TYPE_CGROUP_DEVICE:
+ 	case BPF_PROG_TYPE_CGROUP_SOCK:
+-- 
+2.39.2
 
-To me it is very simple:
-
-Look at this:
-
--#define FE_GET_PROPERTY                   _IOR('o', 83, struct 
-dtv_properties)
-+#define FE_GET_PROPERTY                   _IOW('o', 83, struct 
-dtv_properties)
-+#define FE_GET_PROPERTY_OLD       _IOR('o', 83, struct dtv_properties)
-
-The FE_GET_PROPERTY IOCTL definition is incorrectly specified as reading 
-data. While it is actually writing data. When will this be fixed in 
-Linux - I think never. That's just the way both Linux and GIT works, 
-unfortunately, though that's another discussion. You can put stuff in, 
-but you can't easily get stuff out, without it having consequences.
-
-Similarly rustc may depend on an incorrectly specified ioctl() 
-definition, also via other libraries and static linking, that just have 
-to stay incorrectly defined, because it was initially incorrectly defined.
-
-Daniel, please explain why the few lines of chunk above (and there are 
-some more) cannot be upstreamed into Linux?
-
-> 
->> Then you are stuck forever to build a new toolchain and kernel? Do you
->> agree?
-> 
-> No, I don't agree, because I don't understand why you cannot build the
-> new toolchain in the old kernel, or use a pre-built toolchain for that
-> matter (whether built by you or by somebody else).
-> 
->> Or you can say, someone else needs to deal with it, but then you have a
->> single point of failure.
-> 
-> No, you could build your own toolchain and save it somewhere, if you
-> don't want to rely on a build from somebody else.
-
-I'm trying to explain something difficult. And I'm OK that you neither 
-understand nor agree about my viewpoint. See my replies above.
-
---HPS
