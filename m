@@ -2,101 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2FB06DE5BA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 22:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41F006DE60D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 22:55:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbjDKU1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 16:27:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40852 "EHLO
+        id S229901AbjDKUza (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 16:55:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjDKU05 (ORCPT
+        with ESMTP id S229477AbjDKUz3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 16:26:57 -0400
-Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ED63B4C31;
-        Tue, 11 Apr 2023 13:26:43 -0700 (PDT)
-Received: (from willy@localhost)
-        by mail.home.local (8.17.1/8.17.1/Submit) id 33BKQWvN011451;
-        Tue, 11 Apr 2023 22:26:32 +0200
-Date:   Tue, 11 Apr 2023 22:26:32 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-Message-ID: <ZDXCeKkbPoZi5k6t@1wt.eu>
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl>
- <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
- <ZDVXbw/097jvjKvK@1wt.eu>
- <CANiq72n8ZV_bs_xp5rNtar4vmfknJtZg4OHJW6vHuhVFmGs8mg@mail.gmail.com>
- <ZDWQXDRknzFhngyk@1wt.eu>
- <CANiq72n=s23naD4-UkmuLesekDTf4b5bsmWc+fYANYPq+X1R9w@mail.gmail.com>
+        Tue, 11 Apr 2023 16:55:29 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CB91984
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 13:55:27 -0700 (PDT)
+Received: from localhost.localdomain (unknown [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id BF9DB66031F9;
+        Tue, 11 Apr 2023 21:55:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1681246525;
+        bh=0M2NEwWyzxhV0OqfImi2MOc8HG5s3BNVJrKpvkWzfPU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NLPuu7iq3YTm3B52ZHz1iVnGshbu9yTUKa7NzW0x2E4CBz+D2vLPqMbSMSPqADJcy
+         O90rt9mQGr2nWlzWOcyYJWIoi2/PnPih+1hn6OEMzB8phzjh3Mbsvc2MVSCHeqTT5p
+         sqAlPiy5tjY9D/1FFaWaQOzTMCTFowdYQV83TsN9Qu5mZaTq6B1luMfWmpe5uKOGtM
+         7bJZkXJ2jxYL1zeNlJi3iB91z+ug0GXYK8b7BZf2eAhy0bYSx7/N8/vQ4alplcGh+N
+         GXR8ADIJnAfMsgouAfMHn3Z2CViPrqBbylwL3g6+iTVwDKVGe+MohbO2Zto33DOXdy
+         Fd+nWRf6qM8yQ==
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH v2 0/2] v4l2-tracer: debug messages
+Date:   Tue, 11 Apr 2023 13:54:56 -0700
+Message-Id: <cover.1681245372.git.deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72n=s23naD4-UkmuLesekDTf4b5bsmWc+fYANYPq+X1R9w@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 09:27:35PM +0200, Miguel Ojeda wrote:
-> On Tue, Apr 11, 2023 at 6:52 PM Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > But if that code is only under a module, there's no need to turn all
-> > that code off if it's sufficient to be certain the module was no loaded.
-> > Plus it's more friendly to the user who doesn't have to rebuild a kernel,
-> > just blacklist a module and check that the kernel doesn't get tainted
-> > again.
-> 
-> That could apply to any foreign-to-us subsystems, including C code
-> too. Should we taint per subsystem so that we can easily check for
-> those that we may not trust?
+Changes since v1:
+- split into two patches
+- first patch moves debug option-checking out
+  of main code and into debug functions
+- second patch introduces and applies the macro
+  for printing file, function and line number
 
-I don't know, maybe that would be a bit too fine. But at least a tainted
-flag is much less intrusive than forcing a user to rebuild and disable
-possibly important features that they would only be willing to disable
-for just a test.
+Deborah Brouwer (2):
+  v4l2-tracer: print only if debugging option is set
+  v4l2-tracer: add macros to print debug info
 
-> I see one could argue for an experimental taint or making it depend on
-> something like `STAGING`, i.e. based on grounds of being new code.
+ utils/v4l2-tracer/libv4l2tracer.cpp      |  35 ++----
+ utils/v4l2-tracer/retrace-helper.cpp     |  41 +++----
+ utils/v4l2-tracer/retrace.cpp            | 129 ++++++++---------------
+ utils/v4l2-tracer/trace-helper.cpp       |  52 +++------
+ utils/v4l2-tracer/trace.cpp              |  15 +--
+ utils/v4l2-tracer/v4l2-tracer-common.cpp |   6 +-
+ utils/v4l2-tracer/v4l2-tracer-common.h   |  16 +++
+ utils/v4l2-tracer/v4l2-tracer.cpp        |  45 +++-----
+ 8 files changed, 121 insertions(+), 218 deletions(-)
 
-It could also be an idea.
+-- 
+2.39.1
 
-> But
-> I don't see why that should be grounded on just being a different
-> language or not being able to read the code.
-
-Because being a different language means some maintainers will always
-have a hard time understanding that code that interacts with their
-subsystems, even if they try hard. It's exactly the same reason why
-25 years ago Linus asked to stop abusing assembly code. If a language
-is only understood by a subset of developers, by nature it becomes
-more difficult to maintain in some areas.
-
-> > It could depend on the layer where it plugs and the level of intimacy
-> > with the core. Sometimes you need a deep understanding of all interactions
-> > between elements to imagine possible scenarios.
-> 
-> Please note that the policy for submitting new Rust code is that the
-> respective kernel maintainers and their lists are contacted. We also
-> request that maintainers take the code through their tree if they can,
-> rather than going through the Rust tree, precisely so that maintainers
-> are aware of these potential interactions. See
-> https://rust-for-linux.com/contributing#the-rust-subsystem for
-> details.
-
-Sure, but as you said, "if they can". I thought that it could be both
-elegant, lightweight and convenient. But I'm not trying to sell this
-idea, just sharing it.
-
-Cheers,
-Willy
