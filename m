@@ -2,116 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F31076DCE47
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 01:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D01C6DCFC8
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 04:39:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbjDJXsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Apr 2023 19:48:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
+        id S229721AbjDKCjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Apr 2023 22:39:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjDJXsp (ORCPT
+        with ESMTP id S229694AbjDKCjb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 19:48:45 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F0F81715;
-        Mon, 10 Apr 2023 16:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681170524; x=1712706524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HLABFzxIaBKdwMWhvhRoqNf4XliHa9M847b79qETyi0=;
-  b=n3oaUx3W4B5p+hfxHTzGsD62dKB2EcYFNEOQUPEfdhID0YodKSAH4u4f
-   jLSMiEtM39stn4jFcM4H9f2zj1hEgP6x8XNCiv2c2NYFFSmJSj7tHw7SQ
-   BftouZNbh+mXJ+BVkC4z+3xeP3RlBY7WS1ikLDnNWlxG8hcss4UpQuHBU
-   FunXwNBaaav8TO3Fq8biY1EzDD8pNZSJfnptTSKkBPv9dW6co0Zc2sKSD
-   MnlDSHvmLjpuz4F1inlBXx/oWmmxAfF6r+gQSDKO65yPRj8f1ZIdELiNe
-   mfGiDWCgWtplhocoxw376KqENA5vhyvLj48+1jLy2UF5pyhXmNnFwteom
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="332160674"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="332160674"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:48:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="718761257"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="718761257"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.230.103])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 16:48:43 -0700
-Date:   Mon, 10 Apr 2023 16:48:41 -0700
-From:   Alison Schofield <alison.schofield@intel.com>
-To:     Angel Alberto Carretero <angelalbertoc.r@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: fix macro style error
-Message-ID: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
-References: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230409200135.1033677-1-angelalbertoc.r@gmail.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Mon, 10 Apr 2023 22:39:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA531A8
+        for <linux-media@vger.kernel.org>; Mon, 10 Apr 2023 19:39:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 29BDA6160D
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 02:39:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A20C433D2
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 02:39:28 +0000 (UTC)
+Date:   Tue, 11 Apr 2023 04:39:26 +0200
+Message-ID: <78e69ee211038aad46f002a6bf4ed9d2.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-2.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Apr 09, 2023 at 10:01:36PM +0200, Angel Alberto Carretero wrote:
-> Wrap macro in parenthesis to fix checkpatch error.
-> 
-> Tested it by compiling the driver successfully.
-> 
-> Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
-> ---
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Hi Angel,
+Results of the daily build of media_tree:
 
-The code change looks fine. Here are a few patch style suggestions:
+date:			Tue Apr 11 03:00:09 CEST 2023
+media-tree git hash:	3228cec23b8b29215e18090c6ba635840190993d
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	ccc08732823f88011f251f3242c9a00222cbc057
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8305-g2fad699a-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-- If you do 'git log --oneline imx-media-utils.c' you'll see that
-  changes in utils file only, seem to have utils in the patch subject
-  prefix. "media: imx: utils:"
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-- Commit message is vague. How about being explicit so anyone persuing
-  those one-liners knows exactly what change was made.
-  "Enclose IMX_BUS_FMTS macro in parentheses"
+Detailed results are available here:
 
-- The commit log 'why' is to conform to the kernel coding style, not
-  to fix a checkpatch error. It is good to say Issue found by
-  checkpatch, but that itself is not the 'why'.
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
-Alison
+Detailed regression test results are available here:
 
->  drivers/staging/media/imx/imx-media-utils.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 411e907b68eb..eb44c09071de 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -7,7 +7,7 @@
->  #include <linux/module.h>
->  #include "imx-media.h"
->  
-> -#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
-> +#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
->  
->  /*
->   * List of supported pixel formats for the subdevs.
-> -- 
-> 2.40.0
-> 
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
