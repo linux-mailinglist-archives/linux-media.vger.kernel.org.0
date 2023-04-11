@@ -2,95 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D01C6DCFC8
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 04:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D99F06DD037
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 05:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjDKCjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Apr 2023 22:39:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
+        id S229822AbjDKDds (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Apr 2023 23:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbjDKCjb (ORCPT
+        with ESMTP id S229711AbjDKDdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 22:39:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA531A8
-        for <linux-media@vger.kernel.org>; Mon, 10 Apr 2023 19:39:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 29BDA6160D
-        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 02:39:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A20C433D2
-        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 02:39:28 +0000 (UTC)
-Date:   Tue, 11 Apr 2023 04:39:26 +0200
-Message-ID: <78e69ee211038aad46f002a6bf4ed9d2.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-2.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Mon, 10 Apr 2023 23:33:46 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7EFDBEB;
+        Mon, 10 Apr 2023 20:33:44 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.41:8615.1212641597
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+        by 189.cn (HERMES) with SMTP id 47F091002B2;
+        Tue, 11 Apr 2023 11:33:40 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id eb8c5b28e13a40fbb0aae97340f6b575 for emil.l.velikov@gmail.com;
+        Tue, 11 Apr 2023 11:33:43 CST
+X-Transaction-ID: eb8c5b28e13a40fbb0aae97340f6b575
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <2833ed06-7f8a-b8c1-404e-b481b2fedb3f@189.cn>
+Date:   Tue, 11 Apr 2023 11:33:39 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        nathan@kernel.org, linux-media@vger.kernel.org
+References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
+ <20230403171304.2157326-3-suijingfeng@loongson.cn>
+ <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
 
-Results of the daily build of media_tree:
+On 2023/4/4 22:10, Emil Velikov wrote:
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/loongson/lsdc_debugfs.c
+>> +void lsdc_debugfs_init(struct drm_minor *minor)
+>> +{
+>> +#ifdef CONFIG_DEBUG_FS
+>> +       drm_debugfs_create_files(lsdc_debugfs_list,
+>> +                                ARRAY_SIZE(lsdc_debugfs_list),
+>> +                                minor->debugfs_root,
+>> +                                minor);
+>> +#endif
+>> +}
+> Should probably build the file when debugfs is enabled and provide
+> no-op stub in the header. See nouveau for an example.
+>
+But doing that way introduce duplication,  you actually write two 
+implements for the same function prototype.
 
-date:			Tue Apr 11 03:00:09 CEST 2023
-media-tree git hash:	3228cec23b8b29215e18090c6ba635840190993d
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	ccc08732823f88011f251f3242c9a00222cbc057
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8305-g2fad699a-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+One for the real, another one for the dummy.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+Typically skilled core framework programmer/writer like it, for multiple 
+backend and multiple arch support
 
-Detailed results are available here:
+Because the functions set need to be implemented is large for those cases.
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+While we are just a driver implement based the drm core and only one 
+single function here,
 
-Detailed regression test results are available here:
+DEBUG_FS is enabled by default on our Mips and Loongarch. It is not 
+suffer from high frequency changes.
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+In this case , CONFIG_DEBUG_FS just boils down to "true", a nearly 
+always enabled decoration.
 
-Full logs are available here:
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+We do implement debugfs support that way in the before[1], but we pursue 
+compact in the afterwards.
 
-The Media Infrastructure API from this daily build is here:
+We could revise our driver if that is strongly recommended.
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+
+[1] https://patchwork.freedesktop.org/patch/480521/
+
