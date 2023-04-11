@@ -2,63 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D0916DD839
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D395E6DD879
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:59:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbjDKKpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 06:45:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34914 "EHLO
+        id S229553AbjDKK7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 06:59:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbjDKKpJ (ORCPT
+        with ESMTP id S229516AbjDKK7U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 06:45:09 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 70D5D423F;
-        Tue, 11 Apr 2023 03:44:47 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:53314.233135370
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id 8596310013E;
-        Tue, 11 Apr 2023 18:44:33 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 34c062daeef4482cada5c101c1f03811 for emil.l.velikov@gmail.com;
-        Tue, 11 Apr 2023 18:44:35 CST
-X-Transaction-ID: 34c062daeef4482cada5c101c1f03811
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <d46621fc-94d1-8c33-76e9-00825763719b@189.cn>
-Date:   Tue, 11 Apr 2023 18:44:32 +0800
+        Tue, 11 Apr 2023 06:59:20 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AAD1FF3
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 03:59:15 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id h12so4894744lfj.8
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 03:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681210753;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4kazWNG45egAg9Td+uttQJ57w+ox1iZun1R7CnDhH38=;
+        b=G6wcweLZdCpR9+r41llXcaTE118fQHBEmDGEp24aIBwYc2+uDqChb8jt5KOAm3ZGaQ
+         +rcDmC4yHaR0P1P6x6J+pJ9hHCSjgdCN374BD0sZzrEZuv34D60C/vqrCBfwiSeVuYCb
+         sjQx/qw1ZAU0i61FKfDPfK3yF8aojlVQsgNCnYaMNId/Z2HUdfdKTVmQdgr4qPjN7Vch
+         IOBJRjjSx2Lz4ViCczfoa/8RfrRgZEjKV2gwwSnRscZvy8ITPAEX6wKSg02Heg3w+H1X
+         rCNWNHBPOtG33VvX7hK10y0ukqFvtO39epXfs7WtmsL6CqbCiNUsRGJFznsbWg5282zi
+         vHdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681210753;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4kazWNG45egAg9Td+uttQJ57w+ox1iZun1R7CnDhH38=;
+        b=hsozCa/djrDhDEBNguwvdIMIoMkIqNdJMuXaL6hysK3Qey8eHwTRU6ZN/G78GJU5IW
+         NXEAPYtcSzdJGR3PL8EU3PEWm+Jf1B4zSUiazYpZXjWG34RW6F5Ps/rm5CYMXusAC4ae
+         +D7N39Sg6WbDdTeJpEjDNOQ4IV/PJV/wHIZEIuDdnixW5HQiWBOKzZtQYucDp+9/nlNd
+         I2JzJI8sqmynVjegNTRU1GQ7+RJV7DmUY/8uaAmJRxogQ3Q+5DyE3syb/n0QL3U7IcuE
+         LZjjJudH3Bm4HxIxVf7pLkosba04jH6d5wNSPESCMn6L3xzNzs9UUTW4ZgOng5m6HnC2
+         wYvw==
+X-Gm-Message-State: AAQBX9f9Hn0s/KoZZE71OBFd/0PzrTYD3ptnttOFePKdQ2a8c1OBhXQj
+        nKS9JXnrYgA/Tf2XPJVFdGir2g==
+X-Google-Smtp-Source: AKy350a+03egxi9cadxmrzO5rzSeZnkjey8RrjMlnOsjsT3Pbv8A9VUFw4aI9hrtq1QWJfPbeQ4baw==
+X-Received: by 2002:a19:ad46:0:b0:4ea:fa26:2378 with SMTP id s6-20020a19ad46000000b004eafa262378mr2339674lfd.23.1681210753385;
+        Tue, 11 Apr 2023 03:59:13 -0700 (PDT)
+Received: from [192.168.1.101] (abxj23.neoplus.adsl.tpnet.pl. [83.9.3.23])
+        by smtp.gmail.com with ESMTPSA id k1-20020a2e2401000000b0029ee7bc0114sm2643288ljk.64.2023.04.11.03.59.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Apr 2023 03:59:13 -0700 (PDT)
+Message-ID: <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
+Date:   Tue, 11 Apr 2023 12:59:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
- controller
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com,
+        agross@kernel.org, andersson@kernel.org, mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viswanath Boma <quic_vboma@quicinc.com>
+References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
+ <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
 Content-Language: en-US
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        nathan@kernel.org, linux-media@vger.kernel.org,
-        loongson-kernel@lists.loongnix.cn
-References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
- <20230403171304.2157326-3-suijingfeng@loongson.cn>
- <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
-From:   Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,32 +80,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 2023/4/4 22:10, Emil Velikov wrote:
->> +static const struct dev_pm_ops lsdc_pm_ops = {
->> +       .suspend = lsdc_pm_suspend,
->> +       .resume = lsdc_pm_resume,
->> +       .freeze = lsdc_pm_freeze,
->> +       .thaw = lsdc_pm_thaw,
->> +       .poweroff = lsdc_pm_freeze,
->> +       .restore = lsdc_pm_resume,
->> +};
+
+On 9.04.2023 07:18, Stanimir Varbanov wrote:
+> Hi Dikshita,
+> 
+> Thanks for the patch.
+> 
+> On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
+>> Add firmware version based checks to enable/disable
+>> features for different SOCs.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+>> Tested-by: Nathan Hebert <nhebert@chromium.org>
+>> ---
+>>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
+>>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
+>>   2 files changed, 29 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>> index 32551c2..9d1e4b2 100644
+>> --- a/drivers/media/platform/qcom/venus/core.h
+>> +++ b/drivers/media/platform/qcom/venus/core.h
+>> @@ -202,6 +202,11 @@ struct venus_core {
+>>       unsigned int core0_usage_count;
+>>       unsigned int core1_usage_count;
+>>       struct dentry *root;
+>> +    struct venus_img_version {
+>> +        u32 major;
+>> +        u32 minor;
+>> +        u32 rev;
+>> +    } venus_ver;
+>>   };
+>>     struct vdec_controls {
+>> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>>       return NULL;
+>>   }
+>>   +static inline int
+>> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>> +{
+>> +    return ((core)->venus_ver.major == vmajor &&
+>> +        (core)->venus_ver.minor == vminor &&
+>> +        (core)->venus_ver.rev >= vrev);
+>> +}
 >> +
-> The above section (and functions) should probably be wrapped in a
-> CONFIG_PM_SLEEP block.
->
-I agree with you.
+>> +static inline int
+>> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>> +{
+>> +    return ((core)->venus_ver.major == vmajor &&
+>> +        (core)->venus_ver.minor == vminor &&
+>> +        (core)->venus_ver.rev <= vrev);
+>> +}
+> 
+> IMO those two should return bool
+> 
+>>   #endif
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+>> index df96db3..07ac0fc 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+>> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>>   }
+>>     static void
+>> -sys_get_prop_image_version(struct device *dev,
+>> +sys_get_prop_image_version(struct venus_core *core,
+>>                  struct hfi_msg_sys_property_info_pkt *pkt)
+>>   {
+>> +    struct device *dev = core->dev;
+>>       u8 *smem_tbl_ptr;
+>>       u8 *img_ver;
+>>       int req_bytes;
+>> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>>           return;
+>>         img_ver = pkt->data;
+>> +    if (IS_V4(core))
+>> +        sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>> +    else if (IS_V6(core))
+>> +        sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>>   
+> 
+> what about if IS_V1?
+Whooops, I missed that in my review as well...
 
-I see imx-drm has this guard, but it's for embedded platform.
+Looks like the 8916 and 8996 FWs fall under the VIDEO.VE case
+as well, that's the QC_VERSION_STRING they have..
 
-But I also see drm/ast and drm/radeon also didn't add this.
+Perhaps this could be an 
 
-Maybe S3/S4 support is mandatory for PC platform?
+if (IS_V6)
+	..
+else
+	..
 
-Coding this way to force the kernel to enable PM_SLEEP option, otherwise 
-there a pile of driver won't get compiled.
-
-At lease drm/ast and drm/radeon is usable on LoongArch/Mips/X86-64 platform.
-
-
+Konrad
+> 
+>>       dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+> 
+> this will crash for v1.
+> 
+>>   @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>>         switch (pkt->property) {
+>>       case HFI_PROPERTY_SYS_IMAGE_VERSION:
+>> -        sys_get_prop_image_version(dev, pkt);
+>> +        sys_get_prop_image_version(core, pkt);
+>>           break;
+>>       default:
+>>           dev_dbg(dev, VDBGL "unknown property data\n");
+> 
