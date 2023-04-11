@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5AE16DD7C6
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D0916DD839
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:45:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbjDKKVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 06:21:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
+        id S229998AbjDKKpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 06:45:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbjDKKVn (ORCPT
+        with ESMTP id S229846AbjDKKpJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 06:21:43 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DA4ECDD;
-        Tue, 11 Apr 2023 03:21:40 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:55572.1747296415
+        Tue, 11 Apr 2023 06:45:09 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 70D5D423F;
+        Tue, 11 Apr 2023 03:44:47 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:53314.233135370
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id F1B78100208;
-        Tue, 11 Apr 2023 18:21:37 +0800 (CST)
+        by 189.cn (HERMES) with SMTP id 8596310013E;
+        Tue, 11 Apr 2023 18:44:33 +0800 (CST)
 Received: from  ([114.242.206.180])
-        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 8ce6a0aaf01b4ef78285af8e79f77ddf for emil.l.velikov@gmail.com;
-        Tue, 11 Apr 2023 18:21:39 CST
-X-Transaction-ID: 8ce6a0aaf01b4ef78285af8e79f77ddf
+        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 34c062daeef4482cada5c101c1f03811 for emil.l.velikov@gmail.com;
+        Tue, 11 Apr 2023 18:44:35 CST
+X-Transaction-ID: 34c062daeef4482cada5c101c1f03811
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
 Sender: 15330273260@189.cn
-Message-ID: <860cb3b3-5247-c6ad-c13a-619cde221208@189.cn>
-Date:   Tue, 11 Apr 2023 18:21:37 +0800
+Message-ID: <d46621fc-94d1-8c33-76e9-00825763719b@189.cn>
+Date:   Tue, 11 Apr 2023 18:44:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
@@ -55,7 +55,7 @@ References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
 From:   Sui Jingfeng <15330273260@189.cn>
 In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
         SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -69,67 +69,29 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi,
 
 On 2023/4/4 22:10, Emil Velikov wrote:
->> +static enum drm_mode_status
->> +lsdc_mode_config_mode_valid(struct drm_device *ddev,
->> +                           const struct drm_display_mode *mode)
->> +{
->> +       struct lsdc_device *ldev = to_lsdc(ddev);
->> +       const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB8888);
-> Short-term hard coding a format is fine, but there should be a comment
-> describing why.
-Because our driver only support DRM_FORMAT_XRGB8888 frame buffer currently.
-
-After carry out the IGT test, I found this function may not sufficient  
-anymore.
-
->> +       u64 min_pitch = drm_format_info_min_pitch(info, 0, mode->hdisplay);
->> +       u64 fb_size = min_pitch * mode->vdisplay;
+>> +static const struct dev_pm_ops lsdc_pm_ops = {
+>> +       .suspend = lsdc_pm_suspend,
+>> +       .resume = lsdc_pm_resume,
+>> +       .freeze = lsdc_pm_freeze,
+>> +       .thaw = lsdc_pm_thaw,
+>> +       .poweroff = lsdc_pm_freeze,
+>> +       .restore = lsdc_pm_resume,
+>> +};
 >> +
->> +       if (fb_size * 3 > ldev->vram_size) {
-> Why are we using 3 here? Please add an inline comment.
+> The above section (and functions) should probably be wrapped in a
+> CONFIG_PM_SLEEP block.
 >
-Originally lsdc_mode_config_mode_valid() is copy from drm_gem_vram_helper.c
+I agree with you.
 
-with the observation that there no need for the compute of the number of 
-pages in
+I see imx-drm has this guard, but it's for embedded platform.
 
-the terms of PAGE_SIZE.
+But I also see drm/ast and drm/radeon also didn't add this.
 
+Maybe S3/S4 support is mandatory for PC platform?
 
-The '3' here is  a experience number, it intend to restrict single 
-allocation overlarge.
+Coding this way to force the kernel to enable PM_SLEEP option, otherwise 
+there a pile of driver won't get compiled.
 
-In my opinion, it stand for one frame buffer plus another two dumb 
-buffer allocation
+At lease drm/ast and drm/radeon is usable on LoongArch/Mips/X86-64 platform.
 
-when running  the running pageflip test(from the libdrm modetest).
-
-
-Therefore, the kernel space drm driver should guarantee at least 3 times 
-frame buffer
-
-allocation to the user-space. Otherwise, the pageflip test can not even 
-being able to run.
-
-
-While when testing this driver with IGT, I found the  dumb_buffer test 
-of IGT will try to
-
-create a very large dumb buffer,  as large as 256MB in my case.
-
-Currently our driver could not satisfy such a large allocation,
-
-I test it with drm/radeon driver on LoongArch and X86-64, redeon can not 
-even passing it.
-
-
-The restriction put in here is not effective anymore, because it is too 
-late.
-
-I'm think we should put the restriction in the lsdc_dumb_create() function.
-
-We will revise our driver at next version.
-
-
-Great thanks for your valuable reviews.
 
