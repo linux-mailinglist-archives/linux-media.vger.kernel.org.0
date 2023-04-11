@@ -2,47 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 024616DD415
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 09:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BAE16DD42A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 09:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjDKH0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 03:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45650 "EHLO
+        id S230173AbjDKHaQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 03:30:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjDKH0y (ORCPT
+        with ESMTP id S230202AbjDKH3s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 03:26:54 -0400
+        Tue, 11 Apr 2023 03:29:48 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496128E;
-        Tue, 11 Apr 2023 00:26:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C8040E7
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 00:29:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D73EB6113B;
-        Tue, 11 Apr 2023 07:26:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 039D7C433EF;
-        Tue, 11 Apr 2023 07:26:49 +0000 (UTC)
-Message-ID: <6ee01cf1-5a8b-081f-e218-8c7da39343bc@xs4all.nl>
-Date:   Tue, 11 Apr 2023 09:26:48 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 70C9060B29
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 07:29:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79885C433D2;
+        Tue, 11 Apr 2023 07:29:28 +0000 (UTC)
+Message-ID: <f4acbd81-0747-df5e-2389-e84d24133faa@xs4all.nl>
+Date:   Tue, 11 Apr 2023 09:29:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v1] media: vivid: Add webcam parameter for (un)limited
- bandwidth
+Subject: Re: saa7146: please test the vb2 conversion!
 Content-Language: en-US
-To:     Max Staudt <mstaudt@chromium.org>,
+To:     Stefan Herdler <herdler@nurfuerspam.de>
+Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>,
+        Soeren Moch <smoch@web.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Yunke Cao <yunkec@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20230410063356.3894767-1-mstaudt@chromium.org>
- <20230410102350.382f7d02@sal.lan>
- <6aafad18-13a2-ef45-48a1-1f094554af31@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <6aafad18-13a2-ef45-48a1-1f094554af31@chromium.org>
+References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+ <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
+ <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
+ <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
+ <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+ <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
+ <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
+ <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
+ <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
+ <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
+ <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
+ <20230208100847.3ec87576@coco.lan>
+ <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
+ <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
+ <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
+ <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
+ <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
+ <fc0244d7-1edc-d0f9-1777-65521d781d7b@xs4all.nl>
+ <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-8.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
         NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
@@ -52,49 +67,129 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/04/2023 08:51, Max Staudt wrote:
-> Thank you Mauro for having a first look!
-> 
-> Questions below.
-> 
-> 
-> On 4/10/23 18:23, Mauro Carvalho Chehab wrote:
->> IMO, instead of a parameter that just enables/disables the bandwidth
->> limit, the best would be to have a parameter specifying the bandwidth
->> (with 0 meaning unlimited).
+On 10/04/2023 00:36, Stefan Herdler wrote:
+> On 07/04/23 09:04, Hans Verkuil wrote:
+>> On 07/04/2023 00:43, Stefan Herdler wrote:
+> [...]
+>>>
+>>> VBI output is used to switch the aspect-ratio via WSS.
+>>> this should be supported by any av7110 card.
+>>>
+>>> The software is run a daemon or plugin, so the userspace-facing change
+>>> shouldn't matter.
+>>>
+>>> I'll test this as soon as possible.
+>>>
+>>>
+>>>
+>>>
+>>> I've done only basic testing so far, but unfortunately it already failed.
+>>>
+>>> The test:
+>>> Switch to a channel[*] and view the decoded video with tvtime.
+>>>
+>>> The resulting picture is corrupted.
+>>> Almost green with some pink traces at the outlines.
+>>>
+>>> It reminds me to YCbCr component-yideo on a RGB-input.
+>>> Maybe the input-format of saa7146 not set correctly?
+>>>
+>>> The OSD is equally affected, but the card seems to run stable.
 >>
->> If not used, vivid would initialize it to dev->webcam_bandwidth_limit,
->> so a read operation will show the current limit.
-> Up until now, the bandwidth limit is a rather arbitrary reduction of two interval sizes per frame size.
+>> That's weird. When you are in this state, can you run
+>> 'v4l2-ctl -V -d /dev/videoX' for the video device that tvtime
+>> is using? I'll try to test it with tvtime as well next week.
+>> I have done my tests using qvidcap and qv4l2, and that looked fine.
 > 
-> How would you prefer to define a limited bandwidth in this parameter? How would it affect the simulated camera, do you have a suggestion for a formula from bandwidth to frame/interval sizes offered?
+> I've done some more testing and the result is somehow confusing to me.
+> 
+> At first I tried qv4l and it shows correct videos with any driver.
+> And with any pixel format setting I tried.
 > 
 > 
->>> +/* Default: limited webcam bandwidth */
->>> +static bool webcam_bandwidth_limit[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = true };
->>> +module_param_array(webcam_bandwidth_limit, bool, NULL, 0444);
->>
->> I would also use 0666, to allow changing this on runtime.
+> After boot /dev/video0 (there is only this device) starts always with
+> this settings:
+> Format Video Capture:
+>         Width/Height      : 384/288
+>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
+>         Field             : Interlaced
+>         Bytes per Line    : 1152
+>         Size Image        : 331776
+>         Colorspace        : SMPTE 170M
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Full Range)
+>         Flags             :
 > 
-> I guess that's possible, though it would add complexity.
 > 
-> Currently we can ask for two instances, each with a different setting:
+> On the working "old" driver tvtime switches to the following settings:
+> Format Video Capture:
+>         Width/Height      : 720/576
+>         Pixel Format      : 'UYVY' (UYVY 4:2:2)
+>         Field             : Interlaced
+>         Bytes per Line    : 1440
+>         Size Image        : 829440
+>         Colorspace        : SMPTE 170M
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Limited Range)
+>         Flags             :
+> It seems tvtime needs this 'UYVY' pixel format to work.
 > 
->   n_devs=2 webcam_bandwidth_limit=1,0
 > 
-> This creates /dev/video0 which is limited, and /dev/video4 which is unlimited.
+> On the "new" driver, with patches [1], tvtime switches to:
+> Format Video Capture:
+>         Width/Height      : 720/576
+>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
+>         Field             : Interlaced
+>         Bytes per Line    : 2160
+>         Size Image        : 1244160
+>         Colorspace        : SMPTE 170M
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Full Range)
+>         Flags             :
+> And now it is getting weird:
+> I can switch to the correct 'UYVY' settings using qv4l.
+> But tvtime always switches back to 'BGR3'.
 > 
-> Maybe this already sufficiently covers the case you are looking for, and we can keep the complexity low? A real webcam won't suddenly offer new frame rates either...
+> Using qv4l while tvtime is running doesn't work and sometimes
+> causes freezing of both programs (on all drivers).
+> 
+> 
+> I have also build a new driver just without the patches [2].
+> It shows the "old" correct behavior.
+> So I think, the cause of the change must be somewhere in the
+> patches.
 
-I think we either use this bandwidth option and calculate the max fps based on
-that (basically the bandwidth divided by (image_size + some blanking factor)),
-or we keep it simple and instead of going down two steps in fps we allow up to
-60 fps up to 720p, then 30 fps for 1080p and 15 fps for 4k.
+That's useful information, thank you!
 
-The fps values currently used are a bit outdated w.r.t. modern webcams, so
-upgrading it wouldn't hurt. And this is a lot simpler than doing bandwidth
-calculations.
+I'll do some testing this week.
 
 Regards,
 
 	Hans
+
+> 
+> 
+> 
+> Btw.:
+> I also tried to open the video device with the usual
+> media-players, but I had no luck so far (with any driver).
+> 
+> 
+> Regards
+> 
+> Stefan
+> 
+> 
+> [1] git checkout -B saa7146-clean 837736a79a76c9becddf0caf905b27c144a64030
+> [2] git checkout -B saa7146-clean 2653fad0d8a9625667e9a78133ea9e1245b7c40c
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+> [...]
+
