@@ -2,192 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D395E6DD879
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D2786DD929
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 13:15:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjDKK7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 06:59:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50866 "EHLO
+        id S229847AbjDKLPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 07:15:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjDKK7U (ORCPT
+        with ESMTP id S229998AbjDKLPO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 06:59:20 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AAD1FF3
-        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 03:59:15 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id h12so4894744lfj.8
-        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 03:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681210753;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4kazWNG45egAg9Td+uttQJ57w+ox1iZun1R7CnDhH38=;
-        b=G6wcweLZdCpR9+r41llXcaTE118fQHBEmDGEp24aIBwYc2+uDqChb8jt5KOAm3ZGaQ
-         +rcDmC4yHaR0P1P6x6J+pJ9hHCSjgdCN374BD0sZzrEZuv34D60C/vqrCBfwiSeVuYCb
-         sjQx/qw1ZAU0i61FKfDPfK3yF8aojlVQsgNCnYaMNId/Z2HUdfdKTVmQdgr4qPjN7Vch
-         IOBJRjjSx2Lz4ViCczfoa/8RfrRgZEjKV2gwwSnRscZvy8ITPAEX6wKSg02Heg3w+H1X
-         rCNWNHBPOtG33VvX7hK10y0ukqFvtO39epXfs7WtmsL6CqbCiNUsRGJFznsbWg5282zi
-         vHdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681210753;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4kazWNG45egAg9Td+uttQJ57w+ox1iZun1R7CnDhH38=;
-        b=hsozCa/djrDhDEBNguwvdIMIoMkIqNdJMuXaL6hysK3Qey8eHwTRU6ZN/G78GJU5IW
-         NXEAPYtcSzdJGR3PL8EU3PEWm+Jf1B4zSUiazYpZXjWG34RW6F5Ps/rm5CYMXusAC4ae
-         +D7N39Sg6WbDdTeJpEjDNOQ4IV/PJV/wHIZEIuDdnixW5HQiWBOKzZtQYucDp+9/nlNd
-         I2JzJI8sqmynVjegNTRU1GQ7+RJV7DmUY/8uaAmJRxogQ3Q+5DyE3syb/n0QL3U7IcuE
-         LZjjJudH3Bm4HxIxVf7pLkosba04jH6d5wNSPESCMn6L3xzNzs9UUTW4ZgOng5m6HnC2
-         wYvw==
-X-Gm-Message-State: AAQBX9f9Hn0s/KoZZE71OBFd/0PzrTYD3ptnttOFePKdQ2a8c1OBhXQj
-        nKS9JXnrYgA/Tf2XPJVFdGir2g==
-X-Google-Smtp-Source: AKy350a+03egxi9cadxmrzO5rzSeZnkjey8RrjMlnOsjsT3Pbv8A9VUFw4aI9hrtq1QWJfPbeQ4baw==
-X-Received: by 2002:a19:ad46:0:b0:4ea:fa26:2378 with SMTP id s6-20020a19ad46000000b004eafa262378mr2339674lfd.23.1681210753385;
-        Tue, 11 Apr 2023 03:59:13 -0700 (PDT)
-Received: from [192.168.1.101] (abxj23.neoplus.adsl.tpnet.pl. [83.9.3.23])
-        by smtp.gmail.com with ESMTPSA id k1-20020a2e2401000000b0029ee7bc0114sm2643288ljk.64.2023.04.11.03.59.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Apr 2023 03:59:13 -0700 (PDT)
-Message-ID: <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
-Date:   Tue, 11 Apr 2023 12:59:11 +0200
+        Tue, 11 Apr 2023 07:15:14 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1683C4210;
+        Tue, 11 Apr 2023 04:15:04 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BC29128D;
+        Tue, 11 Apr 2023 13:15:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681211701;
+        bh=z96WjCxnzm5jjQYW/t3Sxje5YCgqE2zbUjGLA5+fHS0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tR3xaaBzwFk/MoyHMy9RbwFwRvm01OiGJZxEAK5zxoqCJQd7xkjpkRSUff15OfdTy
+         +cdhlRKm+lObotVV7hJChFPPC3rHJv5V5T766DMwl0+YVMKT7Mpkoci89Mex9Ng4G7
+         UGHweU/Z3cKbCO/npkg6t7VmKcgyLtLPJXstXGmg=
+Date:   Tue, 11 Apr 2023 14:15:12 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     mchehab@kernel.org, kernel@puri.sm, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] media: hi846: preserve the streaming state during
+ system suspend
+Message-ID: <20230411111512.GH11253@pendragon.ideasonboard.com>
+References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
+ <20230405092904.1129395-3-martin.kepplinger@puri.sm>
+ <20230406013551.GL9915@pendragon.ideasonboard.com>
+ <9ad81a9b2806272c715784985a3e0f52cda159c7.camel@puri.sm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viswanath Boma <quic_vboma@quicinc.com>
-References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
- <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
- <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
-Content-Language: en-US
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <9ad81a9b2806272c715784985a3e0f52cda159c7.camel@puri.sm>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Martin,
 
+On Tue, Apr 11, 2023 at 11:39:32AM +0200, Martin Kepplinger wrote:
+> Am Donnerstag, dem 06.04.2023 um 04:35 +0300 schrieb Laurent Pinchart:
+> > On Wed, Apr 05, 2023 at 11:29:04AM +0200, Martin Kepplinger wrote:
+> > > The hi846 driver changed the "streaming" state inside of "start/stop_streaming".
+> > > The problem is that inside of the (system) suspend callback, it calls
+> > > "stop_streaming" unconditionally. So streaming would always be stopped
+> > > when suspending.
+> > > 
+> > > That makes sense with runtime pm for example, after s_stream(..., 0) but
+> > > does not preserve the "streaming" state during system suspend when
+> > > currently streaming.
+> > 
+> > The driver shouldn't need to stop streaming at system suspend time. It
+> > should have had its .s_stream(0) operation called and shouldn't be
+> > streaming anymore. If that's not the case, there's an issue somewhere
+> > else, which should be fixed. The code that stops streaming at system
+> > suspend and restarts it at system resume should then be dropped from
+> > this driver.
+> > 
+> > > Fix this by simply setting the streaming state outside of "start/stop_streaming"
+> > > which is s_stream().
+> > > 
+> > > While at it, improve things a bit by not assigning "1", but the "enable"
+> > > value we later compare against, and fix one error handling path in
+> > > resume().
+> > > 
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > ---
+> > >  drivers/media/i2c/hi846.c | 8 ++++----
+> > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> > > index 0b0eda2e223cd..1ca6e9407d618 100644
+> > > --- a/drivers/media/i2c/hi846.c
+> > > +++ b/drivers/media/i2c/hi846.c
+> > > @@ -1780,8 +1780,6 @@ static int hi846_start_streaming(struct hi846 *hi846)
+> > >                 return ret;
+> > >         }
+> > >  
+> > > -       hi846->streaming = 1;
+> > > -
+> > >         dev_dbg(&client->dev, "%s: started streaming successfully\n", __func__);
+> > >  
+> > >         return ret;
+> > > @@ -1793,8 +1791,6 @@ static void hi846_stop_streaming(struct hi846 *hi846)
+> > >  
+> > >         if (hi846_write_reg(hi846, HI846_REG_MODE_SELECT, HI846_MODE_STANDBY))
+> > >                 dev_err(&client->dev, "failed to stop stream");
+> > > -
+> > > -       hi846->streaming = 0;
+> > >  }
+> > >  
+> > >  static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
+> > > @@ -1816,10 +1812,12 @@ static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
+> > >                 }
+> > >  
+> > >                 ret = hi846_start_streaming(hi846);
+> > > +               hi846->streaming = enable;
+> > >         }
+> > >  
+> > >         if (!enable || ret) {
+> > >                 hi846_stop_streaming(hi846);
+> > > +               hi846->streaming = 0;
+> > >                 pm_runtime_put(&client->dev);
+> > >         }
+> > >  
+> > > @@ -1898,6 +1896,8 @@ static int __maybe_unused hi846_resume(struct device *dev)
+> > >                 if (ret) {
+> > >                         dev_err(dev, "%s: start streaming failed: %d\n",
+> > >                                 __func__, ret);
+> > > +                       hi846_stop_streaming(hi846);
+> > > +                       hi846->streaming = 0;
+> > >                         goto error;
+> > >                 }
+> > >         }
+> 
+> hi Laurent,
+> 
+> ok I see. My first test without any streaming-state handling in
+> suspend/resume doesn't succeed. But now I know that's the goal and I'll
+> put this on my list to do.
+> 
+> Since this driver *already* tracks "streaming", would you be ok with
+> this fix in the meantime?
 
-On 9.04.2023 07:18, Stanimir Varbanov wrote:
-> Hi Dikshita,
-> 
-> Thanks for the patch.
-> 
-> On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
->> Add firmware version based checks to enable/disable
->> features for different SOCs.
->>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
->> Tested-by: Nathan Hebert <nhebert@chromium.org>
->> ---
->>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
->>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
->>   2 files changed, 29 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->> index 32551c2..9d1e4b2 100644
->> --- a/drivers/media/platform/qcom/venus/core.h
->> +++ b/drivers/media/platform/qcom/venus/core.h
->> @@ -202,6 +202,11 @@ struct venus_core {
->>       unsigned int core0_usage_count;
->>       unsigned int core1_usage_count;
->>       struct dentry *root;
->> +    struct venus_img_version {
->> +        u32 major;
->> +        u32 minor;
->> +        u32 rev;
->> +    } venus_ver;
->>   };
->>     struct vdec_controls {
->> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->>       return NULL;
->>   }
->>   +static inline int
->> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->> +{
->> +    return ((core)->venus_ver.major == vmajor &&
->> +        (core)->venus_ver.minor == vminor &&
->> +        (core)->venus_ver.rev >= vrev);
->> +}
->> +
->> +static inline int
->> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->> +{
->> +    return ((core)->venus_ver.major == vmajor &&
->> +        (core)->venus_ver.minor == vminor &&
->> +        (core)->venus_ver.rev <= vrev);
->> +}
-> 
-> IMO those two should return bool
-> 
->>   #endif
->> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
->> index df96db3..07ac0fc 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
->> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->>   }
->>     static void
->> -sys_get_prop_image_version(struct device *dev,
->> +sys_get_prop_image_version(struct venus_core *core,
->>                  struct hfi_msg_sys_property_info_pkt *pkt)
->>   {
->> +    struct device *dev = core->dev;
->>       u8 *smem_tbl_ptr;
->>       u8 *img_ver;
->>       int req_bytes;
->> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->>           return;
->>         img_ver = pkt->data;
->> +    if (IS_V4(core))
->> +        sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
->> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->> +    else if (IS_V6(core))
->> +        sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
->> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->>   
-> 
-> what about if IS_V1?
-Whooops, I missed that in my review as well...
+I'd rather get a patch that drops streaming handling :-) It's fine
+carrying a local patch in the Librem5 kernel to work around the problem
+until a proper fix is available, but do we have a need to get the
+workaround in mainline too ?
 
-Looks like the 8916 and 8996 FWs fall under the VIDEO.VE case
-as well, that's the QC_VERSION_STRING they have..
+When it comes to a proper fix, it may be as simple as manually calling
+device_link_add() in consumer (e.g. the CSI-2 receiver) drivers to
+create links to suppliers(e.g. the camera sensor). The PM core should
+then guarantee that the consumer gets suspended before the producer.
+Would you be able to test that ?
 
-Perhaps this could be an 
+-- 
+Regards,
 
-if (IS_V6)
-	..
-else
-	..
-
-Konrad
-> 
->>       dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
-> 
-> this will crash for v1.
-> 
->>   @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->>         switch (pkt->property) {
->>       case HFI_PROPERTY_SYS_IMAGE_VERSION:
->> -        sys_get_prop_image_version(dev, pkt);
->> +        sys_get_prop_image_version(core, pkt);
->>           break;
->>       default:
->>           dev_dbg(dev, VDBGL "unknown property data\n");
-> 
+Laurent Pinchart
