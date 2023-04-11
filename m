@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D99F06DD037
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 05:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 700EE6DD1DB
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 07:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbjDKDds (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Apr 2023 23:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36268 "EHLO
+        id S229950AbjDKFjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 01:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbjDKDdq (ORCPT
+        with ESMTP id S229694AbjDKFjP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Apr 2023 23:33:46 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7EFDBEB;
-        Mon, 10 Apr 2023 20:33:44 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.41:8615.1212641597
+        Tue, 11 Apr 2023 01:39:15 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C5AE02D41;
+        Mon, 10 Apr 2023 22:39:12 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:59606.589911955
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
-        by 189.cn (HERMES) with SMTP id 47F091002B2;
-        Tue, 11 Apr 2023 11:33:40 +0800 (CST)
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 6BC8C1002F6;
+        Tue, 11 Apr 2023 13:39:08 +0800 (CST)
 Received: from  ([114.242.206.180])
-        by gateway-151646-dep-7b48884fd-ljp89 with ESMTP id eb8c5b28e13a40fbb0aae97340f6b575 for emil.l.velikov@gmail.com;
-        Tue, 11 Apr 2023 11:33:43 CST
-X-Transaction-ID: eb8c5b28e13a40fbb0aae97340f6b575
+        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id f7efde40c6bc459b9f649b6547f1e147 for emil.l.velikov@gmail.com;
+        Tue, 11 Apr 2023 13:39:11 CST
+X-Transaction-ID: f7efde40c6bc459b9f649b6547f1e147
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
 Sender: 15330273260@189.cn
-Message-ID: <2833ed06-7f8a-b8c1-404e-b481b2fedb3f@189.cn>
-Date:   Tue, 11 Apr 2023 11:33:39 +0800
+Message-ID: <c29da6cf-98be-42fc-c415-28732f6b6b1f@189.cn>
+Date:   Tue, 11 Apr 2023 13:39:07 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
@@ -47,7 +47,8 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Christian Koenig <christian.koenig@amd.com>,
         linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
         linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        nathan@kernel.org, linux-media@vger.kernel.org
+        nathan@kernel.org, linux-media@vger.kernel.org,
+        loongson-kernel@lists.loongnix.cn
 References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
  <20230403171304.2157326-3-suijingfeng@loongson.cn>
  <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
@@ -68,45 +69,95 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi,
 
 On 2023/4/4 22:10, Emil Velikov wrote:
->> --- /dev/null
->> +++ b/drivers/gpu/drm/loongson/lsdc_debugfs.c
->> +void lsdc_debugfs_init(struct drm_minor *minor)
+>> +static void lsdc_crtc_reset(struct drm_crtc *crtc)
 >> +{
->> +#ifdef CONFIG_DEBUG_FS
->> +       drm_debugfs_create_files(lsdc_debugfs_list,
->> +                                ARRAY_SIZE(lsdc_debugfs_list),
->> +                                minor->debugfs_root,
->> +                                minor);
->> +#endif
->> +}
-> Should probably build the file when debugfs is enabled and provide
-> no-op stub in the header. See nouveau for an example.
+>> +       struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
+>> +       struct drm_device *ddev = crtc->dev;
+>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>> +       struct lsdc_crtc_state *priv_crtc_state;
+>> +       unsigned int index = dispipe->index;
+>> +       u32 val;
+>> +
+>> +       val = LSDC_PF_XRGB8888 | CFG_RESET_N;
+>> +       if (ldev->descp->chip == CHIP_LS7A2000)
+>> +               val |= LSDC_DMA_STEP_64_BYTES;
+>> +
+>> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val);
+>> +
+>> +       if (ldev->descp->chip == CHIP_LS7A2000) {
+>> +               val = PHY_CLOCK_EN | PHY_DATA_EN;
+>> +               lsdc_crtc_wreg32(ldev, LSDC_CRTC0_PANEL_CONF_REG, index, val);
+>> +       }
+>> +
+> AFAICT no other driver touches the HW in their reset callback. Should
+> the above be moved to another callback?
 >
-But doing that way introduce duplication,  you actually write two 
-implements for the same function prototype.
+You may correct in the 95% of all cases.
 
-One for the real, another one for the dummy.
+After reading the comments of the reset callback of struct 
+drm_crtc_funcs in drm_crtc.h,
 
-Typically skilled core framework programmer/writer like it, for multiple 
-backend and multiple arch support
+It seems that it does not prohibit us to touches the hardware.
 
-Because the functions set need to be implemented is large for those cases.
-
-While we are just a driver implement based the drm core and only one 
-single function here,
-
-DEBUG_FS is enabled by default on our Mips and Loongarch. It is not 
-suffer from high frequency changes.
-
-In this case , CONFIG_DEBUG_FS just boils down to "true", a nearly 
-always enabled decoration.
+I copy that comments and paste into here for easier to read,as below:
 
 
-We do implement debugfs support that way in the before[1], but we pursue 
-compact in the afterwards.
+     /*
+      * @reset:
+      *
+      * Reset CRTC hardware and software state to off. This function isn't
+      * called by the core directly, only through drm_mode_config_reset().
+      * It's not a helper hook only for historical reasons.
+      *
+      * Atomic drivers can use drm_atomic_helper_crtc_reset() to reset
+      * atomic state using this hook.
+      */
 
-We could revise our driver if that is strongly recommended.
+
+It seem allowable to reset CRTC hardware in this callback, did it cue us?
+
+What we know is that this reset callback (and others, such as encoder's 
+reset)
+
+is called by drm_mode_config_reset(). It is the first set of functions 
+get called
+
+before other hardware related callbacks.
 
 
-[1] https://patchwork.freedesktop.org/patch/480521/
+I don't not see how other drivers implement this callback, after you 
+mention this
+
+I skim over a few, I found tilcdc also writing the hardware in their 
+tilcdc_crtc_reset()
+
+function. See it in drm/tildc/tilclc_crtc.c
+
+
+In addition, Loongson platform support efifb,  in order to light up the 
+monitor in
+
+firmware stage and the booting stage, the firmware touch the display 
+hardware
+
+register directly. After efifb get kick out, when drm/loongson driver 
+taken over the
+
+hardware, the register setting state still remain in the hardware 
+register. Those
+
+register setting may no longer correct for the subsequent operationd. 
+What we
+
+doing here is to giving the hardware a basic healthy state prepare to be 
+update
+
+further. As the reset callback is call very early, we found that it's 
+the best fit.
+
+The reset will also get called when resume(S3).
+
+
+The problem is that we don't find a good to place to move those setting 
+currently.
 
