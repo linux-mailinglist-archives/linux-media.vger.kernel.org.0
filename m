@@ -2,162 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 700EE6DD1DB
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 07:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28F656DD21F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 07:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbjDKFjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 01:39:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49460 "EHLO
+        id S229916AbjDKFyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 01:54:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbjDKFjP (ORCPT
+        with ESMTP id S229733AbjDKFyb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 01:39:15 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C5AE02D41;
-        Mon, 10 Apr 2023 22:39:12 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:59606.589911955
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id 6BC8C1002F6;
-        Tue, 11 Apr 2023 13:39:08 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id f7efde40c6bc459b9f649b6547f1e147 for emil.l.velikov@gmail.com;
-        Tue, 11 Apr 2023 13:39:11 CST
-X-Transaction-ID: f7efde40c6bc459b9f649b6547f1e147
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <c29da6cf-98be-42fc-c415-28732f6b6b1f@189.cn>
-Date:   Tue, 11 Apr 2023 13:39:07 +0800
+        Tue, 11 Apr 2023 01:54:31 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35560E76;
+        Mon, 10 Apr 2023 22:54:25 -0700 (PDT)
+X-UUID: 4b77daa4d82d11eda9a90f0bb45854f4-20230411
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=RHMG10ntLeYlRbI/eWA7wuZfKFUbLypz6+gPoLW2XTQ=;
+        b=U7XnS+xVz5eOMoxgL3l3ZXhPY09yaeSM1OAqFGZ9qdDKiTWzBdEcgf89IB36uu8+fdB4OJ/YJ0jMR770/qQOEjP4CP30o4g0JG8Lg/ifyoZQ+JgeI7ZTKvxk1Dz1LQM04+XFhvGNCBQkIo5ka63PiaMK09FjziEud3dE1Uuu+Bc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22,REQID:cb166d5d-e5cb-4af3-8050-1c9a141aa523,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:120426c,CLOUDID:1640eba0-8fcb-430b-954a-ba3f00fa94a5,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 4b77daa4d82d11eda9a90f0bb45854f4-20230411
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 675097890; Tue, 11 Apr 2023 13:54:16 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Tue, 11 Apr 2023 13:54:15 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Tue, 11 Apr 2023 13:54:15 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <maoguang.meng@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        "Irui Wang" <irui.wang@mediatek.com>
+Subject: [PATCH v2, 0/2] fix coverity issues in encoder driver
+Date:   Tue, 11 Apr 2023 13:54:11 +0800
+Message-ID: <20230411055413.539-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        nathan@kernel.org, linux-media@vger.kernel.org,
-        loongson-kernel@lists.loongnix.cn
-References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
- <20230403171304.2157326-3-suijingfeng@loongson.cn>
- <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
-From:   Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=0.2 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+two coverity issues in encoder driver, submit two changes for fix them.
 
-On 2023/4/4 22:10, Emil Velikov wrote:
->> +static void lsdc_crtc_reset(struct drm_crtc *crtc)
->> +{
->> +       struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
->> +       struct drm_device *ddev = crtc->dev;
->> +       struct lsdc_device *ldev = to_lsdc(ddev);
->> +       struct lsdc_crtc_state *priv_crtc_state;
->> +       unsigned int index = dispipe->index;
->> +       u32 val;
->> +
->> +       val = LSDC_PF_XRGB8888 | CFG_RESET_N;
->> +       if (ldev->descp->chip == CHIP_LS7A2000)
->> +               val |= LSDC_DMA_STEP_64_BYTES;
->> +
->> +       lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val);
->> +
->> +       if (ldev->descp->chip == CHIP_LS7A2000) {
->> +               val = PHY_CLOCK_EN | PHY_DATA_EN;
->> +               lsdc_crtc_wreg32(ldev, LSDC_CRTC0_PANEL_CONF_REG, index, val);
->> +       }
->> +
-> AFAICT no other driver touches the HW in their reset callback. Should
-> the above be moved to another callback?
->
-You may correct in the 95% of all cases.
+changes compared with v1:
+- separate into two changes.
+---
 
-After reading the comments of the reset callback of struct 
-drm_crtc_funcs in drm_crtc.h,
+Irui Wang (2):
+  media: mediatek: vcodec: make sure array index is in valid range
+  media: mediatek: vcodec: make sure pointer isn't NULL before used
 
-It seems that it does not prohibit us to touches the hardware.
+ .../platform/mediatek/vcodec/mtk_vcodec_enc.c    |  2 +-
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c         | 16 ++++++++++++----
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-I copy that comments and paste into here for easier to read,as below:
-
-
-     /*
-      * @reset:
-      *
-      * Reset CRTC hardware and software state to off. This function isn't
-      * called by the core directly, only through drm_mode_config_reset().
-      * It's not a helper hook only for historical reasons.
-      *
-      * Atomic drivers can use drm_atomic_helper_crtc_reset() to reset
-      * atomic state using this hook.
-      */
-
-
-It seem allowable to reset CRTC hardware in this callback, did it cue us?
-
-What we know is that this reset callback (and others, such as encoder's 
-reset)
-
-is called by drm_mode_config_reset(). It is the first set of functions 
-get called
-
-before other hardware related callbacks.
-
-
-I don't not see how other drivers implement this callback, after you 
-mention this
-
-I skim over a few, I found tilcdc also writing the hardware in their 
-tilcdc_crtc_reset()
-
-function. See it in drm/tildc/tilclc_crtc.c
-
-
-In addition, Loongson platform support efifb,  in order to light up the 
-monitor in
-
-firmware stage and the booting stage, the firmware touch the display 
-hardware
-
-register directly. After efifb get kick out, when drm/loongson driver 
-taken over the
-
-hardware, the register setting state still remain in the hardware 
-register. Those
-
-register setting may no longer correct for the subsequent operationd. 
-What we
-
-doing here is to giving the hardware a basic healthy state prepare to be 
-update
-
-further. As the reset callback is call very early, we found that it's 
-the best fit.
-
-The reset will also get called when resume(S3).
-
-
-The problem is that we don't find a good to place to move those setting 
-currently.
+-- 
+2.18.0
 
