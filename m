@@ -2,291 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4A846DD9FA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 13:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B76D6DDA09
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 13:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230114AbjDKLpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 07:45:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56958 "EHLO
+        id S230140AbjDKLt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 07:49:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbjDKLp2 (ORCPT
+        with ESMTP id S230182AbjDKLtM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 07:45:28 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D14546B1;
-        Tue, 11 Apr 2023 04:45:04 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.98,336,1673881200"; 
-   d="scan'208";a="155597457"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Apr 2023 20:44:08 +0900
-Received: from localhost.localdomain (unknown [10.226.93.123])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D27234008C6C;
-        Tue, 11 Apr 2023 20:44:03 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v7 17/17] drm: rcar-du: Add rcar_du_lib_vsps_init()
-Date:   Tue, 11 Apr 2023 12:42:35 +0100
-Message-Id: <20230411114235.366042-18-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230411114235.366042-1-biju.das.jz@bp.renesas.com>
-References: <20230411114235.366042-1-biju.das.jz@bp.renesas.com>
+        Tue, 11 Apr 2023 07:49:12 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7BB449A
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 04:49:06 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pmCUi-0001CC-Ck; Tue, 11 Apr 2023 13:49:04 +0200
+Message-ID: <e66fceb5-6621-54bb-cffb-66889941cf17@leemhuis.info>
+Date:   Tue, 11 Apr 2023 13:49:03 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
+ pixelformats
+Content-Language: en-US, de-DE
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     regressions@lists.linux.dev,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>
+References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1681213746;ebd2192d;
+X-HE-SMSGID: 1pmCUi-0001CC-Ck
+X-Spam-Status: No, score=-2.2 required=5.0 tests=NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add rcar_du_lib_vsps_init() to RCar DU kms lib to handle both
-rcar_du_vsp_init() and rzg2l_du_vsp_init().
+On 29.03.23 14:28, Hans Verkuil wrote:
+> If the fcc is 0 (indicating an unknown GUID format), then fill in the
+> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v6->v7:
- * Rebased to drm-tip.
-v1->v6:
- * Rebased on drm-misc-next and DU-next.
-v1:
- * Created the lib suggested by Laurent.
-Ref:
- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220316131100.30685-6-biju.das.jz@bp.renesas.com/
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c     | 88 +---------------------
- drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c | 89 +++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h |  5 ++
- 3 files changed, 95 insertions(+), 87 deletions(-)
+Thx for working on this.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 01ffe36f9d44..6f3352a6a264 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -69,92 +69,6 @@ static const struct drm_mode_config_funcs rcar_du_mode_config_funcs = {
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
--static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
--{
--	const struct device_node *np = rcdu->dev->of_node;
--	const char *vsps_prop_name = "renesas,vsps";
--	struct of_phandle_args args;
--	struct {
--		struct device_node *np;
--		unsigned int crtcs_mask;
--	} vsps[RCAR_DU_MAX_VSPS] = { { NULL, }, };
--	unsigned int vsps_count = 0;
--	unsigned int cells;
--	unsigned int i;
--	int ret;
--
--	/*
--	 * First parse the DT vsps property to populate the list of VSPs. Each
--	 * entry contains a pointer to the VSP DT node and a bitmask of the
--	 * connected DU CRTCs.
--	 */
--	ret = of_property_count_u32_elems(np, vsps_prop_name);
--	if (ret < 0) {
--		/* Backward compatibility with old DTBs. */
--		vsps_prop_name = "vsps";
--		ret = of_property_count_u32_elems(np, vsps_prop_name);
--	}
--	cells = ret / rcdu->num_crtcs - 1;
--	if (cells > 1)
--		return -EINVAL;
--
--	for (i = 0; i < rcdu->num_crtcs; ++i) {
--		unsigned int j;
--
--		ret = of_parse_phandle_with_fixed_args(np, vsps_prop_name,
--						       cells, i, &args);
--		if (ret < 0)
--			goto error;
--
--		/*
--		 * Add the VSP to the list or update the corresponding existing
--		 * entry if the VSP has already been added.
--		 */
--		for (j = 0; j < vsps_count; ++j) {
--			if (vsps[j].np == args.np)
--				break;
--		}
--
--		if (j < vsps_count)
--			of_node_put(args.np);
--		else
--			vsps[vsps_count++].np = args.np;
--
--		vsps[j].crtcs_mask |= BIT(i);
--
--		/*
--		 * Store the VSP pointer and pipe index in the CRTC. If the
--		 * second cell of the 'renesas,vsps' specifier isn't present,
--		 * default to 0 to remain compatible with older DT bindings.
--		 */
--		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
--		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
--	}
--
--	/*
--	 * Then initialize all the VSPs from the node pointers and CRTCs bitmask
--	 * computed previously.
--	 */
--	for (i = 0; i < vsps_count; ++i) {
--		struct rcar_du_vsp *vsp = &rcdu->vsps[i];
--
--		vsp->index = i;
--		vsp->dev = rcdu;
--
--		ret = rcar_du_vsp_init(vsp, vsps[i].np, vsps[i].crtcs_mask);
--		if (ret < 0)
--			goto error;
--	}
--
--	return 0;
--
--error:
--	for (i = 0; i < ARRAY_SIZE(vsps); ++i)
--		of_node_put(vsps[i].np);
--
--	return ret;
--}
--
- static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
- {
- 	const struct device_node *np = rcdu->dev->of_node;
-@@ -326,7 +240,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
- 
- 	/* Initialize the compositors. */
- 	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE)) {
--		ret = rcar_du_vsps_init(rcdu);
-+		ret = rcar_du_lib_vsps_init(rcdu, rcar_du_vsp_init);
- 		if (ret < 0)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-index 438a56c550f2..b9949dbd3c33 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
-@@ -653,3 +653,92 @@ int rcar_du_properties_init(struct rcar_du_device *rcdu)
- 
- 	return 0;
- }
-+
-+int rcar_du_lib_vsps_init(struct rcar_du_device *rcdu,
-+			  int (*rcar_du_vsp_init_fn)(struct rcar_du_vsp *vsp,
-+						     struct device_node *np,
-+						     unsigned int crtcs))
-+{
-+	const struct device_node *np = rcdu->dev->of_node;
-+	const char *vsps_prop_name = "renesas,vsps";
-+	struct of_phandle_args args;
-+	struct {
-+		struct device_node *np;
-+		unsigned int crtcs_mask;
-+	} vsps[RCAR_DU_MAX_VSPS] = { { NULL, }, };
-+	unsigned int vsps_count = 0;
-+	unsigned int cells;
-+	unsigned int i;
-+	int ret;
-+
-+	/*
-+	 * First parse the DT vsps property to populate the list of VSPs. Each
-+	 * entry contains a pointer to the VSP DT node and a bitmask of the
-+	 * connected DU CRTCs.
-+	 */
-+	ret = of_property_count_u32_elems(np, vsps_prop_name);
-+	if (ret < 0) {
-+		/* Backward compatibility with old DTBs. */
-+		vsps_prop_name = "vsps";
-+		ret = of_property_count_u32_elems(np, vsps_prop_name);
-+	}
-+	cells = ret / rcdu->num_crtcs - 1;
-+	if (cells > 1)
-+		return -EINVAL;
-+
-+	for (i = 0; i < rcdu->num_crtcs; ++i) {
-+		unsigned int j;
-+
-+		ret = of_parse_phandle_with_fixed_args(np, vsps_prop_name,
-+						       cells, i, &args);
-+		if (ret < 0)
-+			goto error;
-+
-+		/*
-+		 * Add the VSP to the list or update the corresponding existing
-+		 * entry if the VSP has already been added.
-+		 */
-+		for (j = 0; j < vsps_count; ++j) {
-+			if (vsps[j].np == args.np)
-+				break;
-+		}
-+
-+		if (j < vsps_count)
-+			of_node_put(args.np);
-+		else
-+			vsps[vsps_count++].np = args.np;
-+
-+		vsps[j].crtcs_mask |= BIT(i);
-+
-+		/*
-+		 * Store the VSP pointer and pipe index in the CRTC. If the
-+		 * second cell of the 'renesas,vsps' specifier isn't present,
-+		 * default to 0 to remain compatible with older DT bindings.
-+		 */
-+		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
-+		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
-+	}
-+
-+	/*
-+	 * Then initialize all the VSPs from the node pointers and CRTCs bitmask
-+	 * computed previously.
-+	 */
-+	for (i = 0; i < vsps_count; ++i) {
-+		struct rcar_du_vsp *vsp = &rcdu->vsps[i];
-+
-+		vsp->index = i;
-+		vsp->dev = rcdu;
-+
-+		ret = rcar_du_vsp_init_fn(vsp, vsps[i].np, vsps[i].crtcs_mask);
-+		if (ret < 0)
-+			goto error;
-+	}
-+
-+	return 0;
-+
-+error:
-+	for (i = 0; i < ARRAY_SIZE(vsps); ++i)
-+		of_node_put(vsps[i].np);
-+
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
-index 50e92a19d98c..81bb38eadbe0 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
-@@ -53,4 +53,9 @@ int rcar_du_encoders_init(struct rcar_du_device *rcdu,
- 
- int rcar_du_properties_init(struct rcar_du_device *rcdu);
- 
-+int rcar_du_lib_vsps_init(struct rcar_du_device *rcdu,
-+			  int (*rcar_du_vsp_init_fn)(struct rcar_du_vsp *vsp,
-+						     struct device_node *np,
-+						     unsigned int crtcs));
-+
- #endif /* __RCAR_DU_KMS_LIB_H__ */
--- 
-2.25.1
+Would be good to have Reported-by and Link tags for any reports about
+the issue; I'm aware of the following two, maybe there were more:
 
+https://bugzilla.kernel.org/show_bug.cgi?id=217252
+https://bugzilla.redhat.com/show_bug.cgi?id=2180107
+
+And a Cc: <stable@vger.kernel.org> # 5.15.x would likely be good as
+well, as the culprit was backported.
+
+But I write for a different reason: how urgent is this fix? Is this
+"just" fixing a kernel warning, or do users notice this as some apps
+crash? The bugzilla.redhat.com ticket's subject indicates it's the
+latter; and I think I saw someone else mentioning that this leads to
+crashes, but maybe I'm mixing things up.
+
+Because if this fixes a crash, it afaics would be good to get this fixed
+rather sooner than later in mainline, so that it can be fixed in stable
+as well.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+
+> ---
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7aefa76a42b3..2f1ced1212cd 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+>  		} else {
+>  			dev_info(&streaming->intf->dev,
+>  				 "Unknown video format %pUl\n", &buffer[5]);
+> +			snprintf(format->name, sizeof(format->name), "%pUl\n",
+> +				 &buffer[5]);
+> +
+>  			format->fcc = 0;
+>  		}
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 35453f81c1d9..fc6f9e7d8506 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+>  	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+>  		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+>  	fmt->pixelformat = format->fcc;
+> +	if (format->name[0])
+> +		strscpy(fmt->description, format->name,
+> +			sizeof(fmt->description));
+> +
+>  	return 0;
+>  }
+> 
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 9a596c8d894a..22656755a801 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -264,6 +264,8 @@ struct uvc_format {
+>  	u32 fcc;
+>  	u32 flags;
+> 
+> +	char name[32];
+> +
+>  	unsigned int nframes;
+>  	struct uvc_frame *frame;
+>  };
+> 
+> 
+> 
