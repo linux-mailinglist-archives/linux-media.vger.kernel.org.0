@@ -2,84 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55B9A6DD79F
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5AE16DD7C6
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 12:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbjDKKNZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 06:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
+        id S229716AbjDKKVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 06:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjDKKNX (ORCPT
+        with ESMTP id S229581AbjDKKVn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 06:13:23 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB944100;
-        Tue, 11 Apr 2023 03:13:21 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7BCCC66031AD;
-        Tue, 11 Apr 2023 11:13:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681208000;
-        bh=H0bLhwmxJ3hfxq2cNw35YIq7xvlSowfBxBWvLLl7KxY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=MQRpBPV4eSPWPJDxxo4hOC8lJfK7U2Gva6HAK8zfzSIzpyNgsiTuwAxLiNr6ZHrZa
-         tfNlGyd5PbPnKje6sfMwqZd1XQTnjcrgb+1AoK8szw1gpTZkpSTay+iT3dNC05mtpg
-         OdFJuQmxRYK7tBPAWs6hgyBNcsJ4rWruFYSLrxn9/XN2VH0Ttp88LbGht9ts0lAYVa
-         ZMwPwjChFGRc3ABfoqZlzDA89+1LNVQHXEyWcv5QjDoSBXHavL356lBytEVd3jcNxO
-         8q0VQJLIsYEfFeyjBFMZ0Uyj1KWaC9FZsygkBxsqMAO+E2Ry1ZBGIxRyOr+V3DHtir
-         dtppndF9pmLPQ==
-Message-ID: <5697b1ba-262d-34d9-b853-a6c959fc29fd@collabora.com>
-Date:   Tue, 11 Apr 2023 12:13:17 +0200
+        Tue, 11 Apr 2023 06:21:43 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DA4ECDD;
+        Tue, 11 Apr 2023 03:21:40 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:55572.1747296415
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id F1B78100208;
+        Tue, 11 Apr 2023 18:21:37 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-7b48884fd-tj646 with ESMTP id 8ce6a0aaf01b4ef78285af8e79f77ddf for emil.l.velikov@gmail.com;
+        Tue, 11 Apr 2023 18:21:39 CST
+X-Transaction-ID: 8ce6a0aaf01b4ef78285af8e79f77ddf
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <860cb3b3-5247-c6ad-c13a-619cde221208@189.cn>
+Date:   Tue, 11 Apr 2023 18:21:37 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v7 09/14] iommu/mediatek: Set dma_mask for the master
- devices
-To:     Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, nfraprado@collabora.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, mingyuan.ma@mediatek.com,
-        yf.wang@mediatek.com, jianjiao.zeng@mediatek.com,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
-        chengci.xu@mediatek.com, youlin.pei@mediatek.com,
-        anan.sun@mediatek.com
-References: <20230411093144.2690-1-yong.wu@mediatek.com>
- <20230411093144.2690-10-yong.wu@mediatek.com>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 2/2] drm: add kms driver for loongson display
+ controller
 Content-Language: en-US
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230411093144.2690-10-yong.wu@mediatek.com>
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        nathan@kernel.org, linux-media@vger.kernel.org,
+        loongson-kernel@lists.loongnix.cn
+References: <20230403171304.2157326-1-suijingfeng@loongson.cn>
+ <20230403171304.2157326-3-suijingfeng@loongson.cn>
+ <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <CACvgo53h+X26wngVmxpn3oVb9kbJezTHx61p3rZDR7sw1AQrWQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 11/04/23 11:31, Yong Wu ha scritto:
-> MediaTek iommu arranges dma ranges for all the masters, this patch is to
-> help them set dma mask. This is to avoid each master setting their own
-> mask, but also to avoid a real issue, such as JPEG uses
-> "mediatek,mtk-jpgenc" for 2701/8183/8186/8188, then JPEG could ignore its
-> different dma_mask in different SoC to achieve common code.
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Hi,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+On 2023/4/4 22:10, Emil Velikov wrote:
+>> +static enum drm_mode_status
+>> +lsdc_mode_config_mode_valid(struct drm_device *ddev,
+>> +                           const struct drm_display_mode *mode)
+>> +{
+>> +       struct lsdc_device *ldev = to_lsdc(ddev);
+>> +       const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB8888);
+> Short-term hard coding a format is fine, but there should be a comment
+> describing why.
+Because our driver only support DRM_FORMAT_XRGB8888 frame buffer currently.
+
+After carry out the IGT test, I found this function may not sufficient  
+anymore.
+
+>> +       u64 min_pitch = drm_format_info_min_pitch(info, 0, mode->hdisplay);
+>> +       u64 fb_size = min_pitch * mode->vdisplay;
+>> +
+>> +       if (fb_size * 3 > ldev->vram_size) {
+> Why are we using 3 here? Please add an inline comment.
+>
+Originally lsdc_mode_config_mode_valid() is copy from drm_gem_vram_helper.c
+
+with the observation that there no need for the compute of the number of 
+pages in
+
+the terms of PAGE_SIZE.
+
+
+The '3' here is  a experience number, it intend to restrict single 
+allocation overlarge.
+
+In my opinion, it stand for one frame buffer plus another two dumb 
+buffer allocation
+
+when running  the running pageflip test(from the libdrm modetest).
+
+
+Therefore, the kernel space drm driver should guarantee at least 3 times 
+frame buffer
+
+allocation to the user-space. Otherwise, the pageflip test can not even 
+being able to run.
+
+
+While when testing this driver with IGT, I found the  dumb_buffer test 
+of IGT will try to
+
+create a very large dumb buffer,  as large as 256MB in my case.
+
+Currently our driver could not satisfy such a large allocation,
+
+I test it with drm/radeon driver on LoongArch and X86-64, redeon can not 
+even passing it.
+
+
+The restriction put in here is not effective anymore, because it is too 
+late.
+
+I'm think we should put the restriction in the lsdc_dumb_create() function.
+
+We will revise our driver at next version.
+
+
+Great thanks for your valuable reviews.
 
