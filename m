@@ -2,96 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55EF56DDB30
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 14:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92F386DDB93
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 15:03:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbjDKMuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 08:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42736 "EHLO
+        id S230168AbjDKNDy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 09:03:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjDKMuL (ORCPT
+        with ESMTP id S230163AbjDKNDp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 08:50:11 -0400
-Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2A0903AAB;
-        Tue, 11 Apr 2023 05:50:04 -0700 (PDT)
-Received: (from willy@localhost)
-        by mail.home.local (8.17.1/8.17.1/Submit) id 33BCnpwX005890;
-        Tue, 11 Apr 2023 14:49:51 +0200
-Date:   Tue, 11 Apr 2023 14:49:51 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-Message-ID: <ZDVXbw/097jvjKvK@1wt.eu>
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl>
- <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+        Tue, 11 Apr 2023 09:03:45 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BCC49F6
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 06:03:20 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id fg17so3961081qtb.13
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 06:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1681218197; x=1683810197;
+        h=mime-version:user-agent:content-transfer-encoding:in-reply-to
+         :references:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=48ZGep8agVIFkiKE+tF0Dg09U1koXWBDBYS5oLlDvgg=;
+        b=6v+dhrXtGDeDBqPvu1ZLzV5tJJ604ZmQpcMpwF4MAqbb0Q1pEsf7Ebbq34DSfVLlpU
+         SvaEor9qMcmEROAh81rpc1OGVsqOMrM93YZX50eT4JRpLnrWSRTvUpYP26EeUPtYHUa5
+         IJtU1CRbyFh+Ol0NDFfovUqJb/pRq9MkOg1YUYIiKKuO/yN0E7nITj53toUKHjv91OSX
+         EcmMKnLocLMeAGrStVHt8vTEqj40gLBD1mPH7lc5nCcj9fVZ6VUUeYF59nSaPKjeFmEL
+         yqSliAW/4t2O4cbD/XgHTZmtk7yafgIizDcBEUoMDRmILwQGQXLSvuHyWuMtg659Tt1Q
+         fNWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681218197; x=1683810197;
+        h=mime-version:user-agent:content-transfer-encoding:in-reply-to
+         :references:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=48ZGep8agVIFkiKE+tF0Dg09U1koXWBDBYS5oLlDvgg=;
+        b=Cy2OLw5M0OX1olV9z6F0Qr/tBlJB0jvoYDPUQkW/dZeXOf6Nh9V6r3FL1QoWVuVr98
+         Gx3hbBbDvgD7mPKGty/OL1bNaGMtcaPGL9c7WxxoaG7XhI0fapTZGMvJBwbXwYMnHn0v
+         95QwK1w/QJqGzup5IhWpdC+LspjI7PrcjRS6pj8SY83oeIQ710PgoL8QeTmaJsFrwwbh
+         99AFMrUG5CF16CFreEk8eRT55qLxG4sSFzu8CMIY+B91fUkv4QufeFApCFusmfb/nVcO
+         wfehzOVWmvJqC44CBrXFjuJACikSGt/Df+PkESnZ7Z+vyluQma1DUTeC6glmQBCVe+AC
+         qEgQ==
+X-Gm-Message-State: AAQBX9fWsYjdgBig3zIMzld62xb6xzl62wHPdBvs3PLH5psJHsK6cQhX
+        WnDRblcDG1s5lSCgcKju8ntY4A==
+X-Google-Smtp-Source: AKy350aBNqc9Nqhi4ZcBbIoTNhKQwdXmy00nuSQAUSrAiCgNfMG2bBNrHukz3572jhBTZ0lBRoqKOQ==
+X-Received: by 2002:a05:622a:5d1:b0:3e4:e2f3:3776 with SMTP id d17-20020a05622a05d100b003e4e2f33776mr17808603qtb.16.1681218197534;
+        Tue, 11 Apr 2023 06:03:17 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::580])
+        by smtp.gmail.com with ESMTPSA id b16-20020ac844d0000000b003e64303bd2dsm3541983qto.63.2023.04.11.06.03.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 06:03:17 -0700 (PDT)
+Message-ID: <08dc61aa2c61771e99c73b308d4c36d40ea28c2f.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
+ format info
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        DVB_Linux_Media <linux-media@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Adam Pigg <adam@piggz.co.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Tue, 11 Apr 2023 09:03:16 -0400
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+         <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+         <20230325210120.GB22214@pendragon.ideasonboard.com>
+         <40774dc0ef32246af76a202caca3632abc1ae25f.camel@ndufresne.ca>
+         <20230405042131.GO9915@pendragon.ideasonboard.com>
+In-Reply-To: <20230405042131.GO9915@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
-X-Spam-Status: No, score=-0.0 required=5.0 tests=SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Miguel!
+Hi Laurent,
 
-On Tue, Apr 11, 2023 at 02:02:17PM +0200, Miguel Ojeda wrote:
-> On Tue, Apr 11, 2023 at 9:51 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >
-> > One of my main concerns here is time: as subsystem maintainers we can barely
-> > keep up with all the incoming patches. Introducing support for a new language
-> > would add only more pressure. Even though these are mainly bindings (as I
-> > understand it), this would still require that every change to a C kAPI is
-> > duplicated in rust, requiring someone to do that work, and have maintainers
-> > with enough rust knowledge to verify it.
-> 
-> Indeed, that is one of the main costs.
-> 
-> One potential solution is to have somebody step up as the maintainer
-> of the Rust side (e.g. the author of the abstractions).
-> 
-> Of course, that will not make the work go to zero, since there still
-> needs to be some degree of communication even if the new maintainer
-> does all the Rust side work, but it may make it feasible, especially
-> if the abstracted parts of the C API do not change too frequently.
-> 
-> It is also an opportunity for existing maintainers to see how the Rust
-> side would work meanwhile the work gets done, and potentially a chance
-> to get a new maintainer involved with the whole subsystem in the
-> future.
-> 
-> Some subsystems may want to give that maintainer a different
-> `MAINTAINERS` entry, e.g. as a child subsystem that sends PRs to the
-> main one and may be marked as "experimental". This is also a way to
-> see how the new abstractions work or not, giving maintainers more time
-> to decide whether to commit to a Rust side or not.
-> 
-> I don't mean to say it would be doable for the media subsystem, but
-> please consider it.
+Le mer. 5 avr. 2023, 00 h 21, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> a =C3=A9crit=C2=A0:
+> Hi Nicolas,
+>=20
+> On Fri, Mar 31, 2023 at 02:54:20PM -0400, Nicolas Dufresne wrote:
+> > Le samedi 25 mars 2023 =C3=A0 23:01 +0200, Laurent Pinchart a =C3=A9cri=
+t=C2=A0:
+> > > On Fri, Mar 24, 2023 at 04:12:21PM +0100, Paul Kocialkowski wrote:
+> > > > Represent the NV12_16L16 pixel format in the v4l2 format info table=
+.
+> > > > This is a 16x16 tiled version of NV12.
+> > > >=20
+> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > ---
+> > > >=C2=A0 drivers/media/v4l2-core/v4l2-common.c | 2 ++
+> > > >=C2=A0 1 file changed, 2 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/=
+v4l2-
+core/v4l2-common.c
+> > > > index 3d044b31caad..5101989716aa 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > > @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info=
+(u32
+format)
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Tiled YUV formats */
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
+NV12_4L4, .pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
+ 0, 0 },
+.hdiv =3D 2, .vdiv =3D 2 },
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
+P010_4L4, .pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4,=
+ 0, 0 },
+.hdiv =3D 2, .vdiv =3D 2 },
+> > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_NV12_=
+16L16,=C2=A0 =C2=A0 .pixel_enc =3D
+V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
+ 0, 0 },
+.hdiv =3D 2, .vdiv =3D 2,
+> > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.block_w =3D { 16, 16, 0,=
+ 0 }, .block_h =3D { 16, 16, 0, 0 } },
+> > >=20
+> > > Not necessarily related to this patch, but I'm a bit puzzled by why
+> > > V4L2_PIX_FMT_NV12_4L4 doesn't list block sizes.
+> >=20
+> > It looks like Ezequiel introduced that initially, but didn't introduce =
+any
+tiled
+> > format, as a side effect, we missed it and no one ever used it.
+> >=20
+> > In practice, its not dramatic, since most of the time, the alignment ne=
+eded
+is
+> > bigger then the block (specially with only 4x4 tiles), but we should
+certainly
+> > fix that, thanks for spotting.
+>=20
+> Just to make sure this won't fall through the cracks, will you send a
+> patch ?
 
-This might sound strange, but I suspect that having a TAINT_RUST flag
-could possibly help maintainers that are already lacking time, because
-it may quickly allow some of them to ask "please try again without the
-Rust code to see if the problem is still there", just like happens with
-out-of-tree code for which the knowledge is limited to null. This could
-allow to route issue reports to one maintainer when an issue is confirmed
-in both cases or to another one when it only happens in a single case.
+I didn't had any immediate plan to fix it (lack of time, absence of related
+bugs). Andrzej, do you happen to have some time ? The SUNXI pixel format sh=
+ould
+have that too, along with some NXP format.
 
-Of course it will not help with code reviews but we know that a great
-part of maintainers' time it spent trying to analyse problem reports
-that happen under vague conditions. All the time not spent debugging
-something not well understood is more time available for reviews.
-
-Just my two cents,
-Willy
+regards,
+Nicolas
+>=20
+> > > >=C2=A0=20
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* YUV planar formats, non =
+contiguous variant */
+> > > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ .format =3D V4L2_PIX_FMT_=
+YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 3, .comp_planes=
+ =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D 2, .vdiv =3D 2 },
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
