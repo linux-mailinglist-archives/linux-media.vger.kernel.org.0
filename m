@@ -2,154 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2786DD929
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 13:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8062F6DD974
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 13:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjDKLPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 07:15:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53112 "EHLO
+        id S229622AbjDKLeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 07:34:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbjDKLPO (ORCPT
+        with ESMTP id S229546AbjDKLeg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 07:15:14 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1683C4210;
-        Tue, 11 Apr 2023 04:15:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BC29128D;
-        Tue, 11 Apr 2023 13:15:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681211701;
-        bh=z96WjCxnzm5jjQYW/t3Sxje5YCgqE2zbUjGLA5+fHS0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tR3xaaBzwFk/MoyHMy9RbwFwRvm01OiGJZxEAK5zxoqCJQd7xkjpkRSUff15OfdTy
-         +cdhlRKm+lObotVV7hJChFPPC3rHJv5V5T766DMwl0+YVMKT7Mpkoci89Mex9Ng4G7
-         UGHweU/Z3cKbCO/npkg6t7VmKcgyLtLPJXstXGmg=
-Date:   Tue, 11 Apr 2023 14:15:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     mchehab@kernel.org, kernel@puri.sm, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] media: hi846: preserve the streaming state during
- system suspend
-Message-ID: <20230411111512.GH11253@pendragon.ideasonboard.com>
-References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
- <20230405092904.1129395-3-martin.kepplinger@puri.sm>
- <20230406013551.GL9915@pendragon.ideasonboard.com>
- <9ad81a9b2806272c715784985a3e0f52cda159c7.camel@puri.sm>
+        Tue, 11 Apr 2023 07:34:36 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C32BE60
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 04:34:34 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id nh20-20020a17090b365400b0024496d637e1so12932927pjb.5
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 04:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1681212873;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JFRxSw9GeugoPYgmgMFweC9gPDBVJGBlRNHmGv0SMrU=;
+        b=BorMPk/Ttj6K4aCWnKR2l1ESJzaSE6yu0sztIjN2B+Be3+yl8t+Cx3Qqq9q6pZJEUH
+         dLAAJ2wmTBpVgu2ZFISuZ2LS5VGbwgI6L8iGcj88fll2Ja8tD1W1JvYD4pNM6HRYRIa6
+         KNM9zTyUH0XN2BsgOqjN5xuAAbbkyAIlnco2A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681212873;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JFRxSw9GeugoPYgmgMFweC9gPDBVJGBlRNHmGv0SMrU=;
+        b=yxb7Tjos6m8CL/P0/aEHKRpvDqz7K1LtPD+UjlkLbkY4wUr5guP0nUfVgzcz53esZg
+         8LrEn6J+Ld0i8v/KJimDkXPxslEfO06f9INoS41D2QE0I3o8hxXM1cxaw2lMHJXmDJKD
+         Q4CYcA6oJd5t4FZHaDh0jYMix5+YUu7DniNVthr1YV+8t2RTbES3PJB/dKRpJiAtJ96r
+         Gz6KqEcHGmNKYS+23Qdav1qUabmKFy55s9cJUeyqkoz2C5DNXPbBAZhsYN91bHj94awS
+         7Hhh+1IUoTqfQz8KY0oU4oFuUHP3DFv+9m4+pIzmUWDaZ7WJnyu7M7Ntc1RD3Nyc3/zv
+         R2NA==
+X-Gm-Message-State: AAQBX9c1yJydYb7huByYFJfiTOneoOPgZ8QidkruN6dzFWppXmmVGG9I
+        vvO2kb4ykyM3iv0Uuj1MlzSMVg==
+X-Google-Smtp-Source: AKy350YRHfT7dgJFe4ii+u0kDT7yLZE4Jh7HFrmkVjNFP/nzrurZe8GOm5Vy+ihBm7agrdBarB72UA==
+X-Received: by 2002:a17:902:e892:b0:199:4be8:be48 with SMTP id w18-20020a170902e89200b001994be8be48mr16066526plg.19.1681212873496;
+        Tue, 11 Apr 2023 04:34:33 -0700 (PDT)
+Received: from ?IPV6:2401:fa00:8f:203:44a9:ac98:7606:2cd0? ([2401:fa00:8f:203:44a9:ac98:7606:2cd0])
+        by smtp.gmail.com with ESMTPSA id h4-20020a170902748400b001a52eadb3e1sm5350540pll.152.2023.04.11.04.34.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Apr 2023 04:34:33 -0700 (PDT)
+Message-ID: <8abf9651-5ce1-7b73-6d14-04f42081a743@chromium.org>
+Date:   Tue, 11 Apr 2023 20:34:29 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9ad81a9b2806272c715784985a3e0f52cda159c7.camel@puri.sm>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v1] media: vivid: Add webcam parameter for (un)limited
+ bandwidth
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20230410063356.3894767-1-mstaudt@chromium.org>
+ <20230410102350.382f7d02@sal.lan>
+ <6aafad18-13a2-ef45-48a1-1f094554af31@chromium.org>
+ <6ee01cf1-5a8b-081f-e218-8c7da39343bc@xs4all.nl>
+ <c6d5be4c-42c9-b8fa-fbd7-108c5da694bc@chromium.org>
+ <5649adcd-3afe-e413-2eac-a92c78427dc9@xs4all.nl>
+From:   Max Staudt <mstaudt@chromium.org>
+In-Reply-To: <5649adcd-3afe-e413-2eac-a92c78427dc9@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
-
-On Tue, Apr 11, 2023 at 11:39:32AM +0200, Martin Kepplinger wrote:
-> Am Donnerstag, dem 06.04.2023 um 04:35 +0300 schrieb Laurent Pinchart:
-> > On Wed, Apr 05, 2023 at 11:29:04AM +0200, Martin Kepplinger wrote:
-> > > The hi846 driver changed the "streaming" state inside of "start/stop_streaming".
-> > > The problem is that inside of the (system) suspend callback, it calls
-> > > "stop_streaming" unconditionally. So streaming would always be stopped
-> > > when suspending.
-> > > 
-> > > That makes sense with runtime pm for example, after s_stream(..., 0) but
-> > > does not preserve the "streaming" state during system suspend when
-> > > currently streaming.
-> > 
-> > The driver shouldn't need to stop streaming at system suspend time. It
-> > should have had its .s_stream(0) operation called and shouldn't be
-> > streaming anymore. If that's not the case, there's an issue somewhere
-> > else, which should be fixed. The code that stops streaming at system
-> > suspend and restarts it at system resume should then be dropped from
-> > this driver.
-> > 
-> > > Fix this by simply setting the streaming state outside of "start/stop_streaming"
-> > > which is s_stream().
-> > > 
-> > > While at it, improve things a bit by not assigning "1", but the "enable"
-> > > value we later compare against, and fix one error handling path in
-> > > resume().
-> > > 
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > ---
-> > >  drivers/media/i2c/hi846.c | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> > > index 0b0eda2e223cd..1ca6e9407d618 100644
-> > > --- a/drivers/media/i2c/hi846.c
-> > > +++ b/drivers/media/i2c/hi846.c
-> > > @@ -1780,8 +1780,6 @@ static int hi846_start_streaming(struct hi846 *hi846)
-> > >                 return ret;
-> > >         }
-> > >  
-> > > -       hi846->streaming = 1;
-> > > -
-> > >         dev_dbg(&client->dev, "%s: started streaming successfully\n", __func__);
-> > >  
-> > >         return ret;
-> > > @@ -1793,8 +1791,6 @@ static void hi846_stop_streaming(struct hi846 *hi846)
-> > >  
-> > >         if (hi846_write_reg(hi846, HI846_REG_MODE_SELECT, HI846_MODE_STANDBY))
-> > >                 dev_err(&client->dev, "failed to stop stream");
-> > > -
-> > > -       hi846->streaming = 0;
-> > >  }
-> > >  
-> > >  static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
-> > > @@ -1816,10 +1812,12 @@ static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
-> > >                 }
-> > >  
-> > >                 ret = hi846_start_streaming(hi846);
-> > > +               hi846->streaming = enable;
-> > >         }
-> > >  
-> > >         if (!enable || ret) {
-> > >                 hi846_stop_streaming(hi846);
-> > > +               hi846->streaming = 0;
-> > >                 pm_runtime_put(&client->dev);
-> > >         }
-> > >  
-> > > @@ -1898,6 +1896,8 @@ static int __maybe_unused hi846_resume(struct device *dev)
-> > >                 if (ret) {
-> > >                         dev_err(dev, "%s: start streaming failed: %d\n",
-> > >                                 __func__, ret);
-> > > +                       hi846_stop_streaming(hi846);
-> > > +                       hi846->streaming = 0;
-> > >                         goto error;
-> > >                 }
-> > >         }
+On 4/11/23 16:45, Hans Verkuil wrote:
+>> Do I understand you correctly, are you suggesting to simply update the FPS limits to a new fixed schema, and not have an option at all?
 > 
-> hi Laurent,
+> Correct.
 > 
-> ok I see. My first test without any streaming-state handling in
-> suspend/resume doesn't succeed. But now I know that's the goal and I'll
-> put this on my list to do.
+> The ideal solution is indeed proper bandwidth calculations, since this would
+> be a proper emulation of actual webcam hardware. If you have time and are
+> interested in doing the work, then that would be great, of course.
+
+My patch suggestion is motivated by a test which expects higher FPS 
+rates at large frame sizes than vivid currently provides.
+
+If I have a choice, then let's keep this patch simple ;)
+
+
+> But if you just want to increase the fps limits to be more in line with
+> modern webcams, then that's much quicker and should be fine.
 > 
-> Since this driver *already* tracks "streaming", would you be ok with
-> this fix in the meantime?
+> It might also be interesting to perhaps allow for 120 fps for the low
+> resolutions (below 720p).
 
-I'd rather get a patch that drops streaming handling :-) It's fine
-carrying a local patch in the Librem5 kernel to work around the problem
-until a proper fix is available, but do we have a need to get the
-workaround in mainline too ?
+Coincidentally, this would solve the problem we have at hand, but only 
+until someone wants to see even higher frame rates, and then we'd 
+revisit today's thread. Hence the idea for a parameter to simply unlock 
+all rates, depending on whether a test needs a vivid webcam with low or 
+high "performance".
 
-When it comes to a proper fix, it may be as simple as manually calling
-device_link_add() in consumer (e.g. the CSI-2 receiver) drivers to
-create links to suppliers(e.g. the camera sensor). The PM core should
-then guarantee that the consumer gets suspended before the producer.
-Would you be able to test that ?
 
--- 
-Regards,
+My rationale behind the module parameter is twofold:
 
-Laurent Pinchart
+1. To allow for higher FPS without touching the kernel code again.
+2. To stay backward compatible to previous behaviour of vivid. Changing 
+the FPS formula would break this.
+
+
+Actually I have a new idea: How about renaming my suggestion to 
+"webcam_limit_enable" - this way, we can keep the current design with 
+the boolean value: Not setting this value would default to "enabled" - 
+i.e. vivid behaves as before. Disabling the limit unlocks all FPS at all 
+sizes.
+
+And later, should the need for a more precise simulation arise, we can 
+add a second parameter "webcam_limit_value".
+
+I've removed the "bandwidth" word from the new suggestions, so if a 
+numeric limit is introduced, it can be anything, even an arbitrary 
+number like the current "remove 2 FPS rates per size".
+
+
+Please let me know what you think.
+
+Max
+
