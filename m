@@ -2,163 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C3C6DD70C
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 11:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D91296DD73A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 11:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbjDKJkb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 05:40:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35948 "EHLO
+        id S229586AbjDKJww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 05:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbjDKJkK (ORCPT
+        with ESMTP id S229486AbjDKJwW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 05:40:10 -0400
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B20272B;
-        Tue, 11 Apr 2023 02:39:40 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 9287AEBCCB;
-        Tue, 11 Apr 2023 02:39:38 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id szR5xkP6yVdK; Tue, 11 Apr 2023 02:39:37 -0700 (PDT)
-Message-ID: <9ad81a9b2806272c715784985a3e0f52cda159c7.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-        t=1681205977; bh=78H+kq1MA3qAPgJDeC2Mvq4z8qNyX9HDvr7Gs/K953g=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=WaHYjMkof9EQQ97Wv2wBLHqnSkIyel2UYJzIm86a5VR+SzDZYyRNQXtOkV7rAI1Yq
-         01mQvKsIpmFPVUYiVQER6KXU85556WQ7x0rNzwHapP41K7fYi40DkKsl8LoeyZPi2U
-         hlxDVVXaXG5cFMtMrz+D60PwM5RrK58ufMTZ5gc9u/3sG6ldEWnGH3Kj/rrxT8NxQF
-         MKb/7mA7BvRqJiKDq0Kqxax2aGzm/Bd/y9G20DIbeeVtLsSPh4bqwIaTYEHWUSEyeW
-         8pkWRuh8oTclUKBHRnu+9JJI+5ZGFINhfZJg1nFz3/IUjh3QYPUKt+Y9JGLaL2TnBl
-         GNXWB3nLsLgbQ==
-Subject: Re: [PATCH v1 2/2] media: hi846: preserve the streaming state
- during system suspend
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     mchehab@kernel.org, kernel@puri.sm, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 11 Apr 2023 11:39:32 +0200
-In-Reply-To: <20230406013551.GL9915@pendragon.ideasonboard.com>
-References: <20230405092904.1129395-1-martin.kepplinger@puri.sm>
-         <20230405092904.1129395-3-martin.kepplinger@puri.sm>
-         <20230406013551.GL9915@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1+deb11u1 
+        Tue, 11 Apr 2023 05:52:22 -0400
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4E710C3;
+        Tue, 11 Apr 2023 02:52:19 -0700 (PDT)
+Received: from [10.36.2.154] (unknown [46.212.121.255])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id 7295226027D;
+        Tue, 11 Apr 2023 11:52:17 +0200 (CEST)
+Message-ID: <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org>
+Date:   Tue, 11 Apr 2023 11:52:17 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
+        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+ <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+ <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
+ <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
+Content-Language: en-US
+From:   Hans Petter Selasky <hps@selasky.org>
+In-Reply-To: <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, dem 06.04.2023 um 04:35 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
+On 4/11/23 01:41, Miguel Ojeda wrote:
+> On Mon, Apr 10, 2023 at 8:59 PM Hans Petter Selasky <hps@selasky.org> wrote:
+>>
+>> Adding a dependency to build the Rust compiler even to build one or two
+>> V4L2 device drivers, would mean a lot to my small hselasky/webcamd
+>> project. It already has to fetch a copy of the Linux kernel, and now has
+>> to bootstrap Rust from stage0 to stageN. I personally say no. It's like
 > 
-> Thank you for the patch.
+> Do you mean you need to compile `rustc`? Could you please explain why?
+> Could you use your distribution's, or fetch the standalone installers
+> or cache your own toolchain?
+
+Hi Miguel,
+
+Assume you need to update both the kernel and the rust compiler at the 
+same time. How do you do that? In the binary download case you have two 
+machines. One to build rust and one to build the kernel, so it is 
+technically not possible?
+
+The Rust compiler has a dependency on the kernel and the kernel has a 
+dependency on the Rust compiler. That just means, some kind of changes 
+can never happen. This is the ingredient for never ending problems. It's 
+like you put some rock into the system: If this ever needs to change ...
+
+I'll give you a real-life example to emphasis this. Apple and Microsoft 
+has done something very bad in the file system area. They mistreat what 
+happens to be the Norwegian character "å" (0xE5). Norway is where I 
+live. Their solution is to split the "å" character into the "a" 
+character (0x61) and the combining ring-over character (0x30A).
+
+There are three problems:
+
+1) Many Unicode implementations only expect one combining ring-over 
+character. Either this leads directly to a stack exploit or a denial of 
+service, depending on the actual code: CVE-2023-25193 (ongoing).
+
+2) The proper solution would be to deny this kind of combining 
+characters, also called umlauts in Germany. Only that requires both 
+Apple and Microsoft to change and update both their filesystem and 
+kernel at the same time! The "å" character (0xE5) is essential for 
+quickly deleting files. Or disable this feature, and rewrite the 
+directory table every time a file is deleted.
+
+3) Apple and Microsoft managed to screw this up, so that you can create 
+files under Microsoft (exFat-disk), that don't show up under MacOS. In 
+iOS they show up however, but can't be copied or moved anywhere. And if 
+you think your files are backed up in the iCloud, think again!
+
+The consequences can be quite serious, that you could end up being 
+unfairly judged by the Police in Norway, because court documents "just 
+got lost" they say.
+
+Do you think Microsoft and Apple will ever change this dependency, if a 
+change means you need to re-format filesystems live or risk a serious 
+performance degradation? I have my personal doubts.
+
+I think the problem with the "å" character I've described above, is a 
+forever problem created by Apple and Microsoft and IBM and who knows 
+what more. It's not possible to solve, without a serious cost, and 
+having this secret automagic trashbin for files that just a few people 
+use, compared to the big picture, is not an issue for them. Even a few 
+people going to jail for 21 years, is not an issue. Who cares, is the 
+impression I get from customer support at both Microsoft and Apple. And 
+not at least, who knows about this really!
+
+Daniel and Miguel: By saying it is not a good thing to build systems 
+completely from source, both kernel and toolchain and everything that 
+goes with it, you basically say that permanent "dependencies" between 
+the compilers and the kernel will never be a problem. You are building 
+on a rock, and only the future knows if what you consider a rock today 
+is really a problem tomorrow.
+
+In my example the unicode alphabet is a problem. So tell me: How would 
+you update a system, if the value of every single letter in the unicode 
+alphabet would change?
+
 > 
-> On Wed, Apr 05, 2023 at 11:29:04AM +0200, Martin Kepplinger wrote:
-> > The hi846 driver changed the "streaming" state inside of
-> > "start/stop_streaming".
-> > The problem is that inside of the (system) suspend callback, it
-> > calls
-> > "stop_streaming" unconditionally. So streaming would always be
-> > stopped
-> > when suspending.
-> > 
-> > That makes sense with runtime pm for example, after s_stream(...,
-> > 0) but
-> > does not preserve the "streaming" state during system suspend when
-> > currently streaming.
+>> XCode unfortunately. I download 100's of GBytes of upgrades to XCode,
+>> and barely upload one millionth worth of code back to Apple. It's not
+>> good. Software developers shouldn't have to download more stuff than
+>> they upload?
 > 
-> The driver shouldn't need to stop streaming at system suspend time.
-> It
-> should have had its .s_stream(0) operation called and shouldn't be
-> streaming anymore. If that's not the case, there's an issue somewhere
-> else, which should be fixed. The code that stops streaming at system
-> suspend and restarts it at system resume should then be dropped from
-> this driver.
+> The Rust standalone installers are 2+ orders of magnitude lighter.
+
+For people that build stuff on their laptops it still matters. If you 
+have a beefy machine, it is a different case.
+
 > 
-> > Fix this by simply setting the streaming state outside of
-> > "start/stop_streaming"
-> > which is s_stream().
-> > 
-> > While at it, improve things a bit by not assigning "1", but the
-> > "enable"
-> > value we later compare against, and fix one error handling path in
-> > resume().
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > ---
-> >  drivers/media/i2c/hi846.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-> > index 0b0eda2e223cd..1ca6e9407d618 100644
-> > --- a/drivers/media/i2c/hi846.c
-> > +++ b/drivers/media/i2c/hi846.c
-> > @@ -1780,8 +1780,6 @@ static int hi846_start_streaming(struct hi846
-> > *hi846)
-> >                 return ret;
-> >         }
-> >  
-> > -       hi846->streaming = 1;
-> > -
-> >         dev_dbg(&client->dev, "%s: started streaming
-> > successfully\n", __func__);
-> >  
-> >         return ret;
-> > @@ -1793,8 +1791,6 @@ static void hi846_stop_streaming(struct hi846
-> > *hi846)
-> >  
-> >         if (hi846_write_reg(hi846, HI846_REG_MODE_SELECT,
-> > HI846_MODE_STANDBY))
-> >                 dev_err(&client->dev, "failed to stop stream");
-> > -
-> > -       hi846->streaming = 0;
-> >  }
-> >  
-> >  static int hi846_set_stream(struct v4l2_subdev *sd, int enable)
-> > @@ -1816,10 +1812,12 @@ static int hi846_set_stream(struct
-> > v4l2_subdev *sd, int enable)
-> >                 }
-> >  
-> >                 ret = hi846_start_streaming(hi846);
-> > +               hi846->streaming = enable;
-> >         }
-> >  
-> >         if (!enable || ret) {
-> >                 hi846_stop_streaming(hi846);
-> > +               hi846->streaming = 0;
-> >                 pm_runtime_put(&client->dev);
-> >         }
-> >  
-> > @@ -1898,6 +1896,8 @@ static int __maybe_unused hi846_resume(struct
-> > device *dev)
-> >                 if (ret) {
-> >                         dev_err(dev, "%s: start streaming failed:
-> > %d\n",
-> >                                 __func__, ret);
-> > +                       hi846_stop_streaming(hi846);
-> > +                       hi846->streaming = 0;
-> >                         goto error;
-> >                 }
-> >         }
+>> The definition of "bugs" may vary of course. I was thinking more like
+>> stack exploits, missing validation of arrays and so on.
 > 
+> The kernel definitely needs to avoid those. What do you mean?
 
-hi Laurent,
+I thought that Rust didn't allow you to write outside the bounds of 
+arrays, similarly to the old Turbo Pascal language?
 
-ok I see. My first test without any streaming-state handling in
-suspend/resume doesn't succeed. But now I know that's the goal and I'll
-put this on my list to do.
+> 
+>> I must admit I'm not a Rust guy and don't see the advantages of Rust
+>> like you do.
+> 
+> The advantages are fairly clear. The question has always been whether
+> the cost is worth those benefits.
 
-Since this driver *already* tracks "streaming", would you be ok with
-this fix in the meantime?
+If there could be one base compiler and toolchain, I would be happy.
 
-thanks,
-                               martin
+> 
+>> Why not move Linux-V4L2 drivers to user-space? In my opinion Rust is
+>> much more easy to get going there than at the kernel level.
+> 
+> That sounds like an orthogonal discussion.
 
+Sure.
 
+> 
+> In any case, please note that you would need to install the same Rust
+> toolchain to compile them in userspace. So, if you are concerned about
+> the size of the toolchain (as you mention above), it would not really
+> make a difference.
+> 
+>> Rust is slow based on my observations building Firefox from sources. The
+>> Rust compiler spends a significant amount of time per source file.
+> 
+> It is slower than compiling C, but it also provides more features, so
+> it seems fair for what we are getting in exchange.
+
+Right, so think about where that slowness may end up one day, if you 
+suddenly need to re-build everything from sources so to say :-)
+
+Thanks for your input!
+
+--HPS
