@@ -2,138 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 307D26DDAF4
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 14:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55EF56DDB30
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 14:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbjDKMgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 08:36:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56064 "EHLO
+        id S229841AbjDKMuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 08:50:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjDKMgP (ORCPT
+        with ESMTP id S229555AbjDKMuL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 08:36:15 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75AB23C25;
-        Tue, 11 Apr 2023 05:36:14 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-54ee108142eso157253517b3.2;
-        Tue, 11 Apr 2023 05:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681216573; x=1683808573;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TTZiJkh4SNH3a//CZAcPFpSvwQ67wtqUj8XGzW7S/K8=;
-        b=eyccItTKNLzhYwm3jQk6tUWBMpT5vsMYte+J2ELWoCHBj07FIvuorS1VTxF9bX4tQR
-         86gZzfJNolGUVBEswXnTV4uZrxwFp7bMW9G7QlAhY6zIEvnDI9xKgoCKInektOEbUaq+
-         tlEauRCj+gHpC5ZgQPAZsM1Hnm3QngYUtejU5VphH78F3Ca1bAbf1qIN1vfH7bLpn5K0
-         /lrBNArw8dNc4OE3a9fVntFOgqnPmaPFQnTKrBJXzHvQ7FaGVHbWxZMUiNXBN9jlFKWA
-         vaMlw2p91Nx1iGAr4QyjgCCwawW6wQ92R5+rnujTbzrX01QBWpnv+8ohuS+gne7qjDjb
-         VSuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681216573; x=1683808573;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TTZiJkh4SNH3a//CZAcPFpSvwQ67wtqUj8XGzW7S/K8=;
-        b=plHjIKlNyMdtC68HtB/Losjfc5vm4VrNvTOLw5B/DgZH7KYUvqKXLyNIJLFVWdvL9y
-         s4Gk3R51W3Vjt9+RnmmH15ZYLfDMRbSbQz4/jIDJFQX/UQw0d51fHXbnPfqLKgFY1czu
-         XAnFFp7Q2xNZ5RK2QKndIe9mkVG26oattXJC+uVJg1kWf3e2gx0J9/K0ItOI/4hVF0sc
-         07FMdm8seyyckKLrhWlrlyPa5lUgCeBswX28DS4OfuRRMiwPVhVJ3bJ0Ijkxw78Te00Z
-         Pl/UqgJlt47jYXqQrblJ8jovsmaLrSrvMyvoCAsg/kqxICuq8LrKGWP6KXWZ2GUwuJ7t
-         FuJg==
-X-Gm-Message-State: AAQBX9eitAhiPIAU1qpbgLPGTsapntWShVA7oljYfUkJlasX2AqXF1Bd
-        MuU4Lg/4tx4a707v2bUQJB6kyXPPI5Fwv8yFlEE=
-X-Google-Smtp-Source: AKy350aAEQGFc9EUTMDsEXy8PB3OPt5BRQ9kMKxLjxaNUQyo4xwTVFMYo17obfrHQQl+dhbfX4AUeT5SKFa4D9EmoEo=
-X-Received: by 2002:a81:ae5d:0:b0:549:143f:3d3 with SMTP id
- g29-20020a81ae5d000000b00549143f03d3mr7623571ywk.0.1681216573072; Tue, 11 Apr
- 2023 05:36:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org> <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
- <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org> <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
- <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org>
-In-Reply-To: <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 11 Apr 2023 14:36:01 +0200
-Message-ID: <CANiq72mv2uYe1x6cy4zUq8XHhAZcYYpt6hVXMG4yQZeqw1kY7Q@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Hans Petter Selasky <hps@selasky.org>
-Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
-        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
+        Tue, 11 Apr 2023 08:50:11 -0400
+Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2A0903AAB;
+        Tue, 11 Apr 2023 05:50:04 -0700 (PDT)
+Received: (from willy@localhost)
+        by mail.home.local (8.17.1/8.17.1/Submit) id 33BCnpwX005890;
+        Tue, 11 Apr 2023 14:49:51 +0200
+Date:   Tue, 11 Apr 2023 14:49:51 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+Message-ID: <ZDVXbw/097jvjKvK@1wt.eu>
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl>
+ <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+X-Spam-Status: No, score=-0.0 required=5.0 tests=SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 11:52=E2=80=AFAM Hans Petter Selasky <hps@selasky.o=
-rg> wrote:
->
-> Assume you need to update both the kernel and the rust compiler at the
-> same time. How do you do that? In the binary download case you have two
-> machines. One to build rust and one to build the kernel, so it is
-> technically not possible?
+Hi Miguel!
 
-I don't understand the problem -- you can build (or download) new
-toolchains without changing the kernel, and you can keep several
-kernels and several toolchains installed, too.
+On Tue, Apr 11, 2023 at 02:02:17PM +0200, Miguel Ojeda wrote:
+> On Tue, Apr 11, 2023 at 9:51 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > One of my main concerns here is time: as subsystem maintainers we can barely
+> > keep up with all the incoming patches. Introducing support for a new language
+> > would add only more pressure. Even though these are mainly bindings (as I
+> > understand it), this would still require that every change to a C kAPI is
+> > duplicated in rust, requiring someone to do that work, and have maintainers
+> > with enough rust knowledge to verify it.
+> 
+> Indeed, that is one of the main costs.
+> 
+> One potential solution is to have somebody step up as the maintainer
+> of the Rust side (e.g. the author of the abstractions).
+> 
+> Of course, that will not make the work go to zero, since there still
+> needs to be some degree of communication even if the new maintainer
+> does all the Rust side work, but it may make it feasible, especially
+> if the abstracted parts of the C API do not change too frequently.
+> 
+> It is also an opportunity for existing maintainers to see how the Rust
+> side would work meanwhile the work gets done, and potentially a chance
+> to get a new maintainer involved with the whole subsystem in the
+> future.
+> 
+> Some subsystems may want to give that maintainer a different
+> `MAINTAINERS` entry, e.g. as a child subsystem that sends PRs to the
+> main one and may be marked as "experimental". This is also a way to
+> see how the new abstractions work or not, giving maintainers more time
+> to decide whether to commit to a Rust side or not.
+> 
+> I don't mean to say it would be doable for the media subsystem, but
+> please consider it.
 
-> I'll give you a real-life example to emphasis this. Apple and Microsoft
-> has done something very bad in the file system area. They mistreat what
-> happens to be the Norwegian character "=C3=A5" (0xE5). Norway is where I
-> live. Their solution is to split the "=C3=A5" character into the "a"
-> character (0x61) and the combining ring-over character (0x30A).
+This might sound strange, but I suspect that having a TAINT_RUST flag
+could possibly help maintainers that are already lacking time, because
+it may quickly allow some of them to ask "please try again without the
+Rust code to see if the problem is still there", just like happens with
+out-of-tree code for which the knowledge is limited to null. This could
+allow to route issue reports to one maintainer when an issue is confirmed
+in both cases or to another one when it only happens in a single case.
 
-Sorry, but I don't see how all that relates to the current discussion (kern=
-el).
+Of course it will not help with code reviews but we know that a great
+part of maintainers' time it spent trying to analyse problem reports
+that happen under vague conditions. All the time not spent debugging
+something not well understood is more time available for reviews.
 
-> Daniel and Miguel: By saying it is not a good thing to build systems
-> completely from source,
-
-I haven't said that at all. I regularly build from source myself, in fact.
-
-> For people that build stuff on their laptops it still matters. If you
-> have a beefy machine, it is a different case.
-
-I don't follow. You said you are downloading 100s of GiB for XCode,
-but you are not OK with 100s of MiBs for Rust?
-
-Anyway, both the Rust toolchain and the kernel can be built on laptops
-(I do so), and they don't need to be the highest end ones at all.
-
-> I thought that Rust didn't allow you to write outside the bounds of
-> arrays, similarly to the old Turbo Pascal language?
-
-It avoids all UB, including data races, not just out-of-bounds
-accesses, as long as the unsafe parts are sound (and there are no
-compiler bugs etc.). Which is one of the main reasons we want it in
-the kernel.
-
-> If there could be one base compiler and toolchain, I would be happy.
-
-If you mean a single vendor, then it may be interesting for you that
-GCC will include Rust support in future releases. It remains to be
-seen when their compiler is ready for building the kernel parts, but
-it is one of their goals as far as I understand.
-
-> Right, so think about where that slowness may end up one day, if you
-> suddenly need to re-build everything from sources so to say :-)
-
-If you want to build everything from source, then you will need some
-CPU time to do so. That is just how things work. Most people will just
-use the toolchain from their distribution.
-
-> Thanks for your input!
-
-Not at all, thanks for your input too :)
-
-Cheers,
-Miguel
+Just my two cents,
+Willy
