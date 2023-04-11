@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8D9A6DDF0D
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 17:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA536DDF1D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 17:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230210AbjDKPKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 11:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
+        id S230374AbjDKPLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 11:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230324AbjDKPKS (ORCPT
+        with ESMTP id S230372AbjDKPLR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 11:10:18 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095215580;
-        Tue, 11 Apr 2023 08:10:04 -0700 (PDT)
+        Tue, 11 Apr 2023 11:11:17 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11778E77;
+        Tue, 11 Apr 2023 08:10:52 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:199e::580])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7251866031E9;
-        Tue, 11 Apr 2023 16:10:01 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9EDD066031E0;
+        Tue, 11 Apr 2023 16:10:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681225802;
-        bh=9k0Jg8J3GXt++MWesXKsmmD95MWnsCWKoCRHApxXOqQ=;
+        s=mail; t=1681225850;
+        bh=FZ5Rda4k9osgauEPem0mQeUsr1gyDZRs1xZRSDCNgWc=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=DanWJQXoIwJYObxFPoA/64lTcHUulE/JUcch3sRCJSiz+oCKHFJ29H39zzl2NcrU3
-         Y6jcFkkBCUEoaW3//FTfSqnYpoOU0PxIJn6Ll+z03LVZdcNUhDzghC38kxxs3lITvD
-         VA3qHQEhvWLB5BVB+cwwxTxGQ3QTUD8R7PE0RgwPqWmjAocUCZecVa27TplEe/BWrM
-         6CMcRvBJj+wU29kLDlJVaQWwXkFMRKoK8URjmZmGuKWSLExO/XITGIFHMplKs3PXJv
-         KooLCcdgVy7WktSNadwKClb0T1s7n4XjnutzNHzxByGc3Wq3IMPsoYpTYu/S8ojvQs
-         MUKgCC9LHcBfw==
-Message-ID: <3352700c4545e9c8cc35fd698f17e52259f31c3b.camel@collabora.com>
-Subject: Re: [PATCH v5 06/13] media: verisilicon: Check AV1 bitstreams bit
- depth
+        b=CmtW4N9Faw/G8WYYjAikf8hxBWdbP29gxG7c3dBG8bC0yksmcxgigEFeTR1+Cb3gK
+         /2VxBPAR9GCt58esLT8VTAAevfqRPgWuxRLOyQofWedbCa74dtLs/diV8L0uUf0a+y
+         X3JUsqRvn15OhwBe9Ionnjb+KkaCIAl13M6H+Lpb3jXtzDkdccQD4DyKLmQt98e8Pe
+         /BZ6nxkF73Zfr20RF2AwhwZMIT8GWZBYSGusltm1ck47tTJ78YVFN8LHHrC6IYw5r7
+         bC2hKIEkiGFeYONozRcIo+Quf8T1zxqtOyM/PHSrPTkxAEnQf0r4Vte4pt3xoc8Gu5
+         +bMFIZ5/uaJUA==
+Message-ID: <ebae8a86a6af268daeb198d66fd940dc622e8aac.camel@collabora.com>
+Subject: Re: [PATCH v5 07/13] media: verisilicon: Compute motion vectors
+ size for AV1 frames
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
@@ -44,10 +44,10 @@ To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Tue, 11 Apr 2023 11:09:52 -0400
-In-Reply-To: <20230330154043.1250736-7-benjamin.gaignard@collabora.com>
+Date:   Tue, 11 Apr 2023 11:10:41 -0400
+In-Reply-To: <20230330154043.1250736-8-benjamin.gaignard@collabora.com>
 References: <20230330154043.1250736-1-benjamin.gaignard@collabora.com>
-         <20230330154043.1250736-7-benjamin.gaignard@collabora.com>
+         <20230330154043.1250736-8-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
@@ -63,109 +63,78 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Le jeudi 30 mars 2023 =C3=A0 17:40 +0200, Benjamin Gaignard a =C3=A9crit=C2=
 =A0:
-> The driver supports 8 and 10 bits bitstreams, make sure to discard
-> other cases.
-> It could happens that userland test if V4L2_CID_STATELESS_AV1_SEQUENCE
-> exists without setting bit_depth field in this case use
-> HANTRO_DEFAULT_BIT_DEPTH value.
+> Compute the additional space required to store motion vectors at
+> the end of the frames buffers.
 >=20
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
->  .../media/platform/verisilicon/hantro_drv.c   | 36 +++++++++++++++++++
->  .../media/platform/verisilicon/hantro_v4l2.c  |  4 +++
->  2 files changed, 40 insertions(+)
+>  drivers/media/platform/verisilicon/hantro_hw.h      | 13 +++++++++++++
+>  .../media/platform/verisilicon/hantro_postproc.c    |  3 +++
+>  drivers/media/platform/verisilicon/hantro_v4l2.c    |  5 +++++
+>  3 files changed, 21 insertions(+)
 >=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 74641c972f1e..71bd68e63859 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -275,7 +275,13 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  		/* We only support profile 0 */
->  		if (dec_params->profile !=3D 0)
->  			return -EINVAL;
-> +	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_AV1_SEQUENCE) {
-> +		const struct v4l2_ctrl_av1_sequence *sequence =3D ctrl->p_new.p_av1_se=
-quence;
-> +
-> +		if (sequence->bit_depth !=3D 8 && sequence->bit_depth !=3D 10)
-> +			return -EINVAL;
->  	}
-> +
->  	return 0;
+> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/med=
+ia/platform/verisilicon/hantro_hw.h
+> index e83f0c523a30..bc61d4e051c7 100644
+> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> @@ -417,6 +417,19 @@ hantro_hevc_mv_size(unsigned int width, unsigned int=
+ height)
+>  	return width * height / 16;
 >  }
 > =20
-> @@ -346,6 +352,30 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl=
+> +static inline unsigned short hantro_av1_num_sbs(unsigned short dimension=
 )
->  	return 0;
->  }
-> =20
-> +static int hantro_av1_s_ctrl(struct v4l2_ctrl *ctrl)
 > +{
-> +	struct hantro_ctx *ctx;
-> +
-> +	ctx =3D container_of(ctrl->handler,
-> +			   struct hantro_ctx, ctrl_handler);
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_STATELESS_AV1_SEQUENCE:
-> +	{
-> +		int bit_depth =3D ctrl->p_new.p_av1_sequence->bit_depth;
-> +
-> +		if (ctx->bit_depth =3D=3D bit_depth)
-> +			return 0;
-> +
-> +		return hantro_reset_raw_fmt(ctx, bit_depth);
-> +	}
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
+> +	return DIV_ROUND_UP(dimension, 64);
 > +}
 > +
->  static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
->  	.try_ctrl =3D hantro_try_ctrl,
->  };
-> @@ -363,6 +393,11 @@ static const struct v4l2_ctrl_ops hantro_hevc_ctrl_o=
-ps =3D {
->  	.s_ctrl =3D hantro_hevc_s_ctrl,
->  };
-> =20
-> +static const struct v4l2_ctrl_ops hantro_av1_ctrl_ops =3D {
-> +	.try_ctrl =3D hantro_try_ctrl,
-> +	.s_ctrl =3D hantro_av1_s_ctrl,
-> +};
+> +static inline size_t
+> +hantro_av1_mv_size(unsigned int width, unsigned int height)
+> +{
+> +	size_t num_sbs =3D hantro_av1_num_sbs(width) * hantro_av1_num_sbs(heigh=
+t);
 > +
->  #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
->  					 V4L2_JPEG_ACTIVE_MARKER_COM | \
->  					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
-> @@ -540,6 +575,7 @@ static const struct hantro_ctrl controls[] =3D {
->  		.codec =3D HANTRO_AV1_DECODER,
->  		.cfg =3D {
->  			.id =3D V4L2_CID_STATELESS_AV1_SEQUENCE,
-> +			.ops =3D &hantro_av1_ctrl_ops,
->  		},
->  	}, {
->  		.codec =3D HANTRO_AV1_DECODER,
+> +	return ALIGN(num_sbs * 384, 16) * 2 + 512;
+> +}
+> +
+>  int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+>  int rockchip_vpu2_mpeg2_dec_run(struct hantro_ctx *ctx);
+>  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
+rs/media/platform/verisilicon/hantro_postproc.c
+> index 6437423ccf3a..bb16af50719d 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -213,6 +213,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+>  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_HEVC_SLICE)
+>  		buf_size +=3D hantro_hevc_mv_size(pix_mp.width,
+>  						pix_mp.height);
+> +	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_AV1_FRAME)
+> +		buf_size +=3D hantro_av1_mv_size(pix_mp.width,
+> +					       pix_mp.height);
+> =20
+>  	for (i =3D 0; i < num_buffers; ++i) {
+>  		struct hantro_aux_buf *priv =3D &ctx->postproc.dec_q[i];
 > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
 edia/platform/verisilicon/hantro_v4l2.c
-> index 7ed2dfd4aefa..e2a8838f75f0 100644
+> index e2a8838f75f0..c218c9781e73 100644
 > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
 > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -86,6 +86,10 @@ hantro_check_depth_match(const struct hantro_fmt *fmt,=
- int bit_depth)
->  	if (!fmt->match_depth && !fmt->postprocessed)
->  		return true;
-> =20
-> +	/* 0 means default depth, which is 8 */
-> +	if (!bit_depth)
-> +		bit_depth =3D HANTRO_DEFAULT_BIT_DEPTH;
-> +
->  	fmt_depth =3D hantro_get_format_depth(fmt->fourcc);
-> =20
->  	/*
+> @@ -337,6 +337,11 @@ static int hantro_try_fmt(const struct hantro_ctx *c=
+tx,
+>  			pix_mp->plane_fmt[0].sizeimage +=3D
+>  				hantro_hevc_mv_size(pix_mp->width,
+>  						    pix_mp->height);
+> +		else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_AV1_FRAME &&
+> +			 !hantro_needs_postproc(ctx, fmt))
+> +			pix_mp->plane_fmt[0].sizeimage +=3D
+> +				hantro_av1_mv_size(pix_mp->width,
+> +						   pix_mp->height);
+>  	} else if (!pix_mp->plane_fmt[0].sizeimage) {
+>  		/*
+>  		 * For coded formats the application can specify
 
