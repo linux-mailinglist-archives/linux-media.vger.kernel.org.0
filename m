@@ -2,64 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7426DDD64
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 16:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0D9A6DDD95
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 16:20:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjDKONu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 10:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46192 "EHLO
+        id S230176AbjDKOUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 10:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjDKONt (ORCPT
+        with ESMTP id S230411AbjDKOT5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 10:13:49 -0400
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D59B1;
-        Tue, 11 Apr 2023 07:13:48 -0700 (PDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-54f6fc7943eso42526297b3.3;
-        Tue, 11 Apr 2023 07:13:48 -0700 (PDT)
+        Tue, 11 Apr 2023 10:19:57 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2286E5259;
+        Tue, 11 Apr 2023 07:19:50 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-54bfa5e698eso314220587b3.13;
+        Tue, 11 Apr 2023 07:19:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681222427; x=1683814427;
+        d=gmail.com; s=20210112; t=1681222789; x=1683814789;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5UIC1EwSxTM9wU6NshrbwH+FuPWS1zI/lMxSprx3Zz8=;
-        b=ihFWUxMIpGG0KgZDUr4x1z1u/bryBQVigUHrM5CgolcML1V93ZYxp6S1LvLOZoDlFQ
-         H1KHXy/Ik0fySnpjPFsrW4ccfOmdCklF1qOHOg2JvRHYPSFE7txDCj7Wp3uWgdWCi4jO
-         uaCoD/cm+ZRpN/PvCPdJWqrY2bUwu/XzxF+LD0Fez4/DHvYKAz5CcahP7Dnffid+ekmB
-         jI/gTlEPEDyaUZpwFvJSQr/fyh2Rh2Dq6+YOqBNV2Ft6vMbm32YoIZGPBvFe+uRWnObZ
-         nPk0hF4hGHxyzA84qGG+cUQyvVM5fVv+y3cbamPbpWs/fdxv7F7Hy0Yhb5e30n4vDISU
-         Cngw==
+        bh=bJL8EDeskQ3buhuZ8RqVzrQqA4hbPhWzL08/j/4ZyRo=;
+        b=QhwckLrCQrR2ez/4jbDIdPlk6XKAtiDAf0x2Rf6RYj6bv0GVysc5m0bZHv+b78otjn
+         IUc1Ug3hhLMCIWxJC50l8ZW2p9HhR3/u0vjJSImCZlqByWpAwct4Ee3+d+O8Z4xzR5/M
+         IW4nAjZEvxjZOIJt//ib72v99BTQi4fxtZEUDU+z5B1Zmtyd8+pN1KJaW3e/J/2H77Y/
+         GOW9N31adcb230fW5nhZ9T3eWzc95CsJZs6+EaES9b6ei+E8oroKrVQnYxH1oY55K5QK
+         qmGD4EOj0Z6MQh6goqHsbJBzencKm8HCBsdsTmLsMCNV+Zo1cMA985Mej7BCqxwMX5tu
+         APeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681222427; x=1683814427;
+        d=1e100.net; s=20210112; t=1681222789; x=1683814789;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5UIC1EwSxTM9wU6NshrbwH+FuPWS1zI/lMxSprx3Zz8=;
-        b=asy6eUDT8B0fUjTrP4Pb22j1zUyv69fUoBQ2tS5Sv6utQkA1Ofj4oLg4nNM/q3Qkjx
-         ezxUrO3cO/5D32xKpwFS02HviAJLwn92753v2lHc9oNxe8FZACOZ2DWeuV57YQ33aA8G
-         DCbejG+z6Un53QGpDE7t4mcb/8OguYFdZN9lXugfLQiQ6kx97atDWtvWrB5aegXtO03/
-         z2DmIQ0ZlWLSYwDWKZX4H7mrWeYM3eRwgA2HRf0u7k/Mag8kbuSjw+byPqiJNg0qKgqJ
-         IhQNDHNxro5aEmngH84auL1x2jTQMpDJ4+o0E2Yk6yGDB3G6qd9wNZbsBNi+8I/QtRzI
-         kKpw==
-X-Gm-Message-State: AAQBX9fO/MPYO2Ohy1eeDrK+cVWUJAGVJYdDndzg4tTq5/b+vu5UCZ3s
-        n4DksZqnM+YgIzTRezu95XlpOeINcHbJKlX36dM=
-X-Google-Smtp-Source: AKy350Ye9qb+Fi54dbLCOM36j58UoowOPBTPbYTtAN0NisVoIOviqQh+VDl4ijVB/Q5nu2sqOG0CmapT4DBahpnAxkE=
+        bh=bJL8EDeskQ3buhuZ8RqVzrQqA4hbPhWzL08/j/4ZyRo=;
+        b=TLn4AYTiwwH1Vr2S0f2Ju/xAq47rB0H238VI849z6F4HgUjUr0o9MClS7mQTiPkb2I
+         S3Igh6xZzIl6HiOC0rrmrPh9IrapZeE/Bc96OSABGbgEtjnmFKcPoa6dlvxtJadclPH8
+         GdANxrZKwzl5Wbn5DvJcELBVPedqwcnBkac9OdMjBgH4A9dukDr/oAxVs/CTHuuecOvd
+         bhGvud+5db0rQXtt2Y9eePYPqEQSRolZZ/UAcNNgdSZiGi6mVdqfc/bqsgvCkAhwzkFH
+         PnHzTq80CYUgXOG42W9VksJ0WE6qIlXqyw6jqtVyYW8rpTLQWxN3x6E9cZp1gkWjAeVw
+         cBhg==
+X-Gm-Message-State: AAQBX9d4yeyqrcSQX/c8/Xiu/TP/JiH8ZUwUiSj4/LNQq+fbuFp1I2jD
+        E+Yr2gM7SyUSeIMwo7bhKArylMBfooWn+QeI1qg=
+X-Google-Smtp-Source: AKy350Zds44P7TdR7/cQA7b8nkFOjg+S10X78uapMOOx7SnVXZupZRI/jvfa9Pk/gkd1MKqhSHdhVhTpID+W8UHs9gs=
 X-Received: by 2002:a81:b184:0:b0:545:f7cc:f30 with SMTP id
- p126-20020a81b184000000b00545f7cc0f30mr6009110ywh.0.1681222427590; Tue, 11
- Apr 2023 07:13:47 -0700 (PDT)
+ p126-20020a81b184000000b00545f7cc0f30mr6022073ywh.0.1681222789320; Tue, 11
+ Apr 2023 07:19:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl> <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
- <ZDVXbw/097jvjKvK@1wt.eu>
-In-Reply-To: <ZDVXbw/097jvjKvK@1wt.eu>
+ <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org> <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+ <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org> <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
+ <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org> <CANiq72mv2uYe1x6cy4zUq8XHhAZcYYpt6hVXMG4yQZeqw1kY7Q@mail.gmail.com>
+ <1d50d25c-e64b-01f4-029f-8b40b46848fd@selasky.org>
+In-Reply-To: <1d50d25c-e64b-01f4-029f-8b40b46848fd@selasky.org>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 11 Apr 2023 16:13:36 +0200
-Message-ID: <CANiq72n8ZV_bs_xp5rNtar4vmfknJtZg4OHJW6vHuhVFmGs8mg@mail.gmail.com>
+Date:   Tue, 11 Apr 2023 16:19:38 +0200
+Message-ID: <CANiq72mbM+WBcvj1TwU2u9kLz=EucLhLR-a5nzZEDa7VJ0s2_A@mail.gmail.com>
 Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+To:     Hans Petter Selasky <hps@selasky.org>
+Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
+        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@collabora.com
 Content-Type: text/plain; charset="UTF-8"
@@ -74,35 +75,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 2:49=E2=80=AFPM Willy Tarreau <w@1wt.eu> wrote:
+On Tue, Apr 11, 2023 at 3:15=E2=80=AFPM Hans Petter Selasky <hps@selasky.or=
+g> wrote:
 >
-> This might sound strange, but I suspect that having a TAINT_RUST flag
-> could possibly help maintainers that are already lacking time, because
-> it may quickly allow some of them to ask "please try again without the
-> Rust code to see if the problem is still there", just like happens with
-> out-of-tree code for which the knowledge is limited to null. This could
-> allow to route issue reports to one maintainer when an issue is confirmed
-> in both cases or to another one when it only happens in a single case.
->
-> Of course it will not help with code reviews but we know that a great
-> part of maintainers' time it spent trying to analyse problem reports
-> that happen under vague conditions. All the time not spent debugging
-> something not well understood is more time available for reviews.
+> If you cannot build a new toolchain without a new kernel.
 
-You can already ask to disable `CONFIG_RUST`.
+Why not?
 
-In fact, we asked that a few times, when people reported a problem
-that looked unrelated to Rust, to confirm that was the case and thus
-redirect the report.
+> Then you are stuck forever to build a new toolchain and kernel? Do you
+> agree?
 
-So it is definitely a good idea to ask for that when you get a report
-with `RUST=3Dy` and you suspect it may be related to that, especially in
-the beginning where `RUST=3Dy` should not be common.
+No, I don't agree, because I don't understand why you cannot build the
+new toolchain in the old kernel, or use a pre-built toolchain for that
+matter (whether built by you or by somebody else).
 
-However, I think Rust in-tree code is different to out-of-tree code,
-since you do have the code, and thus (in general) you should be able
-to reproduce the build, and you can ask for help to the given
-maintainers to understand it.
+> Or you can say, someone else needs to deal with it, but then you have a
+> single point of failure.
+
+No, you could build your own toolchain and save it somewhere, if you
+don't want to rely on a build from somebody else.
 
 Cheers,
 Miguel
