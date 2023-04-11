@@ -2,42 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D0FB6DD47B
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 09:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 944476DD48D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 09:45:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229971AbjDKHmR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 03:42:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59816 "EHLO
+        id S230079AbjDKHp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 03:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229663AbjDKHmP (ORCPT
+        with ESMTP id S230224AbjDKHpO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 03:42:15 -0400
-Received: from mail.lokoho.com (mail.lokoho.com [217.61.105.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C5B3A84
-        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 00:42:10 -0700 (PDT)
-Received: by mail.lokoho.com (Postfix, from userid 1001)
-        id C697983616; Tue, 11 Apr 2023 08:41:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lokoho.com; s=mail;
-        t=1681198887; bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
-        h=Date:From:To:Subject:From;
-        b=T3b2OgtyL6wN3/mkYbXeyPSfxsV9M/QGCQ5kExgbS+CPh5aqx3kHsBtfFrLo4OgX5
-         mQd4KXkVAQTGzTk264d3UVhPbq4s6E5mjMRBh10rFJbgFWk1JFfQGnlK7KBDBWqxg9
-         iomFlzQs1sT2PC32STKRmclPNf//7Vsg2EGZDyN6R9OMixAVGSZXjBjLL1el3enY/r
-         johi4rWwIWknGk57Yz12O0Wrea3d1tFhnX1B7bmGC9i/aZc7S5ULBQJaeMBxPSQUDb
-         M6oYdd90p9E5q7MI42sTXxXim2sHMnDSDNQYxWoyKwA9k6NYynhCSnEo7/Mnn7FqII
-         lTCp5NM9JvN6w==
-Received: by mail.lokoho.com for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 07:40:45 GMT
-Message-ID: <20230411074501-0.1.58.1timd.0.oldwq4b2lt@lokoho.com>
-Date:   Tue, 11 Apr 2023 07:40:45 GMT
-From:   "Adam Charachuta" <adam.charachuta@lokoho.com>
-To:     <linux-media@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.lokoho.com
+        Tue, 11 Apr 2023 03:45:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41EF21BD1;
+        Tue, 11 Apr 2023 00:45:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D0A2061D0C;
+        Tue, 11 Apr 2023 07:45:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81C0C433D2;
+        Tue, 11 Apr 2023 07:45:09 +0000 (UTC)
+Message-ID: <5649adcd-3afe-e413-2eac-a92c78427dc9@xs4all.nl>
+Date:   Tue, 11 Apr 2023 09:45:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1] media: vivid: Add webcam parameter for (un)limited
+ bandwidth
+Content-Language: en-US
+To:     Max Staudt <mstaudt@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Yunke Cao <yunkec@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20230410063356.3894767-1-mstaudt@chromium.org>
+ <20230410102350.382f7d02@sal.lan>
+ <6aafad18-13a2-ef45-48a1-1f094554af31@chromium.org>
+ <6ee01cf1-5a8b-081f-e218-8c7da39343bc@xs4all.nl>
+ <c6d5be4c-42c9-b8fa-fbd7-108c5da694bc@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <c6d5be4c-42c9-b8fa-fbd7-108c5da694bc@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,19 +54,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 11/04/2023 09:31, Max Staudt wrote:
+> On 4/11/23 16:26, Hans Verkuil wrote:
+>> I think we either use this bandwidth option and calculate the max fps based on
+>> that (basically the bandwidth divided by (image_size + some blanking factor)),
+>> or we keep it simple and instead of going down two steps in fps we allow up to
+>> 60 fps up to 720p, then 30 fps for 1080p and 15 fps for 4k.
+>>
+>> The fps values currently used are a bit outdated w.r.t. modern webcams, so
+>> upgrading it wouldn't hurt. And this is a lot simpler than doing bandwidth
+>> calculations.
+> 
+> Do I understand you correctly, are you suggesting to simply update the FPS limits to a new fixed schema, and not have an option at all?
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+Correct.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+The ideal solution is indeed proper bandwidth calculations, since this would
+be a proper emulation of actual webcam hardware. If you have time and are
+interested in doing the work, then that would be great, of course.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+But if you just want to increase the fps limits to be more in line with
+modern webcams, then that's much quicker and should be fine.
 
+It might also be interesting to perhaps allow for 120 fps for the low
+resolutions (below 720p).
 
-Pozdrawiam
-Adam Charachuta
+Regards,
+
+	Hans
+
+> 
+> I'm happy to prepare an alternative patch for that, too.
+> 
+> 
+> 
+> Max
+> 
+
