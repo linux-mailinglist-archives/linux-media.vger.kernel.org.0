@@ -2,107 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F15D6DDFA3
-	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 17:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EB026DDFBE
+	for <lists+linux-media@lfdr.de>; Tue, 11 Apr 2023 17:30:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbjDKP1k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 11:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45906 "EHLO
+        id S229676AbjDKPa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 11:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbjDKP1h (ORCPT
+        with ESMTP id S229507AbjDKPa5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 11:27:37 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D4835FCA;
-        Tue, 11 Apr 2023 08:27:10 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:199e::580])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C3D3066003B8;
-        Tue, 11 Apr 2023 16:26:58 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681226820;
-        bh=DuGkoAGiYs0V4ZuV34Ydk4VOg6z3ZZ5l0Q7CdUd2bKI=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=XBoAHczzPa75ed6PpuM3+BMpOoazAOVCW8vLIYv73ETeE/5LY5xci6Squ07wwLnO8
-         VgqDJJJ1PTAKoNJl4/iXFzP0wwieYJQYxVvqhvm5TXKGVL3w70c52hyBOKr14tj3sK
-         G4IRhu246t4jW6cI/wLfH2ou8r9lfn8HUzKecfendQb1oZCvJUzfbxjm+cVE12RZV5
-         Te2w6ISnHohnnv4N6KzqHwRPbVbw8cyT7hCIqYri37dK/oECWq4M2jQIGKBtLrJRfo
-         8IzjoQGtO0SPVtf26TF7JfvEgawOx1oqfqrveV6C8dfu1AhD9AWBziD4LkmsWbbLvY
-         yNfVb8mqjwqdA==
-Message-ID: <ef815d11d8514f1d53bcb55d4acbcbac518cd603.camel@collabora.com>
-Subject: Re: [PATCH v5 13/13] media: AV1: Make sure that bit depth in
- correctly initialize
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Date:   Tue, 11 Apr 2023 11:26:50 -0400
-In-Reply-To: <20230330154043.1250736-14-benjamin.gaignard@collabora.com>
-References: <20230330154043.1250736-1-benjamin.gaignard@collabora.com>
-         <20230330154043.1250736-14-benjamin.gaignard@collabora.com>
+        Tue, 11 Apr 2023 11:30:57 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B74CC4
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 08:30:56 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id a23so5379714qtj.8
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 08:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112; t=1681227055; x=1683819055;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cfTBJGcArvpMvQorRR/sDUXlP2hWx7bq+L50IV9DIms=;
+        b=JKZPjE5NStYFMsyKIK+QBmpGoGQK5yp5uKuW4jvH8JOoyl5W/KcBtlebcPLgyZpB8R
+         r/eXObo8oZId0qiXxdDmIY6RII3S7Z4bHBThx9Nw7CKGTl48ToVAkcaQYs6qFNojsl+R
+         y+MMllVyCd5SGUfPsMvA8/qt8bgYnjwJIM83kvu1MOuNOAv8YuVUuILmkIgV8zwGDb3Y
+         k6jTM8A5W0np+KUdxQP2T+eptr44mVGsjeSIHM08lq9LMb5XTrkIsZaPMkVNOHwPhvOG
+         /o7ba1w6i1gE6rxqaPP+u5yQ00cE64lXGP5TfpgpPd0qtoWJ9CE+sfBMQf8KNLbBjKpk
+         JDiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681227055; x=1683819055;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cfTBJGcArvpMvQorRR/sDUXlP2hWx7bq+L50IV9DIms=;
+        b=XGPCEGDC8Sw9vfAdPFZJWHUB1+gM4HyJFFBS39rKEfcnfTYpFWE3hho31DU/gNBSJw
+         7tHcSPGNR3Qkf6bX8CDXHfzm/07kF48xz/h1WO+rya84xfsFVsZk0DEUciQx2kQ1wV9p
+         +qyml3YyP3XaleXWJ0a+wojOachxrf3AzJPPR4MAqH3bidIXWGTi29LKww2RnY2norJE
+         V399AlbltalB7w1lURZlAWokfT5ku2M+GXD3ka2O92b41GOaAcSFsTaV278WLpwPeE1b
+         ODxfCN7lqdGcs6ffPLaCcRR8nIT9q7sxQkv6y4UI0LHb/3kdZ87snFNsp28bR8Y8I1Xf
+         iKZg==
+X-Gm-Message-State: AAQBX9f5jp8B8+WskyVFFMgPTqpXM5J4gxN08YOCa1VTE9PKdtwUs3ur
+        G7a6xzfD9kOFurNo4LFRYKi2iiL6mjGie4mTWmU=
+X-Google-Smtp-Source: AKy350aFEJeoltoyWsD6S1OqbhVS42G2M1t36SP58Nd2uIo2BOAovB2zr1zgb510F7xMjZesc4AYiQ==
+X-Received: by 2002:a05:622a:291:b0:3bf:d9f3:debe with SMTP id z17-20020a05622a029100b003bfd9f3debemr4919958qtw.59.1681227055380;
+        Tue, 11 Apr 2023 08:30:55 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::580])
+        by smtp.gmail.com with ESMTPSA id x1-20020ac87301000000b003e6610471c1sm3634284qto.16.2023.04.11.08.30.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 08:30:55 -0700 (PDT)
+Message-ID: <ebbfcf603930f0414abff23b329e66a59bf1f812.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/9] media: v4l2: Add NV12_16L16 pixel format to v4l2
+ format info
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Adam Pigg <adam@piggz.co.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Tue, 11 Apr 2023 11:30:54 -0400
+In-Reply-To: <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
+References: <20230324151228.2778112-1-paul.kocialkowski@bootlin.com>
+         <20230324151228.2778112-3-paul.kocialkowski@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 30 mars 2023 =C3=A0 17:40 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> Make sure that bit_depth field of V4L2_CTRL_TYPE_AV1_SEQUENCE
-> is initialized correctly before using it.
+Le vendredi 24 mars 2023 =C3=A0 16:12 +0100, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> Represent the NV12_16L16 pixel format in the v4l2 format info table.
+> This is a 16x16 tiled version of NV12.
 >=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->=20
-In v6, can you move this patch earlier ? I'm having bisection in mind. With=
- that
-being said:
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
->=20
 > ---
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/media/v4l2-core/v4l2-common.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4=
-l2-core/v4l2-ctrls-core.c
-> index 9fd37e94db17..a662fb60f73f 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -111,6 +111,7 @@ static void std_init_compound(const struct v4l2_ctrl =
-*ctrl, u32 idx,
->  	struct v4l2_ctrl_vp9_frame *p_vp9_frame;
->  	struct v4l2_ctrl_fwht_params *p_fwht_params;
->  	struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
-> +	struct v4l2_ctrl_av1_sequence *p_av1_sequence;
->  	void *p =3D ptr.p + idx * ctrl->elem_size;
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 3d044b31caad..5101989716aa 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -280,6 +280,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>  		/* Tiled YUV formats */
+>  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+>  		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+> +		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_ENC_Y=
+UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =
+=3D 2, .vdiv =3D 2,
+> +		  .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0 } },
 > =20
->  	if (ctrl->p_def.p_const)
-> @@ -157,6 +158,10 @@ static void std_init_compound(const struct v4l2_ctrl=
- *ctrl, u32 idx,
->  		p_vp9_frame->flags |=3D V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
->  			V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING;
->  		break;
-> +	case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-> +		p_av1_sequence =3D p;
-> +		p_av1_sequence->bit_depth =3D 8;
-> +		break;
->  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
->  		p_fwht_params =3D p;
->  		p_fwht_params->version =3D V4L2_FWHT_VERSION;
+>  		/* YUV planar formats, non contiguous variant */
+>  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D =
+2, .vdiv =3D 2 },
 
