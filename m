@@ -2,205 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7866DF1BC
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 12:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CEF16DF1C4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 12:13:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjDLKLy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 06:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
+        id S230173AbjDLKN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 06:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjDLKLx (ORCPT
+        with ESMTP id S229841AbjDLKN2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 06:11:53 -0400
+        Wed, 12 Apr 2023 06:13:28 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBA872A2
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 03:11:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D8772B4;
+        Wed, 12 Apr 2023 03:13:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 886166329D
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 10:11:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D1AC433EF;
-        Wed, 12 Apr 2023 10:11:45 +0000 (UTC)
-Message-ID: <8fd63839-c876-44ef-7597-8436cf0239ae@xs4all.nl>
-Date:   Wed, 12 Apr 2023 12:11:43 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6135B632AF;
+        Wed, 12 Apr 2023 10:13:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E18DC433EF;
+        Wed, 12 Apr 2023 10:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1681294401;
+        bh=cV0F/zXqS3VEU+Ur4CyxSlC/LnTHZyV5cWJ1O1RaC38=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AI0T2oh2NykTR0ryA1L9IjPhv7FDeSWxTR8TUUZ2S5K4mm/ikoTgo3jHh/lHcs5uD
+         7V1QdmXYFB/vfe1OqePSd2iRp5TIQmZVxoETgmBwzLIjRag0/ioMBPc7Vy4i3o6540
+         ao2e7FgorzlFIYLsbFlNa5rqx5GpPsHYTCpK1OAY=
+Date:   Wed, 12 Apr 2023 12:13:19 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Hans Petter Selasky <hps@selasky.org>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+Message-ID: <2023041243-clarinet-scallion-6fb0@gregkh>
+References: <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+ <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
+ <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
+ <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org>
+ <CANiq72mv2uYe1x6cy4zUq8XHhAZcYYpt6hVXMG4yQZeqw1kY7Q@mail.gmail.com>
+ <1d50d25c-e64b-01f4-029f-8b40b46848fd@selasky.org>
+ <CANiq72mbM+WBcvj1TwU2u9kLz=EucLhLR-a5nzZEDa7VJ0s2_A@mail.gmail.com>
+ <ca17f815-5779-d37c-e3f8-2a6c2983fe45@selasky.org>
+ <CANiq72mn1nD38DGHpFQzerC=_ifR39Vpbb_PzLv5Q75SdzTxQg@mail.gmail.com>
+ <8ff91d0c-624b-2704-24b0-5b7c4ca0db1e@selasky.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: saa7146: please test the vb2 conversion!
-Content-Language: en-US
-To:     Stefan Herdler <herdler@nurfuerspam.de>
-Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
- <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
- <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
- <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
- <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
- <20230208100847.3ec87576@coco.lan>
- <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
- <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
- <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
- <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
- <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
- <fc0244d7-1edc-d0f9-1777-65521d781d7b@xs4all.nl>
- <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8ff91d0c-624b-2704-24b0-5b7c4ca0db1e@selasky.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/04/2023 00:36, Stefan Herdler wrote:
-> On 07/04/23 09:04, Hans Verkuil wrote:
->> On 07/04/2023 00:43, Stefan Herdler wrote:
-> [...]
->>>
->>> VBI output is used to switch the aspect-ratio via WSS.
->>> this should be supported by any av7110 card.
->>>
->>> The software is run a daemon or plugin, so the userspace-facing change
->>> shouldn't matter.
->>>
->>> I'll test this as soon as possible.
->>>
->>>
->>>
->>>
->>> I've done only basic testing so far, but unfortunately it already failed.
->>>
->>> The test:
->>> Switch to a channel[*] and view the decoded video with tvtime.
->>>
->>> The resulting picture is corrupted.
->>> Almost green with some pink traces at the outlines.
->>>
->>> It reminds me to YCbCr component-yideo on a RGB-input.
->>> Maybe the input-format of saa7146 not set correctly?
->>>
->>> The OSD is equally affected, but the card seems to run stable.
->>
->> That's weird. When you are in this state, can you run
->> 'v4l2-ctl -V -d /dev/videoX' for the video device that tvtime
->> is using? I'll try to test it with tvtime as well next week.
->> I have done my tests using qvidcap and qv4l2, and that looked fine.
-> 
-> I've done some more testing and the result is somehow confusing to me.
-> 
-> At first I tried qv4l and it shows correct videos with any driver.
-> And with any pixel format setting I tried.
-> 
-> 
-> After boot /dev/video0 (there is only this device) starts always with
-> this settings:
-> Format Video Capture:
->         Width/Height      : 384/288
->         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
->         Field             : Interlaced
->         Bytes per Line    : 1152
->         Size Image        : 331776
->         Colorspace        : SMPTE 170M
->         Transfer Function : Default (maps to Rec. 709)
->         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->         Quantization      : Default (maps to Full Range)
->         Flags             :
-> 
-> 
-> On the working "old" driver tvtime switches to the following settings:
-> Format Video Capture:
->         Width/Height      : 720/576
->         Pixel Format      : 'UYVY' (UYVY 4:2:2)
->         Field             : Interlaced
->         Bytes per Line    : 1440
->         Size Image        : 829440
->         Colorspace        : SMPTE 170M
->         Transfer Function : Default (maps to Rec. 709)
->         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->         Quantization      : Default (maps to Limited Range)
->         Flags             :
-> It seems tvtime needs this 'UYVY' pixel format to work.
-> 
-> 
-> On the "new" driver, with patches [1], tvtime switches to:
-> Format Video Capture:
->         Width/Height      : 720/576
->         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
->         Field             : Interlaced
->         Bytes per Line    : 2160
->         Size Image        : 1244160
->         Colorspace        : SMPTE 170M
->         Transfer Function : Default (maps to Rec. 709)
->         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->         Quantization      : Default (maps to Full Range)
->         Flags             :
-> And now it is getting weird:
-> I can switch to the correct 'UYVY' settings using qv4l.
-> But tvtime always switches back to 'BGR3'.
+On Wed, Apr 12, 2023 at 12:00:59PM +0200, Hans Petter Selasky wrote:
+> That's why the toolchain should be included in the Linux kernel. So that the
+> people using Linux know that the toolchain works as intended when compiling
+> the Linux kernel.
 
-The cause is "[PATCH 10/17] media: common: saa7146: fall back to V4L2_PIX_FMT_BGR24".
+That's not how Linux has ever worked, sorry.  So this is not even a
+valid discussion anymore.
 
-Can you drop that patch and test again?
-
-It's really a tvtime bug since drivers are allowed to either reject an unsupported
-pixelformat (the old behavior) or replace it with a supported pixelformat (the
-new behavior). And tvtime only supports the old behavior.
-
-> 
-> Using qv4l while tvtime is running doesn't work and sometimes
-> causes freezing of both programs (on all drivers).
-
-Are you just starting qv4l2 when tvtime is running? Or trying to stream?
-Do you see messages in the kernel log?
-
-I couldn't reproduce this. Since tvtime is streaming, qv4l2 shouldn't be able to
-do anything since all attempts to change something should result in EBUSY.
-
-Regards,
-
-	Hans
-
-> 
-> 
-> I have also build a new driver just without the patches [2].
-> It shows the "old" correct behavior.
-> So I think, the cause of the change must be somewhere in the
-> patches.
-> 
-> 
-> 
-> Btw.:
-> I also tried to open the video device with the usual
-> media-players, but I had no luck so far (with any driver).
-> 
-> 
-> Regards
-> 
-> Stefan
-> 
-> 
-> [1] git checkout -B saa7146-clean 837736a79a76c9becddf0caf905b27c144a64030
-> [2] git checkout -B saa7146-clean 2653fad0d8a9625667e9a78133ea9e1245b7c40c
-> 
->>
->> Regards,
->>
->> 	Hans
->>
-> [...]
-
+greg k-h
