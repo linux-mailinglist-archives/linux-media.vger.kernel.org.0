@@ -2,42 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A11E56DFA29
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 17:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2010C6DFA83
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 17:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230382AbjDLPcS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 11:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35422 "EHLO
+        id S230211AbjDLPnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 11:43:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231452AbjDLPcO (ORCPT
+        with ESMTP id S229769AbjDLPnV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 11:32:14 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694677A8B
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 08:32:09 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pmcS7-00HKhU-EM; Wed, 12 Apr 2023 15:32:07 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pmcS4-00Ez9X-ID; Wed, 12 Apr 2023 15:32:04 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] cec: one cec fix, one doc update (#91238)
-Date:   Wed, 12 Apr 2023 15:32:04 +0000
-Message-Id: <20230412153204.3571617-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <7094bebe-2d64-7087-3718-80e4e7be04fc@xs4all.nl>
-References: 
+        Wed, 12 Apr 2023 11:43:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E22159C5;
+        Wed, 12 Apr 2023 08:43:19 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F8DB547;
+        Wed, 12 Apr 2023 17:43:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681314194;
+        bh=4NyFXWkTeYTdYPjiIvCQ6ScjCOvbiEwdgtblQo9Csj4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LqgA4KO9MDMYA9XTbZKAavKnRsuzwKfm3DAKTP90+SlQvhDQF1n+yAiSU1FY4rPSs
+         V9tgvxM4KKOiPT25AeRG4BOsvDn5v+7KTttsYasxy7NoricAIyZ4ZqUMx488tyWgj1
+         Ast1ORK+0zYd4CEjHtvLGoqifErWXW6kh07YXJAk=
+Date:   Wed, 12 Apr 2023 18:43:26 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v7 00/17] Add RCar DU lib support
+Message-ID: <20230412154326.GZ11253@pendragon.ideasonboard.com>
+References: <20230411114235.366042-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230411114235.366042-1-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,42 +55,151 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Biju,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7094bebe-2d64-7087-3718-80e4e7be04fc@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/297112/
-Build time: 00:25:47
-Link: https://lore.kernel.org/linux-media/7094bebe-2d64-7087-3718-80e4e7be04fc@xs4all.nl
+(CC'ing Kieran who has missed the series so far)
 
-gpg: Signature made Wed 12 Apr 2023 02:50:32 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Thank you for the patch.
 
-Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+On Tue, Apr 11, 2023 at 12:42:18PM +0100, Biju Das wrote:
+> The DU controller on RZ/G2L LCDC is similar to R-Car as it is
+> connected to VSPD. RCar DU lib is created for sharing kms, vsp and encoder
+> driver code between both RCar and RZ/G2L alike SoCs.
 
-Error/warnings:
+I'm afraid that my opinion hasn't changed much compared to the previous
+versions :-(
 
-patches/0001-media-cec-core-not-all-messages-were-passed-on-when-.patch:
+The RZ/G2L LCD Controller (LCDC) is indeed made of FCP, VSP and DU
+hardware blocks, like in R-Car. While the VSP is similar to its R-Car
+counterpart, and the FCP may be as well (I haven't checked), the only
+common point between the RZ/G2L and R-Car DU is the name.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+This patch series is turning the R-Car DU driver into a generic library
+to support the unrelated RZ/G2L DU. This makes the code more complex,
+and significantly more difficult to maintain. Not only would changes for
+R-Car then need to be tested on RZ/G2L as well (which is a platform I
+don't have access to), but refactoring of the code to address R-Car use
+cases may become more difficult due to RZ/G2L support.
 
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2489 mxc_jpeg_probe() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974544
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2884 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+The only hardware-specific similarity I see between the RZ/G2L and R-Car
+DU is usage of the VSP as an external composer. That part is mostly
+handled by the VSP driver which is already an external component to the
+DU driver. There is a thin glue layer in the DU driver to translate the
+KMS plane API to the VSP internal API, and some code may be reused on
+the RZ/G2L, but I expect that to be fairly limited, especially given
+that the interface with the VSP isn't exactly the same on the two
+platforms. Still, *if* that code could be nicely split to a library
+shared by the two platforms, *without* causing more pain (significant
+maintenance burden) than gain (code sharing), I would be fine with that.
 
+What I don't like is how intrusive the patch series is. You're turning
+the whole DU driver into a library, for parts where the two platforms
+have no common hardware implementation. If there are significant
+portions of the DU driver that would be duplicated for RZ/G2L, it may be
+a sign that that code could be factored out to a library, but it should
+in that case not be a DU library, but a DRM core helper.
 
-Error #512 when building PDF docs
+The DRM core helpers and the VSP helpers are two independent components,
+so I would be fine if you decide to only implement one of the two.
 
+> Tested this patch series on RZ/{G2M, G2L, G2LC} and RZ/V2L platforms.
+> 
+> v6->v7:
+>  * Split DU lib and  RZ/G2L du driver as separate patch series as
+>    DU support added to more platforms based on RZ/G2L alike SoCs.
+>  * Rebased to latest drm-tip.
+> v5->v6:
+>  * Merged DU lib and RZ/G2L du driver in same patch series
+>  * Rebased to latest drm-misc.
+>  * Merged patch#1 to RZ/G2L Driver patch.
+>  * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+>  * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+> 
+> v4->v5:
+>  * Added Rb tag from Rob for binding patch.
+>  * Started using RCar DU libs(kms, vsp and encoder)
+>  * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+>    rcar_du_format_info and rcar_du_encoder.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+>  * started using same compatible for RZ/G2{L,LC}
+>  * Removed rzg2l_du_group.h and struct rzg2l_du_group
+>  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+>  * Removed rzg2l_du_group_restart
+>  * Updated rzg2l_du_crtc_set_display_timing
+>  * Removed mode_valid callback.
+>  * Updated rzg2l_du_crtc_create() parameters
+>  * Updated compatible
+>  * Removed RZG2L_DU_MAX_GROUPS
+> V2->v3:
+>  * Added new bindings for RZ/G2L DU
+>  * Removed indirection and created new DRM driver based on R-Car DU
+> v1->v2:
+>  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+>  * Updated commit description for bindings
+>  * Removed LCDC references from bindings
+>  * Changed clock name from du.0->aclk from bindings
+>  * Changed reset name from du.0->du from bindings
+>  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+>  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+>  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+>  * Added forward declaration for struct reset_control
+> 
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220312084205.31462-2-biju.das.jz@bp.renesas.com/
+> 
+> RFC->v1:
+>  * Changed  minItems->maxItems for renesas,vsps.
+>  * Added RZ/G2L LCDC driver with special handling for CRTC reusing
+>    most of RCar DU code
+>  * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
+> RFC:
+>  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-18-biju.das.jz@bp.renesas.com/
+>  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-12-biju.das.jz@bp.renesas.com/
+>  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-13-biju.das.jz@bp.renesas.com/
+>  https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-19-biju.das.jz@bp.renesas.com/
+> 
+> Biju Das (17):
+>   drm: rcar-du: Add encoder lib support
+>   drm: rcar-du: Add kms lib support
+>   drm: rcar-du: Add vsp lib support
+>   drm: rcar-du: Move rcar_du_vsp_atomic_begin()
+>   drm: rcar-du: Move rcar_du_vsp_atomic_flush()
+>   drm: rcar-du: Move rcar_du_vsp_{map,unmap}_fb()
+>   drm: rcar-du: Move rcar_du_dumb_create()
+>   drm: rcar-du: Move rcar_du_gem_prime_import_sg_table()
+>   drm: rcar-du: Add rcar_du_lib_vsp_init()
+>   drm: rcar-du: Move rcar_du_vsp_plane_prepare_fb()
+>   drm: rcar-du: Move rcar_du_vsp_plane_cleanup_fb()
+>   drm: rcar-du: Move rcar_du_vsp_plane_atomic_update()
+>   drm: rcar-du: Add rcar_du_lib_fb_create()
+>   drm: rcar-du: Add rcar_du_lib_mode_cfg_helper_get()
+>   drm: rcar-du: Move rcar_du_encoders_init()
+>   drm: rcar-du: Move rcar_du_properties_init()
+>   drm: rcar-du: Add rcar_du_lib_vsps_init()
+> 
+>  drivers/gpu/drm/rcar-du/Kconfig               |  10 +
+>  drivers/gpu/drm/rcar-du/Makefile              |   4 +
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c     | 117 +--
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.h     |  14 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.c | 138 ++++
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.h |  30 +
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 694 +---------------
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.h         |  29 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c     | 744 ++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h     |  61 ++
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         | 407 +---------
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.h         |  26 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c     | 436 ++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h     |  76 ++
+>  14 files changed, 1515 insertions(+), 1271 deletions(-)
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_encoder_lib.h
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_kms_lib.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_kms_lib.h
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_vsp_lib.h
+
+-- 
+Regards,
+
+Laurent Pinchart
