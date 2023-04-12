@@ -2,90 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB3A76DF82E
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3F346DF89A
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231489AbjDLORe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 10:17:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46856 "EHLO
+        id S231648AbjDLOef (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 10:34:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjDLORd (ORCPT
+        with ESMTP id S231645AbjDLOe2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 10:17:33 -0400
+        Wed, 12 Apr 2023 10:34:28 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291F719C
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 07:17:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBC72D64;
+        Wed, 12 Apr 2023 07:34:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B8522629EF
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 14:17:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF50C433D2
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 14:17:30 +0000 (UTC)
-Message-ID: <8e24bf30-1c52-6bc3-54b2-b758c7fc4344@xs4all.nl>
-Date:   Wed, 12 Apr 2023 16:17:29 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7AFEF630A3;
+        Wed, 12 Apr 2023 14:34:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44D9DC433EF;
+        Wed, 12 Apr 2023 14:34:15 +0000 (UTC)
+Message-ID: <f74031f0-3c88-e3b4-0fa1-b406aacb11fd@xs4all.nl>
+Date:   Wed, 12 Apr 2023 16:34:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [ANN] Request for Topics for a Media Summit June 26th
+Subject: Re: [PATCH v7 10/14] media: mtk-jpegdec: Remove the setting for
+ dma_mask
 Content-Language: en-US
+To:     Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        nfraprado@collabora.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
+        jianjiao.zeng@mediatek.com, Yunfei Dong <yunfei.dong@mediatek.com>,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
+        chengci.xu@mediatek.com, youlin.pei@mediatek.com,
+        anan.sun@mediatek.com, Bin Liu <bin.liu@mediatek.com>,
+        kyrie wu <kyrie.wu@mediatek.com>
+References: <20230411093144.2690-1-yong.wu@mediatek.com>
+ <20230411093144.2690-11-yong.wu@mediatek.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
-In-Reply-To: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
+In-Reply-To: <20230411093144.2690-11-yong.wu@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/03/2023 15:44, Hans Verkuil wrote:
-> Hi all,
+On 11/04/2023 11:31, Yong Wu wrote:
+> In order to simplify the masters to set their respective dma masks, MTK
+> IOMMU helps to centralize the processing. Because all the dma ranges is
+> set in IOMMU, IOMMU knows well the dma mask requirements of masters. After
+> this patch, the masters code does not need care
+> dma-ranges/dma_mask related information.
 > 
-> I am planning to organize another Media Summit on June 26th, co-located
-> with the Embedded Open Source Summit in Prague:
-> 
-> https://events.linuxfoundation.org/embedded-open-source-summit/
-> 
-> I've put in a request for a room with the Linux Foundation and I am waiting
-> for the result of that. For once I was early with my request, so I have good
-> hope we'll get a room. Expect the format to be similar to what we did in
-> Dublin last year.
-> 
-> I'm a bit early with this 'Request for Topics' as well, but this allows
-> everyone who plans to be in Prague to take this into account.
-> 
-> So if you have a topic that you want to discuss, just reply. It would be
-> very much appreciated if you can also add a guesstimate of the time you
-> need for your topic.
-> 
-> Once I have the details of the room and how many people it can hold, then
-> I will send out a second email asking people to register with me if you
-> want to join.
-> 
-> Regarding remote participation: only if there is really no other way.
-> Meeting face-to-face once a year is important IMHO, and attending remotely
-> is a poor substitute. That said, if it is really necessary to set something
-> up, then I can do the same I did in Dublin, setting up a Webex meeting.
-> That worked reasonably well, except that I will need to bring a better
-> speaker since I learned that the laptop speaker was pretty bad.
-> 
-> So, if you have topics for the meeting, just reply!
-> 
-> Regards,
-> 
-> 	Hans
+> Cc: Bin Liu <bin.liu@mediatek.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: kyrie wu <kyrie.wu@mediatek.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 
-Topic: should we keep the media summit together with the ELCE conference?
-Or organize it separately, and ask a company like Cisco, Intel or Collabora
-to organize a room. What would work best?
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 Regards,
 
 	Hans
+
+> ---
+>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> index 969516a940ba..9b96d2436311 100644
+> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> @@ -1757,9 +1757,6 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
+>  	jpeg->vdev->device_caps = V4L2_CAP_STREAMING |
+>  				  V4L2_CAP_VIDEO_M2M_MPLANE;
+>  
+> -	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
+> -		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+> -
+>  	ret = video_register_device(jpeg->vdev, VFL_TYPE_VIDEO, -1);
+>  	if (ret) {
+>  		v4l2_err(&jpeg->v4l2_dev, "Failed to register video device\n");
+
