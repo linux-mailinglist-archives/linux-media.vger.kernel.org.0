@@ -2,130 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2A26DFCCD
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 19:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAF356DFCFB
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 19:51:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbjDLRf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 13:35:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
+        id S229853AbjDLRvk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 13:51:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjDLRf1 (ORCPT
+        with ESMTP id S230096AbjDLRvi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 13:35:27 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B8619A
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 10:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681320923; x=1712856923;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dna8GvTJPEiAW1iZuy/MM8UtsPMCLVQRzDmOYqSLUEc=;
-  b=joluwVJHMe3QgYClER94KVvPlJhQqK16tV7xmzfOTfgNjeqRR5+8Yh9a
-   EPhyaynZw60eobhJJ3ojpPn3NmxqTQHp55G8cRQqDl4MRkhE0rihiZ9Cj
-   byPNZEgo7Qi3DxmEVJY3k8eWfHDWw0IHgfvpKWqJK41rGM/sJC/EVZ8gX
-   u1zJCGBnyrZM3m04SZAGSSOaBtqg5h9PaIhF5m8x2ZQSTTC05+wxgvh69
-   uEIL6TbqGJpqET4pdzJrX4cXTVs30DvPBptUBY2Vx7BNqvcu+yZpwImYN
-   r2GFcsx6tMHqRI0OmLAU01AanqaQ44uC7Ii26zwjZ1vRdetyuJzyVxbBV
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="409109873"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="409109873"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 10:35:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="800423953"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="800423953"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 Apr 2023 10:35:20 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pmeNL-000Xwx-1q;
-        Wed, 12 Apr 2023 17:35:19 +0000
-Date:   Thu, 13 Apr 2023 01:35:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        Michal Simek <monstr@monstr.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [xilinx-xlnx:master 12090/14520] drivers/fpga/zynq-afi.c:27:
- warning: expecting prototype for struct afi_fpga. Prototype was for struct
- zynq_afi_fpga instead
-Message-ID: <202304130139.lWZSndko-lkp@intel.com>
+        Wed, 12 Apr 2023 13:51:38 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C75359E2;
+        Wed, 12 Apr 2023 10:51:37 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id he13so12068355wmb.2;
+        Wed, 12 Apr 2023 10:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681321896;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tjAgg+1rXP/ibl8SV/Shge5MrmdpY6vrV27SsO06MJQ=;
+        b=NRi333288ZygCOmiAdCNJosEPjp914KSfy4zw6TQ3mpCB2NW2Oc7MLkDl8u+fxJ2F+
+         lBgeTJ6H3PlMjRFGgQ7EWGxUGtJ5zd+9Q8jcFRgo2oly7eOp0UDea1KLH8wwJtrHufMT
+         yOEw/VYQlWjWE5Hvjux8cq/wMUKuWlP47MVE6XZ68LzlAL0k2wvWT5a0p4NO7shZ12S3
+         eWFWqYwWrF/t6EV46O22tHBrWYUXROl6BmhjQbyE0xrbHQHahqyjrhCgqD9sNntTcD5F
+         6Eum7Qg/RBPgxE59ARg7HrC3/2XVqKILrev6CHuHrWMkk5O9oU3OQr1qsXbGe3cIV8ep
+         FYGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681321896;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tjAgg+1rXP/ibl8SV/Shge5MrmdpY6vrV27SsO06MJQ=;
+        b=ghu8N0eee7uSgBSIOwT6GiFk5eTNrT79nTkroGi6N573zPRVrrlpy3zj31/aOaVbNR
+         AjqdoOHhWP+yWiY+/AMMDlo6vajAyGEyHJ3+077uxamOIst8X1WftdNN/lNSs4Q4TdeM
+         zjnK0Z3Nzmnc9WlcC29LS8eE/WVYhx6J0A1rBAVbpKJKAAmNHCd5HTdVe8de6iY8mdIx
+         LVuJpjpDjlUvz4nyr0mii/ehx0Qi8LrDcO0kqfDsrxQjfZ0GOMMnHGvmuGQ2WYex1HpY
+         kRY6n4zwKZ6v4DptiNInYxK79JMTemfkJw/YAlgI2J7EMTzKGbiANJZ7b0Gy4wfpTGj/
+         UiCA==
+X-Gm-Message-State: AAQBX9efBQj/c4uuc3byM+QikzgYEdS7VP71xcceIQ/uLrM9iwLff4uS
+        Yad+7zgfwPjvzqdMRVlIKh8=
+X-Google-Smtp-Source: AKy350aAdus6rK7PINuCvPZWM6juWt+b37hP4pj28oYO6b0OU/bUNn3+Jc4vYAMOYLhaHLJsJGvrBw==
+X-Received: by 2002:a05:600c:378a:b0:3ee:b3bf:5f7c with SMTP id o10-20020a05600c378a00b003eeb3bf5f7cmr12625430wmr.23.1681321895701;
+        Wed, 12 Apr 2023 10:51:35 -0700 (PDT)
+Received: from arch.localdomain ([2a0c:5a82:e704:7800:4aa3:3ca0:c843:43e3])
+        by smtp.googlemail.com with ESMTPSA id v13-20020a05600c214d00b003edf2dc7ca3sm3056020wml.34.2023.04.12.10.51.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 10:51:35 -0700 (PDT)
+From:   Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+To:     Alison Schofield <alison.schofield@intel.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Cc:     Angel Alberto Carretero <angelalbertoc.r@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: imx: utils: Enclose IMX_BUS_FMTS macro in parenthesis
+Date:   Wed, 12 Apr 2023 19:51:01 +0200
+Message-Id: <20230412175101.8746-1-angelalbertoc.r@gmail.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
+References: <ZDSgWU5GXPFdJ99o@aschofie-mobl2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Conform to kernel coding style by wrapping macro in parenthesis. Issue
+found by checkpatch.
 
-FYI, the error/warning still remains.
+Signed-off-by: Angel Alberto Carretero <angelalbertoc.r@gmail.com>
+---
+v2: changed commit message and description thanks to Alison suggestion
+---
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
-commit: 57f1706d9ac1a75fd4e037ce7f7907020c5efe8c [12090/14520] scripts: kernel-doc: validate kernel-doc markup with the actual names
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230413/202304130139.lWZSndko-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/57f1706d9ac1a75fd4e037ce7f7907020c5efe8c
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx master
-        git checkout 57f1706d9ac1a75fd4e037ce7f7907020c5efe8c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/xilinx/ drivers/fpga/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304130139.lWZSndko-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/fpga/zynq-afi.c:27: warning: expecting prototype for struct afi_fpga. Prototype was for struct zynq_afi_fpga instead
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHY_MTK_HDMI
-   Depends on [n]: ARCH_MEDIATEK [=n] && OF [=y]
-   Selected by [y]:
-   - DRM_MEDIATEK_HDMI [=y] && HAS_IOMEM [=y] && DRM_MEDIATEK [=y]
-   WARNING: unmet direct dependencies detected for MXC_CLK_SCU
-   Depends on [n]: COMMON_CLK [=y] && ARCH_MXC [=n] && IMX_SCU [=y] && HAVE_ARM_SMCCC [=y]
-   Selected by [y]:
-   - CLK_IMX8QXP [=y] && COMMON_CLK [=y] && (ARCH_MXC [=n] && ARM64 || COMPILE_TEST [=y]) && IMX_SCU [=y] && HAVE_ARM_SMCCC [=y]
-
-
-vim +27 drivers/fpga/zynq-afi.c
-
-503049b870e6b7 Nava kishore Manne 2018-07-31  18  
-503049b870e6b7 Nava kishore Manne 2018-07-31  19  /**
-503049b870e6b7 Nava kishore Manne 2018-07-31  20   * struct afi_fpga - AFI register description
-503049b870e6b7 Nava kishore Manne 2018-07-31  21   * @membase:	pointer to register struct
-503049b870e6b7 Nava kishore Manne 2018-07-31  22   * @afi_width:	AFI bus width to be written
-503049b870e6b7 Nava kishore Manne 2018-07-31  23   */
-503049b870e6b7 Nava kishore Manne 2018-07-31  24  struct zynq_afi_fpga {
-503049b870e6b7 Nava kishore Manne 2018-07-31  25  	void __iomem	*membase;
-503049b870e6b7 Nava kishore Manne 2018-07-31  26  	u32		afi_width;
-503049b870e6b7 Nava kishore Manne 2018-07-31 @27  };
-503049b870e6b7 Nava kishore Manne 2018-07-31  28  
-
-:::::: The code at line 27 was first introduced by commit
-:::::: 503049b870e6b79cff0512dd0cd8456d7bde7afa fpga: zynq: Add AFI config driver
-
-:::::: TO: Nava kishore Manne <nava.manne@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@xilinx.com>
-
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 411e907b68eb..eb44c09071de 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -7,7 +7,7 @@
+ #include <linux/module.h>
+ #include "imx-media.h"
+ 
+-#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
++#define IMX_BUS_FMTS(fmt...) ((const u32[]) {fmt, 0})
+ 
+ /*
+  * List of supported pixel formats for the subdevs.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.40.0
+
