@@ -2,141 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86A9A6DF8A7
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34DF66DF8C4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:39:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjDLOg0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 10:36:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36404 "EHLO
+        id S231708AbjDLOjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 10:39:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231691AbjDLOgT (ORCPT
+        with ESMTP id S230310AbjDLOjh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 10:36:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF7AC9745;
-        Wed, 12 Apr 2023 07:35:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7229562D9C;
-        Wed, 12 Apr 2023 14:35:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B94C433EF;
-        Wed, 12 Apr 2023 14:35:46 +0000 (UTC)
-Message-ID: <2c3105d4-2e60-e77a-df5d-e2a7e37c6f4a@xs4all.nl>
-Date:   Wed, 12 Apr 2023 16:35:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 00/14] Adjust the dma-ranges for MTK IOMMU
-Content-Language: en-US
-To:     Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Wed, 12 Apr 2023 10:39:37 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8C59775;
+        Wed, 12 Apr 2023 07:39:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681310349; x=1712846349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DZ+4bqcOwGArNUff5c6q4WqLlSztJS1TSKOKE8pP2P4=;
+  b=NFbU0lN+kFFYJzZWK1MCEbKb2no7YqwKEIWRwS7KDi53b2LPGdu8FctW
+   l2xKHCT5iidqRjo9WKgGC1iRerBI2hx50nUVC/HTDH1Rg+/IziP8dfnBN
+   A+ZqsSWKbmlZuWkup7Tm677S8V0+fL1dH3tt6fZdSRKLpAkgyAM8An4CI
+   fBfLoZbm0VaGoqfhMvKz445dxpuxiJuhV5Hmh7TYCcX6bHh8uL23sXDQd
+   DM7VuRZOl7XH+AYTb2MEBe+YEVtwDYcbTNLGKJOvaOmiMqQ5ukl5n2V//
+   TAwm50863EWsDVxRa6ikkYhTdiLpKc+QjWcvTq3Bymj+Y+2snqeitP0L8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="324277258"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="324277258"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 07:39:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="639258064"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="639258064"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 07:39:05 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 7EF49120D2E;
+        Wed, 12 Apr 2023 17:39:02 +0300 (EEST)
+Date:   Wed, 12 Apr 2023 17:39:02 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        nfraprado@collabora.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
-        jianjiao.zeng@mediatek.com, Yunfei Dong <yunfei.dong@mediatek.com>,
-        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
-        chengci.xu@mediatek.com, youlin.pei@mediatek.com,
-        anan.sun@mediatek.com
-References: <20230411093144.2690-1-yong.wu@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230411093144.2690-1-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Michael Riesch via B4 Relay 
+        <devnull+michael.riesch.wolfvision.net@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Matthias Fend <Matthias.Fend@wolfvision.net>,
+        libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl
+Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
+ group status controls for zoom and focus
+Message-ID: <ZDbChgZJHVaaX3/x@kekkonen.localdomain>
+References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net>
+ <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
+ <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
+ <0f1baf5e-2ff6-e10b-5c3e-0a82c71d0ce6@wolfvision.net>
+ <CAPY8ntAjBEFfeV6nnQs34Y22QM-irT13ALDv4ksP8AYK=jWsKg@mail.gmail.com>
+ <3ab7bfc4-aaae-2e39-b420-40ad8d71dda4@wolfvision.net>
+ <ZDaa+qhoZxZ5ymxL@kekkonen.localdomain>
+ <8fe5c9c5-6eb0-86ae-9e5d-fbaa72be25fe@wolfvision.net>
+ <ZDaemghP0HQSw3Fo@kekkonen.localdomain>
+ <77d91964-de0a-8bd4-12d9-bc16110cfa7c@wolfvision.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77d91964-de0a-8bd4-12d9-bc16110cfa7c@wolfvision.net>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/04/2023 11:31, Yong Wu wrote:
-> After commit f1ad5338a4d5 ("of: Fix "dma-ranges" handling for bus
-> controllers"), the dma-ranges is not allowed for dts leaf node.
-> but we still would like to separate the different masters into
-> different iova regions. Thus we adjust the internal flow, separate
-> the 16GB iova range by the master HW larbid/portid and add the
-> dma-ranges property in the parent "soc" node. This also could avoid
-> the users forget/abuse the iova regions.
-> 
-> The commit f1ad5338a4d5 did affect the mt8195 venc, But it is not
-> a fatal issue, it could also work well at 0-4GB iova. thus I don't
-> add "Fixes:" tag.
-> 
-> In this series, I add functions for mt8192/mt8195/mt8186, mt8188 will
-> be in its special patchset. and the previous mt8173/mt8183...support
-> 0-4GB only, no need this function.
+Hi Michael,
 
-I've Acked patches 10 and 11 as well. I assume this series will be merged
-through the iommu subsystem? If not, and I need to take the media patches,
-then please let me know!
+On Wed, Apr 12, 2023 at 03:43:26PM +0200, Michael Riesch wrote:
+> Hi Sakari,
+> 
+> On 4/12/23 14:05, Sakari Ailus wrote:
+> > Hi Michael,
+> > 
+> > On Wed, Apr 12, 2023 at 01:57:36PM +0200, Michael Riesch wrote:
+> >> Hi Sakari,
+> >>
+> >> On 4/12/23 13:50, Sakari Ailus wrote:
+> >>> Hi Michael,
+> >>>
+> >>> On Wed, Apr 12, 2023 at 10:00:26AM +0200, Michael Riesch wrote:
+> >>>>  - Different controls: If moving = (V4L2_CID_FOCUS_ABSOLUTE == current),
+> >>>>    then what happens if the application performs a
+> >>>>    V4L2_CID_FOCUS_RELATIVE with -3? current should reach 39,
+> >>>>    V4L2_CID_FOCUS_ABSOLUTE is still at 42, the lens is still moving from
+> >>>>    the application's point of view.
+> >>>
+> >>> Would there be a reason to implement both of these controls in a single
+> >>> driver? AFAIU, the relative one should be used if there absolute value
+> >>> isn't known to the driver.
+> >>
+> >> Probably not, but on the other hand there is nothing the prevents a
+> >> driver developer from doing so, right? Point is that should there be a
+> >> driver which does implement both controls, we are in trouble AFAIU.
+> > 
+> > I think the documentation should be improved in this regard.
+> 
+> The documentation of which control exactly? And what items should be added?
 
-Regards,
+Both V4L2_CID_FOCUS_ABSOLUTE and V4L2_CID_FOCUS_RELATIVE. For the former,
+the sentence "Positive values set the focus closer to the camera, negative
+values towards infinity." doesn't make much sense in the context. For the
+latter, what I mentioned earlier, i.e. this should be only implemented if
+the absolute value isn't known. It's not a driver's job to do simple
+arithmetics for the user space.
 
-	Hans
+In fact, it appears that no driver is using V4L2_CID_FOCUS_RELATIVE at the
+moment. So we could as well deprecate it (or remove from documentation
+altogether).
 
-> 
-> Change note:
-> v7: Remove the change about mediatek,vcodec-subdev-decoder.yaml since
->     this was merged at:
->     https://lore.kernel.org/all/98c48690-631d-1086-9b7c-004c61cc8dbb@xs4all.nl/
-> 
-> v6: https://lore.kernel.org/linux-mediatek/20230403091337.26745-1-yong.wu@mediatek.com/
->    Add three patches for set dma-mask for iommu master devices.
-> 
-> v5: Nothing change. Just rebase on v6.3-rc1.
-> 
-> v4: https://lore.kernel.org/linux-mediatek/20230215062544.8677-1-yong.wu@mediatek.com/
->     Improve the comment in the code from AngeloGioacchino.
-> 
-> v3: https://lore.kernel.org/linux-mediatek/20230214031114.926-1-yong.wu@mediatek.com/
->    Add a new patch only for comment more in the code.
-> 
-> v2: https://lore.kernel.org/linux-mediatek/20230208053643.28249-1-yong.wu@mediatek.com/
->    a) Base on next-20230206 since mt8195 jpeg node is applied which affect
->       this patch.
->    b) Reword the commit message [1/10][2/10] to explain effect.
-> 
-> v1: https://lore.kernel.org/linux-mediatek/20230113060133.9394-1-yong.wu@mediatek.com/
->    Base on v6.2-rc3.
-> 
-> Yong Wu (14):
->   dt-bindings: media: mediatek,vcodec: Remove dma-ranges property
->   dt-bindings: media: mediatek,jpeg: Remove dma-ranges property
->   iommu/mediatek: Improve comment for the current region/bank
->   iommu/mediatek: Get regionid from larb/port id
->   iommu/mediatek: mt8192: Add iova_region_larb_msk
->   iommu/mediatek: mt8195: Add iova_region_larb_msk
->   iommu/mediatek: mt8186: Add iova_region_larb_msk
->   iommu/mediatek: Add a gap for the iova regions
->   iommu/mediatek: Set dma_mask for the master devices
->   media: mtk-jpegdec: Remove the setting for dma_mask
->   media: mediatek: vcodec: Remove the setting for dma_mask
->   arm64: dts: mt8195: Remove the unnecessary dma-ranges
->   arm64: dts: mt8195: Add dma-ranges for the parent "soc" node
->   arm64: dts: mt8186: Add dma-ranges for the parent "soc" node
-> 
->  .../media/mediatek,mt8195-jpegdec.yaml        |   7 -
->  .../media/mediatek,mt8195-jpegenc.yaml        |   7 -
->  .../media/mediatek,vcodec-decoder.yaml        |   5 -
->  .../media/mediatek,vcodec-encoder.yaml        |   5 -
->  .../bindings/media/mediatek-jpeg-encoder.yaml |   5 -
->  arch/arm64/boot/dts/mediatek/mt8186.dtsi      |   1 +
->  arch/arm64/boot/dts/mediatek/mt8195.dtsi      |   4 +-
->  drivers/iommu/mtk_iommu.c                     | 145 ++++++++++++++----
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   3 -
->  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   8 -
->  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |   3 -
->  11 files changed, 117 insertions(+), 76 deletions(-)
-> 
+-- 
+Kind regards,
 
+Sakari Ailus
