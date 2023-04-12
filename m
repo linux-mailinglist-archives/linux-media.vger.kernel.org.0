@@ -2,128 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34DF66DF8C4
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A21C96DF8CE
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbjDLOjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 10:39:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
+        id S231704AbjDLOkY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 10:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230310AbjDLOjh (ORCPT
+        with ESMTP id S231724AbjDLOkN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 10:39:37 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A8C59775;
-        Wed, 12 Apr 2023 07:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681310349; x=1712846349;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DZ+4bqcOwGArNUff5c6q4WqLlSztJS1TSKOKE8pP2P4=;
-  b=NFbU0lN+kFFYJzZWK1MCEbKb2no7YqwKEIWRwS7KDi53b2LPGdu8FctW
-   l2xKHCT5iidqRjo9WKgGC1iRerBI2hx50nUVC/HTDH1Rg+/IziP8dfnBN
-   A+ZqsSWKbmlZuWkup7Tm677S8V0+fL1dH3tt6fZdSRKLpAkgyAM8An4CI
-   fBfLoZbm0VaGoqfhMvKz445dxpuxiJuhV5Hmh7TYCcX6bHh8uL23sXDQd
-   DM7VuRZOl7XH+AYTb2MEBe+YEVtwDYcbTNLGKJOvaOmiMqQ5ukl5n2V//
-   TAwm50863EWsDVxRa6ikkYhTdiLpKc+QjWcvTq3Bymj+Y+2snqeitP0L8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="324277258"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="324277258"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 07:39:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="639258064"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="639258064"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 07:39:05 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 7EF49120D2E;
-        Wed, 12 Apr 2023 17:39:02 +0300 (EEST)
-Date:   Wed, 12 Apr 2023 17:39:02 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Riesch via B4 Relay 
-        <devnull+michael.riesch.wolfvision.net@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Matthias Fend <Matthias.Fend@wolfvision.net>,
-        libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl
-Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
- group status controls for zoom and focus
-Message-ID: <ZDbChgZJHVaaX3/x@kekkonen.localdomain>
-References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net>
- <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
- <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
- <0f1baf5e-2ff6-e10b-5c3e-0a82c71d0ce6@wolfvision.net>
- <CAPY8ntAjBEFfeV6nnQs34Y22QM-irT13ALDv4ksP8AYK=jWsKg@mail.gmail.com>
- <3ab7bfc4-aaae-2e39-b420-40ad8d71dda4@wolfvision.net>
- <ZDaa+qhoZxZ5ymxL@kekkonen.localdomain>
- <8fe5c9c5-6eb0-86ae-9e5d-fbaa72be25fe@wolfvision.net>
- <ZDaemghP0HQSw3Fo@kekkonen.localdomain>
- <77d91964-de0a-8bd4-12d9-bc16110cfa7c@wolfvision.net>
+        Wed, 12 Apr 2023 10:40:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBAC4EDD;
+        Wed, 12 Apr 2023 07:39:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A069562A00;
+        Wed, 12 Apr 2023 14:39:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2520DC4339E;
+        Wed, 12 Apr 2023 14:39:45 +0000 (UTC)
+Message-ID: <ec2f4f25-938d-f87c-90f2-2e7f69b27c8f@xs4all.nl>
+Date:   Wed, 12 Apr 2023 16:39:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77d91964-de0a-8bd4-12d9-bc16110cfa7c@wolfvision.net>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 1/7] media: videobuf2: Don't assert held reservation
+ lock for dma-buf mmapping
+Content-Language: en-US
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        kernel@collabora.com
+References: <20230406160637.541702-1-dmitry.osipenko@collabora.com>
+ <20230406160637.541702-2-dmitry.osipenko@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230406160637.541702-2-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
-
-On Wed, Apr 12, 2023 at 03:43:26PM +0200, Michael Riesch wrote:
-> Hi Sakari,
+On 06/04/2023 18:06, Dmitry Osipenko wrote:
+> Don't assert held dma-buf reservation lock on memory mapping of exported
+> buffer.
 > 
-> On 4/12/23 14:05, Sakari Ailus wrote:
-> > Hi Michael,
-> > 
-> > On Wed, Apr 12, 2023 at 01:57:36PM +0200, Michael Riesch wrote:
-> >> Hi Sakari,
-> >>
-> >> On 4/12/23 13:50, Sakari Ailus wrote:
-> >>> Hi Michael,
-> >>>
-> >>> On Wed, Apr 12, 2023 at 10:00:26AM +0200, Michael Riesch wrote:
-> >>>>  - Different controls: If moving = (V4L2_CID_FOCUS_ABSOLUTE == current),
-> >>>>    then what happens if the application performs a
-> >>>>    V4L2_CID_FOCUS_RELATIVE with -3? current should reach 39,
-> >>>>    V4L2_CID_FOCUS_ABSOLUTE is still at 42, the lens is still moving from
-> >>>>    the application's point of view.
-> >>>
-> >>> Would there be a reason to implement both of these controls in a single
-> >>> driver? AFAIU, the relative one should be used if there absolute value
-> >>> isn't known to the driver.
-> >>
-> >> Probably not, but on the other hand there is nothing the prevents a
-> >> driver developer from doing so, right? Point is that should there be a
-> >> driver which does implement both controls, we are in trouble AFAIU.
-> > 
-> > I think the documentation should be improved in this regard.
+> We're going to change dma-buf mmap() locking policy such that exporters
+> will have to handle the lock. The previous locking policy caused deadlock
+> problem for DRM drivers in a case of self-imported dma-bufs once these
+> drivers are moved to use reservation lock universally. The problem is
+> solved by moving the lock down to exporters. This patch prepares videobuf2
+> for the locking policy update.
 > 
-> The documentation of which control exactly? And what items should be added?
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Both V4L2_CID_FOCUS_ABSOLUTE and V4L2_CID_FOCUS_RELATIVE. For the former,
-the sentence "Positive values set the focus closer to the camera, negative
-values towards infinity." doesn't make much sense in the context. For the
-latter, what I mentioned earlier, i.e. this should be only implemented if
-the absolute value isn't known. It's not a driver's job to do simple
-arithmetics for the user space.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-In fact, it appears that no driver is using V4L2_CID_FOCUS_RELATIVE at the
-moment. So we could as well deprecate it (or remove from documentation
-altogether).
+Regards,
 
--- 
-Kind regards,
+	Hans
 
-Sakari Ailus
+> ---
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 ---
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 3 ---
+>  drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 3 ---
+>  3 files changed, 9 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 205d3cac425c..2fa455d4a048 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -11,7 +11,6 @@
+>   */
+>  
+>  #include <linux/dma-buf.h>
+> -#include <linux/dma-resv.h>
+>  #include <linux/module.h>
+>  #include <linux/refcount.h>
+>  #include <linux/scatterlist.h>
+> @@ -456,8 +455,6 @@ static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct iosys_map *map)
+>  static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>  	struct vm_area_struct *vma)
+>  {
+> -	dma_resv_assert_held(dbuf->resv);
+> -
+>  	return vb2_dc_mmap(dbuf->priv, vma);
+>  }
+>  
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 183037fb1273..28f3fdfe23a2 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -10,7 +10,6 @@
+>   * the Free Software Foundation.
+>   */
+>  
+> -#include <linux/dma-resv.h>
+>  #include <linux/module.h>
+>  #include <linux/mm.h>
+>  #include <linux/refcount.h>
+> @@ -498,8 +497,6 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>  static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>  	struct vm_area_struct *vma)
+>  {
+> -	dma_resv_assert_held(dbuf->resv);
+> -
+>  	return vb2_dma_sg_mmap(dbuf->priv, vma);
+>  }
+>  
+> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> index a6c6d2fcaaa4..7c635e292106 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> @@ -10,7 +10,6 @@
+>   * the Free Software Foundation.
+>   */
+>  
+> -#include <linux/dma-resv.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/mm.h>
+> @@ -319,8 +318,6 @@ static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>  static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>  	struct vm_area_struct *vma)
+>  {
+> -	dma_resv_assert_held(dbuf->resv);
+> -
+>  	return vb2_vmalloc_mmap(dbuf->priv, vma);
+>  }
+>  
+
