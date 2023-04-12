@@ -2,123 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F306F6DE70C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 00:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B2806DE995
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 04:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjDKWOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 18:14:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60842 "EHLO
+        id S229553AbjDLCjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 22:39:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjDKWOR (ORCPT
+        with ESMTP id S229481AbjDLCjg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 18:14:17 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1910E4222;
-        Tue, 11 Apr 2023 15:14:16 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id y186so9890150yby.13;
-        Tue, 11 Apr 2023 15:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681251255; x=1683843255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F/UWLyiDh8yYEw7KICe5ElabtXdg6v0QHoKVJvAxmcY=;
-        b=nH8uJEcx+2QyedS8V7Aq1C0OB1ffVwTB3pLg0RYL3XUYbuyz5Ua3JZprbonKrPKOIK
-         9WKRX4CLkQsdefQdtss+nxMduRuieptJpBpfppcZhjxwf3Jt6EQ0xqsABs+oS08IsJ+E
-         zCvTC66mNrHv/rFIx4PF5wBHjdELDtN5BxELoEBv0fE765gDjr9oXnE24aChIkrYz0jB
-         jzWlGzVWxmQhrlqsoZQXicxm5th1d1ZPmYpOzMeZvq0NME4QBNBd0+aLzgnd809p0lBz
-         HiFBe+V/aZxgjSlV4a8GC0LbtKUNJUcJPu5ji2lYQUryDSp9EIO+mBfnS8TU9zE8CRhx
-         FXmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681251255; x=1683843255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F/UWLyiDh8yYEw7KICe5ElabtXdg6v0QHoKVJvAxmcY=;
-        b=pAvNsvsUCAXYtzHdy+bG4gLj1Ab/jBX3wC7IUnZHg6PNo2GTZV+cmUu0h71P/+HzY4
-         /Fxlu2k28c16XCKdFBxrPLC993Gf2oB1YTfPZuXNXFNdlxKQJJSYZXrd+C5rxrXiQY2v
-         gS0RIf7DabKUc4BOVBwDnKzXzrhX3A3lle8wLo2/arbpEhK0MHdDjJm/eP612/scfSS2
-         z8cK7BoCfC/la43JaFEnrP29/8pnVjPq/t6CGI2quLLj8xh6sqYEsJQ2UihjxaP5zTJI
-         2SeHSAW+Q2459uuV4x5T3W6q3bnURDaDAAKDLzYRxCmfphk14aTBeJad/0cZ7RyKJQnm
-         fSPg==
-X-Gm-Message-State: AAQBX9d99xCDVQWQ49j5c49xYD4nBmHM95BL59yh4EQZhwOiyxjtbnc9
-        uUfrV1XRgpbuLAyZaTpYmMuk1cnl6yJA51cD3jE=
-X-Google-Smtp-Source: AKy350b084T3XNmq5EJ0K2FTMUxRxNDH3tQfrdccD1GPorKAlXLPAR2ZU4geQmtpsCx8vltf7phcSVqGyPdnwKuOS+E=
-X-Received: by 2002:a25:c690:0:b0:b77:e465:cb16 with SMTP id
- k138-20020a25c690000000b00b77e465cb16mr2633767ybf.11.1681251255169; Tue, 11
- Apr 2023 15:14:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl> <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
- <ZDVXbw/097jvjKvK@1wt.eu> <CANiq72n8ZV_bs_xp5rNtar4vmfknJtZg4OHJW6vHuhVFmGs8mg@mail.gmail.com>
- <ZDWQXDRknzFhngyk@1wt.eu> <CANiq72n=s23naD4-UkmuLesekDTf4b5bsmWc+fYANYPq+X1R9w@mail.gmail.com>
- <ZDXCeKkbPoZi5k6t@1wt.eu>
-In-Reply-To: <ZDXCeKkbPoZi5k6t@1wt.eu>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 12 Apr 2023 00:14:03 +0200
-Message-ID: <CANiq72kceQ8aWk7mtB4MoepUr3hNzF34d=DfVzdeCLGRAZwE6g@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 11 Apr 2023 22:39:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF40B170F
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 19:39:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D32660F5E
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 02:39:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F630C433D2
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 02:39:32 +0000 (UTC)
+Date:   Wed, 12 Apr 2023 04:39:29 +0200
+Message-ID: <e3252a94f694005324965c00c3a62f25.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 10:26=E2=80=AFPM Willy Tarreau <w@1wt.eu> wrote:
->
-> I don't know, maybe that would be a bit too fine. But at least a tainted
-> flag is much less intrusive than forcing a user to rebuild and disable
-> possibly important features that they would only be willing to disable
-> for just a test.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-It may be useful early on to have an easy way to check if any Rust
-modules got loaded (though note that `RUST` is not tristate so far, so
-you would still have something loaded). It could be extra optional
-output in e.g. `lsmod`.
+Results of the daily build of media_tree:
 
-However, I don't know why that should imply tainting, especially
-medium- and long-term -- please see below.
+date:			Wed Apr 12 03:00:08 CEST 2023
+media-tree git hash:	d56f39f705080f4ff96b92f054b90c6f0826fd02
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	399d70f1e69cecd924bbdc4cf64d3cb96b358475
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8305-g2fad699a-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-> have a hard time understanding that code that interacts with their
-> subsystems, even if they try hard. It's exactly the same reason why
-> 25 years ago Linus asked to stop abusing assembly code. If a language
-> is only understood by a subset of developers, by nature it becomes
-> more difficult to maintain in some areas.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: WARNINGS
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-Yeah, but that is why the idea was that Rust goes first into
-subsystems where maintainers are willing to put some time into it now
-and evaluate its merits. That way we also build more Rust expertise
-across the kernel over time, so that later it is easier for others
-(e.g. by having examples of API design and drivers, more people to
-refer to, better tooling...).
+Detailed results are available here:
 
-But, yes, if Rust grows to be really successful within the kernel,
-then at some point some basic understanding of Rust will be needed by
-most kernel developers. I think that is fine, as long as there is
-enough time to adjust.
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
 
-> Sure, but as you said, "if they can". I thought that it could be both
-> elegant, lightweight and convenient. But I'm not trying to sell this
-> idea, just sharing it.
+Detailed regression test results are available here:
 
-To be clear, it is still up to each subsystem to decide whether to
-take Rust code. What I meant by "if they can" is that, if they are
-willing to, then ideally the code would go through their tree too. The
-exception are core APIs, where I asked for flexibility from all sides,
-so that those subsystems willing to try Rust do not get completely
-blocked.
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
 
-Cheers,
-Miguel
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
