@@ -2,473 +2,310 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8147B6DF669
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 15:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90AE16DF6C5
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 15:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbjDLNEm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 09:04:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
+        id S230071AbjDLNPd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 09:15:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbjDLNEl (ORCPT
+        with ESMTP id S229744AbjDLNPb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 09:04:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD6B468E
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 06:04:38 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC65E75B;
-        Wed, 12 Apr 2023 15:04:33 +0200 (CEST)
+        Wed, 12 Apr 2023 09:15:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C939E7D92
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 06:14:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B0BE75B;
+        Wed, 12 Apr 2023 15:13:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681304674;
-        bh=s6ynQUEP7h8bDMxAg1VtXd5BfclALNivYc4H/IogqQc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=a97msLrebCEpYsuZdtAenIqxTVeTl7g3x6GJzfUFoA61Ouu3YVuXrL2fVSUkY6HSe
-         G8oVjIlRMMg0K8DrexmaP/uqaCZ6X/EnZFjLefZiQn5TgeTmqFxBoyTkKwks4Dh+cT
-         Nzuln4uHc8Fa7Q6MBqfRuXW2pFssEEJWQUd18N0w=
-Message-ID: <a5497646-fb2d-eb76-322b-0efd00888939@ideasonboard.com>
-Date:   Wed, 12 Apr 2023 16:04:32 +0300
+        s=mail; t=1681305209;
+        bh=nWyYwUZl1VGRNabSRnZlJsBsl3HWSiDt1aFuE6cpMZ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AdG9wA1VvQpC5iDs2T9UI8CZh1qTP3p7tjaCXDLnn837y/hVdq9nw8V5jyUvCdUME
+         0RGG8o9CwsfB4ovya56DMJtzm8dScDY2wJ2EVYpY7wnkrx1gmotNIu+OoO/SNU8rCN
+         IwazTmZ8DPqtZrcQJlKvDk2JxqPNuk9UuJwCYQZ8=
+Date:   Wed, 12 Apr 2023 16:13:41 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/1] media: imx: imx7-media-csi: Set pixfmt field, width,
+ height & sizeimage
+Message-ID: <20230412131341.GA30436@pendragon.ideasonboard.com>
+References: <20230406135637.257580-1-alexander.stein@ew.tq-group.com>
+ <20230407022214.GE31272@pendragon.ideasonboard.com>
+ <1934107.PYKUYFuaPT@steina-w>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3] media: v4l2-subdev: Add new ioctl for client
- capabilities
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20230323135835.206970-1-tomi.valkeinen@ideasonboard.com>
- <20230412122642.GA7715@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230412122642.GA7715@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1934107.PYKUYFuaPT@steina-w>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/04/2023 15:26, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Mar 23, 2023 at 03:58:35PM +0200, Tomi Valkeinen wrote:
->> Add new ioctls to set and get subdev client capabilities. Client in this
->> context means the userspace application which opens the subdev device
->> node. The client capabilities are stored in the file handle of the
->> opened subdev device node, and the client must set the capabilities for
->> each opened subdev.
->>
->> For now we only add a single flag, V4L2_SUBDEV_CLIENT_CAP_STREAMS, which
->> indicates that the client is streams-aware.
->>
->> The reason for needing such a flag is as follows:
->>
->> Many structs passed via ioctls, e.g. struct v4l2_subdev_format, contain
->> reserved fields (usually a single array field). These reserved fields
->> can be used to extend the ioctl. The userspace is required to zero the
->> reserved fields.
->>
->> We recently added a new 'stream' field to many of these structs, and the
->> space for the field was taken from these reserved arrays. The assumption
->> was that these new 'stream' fields are always initialized to zero if the
->> userspace does not use them. This was a mistake, as, as mentioned above,
->> the userspace is required to zero the _reserved_ fields. In other words,
->> there is no requirement to zero this new stream field, and if the
->> userspace doesn't use the field (which is the case for all userspace
->> applications at the moment), the field may contain random data.
->>
->> This shows that the way the reserved fields are defined in v4l2 is, in
->> my opinion, somewhat broken, but there is nothing to do about that.
->>
->> To fix this issue we need a way for the userspace to tell the kernel
->> that the userspace has indeed set the 'stream' field, and it's fine for
->> the kernel to access it. This is achieved with the new ioctl, which the
->> userspace should usually use right after opening the subdev device node.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Alexander,
 
-Thanks!
-
-Hans, Mauro, Sakari, it's a bit late, but any chance to get this to the 
-next merge window?
-
-  Tomi
-
+On Tue, Apr 11, 2023 at 09:38:38AM +0200, Alexander Stein wrote:
+> Am Freitag, 7. April 2023, 04:22:14 CEST schrieb Laurent Pinchart:
+> > On Thu, Apr 06, 2023 at 03:56:37PM +0200, Alexander Stein wrote:
+> > > Fixes the following v4l2-comliance errors for VIDIOC_TRY_FMT:
+> > > * !pix.width || !pix.height
+> > > * !pix.sizeimage
+> > > * pix.field == V4L2_FIELD_ANY
+> > > 
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > > This patch is based on [1] and fixes the last v4l2-compliance errors and
+> > > a 'WARN_ON(!plane_sizes[i])' in vb2_core_reqbufs().
+> > > My platform: TQMa8MQML (imx8mm) + imx327lqr.
+> > > 
+> > > The v4l2-compliance output:
+> > > --8<--
+> > > v4l2-compliance 1.24.1-5010, 64 bits, 64-bit time_t
+> > > v4l2-compliance SHA: 8799081b1436 2023-02-24 17:03:58
+> > > 
+> > > Compliance test for imx-capture device /dev/video0:
+> > > 
+> > > Driver Info:
+> > >         Driver name      : imx-capture
+> > >         Card type        : imx-capture
+> > >         Bus info         : platform:32e20000.csi
+> > >         Driver version   : 6.3.0
+> > >         Capabilities     : 0xa4200001
+> > >         
+> > >                 Video Capture
+> > >                 I/O MC
+> > >                 Streaming
+> > >                 Extended Pix Format
+> > >                 Device Capabilities
+> > >         
+> > >         Device Caps      : 0x24200001
+> > >         
+> > >                 Video Capture
+> > >                 I/O MC
+> > >                 Streaming
+> > >                 Extended Pix Format
+> > > 
+> > > Media Driver Info:
+> > >         Driver name      : imx7-csi
+> > >         Model            : imx-media
+> > >         Serial           :
+> > >         Bus info         : platform:32e20000.csi
+> > >         Media version    : 6.3.0
+> > >         Hardware revision: 0x00000000 (0)
+> > >         Driver version   : 6.3.0
+> > > 
+> > > Interface Info:
+> > >         ID               : 0x03000006
+> > >         Type             : V4L Video
+> > > 
+> > > Entity Info:
+> > >         ID               : 0x00000004 (4)
+> > >         Name             : csi capture
+> > >         Function         : V4L2 I/O
+> > >         Pad 0x01000005   : 0: Sink
+> > >         
+> > >           Link 0x02000008: from remote pad 0x1000003 of entity 'csi'
+> > >           (Video Interface Bridge): Data, Enabled, Immutable> 
+> > > Required ioctls:
+> > >         test MC information (see 'Media Driver Info' above): OK
+> > >         test VIDIOC_QUERYCAP: OK
+> > >         test invalid ioctls: OK
+> > > 
+> > > Allow for multiple opens:
+> > >         test second /dev/video0 open: OK
+> > >         test VIDIOC_QUERYCAP: OK
+> > >         test VIDIOC_G/S_PRIORITY: OK
+> > >         test for unlimited opens: OK
+> > > 
+> > > Debug ioctls:
+> > >         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > >         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > 
+> > > Input ioctls:
+> > >         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > >         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > >         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > >         test VIDIOC_G/S/ENUMINPUT: OK
+> > >         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > >         Inputs: 1 Audio Inputs: 0 Tuners: 0
+> > > 
+> > > Output ioctls:
+> > >         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > >         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > >         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > >         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > >         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > 
+> > > Input/Output configuration ioctls:
+> > >         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > >         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > >         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > >         test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > 
+> > > Control ioctls (Input 0):
+> > >         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > >         test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > >         test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > >         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > >         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > >         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > >         Standard Controls: 0 Private Controls: 0
+> > > 
+> > > Format ioctls (Input 0):
+> > >         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > >         test VIDIOC_G/S_PARM: OK (Not Supported)
+> > >         test VIDIOC_G_FBUF: OK (Not Supported)
+> > >         test VIDIOC_G_FMT: OK
+> > >         
+> > >                 fail: v4l2-test-formats.cpp(468): !pix.width ||
+> > >                 !pix.height
+> > >         
+> > >         test VIDIOC_TRY_FMT: FAIL
+> > >         
+> > >                 fail: v4l2-test-formats.cpp(468): !pix.width ||
+> > >                 !pix.height
+> > >         
+> > >         test VIDIOC_S_FMT: FAIL
+> > >         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > >         test Cropping: OK (Not Supported)
+> > >         
+> > >                 fail: v4l2-test-formats.cpp(1726): !sel_padded.r.width ||
+> > >                 !sel_padded.r.height fail: v4l2-test-formats.cpp(1778):
+> > >                 testBasicCompose(node, V4L2_BUF_TYPE_VIDEO_CAPTURE)>         
+> > >         test Composing: FAIL
+> > >         test Scaling: OK
+> > > 
+> > > Codec ioctls (Input 0):
+> > >         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > >         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > >         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > 
+> > > Buffer ioctls (Input 0):
+> > >                 fail: v4l2-test-buffers.cpp(607): q.reqbufs(node, 1)
+> > >         
+> > >         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+> > >         
+> > >                 fail: v4l2-test-buffers.cpp(783): VIDIOC_EXPBUF is
+> > >                 supported, but the V4L2_MEMORY_MMAP support is missing or
+> > >                 malfunctioning. fail: v4l2-test-buffers.cpp(784):
+> > >                 VIDIOC_EXPBUF is supported, but the V4L2_MEMORY_MMAP
+> > >                 support is missing, probably due to earlier failing
+> > >                 format tests.>         
+> > >         test VIDIOC_EXPBUF: OK (Not Supported)
+> > >         test Requests: OK (Not Supported)
+> > > 
+> > > Total for imx-capture device /dev/video0: 46, Succeeded: 42, Failed: 4,
+> > > Warnings: 0 --8<--
+> > > 
+> > > Best regards,
+> > > Alexander
+> > > 
+> > > [1]
+> > > https://lore.kernel.org/all/20230321072707.678039-1-alexander.stein@ew.tq
+> > > -group.com/> 
+> > >  drivers/media/platform/nxp/imx7-media-csi.c | 12 ++++++++++++
+> > >  1 file changed, 12 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> > > b/drivers/media/platform/nxp/imx7-media-csi.c index
+> > > 389d7d88b341..1888559a6531 100644
+> > > --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> > > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> > > @@ -1147,6 +1147,7 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> > > *pixfmt,> 
+> > >  {
+> > >  
+> > >  	struct v4l2_mbus_framefmt fmt_src;
+> > >  	const struct imx7_csi_pixfmt *cc;
+> > > 
+> > > +	unsigned int walign;
+> > > 
+> > >  	/*
+> > >  	
+> > >  	 * Find the pixel format, default to the first supported format if 
+> not
+> > > 
+> > > @@ -1175,6 +1176,17 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> > > *pixfmt,> 
+> > >  	v4l2_fill_mbus_format(&fmt_src, pixfmt, 0);
+> > >  	imx7_csi_mbus_fmt_to_pix_fmt(pixfmt, &fmt_src, cc);
+> > > 
+> > > +	if (cc->bpp == 8)
+> > > +		walign = 8;
+> > > +	else
+> > > +		walign = 4;
+> > > +
+> > > +	v4l_bound_align_image(&pixfmt->width, 1, 0xffff / (cc->bpp / 8), 
+> walign,
+> > > +			      &pixfmt->height, 1, 0xffff, 1, 0);
+> > > +
+> > > +	pixfmt->sizeimage = (cc->bpp * pixfmt->width * pixfmt->height) /
+> > > BITS_PER_BYTE;
+> > 
+> > No need for parentheses, and I'd wrap the line. Or replace BITS_PER_BYTE
+> > with 8:
+> > 
+> > 	pixfmt->sizeimage = pixfmt->width * pixfmt->height * cc->bpp / 8;
+> > 
+> > which I think is as readable.
 > 
->> ---
->> Interdiff against v2:
->>    diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
->>    index 0c4ff938f63d..20f12a1cc0f7 100644
->>    --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
->>    +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
->>    @@ -37,20 +37,29 @@ Description
->>     ===========
->>     
->>     These ioctls are used to get and set the client (the application using the
->>    -subdevice ioctls) capabilities. By default no client capabilities are set.
->>    +subdevice ioctls) capabilities. The client capabilities are stored in the file
->>    +handle of the opened subdev device node, and the client must set the
->>    +capabilities for each opened subdev separately.
->>    +
->>    +By default no client capabilities are set when a subdev device node is opened.
->>     
->>     The purpose of the client capabilities are to inform the kernel of the behavior
->>     of the client, mainly related to maintaining compatibility with different
->>     kernel and userspace versions.
->>     
->>    -The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will modify the struct
->>    -:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that were
->>    -accepted. A common case for the kernel not accepting a capability is that the
->>    -kernel is older than the headers the userspace uses, and thus the capability is
->>    -unknown to the kernel.
->>    +The ``VIDIOC_SUBDEV_G_CLIENT_CAP`` ioctl returns the current client capabilities
->>    +associated with the file handle ``fd``.
->>     
->>    -The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will replace all the previously set
->>    -capabilities.
->>    +The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` ioctl sets client capabilities for the file
->>    +handle ``fd``. The new capabilities fully replace the current capabilities, the
->>    +ioctl can therefore also be used to remove capabilities that have previously
->>    +been set.
->>    +
->>    +``VIDIOC_SUBDEV_S_CLIENT_CAP`` modifies the struct
->>    +:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that have
->>    +been accepted. A common case for the kernel not accepting a capability is that
->>    +the kernel is older than the headers the userspace uses, and thus the capability
->>    +is unknown to the kernel.
->>     
->>     .. flat-table:: Client Capabilities
->>         :header-rows:  1
->>
->>   .../userspace-api/media/v4l/user-func.rst     |  1 +
->>   .../media/v4l/vidioc-subdev-g-client-cap.rst  | 83 +++++++++++++++++++
->>   drivers/media/v4l2-core/v4l2-subdev.c         | 63 ++++++++++++++
->>   include/media/v4l2-subdev.h                   |  1 +
->>   include/uapi/linux/v4l2-subdev.h              | 21 +++++
->>   5 files changed, 169 insertions(+)
->>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
->>
->> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
->> index 228c1521f190..15ff0bf7bbe6 100644
->> --- a/Documentation/userspace-api/media/v4l/user-func.rst
->> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
->> @@ -72,6 +72,7 @@ Function Reference
->>       vidioc-subdev-g-frame-interval
->>       vidioc-subdev-g-routing
->>       vidioc-subdev-g-selection
->> +    vidioc-subdev-g-client-cap
->>       vidioc-subdev-querycap
->>       vidioc-subscribe-event
->>       func-mmap
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
->> new file mode 100644
->> index 000000000000..20f12a1cc0f7
->> --- /dev/null
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
->> @@ -0,0 +1,83 @@
->> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->> +.. c:namespace:: V4L
->> +
->> +.. _VIDIOC_SUBDEV_G_CLIENT_CAP:
->> +
->> +************************************************************
->> +ioctl VIDIOC_SUBDEV_G_CLIENT_CAP, VIDIOC_SUBDEV_S_CLIENT_CAP
->> +************************************************************
->> +
->> +Name
->> +====
->> +
->> +VIDIOC_SUBDEV_G_CLIENT_CAP - VIDIOC_SUBDEV_S_CLIENT_CAP - Get or set client
->> +capabilities.
->> +
->> +Synopsis
->> +========
->> +
->> +.. c:macro:: VIDIOC_SUBDEV_G_CLIENT_CAP
->> +
->> +``int ioctl(int fd, VIDIOC_SUBDEV_G_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
->> +
->> +.. c:macro:: VIDIOC_SUBDEV_S_CLIENT_CAP
->> +
->> +``int ioctl(int fd, VIDIOC_SUBDEV_S_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
->> +
->> +Arguments
->> +=========
->> +
->> +``fd``
->> +    File descriptor returned by :ref:`open() <func-open>`.
->> +
->> +``argp``
->> +    Pointer to struct :c:type:`v4l2_subdev_client_capability`.
->> +
->> +Description
->> +===========
->> +
->> +These ioctls are used to get and set the client (the application using the
->> +subdevice ioctls) capabilities. The client capabilities are stored in the file
->> +handle of the opened subdev device node, and the client must set the
->> +capabilities for each opened subdev separately.
->> +
->> +By default no client capabilities are set when a subdev device node is opened.
->> +
->> +The purpose of the client capabilities are to inform the kernel of the behavior
->> +of the client, mainly related to maintaining compatibility with different
->> +kernel and userspace versions.
->> +
->> +The ``VIDIOC_SUBDEV_G_CLIENT_CAP`` ioctl returns the current client capabilities
->> +associated with the file handle ``fd``.
->> +
->> +The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` ioctl sets client capabilities for the file
->> +handle ``fd``. The new capabilities fully replace the current capabilities, the
->> +ioctl can therefore also be used to remove capabilities that have previously
->> +been set.
->> +
->> +``VIDIOC_SUBDEV_S_CLIENT_CAP`` modifies the struct
->> +:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that have
->> +been accepted. A common case for the kernel not accepting a capability is that
->> +the kernel is older than the headers the userspace uses, and thus the capability
->> +is unknown to the kernel.
->> +
->> +.. flat-table:: Client Capabilities
->> +    :header-rows:  1
->> +
->> +    * - Capability
->> +      - Description
->> +    * - ``V4L2_SUBDEV_CLIENT_CAP_STREAMS``
->> +      - The client is aware of streams. Setting this flag enables the use
->> +        of 'stream' fields (referring to the stream number) with various
->> +        ioctls. If this is not set (which is the default), the 'stream' fields
->> +        will be forced to 0 by the kernel.
->> +
->> +Return Value
->> +============
->> +
->> +On success 0 is returned, on error -1 and the ``errno`` variable is set
->> +appropriately. The generic error codes are described at the
->> +:ref:`Generic Error Codes <gen-errors>` chapter.
->> +
->> +ENOIOCTLCMD
->> +   The kernel does not support this ioctl.
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index dff1d9be7841..9d47f4800ea8 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -498,8 +498,11 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	struct video_device *vdev = video_devdata(file);
->>   	struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
->>   	struct v4l2_fh *vfh = file->private_data;
->> +	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
->>   	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
->>   	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
->> +	bool client_supports_streams = subdev_fh->client_caps &
->> +				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->>   	int rval;
->>   
->>   	switch (cmd) {
->> @@ -624,6 +627,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	case VIDIOC_SUBDEV_G_FMT: {
->>   		struct v4l2_subdev_format *format = arg;
->>   
->> +		if (!client_supports_streams)
->> +			format->stream = 0;
->> +
->>   		memset(format->reserved, 0, sizeof(format->reserved));
->>   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
->>   		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
->> @@ -635,6 +641,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->>   			return -EPERM;
->>   
->> +		if (!client_supports_streams)
->> +			format->stream = 0;
->> +
->>   		memset(format->reserved, 0, sizeof(format->reserved));
->>   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
->>   		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
->> @@ -644,6 +653,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		struct v4l2_subdev_crop *crop = arg;
->>   		struct v4l2_subdev_selection sel;
->>   
->> +		if (!client_supports_streams)
->> +			crop->stream = 0;
->> +
->>   		memset(crop->reserved, 0, sizeof(crop->reserved));
->>   		memset(&sel, 0, sizeof(sel));
->>   		sel.which = crop->which;
->> @@ -665,6 +677,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->>   			return -EPERM;
->>   
->> +		if (!client_supports_streams)
->> +			crop->stream = 0;
->> +
->>   		memset(crop->reserved, 0, sizeof(crop->reserved));
->>   		memset(&sel, 0, sizeof(sel));
->>   		sel.which = crop->which;
->> @@ -683,6 +698,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
->>   		struct v4l2_subdev_mbus_code_enum *code = arg;
->>   
->> +		if (!client_supports_streams)
->> +			code->stream = 0;
->> +
->>   		memset(code->reserved, 0, sizeof(code->reserved));
->>   		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
->>   					code);
->> @@ -691,6 +709,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
->>   		struct v4l2_subdev_frame_size_enum *fse = arg;
->>   
->> +		if (!client_supports_streams)
->> +			fse->stream = 0;
->> +
->>   		memset(fse->reserved, 0, sizeof(fse->reserved));
->>   		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
->>   					fse);
->> @@ -699,6 +720,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
->>   		struct v4l2_subdev_frame_interval *fi = arg;
->>   
->> +		if (!client_supports_streams)
->> +			fi->stream = 0;
->> +
->>   		memset(fi->reserved, 0, sizeof(fi->reserved));
->>   		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
->>   	}
->> @@ -709,6 +733,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (ro_subdev)
->>   			return -EPERM;
->>   
->> +		if (!client_supports_streams)
->> +			fi->stream = 0;
->> +
->>   		memset(fi->reserved, 0, sizeof(fi->reserved));
->>   		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
->>   	}
->> @@ -716,6 +743,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
->>   		struct v4l2_subdev_frame_interval_enum *fie = arg;
->>   
->> +		if (!client_supports_streams)
->> +			fie->stream = 0;
->> +
->>   		memset(fie->reserved, 0, sizeof(fie->reserved));
->>   		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
->>   					fie);
->> @@ -724,6 +754,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   	case VIDIOC_SUBDEV_G_SELECTION: {
->>   		struct v4l2_subdev_selection *sel = arg;
->>   
->> +		if (!client_supports_streams)
->> +			sel->stream = 0;
->> +
->>   		memset(sel->reserved, 0, sizeof(sel->reserved));
->>   		return v4l2_subdev_call(
->>   			sd, pad, get_selection, state, sel);
->> @@ -735,6 +768,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->>   			return -EPERM;
->>   
->> +		if (!client_supports_streams)
->> +			sel->stream = 0;
->> +
->>   		memset(sel->reserved, 0, sizeof(sel->reserved));
->>   		return v4l2_subdev_call(
->>   			sd, pad, set_selection, state, sel);
->> @@ -876,6 +912,33 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   					routing->which, &krouting);
->>   	}
->>   
->> +	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
->> +		struct v4l2_subdev_client_capability *client_cap = arg;
->> +
->> +		client_cap->capabilities = subdev_fh->client_caps;
->> +
->> +		return 0;
->> +	}
->> +
->> +	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
->> +		struct v4l2_subdev_client_capability *client_cap = arg;
->> +
->> +		/*
->> +		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
->> +		 * enabled. Remove this when streams API is no longer
->> +		 * experimental.
->> +		 */
->> +		if (!v4l2_subdev_enable_streams_api)
->> +			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->> +
->> +		/* Filter out unsupported capabilities */
->> +		client_cap->capabilities &= V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->> +
->> +		subdev_fh->client_caps = client_cap->capabilities;
->> +
->> +		return 0;
->> +	}
->> +
->>   	default:
->>   		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
->>   	}
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index 17773be4a4ee..b5bb5b802929 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -1121,6 +1121,7 @@ struct v4l2_subdev_fh {
->>   	struct module *owner;
->>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->>   	struct v4l2_subdev_state *state;
->> +	u64 client_caps;
->>   #endif
->>   };
->>   
->> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
->> index 654d659de835..4a195b68f28f 100644
->> --- a/include/uapi/linux/v4l2-subdev.h
->> +++ b/include/uapi/linux/v4l2-subdev.h
->> @@ -233,6 +233,24 @@ struct v4l2_subdev_routing {
->>   	__u32 reserved[6];
->>   };
->>   
->> +/*
->> + * The client is aware of streams. Setting this flag enables the use of 'stream'
->> + * fields (referring to the stream number) with various ioctls. If this is not
->> + * set (which is the default), the 'stream' fields will be forced to 0 by the
->> + * kernel.
->> + */
->> + #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
->> +
->> +/**
->> + * struct v4l2_subdev_client_capability - Capabilities of the client accessing
->> + *					  the subdev
->> + *
->> + * @capabilities: A bitmask of V4L2_SUBDEV_CLIENT_CAP_* flags.
->> + */
->> +struct v4l2_subdev_client_capability {
->> +	__u64 capabilities;
->> +};
->> +
->>   /* Backwards compatibility define --- to be removed */
->>   #define v4l2_subdev_edid v4l2_edid
->>   
->> @@ -250,6 +268,9 @@ struct v4l2_subdev_routing {
->>   #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
->>   #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
->>   #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
->> +#define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
->> +#define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
->> +
->>   /* The following ioctls are identical to the ioctls in videodev2.h */
->>   #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
->>   #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
+> Fine with me. Will change that.
 > 
+> > You also need to handle bytesperline.
+> 
+> I originally had a patch for that as well. But with some debugging output I 
+> noticed this already has the correct value. But maybe this was just 
+> coincidence and it actually needs to be set as well.
+> 
+> > I'd go one step further, and get rid of imx7_csi_mbus_fmt_to_pix_fmt().
+> > This is historical, there's no need to convert between mbus and pixel
+> > formats anymore.
+> 
+> Okay, but that is an additional change.
 
+It could be, but it can also be done now, and have the side effect of
+fixing the V4L2 compliance failures :-)
+
+> > > +	pixfmt->field = V4L2_FIELD_NONE;
+> > 
+> > This should probably be moved to a separate patch. Interlaced format
+> > handling is broken, there's no IDMAC on i.MX7. The code comes from
+> > shared helpers with i.MX6 before the driver got destaged.
+> 
+> The motivation for this patch came from the v4l2-compliance errors, so I 
+> grouped setting missing properties into a single patch. It's not so much about 
+> interlaced format, but an uninitialized pixfmt->field, so I would prefer 
+> keeping them in a single patch.
+
+I understand, but fixing V4L2 compliance failures doesn't mean that
+everything should be done in a single patch. Silencing the failure
+related to the field without actually fixing field handling is a
+compliance test workaround, I don't like that much. Let's address the
+root cause, not the symptoms.
+
+> > > +
+> > > 
+> > >  	if (compose) {
+> > >  	
+> > >  		compose->width = fmt_src.width;
+> > >  		compose->height = fmt_src.height;
+
+-- 
+Regards,
+
+Laurent Pinchart
