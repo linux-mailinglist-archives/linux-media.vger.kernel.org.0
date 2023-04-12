@@ -2,90 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E6F46DF9F7
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 17:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A11E56DFA29
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 17:32:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbjDLP1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 11:27:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57908 "EHLO
+        id S230382AbjDLPcS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 11:32:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbjDLP1l (ORCPT
+        with ESMTP id S231452AbjDLPcO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 11:27:41 -0400
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B3E30C7;
-        Wed, 12 Apr 2023 08:27:36 -0700 (PDT)
-Received: by mail-oi1-f170.google.com with SMTP id bm45so2245528oib.4;
-        Wed, 12 Apr 2023 08:27:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681313256; x=1683905256;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2tiFpq4sA6fF2BqfKkfUZ9e15UpII/FjS4nr1bHhOlg=;
-        b=cQL0ctZsOj8i3AZqM7OenCF61uKL2nLjq9tZRn/Bm2bSym5aNk24m6x1flVzKR8qUx
-         f2gW/Yft3Jl8ZGbv8Cv6GI1wHNoFpWd7uVo8UceQYzSUmGXDqSBqgm4PL948Rg1blzq9
-         Xb75iIUGRSnKjEmG+yiBMU8vW+4SMIqSj6We5EXDeCR8N18H1BzEFNbpg1qQULsOyA5y
-         WeVB56hxL8ChTE3b0YVuMa6ML7RGG+0kOgfYP/HNNma9y8d0T48lCfKm8OsTSE07K5QB
-         1UaE2KkLqaodIzvpYcrfocgLVdFyfeGka+/EbIAtsQG4OpOKPPbRCn0NGfK7gfAlwMyr
-         AwTg==
-X-Gm-Message-State: AAQBX9eZyalr3JOlM5543adlJZlNAcxdevdc9LCXgtE+uoke63cHJAGK
-        Mloy+szI1Q4w0KpwrEBgGzgvW3ljeQ==
-X-Google-Smtp-Source: AKy350YoAMV/LXroNkH2jnTpdDTQzSM2asaZ9ChKfH1V8B9f07g5rmSXyaEzhLtYdQjuxLfXEW9oWQ==
-X-Received: by 2002:a54:4615:0:b0:387:7651:e117 with SMTP id p21-20020a544615000000b003877651e117mr2925397oip.0.1681313255931;
-        Wed, 12 Apr 2023 08:27:35 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 4-20020a4a1404000000b005413e617935sm7178594ood.15.2023.04.12.08.27.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 08:27:35 -0700 (PDT)
-Received: (nullmailer pid 2465553 invoked by uid 1000);
-        Wed, 12 Apr 2023 15:27:34 -0000
-Date:   Wed, 12 Apr 2023 10:27:34 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Subject: Re: [PATCH v7 2/8] dt-bindings: display: renesas,rzg2l-du: Document
- RZ/V2L DU bindings
-Message-ID: <168131325440.2465494.3673756262949452214.robh@kernel.org>
-References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com>
- <20230411120810.368437-3-biju.das.jz@bp.renesas.com>
+        Wed, 12 Apr 2023 11:32:14 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694677A8B
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 08:32:09 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pmcS7-00HKhU-EM; Wed, 12 Apr 2023 15:32:07 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pmcS4-00Ez9X-ID; Wed, 12 Apr 2023 15:32:04 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] cec: one cec fix, one doc update (#91238)
+Date:   Wed, 12 Apr 2023 15:32:04 +0000
+Message-Id: <20230412153204.3571617-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <7094bebe-2d64-7087-3718-80e4e7be04fc@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230411120810.368437-3-biju.das.jz@bp.renesas.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
-On Tue, 11 Apr 2023 13:08:04 +0100, Biju Das wrote:
-> Document DU found in RZ/V2L SoC. The DU block is identical to RZ/G2L
-> SoC and therefore use RZ/G2L fallback to avoid any driver changes.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v7:
->  * New patch.
-> ---
->  .../devicetree/bindings/display/renesas,rzg2l-du.yaml    | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/7094bebe-2d64-7087-3718-80e4e7be04fc@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/297112/
+Build time: 00:25:47
+Link: https://lore.kernel.org/linux-media/7094bebe-2d64-7087-3718-80e4e7be04fc@xs4all.nl
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+gpg: Signature made Wed 12 Apr 2023 02:50:32 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+
+Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-cec-core-not-all-messages-were-passed-on-when-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2489 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974544
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2884 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+
+Error #512 when building PDF docs
 
