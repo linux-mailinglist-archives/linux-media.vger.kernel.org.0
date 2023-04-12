@@ -2,100 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7A486DF4E2
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 14:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 084006DF4FB
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 14:22:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbjDLMTf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 08:19:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58332 "EHLO
+        id S230311AbjDLMWG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 08:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbjDLMTe (ORCPT
+        with ESMTP id S229507AbjDLMWF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 08:19:34 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217D149FD
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 05:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681301967; x=1712837967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iZOEWO6kSCKO8plx7jSTmwIasENLFkDgsD740wiX5Tk=;
-  b=ZCnpq8REhRsliIZasa6zbDEI0GP+Q4MRWcScNbwMov2bS9d3iTK7s/yN
-   ILzm2BTINg5id/xJIDaf6vBwmckT64Hlg9FLMEby20DcPrctme1snzzdg
-   kKhm6H+q8HbJP2eXnQ0kERjt1zuTnDYnqb75OtyQkv14EH6e871/9TOKu
-   dux8hF9xe4H0xAHLWkh1kDcdwH7BOjMvki3jiZenT3Aw15/jL1RtLsdUx
-   pGTwqNPJkVbkeE4Z0PRHVEvzkiXn9a9dTs0B1DEzNtRnG00GOFDFG7m/I
-   xxXr45VhVengLvNVNYgjadj2AZIEgBBNwym3UD51/vtnumzwMQUkCeZ5c
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="332571785"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="332571785"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 05:19:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="639195986"
-X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
-   d="scan'208";a="639195986"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 05:19:25 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 550ED120D2E;
-        Wed, 12 Apr 2023 15:19:22 +0300 (EEST)
-Date:   Wed, 12 Apr 2023 15:19:22 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH] media: i2c: add ov01a10 image sensor driver
-Message-ID: <ZDahyjzMD/LvOjlG@kekkonen.localdomain>
-References: <1675941758-21433-1-git-send-email-bingbu.cao@intel.com>
- <Y+TvvbfRSGUNKBCf@kekkonen.localdomain>
- <793aa7a4-0b8b-dc55-2d91-9aa58e6735fd@linux.intel.com>
+        Wed, 12 Apr 2023 08:22:05 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBEDA30EE;
+        Wed, 12 Apr 2023 05:22:03 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-54ee17a659bso216626037b3.4;
+        Wed, 12 Apr 2023 05:22:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681302123; x=1683894123;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aLEMcRFTyUAXgsUesoN6Zq5nWJj2e3OHS8pE8Im9o7E=;
+        b=g+c0nMl+4jFEqOfCwWdCwrjCBStI4eeuBk7kN9bRdc71fO/jhyx5I+37F+MqFLEi76
+         WAaoc2ecmuh0gSld+2xvj9FA1V2rHIDHxMMxKspk0HP36O9OgE0sm+MnyP07+Ke40Dgo
+         1ddB1Y8eyWyL+TovZbXanwwzEu7Rk5oxTX1fanfXJ4snNzxYwmlmDx9gqiaGV0gs4vMD
+         y+UIbvoZXdiE3N3iXR/VqwRR1e2ELYfML9lNJXiVp6RRAY3TlKlo/l6bQEpCiHRJgAK/
+         CKVSO0r/d8bsX0aIX2XKzfH1bC7ZfA9mm7klOI4EQJ8+KO+bSPmsC7ucVz9Wb49vpYk9
+         RDug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681302123; x=1683894123;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aLEMcRFTyUAXgsUesoN6Zq5nWJj2e3OHS8pE8Im9o7E=;
+        b=1wA28uLntCQJRl4gaRTrpk8OlxA1c5PWTUt0wWI7hrvGwmP++O3BDFMWzIIFlA5N6/
+         u6QBvoHaU5wQmJnrjMTNinU9ebDLAe5DQHxr5Q9x8Asb+DBdAqhrSN9OdyknfN/d2K9Q
+         vgAH6eOZ5txFPe+lH/UZN3DupAlOOb/WPDz+pod5g8fKb+/2BE5Z4F20JdklLBnlm2RN
+         SFS2yd2pjNmfWMSc8c6LpSrPs1NOdTwvliGE2coop6c69OCWyUa0Y4ydoW/m1CmRHv7q
+         m9qCueKrNzOWD9CiuklxkmYW6xciMqzcnux/Vj0et3nDrSO26X1wLF3S2J3dOQCjhxi9
+         0RTw==
+X-Gm-Message-State: AAQBX9fWpyUgcCUXOakF8eDkgv9Q9qegf+E5Iqh+2QDLsvuhM2bsjS+d
+        ZOM0CiXqF2l/mtlGFOqZiWhPpTp2URUkzhanJko=
+X-Google-Smtp-Source: AKy350YNcqK5qJODUZEAf5Uj7XPszr1ypdJwZxTSNID1I2FOApV03k2Jh4KyBmrJ+yF2KknUZUI8IWce3ajOsFENu3o=
+X-Received: by 2002:a81:eb08:0:b0:54f:97dd:633 with SMTP id
+ n8-20020a81eb08000000b0054f97dd0633mr981566ywm.4.1681302123094; Wed, 12 Apr
+ 2023 05:22:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <793aa7a4-0b8b-dc55-2d91-9aa58e6735fd@linux.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <ZDSRSWhWsN34MghQ@xps> <CANiq72=n1b=fJ2XZZx_MLKkbKMTmnmTBMgA3GJ_hqyARPtwEiQ@mail.gmail.com>
+ <20230412025834.GA301301@mit.edu>
+In-Reply-To: <20230412025834.GA301301@mit.edu>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 12 Apr 2023 14:21:51 +0200
+Message-ID: <CANiq72mT3bVDKdHgaea-6WiZazd8Mvurqmqegbe5JZxVyLR8Yg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Deborah Brouwer <deborah.brouwer@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        kernel@collabora.com, jistone@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+On Wed, Apr 12, 2023 at 4:58=E2=80=AFAM Theodore Ts'o <tytso@mit.edu> wrote=
+:
+>
+> Something that would perhaps be useful is to document (a) what
+> versions of Rust is available for various distributions, or pointers
+> to how to get that information for various distributions.  For
+> example, you can get that information from Debian using [1].  It
+> appears that Fedora isn't distributing rustc at *all*, at least
+> according to [2], so apparently for Fedora people will need to install
+> it from source.
 
-On Wed, Apr 12, 2023 at 07:40:19PM +0800, Bingbu Cao wrote:
-> >> +static int ov01a10_set_format(struct v4l2_subdev *sd,
-> >> +			      struct v4l2_subdev_state *sd_state,
-> >> +			      struct v4l2_subdev_format *fmt)
-> >> +{
-> >> +	struct ov01a10 *ov01a10 = to_ov01a10(sd);
-> >> +	const struct ov01a10_mode *mode;
-> >> +	s32 vblank_def, h_blank;
-> >> +
-> >> +	mode = v4l2_find_nearest_size(supported_modes,
-> >> +				      ARRAY_SIZE(supported_modes), width,
-> >> +				      height, fmt->format.width,
-> >> +				      fmt->format.height);
-> >> +
-> >> +	mutex_lock(&ov01a10->mutex);
-> >> +	ov01a10_update_pad_format(mode, &fmt->format);
-> > 
-> > Could you switch to the sub-device state? That is now the preferred way to
-> > serialise access to e.g. the format.
-> > 
-> > See e.g.
-> > <URL:https://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git/tree/drivers/media/i2c/ov1063x.c?h=streams/work-v16>.
-> > 
-> > The control handler's mutex doubles as a sub-device state mutex.
-> 
-> Is it fine to use v4l2_subdev_get_fmt()? Or will it be deprecated soon?
+As far as I understand, Fedora is actually one of the distributions
+that provide a very up-to-date Rust toolchain (the latest) and can be
+installed via `dnf` [1][2].
 
-Sure, it's fine to use it.
+Cc'ing Josh Stone who maintains the toolchain in Fedora, just in case
+there is something I am missing that the webpage may be referring to.
 
--- 
-Sakari Ailus
+[1] https://packages.fedoraproject.org/pkgs/rust/rust/
+[2] https://developer.fedoraproject.org/tech/languages/rust/rust-installati=
+on.html
+
+> The other thing that would be worth documenting is (b) something about
+> what versions of Rust people have actually tested.  The comments at
+> [3] are quite scary, since per [4], the minimum version of Rustc
+> supported is 1.62.0 --- and per [3], **only** Rust 1.62.0 is
+> supported, since we use unstable Rust features.
+
+The one that we test, for the moment, is the minimum one (since it is
+the "only" one) -- I will make it more clear in the webpage.
+
+> But for example, with Debian, Debian stable is shipping Rust 1.48.0,
+> and Debian testing (which is currently in "hard freeze" so it can be
+> released as Debian stable this summer) is shipping Rustc 1.63.0.
+>
+> Since I use Debian testing, the question which is foremost in my mind
+> is whether I can expect to have things work if I use the
+> distro-provided 1.63.0 rustc, or is this really a case of "it's not
+> Rust 1.62.0, so good luck to you"?
+
+Distro versions should be fine (as in: it is not an issue of "official
+prebuilt images" vs. "distro binaries"). But short-term you likely
+need to match the numbered version (or perform small changes in the
+kernel side when needed). So, in practice, the easiest route is to use
+the binaries provided by Rust itself (via `rustup` or standalone
+installers). We could also provide them at kernel.org like for other
+toolchains if that helps.
+
+So if distributions want to start using Rust code in their kernels
+right now (i.e. before we can declare a proper minimum) with their own
+`rustc` package, then one approach they can use is to provide an extra
+`rustc-kernel` package matching the version required by the kernel (or
+to change the kernel side a bit to make it compile).
+
+We could, in principle, attempt to support several versions in the
+kernel side, but given the upstreaming of the first Rust modules is
+still going on (and the abstractions they depend on), we still have
+some time. Moreover, the first Rust modules may not be needed by most
+distributions: what is being upstreamed is the Android Binder driver,
+the Asahi GPU driver and the NVMe driver so far.
+
+So it is up to distributions to decide whether they need to use one of
+those modules early on, and if that is the case and they need to do so
+before we can declare a minimum, then I think it is reasonable to ask
+them to match the version. Some particular users, e.g. Android, as far
+as I understand, they are OK with matching the version for the time
+being.
+
+In summary, the issue is that the minimum version we will eventually
+support is "in the future".
+
+> If the goal is accelerate adoption of Rustc, and calm people's fears
+> vis-a-vis using Rust, it's not enough to say, "why don't you use the
+> distribution-provided version or Rust"?  It would be helpful if those
+> Rust pioneers can share what versions of Rust they have tested
+> against, especially for those commonly used distributions, such as
+> Debian, and give us a report whether we should expect things to work,
+> so we can ignore the scary warning from the build system that we're
+> using an unsupported version of Rust, and if it breaks, we get to keep
+> both pieces.
+
+Definitely -- we should be testing distro-versions in CI as soon as it
+is (reasonably) possible. We could even do so already for those
+distributions that track the latest version, but then it means we will
+be upgrading more often (every 6 weeks) in the kernel side. There
+would still be small windows where it may not work depending on how
+the schedules match, though (but distros could keep a `rustc-old` for
+some days until it matches again, for instance).
+
+> Fedora, if someone could build their own unofficial packages, until we
+> can convince Red Hat to start shipping -their own supported Rust
+> compilers, that might be a great way of bridging that gap.
+
+I think all major distributions already ship Rust. From a quick look:
+Fedora (1.68.2), Gentoo (1.68.2), Arch (1.68.2), openSUSE (1.68.0 for
+the rolling one), Ubuntu (1.67.1 for 23.04), Debian (1.63.0 this
+summer), Red Hat (1.62.1 in 9.1)...
+
+As mentioned above, if kernel maintainers are happy with more frequent
+upgrades (i.e. tracking the latest release), it would at least be
+easier for those in distributions that track the latest Rust release
+-- I would like to do that, in fact, if nobody opposes, since our idea
+is to anyhow upgrade the compiler required in the kernel until we hit
+the minimum.
+
+What do you think?
+
+Cheers,
+Miguel
