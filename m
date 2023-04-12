@@ -2,65 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 764FE6DF2FF
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 13:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 698136DF3F1
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 13:42:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbjDLLRf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 07:17:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41864 "EHLO
+        id S229520AbjDLLm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 07:42:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230143AbjDLLR2 (ORCPT
+        with ESMTP id S229712AbjDLLm0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 07:17:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A15C86A2
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 04:17:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 917196331E
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 11:16:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA096C4339B;
-        Wed, 12 Apr 2023 11:16:09 +0000 (UTC)
-Message-ID: <1bb63685-96d6-057a-8644-844ec99ab5fc@xs4all.nl>
-Date:   Wed, 12 Apr 2023 13:16:08 +0200
+        Wed, 12 Apr 2023 07:42:26 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E5CA7EDD
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 04:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681299730; x=1712835730;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=lzMpvjupdiZ3WvA2OVygxZnrYD5jjqCi4KpgQk+7KyU=;
+  b=CEyNO9iKtNu/ssUxiznn/nSMU3zp+9cHuDn8i8cpU9gIFZtEsgi0XNnO
+   P9rgEgzScLnO1p8zf7MO4nNPrYlt7Wegt/DB8PKMpl92IB7ol11l5D+oZ
+   7hdvRQfqhV1GX1HPP5D9DJI1BPsOtLzbB/oMfO5xZSTQWDFQDBFuG0ivv
+   871IfpbaDjSD3KeUTeJ2WbOkJOQam7CXx7oeDOjTZlFdUDa9qtCCQwNiC
+   pMRfnV7BSsGb9bTFZshuuwP9rhyWxIkIu+uL3sPRvFueHMyRLHLgaOGO9
+   FMusBJ5dwF+l7k3+g4ClyOH+qll7OF4+5vSJba7EVsPinIQq8w2maQ9/W
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="430153008"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="430153008"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 04:40:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="832679069"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="832679069"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Apr 2023 04:40:54 -0700
+Subject: Re: [PATCH] media: i2c: add ov01a10 image sensor driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <1675941758-21433-1-git-send-email-bingbu.cao@intel.com>
+ <Y+TvvbfRSGUNKBCf@kekkonen.localdomain>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <793aa7a4-0b8b-dc55-2d91-9aa58e6735fd@linux.intel.com>
+Date:   Wed, 12 Apr 2023 19:40:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: saa7146: please test the vb2 conversion!
+In-Reply-To: <Y+TvvbfRSGUNKBCf@kekkonen.localdomain>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Stefan Herdler <herdler@nurfuerspam.de>
-Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
- <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
- <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
- <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
- <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
- <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
- <20230208100847.3ec87576@coco.lan>
- <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
- <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
- <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
- <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
- <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
- <fc0244d7-1edc-d0f9-1777-65521d781d7b@xs4all.nl>
- <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
- <8fd63839-c876-44ef-7597-8436cf0239ae@xs4all.nl>
-In-Reply-To: <8fd63839-c876-44ef-7597-8436cf0239ae@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,156 +66,218 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/04/2023 12:11, Hans Verkuil wrote:
-> On 10/04/2023 00:36, Stefan Herdler wrote:
->> On 07/04/23 09:04, Hans Verkuil wrote:
->>> On 07/04/2023 00:43, Stefan Herdler wrote:
->> [...]
->>>>
->>>> VBI output is used to switch the aspect-ratio via WSS.
->>>> this should be supported by any av7110 card.
->>>>
->>>> The software is run a daemon or plugin, so the userspace-facing change
->>>> shouldn't matter.
->>>>
->>>> I'll test this as soon as possible.
->>>>
->>>>
->>>>
->>>>
->>>> I've done only basic testing so far, but unfortunately it already failed.
->>>>
->>>> The test:
->>>> Switch to a channel[*] and view the decoded video with tvtime.
->>>>
->>>> The resulting picture is corrupted.
->>>> Almost green with some pink traces at the outlines.
->>>>
->>>> It reminds me to YCbCr component-yideo on a RGB-input.
->>>> Maybe the input-format of saa7146 not set correctly?
->>>>
->>>> The OSD is equally affected, but the card seems to run stable.
->>>
->>> That's weird. When you are in this state, can you run
->>> 'v4l2-ctl -V -d /dev/videoX' for the video device that tvtime
->>> is using? I'll try to test it with tvtime as well next week.
->>> I have done my tests using qvidcap and qv4l2, and that looked fine.
->>
->> I've done some more testing and the result is somehow confusing to me.
->>
->> At first I tried qv4l and it shows correct videos with any driver.
->> And with any pixel format setting I tried.
->>
->>
->> After boot /dev/video0 (there is only this device) starts always with
->> this settings:
->> Format Video Capture:
->>         Width/Height      : 384/288
->>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
->>         Field             : Interlaced
->>         Bytes per Line    : 1152
->>         Size Image        : 331776
->>         Colorspace        : SMPTE 170M
->>         Transfer Function : Default (maps to Rec. 709)
->>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->>         Quantization      : Default (maps to Full Range)
->>         Flags             :
->>
->>
->> On the working "old" driver tvtime switches to the following settings:
->> Format Video Capture:
->>         Width/Height      : 720/576
->>         Pixel Format      : 'UYVY' (UYVY 4:2:2)
->>         Field             : Interlaced
->>         Bytes per Line    : 1440
->>         Size Image        : 829440
->>         Colorspace        : SMPTE 170M
->>         Transfer Function : Default (maps to Rec. 709)
->>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->>         Quantization      : Default (maps to Limited Range)
->>         Flags             :
->> It seems tvtime needs this 'UYVY' pixel format to work.
->>
->>
->> On the "new" driver, with patches [1], tvtime switches to:
->> Format Video Capture:
->>         Width/Height      : 720/576
->>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
->>         Field             : Interlaced
->>         Bytes per Line    : 2160
->>         Size Image        : 1244160
->>         Colorspace        : SMPTE 170M
->>         Transfer Function : Default (maps to Rec. 709)
->>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->>         Quantization      : Default (maps to Full Range)
->>         Flags             :
->> And now it is getting weird:
->> I can switch to the correct 'UYVY' settings using qv4l.
->> But tvtime always switches back to 'BGR3'.
-> 
-> The cause is "[PATCH 10/17] media: common: saa7146: fall back to V4L2_PIX_FMT_BGR24".
-> 
-> Can you drop that patch and test again?
-> 
-> It's really a tvtime bug since drivers are allowed to either reject an unsupported
-> pixelformat (the old behavior) or replace it with a supported pixelformat (the
-> new behavior). And tvtime only supports the old behavior.
 
-FYI: I posted a patch fixing tvtime:
+Sakari,
 
-https://patchwork.linuxtv.org/project/linux-media/patch/a5dff340-ab8a-46e0-1f0c-25ceaf9fe5ca@xs4all.nl/
+Thanks for your review.
 
-That said, I do plan to drop patch 10/17 from the saa7146 series, since it is better
-to keep the old behavior.
+On 2/9/23 9:06 PM, Sakari Ailus wrote:
+> Hi Bingbu,
+> 
+> Thanks for the patch.
+> 
+> On Thu, Feb 09, 2023 at 07:22:38PM +0800, Bingbu Cao wrote:
+>> Add v4l2 device driver for OmniVision ov01a10 image sensor, ov01a10
+>> image sensor can deliver 1280x800 resolution BGGR10 images at 60 fps.
+>>
+>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+>> Signed-off-by: Yating Wang <yating.wang@intel.com>
+>> ---
+>>  drivers/media/i2c/Kconfig   |  13 +
+>>  drivers/media/i2c/Makefile  |   1 +
+>>  drivers/media/i2c/ov01a10.c | 906 ++++++++++++++++++++++++++++++++++++++++++++
+>>  3 files changed, 920 insertions(+)
+>>  create mode 100644 drivers/media/i2c/ov01a10.c
+>>
+>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>> index 833241897d63..8e5d1ef0616f 100644
+>> --- a/drivers/media/i2c/Kconfig
+>> +++ b/drivers/media/i2c/Kconfig
+>> @@ -338,6 +338,19 @@ config VIDEO_OG01A1B
+>>  	  To compile this driver as a module, choose M here: the
+>>  	  module will be called og01a1b.
+>>  
+>> +config VIDEO_OV01A10
+>> +	tristate "OmniVision OV01A10 sensor support"
+>> +	depends on VIDEO_DEV && I2C
+>> +	select MEDIA_CONTROLLER
+>> +	select VIDEO_V4L2_SUBDEV_API
+>> +	select V4L2_FWNODE
+>> +	help
+>> +	  This is a Video4Linux2 sensor driver for the OmniVision
+>> +	  OV01A10 camera.
+>> +
+>> +	  To compile this driver as a module, choose M here: the
+>> +	  module will be called ov01a10.
+>> +
+>>  config VIDEO_OV02A10
+>>  	tristate "OmniVision OV02A10 sensor support"
+>>  	depends on VIDEO_DEV && I2C
+>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+>> index 4d6c052bb5a7..ce214503b526 100644
+>> --- a/drivers/media/i2c/Makefile
+>> +++ b/drivers/media/i2c/Makefile
+>> @@ -70,6 +70,7 @@ obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
+>>  obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
+>>  obj-$(CONFIG_VIDEO_NOON010PC30) += noon010pc30.o
+>>  obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
+>> +obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
+>>  obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+>>  obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
+>>  obj-$(CONFIG_VIDEO_OV08X40) += ov08x40.o
+>> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+>> new file mode 100644
+>> index 000000000000..13de9f9ccdc8
+>> --- /dev/null
+>> +++ b/drivers/media/i2c/ov01a10.c
+>> @@ -0,0 +1,906 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +// Copyright (c) 2020-2021 Intel Corporation.
 
-Once I get the green light from you, I will make a pull request for this vb2 conversion.
+..snip..
 
-Regards,
+>> +static void ov01a10_update_pad_format(const struct ov01a10_mode *mode,
+>> +				      struct v4l2_mbus_framefmt *fmt)
+>> +{
+>> +	fmt->width = mode->width;
+>> +	fmt->height = mode->height;
+>> +	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
+>> +	fmt->field = V4L2_FIELD_NONE;
+>> +}
+>> +
+..snip..
 
-	Hans
+>> +static int ov01a10_set_format(struct v4l2_subdev *sd,
+>> +			      struct v4l2_subdev_state *sd_state,
+>> +			      struct v4l2_subdev_format *fmt)
+>> +{
+>> +	struct ov01a10 *ov01a10 = to_ov01a10(sd);
+>> +	const struct ov01a10_mode *mode;
+>> +	s32 vblank_def, h_blank;
+>> +
+>> +	mode = v4l2_find_nearest_size(supported_modes,
+>> +				      ARRAY_SIZE(supported_modes), width,
+>> +				      height, fmt->format.width,
+>> +				      fmt->format.height);
+>> +
+>> +	mutex_lock(&ov01a10->mutex);
+>> +	ov01a10_update_pad_format(mode, &fmt->format);
+> 
+> Could you switch to the sub-device state? That is now the preferred way to
+> serialise access to e.g. the format.
+> 
+> See e.g.
+> <URL:https://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git/tree/drivers/media/i2c/ov1063x.c?h=streams/work-v16>.
+> 
+> The control handler's mutex doubles as a sub-device state mutex.
+
+Is it fine to use v4l2_subdev_get_fmt()? Or will it be deprecated soon?
 
 > 
->>
->> Using qv4l while tvtime is running doesn't work and sometimes
->> causes freezing of both programs (on all drivers).
-> 
-> Are you just starting qv4l2 when tvtime is running? Or trying to stream?
-> Do you see messages in the kernel log?
-> 
-> I couldn't reproduce this. Since tvtime is streaming, qv4l2 shouldn't be able to
-> do anything since all attempts to change something should result in EBUSY.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->>
->> I have also build a new driver just without the patches [2].
->> It shows the "old" correct behavior.
->> So I think, the cause of the change must be somewhere in the
->> patches.
->>
->>
->>
->> Btw.:
->> I also tried to open the video device with the usual
->> media-players, but I had no luck so far (with any driver).
->>
->>
->> Regards
->>
->> Stefan
->>
->>
->> [1] git checkout -B saa7146-clean 837736a79a76c9becddf0caf905b27c144a64030
->> [2] git checkout -B saa7146-clean 2653fad0d8a9625667e9a78133ea9e1245b7c40c
->>
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
->> [...]
+>> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+>> +		*v4l2_subdev_get_try_format(sd, sd_state, fmt->pad) = fmt->format;
+>> +	} else {
+>> +		ov01a10->cur_mode = mode;
+>> +		__v4l2_ctrl_s_ctrl(ov01a10->link_freq, mode->link_freq_index);
+>> +		__v4l2_ctrl_s_ctrl_int64(ov01a10->pixel_rate, OV01A10_SCLK);
+>> +
+>> +		vblank_def = mode->vts_def - mode->height;
+>> +		__v4l2_ctrl_modify_range(ov01a10->vblank,
+>> +					 mode->vts_min - mode->height,
+>> +					 OV01A10_VTS_MAX - mode->height, 1,
+>> +					 vblank_def);
+>> +		__v4l2_ctrl_s_ctrl(ov01a10->vblank, vblank_def);
+>> +		h_blank = mode->hts - mode->width;
+>> +		__v4l2_ctrl_modify_range(ov01a10->hblank, h_blank, h_blank, 1,
+>> +					 h_blank);
+>> +	}
+>> +	mutex_unlock(&ov01a10->mutex);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ov01a10_get_format(struct v4l2_subdev *sd,
+>> +			      struct v4l2_subdev_state *sd_state,
+>> +			      struct v4l2_subdev_format *fmt)
+>> +{
+>> +	struct ov01a10 *ov01a10 = to_ov01a10(sd);
+>> +
+>> +	mutex_lock(&ov01a10->mutex);
+>> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+>> +		fmt->format = *v4l2_subdev_get_try_format(&ov01a10->sd,
+>> +							  sd_state, fmt->pad);
+>> +	else
+>> +		ov01a10_update_pad_format(ov01a10->cur_mode, &fmt->format);
+>> +
+>> +	mutex_unlock(&ov01a10->mutex);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ov01a10_enum_mbus_code(struct v4l2_subdev *sd,
+>> +				  struct v4l2_subdev_state *sd_state,
+>> +				  struct v4l2_subdev_mbus_code_enum *code)
+>> +{
+>> +	if (code->index > 0)
+>> +		return -EINVAL;
+>> +
+>> +	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ov01a10_enum_frame_size(struct v4l2_subdev *sd,
+>> +				   struct v4l2_subdev_state *sd_state,
+>> +				   struct v4l2_subdev_frame_size_enum *fse)
+>> +{
+>> +	if (fse->index >= ARRAY_SIZE(supported_modes))
+>> +		return -EINVAL;
+>> +
+>> +	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
+>> +		return -EINVAL;
+>> +
+>> +	fse->min_width = supported_modes[fse->index].width;
+>> +	fse->max_width = fse->min_width;
+>> +	fse->min_height = supported_modes[fse->index].height;
+>> +	fse->max_height = fse->min_height;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ov01a10_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>> +{
+>> +	struct ov01a10 *ov01a10 = to_ov01a10(sd);
+>> +
+>> +	mutex_lock(&ov01a10->mutex);
+>> +	ov01a10_update_pad_format(&supported_modes[0],
+>> +				  v4l2_subdev_get_try_format(sd, fh->state, 0));
+>> +	mutex_unlock(&ov01a10->mutex);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct v4l2_subdev_core_ops ov01a10_core_ops = {
+>> +	.log_status = v4l2_ctrl_subdev_log_status,
+>> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+>> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+>> +};
+>> +
+>> +static const struct v4l2_subdev_video_ops ov01a10_video_ops = {
+>> +	.s_stream = ov01a10_set_stream,
+>> +};
+>> +
+>> +static const struct v4l2_subdev_pad_ops ov01a10_pad_ops = {
+>> +	.set_fmt = ov01a10_set_format,
+>> +	.get_fmt = ov01a10_get_format,
+>> +	.enum_mbus_code = ov01a10_enum_mbus_code,
+>> +	.enum_frame_size = ov01a10_enum_frame_size,
+>> +};
+>> +
+
+...
+
 > 
 
+-- 
+Best regards,
+Bingbu Cao
