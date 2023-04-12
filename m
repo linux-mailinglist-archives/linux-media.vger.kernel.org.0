@@ -2,96 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 251BD6DF263
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 13:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0196DF28C
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 13:08:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbjDLLAW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 07:00:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55250 "EHLO
+        id S229508AbjDLLIi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 07:08:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjDLLAU (ORCPT
+        with ESMTP id S229527AbjDLLIh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 07:00:20 -0400
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C548C65B0;
-        Wed, 12 Apr 2023 04:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-        s=default; t=1681297218;
-        bh=xR4GuTL5Nmxsxu18JrbipI8OGiSCJg9nlLups6OAbag=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=THfXqEBdjK14et4Ik0idqXMu7LfYqJY7h/jq/AXfwPLM9Lico4dOaOkW7jkqfFwQK
-         b1pZ2hoKCYrblbz0q/6YkguN6Ejq8zm1O9W/XLdrdSPE42Pi1neLaqLPqhL91LIkrF
-         3jOjZ7XmbNY6Aq5DMJItnxRSS2jBlw2PMUA03eQk/6Hof38BXvBdpsQ3m7Ua4ofCAI
-         V/SLD1x8nkrmO7bYb+rAx0IRaxGxMp5sIVic7l3Ag/IEZsqU6TsL4CrXpahHcOMgdv
-         h7KnVf/JaR+mdmoBqC7ZHDjEn65aRbYGyX295KOGs5uhu+wR+lEEnHGiHmZetM9umA
-         pcx1ExMLp2Oqg==
-Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.88.211])
-        by gnuweeb.org (Postfix) with ESMTPSA id C9409245324;
-        Wed, 12 Apr 2023 18:00:11 +0700 (WIB)
-Date:   Wed, 12 Apr 2023 18:00:07 +0700
-From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>,
-        Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
-        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux regression tracking <regressions@leemhuis.info>
-Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
- ffff88811b4af298->next is NULL)
-Message-ID: <ZDaPNx7WSKeMqgmj@biznet-home.integral.gnuweeb.org>
-References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
- <ZAGqet3U8AMm4Uf1@debian.me>
- <ZAOTU5CRwdEC1lGH@biznet-home.integral.gnuweeb.org>
- <87v8jetaik.fsf@intel.com>
- <ZAXT1B1GTlmA78Ld@biznet-home.integral.gnuweeb.org>
- <ZDYw0vVg7Y1oExJL@debian.me>
+        Wed, 12 Apr 2023 07:08:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA635241
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 04:08:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA40E62C1C
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 11:08:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB2CC4339E;
+        Wed, 12 Apr 2023 11:08:33 +0000 (UTC)
+Message-ID: <a5dff340-ab8a-46e0-1f0c-25ceaf9fe5ca@xs4all.nl>
+Date:   Wed, 12 Apr 2023 13:08:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZDYw0vVg7Y1oExJL@debian.me>
-X-Bpl:  hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] tvtime: support drivers that always select a pixfmt in S_FMT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 12, 2023 at 11:17:22AM +0700, Bagas Sanjaya wrote:
-> From gitlab issue above, I don't see any progress on bisection attempt.
-> Ammar, have you successfully boot Ubuntu 20.04 with v5.10 kernel and
-> test there?
+Drivers can either reject an unsupported pixelformat in VIDIOC_S_FMT,
+or replace it with a supported one. Either option is allowed.
 
-I am still using Ubuntu 22.04. Haven't tried 20.04. I'll arrange time
-for it this week.
+tvtime assumes that it is rejected, but instead it should check if it
+chose something else, and then retry with UYVY.
 
-> Anyway, I'm adding this to regzbot (with tentative commit range):
-> 
-> #regzbot introduced: v5.10..v5.15.103
-> #regzbot title: Linux 6.2.1 hits a display driver bug (list_del corruption, ffff88811b4af298->next is NULL)
-> #regzbot link: https://gitlab.freedesktop.org/drm/intel/-/issues/8274
-> 
-> (Also Cc: Thorsten)
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/src/videoinput.c b/src/videoinput.c
+index 5c147c8..12763dd 100644
+--- a/src/videoinput.c
++++ b/src/videoinput.c
+@@ -516,13 +516,19 @@ retry:
+     memset( &(imgformat.fmt.pix), 0, sizeof( struct v4l2_pix_format ) );
+     imgformat.fmt.pix.width = capwidth;
+     imgformat.fmt.pix.height = vidin->height;
+-    imgformat.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
+     imgformat.fmt.pix.field = V4L2_FIELD_INTERLACED;
++    imgformat.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
 
-Not sure why you marked it as regression. I haven't even found the last
-good commit. It's possible that it's always broken since the beginning.
+-    if( ioctl( vidin->grab_fd, VIDIOC_S_FMT, &imgformat ) < 0 ) {
++    if( ioctl( vidin->grab_fd, VIDIOC_S_FMT, &imgformat ) < 0 ||
++        imgformat.fmt.pix.pixelformat != V4L2_PIX_FMT_YUYV ) {
+ 	/* Try for UYVY instead. */
++	memset( &(imgformat.fmt.pix), 0, sizeof( struct v4l2_pix_format ) );
++	imgformat.fmt.pix.width = capwidth;
++	imgformat.fmt.pix.height = vidin->height;
++	imgformat.fmt.pix.field = V4L2_FIELD_INTERLACED;
+ 	imgformat.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
+-	if( ioctl( vidin->grab_fd, VIDIOC_S_FMT, &imgformat ) < 0 ) {
++	if( ioctl( vidin->grab_fd, VIDIOC_S_FMT, &imgformat ) < 0 ||
++	    imgformat.fmt.pix.pixelformat != V4L2_PIX_FMT_UYVY ) {
 
--- 
-Ammar Faizi
-
+ 	    fprintf( stderr, "\n"
+      "    Your capture card driver: %s\n"
