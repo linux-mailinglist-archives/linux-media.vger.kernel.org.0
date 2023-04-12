@@ -2,53 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AAA16DF166
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 12:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F7866DF1BC
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 12:11:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbjDLKBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 06:01:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
+        id S229947AbjDLKLy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 06:11:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230054AbjDLKBM (ORCPT
+        with ESMTP id S229555AbjDLKLx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 06:01:12 -0400
-Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B1DA76B7;
-        Wed, 12 Apr 2023 03:01:01 -0700 (PDT)
-Received: from [10.36.2.154] (unknown [46.212.121.255])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Wed, 12 Apr 2023 06:11:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBA872A2
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 03:11:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id 5B687260784;
-        Wed, 12 Apr 2023 12:00:59 +0200 (CEST)
-Message-ID: <8ff91d0c-624b-2704-24b0-5b7c4ca0db1e@selasky.org>
-Date:   Wed, 12 Apr 2023 12:00:59 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 886166329D
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 10:11:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D1AC433EF;
+        Wed, 12 Apr 2023 10:11:45 +0000 (UTC)
+Message-ID: <8fd63839-c876-44ef-7597-8436cf0239ae@xs4all.nl>
+Date:   Wed, 12 Apr 2023 12:11:43 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Daniel Almeida <daniel.almeida@collabora.com>, wedsonaf@gmail.com,
-        ojeda@kernel.org, mchehab@kernel.org, hverkuil@xs4all.nl,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
- <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
- <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
- <CANiq72m812+L6dc4Qs2wUXW85eBQwgrjWYYKc1MSsqN5AG_sFw@mail.gmail.com>
- <9f896097-8410-4d09-b614-6e792b2160f4@selasky.org>
- <CANiq72mv2uYe1x6cy4zUq8XHhAZcYYpt6hVXMG4yQZeqw1kY7Q@mail.gmail.com>
- <1d50d25c-e64b-01f4-029f-8b40b46848fd@selasky.org>
- <CANiq72mbM+WBcvj1TwU2u9kLz=EucLhLR-a5nzZEDa7VJ0s2_A@mail.gmail.com>
- <ca17f815-5779-d37c-e3f8-2a6c2983fe45@selasky.org>
- <CANiq72mn1nD38DGHpFQzerC=_ifR39Vpbb_PzLv5Q75SdzTxQg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: saa7146: please test the vb2 conversion!
 Content-Language: en-US
-From:   Hans Petter Selasky <hps@selasky.org>
-In-Reply-To: <CANiq72mn1nD38DGHpFQzerC=_ifR39Vpbb_PzLv5Q75SdzTxQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+To:     Stefan Herdler <herdler@nurfuerspam.de>
+Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        Corinna Vinschen <vinschen@redhat.com>,
+        Soeren Moch <smoch@web.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
+ <a24d4645-ac78-9990-92c3-7c04282f190e@nurfuerspam.de>
+ <20ceeb7f-336a-b51c-8cc8-128cc9ebcd2e@xs4all.nl>
+ <014db0ee-55fe-2966-a531-b8c23e97b402@web.de>
+ <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
+ <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
+ <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
+ <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
+ <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
+ <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
+ <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
+ <20230208100847.3ec87576@coco.lan>
+ <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
+ <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
+ <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
+ <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
+ <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
+ <fc0244d7-1edc-d0f9-1777-65521d781d7b@xs4all.nl>
+ <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,110 +67,140 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/11/23 21:22, Miguel Ojeda wrote:
-> On Tue, Apr 11, 2023 at 5:33 PM Hans Petter Selasky <hps@selasky.org> wrote:
+On 10/04/2023 00:36, Stefan Herdler wrote:
+> On 07/04/23 09:04, Hans Verkuil wrote:
+>> On 07/04/2023 00:43, Stefan Herdler wrote:
+> [...]
+>>>
+>>> VBI output is used to switch the aspect-ratio via WSS.
+>>> this should be supported by any av7110 card.
+>>>
+>>> The software is run a daemon or plugin, so the userspace-facing change
+>>> shouldn't matter.
+>>>
+>>> I'll test this as soon as possible.
+>>>
+>>>
+>>>
+>>>
+>>> I've done only basic testing so far, but unfortunately it already failed.
+>>>
+>>> The test:
+>>> Switch to a channel[*] and view the decoded video with tvtime.
+>>>
+>>> The resulting picture is corrupted.
+>>> Almost green with some pink traces at the outlines.
+>>>
+>>> It reminds me to YCbCr component-yideo on a RGB-input.
+>>> Maybe the input-format of saa7146 not set correctly?
+>>>
+>>> The OSD is equally affected, but the card seems to run stable.
 >>
->> Similarly rustc may depend on an incorrectly specified ioctl()
->> definition, also via other libraries and static linking, that just have
->> to stay incorrectly defined, because it was initially incorrectly defined.
+>> That's weird. When you are in this state, can you run
+>> 'v4l2-ctl -V -d /dev/videoX' for the video device that tvtime
+>> is using? I'll try to test it with tvtime as well next week.
+>> I have done my tests using qvidcap and qv4l2, and that looked fine.
 > 
-> Why would a compiler depend on random ioctls? Even if it did, how is
-> that related to the previous discussion? A compiler is just one more
-> userspace application.
+> I've done some more testing and the result is somehow confusing to me.
+> 
+> At first I tried qv4l and it shows correct videos with any driver.
+> And with any pixel format setting I tried.
+> 
+> 
+> After boot /dev/video0 (there is only this device) starts always with
+> this settings:
+> Format Video Capture:
+>         Width/Height      : 384/288
+>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
+>         Field             : Interlaced
+>         Bytes per Line    : 1152
+>         Size Image        : 331776
+>         Colorspace        : SMPTE 170M
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Full Range)
+>         Flags             :
+> 
+> 
+> On the working "old" driver tvtime switches to the following settings:
+> Format Video Capture:
+>         Width/Height      : 720/576
+>         Pixel Format      : 'UYVY' (UYVY 4:2:2)
+>         Field             : Interlaced
+>         Bytes per Line    : 1440
+>         Size Image        : 829440
+>         Colorspace        : SMPTE 170M
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Limited Range)
+>         Flags             :
+> It seems tvtime needs this 'UYVY' pixel format to work.
+> 
+> 
+> On the "new" driver, with patches [1], tvtime switches to:
+> Format Video Capture:
+>         Width/Height      : 720/576
+>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
+>         Field             : Interlaced
+>         Bytes per Line    : 2160
+>         Size Image        : 1244160
+>         Colorspace        : SMPTE 170M
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Full Range)
+>         Flags             :
+> And now it is getting weird:
+> I can switch to the correct 'UYVY' settings using qv4l.
+> But tvtime always switches back to 'BGR3'.
 
-Hi,
+The cause is "[PATCH 10/17] media: common: saa7146: fall back to V4L2_PIX_FMT_BGR24".
 
-Is the right hand knowing what the left hand is doing? Are the people 
-behind Rust aware Rust is being used for kernel purposes or not?
+Can you drop that patch and test again?
 
-That's why I brought up the file-system issue with Microsoft and Apple 
-as an example. The Unicode guys probably knew nothing about what the 
-letter valued 0xE5 was used for in various file systems, so they thought 
-it was fine to assign a letter there, the Norwegian "å". I think neither 
-anyone at the two big companies mentioned tried to stop Unicode from 
-doing such a clear mistake either.
-
-Microsoft and Apple is the left hand, and Unicode is the right hand.
-
-That's why the toolchain should be included in the Linux kernel. So that 
-the people using Linux know that the toolchain works as intended when 
-compiling the Linux kernel.
-
-It's a generic issue. If two organizations that make products for 
-eachother, don't talk closely together, you risk exactly what I point 
-at, that some stupid decision will be made by the one party, which 
-doesn't really affect the other party, but innocent customers infact.
-
- > Why would a compiler depend on random ioctls?
-
-Can you say you can write even a test C-program to multiply two 32-bit 
-numbers, bit by bit, without even deleting a single character once? 
-People who say C-programmers never do mistakes, are naive. Even standard 
-ioctls() may contain mistakes and there needs to be a plan to fix such 
-issues. And when you think the code is right, the compiler is to blame, 
-and when you think the compiler is right, the CPU is to blame and so it 
-goes.
-
-> Whether the kernel uses C or Rust internally
-> has nothing to do with that.
-
-The question is not OR, but AND related. If the kernel will need both at 
-some point in the future, it's not good. The plan should be either OR: 
-Rustc ^ GCC = true. Not Rustc | GCC = true :-)
-
-> Also, I don't follow your logic. You said you cannot upgrade your
-> toolchain (for some reason), and your argument is that the kernel
-> keeps interfaces stable? Well, yes, that is the point and what allows
-> you to upgrade.
-
-You need to see, stable interfaces may also need to be changed. That is 
-where you invert my logic. If you fix that when reading my text, you 
-will see what I'm saying is true and not false.
-
-There may be bit-pattern things down at CPU level, triggering bit-flips, 
-that CPU vendors will do nothing about, because the argument is 
-typically about money and performance. If something costs both money and 
-hurts performance, it will not be implemented. It's like the speculative 
-instruction prediction and resulting cache pollution, allowing memory to 
-leak from kernel level to user-space level. Isn't it enough to deal with 
-this in GCC only? Does Rust handle such issues at all? I don't know simply.
-
-And what about syscall numbers? What if someone from Intel says all 
-syscall numbers must be divisible by four, because those two lower 
-bit-lines are frequently subject to bit flips and we can do nothing 
-about it.
+It's really a tvtime bug since drivers are allowed to either reject an unsupported
+pixelformat (the old behavior) or replace it with a supported pixelformat (the
+new behavior). And tvtime only supports the old behavior.
 
 > 
-> Moreover, what is special about `rustc` here? What about your C toolchain?
+> Using qv4l while tvtime is running doesn't work and sometimes
+> causes freezing of both programs (on all drivers).
 
-I don't know Rustc that well, so I cannot answer what's special about 
-it. But based on my existing experience with C toolchains, I don't 
-expect it to be any easier, with regards to handling unforeseen issues.
+Are you just starting qv4l2 when tvtime is running? Or trying to stream?
+Do you see messages in the kernel log?
 
-> 
->> I'm trying to explain something difficult. And I'm OK that you neither
->> understand nor agree about my viewpoint. See my replies above.
-> 
-> No, it is not a matter of being difficult. It is just that you have
-> not shown how you would be prevented from upgrading a toolchain.
+I couldn't reproduce this. Since tvtime is streaming, qv4l2 shouldn't be able to
+do anything since all attempts to change something should result in EBUSY.
 
-The proof is in a principle. Principles are there to avoid unpredictable 
-problems.
+Regards,
 
-Apparently you don't accept the principle of talking closely together 
-when you are in a supply chain.
-
-I have a feeling you think like this: If I do my job great, and all 
-others in the supply chain do their best, then the resulting product 
-will be the great too!
-
-Translated to your case: Linux is the most stable OS in the world, and 
-Rust is the most secure compiler language in the world. Nothing can go 
-wrong!
-
---HPS
+	Hans
 
 > 
-> Cheers,
-> Miguel
+> 
+> I have also build a new driver just without the patches [2].
+> It shows the "old" correct behavior.
+> So I think, the cause of the change must be somewhere in the
+> patches.
+> 
+> 
+> 
+> Btw.:
+> I also tried to open the video device with the usual
+> media-players, but I had no luck so far (with any driver).
+> 
+> 
+> Regards
+> 
+> Stefan
+> 
+> 
+> [1] git checkout -B saa7146-clean 837736a79a76c9becddf0caf905b27c144a64030
+> [2] git checkout -B saa7146-clean 2653fad0d8a9625667e9a78133ea9e1245b7c40c
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+> [...]
 
