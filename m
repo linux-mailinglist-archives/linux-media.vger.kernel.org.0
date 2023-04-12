@@ -2,183 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EB1D6DFC57
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 19:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D29456DFBED
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 18:55:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbjDLRMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 13:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49592 "EHLO
+        id S229948AbjDLQzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 12:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbjDLRMQ (ORCPT
+        with ESMTP id S229597AbjDLQzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 13:12:16 -0400
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE64118
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 10:12:14 -0700 (PDT)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230412165334euoutp02a00e2c9d347cebc6dd8bf502c8020f12~VPjCoRagT2026420264euoutp02j
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 16:53:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230412165334euoutp02a00e2c9d347cebc6dd8bf502c8020f12~VPjCoRagT2026420264euoutp02j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1681318414;
-        bh=wZO6Dqp5dPJCNRWb5bvNZmABWpcQ9lZ9Lbxzm7Lw6Mg=;
-        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-        b=C30NP/i6B4LSCFFElxa+dbjEeCx+ulslG4eLWi9JLlJ512e9VrLvLxt/wC2IBKkvR
-         6FXdbDk1IZ9gNhnNqLWxO405Ah+PTSqAJ+QiTpWpqbnYOsUUpj42ZdtoY64am4CgTA
-         sqleo+koxJGBXWjcNcCQvC/8cIWD7KjSqS886iMQ=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20230412165334eucas1p2774826fb6fff814016a2b94defb89e2a~VPjCQVe5w1111611116eucas1p2w;
-        Wed, 12 Apr 2023 16:53:34 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 60.2D.09966.E02E6346; Wed, 12
-        Apr 2023 17:53:34 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20230412165333eucas1p2109ca0d5e10efd132a04bbbe1b5c3d94~VPjB7uv-B1360113601eucas1p2E;
-        Wed, 12 Apr 2023 16:53:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20230412165333eusmtrp2aca1d1ee844ff8e9932214de51f21860~VPjB7DZCG0393003930eusmtrp2O;
-        Wed, 12 Apr 2023 16:53:33 +0000 (GMT)
-X-AuditID: cbfec7f4-d39ff700000026ee-23-6436e20e22f4
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 3F.0E.22108.D02E6346; Wed, 12
-        Apr 2023 17:53:33 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20230412165332eusmtip20d390bf7742454c6e312aefbc76f6966~VPjBDW_Wq0161001610eusmtip2e;
-        Wed, 12 Apr 2023 16:53:32 +0000 (GMT)
-Message-ID: <69a90fd7-e76a-4257-8263-57d333b60dad@samsung.com>
-Date:   Wed, 12 Apr 2023 18:53:32 +0200
+        Wed, 12 Apr 2023 12:55:37 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A21809ECE
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 09:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681318504; x=1712854504;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZIaaKhtrkIh717UpuHjFc2tGT0HE3K4qQ6hdEyXvSY=;
+  b=MTF/A8inR6ukkxPTyh/8gauCw0lyNJUtpjYnwxvaHT6vrAs0tMdwKWej
+   UAMklix/Y6dA1fcdsWUwHot9P8VfMX2fXc3UomUltsFGCJknGnm8DFsF0
+   I7DMbGf5hT9raFYKlvRW8lKz1xp+BNQXymw5gFB+CRXzBjPWiGBMv3Vlk
+   osQkKTf3+tKUsNKVyvaIHTZsO7WrNpnIqfNyO/nuq897Qw75z8U9Mu+g0
+   t4OOa8nbZWopKh+R6ENrSrqUpdn3UDM+8Gs36u6sBGMwMI1VrfGJIPSnj
+   3PaFl2tF6iBSzEJNnfhKWfc6Rp1OvS93awQ6e40vV/Vz0VOn9DhYFZbiV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="409098667"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="409098667"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 09:54:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="813058327"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="813058327"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 12 Apr 2023 09:54:18 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pmdjd-000XuH-2x;
+        Wed, 12 Apr 2023 16:54:17 +0000
+Date:   Thu, 13 Apr 2023 00:53:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        Michal Simek <monstr@monstr.eu>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [xilinx-xlnx:master 12090/14520] drivers/media/mc/mc-entity.c:308:
+ warning: expecting prototype for media_entity_graph_walk_init(). Prototype
+ was for media_graph_walk_init() instead
+Message-ID: <202304130004.4RRrP7hX-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
-        Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
- formats in reset functions
-Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk,
-        robert.mader@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <a0a00172-ce86-dfa2-267d-b318a9c076dc@collabora.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKKsWRmVeSWpSXmKPExsWy7djP87p8j8xSDCZeZLfYcmU2s8XGF59Z
-        LB5e9be4OPMui8Xmcz2sFqum7mSx2PT4GqtF16+VzBaXd81hs+jZsJXV4tOD/8wWyzb9YbLo
-        XDGRzeLuvRMsFt/eLGa0+Lt9E4vFiy3iDoIef59fZ/HYcXcJo8fOWXfZPTat6mTz2Lyk3mPj
-        ux1MHv1/DTy6jlxn8/i8Sc7j1NfP7AFcUVw2Kak5mWWpRfp2CVwZhxo+shb85quY+HIfWwPj
-        ep4uRk4OCQETiV8df5m7GLk4hARWMEq8ut/GApIQEvjCKLHzRA1E4jOjxOIF+xhhOr7cPArV
-        sZxRYuXWqWwQzkdGic7WbvYuRg4OXgE7iTu7IkFMFgFViXWXa0B6eQUEJU7OfAK2QFQgRWL3
-        yafsILawQLrE/kPdTCA2s4C4xK0n85lARooInGWS6Lt/kAXEYRZYyCjxvGkDM0gVm4ChRNfb
-        LjYQm1PAUeLV7KUsEN3yEs1bZ4NdJyFwiVPi/uZVUGe7SKz9+IwNwhaWeHV8CzuELSPxfyfE
-        OgmBdkaJBb/vQzkTGCUant+C6raWuHPuFxvIP8wCmhLrd+lDhB0lvn1eCxaWEOCTuPFWEOII
-        PolJ26YzQ4R5JTrahCCq1SRmHV8Ht/bghUvMExiVZiEFzCykAJiF5J1ZCHsXMLKsYhRPLS3O
-        TU8tNspLLdcrTswtLs1L10vOz93ECEyJp/8d/7KDcfmrj3qHGJk4GA8xSnAwK4nw/nAxTRHi
-        TUmsrEotyo8vKs1JLT7EKM3BoiTOq217MllIID2xJDU7NbUgtQgmy8TBKdXAtKQlPJZFv3bV
-        PLbI1u3/e9xiVy0SeqIcVD3fYvPEPOtbip/9OnM+T5+210cr8xzPnl+sykHTsor+rUxJzDrf
-        Wfp7TvJ2tnfajmXnQzYccV5irc/P98/k/+r6P+dc5PRE/r1Q/Gqy8vaMBdKuyxYWzJLmdKqK
-        +qQoZrhl0zRGXa7Dq7qu/fHev4/jgMPmi7M1QpwuHTnbFCxh+Tg4oPrUmeNVWkGz+dkWPuLq
-        eGr+VflRzpJVPNaMv5lnKxSvkV4gstBCgWPZFdHLP47uaKxUeH84g/uYcMvNOY7S2a/+vln6
-        bYrFvL/115eIpK3x9t9+Xfymhu4iK6tMfWa1rOudN6wNM/ZM27RV5Zpdvf2Dl0osxRmJhlrM
-        RcWJAAYppgf4AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsVy+t/xe7q8j8xSDNa+0bbYcmU2s8XGF59Z
-        LB5e9be4OPMui8Xmcz2sFqum7mSx2PT4GqtF16+VzBaXd81hs+jZsJXV4tOD/8wWyzb9YbLo
-        XDGRzeLuvRMsFt/eLGa0+Lt9E4vFiy3iDoIef59fZ/HYcXcJo8fOWXfZPTat6mTz2Lyk3mPj
-        ux1MHv1/DTy6jlxn8/i8Sc7j1NfP7AFcUXo2RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG
-        5rFWRqZK+nY2Kak5mWWpRfp2CXoZhxo+shb85quY+HIfWwPjep4uRk4OCQETiS83jzKD2EIC
-        Sxkltqwqg4jLSJyc1sAKYQtL/LnWxdbFyAVU855RYu6TqyxdjBwcvAJ2End2RYKYLAKqEusu
-        14CU8woISpyc+YQFxBYVSJHYNWEpE4gtLJAusf9QN5jNLCAucevJfCaQkSICZ5kk9s8/zA7i
-        MAssZJT4ufwrK8Syg0wS/y70gF3BJmAo0fUW5ApODk4BR4lXs5eyQIwyk+ja2sUIYctLNG+d
-        zTyBUWgWkktmIdk4C0nLLCQtCxhZVjGKpJYW56bnFhvqFSfmFpfmpesl5+duYgSmgG3Hfm7e
-        wTjv1Ue9Q4xMHIyHGCU4mJVEeH+4mKYI8aYkVlalFuXHF5XmpBYfYjQFhsZEZinR5HxgEsor
-        iTc0MzA1NDGzNDC1NDNWEuf1LOhIFBJITyxJzU5NLUgtgulj4uCUamA6fGaGIJPS2lkM36LW
-        2N6IlGjXbih/cu/BkZmzT0dnMjj/M+VfEjjx6NZbx068Cz+qJli7mc363kKH2z0HT+lzs585
-        +murco29kOjrxzW3YlpF5p7i/N9pc/7xxmL5RqPgw5kO2w7O6cnJzFsV1N9vOnf5hYnSt29+
-        O/HqxX7zp1IcBrtKHt4I0ot8fLnB+Yd6cmRF1624Ex5rDoXazCsMuNB2skta4WxS3YIb+jzs
-        zt+zRdM0NwZ+uut3STH54dNDEu1bmt/qCM+qCP8n9tizITvgHZvHm7yXhyuWbk8/LBnZmygt
-        zyvM6puy1t9h0n7z2TKLvpuyGPzqmpk4t/oc59+jstvcTQonlAlVfuRUYinOSDTUYi4qTgQA
-        dnKUTIoDAAA=
-X-CMS-MailID: 20230412165333eucas1p2109ca0d5e10efd132a04bbbe1b5c3d94
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9
-References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
-        <20230220104849.398203-2-benjamin.gaignard@collabora.com>
-        <CGME20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9@eucas1p1.samsung.com>
-        <5fda9b2f-a339-8a23-dc7b-f1bac2c385b6@samsung.com>
-        <a0a00172-ce86-dfa2-267d-b318a9c076dc@collabora.com>
-X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Mauro,
 
-On 12.04.2023 18:40, Benjamin Gaignard wrote:
->
-> Le 12/04/2023 à 18:14, Marek Szyprowski a écrit :
->> Hi,
->>
->> On 20.02.2023 11:48, Benjamin Gaignard wrote:
->>> Setting context source and destination formats should only be done
->>> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
->>> the targeted queue is not busy.
->>> Remove these calls from hantro_reset_encoded_fmt() and
->>> hantro_reset_raw_fmt() to clean the driver.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> This patch landed recently in linux-next as commit db6f68b51e5c ("media:
->> verisilicon: Do not set context src/dst formats in reset functions").
->
-> Hi,
->
-> I do not have this board up and running with Hantro encoder but
-> I think the attached patch may solve the issue.
-> Could you tell me if it works ?
+FYI, the error/warning still remains.
 
-Yep, it fixes the issue.
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   3a2a9dcee70777a85b3952269c47e6eb65779b78
+commit: 57f1706d9ac1a75fd4e037ce7f7907020c5efe8c [12090/14520] scripts: kernel-doc: validate kernel-doc markup with the actual names
+config: x86_64-randconfig-a002-20230410 (https://download.01.org/0day-ci/archive/20230413/202304130004.4RRrP7hX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/Xilinx/linux-xlnx/commit/57f1706d9ac1a75fd4e037ce7f7907020c5efe8c
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout 57f1706d9ac1a75fd4e037ce7f7907020c5efe8c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/mc/
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304130004.4RRrP7hX-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
-It looks that the code could be a bit more cleaned up, as with the 
-attached patch, there is such construction:
-
-         if (coded) {
-                 pix_mp->num_planes = 1;
-                 vpu_fmt = fmt;
-         } else if (ctx->is_encoder) {
-                 vpu_fmt = fmt;
-         } else {
-                 vpu_fmt = fmt;
-                 /*
-                  * Width/height on the CAPTURE end of a decoder are 
-ignored and
-                  * replaced by the OUTPUT ones.
-                  */
-                 pix_mp->width = ctx->src_fmt.width;
-                 pix_mp->height = ctx->src_fmt.height;
-         }
-
-Common 'vpu_fmt = fmt' can be moved out of the above if-else block.
+>> drivers/media/mc/mc-entity.c:308: warning: expecting prototype for media_entity_graph_walk_init(). Prototype was for media_graph_walk_init() instead
 
 
-Best regards
+vim +308 drivers/media/mc/mc-entity.c
+
+3775b4799ae34a drivers/media/mc/mc-entity.c Laurent Pinchart 2014-03-26  294  
+3775b4799ae34a drivers/media/mc/mc-entity.c Laurent Pinchart 2014-03-26  295  /**
+3775b4799ae34a drivers/media/mc/mc-entity.c Laurent Pinchart 2014-03-26  296   * media_entity_graph_walk_init - Allocate resources for graph walk
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  297   * @graph: Media graph structure that will be used to walk the graph
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  298   * @mdev: Media device
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  299   *
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  300   * Reserve resources for graph walk in media device's current
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  301   * state. The memory must be released using
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus     2016-11-21  302   * media_graph_walk_free().
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  303   *
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  304   * Returns error on failure, zero on success.
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  305   */
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus     2016-11-21  306  __must_check int media_graph_walk_init(
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus     2016-11-21  307  	struct media_graph *graph, struct media_device *mdev)
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16 @308  {
+29d8da02d13020 drivers/media/media-entity.c Sakari Ailus     2015-12-16  309  	return media_entity_enum_init(&graph->ent_enum, mdev);
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  310  }
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus     2016-11-21  311  EXPORT_SYMBOL_GPL(media_graph_walk_init);
+e03d220336dd69 drivers/media/media-entity.c Sakari Ailus     2015-12-16  312  
+
+:::::: The code at line 308 was first introduced by commit
+:::::: e03d220336dd69292370393f5eee98ac17eda308 [media] media: Amend media graph walk API by init and cleanup functions
+
+:::::: TO: Sakari Ailus <sakari.ailus@iki.fi>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
