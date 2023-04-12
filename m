@@ -2,126 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42CAF6DF8A9
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 16:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E30EB6DF59B
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 14:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbjDLOg7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 10:36:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37274 "EHLO
+        id S231695AbjDLMjb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 08:39:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbjDLOg4 (ORCPT
+        with ESMTP id S230334AbjDLMja (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 10:36:56 -0400
-X-Greylist: delayed 3583 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Apr 2023 07:36:27 PDT
-Received: from linderud.pw (linderud.dev [163.172.10.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20269126;
-        Wed, 12 Apr 2023 07:36:27 -0700 (PDT)
-Received: from linderud.pw (localhost [127.0.0.1])
-        by linderud.pw (Postfix) with ESMTP id 25C0FC0293;
-        Wed, 12 Apr 2023 14:38:27 +0200 (CEST)
+        Wed, 12 Apr 2023 08:39:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F14B868D;
+        Wed, 12 Apr 2023 05:39:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D1C16341B;
+        Wed, 12 Apr 2023 12:39:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7770FC433D2;
+        Wed, 12 Apr 2023 12:38:58 +0000 (UTC)
+Message-ID: <f133f378-4e4b-8747-4c0c-58caca861c4b@xs4all.nl>
+Date:   Wed, 12 Apr 2023 14:38:56 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [v9] media: mediatek: vcodec: support stateless AV1 decoder
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230412033022.7766-1-xiaoyong.lu@mediatek.com>
+ <00a8fb79-580e-5389-f03f-abb7bba9f092@xs4all.nl>
+In-Reply-To: <00a8fb79-580e-5389-f03f-abb7bba9f092@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linderud.pw;
-        s=linderud; t=1681303107;
-        bh=O8aSdXpTVrDXIG6KsH5yZYXrkaTdUzwYMD1SqhEYBaQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=dM88oRf1u+qblbhjh1UNixkaXpk2+2DmnsIoD65HqxxNZ3rNWS61Xoi8Y+aizFgRk
-         xzJcyCacbnDKV7l+SFXyTQ+V8m7GeNay5buHPp7Vtohvazqpq3319vmS7QG9PrhwkX
-         rpoGZ4LtL57TzLg0Et5Z/+Hbr7S8I6y5QBtnpNIM4RIJuU90ik0C4Q1vitu+M8dr8i
-         0YhC5po9jcm5RDyxzzENj+KYTWVi1H08u5ulK0XGISUPfLxqn8UsYWS2S/ZeTV1t5w
-         rWvajDfILar9vprpgkP8sDd590e4p/oQNcmmE3CcW5HoHDhyO0ZMPFFfv/GpId8JZV
-         WilHMdDKOhRvodUXMa2x3mrQk+54DPbfeVkKGWn9Yn29uohLOO4ps1nw3DoXnkNTuu
-         ZscqaAUNi+TrcbFVF9vJRxZ+9tZ+lUuFNAhix4GISjacggjSNCzP/vv/jRrny81Y4c
-         MrmNS8AOebCgjVjXfO7ChmvWkX3t2OOHDa6EjVMu93lQNlm956GoPaVySQX/iRJgSH
-         XdY/vlo8i5E3fm+cOmTlv9vXNlYCP8296+SvRhKhX6mhS+zyU5fsOe1bwFHMzrkKaW
-         PxIFUiBKyFBlapzPojkHWkPHncLnllqCzuDb+1oXWyeRfb1d5M4Nk6wA1snx6thvNY
-         eEzVFpzTfm5muJySAFnXYLLE=
-Received: from localhost (unknown [85.252.93.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: morten)
-        by linderud.pw (Postfix) with ESMTPSA id DD86AC018B;
-        Wed, 12 Apr 2023 14:38:26 +0200 (CEST)
-Date:   Wed, 12 Apr 2023 14:38:25 +0200
-From:   Morten Linderud <morten@linderud.pw>
-To:     Theodore Ts'o <tytso@mit.edu>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Deborah Brouwer <deborah.brouwer@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        hverkuil@xs4all.nl, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-Message-ID: <ipjch2egqg43r6h3drwmmm5s3lbidknke42gz7d6w2digskp2e@o4hzg6zrtli3>
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <ZDSRSWhWsN34MghQ@xps>
- <CANiq72=n1b=fJ2XZZx_MLKkbKMTmnmTBMgA3GJ_hqyARPtwEiQ@mail.gmail.com>
- <20230412025834.GA301301@mit.edu>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="p6d65wvmwi2vphxp"
-Content-Disposition: inline
-In-Reply-To: <20230412025834.GA301301@mit.edu>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 12/04/2023 14:22, Hans Verkuil wrote:
+> On 12/04/2023 05:30, Xiaoyong Lu wrote:
+>> Add mediatek av1 decoder linux driver which use the stateless API in
+>> MT8195.
+>>
+>> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
+>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> Hmm, I get this compile error:
+> 
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function ‘vdec_av1_slice_setup_uh’:
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:48:58: error: ‘V4L2_AV1_FRAME_FLAG_UNIFORM_TILE_SPACING’ undeclared (first use in this function); did you mean
+> ‘V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING’?
+>    48 | #define FH_FLAG(x, name)                (!!((x)->flags & V4L2_AV1_FRAME_FLAG_##name))
+>       |                                                          ^~~~~~~~~~~~~~~~~~~~
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1322:41: note: in expansion of macro ‘FH_FLAG’
+>  1322 |         uh->uniform_tile_spacing_flag = FH_FLAG(ctrl_fh, UNIFORM_TILE_SPACING);
+>       |                                         ^~~~~~~
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:48:58: note: each undeclared identifier is reported only once for each function it appears in
+>    48 | #define FH_FLAG(x, name)                (!!((x)->flags & V4L2_AV1_FRAME_FLAG_##name))
+>       |                                                          ^~~~~~~~~~~~~~~~~~~~
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1322:41: note: in expansion of macro ‘FH_FLAG’
+>  1322 |         uh->uniform_tile_spacing_flag = FH_FLAG(ctrl_fh, UNIFORM_TILE_SPACING);
+>       |                                         ^~~~~~~
+> 
+> This flag was renamed from V4L2_AV1_FRAME_FLAG_UNIFORM_TILE_SPACING to
+> V4L2_AV1_TILE_INFO_FLAG_UNIFORM_TILE_SPACING in v5 of the AV1 uAPI.
+> 
+> So this suggests to me that you are testing with an old version of the AV1
+> uAPI. The correct one is v7:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/20230306161850.492072-1-daniel.almeida@collabora.com/
+> 
+> You have to compile and test with that v7 patch since that's the version we
+> want to merge.
 
---p6d65wvmwi2vphxp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+smatch also gave this error:
 
-On Tue, Apr 11, 2023 at 10:58:34PM -0400, Theodore Ts'o wrote:
-> On Tue, Apr 11, 2023 at 04:22:56PM +0200, Miguel Ojeda wrote:
-> >=20
-> > Thanks, it is great to hear that the guide helped! :)
-> >=20
-> > On resources: nowadays we have a webpage, too. Still to be completed,
-> > but you may find it useful already: https://rust-for-linux.com
->=20
-> Something that would perhaps be useful is to document (a) what
-> versions of Rust is available for various distributions, or pointers
-> to how to get that information for various distributions.  For
-> example, you can get that information from Debian using [1].  It
-> appears that Fedora isn't distributing rustc at *all*, at least
-> according to [2], so apparently for Fedora people will need to install
-> it from source.
+vdec_av1_req_lat_if.c:2121 vdec_av1_slice_lat_decode() error: we previously assumed 'pfc' could be null (see line 2056)
 
-You can get a list here:
-https://repology.org/project/rust/versions
+Regards,
 
-Another alternative is this webpage:
-https://pkgs.org/download/rust
-
---=20
-Morten Linderud
-PGP: 9C02FF419FECBE16
-
---p6d65wvmwi2vphxp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEwQA0ZnZjToDJQPuenAL/QZ/svhYFAmQ2pkAACgkQnAL/QZ/s
-vha0pw//fecghEK5I9RyfAQ2BiwDSVkPaOhflT7Fcfzdt01nYS++SsyxxnOVRYfc
-1txshNmNbUzTIRpbJ5AlDAGfBMpL882FTtfpJ9bZxAqSMa/OziYdVKAzcEFDWLja
-OWXk0YJpuAwD7mRlMVuXTnn5CkujhcbCsuOLDOfopP1MCkjW20tGW4sLlJuyG94b
-NowjEMiVSBhERIAqXNG6wq33GNALClt1NgFtLerbUShikMwSTnkzB0z8T+quJKc2
-3NRn8DCfPHtleuuu1V+oRjeoaYcxpxodIArX8yT0inshvC+HSrvTLEbrhr1DJUhJ
-x4lN3SEyL60qtPjw1WSN2iTTWoLH0iWm/i8NDJpRXH86nL7StgNgOZGnN0YxN2Ku
-OFr+nRIpRt+kmdOvqDBkY3VR0pM13GXPX0crGOJpTgwmUAWVEznpdylaDK3eXRI3
-BghkDNi4xdiRDV92wRnyq96/wxfT+yjWlIQZnl9C9/m0JXrmSJmQJZw4vRs6gcdA
-Zn5davlN+0Q0KQqpXDTRMn7af7iQVOOrLqJDiqd7QkEI1qXzfKwyD99epsbIpxvH
-S+N52+frr7Jpk6BuSwn1JNpAWL1tOHGG2cwPn3jdOR26T6v2RNFnD29QObHLGsxc
-PfOh7CkLDC+LD8klTenmwu0+KrrvVHcUQKtGn4f5ht82OEmIS0E=
-=p1yX
------END PGP SIGNATURE-----
-
---p6d65wvmwi2vphxp--
+	Hans
