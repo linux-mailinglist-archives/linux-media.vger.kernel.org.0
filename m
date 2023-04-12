@@ -2,319 +2,473 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15D4F6DF5D9
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 14:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8147B6DF669
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 15:04:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbjDLMoI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 08:44:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59568 "EHLO
+        id S229869AbjDLNEm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 09:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231229AbjDLMoD (ORCPT
+        with ESMTP id S229836AbjDLNEl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 08:44:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A893976F;
-        Wed, 12 Apr 2023 05:43:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 79B9A63443;
-        Wed, 12 Apr 2023 12:43:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D209C4339B;
-        Wed, 12 Apr 2023 12:43:31 +0000 (UTC)
-Message-ID: <2f946887-6d4b-782b-d186-13b184207be3@xs4all.nl>
-Date:   Wed, 12 Apr 2023 14:43:29 +0200
+        Wed, 12 Apr 2023 09:04:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD6B468E
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 06:04:38 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC65E75B;
+        Wed, 12 Apr 2023 15:04:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681304674;
+        bh=s6ynQUEP7h8bDMxAg1VtXd5BfclALNivYc4H/IogqQc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=a97msLrebCEpYsuZdtAenIqxTVeTl7g3x6GJzfUFoA61Ouu3YVuXrL2fVSUkY6HSe
+         G8oVjIlRMMg0K8DrexmaP/uqaCZ6X/EnZFjLefZiQn5TgeTmqFxBoyTkKwks4Dh+cT
+         Nzuln4uHc8Fa7Q6MBqfRuXW2pFssEEJWQUd18N0w=
+Message-ID: <a5497646-fb2d-eb76-322b-0efd00888939@ideasonboard.com>
+Date:   Wed, 12 Apr 2023 16:04:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v6 12/13] media: verisilicon: Enable AV1 decoder on rk3588
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3] media: v4l2-subdev: Add new ioctl for client
+ capabilities
 Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230412115652.403949-1-benjamin.gaignard@collabora.com>
- <20230412115652.403949-13-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230412115652.403949-13-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20230323135835.206970-1-tomi.valkeinen@ideasonboard.com>
+ <20230412122642.GA7715@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230412122642.GA7715@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-On 12/04/2023 13:56, Benjamin Gaignard wrote:
-> Add rk3588 AV1 decoder to Hantro variant.
-> The hardware support image from 64x64 up to 7680x4320
-> by steps of 16 pixels.
+On 12/04/2023 15:26, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Nicolas reviewed this patch in v5. Is there a reason that tag was dropped,
-or did you just forget? If it is the latter, then I can add it back.
-
-Just checking.
-
-This series now passes my tests.
-
-Regards,
-
-	Hans
-
-> ---
->  .../media/platform/verisilicon/hantro_drv.c   |   1 +
->  .../media/platform/verisilicon/hantro_hw.h    |   6 +
->  .../platform/verisilicon/rockchip_vpu_hw.c    | 134 ++++++++++++++++++
->  3 files changed, 141 insertions(+)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index 71bd68e63859..aef1de20fc5e 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -713,6 +713,7 @@ static const struct of_device_id of_hantro_match[] = {
->  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
->  	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
->  	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
-> +	{ .compatible = "rockchip,rk3588-av1-vpu", .data = &rk3588_vpu981_variant, },
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
->  	{ .compatible = "nxp,imx8mm-vpu-g1", .data = &imx8mm_vpu_g1_variant, },
-> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
-> index e3d303cea7f6..7f33f7b07ce4 100644
-> --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> @@ -403,11 +403,13 @@ extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant rk3568_vepu_variant;
->  extern const struct hantro_variant rk3568_vpu_variant;
-> +extern const struct hantro_variant rk3588_vpu981_variant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
->  extern const struct hantro_variant sunxi_vpu_variant;
->  
->  extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->  extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
-> +extern const struct hantro_postproc_ops rockchip_vpu981_postproc_ops;
->  
->  extern const u32 hantro_vp8_dec_mc_filter[8][6];
->  
-> @@ -444,6 +446,10 @@ void hantro_hevc_ref_init(struct hantro_ctx *ctx);
->  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
->  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
->  
-> +int rockchip_vpu981_av1_dec_init(struct hantro_ctx *ctx);
-> +void rockchip_vpu981_av1_dec_exit(struct hantro_ctx *ctx);
-> +int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx);
-> +void rockchip_vpu981_av1_dec_done(struct hantro_ctx *ctx);
->  
->  static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
->  {
-> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> index 8de6fd2e8eef..816ffa905a4b 100644
-> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> @@ -13,9 +13,13 @@
->  #include "hantro_g1_regs.h"
->  #include "hantro_h1_regs.h"
->  #include "rockchip_vpu2_regs.h"
-> +#include "rockchip_vpu981_regs.h"
->  
->  #define RK3066_ACLK_MAX_FREQ (300 * 1000 * 1000)
->  #define RK3288_ACLK_MAX_FREQ (400 * 1000 * 1000)
-> +#define RK3588_ACLK_MAX_FREQ (300 * 1000 * 1000)
-> +
-> +#define ROCKCHIP_VPU981_MIN_SIZE 64
->  
->  /*
->   * Supported formats.
-> @@ -74,6 +78,37 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
->  	},
->  };
->  
-> +static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.match_depth = true,
-> +		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = MB_DIM,
-> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_P010,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.match_depth = true,
-> +		.postprocessed = true,
-> +		.frmsize = {
-> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = MB_DIM,
-> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +};
-> +
->  static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
-> @@ -277,6 +312,48 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
->  	},
->  };
->  
-> +static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12_4L4,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.match_depth = true,
-> +		.frmsize = {
-> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = MB_DIM,
-> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV15_4L4,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.match_depth = true,
-> +		.frmsize = {
-> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = MB_DIM,
-> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_AV1_FRAME,
-> +		.codec_mode = HANTRO_MODE_AV1_DEC,
-> +		.max_depth = 2,
-> +		.frmsize = {
-> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_width = FMT_UHD_WIDTH,
-> +			.step_width = MB_DIM,
-> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> +			.max_height = FMT_UHD_HEIGHT,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +};
-> +
->  static irqreturn_t rockchip_vpu1_vepu_irq(int irq, void *dev_id)
->  {
->  	struct hantro_dev *vpu = dev_id;
-> @@ -331,6 +408,24 @@ static irqreturn_t rockchip_vpu2_vepu_irq(int irq, void *dev_id)
->  	return IRQ_HANDLED;
->  }
->  
-> +static irqreturn_t rk3588_vpu981_irq(int irq, void *dev_id)
-> +{
-> +	struct hantro_dev *vpu = dev_id;
-> +	enum vb2_buffer_state state;
-> +	u32 status;
-> +
-> +	status = vdpu_read(vpu, AV1_REG_INTERRUPT);
-> +	state = (status & AV1_REG_INTERRUPT_DEC_RDY_INT) ?
-> +		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-> +
-> +	vdpu_write(vpu, 0, AV1_REG_INTERRUPT);
-> +	vdpu_write(vpu, AV1_REG_CONFIG_DEC_CLK_GATE_E, AV1_REG_CONFIG);
-> +
-> +	hantro_irq_done(vpu, state);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static int rk3036_vpu_hw_init(struct hantro_dev *vpu)
->  {
->  	/* Bump ACLK to max. possible freq. to improve performance. */
-> @@ -346,6 +441,13 @@ static int rk3066_vpu_hw_init(struct hantro_dev *vpu)
->  	return 0;
->  }
->  
-> +static int rk3588_vpu981_hw_init(struct hantro_dev *vpu)
-> +{
-> +	/* Bump ACLKs to max. possible freq. to improve performance. */
-> +	clk_set_rate(vpu->clocks[0].clk, RK3588_ACLK_MAX_FREQ);
-> +	return 0;
-> +}
-> +
->  static int rockchip_vpu_hw_init(struct hantro_dev *vpu)
->  {
->  	/* Bump ACLK to max. possible freq. to improve performance. */
-> @@ -498,6 +600,14 @@ static const struct hantro_codec_ops rk3568_vepu_codec_ops[] = {
->  	},
->  };
->  
-> +static const struct hantro_codec_ops rk3588_vpu981_codec_ops[] = {
-> +	[HANTRO_MODE_AV1_DEC] = {
-> +		.run = rockchip_vpu981_av1_dec_run,
-> +		.init = rockchip_vpu981_av1_dec_init,
-> +		.exit = rockchip_vpu981_av1_dec_exit,
-> +		.done = rockchip_vpu981_av1_dec_done,
-> +	},
-> +};
->  /*
->   * VPU variant.
->   */
-> @@ -529,10 +639,18 @@ static const char * const rk3066_vpu_clk_names[] = {
->  	"aclk_vepu", "hclk_vepu"
->  };
->  
-> +static const struct hantro_irq rk3588_vpu981_irqs[] = {
-> +	{ "vdpu", rk3588_vpu981_irq },
-> +};
-> +
->  static const char * const rockchip_vpu_clk_names[] = {
->  	"aclk", "hclk"
->  };
->  
-> +static const char * const rk3588_vpu981_vpu_clk_names[] = {
-> +	"aclk", "hclk", "aclk_vdpu_root", "hclk_vdpu_root"
-> +};
-> +
->  /* VDPU1/VEPU1 */
->  
->  const struct hantro_variant rk3036_vpu_variant = {
-> @@ -678,3 +796,19 @@ const struct hantro_variant px30_vpu_variant = {
->  	.clk_names = rockchip_vpu_clk_names,
->  	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
->  };
-> +
-> +const struct hantro_variant rk3588_vpu981_variant = {
-> +	.dec_offset = 0x0,
-> +	.dec_fmts = rockchip_vpu981_dec_fmts,
-> +	.num_dec_fmts = ARRAY_SIZE(rockchip_vpu981_dec_fmts),
-> +	.postproc_fmts = rockchip_vpu981_postproc_fmts,
-> +	.num_postproc_fmts = ARRAY_SIZE(rockchip_vpu981_postproc_fmts),
-> +	.postproc_ops = &rockchip_vpu981_postproc_ops,
-> +	.codec = HANTRO_AV1_DECODER,
-> +	.codec_ops = rk3588_vpu981_codec_ops,
-> +	.irqs = rk3588_vpu981_irqs,
-> +	.num_irqs = ARRAY_SIZE(rk3588_vpu981_irqs),
-> +	.init = rk3588_vpu981_hw_init,
-> +	.clk_names = rk3588_vpu981_vpu_clk_names,
-> +	.num_clocks = ARRAY_SIZE(rk3588_vpu981_vpu_clk_names)
-> +};
+> On Thu, Mar 23, 2023 at 03:58:35PM +0200, Tomi Valkeinen wrote:
+>> Add new ioctls to set and get subdev client capabilities. Client in this
+>> context means the userspace application which opens the subdev device
+>> node. The client capabilities are stored in the file handle of the
+>> opened subdev device node, and the client must set the capabilities for
+>> each opened subdev.
+>>
+>> For now we only add a single flag, V4L2_SUBDEV_CLIENT_CAP_STREAMS, which
+>> indicates that the client is streams-aware.
+>>
+>> The reason for needing such a flag is as follows:
+>>
+>> Many structs passed via ioctls, e.g. struct v4l2_subdev_format, contain
+>> reserved fields (usually a single array field). These reserved fields
+>> can be used to extend the ioctl. The userspace is required to zero the
+>> reserved fields.
+>>
+>> We recently added a new 'stream' field to many of these structs, and the
+>> space for the field was taken from these reserved arrays. The assumption
+>> was that these new 'stream' fields are always initialized to zero if the
+>> userspace does not use them. This was a mistake, as, as mentioned above,
+>> the userspace is required to zero the _reserved_ fields. In other words,
+>> there is no requirement to zero this new stream field, and if the
+>> userspace doesn't use the field (which is the case for all userspace
+>> applications at the moment), the field may contain random data.
+>>
+>> This shows that the way the reserved fields are defined in v4l2 is, in
+>> my opinion, somewhat broken, but there is nothing to do about that.
+>>
+>> To fix this issue we need a way for the userspace to tell the kernel
+>> that the userspace has indeed set the 'stream' field, and it's fine for
+>> the kernel to access it. This is achieved with the new ioctl, which the
+>> userspace should usually use right after opening the subdev device node.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+Hans, Mauro, Sakari, it's a bit late, but any chance to get this to the 
+next merge window?
+
+  Tomi
+
+> 
+>> ---
+>> Interdiff against v2:
+>>    diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+>>    index 0c4ff938f63d..20f12a1cc0f7 100644
+>>    --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+>>    +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+>>    @@ -37,20 +37,29 @@ Description
+>>     ===========
+>>     
+>>     These ioctls are used to get and set the client (the application using the
+>>    -subdevice ioctls) capabilities. By default no client capabilities are set.
+>>    +subdevice ioctls) capabilities. The client capabilities are stored in the file
+>>    +handle of the opened subdev device node, and the client must set the
+>>    +capabilities for each opened subdev separately.
+>>    +
+>>    +By default no client capabilities are set when a subdev device node is opened.
+>>     
+>>     The purpose of the client capabilities are to inform the kernel of the behavior
+>>     of the client, mainly related to maintaining compatibility with different
+>>     kernel and userspace versions.
+>>     
+>>    -The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will modify the struct
+>>    -:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that were
+>>    -accepted. A common case for the kernel not accepting a capability is that the
+>>    -kernel is older than the headers the userspace uses, and thus the capability is
+>>    -unknown to the kernel.
+>>    +The ``VIDIOC_SUBDEV_G_CLIENT_CAP`` ioctl returns the current client capabilities
+>>    +associated with the file handle ``fd``.
+>>     
+>>    -The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` will replace all the previously set
+>>    -capabilities.
+>>    +The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` ioctl sets client capabilities for the file
+>>    +handle ``fd``. The new capabilities fully replace the current capabilities, the
+>>    +ioctl can therefore also be used to remove capabilities that have previously
+>>    +been set.
+>>    +
+>>    +``VIDIOC_SUBDEV_S_CLIENT_CAP`` modifies the struct
+>>    +:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that have
+>>    +been accepted. A common case for the kernel not accepting a capability is that
+>>    +the kernel is older than the headers the userspace uses, and thus the capability
+>>    +is unknown to the kernel.
+>>     
+>>     .. flat-table:: Client Capabilities
+>>         :header-rows:  1
+>>
+>>   .../userspace-api/media/v4l/user-func.rst     |  1 +
+>>   .../media/v4l/vidioc-subdev-g-client-cap.rst  | 83 +++++++++++++++++++
+>>   drivers/media/v4l2-core/v4l2-subdev.c         | 63 ++++++++++++++
+>>   include/media/v4l2-subdev.h                   |  1 +
+>>   include/uapi/linux/v4l2-subdev.h              | 21 +++++
+>>   5 files changed, 169 insertions(+)
+>>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+>> index 228c1521f190..15ff0bf7bbe6 100644
+>> --- a/Documentation/userspace-api/media/v4l/user-func.rst
+>> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+>> @@ -72,6 +72,7 @@ Function Reference
+>>       vidioc-subdev-g-frame-interval
+>>       vidioc-subdev-g-routing
+>>       vidioc-subdev-g-selection
+>> +    vidioc-subdev-g-client-cap
+>>       vidioc-subdev-querycap
+>>       vidioc-subscribe-event
+>>       func-mmap
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+>> new file mode 100644
+>> index 000000000000..20f12a1cc0f7
+>> --- /dev/null
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+>> @@ -0,0 +1,83 @@
+>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>> +.. c:namespace:: V4L
+>> +
+>> +.. _VIDIOC_SUBDEV_G_CLIENT_CAP:
+>> +
+>> +************************************************************
+>> +ioctl VIDIOC_SUBDEV_G_CLIENT_CAP, VIDIOC_SUBDEV_S_CLIENT_CAP
+>> +************************************************************
+>> +
+>> +Name
+>> +====
+>> +
+>> +VIDIOC_SUBDEV_G_CLIENT_CAP - VIDIOC_SUBDEV_S_CLIENT_CAP - Get or set client
+>> +capabilities.
+>> +
+>> +Synopsis
+>> +========
+>> +
+>> +.. c:macro:: VIDIOC_SUBDEV_G_CLIENT_CAP
+>> +
+>> +``int ioctl(int fd, VIDIOC_SUBDEV_G_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
+>> +
+>> +.. c:macro:: VIDIOC_SUBDEV_S_CLIENT_CAP
+>> +
+>> +``int ioctl(int fd, VIDIOC_SUBDEV_S_CLIENT_CAP, struct v4l2_subdev_client_capability *argp)``
+>> +
+>> +Arguments
+>> +=========
+>> +
+>> +``fd``
+>> +    File descriptor returned by :ref:`open() <func-open>`.
+>> +
+>> +``argp``
+>> +    Pointer to struct :c:type:`v4l2_subdev_client_capability`.
+>> +
+>> +Description
+>> +===========
+>> +
+>> +These ioctls are used to get and set the client (the application using the
+>> +subdevice ioctls) capabilities. The client capabilities are stored in the file
+>> +handle of the opened subdev device node, and the client must set the
+>> +capabilities for each opened subdev separately.
+>> +
+>> +By default no client capabilities are set when a subdev device node is opened.
+>> +
+>> +The purpose of the client capabilities are to inform the kernel of the behavior
+>> +of the client, mainly related to maintaining compatibility with different
+>> +kernel and userspace versions.
+>> +
+>> +The ``VIDIOC_SUBDEV_G_CLIENT_CAP`` ioctl returns the current client capabilities
+>> +associated with the file handle ``fd``.
+>> +
+>> +The ``VIDIOC_SUBDEV_S_CLIENT_CAP`` ioctl sets client capabilities for the file
+>> +handle ``fd``. The new capabilities fully replace the current capabilities, the
+>> +ioctl can therefore also be used to remove capabilities that have previously
+>> +been set.
+>> +
+>> +``VIDIOC_SUBDEV_S_CLIENT_CAP`` modifies the struct
+>> +:c:type:`v4l2_subdev_client_capability` to reflect the capabilities that have
+>> +been accepted. A common case for the kernel not accepting a capability is that
+>> +the kernel is older than the headers the userspace uses, and thus the capability
+>> +is unknown to the kernel.
+>> +
+>> +.. flat-table:: Client Capabilities
+>> +    :header-rows:  1
+>> +
+>> +    * - Capability
+>> +      - Description
+>> +    * - ``V4L2_SUBDEV_CLIENT_CAP_STREAMS``
+>> +      - The client is aware of streams. Setting this flag enables the use
+>> +        of 'stream' fields (referring to the stream number) with various
+>> +        ioctls. If this is not set (which is the default), the 'stream' fields
+>> +        will be forced to 0 by the kernel.
+>> +
+>> +Return Value
+>> +============
+>> +
+>> +On success 0 is returned, on error -1 and the ``errno`` variable is set
+>> +appropriately. The generic error codes are described at the
+>> +:ref:`Generic Error Codes <gen-errors>` chapter.
+>> +
+>> +ENOIOCTLCMD
+>> +   The kernel does not support this ioctl.
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index dff1d9be7841..9d47f4800ea8 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -498,8 +498,11 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	struct video_device *vdev = video_devdata(file);
+>>   	struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
+>>   	struct v4l2_fh *vfh = file->private_data;
+>> +	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+>>   	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+>>   	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
+>> +	bool client_supports_streams = subdev_fh->client_caps &
+>> +				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>>   	int rval;
+>>   
+>>   	switch (cmd) {
+>> @@ -624,6 +627,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_G_FMT: {
+>>   		struct v4l2_subdev_format *format = arg;
+>>   
+>> +		if (!client_supports_streams)
+>> +			format->stream = 0;
+>> +
+>>   		memset(format->reserved, 0, sizeof(format->reserved));
+>>   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+>>   		return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+>> @@ -635,6 +641,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+>>   			return -EPERM;
+>>   
+>> +		if (!client_supports_streams)
+>> +			format->stream = 0;
+>> +
+>>   		memset(format->reserved, 0, sizeof(format->reserved));
+>>   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+>>   		return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+>> @@ -644,6 +653,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		struct v4l2_subdev_crop *crop = arg;
+>>   		struct v4l2_subdev_selection sel;
+>>   
+>> +		if (!client_supports_streams)
+>> +			crop->stream = 0;
+>> +
+>>   		memset(crop->reserved, 0, sizeof(crop->reserved));
+>>   		memset(&sel, 0, sizeof(sel));
+>>   		sel.which = crop->which;
+>> @@ -665,6 +677,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+>>   			return -EPERM;
+>>   
+>> +		if (!client_supports_streams)
+>> +			crop->stream = 0;
+>> +
+>>   		memset(crop->reserved, 0, sizeof(crop->reserved));
+>>   		memset(&sel, 0, sizeof(sel));
+>>   		sel.which = crop->which;
+>> @@ -683,6 +698,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+>>   		struct v4l2_subdev_mbus_code_enum *code = arg;
+>>   
+>> +		if (!client_supports_streams)
+>> +			code->stream = 0;
+>> +
+>>   		memset(code->reserved, 0, sizeof(code->reserved));
+>>   		return v4l2_subdev_call(sd, pad, enum_mbus_code, state,
+>>   					code);
+>> @@ -691,6 +709,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+>>   		struct v4l2_subdev_frame_size_enum *fse = arg;
+>>   
+>> +		if (!client_supports_streams)
+>> +			fse->stream = 0;
+>> +
+>>   		memset(fse->reserved, 0, sizeof(fse->reserved));
+>>   		return v4l2_subdev_call(sd, pad, enum_frame_size, state,
+>>   					fse);
+>> @@ -699,6 +720,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
+>>   		struct v4l2_subdev_frame_interval *fi = arg;
+>>   
+>> +		if (!client_supports_streams)
+>> +			fi->stream = 0;
+>> +
+>>   		memset(fi->reserved, 0, sizeof(fi->reserved));
+>>   		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
+>>   	}
+>> @@ -709,6 +733,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (ro_subdev)
+>>   			return -EPERM;
+>>   
+>> +		if (!client_supports_streams)
+>> +			fi->stream = 0;
+>> +
+>>   		memset(fi->reserved, 0, sizeof(fi->reserved));
+>>   		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+>>   	}
+>> @@ -716,6 +743,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+>>   		struct v4l2_subdev_frame_interval_enum *fie = arg;
+>>   
+>> +		if (!client_supports_streams)
+>> +			fie->stream = 0;
+>> +
+>>   		memset(fie->reserved, 0, sizeof(fie->reserved));
+>>   		return v4l2_subdev_call(sd, pad, enum_frame_interval, state,
+>>   					fie);
+>> @@ -724,6 +754,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   	case VIDIOC_SUBDEV_G_SELECTION: {
+>>   		struct v4l2_subdev_selection *sel = arg;
+>>   
+>> +		if (!client_supports_streams)
+>> +			sel->stream = 0;
+>> +
+>>   		memset(sel->reserved, 0, sizeof(sel->reserved));
+>>   		return v4l2_subdev_call(
+>>   			sd, pad, get_selection, state, sel);
+>> @@ -735,6 +768,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+>>   			return -EPERM;
+>>   
+>> +		if (!client_supports_streams)
+>> +			sel->stream = 0;
+>> +
+>>   		memset(sel->reserved, 0, sizeof(sel->reserved));
+>>   		return v4l2_subdev_call(
+>>   			sd, pad, set_selection, state, sel);
+>> @@ -876,6 +912,33 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   					routing->which, &krouting);
+>>   	}
+>>   
+>> +	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
+>> +		struct v4l2_subdev_client_capability *client_cap = arg;
+>> +
+>> +		client_cap->capabilities = subdev_fh->client_caps;
+>> +
+>> +		return 0;
+>> +	}
+>> +
+>> +	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
+>> +		struct v4l2_subdev_client_capability *client_cap = arg;
+>> +
+>> +		/*
+>> +		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
+>> +		 * enabled. Remove this when streams API is no longer
+>> +		 * experimental.
+>> +		 */
+>> +		if (!v4l2_subdev_enable_streams_api)
+>> +			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>> +
+>> +		/* Filter out unsupported capabilities */
+>> +		client_cap->capabilities &= V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+>> +
+>> +		subdev_fh->client_caps = client_cap->capabilities;
+>> +
+>> +		return 0;
+>> +	}
+>> +
+>>   	default:
+>>   		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
+>>   	}
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index 17773be4a4ee..b5bb5b802929 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -1121,6 +1121,7 @@ struct v4l2_subdev_fh {
+>>   	struct module *owner;
+>>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>>   	struct v4l2_subdev_state *state;
+>> +	u64 client_caps;
+>>   #endif
+>>   };
+>>   
+>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+>> index 654d659de835..4a195b68f28f 100644
+>> --- a/include/uapi/linux/v4l2-subdev.h
+>> +++ b/include/uapi/linux/v4l2-subdev.h
+>> @@ -233,6 +233,24 @@ struct v4l2_subdev_routing {
+>>   	__u32 reserved[6];
+>>   };
+>>   
+>> +/*
+>> + * The client is aware of streams. Setting this flag enables the use of 'stream'
+>> + * fields (referring to the stream number) with various ioctls. If this is not
+>> + * set (which is the default), the 'stream' fields will be forced to 0 by the
+>> + * kernel.
+>> + */
+>> + #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
+>> +
+>> +/**
+>> + * struct v4l2_subdev_client_capability - Capabilities of the client accessing
+>> + *					  the subdev
+>> + *
+>> + * @capabilities: A bitmask of V4L2_SUBDEV_CLIENT_CAP_* flags.
+>> + */
+>> +struct v4l2_subdev_client_capability {
+>> +	__u64 capabilities;
+>> +};
+>> +
+>>   /* Backwards compatibility define --- to be removed */
+>>   #define v4l2_subdev_edid v4l2_edid
+>>   
+>> @@ -250,6 +268,9 @@ struct v4l2_subdev_routing {
+>>   #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+>>   #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+>>   #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
+>> +#define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
+>> +#define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
+>> +
+>>   /* The following ioctls are identical to the ioctls in videodev2.h */
+>>   #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
+>>   #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
+> 
 
