@@ -2,95 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2806DE995
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 04:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 492BE6DE9B8
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 04:59:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjDLCjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Apr 2023 22:39:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
+        id S229696AbjDLC7K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Apr 2023 22:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjDLCjg (ORCPT
+        with ESMTP id S229631AbjDLC7C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Apr 2023 22:39:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF40B170F
-        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 19:39:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D32660F5E
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 02:39:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F630C433D2
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 02:39:32 +0000 (UTC)
-Date:   Wed, 12 Apr 2023 04:39:29 +0200
-Message-ID: <e3252a94f694005324965c00c3a62f25.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 11 Apr 2023 22:59:02 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79BD1FEB
+        for <linux-media@vger.kernel.org>; Tue, 11 Apr 2023 19:59:01 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-173-48-120-46.bstnma.fios.verizon.net [173.48.120.46])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 33C2wZZu031187
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Apr 2023 22:58:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1681268317; bh=zRuRID1z90VR55CAaVZuRCvfNFHtlJxq/Hc6njhL5mQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=Q6eq9W5jIgLrV8r00PWgoLh8tmlUMRKmdjaw0YJ336taBk5oeHJLMsyV+PNvUYj1j
+         B7S4GEevbzPi16GfrHyODh/6aR/z5zYTwwr2hf4nUe2MV81szeLQoFMviD/x/OuP70
+         DAq3detdKfDy+K6qDRHC5yCHkP/bJ7ZHd7lUKxmxQjJiTHvn8SSn5sWuTii8UkX6UH
+         7+2wbd5q3LIOaOYa898dz5YZtZX9HkeEXshwyJz6XaIMaWp7hMleN7k20mddTontM8
+         p1aXjRJukUkBycSjm+JIkpVsFu8s6H0mgk3Opi99+tGhHn4dLIGWcS8lynVv+sklMW
+         kswFWN5WOY0LA==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id E999015C4935; Tue, 11 Apr 2023 22:58:34 -0400 (EDT)
+Date:   Tue, 11 Apr 2023 22:58:34 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Deborah Brouwer <deborah.brouwer@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl, rust-for-linux@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+Message-ID: <20230412025834.GA301301@mit.edu>
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <ZDSRSWhWsN34MghQ@xps>
+ <CANiq72=n1b=fJ2XZZx_MLKkbKMTmnmTBMgA3GJ_hqyARPtwEiQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72=n1b=fJ2XZZx_MLKkbKMTmnmTBMgA3GJ_hqyARPtwEiQ@mail.gmail.com>
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Apr 11, 2023 at 04:22:56PM +0200, Miguel Ojeda wrote:
+> 
+> Thanks, it is great to hear that the guide helped! :)
+> 
+> On resources: nowadays we have a webpage, too. Still to be completed,
+> but you may find it useful already: https://rust-for-linux.com
 
-Results of the daily build of media_tree:
+Something that would perhaps be useful is to document (a) what
+versions of Rust is available for various distributions, or pointers
+to how to get that information for various distributions.  For
+example, you can get that information from Debian using [1].  It
+appears that Fedora isn't distributing rustc at *all*, at least
+according to [2], so apparently for Fedora people will need to install
+it from source.
 
-date:			Wed Apr 12 03:00:08 CEST 2023
-media-tree git hash:	d56f39f705080f4ff96b92f054b90c6f0826fd02
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	399d70f1e69cecd924bbdc4cf64d3cb96b358475
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8305-g2fad699a-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+[1] https://packages.debian.org/search?keywords=rustc&searchon=names&suite=all&section=all
+[2] https://idroot.us/install-rust-fedora-37/
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+The other thing that would be worth documenting is (b) something about
+what versions of Rust people have actually tested.  The comments at
+[3] are quite scary, since per [4], the minimum version of Rustc
+supported is 1.62.0 --- and per [3], **only** Rust 1.62.0 is
+supported, since we use unstable Rust features.
 
-Detailed results are available here:
+[3] https://rust-for-linux.com/rust-version-policy
+[4] https://docs.kernel.org/process/changes.html
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+But for example, with Debian, Debian stable is shipping Rust 1.48.0,
+and Debian testing (which is currently in "hard freeze" so it can be
+released as Debian stable this summer) is shipping Rustc 1.63.0.
 
-Detailed regression test results are available here:
+Since I use Debian testing, the question which is foremost in my mind
+is whether I can expect to have things work if I use the
+distro-provided 1.63.0 rustc, or is this really a case of "it's not
+Rust 1.62.0, so good luck to you"?
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
+If the goal is accelerate adoption of Rustc, and calm people's fears
+vis-a-vis using Rust, it's not enough to say, "why don't you use the
+distribution-provided version or Rust"?  It would be helpful if those
+Rust pioneers can share what versions of Rust they have tested
+against, especially for those commonly used distributions, such as
+Debian, and give us a report whether we should expect things to work,
+so we can ignore the scary warning from the build system that we're
+using an unsupported version of Rust, and if it breaks, we get to keep
+both pieces.
 
-Full logs are available here:
+And for those distributions that don't currently ship Rust, such as
+Fedora, if someone could build their own unofficial packages, until we
+can convince Red Hat to start shipping -their own supported Rust
+compilers, that might be a great way of bridging that gap.
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+Cheers,
 
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+					- Ted
