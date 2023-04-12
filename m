@@ -2,346 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D26F86DFAE8
-	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 18:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0866DFAF6
+	for <lists+linux-media@lfdr.de>; Wed, 12 Apr 2023 18:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbjDLQMZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 12:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40358 "EHLO
+        id S230034AbjDLQOa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 12:14:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbjDLQMW (ORCPT
+        with ESMTP id S230115AbjDLQO1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 12:12:22 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 703F283E3;
-        Wed, 12 Apr 2023 09:12:19 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:c2e:89bd:4b8e:9e98] (unknown [IPv6:2a01:e0a:120:3210:c2e:89bd:4b8e:9e98])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6762D66031CF;
-        Wed, 12 Apr 2023 17:12:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681315937;
-        bh=sljFgeJSEl1a5wZlSuoj6eGYS3/XpL+Et55uwIHQTzs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HBzMikhOJS6LR1FuBZEitjqCWsIIyU6lE2tZ6kEULw5NsMAa1UvVEKoCh/nW1Kkqz
-         ASX2Ynd6mienD4GXBH22H/rMBCCbdJq1PZPobJhsD+7DQdFUfYba+YRJZo9PkTX5sl
-         MnYxAKnYIRycpkhGag/ARC0/FMpe0GJ9rhS0zYreIiL7bmyoVo9ARQKs9zhavBtAFA
-         v4G7ugyQOij25vg5NG+0roCDFhnhKqcX6Bnaw1JSZchzABZqYji/7EOr6u0fhlYp7P
-         4JkhX6N7j8/GC60n/AtkggrQurFQWocyKansJchWboeTDXBG0vlhoIyy3ARXeon6L+
-         Uj4+4KKzhlDOg==
-Message-ID: <acb095f7-5d77-d053-95f2-9800c61add34@collabora.com>
-Date:   Wed, 12 Apr 2023 18:12:15 +0200
+        Wed, 12 Apr 2023 12:14:27 -0400
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFF565B3
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 09:14:18 -0700 (PDT)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20230412161416euoutp0296206064b51d215c2b86345c370365c8~VPAuUzipc1453914539euoutp02b
+        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 16:14:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20230412161416euoutp0296206064b51d215c2b86345c370365c8~VPAuUzipc1453914539euoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1681316056;
+        bh=mJErNJqAaOKuevg4erS+jj/iV6Tf0H2AdcqJimvMrd0=;
+        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+        b=qPfgbgzKpp/TF3cYq2kUcEQdRQPf3V+IL+LofnJBtP5BJ+aD6WIVClPss7QnhDQBG
+         DRrT7PkdcIVJt84TIZ9MtrVMSeqKKQ05RtOczoc9aww7CAk805TTTC97aW6vkKP3Q6
+         Ar2DO2/f0SOPSrFbD9rt220Sd0celBrVVwmxUPD8=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20230412161415eucas1p2e194bfe601e12ac85f31d17b83aa0fce~VPAt12VUi0963809638eucas1p2i;
+        Wed, 12 Apr 2023 16:14:15 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id FA.BD.09503.7D8D6346; Wed, 12
+        Apr 2023 17:14:15 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9~VPAtZiscS2982629826eucas1p1Y;
+        Wed, 12 Apr 2023 16:14:15 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230412161415eusmtrp226df3dd82d73afb6a877861e742848e0~VPAtY2E7U1406814068eusmtrp2I;
+        Wed, 12 Apr 2023 16:14:15 +0000 (GMT)
+X-AuditID: cbfec7f2-e8fff7000000251f-9c-6436d8d7e8b4
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id DA.BB.22108.7D8D6346; Wed, 12
+        Apr 2023 17:14:15 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20230412161414eusmtip1a84a6c6d8af932004cd0a42c22022ba7~VPAsjojgT1652616526eusmtip1b;
+        Wed, 12 Apr 2023 16:14:14 +0000 (GMT)
+Message-ID: <5fda9b2f-a339-8a23-dc7b-f1bac2c385b6@samsung.com>
+Date:   Wed, 12 Apr 2023 18:14:14 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v6 12/13] media: verisilicon: Enable AV1 decoder on rk3588
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20230412115652.403949-1-benjamin.gaignard@collabora.com>
- <20230412115652.403949-13-benjamin.gaignard@collabora.com>
- <2f946887-6d4b-782b-d186-13b184207be3@xs4all.nl>
- <0dbdaef5940481b52ec33dacb6a1fe9ad4d0271c.camel@collabora.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
+        Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
+ formats in reset functions
 Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <0dbdaef5940481b52ec33dacb6a1fe9ad4d0271c.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk,
+        robert.mader@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20230220104849.398203-2-benjamin.gaignard@collabora.com>
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKKsWRmVeSWpSXmKPExsWy7djP87rXb5ilGOy6p22x5cpsZouNLz6z
+        WDy86m9xceZdFovN53pYLVZN3clisenxNVaLrl8rmS0u75rDZtGzYSurxacH/5ktlm36w2TR
+        uWIim8XdeydYLL69Wcxo8Xf7JhaLF1vEHQQ9/j6/zuKx4+4SRo+ds+6ye2xa1cnmsXlJvcfG
+        dzuYPPr/Gnh0HbnO5vF5k5zHqa+f2QO4orhsUlJzMstSi/TtErgypnZtYC3oUqm48mUdSwPj
+        TLkuRk4OCQETiWVnfjN1MXJxCAmsYJT4u3gXE0hCSOALo8SnKx4Q9mdGick3+GEaXr8/zw7R
+        sJxR4vTqRcwQRR8ZJa68LgCxeQXsJM5tu8EKYrMIqErcnH+QDSIuKHFy5hMWEFtUIEVi98mn
+        7CC2sEC6xP5D3WCLmQXEJW49mQ92kYjAWSaJvvsHWUAcZoGFjBLPmzaAbWMTMJToetsFNpVT
+        wE1i/tlJrBDd8hLNW2czgzRICJzilPjZsI0R4m4XifV7m9ghbGGJV8e3QNkyEv93QqyTEGhn
+        lFjw+z6UM4FRouH5Lahua4k7534BreMAWqEpsX6XPkTYUeLb57VgYQkBPokbbwUhjuCTmLRt
+        OjNEmFeio00IolpNYtbxdXBrD164xDyBUWkWUsDMQgqAWUjemYWwdwEjyypG8dTS4tz01GLD
+        vNRyveLE3OLSvHS95PzcTYzAlHj63/FPOxjnvvqod4iRiYPxEKMEB7OSCO8PF9MUId6UxMqq
+        1KL8+KLSnNTiQ4zSHCxK4rzatieThQTSE0tSs1NTC1KLYLJMHJxSDUz+HMHS/oe4ni1J7Vj2
+        /LH1sXtP9wc9zTk/QeSCVend+Zs2Sd+2jas8rXN9d6vGDae6Nj65YFOfVTm8LboPTKft1Dz2
+        +rrd6XvaU/Y+8P+yKMT8OlvpC7533gv4qnZOfB+jsvFHuf3Zhl3pvhz8qRGXn+kasa7QbvnJ
+        HRUlNa05YsrjZt/s9k8FMTXGvyumb+TqejHpxq9Pieu79laHP7shXBa/LZT99TJvtia/iAdR
+        65Qmfyx4rP7K584Xfd+cZzM5yo9Nd1tsdsdwhfuXeiFn5mal1bGHDmnUOOZGdpX7qU5QM18x
+        s0/vcpS8mUWX4CU/xdcd2+S/Tn5mc+3ocpO6duvZEse+TpeTFqz2LFViKc5INNRiLipOBAAQ
+        FTjw+AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFIsWRmVeSWpSXmKPExsVy+t/xu7rXb5ilGJxdzWux5cpsZouNLz6z
+        WDy86m9xceZdFovN53pYLVZN3clisenxNVaLrl8rmS0u75rDZtGzYSurxacH/5ktlm36w2TR
+        uWIim8XdeydYLL69Wcxo8Xf7JhaLF1vEHQQ9/j6/zuKx4+4SRo+ds+6ye2xa1cnmsXlJvcfG
+        dzuYPPr/Gnh0HbnO5vF5k5zHqa+f2QO4ovRsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyN
+        zWOtjEyV9O1sUlJzMstSi/TtEvQypnZtYC3oUqm48mUdSwPjTLkuRk4OCQETidfvz7N3MXJx
+        CAksZZR41/uZDSIhI3FyWgMrhC0s8edaFxtE0XtGicWHpjCCJHgF7CTObbsBVsQioCpxc/5B
+        Noi4oMTJmU9YQGxRgRSJXROWMoHYwgLpEvsPdYPZzALiEreezGcCGSoicJZJYv/8w2BnMAss
+        ZJT4ufwrK8S6RkaJjZPmg41iEzCU6HrbBbaCU8BNYv7ZSawQo8wkurZ2MULY8hLNW2czT2AU
+        moXkkllINs5C0jILScsCRpZVjCKppcW56bnFhnrFibnFpXnpesn5uZsYgYlg27Gfm3cwznv1
+        Ue8QIxMH4yFGCQ5mJRHeHy6mKUK8KYmVValF+fFFpTmpxYcYTYHBMZFZSjQ5H5iK8kriDc0M
+        TA1NzCwNTC3NjJXEeT0LOhKFBNITS1KzU1MLUotg+pg4OKUamHhOXFezPsFrY+ZfGH2u5fpP
+        87bKcjaPr/Km3isDjuYnpSdZxZjdMuH/z9b1Y+UaS52Pr/8oC0w337ZA26Nqf4tvh/232p99
+        YofW7Urdt/f7xn3p0xRmKMxS38GocSPxMsOyzKDFnGI627OZkmzOZohme0ZqRbwK7H/wZ6bd
+        7ll39KYUf7URSHHI69fkXD6NX+7C56ktC6XKd9/1Dr4n84kvVL9qxq4nmq9FT9WpKf9ZMoFR
+        Pqae+XpHLadT0uLzG32Oeb1qZelruNj4faO8zOfJPzYWFu34IC4wKenO5ldpjwKMb/M/6t0Z
+        VGyvz15b8CxJeHXJDd78E4Kbox62zzgRoCbOHc/s1da65ZafEktxRqKhFnNRcSIAftyWE40D
+        AAA=
+X-CMS-MailID: 20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9
+References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
+        <20230220104849.398203-2-benjamin.gaignard@collabora.com>
+        <CGME20230412161415eucas1p1536b537c3f866e9820d3bea8bb9ea2d9@eucas1p1.samsung.com>
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-Le 12/04/2023 à 17:50, Nicolas Dufresne a écrit :
-> Le mercredi 12 avril 2023 à 14:43 +0200, Hans Verkuil a écrit :
->> Hi Benjamin,
->>
->> On 12/04/2023 13:56, Benjamin Gaignard wrote:
->>> Add rk3588 AV1 decoder to Hantro variant.
->>> The hardware support image from 64x64 up to 7680x4320
->>> by steps of 16 pixels.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Nicolas reviewed this patch in v5. Is there a reason that tag was dropped,
->> or did you just forget? If it is the latter, then I can add it back.
->>
->>
-> I see that NV12_10LE40_4L4 is now NV15_4L4 as agreed, and don't see any other
-> changes.
-
-I have forgot the previous tag from Nicolas, sorry.
-The only change in NV12_10LE40_4L4 -> NV15_4L4.
-
-Regards,
-Benjamin
-
+On 20.02.2023 11:48, Benjamin Gaignard wrote:
+> Setting context source and destination formats should only be done
+> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
+> the targeted queue is not busy.
+> Remove these calls from hantro_reset_encoded_fmt() and
+> hantro_reset_raw_fmt() to clean the driver.
 >
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+This patch landed recently in linux-next as commit db6f68b51e5c ("media: 
+verisilicon: Do not set context src/dst formats in reset functions").
+
+Unfortunately it causes the following regression during Debian boot on 
+Odroid-M1 board:
+
+--->8---
+
+hantro-vpu fdea0000.video-codec: Adding to iommu group 0
+hantro-vpu fdea0000.video-codec: registered rockchip,rk3568-vpu-dec as 
+/dev/video0
+hantro-vpu fdee0000.video-codec: Adding to iommu group 1
+hantro-vpu fdee0000.video-codec: registered rockchip,rk3568-vepu-enc as 
+/dev/video1
+Unable to handle kernel NULL pointer dereference at virtual address 
+0000000000000008
+Mem abort info:
+   ESR = 0x0000000096000004
+   EC = 0x25: DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+   FSC = 0x04: level 0 translation fault
+Data abort info:
+   ISV = 0, ISS = 0x00000004
+   CM = 0, WnR = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=00000001f446f000
+[0000000000000008] pgd=0000000000000000, p4d=0000000000000000
+Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+Modules linked in: hantro_vpu v4l2_vp9 v4l2_h264 v4l2_mem2mem 
+videobuf2_dma_contig snd_soc_simple_card display_connector 
+snd_soc_simple_card_utils videobuf2_memops crct10dif_ce dwmac_rk 
+rockchip_thermal videobuf2_v4l2 stmmac_platform rockchip_saradc 
+industrialio_triggered_buffer kfifo_buf stmmac videodev pcs_xpcs 
+rtc_rk808 videobuf2_common rockchipdrm panfrost mc drm_shmem_helper 
+analogix_dp gpu_sched dw_mipi_dsi dw_hdmi drm_display_helper ip_tables 
+x_tables ipv6
+CPU: 3 PID: 171 Comm: v4l_id Not tainted 6.3.0-rc2+ #13478
+Hardware name: Hardkernel ODROID-M1 (DT)
+pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : hantro_try_fmt+0xb4/0x280 [hantro_vpu]
+lr : hantro_try_fmt+0xa8/0x280 [hantro_vpu]
+...
+Call trace:
+  hantro_try_fmt+0xb4/0x280 [hantro_vpu]
+  hantro_set_fmt_out+0x3c/0x278 [hantro_vpu]
+  hantro_reset_raw_fmt+0x94/0xb4 [hantro_vpu]
+  hantro_set_fmt_cap+0x23c/0x250 [hantro_vpu]
+  hantro_reset_fmts+0x94/0xcc [hantro_vpu]
+  hantro_open+0xd4/0x20c [hantro_vpu]
+  v4l2_open+0x80/0x120 [videodev]
+  chrdev_open+0xc0/0x22c
+  do_dentry_open+0x13c/0x490
+  vfs_open+0x2c/0x38
+  path_openat+0x550/0x938
+  do_filp_open+0x80/0x12c
+  do_sys_openat2+0xb4/0x16c
+  __arm64_sys_openat+0x64/0xac
+  invoke_syscall+0x48/0x114
+  el0_svc_common.constprop.0+0xfc/0x11c
+  do_el0_svc+0x38/0xa4
+  el0_svc+0x48/0xb8
+  el0t_64_sync_handler+0xb8/0xbc
+  el0t_64_sync+0x190/0x194
+Code: 97fe726c f940aa80 52864a61 72a686c1 (b9400800)
+---[ end trace 0000000000000000 ]---
+
+I know that v4l_id tool, which is a part of systemd/udev, is known to 
+crash badly on various vendor kernels (fixing this would be a really 
+hard, especially assuming the brokenness of some vendor hacks), but I 
+hoped that at least it should not be able to crash the mainline kernel.
+
+
+> ---
+>   drivers/media/platform/verisilicon/hantro_v4l2.c | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
 >
->> Just checking.
->>
->> This series now passes my tests.
->>
->> Regards,
->>
->> 	Hans
->>
->>> ---
->>>   .../media/platform/verisilicon/hantro_drv.c   |   1 +
->>>   .../media/platform/verisilicon/hantro_hw.h    |   6 +
->>>   .../platform/verisilicon/rockchip_vpu_hw.c    | 134 ++++++++++++++++++
->>>   3 files changed, 141 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
->>> index 71bd68e63859..aef1de20fc5e 100644
->>> --- a/drivers/media/platform/verisilicon/hantro_drv.c
->>> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
->>> @@ -713,6 +713,7 @@ static const struct of_device_id of_hantro_match[] = {
->>>   	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
->>>   	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
->>>   	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
->>> +	{ .compatible = "rockchip,rk3588-av1-vpu", .data = &rk3588_vpu981_variant, },
->>>   #endif
->>>   #ifdef CONFIG_VIDEO_HANTRO_IMX8M
->>>   	{ .compatible = "nxp,imx8mm-vpu-g1", .data = &imx8mm_vpu_g1_variant, },
->>> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
->>> index e3d303cea7f6..7f33f7b07ce4 100644
->>> --- a/drivers/media/platform/verisilicon/hantro_hw.h
->>> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
->>> @@ -403,11 +403,13 @@ extern const struct hantro_variant rk3328_vpu_variant;
->>>   extern const struct hantro_variant rk3399_vpu_variant;
->>>   extern const struct hantro_variant rk3568_vepu_variant;
->>>   extern const struct hantro_variant rk3568_vpu_variant;
->>> +extern const struct hantro_variant rk3588_vpu981_variant;
->>>   extern const struct hantro_variant sama5d4_vdec_variant;
->>>   extern const struct hantro_variant sunxi_vpu_variant;
->>>   
->>>   extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->>>   extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
->>> +extern const struct hantro_postproc_ops rockchip_vpu981_postproc_ops;
->>>   
->>>   extern const u32 hantro_vp8_dec_mc_filter[8][6];
->>>   
->>> @@ -444,6 +446,10 @@ void hantro_hevc_ref_init(struct hantro_ctx *ctx);
->>>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
->>>   int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
->>>   
->>> +int rockchip_vpu981_av1_dec_init(struct hantro_ctx *ctx);
->>> +void rockchip_vpu981_av1_dec_exit(struct hantro_ctx *ctx);
->>> +int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx);
->>> +void rockchip_vpu981_av1_dec_done(struct hantro_ctx *ctx);
->>>   
->>>   static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
->>>   {
->>> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->>> index 8de6fd2e8eef..816ffa905a4b 100644
->>> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->>> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
->>> @@ -13,9 +13,13 @@
->>>   #include "hantro_g1_regs.h"
->>>   #include "hantro_h1_regs.h"
->>>   #include "rockchip_vpu2_regs.h"
->>> +#include "rockchip_vpu981_regs.h"
->>>   
->>>   #define RK3066_ACLK_MAX_FREQ (300 * 1000 * 1000)
->>>   #define RK3288_ACLK_MAX_FREQ (400 * 1000 * 1000)
->>> +#define RK3588_ACLK_MAX_FREQ (300 * 1000 * 1000)
->>> +
->>> +#define ROCKCHIP_VPU981_MIN_SIZE 64
->>>   
->>>   /*
->>>    * Supported formats.
->>> @@ -74,6 +78,37 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
->>>   	},
->>>   };
->>>   
->>> +static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
->>> +	{
->>> +		.fourcc = V4L2_PIX_FMT_NV12,
->>> +		.codec_mode = HANTRO_MODE_NONE,
->>> +		.match_depth = true,
->>> +		.postprocessed = true,
->>> +		.frmsize = {
->>> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_width = FMT_UHD_WIDTH,
->>> +			.step_width = MB_DIM,
->>> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_height = FMT_UHD_HEIGHT,
->>> +			.step_height = MB_DIM,
->>> +		},
->>> +	},
->>> +	{
->>> +		.fourcc = V4L2_PIX_FMT_P010,
->>> +		.codec_mode = HANTRO_MODE_NONE,
->>> +		.match_depth = true,
->>> +		.postprocessed = true,
->>> +		.frmsize = {
->>> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_width = FMT_UHD_WIDTH,
->>> +			.step_width = MB_DIM,
->>> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_height = FMT_UHD_HEIGHT,
->>> +			.step_height = MB_DIM,
->>> +		},
->>> +	},
->>> +};
->>> +
->>>   static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
->>>   	{
->>>   		.fourcc = V4L2_PIX_FMT_NV12,
->>> @@ -277,6 +312,48 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
->>>   	},
->>>   };
->>>   
->>> +static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
->>> +	{
->>> +		.fourcc = V4L2_PIX_FMT_NV12_4L4,
->>> +		.codec_mode = HANTRO_MODE_NONE,
->>> +		.match_depth = true,
->>> +		.frmsize = {
->>> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_width = FMT_UHD_WIDTH,
->>> +			.step_width = MB_DIM,
->>> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_height = FMT_UHD_HEIGHT,
->>> +			.step_height = MB_DIM,
->>> +		},
->>> +	},
->>> +	{
->>> +		.fourcc = V4L2_PIX_FMT_NV15_4L4,
->>> +		.codec_mode = HANTRO_MODE_NONE,
->>> +		.match_depth = true,
->>> +		.frmsize = {
->>> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_width = FMT_UHD_WIDTH,
->>> +			.step_width = MB_DIM,
->>> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_height = FMT_UHD_HEIGHT,
->>> +			.step_height = MB_DIM,
->>> +		},
->>> +	},
->>> +	{
->>> +		.fourcc = V4L2_PIX_FMT_AV1_FRAME,
->>> +		.codec_mode = HANTRO_MODE_AV1_DEC,
->>> +		.max_depth = 2,
->>> +		.frmsize = {
->>> +			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_width = FMT_UHD_WIDTH,
->>> +			.step_width = MB_DIM,
->>> +			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
->>> +			.max_height = FMT_UHD_HEIGHT,
->>> +			.step_height = MB_DIM,
->>> +		},
->>> +	},
->>> +};
->>> +
->>>   static irqreturn_t rockchip_vpu1_vepu_irq(int irq, void *dev_id)
->>>   {
->>>   	struct hantro_dev *vpu = dev_id;
->>> @@ -331,6 +408,24 @@ static irqreturn_t rockchip_vpu2_vepu_irq(int irq, void *dev_id)
->>>   	return IRQ_HANDLED;
->>>   }
->>>   
->>> +static irqreturn_t rk3588_vpu981_irq(int irq, void *dev_id)
->>> +{
->>> +	struct hantro_dev *vpu = dev_id;
->>> +	enum vb2_buffer_state state;
->>> +	u32 status;
->>> +
->>> +	status = vdpu_read(vpu, AV1_REG_INTERRUPT);
->>> +	state = (status & AV1_REG_INTERRUPT_DEC_RDY_INT) ?
->>> +		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
->>> +
->>> +	vdpu_write(vpu, 0, AV1_REG_INTERRUPT);
->>> +	vdpu_write(vpu, AV1_REG_CONFIG_DEC_CLK_GATE_E, AV1_REG_CONFIG);
->>> +
->>> +	hantro_irq_done(vpu, state);
->>> +
->>> +	return IRQ_HANDLED;
->>> +}
->>> +
->>>   static int rk3036_vpu_hw_init(struct hantro_dev *vpu)
->>>   {
->>>   	/* Bump ACLK to max. possible freq. to improve performance. */
->>> @@ -346,6 +441,13 @@ static int rk3066_vpu_hw_init(struct hantro_dev *vpu)
->>>   	return 0;
->>>   }
->>>   
->>> +static int rk3588_vpu981_hw_init(struct hantro_dev *vpu)
->>> +{
->>> +	/* Bump ACLKs to max. possible freq. to improve performance. */
->>> +	clk_set_rate(vpu->clocks[0].clk, RK3588_ACLK_MAX_FREQ);
->>> +	return 0;
->>> +}
->>> +
->>>   static int rockchip_vpu_hw_init(struct hantro_dev *vpu)
->>>   {
->>>   	/* Bump ACLK to max. possible freq. to improve performance. */
->>> @@ -498,6 +600,14 @@ static const struct hantro_codec_ops rk3568_vepu_codec_ops[] = {
->>>   	},
->>>   };
->>>   
->>> +static const struct hantro_codec_ops rk3588_vpu981_codec_ops[] = {
->>> +	[HANTRO_MODE_AV1_DEC] = {
->>> +		.run = rockchip_vpu981_av1_dec_run,
->>> +		.init = rockchip_vpu981_av1_dec_init,
->>> +		.exit = rockchip_vpu981_av1_dec_exit,
->>> +		.done = rockchip_vpu981_av1_dec_done,
->>> +	},
->>> +};
->>>   /*
->>>    * VPU variant.
->>>    */
->>> @@ -529,10 +639,18 @@ static const char * const rk3066_vpu_clk_names[] = {
->>>   	"aclk_vepu", "hclk_vepu"
->>>   };
->>>   
->>> +static const struct hantro_irq rk3588_vpu981_irqs[] = {
->>> +	{ "vdpu", rk3588_vpu981_irq },
->>> +};
->>> +
->>>   static const char * const rockchip_vpu_clk_names[] = {
->>>   	"aclk", "hclk"
->>>   };
->>>   
->>> +static const char * const rk3588_vpu981_vpu_clk_names[] = {
->>> +	"aclk", "hclk", "aclk_vdpu_root", "hclk_vdpu_root"
->>> +};
->>> +
->>>   /* VDPU1/VEPU1 */
->>>   
->>>   const struct hantro_variant rk3036_vpu_variant = {
->>> @@ -678,3 +796,19 @@ const struct hantro_variant px30_vpu_variant = {
->>>   	.clk_names = rockchip_vpu_clk_names,
->>>   	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
->>>   };
->>> +
->>> +const struct hantro_variant rk3588_vpu981_variant = {
->>> +	.dec_offset = 0x0,
->>> +	.dec_fmts = rockchip_vpu981_dec_fmts,
->>> +	.num_dec_fmts = ARRAY_SIZE(rockchip_vpu981_dec_fmts),
->>> +	.postproc_fmts = rockchip_vpu981_postproc_fmts,
->>> +	.num_postproc_fmts = ARRAY_SIZE(rockchip_vpu981_postproc_fmts),
->>> +	.postproc_ops = &rockchip_vpu981_postproc_ops,
->>> +	.codec = HANTRO_AV1_DECODER,
->>> +	.codec_ops = rk3588_vpu981_codec_ops,
->>> +	.irqs = rk3588_vpu981_irqs,
->>> +	.num_irqs = ARRAY_SIZE(rk3588_vpu981_irqs),
->>> +	.init = rk3588_vpu981_hw_init,
->>> +	.clk_names = rk3588_vpu981_vpu_clk_names,
->>> +	.num_clocks = ARRAY_SIZE(rk3588_vpu981_vpu_clk_names)
->>> +};
->>
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index c0d427956210..d8aa42bd4cd4 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -382,13 +382,10 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+>   
+>   	vpu_fmt = hantro_get_default_fmt(ctx, true);
+>   
+> -	if (ctx->is_encoder) {
+> -		ctx->vpu_dst_fmt = vpu_fmt;
+> +	if (ctx->is_encoder)
+>   		fmt = &ctx->dst_fmt;
+> -	} else {
+> -		ctx->vpu_src_fmt = vpu_fmt;
+> +	else
+>   		fmt = &ctx->src_fmt;
+> -	}
+>   
+>   	hantro_reset_fmt(fmt, vpu_fmt);
+>   	fmt->width = vpu_fmt->frmsize.min_width;
+> @@ -408,11 +405,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+>   	raw_vpu_fmt = hantro_get_default_fmt(ctx, false);
+>   
+>   	if (ctx->is_encoder) {
+> -		ctx->vpu_src_fmt = raw_vpu_fmt;
+>   		raw_fmt = &ctx->src_fmt;
+>   		encoded_fmt = &ctx->dst_fmt;
+>   	} else {
+> -		ctx->vpu_dst_fmt = raw_vpu_fmt;
+>   		raw_fmt = &ctx->dst_fmt;
+>   		encoded_fmt = &ctx->src_fmt;
+>   	}
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
