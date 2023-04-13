@@ -2,211 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 005AB6E17E0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 01:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85DA26E1880
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 01:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbjDMXI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 19:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
+        id S229636AbjDMXyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 19:54:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjDMXI0 (ORCPT
+        with ESMTP id S229530AbjDMXyf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 19:08:26 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D8D1BC0
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:08:24 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 26so4483845lfq.11
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:08:24 -0700 (PDT)
+        Thu, 13 Apr 2023 19:54:35 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5AB120;
+        Thu, 13 Apr 2023 16:54:34 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id kt6so3344731ejb.0;
+        Thu, 13 Apr 2023 16:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681427302; x=1684019302;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=637H74vWxZ4gX2iKNFYbz5JBcFfkn6d8GocnTsloh8Q=;
-        b=rbKxrjUIAd+X6KwrltL/MkHLE8BgLyCoCvfZZGTIemi37itMcS2npcI2b2HDXXk7Ec
-         ClfsiYCq/4DsihWiPuII+L2VA2mIwvasHklODifyBVJC60EZ5q4dkK3bvUmRKehBllZh
-         8eWmBPT4cz3MKFUfcyBi07WN4D6rWO6fFSDKeVxD7YHw1O31Fhvc6oboUwiBOv5v3I3v
-         yj50Zv8l1V96LC52wkvKR+TN2nWLAU6/lX5a06mJHBSa0Iz7O1+E2WjB9+0Ymxh4edzr
-         UoGMHCam3xcbn9gHW8NkY2U9/qGgC+NLcKzJjPFsXBvLwl8GA9ZtFUWaafO3q+pNFS7Y
-         7g9g==
+        d=gmail.com; s=20221208; t=1681430073; x=1684022073;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JWvjWk4I7oc6dibDy+yZ1HnfJOmElV8h8gzVVqmgQHg=;
+        b=lA//TTbrxMuf+RtLbXQDgO4FDlYsguGdpLEAqEUy1fDjyiwB23DoaHo7S4YdVh1FNo
+         wglzWEGejSBWMuiUIAYJ2cSsH+zzluQ0icAD8Kwb3iYLxpWIv8Ec1+J4KWpQTKI9Ve4C
+         gK+u0G4J7lkRj4YI4zuQE9kCpFCbiL+CzEEZXjVczK50s41pQlRLo6E05iaFYWYE9rlr
+         INkZ+rD7vq52Pz4c8qEa1JvrNCKmybJJxMzL90areN7eiJ6hBUnRs+uCKfYuNykkoeng
+         4rr5FHHMldUCEv+MQ68NNLay2w9sDb0eDfUYarCSx/sVB5914hDeVg3wNicgPhqbUllo
+         CYaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681427302; x=1684019302;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=637H74vWxZ4gX2iKNFYbz5JBcFfkn6d8GocnTsloh8Q=;
-        b=jONDA4gZ37Y2pX9PbfJ59kRAuaitmetgApYFbfsc6HLfDrXC5RriZ3tdX4GIsn6I5d
-         CE1WkDd+0DmOTbxh2klOAkMD3qlQDJq3MZFJ5Z8Zs4NYMSL63wrGU1ePLT3Cya1iTedh
-         5RgWSt4yu001dP4+6z8bcaT3AxeF/iCU1pp2/b63TltTmKQ5XOc3s34BnlHpWL2Fnx9l
-         6aDWaXBwnd+44Yc3sFr2jWHHGa7DvlJTwY29mmiBS3YsFIYq1rq9OeIMLjEoAtZgf8r2
-         waVtg148RJtfbGdNsYmMmS4hyfZBasfOQoUwgKriF6GWWRTepuTJP3f/f8fKXjFsYwiG
-         YZ0w==
-X-Gm-Message-State: AAQBX9cueoiMHX8eFp7sNgkURUMqurq3TzcKQSy8buAMKdcJiN2ecSpu
-        4yuzw3JEiYjJAWFIJ7vfGZ7hUA==
-X-Google-Smtp-Source: AKy350YwG1c79czrZM93aUuBkouQbuFKALrb9AUFJ2Ijplaa2Nm71Bmdzzw7+aXidzhWbr/IiqLOVQ==
-X-Received: by 2002:ac2:4c92:0:b0:4e9:6097:add3 with SMTP id d18-20020ac24c92000000b004e96097add3mr1510914lfl.61.1681427302536;
-        Thu, 13 Apr 2023 16:08:22 -0700 (PDT)
-Received: from [192.168.1.101] (abyl123.neoplus.adsl.tpnet.pl. [83.9.31.123])
-        by smtp.gmail.com with ESMTPSA id r6-20020ac252a6000000b004ec6252aa37sm499499lfm.116.2023.04.13.16.08.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 16:08:22 -0700 (PDT)
-Message-ID: <546d7fa4-cdb9-7d1f-98e5-065a7706ee56@linaro.org>
-Date:   Fri, 14 Apr 2023 01:08:20 +0200
+        d=1e100.net; s=20221208; t=1681430073; x=1684022073;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JWvjWk4I7oc6dibDy+yZ1HnfJOmElV8h8gzVVqmgQHg=;
+        b=Ni8Djt4SX/sLE9lBVb/uxvOXiExDkQyzqurXiq+xcDNxkBqXGnuIynKNrKZmCMCPe+
+         NHiYlLz/EM3/cnORqN6PiIObCDe1O8Rw7I+ubXcsgEAhTuHzFvVkHFHqR7p11k4rIDbu
+         qZziuJDflpV73qhdhfoDFVQiHwHKQ/Hj8K2dI5I0eNDmqOohlRJGs7bVIwA4gO4KtXDp
+         dl4tMI8X1hJiAmf1ltl+qNkxx+lSBmdhMMte7qGSoyeD/a4TiJIi5p1iSsSKXqYQOA8X
+         y43O/rJ4WWLt4EjsilWNrVxRzlz1qHOj9HE1hNjpC2CarK6OMdg5dO0MR6BVA0loGrzD
+         2NrQ==
+X-Gm-Message-State: AAQBX9dpD+wrW5EKPNkZ3FdNrjVSRZBNvDLOB9ZuIP5Ws6wYcFCxfBa4
+        QhJrMhPOpmDX6QRRZHNA+ltfjGr+fZ9YLRnxUUQ=
+X-Google-Smtp-Source: AKy350b4CoEwB7jArQnIrPMYgyL3cdsVhg3mhG7UHPDCFw43nx0iPj0YuocPDq5JuaNgM6B6LnTgreYIb8SV7JUlVJk=
+X-Received: by 2002:a17:906:3c3:b0:931:3a19:d835 with SMTP id
+ c3-20020a17090603c300b009313a19d835mr2130172eja.3.1681430072621; Thu, 13 Apr
+ 2023 16:54:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
-Content-Language: en-US
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Viswanath Boma <quic_vboma@quicinc.com>
-References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
- <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
- <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
- <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
- <89fc0a9c-0eee-44c4-52a4-bfa0009b9cce@linaro.org>
-In-Reply-To: <89fc0a9c-0eee-44c4-52a4-bfa0009b9cce@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <ZDWAcN6wfeXzipHz@gofer.mess.org> <CAADnVQJ-zzzTxDj8_7WKW-o3BDsU=DNAnvSEZGNHswbhGA8xhA@mail.gmail.com>
+ <ZDe9ND/M4I9ll1xV@gofer.mess.org>
+In-Reply-To: <ZDe9ND/M4I9ll1xV@gofer.mess.org>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Thu, 13 Apr 2023 16:54:21 -0700
+Message-ID: <CAADnVQLOmDEQsHX4XfgETXUte9mJ+-qphR_E7dcjXB2PMDaZnA@mail.gmail.com>
+Subject: Re: [PATCH] bpf: lirc program type should not require SYS_CAP_ADMIN
+To:     Sean Young <sean@mess.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Apr 13, 2023 at 1:28=E2=80=AFAM Sean Young <sean@mess.org> wrote:
+>
+> On Wed, Apr 12, 2023 at 04:14:05PM -0700, Alexei Starovoitov wrote:
+> > On Tue, Apr 11, 2023 at 8:45=E2=80=AFAM Sean Young <sean@mess.org> wrot=
+e:
+> > >
+> > > Make it possible to load lirc program type with just CAP_BPF.
+> >
+> > Is it safe?
+> > If the user can load with just CAP_BPF the FD to the prog and target_fd
+> > will allow attach as well.
+>
+> Exactly, that's the $1m question of course.
+>
+> I think it's safe from a lirc perspective because you need to be able to
+> open the /dev/lirc0 device in the first place; if you can open it, you
+> alter all sorts of lirc receiving options already. Changing the IR protoc=
+ol
+> decoder is no different in that perspective.
+>
+> The other side of course, is it save to load a bpf lirc program as a norm=
+al
+> user. I don't see any issue with this; I guess this depends on whether th=
+e
+> subset of functions in lirc_mode2_func_proto() is safe. I am hoping that
+> the expert opinion everyone here can help answer that question.
 
-
-On 14.04.2023 01:01, Konrad Dybcio wrote:
-> 
-> 
-> On 11.04.2023 12:59, Konrad Dybcio wrote:
->>
->>
->> On 9.04.2023 07:18, Stanimir Varbanov wrote:
->>> Hi Dikshita,
->>>
->>> Thanks for the patch.
->>>
->>> On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
->>>> Add firmware version based checks to enable/disable
->>>> features for different SOCs.
->>>>
->>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
->>>> Tested-by: Nathan Hebert <nhebert@chromium.org>
->>>> ---
->>>>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
->>>>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
->>>>   2 files changed, 29 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->>>> index 32551c2..9d1e4b2 100644
->>>> --- a/drivers/media/platform/qcom/venus/core.h
->>>> +++ b/drivers/media/platform/qcom/venus/core.h
->>>> @@ -202,6 +202,11 @@ struct venus_core {
->>>>       unsigned int core0_usage_count;
->>>>       unsigned int core1_usage_count;
->>>>       struct dentry *root;
->>>> +    struct venus_img_version {
->>>> +        u32 major;
->>>> +        u32 minor;
->>>> +        u32 rev;
->>>> +    } venus_ver;
->>>>   };
->>>>     struct vdec_controls {
->>>> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->>>>       return NULL;
->>>>   }
->>>>   +static inline int
->>>> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->>>> +{
->>>> +    return ((core)->venus_ver.major == vmajor &&
->>>> +        (core)->venus_ver.minor == vminor &&
->>>> +        (core)->venus_ver.rev >= vrev);
->>>> +}
->>>> +
->>>> +static inline int
->>>> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->>>> +{
->>>> +    return ((core)->venus_ver.major == vmajor &&
->>>> +        (core)->venus_ver.minor == vminor &&
->>>> +        (core)->venus_ver.rev <= vrev);
->>>> +}
->>>
->>> IMO those two should return bool
->>>
->>>>   #endif
->>>> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
->>>> index df96db3..07ac0fc 100644
->>>> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
->>>> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
->>>> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->>>>   }
->>>>     static void
->>>> -sys_get_prop_image_version(struct device *dev,
->>>> +sys_get_prop_image_version(struct venus_core *core,
->>>>                  struct hfi_msg_sys_property_info_pkt *pkt)
->>>>   {
->>>> +    struct device *dev = core->dev;
->>>>       u8 *smem_tbl_ptr;
->>>>       u8 *img_ver;
->>>>       int req_bytes;
->>>> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->>>>           return;
->>>>         img_ver = pkt->data;
->>>> +    if (IS_V4(core))
->>>> +        sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
->>>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->>>> +    else if (IS_V6(core))
->>>> +        sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
->>>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->>>>   
->>>
->>> what about if IS_V1?
->> Whooops, I missed that in my review as well...
->>
->> Looks like the 8916 and 8996 FWs fall under the VIDEO.VE case
->> as well, that's the QC_VERSION_STRING they have..
-> On top of that, my 8350 fw reports:
-> 
-> F/W version: 14:video-firmware.1.0-3fb5add1d3ac96f8f74facd537845a6ceb5a99e4
-FWIW this cryptic version also needs fdata.device_addr = 0
-
-(for reference - failling to do so will never stop the video
-stream polling)
-
-Konrad
-> 
-> Konrad
->>
->> Perhaps this could be an 
->>
->> if (IS_V6)
->> 	..
->> else
->> 	..
->>
->> Konrad
->>>
->>>>       dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
->>>
->>> this will crash for v1.
->>>
->>>>   @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->>>>         switch (pkt->property) {
->>>>       case HFI_PROPERTY_SYS_IMAGE_VERSION:
->>>> -        sys_get_prop_image_version(dev, pkt);
->>>> +        sys_get_prop_image_version(core, pkt);
->>>>           break;
->>>>       default:
->>>>           dev_dbg(dev, VDBGL "unknown property data\n");
->>>
+That part is fine under CAP_BPF.
+I don't know how lirc devices are typically setup.
+If they need root to open them
+then why bother relaxing bpf loading part?
