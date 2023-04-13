@@ -2,50 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BE3E6E12EF
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 18:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C15E6E155C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 21:45:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbjDMQ7C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 12:59:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
+        id S229729AbjDMTp0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 15:45:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbjDMQ7B (ORCPT
+        with ESMTP id S229493AbjDMTpZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 12:59:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84AEE10D3
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 09:59:00 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F5451918;
-        Thu, 13 Apr 2023 18:58:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681405136;
-        bh=Rkhl4bZGBoevguIOeSE8yXYWfNWJ4fAS4DzoY6atrCw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GZYnbStb7WvQ5TQ0rh0HTcn7HnP4uGFm1BNMTI2KqG0KFYD20YY7/hGQejA9tksQ4
-         oDiVv051vy4gBQ57mNEEIMenmodtS6pfXvTTPFcdLExmg0dhzhZXZtjQ+LjUw7wDm+
-         eup+cUgSrR8GQm6dYp6JGxoEs7RYPyPsEyMu0Xqk=
-Date:   Thu, 13 Apr 2023 18:58:56 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hverkuil@xs4all.nl, Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 05/18] media: v4l: async: Clean testing for duplicated
- async subdevs
-Message-ID: <pp7ndz4qud6g5cmkcsbbqogybfqwvjcokqebnzka2wpv6bqqg7@thzj5mo4mjzt>
-References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-6-sakari.ailus@linux.intel.com>
+        Thu, 13 Apr 2023 15:45:25 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD0B15FFC;
+        Thu, 13 Apr 2023 12:45:23 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:199e::580])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E6C14660320A;
+        Thu, 13 Apr 2023 20:45:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1681415121;
+        bh=65eXoc0efoBylnM4mEtbMIJR7GoFbIdgHVmQ7dbjtnk=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=I+T08/8nd/vNj+K+Ux+X4WiNDzGuUjSrBMEpbW7k4/3hnYSTxpLeafNIJsGUSDEPe
+         0X/Avei0x9y4S97NGSWvoRGfiUNShH0iz719atXStwoFs4KyzHL8Ll3jkmJWM88sK/
+         Oko4DKNAC7TdjjrMCvOZhQ2YR773HTcMQPcAFrZqZ9Kv+5dD5URTiPKfur462HKmjH
+         /8aRVCF19v064IcuVLchBJGkGljSa1HNhReaq8wm3jj5SrPihJLtWtjcuKCVS6ypxc
+         Du4jatv5B9kteDBrd45WTfrPEPcU9YWgs51Os1jbLbbIfCJRTHD7ZhyyAJLe7LlYFu
+         KEnWgJvqNlPOA==
+Message-ID: <e377a31f457e226eaa3d23f712696ddb3578ef6b.camel@collabora.com>
+Subject: Re: [PATCH] media: verisilicon: Fix crash when probing encoder
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, m.szyprowski@samsung.com
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+Date:   Thu, 13 Apr 2023 15:45:10 -0400
+In-Reply-To: <20230413070344.34803-1-benjamin.gaignard@collabora.com>
+References: <20230413070344.34803-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230330115853.1628216-6-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,99 +56,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Le jeudi 13 avril 2023 =C3=A0 09:03 +0200, Benjamin Gaignard a =C3=A9crit=
+=C2=A0:
+> ctx->vpu_dst_fmt is no more initialized before calling hantro_try_fmt()
+> so assigne it to vpu_fmt led to crash the kernel.
+> Like for decoder case use 'fmt' as vpu format for encoder and clean up
+> the code.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst form=
+ats in reset functions")
 
-On Thu, Mar 30, 2023 at 02:58:40PM +0300, Sakari Ailus wrote:
-> There's a need to verify that a single async sub-device isn't being added
-> multiple times, this would be an error. This takes place at the time of
-> adding the async sub-device to the notifier's list as well as when the
-> notifier is added to the global notifier's list.
->
-> Use the pointer to the sub-device for testing this instead of an index to
-> an array that is long gone.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
->  drivers/media/v4l2-core/v4l2-async.c | 18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index bb78e3618ab5..fc9ae22e2b47 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -456,21 +456,19 @@ __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
->
->  /*
->   * Find out whether an async sub-device was set up already or
-> - * whether it exists in a given notifier before @this_index.
-> - * If @this_index < 0, search the notifier's entire @asd_list.
-> + * whether it exists in a given notifier.
->   */
->  static bool
->  v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
-> -			       struct v4l2_async_subdev *asd, int this_index)
-> +			       struct v4l2_async_subdev *asd, bool skip_self)
+>  drivers/media/platform/verisilicon/hantro_v4l2.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
+edia/platform/verisilicon/hantro_v4l2.c
+> index 8f1414085f47..51f528f36241 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -293,13 +293,11 @@ static int hantro_try_fmt(const struct hantro_ctx *=
+ctx,
+>  		pix_mp->pixelformat =3D fmt->fourcc;
+>  	}
+> =20
+> +	vpu_fmt =3D fmt;
+> +
+>  	if (coded) {
+>  		pix_mp->num_planes =3D 1;
+> -		vpu_fmt =3D fmt;
+> -	} else if (ctx->is_encoder) {
+> -		vpu_fmt =3D ctx->vpu_dst_fmt;
+> -	} else {
+> -		vpu_fmt =3D fmt;
+> +	} else if (!ctx->is_encoder) {
+>  		/*
+>  		 * Width/height on the CAPTURE end of a decoder are ignored and
+>  		 * replaced by the OUTPUT ones.
+> --=20
+> 2.34.1
+>=20
+>=20
 
-is skip_self used ?
-
->  {
->  	struct v4l2_async_subdev *asd_y;
-> -	int j = 0;
->
->  	lockdep_assert_held(&list_lock);
->
->  	/* Check that an asd is not being added more than once. */
->  	list_for_each_entry(asd_y, &notifier->asd_list, asd_list) {
-> -		if (this_index >= 0 && j++ >= this_index)
-> +		if (asd == asd_y)
->  			break;
->  		if (asd_equal(asd, asd_y))
->  			return true;
-> @@ -486,7 +484,7 @@ v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
->
->  static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
->  				   struct v4l2_async_subdev *asd,
-> -				   int this_index)
-> +				   bool skip_self)
->  {
->  	struct device *dev =
->  		notifier->v4l2_dev ? notifier->v4l2_dev->dev : NULL;
-> @@ -497,7 +495,7 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
->  	switch (asd->match.type) {
->  	case V4L2_ASYNC_MATCH_I2C:
->  	case V4L2_ASYNC_MATCH_FWNODE:
-> -		if (v4l2_async_nf_has_async_subdev(notifier, asd, this_index)) {
-> +		if (v4l2_async_nf_has_async_subdev(notifier, asd, skip_self)) {
->  			dev_dbg(dev, "subdev descriptor already listed in this or other notifiers\n");
->  			return -EEXIST;
->  		}
-> @@ -520,7 +518,7 @@ EXPORT_SYMBOL(v4l2_async_nf_init);
->  static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
->  {
->  	struct v4l2_async_subdev *asd;
-> -	int ret, i = 0;
-> +	int ret;
->
->  	INIT_LIST_HEAD(&notifier->waiting);
->  	INIT_LIST_HEAD(&notifier->done);
-> @@ -528,7 +526,7 @@ static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
->  	mutex_lock(&list_lock);
->
->  	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
-> -		ret = v4l2_async_nf_asd_valid(notifier, asd, i++);
-> +		ret = v4l2_async_nf_asd_valid(notifier, asd, true);
->  		if (ret)
->  			goto err_unlock;
->
-> @@ -661,7 +659,7 @@ int __v4l2_async_nf_add_subdev(struct v4l2_async_notifier *notifier,
->
->  	mutex_lock(&list_lock);
->
-> -	ret = v4l2_async_nf_asd_valid(notifier, asd, -1);
-> +	ret = v4l2_async_nf_asd_valid(notifier, asd, false);
->  	if (ret)
->  		goto unlock;
->
-> --
-> 2.30.2
->
