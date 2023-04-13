@@ -2,296 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F0536E04D4
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 04:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A45886E056C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 05:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbjDMCrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 22:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
+        id S229484AbjDMDot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 23:44:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbjDMCrm (ORCPT
+        with ESMTP id S229742AbjDMDoq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 22:47:42 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36FC93D0
-        for <linux-media@vger.kernel.org>; Wed, 12 Apr 2023 19:46:54 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pmmxr-00Haw3-Jc; Thu, 13 Apr 2023 02:45:35 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pmmxp-0002CW-GA; Thu, 13 Apr 2023 02:45:33 +0000
-Date:   Thu, 13 Apr 2023 02:45:31 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <2085275934.0.1681353932615@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #314
+        Wed, 12 Apr 2023 23:44:46 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73F824EE5;
+        Wed, 12 Apr 2023 20:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=H3yhF
+        Avyem7KDnFlCyJY7TE1lpzbuiAFzAh4R+WP3vc=; b=OmXjSMzZAcLSWJjrO0K6n
+        99GE4FRsIuCiQcmAwg5q0ppzOqfKJaGZ36k8ayMHG6DiAjoHaGQvBw7I6anqHlYw
+        aPAnaz0HLbEgLqekAdBYYHlTkmEtpYP7CZgDEzLmnibMr5b8RU9g5hzJLHEfx65b
+        560AvmpQXT0927I3B3CPYo=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by zwqz-smtp-mta-g1-2 (Coremail) with SMTP id _____wCXt2eGejdkzWFfBQ--.36620S2;
+        Thu, 13 Apr 2023 11:44:06 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     mchehab@kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        alex000young@gmail.com, hackerzheng666@gmail.com,
+        security@kernel.org, hdanton@sina.com,
+        Zheng Wang <zyytlz.wz@163.com>
+Subject: [RESEND PATCH v2] media: bttv: fix use after free error due to btv->timeout  timer
+Date:   Thu, 13 Apr 2023 11:44:05 +0800
+Message-Id: <20230413034405.36037-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wCXt2eGejdkzWFfBQ--.36620S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFy7GF43Zr1xXFykur43Awb_yoW8Jw1kpa
+        ySka43CFy8Xr4UtFyUAF4kZFy3A398XrWFg34xG3ZavF4fZF92vF4jyFWqvF17XF92qrya
+        qa4Fqr13J3WkCFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zinjjPUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgFQU2I0Yp2FlgABs3
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/314/display/redirect>
+There may be some a race condition between timer function
+bttv_irq_timeout and bttv_remove. The timer is setup in
+probe and there is no timer_delete operation in remove
+function. When it hit kfree btv, the function might still be
+invoked, which will cause use after free bug.
 
-Changes:
+This bug is found by static analysis, it may be false positive.
 
+Fix it by adding del_timer_sync invoking to the remove function.
 
-------------------------------------------
-Started by an SCM change
-[Pipeline] Start of Pipeline
-[Pipeline] node
-Running on slave0 in /var/lib/jenkins/workspace/linux-media
-[Pipeline] {
-[Pipeline] timeout
-Timeout set to expire in 6 hr 0 min
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (build)
-[Pipeline] parallel
-[Pipeline] { (Branch: i386 and docs)
-[Pipeline] { (Branch: x86_64 (builtin/mod))
-[Pipeline] { (Branch: arm/aarch64 (builtin))
-[Pipeline] stage
-[Pipeline] { (i386 and docs)
-[Pipeline] stage
-[Pipeline] { (x86_64 (builtin/mod))
-[Pipeline] stage
-[Pipeline] { (arm/aarch64 (builtin))
-[Pipeline] node
-[Pipeline] node
-[Pipeline] node
-Running on slave2 in /var/lib/jenkins/workspace/linux-media
-Running on slave0 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] {
-[Pipeline] checkout
-[Pipeline] checkout
-The recommended git tool is: NONE
-The recommended git tool is: NONE
-Running on slave1 in /var/lib/jenkins/workspace/linux-media
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (docs)
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] checkout
-The recommended git tool is: NONE
-No credentials specified
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media@2/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-No credentials specified
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-No credentials specified
-Fetching changes from the remote Git repository
- > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/linux-media@2/.git # timeout=10
- > git config remote.origin.url git://linuxtv.org/media_tree.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_tree.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_tree.git +refs/heads/*:refs/remotes/origin/* # timeout=120
-Checking out Revision eeac8ede17557680855031c6f305ece2378af326 (refs/remotes/origin/master)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f eeac8ede17557680855031c6f305ece2378af326 # timeout=10
-Commit message: "Linux 6.3-rc2"
- > git rev-list --no-walk 57c3b9f55ba875a6f6295fa59f0bdc0a01c544f8 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse HEAD^{commit} # timeout=10
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_tree.git'
-[GitCheckoutListener] Found previous build 'linux-media #254' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '57c3b9f'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit 'eeac8ed' as starting point
-[GitCheckoutListener] -> Recorded 200 new commits
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@d3c1b11'
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=docs allmodconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-  GEN     Makefile
-#
-# No change to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-+ make O=docs -j9 init
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-make[1]: Nothing to be done for 'init'.
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-+ make O=docs htmldocs
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-make[3]: Nothing to be done for 'html'.
-Using alabaster theme
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/docs'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (i386 (builtin))
-[Pipeline] node
-Running on slave1 in /var/lib/jenkins/workspace/linux-media@2
-[Pipeline] {
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=i386 ARCH=i386 allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-+ ./scripts/config --file i386/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=i386 ARCH=i386 -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-Checking out Revision eeac8ede17557680855031c6f305ece2378af326 (refs/remotes/origin/master)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f eeac8ede17557680855031c6f305ece2378af326 # timeout=10
-Commit message: "Linux 6.3-rc2"
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=x86_64_mod allmodconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-  GEN     Makefile
-Kernel: arch/x86/boot/bzImage is ready  (#51)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/i386'
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Checking out Revision eeac8ede17557680855031c6f305ece2378af326 (refs/remotes/origin/master)
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git config core.sparsecheckout # timeout=10
- > git checkout -f eeac8ede17557680855031c6f305ece2378af326 # timeout=10
-Commit message: "Linux 6.3-rc2"
-[GitCheckoutListener] Skipping recording, since SCM 'git git://linuxtv.org/media_tree.git' already has been processed
-[Pipeline] sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ ./scripts/config --file x86_64_mod/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_mod -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-+ ./scripts/config --file arm_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=arm_yes CROSS_COMPILER=/usr/bin/arm-linux-gnueabihf- -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  LD      vmlinux.o
-Kernel: arch/x86/boot/bzImage is ready  (#4)
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ make O=x86_64_yes allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-+ ./scripts/config --file x86_64_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_yes -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-  CHK     kernel/kheaders_data.tar.xz
-  LD      vmlinux.o
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media@2/Makefile:1231: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-make: *** [Makefile:226: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch arm/aarch64 (builtin)
-vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x2d8: call to vmread_error_trampoline() leaves .noinstr.text section
-vmlinux.o: warning: objtool: lkdtm_UNSET_SMEP+0xe1: relocation to !ENDBR: native_write_cr4+0x40
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1231: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:226: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+cpu0                cpu1
+                  bttv_probe
+                    ->timer_setup
+                      ->bttv_set_dma
+                        ->mod_timer;
+bttv_remove
+  ->kfree(btv);
+                  ->bttv_irq_timeout
+                    ->USE btv
+
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+v2:
+- stop replacing del_timer with del_timer_sync suggested by Hillf Danton
+---
+ drivers/media/pci/bt8xx/bttv-driver.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index d40b537f4e98..24ba5729969d 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -4248,6 +4248,7 @@ static void bttv_remove(struct pci_dev *pci_dev)
+ 
+ 	/* free resources */
+ 	free_irq(btv->c.pci->irq,btv);
++	del_timer_sync(&btv->timeout);
+ 	iounmap(btv->bt848_mmio);
+ 	release_mem_region(pci_resource_start(btv->c.pci,0),
+ 			   pci_resource_len(btv->c.pci,0));
+-- 
+2.25.1
+
