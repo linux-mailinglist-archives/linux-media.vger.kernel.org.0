@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A45886E056C
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 05:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 765736E0579
+	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 05:50:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbjDMDot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Apr 2023 23:44:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        id S229615AbjDMDuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Apr 2023 23:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjDMDoq (ORCPT
+        with ESMTP id S229522AbjDMDuR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Apr 2023 23:44:46 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 73F824EE5;
-        Wed, 12 Apr 2023 20:44:42 -0700 (PDT)
+        Wed, 12 Apr 2023 23:50:17 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1737610EB;
+        Wed, 12 Apr 2023 20:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=H3yhF
-        Avyem7KDnFlCyJY7TE1lpzbuiAFzAh4R+WP3vc=; b=OmXjSMzZAcLSWJjrO0K6n
-        99GE4FRsIuCiQcmAwg5q0ppzOqfKJaGZ36k8ayMHG6DiAjoHaGQvBw7I6anqHlYw
-        aPAnaz0HLbEgLqekAdBYYHlTkmEtpYP7CZgDEzLmnibMr5b8RU9g5hzJLHEfx65b
-        560AvmpQXT0927I3B3CPYo=
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=p7a8t
+        xy1BJ4nm/iFKntdPMWHPe8SSuw9rmT+BpB8/qQ=; b=UbKAb1QmIiulzv/HeAq6J
+        wYe1Mzhfh8H5XdMiq7ADF2jGzoy270y/sQKgJUnkf2V9K4j07Q6KNtfQMl6pvhZx
+        GizW0aBqQDwJWID1SJM0Ml0fiRenyr9wzOpZN9frVX5slC+sc7PvdpIMM1gKXKkz
+        pCUMx8XWCHztFlibR9vzZ0=
 Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
-        by zwqz-smtp-mta-g1-2 (Coremail) with SMTP id _____wCXt2eGejdkzWFfBQ--.36620S2;
-        Thu, 13 Apr 2023 11:44:06 +0800 (CST)
+        by zwqz-smtp-mta-g5-3 (Coremail) with SMTP id _____wDHzRbXezdkJthZBQ--.61026S2;
+        Thu, 13 Apr 2023 11:49:43 +0800 (CST)
 From:   Zheng Wang <zyytlz.wz@163.com>
 To:     mchehab@kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
@@ -31,22 +31,22 @@ Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
         alex000young@gmail.com, hackerzheng666@gmail.com,
         security@kernel.org, hdanton@sina.com,
         Zheng Wang <zyytlz.wz@163.com>
-Subject: [RESEND PATCH v2] media: bttv: fix use after free error due to btv->timeout  timer
-Date:   Thu, 13 Apr 2023 11:44:05 +0800
-Message-Id: <20230413034405.36037-1-zyytlz.wz@163.com>
+Subject: [PATCH v3] media: bttv: fix use after free error due to btv->timeout  timer
+Date:   Thu, 13 Apr 2023 11:49:42 +0800
+Message-Id: <20230413034942.40831-1-zyytlz.wz@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCXt2eGejdkzWFfBQ--.36620S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFy7GF43Zr1xXFykur43Awb_yoW8Jw1kpa
-        ySka43CFy8Xr4UtFyUAF4kZFy3A398XrWFg34xG3ZavF4fZF92vF4jyFWqvF17XF92qrya
-        qa4Fqr13J3WkCFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: _____wDHzRbXezdkJthZBQ--.61026S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZFy7GF43Zr1xXFykur43Awb_yoW8GFyfpa
+        yIkFy3Cry8Xr4UtryUAF4kWFW3A398XrWUKr97WanavF4fAr92vF4jvFyqyF17JryqqrWa
+        qa4Fqw13Ja4DCFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zinjjPUUUUU=
 X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgFQU2I0Yp2FlgABs3
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXBtQU1Xl6PMRVAAAsq
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -73,8 +73,11 @@ bttv_remove
                   ->bttv_irq_timeout
                     ->USE btv
 
+Fixes: 162e6376ac58 ("media: pci: Convert timers to use timer_setup()")
 Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 ---
+v3:
+- Add Fix label
 v2:
 - stop replacing del_timer with del_timer_sync suggested by Hillf Danton
 ---
