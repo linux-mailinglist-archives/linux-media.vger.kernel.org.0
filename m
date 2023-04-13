@@ -2,105 +2,395 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4888D6E0A09
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 11:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DC356E0A1F
+	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 11:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbjDMJVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 05:21:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47414 "EHLO
+        id S230240AbjDMJYH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 05:24:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbjDMJVP (ORCPT
+        with ESMTP id S230219AbjDMJYF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 05:21:15 -0400
-Received: from a11-129.smtp-out.amazonses.com (a11-129.smtp-out.amazonses.com [54.240.11.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F7D19AF;
-        Thu, 13 Apr 2023 02:21:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=gwkuid74newif2lbp44dedrl2t4vmmbs; d=benbenng.net; t=1681377673;
-        h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
-        bh=iCGZGKi5slX3+1EbZTs0K5lMxThH+s23lVBYdgse0I4=;
-        b=dlXM0RiS+bkfvggjXjPyBfra2Ys+k+cPbgT4qIBDtC9qV7H8zF0wgVzGG0/nJfRA
-        LxR8YxEr2hW86KQYAzg+NDcj2ZJi/dSwj5OEjtIcHVr9imYmF/QZVAEpBB7BHhF1Jrc
-        yRzzUaNovUpPZ4qeQfpcgSfNq0v6g3iWyckCfifIBu7vwuEVFAS3KoxK+aJkTqacubu
-        2Y3xtkdqp6Z6MLlcIsuZx4Iij9oPVmxmSlbiypjCn8HP3vUxdamXbnZwXMnDnLxgxpd
-        tKhGWmm2rbjM1kdaMYFNILIV1D7q0hLTsDbu5W/4e5lS+o0vdTHExkzku7K8yPJrHr7
-        8pEdPHNA4A==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1681377673;
-        h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
-        bh=iCGZGKi5slX3+1EbZTs0K5lMxThH+s23lVBYdgse0I4=;
-        b=O5xpWDesy/hJag71jGjX6AgswpCtnGJulyPR0BS0RRk+bCsgMW/CnnteBDlOoNHh
-        0kAjpSf6xKrUhzfCsQYCuy4FYY2Z3YGJ2iLQ1+dJ2hyfCHtMxwikL6SmQFV8TMdKzKy
-        jm5wIM89DS99ICEu30a1OGlfYn20ugayypjSMF88=
-Subject: [PATCH] Initialization of read buffer for dib3000_read_reg
-From:   =?UTF-8?Q?Kernel-Development?= <kdev@benbenng.net>
-To:     =?UTF-8?Q?mchehab=40kernel=2Eorg?= <mchehab@kernel.org>
-Cc:     =?UTF-8?Q?linux-media=40vger=2Ekernel=2Eorg?= 
-        <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?linux-kernel=40vger=2Ekernel=2E?= =?UTF-8?Q?org?= 
-        <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?skhan=40linuxfo?= =?UTF-8?Q?undation=2Eorg?= 
-        <skhan@linuxfoundation.org>,
-        =?UTF-8?Q?linux-kernel-mentees=40lists=2Elinuxfoundation=2Eorg?= 
-        <linux-kernel-mentees@lists.linuxfoundation.org>,
-        =?UTF-8?Q?syzbot+c88fc0ebe0d5935c70da=40syzkaller=2Eappspotmail=2Ecom?= 
-        <syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com>,
-        =?UTF-8?Q?Kernel-Development?= <kdev@benbenng.net>
-Date:   Thu, 13 Apr 2023 09:21:13 +0000
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <20230413091841.22000-1-kdev@benbenng.net>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHZbelJ3+E1CTjNR3uk6Rz3nyFiTw==
-Thread-Topic: [PATCH] Initialization of read buffer for dib3000_read_reg
-X-Original-Mailer: git-send-email 2.39.2
-X-Wm-Sent-Timestamp: 1681377672
-Message-ID: <0100018779eb40dc-cee9e39d-5d87-4733-83db-eca5218fcc8f-000000@email.amazonses.com>
-Feedback-ID: 1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2023.04.13-54.240.11.129
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_BAD_THREAD_QP_64,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+        Thu, 13 Apr 2023 05:24:05 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2806983FF
+        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 02:24:03 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-504932d4c3dso369977a12.1
+        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 02:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1681377841; x=1683969841;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=njfKQpwLuv9TM47N/8Q44JKVE3mB36cKGfD6ZSMFaBE=;
+        b=EpRabewTf14VvElILrLEJatAS47TvJfs81peIsQ94s+dmaW++3x2x8tODlZ6l1yBtN
+         LrT6Bt5U/KEK2PS9WktPnrnreCYGHIFA8GndZ6gMj9DN9AwCUH0Y6U6Szi/LeXl3Cihu
+         uOKVavtaRS2RcDiWSbmx8CJSudF/h7SFcuU9E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681377841; x=1683969841;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=njfKQpwLuv9TM47N/8Q44JKVE3mB36cKGfD6ZSMFaBE=;
+        b=eTdMSFP+8601QUBK+p1IrFzjiXzwlK3f7U1OIgp4R1qZaD8LCzhfO3mUUMVDxmwiM7
+         VXiMnB+SpX8y8EUUEI8xEPn+hz7Gbi/6QmM7grp0n9ML2ZXYAV4ySrurgVpChBKaMFjH
+         PsqO4fFPRCCrLvNtjsTwoz0IsiT4dGsYrGp6qtpnZM/Iu9J7e5V288W6ePH6UIOsvW4l
+         wQoZVVq/74H/j3nj4nZ0vwiLxWPoUa85jSDeDNVv5RrP+ynlKVVqtS5B4GEzTRrtRacb
+         T+Qc+LZP+AfJkEUkFAC2xr5kZVFLeEX/u71JRsIdbBlH+5d6yUrOBv0zJxAoMZqEZGPX
+         pUYA==
+X-Gm-Message-State: AAQBX9eM/UEHKwTFxlvgx1MYayagC/hGYYZYlL3FwRSMOef4ID6BomBU
+        bxRkPDam7q4mr2UtygTnpp7yGw==
+X-Google-Smtp-Source: AKy350YQ6zAXTaLzpC/COJc60JZlW4nm7Tqb3mO4pquC2nITZvuCWwMbff4F81iA5Se0zE8ajB0UhQ==
+X-Received: by 2002:a17:906:7297:b0:94a:5f0d:d9d6 with SMTP id b23-20020a170906729700b0094a5f0dd9d6mr1671149ejl.4.1681377841465;
+        Thu, 13 Apr 2023 02:24:01 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id u24-20020a1709064ad800b0094dffd03d7asm680000ejt.182.2023.04.13.02.24.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Apr 2023 02:24:01 -0700 (PDT)
+Date:   Thu, 13 Apr 2023 11:23:58 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Asahi Lina <lina@asahilina.net>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
+Message-ID: <ZDfKLjKOfDHkEc1V@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Karol Herbst <kherbst@redhat.com>,
+        Ella Stanforth <ella@iglunix.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a patch that fixes a bug:=0D=0AKMSAN: uninit-value in dib3000mb_a=
-ttach (2)=0D=0A=0D=0ALocal variable u8 rb[2] is not initialized as it is =
-used as read buffer=0D=0Afor i2c_transfer(). It is expected that i2c_tran=
-sfer() should fill in=0D=0Athe buffer before the target function returns =
-rb's content. However=0D=0Aerror handling of i2c_transfer is not done, an=
-d on occasions where the=0D=0Aread fails, uninitialized rb value will be =
-returned.=0D=0A=0D=0AThe usage of this function, defined as macro rd() in=
-=0D=0Adrivers/media/dvb-frontends/dib3000mb_priv,h, does not expect any e=
-rror=0D=0Ato occur. Adding error handling here might involve significant =
-code=0D=0Achanges.=0D=0A=0D=0AThus 0-initialization is done on rb. This m=
-ight affect some logic on=0D=0Aerror case as the use of the return value =
-is used as boolean and flags.=0D=0A=0D=0AReported-by: syzbot+c88fc0ebe0d5=
-935c70da@syzkaller.appspotmail.com=0D=0ALink: https://syzkaller.appspot.c=
-om/bug=3Fid=3D2f4d19de8c9e9f0b9794e53ca54d68e0ffe9f068=0D=0ASigned-off-by=
-: (Ben) HokChun Ng <kdev@benbenng.net>=0D=0A---=0D=0A drivers/media/dvb-f=
-rontends/dib3000mb.c | 10 +++++++---=0D=0A 1 file changed, 7 insertions(+=
-), 3 deletions(-)=0D=0A=0D=0Adiff --git a/drivers/media/dvb-frontends/dib=
-3000mb.c b/drivers/media/dvb-frontends/dib3000mb.c=0D=0Aindex a6c2fc4586e=
-b..0dd96656aaf4 100644=0D=0A--- a/drivers/media/dvb-frontends/dib3000mb.c=
-=0D=0A+++ b/drivers/media/dvb-frontends/dib3000mb.c=0D=0A@@ -50,15 +50,19=
- @@ MODULE_PARM_DESC(debug, "set debugging level (1=3Dinfo,2=3Dxfer,4=3Ds=
-etfe,8=3Dgetfe (|-a=0D=0A=20=0D=0A static int dib3000_read_reg(struct dib=
-3000_state *state, u16 reg)=0D=0A {=0D=0A+=09int errno;=0D=0A =09u8 wb[] =
-=3D { ((reg >> 8) | 0x80) & 0xff, reg & 0xff };=0D=0A-=09u8 rb[2];=0D=0A+=
-=09u8 rb[2] =3D { 0, 0 };=0D=0A =09struct i2c_msg msg[] =3D {=0D=0A =09=09=
-{ .addr =3D state->config.demod_address, .flags =3D 0,        .buf =3D wb=
-, .len =3D 2 },=0D=0A =09=09{ .addr =3D state->config.demod_address, .fla=
-gs =3D I2C_M_RD, .buf =3D rb, .len =3D 2 },=0D=0A =09};=0D=0A=20=0D=0A-=09=
-if (i2c_transfer(state->i2c, msg, 2) !=3D 2)=0D=0A-=09=09deb_i2c("i2c rea=
-d error\n");=0D=0A+=09errno =3D i2c_transfer(state->i2c, msg, 2);=0D=0A+=09=
-if (errno !=3D 2) {=0D=0A+=09=09deb_i2c("i2c read error (errno: %d)\n", -=
-errno);=0D=0A+=09=09return 0;=0D=0A+=09}=0D=0A=20=0D=0A =09deb_i2c("readi=
-ng i2c bus (reg: %5d 0x%04x, val: %5d 0x%04x)\n",reg,reg,=0D=0A =09=09=09=
-(rb[0] << 8) | rb[1],(rb[0] << 8) | rb[1]);=0D=0A--=20=0D=0A2.39.2=0D=0A=0D=
-=0A
+On Tue, Mar 07, 2023 at 11:25:26PM +0900, Asahi Lina wrote:
+> DRM drivers need to be able to declare which driver-specific ioctls they
+> support. This abstraction adds the required types and a helper macro to
+> generate the ioctl definition inside the DRM driver.
+> 
+> Note that this macro is not usable until further bits of the
+> abstraction are in place (but it will not fail to compile on its own, if
+> not called).
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+
+A bunch of thoughts/questions:
+
+- You have the pub functions to create ioctl numbers, but it looks like
+  most drivers just do this in the C uapi headers instead and then use the
+  direct number from the bindings? I wonder whether we shouldn't just use
+  that as standard way, since in the end we do need the C headers for
+  userspace to use the ioctls/structs. Or could we generate the headers
+  from rust?
+
+- More type safety would be nice. You have the one for device, but not yet
+  for DrmFile. At least if I read the examples in asahi/vgem right. Also
+  the FIXME for how to make sure you generate the table for the right kind
+  of driver would be nice to fix.
+
+- Type safety against the size of the struct an ioctl number is great!
+
+- I wonder whether we could adjust the type according to _IOR/W/RW, i.e.
+  if you have W then your ioctl function is Result<Struct>, if not then
+  Result<()> since it's just errno, and you get the paramater only when
+  you have R set. We had in the past confusions where people got this
+  wrong and wondered why their parameters don't make it to userspace.
+
+- There's also the question of drm_ioctl() zero-extending the ioctl
+  parameter struct both ways (i.e. kernel kernel or newer userspace). I
+  think trying to encode that with Some() is overkill, but maybe worth a
+  thought.
+
+- It would be _really_ great if rust ioctl abstractions enforce
+  https://dri.freedesktop.org/docs/drm/process/botching-up-ioctls.html at
+  the type level, i.e. everything naturally aligned, no gaps, all that
+  stuff. This would also hold for get/put_user and all these things (I
+  didn't look into that stuff yet in the drivers when you pull in entire
+  arrays).
+
+Cheers, Daniel
+> ---
+>  drivers/gpu/drm/Kconfig         |   7 ++
+>  rust/bindings/bindings_helper.h |   2 +
+>  rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++++++++++
+>  rust/kernel/drm/mod.rs          |   5 ++
+>  rust/kernel/lib.rs              |   2 +
+>  5 files changed, 163 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index dc0f94f02a82..dab8f0f9aa96 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -27,6 +27,13 @@ menuconfig DRM
+>  	  details.  You should also select and configure AGP
+>  	  (/dev/agpgart) support if it is available for your platform.
+>  
+> +# Rust abstractions cannot be built as modules currently, so force them as
+> +# bool by using these intermediate symbols. In the future these could be
+> +# tristate once abstractions themselves can be built as modules.
+> +config RUST_DRM
+> +	bool "Rust support for the DRM subsystem"
+> +	depends on DRM=y
+> +
+>  config DRM_MIPI_DBI
+>  	tristate
+>  	depends on DRM
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index 91bb7906ca5a..2687bef1676f 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -6,6 +6,7 @@
+>   * Sorted alphabetically.
+>   */
+>  
+> +#include <drm/drm_ioctl.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+>  #include <linux/dma-mapping.h>
+> @@ -23,6 +24,7 @@
+>  #include <linux/sysctl.h>
+>  #include <linux/timekeeping.h>
+>  #include <linux/xarray.h>
+> +#include <uapi/drm/drm.h>
+>  
+>  /* `bindgen` gets confused at certain things. */
+>  const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
+> diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
+> new file mode 100644
+> index 000000000000..10304efbd5f1
+> --- /dev/null
+> +++ b/rust/kernel/drm/ioctl.rs
+> @@ -0,0 +1,147 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +#![allow(non_snake_case)]
+> +
+> +//! DRM IOCTL definitions.
+> +//!
+> +//! C header: [`include/linux/drm/drm_ioctl.h`](../../../../include/linux/drm/drm_ioctl.h)
+> +
+> +use crate::ioctl;
+> +
+> +const BASE: u32 = bindings::DRM_IOCTL_BASE as u32;
+> +
+> +/// Construct a DRM ioctl number with no argument.
+> +pub const fn IO(nr: u32) -> u32 {
+> +    ioctl::_IO(BASE, nr)
+> +}
+> +
+> +/// Construct a DRM ioctl number with a read-only argument.
+> +pub const fn IOR<T>(nr: u32) -> u32 {
+> +    ioctl::_IOR::<T>(BASE, nr)
+> +}
+> +
+> +/// Construct a DRM ioctl number with a write-only argument.
+> +pub const fn IOW<T>(nr: u32) -> u32 {
+> +    ioctl::_IOW::<T>(BASE, nr)
+> +}
+> +
+> +/// Construct a DRM ioctl number with a read-write argument.
+> +pub const fn IOWR<T>(nr: u32) -> u32 {
+> +    ioctl::_IOWR::<T>(BASE, nr)
+> +}
+> +
+> +/// Descriptor type for DRM ioctls. Use the `declare_drm_ioctls!{}` macro to construct them.
+> +pub type DrmIoctlDescriptor = bindings::drm_ioctl_desc;
+> +
+> +/// This is for ioctl which are used for rendering, and require that the file descriptor is either
+> +/// for a render node, or if it’s a legacy/primary node, then it must be authenticated.
+> +pub const AUTH: u32 = bindings::drm_ioctl_flags_DRM_AUTH;
+> +
+> +/// This must be set for any ioctl which can change the modeset or display state. Userspace must
+> +/// call the ioctl through a primary node, while it is the active master.
+> +///
+> +/// Note that read-only modeset ioctl can also be called by unauthenticated clients, or when a
+> +/// master is not the currently active one.
+> +pub const MASTER: u32 = bindings::drm_ioctl_flags_DRM_MASTER;
+> +
+> +/// Anything that could potentially wreak a master file descriptor needs to have this flag set.
+> +///
+> +/// Current that’s only for the SETMASTER and DROPMASTER ioctl, which e.g. logind can call to force
+> +/// a non-behaving master (display compositor) into compliance.
+> +///
+> +/// This is equivalent to callers with the SYSADMIN capability.
+> +pub const ROOT_ONLY: u32 = bindings::drm_ioctl_flags_DRM_ROOT_ONLY;
+> +
+> +/// Whether drm_ioctl_desc.func should be called with the DRM BKL held or not. Enforced as the
+> +/// default for all modern drivers, hence there should never be a need to set this flag.
+> +///
+> +/// Do not use anywhere else than for the VBLANK_WAIT IOCTL, which is the only legacy IOCTL which
+> +/// needs this.
+> +pub const UNLOCKED: u32 = bindings::drm_ioctl_flags_DRM_UNLOCKED;
+> +
+> +/// This is used for all ioctl needed for rendering only, for drivers which support render nodes.
+> +/// This should be all new render drivers, and hence it should be always set for any ioctl with
+> +/// `AUTH` set. Note though that read-only query ioctl might have this set, but have not set
+> +/// DRM_AUTH because they do not require authentication.
+> +pub const RENDER_ALLOW: u32 = bindings::drm_ioctl_flags_DRM_RENDER_ALLOW;
+> +
+> +/// Declare the DRM ioctls for a driver.
+> +///
+> +/// Each entry in the list should have the form:
+> +///
+> +/// `(ioctl_number, argument_type, flags, user_callback),`
+> +///
+> +/// `argument_type` is the type name within the `bindings` crate.
+> +/// `user_callback` should have the following prototype:
+> +///
+> +/// ```
+> +/// fn foo(device: &kernel::drm::device::Device<Self>,
+> +///        data: &mut bindings::argument_type,
+> +///        file: &kernel::drm::file::File<Self::File>,
+> +/// )
+> +/// ```
+> +/// where `Self` is the drm::drv::Driver implementation these ioctls are being declared within.
+> +///
+> +/// # Examples
+> +///
+> +/// ```
+> +/// kernel::declare_drm_ioctls! {
+> +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
+> +/// }
+> +/// ```
+> +///
+> +#[macro_export]
+> +macro_rules! declare_drm_ioctls {
+> +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? ) => {
+> +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor] = {
+> +            const _:() = {
+> +                let i: u32 = $crate::bindings::DRM_COMMAND_BASE;
+> +                // Assert that all the IOCTLs are in the right order and there are no gaps,
+> +                // and that the sizeof of the specified type is correct.
+> +                $(
+> +                    let cmd: u32 = $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd);
+> +                    ::core::assert!(i == $crate::ioctl::_IOC_NR(cmd));
+> +                    ::core::assert!(core::mem::size_of::<$crate::bindings::$struct>() == $crate::ioctl::_IOC_SIZE(cmd));
+> +                    let i: u32 = i + 1;
+> +                )*
+> +            };
+> +
+> +            let ioctls = &[$(
+> +                $crate::bindings::drm_ioctl_desc {
+> +                    cmd: $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd) as u32,
+> +                    func: {
+> +                        #[allow(non_snake_case)]
+> +                        unsafe extern "C" fn $cmd(
+> +                                raw_dev: *mut $crate::bindings::drm_device,
+> +                                raw_data: *mut ::core::ffi::c_void,
+> +                                raw_file_priv: *mut $crate::bindings::drm_file,
+> +                        ) -> core::ffi::c_int {
+> +                            // SAFETY: We never drop this, and the DRM core ensures the device lives
+> +                            // while callbacks are being called.
+> +                            //
+> +                            // FIXME: Currently there is nothing enforcing that the types of the
+> +                            // dev/file match the current driver these ioctls are being declared
+> +                            // for, and it's not clear how to enforce this within the type system.
+> +                            let dev = ::core::mem::ManuallyDrop::new(unsafe {
+> +                                $crate::drm::device::Device::from_raw(raw_dev)
+> +                            });
+> +                            // SAFETY: This is just the ioctl argument, which hopefully has the right type
+> +                            // (we've done our best checking the size).
+> +                            let data = unsafe { &mut *(raw_data as *mut $crate::bindings::$struct) };
+> +                            // SAFETY: This is just the DRM file structure
+> +                            let file = unsafe { $crate::drm::file::File::from_raw(raw_file_priv) };
+> +
+> +                            match $func(&*dev, data, &file) {
+> +                                Err(e) => e.to_kernel_errno(),
+> +                                Ok(i) => i.try_into().unwrap_or(ERANGE.to_kernel_errno()),
+> +                            }
+> +                        }
+> +                        Some($cmd)
+> +                    },
+> +                    flags: $flags,
+> +                    name: $crate::c_str!(::core::stringify!($cmd)).as_char_ptr(),
+> +                }
+> +            ),*];
+> +            ioctls
+> +        };
+> +    };
+> +}
+> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+> new file mode 100644
+> index 000000000000..9ec6d7cbcaf3
+> --- /dev/null
+> +++ b/rust/kernel/drm/mod.rs
+> @@ -0,0 +1,5 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +
+> +//! DRM subsystem abstractions.
+> +
+> +pub mod ioctl;
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 7903490816bf..cb23d24c6718 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -37,6 +37,8 @@ mod build_assert;
+>  pub mod delay;
+>  pub mod device;
+>  pub mod driver;
+> +#[cfg(CONFIG_RUST_DRM)]
+> +pub mod drm;
+>  pub mod error;
+>  pub mod io_buffer;
+>  pub mod io_mem;
+> 
+> -- 
+> 2.35.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
