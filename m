@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A10126E17CD
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 01:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 005AB6E17E0
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 01:08:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbjDMXBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 19:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38968 "EHLO
+        id S229924AbjDMXI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 19:08:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbjDMXBP (ORCPT
+        with ESMTP id S229492AbjDMXI0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 19:01:15 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F96310E5
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:01:12 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id d7so32271137lfj.3
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:01:11 -0700 (PDT)
+        Thu, 13 Apr 2023 19:08:26 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D8D1BC0
+        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:08:24 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 26so4483845lfq.11
+        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:08:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681426870; x=1684018870;
+        d=linaro.org; s=google; t=1681427302; x=1684019302;
         h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SDbMy6pQwCkgyZ7gS+ySEIiMO6GFUQWvHdlS77zoO0U=;
-        b=PGVxbY+vutnOMMThgqmDGmagf5KKahGnTYQepG4Lg2ckeRBUPZdXfu9+bIQO4jqk5k
-         kU0XSWtg8v5su/HKcgCvcFfXvfw25GzmH20COWgLA1VuNIbhceD9hCoAlMHA4FDwHoAN
-         O5PJlgUOMCpsEX7EQ1y67rV2ZNw+UM+GtAZmvRsQvm2irtYAxkwt4S3dMRoAXIWkCJNG
-         bH9o1gQRZF1x98SLPSCgewOClOEIHQMOtUrfqFAJ2gKtpiPp/vvjVUQtcNszF/NamNIC
-         bWHCLhMbnJM75Y9V1ULg9HJEbIbP8rej+rtXWOdBXmigne149/DNJvg3lqgYd3T6tJNf
-         v0JQ==
+        bh=637H74vWxZ4gX2iKNFYbz5JBcFfkn6d8GocnTsloh8Q=;
+        b=rbKxrjUIAd+X6KwrltL/MkHLE8BgLyCoCvfZZGTIemi37itMcS2npcI2b2HDXXk7Ec
+         ClfsiYCq/4DsihWiPuII+L2VA2mIwvasHklODifyBVJC60EZ5q4dkK3bvUmRKehBllZh
+         8eWmBPT4cz3MKFUfcyBi07WN4D6rWO6fFSDKeVxD7YHw1O31Fhvc6oboUwiBOv5v3I3v
+         yj50Zv8l1V96LC52wkvKR+TN2nWLAU6/lX5a06mJHBSa0Iz7O1+E2WjB9+0Ymxh4edzr
+         UoGMHCam3xcbn9gHW8NkY2U9/qGgC+NLcKzJjPFsXBvLwl8GA9ZtFUWaafO3q+pNFS7Y
+         7g9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681426870; x=1684018870;
+        d=1e100.net; s=20221208; t=1681427302; x=1684019302;
         h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SDbMy6pQwCkgyZ7gS+ySEIiMO6GFUQWvHdlS77zoO0U=;
-        b=bkUq6GQcbWFRuaPZHvyGlh82p7W2bQ+bEPsNvP6e0ASpF83G4/NTZx/B9CbxRlkKvz
-         zdJjeMBaUEsrzMJAx3qd3RyimGu0lRvmRFL1sACuij37Wem66fgtmnLfnK4vjsT4FIK+
-         prDWxbiq0zPY1ByCykmXdGzp3b5sTi1QbaZYgK/CNoBuiWhY2Mjs1uif1FyzpEYxEyZY
-         S5f47bS32pMnoy6G/ni6OD4vVzF1tUeCc0HialjTUvs2S+RW13Vg2D+XGQy7y9Vz8Jhk
-         5NTIqB4Ue0ZYzXC+pW/+r7ft+khUHbAesq94J/h4QtrWiPHASxbwTSV8aJ3BfPHqJ3ix
-         j2Ww==
-X-Gm-Message-State: AAQBX9cHHqHeb89ILX1rUDaCsJITqK2noQHJMu30CDhSXM3N5IcB06aq
-        69vJ97TeZ1Y6WSVpRBTiKFxx6g==
-X-Google-Smtp-Source: AKy350bRmxl3PJ1vK1lQRdfuK4vz5JaRv95hJQtwgY3WFx7Gvu9ouzQNAbH7Z+bBvz+N7nLfrsSJ2w==
-X-Received: by 2002:a05:6512:96d:b0:4e8:49ff:8df8 with SMTP id v13-20020a056512096d00b004e849ff8df8mr1418567lft.61.1681426870138;
-        Thu, 13 Apr 2023 16:01:10 -0700 (PDT)
+        bh=637H74vWxZ4gX2iKNFYbz5JBcFfkn6d8GocnTsloh8Q=;
+        b=jONDA4gZ37Y2pX9PbfJ59kRAuaitmetgApYFbfsc6HLfDrXC5RriZ3tdX4GIsn6I5d
+         CE1WkDd+0DmOTbxh2klOAkMD3qlQDJq3MZFJ5Z8Zs4NYMSL63wrGU1ePLT3Cya1iTedh
+         5RgWSt4yu001dP4+6z8bcaT3AxeF/iCU1pp2/b63TltTmKQ5XOc3s34BnlHpWL2Fnx9l
+         6aDWaXBwnd+44Yc3sFr2jWHHGa7DvlJTwY29mmiBS3YsFIYq1rq9OeIMLjEoAtZgf8r2
+         waVtg148RJtfbGdNsYmMmS4hyfZBasfOQoUwgKriF6GWWRTepuTJP3f/f8fKXjFsYwiG
+         YZ0w==
+X-Gm-Message-State: AAQBX9cueoiMHX8eFp7sNgkURUMqurq3TzcKQSy8buAMKdcJiN2ecSpu
+        4yuzw3JEiYjJAWFIJ7vfGZ7hUA==
+X-Google-Smtp-Source: AKy350YwG1c79czrZM93aUuBkouQbuFKALrb9AUFJ2Ijplaa2Nm71Bmdzzw7+aXidzhWbr/IiqLOVQ==
+X-Received: by 2002:ac2:4c92:0:b0:4e9:6097:add3 with SMTP id d18-20020ac24c92000000b004e96097add3mr1510914lfl.61.1681427302536;
+        Thu, 13 Apr 2023 16:08:22 -0700 (PDT)
 Received: from [192.168.1.101] (abyl123.neoplus.adsl.tpnet.pl. [83.9.31.123])
-        by smtp.gmail.com with ESMTPSA id r8-20020ac24d08000000b004b4b600c093sm505607lfi.92.2023.04.13.16.01.08
+        by smtp.gmail.com with ESMTPSA id r6-20020ac252a6000000b004ec6252aa37sm499499lfm.116.2023.04.13.16.08.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Apr 2023 16:01:09 -0700 (PDT)
-Message-ID: <89fc0a9c-0eee-44c4-52a4-bfa0009b9cce@linaro.org>
-Date:   Fri, 14 Apr 2023 01:01:07 +0200
+        Thu, 13 Apr 2023 16:08:22 -0700 (PDT)
+Message-ID: <546d7fa4-cdb9-7d1f-98e5-065a7706ee56@linaro.org>
+Date:   Fri, 14 Apr 2023 01:08:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
@@ -68,7 +68,8 @@ References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
  <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
  <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
  <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
-In-Reply-To: <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
+ <89fc0a9c-0eee-44c4-52a4-bfa0009b9cce@linaro.org>
+In-Reply-To: <89fc0a9c-0eee-44c4-52a4-bfa0009b9cce@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -83,120 +84,129 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 11.04.2023 12:59, Konrad Dybcio wrote:
+On 14.04.2023 01:01, Konrad Dybcio wrote:
 > 
 > 
-> On 9.04.2023 07:18, Stanimir Varbanov wrote:
->> Hi Dikshita,
+> On 11.04.2023 12:59, Konrad Dybcio wrote:
 >>
->> Thanks for the patch.
 >>
->> On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
->>> Add firmware version based checks to enable/disable
->>> features for different SOCs.
+>> On 9.04.2023 07:18, Stanimir Varbanov wrote:
+>>> Hi Dikshita,
 >>>
->>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
->>> Tested-by: Nathan Hebert <nhebert@chromium.org>
->>> ---
->>>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
->>>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
->>>   2 files changed, 29 insertions(+), 2 deletions(-)
+>>> Thanks for the patch.
 >>>
->>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->>> index 32551c2..9d1e4b2 100644
->>> --- a/drivers/media/platform/qcom/venus/core.h
->>> +++ b/drivers/media/platform/qcom/venus/core.h
->>> @@ -202,6 +202,11 @@ struct venus_core {
->>>       unsigned int core0_usage_count;
->>>       unsigned int core1_usage_count;
->>>       struct dentry *root;
->>> +    struct venus_img_version {
->>> +        u32 major;
->>> +        u32 minor;
->>> +        u32 rev;
->>> +    } venus_ver;
->>>   };
->>>     struct vdec_controls {
->>> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
->>>       return NULL;
->>>   }
->>>   +static inline int
->>> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->>> +{
->>> +    return ((core)->venus_ver.major == vmajor &&
->>> +        (core)->venus_ver.minor == vminor &&
->>> +        (core)->venus_ver.rev >= vrev);
->>> +}
->>> +
->>> +static inline int
->>> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
->>> +{
->>> +    return ((core)->venus_ver.major == vmajor &&
->>> +        (core)->venus_ver.minor == vminor &&
->>> +        (core)->venus_ver.rev <= vrev);
->>> +}
+>>> On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
+>>>> Add firmware version based checks to enable/disable
+>>>> features for different SOCs.
+>>>>
+>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>>>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+>>>> Tested-by: Nathan Hebert <nhebert@chromium.org>
+>>>> ---
+>>>>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
+>>>>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
+>>>>   2 files changed, 29 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>>>> index 32551c2..9d1e4b2 100644
+>>>> --- a/drivers/media/platform/qcom/venus/core.h
+>>>> +++ b/drivers/media/platform/qcom/venus/core.h
+>>>> @@ -202,6 +202,11 @@ struct venus_core {
+>>>>       unsigned int core0_usage_count;
+>>>>       unsigned int core1_usage_count;
+>>>>       struct dentry *root;
+>>>> +    struct venus_img_version {
+>>>> +        u32 major;
+>>>> +        u32 minor;
+>>>> +        u32 rev;
+>>>> +    } venus_ver;
+>>>>   };
+>>>>     struct vdec_controls {
+>>>> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>>>>       return NULL;
+>>>>   }
+>>>>   +static inline int
+>>>> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>>>> +{
+>>>> +    return ((core)->venus_ver.major == vmajor &&
+>>>> +        (core)->venus_ver.minor == vminor &&
+>>>> +        (core)->venus_ver.rev >= vrev);
+>>>> +}
+>>>> +
+>>>> +static inline int
+>>>> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>>>> +{
+>>>> +    return ((core)->venus_ver.major == vmajor &&
+>>>> +        (core)->venus_ver.minor == vminor &&
+>>>> +        (core)->venus_ver.rev <= vrev);
+>>>> +}
+>>>
+>>> IMO those two should return bool
+>>>
+>>>>   #endif
+>>>> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+>>>> index df96db3..07ac0fc 100644
+>>>> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+>>>> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+>>>> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>>>>   }
+>>>>     static void
+>>>> -sys_get_prop_image_version(struct device *dev,
+>>>> +sys_get_prop_image_version(struct venus_core *core,
+>>>>                  struct hfi_msg_sys_property_info_pkt *pkt)
+>>>>   {
+>>>> +    struct device *dev = core->dev;
+>>>>       u8 *smem_tbl_ptr;
+>>>>       u8 *img_ver;
+>>>>       int req_bytes;
+>>>> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>>>>           return;
+>>>>         img_ver = pkt->data;
+>>>> +    if (IS_V4(core))
+>>>> +        sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+>>>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>>>> +    else if (IS_V6(core))
+>>>> +        sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+>>>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>>>>   
+>>>
+>>> what about if IS_V1?
+>> Whooops, I missed that in my review as well...
 >>
->> IMO those two should return bool
->>
->>>   #endif
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
->>> index df96db3..07ac0fc 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
->>> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
->>> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->>>   }
->>>     static void
->>> -sys_get_prop_image_version(struct device *dev,
->>> +sys_get_prop_image_version(struct venus_core *core,
->>>                  struct hfi_msg_sys_property_info_pkt *pkt)
->>>   {
->>> +    struct device *dev = core->dev;
->>>       u8 *smem_tbl_ptr;
->>>       u8 *img_ver;
->>>       int req_bytes;
->>> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
->>>           return;
->>>         img_ver = pkt->data;
->>> +    if (IS_V4(core))
->>> +        sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
->>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->>> +    else if (IS_V6(core))
->>> +        sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
->>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
->>>   
->>
->> what about if IS_V1?
-> Whooops, I missed that in my review as well...
+>> Looks like the 8916 and 8996 FWs fall under the VIDEO.VE case
+>> as well, that's the QC_VERSION_STRING they have..
+> On top of that, my 8350 fw reports:
 > 
-> Looks like the 8916 and 8996 FWs fall under the VIDEO.VE case
-> as well, that's the QC_VERSION_STRING they have..
-On top of that, my 8350 fw reports:
+> F/W version: 14:video-firmware.1.0-3fb5add1d3ac96f8f74facd537845a6ceb5a99e4
+FWIW this cryptic version also needs fdata.device_addr = 0
 
-F/W version: 14:video-firmware.1.0-3fb5add1d3ac96f8f74facd537845a6ceb5a99e4
+(for reference - failling to do so will never stop the video
+stream polling)
 
 Konrad
 > 
-> Perhaps this could be an 
-> 
-> if (IS_V6)
-> 	..
-> else
-> 	..
-> 
 > Konrad
 >>
->>>       dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>> Perhaps this could be an 
 >>
->> this will crash for v1.
+>> if (IS_V6)
+>> 	..
+>> else
+>> 	..
 >>
->>>   @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
->>>         switch (pkt->property) {
->>>       case HFI_PROPERTY_SYS_IMAGE_VERSION:
->>> -        sys_get_prop_image_version(dev, pkt);
->>> +        sys_get_prop_image_version(core, pkt);
->>>           break;
->>>       default:
->>>           dev_dbg(dev, VDBGL "unknown property data\n");
->>
+>> Konrad
+>>>
+>>>>       dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>>>
+>>> this will crash for v1.
+>>>
+>>>>   @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>>>>         switch (pkt->property) {
+>>>>       case HFI_PROPERTY_SYS_IMAGE_VERSION:
+>>>> -        sys_get_prop_image_version(dev, pkt);
+>>>> +        sys_get_prop_image_version(core, pkt);
+>>>>           break;
+>>>>       default:
+>>>>           dev_dbg(dev, VDBGL "unknown property data\n");
+>>>
