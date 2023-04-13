@@ -2,147 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1E9C6E05DF
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 06:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8424B6E0688
+	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 07:48:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbjDMESQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 00:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44748 "EHLO
+        id S229853AbjDMFsl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 01:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbjDMERi (ORCPT
+        with ESMTP id S229492AbjDMFsj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 00:17:38 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6223993D3;
-        Wed, 12 Apr 2023 21:16:19 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id lh8so767528plb.1;
-        Wed, 12 Apr 2023 21:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681359379; x=1683951379;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IVdcMCSPC9IdbB1xsDX6nGCc2/KXvPpMpeLbbNIoZdo=;
-        b=ixhStj/lXF2Wb6en9bP6aQn57tdm/ux1IsYvjHemNcm/wBViqRJNPuEFXppLu0E/t2
-         uleZxtEXXiVc6dyJrKWpl7HpfdmkOHFAgl1OxRTbZ9Q+uEQ3+rVyduNe/a/fuE60UE+u
-         uZ/5TJDBkch0aS5/uXkpo8XWmMdTS+k8mFJbyHuzacE+aTvFivhdrHEBeACfuvbLCdcI
-         FI1AtMgnxjrvfF4uBfUxdHZ1TGJXpM+5KJo/9hjgwHT9FlG40e2G5kZ8sK/AhU17YP4/
-         adlzlQoYHHsl6QaDPE+7Q4IShVTBtt0Zrr+XFGq5yuPWPKSNP1ctOj5El1Bglxox+aGA
-         j3GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681359379; x=1683951379;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IVdcMCSPC9IdbB1xsDX6nGCc2/KXvPpMpeLbbNIoZdo=;
-        b=Rq+LKW5hZMM/icPFZP/jjCONisWyt1ur7EJ7BUewo2jZulwQiyO82i6bwBqbgovlnU
-         ZIEd7eZXVZZoxOTNNtbEWPPcwdKX/6REJHcqD17+SdnW0Y7QdZBDPXJWuXMFfNIvKZ02
-         6YAcmYO94VKOKGX7njv7FYPjXR5fdVRfiePhmkDMNWeBD2YYYbtw/WDfAtBb1gATlcvk
-         leRyHp1ZbkcHaTGCYd52DbSYRD2F4uBmgk7FCl9B4jEi9vY+OBKxsOuUfWjS9ZW3b1Ww
-         MHNQOUCNFJKMD/+uc652oItYh3n60rA07Y9SajZEvXnjGh1c+EXoFIsNU4yrdSFViixk
-         spGw==
-X-Gm-Message-State: AAQBX9dRFeZrzqymnpGQum/QlPhrcGqHLurvuOJa+lLyB83Afc7Q9dqE
-        qX4vqVVGUHBiQxwPdIEXFyo=
-X-Google-Smtp-Source: AKy350ZxVVjpIXli7JXsRewIfhWAjg80eCXA9xHAm4QsrsGgjV6RpllcsCD234fzfx934OmJduhV0g==
-X-Received: by 2002:a05:6a20:c110:b0:d9:33a3:e7c5 with SMTP id bh16-20020a056a20c11000b000d933a3e7c5mr781664pzb.35.1681359378790;
-        Wed, 12 Apr 2023 21:16:18 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-66.three.co.id. [180.214.233.66])
-        by smtp.gmail.com with ESMTPSA id x47-20020a056a000bef00b0063418ea5032sm284183pfu.1.2023.04.12.21.16.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 21:16:18 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 70224106755; Thu, 13 Apr 2023 11:16:15 +0700 (WIB)
-Date:   Thu, 13 Apr 2023 11:16:15 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
-        Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux regression tracking <regressions@leemhuis.info>
-Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
- ffff88811b4af298->next is NULL)
-Message-ID: <ZDeCD5HuM7KJt4fu@debian.me>
-References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
- <ZAGqet3U8AMm4Uf1@debian.me>
- <ZAOTU5CRwdEC1lGH@biznet-home.integral.gnuweeb.org>
- <87v8jetaik.fsf@intel.com>
- <ZAXT1B1GTlmA78Ld@biznet-home.integral.gnuweeb.org>
- <ZDYw0vVg7Y1oExJL@debian.me>
- <ZDaPNx7WSKeMqgmj@biznet-home.integral.gnuweeb.org>
+        Thu, 13 Apr 2023 01:48:39 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF0C468D;
+        Wed, 12 Apr 2023 22:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681364918; x=1712900918;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8ikl9YuLdciGSD0NUQQxbkuUlsQ4eJ/6c2+EREUkii4=;
+  b=HW2KbRZ4SkQViyxrwM8Zis+Cr0vDDCm7oM72m/EyTJhC2YWkZJDcH3Px
+   YloASzG7tdlfXGb1JSKHiE6O76pX3wRcASU1alJaNZ+L6xM0Xt8/r32Kw
+   Rqe8MCv8R3TybyDrhIpkHQ+u0XuoVVpYQOU+qkJW1sz8Mbh7f8ifJQFVh
+   cjseRDhK6OW4NdIk4pzRqiEgBbnbd9eMi85MvnmE2ifndjMhUHOihIRYg
+   +LgxzymzuQGmmPwRwTAwugxlK3LA2+jBej191vvJKLgM7qS22t8HRlEZY
+   gOog0apqj4+uvYPMpE4HrU9T0gqpr5FclcZhI6EEK+e2EvA+ge1IWhb2I
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="371948064"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="371948064"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 22:48:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="832967094"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="832967094"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Apr 2023 22:48:36 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pmpox-000YNV-39;
+        Thu, 13 Apr 2023 05:48:35 +0000
+Date:   Thu, 13 Apr 2023 13:47:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34:
+ warning: unused variable 'c8sectpfe_match'
+Message-ID: <202304131359.d41RgYfb-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bhJLHQiEgQvFLfqm"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZDaPNx7WSKeMqgmj@biznet-home.integral.gnuweeb.org>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mauro,
 
---bhJLHQiEgQvFLfqm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+First bad commit (maybe != root cause):
 
-On Wed, Apr 12, 2023 at 06:00:07PM +0700, Ammar Faizi wrote:
-> On Wed, Apr 12, 2023 at 11:17:22AM +0700, Bagas Sanjaya wrote:
-> > From gitlab issue above, I don't see any progress on bisection attempt.
-> > Ammar, have you successfully boot Ubuntu 20.04 with v5.10 kernel and
-> > test there?
->=20
-> I am still using Ubuntu 22.04. Haven't tried 20.04. I'll arrange time
-> for it this week.
->=20
-> > Anyway, I'm adding this to regzbot (with tentative commit range):
-> >=20
-> > #regzbot introduced: v5.10..v5.15.103
-> > #regzbot title: Linux 6.2.1 hits a display driver bug (list_del corrupt=
-ion, ffff88811b4af298->next is NULL)
-> > #regzbot link: https://gitlab.freedesktop.org/drm/intel/-/issues/8274
-> >=20
-> > (Also Cc: Thorsten)
->=20
-> Not sure why you marked it as regression. I haven't even found the last
-> good commit. It's possible that it's always broken since the beginning.
->=20
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de4664485abbc0529b1eec44d0061bbfe58a28fb
+commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm32/ and sti/ under st/ dir
+date:   1 year, 1 month ago
+config: hexagon-randconfig-r015-20230413 (https://download.01.org/0day-ci/archive/20230413/202304131359.d41RgYfb-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 2c57868e2e877f73c339796c3374ae660bb77f0d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/
 
-OK, marking this as inconclusive for now:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304131359.d41RgYfb-lkp@intel.com/
 
-#regzbot inconclusive: Still on process on finding last known good commit
+All warnings (new ones prefixed by >>):
 
-Thanks!
+>> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c:1175:34: warning: unused variable 'c8sectpfe_match' [-Wunused-const-variable]
+   static const struct of_device_id c8sectpfe_match[] = {
+                                    ^
+   1 warning generated.
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---bhJLHQiEgQvFLfqm
-Content-Type: application/pgp-signature; name="signature.asc"
+vim +/c8sectpfe_match +1175 drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
 
------BEGIN PGP SIGNATURE-----
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1174  
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30 @1175  static const struct of_device_id c8sectpfe_match[] = {
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1176  	{ .compatible = "st,stih407-c8sectpfe" },
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1177  	{ /* sentinel */ },
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1178  };
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1179  MODULE_DEVICE_TABLE(of, c8sectpfe_match);
+c5f5d0f99794cf drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c Peter Griffin 2015-07-30  1180  
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZDeCDwAKCRD2uYlJVVFO
-oyDQAQCpRHiwWX5dI6Er50EYf4tUXS1tL3eFJnh7YP059N3xcgD/WqgxlPTZGAiH
-sI/ZeNdqtFgb4R4FLXyRHG1gh18ugQA=
-=US0W
------END PGP SIGNATURE-----
+:::::: The code at line 1175 was first introduced by commit
+:::::: c5f5d0f99794cfb675ecacfe37a1b33b352b9752 [media] c8sectpfe: STiH407/10 Linux DVB demux support
 
---bhJLHQiEgQvFLfqm--
+:::::: TO: Peter Griffin <peter.griffin@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
