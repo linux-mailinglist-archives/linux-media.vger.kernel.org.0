@@ -2,213 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9ED6E156F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 21:53:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A10126E17CD
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 01:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbjDMTxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 15:53:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45836 "EHLO
+        id S229924AbjDMXBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 19:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbjDMTxD (ORCPT
+        with ESMTP id S229656AbjDMXBP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 15:53:03 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF1661BD;
-        Thu, 13 Apr 2023 12:53:02 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:199e::580])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2DFFD660321C;
-        Thu, 13 Apr 2023 20:53:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681415581;
-        bh=Xmjp5lWuMHq/SjSflHdTaP3qxA46dZ+RFJK8UHWvH58=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=HQbr5eICiL/ndoU2UKiaY/BniNEDRXy4AizvQ2xXFsCew0NfNJ7iRiuYOjGlc92do
-         EAZ8z8hpvkcor6lzLCkUx4eAR7YQEIFZ8UUJdENB6eUxARg55Qe/fLOW7z0cEvwvqW
-         SX065YHK7xhaWsYvn3M2/jS2XrUb2nP/KHSDiwjPA3YigmEROpJEJYQPRbLTQ+d2A1
-         FWg2nC3PuINjARYPk4czzj4OgB49X8zpoziVLGyftyiKQ1U5MFrTVF1XBlXCXwMKDS
-         2CHwxPM5dLod/JR1xRbiYZGETi4B78jLKv+lZbJQOg3S+jtnDoWVbnICUUWYXR0PVJ
-         j+4FneiRrCMrQ==
-Message-ID: <403ea30e55a9667684cd1f8d2d3a641efda9976f.camel@collabora.com>
-Subject: Re: [PATCH v2] media: verisilicon: Fix crash when probing encoder
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
-        m.szyprowski@samsung.com, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Date:   Thu, 13 Apr 2023 15:52:50 -0400
-In-Reply-To: <CAAEAJfBHOMpWT2E4w+Zu=f8QCg+YiDU_9gY4bpJSGBLMnC8B9A@mail.gmail.com>
-References: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
-         <CAAEAJfBHOMpWT2E4w+Zu=f8QCg+YiDU_9gY4bpJSGBLMnC8B9A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Thu, 13 Apr 2023 19:01:15 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F96310E5
+        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:01:12 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id d7so32271137lfj.3
+        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 16:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681426870; x=1684018870;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SDbMy6pQwCkgyZ7gS+ySEIiMO6GFUQWvHdlS77zoO0U=;
+        b=PGVxbY+vutnOMMThgqmDGmagf5KKahGnTYQepG4Lg2ckeRBUPZdXfu9+bIQO4jqk5k
+         kU0XSWtg8v5su/HKcgCvcFfXvfw25GzmH20COWgLA1VuNIbhceD9hCoAlMHA4FDwHoAN
+         O5PJlgUOMCpsEX7EQ1y67rV2ZNw+UM+GtAZmvRsQvm2irtYAxkwt4S3dMRoAXIWkCJNG
+         bH9o1gQRZF1x98SLPSCgewOClOEIHQMOtUrfqFAJ2gKtpiPp/vvjVUQtcNszF/NamNIC
+         bWHCLhMbnJM75Y9V1ULg9HJEbIbP8rej+rtXWOdBXmigne149/DNJvg3lqgYd3T6tJNf
+         v0JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681426870; x=1684018870;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SDbMy6pQwCkgyZ7gS+ySEIiMO6GFUQWvHdlS77zoO0U=;
+        b=bkUq6GQcbWFRuaPZHvyGlh82p7W2bQ+bEPsNvP6e0ASpF83G4/NTZx/B9CbxRlkKvz
+         zdJjeMBaUEsrzMJAx3qd3RyimGu0lRvmRFL1sACuij37Wem66fgtmnLfnK4vjsT4FIK+
+         prDWxbiq0zPY1ByCykmXdGzp3b5sTi1QbaZYgK/CNoBuiWhY2Mjs1uif1FyzpEYxEyZY
+         S5f47bS32pMnoy6G/ni6OD4vVzF1tUeCc0HialjTUvs2S+RW13Vg2D+XGQy7y9Vz8Jhk
+         5NTIqB4Ue0ZYzXC+pW/+r7ft+khUHbAesq94J/h4QtrWiPHASxbwTSV8aJ3BfPHqJ3ix
+         j2Ww==
+X-Gm-Message-State: AAQBX9cHHqHeb89ILX1rUDaCsJITqK2noQHJMu30CDhSXM3N5IcB06aq
+        69vJ97TeZ1Y6WSVpRBTiKFxx6g==
+X-Google-Smtp-Source: AKy350bRmxl3PJ1vK1lQRdfuK4vz5JaRv95hJQtwgY3WFx7Gvu9ouzQNAbH7Z+bBvz+N7nLfrsSJ2w==
+X-Received: by 2002:a05:6512:96d:b0:4e8:49ff:8df8 with SMTP id v13-20020a056512096d00b004e849ff8df8mr1418567lft.61.1681426870138;
+        Thu, 13 Apr 2023 16:01:10 -0700 (PDT)
+Received: from [192.168.1.101] (abyl123.neoplus.adsl.tpnet.pl. [83.9.31.123])
+        by smtp.gmail.com with ESMTPSA id r8-20020ac24d08000000b004b4b600c093sm505607lfi.92.2023.04.13.16.01.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Apr 2023 16:01:09 -0700 (PDT)
+Message-ID: <89fc0a9c-0eee-44c4-52a4-bfa0009b9cce@linaro.org>
+Date:   Fri, 14 Apr 2023 01:01:07 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/3] venus: add firmware version based check
+Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, quic_vgarodia@quicinc.com,
+        agross@kernel.org, andersson@kernel.org, mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Viswanath Boma <quic_vboma@quicinc.com>
+References: <1680848758-3947-1-git-send-email-quic_dikshita@quicinc.com>
+ <1680848758-3947-2-git-send-email-quic_dikshita@quicinc.com>
+ <6c3002ad-ff78-8818-0e68-a151d33b0fca@gmail.com>
+ <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
+In-Reply-To: <0b5d967d-b6f5-ed1e-1878-160d6e645f02@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-Le jeudi 13 avril 2023 =C3=A0 10:10 -0300, Ezequiel Garcia a =C3=A9crit=C2=
-=A0:
-> Benjamin,
->=20
-> Please include the crash stracktrace in the commit.
->=20
->=20
-Careful with HTML message, they don't always make it in these ML and toolin=
-g
-might not play well with the tooling. Perhaps it can be edited while pullin=
-g ?
-Here's the info from Marek's bug report:
-
-hantro-vpu fdea0000.video-codec: Adding to iommu group 0
-hantro-vpu fdea0000.video-codec: registered rockchip,rk3568-vpu-dec as=20
-/dev/video0
-hantro-vpu fdee0000.video-codec: Adding to iommu group 1
-hantro-vpu fdee0000.video-codec: registered rockchip,rk3568-vepu-enc as=20
-/dev/video1
-Unable to handle kernel NULL pointer dereference at virtual address=20
-0000000000000008
-Mem abort info:
-   ESR =3D 0x0000000096000004
-   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-   SET =3D 0, FnV =3D 0
-   EA =3D 0, S1PTW =3D 0
-   FSC =3D 0x04: level 0 translation fault
-Data abort info:
-   ISV =3D 0, ISS =3D 0x00000004
-   CM =3D 0, WnR =3D 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=3D00000001f446f000
-[0000000000000008] pgd=3D0000000000000000, p4d=3D0000000000000000
-Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-Modules linked in: hantro_vpu v4l2_vp9 v4l2_h264 v4l2_mem2mem=20
-videobuf2_dma_contig snd_soc_simple_card display_connector=20
-snd_soc_simple_card_utils videobuf2_memops crct10dif_ce dwmac_rk=20
-rockchip_thermal videobuf2_v4l2 stmmac_platform rockchip_saradc=20
-industrialio_triggered_buffer kfifo_buf stmmac videodev pcs_xpcs=20
-rtc_rk808 videobuf2_common rockchipdrm panfrost mc drm_shmem_helper=20
-analogix_dp gpu_sched dw_mipi_dsi dw_hdmi drm_display_helper ip_tables=20
-x_tables ipv6
-CPU: 3 PID: 171 Comm: v4l_id Not tainted 6.3.0-rc2+ #13478
-Hardware name: Hardkernel ODROID-M1 (DT)
-pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-pc : hantro_try_fmt+0xb4/0x280 [hantro_vpu]
-lr : hantro_try_fmt+0xa8/0x280 [hantro_vpu]
-...
-Call trace:
-  hantro_try_fmt+0xb4/0x280 [hantro_vpu]
-  hantro_set_fmt_out+0x3c/0x278 [hantro_vpu]
-  hantro_reset_raw_fmt+0x94/0xb4 [hantro_vpu]
-  hantro_set_fmt_cap+0x23c/0x250 [hantro_vpu]
-  hantro_reset_fmts+0x94/0xcc [hantro_vpu]
-  hantro_open+0xd4/0x20c [hantro_vpu]
-  v4l2_open+0x80/0x120 [videodev]
-  chrdev_open+0xc0/0x22c
-  do_dentry_open+0x13c/0x490
-  vfs_open+0x2c/0x38
-  path_openat+0x550/0x938
-  do_filp_open+0x80/0x12c
-  do_sys_openat2+0xb4/0x16c
-  __arm64_sys_openat+0x64/0xac
-  invoke_syscall+0x48/0x114
-  el0_svc_common.constprop.0+0xfc/0x11c
-  do_el0_svc+0x38/0xa4
-  el0_svc+0x48/0xb8
-  el0t_64_sync_handler+0xb8/0xbc
-  el0t_64_sync+0x190/0x194
-Code: 97fe726c f940aa80 52864a61 72a686c1 (b9400800)
----[ end trace 0000000000000000 ]---
 
 
->=20
-> Thanks,
-> Ezequiel
->=20
->=20
-> On Thu, Apr 13, 2023 at 7:48=E2=80=AFAM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
-> > ctx->vpu_dst_fmt is no more initialized before calling hantro_try_fmt()
-> > so assigne it to vpu_fmt led to crash the kernel.
-> > Like for decoder case use 'fmt' as format for encoder and clean up
-> > the code.
-> >=20
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst fo=
-rmats
-> > in reset functions")
-> > ---
-> > version 2:
-> > - Remove useless vpu_fmt.
-> >=20
-> > =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c | 10 +++-------
-> > =C2=A01 file changed, 3 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > index 8f1414085f47..d71f79471396 100644
-> > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > @@ -275,7 +275,7 @@ static int hantro_try_fmt(const struct hantro_ctx *=
-ctx,
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 struct v4l2_pix_format_mplane *pix_mp,
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 enum v4l2_buf_type type)
-> > =C2=A0{
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0const struct hantro_fmt *fmt, *vpu_fmt;
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0const struct hantro_fmt *fmt;
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool capture =3D V4L2_TYPE_IS_CAPTURE(type)=
-;
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool coded;
-> >=20
-> > @@ -295,11 +295,7 @@ static int hantro_try_fmt(const struct hantro_ctx =
-*ctx,
-> >=20
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (coded) {
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pix_mp->num_pla=
-nes =3D 1;
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vpu_fmt =3D fmt=
-;
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (ctx->is_encoder) {
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vpu_fmt =3D ctx=
-->vpu_dst_fmt;
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vpu_fmt =3D fmt=
-;
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (!ctx->is_encoder) {
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Width/h=
-eight on the CAPTURE end of a decoder are ignored
-> > and
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* replace=
-d by the OUTPUT ones.
-> > @@ -311,7 +307,7 @@ static int hantro_try_fmt(const struct hantro_ctx *=
-ctx,
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 pix_mp->field =3D V4L2_FIELD_NONE;
-> >=20
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 v4l2_apply_frmsize_constraints(&pix_mp->wid=
-th, &pix_mp->height,
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &vpu_fmt->fr=
-msize);
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &fmt->frmsiz=
-e);
-> >=20
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!coded) {
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Fill remaini=
-ng fields */
+On 11.04.2023 12:59, Konrad Dybcio wrote:
+> 
+> 
+> On 9.04.2023 07:18, Stanimir Varbanov wrote:
+>> Hi Dikshita,
+>>
+>> Thanks for the patch.
+>>
+>> On 7.04.23 г. 9:25 ч., Dikshita Agarwal wrote:
+>>> Add firmware version based checks to enable/disable
+>>> features for different SOCs.
+>>>
+>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>>> Signed-off-by: Viswanath Boma <quic_vboma@quicinc.com>
+>>> Tested-by: Nathan Hebert <nhebert@chromium.org>
+>>> ---
+>>>   drivers/media/platform/qcom/venus/core.h     | 20 ++++++++++++++++++++
+>>>   drivers/media/platform/qcom/venus/hfi_msgs.c | 11 +++++++++--
+>>>   2 files changed, 29 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>>> index 32551c2..9d1e4b2 100644
+>>> --- a/drivers/media/platform/qcom/venus/core.h
+>>> +++ b/drivers/media/platform/qcom/venus/core.h
+>>> @@ -202,6 +202,11 @@ struct venus_core {
+>>>       unsigned int core0_usage_count;
+>>>       unsigned int core1_usage_count;
+>>>       struct dentry *root;
+>>> +    struct venus_img_version {
+>>> +        u32 major;
+>>> +        u32 minor;
+>>> +        u32 rev;
+>>> +    } venus_ver;
+>>>   };
+>>>     struct vdec_controls {
+>>> @@ -500,4 +505,19 @@ venus_caps_by_codec(struct venus_core *core, u32 codec, u32 domain)
+>>>       return NULL;
+>>>   }
+>>>   +static inline int
+>>> +is_fw_rev_or_newer(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>>> +{
+>>> +    return ((core)->venus_ver.major == vmajor &&
+>>> +        (core)->venus_ver.minor == vminor &&
+>>> +        (core)->venus_ver.rev >= vrev);
+>>> +}
+>>> +
+>>> +static inline int
+>>> +is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>>> +{
+>>> +    return ((core)->venus_ver.major == vmajor &&
+>>> +        (core)->venus_ver.minor == vminor &&
+>>> +        (core)->venus_ver.rev <= vrev);
+>>> +}
+>>
+>> IMO those two should return bool
+>>
+>>>   #endif
+>>> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+>>> index df96db3..07ac0fc 100644
+>>> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
+>>> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+>>> @@ -248,9 +248,10 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
+>>>   }
+>>>     static void
+>>> -sys_get_prop_image_version(struct device *dev,
+>>> +sys_get_prop_image_version(struct venus_core *core,
+>>>                  struct hfi_msg_sys_property_info_pkt *pkt)
+>>>   {
+>>> +    struct device *dev = core->dev;
+>>>       u8 *smem_tbl_ptr;
+>>>       u8 *img_ver;
+>>>       int req_bytes;
+>>> @@ -263,6 +264,12 @@ sys_get_prop_image_version(struct device *dev,
+>>>           return;
+>>>         img_ver = pkt->data;
+>>> +    if (IS_V4(core))
+>>> +        sscanf(img_ver, "14:VIDEO.VE.%u.%u-%u-PROD",
+>>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>>> +    else if (IS_V6(core))
+>>> +        sscanf(img_ver, "14:VIDEO.VPU.%u.%u-%u-PROD",
+>>> +               &core->venus_ver.major, &core->venus_ver.minor, &core->venus_ver.rev);
+>>>   
+>>
+>> what about if IS_V1?
+> Whooops, I missed that in my review as well...
+> 
+> Looks like the 8916 and 8996 FWs fall under the VIDEO.VE case
+> as well, that's the QC_VERSION_STRING they have..
+On top of that, my 8350 fw reports:
 
+F/W version: 14:video-firmware.1.0-3fb5add1d3ac96f8f74facd537845a6ceb5a99e4
+
+Konrad
+> 
+> Perhaps this could be an 
+> 
+> if (IS_V6)
+> 	..
+> else
+> 	..
+> 
+> Konrad
+>>
+>>>       dev_dbg(dev, VDBGL "F/W version: %s\n", img_ver);
+>>
+>> this will crash for v1.
+>>
+>>>   @@ -286,7 +293,7 @@ static void hfi_sys_property_info(struct venus_core *core,
+>>>         switch (pkt->property) {
+>>>       case HFI_PROPERTY_SYS_IMAGE_VERSION:
+>>> -        sys_get_prop_image_version(dev, pkt);
+>>> +        sys_get_prop_image_version(core, pkt);
+>>>           break;
+>>>       default:
+>>>           dev_dbg(dev, VDBGL "unknown property data\n");
+>>
