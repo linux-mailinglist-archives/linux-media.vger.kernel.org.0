@@ -2,180 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E656E0879
-	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 09:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B21FE6E087C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Apr 2023 09:59:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbjDMH7J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 03:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43140 "EHLO
+        id S229951AbjDMH7i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Apr 2023 03:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229790AbjDMH7I (ORCPT
+        with ESMTP id S229733AbjDMH7h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 03:59:08 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07AF9469E
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 00:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681372746; x=1712908746;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=uOrGFnPI2FeuAvbvts0Hgi6l9KiuEpj9UDRZaIb1O3E=;
-  b=FYDlE0gvi7yoEHTUacw4ELiR0S92Z4XNnld2+1u3ZD2U1fb4aSNvZx5I
-   1hKzHZ+KKaGk6/KnMJd0ce5CxKDvgZJW9kprbCw0FBR+p1dD4z95PSZ+A
-   nthBd5JZydsAqQCWiaAH/csf0BKQ3NDUzwCpEUkDWNj8FEHpEujsBf83Z
-   yPMVFHW2GfMMiVFQP0TEuoeIfso9g3eEcv/Ud3tv0k4dtVA1WekMzV/pS
-   w3bKKcBvF2MT+IEEvgEJrMuW1hMtLfVuKaKhT6XZhSWFlJEAiru57/Rl1
-   txhz5I5ehjBB++JRha3K8Vj0ZR70yU3cVTULLUg1f6vH55VeZHuR93u/7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="341614096"
-X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; 
-   d="scan'208";a="341614096"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 00:59:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10678"; a="753901928"
-X-IronPort-AV: E=Sophos;i="5.98,341,1673942400"; 
-   d="scan'208";a="753901928"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
-  by fmsmga008.fm.intel.com with ESMTP; 13 Apr 2023 00:59:04 -0700
-Subject: Re: [PATCH] media: i2c: add ov01a10 image sensor driver
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
-References: <1675941758-21433-1-git-send-email-bingbu.cao@intel.com>
- <CAPY8ntBiBS+_TH2BgkBF9dCD8nnJnEyMaxSbOvDkW4g3Kgs-Gg@mail.gmail.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <8f797f25-4824-a5ff-bb19-cf25c6c80463@linux.intel.com>
-Date:   Thu, 13 Apr 2023 15:58:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 13 Apr 2023 03:59:37 -0400
+Received: from aposti.net (aposti.net [89.234.176.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1AD170F;
+        Thu, 13 Apr 2023 00:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1681372772;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vfxzlRNk1KGWBdOj5P/K6fuwrIfAfru/Dnxni0GJhqM=;
+        b=ICUcBYBU4Bf7+mQJ5Ux1mcB5R2xdiuY5KtFa/XbsgF+hRunFUSdeGERUNyysZhU+UUv85o
+        YpNkFgjTNfabOwPHhplu5VolRCE+cLMyvO4F9kL8/QX35ojd8S7tRH7lnL3Hst1w4zEWQ+
+        uutqswBtqhSp4JvUD5Qpu+quNM+y9KE=
+Message-ID: <259fbfaafbceb6b57c0c4426be994ed08140af5c.camel@crapouillou.net>
+Subject: Re: [PATCH v3 01/11] dmaengine: Add API function
+ dmaengine_prep_slave_dma_array()
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Date:   Thu, 13 Apr 2023 09:59:29 +0200
+In-Reply-To: <ZDbpDptOcuBLFctc@matsya>
+References: <20230403154800.215924-1-paul@crapouillou.net>
+         <20230403154800.215924-2-paul@crapouillou.net> <ZDbpDptOcuBLFctc@matsya>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntBiBS+_TH2BgkBF9dCD8nnJnEyMaxSbOvDkW4g3Kgs-Gg@mail.gmail.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+SGkgVmlub2QsCgpMZSBtZXJjcmVkaSAxMiBhdnJpbCAyMDIzIMOgIDIyOjUzICswNTMwLCBWaW5v
+ZCBLb3VsIGEgw6ljcml0wqA6Cj4gT24gMDMtMDQtMjMsIDE3OjQ3LCBQYXVsIENlcmN1ZWlsIHdy
+b3RlOgo+ID4gVGhpcyBmdW5jdGlvbiBjYW4gYmUgdXNlZCB0byBpbml0aWF0ZSBhIHNjYXR0ZXIt
+Z2F0aGVyIERNQSB0cmFuc2Zlcgo+ID4gd2hlcmUgdGhlIERNQSBhZGRyZXNzZXMgYW5kIGxlbmd0
+aHMgYXJlIGxvY2F0ZWQgaW5zaWRlIGFycmF5cy4KPiA+IAo+ID4gVGhlIG1ham9yIGRpZmZlcmVu
+Y2Ugd2l0aCBkbWFlbmdpbmVfcHJlcF9zbGF2ZV9zZygpIGlzIHRoYXQgaXQKPiA+IHN1cHBvcnRz
+Cj4gPiBzcGVjaWZ5aW5nIHRoZSBsZW5ndGhzIG9mIGVhY2ggRE1BIHRyYW5zZmVyOyBhcyB0cnlp
+bmcgdG8gb3ZlcnJpZGUKPiA+IHRoZQo+ID4gbGVuZ3RoIG9mIHRoZSB0cmFuc2ZlciB3aXRoIGRt
+YWVuZ2luZV9wcmVwX3NsYXZlX3NnKCkgaXMgYSB2ZXJ5Cj4gPiB0ZWRpb3VzCj4gPiBwcm9jZXNz
+LiBUaGUgaW50cm9kdWN0aW9uIG9mIGEgbmV3IEFQSSBmdW5jdGlvbiBpcyBhbHNvIGp1c3RpZmll
+ZAo+ID4gYnkgdGhlCj4gPiBmYWN0IHRoYXQgc2NhdHRlcmxpc3RzIGFyZSBvbiB0aGVpciB3YXkg
+b3V0Lgo+IAo+IERvIHdlIG5lZWQgYSBuZXcgQVBJIGZvciB0aGlzPyB3aHkgbm90IHVzZQo+IGRl
+dmljZV9wcmVwX2ludGVybGVhdmVkX2RtYT8KCkkgYWRtaXQgdGhhdCBJIGRpc2NhcmRlZCB0aGUg
+aW50ZXJsZWF2ZWQgRE1BIHdpdGhvdXQgdHJ5aW5nIGl0LCBiZWNhdXNlCnJlYWRpbmcgdGhlIGRv
+YywgZS5nLiB0aGUgb25lIGZvciAic3RydWN0IGRhdGFfY2h1bmsiLCBJdCBsb29rZWQgbGlrZQpp
+dCB3YXMgbm90IHVzYWJsZSBmb3Igd2hlbiB0aGUgRE1BIGFkZHJlc3NlcyBhcmUgc2NhdHRlcmVk
+IGluIG1lbW9yeTsKaXQgYXNzdW1lcyB0aGF0IHRoZSBmb2xsb3dpbmcgRE1BIGFkZHJlc3NlcyB3
+aWxsIGFsd2F5cyBjb21lIGFmdGVyIHRoZQpwcmV2aW91cyBvbmUuCgpDaGVlcnMsCi1QYXVsIAoK
+PiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5u
+ZXQ+Cj4gPiAKPiA+IC0tLQo+ID4gdjM6IE5ldyBwYXRjaAo+ID4gLS0tCj4gPiDCoGluY2x1ZGUv
+bGludXgvZG1hZW5naW5lLmggfCAxNiArKysrKysrKysrKysrKysrCj4gPiDCoDEgZmlsZSBjaGFu
+Z2VkLCAxNiBpbnNlcnRpb25zKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4
+L2RtYWVuZ2luZS5oIGIvaW5jbHVkZS9saW51eC9kbWFlbmdpbmUuaAo+ID4gaW5kZXggYzM2NTZl
+NTkwMjEzLi42MmVmYTI4YzAwOWEgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYWVu
+Z2luZS5oCj4gPiArKysgYi9pbmNsdWRlL2xpbnV4L2RtYWVuZ2luZS5oCj4gPiBAQCAtOTEyLDYg
+KzkxMiwxMSBAQCBzdHJ1Y3QgZG1hX2RldmljZSB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgc3RydWN0
+IGRtYV9hc3luY190eF9kZXNjcmlwdG9yCj4gPiAqKCpkZXZpY2VfcHJlcF9kbWFfaW50ZXJydXB0
+KSgKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9jaGFuICpj
+aGFuLCB1bnNpZ25lZCBsb25nIGZsYWdzKTsKPiA+IMKgCj4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1
+Y3QgZG1hX2FzeW5jX3R4X2Rlc2NyaXB0b3IKPiA+ICooKmRldmljZV9wcmVwX3NsYXZlX2RtYV9h
+cnJheSkoCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9jaGFu
+ICpjaGFuLCBkbWFfYWRkcl90ICphZGRycywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBzaXplX3QgKmxlbmd0aHMsIHNpemVfdCBuYiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBlbnVtIGRtYV90cmFuc2Zlcl9kaXJlY3Rpb24gZGlyZWN0aW9uLAo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHVuc2lnbmVkIGxvbmcgZmxhZ3MpOwo+ID4gwqDC
+oMKgwqDCoMKgwqDCoHN0cnVjdCBkbWFfYXN5bmNfdHhfZGVzY3JpcHRvciAqKCpkZXZpY2VfcHJl
+cF9zbGF2ZV9zZykoCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBk
+bWFfY2hhbiAqY2hhbiwgc3RydWN0IHNjYXR0ZXJsaXN0ICpzZ2wsCj4gPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoHVuc2lnbmVkIGludCBzZ19sZW4sIGVudW0gZG1hX3RyYW5zZmVy
+X2RpcmVjdGlvbgo+ID4gZGlyZWN0aW9uLAo+ID4gQEAgLTk3NCw2ICs5NzksMTcgQEAgc3RhdGlj
+IGlubGluZSBzdHJ1Y3QgZG1hX2FzeW5jX3R4X2Rlc2NyaXB0b3IKPiA+ICpkbWFlbmdpbmVfcHJl
+cF9zbGF2ZV9zaW5nbGUoCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBkaXIsIGZsYWdzLAo+ID4gTlVMTCk7Cj4gPiDCoH0KPiA+IMKgCj4gPiArc3RhdGljIGlu
+bGluZSBzdHJ1Y3QgZG1hX2FzeW5jX3R4X2Rlc2NyaXB0b3IKPiA+ICpkbWFlbmdpbmVfcHJlcF9z
+bGF2ZV9kbWFfYXJyYXkoCj4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZG1hX2NoYW4gKmNoYW4s
+IGRtYV9hZGRyX3QgKmFkZHJzLCBzaXplX3QgKmxlbmd0aHMsCj4gPiArwqDCoMKgwqDCoMKgwqBz
+aXplX3QgbmIsIGVudW0gZG1hX3RyYW5zZmVyX2RpcmVjdGlvbiBkaXIsIHVuc2lnbmVkIGxvbmcK
+PiA+IGZsYWdzKQo+ID4gK3sKPiA+ICvCoMKgwqDCoMKgwqDCoGlmICghY2hhbiB8fCAhY2hhbi0+
+ZGV2aWNlIHx8ICFjaGFuLT5kZXZpY2UtCj4gPiA+ZGV2aWNlX3ByZXBfc2xhdmVfZG1hX2FycmF5
+KQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBOVUxMOwo+ID4gKwo+
+ID4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIGNoYW4tPmRldmljZS0+ZGV2aWNlX3ByZXBfc2xhdmVf
+ZG1hX2FycmF5KGNoYW4sCj4gPiBhZGRycywgbGVuZ3RocywKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBuYiwgZGlyLAo+ID4gZmxhZ3Mp
+Owo+ID4gK30KPiA+ICsKPiA+IMKgc3RhdGljIGlubGluZSBzdHJ1Y3QgZG1hX2FzeW5jX3R4X2Rl
+c2NyaXB0b3IKPiA+ICpkbWFlbmdpbmVfcHJlcF9zbGF2ZV9zZygKPiA+IMKgwqDCoMKgwqDCoMKg
+wqBzdHJ1Y3QgZG1hX2NoYW4gKmNoYW4sIHN0cnVjdCBzY2F0dGVybGlzdCAqc2dsLMKgdW5zaWdu
+ZWQKPiA+IGludCBzZ19sZW4sCj4gPiDCoMKgwqDCoMKgwqDCoMKgZW51bSBkbWFfdHJhbnNmZXJf
+ZGlyZWN0aW9uIGRpciwgdW5zaWduZWQgbG9uZyBmbGFncykKPiA+IC0tIAo+ID4gMi4zOS4yCj4g
+Cgo=
 
-Thanks for your review.
-
-On 2/9/23 8:40 PM, Dave Stevenson wrote:
-> Hi Bingbu
-> 
-> Thanks for the patch. Just a couple of observations as I read through it.
-> 
-> On Thu, 9 Feb 2023 at 11:39, Bingbu Cao <bingbu.cao@intel.com> wrote:
->>
->> Add v4l2 device driver for OmniVision ov01a10 image sensor, ov01a10
->> image sensor can deliver 1280x800 resolution BGGR10 images at 60 fps.
->>
->> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
->> Signed-off-by: Yating Wang <yating.wang@intel.com>
->> ---
->>  drivers/media/i2c/Kconfig   |  13 +
->>  drivers/media/i2c/Makefile  |   1 +
->>  drivers/media/i2c/ov01a10.c | 906 ++++++++++++++++++++++++++++++++++++++++++++
->>  3 files changed, 920 insertions(+)
->>  create mode 100644 drivers/media/i2c/ov01a10.c
->>
-
-snip
-
->> +static int ov01a10_init_controls(struct ov01a10 *ov01a10)
->> +{
->> +       struct v4l2_ctrl_handler *ctrl_hdlr;
->> +       const struct ov01a10_mode *cur_mode;
->> +       s64 exposure_max, h_blank;
->> +       u32 vblank_min, vblank_max, vblank_default;
->> +       int size;
->> +       int ret = 0;
->> +
->> +       ctrl_hdlr = &ov01a10->ctrl_handler;
->> +       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
->> +       if (ret)
->> +               return ret;
->> +
->> +       ctrl_hdlr->lock = &ov01a10->mutex;
->> +       cur_mode = ov01a10->cur_mode;
->> +       size = ARRAY_SIZE(link_freq_menu_items);
->> +
->> +       ov01a10->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
->> +                                                   &ov01a10_ctrl_ops,
->> +                                                   V4L2_CID_LINK_FREQ,
->> +                                                   size - 1, 0,
->> +                                                   link_freq_menu_items);
->> +       if (ov01a10->link_freq)
->> +               ov01a10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> +
->> +       ov01a10->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
->> +                                               V4L2_CID_PIXEL_RATE, 0,
->> +                                               OV01A10_SCLK, 1, OV01A10_SCLK);
->> +
->> +       vblank_min = cur_mode->vts_min - cur_mode->height;
->> +       vblank_max = OV01A10_VTS_MAX - cur_mode->height;
->> +       vblank_default = cur_mode->vts_def - cur_mode->height;
->> +       ov01a10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
->> +                                           V4L2_CID_VBLANK, vblank_min,
->> +                                           vblank_max, 1, vblank_default);
->> +
->> +       h_blank = cur_mode->hts - cur_mode->width;
->> +       ov01a10->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
->> +                                           V4L2_CID_HBLANK, h_blank, h_blank,
->> +                                           1, h_blank);
->> +       if (ov01a10->hblank)
->> +               ov01a10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> +
->> +       v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
->> +                         OV01A10_ANAL_GAIN_MIN, OV01A10_ANAL_GAIN_MAX,
->> +                         OV01A10_ANAL_GAIN_STEP, OV01A10_ANAL_GAIN_MIN);
->> +       v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
->> +                         OV01A10_DGTL_GAIN_MIN, OV01A10_DGTL_GAIN_MAX,
->> +                         OV01A10_DGTL_GAIN_STEP, OV01A10_DGTL_GAIN_DEFAULT);
->> +       exposure_max = cur_mode->vts_def - OV01A10_EXPOSURE_MAX_MARGIN;
->> +       ov01a10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov01a10_ctrl_ops,
->> +                                             V4L2_CID_EXPOSURE,
->> +                                             OV01A10_EXPOSURE_MIN,
->> +                                             exposure_max,
->> +                                             OV01A10_EXPOSURE_STEP,
->> +                                             exposure_max);
->> +       v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov01a10_ctrl_ops,
->> +                                    V4L2_CID_TEST_PATTERN,
->> +                                    ARRAY_SIZE(ov01a10_test_pattern_menu) - 1,
->> +                                    0, 0, ov01a10_test_pattern_menu);
->> +       if (ctrl_hdlr->error)
->> +               return ctrl_hdlr->error;
-> 
-> A call to v4l2_ctrl_new_fwnode_properties to add the standard
-> V4L2_CID_CAMERA_ORIENTATION and V4L2_CID_CAMERA_SENSOR_ROTATION
-> properties?
-
-Dave and Sakari,
-
-Is it mandatory for all systems? Cameras don't have such 2 properties on
-some systems.
-
-> 
->> +
->> +       ov01a10->sd.ctrl_handler = ctrl_hdlr;
->> +
->> +       return 0;
->> +}
->> +
-...
-
->> --
->> 2.7.4
->>
-
--- 
-Best regards,
-Bingbu Cao
