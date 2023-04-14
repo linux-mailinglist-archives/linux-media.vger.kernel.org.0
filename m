@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E0EA6E2770
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 17:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7B5F6E2883
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 18:40:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230406AbjDNPvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 11:51:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
+        id S229841AbjDNQkz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 12:40:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229953AbjDNPvx (ORCPT
+        with ESMTP id S229647AbjDNQky (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 11:51:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE80A30FA;
-        Fri, 14 Apr 2023 08:51:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6C7EF648BE;
-        Fri, 14 Apr 2023 15:51:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 371F6C433D2;
-        Fri, 14 Apr 2023 15:51:36 +0000 (UTC)
-Message-ID: <04e89fcc-87db-8677-daf9-48aa3cb61b8c@xs4all.nl>
-Date:   Fri, 14 Apr 2023 17:51:34 +0200
+        Fri, 14 Apr 2023 12:40:54 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E823CE45;
+        Fri, 14 Apr 2023 09:40:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681490452; x=1713026452;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WQy0telDgCadi0YQv9CqPNLPz/Bs1Jmwt5uVTnql7ZE=;
+  b=gU/+dD3GwFQJfaXKk4IFlHEP3xKP53jPaRESn0Qf62aQc9Q6dTBZ7oZa
+   gjY2QVqsSJkXaHeKXvRpEexXycIVwkL7sIZdkWgBwzZyMu7ik/f9GKd6Y
+   qisewDO1jzMykNtXNyBmrN9Z4WtGdXYyOiLZOWrawDVPk5ADkbtNaIdXx
+   FQYJMOQDwDh/Ek+J8RtXVjQXpbya5Mg95TtP/VgqAQXYx40Ibx1+Z6VGL
+   plCZQH7DjyEyMcCoe4y/nXJfmrrrCOts/jruMEeRqr9Eb0iSHvaZY6Dff
+   2b3hQOeBtIq3jc+f1ERSseUD/B4g6s8jQ95jiw/S4T/P500XR3Jybl3+d
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="347226862"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
+   d="scan'208";a="347226862"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 09:40:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="936069984"
+X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
+   d="scan'208";a="936069984"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 09:40:39 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pnMTW-000Zj1-1M;
+        Fri, 14 Apr 2023 16:40:38 +0000
+Date:   Sat, 15 Apr 2023 00:39:43 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST"
+ redefined
+Message-ID: <202304150059.bHUyuriy-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 14/20] staging: media: tegra-video: move MIPI
- calibration calls from VI to CSI
-Content-Language: en-US
-To:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        linux-tegra@vger.kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Richard Leitner <richard.leitner@skidata.com>,
-        Dmitry Osipenko <digetx@gmail.com>
-References: <20230407133852.2850145-1-luca.ceresoli@bootlin.com>
- <20230407133852.2850145-15-luca.ceresoli@bootlin.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230407133852.2850145-15-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,256 +64,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Hi Mauro,
 
-I just encountered an error in this patch, so I have rejected the PR I made.
+First bad commit (maybe != root cause):
 
-See below for the details:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   44149752e9987a9eac5ad78e6d3a20934b5e018d
+commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
+date:   1 year, 1 month ago
+config: mips-buildonly-randconfig-r002-20230414 (https://download.01.org/0day-ci/archive/20230415/202304150059.bHUyuriy-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/renesas/
 
-On 07/04/2023 15:38, Luca Ceresoli wrote:
-> The CSI module does not handle all the MIPI lane calibration procedure,
-> leaving a small part of it to the VI module. In doing this,
-> tegra_channel_enable_stream() (vi.c) manipulates the private data of the
-> upstream subdev casting it to struct 'tegra_csi_channel', which will be
-> wrong after introducing a VIP (parallel video input) channel.
-> 
-> This prevents adding support for the VIP module.  It also breaks the
-> logical isolation between modules.
-> 
-> Since the lane calibration requirement does not exist in the parallel input
-> module, moving the calibration function to a per-module op is not
-> optimal. Instead move the calibration procedure in the CSI module, together
-> with the rest of the calibration procedures. After this change,
-> tegra_channel_enable_stream() just calls v4l2_subdev_call() to ask for a
-> stream start/stop to the CSI module, which in turn knows all the
-> CSI-specific details to implement it.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> ---
-> 
-> No changes in v5
-> 
-> Changed in v4:
->  - Added review tags
-> 
-> No changes in v3
-> No changes in v2
-> ---
->  drivers/staging/media/tegra-video/csi.c | 44 ++++++++++++++++++++
->  drivers/staging/media/tegra-video/vi.c  | 54 ++-----------------------
->  2 files changed, 48 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-> index 9a03d5ccdf3c..b93fc879ef3a 100644
-> --- a/drivers/staging/media/tegra-video/csi.c
-> +++ b/drivers/staging/media/tegra-video/csi.c
-> @@ -328,12 +328,42 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
->  	}
->  
->  	csi_chan->pg_mode = chan->pg_mode;
-> +
-> +	/*
-> +	 * Tegra CSI receiver can detect the first LP to HS transition.
-> +	 * So, start the CSI stream-on prior to sensor stream-on and
-> +	 * vice-versa for stream-off.
-> +	 */
->  	ret = csi->ops->csi_start_streaming(csi_chan);
->  	if (ret < 0)
->  		goto finish_calibration;
->  
-> +	if (csi_chan->mipi) {
-> +		struct v4l2_subdev *src_subdev;
-> +		/*
-> +		 * TRM has incorrectly documented to wait for done status from
-> +		 * calibration logic after CSI interface power on.
-> +		 * As per the design, calibration results are latched and applied
-> +		 * to the pads only when the link is in LP11 state which will happen
-> +		 * during the sensor stream-on.
-> +		 * CSI subdev stream-on triggers start of MIPI pads calibration.
-> +		 * Wait for calibration to finish here after sensor subdev stream-on.
-> +		 */
-> +		src_subdev = tegra_channel_get_remote_source_subdev(chan);
-> +		ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
-> +		err = tegra_mipi_finish_calibration(csi_chan->mipi);
-> +
-> +		if (ret < 0 && ret != -ENOIOCTLCMD)
-> +			goto disable_csi_stream;
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304150059.bHUyuriy-lkp@intel.com/
 
-If there was an error from s_stream, then tegra_mipi_finish_calibration is called
-and it goes to disable_csi_stream...
+All warnings (new ones prefixed by >>):
 
-> +
-> +		if (err < 0)
-> +			dev_warn(csi->dev, "MIPI calibration failed: %d\n", err);
-> +	}
-> +
->  	return 0;
->  
-> +disable_csi_stream:
-> +	csi->ops->csi_stop_streaming(csi_chan);
->  finish_calibration:
->  	if (csi_chan->mipi)
->  		tegra_mipi_finish_calibration(csi_chan->mipi);
+>> drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST" redefined
+      77 | #define RST     0xd0
+         | 
+   In file included from arch/mips/include/asm/mach-rc32434/irq.h:8,
+                    from arch/mips/include/asm/irq.h:17,
+                    from include/linux/irq.h:23,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/mips/include/asm/hardirq.h:16,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/media/platform/renesas/rcar_jpu.c:20:
+   arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
+      13 | #define RST             (1 << 15)
+         | 
 
-...but here tegra_mipi_finish_calibration() is called again, leading to an unlock
-imbalance.
 
-This is the callstack:
+vim +/RST +77 drivers/media/platform/renesas/rcar_jpu.c
 
-[  109.894502] IMX274 5-001a: s_stream failed
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  73  
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  74  /* JPEG markers */
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  75  #define TEM	0x01
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  76  #define SOF0	0xc0
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22 @77  #define RST	0xd0
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  78  #define SOI	0xd8
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  79  #define EOI	0xd9
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  80  #define DHP	0xde
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  81  #define DHT	0xc4
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  82  #define COM	0xfe
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  83  #define DQT	0xdb
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  84  #define DRI	0xdd
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  85  #define APP0	0xe0
+2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  86  
 
-[  109.900203] =====================================
-[  109.904898] WARNING: bad unlock balance detected!
-[  109.909594] 6.3.0-rc2-tegra #16 Not tainted
-[  109.913774] -------------------------------------
-[  109.918470] v4l2-ctl/2000 is trying to release lock (&mipi->lock) at:
-[  109.924911] [<ffff80000866b828>] tegra_mipi_finish_calibration+0x84/0xb0
-[  109.931621] but there are no more locks to release!
-[  109.936489]
-               other info that might help us debug this:
-[  109.943004] 1 lock held by v4l2-ctl/2000:
-[  109.947009]  #0: ffff000083bcf6a8 (&chan->video_lock){....}-{3:3}, at: __video_do_ioctl+0xdc/0x3c8
-[  109.955987]
-               stack backtrace:
-[  109.960336] CPU: 2 PID: 2000 Comm: v4l2-ctl Not tainted 6.3.0-rc2-tegra #16
-[  109.967290] Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
-[  109.973200] Call trace:
-[  109.975642]  dump_backtrace+0xa0/0xfc
-[  109.979308]  show_stack+0x18/0x24
-[  109.982622]  dump_stack_lvl+0x48/0x60
-[  109.986285]  dump_stack+0x18/0x24
-[  109.989598]  print_unlock_imbalance_bug+0x130/0x148
-[  109.994472]  lock_release+0x1bc/0x248
-[  109.998131]  __mutex_unlock_slowpath+0x48/0x2cc
-[  110.002657]  mutex_unlock+0x20/0x2c
-[  110.006141]  tegra_mipi_finish_calibration+0x84/0xb0
-[  110.011102]  tegra_csi_s_stream+0x260/0x318
-[  110.015286]  call_s_stream+0x80/0xcc
-[  110.018857]  tegra_channel_set_stream+0x58/0xe4
-[  110.023386]  tegra210_vi_start_streaming+0xb0/0x1c8
-[  110.028262]  tegra_channel_start_streaming+0x54/0x134
-[  110.033311]  vb2_start_streaming+0xbc/0x1b8
-[  110.037491]  vb2_core_streamon+0x158/0x260
-[  110.041582]  vb2_ioctl_streamon+0x4c/0x90
-[  110.045589]  v4l_streamon+0x24/0x30
-[  110.049076]  __video_do_ioctl+0x160/0x3c8
-[  110.053082]  video_usercopy+0x1f0/0x658
-[  110.056916]  video_ioctl2+0x18/0x28
-[  110.060404]  v4l2_ioctl+0x40/0x60
-[  110.063715]  __arm64_sys_ioctl+0xac/0xf0
-[  110.067638]  invoke_syscall+0x48/0x114
-[  110.071385]  el0_svc_common.constprop.0+0x44/0xec
-[  110.076086]  do_el0_svc+0x38/0x98
-[  110.079398]  el0_svc+0x2c/0x84
-[  110.082454]  el0t_64_sync_handler+0xf4/0x120
-[  110.086722]  el0t_64_sync+0x190/0x194
+:::::: The code at line 77 was first introduced by commit
+:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add Renesas R-Car JPEG codec driver
 
-Regards,
+:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
-	Hans
-
-> @@ -352,10 +382,24 @@ static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
->  
->  static int tegra_csi_disable_stream(struct v4l2_subdev *subdev)
->  {
-> +	struct tegra_vi_channel *chan = v4l2_get_subdev_hostdata(subdev);
->  	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
->  	struct tegra_csi *csi = csi_chan->csi;
->  	int err;
->  
-> +	/*
-> +	 * Stream-off subdevices in reverse order to stream-on.
-> +	 * Remote source subdev in TPG mode is same as CSI subdev.
-> +	 */
-> +	if (csi_chan->mipi) {
-> +		struct v4l2_subdev *src_subdev;
-> +
-> +		src_subdev = tegra_channel_get_remote_source_subdev(chan);
-> +		err = v4l2_subdev_call(src_subdev, video, s_stream, false);
-> +		if (err < 0 && err != -ENOIOCTLCMD)
-> +			dev_err_probe(csi->dev, err, "source subdev stream off failed\n");
-> +	}
-> +
->  	csi->ops->csi_stop_streaming(csi_chan);
->  
->  	if (csi_chan->mipi) {
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index b88532d8d2c9..c76c2a404889 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -197,49 +197,15 @@ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
->  
->  static int tegra_channel_enable_stream(struct tegra_vi_channel *chan)
->  {
-> -	struct v4l2_subdev *csi_subdev, *src_subdev;
-> -	struct tegra_csi_channel *csi_chan;
-> -	int ret, err;
-> +	struct v4l2_subdev *subdev;
-> +	int ret;
->  
-> -	/*
-> -	 * Tegra CSI receiver can detect the first LP to HS transition.
-> -	 * So, start the CSI stream-on prior to sensor stream-on and
-> -	 * vice-versa for stream-off.
-> -	 */
-> -	csi_subdev = tegra_channel_get_remote_csi_subdev(chan);
-> -	ret = v4l2_subdev_call(csi_subdev, video, s_stream, true);
-> +	subdev = tegra_channel_get_remote_csi_subdev(chan);
-> +	ret = v4l2_subdev_call(subdev, video, s_stream, true);
->  	if (ret < 0 && ret != -ENOIOCTLCMD)
->  		return ret;
->  
-> -	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
-> -		return 0;
-> -
-> -	csi_chan = v4l2_get_subdevdata(csi_subdev);
-> -	/*
-> -	 * TRM has incorrectly documented to wait for done status from
-> -	 * calibration logic after CSI interface power on.
-> -	 * As per the design, calibration results are latched and applied
-> -	 * to the pads only when the link is in LP11 state which will happen
-> -	 * during the sensor stream-on.
-> -	 * CSI subdev stream-on triggers start of MIPI pads calibration.
-> -	 * Wait for calibration to finish here after sensor subdev stream-on.
-> -	 */
-> -	src_subdev = tegra_channel_get_remote_source_subdev(chan);
-> -	ret = v4l2_subdev_call(src_subdev, video, s_stream, true);
-> -	err = tegra_mipi_finish_calibration(csi_chan->mipi);
-> -
-> -	if (ret < 0 && ret != -ENOIOCTLCMD)
-> -		goto err_disable_csi_stream;
-> -
-> -	if (err < 0)
-> -		dev_warn(csi_chan->csi->dev,
-> -			 "MIPI calibration failed: %d\n", err);
-> -
->  	return 0;
-> -
-> -err_disable_csi_stream:
-> -	v4l2_subdev_call(csi_subdev, video, s_stream, false);
-> -	return ret;
->  }
->  
->  static int tegra_channel_disable_stream(struct tegra_vi_channel *chan)
-> @@ -247,18 +213,6 @@ static int tegra_channel_disable_stream(struct tegra_vi_channel *chan)
->  	struct v4l2_subdev *subdev;
->  	int ret;
->  
-> -	/*
-> -	 * Stream-off subdevices in reverse order to stream-on.
-> -	 * Remote source subdev in TPG mode is same as CSI subdev.
-> -	 */
-> -	subdev = tegra_channel_get_remote_source_subdev(chan);
-> -	ret = v4l2_subdev_call(subdev, video, s_stream, false);
-> -	if (ret < 0 && ret != -ENOIOCTLCMD)
-> -		return ret;
-> -
-> -	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
-> -		return 0;
-> -
->  	subdev = tegra_channel_get_remote_csi_subdev(chan);
->  	ret = v4l2_subdev_call(subdev, video, s_stream, false);
->  	if (ret < 0 && ret != -ENOIOCTLCMD)
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
