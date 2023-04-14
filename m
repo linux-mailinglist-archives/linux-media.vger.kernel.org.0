@@ -2,276 +2,513 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A6E46E1E78
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 10:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6BEB6E1ECB
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 10:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbjDNIhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 04:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49008 "EHLO
+        id S229958AbjDNIwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 04:52:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbjDNIhF (ORCPT
+        with ESMTP id S229547AbjDNIwc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 04:37:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DA165B9F
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 01:37:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 27C5F6452C
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 08:37:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23EB0C433D2;
-        Fri, 14 Apr 2023 08:37:00 +0000 (UTC)
-Message-ID: <bcfd9ed9-ee98-dedc-28c7-cb82087d909c@xs4all.nl>
-Date:   Fri, 14 Apr 2023 10:36:59 +0200
+        Fri, 14 Apr 2023 04:52:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA8211D
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 01:52:30 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FD8DAB;
+        Fri, 14 Apr 2023 10:52:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681462345;
+        bh=1f88q8sgELuR/V8qcmNbguGJf/pjcNkD+QnB9KX1HEE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FzFTQlQuUHPJio69OXWn7bdBj+2YD0I1FVuNvxAS++7sp1ruXswcgYt4lY6n2JsIt
+         xsKNUPke/4droxj5kz/zDPgTwjV/pXxdar1cUjuBE9NBbH7BhkcJwPVZpJe5+/Gpj9
+         tK5k4bMT6aZjxOuTIqw5n/iTp95fA/e+Nhrl9N80=
+Date:   Fri, 14 Apr 2023 10:52:25 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH 09/18] media: v4l: async: Differentiate connecting and
+ creating sub-devices
+Message-ID: <jli4aguuxhjvlc6foz6acm4o7yuk7adzpx2ff2t26tter53ebh@qys7n4wgx5ls>
+References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
+ <20230330115853.1628216-10-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: saa7146: please test the vb2 conversion!
-Content-Language: en-US
-To:     Stefan Herdler <herdler@nurfuerspam.de>
-Cc:     linux-media@vger.kernel.org, Manu Abraham <abraham.manu@gmail.com>,
-        Tomasz Maciej Nowak <tmn505@gmail.com>,
-        Corinna Vinschen <vinschen@redhat.com>,
-        Soeren Moch <smoch@web.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <c78a2740-1b80-2ea2-dc5c-4ead440ff9ed@nurfuerspam.de>
- <d9197b80-335c-ee70-eccc-ad04c026cbc9@xs4all.nl>
- <8fb1799b-5ed1-9d26-54fc-b47abe0c13cf@nurfuerspam.de>
- <df796e6c-c82f-8734-3de6-8446bd0b48ab@web.de>
- <014a6ade-dddb-6c0d-a59a-186e0b0aa3c2@nurfuerspam.de>
- <44cc2154-9224-510d-1f9c-34ae49f01c73@nurfuerspam.de>
- <c735aadc-80cd-9332-6661-638cad63afa2@xs4all.nl>
- <026b1342-2b0f-f61d-ea33-63f3992d1473@nurfuerspam.de>
- <20230208100847.3ec87576@coco.lan>
- <99397771-409b-e487-e429-d5c9feb82209@nurfuerspam.de>
- <016c57b2-8538-c630-b72f-a3c608c33a02@xs4all.nl>
- <6c5433ff-a6c8-10f3-789b-bc231291c642@xs4all.nl>
- <a1059b8f-77ef-3ccc-2ae3-d4846fb8a305@nurfuerspam.de>
- <9dec250e-72b2-3c03-c01d-e211a270a751@nurfuerspam.de>
- <fc0244d7-1edc-d0f9-1777-65521d781d7b@xs4all.nl>
- <60ee8312-fecb-3fc6-6496-95ab894bc7a1@nurfuerspam.de>
- <8fd63839-c876-44ef-7597-8436cf0239ae@xs4all.nl>
- <1bb63685-96d6-057a-8644-844ec99ab5fc@xs4all.nl>
- <4e188f3d-29c6-6d2a-4eea-6616f5b5791e@nurfuerspam.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <4e188f3d-29c6-6d2a-4eea-6616f5b5791e@nurfuerspam.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230330115853.1628216-10-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/04/2023 02:15, Stefan Herdler wrote:
-> On 12/04/23 13:16 Hans Verkuil wrote:
->> On 12/04/2023 12:11, Hans Verkuil wrote:
->>> On 10/04/2023 00:36, Stefan Herdler wrote:
->>>> On 07/04/23 09:04, Hans Verkuil wrote:
->>>>> On 07/04/2023 00:43, Stefan Herdler wrote:
->>>> [...]
->>>>>>
->>>>>> VBI output is used to switch the aspect-ratio via WSS.
->>>>>> this should be supported by any av7110 card.
->>>>>>
->>>>>> The software is run a daemon or plugin, so the userspace-facing change
->>>>>> shouldn't matter.
->>>>>>
->>>>>> I'll test this as soon as possible.
->>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>> I've done only basic testing so far, but unfortunately it already failed.
->>>>>>
->>>>>> The test:
->>>>>> Switch to a channel[*] and view the decoded video with tvtime.
->>>>>>
->>>>>> The resulting picture is corrupted.
->>>>>> Almost green with some pink traces at the outlines.
->>>>>>
->>>>>> It reminds me to YCbCr component-yideo on a RGB-input.
->>>>>> Maybe the input-format of saa7146 not set correctly?
->>>>>>
->>>>>> The OSD is equally affected, but the card seems to run stable.
->>>>>
->>>>> That's weird. When you are in this state, can you run
->>>>> 'v4l2-ctl -V -d /dev/videoX' for the video device that tvtime
->>>>> is using? I'll try to test it with tvtime as well next week.
->>>>> I have done my tests using qvidcap and qv4l2, and that looked fine.
->>>>
->>>> I've done some more testing and the result is somehow confusing to me.
->>>>
->>>> At first I tried qv4l and it shows correct videos with any driver.
->>>> And with any pixel format setting I tried.
->>>>
->>>>
->>>> After boot /dev/video0 (there is only this device) starts always with
->>>> this settings:
->>>> Format Video Capture:
->>>>         Width/Height      : 384/288
->>>>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
->>>>         Field             : Interlaced
->>>>         Bytes per Line    : 1152
->>>>         Size Image        : 331776
->>>>         Colorspace        : SMPTE 170M
->>>>         Transfer Function : Default (maps to Rec. 709)
->>>>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->>>>         Quantization      : Default (maps to Full Range)
->>>>         Flags             :
->>>>
->>>>
->>>> On the working "old" driver tvtime switches to the following settings:
->>>> Format Video Capture:
->>>>         Width/Height      : 720/576
->>>>         Pixel Format      : 'UYVY' (UYVY 4:2:2)
->>>>         Field             : Interlaced
->>>>         Bytes per Line    : 1440
->>>>         Size Image        : 829440
->>>>         Colorspace        : SMPTE 170M
->>>>         Transfer Function : Default (maps to Rec. 709)
->>>>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->>>>         Quantization      : Default (maps to Limited Range)
->>>>         Flags             :
->>>> It seems tvtime needs this 'UYVY' pixel format to work.
->>>>
->>>>
->>>> On the "new" driver, with patches [1], tvtime switches to:
->>>> Format Video Capture:
->>>>         Width/Height      : 720/576
->>>>         Pixel Format      : 'BGR3' (24-bit BGR 8-8-8)
->>>>         Field             : Interlaced
->>>>         Bytes per Line    : 2160
->>>>         Size Image        : 1244160
->>>>         Colorspace        : SMPTE 170M
->>>>         Transfer Function : Default (maps to Rec. 709)
->>>>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
->>>>         Quantization      : Default (maps to Full Range)
->>>>         Flags             :
->>>> And now it is getting weird:
->>>> I can switch to the correct 'UYVY' settings using qv4l.
->>>> But tvtime always switches back to 'BGR3'.
->>>
->>> The cause is "[PATCH 10/17] media: common: saa7146: fall back to V4L2_PIX_FMT_BGR24".
->>>
->>> Can you drop that patch and test again?
-> 
-> Without this patch tvtime is working again.
+Hi Sakari
 
-Good news! I'll prepare a pull request later today.
+On Thu, Mar 30, 2023 at 02:58:44PM +0300, Sakari Ailus wrote:
+> When the v4l2-async framework was introduced, the use case for it was to
+> connect a camera sensor with a parallel receiver. Both tended to be rather
+> simple devices with a single connection between them.
+>
+> The framework has been since improved in multiple ways but there are
+> limitations that have remained, for instance the assumption an async
+> sub-device is connected towards a single notifier and via a single link
+> only.
+>
+> This patch adds an object that represents the device while an earlier
+> patch in the series re-purposed the old struct v4l2_async_subdev as the
+> connection.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |   2 +-
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     |   8 +-
+>  drivers/media/platform/ti/omap3isp/isp.h      |   2 +-
+>  drivers/media/v4l2-core/v4l2-async.c          | 163 ++++++++++++++++--
+>  include/media/v4l2-async.h                    |  32 +++-
+>  include/media/v4l2-subdev.h                   |   2 +-
+>  6 files changed, 179 insertions(+), 30 deletions(-)
+>
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index d30f0ecb1bfd..a1293c45aae1 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -148,7 +148,7 @@ struct rkisp1_info {
+>   * @port:		port number (0: MIPI, 1: Parallel)
+>   */
+>  struct rkisp1_sensor_async {
+> -	struct v4l2_async_connection asd;
+> +	struct v4l2_async_subdev asd;
+>  	unsigned int index;
+>  	struct fwnode_handle *source_ep;
+>  	unsigned int lanes;
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 39fa98e6dbbc..5bdb1ecedf6a 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -122,12 +122,12 @@ struct rkisp1_isr_data {
+>
+>  static int rkisp1_subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+>  					struct v4l2_subdev *sd,
+> -					struct v4l2_async_connection *asd)
+> +					struct v4l2_async_connection *asc)
+>  {
+>  	struct rkisp1_device *rkisp1 =
+>  		container_of(notifier, struct rkisp1_device, notifier);
+>  	struct rkisp1_sensor_async *s_asd =
+> -		container_of(asd, struct rkisp1_sensor_async, asd);
+> +		container_of(asc->asd, struct rkisp1_sensor_async, asd);
+>  	int source_pad;
+>  	int ret;
+>
+> @@ -165,10 +165,10 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+>  	return v4l2_device_register_subdev_nodes(&rkisp1->v4l2_dev);
+>  }
+>
+> -static void rkisp1_subdev_notifier_destroy(struct v4l2_async_connection *asd)
+> +static void rkisp1_subdev_notifier_destroy(struct v4l2_async_connection *asc)
+>  {
+>  	struct rkisp1_sensor_async *rk_asd =
+> -		container_of(asd, struct rkisp1_sensor_async, asd);
+> +		container_of(asc->asd, struct rkisp1_sensor_async, asd);
+>
+>  	fwnode_handle_put(rk_asd->source_ep);
+>  }
+> diff --git a/drivers/media/platform/ti/omap3isp/isp.h b/drivers/media/platform/ti/omap3isp/isp.h
+> index 32ea70c8d2f9..a9d760fbf349 100644
+> --- a/drivers/media/platform/ti/omap3isp/isp.h
+> +++ b/drivers/media/platform/ti/omap3isp/isp.h
+> @@ -220,7 +220,7 @@ struct isp_device {
+>  };
+>
+>  struct isp_async_subdev {
+> -	struct v4l2_async_connection asd;
+> +	struct v4l2_async_subdev asd;
+>  	struct isp_bus_cfg bus;
+>  };
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 56ce40481ec4..4c3bd64d6a00 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -134,6 +134,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  }
+>
+>  static LIST_HEAD(subdev_head);
+> +static LIST_HEAD(asd_head);
+>  static LIST_HEAD(notifier_head);
+>  static DEFINE_MUTEX(list_lock);
+>
+> @@ -304,13 +305,20 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	int ret;
+>
+> -	ret = v4l2_device_register_subdev(v4l2_dev, sd);
+> -	if (ret < 0)
+> -		return ret;
+> +	if (!asc->asd->registered) {
+> +		ret = v4l2_device_register_subdev(v4l2_dev, sd);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+>
+>  	ret = v4l2_async_nf_call_bound(notifier, sd, asc);
 
-> 
->>>
->>> It's really a tvtime bug since drivers are allowed to either reject an unsupported
->>> pixelformat (the old behavior) or replace it with a supported pixelformat (the
->>> new behavior). And tvtime only supports the old behavior.
->>
->> FYI: I posted a patch fixing tvtime:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/a5dff340-ab8a-46e0-1f0c-25ceaf9fe5ca@xs4all.nl/
->>
->> That said, I do plan to drop patch 10/17 from the saa7146 series, since it is better
->> to keep the old behavior.
->>
->> Once I get the green light from you, I will make a pull request for this vb2 conversion.
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>>>
->>>> Using qv4l while tvtime is running doesn't work and sometimes
->>>> causes freezing of both programs (on all drivers).
->>>
->>> Are you just starting qv4l2 when tvtime is running? Or trying to stream?
->>> Do you see messages in the kernel log?
-> Just starting qv4l2 and trying to switch the pixelformat.
-> I haven't seen any related messages appearing while playing with qv4l2.
->>>
->>> I couldn't reproduce this. Since tvtime is streaming, qv4l2 shouldn't be able to
->>> do anything since all attempts to change something should result in EBUSY.
-> Normally with qv4l2 it just happens nothing.
-> v4l2-ctl tells something like "device is busy".
-> 
-> I couldn't reproduce the freeze anymore today.
-> It was never really reproduce able, it only happened twice and
-> with different drivers. And it was always unexpected.
-> 
-> Today I found messages about an ARM-Crash on that particular day,
-> which I haven't seen before. They must have been come before or
-> after the tests.
-> The driver should recover the decoder, but sometimes it takes
-> a while until the it notices a crash.
-> So probably I haven't had connected the provisional cable to my
-> desktop properly that day, which caused a bad signal. That caused
-> an ARM-Crash, which caused the driver to freeze for a while.
-> And I killed applications to early.
-> At least that is the best explanation I have.
+This is the part that puzzles me the most: are we going to receive
+multiple bound() calls for the same subdevice when matched on multiple
+connections ? If that's the case, is this desirable ?
 
-Is this something that also happens with the old (vb1) version of
-the driver? I'm not sure if this is related to my changes at all.
+>  	if (ret < 0) {
+> -		v4l2_device_unregister_subdev(sd);
+> +		if (asc->match.type == V4L2_ASYNC_MATCH_FWNODE)
+> +			dev_dbg(notifier_dev(notifier),
+> +				"failed binding %pfw (%d)\n",
+> +				asc->match.fwnode, ret);
+> +		if (!asc->asd->registered)
 
-I don't see how qv4l2 can cause this to happen since trying to change
-the format while tvtime is running will just return EBUSY and not do
-anything else.
+This should probably be
+		if (asc->asd->registered)
+> +			v4l2_device_unregister_subdev(sd);
+>  		return ret;
+>  	}
+>
+> @@ -322,14 +330,26 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+>  	 */
+>  	ret = v4l2_async_create_ancillary_links(notifier, sd);
 
-Regards,
+Also this part seems suspicious if called multiple times for the same
+subdevice when matched on multiple connections
 
-	Hans
+Do we need to refcount the connections for each async sub-dev,
+decrement at each match, and only when all of them are matched
+operated on the subdevice ?
+:
 
-> 
-> 
-> 
-> 
-> The vbi output is operational too.
-> I have verified, that the WSS bits change at the analog output.
-> The old tools are still working with the modified driver.
-> 
-> 
-> Regards
-> 
-> Stefan
-> 
-> 
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
->>>>
->>>>
->>>> I have also build a new driver just without the patches [2].
->>>> It shows the "old" correct behavior.
->>>> So I think, the cause of the change must be somewhere in the
->>>> patches.
->>>>
->>>>
->>>>
->>>> Btw.:
->>>> I also tried to open the video device with the usual
->>>> media-players, but I had no luck so far (with any driver).
->>>>
->>>>
->>>> Regards
->>>>
->>>> Stefan
->>>>
->>>>
->>>> [1] git checkout -B saa7146-clean 837736a79a76c9becddf0caf905b27c144a64030
->>>> [2] git checkout -B saa7146-clean 2653fad0d8a9625667e9a78133ea9e1245b7c40c
->>>>
->>>>>
->>>>> Regards,
->>>>>
->>>>> 	Hans
->>>>>
->>>> [...]
->>>
->>
+>  	if (ret) {
+> +		if (asc->match.type == V4L2_ASYNC_MATCH_FWNODE)
+> +			dev_dbg(notifier_dev(notifier),
+> +				"failed creating links for %pfw (%d)\n",
+> +				asc->match.fwnode, ret);
+>  		v4l2_async_nf_call_unbind(notifier, sd, asc);
+> -		v4l2_device_unregister_subdev(sd);
+> +		list_del(&asc->asc_subdev_list);
+> +		if (!asc->asd->registered)
+> +			v4l2_device_unregister_subdev(sd);
+>  		return ret;
+>  	}
+>
+>  	list_del(&asc->waiting_list);
+> -	sd->asd = asc;
+> -	sd->notifier = notifier;
+> +	if (!sd->asd) {
+> +		WARN_ON(asc->asd->registered);
+> +		sd->asd = asc->asd;
+> +		sd->notifier = notifier;
+> +		asc->asd->registered = true;
+> +	} else {
+> +		WARN_ON(sd->asd != asc->asd);
+> +	}
+>
+>  	/* Move from the global subdevice list to notifier's done */
+>  	list_move(&sd->async_list, &notifier->done_head);
+> @@ -403,6 +423,21 @@ static void v4l2_async_cleanup(struct v4l2_subdev *sd)
+>  	sd->asd = NULL;
+>  }
+>
+> +static void v4l2_async_unbind_subdev_one(struct v4l2_async_notifier *notifier,
+> +					 struct v4l2_subdev *sd, bool readd)
+> +{
+> +	struct v4l2_async_connection *asc, *tmp;
+> +
+> +	list_for_each_entry_safe(asc, tmp, &sd->asd->asc_head,
+> +				 asc_subdev_list) {
+> +		v4l2_async_nf_call_unbind(notifier, sd, asc);
+> +		list_del(&asc->asc_subdev_list);
+> +		if (readd)
+> +			list_add_tail(&asc->waiting_list,
+> +				      &notifier->waiting_head);
+> +	}
+> +}
+> +
+>  /* Unbind all sub-devices in the notifier tree. */
+>  static void
+>  v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+> @@ -417,10 +452,8 @@ v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+>  		if (subdev_notifier)
+>  			v4l2_async_nf_unbind_all_subdevs(subdev_notifier, true);
+>
+> -		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
+> -		if (readd)
+> -			list_add_tail(&sd->asd->waiting_list,
+> -				      &notifier->waiting_head);
+> +		v4l2_async_unbind_subdev_one(notifier, sd, readd);
+> +
+>  		v4l2_async_cleanup(sd);
+>
+>  		list_move(&sd->async_list, &subdev_head);
+> @@ -445,8 +478,9 @@ __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
+>  		if (WARN_ON(!sd->asd))
+>  			continue;
+>
+> -		if (asc_equal(&sd->asd->match, match))
+> -			return true;
+> +		list_for_each_entry(asc, &sd->asd->asc_head, asc_list)
+> +			if (asc_equal(&asc->match, match))
+> +				return true;
+>  	}
+>
+>  	return false;
+> @@ -619,6 +653,18 @@ void v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier)
+>  }
+>  EXPORT_SYMBOL(v4l2_async_nf_unregister);
+>
+> +static void release_async_subdev(struct kref *kref)
+> +{
+> +	struct v4l2_async_subdev *asd =
+> +		container_of_const(kref, struct v4l2_async_subdev, kref);
+> +
+> +	list_del(&asd->asd_list);
+> +
+> +	WARN_ON(!list_empty(&asd->asc_head));
+> +
+> +	kfree(asd);
+> +}
+> +
+>  static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
+>  {
+>  	struct v4l2_async_connection *asc, *tmp;
+> @@ -627,16 +673,24 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
+>  		return;
+>
+>  	list_for_each_entry_safe(asc, tmp, &notifier->asc_head, asc_list) {
+> +		list_del(&asc->asc_list);
+> +		v4l2_async_nf_call_destroy(notifier, asc);
+> +
+>  		switch (asc->match.type) {
+>  		case V4L2_ASYNC_MATCH_FWNODE:
+> +			pr_debug("release async connection for fwnode %pfw\n",
+> +				 asc->match.fwnode);
 
+Why pr_debug ? Can't you use notifier_dev() ?
+
+>  			fwnode_handle_put(asc->match.fwnode);
+>  			break;
+> -		default:
+> +		case V4L2_ASYNC_MATCH_I2C:
+> +			pr_debug("release I²C async connection\n");
+>  			break;
+> +		default:
+> +			pr_debug("release invalid async connection type %u\n",
+> +				 asc->match.type);
+>  		}
+>
+> -		list_del(&asc->asc_list);
+> -		v4l2_async_nf_call_destroy(notifier, asc);
+> +		kref_put(&asc->asd->kref, release_async_subdev);
+>  		kfree(asc);
+>  	}
+>  }
+> @@ -651,6 +705,71 @@ void v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_async_nf_cleanup);
+>
+> +static bool async_subdev_has_connection(struct v4l2_async_notifier *notifier,
+> +					struct v4l2_async_subdev *asd,
+> +					struct v4l2_async_connection *asc)
+> +{
+> +	struct v4l2_async_connection *__asc;
+> +
+> +	list_for_each_entry(__asc, &asd->asc_head, asc_subdev_list) {
+> +		if (__asc->match.type != V4L2_ASYNC_MATCH_FWNODE)
+> +			continue;
+> +
+> +		if (__asc->match.fwnode != asc->match.fwnode)
+> +			continue;
+> +
+> +		dev_dbg(notifier_dev(notifier), "found!\n");
+
+Such message without much context can quickly become noise
+
+> +
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/* Find an async sub-device for the async connection. */
+> +static int v4l2_async_find_async_subdev(struct v4l2_async_notifier *notifier,
+> +					struct v4l2_async_connection *asc)
+> +{
+> +	struct v4l2_async_subdev *asd;
+> +
+> +	lockdep_assert_held(&list_lock);
+> +
+> +	if (asc->match.type == V4L2_ASYNC_MATCH_FWNODE)
+> +		dev_dbg(notifier_dev(notifier),
+> +			"async: looking up subdev for %pfw\n",
+> +			asc->match.fwnode);
+> +
+> +	/*
+> +	 * Matching by endpoint nodes may mean there are multiple connections to
+> +	 * a single device. This is only possible with fwnode matching.
+> +	 */
+> +	if (asc->match.type == V4L2_ASYNC_MATCH_FWNODE &&
+> +	    fwnode_graph_is_endpoint(asc->match.fwnode)) {
+> +		list_for_each_entry(asd, &asd_head, asd_list) {
+> +			if (async_subdev_has_connection(notifier, asd, asc)) {
+> +				kref_get(&asd->kref);
+> +				goto found;
+> +			}
+> +		}
+> +	}
+> +
+> +	dev_dbg(notifier_dev(notifier), "not found, allocating new one\n");
+> +
+> +	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
+> +	if (!asd)
+> +		return -ENOMEM;
+> +
+> +	kref_init(&asd->kref);
+> +	INIT_LIST_HEAD(&asd->asc_head);
+> +	list_add(&asd->asd_list, &asd_head);
+> +
+> +found:
+> +	list_add(&asc->asc_subdev_list, &asd->asc_head);
+> +	asc->asd = asd;
+> +
+> +	return 0;
+> +}
+> +
+>  int __v4l2_async_nf_add_connection(struct v4l2_async_notifier *notifier,
+>  				   struct v4l2_async_connection *asc)
+>  {
+> @@ -662,6 +781,10 @@ int __v4l2_async_nf_add_connection(struct v4l2_async_notifier *notifier,
+>  	if (ret)
+>  		goto unlock;
+>
+> +	ret = v4l2_async_find_async_subdev(notifier, asc);
+> +	if (ret)
+> +		goto unlock;
+> +
+>  	list_add_tail(&asc->asc_list, &notifier->asc_head);
+>
+>  unlock:
+> @@ -809,7 +932,7 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+>  		v4l2_async_nf_unbind_all_subdevs(subdev_notifier, false);
+>
+>  	if (sd->asd)
+> -		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
+> +		v4l2_async_unbind_subdev_one(notifier, sd, true);
+>  	v4l2_async_cleanup(sd);
+>
+>  	mutex_unlock(&list_lock);
+> @@ -832,10 +955,12 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>
+>  	if (sd->asd) {
+>  		struct v4l2_async_notifier *notifier = sd->notifier;
+> +		struct v4l2_async_connection *asc;
+>
+> -		list_add(&sd->asd->waiting_list, &notifier->waiting_head);
+> +		list_for_each_entry(asc, &sd->asd->asc_head, asc_subdev_list)
+> +			list_add(&asc->waiting_list, &notifier->waiting_head);
+>
+> -		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
+> +		v4l2_async_unbind_subdev_one(notifier, sd, true);
+>  	}
+>
+>  	v4l2_async_cleanup(sd);
+> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> index 9cf383e81a16..750bf4ddb267 100644
+> --- a/include/media/v4l2-async.h
+> +++ b/include/media/v4l2-async.h
+> @@ -8,6 +8,7 @@
+>  #ifndef V4L2_ASYNC_H
+>  #define V4L2_ASYNC_H
+>
+> +#include <linux/kref.h>
+>  #include <linux/list.h>
+>  #include <linux/mutex.h>
+>
+> @@ -63,24 +64,47 @@ struct v4l2_async_match {
+>  };
+>
+>  /**
+> - * struct v4l2_async_connection - sub-device descriptor, as known to a bridge
+> + * struct v4l2_async_subdev - sub-device descriptor
+>   *
+> + * @kref:	kref for refcounting the subdev
+> + * @asd_list:	Entry in the list of async sub-devices
+> + * @subdev_list: used to link struct v4l2_async_subdev objects, waiting to be
+> + *		probed, to a notifier->waiting_head list
+> + * @asc_head:	head for struct v4l2_async_connection.asd_list list
+> + * @registered:	whether the sub-device has been registered
+> + */
+> +struct v4l2_async_subdev {
+> +	struct kref kref;
+> +	struct list_head asd_list;
+> +	struct list_head subdev_list;
+
+subdev_list is not used
+
+> +	struct list_head asc_head;
+> +	bool registered;
+> +};
+> +
+> +/**
+> + * struct v4l2_async_connection - sub-device connection descriptor, as known to
+> + *				  a bridge
+> + *
+> + * @asd:	the async sub-device related to this connection
+>   * @match:	struct of match type and per-bus type matching data sets
+>   * @asc_list:	used to add struct v4l2_async_connection objects to the
+>   *		master notifier @asc_list
+>   * @waiting_list: used to link struct v4l2_async_connection objects, waiting to
+>   *		be probed, to a notifier->waiting list
+> + * @asc_subdev_list:	entry in struct v4l2_async_subdev.asc_head list
+>   *
+> - * When this struct is used as a member in a driver specific struct,
+> - * the driver specific struct shall contain the &struct
+> - * v4l2_async_connection as its first member.
+> + * When this struct is used as a member in a driver specific struct, the driver
+> + * specific struct shall contain the &struct v4l2_async_connection as its first
+> + * member.
+>   */
+>  struct v4l2_async_connection {
+> +	struct v4l2_async_subdev *asd;
+>  	struct v4l2_async_match match;
+>
+>  	/* v4l2-async core private: not to be used by drivers */
+>  	struct list_head asc_list;
+>  	struct list_head waiting_list;
+> +	struct list_head asc_subdev_list;
+>  };
+>
+>  /**
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index a2cce11dda5c..d510fe6ea243 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1063,7 +1063,7 @@ struct v4l2_subdev {
+>  	struct device *dev;
+>  	struct fwnode_handle *fwnode;
+>  	struct list_head async_list;
+> -	struct v4l2_async_connection *asd;
+> +	struct v4l2_async_subdev *asd;
+>  	struct v4l2_async_notifier *notifier;
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	struct v4l2_subdev_platform_data *pdata;
+> --
+> 2.30.2
+>
