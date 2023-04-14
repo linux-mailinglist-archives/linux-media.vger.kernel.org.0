@@ -2,93 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFEB56E22B0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 13:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5885E6E22E8
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 14:13:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbjDNLyM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 07:54:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50562 "EHLO
+        id S230260AbjDNMM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 08:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbjDNLyL (ORCPT
+        with ESMTP id S229910AbjDNMM6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 07:54:11 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE4430FA
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 04:54:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681473251; x=1713009251;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D+SDV6iDDmcEh5jJJG+REtSMXEZMp7Wns5wbmCv7uAM=;
-  b=h/u+o8+w9hGpF9eSceC8NMXut+UkqoMf62X0q0Mn+WPi4USB908TgQnK
-   nWUhSO1CrOvYLoTEoIlK6Ev4dw57Vba8ODXFgrR+AukihINSL4qYy8CYI
-   qKoUSmMtwrjuszMZUPhm+s4oN2UnBADhbHTFGmHWP45ovKQ4tVp5/hlVY
-   jAEeIVOLorYoyrPiNXWgsuAnllSSFmS3Q6BTm+aAApYQrfOHDhnKxn8+p
-   2E76Ownej6CM2Q+M1Qcqduk+ZvTnIjLAZMqBJNR0Cwie1beFbMy4a1Gso
-   5SmrdghnzfT6JWB6Hrt+tn0ifZR7dM4kz6Swvjxq0pqWjIpQsGkp9Mcpm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="324797183"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="324797183"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:54:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="833530068"
-X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="833530068"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 04:54:08 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 6FACE1223FC;
-        Fri, 14 Apr 2023 14:54:05 +0300 (EEST)
-Date:   Fri, 14 Apr 2023 14:54:05 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hverkuil@xs4all.nl, Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 07/18] media: v4l: async: Clean up list heads and entries
-Message-ID: <ZDk+3aKiZrjDXDNU@kekkonen.localdomain>
-References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-8-sakari.ailus@linux.intel.com>
- <muutiamv7h32mwd2yq3mlkegrohlm2qj4yq2566nx4rsnhxvai@jubl5vdbbpuh>
+        Fri, 14 Apr 2023 08:12:58 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB4E7E69
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 05:12:57 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pnIIR-001GOE-Hl; Fri, 14 Apr 2023 12:12:55 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pnIIO-0040kw-7r; Fri, 14 Apr 2023 12:12:52 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.4] saa7146: convert to vb2 (#91302)
+Date:   Fri, 14 Apr 2023 12:12:50 +0000
+Message-Id: <20230414121250.956172-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ced694ce-8d93-282c-960f-927c60de1a26@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <muutiamv7h32mwd2yq3mlkegrohlm2qj4yq2566nx4rsnhxvai@jubl5vdbbpuh>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+From: builder@linuxtv.org
 
-On Fri, Apr 14, 2023 at 09:26:21AM +0200, Jacopo Mondi wrote:
-> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> > index 0c4cffd081c9..425280b4d387 100644
-> > --- a/include/media/v4l2-async.h
-> > +++ b/include/media/v4l2-async.h
-> > @@ -68,7 +68,7 @@ struct v4l2_async_match {
-> >   * @match:	struct of match type and per-bus type matching data sets
-> >   * @asd_list:	used to add struct v4l2_async_subdev objects to the
-> >   *		master notifier @asd_list
-> > - * @list:	used to link struct v4l2_async_subdev objects, waiting to be
-> > + * @waiting_list: used to link struct v4l2_async_subdev objects, waiting to be
-> >   *		probed, to a notifier->waiting list
-> 
-> notifier->waiting_head
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ced694ce-8d93-282c-960f-927c60de1a26@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/297637/
+Build time: 00:28:24
+Link: https://lore.kernel.org/linux-media/ced694ce-8d93-282c-960f-927c60de1a26@xs4all.nl
 
-Thanks, I'll fix these for v2.
+gpg: Signature made Fri 14 Apr 2023 11:30:12 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
--- 
-Sakari Ailus
+Summary: got 3/18 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-common-saa7146-disable-clipping.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2489 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974493
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0009-media-common-saa7146-use-for_each_sg_dma_page.patch:
+
+   checkpatch.pl:
+	$ cat patches/0009-media-common-saa7146-use-for_each_sg_dma_page.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:136: CHECK: spaces preferred around that '*' (ctx:ExV)
+
+patches/0018-staging-media-av7110-fix-VBI-output-support.patch:
+
+   checkpatch.pl:
+	$ cat patches/0018-staging-media-av7110-fix-VBI-output-support.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:96: CHECK: Alignment should match open parenthesis
+	-:114: CHECK: Avoid CamelCase: <wssMode>
+	-:115: CHECK: Avoid CamelCase: <wssData>
+	-:121: CHECK: Avoid CamelCase: <SetWSSConfig>
+
+
+Error #512 when building PDF docs
+
