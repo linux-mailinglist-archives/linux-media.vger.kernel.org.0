@@ -2,33 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBBBE6E1A61
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 04:39:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C08936E1CFE
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 09:15:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjDNCjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Apr 2023 22:39:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56742 "EHLO
+        id S229636AbjDNHPb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 03:15:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbjDNCjF (ORCPT
+        with ESMTP id S229469AbjDNHPa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Apr 2023 22:39:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1980F12E
-        for <linux-media@vger.kernel.org>; Thu, 13 Apr 2023 19:39:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A58EE60B33
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 02:39:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9945EC433EF
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 02:39:02 +0000 (UTC)
-Date:   Fri, 14 Apr 2023 04:39:00 +0200
-Message-ID: <f94597416cd437a30e9813ea4afbe660.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        Fri, 14 Apr 2023 03:15:30 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5558B3AAD
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 00:15:28 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E11F4D20;
+        Fri, 14 Apr 2023 09:15:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681456523;
+        bh=oAPosc+IqiyrqoJcWVt3xS34qu98UcbVHvkzG56pcyE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EeB9zxOhxtxNrO7F5LJadTl02REqqup9/g8sXz1XFx6UkRTl7Xjbikys67VQaM5WC
+         NGjkNRJTxidV3ABpVZ5Ea/4xKeN1M7jubZFJw0mRNcOYWd1jzFxxxwpSqhNBaTbHnB
+         q22lz04OdXSROahQ70wzQZjdBGvFfbvhkjlmwNnw=
+Date:   Fri, 14 Apr 2023 09:15:23 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH 06/18] media: v4l: async: Only pass match information for
+ async subdev validation
+Message-ID: <647w6asful7m4wkjbetw33pxig7rkql66vghecafo34eggx7b2@o4ewbzx7xh3z>
+References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
+ <20230330115853.1628216-7-sakari.ailus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230330115853.1628216-7-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,61 +53,288 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Sakari
 
-Results of the daily build of media_tree:
+On Thu, Mar 30, 2023 at 02:58:41PM +0300, Sakari Ailus wrote:
+> Pass only information required for sub-device matching to functions
+> checking whether the async sub-device already exists. Do the same for
+> debug message printing. This makes further changes to other aspects of
+> async sub-devices easier.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 93 ++++++++++++++--------------
+>  1 file changed, 46 insertions(+), 47 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index fc9ae22e2b47..224ebf50f2d0 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -62,14 +62,14 @@ static void v4l2_async_nf_call_destroy(struct v4l2_async_notifier *n,
+>  }
+>
+>  static bool match_i2c(struct v4l2_async_notifier *notifier,
+> -		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +		      struct v4l2_subdev *sd, struct v4l2_async_match *match)
+>  {
+>  #if IS_ENABLED(CONFIG_I2C)
+>  	struct i2c_client *client = i2c_verify_client(sd->dev);
+>
+>  	return client &&
+> -		asd->match.i2c.adapter_id == client->adapter->nr &&
+> -		asd->match.i2c.address == client->addr;
+> +		match->i2c.adapter_id == client->adapter->nr &&
+> +		match->i2c.address == client->addr;
+>  #else
+>  	return false;
+>  #endif
+> @@ -84,26 +84,26 @@ static struct device *notifier_dev(struct v4l2_async_notifier *notifier)
+>  static bool
+>  match_fwnode_one(struct v4l2_async_notifier *notifier,
+>  		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
+> -		 struct v4l2_async_subdev *asd)
+> +		 struct v4l2_async_match *match)
+>  {
+>  	struct fwnode_handle *asd_dev_fwnode;
+>  	bool ret;
+>
+>  	dev_dbg(sd->dev, "async: fwnode match: need %pfw, trying %pfw\n",
+> -		sd_fwnode, asd->match.fwnode);
+> +		sd_fwnode, match->fwnode);
+>
+> -	if (sd_fwnode == asd->match.fwnode) {
+> +	if (sd_fwnode == match->fwnode) {
+>  		dev_dbg(sd->dev, "async: direct match found\n");
+>  		return true;
+>  	}
+>
+> -	if (!fwnode_graph_is_endpoint(asd->match.fwnode)) {
+> +	if (!fwnode_graph_is_endpoint(match->fwnode)) {
+>  		dev_dbg(sd->dev,
+>  			"async: async subdev fwnode not endpoint, no match\n");
+>  		return false;
+>  	}
+>
+> -	asd_dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
+> +	asd_dev_fwnode = fwnode_graph_get_port_parent(match->fwnode);
+>
+>  	ret = sd_fwnode == asd_dev_fwnode;
+>
+> @@ -116,12 +116,12 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
+>  }
+>
+>  static bool match_fwnode(struct v4l2_async_notifier *notifier,
+> -			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +			 struct v4l2_subdev *sd, struct v4l2_async_match *match)
+>  {
+>  	dev_dbg(sd->dev, "async: matching for notifier %pfw, sd %pfw\n",
+>  		dev_fwnode(notifier_dev(notifier)), sd->fwnode);
+>
+> -	if (match_fwnode_one(notifier, sd, sd->fwnode, asd))
+> +	if (match_fwnode_one(notifier, sd, sd->fwnode, match))
+>  		return true;
+>
+>  	/* Also check the secondary fwnode. */
+> @@ -130,7 +130,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>
+>  	dev_dbg(sd->dev, "async: trying secondary fwnode match\n");
+>
+> -	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, asd);
+> +	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, match);
+>  }
+>
+>  static LIST_HEAD(subdev_list);
+> @@ -142,7 +142,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+>  		      struct v4l2_subdev *sd)
+>  {
+>  	bool (*match)(struct v4l2_async_notifier *notifier,
+> -		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd);
+> +		      struct v4l2_subdev *sd, struct v4l2_async_match *match);
+>  	struct v4l2_async_subdev *asd;
+>
+>  	list_for_each_entry(asd, &notifier->waiting, list) {
+> @@ -161,7 +161,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+>  		}
+>
+>  		/* match cannot be NULL here */
+> -		if (match(notifier, sd, asd))
+> +		if (match(notifier, sd, &asd->match))
+>  			return asd;
+>  	}
+>
+> @@ -169,20 +169,18 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+>  }
+>
+>  /* Compare two async sub-device descriptors for equivalence */
+> -static bool asd_equal(struct v4l2_async_subdev *asd_x,
+> -		      struct v4l2_async_subdev *asd_y)
+> +static bool asd_equal(struct v4l2_async_match *match1,
+> +		      struct v4l2_async_match *match2)
+>  {
+> -	if (asd_x->match.type != asd_y->match.type)
+> +	if (match1->type != match2->type)
+>  		return false;
+>
+> -	switch (asd_x->match.type) {
+> +	switch (match1->type) {
+>  	case V4L2_ASYNC_MATCH_I2C:
+> -		return asd_x->match.i2c.adapter_id ==
+> -			asd_y->match.i2c.adapter_id &&
+> -			asd_x->match.i2c.address ==
+> -			asd_y->match.i2c.address;
+> +		return match1->i2c.adapter_id == match2->i2c.adapter_id &&
+> +			match1->i2c.address == match2->i2c.address;
+>  	case V4L2_ASYNC_MATCH_FWNODE:
+> -		return asd_x->match.fwnode == asd_y->match.fwnode;
+> +		return match1->fwnode == match2->fwnode;
+>  	default:
+>  		break;
+>  	}
+> @@ -434,20 +432,20 @@ v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+>  /* See if an async sub-device can be found in a notifier's lists. */
+>  static bool
+>  __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
+> -				 struct v4l2_async_subdev *asd)
+> +				 struct v4l2_async_match *match)
+>  {
+> -	struct v4l2_async_subdev *asd_y;
+> +	struct v4l2_async_subdev *asd;
+>  	struct v4l2_subdev *sd;
+>
+> -	list_for_each_entry(asd_y, &notifier->waiting, list)
+> -		if (asd_equal(asd, asd_y))
+> +	list_for_each_entry(asd, &notifier->waiting, list)
+> +		if (asd_equal(&asd->match, match))
+>  			return true;
+>
+>  	list_for_each_entry(sd, &notifier->done, async_list) {
+>  		if (WARN_ON(!sd->asd))
+>  			continue;
+>
+> -		if (asd_equal(asd, sd->asd))
+> +		if (asd_equal(&sd->asd->match, match))
+>  			return true;
+>  	}
+>
+> @@ -460,49 +458,50 @@ __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
+>   */
+>  static bool
+>  v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
+> -			       struct v4l2_async_subdev *asd, bool skip_self)
+> +			       struct v4l2_async_match *match, bool skip_self)
+>  {
+> -	struct v4l2_async_subdev *asd_y;
+> +	struct v4l2_async_subdev *asd;
+>
+>  	lockdep_assert_held(&list_lock);
+>
+>  	/* Check that an asd is not being added more than once. */
+> -	list_for_each_entry(asd_y, &notifier->asd_list, asd_list) {
+> -		if (asd == asd_y)
+> +	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
+> +		if (&asd->match == match)
+>  			break;
+> -		if (asd_equal(asd, asd_y))
+> +		if (asd_equal(&asd->match, match))
+>  			return true;
+>  	}
+>
+>  	/* Check that an asd does not exist in other notifiers. */
+>  	list_for_each_entry(notifier, &notifier_list, list)
+> -		if (__v4l2_async_nf_has_async_subdev(notifier, asd))
+> +		if (__v4l2_async_nf_has_async_subdev(notifier, match))
+>  			return true;
+>
+>  	return false;
+>  }
+>
+>  static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
+> -				   struct v4l2_async_subdev *asd,
+> +				   struct v4l2_async_match *match,
 
-date:			Fri Apr 14 03:00:08 CEST 2023
-media-tree git hash:	f100ce3bbd6aa0093075b20b9dbd006686f6aedf
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	399d70f1e69cecd924bbdc4cf64d3cb96b358475
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8305-g2fad699a-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+I would have kept the asd here, but I presume having match here makes
+things easier in the next patches
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: WARNINGS
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
 
-Detailed results are available here:
+>  				   bool skip_self)
+>  {
+>  	struct device *dev =
+>  		notifier->v4l2_dev ? notifier->v4l2_dev->dev : NULL;
+>
+> -	if (!asd)
+> +	if (!match)
+>  		return -EINVAL;
 
-https://hverkuil.home.xs4all.nl/logs/Friday.log
+Match cannot be null, as it's a member of struct v4l2_async_subdev
 
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+>
+> -	switch (asd->match.type) {
+> +	switch (match->type) {
+>  	case V4L2_ASYNC_MATCH_I2C:
+>  	case V4L2_ASYNC_MATCH_FWNODE:
+> -		if (v4l2_async_nf_has_async_subdev(notifier, asd, skip_self)) {
+> +		if (v4l2_async_nf_has_async_subdev(notifier, match,
+> +						   skip_self)) {
+>  			dev_dbg(dev, "subdev descriptor already listed in this or other notifiers\n");
+>  			return -EEXIST;
+>  		}
+>  		break;
+>  	default:
+> -		dev_err(dev, "Invalid match type %u on %p\n",
+> -			asd->match.type, asd);
+> +		dev_err(dev, "Invalid match type %u on %p\n", match->type,
+> +			match);
+>  		return -EINVAL;
+>  	}
+>
+> @@ -526,7 +525,7 @@ static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
+>  	mutex_lock(&list_lock);
+>
+>  	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
+> -		ret = v4l2_async_nf_asd_valid(notifier, asd, true);
+> +		ret = v4l2_async_nf_asd_valid(notifier, &asd->match, true);
+>  		if (ret)
+>  			goto err_unlock;
+>
+> @@ -659,7 +658,7 @@ int __v4l2_async_nf_add_subdev(struct v4l2_async_notifier *notifier,
+>
+>  	mutex_lock(&list_lock);
+>
+> -	ret = v4l2_async_nf_asd_valid(notifier, asd, false);
+> +	ret = v4l2_async_nf_asd_valid(notifier, &asd->match, false);
+>  	if (ret)
+>  		goto unlock;
+>
+> @@ -846,15 +845,15 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+>
+>  static void print_waiting_subdev(struct seq_file *s,
+> -				 struct v4l2_async_subdev *asd)
+> +				 struct v4l2_async_match *match)
+>  {
+> -	switch (asd->match.type) {
+> +	switch (match->type) {
+>  	case V4L2_ASYNC_MATCH_I2C:
+> -		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
+> -			   asd->match.i2c.address);
+> +		seq_printf(s, " [i2c] dev=%d-%04x\n", match->i2c.adapter_id,
+> +			   match->i2c.address);
+>  		break;
+>  	case V4L2_ASYNC_MATCH_FWNODE: {
+> -		struct fwnode_handle *devnode, *fwnode = asd->match.fwnode;
+> +		struct fwnode_handle *devnode, *fwnode = match->fwnode;
+>
+>  		devnode = fwnode_graph_is_endpoint(fwnode) ?
+>  			  fwnode_graph_get_port_parent(fwnode) :
+> @@ -891,7 +890,7 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
+>  	list_for_each_entry(notif, &notifier_list, list) {
+>  		seq_printf(s, "%s:\n", v4l2_async_nf_name(notif));
+>  		list_for_each_entry(asd, &notif->waiting, list)
+> -			print_waiting_subdev(s, asd);
+> +			print_waiting_subdev(s, &asd->match);
+>  	}
+>
+>  	mutex_unlock(&list_lock);
+> --
+> 2.30.2
+>
