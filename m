@@ -2,133 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 184866E2725
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 17:39:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC35D6E2727
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 17:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbjDNPj2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 11:39:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56652 "EHLO
+        id S229937AbjDNPkL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 11:40:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjDNPj1 (ORCPT
+        with ESMTP id S229494AbjDNPkK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 11:39:27 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F42B9757;
-        Fri, 14 Apr 2023 08:39:26 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id c9so7726161ejz.1;
-        Fri, 14 Apr 2023 08:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681486764; x=1684078764;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A4oSdeV0O3CfUcQDKAuJnCOQ9a2h59RHFM8f+kqUd9Q=;
-        b=WwnOvRafipHE4X3XLxIzut9nMsVupoWMB8MTM4qyJi0hryift5RwHS6XT3AIdl472j
-         /NxFcZ1Ez1B7YxuxWRGbuogEjMiUIRaJcadv3CgJ0uPgY9F+7p3TIxYbAJbpVi5ekwen
-         yeT05SgUeYLCjB3qqmIXZnmVJv4OJccZE5oQqIexcw3vdxVLO155A6nK3QaGkqdKFkde
-         QXPyHJyp8mgIg8fAr804g6q8Z4G/Z+2YIshIIdUP6zl4gYyH2Kp45OhqP1rfZxqRFJLA
-         pNyTTE7RgSEjND2eEGar2g/sIzOot3PILTeIef6Ju20xSJRedAEc0Dncpal0b/mP//74
-         CBpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681486764; x=1684078764;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A4oSdeV0O3CfUcQDKAuJnCOQ9a2h59RHFM8f+kqUd9Q=;
-        b=Yisrz9EA1Bjwp6QOzyHjYrWDSLUiesdhikPyK7NfAOli24UJHnrWnFT3Jh4p+hcLe5
-         3JV/JY7DMMIqyRAqF2TQX1hJzdkCVDNkmkMt2O0u/UQD6sPlyY9QpqCYY4hiG4SUOC6W
-         jLsdM7flDbWP7Alq0O1a/iIocY4VsJNJ1bW4J3pXunsqNMlOj+cz8R54GXFlrGgZAHRO
-         hLSpbepbkpI6IHTgy3gLP4ezPWFezgIukjc368iKkdbLHsFcAVW/wozJsm0j2eu76Rzd
-         sIoTSA7PE7N7cCNZbdlXjlRIOPhuqvc6TUdKxeB3SeocYPU2z5IKGZh2wZlgQl+XWhQH
-         i5JQ==
-X-Gm-Message-State: AAQBX9fnSJXBckMlgDzz2yKKfIrtxuJgocv0GIsm1lXtp7jCdOosgssh
-        oFMbGNFZe7yox96c1gTZmVLC7YahBlRJvFwT6zF1pBVr
-X-Google-Smtp-Source: AKy350YVcccX9d5h7VcopDSWqR5AIJdw1Z/DbP4Trs+e+O66JfWXHVKJzLJO1CKkIMq3Vaja9/jyup83zlGDEnHhzOI=
-X-Received: by 2002:a17:907:968c:b0:94a:87d6:d39a with SMTP id
- hd12-20020a170907968c00b0094a87d6d39amr3399204ejc.3.1681486764205; Fri, 14
- Apr 2023 08:39:24 -0700 (PDT)
+        Fri, 14 Apr 2023 11:40:10 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB74B975E
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 08:40:07 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pnLWv-001Krb-PJ; Fri, 14 Apr 2023 15:40:05 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pnLWt-005nX5-By; Fri, 14 Apr 2023 15:40:03 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 6.4] Client capability sub-device IOCTL (#91306)
+Date:   Fri, 14 Apr 2023 15:40:03 +0000
+Message-Id: <20230414154003.1381997-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZDlszuIGxU/yvpN6@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-References: <ZDWAcN6wfeXzipHz@gofer.mess.org> <CAADnVQJ-zzzTxDj8_7WKW-o3BDsU=DNAnvSEZGNHswbhGA8xhA@mail.gmail.com>
- <ZDe9ND/M4I9ll1xV@gofer.mess.org> <CAADnVQLOmDEQsHX4XfgETXUte9mJ+-qphR_E7dcjXB2PMDaZnA@mail.gmail.com>
- <ZDkx6WAWmwHpBJ6m@gofer.mess.org>
-In-Reply-To: <ZDkx6WAWmwHpBJ6m@gofer.mess.org>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Fri, 14 Apr 2023 08:39:13 -0700
-Message-ID: <CAADnVQJnw1Jdu+oD5_+ci+RxoaZCDwjgHZQo16bSgmnr2DDCOQ@mail.gmail.com>
-Subject: Re: [PATCH] bpf: lirc program type should not require SYS_CAP_ADMIN
-To:     Sean Young <sean@mess.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 14, 2023 at 3:58=E2=80=AFAM Sean Young <sean@mess.org> wrote:
->
-> On Thu, Apr 13, 2023 at 04:54:21PM -0700, Alexei Starovoitov wrote:
-> > On Thu, Apr 13, 2023 at 1:28=E2=80=AFAM Sean Young <sean@mess.org> wrot=
-e:
-> > >
-> > > On Wed, Apr 12, 2023 at 04:14:05PM -0700, Alexei Starovoitov wrote:
-> > > > On Tue, Apr 11, 2023 at 8:45=E2=80=AFAM Sean Young <sean@mess.org> =
-wrote:
-> > > > >
-> > > > > Make it possible to load lirc program type with just CAP_BPF.
-> > > >
-> > > > Is it safe?
-> > > > If the user can load with just CAP_BPF the FD to the prog and targe=
-t_fd
-> > > > will allow attach as well.
-> > >
-> > > Exactly, that's the $1m question of course.
-> > >
-> > > I think it's safe from a lirc perspective because you need to be able=
- to
-> > > open the /dev/lirc0 device in the first place; if you can open it, yo=
-u
-> > > alter all sorts of lirc receiving options already. Changing the IR pr=
-otocol
-> > > decoder is no different in that perspective.
-> > >
-> > > The other side of course, is it save to load a bpf lirc program as a =
-normal
-> > > user. I don't see any issue with this; I guess this depends on whethe=
-r the
-> > > subset of functions in lirc_mode2_func_proto() is safe. I am hoping t=
-hat
-> > > the expert opinion everyone here can help answer that question.
-> >
-> > That part is fine under CAP_BPF.
-> > I don't know how lirc devices are typically setup.
-> > If they need root to open them
-> > then why bother relaxing bpf loading part?
->
-> I'd like to get a point where /dev/lircN can have the same permissions as
-> for example /dev/videoN devices: group read/write, so that local users
-> don't have to become root to use them.
->
-> Without relaxing the bpf side, this seems like a chicken and egg problem
-> (tiktaalik and egg?).
->
-> Also - the CAP_NET_ADMIN requirement seems completely arbitrary compared
-> to other program types.
+From: builder@linuxtv.org
 
-Yeah. Agree. Could you respin with all these additional details
-explaining the motivation and driver permission model?
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZDlszuIGxU/yvpN6@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/297671/
+Build time: 00:23:16
+Link: https://lore.kernel.org/linux-media/ZDlszuIGxU/yvpN6@valkosipuli.retiisi.eu
+
+gpg: Signature made Fri 14 Apr 2023 02:12:27 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-v4l2-subdev-Add-new-ioctl-for-client-capabilit.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2489 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1974204
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+   checkpatch.pl:
+	$ cat patches/0001-media-v4l2-subdev-Add-new-ioctl-for-client-capabilit.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:64: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:357: WARNING: line length of 101 exceeds 100 columns
+	-:358: WARNING: line length of 102 exceeds 100 columns
+
+
+Error #512 when building PDF docs
+
