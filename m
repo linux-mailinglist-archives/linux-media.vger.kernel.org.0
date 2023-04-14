@@ -2,42 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 567356E2489
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 15:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3889D6E2692
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 17:13:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbjDNNqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 09:46:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36250 "EHLO
+        id S230392AbjDNPNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 11:13:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbjDNNqn (ORCPT
+        with ESMTP id S230298AbjDNPNd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 09:46:43 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F53BE4
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 06:46:40 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pnJl8-001I7b-R2; Fri, 14 Apr 2023 13:46:38 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pnJl2-004zTO-G5; Fri, 14 Apr 2023 13:46:36 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.4] tegra-video: add Tegra20 parallel video input (#91305)
-Date:   Fri, 14 Apr 2023 13:46:32 +0000
-Message-Id: <20230414134632.1189568-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <42150ee3-2d20-ce71-2184-d859bb364656@xs4all.nl>
-References: 
+        Fri, 14 Apr 2023 11:13:33 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B2A93CE
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 08:13:27 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4Pyg1v56P0zyVx
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 18:13:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1681485203;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=e0eqMNH7Eue2cQD85ZRoMH/luANKq2boSRIwMoRm8so=;
+        b=LUdZc90+1z7bs3Uv6UHMyhmg8U0VEVdL1H+B5KL8801hzauGdnqOGndLdDIehlOJddBC4u
+        suMf/Bqj4IaEpEJm8AC7Xi8wJz8aE5HyxgCjSaY0ECMO4VRCthaMjpgpYrQapGySsek2LA
+        w4Ecn7PyrZIlaCfNQyNZwEfA6ZriJLA=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1681485203; a=rsa-sha256; cv=none;
+        b=dpevJYQyPS+Kd3vBWfAwtHjuMRD86M2XeUL9iWkIGxoPlN5uFtS6Vw+sLdsbDFYdJGFJ1j
+        4wArVt8zj0O99fRDwk9AndjLZKJOEnRW/1GsobdxCEcu2eI9mgBbv4FWhASRWsvG5rbfmw
+        WX7HFMSFLRzqqC/PA0h/8O+vNgQQ1d4=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1681485203;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=e0eqMNH7Eue2cQD85ZRoMH/luANKq2boSRIwMoRm8so=;
+        b=IKgd5eRWpzTzKj24Tbi45yP+NRCShjeIPDJiXy0jHGWlxioPVbALPt8OjVxaykWoZiYDut
+        +w3ziUnYfyPPnT2zJM7gHfTw75tYiRP/fVzSf+XF9e3u0w7BXTnow6VJfpl047cNkaCUda
+        itPMxGkfpjzNKdX3JvWzpUKrqH1YvOw=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B3EC1634C91
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 18:10:06 +0300 (EEST)
+Date:   Fri, 14 Apr 2023 18:10:06 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.4] Client capability sub-device IOCTL
+Message-ID: <ZDlszuIGxU/yvpN6@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,50 +68,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Mauro,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/42150ee3-2d20-ce71-2184-d859bb364656@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/297652/
-Build time: 00:24:18
-Link: https://lore.kernel.org/linux-media/42150ee3-2d20-ce71-2184-d859bb364656@xs4all.nl
+Here's a PR with just one patch: the client capability sub-device IOCTL.
+This will be needed to signal which applications are aware of streams, to
+address an age-old issue with reserved fields.
 
-gpg: Signature made Fri 14 Apr 2023 01:13:48 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: got 2/20 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-dt-bindings-display-tegra-add-Tegra20-VIP.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:415 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3357 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3456 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2489 mxc_jpeg_probe() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1974839
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-patches/0020-staging-media-tegra-video-add-support-for-Tegra20-pa.patch:
-
-   checkpatch.pl:
-	$ cat patches/0020-staging-media-tegra-video-add-support-for-Tegra20-pa.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:54: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:103: CHECK: Prefer using the BIT macro
-	-:134: CHECK: Prefer using the BIT macro
+Please pull.
 
 
-Error #512 when building PDF docs
+The following changes since commit f100ce3bbd6aa0093075b20b9dbd006686f6aedf:
 
+  media: verisilicon: Fix crash when probing encoder (2023-04-13 12:58:55 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.4-3-signed
+
+for you to fetch changes up to 9f06f58966d42d3b7a2935fcf511c8ee485546d2:
+
+  media: v4l2-subdev: Add new ioctl for client capabilities (2023-04-14 16:41:42 +0300)
+
+----------------------------------------------------------------
+Client capability subdev IOCTL for 6.4
+
+----------------------------------------------------------------
+Tomi Valkeinen (1):
+      media: v4l2-subdev: Add new ioctl for client capabilities
+
+ .../userspace-api/media/v4l/user-func.rst          |  1 +
+ .../media/v4l/vidioc-subdev-g-client-cap.rst       | 83 ++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-subdev.c              | 63 ++++++++++++++++
+ include/media/v4l2-subdev.h                        |  1 +
+ include/uapi/linux/v4l2-subdev.h                   | 21 ++++++
+ 5 files changed, 169 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+
+
+-- 
+Kind regards,
+
+Sakari Ailus
