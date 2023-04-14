@@ -2,135 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B5F6E2883
-	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 18:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E466E2909
+	for <lists+linux-media@lfdr.de>; Fri, 14 Apr 2023 19:13:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbjDNQkz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 12:40:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45978 "EHLO
+        id S230243AbjDNRNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 13:13:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbjDNQky (ORCPT
+        with ESMTP id S229805AbjDNRN3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 12:40:54 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E823CE45;
-        Fri, 14 Apr 2023 09:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681490452; x=1713026452;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WQy0telDgCadi0YQv9CqPNLPz/Bs1Jmwt5uVTnql7ZE=;
-  b=gU/+dD3GwFQJfaXKk4IFlHEP3xKP53jPaRESn0Qf62aQc9Q6dTBZ7oZa
-   gjY2QVqsSJkXaHeKXvRpEexXycIVwkL7sIZdkWgBwzZyMu7ik/f9GKd6Y
-   qisewDO1jzMykNtXNyBmrN9Z4WtGdXYyOiLZOWrawDVPk5ADkbtNaIdXx
-   FQYJMOQDwDh/Ek+J8RtXVjQXpbya5Mg95TtP/VgqAQXYx40Ibx1+Z6VGL
-   plCZQH7DjyEyMcCoe4y/nXJfmrrrCOts/jruMEeRqr9Eb0iSHvaZY6Dff
-   2b3hQOeBtIq3jc+f1ERSseUD/B4g6s8jQ95jiw/S4T/P500XR3Jybl3+d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="347226862"
+        Fri, 14 Apr 2023 13:13:29 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E4E26AB;
+        Fri, 14 Apr 2023 10:13:28 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="409720692"
 X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="347226862"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 09:40:41 -0700
+   d="scan'208";a="409720692"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 10:13:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="936069984"
+X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="779249884"
 X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="936069984"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 09:40:39 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pnMTW-000Zj1-1M;
-        Fri, 14 Apr 2023 16:40:38 +0000
-Date:   Sat, 15 Apr 2023 00:39:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST"
- redefined
-Message-ID: <202304150059.bHUyuriy-lkp@intel.com>
+   d="scan'208";a="779249884"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Apr 2023 10:13:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1pnMzC-00HDU9-0N;
+        Fri, 14 Apr 2023 20:13:22 +0300
+Date:   Fri, 14 Apr 2023 20:13:21 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Xiaomeng Tong <xiam0nd.tong@gmail.com>, cocci@inria.fr,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: atomisp: Move a variable assignment behind a null
+ pointer check in atomisp_cp_general_isp_parameters()
+Message-ID: <ZDmJsemYldOsMMrH@smile.fi.intel.com>
+References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
+ <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
+ <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8ed4e5d-49d4-ca7e-1283-1ec166bf643d@web.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Thu, Apr 13, 2023 at 10:20:15PM +0200, Markus Elfring wrote:
+> Date: Thu, 13 Apr 2023 22:08:42 +0200
+> 
+> The address of a data structure member was determined before
+> a corresponding null pointer check in the implementation of
+> the function “atomisp_cp_general_isp_parameters”.
+> 
+> Thus avoid the risk for undefined behaviour by moving the assignment
+> for the variable “cur_config” behind the null pointer check.
 
-First bad commit (maybe != root cause):
+I don't think this is what is happening here. The check might be removed by
+optimizer in the compiler.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44149752e9987a9eac5ad78e6d3a20934b5e018d
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
-date:   1 year, 1 month ago
-config: mips-buildonly-randconfig-r002-20230414 (https://download.01.org/0day-ci/archive/20230415/202304150059.bHUyuriy-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/renesas/
+> This issue was detected by using the Coccinelle software.
+> 
+> Fixes: ad85094b293e40e7a2f831b0311a389d952ebd5e ("Revert 'media: staging: atomisp: Remove driver'")
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304150059.bHUyuriy-lkp@intel.com/
+Wrong tag format.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/renesas/rcar_jpu.c:77: warning: "RST" redefined
-      77 | #define RST     0xd0
-         | 
-   In file included from arch/mips/include/asm/mach-rc32434/irq.h:8,
-                    from arch/mips/include/asm/irq.h:17,
-                    from include/linux/irq.h:23,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/mips/include/asm/hardirq.h:16,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from drivers/media/platform/renesas/rcar_jpu.c:20:
-   arch/mips/include/asm/mach-rc32434/rb.h:13: note: this is the location of the previous definition
-      13 | #define RST             (1 << 15)
-         | 
-
-
-vim +/RST +77 drivers/media/platform/renesas/rcar_jpu.c
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  73  
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  74  /* JPEG markers */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  75  #define TEM	0x01
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  76  #define SOF0	0xc0
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22 @77  #define RST	0xd0
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  78  #define SOI	0xd8
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  79  #define EOI	0xd9
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  80  #define DHP	0xde
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  81  #define DHT	0xc4
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  82  #define COM	0xfe
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  83  #define DQT	0xdb
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  84  #define DRI	0xdd
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  85  #define APP0	0xe0
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  86  
-
-:::::: The code at line 77 was first introduced by commit
-:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add Renesas R-Car JPEG codec driver
-
-:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+Code-wise I'm not against this, but it's up to Hans.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With Best Regards,
+Andy Shevchenko
+
+
