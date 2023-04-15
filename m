@@ -2,76 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA956E2DF3
-	for <lists+linux-media@lfdr.de>; Sat, 15 Apr 2023 02:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ECE56E2EB1
+	for <lists+linux-media@lfdr.de>; Sat, 15 Apr 2023 04:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbjDOAf0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Apr 2023 20:35:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
+        id S229878AbjDOCjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Apr 2023 22:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjDOAfZ (ORCPT
+        with ESMTP id S229457AbjDOCjF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Apr 2023 20:35:25 -0400
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42BA049F0
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 17:35:24 -0700 (PDT)
-Received: by mail-ua1-x92c.google.com with SMTP id v18so2529660uak.8
-        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 17:35:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681518923; x=1684110923;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/krrOzf32PMDRBi/P9qe9m671OONK8NSr+9AstJjJkE=;
-        b=UeveOeXC3l6PQ+dQ6hLbuiYAjupxszI95SMZTLGSLMzMS09bg6dr8QhRe/EGbQO5tV
-         M0wxVLv0bBioJX/nULDsXQWE6gHbqJLRQaMjMFIo8qiW2vSz7K2tomatOlaU5OJ1KA4H
-         B5n2080BLv1v1c52uBPvdIyRdIBjvrnWkDiDKEoCKGZJJC9yKu6208qujb2R6Zc2kqJL
-         xH2yaWTmFCP9F361XcNlzAEbcDKwZoTGC0ajuquTkLsIqD2h93MGc0J08fr8yt+XjTS9
-         iHfgc9IFQYUEdPz21dAsBmCqSkYHop0Oo5L1YPmv1jO8FGQj+Sz0YujJnraFLT1McrOq
-         3N9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681518923; x=1684110923;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/krrOzf32PMDRBi/P9qe9m671OONK8NSr+9AstJjJkE=;
-        b=jRUkvVptvjCk3G+RlWMORzK6rRaWCNgb/gUog/XVVBvW7TE1aEqB0IARMaN62MXbl8
-         1hdUujmbFipEk9JKkLSsrSWaA0A60G9w6ZC69xGCJZUkXoB+cFpLYd/2wdBzMyPWWh7o
-         2IhAPXK6iONvBIIpMY5K3p9SfECs7iGXxyagWsn8WdQF5qrpLfYUJYKQ8bhk0VKNFdHM
-         YW7qyDKwwp6xj0DPVO8XWFQl58xmjQx6YycN1h1aLKuVBRfLr7fngoXbe/3nN03oALQK
-         lhHxf5fh8/7+CWclGmW80IZouFQwRpjcZ6+nE+zrtXfBb03P1N05XEkaJ3XtvvgEUTFn
-         W6qg==
-X-Gm-Message-State: AAQBX9cuGq9msDNYlepC21h+jo4O5lWHITzPU640UFW8pbobTnSO5YYH
-        jzk8pQHubDJHZdGVZCocIg3MjaiVwIbWaIRQwfI=
-X-Google-Smtp-Source: AKy350Yr9v9qsRGEik4WUTKqXRYcX7Mvb/763so0bPPAR8OXQCcwDpJ+AmlvzNaA1IsD91yW+8MGQ+pYU/2WsKrTlZ8=
-X-Received: by 2002:a1f:2957:0:b0:440:380f:fc20 with SMTP id
- p84-20020a1f2957000000b00440380ffc20mr4159152vkp.0.1681518923054; Fri, 14 Apr
- 2023 17:35:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a59:b601:0:b0:3aa:58cc:cf82 with HTTP; Fri, 14 Apr 2023
- 17:35:22 -0700 (PDT)
-Reply-To: avamedicinemed3@gmail.com
-From:   Dr Ava Smith <abudumimi920@gmail.com>
-Date:   Sat, 15 Apr 2023 02:35:22 +0200
-Message-ID: <CAFNbOJShf0jFrbLQRBEE4rn_xhK7wT7tKkctDnVNR_m2bX9JZQ@mail.gmail.com>
-Subject: From Dr Ava Smith from United States
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+        Fri, 14 Apr 2023 22:39:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC9A199F
+        for <linux-media@vger.kernel.org>; Fri, 14 Apr 2023 19:39:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BF0C960E8A
+        for <linux-media@vger.kernel.org>; Sat, 15 Apr 2023 02:39:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D410AC433D2
+        for <linux-media@vger.kernel.org>; Sat, 15 Apr 2023 02:39:02 +0000 (UTC)
+Date:   Sat, 15 Apr 2023 04:39:01 +0200
+Message-ID: <57ab514142c8911e646a1b7181e150df.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Hello Dear
-My name is Dr Ava Smith,a medical doctor from United States.
-I have Dual citizenship which is English and French.
-I will share pictures and more details about me as soon as i get
-a response from you
-Thanks
-Ava
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Sat Apr 15 03:00:08 CEST 2023
+media-tree git hash:	f100ce3bbd6aa0093075b20b9dbd006686f6aedf
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	680a70b7d0e957ff677793c58336df4dc02933b5
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8305-g2fad699a-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: WARNINGS
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
