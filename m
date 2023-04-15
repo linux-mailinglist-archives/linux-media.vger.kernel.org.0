@@ -2,102 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E26B6E3087
-	for <lists+linux-media@lfdr.de>; Sat, 15 Apr 2023 12:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3D026E30D7
+	for <lists+linux-media@lfdr.de>; Sat, 15 Apr 2023 12:48:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229735AbjDOKU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Apr 2023 06:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
+        id S230260AbjDOKsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Apr 2023 06:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjDOKUz (ORCPT
+        with ESMTP id S230061AbjDOKsE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Apr 2023 06:20:55 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFF7E115
-        for <linux-media@vger.kernel.org>; Sat, 15 Apr 2023 03:20:53 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pnd1Y-001kl4-C1; Sat, 15 Apr 2023 10:20:52 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pnd1V-008YSX-Mh; Sat, 15 Apr 2023 10:20:49 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.3] NXP i.MX8 ISI driver (#89568)
-Date:   Sat, 15 Apr 2023 10:20:49 +0000
-Message-Id: <20230415102049.2039039-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com>
-References: 
+        Sat, 15 Apr 2023 06:48:04 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7AC7D8A;
+        Sat, 15 Apr 2023 03:47:35 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id qb20so51462141ejc.6;
+        Sat, 15 Apr 2023 03:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681555623; x=1684147623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ICwYyWWnryvHm9RgRWeq29kRBlsUBNW7tslN8BXiwmU=;
+        b=BQaKk6QpiVmZPeB/smhkVOuNZTbb+v8ly+PlkeCAAUt25cyNgPCVm9EHDY1zU5H9ZJ
+         GVarHQ5Bc6ZcGPe6Bwfk8vERzbJADby9E/E4YAXf9GrGff/klt/bFP/Lm3NC4VKujCGF
+         vHOa1yCSPHf70VHMBwULihW2kIzTwHzKKADr3KbFPA53nKl5Xb6wT9FbFoZv8LTZ/mH5
+         hTjRz4qA8W12+1+3cOV2vzKvjJMUW0G5cSRcoXl0bdyEgPAPNH3nS2aL9/6bZcLTxOI3
+         hPzl/BZxx9dUBa0lM+AOa+Ts1Dh7s6E2VR25Q7p8TuWCo5L7ZgLE4cxSLqulgNyQgrIz
+         MzVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681555623; x=1684147623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ICwYyWWnryvHm9RgRWeq29kRBlsUBNW7tslN8BXiwmU=;
+        b=Toj0hslV3eSu4GkIKYe0GOYsuMlI8f0w5GpYbaHjxeXkFlxjZN587UEfnEt3eD/ZLk
+         h/eaq7bvcSDdflXXoIxyJ8lC9VNqHCZbgBNoJ7W7QaMVFnNqV7n5614yfYc0pikDhdJb
+         Ng9vQ3l7DIviECTVBheIonMR62b07JmF2iT6oL8pPyFfYCf2AuBtxwjJeKR3oXqt9dzX
+         omrdjbvTQcohSIMCNp06hXDIVcFUHGQxvz0zy8tV09WOv8gHHB+1UU45sMPqfod5vXay
+         5T/1ZeaSbvcTDb6A2uv3VGcdzW4NS4ijXIom7AIjXmGJNStdZIXH1Ze/GTVWJmLGEVGI
+         8WWw==
+X-Gm-Message-State: AAQBX9dxQJs5OrbhhSBo+QxdolF61wWj18xGWpaVZF3iWUyJdYegc03y
+        ISSWcQWZk/kKM0AtSC/Putw=
+X-Google-Smtp-Source: AKy350ZlZmmQo025rfm2e2tAa9xyZl6HKwCyENZ72HZZ0DvAjQTuASLgS7n6KD8a24YZf10jRtRI2A==
+X-Received: by 2002:a17:907:2087:b0:94e:fe0f:b2be with SMTP id pv7-20020a170907208700b0094efe0fb2bemr1577373ejb.14.1681555622742;
+        Sat, 15 Apr 2023 03:47:02 -0700 (PDT)
+Received: from localhost.localdomain (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id m15-20020a170906720f00b00947ab65d932sm3607034ejk.83.2023.04.15.03.47.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Apr 2023 03:47:02 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+        rfoss@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
+        samuel@sholland.org
+Cc:     Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        airlied@gmail.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/3] drm/bridge: dw_hdmi: allow to disable CEC from DT
+Date:   Sat, 15 Apr 2023 12:46:10 +0200
+Message-Id: <20230415104613.61224-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Boards can have perfectly working DW HDMI CEC implementation but they
+may prefer to use bit banged implementation instead. This is the
+situation on Beelink X2.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com/
-Build log: https://builder.linuxtv.org/job/patchwork/297889/
-Build time: 00:26:01
-Link: https://lore.kernel.org/linux-media/Y9zZLJobSYuMwP9o@pendragon.ideasonboard.com
+Add DW HDMI DT property for disabling CEC. This prevents confusion on
+userspace side by not exposing unused CEC interface.
 
-gpg: Signature made Fri 03 Feb 2023 09:46:05 AM UTC
-gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
-gpg:                issuer "laurent.pinchart@ideasonboard.com"
-gpg: Can't check signature: No public key
+Best regards,
+Jernej
 
-Summary: got 2/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Jernej Skrabec (3):
+  dt-bindings: display: synopsys,dw-hdmi: Add property for disabling CEC
+  drm/bridge: dw_hdmi: Handle snps,disable-cec property
+  ARM: dts: sun8i: h3: beelink-x2: Disable DW-HDMI CEC
 
-Error/warnings:
+ .../devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml | 5 +++++
+ arch/arm/boot/dts/sun8i-h3-beelink-x2.dts                    | 1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c                    | 4 +++-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-patches/0001-dt-bindings-media-Add-i.MX8-ISI-DT-bindings.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1974725
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-   checkpatch.pl:
-	$ cat patches/0001-dt-bindings-media-Add-i.MX8-ISI-DT-bindings.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:20: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0002-media-nxp-Add-i.MX8-ISI-driver.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-nxp-Add-i.MX8-ISI-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:98: WARNING: please write a help paragraph that fully describes the config symbol
-	-:112: WARNING: please write a help paragraph that fully describes the config symbol
-	-:761: WARNING: DT compatible string "fsl,imx8-isi" appears un-documented -- check ./Documentation/devicetree/bindings/
-	-:1128: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:1178: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:1928: CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
-
-
-Error #512 when building PDF docs
+-- 
+2.40.0
 
