@@ -2,33 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 473E26E34C0
-	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 04:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D2E86E36E3
+	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 12:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbjDPCj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Apr 2023 22:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43796 "EHLO
+        id S230478AbjDPKCa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Apr 2023 06:02:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjDPCj3 (ORCPT
+        with ESMTP id S230434AbjDPKC3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Apr 2023 22:39:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331F626B0
-        for <linux-media@vger.kernel.org>; Sat, 15 Apr 2023 19:39:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BFDE961015
-        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 02:39:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F17C433D2
-        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 02:39:25 +0000 (UTC)
-Date:   Sun, 16 Apr 2023 04:39:23 +0200
-Message-ID: <7f1a07c50ca62026c52bdd90aabea746.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        Sun, 16 Apr 2023 06:02:29 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D697CE69;
+        Sun, 16 Apr 2023 03:02:09 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id e3so10629348qtm.12;
+        Sun, 16 Apr 2023 03:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681639328; x=1684231328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hZxoONYjpiy9MbL4YVRp8r9eBFiaHPQlZt2qQpuRD4E=;
+        b=dQmdjtW//P7QvRzA1jFWg/37TrB91+CVHWJc7uOBy7vtwvOCFesVXJJFUUNR0Okvtz
+         1n2croOfOLaaYQG6dneCb9LUqgG4SD7keQYz8A/4ofuVJpBCpJwcUIMACAYe0rOwzBuQ
+         XdfooiY2KlxVs05fT/BCO30VDjxsJZRFLbGTZOlA0+EcFCkOXiG3j/ZAkf9pQIeiOLgt
+         kkpL6CfRQTvHpAokWVtJGXiQsXeW8ekJf0GK3FB6UcaRtpHP9uKd9YHzJPVGtUYaxFZ0
+         VTBsTtqEtiY+Fhh8rn5nzk6MY9ItvL6J0pwQklkGRIPPM33JFwRm4qX2C0IliDIB24pD
+         7Vqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681639328; x=1684231328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hZxoONYjpiy9MbL4YVRp8r9eBFiaHPQlZt2qQpuRD4E=;
+        b=Z7Fr/4RdwV9/4yczHtEHLyM7f39bwnpAYMLSKu4bz/6XVWMI9o1Do1MjmqoVnJqc9T
+         u/J4zikorj5dcoySfqJnDYU+QiMcnx5jmOCjtHu7kVqOefXL+41MQb4plI0PrLocJ05e
+         mTZzdxnzEZuqnvpucopl076Cu02XXWwpOvoGqQrOZ6f6jiM9Go3yXCLgYaGCW3rVnu31
+         l5/tEbxVP+xXXbfuQbvBEocuz1W7zxuWZPXcBRQWMurGlzLd+P67asLeLiu3RRC5XHE6
+         pDBaK9o5tDDjdUED+/KcbncmgagM6sJ7+950VlguwAFPV0qZ25km8YBf0jF+E+aIafmT
+         co3Q==
+X-Gm-Message-State: AAQBX9ffotBkknIBjLoFluVFRbYyli675BiqDRyhZYK+Med8NLtqoz5c
+        0bZJJbd997lQo/Ub8WWCTqsLjdgJDRfhjp0Ovhz7Xa6isLs=
+X-Google-Smtp-Source: AKy350Z47+6bGxd1xRNHZnacl2G7aVI+x9MNtKPtsyKz0oTUv0XV1DinXFuPbSmxP5mkntBADuGSYGcFlwRkwkGdGGQ=
+X-Received: by 2002:a05:622a:1a9b:b0:3e8:f79d:bdfa with SMTP id
+ s27-20020a05622a1a9b00b003e8f79dbdfamr3499947qtc.0.1681639328272; Sun, 16 Apr
+ 2023 03:02:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <ZDuhnLPczec5qJnq@yoga>
+In-Reply-To: <ZDuhnLPczec5qJnq@yoga>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 16 Apr 2023 13:01:32 +0300
+Message-ID: <CAHp75Veaqp4O1jcBHZZh2L5ReMU1+2vH+FfRzfLyY8CdwZwq+w@mail.gmail.com>
+Subject: Re: [PATCH] Staging: media: atomisp: include: mmu: include
+ <linux/processor.h> instead of <asm/processor.h>
+To:     Anup Sharma <anupnewsmail@gmail.com>
+Cc:     hdegoede@redhat.com, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+        andy@kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,61 +74,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Sun, Apr 16, 2023 at 10:20=E2=80=AFAM Anup Sharma <anupnewsmail@gmail.co=
+m> wrote:
+>
+> Fix following checkpatch.pl warning by including
+> <linux/processor.h> instead of <asm/processor.h>
 
-Results of the daily build of media_tree:
+Missing period at the end. But the entire patch seems unnecessary
+since it's all about x86, and we have more arch headers there anyway.
+Anyway it's up to Hans. Also see below.
 
-date:			Sun Apr 16 03:00:09 CEST 2023
-media-tree git hash:	671397d7c6a5d2b923aaf1b4414e3ac9333674a7
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	680a70b7d0e957ff677793c58336df4dc02933b5
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8305-g2fad699a-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0dbf1648c48132531ac7524d00c4136b530e8d82
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+...
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+>  #include <asm/intel-family.h>
+> -#include <asm/processor.h>
+> +#include <linux/processor.h>
+>
+>  #include <linux/i2c.h>
+>  #include <media/v4l2-subdev.h>
 
-Detailed results are available here:
+This seems a bit chaotic with the ordering of the headers here.
 
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
+...
 
-Detailed regression test results are available here:
+If you want a good patch, you need to understand what headers are
+_really_ being used in the header file. Then drop unused, try to
+compile that and fix all files that will have missing headers after
+that. This will be a very useful clean up!
 
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+--=20
+With Best Regards,
+Andy Shevchenko
