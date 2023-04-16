@@ -2,135 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FDF76E378F
-	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 12:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B97E86E37D8
+	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 14:02:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229984AbjDPKxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Apr 2023 06:53:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
+        id S229684AbjDPMCX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Apr 2023 08:02:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbjDPKxV (ORCPT
+        with ESMTP id S229615AbjDPMCW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Apr 2023 06:53:21 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A332684
-        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 03:53:18 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id c9so18055224ejz.1
-        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 03:53:18 -0700 (PDT)
+        Sun, 16 Apr 2023 08:02:22 -0400
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E572691;
+        Sun, 16 Apr 2023 05:02:21 -0700 (PDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id l16so739981vst.2;
+        Sun, 16 Apr 2023 05:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681642397; x=1684234397;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/ouacL5jzwqdrqc6h6cItWvGdIc1UJBQ5F31zwjpSlE=;
-        b=ySR9w98P8RnXzxDyjT5uqepX//GbkqEGw5tC571tl0ZdhTXPQQcvJP7AgNxP3neV9P
-         TUrP0pJcjwpwNyjp6mpS6tPz2rTywKDvBijjxzSescmDF7HJHCwc8m2mStVWnb8TKbEE
-         nu5SA27QGxsybnotK16UiRK5mGrc608EqMjJ6jxME5EtP3rb3yx8/WkZKy1AMRRkdvf7
-         UtyMxDuCF32w7IRYMcYRULAceslZlfudSH6sxwzy88KJx/r2mjfWNoBFMfxwXIn4AVQs
-         /OF4CSYzEyPpdE0bElp8yyr8ISlrXyZhbehmQ8O1MxpPKUtIdtUu19Mcm2kL8j92KFdh
-         MkYQ==
+        d=gmail.com; s=20221208; t=1681646541; x=1684238541;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rHFyNrT1VfxBGxS1NMERI8Qt8lLflFfoWypKZafbriw=;
+        b=Gr2CwbikwHB7A59r50sarUS2CH/dcuZbg4pEeTnK59LgL4W7cobcQfIca5jvAormlP
+         h6gTpxoetqb3fawVvKobCLEzru3gi5FuEkzkSC9uVFdrsUOk5QAkYltNOkyvqpEt1ke+
+         uGpUhG3L8gWRiUUZUR6ooDa0dr8FsdXvHxUVH+zUBY4/tp0NDNW4dxxgvuVmkPi6MOjZ
+         tqrqlMKQVzErFtbzkNwmjKPRnlLDmrqfK/H9qjDVk1ZUjHDvM4WMoKQjPNL0ummH2raU
+         vE7Osg1VB8voInyqCVHKG74Ih+C4eSAeVCXPdM42sMLQudrqo9yCJdiGq40ArW1TCGdm
+         eGkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681642397; x=1684234397;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ouacL5jzwqdrqc6h6cItWvGdIc1UJBQ5F31zwjpSlE=;
-        b=UJjAYjcBkpv8i61x6nPLyCdfXBoQlIPprWz6T6eRzZJAR6bNI0p35E22ec+prgr35h
-         /cu84YIiRHUtFLeDNmUCRXg1aXVMfFCznm3kk/sqVpae9heVLkDLDSPFWIdUn0RvhPw7
-         2xa8UOREv4uX5mLF78uXAAv1Tah8NGF1JblFNKtaYrKX9s3VUogXExpcv20lEeyw3sUV
-         TY36a2t0Zo89qJ1auD05mYYR193ERa5IoR7mkeg273zQCdKgygdXOdjjjCD91vBBZZ2N
-         DuL4p7g+FeR7hYfL8mhUCDbQVb2a24HTbhfhbFAqeQECrh641o+GaG861AVKWYXY0MWr
-         NUNg==
-X-Gm-Message-State: AAQBX9fQhf9GhNxQoHCNipOWFAyegOJHk0Oi7bJCkATi3M7qO7fyQzwX
-        Dz63mobXbdcjcmnHRQsvXC4l1A==
-X-Google-Smtp-Source: AKy350YiRHdtMmcT7j7PJPXYEMEyZ4e1Bw1LhCILnCce78Lp2xLtZeLuqXkwcSyY8+YlACLr4t7D3Q==
-X-Received: by 2002:a17:906:f14f:b0:94a:171:83b1 with SMTP id gw15-20020a170906f14f00b0094a017183b1mr4650225ejb.2.1681642397392;
-        Sun, 16 Apr 2023 03:53:17 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:29dd:ded4:3ccc:83db? ([2a02:810d:15c0:828:29dd:ded4:3ccc:83db])
-        by smtp.gmail.com with ESMTPSA id qw24-20020a170906fcb800b009353066595csm4913522ejb.136.2023.04.16.03.53.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Apr 2023 03:53:17 -0700 (PDT)
-Message-ID: <d0b2868f-cade-feb1-52cd-2aacd537c9c6@linaro.org>
-Date:   Sun, 16 Apr 2023 12:53:15 +0200
+        d=1e100.net; s=20221208; t=1681646541; x=1684238541;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rHFyNrT1VfxBGxS1NMERI8Qt8lLflFfoWypKZafbriw=;
+        b=O5VJQsRdGYBVOTKUgJIx6txaRo8MfnnKcDBQJ2cJblJyCBYs1YUBIVQYmngPHu4LpX
+         pwR/fXujSW5G3GS87i92zwzluO9+vu8ImDMmGE2dCSCO/uNNzfTrBMt/TB74zQtF2OZN
+         Y8Pmx0NkB+bx82eIWL32MVZl0efecuZnIFQQR2BKpjFNzWRjdnpNNvZWxTl2lttC1oQ7
+         93VNN+vvgWMn/on7YTX+1SDLGONWqObM40lEUFH7shDXeGaBn/BXZdw/FwqcEDPNQQzh
+         THdf0p35Et2m8KCzEtQsSwWjdzP/Elup7gQYHS87zZwlwlZ558CNkrgZfcstBSSLll/v
+         c5iQ==
+X-Gm-Message-State: AAQBX9ePOBp4XqAVIlhbzRbk8s3Uhzv+eBW86jSXYq25X45lcjC7pPCt
+        dG9kz+N9Ygodbkd1VRZB3aCAoqu7LtjUCMwcgyk=
+X-Google-Smtp-Source: AKy350Zmj6n67b5JoT7QDdrHXZ0P69Lsbok+9BzxR0RWe5YRsQ3pdDepaoDW9z26tcvAPd3ulKZrXU63nEHFr9rD+ds=
+X-Received: by 2002:a67:d715:0:b0:42c:3bcf:f927 with SMTP id
+ p21-20020a67d715000000b0042c3bcff927mr6800346vsj.4.1681646540836; Sun, 16 Apr
+ 2023 05:02:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 00/12] Re-introduce Exynos4212 support and add Samsung
- Galaxy Tab 3 8.0 boards
-Content-Language: en-US
-To:     Artur Weber <aweber.kernel@gmail.com>
-Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>, soc@kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-phy@lists.infradead.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-References: <20230416101624.15866-1-aweber.kernel@gmail.com>
- <3e513119-4d6a-18ec-aaec-1c6b2b7e35b4@gmail.com>
- <ba148e6c-1685-f6d4-458f-bbdf1dd674cf@linaro.org>
- <36287654-c6e6-f4bd-320c-866bef692d2f@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <36287654-c6e6-f4bd-320c-866bef692d2f@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230305212519.499-1-yongsuyoo0215@gmail.com>
+In-Reply-To: <20230305212519.499-1-yongsuyoo0215@gmail.com>
+From:   YongSu Yoo <yongsuyoo0215@gmail.com>
+Date:   Sun, 16 Apr 2023 21:02:09 +0900
+Message-ID: <CANXPkT4QS1OO_BW5xWguNxa3jXVjwfFTxPmHYAYT=+MRc-FZOg@mail.gmail.com>
+Subject: Re: [PATCH] media: dvb_demux: Fix a bug for the continuity counter
+To:     0215yys@hanmail.net, yongsu.yoo@lge.com, mchehab@kernel.org,
+        tommaso.merciai@amarulasolutions.com, yongsuyoo0215@gmail.com,
+        hverkuil-cisco@xs4all.nl, colin.i.king@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/04/2023 12:49, Artur Weber wrote:
-> On 16/04/2023 12:34, Krzysztof Kozlowski wrote:
->> On 16/04/2023 12:26, Artur Weber wrote:
->>> On 16/04/2023 12:16, Artur Weber wrote:
->>>> This patches re-introduces the Exynos4212 platform and adds support
->>>> for the Samsung Galaxy Tab 3 8.0 series of tablets that uses it:
->>>>
->>>>    - Samsung Galaxy Tab 3 8.0 WiFi (SM-T310/lt01wifi)
->>>>    - Samsung Galaxy Tab 3 8.0 3G (SM-T311/lt013g)
->>>>    - Samsung Galaxy Tab 3 8.0 LTE (SM-T315/lt01lte)
->>>>
->>>> What works:
->>>>
->>>>    - Display and backlight
->>>>    - Touchscreen (without touchkeys)
->>>>    - GPIO buttons, hall sensor
->>>>    - WiFi and Bluetooth
->>>>    - USB, fuel gauge, charging (partial)
->>>>    - Accelerometer and magnetometer
->>>>    - WiFi model only: light sensor
->>>
->>> This patchset depends on "[PATCH 0/3] Add Samsung S6D7AA0 panel
->>> controller driver" for the display panel support for the Samsung Galaxy
->>> 3 8.0 boards.
->>
->> Why? DTS and ARM code cannot depend on driver changes. Please rework
->> your patchsets to remove any of such dependencies.
-> 
-> Ah, that makes sense. I'll re-send the patchset in a second with the 
-> panel node removed.
+Hi ~ Everyone
+Can you share how this patch is going ?
 
-I am sorry, I don't understand. Why would you remove anything from DTS?
-Are bindings NAKed?
-
-Best regards,
-Krzysztof
-
+2023=EB=85=84 3=EC=9B=94 6=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 6:25, <y=
+ongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> From: YongSu Yoo <yongsuyoo0215@gmail.com>
+>
+> Signed-off-by: Yongsu Yoo <yongsuyoo0215@gmail.com>
+>
+> In dvb_demux.c, some logics exist which compare the expected
+> continuity counter and the real continuity counter. If they
+> are not matched each other, both of the expected continuity
+> counter and the real continuity counter should be printed.
+> But there exists a bug that the expected continuity counter
+> is not correctly printed. The expected continuity counter is
+> replaced with the real countinuity counter + 1 so that
+> the epected continuity counter is not correclty printed.
+> This is wrong. This bug is fixed.
+> ---
+>  drivers/media/dvb-core/dvb_demux.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/=
+dvb_demux.c
+> index 398c86279b5b..7c4d86bfdd6c 100644
+> --- a/drivers/media/dvb-core/dvb_demux.c
+> +++ b/drivers/media/dvb-core/dvb_demux.c
+> @@ -115,12 +115,12 @@ static inline int dvb_dmx_swfilter_payload(struct d=
+vb_demux_feed *feed,
+>
+>         cc =3D buf[3] & 0x0f;
+>         ccok =3D ((feed->cc + 1) & 0x0f) =3D=3D cc;
+> -       feed->cc =3D cc;
+>         if (!ccok) {
+>                 set_buf_flags(feed, DMX_BUFFER_FLAG_DISCONTINUITY_DETECTE=
+D);
+>                 dprintk_sect_loss("missed packet: %d instead of %d!\n",
+>                                   cc, (feed->cc + 1) & 0x0f);
+>         }
+> +       feed->cc =3D cc;
+>
+>         if (buf[1] & 0x40)      // PUSI ?
+>                 feed->peslen =3D 0xfffa;
+> @@ -300,7 +300,6 @@ static int dvb_dmx_swfilter_section_packet(struct dvb=
+_demux_feed *feed,
+>
+>         cc =3D buf[3] & 0x0f;
+>         ccok =3D ((feed->cc + 1) & 0x0f) =3D=3D cc;
+> -       feed->cc =3D cc;
+>
+>         if (buf[3] & 0x20) {
+>                 /* adaption field present, check for discontinuity_indica=
+tor */
+> @@ -336,6 +335,7 @@ static int dvb_dmx_swfilter_section_packet(struct dvb=
+_demux_feed *feed,
+>                 feed->pusi_seen =3D false;
+>                 dvb_dmx_swfilter_section_new(feed);
+>         }
+> +       feed->cc =3D cc;
+>
+>         if (buf[1] & 0x40) {
+>                 /* PUSI=3D1 (is set), section boundary is here */
+> --
+> 2.17.1
+>
