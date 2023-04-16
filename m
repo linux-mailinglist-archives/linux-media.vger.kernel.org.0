@@ -2,200 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 399676E37DB
-	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 14:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 539426E380E
+	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 14:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbjDPMDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Apr 2023 08:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37610 "EHLO
+        id S230285AbjDPMhK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Apr 2023 08:37:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjDPMDv (ORCPT
+        with ESMTP id S230259AbjDPMhF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Apr 2023 08:03:51 -0400
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B5F4687;
-        Sun, 16 Apr 2023 05:03:49 -0700 (PDT)
-Received: by mail-ua1-x92c.google.com with SMTP id q10so1290371uas.2;
-        Sun, 16 Apr 2023 05:03:49 -0700 (PDT)
+        Sun, 16 Apr 2023 08:37:05 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA8382D40;
+        Sun, 16 Apr 2023 05:37:04 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id xd13so23346093ejb.4;
+        Sun, 16 Apr 2023 05:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681646628; x=1684238628;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m+lGJqFoyzJfQpCn8yCuyjNcVHaJ90w5B5joJrrdUoM=;
-        b=oIItBRbokrB1b8XzvgV5Z5G85SSiqeh8EMO1ZwBb3tt2/bE0vs1MSwE0f9Gj8a8s+6
-         e7nFXUaz56PQRLNc8UmE6cEvURuJjF5spfMWT/WEHw6BXXEpufcIqjErWAgM1e2dhiLH
-         DeN4mpC4a4D12Fi4zjgxLE6nZYo4flhWCEPCNgRGagcXDQmiz+W3ln7N7wI3Lfvra8An
-         S47erw+bVQ3wFuLlb+ycfhhR3Cz46PkiZrJr8R12v3IRH6GIu9Ry3+XahNEAK2GQ3xXd
-         30Jt4wzTbgew/qfcmnrWNJ46cgEADQQSbZ8w4A2H/UelXYLWGS1cB/QeCA9ytObQoB7v
-         fU6Q==
+        d=gmail.com; s=20221208; t=1681648624; x=1684240624;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VDa2GFtYkfWVlc8ZTMskD2bfRssb3+wPHR9VnWdgQkk=;
+        b=Ye4lxVUXva7hfPvirb5EICjV7mvCIR+LZoN3QkH/Aa9mcMNRKXRHXY7XX9YxfQiM4d
+         UHF+N75fqf6yWUywGE72iYA9LGogaxALspplCNngKKlCEiNB/KHmYLhX5s9kFNdrJlgm
+         Ps5No9KHIl4sEN/LvkdFDyEuljHQ2Yb4FiMA1QptZREt1Bp0QkaLum68LKPqGSisGWmj
+         02RcdFqsq/361uqczbuNL3um2U2cyI0NQiD7Oc40B1PwxsMYtEbKZYmC5yPD3d1E2/Ce
+         TzkSQIRiqBSrM/faDZ7/OC9IJha+EfIshOaH1OD3tv+CNbl5x1Wr5b1zwVnYnEvDen3x
+         FaoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681646628; x=1684238628;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m+lGJqFoyzJfQpCn8yCuyjNcVHaJ90w5B5joJrrdUoM=;
-        b=hydmpQO2Xt7ZV0mEpmTQB/sAtc6GLtm3hJyGcx6uIDR25WUPdiKluqQxFwpfVK13EI
-         rntiZhghShQ0WkLAe6YJEQ15Btod8tFlZtk/PFV0KYFfMqueZ9zvTSxaEIrdCYayVPwR
-         KmnuEu0uLkKy/6qUR7w+DecWsv3xgidxGr2qSglYoGQdxKu02WJ0Z22icwxuIlLJJb0i
-         OEHQwRL4tVfLwDNZv/zksvHRv73JIEf6BdAO0AHJXU9IKvTWlaV1Mbx/YUWd9i2YSKdy
-         2paPVCXLNKKPDYIhiCALuoU6WC7trO+DNU/3Dp6v8G9qUeFOG10mJy3ifQTH0QZ/oJsn
-         gFEA==
-X-Gm-Message-State: AAQBX9eohJPEpSeNzBd5yW5dnD14Y0cKDYTFzV5O4vr46hXpz9ysUAAe
-        DUI563MzelEkgDEO07Ilgj9dVNWRljh8ewsl704=
-X-Google-Smtp-Source: AKy350bQ8cifbglzDDlWr1+A5z8uSxNay60AFwSvF7erErjIwxt73ihG3SHT4nw3lME0siLar5uGlOfrp/vlYjk6qao=
-X-Received: by 2002:a1f:2957:0:b0:440:380f:fc20 with SMTP id
- p84-20020a1f2957000000b00440380ffc20mr6010309vkp.0.1681646628647; Sun, 16 Apr
- 2023 05:03:48 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681648624; x=1684240624;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VDa2GFtYkfWVlc8ZTMskD2bfRssb3+wPHR9VnWdgQkk=;
+        b=Z1hVKdWL6mcmQiAcTWG7ZSqXu4ypa/OHCRM3SiGO1/SE0HUojNJdQTmW9OzR5nZAzU
+         yPy25ESlFFyu474/PVpYUe65AhBojgSp5I8ERpR2aQnlrTAzD+9CNUBmSYwuW9Mmgyak
+         RUm0zAvitYy4vumWkoUtPdd53TPHRqZeolzwiZDdQxqWJU/WzZuC7FqvfvDZnq49O2mF
+         Bz5ZpFYwDS0Q76y4PT0sFEPW5M9acX135DGNG99MQGk+AdSiyLDNdBus4lSHo2FwEaqX
+         HBCD5UM5OJIKoa9k16S8InRTM8XlQjjQ+iL1IYvU+wiobVfPf2LryMz/9k3W8+AVcGgq
+         6Ajw==
+X-Gm-Message-State: AAQBX9eJHJLJCH9GjNjX9G2Jrn27Nc5b0UMl2wwIo1HqvqMkxGGvGgup
+        yqnTGXBLnsaXXS0tDpo1z5s=
+X-Google-Smtp-Source: AKy350Z9RmwvdFDkqAGZQeSDhkrMeMTMfOfNN8b8VmhaRJ5qZRpnoXUSxR2zWJy9cKGKUWb33636uQ==
+X-Received: by 2002:a17:906:82c5:b0:93f:2256:fc05 with SMTP id a5-20020a17090682c500b0093f2256fc05mr4820249ejy.55.1681648624015;
+        Sun, 16 Apr 2023 05:37:04 -0700 (PDT)
+Received: from [192.168.50.244] (83.8.121.70.ipv4.supernova.orange.pl. [83.8.121.70])
+        by smtp.gmail.com with ESMTPSA id i3-20020a1709061e4300b0092b8c1f41ebsm4999772ejj.24.2023.04.16.05.37.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Apr 2023 05:37:03 -0700 (PDT)
+Message-ID: <8bb6e9a6-0143-3627-14c4-285ce2632070@gmail.com>
+Date:   Sun, 16 Apr 2023 14:37:01 +0200
 MIME-Version: 1.0
-References: <20220818125027.1131-1-yongsuyoo0215@gmail.com>
-In-Reply-To: <20220818125027.1131-1-yongsuyoo0215@gmail.com>
-From:   YongSu Yoo <yongsuyoo0215@gmail.com>
-Date:   Sun, 16 Apr 2023 21:03:38 +0900
-Message-ID: <CANXPkT5EOcQj9WgsHggVz+KCxfA9KfnC8V-fRrWGWU8HR5Xs0g@mail.gmail.com>
-Subject: Re: [PATCH] media: dvb_ca_en50221: A bug is fixed for size write
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, yongsu.yoo@lge.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 00/12] Re-introduce Exynos4212 support and add Samsung
+ Galaxy Tab 3 8.0 boards
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>, soc@kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-phy@lists.infradead.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+References: <20230416101624.15866-1-aweber.kernel@gmail.com>
+ <3e513119-4d6a-18ec-aaec-1c6b2b7e35b4@gmail.com>
+ <ba148e6c-1685-f6d4-458f-bbdf1dd674cf@linaro.org>
+ <36287654-c6e6-f4bd-320c-866bef692d2f@gmail.com>
+ <d0b2868f-cade-feb1-52cd-2aacd537c9c6@linaro.org>
+From:   Artur Weber <aweber.kernel@gmail.com>
+In-Reply-To: <d0b2868f-cade-feb1-52cd-2aacd537c9c6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi ~
-Can you share how this patch is going ?
+On 16/04/2023 12:53, Krzysztof Kozlowski wrote:
+> On 16/04/2023 12:49, Artur Weber wrote:
+>> On 16/04/2023 12:34, Krzysztof Kozlowski wrote:
+>>> On 16/04/2023 12:26, Artur Weber wrote:
+>>>> On 16/04/2023 12:16, Artur Weber wrote:
+>>>>> This patches re-introduces the Exynos4212 platform and adds support
+>>>>> for the Samsung Galaxy Tab 3 8.0 series of tablets that uses it:
+>>>>>
+>>>>>     - Samsung Galaxy Tab 3 8.0 WiFi (SM-T310/lt01wifi)
+>>>>>     - Samsung Galaxy Tab 3 8.0 3G (SM-T311/lt013g)
+>>>>>     - Samsung Galaxy Tab 3 8.0 LTE (SM-T315/lt01lte)
+>>>>>
+>>>>> What works:
+>>>>>
+>>>>>     - Display and backlight
+>>>>>     - Touchscreen (without touchkeys)
+>>>>>     - GPIO buttons, hall sensor
+>>>>>     - WiFi and Bluetooth
+>>>>>     - USB, fuel gauge, charging (partial)
+>>>>>     - Accelerometer and magnetometer
+>>>>>     - WiFi model only: light sensor
+>>>>
+>>>> This patchset depends on "[PATCH 0/3] Add Samsung S6D7AA0 panel
+>>>> controller driver" for the display panel support for the Samsung Galaxy
+>>>> 3 8.0 boards.
+>>>
+>>> Why? DTS and ARM code cannot depend on driver changes. Please rework
+>>> your patchsets to remove any of such dependencies.
+>>
+>> Ah, that makes sense. I'll re-send the patchset in a second with the
+>> panel node removed.
+> 
+> I am sorry, I don't understand. Why would you remove anything from DTS?
+> Are bindings NAKed?
 
-2022=EB=85=84 8=EC=9B=94 18=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 9:50, Y=
-ongSu Yoo <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
->
-> The function of "dvb_ca_en50221_write_data" at source/drivers/media
-> /dvb-core/dvb_ca_en50221.c is used for two cases.
-> The first case is for writing APDU data in the function of
-> "dvb_ca_en50221_io_write" at source/drivers/media/dvb-core/
-> dvb_ca_en50221.c.
-> The second case is for writing the host link buf size on the
-> Command Register in the function of "dvb_ca_en50221_link_init"
-> at source/drivers/media/dvb-core/dvb_ca_en50221.c.
-> In the second case, there exists a bug like followings.
-> In the function of the "dvb_ca_en50221_link_init",
-> after a TV host calculates the host link buf_size,
-> the TV host writes the calculated host link buf_size on the
-> Size Register.
-> Accroding to the en50221 Spec (the page 60 of
-> https://dvb.org/wp-content/uploads/2020/02/En50221.V1.pdf),
-> before this writing operation, the "SW(CMDREG_SW)" flag in the
-> Command Register should be set. We can see this setting operation
-> in the function of the "dvb_ca_en50221_link_init" like below.
-> ...
->         if ((ret =3D ca->pub->write_cam_control(ca->pub, slot,
-> CTRLIF_COMMAND, IRQEN | CMDREG_SW)) !=3D 0)
->                 return ret;
-> ...
-> But, after that, the real writing operation is implemented using
-> the function of the "dvb_ca_en50221_write_data" in the function of
-> "dvb_ca_en50221_link_init", and the "dvb_ca_en50221_write_data"
-> includes the function of "ca->pub->write_cam_control",
-> and the function of the "ca->pub->write_cam_control" in the
-> function of the "dvb_ca_en50221_wrte_data" does not include
-> "CMDREG_SW" flag like below.
-> ...
->         if ((status =3D ca->pub->write_cam_control(ca->pub, slot,
-> CTRLIF_COMMAND, IRQEN | CMDREG_HC)) !=3D 0)
-> ...
-> In the above source code, we can see only the "IRQEN | CMDREG_HC",
-> but we cannot see the "CMDREG_SW".
-> The "CMDREG_SW" flag which was set in the function of the
-> "dvb_ca_en50221_link_init" was rollbacked by the follwoing function
-> of the "dvb_ca_en50221_write_data".
-> This is a bug. and this bug causes that the calculated host link buf_size
-> is not properly written in the CI module.
-> Through this patch, we fix this bug.
-> ---
->  drivers/media/dvb-core/dvb_ca_en50221.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-=
-core/dvb_ca_en50221.c
-> index 15a08d8c69ef..13f249b0a080 100644
-> --- a/drivers/media/dvb-core/dvb_ca_en50221.c
-> +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-> @@ -187,7 +187,7 @@ static void dvb_ca_en50221_thread_wakeup(struct dvb_c=
-a_private *ca);
->  static int dvb_ca_en50221_read_data(struct dvb_ca_private *ca, int slot,
->                                     u8 *ebuf, int ecount);
->  static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int slot=
-,
-> -                                    u8 *ebuf, int ecount);
-> +                                    u8 *ebuf, int ecount, int size_write=
-_flag);
->
->  /**
->   * findstr - Safely find needle in haystack.
-> @@ -370,7 +370,7 @@ static int dvb_ca_en50221_link_init(struct dvb_ca_pri=
-vate *ca, int slot)
->         ret =3D dvb_ca_en50221_wait_if_status(ca, slot, STATUSREG_FR, HZ =
-/ 10);
->         if (ret)
->                 return ret;
-> -       ret =3D dvb_ca_en50221_write_data(ca, slot, buf, 2);
-> +       ret =3D dvb_ca_en50221_write_data(ca, slot, buf, 2, CMDREG_SW);
->         if (ret !=3D 2)
->                 return -EIO;
->         ret =3D ca->pub->write_cam_control(ca->pub, slot, CTRLIF_COMMAND,=
- IRQEN);
-> @@ -778,11 +778,13 @@ static int dvb_ca_en50221_read_data(struct dvb_ca_p=
-rivate *ca, int slot,
->   * @buf: The data in this buffer is treated as a complete link-level pac=
-ket to
->   *      be written.
->   * @bytes_write: Size of ebuf.
-> + * @size_write_flag: A flag on Command Register which says whether the l=
-ink size
-> + * information will be writen or not.
->   *
->   * return: Number of bytes written, or < 0 on error.
->   */
->  static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int slot=
-,
-> -                                    u8 *buf, int bytes_write)
-> +                                    u8 *buf, int bytes_write, int size_w=
-rite_flag)
->  {
->         struct dvb_ca_slot *sl =3D &ca->slot_info[slot];
->         int status;
-> @@ -817,7 +819,7 @@ static int dvb_ca_en50221_write_data(struct dvb_ca_pr=
-ivate *ca, int slot,
->
->         /* OK, set HC bit */
->         status =3D ca->pub->write_cam_control(ca->pub, slot, CTRLIF_COMMA=
-ND,
-> -                                           IRQEN | CMDREG_HC);
-> +                                           IRQEN | CMDREG_HC | size_writ=
-e_flag);
->         if (status)
->                 goto exit;
->
-> @@ -1508,7 +1510,7 @@ static ssize_t dvb_ca_en50221_io_write(struct file =
-*file,
->
->                         mutex_lock(&sl->slot_lock);
->                         status =3D dvb_ca_en50221_write_data(ca, slot, fr=
-agbuf,
-> -                                                          fraglen + 2);
-> +                                                          fraglen + 2, 0=
-);
->                         mutex_unlock(&sl->slot_lock);
->                         if (status =3D=3D (fraglen + 2)) {
->                                 written =3D 1;
-> --
-> 2.17.1
->
+The dependency display panel patchset introduces the panel and its 
+bindings, which in turn are included in the Tab3 DTSI. It was submitted 
+at roughly the same time as this series, and hasn't been fully reviewed 
+or merged as of writing. (I have seen your comments on that patchset, 
+and I will be addressing them shortly.) So the bindings haven't been 
+explicitly ACKed yet (assuming you mean the Acked-by reply).
+
+In response to:
+
+ > Please rework your patchsets to remove any of such dependencies.
+
+I suggested that I could remove the panel node from the DTSI for the 
+time being. The intent was to submit it in a separate patch later, once 
+the display is reviewed/merged, and thus actually available in the 
+kernel; this way, the two patches could be reviewed and merged separately.
+
+I could instead wait for the display patchset to get reviewed/merged 
+first, then resubmit this series, if that's preferable.
+
+I apologize for the confusion.
+
+Best regards,
+Artur Weber
+
