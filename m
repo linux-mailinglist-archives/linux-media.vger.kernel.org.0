@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 125FD6E3ADC
-	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 19:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 433B66E3AE5
+	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 19:55:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbjDPRyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Apr 2023 13:54:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57078 "EHLO
+        id S229802AbjDPRz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Apr 2023 13:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjDPRyk (ORCPT
+        with ESMTP id S229619AbjDPRz1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Apr 2023 13:54:40 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72DB1FD4
-        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 10:54:38 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-94a34e3526fso544532966b.3
-        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 10:54:38 -0700 (PDT)
+        Sun, 16 Apr 2023 13:55:27 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 172EB1FEA
+        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 10:55:26 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-504eac2f0b2so4119043a12.3
+        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 10:55:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681667677; x=1684259677;
+        d=linaro.org; s=google; t=1681667724; x=1684259724;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JS6gaHiphUmSOWpn+pmyiSugcXzg+J545dx/xJnnaxk=;
-        b=WuWEb3nQKRcBC4aQq5LCsl/QIdpbFKoJvTV/SSvo7+KcXslPZLEolPou2WpIPh9FCF
-         srBTN+NGP3wj8rwbrUDV8VW47d+Ia+cdOt36cVwkpPie84WhNTiO/G08tM6139DnVgOd
-         Dy8L6Fa6tgCAG04ZtOxo+uyGTfV4VjAkykB/5otTlNrA2UVIuusuAX/F56nUUuVtwxWD
-         96eYsH0axlMBFn6uCuZh8OTkFdS2nLbwtuzoUk7tVDlq+GxwnO2hQIDEnvwl1J3GmSt1
-         ugYCUXZV3Sj18cLHhJWSKF3gciUab1+yK2RmZV3x+B4zT8k8zJmTdCetNRpPXt6ybdBk
-         ZCWA==
+        bh=x7wT7n+DJMWXCwF/JmEqtyfQLfvwMTp3PMeKPlacVvI=;
+        b=N50SBxfRyEvNTrmfJYbWrp3K5WfAffRN7269lKy7ZahDLbF6YzyDwCeQmn5st8ZNVU
+         TiWP59+AIx+c+ZAGcexmwq8zozFdGU5WSKa0UB25+PDCSc4DR2aFOxSshDG+yG6lZTtE
+         VMUmyj7xEqwhgDxlwjVLbKZKrUgLZnSKjeZhv+bN3aVy2SnxHo3wD+ssFpSxvT0fw9Ji
+         nJvfEOqJZiPies9FMmCiYIx+QgQtaXzqnJjIOFIiaOXhUbVZsKOGnjX81ore0i2FBzsQ
+         emUEEbZhA3wQAmVg2rwJObOsNrFJMsE1DgyeFgvnwHPLIUuX6x4NX+GzS89nY5R8k+q6
+         g9Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681667677; x=1684259677;
+        d=1e100.net; s=20221208; t=1681667724; x=1684259724;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JS6gaHiphUmSOWpn+pmyiSugcXzg+J545dx/xJnnaxk=;
-        b=Bo3KXsqCGTzawzeJUwMYXiLBNFjPq3PyMvMOs0PEagfUvSJAU9wtlkP8XLzDzRH89p
-         SGcVrnQm90xLaB3Xqdylvv08AWU9guSzG/h1MvOZJQWJCO6JF1xtt0VvrPR88nwt1OVA
-         sXyXpxLhS97/7TWupF1nPN1UQrHB0DtvMuczzpkGnt/9K8Dc/p4mve4lgvonIU+B8ab2
-         8V183H5gKykusbjiJP5fLl2p6U6DkRxZ4AKeu88L8eQXPohc5wK/iwWE+L0L99XKmj+T
-         /E7Px5S0Q0PY3L06pavSjIX1JXuxyXFaTav8NJGCGz7U+RqqyD9lahbvICVbZ/jHEfMu
-         +hfA==
-X-Gm-Message-State: AAQBX9elNLgwjrowU6f8L337+vDtOZU6tg6CN96JYN00CVMXIY2VHeik
-        5kHeqBY21k0d/C94MzleU6u51A==
-X-Google-Smtp-Source: AKy350Y5iFghGHPVY/+36B4z9G0r8ayC/uD7aU0dvjOxkfyBYGegI5B/Jo7ShhZXPQ/Ssg96Hx350Q==
-X-Received: by 2002:a05:6402:1486:b0:4fd:29a1:6a58 with SMTP id e6-20020a056402148600b004fd29a16a58mr13688436edv.19.1681667677169;
-        Sun, 16 Apr 2023 10:54:37 -0700 (PDT)
+        bh=x7wT7n+DJMWXCwF/JmEqtyfQLfvwMTp3PMeKPlacVvI=;
+        b=a4zqmj5d4SrZhCTErErr8PULs4bd7JN66iUS96y93mE8JUXvhPj3wr61/85GsuEcyd
+         YCT6HF2Dke23kNXi7EoyC1Sei50qavg/iiQD2vXz0gJAln8LwM/c0yY28RQULbcFJECZ
+         9yvYRPPbZ5vXEYVu7J3HtV20uUKHY/T2ylLPcXwNPxnKhqUKvamolvYXsV4McsfkzSGU
+         IalGa2UP0/EZv0dzVCqVwO0ZHCccT/Jed1aG2hXq5+BAkkizYR2BIg5fhbf132OMCky5
+         XCHox3wVna7VpCudsUYc9gNu5277BbgGiIAHQPpvsW+a8txFGAfbt1u5r6ttSJYEzZk+
+         KKaw==
+X-Gm-Message-State: AAQBX9clk2rcqhUrhSO1f5yRjY+u3qwcUBo7XqE7NxT73wVU4JRxzZaB
+        44Oz0FRWssFG8u9eTBpEiXwNzQ==
+X-Google-Smtp-Source: AKy350avKh9PmUHvsOygNn3GPct8a9xHAE66Mg83Bz+YU/JqH0f5dabMl/mfcrMIbTTp5Lai6EdXjw==
+X-Received: by 2002:aa7:d352:0:b0:505:394:157b with SMTP id m18-20020aa7d352000000b005050394157bmr12230901edr.17.1681667724514;
+        Sun, 16 Apr 2023 10:55:24 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:f9e3:1d38:66a7:ae92? ([2a02:810d:15c0:828:f9e3:1d38:66a7:ae92])
-        by smtp.gmail.com with ESMTPSA id h23-20020aa7c957000000b005066ca60b2csm4695188edt.63.2023.04.16.10.54.35
+        by smtp.gmail.com with ESMTPSA id b11-20020a056402138b00b0050690bc07a3sm2240983edv.18.2023.04.16.10.55.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Apr 2023 10:54:36 -0700 (PDT)
-Message-ID: <00bd1ec1-0745-c521-4df9-e31e1057a6ff@linaro.org>
-Date:   Sun, 16 Apr 2023 19:54:35 +0200
+        Sun, 16 Apr 2023 10:55:24 -0700 (PDT)
+Message-ID: <99b7f216-114b-c01a-cb27-7dbcfc0c3b5c@linaro.org>
+Date:   Sun, 16 Apr 2023 19:55:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 01/12] dt-bindings: soc: samsung: add Exynos4212 PMU
+Subject: Re: [PATCH v2 02/12] dt-bindings: clock: add Exynos4212 clock
  compatible
 Content-Language: en-US
 To:     Artur Weber <aweber.kernel@gmail.com>
@@ -80,15 +80,15 @@ Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
         linux-phy@lists.infradead.org,
         ~postmarketos/upstreaming@lists.sr.ht
 References: <20230416133422.1949-1-aweber.kernel@gmail.com>
- <20230416133422.1949-2-aweber.kernel@gmail.com>
+ <20230416133422.1949-3-aweber.kernel@gmail.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230416133422.1949-2-aweber.kernel@gmail.com>
+In-Reply-To: <20230416133422.1949-3-aweber.kernel@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -100,16 +100,13 @@ On 16/04/2023 15:34, Artur Weber wrote:
 > dts: exynos: remove Exynos4212 support (dead code)"), as there were
 > no boards using it.
 
-You meant commit c40610198f35e? This is the one which you partially revert.
+Also wrong commit. Reference the one which dropped compatible from bindings.
 
 > 
 > We will be adding a device that uses it, so add it back.
 > 
 > Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-> ---
->  Documentation/devicetree/bindings/soc/samsung/exynos-pmu.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+
 
 Best regards,
 Krzysztof
