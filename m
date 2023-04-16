@@ -2,102 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 512EB6E38FE
-	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 15:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6C96E3915
+	for <lists+linux-media@lfdr.de>; Sun, 16 Apr 2023 16:14:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjDPNrX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Apr 2023 09:47:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59650 "EHLO
+        id S230254AbjDPOOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Apr 2023 10:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbjDPNrW (ORCPT
+        with ESMTP id S229840AbjDPOOG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Apr 2023 09:47:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A74F1FF5;
-        Sun, 16 Apr 2023 06:47:19 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE2D010A;
-        Sun, 16 Apr 2023 15:47:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681652832;
-        bh=aCQGE+X4vixWX0Y2gnNPv0AMGUzX4NVMijBWevQnQgM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i6p3uNmQ6M1tr/N4sM/bXA2w6U4nkP0nQzlxDRuLc0gMgJNmDhTGmKCd+v6JXiBut
-         YZf49SnfbPbMwl5kutwGjuLoACKv0M9mUW2OdNWDFBcUOG8fRbPHrh0jg4IaODmh2k
-         oZH+OIYWRAw+JKWU/xi7kDupzj5VEsnlX0zzD3dc=
-Date:   Sun, 16 Apr 2023 16:47:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-        rfoss@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
-        samuel@sholland.org, jonas@kwiboo.se, airlied@gmail.com,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH 3/3] ARM: dts: sun8i: h3: beelink-x2: Disable DW-HDMI CEC
-Message-ID: <20230416134728.GB28551@pendragon.ideasonboard.com>
-References: <20230415104613.61224-1-jernej.skrabec@gmail.com>
- <20230415104613.61224-4-jernej.skrabec@gmail.com>
- <20230416132531.GA28551@pendragon.ideasonboard.com>
- <2675247.mvXUDI8C0e@jernej-laptop>
+        Sun, 16 Apr 2023 10:14:06 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0ACF1FD7
+        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 07:14:04 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id ud9so57420667ejc.7
+        for <linux-media@vger.kernel.org>; Sun, 16 Apr 2023 07:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681654443; x=1684246443;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CqjZpfyKPAXa2my2S9Kqm0ywJgkkRuAyH0u0+ZgWeBo=;
+        b=j4GkOa4aNXRE+r4a4/nRTgrCWkl7MYHpNnYSl0JUMuXQMFmbIBleGTKd4PpQexnVfb
+         ybv3marMchyBRQjoztB01LrSlUdnNIgEC2ZRC9/I9vufBTND2fzAkZTAK27uji8UbvVN
+         eXR7Vj1YD0XwMQTYaih7Z7jTeVysyDnc2M/CwTZYD7pe01ug16FiAD3Excw0mMBKNXxE
+         ZLVfBxHmOA3nj0qVdBkY6gXLPmuqkoPl62SIH8BJpmyd/dkWX6gNXzS9gq9SWdgsZX6a
+         WW3kWlsSnOis2a9y4OWL5EztRceKZZ4dk438V1Mjju23FydTqMpKSxldchxID3YY+pFo
+         zGFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681654443; x=1684246443;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CqjZpfyKPAXa2my2S9Kqm0ywJgkkRuAyH0u0+ZgWeBo=;
+        b=dS0xC8KqiteBhaQ73mKfJmeNR8GkNidVdvE28CxwzBRX8yCF5Z782LXzZrGpz007q7
+         3blwrPnTkt4XGNthvGB8GBIetzbCLSK8CP8l52lfzNtuk48uaW42/2MxYtqBYcXnP9Eg
+         mR7zBEpIxqGNXGcuWjAjJ3X3lsP/jYRXPdytsGvhBBu1tiRdYdmPvkHfDC1NUJteR/E6
+         2sU9RyGFtsrs4oqLs+CbkDnD4E6/N13SLdfwkRgs5mcP4Ad0JaIlfN9XcVIBUm8vP9Tw
+         fzH0M9dTXoH6EFCWcFZfISo4tXHVQDuTbLrq2xZtScKNkfcnzJ2NSJFwacqp0lfItXTd
+         eqjw==
+X-Gm-Message-State: AAQBX9dcql7SsViY9MXMhs2w/S+CfwZJqmrE6RpqXllWC2AeZ7C2cfip
+        rCiI+Xw9lyhUJM7TGfdHOKw/oA==
+X-Google-Smtp-Source: AKy350ayEmg9ZXfl/HB5LQ9Hom4UKULeEgkxZWgCAIx/UHNm3rrpWuZPfU3gw9Fv1tjxFQ4I1e04Cw==
+X-Received: by 2002:a17:906:6091:b0:94c:93e4:b0c with SMTP id t17-20020a170906609100b0094c93e40b0cmr4922508ejj.76.1681654443262;
+        Sun, 16 Apr 2023 07:14:03 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ba4d:301c:484d:5c9? ([2a02:810d:15c0:828:ba4d:301c:484d:5c9])
+        by smtp.gmail.com with ESMTPSA id ce18-20020a170906b25200b0094ee2b8ab77sm3589650ejb.73.2023.04.16.07.14.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Apr 2023 07:14:02 -0700 (PDT)
+Message-ID: <421f998a-8d66-d333-4e41-58a74bc687e9@linaro.org>
+Date:   Sun, 16 Apr 2023 16:14:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2675247.mvXUDI8C0e@jernej-laptop>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 00/12] Re-introduce Exynos4212 support and add Samsung
+ Galaxy Tab 3 8.0 boards
+To:     Artur Weber <aweber.kernel@gmail.com>
+Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>, soc@kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-phy@lists.infradead.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+References: <20230416133422.1949-1-aweber.kernel@gmail.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230416133422.1949-1-aweber.kernel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Apr 16, 2023 at 03:31:56PM +0200, Jernej Škrabec wrote:
-> Dne nedelja, 16. april 2023 ob 15:25:31 CEST je Laurent Pinchart napisal(a):
-> > Hi Jernej,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, Apr 15, 2023 at 12:46:13PM +0200, Jernej Skrabec wrote:
-> > > Beelink X2 uses software implementation of CEC even though DW-HDMI has
-> > > working hardware implementation.
-> > 
-> > Why ? The reason should be explained in the commit message.
+On 16/04/2023 15:34, Artur Weber wrote:
+> This patches re-introduces the Exynos4212 platform and adds support
+> for the Samsung Galaxy Tab 3 8.0 series of tablets that uses it:
 > 
-> Maybe I should reword this differently. It uses software implementation through 
-> GPIO pin. Dedicated DW-HDMI CEC pin is left unconnected.
+>  - Samsung Galaxy Tab 3 8.0 WiFi (SM-T310/lt01wifi)
+>  - Samsung Galaxy Tab 3 8.0 3G (SM-T311/lt013g)
+>  - Samsung Galaxy Tab 3 8.0 LTE (SM-T315/lt01lte)
+> 
+> What works:
+> 
+>  - Display and backlight
+>  - Touchscreen (without touchkeys)
+>  - GPIO buttons, hall sensor
+>  - WiFi and Bluetooth
+>  - USB, fuel gauge, charging (partial)
+>  - Accelerometer and magnetometer
+>  - WiFi model only: light sensor
+> 
+> Display panel bindings used by the Tab3 DTSI are added in a separate
+> patchset - "[PATCH 0/3] Add Samsung S6D7AA0 panel controller driver":
+> https://lore.kernel.org/all/20230416131632.31673-1-aweber.kernel@gmail.com/
+> 
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> 
+> Changed in v2:
+>  - Added note about display panel bindings to cover letter and
+>    Tab3 DTSI commit
 
-That's a very good reason :-) I'm then fine with this patch, with a
-reworded commit message. The DT bindings should be updated accordingly
-as well, to explain the use case.
+That's not really a reason for resend and you explained me the bindings.
+Wait for at least a day before sending big patchsets, to get a chance of
+review.
 
-> > > Disable unused DW-HDMI CEC.
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > > 
-> > >  arch/arm/boot/dts/sun8i-h3-beelink-x2.dts | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-> > > b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts index
-> > > a6d38ecee141..38f40d69e5c5 100644
-> > > --- a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-> > > +++ b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-> > > @@ -150,6 +150,7 @@ &emac {
-> > >  };
-> > >  
-> > >  &hdmi {
-> > > +	snps,disable-cec;
-> > >  	status = "okay";
-> > >  };
+Best regards,
+Krzysztof
 
--- 
-Regards,
-
-Laurent Pinchart
