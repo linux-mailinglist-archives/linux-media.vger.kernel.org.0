@@ -2,123 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EDDB6E41E2
-	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 10:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F336E420A
+	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 10:05:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbjDQICM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Apr 2023 04:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48268 "EHLO
+        id S230496AbjDQIFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Apr 2023 04:05:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbjDQIBt (ORCPT
+        with ESMTP id S230430AbjDQIFk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Apr 2023 04:01:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2DAC46AB;
-        Mon, 17 Apr 2023 01:01:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8194761408;
-        Mon, 17 Apr 2023 08:01:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF9EC433EF;
-        Mon, 17 Apr 2023 08:01:30 +0000 (UTC)
-Message-ID: <0341924c-7f0a-28aa-eeae-f7de69ab36d8@xs4all.nl>
-Date:   Mon, 17 Apr 2023 10:01:29 +0200
+        Mon, 17 Apr 2023 04:05:40 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5926D1BF;
+        Mon, 17 Apr 2023 01:05:39 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B160BDE6;
+        Mon, 17 Apr 2023 10:05:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681718733;
+        bh=mo5Aedmwo7B/5nq+EOr9wBxYL7ukqoSB5JP37ZRi/wQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ZrNfc7d2g05GOS/efqpXBEHL5CjqhcFXWku5y8mPUBG7LmtOLxPdIGOZfjdY9BFTD
+         EO7bGfUiWhjLDWXeu/7gZ1UL46XlGl+4mFiSFHLuKXTQTutwrh537rJ+XpoQg+OA18
+         rLb8dsNH+tszbXw839lo7QIb5rRI6AbvQ1+pIbIQ=
+Message-ID: <bc48ef67-dbe2-47c8-4bb9-854bcab5c168@ideasonboard.com>
+Date:   Mon, 17 Apr 2023 09:05:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: mediatek: vcodec: Move a variable assignment
- behind condition checks in vdec_vp9_slice_single_decode()
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] media: ov5693: Simplify an error message
 Content-Language: en-US
-To:     Markus Elfring <Markus.Elfring@web.de>,
-        kernel-janitors@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Guo Zhengkui <guozhengkui@vivo.com>,
-        Haowen Bai <baihaowen@meizu.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mingjia Zhang <mingjia.zhang@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <b98dcc94-13f3-a6cb-f5bd-f1f8644d87d1@web.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <b98dcc94-13f3-a6cb-f5bd-f1f8644d87d1@web.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <928f2f70de241d0fa66801b46d736ad0f881eb72.1681576102.git.christophe.jaillet@wanadoo.fr>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <928f2f70de241d0fa66801b46d736ad0f881eb72.1681576102.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/04/2023 20:30, Markus Elfring wrote:
-> Date: Fri, 14 Apr 2023 20:07:01 +0200
-> 
-> The address of a data structure member was determined before
-> a corresponding null pointer check in the implementation of
-> the function “vdec_vp9_slice_single_decode”.
-> 
-> Thus avoid the risk for undefined behaviour by moving the assignment
-> for the variable “pfc” behind some condition checks.
-> 
-> This issue was detected by using the Coccinelle software.
-> 
-> Fixes: b0f407c19648ae9110c932c91d6e1b9381ec0aeb ("media: mediatek: vcodec: add vp9 decoder driver for mt8186")
+Hi Christophe
 
-Not a fix, it was never broken.
-
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+On 15/04/2023 17:28, Christophe JAILLET wrote:
+> dev_err_probe() already display the error code. There is no need to
+> duplicate it explicitly in the error message.
+>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->  .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c  | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> index cf16cf2807f0..22b27f7b57bf 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> @@ -1990,7 +1990,7 @@ static int vdec_vp9_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->  					struct vdec_fb *fb, bool *res_chg)
->  {
->  	struct vdec_vp9_slice_instance *instance = h_vdec;
 
-Just drop these lines instead:
 
-        if (!instance || !instance->ctx)
-                return -EINVAL;
+Thanks for the patch:
 
-That can never happen.
 
-Regards,
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-	Hans
-
-> -	struct vdec_vp9_slice_pfc *pfc = &instance->sc_pfc;
-> +	struct vdec_vp9_slice_pfc *pfc;
->  	struct vdec_vp9_slice_vsi *vsi;
->  	struct mtk_vcodec_ctx *ctx;
->  	int ret;
-> @@ -2007,6 +2007,7 @@ static int vdec_vp9_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->  	if (!fb)
->  		return -EBUSY;
-> 
-> +	pfc = &instance->sc_pfc;
->  	vsi = &pfc->vsi;
-> 
->  	ret = vdec_vp9_slice_setup_single(instance, bs, fb, pfc);
-> --
-> 2.40.0
-> 
-
+>   drivers/media/i2c/ov5693.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+> index e3c3bed69ad6..d23786afd754 100644
+> --- a/drivers/media/i2c/ov5693.c
+> +++ b/drivers/media/i2c/ov5693.c
+> @@ -404,8 +404,8 @@ static int ov5693_read_reg(struct ov5693_device *ov5693, u32 addr, u32 *value)
+>   	ret = i2c_transfer(client->adapter, msg, 2);
+>   	if (ret < 0)
+>   		return dev_err_probe(&client->dev, ret,
+> -				     "Failed to read register 0x%04x: %d\n",
+> -				     addr & OV5693_REG_ADDR_MASK, ret);
+> +				     "Failed to read register 0x%04x\n",
+> +				     addr & OV5693_REG_ADDR_MASK);
+>   
+>   	*value = 0;
+>   	for (i = 0; i < len; ++i) {
