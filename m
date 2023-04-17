@@ -2,214 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8F86E4252
-	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 10:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B7686E425B
+	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 10:17:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjDQIPE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Apr 2023 04:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33946 "EHLO
+        id S229991AbjDQIRw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Apr 2023 04:17:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjDQIPD (ORCPT
+        with ESMTP id S229741AbjDQIRu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Apr 2023 04:15:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0961FDB;
-        Mon, 17 Apr 2023 01:15:00 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F249DDE6;
-        Mon, 17 Apr 2023 10:14:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681719293;
-        bh=fB6GDrDT9giAq0/ETq0gBYFcxiahDr5O0kDTfl1LlZo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CtYkEImMB844Wi5MM3czBnQCBQ8wK8QsNIxmSpIcjTR48F6R/V2Ttb6v/XckA0zxb
-         28xcLndxd4GUsh5wLA5XkfID8Hlhz12PeUu+hiA6Lx7nmUeT5ZlcVeierl2ABretFB
-         brv6wS++dOrEGWjqv4v50APmWF1Z6TiRvpP1NiLY=
-Date:   Mon, 17 Apr 2023 11:15:10 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-imx@nxp.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
-Message-ID: <20230417081510.GA19964@pendragon.ideasonboard.com>
-References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com>
- <20230417055627.16482-2-laurent.pinchart@ideasonboard.com>
- <20230417065059.fgmdfwk7pnj62amm@pengutronix.de>
- <20230417074148.GF28551@pendragon.ideasonboard.com>
- <20230417080117.jiqpynebq2we2hh4@pengutronix.de>
+        Mon, 17 Apr 2023 04:17:50 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0EB026B2;
+        Mon, 17 Apr 2023 01:17:48 -0700 (PDT)
+X-UUID: 537a69fedcf811eda9a90f0bb45854f4-20230417
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=vtIb9tYbe6yjfReUyHamMXfyrKWMabuVK2QPQKV6Ies=;
+        b=a9ZtKBFJTlDSMSeg+qF7t/jFa3YKH9vDkYaWS5e6uDR3UKzuMCKqt7lDOcGNpCUWcZJhuLzD6jifn1uoNHGKOuVa3yADsHLgDYuTDRR88gX+KZdhXuJHhI1aS3EZPbEWEDRMRuh0kAdk1egxVnz5syxJcKwuEkobkH27k+fzCbs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22,REQID:34a49bda-3911-4913-8900-ccc034b47e1b,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:95
+X-CID-INFO: VERSION:1.1.22,REQID:34a49bda-3911-4913-8900-ccc034b47e1b,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+        :quarantine,TS:95
+X-CID-META: VersionHash:120426c,CLOUDID:dc294e84-cd9c-45f5-8134-710979e3df0e,B
+        ulkID:230417161743L1ENFHNP,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 537a69fedcf811eda9a90f0bb45854f4-20230417
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1581083758; Mon, 17 Apr 2023 16:17:42 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Mon, 17 Apr 2023 16:17:41 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.25 via Frontend Transport; Mon, 17 Apr 2023 16:17:41 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Pina Chen <pina.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] media: v4l2-mem2mem: add lock to protect parameter num_rdy
+Date:   Mon, 17 Apr 2023 16:17:40 +0800
+Message-ID: <20230417081740.26075-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230417080117.jiqpynebq2we2hh4@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
+Getting below error when using KCSAN to check the driver. Adding lock to
+protect parameter num_rdy when getting the value with function:
+v4l2_m2m_num_src_bufs_ready/v4l2_m2m_num_dst_bufs_ready.
 
-On Mon, Apr 17, 2023 at 10:01:17AM +0200, Marco Felsch wrote:
-> On 23-04-17, Laurent Pinchart wrote:
-> > On Mon, Apr 17, 2023 at 08:50:59AM +0200, Marco Felsch wrote:
-> > > Hi Laurent,
-> > > 
-> > > your patch LGTM just one nit/idea, please see below.
-> > > 
-> > > On 23-04-17, Laurent Pinchart wrote:
-> > > > Add DT nodes for the two CSI-2 receivers of the i.MX8MP.
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 60 +++++++++++++++++++++++
-> > > >  1 file changed, 60 insertions(+)
-> > > > 
-> > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > > > index 2dd60e3252f3..2a374a4c14a2 100644
-> > > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > > > @@ -1239,6 +1239,66 @@ ldb_lvds_ch1: endpoint {
-> > > >  				};
-> > > >  			};
-> > > >  
-> > > > +			mipi_csi_0: csi@32e40000 {
-> > > > +				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
-> > > > +				reg = <0x32e40000 0x10000>;
-> > > > +				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
-> > > > +				clock-frequency = <500000000>;
-> > > > +				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
-> > > > +					 <&clk IMX8MP_CLK_MEDIA_CAM1_PIX_ROOT>,
-> > > > +					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
-> > > > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
-> > > > +				clock-names = "pclk", "wrap", "phy", "axi";
-> > > > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM1_PIX>;
-> > > > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
-> > > > +				assigned-clock-rates = <500000000>;
-> > > > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
-> > > > +				status = "disabled";
-> > > > +
-> > > > +				ports {
-> > > > +					#address-cells = <1>;
-> > > > +					#size-cells = <0>;
-> > > > +
-> > > > +					port@0 {
-> > > > +						reg = <0>;
-> > > 
-> > > If we would add:
-> > > 						mipi_csi_0_in: endpoint {};
-> > > 
-> > > here we could refernce it from overlays/board dts files more easily.
-> > 
-> > Isn't there an unwritten rule (or consensus) that an endpoint should
-> > always have a remote-endpoint property ?
-> 
-> I don't know if there is one.
-> 
-> > While ports describe hardware properties of a device and should always
-> > be there regardless of connections, endpoints describe connections and
-> > I don't think they should be instantiated with a valid
-> > remote-endpoint.
-> 
-> I know, therefore I mentioned it as idea to make it 'easier' to add
-> camera nodes.
+kworker/u16:3: [name:report&]BUG: KCSAN: data-race in v4l2_m2m_buf_queue
+kworker/u16:3: [name:report&]
 
-As a middleground, would it be useful to have a label for the port ?
-Something like
+kworker/u16:3: [name:report&]read-write to 0xffffff8105f35b94 of 1 bytes by task 20865 on cpu 7:
+kworker/u16:3:  v4l2_m2m_buf_queue+0xd8/0x10c
 
-	mipi_csi_0: csi@32e40000 {
-		ports {
-			mipi_csi_0_port_0: port@0 {
-			};
-		};
-	};
+Signed-off-by: Pina Chen <pina.chen@mediatek.com>
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+---
+ include/media/v4l2-mem2mem.h | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-An overlay could then reference that and create the endpoint. I'm not
-entirely sure how useful that would be though, as the overlay would need
-to enable the CSI node anyway. Compare
-
---------
-&mipi_csi_0 {
-	status = "okay";
-};
-
-&mipi_csi_0_port_0 {
-	mipi_csi_0_in: endpoint {
-		remote-endpoint = <&imx327_out>;
-	};
-};
---------
-
-with
-
---------
-&mipi_csi_0 {
-	status = "okay";
-
-	ports {
-		port@0 {
-			mipi_csi_0_in: endpoint {
-				remote-endpoint = <&imx327_out>;
-			};
-		};
-	};
-};
---------
-
-I have a slight preference for the latter as it groups all the CSI0 data
-in a single overlay target, but if the former is generally preferred,
-I'm fine with that too.
-
-> > > > +					};
-> > > > +
-> > > > +					port@1 {
-> > > > +						reg = <1>;
-> > > > +					};
-> > > > +				};
-> > > > +			};
-> > > > +
-> > > > +			mipi_csi_1: csi@32e50000 {
-> > > > +				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
-> > > > +				reg = <0x32e50000 0x10000>;
-> > > > +				interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
-> > > > +				clock-frequency = <266000000>;
-> > > > +				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
-> > > > +					 <&clk IMX8MP_CLK_MEDIA_CAM2_PIX_ROOT>,
-> > > > +					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
-> > > > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
-> > > > +				clock-names = "pclk", "wrap", "phy", "axi";
-> > > > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM2_PIX>;
-> > > > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
-> > > > +				assigned-clock-rates = <266000000>;
-> > > > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
-> > > > +				status = "disabled";
-> > > > +
-> > > > +				ports {
-> > > > +					#address-cells = <1>;
-> > > > +					#size-cells = <0>;
-> > > > +
-> > > > +					port@0 {
-> > > > +						reg = <0>;
-> > > > +					};
-> > > > +
-> > > > +					port@1 {
-> > > > +						reg = <1>;
-> > > > +					};
-> > > > +				};
-> > > > +			};
-> > > > +
-> > > >  			pcie_phy: pcie-phy@32f00000 {
-> > > >  				compatible = "fsl,imx8mp-pcie-phy";
-> > > >  				reg = <0x32f00000 0x10000>;
-
+diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+index bb9de6a899e0..d6c8eb2b5201 100644
+--- a/include/media/v4l2-mem2mem.h
++++ b/include/media/v4l2-mem2mem.h
+@@ -593,7 +593,14 @@ void v4l2_m2m_buf_queue(struct v4l2_m2m_ctx *m2m_ctx,
+ static inline
+ unsigned int v4l2_m2m_num_src_bufs_ready(struct v4l2_m2m_ctx *m2m_ctx)
+ {
+-	return m2m_ctx->out_q_ctx.num_rdy;
++	unsigned int num_buf_rdy;
++	unsigned long flags;
++
++	spin_lock_irqsave(&m2m_ctx->out_q_ctx.rdy_spinlock, flags);
++	num_buf_rdy = m2m_ctx->out_q_ctx.num_rdy;
++	spin_unlock_irqrestore(&m2m_ctx->out_q_ctx.rdy_spinlock, flags);
++
++	return num_buf_rdy;
+ }
+ 
+ /**
+@@ -605,7 +612,14 @@ unsigned int v4l2_m2m_num_src_bufs_ready(struct v4l2_m2m_ctx *m2m_ctx)
+ static inline
+ unsigned int v4l2_m2m_num_dst_bufs_ready(struct v4l2_m2m_ctx *m2m_ctx)
+ {
+-	return m2m_ctx->cap_q_ctx.num_rdy;
++	unsigned int num_buf_rdy;
++	unsigned long flags;
++
++	spin_lock_irqsave(&m2m_ctx->cap_q_ctx.rdy_spinlock, flags);
++	num_buf_rdy = m2m_ctx->cap_q_ctx.num_rdy;
++	spin_unlock_irqrestore(&m2m_ctx->cap_q_ctx.rdy_spinlock, flags);
++
++	return num_buf_rdy;
+ }
+ 
+ /**
 -- 
-Regards,
+2.18.0
 
-Laurent Pinchart
