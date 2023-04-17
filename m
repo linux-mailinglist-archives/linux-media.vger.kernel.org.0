@@ -2,89 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6087E6E425E
-	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 10:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 324B26E4288
+	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 10:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbjDQIRy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Apr 2023 04:17:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35382 "EHLO
+        id S229946AbjDQIYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Apr 2023 04:24:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbjDQIRw (ORCPT
+        with ESMTP id S229606AbjDQIYc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Apr 2023 04:17:52 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765F526B2;
-        Mon, 17 Apr 2023 01:17:51 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E7D8610006B; Mon, 17 Apr 2023 09:17:48 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1681719468; bh=7vrhf8jHivfnFCYmFG2HbdBI1KmJjq7kYoSAnAQyO6E=;
-        h=Date:From:To:Subject:From;
-        b=jnAgdxobsyQiBO+mf1lTUJ1l5zVhvTjnfE96jSjMen+Ig9xVjqbgI/Ubnlck59ZXp
-         vzKJEYsWBTXyQrm5bN3Xnvl6okOHiX7XO9BPX1staWHeOTQ0DSyu2PX0FU1KgyG5qg
-         d/qAe9ZCVFPKSMmKRObAIK2YwGHRDOkJEjYRSZ99Y2RwPSExY+DdGi3S4KNP4EyOC+
-         nbytIPrORFxBMRkD81whgTUHLjBTzLCZXXPC55rw8iSf2kuRwfQBntSnREQqQxTxkN
-         5hMMWES2xojiQ2CKHMZ0U+GKLRwcjOLzhK7eJpEgd7fejBMwz4CFDAzBTY+3SVv99s
-         OvK3PIULkQP9A==
-Date:   Mon, 17 Apr 2023 09:17:48 +0100
-From:   Sean Young <sean@mess.org>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2] bpf: lirc program type should not require SYS_CAP_ADMIN
-Message-ID: <ZD0ArKpwnDBJZsrE@gofer.mess.org>
+        Mon, 17 Apr 2023 04:24:32 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A495525B
+        for <linux-media@vger.kernel.org>; Mon, 17 Apr 2023 01:24:06 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1poK9R-0000br-KL; Mon, 17 Apr 2023 10:23:53 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1poK9R-0003Cb-3g; Mon, 17 Apr 2023 10:23:53 +0200
+Date:   Mon, 17 Apr 2023 10:23:53 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-imx@nxp.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
+Message-ID: <20230417082353.fxjrclthiaebebnd@pengutronix.de>
+References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com>
+ <20230417055627.16482-2-laurent.pinchart@ideasonboard.com>
+ <20230417065059.fgmdfwk7pnj62amm@pengutronix.de>
+ <20230417074148.GF28551@pendragon.ideasonboard.com>
+ <20230417080117.jiqpynebq2we2hh4@pengutronix.de>
+ <20230417081510.GA19964@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230417081510.GA19964@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make it possible to load lirc program type with just CAP_BPF. There is
-nothing exceptional about lirc programs that means they require
-SYS_CAP_ADMIN.
+On 23-04-17, Laurent Pinchart wrote:
+> Hi Marco,
+> 
+> On Mon, Apr 17, 2023 at 10:01:17AM +0200, Marco Felsch wrote:
+> > On 23-04-17, Laurent Pinchart wrote:
+> > > On Mon, Apr 17, 2023 at 08:50:59AM +0200, Marco Felsch wrote:
+> > > > Hi Laurent,
+> > > > 
+> > > > your patch LGTM just one nit/idea, please see below.
+> > > > 
+> > > > On 23-04-17, Laurent Pinchart wrote:
+> > > > > Add DT nodes for the two CSI-2 receivers of the i.MX8MP.
+> > > > > 
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > ---
+> > > > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 60 +++++++++++++++++++++++
+> > > > >  1 file changed, 60 insertions(+)
+> > > > > 
+> > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > > index 2dd60e3252f3..2a374a4c14a2 100644
+> > > > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > > > @@ -1239,6 +1239,66 @@ ldb_lvds_ch1: endpoint {
+> > > > >  				};
+> > > > >  			};
+> > > > >  
+> > > > > +			mipi_csi_0: csi@32e40000 {
+> > > > > +				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+> > > > > +				reg = <0x32e40000 0x10000>;
+> > > > > +				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > +				clock-frequency = <500000000>;
+> > > > > +				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
+> > > > > +					 <&clk IMX8MP_CLK_MEDIA_CAM1_PIX_ROOT>,
+> > > > > +					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
+> > > > > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
+> > > > > +				clock-names = "pclk", "wrap", "phy", "axi";
+> > > > > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM1_PIX>;
+> > > > > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+> > > > > +				assigned-clock-rates = <500000000>;
+> > > > > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
+> > > > > +				status = "disabled";
+> > > > > +
+> > > > > +				ports {
+> > > > > +					#address-cells = <1>;
+> > > > > +					#size-cells = <0>;
+> > > > > +
+> > > > > +					port@0 {
+> > > > > +						reg = <0>;
+> > > > 
+> > > > If we would add:
+> > > > 						mipi_csi_0_in: endpoint {};
+> > > > 
+> > > > here we could refernce it from overlays/board dts files more easily.
+> > > 
+> > > Isn't there an unwritten rule (or consensus) that an endpoint should
+> > > always have a remote-endpoint property ?
+> > 
+> > I don't know if there is one.
+> > 
+> > > While ports describe hardware properties of a device and should always
+> > > be there regardless of connections, endpoints describe connections and
+> > > I don't think they should be instantiated with a valid
+> > > remote-endpoint.
+> > 
+> > I know, therefore I mentioned it as idea to make it 'easier' to add
+> > camera nodes.
+> 
+> As a middleground, would it be useful to have a label for the port ?
+> Something like
+> 
+> 	mipi_csi_0: csi@32e40000 {
+> 		ports {
+> 			mipi_csi_0_port_0: port@0 {
+> 			};
+> 		};
+> 	};
+> 
+> An overlay could then reference that and create the endpoint. I'm not
+> entirely sure how useful that would be though, as the overlay would need
+> to enable the CSI node anyway. Compare
 
-In order to attach or detach a lirc program type you need permission to
-open /dev/lirc0; if you have permission to do that, you can alter all
-sorts of lirc receiving options. Changing the IR protocol decoder is no
-different.
+Argh.. you're right, the node isn't enabled too. So the only useful
+use-case for my idea would be: a base-dts which enables the mipi-csi
+node always (since the products do camera support) and the overlay would
+only need to reference the port or endpoint phandle. I'm not sure if
+this use-case is very often.
 
-Right now on a typical distribution /dev/lirc devices are only
-read/write by root. Ideally we would make them group read/write like
-other devices so that local users can use them without becoming root.
+Please ignore it.
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- kernel/bpf/syscall.c | 1 -
- 1 file changed, 1 deletion(-)
-
-v2: improved commit message
-
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index 6d575505f89c..822ebc742a6a 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -2463,7 +2463,6 @@ static bool is_net_admin_prog_type(enum bpf_prog_type prog_type)
- 	case BPF_PROG_TYPE_LWT_SEG6LOCAL:
- 	case BPF_PROG_TYPE_SK_SKB:
- 	case BPF_PROG_TYPE_SK_MSG:
--	case BPF_PROG_TYPE_LIRC_MODE2:
- 	case BPF_PROG_TYPE_FLOW_DISSECTOR:
- 	case BPF_PROG_TYPE_CGROUP_DEVICE:
- 	case BPF_PROG_TYPE_CGROUP_SOCK:
--- 
-2.39.2
-
+> --------
+> &mipi_csi_0 {
+> 	status = "okay";
+> };
+> 
+> &mipi_csi_0_port_0 {
+> 	mipi_csi_0_in: endpoint {
+> 		remote-endpoint = <&imx327_out>;
+> 	};
+> };
+> --------
+> 
+> with
+> 
+> --------
+> &mipi_csi_0 {
+> 	status = "okay";
+> 
+> 	ports {
+> 		port@0 {
+> 			mipi_csi_0_in: endpoint {
+> 				remote-endpoint = <&imx327_out>;
+> 			};
+> 		};
+> 	};
+> };
+> --------
+> 
+> I have a slight preference for the latter as it groups all the CSI0 data
+> in a single overlay target, but if the former is generally preferred,
+> I'm fine with that too.
+> 
+> > > > > +					};
+> > > > > +
+> > > > > +					port@1 {
+> > > > > +						reg = <1>;
+> > > > > +					};
+> > > > > +				};
+> > > > > +			};
+> > > > > +
+> > > > > +			mipi_csi_1: csi@32e50000 {
+> > > > > +				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+> > > > > +				reg = <0x32e50000 0x10000>;
+> > > > > +				interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > +				clock-frequency = <266000000>;
+> > > > > +				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
+> > > > > +					 <&clk IMX8MP_CLK_MEDIA_CAM2_PIX_ROOT>,
+> > > > > +					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
+> > > > > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
+> > > > > +				clock-names = "pclk", "wrap", "phy", "axi";
+> > > > > +				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM2_PIX>;
+> > > > > +				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+> > > > > +				assigned-clock-rates = <266000000>;
+> > > > > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
+> > > > > +				status = "disabled";
+> > > > > +
+> > > > > +				ports {
+> > > > > +					#address-cells = <1>;
+> > > > > +					#size-cells = <0>;
+> > > > > +
+> > > > > +					port@0 {
+> > > > > +						reg = <0>;
+> > > > > +					};
+> > > > > +
+> > > > > +					port@1 {
+> > > > > +						reg = <1>;
+> > > > > +					};
+> > > > > +				};
+> > > > > +			};
+> > > > > +
+> > > > >  			pcie_phy: pcie-phy@32f00000 {
+> > > > >  				compatible = "fsl,imx8mp-pcie-phy";
+> > > > >  				reg = <0x32f00000 0x10000>;
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
