@@ -2,214 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C86D66E47B0
-	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 14:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC7A46E47F2
+	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 14:38:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbjDQM3M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Apr 2023 08:29:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49114 "EHLO
+        id S230492AbjDQMin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Apr 2023 08:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbjDQM3K (ORCPT
+        with ESMTP id S229547AbjDQMim (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Apr 2023 08:29:10 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FDF6C3;
-        Mon, 17 Apr 2023 05:29:06 -0700 (PDT)
-X-UUID: 5434bdd8dd1911eda9a90f0bb45854f4-20230417
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=CK0fmkAEedInrPD7lyX6XNapubONfO3nkobCT36RNXs=;
-        b=Jo+nRemdZD9UM0VvxGQW0Edv+GscqSw81h21DmblxsAN7CQuN3QlbQfLEAwjsRc5HE/qSco5dLsW36IikAYJvaWH7tDKuC5uytL1qhguurXQidE+QTpjDRjiFFHNOUyfybC45m3MQIW4K5SRFX+ekbxxB51vaL3q51tKzClkIkc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22,REQID:442e33b8-4a7a-4408-9a4d-8c344d587213,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:120426c,CLOUDID:fc609aa1-8fcb-430b-954a-ba3f00fa94a5,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 5434bdd8dd1911eda9a90f0bb45854f4-20230417
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1535629906; Mon, 17 Apr 2023 20:13:57 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 17 Apr 2023 20:13:56 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Mon, 17 Apr 2023 20:13:55 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
-        <nfraprado@collabora.com>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2,4/4] media: mediatek: vcodec: using empty lat buffer as the last one
-Date:   Mon, 17 Apr 2023 20:13:50 +0800
-Message-ID: <20230417121350.32186-5-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230417121350.32186-1-yunfei.dong@mediatek.com>
-References: <20230417121350.32186-1-yunfei.dong@mediatek.com>
+        Mon, 17 Apr 2023 08:38:42 -0400
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2073.outbound.protection.outlook.com [40.107.13.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122145267;
+        Mon, 17 Apr 2023 05:38:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c/kAqe46GPlTlTTztecN0A+e7AHck1zm1Pu9CTMhHLAarWv8ux1v4cHzwDXdXmePaSSmCQSb6AiN9wC0oxnRQPfU3vZe2RZ8ok80MTqRNPjAXVmjJ22vFsp+620DHiwLohN8DUaCIUzr4KZxQ52oOkReGbMuD8RE8jVZKeRHaqr6BQkhlSyXIYh8DPxYJ5HRqIVPYLoNTWQmIUe4fI8QtZe1ZWc6ikEkjp/xIHp5SFN/z+ZixvNL+/EAB7hJUdIZAfsZvo8LU0P2AcLyiB+1wzynWn03a5EhMmTKokMW9uSoaSKOCcvTTC0vgdmyuDxA4h6+c+z6ql1NrzfHs23ZLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bOrcjaTiPlsuwJocR7ykoIe/ZKGwLwqAoRXN6G2T6Dw=;
+ b=gPT4mhbwC+66EiXYOFz/UiVQq9TwGvloKpqL63CNrpPTBooyZK+5eHrJNqTeZPpmG/NCXNAuhpDqhqf5cVL3XYtn0Ya17I0dYpX52EqvBEdnnY74D+2TqwfiTJ6JGLPuivot9JCFNqh0Kqo0HddJ1+7UNE43DUnctEhemnE0LLGmHotoe5+msP/LLtv86KsRgAMv9U2TB7KmJZCTcW3sCQUv3YaVRYmskrTolSM5OPkuJ6tcG+n8vhHaj0xle/GgLd0WhWq4qhuRFyZwKmKau9Ek/EKsxKECcmrgrDFS85tyHN795CMFT5P5p1bJ766LAigE5AUVGK9pPFn6Leg9GQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bOrcjaTiPlsuwJocR7ykoIe/ZKGwLwqAoRXN6G2T6Dw=;
+ b=sjAiPhD4Fi32wbl5esPfT2ZfpXalj+FJZygcykugTdNHDKb39XnRWCiuMH/PGKH9qiRVFE/4YQg6GJFaBOnbxtt278n0p6wGYBoK2iOwIm8qA3v02W0+BXj6HXLQlNMttQso/CK2VzwVIhlxr8gNC/Z7BdblxCu/sVb5TJejd4E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by PA4PR08MB5936.eurprd08.prod.outlook.com (2603:10a6:102:f1::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.30; Mon, 17 Apr
+ 2023 12:38:22 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::77dd:14e4:a772:d85f]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::77dd:14e4:a772:d85f%4]) with mapi id 15.20.6298.045; Mon, 17 Apr 2023
+ 12:38:22 +0000
+Message-ID: <ccae3994-3b1b-4050-ea34-98f97cf886e0@wolfvision.net>
+Date:   Mon, 17 Apr 2023 14:38:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
+ group status controls for zoom and focus
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Riesch via B4 Relay 
+        <devnull+michael.riesch.wolfvision.net@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Matthias Fend <Matthias.Fend@wolfvision.net>,
+        libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org
+References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net>
+ <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
+ <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
+ <0f1baf5e-2ff6-e10b-5c3e-0a82c71d0ce6@wolfvision.net>
+ <CAPY8ntAjBEFfeV6nnQs34Y22QM-irT13ALDv4ksP8AYK=jWsKg@mail.gmail.com>
+ <3ab7bfc4-aaae-2e39-b420-40ad8d71dda4@wolfvision.net>
+ <CAPY8ntCNuvgmF37kDvVh1kuepbLqy2hWcz9HOi8iub9trHmi2g@mail.gmail.com>
+ <ZDbKU5kwcb7RGeCo@kekkonen.localdomain>
+From:   Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <ZDbKU5kwcb7RGeCo@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR2P278CA0006.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:50::12) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|PA4PR08MB5936:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fd3abd5-3f68-4a27-e92a-08db3f40a155
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: glYV16OrWYIBaLduXbxwcWo3d1+1AqjFl0IXvwaXCatOP8jT07fgxnSFANVCaZVhETEhikiuxsdseeNknHuOj172rQk16laxE8KF6RFEls1HwC3X4WPraM79kPD8hMYLh9PQNxAHW2+yXeNWWGOZHLV4eHWMjNBRhz2gl5sv2cjgCitAsjASafGCJq64Uq1WgZVlCFxu/1vldGaKeak99n6D6aj+kDq9Dq6y1ea/qcHrttRnhEWjSGuY7e3yTftUBZXJa6lUbdJqd4T58WlRTma5BPvLemkPO1KHekwPLRfCTQsuamy4waN4c+utKlfI/z9ygwITja35eBJl2nLg39c8roPZO3BIVmLDbHJqpGSDunVYa5VV1pSmTPsw/NRlvEOO0L8U79L9Oq0I1UfpX1ijV7Lh2w32yY+zxkGv3Q8tDGjo3W79CIPGHIq0wFSbVPS3gdToLOuziwv75jGusf7xLv6QCeXKKralE6S+WfLOclTW0QznbQbIvXtLbuA2JdosnoF/uOOGzHR3k7RSiYFVZzHsfx8qQsMCmCHy05rcjHTJ3Fv7rEpI4+asCkUfjyJI/6LTz7EKCg+TTHMVMoUvCwryG1rqvONNsUinLVQzViH1CW8TDXu2b0wtglzM/jfT3CyE1y6Renyg7D+kLg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(39840400004)(396003)(346002)(136003)(451199021)(44832011)(83380400001)(41300700001)(5660300002)(2616005)(31686004)(2906002)(38100700002)(53546011)(6512007)(6506007)(8936002)(186003)(8676002)(6486002)(66556008)(36756003)(4326008)(478600001)(66946007)(86362001)(66476007)(54906003)(110136005)(31696002)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K09XNEd0UXRoQlBkL2x0RmphbWovYWxEaCsvbndDTnVQOGUvY3RvQWV3VlJn?=
+ =?utf-8?B?aGhkWkduT3RBL1JIL3A0K3F4d2UyTElkR3d1bnFjUWZ2NFlMaVMybGsxbmQr?=
+ =?utf-8?B?MGRQVEEvb2V2dWFzMXEyUjhBbDFRdkNmQjJzWndJRHN6M3MyMEMxY3czb3JQ?=
+ =?utf-8?B?dlZHRjZvTExiNUY1RGgyekpjMGpsL1d0SWU3bXhBZGJvRmJ1VitENmh3UFlr?=
+ =?utf-8?B?bkdXQ01hanl6WGlNcFV2ckhDSjViTVpFblp3V2hVbFpMUndEZFdXU2tlc0Fo?=
+ =?utf-8?B?S2tvTm4vaU5HalovdjBDbG1TUEpVVnFVTnNkc0pQejR5dFpyS010eGI4UUpB?=
+ =?utf-8?B?R01oL0RzbTN3cWtIajBBOEI4RElMYVQ5TmZIczM2T0ROdmVueDYwVXBMblpC?=
+ =?utf-8?B?amUxVG9uL0ExanNGcDZrU0tRVlgzV3l3d0dIelNCUFp4T1M2dWZWUnNLbWov?=
+ =?utf-8?B?eW1JdjdhNjVwbm5RQmRBSTU3SjJ5N1p2dUUzakZCKy9WeC9pdmI3Rm9wNjhv?=
+ =?utf-8?B?d0ptVFBDNzg3Q1cxcUZNQjFCc3phNjlWaS9PdjlkdEdBNTlYRFlMS1BNV2dm?=
+ =?utf-8?B?QlE3ZXZZcXFOeWtwUzJMMVBRNlBKOEF1a2JKRzJaZWhDUkNkNzJ5L3ViOHRO?=
+ =?utf-8?B?QlE2NG93MlYwL2pkSVBra3h5dkdIREFpMDRSREFtMCtEZDU5S293NWFUdHMx?=
+ =?utf-8?B?bm1MendlSFZWUHluQ3Z4TXBtY1NyQWZSOGo2a1pwSThlNTFFSnB6djBiaDB2?=
+ =?utf-8?B?cEh0REd3RXBSN3ZneDE3UDd4NlJUNm8xb1Z0NVJBQmF5NTI5VFYwZ0dGcDBK?=
+ =?utf-8?B?Vk54bWd1S3dHcTlmV2dCVGVNbEN6K3RralE2Q1hMVjJtTUdtb2IzYTdDVERI?=
+ =?utf-8?B?bkdpUGFhWFZiNk1HK0RaeVJwbUZiNk9xUVA5VE4vMVYrTnFlNnI5L1RyQ3dz?=
+ =?utf-8?B?Tnl0QXNiaFBickVTYUZPUEc2SXlPVzdDdEYvNXBZazgrRElnbWVOL0g3RWpv?=
+ =?utf-8?B?TkVoT3FWZ0ZLTXRGNEhKaUdiQWFvaytVaW5wQW81ajN0MzMyWkRkZG1NdzhK?=
+ =?utf-8?B?dW85MzdaM0k1NVBVQlBndEQzOURwWDVXUklCeVlkK1BhK25pekgrSVdmUCtS?=
+ =?utf-8?B?Mm1FVnZCVGttdThSaW5OTkFjRXhram1KMzdUbUJ1VXBEUjFaL3VtT0JTbjJT?=
+ =?utf-8?B?VFp1bXc4dmZKNUNleVlUVzcvcEtqRmZoRjYxMU5rbUZsNHdvR2lBOUxqODBy?=
+ =?utf-8?B?L05KQ2xBWVlpelljVWRZdWdzOVhuRnV4U25xTkFPN1kvdHR4a1RGNWlkaEoy?=
+ =?utf-8?B?QXVySkFJcUdoc0Z1NTVNS3Y3K014Z3JDZHV0RHFVcnNQNGU4cE8xaW5GRFdU?=
+ =?utf-8?B?RkMrQTFtUENrb00rK29DOWx5UmE3VUtERFYzODZySzJqV2NKbE5VcDN4cTFO?=
+ =?utf-8?B?Sy9RYWY5RlJ3QWJjRGtLcXZ4TTBsc1pHZDVTUnhGMk1uMEQwMStSU3pHYVlJ?=
+ =?utf-8?B?cG5QT1cyMGNMejRMakhpdUc3bzZSVVJNN3dRcGwvMHJNMVpxL1RML2NvUVlB?=
+ =?utf-8?B?dUttL2FHM1JlV1gwcFlGNGNIaW01cm0xNWVJV2RMeXE1Q25tRmVYWk5KM3Na?=
+ =?utf-8?B?TmNnemQ3QXBjWUlIZERlc1NGZUd2QUwraGczeDI2Q3VDZTlIWXdyUThiQm5z?=
+ =?utf-8?B?SFZUVy9jaXZrVFY5Z0U3d1ZBM3YwdkdtcTZ3S1Y5V3VZNHNJU0dWaUpIRzN1?=
+ =?utf-8?B?TjgyWUtkYzlmZitKR3dSVXJsdVN2TFBFTUVHTGpEZnRCbWhNdy92VTNjVmVI?=
+ =?utf-8?B?am9YUmpZd3BSSDhFTXJtRlZmZDArVnV0L0QrMWRBY3UxbUxlVTI0eU1Jcnhr?=
+ =?utf-8?B?dmZtbFA5WEliYjdtV0FXYzNmeTk2VGxUU0wxSUNoOW1XMDR2VDQ2Rkx6RVAw?=
+ =?utf-8?B?eG11RzNWNFA5NC9aeXJKNnZZTmtPSCsrUlY3dFNWWDY4MjY0U0dtOWhHcnVU?=
+ =?utf-8?B?RTluUmZ2cjNldGlBSGZ5TFRSOS9TMTZYeFhhQ3g2SDZSemVRL042MFZRb0x5?=
+ =?utf-8?B?dzhnNDV3clVRMk15UHhaeXVLZ2ZHRFJydlFIZTZDYWF6ZnQ0a1B5NDh5OCtO?=
+ =?utf-8?B?Nk9CTXJpbHR3ZVpCd3FGQjJ3VFA2dDNTdzhyMmtDZGd1bXNqSVd3K2xUNnZt?=
+ =?utf-8?B?SFFCMUw2ZjhXU1lmZk5rZExTS3I5bWxGR2VPeHcwZjFCTTArY3RmbXpheE1h?=
+ =?utf-8?B?SmpTcC9xN2lmd0tmTWZKVE1SKzZBPT0=?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fd3abd5-3f68-4a27-e92a-08db3f40a155
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2023 12:38:22.1916
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w94QlELEcV0BlAz3juQvKECylqOpGkGVgUKV+tX+W4V+PS54Ot04Hd19+2xnLRceBjobPFPxFUKLJpQJVIlBDPs9th+hbeGhEbAc8ixYD2M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB5936
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adding one empty lat buffer with parameter 'is_empty_flag = true'
-used to flush core work queue decode.
+Hi Sakari,
 
-Queue the empty lat buffer to core list when driver need to flush decode.
-It's mean core already decode all existed lat buffer when get empty lat
-buffer, then wake up core decode done event, the driver will exit when getting
-core dec done event.
+On 4/12/23 17:12, Sakari Ailus wrote:
+> Hi Dave, Michael,
+> 
+> On Wed, Apr 12, 2023 at 02:55:56PM +0100, Dave Stevenson wrote:
+>>>> If the ranges aren't updated, where should that out-of-range lens
+>>>> movement leave the lens?
+>>>
+>>> This is up to the hardware controller, but I would guess it typically
+>>> stops one step before disaster. Wherever that may be, the error
+>>> condition and the current position can be read out via this new STATUS
+>>> control.
+>>>
+>>> Does this sound good so far?
+>>
+>> Sounds reasonable, but I'm not the gatekeeper (that would be Sakari or
+>> Laurent), and I'm just expressing my views based on the lenses I've
+>> encountered.
+>> All of my lenses have a single drive for focus, a single drive for
+>> zoom, and where there are multiple elements they are all connected
+>> mechanically. Your setup sounds far more complex and is likely to need
+>> a more extensive driver, but it'd be nice to not unnecessarily
+>> overcomplicate the interface.
+> 
+> Could we also have a driver that uses these new controls?
 
-Fixes: d227af847ac2 ("media: mediatek: vcodec: add core decode done event")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../platform/mediatek/vcodec/vdec_msg_queue.c | 35 +++++++++++--------
- .../platform/mediatek/vcodec/vdec_msg_queue.h |  8 +++++
- 2 files changed, 28 insertions(+), 15 deletions(-)
+If you are referring to the driver for our custom lens controller, then
+I have to say that it is under development and simply not ready for
+release yet. Also, the decision has not yet been made whether or not
+this will be an open-source driver.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-index 08c720c9760e..d2e48eefc958 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-@@ -177,9 +177,6 @@ void vdec_msg_queue_update_ube_wptr(struct vdec_msg_queue *msg_queue, uint64_t u
- 
- bool vdec_msg_queue_wait_lat_buf_full(struct vdec_msg_queue *msg_queue)
- {
--	int ret;
--	long timeout_jiff;
--
- 	if (atomic_read(&msg_queue->lat_list_cnt) == NUM_BUFFER_COUNT) {
- 		mtk_v4l2_debug(3, "wait buf full: list(%d %d) ready_num:%d status:%d",
- 			       atomic_read(&msg_queue->lat_list_cnt),
-@@ -189,19 +186,14 @@ bool vdec_msg_queue_wait_lat_buf_full(struct vdec_msg_queue *msg_queue)
- 		return true;
- 	}
- 
--	timeout_jiff = msecs_to_jiffies(1000 * (NUM_BUFFER_COUNT + 2));
--	ret = wait_event_timeout(msg_queue->ctx->msg_queue.core_dec_done,
--				 msg_queue->lat_ctx.ready_num == NUM_BUFFER_COUNT,
--				 timeout_jiff);
--	if (ret) {
--		mtk_v4l2_debug(3, "success to get lat buf: %d",
--			       msg_queue->lat_ctx.ready_num);
--		return true;
--	}
-+	msg_queue->flush_done = false;
-+	vdec_msg_queue_qbuf(&msg_queue->core_ctx, &msg_queue->empty_lat_buf);
-+	wait_event(msg_queue->core_dec_done, msg_queue->flush_done);
- 
--	mtk_v4l2_err("failed with lat buf isn't full: list(%d %d)",
--		     atomic_read(&msg_queue->lat_list_cnt),
--		     atomic_read(&msg_queue->core_list_cnt));
-+	mtk_v4l2_debug("flush done => ready_num:%d status:%d list(%d %d)",
-+		       msg_queue->lat_ctx.ready_num, msg_queue->status,
-+		       atomic_read(&msg_queue->lat_list_cnt),
-+		       atomic_read(&msg_queue->core_list_cnt));
- 
- 	return false;
- }
-@@ -250,6 +242,14 @@ static void vdec_msg_queue_core_work(struct work_struct *work)
- 	if (!lat_buf)
- 		return;
- 
-+	if (lat_buf->is_last_frame) {
-+		ctx->msg_queue.status = CONTEXT_LIST_DEC_DONE;
-+		msg_queue->flush_done = true;
-+		wake_up(&ctx->msg_queue.core_dec_done);
-+
-+		return;
-+	}
-+
- 	ctx = lat_buf->ctx;
- 	mtk_vcodec_dec_enable_hardware(ctx, MTK_VDEC_CORE);
- 	mtk_vcodec_set_curr_ctx(dev, ctx, MTK_VDEC_CORE);
-@@ -300,6 +300,10 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
- 	msg_queue->wdma_rptr_addr = msg_queue->wdma_addr.dma_addr;
- 	msg_queue->wdma_wptr_addr = msg_queue->wdma_addr.dma_addr;
- 
-+	msg_queue->empty_lat_buf.ctx = ctx;
-+	msg_queue->empty_lat_buf.core_decode = NULL;
-+	msg_queue->empty_lat_buf.is_last_frame = true;
-+
- 	for (i = 0; i < NUM_BUFFER_COUNT; i++) {
- 		lat_buf = &msg_queue->lat_buf[i];
- 
-@@ -325,6 +329,7 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
- 
- 		lat_buf->ctx = ctx;
- 		lat_buf->core_decode = core_decode;
-+		lat_buf->is_last_frame = false;
- 		err = vdec_msg_queue_qbuf(&msg_queue->lat_ctx, lat_buf);
- 		if (err) {
- 			mtk_v4l2_err("failed to qbuf buf[%d]", i);
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
-index efc94165e016..8f771874f8e6 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
-@@ -62,6 +62,8 @@ struct vdec_msg_queue_ctx {
-  * @core_decode: different codec use different decode callback function
-  * @lat_list: add lat buffer to lat head list
-  * @core_list: add lat buffer to core head list
-+ *
-+ * @is_last_frame: meaning this buffer is the last frame
-  */
- struct vdec_lat_buf {
- 	struct mtk_vcodec_mem wdma_err_addr;
-@@ -74,6 +76,8 @@ struct vdec_lat_buf {
- 	core_decode_cb_t core_decode;
- 	struct list_head lat_list;
- 	struct list_head core_list;
-+
-+	bool is_last_frame;
- };
- 
- /**
-@@ -88,6 +92,8 @@ struct vdec_lat_buf {
-  *
-  * @lat_list_cnt: used to record each instance lat list count
-  * @core_list_cnt: used to record each instance core list count
-+ * @flush_done: core flush done status
-+ * @empty_lat_buf: the last lat buf used to flush decode
-  * @core_dec_done: core work queue decode done event
-  * @status: current context decode status for core hardware
-  */
-@@ -104,6 +110,8 @@ struct vdec_msg_queue {
- 
- 	atomic_t lat_list_cnt;
- 	atomic_t core_list_cnt;
-+	bool flush_done;
-+	struct vdec_lat_buf empty_lat_buf;
- 	wait_queue_head_t core_dec_done;
- 	int status;
- };
--- 
-2.18.0
+A different approach could be the adaptation of the vimc-lens driver,
+which currently only supports FOCUS_ABSOLUTE. But this would raise
+several implementation questions and at least for me this would be a
+nontrivial task.
 
+Is it required to have a driver for this interface (in the sense that
+the patches cannot be accepted otherwise)?
+
+> The controls themselves appear reasonable to me as well. I guess there are
+> changes to be made based on the discussion?
+
+I'd summarize that whether or not the status controls are compound
+controls of the type V4L2_CTRL_TYPE_LENS_STATUS is the open question.
+
+As a potential follow-up question I recently asked myself if the struct
+v4l2_ctrl_lens_status should contain trailing reserved bytes for future
+extension (no idea, though, what this could be).
+
+Alternatively, we could come up with "V4L2_CID_FOCUS_CURRENT (integer)"
+for the current position and "V4L2_CID_FOCUS_STATUS (bitmask)" (and add
+further controls when they are needed. Here, we lose atomicity but maybe
+this can be ignored. One could assume that all relevant controls are
+read out with a single ioctl which provides at least some level of
+atomicity.
+
+Any comments and/or recommendations to this open question would be much
+appreciated.
+
+Other review comments will be incorporated in the next iteration of this
+series as well, but they are quite straightforward.
+
+Best regards,
+Michael
