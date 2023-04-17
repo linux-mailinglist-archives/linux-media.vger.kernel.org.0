@@ -2,54 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80FEC6E51E3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Apr 2023 22:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E87836E54B5
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 00:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbjDQUa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Apr 2023 16:30:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56694 "EHLO
+        id S229575AbjDQWhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Apr 2023 18:37:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbjDQUaY (ORCPT
+        with ESMTP id S229479AbjDQWhr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Apr 2023 16:30:24 -0400
+        Mon, 17 Apr 2023 18:37:47 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E2091FD4;
-        Mon, 17 Apr 2023 13:30:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065C14211;
+        Mon, 17 Apr 2023 15:37:46 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A998629B6;
-        Mon, 17 Apr 2023 20:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BD7D1C433A0;
-        Mon, 17 Apr 2023 20:30:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 95401622A0;
+        Mon, 17 Apr 2023 22:37:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68D1C433D2;
+        Mon, 17 Apr 2023 22:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681763420;
-        bh=kiEIljlt09XsCaA9Y2GUxOe42naE7VPA9YmITyBKdv8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=TqN2SBk9OUacIibhSHw60mtLfs+SeQrsWlbyRGt0YB4um8+mQ7bGai+2qusVfkJx5
-         Hf0mp6RMN5ebGRY33yAP/3kJNpOu/6wh19px84grLMktgqcfALieuEtjX5P71aqjkY
-         VhW3/7b5BirpuODAw3uj2Lyvyp9qsll9o1tS//cy4jutzQBsaeg36ZeTzV9Gndim8i
-         CgVLI/r+IpUaWCnUa61k+4wgcGk8CCtWQ0PAZHFpUGkiHl/Ry5LG4BvzZQjRFoIYvd
-         aRr0PW+8XApo6nuP7Kg344CSNMggJxH+xUIt6qLNVpfqeNPpqoPv5nqmEroOS6zJly
-         dKlP1Y/g/cK9w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 955E3C40C5E;
-        Mon, 17 Apr 2023 20:30:20 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1681771064;
+        bh=4chkLext4acUulDFIohP7fhi352aObb1FKu9YKPstuE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hb/S2y/rigkJ/WkHNx0ib5MgI+9jzdccld4y2a7WmRgQJTQxWBrKxMP7/1migDa+l
+         mpaq8omKobu5mJmldMLps29p1NJnyNs9tF06dbKH50Gf/FWwxCNxCIZC9Wb2i4Aacc
+         Hffx1HHVTZmFhpypOzI0iUqXs2HyHvycFwhhVMz5NxqyGcm2k3IsYslMRfLclnOnHS
+         W5tCxT5Sn5+0XBEmLmszFqMLEMG/odozdGjLAhawRNwFc5T66v4nnxd9kxCRYIx0mR
+         5Va296OoFxxavFwIfnj8iln4VasY8gtLAKkmXCSCyrSGOdvr7nulYgpfX4ffysEdj8
+         NY0G9CU4mBtiQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Stefan Riedmueller <s.riedmueller@phytec.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: nxp: imx8-isi: fix buiding on 32-bit
+Date:   Tue, 18 Apr 2023 00:37:27 +0200
+Message-Id: <20230417223738.1811110-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] bpf: lirc program type should not require SYS_CAP_ADMIN
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168176342060.32012.3458485345693041514.git-patchwork-notify@kernel.org>
-Date:   Mon, 17 Apr 2023 20:30:20 +0000
-References: <ZD0ArKpwnDBJZsrE@gofer.mess.org>
-In-Reply-To: <ZD0ArKpwnDBJZsrE@gofer.mess.org>
-To:     Sean Young <sean@mess.org>
-Cc:     ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com,
-        andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-        yhs@fb.com, kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-        jolsa@kernel.org, bpf@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -60,30 +63,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello:
+From: Arnd Bergmann <arnd@arndb.de>
 
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+The #if check is wrong, leading to a build failure:
 
-On Mon, 17 Apr 2023 09:17:48 +0100 you wrote:
-> Make it possible to load lirc program type with just CAP_BPF. There is
-> nothing exceptional about lirc programs that means they require
-> SYS_CAP_ADMIN.
-> 
-> In order to attach or detach a lirc program type you need permission to
-> open /dev/lirc0; if you have permission to do that, you can alter all
-> sorts of lirc receiving options. Changing the IR protocol decoder is no
-> different.
-> 
-> [...]
+drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c: In function 'mxc_isi_channel_set_inbuf':
+drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c:33:5: error: "CONFIG_ARCH_DMA_ADDR_T_64BIT" is not defined, evaluates to 0 [-Werror=undef]
+   33 | #if CONFIG_ARCH_DMA_ADDR_T_64BIT
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Here is the summary with links:
-  - [v2] bpf: lirc program type should not require SYS_CAP_ADMIN
-    https://git.kernel.org/bpf/bpf-next/c/69a8c792cd95
+This could just be an #ifdef, but it seems nicer to just remove
+the check entirely. Apparently the only reason for the #ifdef
+is to avoid another warning:
 
-You are awesome, thank you!
+drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c:55:24: error: right shift count >= width of type [-Werror=shift-count-overflow]
+
+But this is best avoided by using the lower_32_bits()/upper_32_bits()
+helpers.
+
+Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ .../media/platform/nxp/imx8-isi/imx8-isi-hw.c | 41 ++++++++++---------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
+index db538f3d88ec..f6112b83866a 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
+@@ -29,11 +29,10 @@ static inline void mxc_isi_write(struct mxc_isi_pipe *pipe, u32 reg, u32 val)
+ 
+ void mxc_isi_channel_set_inbuf(struct mxc_isi_pipe *pipe, dma_addr_t dma_addr)
+ {
+-	mxc_isi_write(pipe, CHNL_IN_BUF_ADDR, dma_addr);
+-#if CONFIG_ARCH_DMA_ADDR_T_64BIT
++	mxc_isi_write(pipe, CHNL_IN_BUF_ADDR, lower_32_bits(dma_addr));
+ 	if (pipe->isi->pdata->has_36bit_dma)
+-		mxc_isi_write(pipe, CHNL_IN_BUF_XTND_ADDR, dma_addr >> 32);
+-#endif
++		mxc_isi_write(pipe, CHNL_IN_BUF_XTND_ADDR,
++			      upper_32_bits(dma_addr));
+ }
+ 
+ void mxc_isi_channel_set_outbuf(struct mxc_isi_pipe *pipe,
+@@ -45,34 +44,36 @@ void mxc_isi_channel_set_outbuf(struct mxc_isi_pipe *pipe,
+ 	val = mxc_isi_read(pipe, CHNL_OUT_BUF_CTRL);
+ 
+ 	if (buf_id == MXC_ISI_BUF1) {
+-		mxc_isi_write(pipe, CHNL_OUT_BUF1_ADDR_Y, dma_addrs[0]);
+-		mxc_isi_write(pipe, CHNL_OUT_BUF1_ADDR_U, dma_addrs[1]);
+-		mxc_isi_write(pipe, CHNL_OUT_BUF1_ADDR_V, dma_addrs[2]);
+-#if CONFIG_ARCH_DMA_ADDR_T_64BIT
++		mxc_isi_write(pipe, CHNL_OUT_BUF1_ADDR_Y,
++			lower_32_bits(dma_addrs[0]));
++		mxc_isi_write(pipe, CHNL_OUT_BUF1_ADDR_U,
++			lower_32_bits(dma_addrs[1]));
++		mxc_isi_write(pipe, CHNL_OUT_BUF1_ADDR_V,
++			lower_32_bits(dma_addrs[2]));
+ 		if (pipe->isi->pdata->has_36bit_dma) {
+ 			mxc_isi_write(pipe, CHNL_Y_BUF1_XTND_ADDR,
+-				      dma_addrs[0] >> 32);
++				      upper_32_bits(dma_addrs[0]));
+ 			mxc_isi_write(pipe, CHNL_U_BUF1_XTND_ADDR,
+-				      dma_addrs[1] >> 32);
++				      upper_32_bits(dma_addrs[1]));
+ 			mxc_isi_write(pipe, CHNL_V_BUF1_XTND_ADDR,
+-				      dma_addrs[2] >> 32);
++				      upper_32_bits(dma_addrs[2]));
+ 		}
+-#endif
+ 		val ^= CHNL_OUT_BUF_CTRL_LOAD_BUF1_ADDR;
+ 	} else  {
+-		mxc_isi_write(pipe, CHNL_OUT_BUF2_ADDR_Y, dma_addrs[0]);
+-		mxc_isi_write(pipe, CHNL_OUT_BUF2_ADDR_U, dma_addrs[1]);
+-		mxc_isi_write(pipe, CHNL_OUT_BUF2_ADDR_V, dma_addrs[2]);
+-#if CONFIG_ARCH_DMA_ADDR_T_64BIT
++		mxc_isi_write(pipe, CHNL_OUT_BUF2_ADDR_Y,
++			      lower_32_bits(dma_addrs[0]));
++		mxc_isi_write(pipe, CHNL_OUT_BUF2_ADDR_U,
++			      lower_32_bits(dma_addrs[1]));
++		mxc_isi_write(pipe, CHNL_OUT_BUF2_ADDR_V,
++			      lower_32_bits(dma_addrs[2]));
+ 		if (pipe->isi->pdata->has_36bit_dma) {
+ 			mxc_isi_write(pipe, CHNL_Y_BUF2_XTND_ADDR,
+-				      dma_addrs[0] >> 32);
++				      upper_32_bits(dma_addrs[0]));
+ 			mxc_isi_write(pipe, CHNL_U_BUF2_XTND_ADDR,
+-				      dma_addrs[1] >> 32);
++				      upper_32_bits(dma_addrs[1]));
+ 			mxc_isi_write(pipe, CHNL_V_BUF2_XTND_ADDR,
+-				      dma_addrs[2] >> 32);
++				      upper_32_bits(dma_addrs[2]));
+ 		}
+-#endif
+ 		val ^= CHNL_OUT_BUF_CTRL_LOAD_BUF2_ADDR;
+ 	}
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.2
 
