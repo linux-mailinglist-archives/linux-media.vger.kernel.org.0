@@ -2,75 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81AEA6E580A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 06:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 460386E5836
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 06:51:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbjDREWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 00:22:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38382 "EHLO
+        id S230120AbjDREv0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 00:51:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbjDREWE (ORCPT
+        with ESMTP id S229517AbjDREvZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 00:22:04 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 17 Apr 2023 21:22:02 PDT
-Received: from mx6.ucr.edu (mx6.ucr.edu [138.23.62.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660BA44A6
-        for <linux-media@vger.kernel.org>; Mon, 17 Apr 2023 21:22:02 -0700 (PDT)
+        Tue, 18 Apr 2023 00:51:25 -0400
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 17 Apr 2023 21:51:23 PDT
+Received: from mx-lax3-2.ucr.edu (mx-lax3-2.ucr.edu [169.235.156.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D1D30DC
+        for <linux-media@vger.kernel.org>; Mon, 17 Apr 2023 21:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
-  t=1681791723; x=1713327723;
+  t=1681793483; x=1713329483;
   h=mime-version:from:date:message-id:subject:to;
-  bh=ei2gLs1O0NZnYmBieqz5VhegY2tVkKlBOcsxEi/EA7g=;
-  b=FXTVyw8Xp/XgBedUW6rwhwetIvoDn+tC8bEv5UBKRptKABsMH4+z0Mjw
-   MAaOCfmNAT/JsVBf0FzVokFsLazOtBIHeoJ1nKeVo/3RRUJvmuNM5TTEL
-   k026irQ4G59xmaGqyfEuWoD4TIA4A/FtbbFsbzRh+3Ah6FLld2rleTU6S
-   x14OJWwyvy2tuZev1hd9sVyPV3kWRzyVbox7k9sk5eAUSX4NJcT9oTjJO
-   LSHYaNj18zKRIDudOzSos5VziMKH8aoDvsBetvJaFPkbQblWQO7c6x7DW
-   t5rw1iIRi8xDgh+vfug7mH2u7a0BpjHDb2MOSBmsk+eSeMFtnWaSdURcx
+  bh=exqRgkdkSA1PfDIxy/IwknTenS8IWnfSSg0a09RURMo=;
+  b=VZzXGE3cTRk261llR5ENehDKHRdvNwo1XDJC2uhNb5hT+OkGCp7e341/
+   VhwAScIg0aTNX1FEX6Fj5Rx0aL+ZrbNmRWz2dz/CB7VNxaB2lXvO22ucy
+   mQRBqg4WntCsIfM6RYyMuKGThBRi/I2QPhXkdkx5PrDTqIGDFC+mIT0sY
+   McORcknj6JNUTiuv7cEq97i4fszZ9k9yhPdFVb1I4NXB5D2XCg8ywxP3Q
+   kpiszMph1h0pDbh8WFM+hcq9st7atRwWSYwq583ooi8Qj567LZZ8kJ8l+
+   c2RVPH2euBv3hjaKvW7YoRkuJQY+4kKtlMRSlOEh27GvlabP1eDoAYqUI
    w==;
-Received: from mail-wr1-f71.google.com ([209.85.221.71])
-  by smtpmx6.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Apr 2023 21:21:00 -0700
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-2f4f1fce6c6so1194800f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 17 Apr 2023 21:21:00 -0700 (PDT)
+Received: from mail-wm1-f70.google.com ([209.85.128.70])
+  by smtp-lax3-2.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Apr 2023 21:50:20 -0700
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3f16ef3be6eso9901125e9.3
+        for <linux-media@vger.kernel.org>; Mon, 17 Apr 2023 21:50:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ucr.edu; s=rmail; t=1681791658; x=1684383658;
+        d=ucr.edu; s=rmail; t=1681793418; x=1684385418;
         h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Ag6QRVBSWKzv0L9O+XILR78++2XNzx82opOiTt5BJwM=;
-        b=Ne1+OJswCI/SHD9CEVARkqz9AEhwiCOAod62RAeWBSnBSJtWlvUJiLxENiehkNWWg9
-         0nMrUb5BB2DwioJ6iRVOgE2tFGnZzOLB4Nk1S23UmDaB25dR+qBGOvzVWALa2E2zhY8m
-         3jp0hs14Q/40piB4NROeCwiDlTku04z+Rcp60=
+        bh=HpyqnahZ0dBtoFysZJW/vJkY2sBhJEsRqq8ZhFGwOjI=;
+        b=QIBh8AZCfAo6mr+kt8fYn9MIl6Sn0AQNnIT9l7RcKAk+zUcS0eh2a2AjOnvb7/aUXa
+         tVdkMqLIvsscwsah+Ste7AH5HoY5wOx4Vf+e5NMPiQ3/Tf6Runi1iKfaxbi9S/uKO8np
+         t3SGO4fxxsu08hDkrHjxiVzVBxv5j0nruZj6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681791658; x=1684383658;
+        d=1e100.net; s=20221208; t=1681793418; x=1684385418;
         h=to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ag6QRVBSWKzv0L9O+XILR78++2XNzx82opOiTt5BJwM=;
-        b=l1/vBpzIHuKTOSZEnr2vN4LrMCPQKIJIFvwYm0dfBItsoGODuA2/8bY01M/DBmrFel
-         5mrziQee8qpRIOLvBvVhG+8qTFxbgfAT+Tf0FkIM2/PgMT7mQ/wAwGKng8fwCUbF5oeU
-         mJLuD+wmQldj6MUNLkohuGEQUUzW8YtUofFI33Cd24xjV/Ntgn+n0KnjADp1bU7Xt0s5
-         81H/VvsKagnNBv2jIJpVIKX6XC0S/rU2YPRXSnJHTnjGN8Zku5TXoCrbxtnyv1YlGNaI
-         28eo8SVMEHxrSuO4FwIYF3jVM69CUneb9H2jqfzLDktoYSiOIEequCDa+nUAGBW/ln6/
-         zRlg==
-X-Gm-Message-State: AAQBX9di0ibi9eWxiD+nCYA+GAmazhYab42RkyvqsuzE0cMlxFZt0l6U
-        Okxd/MA2J/ttpfR97cUEOEY7NB+/6e2raSBWWdyI/XOSLXfsoBTXhEZ6WpPcs9fxp4dXIh2pvTM
-        WJ0j3bF6K+QzqVaGt+okRT6GHitc1jeQL9mvyUdq4
-X-Received: by 2002:adf:e710:0:b0:2cf:3a99:9c1e with SMTP id c16-20020adfe710000000b002cf3a999c1emr659184wrm.49.1681791657928;
-        Mon, 17 Apr 2023 21:20:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aVq2gIGzXUeuZqjP58UgyMK3f05ViIe5WrUafSTWEP8RNuI1INVqkqJWIjF7/4RHB/NH5NvwcvY2xHmtS6I1o=
-X-Received: by 2002:adf:e710:0:b0:2cf:3a99:9c1e with SMTP id
- c16-20020adfe710000000b002cf3a999c1emr659174wrm.49.1681791657605; Mon, 17 Apr
- 2023 21:20:57 -0700 (PDT)
+        bh=HpyqnahZ0dBtoFysZJW/vJkY2sBhJEsRqq8ZhFGwOjI=;
+        b=lyRqA5r5JnqXx1K6n9gmTryjgR5qQxCKnWEEBO4yKewhqcZnG7608BCyb5rd5CSP1C
+         sg8FzMKD7/KE1T6zjh3GP1t5lGq5D1/FFWN38AL5mcrAcEePBriWuCLu6uaElN9+1Lk8
+         tDQunKPrm3ZLg9ZQGQxZ2YnWcDrxWU+A3kCIaClHwjlPZAC+SdYUIfK6h7XzCaKEw6xR
+         4+ruK2VC5Ueft/8EAnNy1rlViSw97fdleymXadF6FJHFbPOS3+MepY4ymI8baykDlVJs
+         HMM5kiH2cAg3I8MhSnGq0wbU0Y+xyZpYMIxkh67UfKeRMNyMhI+GcKKB5lfJ8GDJqe3T
+         6O/Q==
+X-Gm-Message-State: AAQBX9fPQo+SsS8r2O+0QR+p7RZ9f7y97SMlhANJQ/74pMLZySlC9Yr2
+        k7iHpCWXLXqWOsgrHxgahuNAXQNYfvfdcBKGXtGonLA9V2I/GwP7mGnPKogYUsSnmQ01eY2zq4s
+        GrgX4KT9CdUq1uLa+2vBRJVw04l7Z7D0gMm0cPayLFKlbwdhvu/Y=
+X-Received: by 2002:a5d:60c3:0:b0:2e3:99d3:7a5 with SMTP id x3-20020a5d60c3000000b002e399d307a5mr658025wrt.24.1681793418097;
+        Mon, 17 Apr 2023 21:50:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bt+E4+5aYFJhzoP/eIld+GGePEmOqnh3yrE8Vw7ps59ymnbJkqulV2j2WnJG8R5W9ILDuMhbIodC9lbkhgOgE=
+X-Received: by 2002:a5d:60c3:0:b0:2e3:99d3:7a5 with SMTP id
+ x3-20020a5d60c3000000b002e399d307a5mr658015wrt.24.1681793417813; Mon, 17 Apr
+ 2023 21:50:17 -0700 (PDT)
 MIME-Version: 1.0
 From:   Yu Hao <yhao016@ucr.edu>
-Date:   Mon, 17 Apr 2023 21:20:46 -0700
-Message-ID: <CA+UBctDXyiosaiR7YNKCs8k0aWu4gU+YutRcnC+TDJkXpHjQag@mail.gmail.com>
-Subject: BUG: general protection fault in vidtv_mux_stop_thread
-To:     dwlsalmeida@gmail.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 17 Apr 2023 21:50:07 -0700
+Message-ID: <CA+UBctCu7fXn4q41O_3=id1+OdyQ85tZY1x+TkT-6OVBL6KAUw@mail.gmail.com>
+Subject: BUG: WARNING in dvb_frontend_get_event
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,70 +82,73 @@ Hello,
 
 We found the following issue using syzkaller on Linux v6.2.0.
 
-It seems to be a currency bug.
-In the function `vidtv_stop_streaming`, after `dvb->mux = NULL;` was executed,
-it executes `vidtv_mux_stop_thread(dvb->mux);` again.
-Need to check the `dvb->mux==NULL` before `vidtv_mux_stop_thread(dvb->mux);`
-in function `vidtv_stop_streaming`
+In the function `dvb_frontend_get_event`, function
+`wait_event_interruptible` is called
+and the condition is `dvb_frontend_test_event(fepriv, events)`.
+In the function `dvb_frontend_test_event`, function
+`down(&fepriv->sem);` is called.
+However, function `wait_event_interruptible` would put the process to sleep.
+And function `down(&fepriv->sem);` may block the process.
+So there is the issue with "do not call blocking ops when !TASK_RUNNING".
 
-The full report including the Syzkaller reproducer:
-https://gist.github.com/ZHYfeng/c61f87ed42d4c44344d4addefd81cc1f
+The full report including the Syzkaller reproducer & C reproducer:
+https://gist.github.com/ZHYfeng/4c5f8be6adc63b73dba68230d15ece2c
 
 The brief report is below:
 
-Syzkaller hit 'general protection fault in vidtv_mux_stop_thread' bug.
+Syzkaller hit 'WARNING in dvb_frontend_get_event' bug.
 
-general protection fault, probably for non-canonical address
-0xdffffc0000000025: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000128-0x000000000000012f]
-CPU: 0 PID: 9614 Comm: syz-executor.0 Not tainted 6.2.0 #1
+------------[ cut here ]------------
+do not call blocking ops when !TASK_RUNNING; state=1 set at
+[<ffffffff8161186d>] prepare_to_wait_event+0x6d/0x690
+kernel/sched/wait.c:333
+WARNING: CPU: 0 PID: 8017 at kernel/sched/core.c:9968
+__might_sleep+0x10a/0x160 kernel/sched/core.c:9968
+Modules linked in:
+CPU: 0 PID: 8017 Comm: syz-executor303 Not tainted 6.2.0 #1
 Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
 1.13.0-1ubuntu1.1 04/01/2014
-RIP: 0010:vidtv_mux_stop_thread+0x27/0x80
-drivers/media/test-drivers/vidtv/vidtv_mux.c:471
-Code: 00 00 00 0f 1f 44 00 00 55 53 48 89 fb e8 51 23 b2 fa 48 8d bb
-28 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6
-04 02 84 c0 74 02 7e 3b 0f b6 ab 28 01 00 00 31 ff 89 ee e8
-RSP: 0018:ffffc900068ffca0 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff86cec666
-RDX: 0000000000000025 RSI: ffff888020378000 RDI: 0000000000000128
-RBP: ffff888019d652f8 R08: 0000000000000000 R09: fffffbfff1ce4fab
-R10: ffffc900068ffcb8 R11: fffffbfff1ce4faa R12: ffff888019d65260
-R13: ffffffff8dc6f3c0 R14: ffffc9000713a6c0 R15: ffff888019d64a70
-FS:  0000555555b72940(0000) GS:ffff88802ca00000(0000) knlGS:0000000000000000
+RIP: 0010:__might_sleep+0x10a/0x160 kernel/sched/core.c:9968
+Code: 9d 03 00 48 8d bb d8 16 00 00 48 89 fa 48 c1 ea 03 80 3c 02 00
+75 34 48 8b 93 d8 16 00 00 48 c7 c7 e0 68 4c 8a e8 38 55 72 08 <0f> 0b
+e9 75 ff ff ff e8 1a 7b 7f 00 e9 26 ff ff ff 89 34 24 e8 1d
+RSP: 0018:ffffc9000e537ac8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffff888018bdba80 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffff888018bdba80 RDI: fffff52001ca6f4b
+RBP: ffffffff8a4cd200 R08: 0000000000000000 R09: ffffed1005944f32
+R10: ffff88802ca2798b R11: ffffed1005944f31 R12: 000000000000003a
+R13: 0000000000000000 R14: 0000000000000000 R15: ffff888044057260
+FS:  0000555555995880(0000) GS:ffff88802ca00000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555555c00d88 CR3: 000000001e832000 CR4: 0000000000350ef0
+CR2: 00007fd34db66000 CR3: 000000001f479000 CR4: 0000000000350ef0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- vidtv_stop_streaming
-drivers/media/test-drivers/vidtv/vidtv_bridge.c:209 [inline]
- vidtv_stop_feed+0x14e/0x250 drivers/media/test-drivers/vidtv/vidtv_bridge.c:252
- dmx_section_feed_stop_filtering+0x91/0x150
-drivers/media/dvb-core/dvb_demux.c:1000
- dvb_dmxdev_feed_stop+0x203/0x280 drivers/media/dvb-core/dmxdev.c:486
- dvb_dmxdev_filter_stop.part.0+0x1e7/0x340 drivers/media/dvb-core/dmxdev.c:559
- dvb_dmxdev_filter_stop drivers/media/dvb-core/dmxdev.c:552 [inline]
- dvb_dmxdev_filter_free drivers/media/dvb-core/dmxdev.c:840 [inline]
- dvb_demux_release+0xd6/0x5c0 drivers/media/dvb-core/dmxdev.c:1246
- __fput+0x281/0xa90 fs/file_table.c:320
- task_work_run+0x170/0x270 kernel/task_work.c:179
- resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:171 [inline]
- exit_to_user_mode_prepare+0x262/0x270 kernel/entry/common.c:203
- __syscall_exit_to_user_mode_work kernel/entry/common.c:285 [inline]
- syscall_exit_to_user_mode+0x19/0x50 kernel/entry/common.c:296
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ down+0x1e/0xa0 kernel/locking/semaphore.c:58
+ dvb_frontend_test_event drivers/media/dvb-core/dvb_frontend.c:277 [inline]
+ dvb_frontend_get_event.isra.0+0x528/0x670
+drivers/media/dvb-core/dvb_frontend.c:301
+ dvb_frontend_handle_ioctl+0x1953/0x2ea0
+drivers/media/dvb-core/dvb_frontend.c:2726
+ dvb_frontend_do_ioctl+0x1c5/0x2f0 drivers/media/dvb-core/dvb_frontend.c:2097
+ dvb_usercopy+0xbe/0x280 drivers/media/dvb-core/dvbdev.c:961
+ dvb_frontend_ioctl+0x5a/0x80 drivers/media/dvb-core/dvb_frontend.c:2111
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl fs/ioctl.c:856 [inline]
+ __x64_sys_ioctl+0x198/0x210 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fe950c40dcb
-Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c
-24 0c e8 63 fc ff ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d
-00 f0 ff ff 77 2f 44 89 c7 89 44 24 0c e8 a1 fc ff ff 8b 44
-RSP: 002b:00007ffd3d403e80 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000004 RCX: 00007fe950c40dcb
-RDX: 0000001b31220000 RSI: 0000000000000001 RDI: 0000000000000003
-RBP: 0000000000000001 R08: 0000000000000000 R09: 00007fe950dd0450
-R10: 00007ffd3d403fc0 R11: 0000000000000293 R12: 00007fe950dd0448
-R13: 00007fe950dd0450 R14: 00007fe950dcbf60 R15: 000000000001c14f
+RIP: 0033:0x7f569e9f4a7d
+Code: 28 c3 e8 36 29 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48
+89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
+01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff77694948 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f569e9f4a7d
+RDX: 0000000020000000 RSI: 0000000080286f4e RDI: 0000000000000003
+RBP: 00007f569e9ae440 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f569e9ae4e0
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
  </TASK>
