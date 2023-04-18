@@ -2,138 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 075226E5BF2
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 10:23:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2AD86E5C55
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 10:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbjDRIXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 04:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35692 "EHLO
+        id S230359AbjDRImG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 04:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjDRIXc (ORCPT
+        with ESMTP id S230414AbjDRImF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 04:23:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 725911713;
-        Tue, 18 Apr 2023 01:23:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ED8A62E6E;
-        Tue, 18 Apr 2023 08:23:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 817B7C433D2;
-        Tue, 18 Apr 2023 08:23:27 +0000 (UTC)
-Message-ID: <012f0c40-5b69-0846-adba-b67850c20a12@xs4all.nl>
-Date:   Tue, 18 Apr 2023 10:23:26 +0200
+        Tue, 18 Apr 2023 04:42:05 -0400
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52A9B7
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 01:42:00 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 3ECE6240033
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 10:41:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1681807319; bh=hcTQht/AVRdfE+tDJL1RYKtMTGekLudYlztN0Vd4RkU=;
+        h=Subject:From:To:Date:From;
+        b=o0RvTU6TExkt3jfYRykdLA8fGctSW40l7l1WqC53IF/0R7nFrPL2DqjxsZWQ9KdcC
+         WzX/iJbWKf8guWZypDmToeDSom1CgkfJQwWRuMr8JA+BvtPzQmmHzAQYefTc1tDmRW
+         yk2XRhECt4dMSujGS3tjjE6ZcaPFJxzVPnYyd588/FAz9Tf7pTgLJaYcylU8dutLas
+         ilR5ZyJXxafZkCFZLbguBdZKCk0AGM86u471sCqHbWCgeA7kujmGWRSP7mFQtZAMrv
+         w4YkNJMbIpYrH8wMdKdVJw632+6htqaSt2/bqvar8WhMrJ5DCsjtv0QqSOAMXd4zQm
+         Np4sqOJSvuZfQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4Q0y8Q1tvmz9rxB;
+        Tue, 18 Apr 2023 10:41:58 +0200 (CEST)
+Message-ID: <e675d9343e76c38c3d35d5a430990f5f2eae7b0b.camel@posteo.de>
+Subject: Re: [PATCH] staging: media: imx: initialize hs_settle to avoid
+ warning
+From:   Martin Kepplinger <martink@posteo.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Tue, 18 Apr 2023 08:41:59 +0000
+In-Reply-To: <86de50ed-5bd9-6cdf-a430-895839568ffd@xs4all.nl>
+References: <86de50ed-5bd9-6cdf-a430-895839568ffd@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: nxp: ignore unused suspend operations
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Guoniu Zhou <guoniu.zhou@nxp.com>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Christian Hemp <c.hemp@phytec.de>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230418071605.2971866-1-arnd@kernel.org>
- <695e9f88-5a79-7ca4-645f-047b78495a80@xs4all.nl>
- <20230418081959.GB30837@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230418081959.GB30837@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+hi Hans,
 
-On 18/04/2023 10:19, Laurent Pinchart wrote:
-> On Tue, Apr 18, 2023 at 10:04:13AM +0200, Hans Verkuil wrote:
->> Hi Arnd,
->>
->> On 18/04/2023 09:15, Arnd Bergmann wrote:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> gcc warns about some functions being unused when CONFIG_PM is
->>> disabled:
->>
->> ???
->>
->> The Kconfig has a:
->>
->>         depends on HAS_DMA && PM
->>
->> So how can this be compiled with CONFIG_PM not set?
->>
->> Am I missing something?
+thank you for the patch. please use get_maintainer.pl to find all email
+addresses to send this to. Sending this to linux-media only is
+incomplete.
+
+other than that, the patch lgtm and if you resend, you can add
+
+Reviewed-by: Martin Kepplinger <martink@posteo.de>
+
+thank you again,
+
+                            martin
+
+
+Am Dienstag, dem 18.04.2023 um 09:46 +0200 schrieb Hans Verkuil:
+> Initialize hs_settle to 0 to avoid this compiler warning:
 > 
-> The warning appears when CONFIG_PM_SLEEP is disabled. The pm_ptr()
-> change is thus not useful, but the switch to SYSTEM_SLEEP_PM_OPS() and
-> RUNTIME_PM_OPS() make a difference.
-
-Can you post a v3?
-
-Thank you!
-
-	Hans
-
+> imx8mq-mipi-csi2.c: In function
+> 'imx8mq_mipi_csi_start_stream.part.0':
+> imx8mq-mipi-csi2.c:91:55: warning: 'hs_settle' may be used
+> uninitialized [-Wmaybe-uninitialized]
+>    91 | #define GPR_CSI2_1_S_PRG_RXHS_SETTLE(x) (((x) & 0x3f) << 2)
+>       |                                                       ^~
+> imx8mq-mipi-csi2.c:357:13: note: 'hs_settle' was declared here
+>   357 |         u32 hs_settle;
+>       |             ^~~~~~~~~
 > 
->>> drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c:328:12: error: 'mxc_isi_pm_resume' defined but not used [-Werror=unused-function]
->>>   328 | static int mxc_isi_pm_resume(struct device *dev)
->>>       |            ^~~~~~~~~~~~~~~~~
->>> drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c:314:12: error: 'mxc_isi_pm_suspend' defined but not used [-Werror=unused-function]
->>>   314 | static int mxc_isi_pm_suspend(struct device *dev)
->>>       |            ^~~~~~~~~~~~~~~~~~
->>>
->>> Use the modern SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() helpers in place
->>> of the old SET_SYSTEM_SLEEP_PM_OPS()/SET_RUNTIME_PM_OPS() ones, and add
->>> a pm_ptr() check to ensure they get dropped by the compiler.
->>>
->>> Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
->>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->>> ---
->>>  drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 6 +++---
->>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
->>> index 238521622b75..253e77189b69 100644
->>> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
->>> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
->>> @@ -378,8 +378,8 @@ static int mxc_isi_runtime_resume(struct device *dev)
->>>  }
->>>  
->>>  static const struct dev_pm_ops mxc_isi_pm_ops = {
->>> -	SET_SYSTEM_SLEEP_PM_OPS(mxc_isi_pm_suspend, mxc_isi_pm_resume)
->>> -	SET_RUNTIME_PM_OPS(mxc_isi_runtime_suspend, mxc_isi_runtime_resume, NULL)
->>> +	SYSTEM_SLEEP_PM_OPS(mxc_isi_pm_suspend, mxc_isi_pm_resume)
->>> +	RUNTIME_PM_OPS(mxc_isi_runtime_suspend, mxc_isi_runtime_resume, NULL)
->>>  };
->>>  
->>>  /* -----------------------------------------------------------------------------
->>> @@ -528,7 +528,7 @@ static struct platform_driver mxc_isi_driver = {
->>>  	.driver = {
->>>  		.of_match_table = mxc_isi_of_match,
->>>  		.name		= MXC_ISI_DRIVER_NAME,
->>> -		.pm		= &mxc_isi_pm_ops,
->>> +		.pm		= pm_ptr(&mxc_isi_pm_ops),
->>>  	}
->>>  };
->>>  module_platform_driver(mxc_isi_driver);
+> It's a false positive, but it is too complicated for the compiler to
+> detect that.
 > 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> index 32700cb8bc4d..ca2efcc21efe 100644
+> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> @@ -354,7 +354,7 @@ static int imx8mq_mipi_csi_start_stream(struct
+> csi_state *state,
+>                                         struct v4l2_subdev_state
+> *sd_state)
+>  {
+>         int ret;
+> -       u32 hs_settle;
+> +       u32 hs_settle = 0;
+> 
+>         ret = imx8mq_mipi_csi_sw_reset(state);
+>         if (ret)
+
 
