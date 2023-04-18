@@ -2,120 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 213046E5D38
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 11:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B2CB6E5D3B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 11:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231172AbjDRJUX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 05:20:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56940 "EHLO
+        id S230459AbjDRJV2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 05:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231279AbjDRJUT (ORCPT
+        with ESMTP id S230490AbjDRJVZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 05:20:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD6C17D9A;
-        Tue, 18 Apr 2023 02:20:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 378E462F08;
-        Tue, 18 Apr 2023 09:20:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467C0C433EF;
-        Tue, 18 Apr 2023 09:20:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681809614;
-        bh=8drEH5aCAxwicYtAScB7NeX/7oZUwCh5bk+LwTxOi1o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=C52CuVbR0PeY3hp5sp2aOcChsv/vBhbh15faoi0ESQVuvK49l6JIuuW1rsHSmFCuN
-         IkpyYOTR76vwFvnOkI6QkhmRcbT1vfw3rBhZMKg+etQL8JwzM2Xdpte8QVvoBSOQJZ
-         iQ7vT4eEaPrKi9L4T0ucnO0LDEG4eFx0tS8NE8pe+UuOHOO6DURdmShWwGHjxgA7go
-         azCXTavQBZX6xkzy2OGY1R3Eu3/24j11v1IYS1Q79y98VXhQkwJSqISTWPLhaxnPNL
-         3s3/MFc9IR7RhnO6ynD0+6Z12PRPJu5oQGAItMRP+SHn5/Ohn2L9qDi9Ev53gnM91R
-         HXMFrUnD9IRJQ==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Christian Hemp <c.hemp@phytec.de>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Guoniu Zhou <guoniu.zhou@nxp.com>, linux-media@vger.kernel.org,
+        Tue, 18 Apr 2023 05:21:25 -0400
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97C4A6E8E;
+        Tue, 18 Apr 2023 02:21:11 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id B07875C00DB;
+        Tue, 18 Apr 2023 05:21:10 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Tue, 18 Apr 2023 05:21:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1681809670; x=1681896070; bh=dk
+        fbnRlz6tHyrEXwUKIVhiEjDrEgVLGMSIvOajuR2jE=; b=kUkHypCrrJUQXUo7MV
+        fbA6kcT8i3X36RfcdKjkiVYZW2J0aBQy+dGMFdx3t/dL7bMoIC0UHX90h6327Jy8
+        FAIvACVdVm/TkgLNM6CXdwXr0eWQKYVeKwbUGqBqW3w7XkCE/9Bmguu3sipk7bCB
+        vU+N7WRTnPcoKBdknL9FVmXdnY2dub7klb9FtpJiUYY8ED2a85TNl3OzzwYJaERt
+        LUAC4sb6AXR/gRfmGw1U5hvuTCdosuGYzFb7lGj4u+FZT3f2osnJIUaA95tLzarZ
+        Zxe5UERlSZYM0Y2FHtevNCl9BZ5fs0Tn2RnngqK46WWI7DS3W5du4ph/O+QwtnIX
+        ditQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1681809670; x=1681896070; bh=dkfbnRlz6tHyr
+        EXwUKIVhiEjDrEgVLGMSIvOajuR2jE=; b=hL4R580YWYNlLSAhmR7FTXZH5BvaX
+        dvphYafeYU4EdCCj6/f8eghc8DtmCpvctoFPfTXxLwTMG5zwkkubrHTQVdgQiERx
+        TB2W1y7m/NjTSWUdNppjAwuIW44RX4xQKLT9b5Ou2xoaOQfyMucwPfVjUHxO0DOL
+        li508orjXIX3nw2sbhBzvrpLCwrptWr5K+1ZTk0lc/+FhMLflwC4SnvESReFvp+c
+        dPq6Ui7sBFP6MLud1zr6OcgwP57dXejkvocBFfl2D8wait0vVRcC1m85l0a46KsL
+        M2j9Z8y0egCGQbjkI+NuYU0W22VKlDtbHPMrfx1GbNiK0B3mvDzJpRj3g==
+X-ME-Sender: <xms:BmE-ZNxrmQo4xknP98dRRam-GuAnqQlW4NyFdl8PbCARL3xGKc_v3g>
+    <xme:BmE-ZNSwANlfnpoDbFe_oclpwPLojVPTqkZC_0OYNxsY3LKdh4ornMmWn-dGIZgPX
+    BLdMXjg5azsO6Yi23M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdelkedgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:BmE-ZHUa-tZlV-Q9OiPAiX4N_hgCCxmqI-acqAzM6CFmvRgqWQAU5Q>
+    <xmx:BmE-ZPjNAVugZwF1fmVQkwC03ILmZqYRrNFNfyV5dGlnop00bnwhkw>
+    <xmx:BmE-ZPBGtYvxhclqfJi9C4yoQhOSsR8odHtOhsym5EgCv2c0fCUUaw>
+    <xmx:BmE-ZHZuz4eOsXj9ZIsGJYzb5XIo9c8sfeO2dFO01RjJFIU01XTi5w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 469B3B60086; Tue, 18 Apr 2023 05:21:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-372-g43825cb665-fm-20230411.003-g43825cb6
+Mime-Version: 1.0
+Message-Id: <52721c32-1cb7-4c00-accf-314ffbc32a76@app.fastmail.com>
+In-Reply-To: <20230418081959.GB30837@pendragon.ideasonboard.com>
+References: <20230418071605.2971866-1-arnd@kernel.org>
+ <695e9f88-5a79-7ca4-645f-047b78495a80@xs4all.nl>
+ <20230418081959.GB30837@pendragon.ideasonboard.com>
+Date:   Tue, 18 Apr 2023 11:20:49 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+        "Hans Verkuil" <hverkuil@xs4all.nl>
+Cc:     "Arnd Bergmann" <arnd@kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Shawn Guo" <shawnguo@kernel.org>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Dong Aisheng" <aisheng.dong@nxp.com>,
+        "Guoniu Zhou" <guoniu.zhou@nxp.com>,
+        "Stefan Riedmueller" <s.riedmueller@phytec.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "Christian Hemp" <c.hemp@phytec.de>,
+        "Jacopo Mondi" <jacopo@jmondi.org>, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] [v3] media: nxp: ignore unused suspend operations
-Date:   Tue, 18 Apr 2023 11:19:55 +0200
-Message-Id: <20230418092007.2902984-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH] media: nxp: ignore unused suspend operations
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Apr 18, 2023, at 10:19, Laurent Pinchart wrote:
+> On Tue, Apr 18, 2023 at 10:04:13AM +0200, Hans Verkuil wrote:
+>> Hi Arnd,
+>> 
+>> On 18/04/2023 09:15, Arnd Bergmann wrote:
+>> > From: Arnd Bergmann <arnd@arndb.de>
+>> > 
+>> > gcc warns about some functions being unused when CONFIG_PM is
+>> > disabled:
+>> 
+>> ???
+>> 
+>> The Kconfig has a:
+>> 
+>>         depends on HAS_DMA && PM
+>> 
+>> So how can this be compiled with CONFIG_PM not set?
+>> 
+>> Am I missing something?
+>
+> The warning appears when CONFIG_PM_SLEEP is disabled. The pm_ptr()
+> change is thus not useful, but the switch to SYSTEM_SLEEP_PM_OPS() and
+> RUNTIME_PM_OPS() make a difference.
 
-gcc warns about some functions being unused when CONFIG_PM_SLEEP
-is disabled:
+I sent a v3 now. I ended up leaving the pm_ptr() in here, based on
+the recommended usage of the new macros.
 
-drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c:328:12: error: 'mxc_isi_pm_resume' defined but not used [-Werror=unused-function]
-  328 | static int mxc_isi_pm_resume(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~
-drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c:314:12: error: 'mxc_isi_pm_suspend' defined but not used [-Werror=unused-function]
-  314 | static int mxc_isi_pm_suspend(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~~
-
-Use the modern SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() helpers in place
-of the old SET_SYSTEM_SLEEP_PM_OPS()/SET_RUNTIME_PM_OPS() ones.
-
-By convention, use pm_ptr() to guard the reference to the operations.
-This makes no difference as long as the driver requires CONFIG_PM,
-but is what users of SET_RUNTIME_PM_OPS() are supposed to do.
-
-Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v3: update changelog text
-v2: Laurent and me both sent a v1
----
- drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-index 238521622b75..253e77189b69 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-@@ -378,8 +378,8 @@ static int mxc_isi_runtime_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops mxc_isi_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(mxc_isi_pm_suspend, mxc_isi_pm_resume)
--	SET_RUNTIME_PM_OPS(mxc_isi_runtime_suspend, mxc_isi_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(mxc_isi_pm_suspend, mxc_isi_pm_resume)
-+	RUNTIME_PM_OPS(mxc_isi_runtime_suspend, mxc_isi_runtime_resume, NULL)
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -528,7 +528,7 @@ static struct platform_driver mxc_isi_driver = {
- 	.driver = {
- 		.of_match_table = mxc_isi_of_match,
- 		.name		= MXC_ISI_DRIVER_NAME,
--		.pm		= &mxc_isi_pm_ops,
-+		.pm		= pm_ptr(&mxc_isi_pm_ops),
- 	}
- };
- module_platform_driver(mxc_isi_driver);
--- 
-2.39.2
-
+    Arnd
