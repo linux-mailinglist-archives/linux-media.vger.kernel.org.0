@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6465E6E6821
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 17:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70B3B6E6824
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 17:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232297AbjDRPbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 11:31:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47266 "EHLO
+        id S230026AbjDRPbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 11:31:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjDRPbK (ORCPT
+        with ESMTP id S232292AbjDRPbO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 11:31:10 -0400
+        Tue, 18 Apr 2023 11:31:14 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29292A257;
-        Tue, 18 Apr 2023 08:30:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C15F9025;
+        Tue, 18 Apr 2023 08:31:04 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC3641180;
-        Tue, 18 Apr 2023 17:30:50 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27635127D;
+        Tue, 18 Apr 2023 17:30:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681831851;
-        bh=gvSbhqiEe33I5YwWlNwSsmu6NgVK2S4eku3qjCfjL5Y=;
+        s=mail; t=1681831857;
+        bh=m8i1sOTp1cD5nKrZVBTW7nzUo7QLZfxbKtV//LNDAwU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kPlc785hlex0ttAbBWt/HzttyFBU48vYcMQ5uviw78ccVPWlSFJZ8bmgcNlYig787
-         PgtgNN/rXDxPzFK9UC5WkV0lGA3oD8HgTyDBD0oAW1hVU1/TOISuRttgVrjDf6VbsY
-         lzpwDabCXv5cQauc+7Uv/ULygXJufMAB7e1s8yV8=
+        b=TonpYNx7eWDPZQkTzu6Pn1CB/AdBMKrUyC1YPgTDaC09JU4xTdAdOtL77IEERojFl
+         44uM0wCfSFBZyOzO0omwmuOBozUG1YYwf01NnSEEi51jmOMZIUFbqHvj3HqNQrkfKI
+         mOOVewIAEGUhDdqbPMMai6nWexE0cYfEnvkhjhAE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-arm-kernel@lists.infradead.org
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -34,9 +34,9 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Rob Herring <robh+dt@kernel.org>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Subject: [PATCH v2 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
-Date:   Tue, 18 Apr 2023 18:31:03 +0300
-Message-Id: <20230418153104.21337-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 2/2] arm64: dts: imx8mp: Add ISI DT node
+Date:   Tue, 18 Apr 2023 18:31:04 +0300
+Message-Id: <20230418153104.21337-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230418153104.21337-1-laurent.pinchart@ideasonboard.com>
 References: <20230418153104.21337-1-laurent.pinchart@ideasonboard.com>
@@ -52,36 +52,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add DT nodes for the two CSI-2 receivers of the i.MX8MP.
+Add a DT node for the i.MX8MP ISI instance, and model to connection to
+two CSI-2 receivers (CSIS).
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 60 +++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+Changes since v1:
+
+- Add blank lines before endpoint nodes
+---
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi | 42 +++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index 2dd60e3252f3..2a374a4c14a2 100644
+index 2a374a4c14a2..192abbad68b2 100644
 --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
 +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -1239,6 +1239,66 @@ ldb_lvds_ch1: endpoint {
+@@ -1239,6 +1239,40 @@ ldb_lvds_ch1: endpoint {
  				};
  			};
  
-+			mipi_csi_0: csi@32e40000 {
-+				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
-+				reg = <0x32e40000 0x10000>;
-+				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
-+				clock-frequency = <500000000>;
-+				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_CAM1_PIX_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
-+				clock-names = "pclk", "wrap", "phy", "axi";
-+				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM1_PIX>;
-+				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
-+				assigned-clock-rates = <500000000>;
-+				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
++			isi_0: isi@32e00000 {
++				compatible = "fsl,imx8mp-isi";
++				reg = <0x32e00000 0x4000>;
++				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
++					     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
++					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
++				clock-names = "axi", "apb";
++				fsl,blk-ctrl = <&media_blk_ctrl>;
++				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISI>;
 +				status = "disabled";
 +
 +				ports {
@@ -90,47 +91,47 @@ index 2dd60e3252f3..2a374a4c14a2 100644
 +
 +					port@0 {
 +						reg = <0>;
++
++						isi_in_0: endpoint {
++							remote-endpoint = <&mipi_csi_0_out>;
++						};
 +					};
 +
 +					port@1 {
 +						reg = <1>;
++
++						isi_in_1: endpoint {
++							remote-endpoint = <&mipi_csi_1_out>;
++						};
 +					};
 +				};
 +			};
 +
-+			mipi_csi_1: csi@32e50000 {
-+				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
-+				reg = <0x32e50000 0x10000>;
-+				interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
-+				clock-frequency = <266000000>;
-+				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_CAM2_PIX_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
-+				clock-names = "pclk", "wrap", "phy", "axi";
-+				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM2_PIX>;
-+				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
-+				assigned-clock-rates = <266000000>;
-+				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
-+				status = "disabled";
+ 			mipi_csi_0: csi@32e40000 {
+ 				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+ 				reg = <0x32e40000 0x10000>;
+@@ -1265,6 +1299,10 @@ port@0 {
+ 
+ 					port@1 {
+ 						reg = <1>;
 +
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
++						mipi_csi_0_out: endpoint {
++							remote-endpoint = <&isi_in_0>;
++						};
+ 					};
+ 				};
+ 			};
+@@ -1295,6 +1333,10 @@ port@0 {
+ 
+ 					port@1 {
+ 						reg = <1>;
 +
-+					port@0 {
-+						reg = <0>;
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+					};
-+				};
-+			};
-+
- 			pcie_phy: pcie-phy@32f00000 {
- 				compatible = "fsl,imx8mp-pcie-phy";
- 				reg = <0x32f00000 0x10000>;
++						mipi_csi_1_out: endpoint {
++							remote-endpoint = <&isi_in_1>;
++						};
+ 					};
+ 				};
+ 			};
 -- 
 Regards,
 
