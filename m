@@ -2,178 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0B8C6E5C60
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 10:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5C0A6E5C78
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 10:49:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231445AbjDRIpl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 04:45:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53990 "EHLO
+        id S231153AbjDRIto (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 04:49:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbjDRIpj (ORCPT
+        with ESMTP id S230003AbjDRIth (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 04:45:39 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE70D4216
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 01:45:37 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f167d0cbb7so5632355e9.0
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 01:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681807536; x=1684399536;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oT5P+C8jhcnVktHuaT8CaiAl2LYwjoUSuguqcQQFtp4=;
-        b=FanzCFjomRlpL2OEofMz+oVxq6i4uNv2gnUp26WfZ6CbrvGoNxpyzRO9DB2aHjvVIJ
-         4FuOuc/fGLggIde9ottv4hvvZ79pRU1XLEWxMvks+oPAJDypRw0e29W4MMGhJ9zamOBp
-         J180c50wDd4N8ucvs5m1gzu/gaE1gGElKXC40=
+        Tue, 18 Apr 2023 04:49:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335E39010
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 01:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681807690;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=x16Pk6BM0OAIyh2BpbvwINN0ZsdrThEtFTXwwep6++0=;
+        b=MR+WjeLT5NGoQeE05+jrghZhmpYsyAkHRRZN/K/etGFIAkEWOwZZYavIhpvfInUhB2z250
+        LjLu0ItUc6EADZETGF2mXVXR+lU1ZGjVnEL8pENSECBHp5bKQeb/OiSamJTors4Pi6zZtz
+        DespbK6AduTbkSWkk6R8Wj9n+NvpWwU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-554-Td3Wd69fNv6sKa6k9PKNXA-1; Tue, 18 Apr 2023 04:48:09 -0400
+X-MC-Unique: Td3Wd69fNv6sKa6k9PKNXA-1
+Received: by mail-ej1-f71.google.com with SMTP id kr13-20020a1709079a0d00b0093be92e6ff4so10075173ejc.23
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 01:48:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681807536; x=1684399536;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oT5P+C8jhcnVktHuaT8CaiAl2LYwjoUSuguqcQQFtp4=;
-        b=k06DeTixueMV6HmdfgySnBXL76AavFziyakHws112V+SnbG6jtDHqHEaALXakuX3qY
-         zuw1VlwgvC10zZqCw2fYJ8CMAj71jgoR7vIZdmc/zHhXJawfvYXsbjpJ+YnhoAkrW4PV
-         L1ugok3ih/8eXqmdFy8iFnOurS74HaQkyWkoIo184xjEBW3XTfV/SP0D6j8J5nDXKJhG
-         IInqKTBmqwifG4+tFLlbTXBnDjyjlVlCE5qLlk9vrSDSdWqGRiQm1/kU674d39N1TISI
-         ADRixRYDaJPZ7pvIzim+WXA29l8pSDcvbgr4i21QMXnvldeg/4K+K8xNpOiNz2tPX+bc
-         A1+w==
-X-Gm-Message-State: AAQBX9f2X36NOLw6+V1SFwZJZSNE5Id05Yf/FiXkK02+QlPOb1pmeQZy
-        Kthr8SNe2skRxf/P401Q/K6Qgw==
-X-Google-Smtp-Source: AKy350YvSEYDzOeKn9KFoIbnr6WuwyMxchvWtx3lAPsn13XE0E7uVmL1Lmr9GjC6iusO9jxxDaLSeA==
-X-Received: by 2002:a05:600c:3d18:b0:3f1:7490:e595 with SMTP id bh24-20020a05600c3d1800b003f17490e595mr3737876wmb.2.1681807536442;
-        Tue, 18 Apr 2023 01:45:36 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id u7-20020a7bcb07000000b003ee70225ed2sm14293806wmj.15.2023.04.18.01.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 01:45:35 -0700 (PDT)
-Date:   Tue, 18 Apr 2023 10:45:33 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Asahi Lina <lina@asahilina.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 12/18] rust: drm: sched: Add GPU scheduler abstraction
-Message-ID: <ZD5YrQ52Yn1np8ve@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Karol Herbst <kherbst@redhat.com>,
-        Ella Stanforth <ella@iglunix.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-12-917ff5bc80a8@asahilina.net>
- <ZC2XBfJGAdNMQjpZ@phenom.ffwll.local>
- <ZC3L/uinmOwI+FbI@phenom.ffwll.local>
+        d=1e100.net; s=20221208; t=1681807687; x=1684399687;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x16Pk6BM0OAIyh2BpbvwINN0ZsdrThEtFTXwwep6++0=;
+        b=O0aaT9HwsaNlZpr4EW1f1HMdA2cV0FizYko6raX6QEih8WU0Hq3/sWsWTBRR9n5Ud1
+         FT//dMXMvVaOOUHBgKsh7JVp3ttczlRRtNi769LUpLUYecFwETWl4pY2mKhctgFT+51B
+         AtqwlOs0TV73igGn+6yn+0YyYNN6McDuR6m60jnlJ/02wiaVcmydFxBGGX+SOM+hlByB
+         328SaikUShsj3GzxfQQCPkUvw8ircdv/yb+1XWxTtVLOlHFAWcEIxE1Yj6mSSQEHoiYz
+         xLCuxZzU3hGNSQNRbEZ2tK6mPMqBzpk6hcgNAUG4pourPYImefcJs4Vdlc8cdP3v188F
+         dPvQ==
+X-Gm-Message-State: AAQBX9eDhlAzCYdPq/dD+/VJQOxHF6bCgjZI4CW0EqO7WBoRS4NwYUHD
+        HhEzSl42wIlKKJVLuoP13x+4NXBsXRlHZbARNhpf2qnfa3rCt/SLgKnhdw87LzzK0fbW2V4AneM
+        Pa65kCQTcL1f3fJz/io2iO5b+PhDC7H4=
+X-Received: by 2002:a17:907:9849:b0:94e:ef4d:8937 with SMTP id jj9-20020a170907984900b0094eef4d8937mr9535594ejc.57.1681807687443;
+        Tue, 18 Apr 2023 01:48:07 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZTcA1XFfoiHS7hRRTeziU1wR2DezuBePKY9313I6yeKONvAK9CW34D2HYu7LuCV1pkli9NJw==
+X-Received: by 2002:a17:907:9849:b0:94e:ef4d:8937 with SMTP id jj9-20020a170907984900b0094eef4d8937mr9535584ejc.57.1681807687096;
+        Tue, 18 Apr 2023 01:48:07 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id h7-20020a170906584700b0094e597f0e4dsm7674596ejs.121.2023.04.18.01.48.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Apr 2023 01:48:06 -0700 (PDT)
+Message-ID: <a71bc016-11e2-f9c8-f2b7-57b55a219360@redhat.com>
+Date:   Tue, 18 Apr 2023 10:48:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZC3L/uinmOwI+FbI@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: atomisp compiler/sparse/smatch warnings
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <93737d84-cfa0-ece5-4115-afa8ae74299c@xs4all.nl>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <93737d84-cfa0-ece5-4115-afa8ae74299c@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 05, 2023 at 09:29:02PM +0200, Daniel Vetter wrote:
-> On Wed, Apr 05, 2023 at 05:43:01PM +0200, Daniel Vetter wrote:
-> > On Tue, Mar 07, 2023 at 11:25:37PM +0900, Asahi Lina wrote:
-> > > +/// An armed DRM scheduler job (not yet submitted)
-> > > +pub struct ArmedJob<'a, T: JobImpl>(Box<Job<T>>, PhantomData<&'a T>);
-> > > +
-> > > +impl<'a, T: JobImpl> ArmedJob<'a, T> {
-> > > +    /// Returns the job fences
-> > > +    pub fn fences(&self) -> JobFences<'_> {
-> > > +        JobFences(unsafe { &mut *self.0.job.s_fence })
-> > > +    }
-> > > +
-> > > +    /// Push the job for execution into the scheduler
-> > > +    pub fn push(self) {
-> > > +        // After this point, the job is submitted and owned by the scheduler
-> > > +        let ptr = match self {
-> > > +            ArmedJob(job, _) => Box::<Job<T>>::into_raw(job),
-> > > +        };
-> > 
-> > If I get this all right then this all makes sure that drivers can't use
-> > the job after push and they don't forgot to call arm.
-> > 
-> > What I'm not seeing is how we force drivers to call push once they've
-> > called arm? I haven't check what the code does, but from the docs it
-> > sounds like if you don't call push then drop will get called. Which wreaks
-> > the book-keeping on an armed job. Or is there someting that prevents
-> > ArmedJob<T> from having the Drop trait and so the only way to not go boom
-> > is by pushing it?
-> > 
-> > Googling for "rust undroppable" seems to indicate that this isn't a thing
-> > rust can do?
+Hi Hans,
+
+On 4/18/23 09:29, Hans Verkuil wrote:
+> Hi Hans,
 > 
-> Another thing that I just realized: The driver must ensure that the
-> arm->push sequence on a given drm_sched_entity isn't interrupte by another
-> thread doing the same, i.e. you need to wrap it all in a lock, and it
-> always needs to be the same lock for a given entity.
+> Can you take a look at the warnings in the daily build that are atomisp
+> related?
 > 
-> I have no idea how to guarantee that, but I guess somehow we should?
+> https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
-Ok I was wrong here, pushing the job is optional, but the locking rules
-are still the same.
+I'm sick atm, I'll take a look later but it may
+be a while before I get around to this.
 
-I think we can solve this in rust with:
-- passing &mut Entity to a new submit_job function. that way locking rules
-  are left to the driver, which I think is best.
-- the submit_job also takes a closure, and passes the armed job as a &mut
-  ArmedJob to it. That way we guarantee that the armed job never survives
-  longer than the mutex guard (or whatever trick the driver is using) for
-  the Entity
-- that closure probably should have Result return type which submit_job
-  just passes on, because some drivers (when you support userptr that is)
-  need to be able to bail out. since the ArmedJob is borred it shouldn't
-  be able to escape through the return value
-- only ArmedJob has push_job
+Regards,
 
-I think with that we fully uphold the drm_sched arm/push_job contract on
-the rust side?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hans
+
+
+
+
