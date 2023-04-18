@@ -2,79 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3C216E5CBF
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 11:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 549336E5D24
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 11:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbjDRJC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 05:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38792 "EHLO
+        id S231187AbjDRJQF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 05:16:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbjDRJCz (ORCPT
+        with ESMTP id S229901AbjDRJQC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 05:02:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22CE84ED0;
-        Tue, 18 Apr 2023 02:02:54 -0700 (PDT)
-Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F44A127D;
-        Tue, 18 Apr 2023 11:02:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681808566;
-        bh=6XWvzTE5nrggv8nFTe4CodUd+AEIYAkCax2x4Hp1vvM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oh021YSTb8gWXKvflxHqY8C2HAY0f4cyCU2E2DNppxengCjtD0RKM2aOg0GIDyLWw
-         AQvgkw9AOdnej1Ka8BzzLHjywJ2oWPRxDhjp+wBAg7GeIhsxhoWVH7/Y2YEtl/l2s3
-         N30OItRNB87CQhVP2j10gbhvpQVRh57p3Snhkn4M=
-Date:   Tue, 18 Apr 2023 18:02:43 +0900
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Subject: Re: [PATCH v1 0/2] arm64: dts: imx8mp: Enable CSIS and ISI in DT
-Message-ID: <ZD5cs2ZFh6ZRQFNU@pyrite.rasen.tech>
-References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com>
+        Tue, 18 Apr 2023 05:16:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEE50D1;
+        Tue, 18 Apr 2023 02:16:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8706960F87;
+        Tue, 18 Apr 2023 09:16:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59289C433D2;
+        Tue, 18 Apr 2023 09:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681809360;
+        bh=i8nVDFAokOgYqujZXdzkVQr8aJvHUufQtj/uWLHRiLQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T/hrPpv3I+K/TuV8sg7CAaDvM+g0MlH/1F4N39W5MjPOLifXQdoP9DIPgZTXfe0o3
+         fduBrg0+trdeWQiQzxjk3y+OFm3PLHFzDJXY4xldPcxsYCdmkOVI1C7Sqd47dgY3F9
+         4G6ZGDdAcUIEewnWGRYlyk/PZC5nopW/izCFwAsuSheiAHwjBvnSR6D7WR2RK+3OWS
+         r83r6QFzfm/pidwR7+JspzU1Zsp/7SUKVjLwtsbU9qqwXLhT8LhIH/Pi+a7DqLlo5U
+         NrJRwVdNDMwfegNk18HSWHDEASy1fmUlreNmQjCDbAFeQ8kPNkxWVDLmv8JKRaxx0S
+         ldUqYvFlD8Exg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Sun Ke <sunke32@huawei.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: platform: mtk-mdp3: work around unused-variable warning
+Date:   Tue, 18 Apr 2023 11:15:48 +0200
+Message-Id: <20230418091555.2605961-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 08:56:25AM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> This small patch series adds the CSIS and ISI devices in the i.MX8MP DT
-> to support cameras. The ISI DT bindings have just been merged and will
-> appear in v6.4, making this series a candidate for v6.5.
-> 
-> With these two patches, a board overlay can enable camera support by
-> instantiating the camera sensor, connecting it to a CSIS instance, and
-> enabling the CSIS and ISI nodes. The camera pipeline is supported by
-> V4L2 drivers.
-> 
-> Laurent Pinchart (2):
->   arm64: dts: imx8mp: Add CSIS DT nodes
->   arm64: dts: imx8mp: Add ISI DT node
+From: Arnd Bergmann <arnd@arndb.de>
 
-For both,
+When CONFIG_OF is disabled, the 'data' variable is not used at all
+because of_match_node() turns into a dummy macro:
 
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c: In function 'mdp_comp_sub_create':
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:1038:36: error: unused variable 'data' [-Werror=unused-variable]
+ 1038 |  const struct mtk_mdp_driver_data *data = mdp->mdp_data;
+      |                                    ^~~~
 
-> 
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 98 +++++++++++++++++++++++
->  1 file changed, 98 insertions(+)
-> 
-> 
-> base-commit: 20af6be6bee4c3af80aac9b44b3d32d89824dde7
+Remove the variable again by moving the pointer dereference into the
+of_match_node call.
+
+Fixes: b385b991ef2f ("media: platform: mtk-mdp3: chip config split about subcomponents")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+index 75c92e282fa2..19a4a085f73a 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+@@ -1035,7 +1035,6 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
+ {
+ 	struct device *dev = &mdp->pdev->dev;
+ 	struct device_node *node, *parent;
+-	const struct mtk_mdp_driver_data *data = mdp->mdp_data;
+ 
+ 	parent = dev->of_node->parent;
+ 
+@@ -1045,7 +1044,7 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
+ 		int id, alias_id;
+ 		struct mdp_comp *comp;
+ 
+-		of_id = of_match_node(data->mdp_sub_comp_dt_ids, node);
++		of_id = of_match_node(mdp->mdp_data->mdp_sub_comp_dt_ids, node);
+ 		if (!of_id)
+ 			continue;
+ 		if (!of_device_is_available(node)) {
+-- 
+2.39.2
+
