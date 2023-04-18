@@ -2,51 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CDEB6E68CD
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 18:00:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D03EE6E68FB
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 18:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbjDRQAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 12:00:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44372 "EHLO
+        id S232290AbjDRQHn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 12:07:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232482AbjDRP7v (ORCPT
+        with ESMTP id S230248AbjDRQHk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 11:59:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BCF259FE
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 08:59:37 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CADB0DE5;
-        Tue, 18 Apr 2023 17:59:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681833569;
-        bh=Os6VV2xNZag6aj5YHpY7G1MLfMhF6i8xkSfXswyw18U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dYh7GncZp2C92vd+x7c4N2vULefTdbRgoxLVRjeCNk94TN7065S/CR1ksYIAzuh+Q
-         Kt/buPdD94PxHDHD34nKrsdxfU2c/xMHT4o+WrftQ/w9bnd03x/wXpfle+jdEiLl+W
-         NzHLzWoAdQlauj8/IJ4YOeBQDIcwt1M7lrnXlE5E=
-Date:   Tue, 18 Apr 2023 18:59:47 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 3/4] media: imx: imx7-media-csi: Lift width
- constraints for 8bpp formats
-Message-ID: <20230418155947.GI30837@pendragon.ideasonboard.com>
-References: <20230418122041.1318862-1-alexander.stein@ew.tq-group.com>
- <20230418122041.1318862-4-alexander.stein@ew.tq-group.com>
+        Tue, 18 Apr 2023 12:07:40 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26CC13C1C;
+        Tue, 18 Apr 2023 09:07:27 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:9493:29e1:3046:42cb])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A05466031FE;
+        Tue, 18 Apr 2023 17:07:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1681834045;
+        bh=XMnjsK9TyGzaIqPnJPWEByUo3f+u5pJ1NqGe5xX/uh4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=AQudzXPMulW+lyaZpK/OqrcgQJxH576MUnZgd5t0J/Z0Ma9IQnbdibv5ok9g7gEYd
+         jdt3i2tjT9LOYG29O4MlkqIlIDKRS/rSARuxcXs8g8RklQPyAvXcW6bQzDQpY57HPH
+         1E3D4VXb0BIkPVOYTbZfzEbCAQxvRhUjwVLpK5HoX5cRur/AX+5PqRAzvdVhL7ZDpS
+         Vb2cKADCBlwFTMHddhc6AC4DPUWfF+hTp1C76fMT5RLWL5FYvNPUXD8ic6sz5GP88F
+         kL++/5F+ZxlEYKWw7gDYWO/vHePX0ExnDIQ5AkQu1N4ptvjR/mzMqySnUSIJ/WlbWk
+         8ygUoDqk7ll9w==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: uapi: HEVC: Add num_delta_pocs_of_ref_rps_idx field
+Date:   Tue, 18 Apr 2023 18:07:17 +0200
+Message-Id: <20230418160717.743517-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230418122041.1318862-4-alexander.stein@ew.tq-group.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -55,92 +54,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Some drivers firmwares parse by themselves slice header and need
+num_delta_pocs_of_ref_rps_idx value to parse slice header
+short_term_ref_pic_set().
+Use one of the 4 reserved bytes to store this value without
+changing the v4l2_ctrl_hevc_decode_params structure size and padding.
 
-Thank you for the patch.
+This value also exist in DXVA API.
 
-The commit message should state "Lift width constraint for 16bpp
-formats". I would also phrase is "Relax" instead of "Lift" as it's not
-completely lifted.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst  | 7 +++++++
+ include/uapi/linux/v4l2-controls.h                         | 6 +++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-On Tue, Apr 18, 2023 at 02:20:40PM +0200, Alexander Stein wrote:
-> For 8-bit formats the image_width just needs to be a multiple of 8 pixels
-> others just a multiple of 4 pixels.
-
-This is a bit terse, and I think a word or two are missing. It could be
-improved:
-
-The driver unconditionally aligns the image width to multiples of 8
-pixels. The real alignment constraint is 8 bytes, as indicated by the
-CSI_IMAG_PARA.IMAGE_WIDTH documentation that calls for 8 pixel alignment
-for 8bpp formats and 4 pixel alignment for other formats.
-
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-> Changes in v3:
-> * Fix commit message (Only 8-bit formats needs multiple of 8 pixels)
-> 
->  drivers/media/platform/nxp/imx7-media-csi.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-> index 1315f5743b76f..730c9c57bf4bc 100644
-> --- a/drivers/media/platform/nxp/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -1146,6 +1146,7 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
->  			 struct v4l2_rect *compose)
->  {
->  	const struct imx7_csi_pixfmt *cc;
-> +	u32 walign;
->  
->  	if (compose) {
->  		compose->width = pixfmt->width;
-> @@ -1162,13 +1163,19 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
->  		cc = imx7_csi_find_pixel_format(pixfmt->pixelformat);
->  	}
->  
-> +	/* Refer to CSI_IMAG_PARA.IMAGE_WIDTH description */
-> +	if (cc->bpp == 8)
-> +		walign = 8;
-> +	else
-> +		walign = 4;
-
-Would the following convey the purpose better ?
-
-	/*
-	 * The width alignment is 8 bytes as indicated by the
-	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
-	 */
-	walign = 8 * 8 / cc->bpp;
-
-> +
->  	/*
->  	 * Round up width for minimum burst size.
->  	 *
->  	 * TODO: Implement configurable stride support, and check what the real
->  	 * hardware alignment constraint on the width is.
->  	 */
-
-We can now drop the second part of the sentence :-) The first line is
-actually not very accurate anymore. How about
-
-	/*
-	 * The width alignment is 8 bytes as indicated by the
-	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
-	 *
-  	 * TODO: Implement configurable stride support.
-	 */
-	walign = 8 * 8 / cc->bpp;
-	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
-			      &pixfmt->height, 1, 0xffff, 1, 0);
-
-> -	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, 8,
-> +	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
->  			      &pixfmt->height, 1, 0xffff, 1, 0);
->  
->  	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+index 3d8411acd5b8..92ce3e126929 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+@@ -2923,6 +2923,13 @@ This structure contains all loop filter related parameters. See sections
+       - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+       - PocLtCurr as described in section 8.3.2 "Decoding process for reference
+         picture set": provides the index of the long term references in DPB array.
++    * - __u8
++      - ``num_delta_pocs_of_ref_rps_idx``
++      - When the short_term_ref_pic_set_sps_flag in the slice header is equal to 0,
++        it is the same than derived value NumDeltaPocs[RefRpsIdx]. It can be used to parse
++        the RPS data in slice headers instead of skipping it with @short_term_ref_pic_set_size.
++        When the value of short_term_ref_pic_set_sps_flag in the slice header is
++        equal to 1, num_delta_pocs_of_ref_rps_idx shall be set to 0.
+     * - struct :c:type:`v4l2_hevc_dpb_entry`
+       - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+       - The decoded picture buffer, for meta-data about reference frames.
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 5e80daa4ffe0..7bf59a87a1bf 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -2385,6 +2385,9 @@ struct v4l2_ctrl_hevc_slice_params {
+  * @poc_st_curr_after: provides the index of the short term after references
+  *		       in DPB array
+  * @poc_lt_curr: provides the index of the long term references in DPB array
++ * @num_delta_pocs_of_ref_rps_idx: same as the derived value NumDeltaPocs[RefRpsIdx],
++ *				   can be used to parse the RPS data in slice headers
++ *				   instead of skipping it with @short_term_ref_pic_set_size.
+  * @reserved: padding field. Should be zeroed by applications.
+  * @dpb: the decoded picture buffer, for meta-data about reference frames
+  * @flags: see V4L2_HEVC_DECODE_PARAM_FLAG_{}
+@@ -2400,7 +2403,8 @@ struct v4l2_ctrl_hevc_decode_params {
+ 	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+ 	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+ 	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+-	__u8	reserved[4];
++	__u8	num_delta_pocs_of_ref_rps_idx;
++	__u8	reserved[3];
+ 	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+ 	__u64	flags;
+ };
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
