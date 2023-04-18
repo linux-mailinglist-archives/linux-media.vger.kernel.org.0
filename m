@@ -2,73 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48FD86E5F3D
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 12:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99B866E6068
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 13:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjDRK7w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 06:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46428 "EHLO
+        id S231309AbjDRLut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 07:50:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230026AbjDRK7t (ORCPT
+        with ESMTP id S231143AbjDRLus (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 06:59:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7363E40EF
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 03:59:48 -0700 (PDT)
-Received: from desky.lan (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D4C2F07;
-        Tue, 18 Apr 2023 12:59:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681815580;
-        bh=fkqhTtiEtWHCMW9an1gcrg9ETfkUUKjhS69j12XYVlI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GRAMQg4RdcqcDGQWNDgSWGqkQuDm1dnENnesKW//bJlFxcex2QZui9BYuXlg0ifdM
-         aqwtm6qMaxkCV7S+JcOPVopj/Shi69ykbiOgEqw7PaOdMuSW6aRd3Unx1EvqBEQoOy
-         hDpncX/7I0MiDsbbm+G7foUglYHkNrrLuoZ4kJKQ=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH] media: v4l2-subdev: Fix missing kerneldoc for client_caps
-Date:   Tue, 18 Apr 2023 13:59:24 +0300
-Message-Id: <20230418105924.126608-1-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 18 Apr 2023 07:50:48 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E983C2B;
+        Tue, 18 Apr 2023 04:50:26 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id o29-20020a05600c511d00b003f1739de43cso2944078wms.4;
+        Tue, 18 Apr 2023 04:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681818568; x=1684410568;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hSo0y9CU6JHSsniPLuWjZnH8Pywoh9MjPxBwO/oPayE=;
+        b=iYzCdFVpoMYIAY6TP9UzJhtj8UgzcAGZErudc9XqV/BMHdaAksha9j60H8OBXL6Xmj
+         GA/sZHJitcsxf4vg37R1pKtl4ntCxyzve/dwfADMZDANIoIQUUqGCo7lBtjHiKTm87p8
+         aMac/vux03EsWvEGqeX2pI44ydhjz6un1qy0qgO6jM9y1mSalZdrdN6YUnwiQtnc0ICp
+         W4Spp+a3BMpOZZ8JBFOGcMbmDNRxKewd8C1UUT9JCfCjGQePuOW2cZWw6fUjR5PXB7rW
+         R6yT75ej7rKjgR+Hs994NKnfjmVKqQvyzwK2Gh3xY9IBfRXzFxGg2mlJaWyMjpfyazXh
+         8J3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681818568; x=1684410568;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hSo0y9CU6JHSsniPLuWjZnH8Pywoh9MjPxBwO/oPayE=;
+        b=XsT1aReR+0ZuNx3XarVVWSVR6SLgZvQRXo7C990mZl3O//kvKI3gbr9VzZRyXD36yb
+         79PNNJi5XJNbTIn6uBNU4cozENtJf/UgsYdBTyvZxBf57sNryyvT0q7OTDO5yBwEuJbS
+         KXZ9g7KJwzXjfp0Bk9nsbIqPqH2TN5bZV6fokm8C3tN8qmf4Lc3xwfVrCdKeUulhaqij
+         0U+Su/y3sYyF4EOBTYJ96Cqa6pdsrfHKtXLMAFiPoLWWeL0UtmXpTzopwc4bpum9kcvC
+         7OV3E7DkeJ/FzovEt3/8DAiwpC110Mjljg89mNHI2z0buQ3rY3mMzl/0JyO1dN9gzY1e
+         RUxQ==
+X-Gm-Message-State: AAQBX9dgsmCNKp2Bnxk2H/S2MKB3DmKte/wCAdODliLK/Fk7WoUqLJT4
+        MZUriu5nfOcSGSwyjj4c5A8=
+X-Google-Smtp-Source: AKy350Yw0P9E+LEmNEiXhXkFoVPpmOWwCwTlmkd1a6rpkMkfR5iRtWzbGGhV7W7Y15b6BUq8S6gO4g==
+X-Received: by 2002:a05:600c:45ce:b0:3f1:7619:f0f6 with SMTP id s14-20020a05600c45ce00b003f17619f0f6mr3636747wmo.9.1681818567943;
+        Tue, 18 Apr 2023 04:49:27 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
+        by smtp.gmail.com with ESMTPSA id s9-20020a05600c45c900b003f09d51a4edsm18674280wmo.48.2023.04.18.04.49.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Apr 2023 04:49:26 -0700 (PDT)
+Message-ID: <34acf346-a3d8-6f75-8d4f-0c68cda19506@gmail.com>
+Date:   Tue, 18 Apr 2023 13:49:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] media: platform: mtk-mdp3: work around unused-variable
+ warning
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Sun Ke <sunke32@huawei.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20230418091555.2605961-1-arnd@kernel.org>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230418091555.2605961-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing kernel doc for the new 'client_caps' field in struct
-v4l2_subdev_fh.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- include/media/v4l2-subdev.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index cfd19e72d0fc..9d0a6a993fb0 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1119,6 +1119,7 @@ struct v4l2_subdev {
-  * @vfh: pointer to &struct v4l2_fh
-  * @state: pointer to &struct v4l2_subdev_state
-  * @owner: module pointer to the owner of this file handle
-+ * @client_caps: bitmask of V4L2_SUBDEV_CLIENT_CAP_*
-  */
- struct v4l2_subdev_fh {
- 	struct v4l2_fh vfh;
--- 
-2.34.1
+On 18/04/2023 11:15, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> When CONFIG_OF is disabled, the 'data' variable is not used at all
+> because of_match_node() turns into a dummy macro:
+> 
+> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c: In function 'mdp_comp_sub_create':
+> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:1038:36: error: unused variable 'data' [-Werror=unused-variable]
+>   1038 |  const struct mtk_mdp_driver_data *data = mdp->mdp_data;
+>        |                                    ^~~~
+> 
+> Remove the variable again by moving the pointer dereference into the
+> of_match_node call.
+> 
+> Fixes: b385b991ef2f ("media: platform: mtk-mdp3: chip config split about subcomponents")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+
+> ---
+>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> index 75c92e282fa2..19a4a085f73a 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> @@ -1035,7 +1035,6 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
+>   {
+>   	struct device *dev = &mdp->pdev->dev;
+>   	struct device_node *node, *parent;
+> -	const struct mtk_mdp_driver_data *data = mdp->mdp_data;
+>   
+>   	parent = dev->of_node->parent;
+>   
+> @@ -1045,7 +1044,7 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
+>   		int id, alias_id;
+>   		struct mdp_comp *comp;
+>   
+> -		of_id = of_match_node(data->mdp_sub_comp_dt_ids, node);
+> +		of_id = of_match_node(mdp->mdp_data->mdp_sub_comp_dt_ids, node);
+>   		if (!of_id)
+>   			continue;
+>   		if (!of_device_is_available(node)) {
