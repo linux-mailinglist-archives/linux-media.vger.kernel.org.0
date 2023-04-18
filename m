@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0588E6E6559
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 15:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC576E6717
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 16:25:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjDRNGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 09:06:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32842 "EHLO
+        id S231208AbjDROZJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 10:25:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232203AbjDRNGX (ORCPT
+        with ESMTP id S230070AbjDROZI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 09:06:23 -0400
+        Tue, 18 Apr 2023 10:25:08 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5556516B12;
-        Tue, 18 Apr 2023 06:06:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C8B183;
+        Tue, 18 Apr 2023 07:25:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2BFE634A4;
-        Tue, 18 Apr 2023 13:06:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 760E3C433D2;
-        Tue, 18 Apr 2023 13:06:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4BF1162E36;
+        Tue, 18 Apr 2023 14:25:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088A1C433D2;
+        Tue, 18 Apr 2023 14:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681823178;
-        bh=irU7S47lLrx04AoHdnKG5DIJZ0xn/QZ8aCMYccc98MM=;
+        s=k20201202; t=1681827905;
+        bh=JjvHV44AW8fU6gt5sWWn5MYeufuxDsNYjEhFnzDlPy0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AOv1SRUHrnAZXksfOm/j0cs0clkFI1rKrYy6UymCUz9X7HKIdf+DTHJVWLLP29pBE
-         +IX11MJuabp4XTbz87tu1KLgAbN7ASPxAAzv1UbWmqpjz/zMY7hSIgnKFL2hcwYeSk
-         KYQEor5BaydxZft/wXBosPeOWA9DLGyQRBFDGGP+1MaLS9zy+dUd3NHZ7FZF1YTPBe
-         VkiZsPZYMi9etlMIyxhc2tZiIOdo92OXgB5Tc1cR8jm3+voIoT1Wi/kwDZ5XZJSx0n
-         ipuytYpebDnd5lg4JBHNhN3saBieIlu4ryX/ULNXp2lf6nZXKjQmUQSuBEqz24yHwt
-         d2GsMz7SLp0EA==
-Date:   Tue, 18 Apr 2023 15:06:10 +0200
+        b=sI9M3xspqi+Y/NNWYm/NytNctShNlUXJcV9Ix2jq08NRcH4RgkWwtnwxY5PJcEBTQ
+         STA5GupBEkw08+iWQfnuY+Wp0f2XRCjMkMdcAwEtFVu9SHwkP4s0CCcbuihldOPhwH
+         i/DWOmPLpXc3JmnzRqCvGnpZF7k8KwXQHBqHEG6Um801Z4J3yjpo2VffU8sh9+nW7O
+         mrzw20v+GMMCjsGBxhFMhD3wuMFzfDTMPFepKT6Ud7/zZsMLFmXY2Y/T6HTuoKYx2A
+         bEXCMUK1H9nXtrQ4Yy47rEg6jYvjHxvLR7gr5aakVih1LwgNWNbzQQuG6QMwoI59ST
+         eOzRFm6m9XpdA==
+Date:   Tue, 18 Apr 2023 16:25:02 +0200
 From:   Wolfram Sang <wsa@kernel.org>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -54,11 +54,9 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Marek Vasut <marex@denx.de>,
         Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v10 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link
- III Deserializer
-Message-ID: <ZD6VwpRya6SGBAt5@shikoro>
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH v10 1/8] i2c: add I2C Address Translator (ATR) support
+Message-ID: <ZD6oPq+Na/80E7Mv@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -78,15 +76,14 @@ Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
         Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Marek Vasut <marex@denx.de>,
         Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Luca Ceresoli <luca@lucaceresoli.net>
 References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <20230222132907.594690-6-tomi.valkeinen@ideasonboard.com>
+ <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mi+Z0PG+MUqRZwKk"
+        protocol="application/pgp-signature"; boundary="Q5HMx4PIUFk/wOvT"
 Content-Disposition: inline
-In-Reply-To: <20230222132907.594690-6-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230222132907.594690-2-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -98,49 +95,147 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---mi+Z0PG+MUqRZwKk
+--Q5HMx4PIUFk/wOvT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Tomi, hi Luca,
+
+as mentioned on IRC already, good move to use bus notifiers here and
+drop the generic attach/detach callbacks. Those were a show stopper for
+me. This version is nicely self contained. I like that!
+
+> diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
+> index 6270f1fd7d4e..aaf33d1315f4 100644
+> --- a/Documentation/i2c/index.rst
+> +++ b/Documentation/i2c/index.rst
+> @@ -16,6 +16,7 @@ Introduction
+>     instantiating-devices
+>     busses/index
+>     i2c-topology
+> +   muxes/i2c-atr
+
+The muxes-dir is only for the description of mux drivers. I'd prefer to
+have this document not in the sub-dir. Also, renaming the document to
+"address-translations.rst" might be worth discussing.
+
+>     muxes/i2c-mux-gpio
+>     i2c-sysfs
+> =20
+> diff --git a/Documentation/i2c/muxes/i2c-atr.rst b/Documentation/i2c/muxe=
+s/i2c-atr.rst
+> new file mode 100644
+> index 000000000000..da226fd4de63
+> --- /dev/null
+> +++ b/Documentation/i2c/muxes/i2c-atr.rst
+> @@ -0,0 +1,97 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kernel driver i2c-atr
+
+Maybe "I2C address translations"?
+
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Author: Luca Ceresoli <luca@lucaceresoli.net>
+> +Author: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> +
+> +Description
+> +-----------
+> +
+> +An I2C Address Translator (ATR) is a device with an I2C slave parent
+> +("upstream") port and N I2C master child ("downstream") ports, and
+> +forwards transactions from upstream to the appropriate downstream port
+> +with a modified slave address. The address used on the parent bus is
+> +called the "alias" and is (potentially) different from the physical
+> +slave address of the child bus. Address translation is done by the
+> +hardware.
+> +
+> +An ATR looks similar to an i2c-mux except:
+> + - the address on the parent and child busses can be different
+> + - there is normally no need to select the child port; the alias used on=
+ the
+> +   parent bus implies it
+> +
+> +The ATR functionality can be provided by a chip with many other
+> +features. This file provides a helper to implement an ATR within your
+
+I'd like to get rid of all "your". Maybe "client driver" here?
+
+> +driver.
+
+=2E..
+
+> +Usage:
+> +
+> + 1. In your driver (typically in the probe function) add an ATR by
+> +    calling i2c_atr_new() passing your attach/detach callbacks
+> + 2. When the attach callback is called pick an appropriate alias,
+> +    configure it in your chip and return the chosen alias in the
+> +    alias_id parameter
+> + 3. When the detach callback is called, deconfigure the alias from
+> +    your chip and put it back in the pool for later usage
+
+Remove all "your", please. Some can simply go, I'd say. The others
+replaced by "the".
+
+> +
+> +I2C ATR functions and data structures
+> +-------------------------------------
+> +
+
+=2E..
+
+> +/**
+> + * struct i2c_atr_cli2alias_pair - Holds the alias assigned to a client.
+
+I stumbled over this one because "cli" is "command line interface" for
+me... The long version isn't much longer: 'i2c_atr_client_alias_pair'
+But I'd be also fine with: 'i2c_atr_alias_pair'
+
+> + * @node:   List node
+> + * @client: Pointer to the client on the child bus
+> + * @alias:  I2C alias address assigned by the driver.
+> + *          This is the address that will be used to issue I2C transacti=
+ons
+> + *          on the parent (physical) bus.
+> + */
+
+> +EXPORT_SYMBOL_NS_GPL(i2c_atr_add_adapter, I2C_ATR);
+
+EXPORT_SYMBOL_GPL, please. We can then later think about using an I2C
+namespace for all I2C symbols.
+
+Pretty high level comments only so far. I'll keep at it this week and
+might come back with more detailed comments. But in general, this looks
+quite good to go. Moving the alias pool handling to here is the biggest
+question I have.
+
+Thank you for your patience!
+
+   Wolfram
 
 
-> +  i2c-alias-pool:
-> +    $ref: /schemas/types.yaml#/definitions/uint16-array
-> +    description:
-> +      I2C alias pool is a pool of I2C addresses on the main I2C bus that can be
-> +      used to access the remote peripherals on the serializer's I2C bus. The
-> +      addresses must be available, not used by any other peripheral. Each
-> +      remote peripheral is assigned an alias from the pool, and transactions to
-> +      that address will be forwarded to the remote peripheral, with the address
-> +      translated to the remote peripheral's real address. This property is not
-> +      needed if there are no I2C addressable remote peripherals.
-
-After some initial discussion with Tomi on IRC, this question is
-probably more for Luca:
-
-Why is "i2c-alias-pool" in the drivers binding and not a regular i2c
-binding? Same question for the implementation of the alias-pool
-handling. Shouldn't this be in the i2c-atr library? I'd think managing
-the list of aliases would look all the same in the drivers otherwise?
-
-
---mi+Z0PG+MUqRZwKk
+--Q5HMx4PIUFk/wOvT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQ+lb4ACgkQFA3kzBSg
-KbYYSA/9EHTjpfBICYkwQW1dIEF2SbICH4VCTgofpP1fIAbbZ0s6cCNmk/k2TYph
-+ZTjCmBLERErgJVS3LRX7oFokQHC98uDYswJ6U2SVv1Q/qT56/qNLVvsD2d4q4gl
-9V7gmoSWIKLzeEthKQYKj7MYdbfwulJfauhm9svSRN6S+6rS/H7jEtaZpYDd5I44
-y3zhfNQDul4ktn+n2isKVXqP5IRMgI5WsB5IgGVhH50jy78LqmKn3b1mn/ao1P00
-9uCup1vdzsJB0VC4NExNkzRRfYcKHhwMdbU+wAQ+1sUdiO695qKY21iAUuWZGak3
-m9bjWdYsOsmLmHtruRniY8srFgQSBH+3Z/o241+pHuFOO42vh/oWpFieRfPJG5vN
-n5pVhMU538L0yVBrovAgxVMklqfAlGGXB+Q0suhXd8yzOYcYu9zJjve1f/FxOlEI
-nP4vsM3pwQ+G6Is1sEKPe/WxD1W46La/9TVO9nKF61gdeVVNs+UczR60jEJUVgsz
-riKuF/rEDz/RqWEmQxO4phmki79l/nYLtNCUtRWvYhWOwl/HERr8ctdyPQyRmHqp
-7h5nR0/ragtc7rn4A8pmK0UuQM5gOuANwsz6J5BDSBU73BYhCh4nrAkfNMbIcEQ0
-FeoSXAepQjG5Iv3acvPaMdwqamyT83qP2dznc7fom2naH+wkud0=
-=Fqdo
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmQ+qDoACgkQFA3kzBSg
+KbaEqA/7BSdyL0W6zqSIUkHTHRbY6TFIBZ5YQuYxvJ4O2GbF+HxzKksrNCZ8mbXM
+lMf8Na5VzuG6yeAbip6leNZZRBc4yI7B1A8d1BQ7sKDcHjvaN+OU4kPjj4UeFK7V
+fGJ1zGDS/2klcQnPrompqPujAMgyzSQO4P5MN90mc7IxWiu4z83+6DYn6EYTyt/U
+nviOZY4n9S38V0+Zerz8tksoDtJZe/YH7mH0Q8SQPS4mkVt0ii++O2ifZTabQvpy
+r0129J3uQPM4CrjTDJoNQ0YT6S/HbcJcpR/iIS/KACk/oWedTPD7eEY101kks/AS
+AbT7/qhUFNV15B97iDu30GEEXsccJVmoekE/5Sdx+H/nKmS1hT19nIVbK3htshh+
+PoaJQUogSfEXlx/ethvwSbiVXYkBYsj93M+6vddPY2cK7rCUAF6ZlkEJV5un+QM0
+/KBrijD8bCTmg0o5sSacDkbC0KzAmDdL+KZe1edXgcf8v8U1+JDP+j59CeANUoeq
+oGuv2C8nIObFwLd8mFRR9EqRTSbCAWrTBUnQk0La8+36XLBluy4vIvdLrXoDcHXh
+ql0EPjpErEH6nCyuYbuyX0Bzi8JoDspmq83UyEnxni73oooKvqtJ0gQz1gj8pQli
+Zw3zYz9Gtb919Ts97E7sSH9ZVzJ1tcdsQ8bkKRyINwrMRAXdn+M=
+=Rt6W
 -----END PGP SIGNATURE-----
 
---mi+Z0PG+MUqRZwKk--
+--Q5HMx4PIUFk/wOvT--
