@@ -2,125 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D44F96E5A30
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 09:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F0B86E5A37
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 09:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbjDRHO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 03:14:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33602 "EHLO
+        id S230311AbjDRHQP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 03:16:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231249AbjDRHOy (ORCPT
+        with ESMTP id S229631AbjDRHQO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 03:14:54 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 075C7273C
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 00:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1681802093; x=1713338093;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=edaL6dP8udaoBENjAOXy9u4eKuGvdt1NYMIa3nDzb9Q=;
-  b=p2FK9wFpG8SKNbgvp8SN4VZZii0haBfP+9g6Ahlg5JA4emgDzzCsNnuS
-   E4Bfy/r9/RO0BXIGtw3WdkDwYh5qEhiglKwu93s8L81mrf4+CE2UXu5IP
-   NaJR/W8auwvh9ULqs4zMx0vB18k/fE8It6hZprAu8VtdX7Kmn5FGQusCE
-   1n3QFc9YzUU9AJEc9sDWNqDDoeC3kqLKikBWbCQ/n+QCVkS1yRjkrR1yg
-   v6xB8zYYYVWdkAwYPdCZtkLVmNQH/IG+F810OGr5i3aTVjuczQszQXrWs
-   zWqKKdTzZVYIsBLlj+bScz1FyufhvgEfNArK2YucDzPdSwDoRR1fzljqg
-   w==;
-X-IronPort-AV: E=Sophos;i="5.99,206,1677538800"; 
-   d="scan'208";a="30385558"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 18 Apr 2023 09:14:47 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 18 Apr 2023 09:14:47 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 18 Apr 2023 09:14:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1681802087; x=1713338087;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=edaL6dP8udaoBENjAOXy9u4eKuGvdt1NYMIa3nDzb9Q=;
-  b=l6XcpwZaYyDwzkEE71WvcRI6G29deS/DKUHq/w9v/4PLC8FwLMaNpj6y
-   ya3d22G7+Vz+hygEA0jnztKByExWgLjkT1lL+6KwEkIF0iQPsWCGQ2gFA
-   /ZW8ZpJTZkc0guHvVOXU8ggY1TsJDFicHvvXdwEVm/AztIyBK+03Fdujt
-   ubJ2Kgq9oHXHuTNVGAjn+GXKQXQXaI35yED9Y8TUI4dOwUgUlujNt4ep3
-   6KVT1Zj9361oL1otLRUUwxH3bpbWe0Bn+MAIpKgIfsLBbWsc9QtQoS7SK
-   veylED7rPUFR4kfJKs2uIcVHUdkEiSjf+k6Qi1X0xSgqxwL7zk9MwOvXv
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.99,206,1677538800"; 
-   d="scan'208";a="30385557"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 18 Apr 2023 09:14:47 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        Tue, 18 Apr 2023 03:16:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6309D1BF6;
+        Tue, 18 Apr 2023 00:16:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3AA40280074;
-        Tue, 18 Apr 2023 09:14:47 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F0D23622ED;
+        Tue, 18 Apr 2023 07:16:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09166C4339C;
+        Tue, 18 Apr 2023 07:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681802172;
+        bh=07NV2Gmox+YRD93ereeLrOro5v93hkdsxev1VKaen7Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mm7+Es+NlCcXGiXXyoWT9RuaKMVF9rjk5PcIzc6t8qVNwF4ujzaYdkZwHaFYcIEnG
+         CeVZRwb/It9DxKRSj2mCKlxrB2CrqEiZkUJm6Jowri2QjedPrLhVasLINm4rPvEL2E
+         9vO9yc5SsgHBN5+GYjr7l/+6c0R5/KQ8H7/rDAShmpnu4IQZS8GBX1FsLLUstWGVV0
+         xRBW0DhDEurQc9f7qk/hXVK4zJnByE4LS4LoAvU+wEfY+w7CxZ3ZWsqKdT4MPfeyed
+         ogGHuzI5n4IBYpPGcxxSoNChyFlxkdrOtk7uTS4S5XliIKOWStVLgC6+hWwRj14slS
+         vvYC6xO30yZSg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Guoniu Zhou <guoniu.zhou@nxp.com>,
+        Stefan Riedmueller <s.riedmueller@phytec.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/3] media: imx: imx7-media-csi: Lift width constraints for 8bpp formats
-Date:   Tue, 18 Apr 2023 09:14:39 +0200
-Message-Id: <20230418071439.197735-4-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230418071439.197735-1-alexander.stein@ew.tq-group.com>
-References: <20230418071439.197735-1-alexander.stein@ew.tq-group.com>
+        Christian Hemp <c.hemp@phytec.de>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: nxp: ignore unused suspend operations
+Date:   Tue, 18 Apr 2023 09:15:51 +0200
+Message-Id: <20230418071605.2971866-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For 8-bit formats the image_width just needs to be a multiple of 4 pixels.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+gcc warns about some functions being unused when CONFIG_PM is
+disabled:
+
+drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c:328:12: error: 'mxc_isi_pm_resume' defined but not used [-Werror=unused-function]
+  328 | static int mxc_isi_pm_resume(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~
+drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c:314:12: error: 'mxc_isi_pm_suspend' defined but not used [-Werror=unused-function]
+  314 | static int mxc_isi_pm_suspend(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~~
+
+Use the modern SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() helpers in place
+of the old SET_SYSTEM_SLEEP_PM_OPS()/SET_RUNTIME_PM_OPS() ones, and add
+a pm_ptr() check to ensure they get dropped by the compiler.
+
+Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/platform/nxp/imx7-media-csi.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-index 1508f6ba20e91..5240670476b2b 100644
---- a/drivers/media/platform/nxp/imx7-media-csi.c
-+++ b/drivers/media/platform/nxp/imx7-media-csi.c
-@@ -1147,6 +1147,7 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
- {
- 	const struct imx7_csi_pixfmt *cc;
- 	u32 stride;
-+	u32 walign;
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+index 238521622b75..253e77189b69 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+@@ -378,8 +378,8 @@ static int mxc_isi_runtime_resume(struct device *dev)
+ }
  
- 	/*
- 	 * Find the pixel format, default to the first supported format if not
-@@ -1172,7 +1173,13 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
- 		}
+ static const struct dev_pm_ops mxc_isi_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(mxc_isi_pm_suspend, mxc_isi_pm_resume)
+-	SET_RUNTIME_PM_OPS(mxc_isi_runtime_suspend, mxc_isi_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(mxc_isi_pm_suspend, mxc_isi_pm_resume)
++	RUNTIME_PM_OPS(mxc_isi_runtime_suspend, mxc_isi_runtime_resume, NULL)
+ };
+ 
+ /* -----------------------------------------------------------------------------
+@@ -528,7 +528,7 @@ static struct platform_driver mxc_isi_driver = {
+ 	.driver = {
+ 		.of_match_table = mxc_isi_of_match,
+ 		.name		= MXC_ISI_DRIVER_NAME,
+-		.pm		= &mxc_isi_pm_ops,
++		.pm		= pm_ptr(&mxc_isi_pm_ops),
  	}
- 
--	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, 8,
-+	/* Refer to CSI_IMAG_PARA.IMAGE_WIDTH description */
-+	if (cc->bpp == 8)
-+		walign = 8;
-+	else
-+		walign = 4;
-+
-+	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
- 			      &pixfmt->height, 1, 0xffff, 1, 0);
- 
- 	stride = round_up((pixfmt->width * cc->bpp) / 8, 8);
+ };
+ module_platform_driver(mxc_isi_driver);
 -- 
-2.34.1
+2.39.2
 
