@@ -2,132 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99B866E6068
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 13:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 545626E6111
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 14:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231309AbjDRLut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 07:50:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33572 "EHLO
+        id S230434AbjDRMUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 08:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231143AbjDRLus (ORCPT
+        with ESMTP id S230026AbjDRMUR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 07:50:48 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E983C2B;
-        Tue, 18 Apr 2023 04:50:26 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id o29-20020a05600c511d00b003f1739de43cso2944078wms.4;
-        Tue, 18 Apr 2023 04:50:26 -0700 (PDT)
+        Tue, 18 Apr 2023 08:20:17 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB202108
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 05:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681818568; x=1684410568;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hSo0y9CU6JHSsniPLuWjZnH8Pywoh9MjPxBwO/oPayE=;
-        b=iYzCdFVpoMYIAY6TP9UzJhtj8UgzcAGZErudc9XqV/BMHdaAksha9j60H8OBXL6Xmj
-         GA/sZHJitcsxf4vg37R1pKtl4ntCxyzve/dwfADMZDANIoIQUUqGCo7lBtjHiKTm87p8
-         aMac/vux03EsWvEGqeX2pI44ydhjz6un1qy0qgO6jM9y1mSalZdrdN6YUnwiQtnc0ICp
-         W4Spp+a3BMpOZZ8JBFOGcMbmDNRxKewd8C1UUT9JCfCjGQePuOW2cZWw6fUjR5PXB7rW
-         R6yT75ej7rKjgR+Hs994NKnfjmVKqQvyzwK2Gh3xY9IBfRXzFxGg2mlJaWyMjpfyazXh
-         8J3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681818568; x=1684410568;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hSo0y9CU6JHSsniPLuWjZnH8Pywoh9MjPxBwO/oPayE=;
-        b=XsT1aReR+0ZuNx3XarVVWSVR6SLgZvQRXo7C990mZl3O//kvKI3gbr9VzZRyXD36yb
-         79PNNJi5XJNbTIn6uBNU4cozENtJf/UgsYdBTyvZxBf57sNryyvT0q7OTDO5yBwEuJbS
-         KXZ9g7KJwzXjfp0Bk9nsbIqPqH2TN5bZV6fokm8C3tN8qmf4Lc3xwfVrCdKeUulhaqij
-         0U+Su/y3sYyF4EOBTYJ96Cqa6pdsrfHKtXLMAFiPoLWWeL0UtmXpTzopwc4bpum9kcvC
-         7OV3E7DkeJ/FzovEt3/8DAiwpC110Mjljg89mNHI2z0buQ3rY3mMzl/0JyO1dN9gzY1e
-         RUxQ==
-X-Gm-Message-State: AAQBX9dgsmCNKp2Bnxk2H/S2MKB3DmKte/wCAdODliLK/Fk7WoUqLJT4
-        MZUriu5nfOcSGSwyjj4c5A8=
-X-Google-Smtp-Source: AKy350Yw0P9E+LEmNEiXhXkFoVPpmOWwCwTlmkd1a6rpkMkfR5iRtWzbGGhV7W7Y15b6BUq8S6gO4g==
-X-Received: by 2002:a05:600c:45ce:b0:3f1:7619:f0f6 with SMTP id s14-20020a05600c45ce00b003f17619f0f6mr3636747wmo.9.1681818567943;
-        Tue, 18 Apr 2023 04:49:27 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id s9-20020a05600c45c900b003f09d51a4edsm18674280wmo.48.2023.04.18.04.49.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 04:49:26 -0700 (PDT)
-Message-ID: <34acf346-a3d8-6f75-8d4f-0c68cda19506@gmail.com>
-Date:   Tue, 18 Apr 2023 13:49:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] media: platform: mtk-mdp3: work around unused-variable
- warning
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@kernel.org>,
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681820414; x=1713356414;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XIY9R3U0v54xAcDhl9OTq5nNyJ9/NWSYPz4k0wiW49E=;
+  b=CW/zGb8yhvj6/eoBUV8K7yqr8sxMlQdmlJTrjKj7VvJX01bYWfL4rofk
+   T+dWGrXOo1RzxizSBGYmu/dZlE8zffEjnd81Dl7b8+/VeUyI4go61mhZL
+   9pS5/7qiyjiQrb74Yn014fKaUM6Zpzg0jHSOHSyA/FY2TG5or+L8TcU50
+   JX2mW8uhZwOs7//qPzRy7prpZ/eMMb7eP2x51FwkQP6EPBOAVMJ2+yfE1
+   8c/SHNrwc+7t8NCKSySXp9BHh//liuSqhuQtm23/u+fGMxSNsnDaBJb3C
+   uFu0aRDMsaI15aB6x4PXJqhuMQzXYyiSiQzVM2zGEyzlWFczQ23Hr3/P7
+   A==;
+X-IronPort-AV: E=Sophos;i="5.99,207,1677538800"; 
+   d="scan'208";a="30398463"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 18 Apr 2023 14:20:12 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 18 Apr 2023 14:20:12 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 18 Apr 2023 14:20:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681820412; x=1713356412;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XIY9R3U0v54xAcDhl9OTq5nNyJ9/NWSYPz4k0wiW49E=;
+  b=TE53WcDrySQ8UWDICrqtOBFYCwtET7vLQMOQHvxP2DC48Go3GmxiS9hl
+   8ASjGGMFceQhPpEAOrJPg9oQciNXbk2zXxPitSCqWopTrsjckjG2Ejgp0
+   Ld1QN7sV8ccVqwU9W4l5iFfJ35QIYyDQXSA8uvhuQO8+mkSd8PvG8XtCS
+   Nk8ULSyouzpowQWb158SxLfav4l+1HHUi872Uk2kaPPAP4A8ETyxNAHbP
+   YnGpppDyKu6lEjOEX0lRsYO7ypcrLQrTnvx6vMC4v7bKFizg9Auhr3gaA
+   Ma93P3O50fTtrhPvXHstEB85fMGIuGweviQMruQK/Y4FLoojp0sIQBMTa
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.99,207,1677538800"; 
+   d="scan'208";a="30398462"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 18 Apr 2023 14:20:12 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 07716280056;
+        Tue, 18 Apr 2023 14:20:12 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Moudy Ho <moudy.ho@mediatek.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Sun Ke <sunke32@huawei.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20230418091555.2605961-1-arnd@kernel.org>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20230418091555.2605961-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: imx: imx7-media-csi: Init default format with __imx7_csi_video_try_fmt()
+Date:   Tue, 18 Apr 2023 14:20:11 +0200
+Message-ID: <2253651.irdbgypaU6@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230418100417.20428-1-laurent.pinchart@ideasonboard.com>
+References: <20230418071439.197735-1-alexander.stein@ew.tq-group.com> <20230418100417.20428-1-laurent.pinchart@ideasonboard.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
+thanks for the nice cleanup.
 
-On 18/04/2023 11:15, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> When CONFIG_OF is disabled, the 'data' variable is not used at all
-> because of_match_node() turns into a dummy macro:
-> 
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c: In function 'mdp_comp_sub_create':
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:1038:36: error: unused variable 'data' [-Werror=unused-variable]
->   1038 |  const struct mtk_mdp_driver_data *data = mdp->mdp_data;
->        |                                    ^~~~
-> 
-> Remove the variable again by moving the pointer dereference into the
-> of_match_node call.
-> 
-> Fixes: b385b991ef2f ("media: platform: mtk-mdp3: chip config split about subcomponents")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Am Dienstag, 18. April 2023, 12:04:17 CEST schrieb Laurent Pinchart:
+> Use the __imx7_csi_video_try_fmt() helper function to initialize the
+> default format at probe time. This improves consistency by using the
+> same code path for both default initialization and validation at
+> runtime, and allows dropping the now unused imx7_csi_find_pixel_format()
+> function.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Hi Alexander,
+>=20
+> This is an additional cleanup that applies on top of "[PATCH v2 0/3] Fix
+> imx7-media-csi format settings". I've only compile-tested it as I'm
+> currently lacking access to test hardware. Would you be able to test the
+> patch ? If so, could you please include it in the v2 of your series ?
 
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+I can't detect any difference in 'media-ctl -p' right after boot, so I
+assume the initialization is identical. LGTM, I'll include in v3 of my
+series.
+
+Thanks,
+Alexander
 
 > ---
->   drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> index 75c92e282fa2..19a4a085f73a 100644
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-> @@ -1035,7 +1035,6 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
->   {
->   	struct device *dev = &mdp->pdev->dev;
->   	struct device_node *node, *parent;
-> -	const struct mtk_mdp_driver_data *data = mdp->mdp_data;
->   
->   	parent = dev->of_node->parent;
->   
-> @@ -1045,7 +1044,7 @@ static int mdp_comp_sub_create(struct mdp_dev *mdp)
->   		int id, alias_id;
->   		struct mdp_comp *comp;
->   
-> -		of_id = of_match_node(data->mdp_sub_comp_dt_ids, node);
-> +		of_id = of_match_node(mdp->mdp_data->mdp_sub_comp_dt_ids, node);
->   		if (!of_id)
->   			continue;
->   		if (!of_device_is_available(node)) {
+>  drivers/media/platform/nxp/imx7-media-csi.c | 55 +++------------------
+>  1 file changed, 6 insertions(+), 49 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> b/drivers/media/platform/nxp/imx7-media-csi.c index
+> 5240670476b2..e52d617eea59 100644
+> --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> @@ -1014,39 +1014,6 @@ static int imx7_csi_enum_mbus_formats(u32 *code, u=
+32
+> index) return -EINVAL;
+>  }
+>=20
+> -static int imx7_csi_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> -					const struct=20
+v4l2_mbus_framefmt *mbus,
+> -					const struct imx7_csi_pixfmt=20
+*cc)
+> -{
+> -	u32 width;
+> -	u32 stride;
+> -
+> -	if (!cc) {
+> -		cc =3D imx7_csi_find_mbus_format(mbus->code);
+> -		if (!cc)
+> -			return -EINVAL;
+> -	}
+> -
+> -	/* Round up width for minimum burst size */
+> -	width =3D round_up(mbus->width, 8);
+> -
+> -	/* Round up stride for IDMAC line start address alignment */
+> -	stride =3D round_up((width * cc->bpp) >> 3, 8);
+> -
+> -	pix->width =3D width;
+> -	pix->height =3D mbus->height;
+> -	pix->pixelformat =3D cc->fourcc;
+> -	pix->colorspace =3D mbus->colorspace;
+> -	pix->xfer_func =3D mbus->xfer_func;
+> -	pix->ycbcr_enc =3D mbus->ycbcr_enc;
+> -	pix->quantization =3D mbus->quantization;
+> -	pix->field =3D mbus->field;
+> -	pix->bytesperline =3D stride;
+> -	pix->sizeimage =3D stride * pix->height;
+> -
+> -	return 0;
+> -}
+> -
+>  /*
+> -------------------------------------------------------------------------=
+=2D-
+> -- * Video Capture Device - IOCTLs
+>   */
+> @@ -1618,22 +1585,14 @@ static struct imx7_csi_vb2_buffer
+> *imx7_csi_video_next_buf(struct imx7_csi *csi) return buf;
+>  }
+>=20
+> -static int imx7_csi_video_init_format(struct imx7_csi *csi)
+> +static void imx7_csi_video_init_format(struct imx7_csi *csi)
+>  {
+> -	struct v4l2_mbus_framefmt format =3D { };
+> +	struct v4l2_pix_format *pixfmt =3D &csi->vdev_fmt;
+>=20
+> -	format.code =3D IMX7_CSI_DEF_MBUS_CODE;
+> -	format.width =3D IMX7_CSI_DEF_PIX_WIDTH;
+> -	format.height =3D IMX7_CSI_DEF_PIX_HEIGHT;
+> -	format.field =3D V4L2_FIELD_NONE;
+> +	pixfmt->width =3D IMX7_CSI_DEF_PIX_WIDTH;
+> +	pixfmt->height =3D IMX7_CSI_DEF_PIX_HEIGHT;
+>=20
+> -	imx7_csi_mbus_fmt_to_pix_fmt(&csi->vdev_fmt, &format, NULL);
+> -	csi->vdev_compose.width =3D format.width;
+> -	csi->vdev_compose.height =3D format.height;
+> -
+> -	csi->vdev_cc =3D imx7_csi_find_pixel_format(csi-
+>vdev_fmt.pixelformat);
+> -
+> -	return 0;
+> +	csi->vdev_cc =3D __imx7_csi_video_try_fmt(pixfmt, &csi->vdev_compose);
+>  }
+>=20
+>  static int imx7_csi_video_register(struct imx7_csi *csi)
+> @@ -1646,9 +1605,7 @@ static int imx7_csi_video_register(struct imx7_csi
+> *csi) vdev->v4l2_dev =3D v4l2_dev;
+>=20
+>  	/* Initialize the default format and compose rectangle. */
+> -	ret =3D imx7_csi_video_init_format(csi);
+> -	if (ret < 0)
+> -		return ret;
+> +	imx7_csi_video_init_format(csi);
+>=20
+>  	/* Register the video device. */
+>  	ret =3D video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
