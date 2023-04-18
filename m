@@ -2,82 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F8656E5A01
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 09:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 248366E5A2C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 09:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230508AbjDRHCw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 03:02:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55804 "EHLO
+        id S231241AbjDRHOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 03:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjDRHCv (ORCPT
+        with ESMTP id S229756AbjDRHOv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 03:02:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3EDB10F8
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 00:02:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 18 Apr 2023 03:14:51 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6ED71BDC
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 00:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681802089; x=1713338089;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aplC/R8aIo9CPn0ymih9XPRBTFWzmKEt0bJtd3WF3E4=;
+  b=E7YG4h/jWtUs6fRUuTNi2VpdhPt0FvJHWoM8/ey3M8XOB8dPEPOXnK03
+   YFHpgmcsdorPJF9Os0f5GVF9hhvO2Gs8MAvOiAB+D4GcL2M7/escRxW2O
+   YgM39LN+ZkrsLnR19ju/CgPmC9XT6waaO2mxVMDaufjOu9J/6JdcXUwTH
+   BP97U/Wmi2fqV80OE0c0/sBsFhS3KwnQjM5CsMiH+n6U3cv16FSO9CFkQ
+   n+8EVjkn3sokpzt4QJrELBSExE3n5PQXoXK49XuJAU01Ipo23VsZ3woor
+   94d+NLkIBE1165DhGGWNLAFzNe2hwyhMeqYQGwxVKI5QG1xf6Z/dlWgXX
+   w==;
+X-IronPort-AV: E=Sophos;i="5.99,206,1677538800"; 
+   d="scan'208";a="30385552"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 18 Apr 2023 09:14:46 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 18 Apr 2023 09:14:46 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 18 Apr 2023 09:14:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681802086; x=1713338086;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aplC/R8aIo9CPn0ymih9XPRBTFWzmKEt0bJtd3WF3E4=;
+  b=hppTPFpTJvNqEhF0gK3o2Wzt8nM3Pb/ZMdffMHvsW2T123rmuWP1wYUO
+   W6y8zkXCkK3/bs+uKgycotVtiViTprGPC23HWGseS6NkUYKlvakSVSLXS
+   JbaZ+F8x3DAqPoJNBi35iV1811eObBNA+d3aVmkkcwlhqoux634yVAGC+
+   SFsc3ueuXmEADVz5r5J3O2sGm3i+2idEvTOfk7w46abxw8GurNxphpOf2
+   bR3ANgXsxE5+TBX+B0a2OVlo5RrQ5AD1UeX1TJ0kgPbYIEChTNwryFkhN
+   yijeKde0K78eyjBeSLWqVTYfy2kp2Zwm2NbImfw5BIUrF+UFz8vk3Y6Ny
+   A==;
+X-IronPort-AV: E=Sophos;i="5.99,206,1677538800"; 
+   d="scan'208";a="30385549"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 18 Apr 2023 09:14:46 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F79D62D61
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 07:02:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4615AC433EF;
-        Tue, 18 Apr 2023 07:02:48 +0000 (UTC)
-Message-ID: <c5e2368b-a283-a2a3-33ef-acc7581fca50@xs4all.nl>
-Date:   Tue, 18 Apr 2023 09:02:46 +0200
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 64540280056;
+        Tue, 18 Apr 2023 09:14:46 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 0/3] Fix imx7-media-csi format settings
+Date:   Tue, 18 Apr 2023 09:14:36 +0200
+Message-Id: <20230418071439.197735-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Arnd Bergmann <arnd@arndb.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.4] imx8-isi and rcar-vin fixes
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Mauro,
+Hi all,
 
-I'll push these myself to staging.
+this v2 splits the previous patch ([1]) into dedicated patches.
+Patch 1 removes the calls for converting the pix_format to mbus_framefmt and
+back again while applying the hardware limits to width and height.
+The bytesperline and sizeimage fields are set correctly as well.
+Together with patch 2 v4l2-compliance errors are gone.
 
-Regards,
+Best regards,
+Alexander
 
-	Hans
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20230406135637.257580-1-alexander.stein@ew.tq-group.com/
 
-The following changes since commit 20af6be6bee4c3af80aac9b44b3d32d89824dde7:
+Alexander Stein (3):
+  media: imx: imx7-media-csi: Get rid of superfluous call to
+    imx7_csi_mbus_fmt_to_pix_fmt
+  media: imx: imx7-media-csi: Remove interlave fields
+  media: imx: imx7-media-csi: Lift width constraints for 8bpp formats
 
-  media: nxp: imx8-isi: Remove 300ms sleep after enabling channel (2023-04-16 07:38:01 +0100)
+ drivers/media/platform/nxp/imx7-media-csi.c | 22 ++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-are available in the Git repository at:
+-- 
+2.34.1
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4q
-
-for you to fetch changes up to 1ddaeb8cd9457034aa7c8ec7760e3758f41f91c2:
-
-  media: nxp: imx8-isi: fix buiding on 32-bit (2023-04-18 08:53:41 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: nxp: imx8-isi: fix buiding on 32-bit
-
-Niklas Söderlund (3):
-      media: rcar-vin: Gen3 can not scale NV12
-      media: rcar-vin: Fix NV12 size alignment
-      media: rcar-vin: Select correct interrupt mode for V4L2_FIELD_ALTERNATE
-
- drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  | 41 +++++++++++++++++++++--------------------
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 21 +++++++++++++++------
- 2 files changed, 36 insertions(+), 26 deletions(-)
