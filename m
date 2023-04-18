@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24FD46E5832
-	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 06:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E28766E5837
+	for <lists+linux-media@lfdr.de>; Tue, 18 Apr 2023 06:53:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbjDREtM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 00:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45250 "EHLO
+        id S230181AbjDRExT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 00:53:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjDREtL (ORCPT
+        with ESMTP id S229517AbjDRExR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 00:49:11 -0400
-X-Greylist: delayed 7878 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 17 Apr 2023 21:49:09 PDT
+        Tue, 18 Apr 2023 00:53:17 -0400
 Received: from mail.peterfykh.hu (mail.peterfykh.hu [84.206.67.96])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5697A1BDC;
-        Mon, 17 Apr 2023 21:49:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F2A44B2;
+        Mon, 17 Apr 2023 21:53:16 -0700 (PDT)
 Received: from mail.peterfykh.hu (localhost [127.0.0.1])
-        by mail.peterfykh.hu (Postfix) with ESMTP id 870C1D04;
-        Tue, 18 Apr 2023 02:05:59 +0200 (CEST)
+        by mail.peterfykh.hu (Postfix) with ESMTP id A77A213A1;
+        Tue, 18 Apr 2023 03:43:39 +0200 (CEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
+Content-Type: text/plain; charset=UTF-8;
  format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 18 Apr 2023 02:05:59 +0200
+Content-Transfer-Encoding: 8bit
+Date:   Tue, 18 Apr 2023 03:43:39 +0200
 From:   MK <sebeszet@peterfykh.hu>
 To:     undisclosed-recipients:;
-Subject: re:admirer
+Subject: Hola sol, como estas?
 Reply-To: marion.K08@bahnhof.se
 Mail-Reply-To: marion.K08@bahnhof.se
-Message-ID: <e050358a570db4086d0adc691b7b42ab@peterfykh.hu>
+Message-ID: <940b02d5b791bddda0c6cbf145b8e0bf@peterfykh.hu>
 X-Sender: sebeszet@peterfykh.hu
 User-Agent: Roundcube Webmail/1.2.3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peterfykh.hu; s=mail; t=1681776375; bh=+GQZ9jmqg7o5TpYWbhzW3wQDOJIlx56qH9oX6STTKTE=; h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Reply-To:Message-ID; b=cfVSABpLxrI1lpWchjmNHygpbnLTILBRz2+0XOFwdh+WsK7gitLy5oNmqrLAzuXF+k0ucY9883eLR52sA9BFJwevzkQnWBSH58lQKVq9QvI1I10SUmm/oKO1OSJwqKFelIdEvz/Yp/Vrx1MDOvajeQkwWJzqOpldlQMkGBlmBfw=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=peterfykh.hu; s=mail; t=1681782226; bh=j9djel4PhO4NKmij9mrdk2N8QQFLrzRP/eYMv8+ewgY=; h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Reply-To:Message-ID; b=JVG0l4eBKh7gpBrpRYZM1gHnjdV5RqNuXH/9GKpUUjLp/3jvqpmdc+qMl3yxlg02kibE2P0j6Nalooocq5+WdKM4m5WHfB6hgwqggGS0TB4o6/PnGkOoIPxdbZyjyZyXsZl7Oy8r8prRZ8hlws5jtozT0PDtkKNZlJwqzZGJ7k8=
 X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
@@ -43,30 +42,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Dear,
+Lamento molestarte e inmiscuirte en tu privacidad. Soy soltero,
+   solitario y necesitado de un compañero cariñoso, cariñoso y romántico.
 
-I am sorry to bother you and intrude on your privacy. I am single,
-  lonely and in need of a caring, loving, and romantic companion.
+Soy un admirador secreto y me gustaría explorar la oportunidad de
+aprender más unos de otros. Sé que es extraño contactar contigo.
+de esta manera y espero que me puedas perdonar. soy una persona timida y
+Esta es la única manera que conozco de llamar tu atención. sólo quiero
+saber lo que piensas y mi intencion no es ofenderte.
+Espero que podamos ser amigos si eso es lo que quieres, aunque deseo
+ser más que un amigo. Sé que tienes algunas preguntas para
+pregunta y espero poder satisfacer algo de tu curiosidad con algunos
+respuestas
 
-I am a secret admirer and would like to explore the opportunity to
-learn more about each other. I know it is strange to contact you
-this way and I hope you can forgive me. I am a shy person and
-this is the only way I know I could get your attention. I just want
-to know what you think and my intention is not to offend you.
-I hope we can be friends if that is what you want, although I wish
-to be more than just a friend. I know you have a few questions to
-ask and I hope I can satisfy some of your curiosity with a few
-answers.
+Creo en el dicho de que 'para el mundo eres solo una persona,
+pero para alguien especial eres el mundo'. Todo lo que quiero es amor,
+cuidado romántico y atención de un compañero especial que soy
+esperando que seas tú.
 
-I believe in the saying that 'to the world, you are just one person,
-but to someone special, you are the world'. All I want is love,
-romantic care and attention from a special companion which I am
-hoping would be you.
-
-I hope this message will be the beginning of a long term
-communication between us, simply send a reply to this message, it
-will make me happy.
+Espero que este mensaje sea el comienzo de un largo camino.
+comunicación entre nosotros, simplemente envíe una respuesta a este 
+mensaje,
+me hará feliz
 
 
-Hugs and kisses,
-Secret admirer.
+Abrazos y besos,
+
+Marion.
