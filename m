@@ -2,115 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12FA96E7FB7
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 18:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B416E80F6
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 20:09:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233680AbjDSQeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 12:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
+        id S233285AbjDSSJU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 14:09:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233420AbjDSQeE (ORCPT
+        with ESMTP id S230429AbjDSSJS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 12:34:04 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65382421C;
-        Wed, 19 Apr 2023 09:33:59 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1a682eee3baso1545325ad.0;
-        Wed, 19 Apr 2023 09:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681922039; x=1684514039;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Hejd87Jll0E8NOGuMljt4taTMik1yKpFSOJV8ogm+QU=;
-        b=otvUaF7ejsijSly4r1bE5p0DcDAEY+dCK+KVYM+TKOnGIRDPkokhlWhv1Y4lwB+ZkJ
-         J+rF08EQd1xv3uuCAYfuKfepDM3Eusu6Uzl+SkCDbVx4j8Kn6sz+XuG7ALq2caYTgvj8
-         08wPhYvwIHTxLDZdYdxa2Xd5iDpIHEpZDQQLzd8+mvwCpOCz+WsrdOTTJ2/6cA9LYgzN
-         7NDAmo86b0SDi1sLACOkw9YxuxQHprwevC+PiLw6AfCihrx2IR9ovUWUsBFPeUWvsix0
-         FhdUPHDgv7r1UhOtdh8KkQQQN/cNQEWYyJrQZ1/9O7ON5XBMjvxAcMuAzNGWcDRBFKOz
-         QhGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681922039; x=1684514039;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hejd87Jll0E8NOGuMljt4taTMik1yKpFSOJV8ogm+QU=;
-        b=SkD3fujLoSe/rbrQEzHt9fmQ/uapgcltvPA8LfqBZq65QvvXKWlwJx7A9rkJS2xxU8
-         Pyn3vSrT1R/69qETu5ctUGQYCzpgCWvEbeqSJrOpbw9TWAHpJprXmK1EMW4m6LKxeowU
-         jVsPNPTdf1tm2CtwR1UFCG5zmyKOWSM3ZSGD0+Hq+VAHCJLq+3N9oKJiol41f2+We73u
-         GbornskRAj3qUAFu/fsQg8FCiOodLvGnABSBelGARWoAJVxaK3ex8k2cGZv3OryGhzjF
-         rIRhvRbZODudUooXZqlF4CqF9y0QcQFXX0yOdDUW7SS8+UbHhCPIPatcjsQ1yeDYpbIX
-         yflQ==
-X-Gm-Message-State: AAQBX9dbAFpJFulHlOaAjUcXoJ3/jPpIFJoy76zlhFVvJ6dlICK8TpR+
-        RbiUKhmhD7tIbP+mLUv5TMY=
-X-Google-Smtp-Source: AKy350Yh+6NbKPw4KD+UsFvenBCaCDaUcheuDcqPn53EST9vXg5qyuw0UcOKYiNkqaXz2dPOz64XMQ==
-X-Received: by 2002:a17:902:f689:b0:1a6:f5d5:b80a with SMTP id l9-20020a170902f68900b001a6f5d5b80amr7744678plg.38.1681922038707;
-        Wed, 19 Apr 2023 09:33:58 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id p10-20020a1709026b8a00b0019a6cce2060sm11631338plk.57.2023.04.19.09.33.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Apr 2023 09:33:58 -0700 (PDT)
-Message-ID: <932bb2c6-71ce-525f-fbb2-a0a742ee8e12@gmail.com>
-Date:   Wed, 19 Apr 2023 09:33:50 -0700
+        Wed, 19 Apr 2023 14:09:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68AF5FCF;
+        Wed, 19 Apr 2023 11:09:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A71C63754;
+        Wed, 19 Apr 2023 18:09:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D689FC433EF;
+        Wed, 19 Apr 2023 18:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681927756;
+        bh=TUCoGmaqQfZ4NLT3d2Ho195v5mLMI7sX5znBLXrOWYo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YSId98oIHhtiqAjHaGZa5tH4QrllvBTtHbfK5SNLnS/GnJAdxk0NjTFGN/2BuoiOA
+         MjZoy5mZBAFzlqKj8hKCMmkalrFBYb7VkKXm8m10E3MaA5GeB3fyOcUwVbJ5ENC7j7
+         gptDeJYVVUA3olaQ60CPTt889ZlJUplEivUcBZH1PFD38m95sgozr5YA7XSa8brplc
+         jHVZRJdpi6kSSUy5VhLghE94aKROIDeP1qKEBfqwETk0SDdAzM0pOOdipMrU0D5z4Y
+         XoVxuVVZLa/7Sz/E1bNZHbfiatzxA6y1qnut7/BUQKZJQ71Xydb26o10ybMI0Z+lL8
+         0XHqpTSQDsmzg==
+Date:   Wed, 19 Apr 2023 20:09:08 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Rob Herring <robh@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v10 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link
+ III Deserializer
+Message-ID: <ZEAuRNxRzjRuJRuW@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>, Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Rob Herring <robh@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
+ <20230222132907.594690-6-tomi.valkeinen@ideasonboard.com>
+ <ZD6VwpRya6SGBAt5@shikoro>
+ <20230419091336.4e10ba65@booty>
+ <ZD+g4j7jEg2AETNe@ninjato>
+ <20230419181337.2448179d@booty>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH net-next 3/6] net: bcmasp: Add support for ASP2.0 Ethernet
- controller
-Content-Language: en-US
-To:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        bcm-kernel-feedback-list@broadcom.com
-Cc:     justin.chen@broadcom.com, f.fainelli@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
-        andrew@lunn.ch, linux@armlinux.org.uk, richardcochran@gmail.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com
-References: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
- <1681863018-28006-4-git-send-email-justinpopo6@gmail.com>
- <03dadae3-3a89-cdb0-7cd1-591d62735836@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <03dadae3-3a89-cdb0-7cd1-591d62735836@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JSr5SI6LktGGn5l9"
+Content-Disposition: inline
+In-Reply-To: <20230419181337.2448179d@booty>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/18/23 23:35, Heiner Kallweit wrote:
-> On 19.04.2023 02:10, Justin Chen wrote:
->> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
->> introduced with 72165. This controller features two distinct Ethernet
->> ports that can be independently operated.
->>
->> This patch supports:
-[snip]
->> +	intf->tx_spb_index = spb_index;
->> +	intf->tx_spb_dma_valid = valid;
->> +	bcmasp_intf_tx_write(intf, intf->tx_spb_dma_valid);
->> +
->> +	if (tx_spb_ring_full(intf, MAX_SKB_FRAGS + 1))
->> +		netif_stop_queue(dev);
->> +
-> 
-> Here it may be better to use the new macros from include/net/netdev_queues.h.
-> It seems your code (together with the related part in tx_poll) doesn't consider
-> the queue restart case.
-> In addition you should check whether using READ_ONCE()/WRITE_ONCE() is needed,
-> e.g. in ring_full().
 
-Thanks Heiner. Can you trim the parts you are not quoting otherwise one 
-has to scroll all the way down to where you responded. Thanks!
--- 
-Florian
+--JSr5SI6LktGGn5l9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Luca,
+
+> > Ah, you mean we agreed on that at the Plumbers BoF? I think we can
+> > conclude this is obsolete meanwhile. GMSL encodes the target addresses
+> > in DT. Rob is also fine with the binding here to encode the pool in DT.
+> > Let's follow that road, I'd say.
+>=20
+> Sure, I'm not questioning that. Apologies if it did look like. I was
+> just trying to explain (to myself as well) why this hadn't been done
+> previously.
+
+All fine. I didn't understand it this way and mainly wanted to summarize
+what happened since the BoF. To myself as well ;) And also for Tomi so
+he knows what happened.
+
+
+--JSr5SI6LktGGn5l9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRALkAACgkQFA3kzBSg
+KbbHPhAAsBiWcgVFjEBmCAlyakvYjpddOTuVEIw/A5MtqXGqnGvzU3FGkINLgQ6o
+beN3h/bzL4+oaGvHxnG1WA+C3sRJ4Zc327cs26vMm6BXFl6LSe0rgxSEbUDdoKIs
+oTvSEksTwQji5jMdtetKITvXqs0n9mp5/Iqs8RF7KNDIffMCBdidWpURl7umOmJW
+xUlKsbFcSR0yZIIVv7GSr/2rceOTQUyZw1lPev0W9mbbt1eOtgYxdiPTfL6HO+fz
+77B/Wyt57nZ0yv/rkRztEFA0r2+4O8MSQdGtkygD4pfn2EEVAgajSM9iuspa5Rn/
+GLzEDLSdnufrk29pR3YehrY2idPlfj5T4tYyaQZS/RVHBxn1X+NSBiMlSmsT0+cr
+MOGBOvgJ29TXQRPGBiP8246A4JpWjnQx2sYM1rMX6jiHUkXYR3JKszeMxLwbjKvV
+bRItbHK/1YI0nKFSef3WykZ0kvwBma/IU60enJYMVITpPPoMXR60+4dpqQCOU398
+I/eLodap5bd6OC67VEvgE/89W68WBnG7aDCDuf63+gdCXJw5omD+GFLX5IvugGPU
+EsoSu12g6gwQcSDJm6MHdCaXbNxrzKVt8ssikScPc0cLpWUfOz12IOfY0WGbwm4u
+aCGScieeLd64u3Gp4lOL4Nm1vWGlLUZzu/VldD4t5ZBsOMEWnJ0=
+=LQvv
+-----END PGP SIGNATURE-----
+
+--JSr5SI6LktGGn5l9--
