@@ -2,104 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 653456E7017
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 01:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557E06E702E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 02:10:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231516AbjDRXyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Apr 2023 19:54:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57700 "EHLO
+        id S230340AbjDSAKc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Apr 2023 20:10:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231423AbjDRXyg (ORCPT
+        with ESMTP id S229597AbjDSAKa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Apr 2023 19:54:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E8D93C7;
-        Tue, 18 Apr 2023 16:54:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 36D6C60F40;
-        Tue, 18 Apr 2023 23:54:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C107C433A0;
-        Tue, 18 Apr 2023 23:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681862070;
-        bh=Hrd+BNjFqHGurELBooQNeXrU6jy+H2YofJkCRAdEr88=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DY4UxslVrS6DGCIKSNzrKxGqV6zpRp6YF1kt/ChfHqYr659zNA7OQ9oBYZbUD3iDi
-         wG8zZ4v9agbA4cz1vzhlU5ju0ZudCGUTUk1st/oF74RbUcL8bB+QtQktW5r9dmS5LC
-         YwuI0ZeR9fIUy64FbOW06TBq4sQwGfCSSXknVi4ENrKvmrS0eqfsAZDTzUaw/dp4l1
-         PkDA6j272nQc//MMFJs9hcFOjRefF6hIj9VIthrn2om/MN3fAaAfJX6gsmiMZ8cgux
-         SSjZgCx6MxiL/8FM+jXRqMkxHKArndXw7qmn1ZI65D1TutEAKbMNq0SMA+kmfwIhb+
-         W2CVpNonSYfaw==
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-54c12009c30so586836247b3.9;
-        Tue, 18 Apr 2023 16:54:30 -0700 (PDT)
-X-Gm-Message-State: AAQBX9dKvoc84iZpVBM6bHaU7YHqGvUEU+chIXfM+nt6HbFUpPa7SODK
-        ltMlfvmfzX0AIaFzIY2ssrARQBigscdLQdxnVA==
-X-Google-Smtp-Source: AKy350Y084U1nwyKppbXIlL2RS/Z6Hww1cnVbHVDZ+rXFFjHyB6vawS8i6+IJtgSejhuf7P6xMbQltLxdQsq9hhBFGA=
-X-Received: by 2002:a0d:ca43:0:b0:552:a30e:c180 with SMTP id
- m64-20020a0dca43000000b00552a30ec180mr1638536ywd.25.1681862069580; Tue, 18
- Apr 2023 16:54:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230129-ov2685-improvements-v4-0-e71985c5c848@z3ntu.xyz> <20230129-ov2685-improvements-v4-2-e71985c5c848@z3ntu.xyz>
-In-Reply-To: <20230129-ov2685-improvements-v4-2-e71985c5c848@z3ntu.xyz>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 18 Apr 2023 18:54:18 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLB37Y-V-8uWPdnc_YaActtQUhJArv50Rz8K_CF5cbNhw@mail.gmail.com>
-Message-ID: <CAL_JsqLB37Y-V-8uWPdnc_YaActtQUhJArv50Rz8K_CF5cbNhw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: ov2685: convert to dtschema
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 18 Apr 2023 20:10:30 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9CD0113;
+        Tue, 18 Apr 2023 17:10:29 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id a23so26722116qtj.8;
+        Tue, 18 Apr 2023 17:10:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681863029; x=1684455029;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rE1EEDO+fEqLoZiLrhfSx85AyW8A+vdoa/Snn4cvZO8=;
+        b=ZHXM1vJBIY5/tmjJT0bVpzwkzgcuj3UqE6ZuAM+WopWTizO0zDdpKa7LVRnsmGTn1d
+         dNzyQC1wJv2vOr86Nkl6+DausEEP53FrPRiRv4UhVQurNRPpO1CmxFUxHDSvYCh0/r4L
+         STAJGBMIzP8mz/nBypYUlSeBjFBmmgYZ34WTb9Sd6ekjELm6Sq0Us2ZOuGOcqa6R7okN
+         2jNHKJT6OPVZCX1v4iC9zXkRhVV+lHS8I1FE7A1UBj5sBxKKNp3qwrF86F1KMEggt5SN
+         XY0Sxw8Awni/NHCWXYhwkKcyE6nH1rM9D1QcXbrpE5pYEXAY0ipeoblBZlUd07Kvxxbt
+         q+Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681863029; x=1684455029;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rE1EEDO+fEqLoZiLrhfSx85AyW8A+vdoa/Snn4cvZO8=;
+        b=h4cBprx4lIu4Z7Z/DeZGOHsMMC5oAJ0Zsc91lD/fLgys7/1O2HeyI/tCdLJowtSCjy
+         iSO3KLxLi/cDFd7SsfWZSOYRkeuC6GkxfiBQ3rZ6mJoKqyfOunnU1UyiX7Osmtda5cjn
+         pDOed8Zkuo5LjW2cCs+4FUYERBW60LZey06HuTdQIjJVWUpQLrlhPw8nH3SV8vP+FEkN
+         l71rCrjEE7An8IlDWDfilXHiSXqeQlaP0sSlr9gV7mJ6XwSZQO5IjoaDyXGfa1u7ybcA
+         FFAZ/LMcnjHzDSzD4Yv1nQBEOjxIPsLiUhzOvZs9ZB0DoxAvJ6fqwttpd3AYvGsbFNnk
+         gy8A==
+X-Gm-Message-State: AAQBX9dSznZERbZ2AYCsCJftl1NBUQN/msnRbqHdaz1N10ZSgrxsqliq
+        exEHR5JR5DWQr+nsYhzdivhorvcT/Nj+pw==
+X-Google-Smtp-Source: AKy350aJZdwTEBQKh+v50v7gsPOE+8maA9oyygbdcVRFgplCIK6a3+p7/GpmoeTI1M2smoh5fZHNFg==
+X-Received: by 2002:ac8:5e4d:0:b0:3e6:4fab:478e with SMTP id i13-20020ac85e4d000000b003e64fab478emr3325666qtx.33.1681863028798;
+        Tue, 18 Apr 2023 17:10:28 -0700 (PDT)
+Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d14-20020a37680e000000b0074d1b6a8187sm2639035qkc.130.2023.04.18.17.10.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Apr 2023 17:10:28 -0700 (PDT)
+From:   Justin Chen <justinpopo6@gmail.com>
+To:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        bcm-kernel-feedback-list@broadcom.com
+Cc:     justin.chen@broadcom.com, f.fainelli@gmail.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        richardcochran@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Subject: [PATCH net-next 0/6] Brcm ASP 2.0 Ethernet controller
+Date:   Tue, 18 Apr 2023 17:10:12 -0700
+Message-Id: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 23, 2023 at 12:58=E2=80=AFPM Luca Weiss <luca@z3ntu.xyz> wrote:
->
-> Convert the text-based dt-bindings to yaml.
->
-> Changes from original txt:
-> * Take wording for various properties from other yaml bindings, this
->   removes e.g. volt amount from schema since it isn't really relevant
->   and the datasheet is a better source.
-> * Don't make reset-gpios a required property since it can be tied to
->   DOVDD instead.
->
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
->  .../devicetree/bindings/media/i2c/ov2685.txt       |  41 ---------
->  .../devicetree/bindings/media/i2c/ovti,ov2685.yaml | 101 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   1 +
->  3 files changed, 102 insertions(+), 41 deletions(-)
+From: Justin Chen <justin.chen@broadcom.com>
 
-Now warning in linux-next:
+Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+introduced with 72165.
 
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/media/rockchi=
-p-isp1.example.dtb:
-camera@3c: port:endpoint:data-lanes: [[1]] is too short
-        From schema:
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/media/i2c/ovt=
-i,ov2685.yaml
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/media/i2c/ovt=
-i,ov2685.example.dtb:
-camera-sensor@3c: port:endpoint:data-lanes: [[1]] is too short
-        From schema:
-/builds/robherring/linux-dt/Documentation/devicetree/bindings/media/i2c/ovt=
-i,ov2685.yaml
+Add support for 74165 10/100 integrated Ethernet PHY which also uses
+the ASP 2.0 Ethernet controller.
+
+Florian Fainelli (2):
+  dt-bindings: net: Brcm ASP 2.0 Ethernet controller
+  net: phy: bcm7xxx: Add EPHY entry for 74165
+
+Justin Chen (4):
+  dt-bindings: net: brcm,unimac-mdio: Add asp-v2.0
+  net: bcmasp: Add support for ASP2.0 Ethernet controller
+  net: phy: mdio-bcm-unimac: Add asp v2.0 support
+  MAINTAINERS: ASP 2.0 Ethernet driver maintainers
+
+ .../devicetree/bindings/net/brcm,asp-v2.0.yaml     |  146 ++
+ .../devicetree/bindings/net/brcm,unimac-mdio.yaml  |    2 +
+ MAINTAINERS                                        |    9 +
+ drivers/net/ethernet/broadcom/Kconfig              |   11 +
+ drivers/net/ethernet/broadcom/Makefile             |    1 +
+ drivers/net/ethernet/broadcom/asp2/Makefile        |    2 +
+ drivers/net/ethernet/broadcom/asp2/bcmasp.c        | 1527 ++++++++++++++++++++
+ drivers/net/ethernet/broadcom/asp2/bcmasp.h        |  636 ++++++++
+ .../net/ethernet/broadcom/asp2/bcmasp_ethtool.c    |  620 ++++++++
+ drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c   | 1425 ++++++++++++++++++
+ .../net/ethernet/broadcom/asp2/bcmasp_intf_defs.h  |  238 +++
+ drivers/net/mdio/mdio-bcm-unimac.c                 |    2 +
+ drivers/net/phy/bcm7xxx.c                          |    1 +
+ include/linux/brcmphy.h                            |    1 +
+ 14 files changed, 4621 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/Makefile
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.h
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_ethtool.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf_defs.h
+
+-- 
+2.7.4
+
