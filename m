@@ -2,235 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CC76E7AE3
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 15:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B7DD6E7B3B
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 15:49:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233101AbjDSNbu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 09:31:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39450 "EHLO
+        id S233354AbjDSNtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 09:49:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233530AbjDSNbe (ORCPT
+        with ESMTP id S232696AbjDSNtV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 09:31:34 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF1E93D2;
-        Wed, 19 Apr 2023 06:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681911091; x=1713447091;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=xQFi7RvyRRmneRVx4JipJncMTlpy5bBX9EZm6w/Xqyc=;
-  b=jRZ/U5VHiyiLoqW9czTq9Hg4D0Bgsz4/egppzpwwncx7Iqh97/TsST3f
-   YqcVf+ek2XMuNtDKgQuIErP4hgr7V9UdxBaaqa+o4h/YSc9rXkTudL7xT
-   63mgvszGuDUoUZRtc1zDvU2PKVn9BHfhOuQSJGkx5oEdpCivOPpLFE1cE
-   0yw/wtEEFD9M6VczfenvhwSx8ZKJsaYQJ5gJKF/wOsDVROyRDkudOeQqr
-   eTesDdIMjZBesXYhTdNwQipyWTyGjI6DJRrvDtOlVpJsFbzgzKBNECD6J
-   fflS05EvG6gEIRSuigLBwzTRrnSDjyNT02bfXIvrApstFbWiThCsbEEv2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="334255445"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="334255445"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 06:31:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="641759152"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="641759152"
-Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([143.185.115.141])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 06:31:23 -0700
-Message-ID: <b6c4e2e9e7adf23e705ba1891664a0427f10af4a.camel@intel.com>
-Subject: [PATCH v2] uvc: Intel PID enabling UVC Metadata attributes
-From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Ricardo Ribalda <ribalda@chromium.org>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        evgeni.raikhel@intel.com, demisrael@gmail.com
-Date:   Wed, 19 Apr 2023 16:31:21 +0300
-In-Reply-To: <0e73342b352e83a85540e77bf0ebf6f8f21cbe32.camel@intel.com>
-References: <9001ccdec3e3234253cf2f93ea39745ed6f525f1.camel@intel.com>
-         <ZD+wkCz+kiWAkH2e@valkosipuli.retiisi.eu>
-         <0e73342b352e83a85540e77bf0ebf6f8f21cbe32.camel@intel.com>
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        Wed, 19 Apr 2023 09:49:21 -0400
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E19469A;
+        Wed, 19 Apr 2023 06:49:20 -0700 (PDT)
+Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-187df75c901so692612fac.1;
+        Wed, 19 Apr 2023 06:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681912160; x=1684504160;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ym31HW14DbhCOWHrnpXKAPN5kGz7nsQnyeLEhvgz9o8=;
+        b=g6DUqsbuqHCbSnGehf924bmMmY5pk8Jf320EWXg+W/jXCTmRx9mO2tW0hXviPMnP/v
+         n0jaFKOt1zAjyYScjefGItuXl3SpqypDwKjPys8cAemLMLZpQwWKuV5awwimcpx4xAtT
+         xl83lQBtTvOAwJiZkIFzI8KCJ003nRW1JHU316/6AFEGSwbuaibWiB4gh6b9d+7F1u3V
+         GCGN2MuPwgpU2ywXp0cqvC2bBdq7j+8yuPbgHQhudUfSJg4FPAwZwFCzOL6XiR0snabn
+         gAgK5coRUH2r7NecaHDAXzGS5sOcIoOl25ti9vny7GH/T5ocwf6oXtq1CtTQz9TYsfHC
+         vx5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681912160; x=1684504160;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ym31HW14DbhCOWHrnpXKAPN5kGz7nsQnyeLEhvgz9o8=;
+        b=B91IoyKmgdKFoAdC5kQjStNcM9shifXUx6xj/Z9A4jWyOj2+kJHrppBwozpoJBf2Er
+         XfKt95nr9USSmszBXu0d3vONDWKJC5JjbZXYkTnoEII0FQ22XayIG8ZthObExqvwVBtj
+         5dF7sx2CYAc3qCxMSuLSj4poJXrRH6qudOaORkiSxLdH/9nz1zFJm4QQ1RSzYsxhkoM1
+         Mc5shyEcu7AO6GBN2ed8qgCMjnCqqW8/PmXiCdJ6Z2woSUqz8gN6GmwjEHjtNuDqh6fV
+         LK5D7ZNCtVjm4LwInaWN1UGSNiK8G8QMpVPG64fwYdeK2HzRNMrVcdk9xu4H/AHCuGC/
+         5B3A==
+X-Gm-Message-State: AAQBX9fiDJSQGnF6xnL69MAdOwf7HeEs2f0WeQ/V8YJLDfMM/Crwzegm
+        VlcXo8lY4aw2uJixYYgqn5G6kSFSaCaE43Z+Lw4=
+X-Google-Smtp-Source: AKy350b110hiRRnRO2oyRNWOm123YhKy0RQQnjnzlfFFQSuvDWkapRzEnWNE+yypdLSgtPsQ+wPMtI+zb8uc8w41WC4=
+X-Received: by 2002:a05:6870:c229:b0:187:e563:77b9 with SMTP id
+ z41-20020a056870c22900b00187e56377b9mr3674088oae.45.1681912159993; Wed, 19
+ Apr 2023 06:49:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+References: <20230419122058.3420-1-hackyzh002@gmail.com> <62ae58cb-9fec-37ca-fd40-12bf0c1c5ba3@amd.com>
+In-Reply-To: <62ae58cb-9fec-37ca-fd40-12bf0c1c5ba3@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Wed, 19 Apr 2023 09:49:08 -0400
+Message-ID: <CADnq5_MTgMtHM87YQJcZLcENevcHOuQihoTz-xRetypJ6BQSXQ@mail.gmail.com>
+Subject: Re: [PATCH V3 1/2] drm/radeon: Fix integer overflow in radeon_cs_parser_init
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com,
+        Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi again.
-I resend this reply with links instead of attachments.
-Links expires: 2023-07-18
-405: https://paste.debian.net/1277799/
-415: https://paste.debian.net/1277802/
-430: https://paste.debian.net/1277803/
-435: https://paste.debian.net/1277804/
-435i: https://paste.debian.net/1277805/
-455: https://paste.debian.net/1277806/
+Applied.  Thanks!
 
-Regards,
-Dmitry P.
+Alex
 
-On Wed, 2023-04-19 at 14:55 +0300, Dmitry Perchanov wrote:
-> Hi.
-> We have extended information about frame within metadata.
-> This information contains, generally,
-> hardware timestamp, frame number,
-> image sensor attributes and configuration,
-> firmware metrics etc.
-> =
-
-> You can follow source of RealSense SDK =
-
-> https://github.com/IntelRealSense/librealsense/blob/master/src/metadata.h
-> =
-
-> Please see attachments for lsusb for cameras:
-> 405.0b5b.lsusb.txt
-> 415.0ad3.lsusb.txt
-> 430.0ad6.lsusb.txt
-> 435.0b07.lsusb.txt
-> 435i.0b3a.lsusb.txt
-> 455.0b5c.lsusb.txt
-> =
-
-> =
-
-> All these cameras are multiple sensors USB cameras,
-> they are similar to already present 0x0b03 at uvc_driver.c
-> =
-
-> Regards,
-> Dmitry.
-> =
-
-> On Wed, 2023-04-19 at 12:12 +0300, Sakari Ailus wrote:
-> > Hi Dmitry,
-> > =
-
-> > On Sun, Jan 29, 2023 at 03:43:38PM +0200, Dmitry Perchanov wrote:
-> > > Intel RealSense UVC cameras Metadata support.
-> > =
-
-> > Could you list the individual devices here, and what does this metadata
-> > contain?
-> > =
-
-> > > Co-developed-by: Yu MENG <yu1.meng@intel.com>
-> > > Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
-> > > Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 72 ++++++++++++++++++++++++++++=
-++
-> > >  1 file changed, 72 insertions(+)
-> > > =
-
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/u=
-vc/uvc_driver.c
-> > > index e4bcb5011360..955f67d9a993 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -3000,6 +3000,78 @@ static const struct usb_device_id uvc_ids[] =
-=3D {
-> > >  	  .bInterfaceSubClass	=3D 1,
-> > >  	  .bInterfaceProtocol	=3D 0,
-> > >  	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D410/ASR depth camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0ad2,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D415/ASRC depth camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0ad3,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D430/AWG depth camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0ad4,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel Fallback USB2 Descriptor */
-> > =
-
-> > Which device uses this?
-> > =
-
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0ad6,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D435/AWGC depth camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0b07,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D435i depth camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0b3a,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D405 Depth Camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0b5b,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > > +	/* Intel D455 Depth Camera */
-> > > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> > > +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> > > +	  .idVendor		=3D 0x8086,
-> > > +	  .idProduct		=3D 0x0b5c,
-> > > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> > > +	  .bInterfaceSubClass	=3D 1,
-> > > +	  .bInterfaceProtocol	=3D 0,
-> > > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> > >  	/* Generic USB Video Class */
-> > >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED)=
- },
-> > >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-
----------------------------------------------------------------------
-Intel Israel (74) Limited
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+On Wed, Apr 19, 2023 at 8:24=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 19.04.23 um 14:20 schrieb hackyzh002:
+> > The type of size is unsigned, if size is 0x40000000, there will be an
+> > integer overflow, size will be zero after size *=3D sizeof(uint32_t),
+> > will cause uninitialized memory to be referenced later
+> >
+> > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the seri=
+es.
+>
+> > ---
+> >   drivers/gpu/drm/radeon/radeon_cs.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeo=
+n/radeon_cs.c
+> > index 46a27ebf4..a6700d727 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_cs.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_cs.c
+> > @@ -270,7 +270,8 @@ int radeon_cs_parser_init(struct radeon_cs_parser *=
+p, void *data)
+> >   {
+> >       struct drm_radeon_cs *cs =3D data;
+> >       uint64_t *chunk_array_ptr;
+> > -     unsigned size, i;
+> > +     u64 size;
+> > +     unsigned i;
+> >       u32 ring =3D RADEON_CS_RING_GFX;
+> >       s32 priority =3D 0;
+> >
+>
