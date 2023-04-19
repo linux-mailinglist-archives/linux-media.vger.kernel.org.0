@@ -2,111 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B7DD6E7B3B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 15:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A05696E7EE8
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 17:54:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233354AbjDSNtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 09:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54818 "EHLO
+        id S233451AbjDSPyf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 11:54:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232696AbjDSNtV (ORCPT
+        with ESMTP id S229716AbjDSPye (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 09:49:21 -0400
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E19469A;
-        Wed, 19 Apr 2023 06:49:20 -0700 (PDT)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-187df75c901so692612fac.1;
-        Wed, 19 Apr 2023 06:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681912160; x=1684504160;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ym31HW14DbhCOWHrnpXKAPN5kGz7nsQnyeLEhvgz9o8=;
-        b=g6DUqsbuqHCbSnGehf924bmMmY5pk8Jf320EWXg+W/jXCTmRx9mO2tW0hXviPMnP/v
-         n0jaFKOt1zAjyYScjefGItuXl3SpqypDwKjPys8cAemLMLZpQwWKuV5awwimcpx4xAtT
-         xl83lQBtTvOAwJiZkIFzI8KCJ003nRW1JHU316/6AFEGSwbuaibWiB4gh6b9d+7F1u3V
-         GCGN2MuPwgpU2ywXp0cqvC2bBdq7j+8yuPbgHQhudUfSJg4FPAwZwFCzOL6XiR0snabn
-         gAgK5coRUH2r7NecaHDAXzGS5sOcIoOl25ti9vny7GH/T5ocwf6oXtq1CtTQz9TYsfHC
-         vx5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681912160; x=1684504160;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ym31HW14DbhCOWHrnpXKAPN5kGz7nsQnyeLEhvgz9o8=;
-        b=B91IoyKmgdKFoAdC5kQjStNcM9shifXUx6xj/Z9A4jWyOj2+kJHrppBwozpoJBf2Er
-         XfKt95nr9USSmszBXu0d3vONDWKJC5JjbZXYkTnoEII0FQ22XayIG8ZthObExqvwVBtj
-         5dF7sx2CYAc3qCxMSuLSj4poJXrRH6qudOaORkiSxLdH/9nz1zFJm4QQ1RSzYsxhkoM1
-         Mc5shyEcu7AO6GBN2ed8qgCMjnCqqW8/PmXiCdJ6Z2woSUqz8gN6GmwjEHjtNuDqh6fV
-         LK5D7ZNCtVjm4LwInaWN1UGSNiK8G8QMpVPG64fwYdeK2HzRNMrVcdk9xu4H/AHCuGC/
-         5B3A==
-X-Gm-Message-State: AAQBX9fiDJSQGnF6xnL69MAdOwf7HeEs2f0WeQ/V8YJLDfMM/Crwzegm
-        VlcXo8lY4aw2uJixYYgqn5G6kSFSaCaE43Z+Lw4=
-X-Google-Smtp-Source: AKy350b110hiRRnRO2oyRNWOm123YhKy0RQQnjnzlfFFQSuvDWkapRzEnWNE+yypdLSgtPsQ+wPMtI+zb8uc8w41WC4=
-X-Received: by 2002:a05:6870:c229:b0:187:e563:77b9 with SMTP id
- z41-20020a056870c22900b00187e56377b9mr3674088oae.45.1681912159993; Wed, 19
- Apr 2023 06:49:19 -0700 (PDT)
+        Wed, 19 Apr 2023 11:54:34 -0400
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F5A97;
+        Wed, 19 Apr 2023 08:54:32 -0700 (PDT)
+Received: from g550jk.localnet (unknown [62.108.10.64])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 9C064C6E13;
+        Wed, 19 Apr 2023 15:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1681919670; bh=B8kuaxrbAOudg29ZKx0Ja65ggx/7tCW1jdSRrEzOEg8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=OOf2krUf0GDXjRktD6QuRvtJJ11p9hXbPfBUtkQjMk/ZQRgKptb5l2R9CC12R0lz7
+         9JJsrSoQUUXFAswTxYZ69jw9RFrtfilFDmoOq6DA1yjJ4gbHXnAvcDJ6ooS+FYdzfg
+         J+aWTWAdC2GzEK05IVBAyyuK62qU/evrKI6Y5cAw=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 2/3] media: dt-bindings: ov2685: convert to dtschema
+Date:   Wed, 19 Apr 2023 17:54:29 +0200
+Message-ID: <2675347.mvXUDI8C0e@z3ntu.xyz>
+In-Reply-To: <CAL_JsqLB37Y-V-8uWPdnc_YaActtQUhJArv50Rz8K_CF5cbNhw@mail.gmail.com>
+References: <20230129-ov2685-improvements-v4-0-e71985c5c848@z3ntu.xyz>
+ <20230129-ov2685-improvements-v4-2-e71985c5c848@z3ntu.xyz>
+ <CAL_JsqLB37Y-V-8uWPdnc_YaActtQUhJArv50Rz8K_CF5cbNhw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230419122058.3420-1-hackyzh002@gmail.com> <62ae58cb-9fec-37ca-fd40-12bf0c1c5ba3@amd.com>
-In-Reply-To: <62ae58cb-9fec-37ca-fd40-12bf0c1c5ba3@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Wed, 19 Apr 2023 09:49:08 -0400
-Message-ID: <CADnq5_MTgMtHM87YQJcZLcENevcHOuQihoTz-xRetypJ6BQSXQ@mail.gmail.com>
-Subject: Re: [PATCH V3 1/2] drm/radeon: Fix integer overflow in radeon_cs_parser_init
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com,
-        Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Applied.  Thanks!
-
-Alex
-
-On Wed, Apr 19, 2023 at 8:24=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 19.04.23 um 14:20 schrieb hackyzh002:
-> > The type of size is unsigned, if size is 0x40000000, there will be an
-> > integer overflow, size will be zero after size *=3D sizeof(uint32_t),
-> > will cause uninitialized memory to be referenced later
-> >
-> > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the seri=
-es.
->
+On Mittwoch, 19. April 2023 01:54:18 CEST Rob Herring wrote:
+> On Thu, Mar 23, 2023 at 12:58=E2=80=AFPM Luca Weiss <luca@z3ntu.xyz> wrot=
+e:
+> > Convert the text-based dt-bindings to yaml.
+> >=20
+> > Changes from original txt:
+> > * Take wording for various properties from other yaml bindings, this
+> >=20
+> >   removes e.g. volt amount from schema since it isn't really relevant
+> >   and the datasheet is a better source.
+> >=20
+> > * Don't make reset-gpios a required property since it can be tied to
+> >=20
+> >   DOVDD instead.
+> >=20
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 > > ---
-> >   drivers/gpu/drm/radeon/radeon_cs.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeo=
-n/radeon_cs.c
-> > index 46a27ebf4..a6700d727 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_cs.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_cs.c
-> > @@ -270,7 +270,8 @@ int radeon_cs_parser_init(struct radeon_cs_parser *=
-p, void *data)
-> >   {
-> >       struct drm_radeon_cs *cs =3D data;
-> >       uint64_t *chunk_array_ptr;
-> > -     unsigned size, i;
-> > +     u64 size;
-> > +     unsigned i;
-> >       u32 ring =3D RADEON_CS_RING_GFX;
-> >       s32 priority =3D 0;
-> >
->
+> >=20
+> >  .../devicetree/bindings/media/i2c/ov2685.txt       |  41 ---------
+> >  .../devicetree/bindings/media/i2c/ovti,ov2685.yaml | 101
+> >  +++++++++++++++++++++ MAINTAINERS                                     =
+ =20
+> >  |   1 +
+> >  3 files changed, 102 insertions(+), 41 deletions(-)
+>=20
+> Now warning in linux-next:
+>=20
+> /builds/robherring/linux-dt/Documentation/devicetree/bindings/media/rockc=
+hip
+> -isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] is too short
+>         From schema:
+> /builds/robherring/linux-dt/Documentation/devicetree/bindings/media/i2c/o=
+vti
+> ,ov2685.yaml
+> /builds/robherring/linux-dt/Documentation/devicetree/bindings/media/i2c/o=
+vt
+> i,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lanes: [[1]] is
+> too short
+>         From schema:
+> /builds/robherring/linux-dt/Documentation/devicetree/bindings/media/i2c/o=
+vti
+> ,ov2685.yaml
+
+Right, since Sakari changed maxItems=3D1 to maxItems=3D2, now minItems is a=
+lso 2=20
+but it should be 1. I'll send a patch to fix this.
+
+Regards
+Luca
+
+
