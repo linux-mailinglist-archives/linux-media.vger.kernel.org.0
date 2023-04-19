@@ -2,78 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 168DB6E75E9
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 11:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B81E6E7610
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 11:16:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232243AbjDSJBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 05:01:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
+        id S232051AbjDSJQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 05:16:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232825AbjDSJBl (ORCPT
+        with ESMTP id S231513AbjDSJQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 05:01:41 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 988FE19AA;
-        Wed, 19 Apr 2023 02:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681894891; x=1713430891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IiznyOV15KEk7yghNEwufQGnmpRCJqkzx0uQeGij21E=;
-  b=OGO/tN7e3/6m/v3VEZ54eWFCHA0j2nlFHSTGXM8UX5EKQFe9Ekqnhgxc
-   oqSI7DxtYu+CTs41t8Fz7alrlxqdSX+qYD1Lf4zKC9unZR08syecZ00Fi
-   nNxIot9v4ljWlBxJePHp6Bwb3WbUyHKFEVnDl8cjnSRCS6FB4Nx2tAu5+
-   yfNJPsShzzyxCWMhSt5zI/wWssM1APST+DbRXsDTw5EC+FZsojiur2X27
-   3muuDr/8A1352tXSZOQNq38wBUZMBcFNbocZxVjXltJLkTRcMP8oWmToD
-   R/qn6XCxGzSLw9yG9JY+gI3/m8Qh6M/XMVUmp56qIFghNz5/nMATqQLDn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="373276200"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="373276200"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 02:01:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="756028824"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="756028824"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 02:01:28 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D7E2311FAD0;
-        Wed, 19 Apr 2023 12:01:25 +0300 (EEST)
-Date:   Wed, 19 Apr 2023 12:01:25 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Riesch via B4 Relay 
-        <devnull+michael.riesch.wolfvision.net@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Matthias Fend <Matthias.Fend@wolfvision.net>,
-        libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
- group status controls for zoom and focus
-Message-ID: <ZD+t5QYH20Y8+8MV@kekkonen.localdomain>
-References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net>
- <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
- <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
- <0f1baf5e-2ff6-e10b-5c3e-0a82c71d0ce6@wolfvision.net>
- <CAPY8ntAjBEFfeV6nnQs34Y22QM-irT13ALDv4ksP8AYK=jWsKg@mail.gmail.com>
- <3ab7bfc4-aaae-2e39-b420-40ad8d71dda4@wolfvision.net>
- <CAPY8ntCNuvgmF37kDvVh1kuepbLqy2hWcz9HOi8iub9trHmi2g@mail.gmail.com>
- <ZDbKU5kwcb7RGeCo@kekkonen.localdomain>
- <ccae3994-3b1b-4050-ea34-98f97cf886e0@wolfvision.net>
+        Wed, 19 Apr 2023 05:16:30 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D20A4EF8;
+        Wed, 19 Apr 2023 02:16:29 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Q1Zsk15Tgz49Q4Z;
+        Wed, 19 Apr 2023 12:16:26 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1681895786;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2LY+RBYRhEfFEBxdIxnQuuY3qVdb+sRdne7QwMMnnbY=;
+        b=S4smR7C3+XOFxbX2e1hJnQjC9NL6IVlTtM6cdG+XB+gcINhpjMRf1gb2P8BfbVw/T/g2rV
+        DWFGjE717iapZ1/bCZBhVK99qAc9z2CcYbrU9x3JUIY1MpS2aX3HGWmRrEKrZBf7BkanK6
+        eJMg55oOuz0gKxQR0FXnc2WkrNMl+oAJaH7tnkPcRjdUdbCIbDQpgslkUPCnnUrKtVxCzO
+        VaSiNpUtsqmb1U5VaQQbyaJn8uyIUMsRLSaFukrt0YY50hA8SsJ+AkUF15mxvV9SawzjKK
+        Bq0Pxp39lO5GqZllGlWM3+ida3yvkCyRE1riWmqSr1pWkhJ+Zqp9lVvy/XQuUg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1681895786; a=rsa-sha256;
+        cv=none;
+        b=N++s37r4siitRMm/FRTTXvgJcbbU5EFV69xOChn1O6qsRDNnuHL+mJAGwWWfjkwENArqeT
+        5qZRTLeeX7Ixuo1RclnM4r8AzyP1rt1Rnae/OBbDvUcpAus7QBNKMp9u/OpZwx/fy3WSp6
+        GRVarc9USP3VDQG/+8v20XIDaabX0gnNsY0IOfj25FY74GyFX6pvCNovSC75/cOa4pspt2
+        WPq+kVBH+boY2w54bV5YHH5hBXzZF5ICodhImcR5tEzYeDGpfxMuLquC34aAcBtUL4b6/i
+        GAdGFvTSqAyQkGnSv8SmSwD6YwZtlr6/X5Vg3vqHSoaF5CFtovr9vHsPuIiwgA==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1681895786;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2LY+RBYRhEfFEBxdIxnQuuY3qVdb+sRdne7QwMMnnbY=;
+        b=TuKjyY+aRGHYx9IWVAEvefxTF21qU60kOPHGTH/DLHo5H+h9Xmm3cm0VAsgBz4vjvGCGi9
+        0/SHC/W1Istg9pYfLVs0H6azCr0Zg1La/DBuV88FVI2f1VjwL/fkWvGnLjxGsE5j/fpbog
+        TEbQpVCj03mcyPdX5QndwbXOWLq/rf6YfWybusILnWh8+5uqSfb4amxtmy7i/dJRNslcfn
+        avC7pg2piCSIMZ2O2RjbrlZ7DXmOyiKSGwlSVyBoCfyMszugdyizaqU8YCeHsULkDt1Swy
+        5MMVJXq8uRJID4q0jeIM0eKwDlEgU7uXOxXJf7KUR1LgVWod0eaYb0+Q2y5+dw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AD76C634C91;
+        Wed, 19 Apr 2023 12:12:48 +0300 (EEST)
+Date:   Wed, 19 Apr 2023 12:12:48 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Dmitry Perchanov <dmitry.perchanov@intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, linux-kernel@vger.kernel.org,
+        evgeni.raikhel@intel.com, demisrael@gmail.com
+Subject: Re: [PATCH] uvc: Intel PID enabling UVC Metadata attributes
+Message-ID: <ZD+wkCz+kiWAkH2e@valkosipuli.retiisi.eu>
+References: <9001ccdec3e3234253cf2f93ea39745ed6f525f1.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ccae3994-3b1b-4050-ea34-98f97cf886e0@wolfvision.net>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+In-Reply-To: <9001ccdec3e3234253cf2f93ea39745ed6f525f1.camel@intel.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,89 +83,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hi Dmitry,
 
-On Mon, Apr 17, 2023 at 02:38:20PM +0200, Michael Riesch wrote:
-> Hi Sakari,
-> 
-> On 4/12/23 17:12, Sakari Ailus wrote:
-> > Hi Dave, Michael,
-> > 
-> > On Wed, Apr 12, 2023 at 02:55:56PM +0100, Dave Stevenson wrote:
-> >>>> If the ranges aren't updated, where should that out-of-range lens
-> >>>> movement leave the lens?
-> >>>
-> >>> This is up to the hardware controller, but I would guess it typically
-> >>> stops one step before disaster. Wherever that may be, the error
-> >>> condition and the current position can be read out via this new STATUS
-> >>> control.
-> >>>
-> >>> Does this sound good so far?
-> >>
-> >> Sounds reasonable, but I'm not the gatekeeper (that would be Sakari or
-> >> Laurent), and I'm just expressing my views based on the lenses I've
-> >> encountered.
-> >> All of my lenses have a single drive for focus, a single drive for
-> >> zoom, and where there are multiple elements they are all connected
-> >> mechanically. Your setup sounds far more complex and is likely to need
-> >> a more extensive driver, but it'd be nice to not unnecessarily
-> >> overcomplicate the interface.
-> > 
-> > Could we also have a driver that uses these new controls?
-> 
-> If you are referring to the driver for our custom lens controller, then
-> I have to say that it is under development and simply not ready for
-> release yet. Also, the decision has not yet been made whether or not
-> this will be an open-source driver.
-> 
-> A different approach could be the adaptation of the vimc-lens driver,
-> which currently only supports FOCUS_ABSOLUTE. But this would raise
-> several implementation questions and at least for me this would be a
-> nontrivial task.
-> 
-> Is it required to have a driver for this interface (in the sense that
-> the patches cannot be accepted otherwise)?
+On Sun, Jan 29, 2023 at 03:43:38PM +0200, Dmitry Perchanov wrote:
+> Intel RealSense UVC cameras Metadata support.
 
-That has been traditionally required, and a virtual driver isn't usually
-considered enough. There are at least two reasons for this. The first one
-being that if the driver isn't reviewable and targetting upstream it may be
-difficult to figure out whether the interface changes are the right ones
-for that driver. This is perhaps a lesser concern here. Secondly, there is
-also unwillingness to add interface elements that might never be supported
-by the kernel itself --- this is effectively just dead code.
-
-Also cc Hans and Laurent.
+Could you list the individual devices here, and what does this metadata
+contain?
 
 > 
-> > The controls themselves appear reasonable to me as well. I guess there are
-> > changes to be made based on the discussion?
+> Co-developed-by: Yu MENG <yu1.meng@intel.com>
+> Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
+> Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 72 ++++++++++++++++++++++++++++++
+>  1 file changed, 72 insertions(+)
 > 
-> I'd summarize that whether or not the status controls are compound
-> controls of the type V4L2_CTRL_TYPE_LENS_STATUS is the open question.
-> 
-> As a potential follow-up question I recently asked myself if the struct
-> v4l2_ctrl_lens_status should contain trailing reserved bytes for future
-> extension (no idea, though, what this could be).
-> 
-> Alternatively, we could come up with "V4L2_CID_FOCUS_CURRENT (integer)"
-> for the current position and "V4L2_CID_FOCUS_STATUS (bitmask)" (and add
-> further controls when they are needed. Here, we lose atomicity but maybe
-> this can be ignored. One could assume that all relevant controls are
-> read out with a single ioctl which provides at least some level of
-> atomicity.
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index e4bcb5011360..955f67d9a993 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -3000,6 +3000,78 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D410/ASR depth camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0ad2,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D415/ASRC depth camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0ad3,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D430/AWG depth camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0ad4,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel Fallback USB2 Descriptor */
 
-There might be something that could be done in the control framework to
-address this. But it's not something that can be expected to happen soon.
+Which device uses this?
 
-I'd perhaps keep them separate, not to make it a compound control just for
-the access reason. But I certainly don't have a strong opinion about it.
-
-> 
-> Any comments and/or recommendations to this open question would be much
-> appreciated.
-> 
-> Other review comments will be incorporated in the next iteration of this
-> series as well, but they are quite straightforward.
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0ad6,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D435/AWGC depth camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0b07,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D435i depth camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0b3a,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D405 Depth Camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0b5b,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +	/* Intel D455 Depth Camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x8086,
+> +	  .idProduct		= 0x0b5c,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+>  	/* Generic USB Video Class */
+>  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+>  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
 
 -- 
 Kind regards,
