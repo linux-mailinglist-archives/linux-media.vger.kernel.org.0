@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1C56E723F
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 06:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E87A6E7272
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 06:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231588AbjDSEYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 00:24:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
+        id S229850AbjDSEwT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 00:52:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbjDSEYh (ORCPT
+        with ESMTP id S229470AbjDSEwR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 00:24:37 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D920A1705;
-        Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-51f597c97c5so1115044a12.0;
-        Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
+        Wed, 19 Apr 2023 00:52:17 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7953AB2;
+        Tue, 18 Apr 2023 21:52:16 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-63b5c830d5eso2338363b3a.2;
+        Tue, 18 Apr 2023 21:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681878276; x=1684470276;
+        d=gmail.com; s=20221208; t=1681879936; x=1684471936;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZRDCjTOkWMGElxrmUMljuv7R6aYKvTg/GiQ2WWUQLjA=;
-        b=P5QTikUGscbdQb7TFjUgKjgzxn/e9+eeyH2qxNQSgYuuAoEj9snd9v+RzKmYKdaFYB
-         Z/F/DpJQo7e8vEFO5QQAdNK5pRF0eVSc2Z3LToHwQitYaPnV9WaYhsT+3QPwbYhyhWOo
-         LLd698154Ty28I+Z3s6QzAars6oTGXtMF7Mwz23ALjlPE+FLwQNJQD57d2bRIjRKQo5K
-         /eSJRxR5Num3TxuE6t60Tjk67JJ/vq5KGCBAlfuitq8wGNFR2BDk07PJ23mAZyYwBO0C
-         /IzcPoTQ+SQ5jhA4iU8jpMFsg82p0U9KavFJC2lv3+aIkursUeNhKZ+71h5Piq67P6Qi
-         338g==
+        bh=Ek00L1cc21EOyKRafT/BGo0L28SeYIDeaJNfXSoDXCk=;
+        b=d+4BWM18QNx9T8dgCdsk3UsYNuvnf21SDCQFyquG/W2sADMBujm+iIWajisCKuKoxG
+         R1VSJCKr1sX5EaaIxiWJ9XO0RVuA33BMi4vOnetn4QAV09WkxRK8PCOkuIi6ItRXhGKh
+         q8A6NjgJujvmHHhkGqmnks1KiR23uvckaBpED9UuP27afZdSTNWqqCnJyt02KL3MDhJ7
+         v909j7ReBDq8PNdCrjoqk7IwZdirR07mN/VwA4lJsdBY6K6u3pjpZIdiKGC0536W6i7q
+         pzXBMTKpacWNp/o5Nj4/aCBbCz6k8k/EhmtDUpnzDe3V4oiVzNUPB2OYLhCtphGf28uy
+         9AGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681878276; x=1684470276;
+        d=1e100.net; s=20221208; t=1681879936; x=1684471936;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZRDCjTOkWMGElxrmUMljuv7R6aYKvTg/GiQ2WWUQLjA=;
-        b=Zz6o4KDTj0zFNfNWeyt9mQ5gWEhQGJo7bYDJag5Se9Nh8LjgNJN3vYHHxKHfVLENC0
-         zPGxKkOU0q4Od30NTlai8FpnHd+IHuvjvBC+mx9xRlhIZejp3U8oQx9mojZLkrN71PPf
-         zZoEPjA8Whw1UW8LsVNV1O7t/WyATe6QtANGHiJtCU2gb6CLzSXBJogX+LsqWXoUzd3x
-         OYfs1Eccw0EMiXYfW5M/6L3UWSk+B6dqSdCPVesPHq6HK49ML7eETmWyxGU9Q1V9uKrZ
-         2vKdwDnBojkSjm7UaHo4bkAyxydRqQ0TE8YaZo4p+D2ehodKmub6HWDWPqSyTIRliqoP
-         fJMA==
-X-Gm-Message-State: AAQBX9d7w0XB2A4H+N3ljnDojGC1TXuLCJ78OxJrFgwwapMu6QWa+Y/8
-        644PkQ/5PLxTUUNlbp466aU=
-X-Google-Smtp-Source: AKy350afI02Fa3Acq0DNx6nJUWrX6aI7RY4q/vg2eOyv/5uPkMM5pF1SRDx4yrymqaBjzv9oWxjrTg==
-X-Received: by 2002:a17:90a:fe8c:b0:246:f73c:3aba with SMTP id co12-20020a17090afe8c00b00246f73c3abamr1522019pjb.39.1681878276254;
-        Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
+        bh=Ek00L1cc21EOyKRafT/BGo0L28SeYIDeaJNfXSoDXCk=;
+        b=IckX7A4em0OcBKhffMfLaUKTPRYSCYui2vtTseZFqVcK+QnOgJ2PDfYLy7LeRcZlT+
+         sj/61b6Tn7yOuPxdieXFdt0HT2ymCBVj83Pf8swlYuAM/BHavSuZZ5/JVP6gEpQ/KzGB
+         i4lI6v6fGpmtcOOdVrzvKQJ5XVr14XLg1I3wYdJnBjw4MvWaMdg5LGGzGPgCLKTVedUu
+         1S1OxXF6wvGWV4XsXPkSbvkiqQZq7PSXJ5vxr5FjdyrDE64adJaozcXPH4SuMSCMB0l7
+         u7ghQForDfzlOSMKAo5I1eqPFr9eVjDc1srwF26itvcsUuZ70iOSgVCnlainU4nSD60g
+         tUpw==
+X-Gm-Message-State: AAQBX9cFS8vo0Y7QhKWgUo0fPEdy+4j6f6a8TkztCDhefwVjKYr4bwvl
+        ZuADFYK2YJDS4N/dTQDNdIU=
+X-Google-Smtp-Source: AKy350aYkXkO5nxw+E17pu3EKWjttrdTBgY/iJvBuAu1+xFva4iSl0hDCqJM6NsevZ9568vkBqdsJg==
+X-Received: by 2002:a17:902:8503:b0:19e:500b:517a with SMTP id bj3-20020a170902850300b0019e500b517amr3719378plb.69.1681879936118;
+        Tue, 18 Apr 2023 21:52:16 -0700 (PDT)
 Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
-        by smtp.gmail.com with ESMTPSA id v8-20020a17090a088800b0024779068491sm380205pjc.26.2023.04.18.21.24.33
+        by smtp.gmail.com with ESMTPSA id ix9-20020a170902f80900b001a64dbfc5d7sm10433184plb.145.2023.04.18.21.52.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 21:24:35 -0700 (PDT)
+        Tue, 18 Apr 2023 21:52:15 -0700 (PDT)
 From:   hackyzh002 <hackyzh002@gmail.com>
 To:     alexander.deucher@amd.com
 Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
@@ -56,9 +56,9 @@ Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org, hackyzh002 <hackyzh002@gmail.com>
-Subject: [PATCH 1/2] drm/radeon: Fix integer overflow in radeon_cs_parser_init
-Date:   Wed, 19 Apr 2023 12:24:07 +0800
-Message-Id: <20230419042407.69001-1-hackyzh002@gmail.com>
+Subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+Date:   Wed, 19 Apr 2023 12:51:57 +0800
+Message-Id: <20230419045157.69829-1-hackyzh002@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,37 +72,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The type of size is unsigned, if size is 0x40000000, there will be an
-integer overflow, size will be zero after size *= sizeof(uint32_t),
-will cause uninitialized memory to be referenced later
+The type of size is unsigned int, if size is 0x40000000, there will
+be an integer overflow, size will be zero after size *= sizeof(uint32_t),
+will cause uninitialized memory to be referenced later.
 
 Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
 ---
- drivers/gpu/drm/radeon/radeon_cs.c | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-index 46a27ebf4..472c29050 100644
---- a/drivers/gpu/drm/radeon/radeon_cs.c
-+++ b/drivers/gpu/drm/radeon/radeon_cs.c
-@@ -270,7 +270,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
- {
- 	struct drm_radeon_cs *cs = data;
- 	uint64_t *chunk_array_ptr;
--	unsigned size, i;
-+	u64 size, i;
- 	u32 ring = RADEON_CS_RING_GFX;
- 	s32 priority = 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 08eced097..c17b3af85 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+ 	uint64_t *chunk_array_user;
+ 	uint64_t *chunk_array;
+ 	uint32_t uf_offset = 0;
+-	unsigned int size;
++	uint64_t int size;
+ 	int ret;
+ 	int i;
  
-@@ -347,7 +347,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
- 				continue;
- 		}
+@@ -235,7 +235,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+ 		size = p->chunks[i].length_dw;
+ 		cdata = u64_to_user_ptr(user_chunk.chunk_data);
  
--		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t), GFP_KERNEL);
-+		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t), GFP_KERNEL);
- 		size *= sizeof(uint32_t);
+-		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t),
++		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
+ 						    GFP_KERNEL);
  		if (p->chunks[i].kdata == NULL) {
- 			return -ENOMEM;
+ 			ret = -ENOMEM;
 -- 
 2.34.1
 
