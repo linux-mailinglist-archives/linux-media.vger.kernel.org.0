@@ -2,86 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31CDD6E73A1
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 09:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8326E73A2
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 09:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230153AbjDSHGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 03:06:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36462 "EHLO
+        id S231158AbjDSHHU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 03:07:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjDSHGH (ORCPT
+        with ESMTP id S229688AbjDSHHT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 03:06:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74301985
-        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 00:06:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 19 Apr 2023 03:07:19 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE5A2710
+        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 00:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681888037; x=1713424037;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NmaMLAIHU7t2jFw8AlIYeO25fV89EXz/wQW5i4dg0hk=;
+  b=gSnY04KL5lC8hGUA4q4yvRSYrrzbSYGtQFP+ff7CXIhFUWG7zvMTKaxy
+   GYm4+OVkmoKNIH8ApaXLXo4OrXau7FdigqOtGaB5668Q6SREI/IKrSuP6
+   oEwFW6coXrGgOF5biloOXpYn59+lHkhncv/4r9ga9MLM1xig2zCHlVmtS
+   rUmJMEDN20LEt4g2DUQKpP04WdfsVh1POaK9XhEhzTfvFoDGCSR/I4iZU
+   qnR/CFBLl/3lfv0hCkpYvjPu3ajeJCfbEMYd5b3vBGO6jkhznSi2oU5q6
+   Hyn6rPfUpWuNhmjb+iSyE1ftvAB9kAXBv4+uP6IKaCcmQgbqt9qTmSRIk
+   w==;
+X-IronPort-AV: E=Sophos;i="5.99,208,1677538800"; 
+   d="scan'208";a="30415565"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 19 Apr 2023 09:07:16 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 19 Apr 2023 09:07:16 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Wed, 19 Apr 2023 09:07:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681888036; x=1713424036;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NmaMLAIHU7t2jFw8AlIYeO25fV89EXz/wQW5i4dg0hk=;
+  b=XVIwn0nwzvbMTG59aiOwEh5cSn9q5crndYeX0tl4oSAuQCnu4HVyi8Lh
+   uWKkb0yPbwhLnCVKKI+tHIqcuFzqRVTJXCSgRRABEeTEcGBR4Nhl3kZyy
+   63SBneoDirqnuRtLZFZD5LC0UgWO1ye5sseQASlCKJLZj2zA4ZsRMzLJF
+   l5C/1b7zjhkwgKyZD/62gsHsLgcveOK81CiDRaG4OGyLJhU6h5zvTLpFd
+   EisLjfpBmf7mocBnj5rT38bdIxWYrwGqA5d9XQ2Iqh6EkUqia+xpbCoM5
+   fs85i/fuEOiWcX2vbHxu+CMUtO3pvaZoBrerqM36hWiZTF/PiCFYz3o/C
+   g==;
+X-IronPort-AV: E=Sophos;i="5.99,208,1677538800"; 
+   d="scan'208";a="30415564"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 19 Apr 2023 09:07:15 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 41D3E61B39
-        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 07:06:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E07DC433D2;
-        Wed, 19 Apr 2023 07:06:04 +0000 (UTC)
-Message-ID: <5406825f-9b67-a59e-de62-b446ad316b96@xs4all.nl>
-Date:   Wed, 19 Apr 2023 09:06:02 +0200
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BBAE6280056;
+        Wed, 19 Apr 2023 09:07:15 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 0/4] Fix imx7-media-csi format settings
+Date:   Wed, 19 Apr 2023 09:07:08 +0200
+Message-Id: <20230419070712.1422335-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] staging: media: atomisp: init high & low vars
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix a compiler warning:
+Hi,
 
-include/linux/dev_printk.h: In function 'ov2680_probe':
-include/linux/dev_printk.h:144:31: warning: 'high' may be used uninitialized [-Wmaybe-uninitialized]
-  144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-      |                               ^~~~~~~~
-In function 'ov2680_detect',
-    inlined from 'ov2680_s_config' at drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:468:8,
-    inlined from 'ov2680_probe' at drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:647:8:
-drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:376:13: note: 'high' was declared here
-  376 |         u32 high, low;
-      |             ^~~~
+v4 also incorporates feedback and improves commit messages a lot.
+Patch 3 is simplified now with hardware alignment constraintd being figured
+out.
 
-'high' is indeed uninitialized after the ov_read_reg8() call failed, so there is no
-point showing the value. Just say that the read failed. But low can also be used
-uninitialized later, so just make it more robust and properly zero the high and low
-variables.
+Thanks,
+Alexander
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 63de214916f5..c079368019e8 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -373,7 +373,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
- static int ov2680_detect(struct i2c_client *client)
- {
- 	struct i2c_adapter *adapter = client->adapter;
--	u32 high, low;
-+	u32 high = 0, low = 0;
- 	int ret;
- 	u16 id;
- 	u8 revision;
-@@ -383,7 +383,7 @@ static int ov2680_detect(struct i2c_client *client)
+Alexander Stein (3):
+  media: imx: imx7-media-csi: Get rid of superfluous call to
+    imx7_csi_mbus_fmt_to_pix_fmt
+  media: imx: imx7-media-csi: Remove incorrect interlacing support
+  media: imx: imx7-media-csi: Relax width constraints for non-8bpp
+    formats
 
- 	ret = ov_read_reg8(client, OV2680_SC_CMMN_CHIP_ID_H, &high);
- 	if (ret) {
--		dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
-+		dev_err(&client->dev, "sensor_id_high read failed (%d)\n", ret);
- 		return -ENODEV;
- 	}
- 	ret = ov_read_reg8(client, OV2680_SC_CMMN_CHIP_ID_L, &low);
+Laurent Pinchart (1):
+  media: imx: imx7-media-csi: Init default format with
+    __imx7_csi_video_try_fmt()
+
+ drivers/media/platform/nxp/imx7-media-csi.c | 94 ++++++---------------
+ 1 file changed, 24 insertions(+), 70 deletions(-)
+
+-- 
+2.34.1
+
