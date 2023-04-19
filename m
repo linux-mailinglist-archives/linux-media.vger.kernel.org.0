@@ -2,231 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86BF36E7382
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 08:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD526E7399
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 09:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbjDSGty (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 02:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58706 "EHLO
+        id S231862AbjDSHB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 03:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231431AbjDSGtu (ORCPT
+        with ESMTP id S229633AbjDSHBZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 02:49:50 -0400
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039B6113
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 23:49:48 -0700 (PDT)
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-32948b8cb25so68538545ab.0
-        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 23:49:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681886987; x=1684478987;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YZsQ5aPD6oFSjY71lAPkFKmwRM62j4k/Q+fhL8soLuk=;
-        b=dtzze8gS5aNCqohmNwYOdtNxOfzHL1Gg7KRnlPMbmsQt6nQTO1ZcojtzuFdKyf6kNy
-         5z38bCoEXLeZXL4O7e2yDDnYfyxCbkBELWyOvhj3z7GfZqQws7HCSAyevIdFI9N0RfFz
-         czI4LnSF6p3PfsSLsOm1qr5PmA7WTxFN74rEF/Y9TUW1ugny9ZEL0s0jtKXYFjHVl4CH
-         fKl2uM8ejaKe08GmUeVFtrz3Z0oHcrKr6TmeJs9rNoAyK6vRroS2p1FvXjDATGsOLnJR
-         FXBiMxx2Y3UXf41TllDRf/Al12DrRCCMB/SCYy6yywepDvHf/eLmUCuy7iG02csSvYAN
-         ryzw==
-X-Gm-Message-State: AAQBX9dOYuFDRHoyjRRh25deG83YSy+Iha0QYJZuevQ1yc7BuhLGJtie
-        km/s6tGy1+RnHQN6mQHWjvgWmPGY/IRUKsxWLP+gIW64D6u6
-X-Google-Smtp-Source: AKy350bcTeZTLNjnTPUNbGZEAm+soJGSmpILNbRMwQxWgi7b0y5S7B6oLoM+Vc3yybC3BHO1ejrbXiywpZY1W8ZAVsNskwlD6AcB
+        Wed, 19 Apr 2023 03:01:25 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A03F3191
+        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 00:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681887683; x=1713423683;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=aAx05+IOOVkajk9MsdTQnVq3/7ahZFO2x1LzaCMOaXk=;
+  b=LW2eEK53jts5Jwe2P5nf+bJGWPg1/BvRCWoyCzksKRM2GHpTxuOZvpih
+   QPiy65GvZAfCdsU7Yl1FeI+Dz6zvF9SuW24KQqPmaTm4un0vB5mLJ1RAY
+   I9F+c07cz7mgJXv0QonYwEHJFZwTgjUTYxP/n1ur90ZUx91OgianZjxdS
+   mlbs2mT3qF914GaSBoO5gmlcBdJHfCOwpByACFwYMySz+u3JIkbfd8qbR
+   uY3mNSfleVNsUWL1vMNqXJaeFcfJNW91pUzr1Qf69l+k+qQpU3ZVcJ8XF
+   W7uST8adcfoz4B4EPSlxT1m/dB6HdlJOLCllamE+dxYBwZ+Yz+atV6F7D
+   A==;
+X-IronPort-AV: E=Sophos;i="5.99,208,1677538800"; 
+   d="scan'208";a="30414978"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 19 Apr 2023 09:01:21 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 19 Apr 2023 09:01:21 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Wed, 19 Apr 2023 09:01:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1681887681; x=1713423681;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=aAx05+IOOVkajk9MsdTQnVq3/7ahZFO2x1LzaCMOaXk=;
+  b=QEe+koU3ta3uxlT+ZsLz6io6mpsRA56pRM8swko75D2uOzzO4vKlkRKz
+   W1w795u6udsIFh/ytgpLQuefV/jn1dCJWdZBHbKUP7kO3frw4zG8yjuPT
+   2lanEPRiDTAY6UfGUTHh48b6i/pW2NGFhlT2I0XcHuNU4NcJpUmIsIBWV
+   48a9Cie6P69T8aJUXARkHMMaYKudm1miEuettWgR222ckguK4bxDL0u7v
+   2n2qKyYe7YGLvsqmKyibCLDBJeyMb0h2ZxdKjEJOCJWHhVR1XTSPc/3jI
+   MT6edeNXPORZiu8m8DHnbyFYZOXiTQTVQf8ivmKXQ1mmTTO6vmQsZiQcC
+   w==;
+X-IronPort-AV: E=Sophos;i="5.99,208,1677538800"; 
+   d="scan'208";a="30414975"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 19 Apr 2023 09:01:20 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C5D27280056;
+        Wed, 19 Apr 2023 09:01:19 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 3/4] media: imx: imx7-media-csi: Lift width constraints for 8bpp formats
+Date:   Wed, 19 Apr 2023 09:01:17 +0200
+Message-ID: <6180938.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230418155947.GI30837@pendragon.ideasonboard.com>
+References: <20230418122041.1318862-1-alexander.stein@ew.tq-group.com> <20230418122041.1318862-4-alexander.stein@ew.tq-group.com> <20230418155947.GI30837@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d0c1:0:b0:32b:5e:e209 with SMTP id y1-20020a92d0c1000000b0032b005ee209mr5974257ila.1.1681886987332;
- Tue, 18 Apr 2023 23:49:47 -0700 (PDT)
-Date:   Tue, 18 Apr 2023 23:49:47 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006eb4a605f9aad43b@google.com>
-Subject: [syzbot] [media?] KASAN: slab-out-of-bounds Read in
- v4l2_compat_put_array_args (2)
-From:   syzbot <syzbot+3cea453754f73db49fa5@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Laurent,
 
-syzbot found the following issue on:
+thanks for the feedback.
 
-HEAD commit:    95abc817ab3a Merge tag 'acpi-6.3-rc7' of git://git.kernel...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=147a14e7c80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c21559e740385326
-dashboard link: https://syzkaller.appspot.com/bug?extid=3cea453754f73db49fa5
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: i386
+Am Dienstag, 18. April 2023, 17:59:47 CEST schrieb Laurent Pinchart:
+> Hi Alexander,
+>=20
+> Thank you for the patch.
+>=20
+> The commit message should state "Lift width constraint for 16bpp
+> formats".
 
-Unfortunately, I don't have any reproducer for this issue yet.
+To be pedantic it should be called "Lift width constraint for non-8bpp=20
+formats" :)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3cea453754f73db49fa5@syzkaller.appspotmail.com
+> I would also phrase is "Relax" instead of "Lift" as it's not
+> completely lifted.
 
-==================================================================
-BUG: KASAN: slab-out-of-bounds in instrument_copy_to_user include/linux/instrumented.h:119 [inline]
-BUG: KASAN: slab-out-of-bounds in _copy_to_user lib/usercopy.c:40 [inline]
-BUG: KASAN: slab-out-of-bounds in _copy_to_user+0x11a/0x150 lib/usercopy.c:34
-Read of size 16 at addr ffff88801bd7d658 by task syz-executor.3/15229
+That's true, this subtle difference should be accounted for. Thanks.
 
-CPU: 0 PID: 15229 Comm: syz-executor.3 Not tainted 6.3.0-rc6-syzkaller-00168-g95abc817ab3a #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
- print_address_description.constprop.0+0x2c/0x3c0 mm/kasan/report.c:319
- print_report mm/kasan/report.c:430 [inline]
- kasan_report+0x11c/0x130 mm/kasan/report.c:536
- check_region_inline mm/kasan/generic.c:181 [inline]
- kasan_check_range+0x141/0x190 mm/kasan/generic.c:187
- instrument_copy_to_user include/linux/instrumented.h:119 [inline]
- _copy_to_user lib/usercopy.c:40 [inline]
- _copy_to_user+0x11a/0x150 lib/usercopy.c:34
- copy_to_user include/linux/uaccess.h:169 [inline]
- v4l2_compat_put_array_args+0x484/0x830 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1154
- video_usercopy+0x46e/0x15f0 drivers/media/v4l2-core/v4l2-ioctl.c:3435
- v4l2_ioctl+0x1b7/0x250 drivers/media/v4l2-core/v4l2-dev.c:364
- v4l2_compat_ioctl32+0x23b/0x2a0 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1253
- __do_compat_sys_ioctl+0x255/0x2b0 fs/ioctl.c:968
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x33/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x70/0x82
-RIP: 0023:0xf7fb7579
-Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
-RSP: 002b:00000000f7fb25cc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00000000c0cc5604
-RDX: 0000000020000480 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000296 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
+> On Tue, Apr 18, 2023 at 02:20:40PM +0200, Alexander Stein wrote:
+> > For 8-bit formats the image_width just needs to be a multiple of 8 pixe=
+ls
+> > others just a multiple of 4 pixels.
+>=20
+> This is a bit terse, and I think a word or two are missing. It could be
+> improved:
+>=20
+> The driver unconditionally aligns the image width to multiples of 8
+> pixels. The real alignment constraint is 8 bytes, as indicated by the
+> CSI_IMAG_PARA.IMAGE_WIDTH documentation that calls for 8 pixel alignment
+> for 8bpp formats and 4 pixel alignment for other formats.
 
-Allocated by task 15229:
- kasan_save_stack+0x22/0x40 mm/kasan/common.c:45
- kasan_set_track+0x25/0x30 mm/kasan/common.c:52
- ____kasan_kmalloc mm/kasan/common.c:374 [inline]
- ____kasan_kmalloc mm/kasan/common.c:333 [inline]
- __kasan_kmalloc+0xa2/0xb0 mm/kasan/common.c:383
- kasan_kmalloc include/linux/kasan.h:196 [inline]
- __do_kmalloc_node mm/slab_common.c:967 [inline]
- __kmalloc_node+0x61/0x1a0 mm/slab_common.c:974
- kmalloc_node include/linux/slab.h:610 [inline]
- kvmalloc_node+0xa2/0x1a0 mm/util.c:603
- kvmalloc include/linux/slab.h:737 [inline]
- video_usercopy+0x642/0x15f0 drivers/media/v4l2-core/v4l2-ioctl.c:3386
- v4l2_ioctl+0x1b7/0x250 drivers/media/v4l2-core/v4l2-dev.c:364
- v4l2_compat_ioctl32+0x23b/0x2a0 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1253
- __do_compat_sys_ioctl+0x255/0x2b0 fs/ioctl.c:968
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
- do_fast_syscall_32+0x33/0x70 arch/x86/entry/common.c:203
- entry_SYSENTER_compat_after_hwframe+0x70/0x82
+Thanks for this suggestion. This sounds much better.
 
-The buggy address belongs to the object at ffff88801bd7d640
- which belongs to the cache kmalloc-32 of size 32
-The buggy address is located 0 bytes to the right of
- allocated 24-byte region [ffff88801bd7d640, ffff88801bd7d658)
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > Changes in v3:
+> > * Fix commit message (Only 8-bit formats needs multiple of 8 pixels)
+> >=20
+> >  drivers/media/platform/nxp/imx7-media-csi.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/media/platform/nxp/imx7-media-csi.c
+> > b/drivers/media/platform/nxp/imx7-media-csi.c index
+> > 1315f5743b76f..730c9c57bf4bc 100644
+> > --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> > +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> > @@ -1146,6 +1146,7 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> > *pixfmt,>=20
+> >  			 struct v4l2_rect *compose)
+> > =20
+> >  {
+> > =20
+> >  	const struct imx7_csi_pixfmt *cc;
+> >=20
+> > +	u32 walign;
+> >=20
+> >  	if (compose) {
+> >  =09
+> >  		compose->width =3D pixfmt->width;
+> >=20
+> > @@ -1162,13 +1163,19 @@ __imx7_csi_video_try_fmt(struct v4l2_pix_format
+> > *pixfmt,>=20
+> >  		cc =3D imx7_csi_find_pixel_format(pixfmt->pixelformat);
+> >  =09
+> >  	}
+> >=20
+> > +	/* Refer to CSI_IMAG_PARA.IMAGE_WIDTH description */
+> > +	if (cc->bpp =3D=3D 8)
+> > +		walign =3D 8;
+> > +	else
+> > +		walign =3D 4;
+>=20
+> Would the following convey the purpose better ?
+>=20
+> 	/*
+> 	 * The width alignment is 8 bytes as indicated by the
+> 	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
+> 	 */
+> 	walign =3D 8 * 8 / cc->bpp;
 
-The buggy address belongs to the physical page:
-page:ffffea00006f5f40 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff88801bd7d840 pfn:0x1bd7d
-ksm flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000000200 ffff888012442500 ffffea000079bb40 dead000000000003
-raw: ffff88801bd7d840 0000000080400032 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x112cc0(GFP_USER|__GFP_NOWARN|__GFP_NORETRY), pid 28974, tgid 28974 (syz-executor.1), ts 809995593806, free_ts 808146796979
- prep_new_page mm/page_alloc.c:2553 [inline]
- get_page_from_freelist+0x1190/0x2e20 mm/page_alloc.c:4326
- __alloc_pages+0x1cb/0x4a0 mm/page_alloc.c:5592
- __alloc_pages_node include/linux/gfp.h:237 [inline]
- alloc_slab_page mm/slub.c:1853 [inline]
- allocate_slab+0xa7/0x390 mm/slub.c:1998
- new_slab mm/slub.c:2051 [inline]
- ___slab_alloc+0xa91/0x1400 mm/slub.c:3193
- __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3292
- __slab_alloc_node mm/slub.c:3345 [inline]
- slab_alloc_node mm/slub.c:3442 [inline]
- __kmem_cache_alloc_node+0x136/0x320 mm/slub.c:3491
- __do_kmalloc_node mm/slab_common.c:966 [inline]
- __kmalloc_node+0x51/0x1a0 mm/slab_common.c:974
- kmalloc_array_node include/linux/slab.h:697 [inline]
- kcalloc_node include/linux/slab.h:702 [inline]
- memcg_alloc_slab_cgroups+0x8f/0x150 mm/memcontrol.c:2899
- account_slab mm/slab.h:653 [inline]
- allocate_slab+0x2d6/0x390 mm/slub.c:2016
- new_slab mm/slub.c:2051 [inline]
- ___slab_alloc+0xa91/0x1400 mm/slub.c:3193
- __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3292
- __slab_alloc_node mm/slub.c:3345 [inline]
- slab_alloc_node mm/slub.c:3442 [inline]
- kmem_cache_alloc_node+0x138/0x3e0 mm/slub.c:3497
- alloc_task_struct_node kernel/fork.c:171 [inline]
- dup_task_struct kernel/fork.c:974 [inline]
- copy_process+0x3aa/0x7590 kernel/fork.c:2098
- kernel_clone+0xeb/0x890 kernel/fork.c:2682
- __do_compat_sys_ia32_clone+0x9e/0xd0 arch/x86/kernel/sys_ia32.c:254
- do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
- do_int80_syscall_32+0x4a/0x90 arch/x86/entry/common.c:132
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1454 [inline]
- free_pcp_prepare+0x5d5/0xa50 mm/page_alloc.c:1504
- free_unref_page_prepare mm/page_alloc.c:3388 [inline]
- free_unref_page+0x1d/0x490 mm/page_alloc.c:3483
- vfree+0x180/0x7e0 mm/vmalloc.c:2742
- delayed_vfree_work+0x57/0x70 mm/vmalloc.c:2663
- process_one_work+0x991/0x15c0 kernel/workqueue.c:2390
- worker_thread+0x669/0x1090 kernel/workqueue.c:2537
- kthread+0x2e8/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+I was wondering how to shorten this calculation without using ? operator,=20
+nice.
 
-Memory state around the buggy address:
- ffff88801bd7d500: 00 00 00 00 fc fc fc fc fa fb fb fb fc fc fc fc
- ffff88801bd7d580: fb fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
->ffff88801bd7d600: 00 00 00 00 fc fc fc fc 00 00 00 fc fc fc fc fc
-                                                    ^
- ffff88801bd7d680: 00 00 00 00 fc fc fc fc 00 00 00 00 fc fc fc fc
- ffff88801bd7d700: fb fb fb fb fc fc fc fc 00 00 00 00 fc fc fc fc
-==================================================================
-----------------
-Code disassembly (best guess), 2 bytes skipped:
-   0:	10 06                	adc    %al,(%rsi)
-   2:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
-   6:	10 07                	adc    %al,(%rdi)
-   8:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
-   c:	10 08                	adc    %cl,(%rax)
-   e:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
-  1e:	00 51 52             	add    %dl,0x52(%rcx)
-  21:	55                   	push   %rbp
-  22:	89 e5                	mov    %esp,%ebp
-  24:	0f 34                	sysenter
-  26:	cd 80                	int    $0x80
-* 28:	5d                   	pop    %rbp <-- trapping instruction
-  29:	5a                   	pop    %rdx
-  2a:	59                   	pop    %rcx
-  2b:	c3                   	retq
-  2c:	90                   	nop
-  2d:	90                   	nop
-  2e:	90                   	nop
-  2f:	90                   	nop
-  30:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
-  37:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+> > +
+> >=20
+> >  	/*
+> >  =09
+> >  	 * Round up width for minimum burst size.
+> >  	 *
+> >  	 * TODO: Implement configurable stride support, and check what the=20
+real
+> >  	 * hardware alignment constraint on the width is.
+> >  	 */
+>=20
+> We can now drop the second part of the sentence :-) The first line is
+> actually not very accurate anymore. How about
+>=20
+> 	/*
+> 	 * The width alignment is 8 bytes as indicated by the
+> 	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
+> 	 *
+>   	 * TODO: Implement configurable stride support.
+> 	 */
+> 	walign =3D 8 * 8 / cc->bpp;
+> 	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
+> 			      &pixfmt->height, 1, 0xffff, 1, 0);
+
+That's neat, thanks. I'll update accordingly.
+
+Best regards,
+Alexander
+
+> > -	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, 8,
+> > +	v4l_bound_align_image(&pixfmt->width, 1, 0xffff, walign,
+> >=20
+> >  			      &pixfmt->height, 1, 0xffff, 1, 0);
+> >  =09
+> >  	pixfmt->bytesperline =3D pixfmt->width * cc->bpp / 8;
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
