@@ -2,100 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24CF46E721E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 06:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1C56E723F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 06:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbjDSELY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 00:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48028 "EHLO
+        id S231588AbjDSEYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 00:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231464AbjDSELW (ORCPT
+        with ESMTP id S230211AbjDSEYh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 00:11:22 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151506583;
-        Tue, 18 Apr 2023 21:11:21 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7CB95660318E;
-        Wed, 19 Apr 2023 05:11:18 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1681877479;
-        bh=+hanj7Q1swnKed11IeyTq8b1CM+HtKVvSWiDT+29coU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=aJiO3fMKzh9JimsXRIro2BeBxQ6xW5z93Tbb3JJKwH7kv/j5Jq3yeVElsL20nYOuu
-         P5AslUsgkveiQtPvqGo0LxG14Re9yQvg8ioid682ih3AhaYU1kl0V3kohUm401xCn/
-         zjsxQ9TjKcDD1kIES9I00cvLtjw2vVpID3RTOy2Vw7PjZ+8H8Svax2zqrgrcwvAvLW
-         WFGymcXcyKwX0zVzCpxqWWoFQUbZXQ1b8lNp38W+ZD/HIxEwaEi63JGAuEdpWSHTGQ
-         icWlwtoso6iq77QpolG1Gx1a507om9+vAYnPfJiJA8gm96B1kYDdTzvjviD5B4E2fS
-         Lb0e8CXArgTGw==
-Message-ID: <6f4a2c1b-4e37-a760-e6fd-2af285190a76@collabora.com>
-Date:   Wed, 19 Apr 2023 06:11:16 +0200
+        Wed, 19 Apr 2023 00:24:37 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D920A1705;
+        Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-51f597c97c5so1115044a12.0;
+        Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681878276; x=1684470276;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZRDCjTOkWMGElxrmUMljuv7R6aYKvTg/GiQ2WWUQLjA=;
+        b=P5QTikUGscbdQb7TFjUgKjgzxn/e9+eeyH2qxNQSgYuuAoEj9snd9v+RzKmYKdaFYB
+         Z/F/DpJQo7e8vEFO5QQAdNK5pRF0eVSc2Z3LToHwQitYaPnV9WaYhsT+3QPwbYhyhWOo
+         LLd698154Ty28I+Z3s6QzAars6oTGXtMF7Mwz23ALjlPE+FLwQNJQD57d2bRIjRKQo5K
+         /eSJRxR5Num3TxuE6t60Tjk67JJ/vq5KGCBAlfuitq8wGNFR2BDk07PJ23mAZyYwBO0C
+         /IzcPoTQ+SQ5jhA4iU8jpMFsg82p0U9KavFJC2lv3+aIkursUeNhKZ+71h5Piq67P6Qi
+         338g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681878276; x=1684470276;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZRDCjTOkWMGElxrmUMljuv7R6aYKvTg/GiQ2WWUQLjA=;
+        b=Zz6o4KDTj0zFNfNWeyt9mQ5gWEhQGJo7bYDJag5Se9Nh8LjgNJN3vYHHxKHfVLENC0
+         zPGxKkOU0q4Od30NTlai8FpnHd+IHuvjvBC+mx9xRlhIZejp3U8oQx9mojZLkrN71PPf
+         zZoEPjA8Whw1UW8LsVNV1O7t/WyATe6QtANGHiJtCU2gb6CLzSXBJogX+LsqWXoUzd3x
+         OYfs1Eccw0EMiXYfW5M/6L3UWSk+B6dqSdCPVesPHq6HK49ML7eETmWyxGU9Q1V9uKrZ
+         2vKdwDnBojkSjm7UaHo4bkAyxydRqQ0TE8YaZo4p+D2ehodKmub6HWDWPqSyTIRliqoP
+         fJMA==
+X-Gm-Message-State: AAQBX9d7w0XB2A4H+N3ljnDojGC1TXuLCJ78OxJrFgwwapMu6QWa+Y/8
+        644PkQ/5PLxTUUNlbp466aU=
+X-Google-Smtp-Source: AKy350afI02Fa3Acq0DNx6nJUWrX6aI7RY4q/vg2eOyv/5uPkMM5pF1SRDx4yrymqaBjzv9oWxjrTg==
+X-Received: by 2002:a17:90a:fe8c:b0:246:f73c:3aba with SMTP id co12-20020a17090afe8c00b00246f73c3abamr1522019pjb.39.1681878276254;
+        Tue, 18 Apr 2023 21:24:36 -0700 (PDT)
+Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
+        by smtp.gmail.com with ESMTPSA id v8-20020a17090a088800b0024779068491sm380205pjc.26.2023.04.18.21.24.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Apr 2023 21:24:35 -0700 (PDT)
+From:   hackyzh002 <hackyzh002@gmail.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, hackyzh002 <hackyzh002@gmail.com>
+Subject: [PATCH 1/2] drm/radeon: Fix integer overflow in radeon_cs_parser_init
+Date:   Wed, 19 Apr 2023 12:24:07 +0800
+Message-Id: <20230419042407.69001-1-hackyzh002@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] Revert "media: mediatek: vcodec: Fix bitstream crop
- information error"
-Content-Language: en-US
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     kernel@collabora.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230418215052.2371755-1-nfraprado@collabora.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230418215052.2371755-1-nfraprado@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 18/04/23 23:50, Nícolas F. R. A. Prado ha scritto:
-> This reverts commit cd61f3c6794bea2b717fe6083ca2ad189db75418. That
-> commit's purpose was to prevent the padding from being decoded when
-> userspace didn't set a selection, relying on the default one.
-> 
-> However, as described in the Step 6 of the Initialization procedure for
-> the Memory-to-Memory Stateful Video Encoder Interface [1]:
-> 
-> "Set the visible resolution for the stream metadata via
-> VIDIOC_S_SELECTION() on the OUTPUT queue if it is desired to be
-> different than the full OUTPUT resolution."
-> 
-> And from the Note:
-> 
-> "To avoid encoding the padding, the client needs to explicitly configure
-> this selection target"
-> 
-> Hence the behavior in the original commit doesn't follow the interface
-> and needs to be reverted.
-> 
-> This fixes the following v4l2-compliance failure observed on
-> mt8192-asurada-spherion:
-> 
-> 		fail: v4l2-test-formats.cpp(924): sel.r.width != fmt.g_width()
-> 	test VIDIOC_S_FMT: FAIL
-> 
-> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html#initialization
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+The type of size is unsigned, if size is 0x40000000, there will be an
+integer overflow, size will be zero after size *= sizeof(uint32_t),
+will cause uninitialized memory to be referenced later
 
-On MT8192 Asurada Spherion and MT8195 Cherry Tomato:
+Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+---
+ drivers/gpu/drm/radeon/radeon_cs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
+index 46a27ebf4..472c29050 100644
+--- a/drivers/gpu/drm/radeon/radeon_cs.c
++++ b/drivers/gpu/drm/radeon/radeon_cs.c
+@@ -270,7 +270,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
+ {
+ 	struct drm_radeon_cs *cs = data;
+ 	uint64_t *chunk_array_ptr;
+-	unsigned size, i;
++	u64 size, i;
+ 	u32 ring = RADEON_CS_RING_GFX;
+ 	s32 priority = 0;
+ 
+@@ -347,7 +347,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
+ 				continue;
+ 		}
+ 
+-		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t), GFP_KERNEL);
++		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t), GFP_KERNEL);
+ 		size *= sizeof(uint32_t);
+ 		if (p->chunks[i].kdata == NULL) {
+ 			return -ENOMEM;
+-- 
+2.34.1
 
