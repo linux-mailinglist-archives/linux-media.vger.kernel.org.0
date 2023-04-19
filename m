@@ -2,173 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C04266E74C5
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 10:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21BF26E74E5
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 10:21:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232333AbjDSIOb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 04:14:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
+        id S232387AbjDSIVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 04:21:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232277AbjDSIO3 (ORCPT
+        with ESMTP id S232125AbjDSIVR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 04:14:29 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB2D1984;
-        Wed, 19 Apr 2023 01:14:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KwfZYyJjAq302jSp+CWpjE3WqMLJ3a/Xs0D/uSry6yOvw0O+Jyf6QKiEoGKaR4FZdWrhQZ36WCsT3j25Ggai3Z/mcT1mHeLCPLmTFqnrbB1xPxkASSnYIXVn3L3pXEwJ/0KDwnBAcUGdytBYIjumTXf7EUaMwEbVs5+7wiEuLltRiAg6u80inCt2LlmWDfTOE0QVqRUMohAecyayctWEvf3m1o1K5FK4lStZGZpZ0urbobhbGwR/691IfLCXLUh8CG7MLTAqhElz4OTX+ozQfG3zYezPso8atD3QaA+AwjhLJ8UrDugejB7LIVrB7Nrb6ps+suC345teYcEQB8pdBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RwQmnwIgpAhqZXMH6soKHPk+fxmPTbQTFozueFZp1zE=;
- b=n3eFIp0B1l9jwvbrmIyZoNFDgWdEfDMyUaLnefvibyhBXC1fPpFfLE+zRTUSouwj57mLdHRUbi5bZmilyGvaH7XKbNoMe/QcAPJrctEmPr37+nStrNUY+Ci4d4h1OteV/oV6+I56gQKmaRPLtn98KqZAEDU4egSmZ8AdGm2teYvDlQwUottWaNAfs/i+OVsMAldyAWZuLaZIS8a9kk92yqy0ltUJUXg7kOvOCFXlkqInjfaXIseWO5TGyAz8jYF4tS6L0mzkaijiqyAgwz0mUjiSPjDPdwc6gAtUa+3DyBH/RRTftcb4BnmbPQTUxWdhAqq5zNteQcNoZM+jcSVPHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RwQmnwIgpAhqZXMH6soKHPk+fxmPTbQTFozueFZp1zE=;
- b=CKR7Vke9r3uHFWOR99neg436hm7WbC+AJc/QbUcpl0Wh4VSPfZr/PGSKsvurHszyq0HubiI9nRh5j6JI8NkNcOpyNKIF5v7p1POhBv9qmo63wbX9RFYByMX4NN40j8XbJVIAOeAuKxjQMeF36QCtPYdRBBbVE/nzDpiwBWQi7Ok=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM4PR12MB7696.namprd12.prod.outlook.com (2603:10b6:8:100::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Wed, 19 Apr
- 2023 08:14:22 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6319.020; Wed, 19 Apr 2023
- 08:14:22 +0000
-Message-ID: <d2ecb01b-5895-da7e-60cf-787f9425115c@amd.com>
-Date:   Wed, 19 Apr 2023 10:14:17 +0200
+        Wed, 19 Apr 2023 04:21:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A465272C
+        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 01:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1681892423;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YpdLR0mVocKsL1tqmNRSUEG+Hk3JH3ac6gIQcIprmMM=;
+        b=HPuDOQPojSu26Mszsac6pyGcRrwJNYx8C84PSPDEM9BTWU1+KBLRAT4WPRHTjnBZIc13wt
+        gkFXDc3L0Z3E0heBVugYyelL106PbemKxrnrVsAOq5imVwwaBpGgbM1SPLrQ4F+YyYJJL7
+        kWvAFRE6PzhR3jIcsJILGAMmxntOkkM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-56-sggTmxETN6u6Lc3AhTAN2A-1; Wed, 19 Apr 2023 04:20:20 -0400
+X-MC-Unique: sggTmxETN6u6Lc3AhTAN2A-1
+Received: by mail-ed1-f70.google.com with SMTP id d2-20020a50f682000000b0050503f2097aso11302635edn.14
+        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 01:20:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681892419; x=1684484419;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpdLR0mVocKsL1tqmNRSUEG+Hk3JH3ac6gIQcIprmMM=;
+        b=Az54wMWct8ee+RMwjYP628USFzpNCKhrRSS7iIkP2qdCdQr2fVeyr9c5LeIbqOguk+
+         xgA76qcvoML0CsaGeMfDURepJEBFYKfH2zRBGgqhJXjtt9lHFnWNY7bL6CjnbCLdMX8q
+         7Mv1oZ2LNTT5uNJOPJGitc3RV8fcaxW0E3QlFPJUziwlW5mx9Xz7MhfnUbRa0tVq1oxy
+         1YvVzxE+W5sGFVnh/YtppFBLGhnQ7e/oyfkkjh3bcfbKVFihMIex2mkaaXR0BIWZKK+0
+         fYWEEmbmu3ATja1yv7O0u/WId4ZElYfny9DDBKw0lF+nUptKV6aanaZ+WQ7s5b97TbOb
+         Gqhw==
+X-Gm-Message-State: AAQBX9e5VwNpZrxnE0njF8tjvNb5elga3ZzH/uayJvM4o+Uqy3Ffxxmn
+        5kWIim/7LX1bCg2rNeDpseE5JUOoLT1xhakW8FBigCDuXPtv8ErVAVug8WOKp1DUQq98JgJJPmF
+        l/jpuxZciEPvEl4V09ptNbrI5bYQBVs0=
+X-Received: by 2002:a17:906:7fd0:b0:94e:eab3:9e86 with SMTP id r16-20020a1709067fd000b0094eeab39e86mr15713569ejs.33.1681892418843;
+        Wed, 19 Apr 2023 01:20:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZKpnAtFw9QSiVzOShC3II30+HGsaaC0gje6ZCeXKkN1AEBVFOKn6xNsEaVUy45WENV3pPIcQ==
+X-Received: by 2002:a17:906:7fd0:b0:94e:eab3:9e86 with SMTP id r16-20020a1709067fd000b0094eeab39e86mr15713539ejs.33.1681892418448;
+        Wed, 19 Apr 2023 01:20:18 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id l8-20020a1709061c4800b0094f0025983fsm6760387ejg.84.2023.04.19.01.20.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Apr 2023 01:20:17 -0700 (PDT)
+Message-ID: <df2272ca-88c9-8bdf-a727-d4199061568e@redhat.com>
+Date:   Wed, 19 Apr 2023 10:20:17 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-Content-Language: en-US
-To:     hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-Cc:     Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230419045157.69829-1-hackyzh002@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230419045157.69829-1-hackyzh002@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] staging: media: atomisp: init high & low vars
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <5406825f-9b67-a59e-de62-b446ad316b96@xs4all.nl>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <5406825f-9b67-a59e-de62-b446ad316b96@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0134.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::18) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB7696:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3329cc07-780d-4300-993e-08db40ae14e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DZbO3LC9o0A5zjAhcWVSMqNrP1a4pZAI71vWTF8e927RD9mOhgsIIWGkNFxEV7iYTV2TII4EiWSSQDWZzhqc6Hyi0DhW8rDJGKwzMwpE7HFwgRJoYj3Z7uvx+F7W5g5klo/+dZ8D/sK4AvwsYiN/T3npZcweDZpLKZrb2YgMRJaQdD67hU3erkW87Nkty9J7d+oylVVufD5FXUhDA5JRt5qttdLafr/3bwESvE3bTZAhRyrxMxX7iYZq8VPw4EviOOtTDEzm8XNxJ+Tnd6zSuKO5c0+k/mThWdrvXy5VUt6B/fPngtoKzS9sDDvC7L3pzyXBBzLxgaHAFHLHZDWoUU+PL3P1B82P1WF7sf9mMuoTVCuc0nsx7Ng1XIPots+bIN2GFds+M9YI9r02clbG5Cq/dK3efuA+difgqPHi768Sc4GUJu1l2tmu1za8bK7IHS/YpFAdTOcRbqMwVZGR8dX+JckCqgEKEvEJo+S82RA5L9TUQhwm/Xxtn3Gt3RskHNt9ANkINtn5VAuq98FppiNDA0JvC6TtsZGkwS6LYLxPsfnP6Zse1aziOf6cNz4HQC5VUGudZyAO5w2fH0eEjAb2ATy4H/pVGKdh098GeNke8lRRbtkIyC6jIRhdKB0wI/F9geesCA5DVFGtWl+gfw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(346002)(39860400002)(396003)(136003)(451199021)(478600001)(6666004)(38100700002)(8936002)(8676002)(316002)(4326008)(6636002)(41300700001)(66476007)(66556008)(66946007)(186003)(36756003)(2906002)(6506007)(83380400001)(6512007)(86362001)(31686004)(2616005)(5660300002)(31696002)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHUvR2lOSFZqbjNqK1RIL2R3WFdCb05WR0RDdTFzZlk0YmxibVZVQVN6VkhS?=
- =?utf-8?B?N1I3aUlyYkM4bFFURHZTSDVyUW5QeGd6SWx4Z2tuN3laZm9YNkpJSHZHUmxx?=
- =?utf-8?B?N3BOR3EwTnY1ckFTT09ZRlo2WEp5M2NLamVIa0FtR09sNmExTENkaytCMW5m?=
- =?utf-8?B?WHdlQ0ZaLzY3b3JBU2ZycUtSd01YWUp6RG4zMkpudTMrNTV1NWg2ODFxQ09R?=
- =?utf-8?B?WHYvT2VGY3U2MUZseFptSXR3d1lrRmRzTkhINkNlbEJmSlFaWFVpR1RlZVVx?=
- =?utf-8?B?TXJyaVhvRVFwa0xXVS9ZSktnMnFueDg2WFRubGtYN2tGZks2emN5SUZpTTJm?=
- =?utf-8?B?cWQ2aEM5MU4wd0hrbzE0NGFPRi9QRk1nQ3JiQnNvZWZOSzNrOFZCcy84RExj?=
- =?utf-8?B?Nys0STZzZU9RbTRqMkFaT3hzQlc3aEVRdXJOZ0ZNZmpSV3lIZ2RhT3lVK2N0?=
- =?utf-8?B?WGtoODQzSVBIRmNQNTdDa1Yyb0ZUc3lLTGgrbTZkNHhWTzJhT2U5bVhqN3JK?=
- =?utf-8?B?QVdVYVpWbEo2OHJxa0VZREcvQzJ3bU1uaUhFeEh1S0M0aTRTbkRCZnIvS1dI?=
- =?utf-8?B?R1p4MEFJbkFnVFRhVDJ5ZUJ6SGtJR05vbGc3NlJ1SzlUUGVSSFdleWxQMTRI?=
- =?utf-8?B?RE1PdmdJYnlJNEJwdVVzOENsTllFbjFrVll2YXRtRGFVa2RPN3p4WVN4dmZj?=
- =?utf-8?B?OW5vbmZabGYxM1VoZG5qbUs4RDZVS085RXNlZ0E3VkdyQWpRbkF3K254anBy?=
- =?utf-8?B?M2NkTW9iUEdOWGtETGpYMDlIWTFUeUJhejVJbUZlTDlTS3RZdU83VXNsVDAx?=
- =?utf-8?B?TmF5TXlkZ0phOVlvNkYzeWVEQ1dwYnAzajVxTkw2KzA3OXRPbnE5WlJPN1ZO?=
- =?utf-8?B?eFBnTFJXeDlmZytWUVZKTHU5UnYrbEdib3FHUllqMHQvYzNyeWh3OXkxYkpZ?=
- =?utf-8?B?by9ySjgyaThTN3JBZDZpMUFxUEJ2S2FzdEFCSG9xb2dMNWszY2UybjVEOXc1?=
- =?utf-8?B?VTR2b3ArRDZ4NmxrZGhCbGtWZlZEWllXb0kybUhaK0RLUUl4WG01dWJsSG5L?=
- =?utf-8?B?ejQyTjdHdGcwSE5zSnlxeGE0UWtFSE5lUWR4dS9tbXh0eGVuZHZiNjJPSExm?=
- =?utf-8?B?Ry9DY0VvWGdpcHppU0g0L0xBZ2wyZGtxYWtXSjQ3bnZsSENBOUE3ODVNYkpV?=
- =?utf-8?B?VnlyOHA0WXVhZy9vK0swc0wyWVBYblF2bDFyRitJYzhTVXB5RXJCK2RpL0Q5?=
- =?utf-8?B?VVdibm8vY0Ztbm03NUhlSXErcit5LzNaZVhwKzZHUXlHWXJWZ1RWQkFpZGll?=
- =?utf-8?B?aTI5WGtLakFrLzVTYkNuN1RnWHMza01EVnpqKytaOGNpalEwWXdPd05DWWpT?=
- =?utf-8?B?cVFqT1liVWU3by9mTk5pMjE3S2tISGtqWWRYVk5ZSzZPbVJlQnpjRlkyL09V?=
- =?utf-8?B?d2k3ZktiYWs1QU9hUjBDQXhTUXE0RVk1akVPZTdjNFI0c3FvWm1MK1dRcG05?=
- =?utf-8?B?Q1g5Zlpxa0pkRklXN3FoaldYc1k0T3NIKzNrR2MvejVVaXJrOUpYM0FNSnFs?=
- =?utf-8?B?RlVuRmFHR2cwRkR6dU5uWHBTV1REZHZnNnhEVHdjTmhnZnZMbS9GYnNxSmZR?=
- =?utf-8?B?RHJSMWMwcjNiaEdLOFRQeFBjdnRocXJiUkkyeUlhMGZBMTVxTmxyNS8ycE0r?=
- =?utf-8?B?SHpwWXFsRFMxVHhpamNieTB6cFIwRTZVSzBGbXllR0ZjZUFibmdUSXZCbmRu?=
- =?utf-8?B?K1FjZ0lscFg3MU54QUQ5eXMrd0FxVEZCNmpmM01vUExGbmt5TVY4MWpDOGNJ?=
- =?utf-8?B?NTZsdXF3R1hDL3pCYVlDb3BxUlFUdXBnUGxwbjErUTVKRFZRMldveW1CSlV4?=
- =?utf-8?B?ZWhXU3ZqbUVRTEJWTGF6emRLSjNSeHdDUjdPUEZnazQrdzJ3ZmlRbnNLRG5J?=
- =?utf-8?B?MTVRdnh6U2RQdHNqRVJVOU5tMGQzaG40VFNtM2p3ZjlDOVhxVm1TWnZiL0po?=
- =?utf-8?B?WFJZVm1Id1h0OWx4WGFsLzBnTGVPdlNpUkVJcDhMR3pjZlJjRmZQVWtUMG5r?=
- =?utf-8?B?MjRSQnczWDk0R2w1RHJFM2xmVUpCVHdqZHBpT2xtV1hDZm9Wa2VsTVJtazBl?=
- =?utf-8?B?OS9GeUJUd3drZTZsdTA1dnpJMm5SaG96emtTQ0VpbGcyWGszT29QUDFiVk9r?=
- =?utf-8?Q?Sj7HcuyMElwML+cUsxBZMQ/ZufWMpQBtBOjB6tzW0vKd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3329cc07-780d-4300-993e-08db40ae14e8
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 08:14:22.5161
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dffi/8MaqGTJPig6bYChpUJLya/GnkuHrCmfAYQZtQ6tE6P3BRtaeQ4EiHKpvT8A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7696
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.04.23 um 06:51 schrieb hackyzh002:
-> The type of size is unsigned int, if size is 0x40000000, there will
-> be an integer overflow, size will be zero after size *= sizeof(uint32_t),
-> will cause uninitialized memory to be referenced later.
->
-> Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 08eced097..c17b3af85 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   	uint64_t *chunk_array_user;
->   	uint64_t *chunk_array;
->   	uint32_t uf_offset = 0;
-> -	unsigned int size;
-> +	uint64_t int size;
+Hi,
 
-This doesn't even seems to be compile tested. Please use size_t here.
 
->   	int ret;
->   	int i;
->   
-> @@ -235,7 +235,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   		size = p->chunks[i].length_dw;
->   		cdata = u64_to_user_ptr(user_chunk.chunk_data);
->   
-> -		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t),
-> +		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
->   						    GFP_KERNEL);
+On 4/19/23 09:06, Hans Verkuil wrote:
+> Fix a compiler warning:
+> 
+> include/linux/dev_printk.h: In function 'ov2680_probe':
+> include/linux/dev_printk.h:144:31: warning: 'high' may be used uninitialized [-Wmaybe-uninitialized]
+>   144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+>       |                               ^~~~~~~~
+> In function 'ov2680_detect',
+>     inlined from 'ov2680_s_config' at drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:468:8,
+>     inlined from 'ov2680_probe' at drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:647:8:
+> drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:376:13: note: 'high' was declared here
+>   376 |         u32 high, low;
+>       |             ^~~~
+> 
+> 'high' is indeed uninitialized after the ov_read_reg8() call failed, so there is no
+> point showing the value. Just say that the read failed. But low can also be used
+> uninitialized later, so just make it more robust and properly zero the high and low
+> variables.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-And that is unnecessary.
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
-Christian.
+
+Hans
 
 
 
->   		if (p->chunks[i].kdata == NULL) {
->   			ret = -ENOMEM;
+
+
+> ---
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> index 63de214916f5..c079368019e8 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> @@ -373,7 +373,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
+>  static int ov2680_detect(struct i2c_client *client)
+>  {
+>  	struct i2c_adapter *adapter = client->adapter;
+> -	u32 high, low;
+> +	u32 high = 0, low = 0;
+>  	int ret;
+>  	u16 id;
+>  	u8 revision;
+> @@ -383,7 +383,7 @@ static int ov2680_detect(struct i2c_client *client)
+> 
+>  	ret = ov_read_reg8(client, OV2680_SC_CMMN_CHIP_ID_H, &high);
+>  	if (ret) {
+> -		dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
+> +		dev_err(&client->dev, "sensor_id_high read failed (%d)\n", ret);
+>  		return -ENODEV;
+>  	}
+>  	ret = ov_read_reg8(client, OV2680_SC_CMMN_CHIP_ID_L, &low);
+> 
 
