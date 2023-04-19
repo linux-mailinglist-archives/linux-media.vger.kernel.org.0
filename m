@@ -2,125 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FB506E75DC
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 10:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 168DB6E75E9
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 11:01:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232789AbjDSI7f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 04:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36814 "EHLO
+        id S232243AbjDSJBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 05:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232704AbjDSI7d (ORCPT
+        with ESMTP id S232825AbjDSJBl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 04:59:33 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2040.outbound.protection.outlook.com [40.107.243.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E016E8A;
-        Wed, 19 Apr 2023 01:59:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZiBWOvSHQWxG8UPrJe5csHY0RWfeajI+7Qsh0E4Mlf4/pByJRmFqSC+wx2AUgpmhgIAIQWNq2GokemABnHlLrbSqPq8nPV5qHqIOAZ1FBML1paFH7eIp1jB+//QfYVNch0VI9pLsxxxIolkTbeL3oiJiV617dNjzSAPapmT8n+qNziPswQp+DsBYmjZqaGjQWZnhZG5bOcmfUbDtOnrcIH2GPZwFSyCO3xvcI8dUtHTf0WQaBc9i2pWuowR1gNJ0kzMwJuT8xQCzhqGNqhkHP7tCjGRY/ouwcpB0LaBxjG1hh6st08LCgI4/4c8ichXzdwQ/1rGdKSnO1knc1Ecdzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k4iQ74Rd+sLxA7sWzlqQrXYdIH3XXH402mx7jcQab6E=;
- b=m2TXpptw3OJvI6U8OPum/lQK0ofuqnR53X2F2YV0aTmjO4Jq17k5apxrSqS2fLsCl4Gz2G6LRv/ub3dgTiHBi4gEc/6/lYVRsgb6AcWS4VleRUSoJjtOuOauwoK9BZWNOo3BcISubmeuxTZwAp4AU/B6Q7q0WZOdsj7zebvfbIKV8hfMLfrhiroZRw+gRF1PpbpCH2z5ObnVBUSsArdZUyVXaLXh0QCgQx4/EkIyZUtAadBJG2IZdpqsaQo4en7174lRX8YLOA8pR+E4FoL+JWQX3wTJifjZJNi87Jmeim5+nncxe+3ywbriNsyl8aTikQB5nmYVmE5YI86zRIwiVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k4iQ74Rd+sLxA7sWzlqQrXYdIH3XXH402mx7jcQab6E=;
- b=kt6C86WcGGNIV9Y4t1PdV8FnGTHQLt3YzHgBvpyEouhQuO4ChbDJJkBp/byfgbpF1pVqHa/ODB/VvalS3TK2otfx37nhRqBpktNj//8Mv5si266pxgmjLlSvOFZc90OfIQa7SDurvHQ6gQzWMbqU91ppQ2cGOiFYr/xKYQ6Ro9o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB7844.namprd12.prod.outlook.com (2603:10b6:510:27b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Wed, 19 Apr
- 2023 08:59:23 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6319.020; Wed, 19 Apr 2023
- 08:59:23 +0000
-Message-ID: <655e2eb7-0cfa-a488-ddde-e2507073dced@amd.com>
-Date:   Wed, 19 Apr 2023 10:59:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 1/2] drm/radeon: Fix integer overflow in
- radeon_cs_parser_init
-Content-Language: en-US
-To:     hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-Cc:     Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230419085747.4720-1-hackyzh002@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230419085747.4720-1-hackyzh002@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0054.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::8) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Wed, 19 Apr 2023 05:01:41 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 988FE19AA;
+        Wed, 19 Apr 2023 02:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681894891; x=1713430891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IiznyOV15KEk7yghNEwufQGnmpRCJqkzx0uQeGij21E=;
+  b=OGO/tN7e3/6m/v3VEZ54eWFCHA0j2nlFHSTGXM8UX5EKQFe9Ekqnhgxc
+   oqSI7DxtYu+CTs41t8Fz7alrlxqdSX+qYD1Lf4zKC9unZR08syecZ00Fi
+   nNxIot9v4ljWlBxJePHp6Bwb3WbUyHKFEVnDl8cjnSRCS6FB4Nx2tAu5+
+   yfNJPsShzzyxCWMhSt5zI/wWssM1APST+DbRXsDTw5EC+FZsojiur2X27
+   3muuDr/8A1352tXSZOQNq38wBUZMBcFNbocZxVjXltJLkTRcMP8oWmToD
+   R/qn6XCxGzSLw9yG9JY+gI3/m8Qh6M/XMVUmp56qIFghNz5/nMATqQLDn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="373276200"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="373276200"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 02:01:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="756028824"
+X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
+   d="scan'208";a="756028824"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 02:01:28 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id D7E2311FAD0;
+        Wed, 19 Apr 2023 12:01:25 +0300 (EEST)
+Date:   Wed, 19 Apr 2023 12:01:25 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Riesch via B4 Relay 
+        <devnull+michael.riesch.wolfvision.net@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Matthias Fend <Matthias.Fend@wolfvision.net>,
+        libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
+ group status controls for zoom and focus
+Message-ID: <ZD+t5QYH20Y8+8MV@kekkonen.localdomain>
+References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net>
+ <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
+ <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
+ <0f1baf5e-2ff6-e10b-5c3e-0a82c71d0ce6@wolfvision.net>
+ <CAPY8ntAjBEFfeV6nnQs34Y22QM-irT13ALDv4ksP8AYK=jWsKg@mail.gmail.com>
+ <3ab7bfc4-aaae-2e39-b420-40ad8d71dda4@wolfvision.net>
+ <CAPY8ntCNuvgmF37kDvVh1kuepbLqy2hWcz9HOi8iub9trHmi2g@mail.gmail.com>
+ <ZDbKU5kwcb7RGeCo@kekkonen.localdomain>
+ <ccae3994-3b1b-4050-ea34-98f97cf886e0@wolfvision.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB7844:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1422192-4f3a-4493-12c4-08db40b45ed2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m107qqvEtTV2qi//9x4itw3Fy8FoqJTmpk/JiMKjQrDn+FM3QE1XGFVxfp3WoEs9AMZ/YKycfwdeyZia5G8OmHqDzodBM2XfGVr6P5MPvmeofKdZWnUAk62PzoBC3nVjI/vfuwmarhamRMo5So2AcCbOJczPHJ88xOFBsEbXr+V5aI3/3J25aNSP1qCFayDb7jk5LhHXgNU3F1LrVzgsrRf9szDIVsM4RnyVjZhBLUFCoUTEwyQc3QNl4+xY34zmCADbhzOWNhl8ojUZMIEBfHQpYn5fSJmuw8G4jzPYVRj+36nwJol0DKJz8ydNtvsZzBJw5IMmo4EJeLMCOa+phwRBMx/MkbWO/9svQFn3XD0kLQUqrJnTOj3F5MM04sr1UDpywho+smTzEmIAhRxcOlDuqa/BRUMRxPxAdNjVL532M7d30kAFa+QvqvKJaTwMCBGAkY5c7GBpk7ZGFiq2Utr0hE0qIhoB4iW3jiV+26eEVsBxwCBxRpFIVI3g6eV1bbwvshu9u58bBaef+qgqN87wj3SuDzCNRXXmsFU6olVse0G30Sc3hrG77JI8S+BFmP6Qh2ukTBcdNAN2SJRj5qtcdyPGPB315i/n1wX7nFWWF7PCZg72dEAfNDFoJNvFug31hwVLqUavMHeaGNSaNg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(396003)(136003)(346002)(366004)(451199021)(66476007)(478600001)(6666004)(38100700002)(8936002)(8676002)(316002)(41300700001)(6636002)(4326008)(66946007)(66556008)(186003)(4744005)(2906002)(6512007)(36756003)(83380400001)(6506007)(86362001)(31696002)(2616005)(31686004)(5660300002)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUJ4dHNGOVV3VjZtM2pEUUhLRDM4OEtjcm9LWWpXUEFMb2g1cXBCVHlEMlU2?=
- =?utf-8?B?WHY3WGI0dVJYZXVQVCtrb2dKeThVeFM1ZmcyWk1XeG1jOURFeUM3UjNJanZ5?=
- =?utf-8?B?TjV5bHo5SEpiT2ZkamlIS2IwRFc3ejJFYlIzS0tKZ3NDUWxJK3lhOVlHQndu?=
- =?utf-8?B?VW9DWDNuQWZVS3BvamVpUTdqVnpUTkdCZTJ5S0RjeGZNQ0UvRk5oWnFaRDhm?=
- =?utf-8?B?VnZLMTZ2bzZ6aEZvS3hOc2tRYU44cmVSeDIydGMya1hyQ25rZ09ZYktGRHlR?=
- =?utf-8?B?K3FmMEVzVWxrZVRhQTlpNlMrQTYyUU02ZG9xNi8xV2tmTTNsd0ZnZi9KL1dZ?=
- =?utf-8?B?UC9uTVVjT3ZlMCtsVDAycFR6SjFQMy9mU3FLMDNvRkhyc2VnNVNNc0tTNndn?=
- =?utf-8?B?Qis5bWZIUlh6M29ta2JmMXIyOTByMk5nVVRxbDFUSEVMZXA0alBoRFFRaDUv?=
- =?utf-8?B?YzliN2JXMld4MnpUbGZTa251ZDFwR1BVOHh3OE5iYmdkazNiVmI2VFRUSmMy?=
- =?utf-8?B?eG4yTFh6TXYvaU1qWlhWOUhteTduempyWEc1K3lkaDlCYVI5YitsempNazRI?=
- =?utf-8?B?NE8zakp0cFNhNFVjQ3VvWTJua2xWeDUwaVA4bW9UcTU3bkZoYjkrd2Zrc01R?=
- =?utf-8?B?VExPVHlIWlRaMUkvOS8vZWt4UkNkOEptdlkwbHNsNTl4YkpDQjNVVGxuTW5W?=
- =?utf-8?B?Q1pOVVdsMHZ0U09obzVualdwZkxrZkswTkk4UkNVTy9OMGgyell3cmZZMEtp?=
- =?utf-8?B?bnpkMk5pdkxKRlB0dlNWeFhPNWxxTWRpMm5JV21XWUNURWcvWlVsS3R0UDNp?=
- =?utf-8?B?N01ZQ1YyMUszMVBoVWJIbjF0ZHdaM25XZWkxQlkrS1ZFQm1PRU5jclRackoy?=
- =?utf-8?B?bkdwQW5sc3k5d1RIajQyMy8xeUVQeFpsMm5TOExkYlh4TkNPaGNWcmZkUCtN?=
- =?utf-8?B?QU5QUzJ5RHpaMFFaSVA4YjBKNU9Qd1BIcXFHRmpyQmhseDRMa2dYU2tscVZI?=
- =?utf-8?B?V3B2eUY5YjhaZ0JiSHA4Z1hIWWMycm1QSHdlWlVEcktibUVILzZUei9RdlFB?=
- =?utf-8?B?ekRTbFBGZzJnWU5LL3ZDSU44QTlHWVdYaXc5bnBRMGo0ZEZWVUxUR0R6VnNx?=
- =?utf-8?B?dVZ2VXRvK1NiTFNsVWJZMmZJbVhaQUR5eUZoMUZoNzVaVzk4S2Z6OTBySDl4?=
- =?utf-8?B?SHZVMUhaaUNiamRkczY1Nng3L3RhVlRDOHV5RzRIZzNtcERZdG8wSXpkejJO?=
- =?utf-8?B?azJDWEhBV290MlE5eHZjRm45TjVQWG0rcXY4bk91VVhGVHpvM240aTRoUHB4?=
- =?utf-8?B?bXVBOHJvM3htN3ZodkNFOTEwcXR6NHN0bzhFT3lnMVI2OHBDRFNRWEF6T0FL?=
- =?utf-8?B?aFRxbStpQ3VFSDR2RzQ1TkZ6RW9FbW5FSFVidUJpR0ppV295aW5vakk1QlZl?=
- =?utf-8?B?NE1DNDRnMCtLa1RCWGlGa3lJMElWUFN4OFhQTTRBcE9FQm9LdXoyWmlDNnJV?=
- =?utf-8?B?S3Vab0YyaXlkcmVOMXROaFdMSUtLQjVXU0NnNHJ4V0lkZHlTQnMyTmNTZ3Ar?=
- =?utf-8?B?VnQxR3NjRFNrbDU1eGhmL3hDbVg3R1dxU3JiSDdWQ2xzTGFoVEVHeDZGZFYx?=
- =?utf-8?B?UjVHdmE4N0l2OHBRYlF2dFoza1dQeTIzeTUvbmprVEJBbnF6b0ZYU0JNRC9u?=
- =?utf-8?B?QTlyK3d1K1NBaUREai9KL3pjVGhuejM0ZWczaVhXT3ZpWXptMGxOdk83L01s?=
- =?utf-8?B?UnF2dzBiSEFiVytTK0VVN2xIelM4dU95d1BpYWI3ZnFhUHZQMTBHV254ZDM1?=
- =?utf-8?B?czhHYXAySDQ5ejE4SlJhR2YyMHpXRUl6Rk45eXBQTU5DMnd1SE5uMGhVZHhC?=
- =?utf-8?B?d0d5aHp0SlZCekhkNWk3clV1aUZ4YzhmOFBrZ3VOdjN1UWlIOFMzSWpoUzQ2?=
- =?utf-8?B?THlPSFp5YXM4akdoRFhMRzVKYlFmclkwTnYyT0ZURlRkMHFkZndVc2JLYXha?=
- =?utf-8?B?SFk4U2tMdHI1K0pkbUNWTDhqZGN2TUVyZmpRYS9GMTJENVZ0VWZvOVROTVVP?=
- =?utf-8?B?N3YrWWdFVnloYzRMQXR1SXNXV2JUZDlZNVE0K2xEamFFK2FZTlRxeVYrODJX?=
- =?utf-8?B?azdCVzZOMitPdmlZTTQrR3VKR2FrbHM2NjZzeWx3NFdWN094bWpqZnZESlRQ?=
- =?utf-8?Q?1kvv0UHXfJiKxN6NOjlYLp+5XVy+7JibGBxwLm7XPMr7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1422192-4f3a-4493-12c4-08db40b45ed2
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 08:59:23.4361
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WYyLFSR2l+wfcEg6uabcP2T6qlu+ASwwplWqlhzDvscMmTVYK3Rov+3RaAR22lF4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7844
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ccae3994-3b1b-4050-ea34-98f97cf886e0@wolfvision.net>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -129,34 +81,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.04.23 um 10:57 schrieb hackyzh002:
-> The type of size is unsigned, if size is 0x40000000, there will be an
-> integer overflow, size will be zero after size *= sizeof(uint32_t),
-> will cause uninitialized memory to be referenced later
->
-> Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_cs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-> index 46a27ebf4..8e12b406e 100644
-> --- a/drivers/gpu/drm/radeon/radeon_cs.c
-> +++ b/drivers/gpu/drm/radeon/radeon_cs.c
-> @@ -270,7 +270,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
->   {
->   	struct drm_radeon_cs *cs = data;
->   	uint64_t *chunk_array_ptr;
-> -	unsigned size, i;
-> +	u64 size, i;
+Hi Michael,
 
-Ok, once more: Please only change the type of the "size" variable" and 
-not the type of "i".
+On Mon, Apr 17, 2023 at 02:38:20PM +0200, Michael Riesch wrote:
+> Hi Sakari,
+> 
+> On 4/12/23 17:12, Sakari Ailus wrote:
+> > Hi Dave, Michael,
+> > 
+> > On Wed, Apr 12, 2023 at 02:55:56PM +0100, Dave Stevenson wrote:
+> >>>> If the ranges aren't updated, where should that out-of-range lens
+> >>>> movement leave the lens?
+> >>>
+> >>> This is up to the hardware controller, but I would guess it typically
+> >>> stops one step before disaster. Wherever that may be, the error
+> >>> condition and the current position can be read out via this new STATUS
+> >>> control.
+> >>>
+> >>> Does this sound good so far?
+> >>
+> >> Sounds reasonable, but I'm not the gatekeeper (that would be Sakari or
+> >> Laurent), and I'm just expressing my views based on the lenses I've
+> >> encountered.
+> >> All of my lenses have a single drive for focus, a single drive for
+> >> zoom, and where there are multiple elements they are all connected
+> >> mechanically. Your setup sounds far more complex and is likely to need
+> >> a more extensive driver, but it'd be nice to not unnecessarily
+> >> overcomplicate the interface.
+> > 
+> > Could we also have a driver that uses these new controls?
+> 
+> If you are referring to the driver for our custom lens controller, then
+> I have to say that it is under development and simply not ready for
+> release yet. Also, the decision has not yet been made whether or not
+> this will be an open-source driver.
+> 
+> A different approach could be the adaptation of the vimc-lens driver,
+> which currently only supports FOCUS_ABSOLUTE. But this would raise
+> several implementation questions and at least for me this would be a
+> nontrivial task.
+> 
+> Is it required to have a driver for this interface (in the sense that
+> the patches cannot be accepted otherwise)?
 
-Otherwise the patch looks good to me,
-Christian.
+That has been traditionally required, and a virtual driver isn't usually
+considered enough. There are at least two reasons for this. The first one
+being that if the driver isn't reviewable and targetting upstream it may be
+difficult to figure out whether the interface changes are the right ones
+for that driver. This is perhaps a lesser concern here. Secondly, there is
+also unwillingness to add interface elements that might never be supported
+by the kernel itself --- this is effectively just dead code.
 
->   	u32 ring = RADEON_CS_RING_GFX;
->   	s32 priority = 0;
->   
+Also cc Hans and Laurent.
 
+> 
+> > The controls themselves appear reasonable to me as well. I guess there are
+> > changes to be made based on the discussion?
+> 
+> I'd summarize that whether or not the status controls are compound
+> controls of the type V4L2_CTRL_TYPE_LENS_STATUS is the open question.
+> 
+> As a potential follow-up question I recently asked myself if the struct
+> v4l2_ctrl_lens_status should contain trailing reserved bytes for future
+> extension (no idea, though, what this could be).
+> 
+> Alternatively, we could come up with "V4L2_CID_FOCUS_CURRENT (integer)"
+> for the current position and "V4L2_CID_FOCUS_STATUS (bitmask)" (and add
+> further controls when they are needed. Here, we lose atomicity but maybe
+> this can be ignored. One could assume that all relevant controls are
+> read out with a single ioctl which provides at least some level of
+> atomicity.
+
+There might be something that could be done in the control framework to
+address this. But it's not something that can be expected to happen soon.
+
+I'd perhaps keep them separate, not to make it a compound control just for
+the access reason. But I certainly don't have a strong opinion about it.
+
+> 
+> Any comments and/or recommendations to this open question would be much
+> appreciated.
+> 
+> Other review comments will be incorporated in the next iteration of this
+> series as well, but they are quite straightforward.
+
+-- 
+Kind regards,
+
+Sakari Ailus
