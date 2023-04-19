@@ -2,169 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB6BF6E7574
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 10:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83F6A6E75D1
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 10:58:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232699AbjDSIih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 04:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48818 "EHLO
+        id S232776AbjDSI6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 04:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232682AbjDSIif (ORCPT
+        with ESMTP id S232704AbjDSI6L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 04:38:35 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2070.outbound.protection.outlook.com [40.107.93.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A36E7686;
-        Wed, 19 Apr 2023 01:38:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oCoKr9jOf2ECfAX+ml041kNXeEB0v6niu64CB1g9/61ZJ06sSJNH5VSV8UYFXN2r9o/XfBKIU8Jimv8diuhaGi4EtgCam64myDuB7HwUN8QmKPXIYDM7JJnB3mWiNpJUJEOk3VObWECdoEf/27nbq48qW26Wjz/NvU6WjW7VPQquITRVIZKy5Z8yhDiFxL9kbxGjr8q3PE4gO0NHJV6kkyFvZU9VysRKiJVtkYU/58aHjhHfA94WMd001t+fD+cNFGjhwUHVeJ9sjZjbotjS9cdX+GgGmNzgW9Mu4K1qaAFs89KIdd/Ec/ZS9kSXRS8uXNYezPBCLVVq7C/9sKs9mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kMQSielGWYbG6fEUE9RFMlXGsHRTixRMPU/s7olHq3c=;
- b=Zx+Xzsb2hqBBS/Uba0HHgJMQZ4W7QmWGy2E0GhswLH9OQ9UI4ECrhhw71MJoVfploLXbYfgBa0Ox77Z6EVtOp3rZHGU/RdMtdZNBuQgZ3eTG1JSAFub+x22BdcqlwVpRTaBGOJ34CVnzy2a0L+BExwvcwnTBVh9uxWfxBWyg5UsKlCcoKhKYZ9IqJ3T/dgIhb1oH348tvXOkOw7aFxiv1PGosdJSlsF8Qxdh3OPPJeztXwUByb7Di6+Ms1F/EFImEG6QtN3OroWKqZrBrByoU9fzfXz0MXT4pDMsLv+sw+WcTd2g/8RZ0JCkqB1GgLo+qv4xYNaIrYbXZA6ZCkBelg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kMQSielGWYbG6fEUE9RFMlXGsHRTixRMPU/s7olHq3c=;
- b=aFdfC1pjUKmuYNeBRFgIwj7VGfVtC5ozVnc0uktOtcSSAJ1D9s2XZ9mQktI8ZMjexLJX6AVVPih1Xw9uFycRGEI6kCG3bb87kZX/rtGAWmzBchYwvnIJh/dwV81VlSN2Q11ROH4sMfs9bRl4kTOTKvov7bsf24AVuZA4uVnp7CM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW3PR12MB4427.namprd12.prod.outlook.com (2603:10b6:303:52::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.49; Wed, 19 Apr
- 2023 08:38:31 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6319.020; Wed, 19 Apr 2023
- 08:38:30 +0000
-Message-ID: <5eae1b0d-a917-fc28-16ba-29bff612caac@amd.com>
-Date:   Wed, 19 Apr 2023 10:38:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH V2 2/2] drm/amdgpu: Fix integer overflow in
- amdgpu_cs_pass1
-Content-Language: en-US
-To:     hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-Cc:     Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230419082705.4110-1-hackyzh002@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230419082705.4110-1-hackyzh002@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0011.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1d::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Wed, 19 Apr 2023 04:58:11 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD004C0B;
+        Wed, 19 Apr 2023 01:58:07 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id g6so11234752pjx.4;
+        Wed, 19 Apr 2023 01:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681894686; x=1684486686;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3zpvMjDc8PUDIFIffBUt+CiFgxX1fPBud4Kt6HqJXz8=;
+        b=UtlW7QeLG94NWEB+dlWHbmjRnFYxbJOyvIGIfJLxjiZJWo8SZyBMKGSu71KsdnwYkM
+         5Embc4NaJ3SRopVgqDxHW19iPNF3jiDTDgNow4AnPZhfVsPAXcYRUDzE1Vg8kwHbGJUD
+         Jul3ZOIWXSqS2g+Yx3G3JGBEeRD5s3faZmYLtYfgoeuGOtaIwe0inEdi+yDJ2XrC4o8H
+         C6Fmym88uYZ4psi3ZY8pPDaFiFCq2RZWCtlWPWIPlglDjw9gTAEpgU/1MgyiFw6Rw5Y2
+         F0XB+yzdy9HPo3WvfTOqm4b5GZvfeXDVeSU9m4fgJCGIpN5Emu8pXWkG/fnCjF7VARx6
+         /heA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681894686; x=1684486686;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3zpvMjDc8PUDIFIffBUt+CiFgxX1fPBud4Kt6HqJXz8=;
+        b=QUESDNMuoJr9tIGOtV90fWczd4JWggk6X/fNPw+6jhCIBJGcmimF7LT0uz+Bs86uJO
+         qh52vQStPXUT32TaXtA22u7fLQmAQeno2LqHfY8VZZ7CdHkIJw1U3jYxBge/pBFpMOCL
+         lrZhCIYKYNGd8Pj5w0PnsKEcr74RS9eZVRr52u5LtjC0C2J/6xReYI9Sz0eamryjJnm0
+         JiscFjeoPftJGPs8GZKJEI0ElnU8ufDSmM5ZBxWKQCv4FyEddLUx5QJoUEc3VSZcKqcw
+         53uOPuXUPQcUXYZTI3/C82nT2Hq5eyLxR7zP5SCUkZPL+6cmGrsePhhcZZdQ7DQFrlih
+         qp0g==
+X-Gm-Message-State: AAQBX9esrGA2VQ0VbH81qV3S/f5+oABxAy4pAGGPimF/LouYXCsmcOvI
+        QnQCLJC5v7solFohwlJBjzc=
+X-Google-Smtp-Source: AKy350ZsGA0KS7CsW/PhUED2oIMNWfU0ei4iNIRQe4Ug65OBD1ljL1KiruI2NorA2j6a8NNhWpDYRA==
+X-Received: by 2002:a05:6a20:5493:b0:ef:ecaf:ff6d with SMTP id i19-20020a056a20549300b000efecafff6dmr2062989pzk.12.1681894686508;
+        Wed, 19 Apr 2023 01:58:06 -0700 (PDT)
+Received: from hackyzh-virtual-machine.localdomain ([58.34.53.146])
+        by smtp.gmail.com with ESMTPSA id r10-20020a63d90a000000b0051b72ef978fsm8144902pgg.20.2023.04.19.01.58.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 01:58:05 -0700 (PDT)
+From:   hackyzh002 <hackyzh002@gmail.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, hackyzh002 <hackyzh002@gmail.com>
+Subject: [PATCH v2 1/2] drm/radeon: Fix integer overflow in radeon_cs_parser_init
+Date:   Wed, 19 Apr 2023 16:57:47 +0800
+Message-Id: <20230419085747.4720-1-hackyzh002@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW3PR12MB4427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4af3334f-7afd-47e8-aba2-08db40b1743d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: obqFg6GI3vahOYG62PfdDlTJ98PFXu2LgNdaxXpr+gghZ8ie8iXYEAQDX1jZOl7l5znmEx8vUZe63Z5Le8tmV/uJHwkGJx2G6cSZkVuqr199Vz6f///hfXlbNGFGpFJiSKoikV25gqeJG8Wcx5C/vB8tmO0bawGBqmO4oyfCapcpEWLTXeVYwG+9iDwpxYnI6ftzu43F6M9EDMPcQ65XLnjpqZoo0KMZSLwIZEHrPQSr4m0zhdA3KjjzxamOG8xBu9e0UdnxnUhVA0FG0dn9A2c6ti06hnGtUcex4PXnOp8yZZbs56Sa7Gn0G22I1YdYSt0ZHx0WjD8f/HCGpOS8gBRSlm+wsxdFuiltAtUzHwGx0LOX+rhVFMWG5sRhUQf7ra24YafqT0X2aMs10NZqWLMuVP9+TAeTWAAK8oCRP1+/8K5aACItvMOWwRIkGZyqVfjgv9p6F7DtrO/m0cu39YtNc72f0rUKXnpsy2P1i1EepeeMrURWHIJWVSgeSBP/rq98pwGHDRjmffLyYWKPqOC8fc6AzmhHqzp7/A7qzGX38pN57fe9Yp662zgzsp7AIxXz/P65jaxw4O3TH75ehu+PNdnIuU9U7PYii3l06HM66MSu+DP9KWm7h4lgunWFvewvRnQGXR+DPNXx2NjJ6Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(451199021)(31686004)(36756003)(5660300002)(38100700002)(2906002)(8936002)(86362001)(31696002)(66556008)(4326008)(66946007)(66476007)(41300700001)(8676002)(6486002)(83380400001)(6506007)(478600001)(316002)(6512007)(6666004)(186003)(6636002)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXFXN1Z3VXZYZHIwN2c2RlpIVGtuNnVDeHNMMGdZZkJJQWpuM2pWN0NJeVRM?=
- =?utf-8?B?cWFFNENJTFpkTkhBZG9zMWVkQ2R5RFc1dnlLSTBjTkVWQ0NxZkFsN3E4UDB1?=
- =?utf-8?B?Tmx6WlZkYW0rU1RKbzkzYTBhVmdLSGdZSnJ4TTRybzcrRThhdzZSMnovNWRu?=
- =?utf-8?B?SFhSUkl6QzZUc3hsaTdCOWFhenZhZ3NuNE1CbmVodXVFajYzUDhNQzVKNWxL?=
- =?utf-8?B?bVh4d1lQTnAyNDJqSjQ5SzdtMXRESXJaTU1ZZW5nSzhWbEF0cHdEc0lzNit5?=
- =?utf-8?B?ZU5IWUdxQStUNHJoeWxvQzJNZ1dobUFFUG01Y2NVZFRvbzB6VWJuYkIycTQ2?=
- =?utf-8?B?YVh3MTJVNXhLOVo1TWpoTi9LTGV6dkl3a3FvVmN6aUpsRjlUNWY3V3c2aUQw?=
- =?utf-8?B?V0hVUFVxMDFNWkhmcFhGVlJ1UXc3SWEzMmVlblNXNW10amRoai9GWCt0Q1Zn?=
- =?utf-8?B?ZDF1cjh0QUsveEVoYXBlMDlxZEU5dFZzWnh4aTBVeWVjbXJnekh1OEw5dHhD?=
- =?utf-8?B?T2toZG0xZWh4dGhLWE5nV2hPOXkrLzVhRHYxNnV5d0FhRTNkSlNPQWk0bVJ3?=
- =?utf-8?B?WmJtQzY0VzU0c2M3QTUwejFvOCtrOVRJVTA5aWYycXFrenFqWkFCVHVzNG9v?=
- =?utf-8?B?b0YrVHVxdnBXN0FtMi83dVVrSmJRVDhuY0YvVlU0VmdhZ2VnMmxnZUxsc0dX?=
- =?utf-8?B?NEFIKy84UzBnQUcwa3VhMzNqR2hhN0VEOVcxcmxrR1lkMTRXa3RFM29pRFhl?=
- =?utf-8?B?bzRnMURxU0tHQ1R2VktZc3IzcS9rMFNPMzY2SnJYWkIyTmVpOUhzMUZEODhP?=
- =?utf-8?B?SXNjVUZpT0tSUWg2UTc1RjdGQ1pVaS9jMDZXcUMzamJrY0orYmtWZDlNUjRr?=
- =?utf-8?B?M3Y3c2JZeVltc2E3eFZGMHpENENFUzJWaHlpQkpWVGNWNklFSHpwUjdIbkN5?=
- =?utf-8?B?eGdDVWVjNFVoVStqVGxqU3pqKzVMcW0xV0tCMjZKd3V0RnVzbVQ3SWZDOXRq?=
- =?utf-8?B?c0VvNnJnY2V2Y3VYQ2RjZFZxUjhzY0NGTGdEbXVlcDVGS2lHK2w5SlcrbEtw?=
- =?utf-8?B?T2NPdEkzTDJMd04yYm05amZWbHpUOEpxeEZwSk13QVFYNzAzR2U4Z21kMlJP?=
- =?utf-8?B?TDc2dUFEbXAyT0N5Qlk2NEhJckxpRTVzZDg1MDhEdlBodEl3TUgzMTNOTzYy?=
- =?utf-8?B?OUhKTnd1SWFnMHpGQ25OY3hyNWVNSjhzK08vMWFjcmJvS1Z2OGdpM29LREhS?=
- =?utf-8?B?Z0xFUzROc29zRDRPKzRwZ0w5dmc5VDg1TWxHNkYreVB6Vlc4dEFzUHBFMm1V?=
- =?utf-8?B?d3BjYjN0VVdXazFNNlFaWkZxaEQ5SGNUUUd0ZDd6clZlUmE4ejZtRjVuU0pL?=
- =?utf-8?B?N200WWpBcDJ5aEl0UU1nNzlvWHg2OERKWDh5ZHA0V2hJSkdVcjR4LytpQWxS?=
- =?utf-8?B?cVViVmlRZGhIKzNpeFIrZWU0M0xGRFFVano0UU4yVVBhZGVZeUtadUU2R3lX?=
- =?utf-8?B?aGpobVlzeTg3MkFibTM5MjhycmpOLzR4MFZqckoyaUhZMERwQ2dLV1lKUlVl?=
- =?utf-8?B?aGtQa2tFSVFuNDcvYkNKWjA3b1I0eVpYNmVjMVhvL1BHYUtsQzRaOEwxT3l1?=
- =?utf-8?B?Z0p5bVFKcnlUVXllSVBUWm44VnNweGJWSGxoa2w5THVZUFNJYjI5NHNIcmNl?=
- =?utf-8?B?UVhrbEgyTzhlakk4UFVkdU5BQ2R4U3U0bnBOV0xkWWhkOFZZY2NVSFNkR05a?=
- =?utf-8?B?WmlwS0crMlpweEp3cjdHNWdPVHdyZldTV0xZdzdhS2FrQWtIQ1lmTWtwa3Jr?=
- =?utf-8?B?UmRpU0MvN1FoWGIvMjNvL0hLT0hLd0U3RDVyaUk4R1RPcW1wbFVueHlTZlhv?=
- =?utf-8?B?dWsyRHhnQmo4a1E2K0tCdHlXT1A4b253ZHF0OXUvL29ZRjlkWnJRNEtLdSsx?=
- =?utf-8?B?WXNrVEhFTDEra29WS2owVitob1dOaXRRcGpqWmVNRU9lRDZiaGlKUnVtM0ZH?=
- =?utf-8?B?V25PaWtUWmZvUFg2eGpzMzBwSG1nYWx2QkVMcTVBMFVTeHhOUmRaN1gxMXZk?=
- =?utf-8?B?WkZYbXNITUovZTdGd0d4azQ3ZnNuS3FSaUFlTmp2NUNaU2Jpd2kyUm1nWGxK?=
- =?utf-8?B?eUNYd2pqSE5JVC9MakloYVZyaUhhV3o0cXJ4ZG5WSVBoejlDQTZTTzd1RkNQ?=
- =?utf-8?Q?Ca3sU4G2FPQ3Yc5rR7d2Hw52AyjLAy7bQEVXm3+DWMg6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4af3334f-7afd-47e8-aba2-08db40b1743d
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 08:38:30.9065
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rv6Lmk51nwVmaJIyYwkPWICKKnAhCzdP9YiilO299FrRqfXamc9BLxJeI7Msdst6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4427
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.04.23 um 10:27 schrieb hackyzh002:
-> The type of size is unsigned int, if size is 0x40000000, there will
-> be an integer overflow, size will be zero after size *= sizeof(uint32_t),
-> will cause uninitialized memory to be referenced later.
->
-> Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index 08eced097..c17b3af85 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   	uint64_t *chunk_array_user;
->   	uint64_t *chunk_array;
->   	uint32_t uf_offset = 0;
-> -	unsigned int size;
-> +	size_t size;
->   	int ret;
->   	int i;
->   
-> @@ -235,7 +235,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
->   		size = p->chunks[i].length_dw;
->   		cdata = u64_to_user_ptr(user_chunk.chunk_data);
->   
-> -		p->chunks[i].kdata = kvmalloc_array(size, sizeof(uint32_t),
-> +		p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
+The type of size is unsigned, if size is 0x40000000, there will be an
+integer overflow, size will be zero after size *= sizeof(uint32_t),
+will cause uninitialized memory to be referenced later
 
-Again, please drop that part of the patch. This is superfluous.
+Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
+---
+ drivers/gpu/drm/radeon/radeon_cs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Christian.
-
->   						    GFP_KERNEL);
->   		if (p->chunks[i].kdata == NULL) {
->   			ret = -ENOMEM;
+diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
+index 46a27ebf4..8e12b406e 100644
+--- a/drivers/gpu/drm/radeon/radeon_cs.c
++++ b/drivers/gpu/drm/radeon/radeon_cs.c
+@@ -270,7 +270,7 @@ int radeon_cs_parser_init(struct radeon_cs_parser *p, void *data)
+ {
+ 	struct drm_radeon_cs *cs = data;
+ 	uint64_t *chunk_array_ptr;
+-	unsigned size, i;
++	u64 size, i;
+ 	u32 ring = RADEON_CS_RING_GFX;
+ 	s32 priority = 0;
+ 
+-- 
+2.34.1
 
