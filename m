@@ -2,66 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B53856E82C2
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 22:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C06216E8619
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 01:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbjDSUc2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 16:32:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47886 "EHLO
+        id S230361AbjDSXxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 19:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229738AbjDSUc0 (ORCPT
+        with ESMTP id S229637AbjDSXxf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 16:32:26 -0400
-X-Greylist: delayed 478 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 19 Apr 2023 13:32:20 PDT
-Received: from out-30.mta0.migadu.com (out-30.mta0.migadu.com [IPv6:2001:41d0:1004:224b::1e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A1B270E
-        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 13:32:19 -0700 (PDT)
-Date:   Wed, 19 Apr 2023 22:24:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grimler.se; s=key1;
-        t=1681935859;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=V20VJv1TvezaAhFXg1TxVwCOql54YGFqOYPkGP8pazQ=;
-        b=cT8c6lY/bJVW3tUmDsyOXCpLyLqQnkGWUJhsaPyDTQDN+T0llTayhLrryh//uChH+//JHo
-        x17+hr5gXmgXXv214KbPtSXg1i5+Whi6AkB87RxbFU1t5mpoZ5++enCMNkSEDLKNkmnQb6
-        3IMIQH5r+ho1nDTvIw+DjYAL79D8v9M=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Henrik Grimler <henrik@grimler.se>
-To:     Artur Weber <aweber.kernel@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>, soc@kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-phy@lists.infradead.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 03/12] ARM: exynos: Re-introduce Exynos4212 support
-Message-ID: <ZEBN8ImTp/tRdej+@L14.lan>
-References: <20230416133422.1949-1-aweber.kernel@gmail.com>
- <20230416133422.1949-4-aweber.kernel@gmail.com>
+        Wed, 19 Apr 2023 19:53:35 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54A564C19
+        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 16:53:32 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id r9so831199ljp.9
+        for <linux-media@vger.kernel.org>; Wed, 19 Apr 2023 16:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681948410; x=1684540410;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vNfByshoyjqkggpUZm4KV9+i8uHaEm21yhuILnAoxFQ=;
+        b=GggfLPCUiqfeSHJrj6P8FmwsZw0QiQ8fZ4ZQIfL2Jq3r/4vobPeWQ+MuTGHySvnjk6
+         S+wB+8BGrooeS4Q4zN5PZu0Fm+tnI757qZ+e4NRIO5eBgieDINdrGTPQWf+aGuf4Senf
+         hwB94WfCRNUIuDbFM+Fa1mL42QBPwpS1HYWP9Y+cdfjuEunR4nS3ClAcOiPVbBmdv33t
+         o7WjAjCGDa1qRb/J7aIuWfz0/gloNazkIJP5kpKQkJK0+cir/SZQ9Mz3Eh8eO8BLDZO1
+         hAutJ7sZ9EdTbhojc9h9VHDDJVijVNh7zT+VHchgCcNvDM5ZkAPSV1tPzJTfDbU6/aaT
+         3OgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681948410; x=1684540410;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNfByshoyjqkggpUZm4KV9+i8uHaEm21yhuILnAoxFQ=;
+        b=TbFdj84F3O695TcvYSBEsXYQ/2WnabpEyB6VmAUnw6ifFN6cEpjQRwHHD4feUWi8HS
+         HsoDQ/N8u3s7xiTRtX0RPr3rgsIQikykvn3bRJcFGrW2BHCd82G99qLNKY8Rz2TpZlbC
+         xNjuVbc/dMR5Z5QQBYMMffQuGD/fNoFX3nxq/If2IwMqxPI2QANRNB5KrvtiJUuLT/63
+         ibuuFLvnismYlrpr0tlOfjnOd6VSj8LQgHB5J20caR78XxbJHVhAIR8Lecem1FTk54cb
+         0+3qEpJHXOdDLMh8QOvqvkj6KYTHtQixNBih698FJGRqwvDX2SHscqhOJ6qQMEOjnsQs
+         T1Ww==
+X-Gm-Message-State: AAQBX9eyMgQn0qQ7eJu7SbeHsCo6U4NclXazZ5VqvznHVOmkc/8ECZMZ
+        EQXQzN4QAtFY4ftJguUoIqOVyA==
+X-Google-Smtp-Source: AKy350biEzgLEyIpYHveGxLtCjMiXGmGu+3e1mnunIHc5qW3Ihz5GGf3Ox/yara6uiG/98fMFL2FRQ==
+X-Received: by 2002:a2e:8852:0:b0:29a:9b26:4e25 with SMTP id z18-20020a2e8852000000b0029a9b264e25mr2398442ljj.6.1681948410594;
+        Wed, 19 Apr 2023 16:53:30 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5? (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+        by smtp.gmail.com with ESMTPSA id w9-20020ac24429000000b004ed149acc08sm47886lfl.93.2023.04.19.16.53.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Apr 2023 16:53:30 -0700 (PDT)
+Message-ID: <9d7f81fc-945e-9704-4eb2-d2e5cb31297e@linaro.org>
+Date:   Thu, 20 Apr 2023 02:53:29 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230416133422.1949-4-aweber.kernel@gmail.com>
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/4] drm/msm: add some cec register bitfield details
+Content-Language: en-GB
+To:     Arnaud Vrac <avrac@freebox.fr>, Rob Clark <robdclark@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Sean Paul <sean@poorly.run>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+References: <20230418-msm8998-hdmi-cec-v1-0-176479fb2fce@freebox.fr>
+ <20230418-msm8998-hdmi-cec-v1-1-176479fb2fce@freebox.fr>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230418-msm8998-hdmi-cec-v1-1-176479fb2fce@freebox.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,175 +85,124 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Artur,
-
-On Sun, Apr 16, 2023 at 03:34:13PM +0200, Artur Weber wrote:
-> The platform was originally dropped in commit bca9085e0ae9 ("ARM:
-> dts: exynos: remove Exynos4212 support (dead code)"), as there were
-> no boards using it.
+On 18/04/2023 21:10, Arnaud Vrac wrote:
+> The register names and bitfields were determined from the downstream
+> msm-4.4 driver.
 > 
-> We will be adding a device that uses it, so add it back.
-> 
-> This effectively reverts commit 9e43eca3c874 ("ARM: EXYNOS: Remove
-> Exynos4212 related dead code").
-> 
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
 > ---
->  arch/arm/mach-exynos/Kconfig    | 5 +++++
->  arch/arm/mach-exynos/common.h   | 8 ++++++++
->  arch/arm/mach-exynos/exynos.c   | 2 ++
->  arch/arm/mach-exynos/firmware.c | 8 +++++++-
->  arch/arm/mach-exynos/pm.c       | 2 +-
->  arch/arm/mach-exynos/suspend.c  | 4 ++++
->  6 files changed, 27 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/msm/hdmi/hdmi.xml.h | 62 ++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 61 insertions(+), 1 deletion(-)
+
+I have opened MR against Mesa at 
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/22588.
+
+The patch is:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Minor nit below
+
 > 
-> diff --git a/arch/arm/mach-exynos/Kconfig b/arch/arm/mach-exynos/Kconfig
-> index 4d3b40e4049a..b3d5df5225fe 100644
-> --- a/arch/arm/mach-exynos/Kconfig
-> +++ b/arch/arm/mach-exynos/Kconfig
-> @@ -78,6 +78,11 @@ config CPU_EXYNOS4210
->  	default y
->  	depends on ARCH_EXYNOS4
->  
-> +config SOC_EXYNOS4212
-> +	bool "Samsung Exynos4212"
-> +	default y
-> +	depends on ARCH_EXYNOS4
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.xml.h b/drivers/gpu/drm/msm/hdmi/hdmi.xml.h
+> index 973b460486a5a..b4dd6e8cba6b7 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.xml.h
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.xml.h
+> @@ -76,6 +76,13 @@ enum hdmi_acr_cts {
+>   	ACR_48 = 3,
+>   };
+>   
+> +enum hdmi_cec_tx_status {
+> +	CEC_TX_OK = 0,
+> +	CEC_TX_NACK = 1,
+> +	CEC_TX_ARB_LOSS = 2,
+> +	CEC_TX_MAX_RETRIES = 3,
+> +};
 > +
->  config SOC_EXYNOS4412
->  	bool "Samsung Exynos4412"
->  	default y
-> diff --git a/arch/arm/mach-exynos/common.h b/arch/arm/mach-exynos/common.h
-> index 29eb075b24a4..c9e85d33c309 100644
-> --- a/arch/arm/mach-exynos/common.h
-> +++ b/arch/arm/mach-exynos/common.h
-> @@ -15,6 +15,7 @@
->  #define EXYNOS3_SOC_MASK	0xFFFFF000
->  
->  #define EXYNOS4210_CPU_ID	0x43210000
-> +#define EXYNOS4212_CPU_ID	0x43220000
->  #define EXYNOS4412_CPU_ID	0xE4412200
->  #define EXYNOS4_CPU_MASK	0xFFFE0000
->  
-> @@ -34,6 +35,7 @@ static inline int is_samsung_##name(void)	\
->  
->  IS_SAMSUNG_CPU(exynos3250, EXYNOS3250_SOC_ID, EXYNOS3_SOC_MASK)
->  IS_SAMSUNG_CPU(exynos4210, EXYNOS4210_CPU_ID, EXYNOS4_CPU_MASK)
-> +IS_SAMSUNG_CPU(exynos4212, EXYNOS4212_CPU_ID, EXYNOS4_CPU_MASK)
->  IS_SAMSUNG_CPU(exynos4412, EXYNOS4412_CPU_ID, EXYNOS4_CPU_MASK)
->  IS_SAMSUNG_CPU(exynos5250, EXYNOS5250_SOC_ID, EXYNOS5_SOC_MASK)
->  IS_SAMSUNG_CPU(exynos5410, EXYNOS5410_SOC_ID, EXYNOS5_SOC_MASK)
-> @@ -52,6 +54,12 @@ IS_SAMSUNG_CPU(exynos5800, EXYNOS5800_SOC_ID, EXYNOS5_SOC_MASK)
->  # define soc_is_exynos4210()	0
->  #endif
->  
-> +#if defined(CONFIG_SOC_EXYNOS4212)
-> +# define soc_is_exynos4212()	is_samsung_exynos4212()
-> +#else
-> +# define soc_is_exynos4212()	0
-> +#endif
-> +
->  #if defined(CONFIG_SOC_EXYNOS4412)
->  # define soc_is_exynos4412()	is_samsung_exynos4412()
->  #else
-> diff --git a/arch/arm/mach-exynos/exynos.c b/arch/arm/mach-exynos/exynos.c
-> index 51a247ca4da8..5671621f1661 100644
-> --- a/arch/arm/mach-exynos/exynos.c
-> +++ b/arch/arm/mach-exynos/exynos.c
-> @@ -178,6 +178,7 @@ static void __init exynos_dt_machine_init(void)
->  		exynos_cpuidle.dev.platform_data = &cpuidle_coupled_exynos_data;
->  #endif
->  	if (of_machine_is_compatible("samsung,exynos4210") ||
-> +	    of_machine_is_compatible("samsung,exynos4212") ||
->  	    (of_machine_is_compatible("samsung,exynos4412") &&
->  	     (of_machine_is_compatible("samsung,trats2") ||
->  		  of_machine_is_compatible("samsung,midas") ||
-> @@ -192,6 +193,7 @@ static char const *const exynos_dt_compat[] __initconst = {
->  	"samsung,exynos3250",
->  	"samsung,exynos4",
->  	"samsung,exynos4210",
-> +	"samsung,exynos4212",
->  	"samsung,exynos4412",
->  	"samsung,exynos5",
->  	"samsung,exynos5250",
-> diff --git a/arch/arm/mach-exynos/firmware.c b/arch/arm/mach-exynos/firmware.c
-> index 2da5b60b59e2..110c8064ee64 100644
-> --- a/arch/arm/mach-exynos/firmware.c
-> +++ b/arch/arm/mach-exynos/firmware.c
-> @@ -63,12 +63,18 @@ static int exynos_cpu_boot(int cpu)
->  	 *
->  	 * On Exynos5 devices the call is ignored by trustzone firmware.
->  	 */
-> -	if (!soc_is_exynos4210() && !soc_is_exynos4412())
-> +	if (!soc_is_exynos4210() && !soc_is_exynos4412() &&
-> +	    !soc_is_exynos4212())
+>   #define REG_HDMI_CTRL						0x00000000
+>   #define HDMI_CTRL_ENABLE					0x00000001
+>   #define HDMI_CTRL_HDMI						0x00000002
+> @@ -476,20 +483,73 @@ static inline uint32_t HDMI_DDC_REF_REFTIMER(uint32_t val)
+>   #define REG_HDMI_HDCP_SW_LOWER_AKSV				0x00000288
+>   
+>   #define REG_HDMI_CEC_CTRL					0x0000028c
+> +#define HDMI_CEC_CTRL_ENABLE					0x00000001
+> +#define HDMI_CEC_CTRL_SEND_TRIGGER				0x00000002
+> +#define HDMI_CEC_CTRL_FRAME_SIZE__MASK				0x000001f0
+> +#define HDMI_CEC_CTRL_FRAME_SIZE__SHIFT				4
+> +static inline uint32_t HDMI_CEC_CTRL_FRAME_SIZE(uint32_t val)
+> +{
+> +	return ((val) << HDMI_CEC_CTRL_FRAME_SIZE__SHIFT) & HDMI_CEC_CTRL_FRAME_SIZE__MASK;
+> +}
+> +#define HDMI_CEC_CTRL_LINE_OE					0x00000200
+>   
+>   #define REG_HDMI_CEC_WR_DATA					0x00000290
+> +#define HDMI_CEC_WR_DATA_BROADCAST				0x00000001
+> +#define HDMI_CEC_WR_DATA_DATA__MASK				0x0000ff00
+> +#define HDMI_CEC_WR_DATA_DATA__SHIFT				8
+> +static inline uint32_t HDMI_CEC_WR_DATA_DATA(uint32_t val)
+> +{
+> +	return ((val) << HDMI_CEC_WR_DATA_DATA__SHIFT) & HDMI_CEC_WR_DATA_DATA__MASK;
+> +}
+>   
+> -#define REG_HDMI_CEC_CEC_RETRANSMIT				0x00000294
+> +#define REG_HDMI_CEC_RETRANSMIT					0x00000294
+> +#define HDMI_CEC_RETRANSMIT_ENABLE				0x00000001
+> +#define HDMI_CEC_RETRANSMIT_COUNT__MASK				0x000000fe
+> +#define HDMI_CEC_RETRANSMIT_COUNT__SHIFT			1
+> +static inline uint32_t HDMI_CEC_RETRANSMIT_COUNT(uint32_t val)
+> +{
+> +	return ((val) << HDMI_CEC_RETRANSMIT_COUNT__SHIFT) & HDMI_CEC_RETRANSMIT_COUNT__MASK;
+> +}
+>   
+>   #define REG_HDMI_CEC_STATUS					0x00000298
+> +#define HDMI_CEC_STATUS_BUSY					0x00000001
+> +#define HDMI_CEC_STATUS_TX_FRAME_DONE				0x00000008
+> +#define HDMI_CEC_STATUS_TX_STATUS__MASK				0x000000f0
+> +#define HDMI_CEC_STATUS_TX_STATUS__SHIFT			4
+> +static inline uint32_t HDMI_CEC_STATUS_TX_STATUS(enum hdmi_cec_tx_status val)
+> +{
+> +	return ((val) << HDMI_CEC_STATUS_TX_STATUS__SHIFT) & HDMI_CEC_STATUS_TX_STATUS__MASK;
+> +}
+>   
+>   #define REG_HDMI_CEC_INT					0x0000029c
+> +#define HDMI_CEC_INT_TX_DONE					0x00000001
+> +#define HDMI_CEC_INT_TX_DONE_MASK				0x00000002
+> +#define HDMI_CEC_INT_TX_ERROR					0x00000004
+> +#define HDMI_CEC_INT_TX_ERROR_MASK				0x00000008
+> +#define HDMI_CEC_INT_MONITOR					0x00000010
+> +#define HDMI_CEC_INT_MONITOR_MASK				0x00000020
+> +#define HDMI_CEC_INT_RX_DONE					0x00000040
+> +#define HDMI_CEC_INT_RX_DONE_MASK				0x00000080
+>   
+>   #define REG_HDMI_CEC_ADDR					0x000002a0
+>   
+>   #define REG_HDMI_CEC_TIME					0x000002a4
+> +#define HDMI_CEC_TIME_ENABLE					0x00000001
+> +#define HDMI_CEC_TIME_SIGNAL_FREE_TIME__MASK			0x0000ff80
+> +#define HDMI_CEC_TIME_SIGNAL_FREE_TIME__SHIFT			7
+> +static inline uint32_t HDMI_CEC_TIME_SIGNAL_FREE_TIME(uint32_t val)
+> +{
+> +	return ((val) << HDMI_CEC_TIME_SIGNAL_FREE_TIME__SHIFT) & HDMI_CEC_TIME_SIGNAL_FREE_TIME__MASK;
+> +}
+>   
+>   #define REG_HDMI_CEC_REFTIMER					0x000002a8
+> +#define HDMI_CEC_REFTIMER_ENABLE				0x00010000
 
-Seems more logical to have 4212 before 4412 here.
+I think this should come after the REFTIMER field.
 
->  		return 0;
->  
->  	/*
->  	 * The second parameter of SMC_CMD_CPU1BOOT command means CPU id.
-> +	 * But, Exynos4212 has only one secondary CPU so second parameter
-> +	 * isn't used for informing secure firmware about CPU id.
->  	 */
-> +	if (soc_is_exynos4212())
-> +		cpu = 0;
-
-Is it necessary to set cpu = 0?  Are there any obvious issues without
-it (like second cpu not being brought up)?  It seems vendor kernel
-does this for both exynos4210 and exynos4212 [1], but mainline has not
-done this for exynos4210 and there has been no reported issues on for
-that platform as far as I know.
-
-The assembly that handles SMC_CMD_CPU1BOOT in sboot.bin from firmware
-version T310XXSBQB2 is identical to what is found in sboot.bin from
-exynos4412-galaxy-s3, and it uses the cpu arg in both cases, so seems
-likely that we need this and I am mostly asking out of curiosity.
-
-[1] https://github.com/krzk/linux-vendor-backup/blob/mokee/android-3.4-samsung-galaxy-tab-s-10.5-sm-t805-exynos5420/arch/arm/mach-exynos/platsmp.c#L225-L229
-
-Best regards,
-Henrik Grimler
-
->  	exynos_smc(SMC_CMD_CPU1BOOT, cpu, 0, 0);
->  	return 0;
->  }
-> diff --git a/arch/arm/mach-exynos/pm.c b/arch/arm/mach-exynos/pm.c
-> index 30f4e55bf39e..9b6db04e4e34 100644
-> --- a/arch/arm/mach-exynos/pm.c
-> +++ b/arch/arm/mach-exynos/pm.c
-> @@ -161,7 +161,7 @@ void exynos_enter_aftr(void)
->  
->  	exynos_pm_central_suspend();
->  
-> -	if (soc_is_exynos4412()) {
-> +	if (soc_is_exynos4412() || soc_is_exynos4212()) {
->  		/* Setting SEQ_OPTION register */
->  		pmu_raw_writel(S5P_USE_STANDBY_WFI0 | S5P_USE_STANDBY_WFE0,
->  			       S5P_CENTRAL_SEQ_OPTION);
-> diff --git a/arch/arm/mach-exynos/suspend.c b/arch/arm/mach-exynos/suspend.c
-> index 3bf14ca78b62..df1e10033f90 100644
-> --- a/arch/arm/mach-exynos/suspend.c
-> +++ b/arch/arm/mach-exynos/suspend.c
-> @@ -231,6 +231,7 @@ static int __init exynos_pmu_irq_init(struct device_node *node,
->  
->  EXYNOS_PMU_IRQ(exynos3250_pmu_irq, "samsung,exynos3250-pmu");
->  EXYNOS_PMU_IRQ(exynos4210_pmu_irq, "samsung,exynos4210-pmu");
-> +EXYNOS_PMU_IRQ(exynos4212_pmu_irq, "samsung,exynos4212-pmu");
->  EXYNOS_PMU_IRQ(exynos4412_pmu_irq, "samsung,exynos4412-pmu");
->  EXYNOS_PMU_IRQ(exynos5250_pmu_irq, "samsung,exynos5250-pmu");
->  EXYNOS_PMU_IRQ(exynos5420_pmu_irq, "samsung,exynos5420-pmu");
-> @@ -640,6 +641,9 @@ static const struct of_device_id exynos_pmu_of_device_ids[] __initconst = {
->  	}, {
->  		.compatible = "samsung,exynos4210-pmu",
->  		.data = &exynos4_pm_data,
-> +	}, {
-> +		.compatible = "samsung,exynos4212-pmu",
-> +		.data = &exynos4_pm_data,
->  	}, {
->  		.compatible = "samsung,exynos4412-pmu",
->  		.data = &exynos4_pm_data,
-> -- 
-> 2.40.0
+> +#define HDMI_CEC_REFTIMER_REFTIMER__MASK			0x0000ffff
+> +#define HDMI_CEC_REFTIMER_REFTIMER__SHIFT			0
+> +static inline uint32_t HDMI_CEC_REFTIMER_REFTIMER(uint32_t val)
+> +{
+> +	return ((val) << HDMI_CEC_REFTIMER_REFTIMER__SHIFT) & HDMI_CEC_REFTIMER_REFTIMER__MASK;
+> +}
+>   
+>   #define REG_HDMI_CEC_RD_DATA					0x000002ac
+>   
 > 
+
+-- 
+With best wishes
+Dmitry
+
