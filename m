@@ -2,53 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABA0B6E72F6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 08:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E04616E732B
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 08:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231644AbjDSGPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 02:15:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58838 "EHLO
+        id S232041AbjDSGYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 02:24:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231796AbjDSGPd (ORCPT
+        with ESMTP id S231927AbjDSGYk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 02:15:33 -0400
+        Wed, 19 Apr 2023 02:24:40 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D721996;
-        Tue, 18 Apr 2023 23:15:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41B09775
+        for <linux-media@vger.kernel.org>; Tue, 18 Apr 2023 23:23:58 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD1FC12F;
-        Wed, 19 Apr 2023 08:15:21 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0601512F;
+        Wed, 19 Apr 2023 08:23:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681884922;
-        bh=rkUOMWQkU584u4Ts3QSMexZDobe08ycYK92hPZWwusc=;
+        s=mail; t=1681885420;
+        bh=3A20KhiDpDbVtWI/reZRdctZ1ThqdaU4E8Pz1f04Tyw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=akrbepo9QwNMMW1Aba5GtEsYHKwgwhM2FVI4ESLzXhXlkN5m8E8uY6s/KrDh1Y5yp
-         VlzHKEqzVEzYTIBC8LKnRe4ChQ6UbNGIGJfVDzUS2kp+PhdMkLuE96fubp6Xg7l3IM
-         Z6q2r5Af1W6CPOw1HeKIk5PQ0aHci+Wn3fxHYY/c=
-Date:   Wed, 19 Apr 2023 09:15:40 +0300
+        b=Al1YD6CDS72S8M01s2TcBsrbNuLyRbsRzll0qduyMOw38+7SjA77E1n8UbR4HztYY
+         BigXBKsonKgRQ7U+A5YGiOEJgbxtD87OhDTt8JXswDc+ZM0TrI+dBtF9H/BiSGWUP1
+         az/Wz3u3GyzQ0R/HncG39tidPOhG9hkN1qQjxCJ8=
+Date:   Wed, 19 Apr 2023 09:23:59 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jack Zhu <jack.zhu@starfivetech.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v4 6/8] media: dt-bindings: Add bindings for JH7110
- Camera Subsystem
-Message-ID: <20230419061540.GB11679@pendragon.ideasonboard.com>
-References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
- <20230413035541.62129-7-jack.zhu@starfivetech.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        regressions@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+        "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
+ pixelformats
+Message-ID: <20230419062359.GA13848@pendragon.ideasonboard.com>
+References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
+ <CANiDSCuiHLw6FBu8GV93Mm2WK5suCnGk8PBUDfn_krtMfPwdaw@mail.gmail.com>
+ <7bcc8593-a98d-6faa-2ec5-3cf59137cbcb@xs4all.nl>
+ <20230405064020.GZ9915@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230413035541.62129-7-jack.zhu@starfivetech.com>
+In-Reply-To: <20230405064020.GZ9915@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -59,219 +54,104 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
+Hi Hans,
 
-Thank you for the patch.
-
-On Thu, Apr 13, 2023 at 11:55:39AM +0800, Jack Zhu wrote:
-> Add the bindings documentation for Starfive JH7110 Camera Subsystem
-> which is used for handing image sensor data.
+On Wed, Apr 05, 2023 at 09:40:20AM +0300, Laurent Pinchart wrote:
+> On Wed, Mar 29, 2023 at 07:20:59PM +0200, Hans Verkuil wrote:
+> > On 29/03/2023 18:05, Ricardo Ribalda wrote:
+> > > Hi Hans
+> > > 
+> > > Thanks for the patch.
+> > > 
+> > > I believe the user can fetch this info from lsusb, so this is kind of
+> > > duplicated info, and this is why it was removed.
+> > 
+> > You got to set some description, so using the GUID this seems best.
+> > 
+> > > Is there an app that uses this unknown format code ? Or the only
+> > > complaint is that WARN() is too loud for the user?
+> > 
+> > Normally drivers do not pass on unknown formats, but if a driver does,
+> > then I want a WARN. If a driver does this legitimately (and I understand
+> > that's the case for UVC), then the driver should fill in the description
+> > to avoid this WARN.
 > 
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
-> ---
->  .../bindings/media/starfive,jh7110-camss.yaml | 164 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  2 files changed, 171 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> In hindsight we shouldn't have added a text description to formats :-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> new file mode 100644
-> index 000000000000..4cd144f1b845
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> @@ -0,0 +1,164 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive SoC CAMSS ISP
-> +
-> +maintainers:
-> +  - Jack Zhu <jack.zhu@starfivetech.com>
-> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
-> +
-> +description:
-> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC. It
-> +  consists of a VIN controller (Video In Controller, a top-level control until)
-> +  and an ISP.
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-camss
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: syscon
-> +      - const: isp
-> +
-> +  clocks:
-> +    maxItems: 7
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb_func
-> +      - const: wrapper_clk_c
-> +      - const: dvp_inv
-> +      - const: axiwr
-> +      - const: mipi_rx0_pxl
-> +      - const: ispcore_2x
-> +      - const: isp_axi
-> +
-> +  resets:
-> +    maxItems: 6
-> +
-> +  reset-names:
-> +    items:
-> +      - const: wrapper_p
-> +      - const: wrapper_c
-> +      - const: axird
-> +      - const: axiwr
-> +      - const: isp_top_n
-> +      - const: isp_top_axi
-> +
-> +  power-domains:
-> +    items:
-> +      - description: JH7110 ISP Power Domain Switch Controller.
-> +
-> +  interrupts:
-> +    maxItems: 4
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: Input port for receiving DVP data.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-width:
-> +                const: 8
-> +
-> +              data-shift:
-> +                const: 2
+> > > On Wed, 29 Mar 2023 at 14:39, Hans Verkuil wrote:
+> > >>
+> > >> If the fcc is 0 (indicating an unknown GUID format), then fill in the
+> > >> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
+> > >>
+> > >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > >> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+> > >> ---
+> > >> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > >> index 7aefa76a42b3..2f1ced1212cd 100644
+> > >> --- a/drivers/media/usb/uvc/uvc_driver.c
+> > >> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > >> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+> > >>                 } else {
+> > >>                         dev_info(&streaming->intf->dev,
+> > >>                                  "Unknown video format %pUl\n", &buffer[5]);
+> > >> +                       snprintf(format->name, sizeof(format->name), "%pUl\n",
+> > >> +                                &buffer[5]);
+> > > Don't we need at least 38 chars for this?
+> > 
+> > Yes. But all we have is 31 chars, so we take what we can :-)
+> > 
+> > This is what uvc did before this was removed.
+> > 
+> > Regards,
+> > 
+> > 	Hans
+> > 
+> > > https://docs.kernel.org/core-api/printk-formats.html#uuid-guid-addresses
+> > > 
+> > >> +
+> > >>                         format->fcc = 0;
+> > >>                 }
+> > >>
+> > >> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> > >> index 35453f81c1d9..fc6f9e7d8506 100644
+> > >> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > >> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > >> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+> > >>         if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+> > >>                 fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+> > >>         fmt->pixelformat = format->fcc;
+> > >> +       if (format->name[0])
+> > >> +               strscpy(fmt->description, format->name,
+> > >> +                       sizeof(fmt->description));
+> > >> +
+> > >>         return 0;
+> > >>  }
+> > >>
+> > >> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > >> index 9a596c8d894a..22656755a801 100644
+> > >> --- a/drivers/media/usb/uvc/uvcvideo.h
+> > >> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > >> @@ -264,6 +264,8 @@ struct uvc_format {
+> > >>         u32 fcc;
+> > >>         u32 flags;
+> > >>
+> > >> +       char name[32];
+> > >> +
+> 
+> I'd not really nice to have to store the name for every format, when we
+> know it will very rarely be used.
+> 
+> One alternative option would be to store the GUID, which would halve the
+> amount of memory. Another option would be to stop reporting those
+> formats to userspace in uvc_ioctl_enum_fmt(). They can't be selected
+> anyway, they have no unique 4CC.
 
-As far as I can tell, those two properties are not handled by the
-driver. I assume this is because the driver doesn't support the DVP
-input yet. That's fine, but it makes it a bit hard to review the device
-tree. Could you provide some information about the DVP hardware
-interface ? Does it support both BT.656 and sync signals, or just sync
-signals ? Are the polarities of the clock and h/v sync controllable ?
-Is the parallel input bus 8-bit wide or are other options supported ?
-And finally, what are you modelling with data-shift: 2 ?
+Any opinion on this ? I'm increasingly tempted by not reporting
+unsupported formats to userspace.
 
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input port for receiving CSI data.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    isp@19840000 {
-> +        compatible = "starfive,jh7110-camss";
-> +        reg = <0x19840000 0x10000>,
-> +              <0x19870000 0x30000>;
-> +        reg-names = "syscon", "isp";
-> +        clocks = <&ispcrg 0>,
-> +                 <&ispcrg 13>,
-> +                 <&ispcrg 2>,
-> +                 <&ispcrg 12>,
-> +                 <&ispcrg 1>,
-> +                 <&syscrg 51>,
-> +                 <&syscrg 52>;
-> +        clock-names = "apb_func",
-> +                      "wrapper_clk_c",
-> +                      "dvp_inv",
-> +                      "axiwr",
-> +                      "mipi_rx0_pxl",
-> +                      "ispcore_2x",
-> +                      "isp_axi";
-> +        resets = <&ispcrg 0>,
-> +                 <&ispcrg 1>,
-> +                 <&ispcrg 10>,
-> +                 <&ispcrg 11>,
-> +                 <&syscrg 41>,
-> +                 <&syscrg 42>;
-> +        reset-names = "wrapper_p",
-> +                      "wrapper_c",
-> +                      "axird",
-> +                      "axiwr",
-> +                      "isp_top_n",
-> +                      "isp_top_axi";
-> +        power-domains = <&pwrc 5>;
-> +        interrupts = <92>, <87>, <88>, <90>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            port@0 {
-> +                reg = <0>;
-> +                vin_from_sc2235: endpoint {
-> +                    remote-endpoint = <&sc2235_to_vin>;
-> +                    bus-width = <8>;
-> +                    data-shift = <2>;
-> +                    hsync-active = <1>;
-> +                    vsync-active = <0>;
-> +                    pclk-sample = <1>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                vin_from_csi2rx: endpoint {
-> +                    remote-endpoint = <&csi2rx_to_vin>;
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index bbb8b5c0187b..b8c76b0d7eb3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19909,6 +19909,13 @@ M:	Ion Badulescu <ionut@badula.org>
->  S:	Odd Fixes
->  F:	drivers/net/ethernet/adaptec/starfire*
->  
-> +STARFIVE CAMERA SUBSYSTEM DRIVER
-> +M:	Jack Zhu <jack.zhu@starfivetech.com>
-> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> +
->  STARFIVE DEVICETREES
->  M:	Emil Renner Berthing <kernel@esmil.dk>
->  S:	Maintained
+> > >>         unsigned int nframes;
+> > >>         struct uvc_frame *frame;
+> > >>  };
 
 -- 
 Regards,
