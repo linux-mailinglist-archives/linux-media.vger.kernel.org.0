@@ -2,110 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 164886E7F52
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 18:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12FA96E7FB7
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 18:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232696AbjDSQNt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 12:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
+        id S233680AbjDSQeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 12:34:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231400AbjDSQNr (ORCPT
+        with ESMTP id S233420AbjDSQeE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 12:13:47 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F3B92;
-        Wed, 19 Apr 2023 09:13:44 -0700 (PDT)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7F938C000B;
-        Wed, 19 Apr 2023 16:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1681920822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=N/4vh+ZK/L/2udwlY6VrQJKEJLZ0t9WAYjnDkg1vBZ4=;
-        b=d6sFS7fGp2NpR2dY9bhcGf4TwHwqw1ObtI+TZBCi/nc1U0sA+OjPFzXCe2Rofi9l4oD/Ha
-        4RE8vrIawaxAR4Bo6+m4sGQKF4T76N78uJBeQw9nJyLdmHdeWJP2uNLVDnIptlV2CJSxu+
-        YohJun2xcYhRIGfpYO8zKYgPV3+Xx2QzdG5euDGmJ5ivPA8wOPvs1q7ORPgQb5fnJaSzR7
-        6x8XAO3pTvSyKmJJ4iCwrC9461BkxLWz2QfXx8j/X571yChGFMWlpic8xZCqkm0UxZnVwl
-        KHNkdHD52Q3kqxhY7kXpbQaKc1cRddEWWWeg0+tWa0NNYLIjp+Qu+Szu1d0DlA==
-Date:   Wed, 19 Apr 2023 18:13:37 +0200
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v10 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link
- III Deserializer
-Message-ID: <20230419181337.2448179d@booty>
-In-Reply-To: <ZD+g4j7jEg2AETNe@ninjato>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
-        <20230222132907.594690-6-tomi.valkeinen@ideasonboard.com>
-        <ZD6VwpRya6SGBAt5@shikoro>
-        <20230419091336.4e10ba65@booty>
-        <ZD+g4j7jEg2AETNe@ninjato>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Wed, 19 Apr 2023 12:34:04 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65382421C;
+        Wed, 19 Apr 2023 09:33:59 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1a682eee3baso1545325ad.0;
+        Wed, 19 Apr 2023 09:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681922039; x=1684514039;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Hejd87Jll0E8NOGuMljt4taTMik1yKpFSOJV8ogm+QU=;
+        b=otvUaF7ejsijSly4r1bE5p0DcDAEY+dCK+KVYM+TKOnGIRDPkokhlWhv1Y4lwB+ZkJ
+         J+rF08EQd1xv3uuCAYfuKfepDM3Eusu6Uzl+SkCDbVx4j8Kn6sz+XuG7ALq2caYTgvj8
+         08wPhYvwIHTxLDZdYdxa2Xd5iDpIHEpZDQQLzd8+mvwCpOCz+WsrdOTTJ2/6cA9LYgzN
+         7NDAmo86b0SDi1sLACOkw9YxuxQHprwevC+PiLw6AfCihrx2IR9ovUWUsBFPeUWvsix0
+         FhdUPHDgv7r1UhOtdh8KkQQQN/cNQEWYyJrQZ1/9O7ON5XBMjvxAcMuAzNGWcDRBFKOz
+         QhGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681922039; x=1684514039;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hejd87Jll0E8NOGuMljt4taTMik1yKpFSOJV8ogm+QU=;
+        b=SkD3fujLoSe/rbrQEzHt9fmQ/uapgcltvPA8LfqBZq65QvvXKWlwJx7A9rkJS2xxU8
+         Pyn3vSrT1R/69qETu5ctUGQYCzpgCWvEbeqSJrOpbw9TWAHpJprXmK1EMW4m6LKxeowU
+         jVsPNPTdf1tm2CtwR1UFCG5zmyKOWSM3ZSGD0+Hq+VAHCJLq+3N9oKJiol41f2+We73u
+         GbornskRAj3qUAFu/fsQg8FCiOodLvGnABSBelGARWoAJVxaK3ex8k2cGZv3OryGhzjF
+         rIRhvRbZODudUooXZqlF4CqF9y0QcQFXX0yOdDUW7SS8+UbHhCPIPatcjsQ1yeDYpbIX
+         yflQ==
+X-Gm-Message-State: AAQBX9dbAFpJFulHlOaAjUcXoJ3/jPpIFJoy76zlhFVvJ6dlICK8TpR+
+        RbiUKhmhD7tIbP+mLUv5TMY=
+X-Google-Smtp-Source: AKy350Yh+6NbKPw4KD+UsFvenBCaCDaUcheuDcqPn53EST9vXg5qyuw0UcOKYiNkqaXz2dPOz64XMQ==
+X-Received: by 2002:a17:902:f689:b0:1a6:f5d5:b80a with SMTP id l9-20020a170902f68900b001a6f5d5b80amr7744678plg.38.1681922038707;
+        Wed, 19 Apr 2023 09:33:58 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id p10-20020a1709026b8a00b0019a6cce2060sm11631338plk.57.2023.04.19.09.33.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Apr 2023 09:33:58 -0700 (PDT)
+Message-ID: <932bb2c6-71ce-525f-fbb2-a0a742ee8e12@gmail.com>
+Date:   Wed, 19 Apr 2023 09:33:50 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH net-next 3/6] net: bcmasp: Add support for ASP2.0 Ethernet
+ controller
+Content-Language: en-US
+To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        bcm-kernel-feedback-list@broadcom.com
+Cc:     justin.chen@broadcom.com, f.fainelli@gmail.com,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
+        andrew@lunn.ch, linux@armlinux.org.uk, richardcochran@gmail.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com
+References: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
+ <1681863018-28006-4-git-send-email-justinpopo6@gmail.com>
+ <03dadae3-3a89-cdb0-7cd1-591d62735836@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <03dadae3-3a89-cdb0-7cd1-591d62735836@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
-
-On Wed, 19 Apr 2023 10:05:54 +0200
-Wolfram Sang <wsa@kernel.org> wrote:
-
-> > > Why is "i2c-alias-pool" in the drivers binding and not a regular i2c
-> > > binding? Same question for the implementation of the alias-pool
-> > > handling. Shouldn't this be in the i2c-atr library? I'd think managing
-> > > the list of aliases would look all the same in the drivers otherwise?  
-> > 
-> > I think that this _was_ the plan, as it looks obviously cleaner, but
-> > then we agreed that we should remove the pool entirely, so I didn't
-> > bother moving it.  
+On 4/18/23 23:35, Heiner Kallweit wrote:
+> On 19.04.2023 02:10, Justin Chen wrote:
+>> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+>> introduced with 72165. This controller features two distinct Ethernet
+>> ports that can be independently operated.
+>>
+>> This patch supports:
+[snip]
+>> +	intf->tx_spb_index = spb_index;
+>> +	intf->tx_spb_dma_valid = valid;
+>> +	bcmasp_intf_tx_write(intf, intf->tx_spb_dma_valid);
+>> +
+>> +	if (tx_spb_ring_full(intf, MAX_SKB_FRAGS + 1))
+>> +		netif_stop_queue(dev);
+>> +
 > 
-> Ah, you mean we agreed on that at the Plumbers BoF? I think we can
-> conclude this is obsolete meanwhile. GMSL encodes the target addresses
-> in DT. Rob is also fine with the binding here to encode the pool in DT.
-> Let's follow that road, I'd say.
+> Here it may be better to use the new macros from include/net/netdev_queues.h.
+> It seems your code (together with the related part in tx_poll) doesn't consider
+> the queue restart case.
+> In addition you should check whether using READ_ONCE()/WRITE_ONCE() is needed,
+> e.g. in ring_full().
 
-Sure, I'm not questioning that. Apologies if it did look like. I was
-just trying to explain (to myself as well) why this hadn't been done
-previously.
-
-Best regards,
-Luca
-
+Thanks Heiner. Can you trim the parts you are not quoting otherwise one 
+has to scroll all the way down to where you responded. Thanks!
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Florian
+
