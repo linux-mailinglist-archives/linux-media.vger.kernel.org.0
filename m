@@ -2,270 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA42F6E77A4
-	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 12:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B1386E788F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Apr 2023 13:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231788AbjDSKo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Apr 2023 06:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
+        id S232664AbjDSLZI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Apr 2023 07:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232440AbjDSKoy (ORCPT
+        with ESMTP id S232615AbjDSLZH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Apr 2023 06:44:54 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC29BE;
-        Wed, 19 Apr 2023 03:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681901092; x=1713437092;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XnfoaCcH3MWyJZkIKskW2BAZXpZylboTWI3thPO1+Yo=;
-  b=dN/JmMBJ3oCVjeqKnoct1A9BHknqPTpzNmeuDQ47+DHT3h70ogWs/BwL
-   wEyT8hUw6rCaIp9brZ0VXNmaLzB4+pfeo7+KiNyGhKH+BGmEAcfJF2+s5
-   XXX/A667MWqIFeTbvE6iVqOo1DFJMiSYRmFvTqPCaIBJ9hyHn8WJINBQZ
-   MlPnSgI4xWnyvXfOCFYj0+dfGwp0ClyU4rRxG8rhVqZ1amSEyAz38LRfX
-   fCG6zCk9SamvIxReYF8Azt+KTTsf3YtAclRbPrKGRzlux0Ng5H+2EM88e
-   w2doDnqRlxSO/1DkeGwXnTqA8DosZiXm2Ry16uJaIhBulDchrAiiWQXal
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="325748500"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="325748500"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2023 03:44:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="691462456"
-X-IronPort-AV: E=Sophos;i="5.99,208,1677571200"; 
-   d="scan'208";a="691462456"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Apr 2023 03:44:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pp5It-000ep9-16;
-        Wed, 19 Apr 2023 10:44:47 +0000
-Date:   Wed, 19 Apr 2023 18:44:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     hackyzh002 <hackyzh002@gmail.com>, alexander.deucher@amd.com
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch, sumit.semwal@linaro.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, hackyzh002 <hackyzh002@gmail.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-Message-ID: <202304191814.1O8ppodq-lkp@intel.com>
-References: <20230419045157.69829-1-hackyzh002@gmail.com>
+        Wed, 19 Apr 2023 07:25:07 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2052.outbound.protection.outlook.com [40.107.22.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E648FE66;
+        Wed, 19 Apr 2023 04:25:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GfEdWWJjtOXOts3BFXPNx+VtnV2bGcL0H5kLWnVYV5tbcWHIy9pB9n1o2mswgAMtifpF6z4GOdKIUBLRschZvIo7oZcQ5q4t0suW2mb5KdykQ2tdh+PIp77tAD/8C0Rbk4dGoPAD9mdr1bAfStr21N12Gf4vWLAnctU6/91jluIjNKc54s90MfoKCzzI/43aZOdK7IRXVZzHoldvv6fsEfEeGWsEG9aDlXwjwj9BW0IEdJKBqE5wjzMlmyoORdi9p+rhNSU+7u2qC02ClypUe3ctvWNlFvU54aazFcpKg/Fol9sfxhid/ogwa38Nfd24bLPgjrjkrp/wmvby5kwf4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KqGQ28GhXp86LpWccVJ/t3TOTQwgHc8zZMVSYaSj8EA=;
+ b=CSw0cVhlv7rcR0PGDq8B7Rq7y8Ch4JtEqUsrNn3r3FoDEAeO6xQQyLL/tOaVl4tvWUwg4Fzo+huEvPLYzyl7E7E+fqTX3B2ueI2Wx2HJFyTjM0Gu2e10YEnUImTiABuRi25f78UvbGSNSGTMBTAEKNfdLN0vqJ4GaOnhSabPk7j/AaF7wjvL1e4UwiJ9ow/LYcOnhcpt+7xZ0XNHYNlhZK5c2WuxDPp1ydDFsfH/epmSyZCr76uaIEd1fSNgIEG0EgpH8nNkBJIl2UafbSWuCmJivZ5NbGbxp6lnbC9fJ3y6/eGl8u+tOmsyzSlil+/sU7d1Dl3rN8FvInratwykhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KqGQ28GhXp86LpWccVJ/t3TOTQwgHc8zZMVSYaSj8EA=;
+ b=cNYZcjfzkbByEzxiP8sxmbvN3oga+YQnOkUIkAlHQuDd0Jd4iKbMYgeqBEsObFB/48QoSyr2YXpbP2Q7qVCmPlVY+FV8JboMlSY5LueJte+SQM8KDEu6uU+0uYPNE7c0EDm50VXv9/vWpvnpz5NGrsgybniXZyMLCnSRsigJQio=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by AS2PR08MB10225.eurprd08.prod.outlook.com (2603:10a6:20b:64e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.21; Wed, 19 Apr
+ 2023 11:25:00 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::77dd:14e4:a772:d85f]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::77dd:14e4:a772:d85f%4]) with mapi id 15.20.6298.045; Wed, 19 Apr 2023
+ 11:25:00 +0000
+Message-ID: <45fea085-54c3-157e-6459-adaaf1edebf5@wolfvision.net>
+Date:   Wed, 19 Apr 2023 13:24:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [libcamera-devel] [PATCH RFC 1/4] media: v4l2-ctrls: add lens
+ group status controls for zoom and focus
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Riesch via B4 Relay 
+        <devnull+michael.riesch.wolfvision.net@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Matthias Fend <Matthias.Fend@wolfvision.net>,
+        libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Brotzge <Alexander.Brotzge@wolfvision.net>,
+        Dieter Mathis <Dieter.Mathis@wolfvision.net>
+References: <20230406-feature-controls-lens-v1-0-543189a680de@wolfvision.net>
+ <20230406-feature-controls-lens-v1-1-543189a680de@wolfvision.net>
+ <CAPY8ntArOOqPQzvkJrQEyuVFfb6j8x6WODTMHOn1qHPU588mbQ@mail.gmail.com>
+ <0f1baf5e-2ff6-e10b-5c3e-0a82c71d0ce6@wolfvision.net>
+ <CAPY8ntAjBEFfeV6nnQs34Y22QM-irT13ALDv4ksP8AYK=jWsKg@mail.gmail.com>
+ <3ab7bfc4-aaae-2e39-b420-40ad8d71dda4@wolfvision.net>
+ <CAPY8ntCNuvgmF37kDvVh1kuepbLqy2hWcz9HOi8iub9trHmi2g@mail.gmail.com>
+ <ZDbKU5kwcb7RGeCo@kekkonen.localdomain>
+ <ccae3994-3b1b-4050-ea34-98f97cf886e0@wolfvision.net>
+ <ZD+t5QYH20Y8+8MV@kekkonen.localdomain>
+From:   Michael Riesch <michael.riesch@wolfvision.net>
+Organization: WolfVision GmbH
+In-Reply-To: <ZD+t5QYH20Y8+8MV@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1P194CA0030.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:803:3c::19) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230419045157.69829-1-hackyzh002@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS2PR08MB10225:EE_
+X-MS-Office365-Filtering-Correlation-Id: b162616f-1a95-450b-b1cd-08db40c8b692
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wfugEc0Umo3bAKwVdUBFXLEvYouQhM0UYTDpFaKvieAxBCjvDcMQLoFC2kYFKve4Q1cfcjofBMB93GOjLV5iRUJCF6Mg3jgizQTtFNx1qcyI+RC4ZWQIr+C492gqtXEcgJo5QBzj+N4RVXZNzLig/xPuyGAyGsI9PvQ9YKZqSwJRHLlHomct1fh3uk88yoFLv4RLmbl76rDbGW3Xr8oYfi+beeVNm37SREMDP4KTaxtdE4MQ8yj+GUgE7NCjVZNTjZwDpBJbkXQIBtHv4qo+MzQwLBh9C/2FmjFz7CWIHGSinl34hHKmAGm0YhCoUC+TShiIZeZNrAiW7PaFD7h5pNOTF+Z/6/VUXdGWjVfssad8rzIkgmVlxxtbCsskTyMrFHDbysk3gflMVxkfQpPpDq6iIEcFCoCm9XntN7l5K/mq4NrtzVxTzBdqEeItj5bcGfrSwaXXgDcCJyGGlF8u6PuKjaRfLaKorPJZKgRN7KnB4upserZjhF8LC/rg8w3DYuqFz65x3IEKGk3zQWgaC2XSn1lLBkFWNgG3iDWSReuDxhsb4uLa6uHuk4KWTRsV+E+yzwVFyGi9VLoAyKMA8WuAMJYMPcUZfPTWMeEJjItWp8wj51C2kPIRbShuzqtp+YR95LJux8azU37h6nkoZA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(136003)(396003)(376002)(346002)(366004)(451199021)(5660300002)(44832011)(8936002)(8676002)(2906002)(36756003)(38100700002)(31686004)(36916002)(6486002)(107886003)(6512007)(6506007)(478600001)(31696002)(53546011)(54906003)(186003)(26005)(2616005)(41300700001)(66946007)(6916009)(66556008)(66476007)(316002)(86362001)(4326008)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzVvODFpbDd5STZUUTdMdU1JSmEyMmxKL0hmOGh4ZFVxWEE1T094OUtCYUdn?=
+ =?utf-8?B?MlY4bm1VM3diQ3laR05lL04wWDJPTUx5dEdJRnE5Tmx4emJsOGc2blRBQmIx?=
+ =?utf-8?B?SlVzUTg4akhXY0VFUnZmQ3ZvVFptMk82TFNFeDlBKzBvMGVDZm8zTnI1TlVN?=
+ =?utf-8?B?TUdnTXZ5dE9SY1puWlhUK3FxVk5uUmVSZEN5MXJhNC9YRWpYM3ZKNDFxdmZm?=
+ =?utf-8?B?M3RuRTJ3MDE0MUV2WEhMNHZneDBMVGZheGRKL3RUKytYZXFVd3VDRUtRZEdp?=
+ =?utf-8?B?a0hxNkxieGpWbm84WXF4V1NLakx5VW9RcTREY0RyWTV3WVJtL05Ra0ZNMENM?=
+ =?utf-8?B?WXNHWlNlS2FGYXIvWmgyVFJwMUJzYm1hZy9USjZJc2hyazUxTXhRMnpFVkZz?=
+ =?utf-8?B?Zkk2eDQ2UEVacjVsSFR5RVpVcGUvQ0prTHZzeEh6akJ4MXN6WkY4YmNMTFBn?=
+ =?utf-8?B?M0ZXMDRJMWd2ODF0aDZTTEVncWFoSWdEL0RCWVhES3VhbTlEd1lIMU5mNEhF?=
+ =?utf-8?B?cTBtQjJ5d1UyWnFkVVgzd1JlTFJrdFZXbEtoVm1pMVBPRVNWNldqVHZXcDhS?=
+ =?utf-8?B?ejIzYUdmUEU2ZXVzVW1BTXYyaTJpTXFJU1RJY1QvOGRBZWs3MG43U2d6ZlAr?=
+ =?utf-8?B?Z21RZDJRK2xURUMyL0tzb2dpTGxwWk92cVZBajZMVlVsemhmQXBRUzBDSHU5?=
+ =?utf-8?B?NFhZN3VVTGY4T0c5NUllUHpUK2lwbktsQzl5Q1NiQUVHWlJMWHJjNVZZdG9J?=
+ =?utf-8?B?cjFWRGxsWDhwUmlDcENWblpGTmZMTE5JTTdRek9rcjZIZFZ0Qk5SY3dhMWFv?=
+ =?utf-8?B?NnBsWlROY05iczFtd2xpbWdSMktWODFqUElqM2gxYVRxS1d1UUN0QklLc0Fs?=
+ =?utf-8?B?ZTRzTmxYWEFhVmg4d0RxcVBhejk3SWJjMVFyUnBrdTdqY2t0TEtFNCt3T2Vn?=
+ =?utf-8?B?ck41d1ZpTFZhdzcvYzNVMStPcXpHdXVsUjRiTG15a3V3czR1REJ6VSs5LzFq?=
+ =?utf-8?B?anNzZEhCY0FCVXRGVHVzeTAzUmM0clo0Sm9Hd1Q0aGNQR0dKU1M0bkoxRW5K?=
+ =?utf-8?B?RlhBOStTTDNBUS9ZcHpwTXQ0Qm83dzE1S1c0NHA3TnVzNXhzbTJMZnFteTNJ?=
+ =?utf-8?B?blF5dXVxRGJBS0t4N2NhQVFYK2NmSlRlbC9aaHptMW53eVp2TDMrWVpnMzZU?=
+ =?utf-8?B?Nnd6YzNwcENJUk8yb081L205Y044TFZJVUN2bHZaK0MxUlE0UUE2NWZBM2hu?=
+ =?utf-8?B?R2RSaXBsS0daMHNkVERIM2F2eTg4enlTWWJvU0pDRCtLWDhPbllLZ3J0Um5q?=
+ =?utf-8?B?dlJBczludjNMd3VDUkRtdVYrVUx1RnVqOXZjdWlML0hvR0JCMkhkV09lY3lW?=
+ =?utf-8?B?aENQNi9nN082Rys5cWdiay84WW11am1GODErSEx5VzJkTzBta2hrVFlCTzd4?=
+ =?utf-8?B?NmhKUm5IMExMa2Q3aFBRWmNSK0VPZ0xnb3NWVHVGdU5vZDFqTWFMZTV2a3k0?=
+ =?utf-8?B?QnpNcEVyb2gxVTd4ZjFRa3N2K1NOTEJKUzJUbnFSZG11WE9XY0c2VDQyVEJ1?=
+ =?utf-8?B?WlppUXMrckk4ZUhBNFZyeUNVU21NeFJRL1loMDJ1VFpQR2FNYXZZSlZNeUc0?=
+ =?utf-8?B?VnYrVXZnZENzL0s1aDNBNXdrdUlZbU9UaHZGVHFjVnRaTm1XNE05Rm5HUkdm?=
+ =?utf-8?B?bjhHZm1sdjJaUExxL013TTZiMk9ZMnRjMGpMVTZXd0tFN1Rrc1NzT1RhY1RE?=
+ =?utf-8?B?RHdHT1hUbGk1aG9wL0dyTlRQZm9CQ2hTbWR4ZHg2b2dpUzlVakhEek1ZUjZD?=
+ =?utf-8?B?YUczYjhpb2V2S1cremQ0UXhwU3hlTGRpY0gvVFl3ZFNPK292V21FczM5N3FV?=
+ =?utf-8?B?cFVVdjZrTzc0eFBid2RQL1ltMjZvVmg5RTVkaldQVndldDR5WUxtR3pHeWtl?=
+ =?utf-8?B?bHl0OFI5Y3Z3U2hSSDVIK0o1bkRiTFd4SWVzczVtdkVwWU9pN2ltblVPdHVj?=
+ =?utf-8?B?SWc3bXpUNHNSc2w5NnMvL0ZJUXNkMDFVUlpDdlFyZmlJQ2hUTWdiSzNZRHQ1?=
+ =?utf-8?B?TTR0S3FuZU51SWJCWTJZZ2MvK1pjL1JTam5kOWhsRW9OU043c0phNkRmNzgy?=
+ =?utf-8?B?V3Q0WEVCZVR2eTJ5SXh2NzU5Z28xdHIvVHNyOGdRaW5wL3E2aXFJbFdJd3F0?=
+ =?utf-8?B?eEE9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: b162616f-1a95-450b-b1cd-08db40c8b692
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2023 11:25:00.5959
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2FmzuprboSnWWMs2sWKMpYWBhglPg7q3WmEjcs9dOSdG2SvYrtc7EP8delyH7ra+SFTbOpYr4u8sjpXPqRHd9vX+Ntp/Rb9Vp/8nVSSbitc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10225
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi hackyzh002,
+Hi Sakari,
 
-kernel test robot noticed the following build errors:
+On 4/19/23 11:01, Sakari Ailus wrote:
+> Hi Michael,
+> 
+> On Mon, Apr 17, 2023 at 02:38:20PM +0200, Michael Riesch wrote:
+>> Hi Sakari,
+>>
+>> On 4/12/23 17:12, Sakari Ailus wrote:
+>>> Hi Dave, Michael,
+>>>
+>>> On Wed, Apr 12, 2023 at 02:55:56PM +0100, Dave Stevenson wrote:
+>>>>>> If the ranges aren't updated, where should that out-of-range lens
+>>>>>> movement leave the lens?
+>>>>>
+>>>>> This is up to the hardware controller, but I would guess it typically
+>>>>> stops one step before disaster. Wherever that may be, the error
+>>>>> condition and the current position can be read out via this new STATUS
+>>>>> control.
+>>>>>
+>>>>> Does this sound good so far?
+>>>>
+>>>> Sounds reasonable, but I'm not the gatekeeper (that would be Sakari or
+>>>> Laurent), and I'm just expressing my views based on the lenses I've
+>>>> encountered.
+>>>> All of my lenses have a single drive for focus, a single drive for
+>>>> zoom, and where there are multiple elements they are all connected
+>>>> mechanically. Your setup sounds far more complex and is likely to need
+>>>> a more extensive driver, but it'd be nice to not unnecessarily
+>>>> overcomplicate the interface.
+>>>
+>>> Could we also have a driver that uses these new controls?
+>>
+>> If you are referring to the driver for our custom lens controller, then
+>> I have to say that it is under development and simply not ready for
+>> release yet. Also, the decision has not yet been made whether or not
+>> this will be an open-source driver.
+>>
+>> A different approach could be the adaptation of the vimc-lens driver,
+>> which currently only supports FOCUS_ABSOLUTE. But this would raise
+>> several implementation questions and at least for me this would be a
+>> nontrivial task.
+>>
+>> Is it required to have a driver for this interface (in the sense that
+>> the patches cannot be accepted otherwise)?
+> 
+> That has been traditionally required, and a virtual driver isn't usually
+> considered enough. There are at least two reasons for this. The first one
+> being that if the driver isn't reviewable and targetting upstream it may be
+> difficult to figure out whether the interface changes are the right ones
+> for that driver. This is perhaps a lesser concern here. Secondly, there is
+> also unwillingness to add interface elements that might never be supported
+> by the kernel itself --- this is effectively just dead code.
+> 
+> Also cc Hans and Laurent.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.3-rc7 next-20230418]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I understand your concerns. Cc: Alexander and Dieter
 
-url:    https://github.com/intel-lab-lkp/linux/commits/hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230419045157.69829-1-hackyzh002%40gmail.com
-patch subject: [PATCH 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-config: arm64-buildonly-randconfig-r004-20230416 (https://download.01.org/0day-ci/archive/20230419/202304191814.1O8ppodq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review hackyzh002/drm-amdgpu-Fix-integer-overflow-in-amdgpu_cs_pass1/20230419-125344
-        git checkout c4a89869bcb6b68ad0e1eed0dd4f18c8cc7fbfc5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+We aim to be an open-source friendly company. If you are OK with us
+submitting a driver that targets very custom hardware that is only
+available in integrated form in our products (and not, for instance,
+available for sale as a standalone device), then we are prepared to
+submit the driver sources for consideration for inclusion in mainline
+Linux. Would this be acceptable?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304191814.1O8ppodq-lkp@intel.com/
+As I already stated above, it will take us some time to prepare
+everything in a form that is suitable for submission. Now should I
+submit the next iteration(s) of the series at hand as RFC or as regular
+patch series?
 
-All errors (new ones prefixed by >>):
+>>> The controls themselves appear reasonable to me as well. I guess there are
+>>> changes to be made based on the discussion?
+>>
+>> I'd summarize that whether or not the status controls are compound
+>> controls of the type V4L2_CTRL_TYPE_LENS_STATUS is the open question.
+>>
+>> As a potential follow-up question I recently asked myself if the struct
+>> v4l2_ctrl_lens_status should contain trailing reserved bytes for future
+>> extension (no idea, though, what this could be).
+>>
+>> Alternatively, we could come up with "V4L2_CID_FOCUS_CURRENT (integer)"
+>> for the current position and "V4L2_CID_FOCUS_STATUS (bitmask)" (and add
+>> further controls when they are needed. Here, we lose atomicity but maybe
+>> this can be ignored. One could assume that all relevant controls are
+>> read out with a single ioctl which provides at least some level of
+>> atomicity.
+> 
+> There might be something that could be done in the control framework to
+> address this. But it's not something that can be expected to happen soon.
+> 
+> I'd perhaps keep them separate, not to make it a compound control just for
+> the access reason. But I certainly don't have a strong opinion about it.
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:195:11: error: cannot combine with previous 'type-name' declaration specifier
-           uint64_t int size;
-                    ^
-   1 error generated.
+After some further considerations, and following Dave's and your
+comments, I'll keep them separate.
 
+Discussion to be continued with v2.
 
-vim +195 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+Best regards,
+Michael
 
-   184	
-   185	/* Copy the data from userspace and go over it the first time */
-   186	static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
-   187				   union drm_amdgpu_cs *cs)
-   188	{
-   189		struct amdgpu_fpriv *fpriv = p->filp->driver_priv;
-   190		unsigned int num_ibs[AMDGPU_CS_GANG_SIZE] = { };
-   191		struct amdgpu_vm *vm = &fpriv->vm;
-   192		uint64_t *chunk_array_user;
-   193		uint64_t *chunk_array;
-   194		uint32_t uf_offset = 0;
- > 195		uint64_t int size;
-   196		int ret;
-   197		int i;
-   198	
-   199		chunk_array = kvmalloc_array(cs->in.num_chunks, sizeof(uint64_t),
-   200					     GFP_KERNEL);
-   201		if (!chunk_array)
-   202			return -ENOMEM;
-   203	
-   204		/* get chunks */
-   205		chunk_array_user = u64_to_user_ptr(cs->in.chunks);
-   206		if (copy_from_user(chunk_array, chunk_array_user,
-   207				   sizeof(uint64_t)*cs->in.num_chunks)) {
-   208			ret = -EFAULT;
-   209			goto free_chunk;
-   210		}
-   211	
-   212		p->nchunks = cs->in.num_chunks;
-   213		p->chunks = kvmalloc_array(p->nchunks, sizeof(struct amdgpu_cs_chunk),
-   214				    GFP_KERNEL);
-   215		if (!p->chunks) {
-   216			ret = -ENOMEM;
-   217			goto free_chunk;
-   218		}
-   219	
-   220		for (i = 0; i < p->nchunks; i++) {
-   221			struct drm_amdgpu_cs_chunk __user **chunk_ptr = NULL;
-   222			struct drm_amdgpu_cs_chunk user_chunk;
-   223			uint32_t __user *cdata;
-   224	
-   225			chunk_ptr = u64_to_user_ptr(chunk_array[i]);
-   226			if (copy_from_user(&user_chunk, chunk_ptr,
-   227					       sizeof(struct drm_amdgpu_cs_chunk))) {
-   228				ret = -EFAULT;
-   229				i--;
-   230				goto free_partial_kdata;
-   231			}
-   232			p->chunks[i].chunk_id = user_chunk.chunk_id;
-   233			p->chunks[i].length_dw = user_chunk.length_dw;
-   234	
-   235			size = p->chunks[i].length_dw;
-   236			cdata = u64_to_user_ptr(user_chunk.chunk_data);
-   237	
-   238			p->chunks[i].kdata = kvcalloc(size, sizeof(uint32_t),
-   239							    GFP_KERNEL);
-   240			if (p->chunks[i].kdata == NULL) {
-   241				ret = -ENOMEM;
-   242				i--;
-   243				goto free_partial_kdata;
-   244			}
-   245			size *= sizeof(uint32_t);
-   246			if (copy_from_user(p->chunks[i].kdata, cdata, size)) {
-   247				ret = -EFAULT;
-   248				goto free_partial_kdata;
-   249			}
-   250	
-   251			/* Assume the worst on the following checks */
-   252			ret = -EINVAL;
-   253			switch (p->chunks[i].chunk_id) {
-   254			case AMDGPU_CHUNK_ID_IB:
-   255				if (size < sizeof(struct drm_amdgpu_cs_chunk_ib))
-   256					goto free_partial_kdata;
-   257	
-   258				ret = amdgpu_cs_p1_ib(p, p->chunks[i].kdata, num_ibs);
-   259				if (ret)
-   260					goto free_partial_kdata;
-   261				break;
-   262	
-   263			case AMDGPU_CHUNK_ID_FENCE:
-   264				if (size < sizeof(struct drm_amdgpu_cs_chunk_fence))
-   265					goto free_partial_kdata;
-   266	
-   267				ret = amdgpu_cs_p1_user_fence(p, p->chunks[i].kdata,
-   268							      &uf_offset);
-   269				if (ret)
-   270					goto free_partial_kdata;
-   271				break;
-   272	
-   273			case AMDGPU_CHUNK_ID_BO_HANDLES:
-   274				if (size < sizeof(struct drm_amdgpu_bo_list_in))
-   275					goto free_partial_kdata;
-   276	
-   277				ret = amdgpu_cs_p1_bo_handles(p, p->chunks[i].kdata);
-   278				if (ret)
-   279					goto free_partial_kdata;
-   280				break;
-   281	
-   282			case AMDGPU_CHUNK_ID_DEPENDENCIES:
-   283			case AMDGPU_CHUNK_ID_SYNCOBJ_IN:
-   284			case AMDGPU_CHUNK_ID_SYNCOBJ_OUT:
-   285			case AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES:
-   286			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT:
-   287			case AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL:
-   288				break;
-   289	
-   290			default:
-   291				goto free_partial_kdata;
-   292			}
-   293		}
-   294	
-   295		if (!p->gang_size) {
-   296			ret = -EINVAL;
-   297			goto free_partial_kdata;
-   298		}
-   299	
-   300		for (i = 0; i < p->gang_size; ++i) {
-   301			ret = amdgpu_job_alloc(p->adev, vm, p->entities[i], vm,
-   302					       num_ibs[i], &p->jobs[i]);
-   303			if (ret)
-   304				goto free_all_kdata;
-   305		}
-   306		p->gang_leader = p->jobs[p->gang_leader_idx];
-   307	
-   308		if (p->ctx->vram_lost_counter != p->gang_leader->vram_lost_counter) {
-   309			ret = -ECANCELED;
-   310			goto free_all_kdata;
-   311		}
-   312	
-   313		if (p->uf_entry.tv.bo)
-   314			p->gang_leader->uf_addr = uf_offset;
-   315		kvfree(chunk_array);
-   316	
-   317		/* Use this opportunity to fill in task info for the vm */
-   318		amdgpu_vm_set_task_info(vm);
-   319	
-   320		return 0;
-   321	
-   322	free_all_kdata:
-   323		i = p->nchunks - 1;
-   324	free_partial_kdata:
-   325		for (; i >= 0; i--)
-   326			kvfree(p->chunks[i].kdata);
-   327		kvfree(p->chunks);
-   328		p->chunks = NULL;
-   329		p->nchunks = 0;
-   330	free_chunk:
-   331		kvfree(chunk_array);
-   332	
-   333		return ret;
-   334	}
-   335	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+>>
+>> Any comments and/or recommendations to this open question would be much
+>> appreciated.
+>>
+>> Other review comments will be incorporated in the next iteration of this
+>> series as well, but they are quite straightforward.
+> 
