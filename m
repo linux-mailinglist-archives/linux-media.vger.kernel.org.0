@@ -2,146 +2,294 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 055586E8B78
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 09:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74A256E8D3B
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 10:54:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbjDTHaq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 03:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44510 "EHLO
+        id S234154AbjDTIyP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 04:54:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233819AbjDTHap (ORCPT
+        with ESMTP id S234101AbjDTIxe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 03:30:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1C7BC6;
-        Thu, 20 Apr 2023 00:30:26 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A92A75B;
-        Thu, 20 Apr 2023 09:30:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1681975817;
-        bh=LSTUdwSzih54Ne5MHSrVZTV2gSAf73YZM/ix1OR5sSM=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=eINLHip+7W7yspC8vrI6Q7upOEFVPAKsa5wFC3BBqLZAiiQvtAnllddOvVgD9oKDu
-         AeDmRW7Ngr4Auw3rvYLCIGkkHTnT7naDl5pMxjxx7ktoLAenkSgqm4OG2gX+FYNJEe
-         uBNocvBtFJAo/N02BDS5hJnB+IA/Q9pWdRLyrT/I=
-Message-ID: <b85a2198-dffd-6c1e-53ea-61bc4d14ce2a@ideasonboard.com>
-Date:   Thu, 20 Apr 2023 10:30:19 +0300
+        Thu, 20 Apr 2023 04:53:34 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7B044B0;
+        Thu, 20 Apr 2023 01:51:43 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id A82DF24E248;
+        Thu, 20 Apr 2023 16:51:40 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
+ 2023 16:51:40 +0800
+Received: from [192.168.60.111] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
+ 2023 16:51:39 +0800
+Message-ID: <bf265594-3bd1-eba5-7a4a-910e331dcca8@starfivetech.com>
+Date:   Thu, 20 Apr 2023 16:51:39 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v10 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link III
- Deserializer
-To:     Wolfram Sang <wsa@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <20230222132907.594690-6-tomi.valkeinen@ideasonboard.com>
- <ZD6VwpRya6SGBAt5@shikoro>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v4 6/8] media: dt-bindings: Add bindings for JH7110 Camera
+ Subsystem
 Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <ZD6VwpRya6SGBAt5@shikoro>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        "Todor Tomov" <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
+ <20230413035541.62129-7-jack.zhu@starfivetech.com>
+ <20230419061540.GB11679@pendragon.ideasonboard.com>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <20230419061540.GB11679@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/04/2023 16:06, Wolfram Sang wrote:
+
+
+On 2023/4/19 14:15, Laurent Pinchart wrote:
+> Hi Jack,
 > 
->> +  i2c-alias-pool:
->> +    $ref: /schemas/types.yaml#/definitions/uint16-array
->> +    description:
->> +      I2C alias pool is a pool of I2C addresses on the main I2C bus that can be
->> +      used to access the remote peripherals on the serializer's I2C bus. The
->> +      addresses must be available, not used by any other peripheral. Each
->> +      remote peripheral is assigned an alias from the pool, and transactions to
->> +      that address will be forwarded to the remote peripheral, with the address
->> +      translated to the remote peripheral's real address. This property is not
->> +      needed if there are no I2C addressable remote peripherals.
+> Thank you for the patch.
 > 
-> After some initial discussion with Tomi on IRC, this question is
-> probably more for Luca:
+> On Thu, Apr 13, 2023 at 11:55:39AM +0800, Jack Zhu wrote:
+>> Add the bindings documentation for Starfive JH7110 Camera Subsystem
+>> which is used for handing image sensor data.
+>> 
+>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+>> ---
+>>  .../bindings/media/starfive,jh7110-camss.yaml | 164 ++++++++++++++++++
+>>  MAINTAINERS                                   |   7 +
+>>  2 files changed, 171 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>> 
+>> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>> new file mode 100644
+>> index 000000000000..4cd144f1b845
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>> @@ -0,0 +1,164 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Starfive SoC CAMSS ISP
+>> +
+>> +maintainers:
+>> +  - Jack Zhu <jack.zhu@starfivetech.com>
+>> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
+>> +
+>> +description:
+>> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC. It
+>> +  consists of a VIN controller (Video In Controller, a top-level control until)
+>> +  and an ISP.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: starfive,jh7110-camss
+>> +
+>> +  reg:
+>> +    maxItems: 2
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: syscon
+>> +      - const: isp
+>> +
+>> +  clocks:
+>> +    maxItems: 7
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: apb_func
+>> +      - const: wrapper_clk_c
+>> +      - const: dvp_inv
+>> +      - const: axiwr
+>> +      - const: mipi_rx0_pxl
+>> +      - const: ispcore_2x
+>> +      - const: isp_axi
+>> +
+>> +  resets:
+>> +    maxItems: 6
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: wrapper_p
+>> +      - const: wrapper_c
+>> +      - const: axird
+>> +      - const: axiwr
+>> +      - const: isp_top_n
+>> +      - const: isp_top_axi
+>> +
+>> +  power-domains:
+>> +    items:
+>> +      - description: JH7110 ISP Power Domain Switch Controller.
+>> +
+>> +  interrupts:
+>> +    maxItems: 4
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>> +        unevaluatedProperties: false
+>> +        description: Input port for receiving DVP data.
+>> +
+>> +        properties:
+>> +          endpoint:
+>> +            $ref: video-interfaces.yaml#
+>> +            unevaluatedProperties: false
+>> +
+>> +            properties:
+>> +              bus-width:
+>> +                const: 8
+>> +
+>> +              data-shift:
+>> +                const: 2
 > 
-> Why is "i2c-alias-pool" in the drivers binding and not a regular i2c
+> As far as I can tell, those two properties are not handled by the
+> driver. I assume this is because the driver doesn't support the DVP
+> input yet. That's fine, but it makes it a bit hard to review the device
+> tree. Could you provide some information about the DVP hardware
+> interface ? Does it support both BT.656 and sync signals, or just sync
+> signals ? Are the polarities of the clock and h/v sync controllable ?
+> Is the parallel input bus 8-bit wide or are other options supported ?
+> And finally, what are you modelling with data-shift: 2 ?
+> 
 
-Where should be the binding documented? A new 
-Documentation/devicetree/bindings/i2c/i2c-atr.yaml file that only 
-contains the i2c-alias-pool?
+Hello Laurent,
 
-> binding? Same question for the implementation of the alias-pool
-> handling. Shouldn't this be in the i2c-atr library? I'd think managing
-> the list of aliases would look all the same in the drivers otherwise?
+The DVP hardware supports BT.656 and sync signals, can control the
+polarities of h/v sync, supports 8/10/12 bit wide, and data-shift: 2 is
+line 9-2.
 
-I think this is fine, but I also think that we need to keep the door 
-open to other kinds of alias management. We only have a single user for 
-this for now. A driver/device might have other requirements for its 
-i2c-atr. Say, a pool per link, or perhaps runtime events may affect the 
-pool.
+Jack
 
-If we dictate the use of i2c-alias-pool property and the i2c-atr will 
-automatically get an alias from that pool, i2c-atr won't be usable for 
-the hypothetical drivers that have other needs.
-
-With that in mind the current binding and i2c-atr.c is safe, as the 
-i2c-atr.c isn't even aware of the pool.
-
-We can easily re-arrange the code later if and when we get more users 
-and understand their needs. But the bindings are important to get 
-right(-ish) now. So:
-
-- Is the "i2c-alias-pool" property a driver property or a common 
-property for all drivers using i2c-atr?
-
-- It the property mandatory or optional? It must be optional, as a setup 
-(meaning, e.g., what cameras you happen to connect) might not have any 
-i2c addressable remote devices, in which case the driver doesn't even 
-need i2c-atr (even if it supports i2c-atr). But is it optional even in 
-the case where the driver needs i2c-atr? In other words, do we allow 
-some other way to manage the aliases?
-
-How does this sound:
-
-- If "i2c-alias-pool" is present in the DT data of the device passed to 
-i2c_atr_new(), i2c_atr_new() will parse the property. i2c-atr.c will 
-export functions to get a new alias and to release a previously reserved 
-alias. The driver can use those functions in attach/detach_client() 
-callbacks. In other words, the alias pool management wouldn't be fully 
-automatic inside the i2c-atr, but it would provide helpers for the 
-driver to do the common work.
-
-- If "i2c-alias-pool" is not present, i2c-atr.c will behave as it does 
-now, and expects the driver to manage the aliases.
-
-Also, looking at the ub960 code... I don't think this will simplify the 
-attach/detach_client callbacks much. Most of the code in those functions 
-is about managing the UB960's registers related to ATR, not managing the 
-address pool itself. However, it will remove the probe time 
-"i2c-alias-pool" parsing from the driver, which is nice.
-
-  Tomi
-
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Input port for receiving CSI data.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - reg-names
+>> +  - clocks
+>> +  - clock-names
+>> +  - resets
+>> +  - reset-names
+>> +  - power-domains
+>> +  - interrupts
+>> +  - ports
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    isp@19840000 {
+>> +        compatible = "starfive,jh7110-camss";
+>> +        reg = <0x19840000 0x10000>,
+>> +              <0x19870000 0x30000>;
+>> +        reg-names = "syscon", "isp";
+>> +        clocks = <&ispcrg 0>,
+>> +                 <&ispcrg 13>,
+>> +                 <&ispcrg 2>,
+>> +                 <&ispcrg 12>,
+>> +                 <&ispcrg 1>,
+>> +                 <&syscrg 51>,
+>> +                 <&syscrg 52>;
+>> +        clock-names = "apb_func",
+>> +                      "wrapper_clk_c",
+>> +                      "dvp_inv",
+>> +                      "axiwr",
+>> +                      "mipi_rx0_pxl",
+>> +                      "ispcore_2x",
+>> +                      "isp_axi";
+>> +        resets = <&ispcrg 0>,
+>> +                 <&ispcrg 1>,
+>> +                 <&ispcrg 10>,
+>> +                 <&ispcrg 11>,
+>> +                 <&syscrg 41>,
+>> +                 <&syscrg 42>;
+>> +        reset-names = "wrapper_p",
+>> +                      "wrapper_c",
+>> +                      "axird",
+>> +                      "axiwr",
+>> +                      "isp_top_n",
+>> +                      "isp_top_axi";
+>> +        power-domains = <&pwrc 5>;
+>> +        interrupts = <92>, <87>, <88>, <90>;
+>> +
+>> +        ports {
+>> +            #address-cells = <1>;
+>> +            #size-cells = <0>;
+>> +            port@0 {
+>> +                reg = <0>;
+>> +                vin_from_sc2235: endpoint {
+>> +                    remote-endpoint = <&sc2235_to_vin>;
+>> +                    bus-width = <8>;
+>> +                    data-shift = <2>;
+>> +                    hsync-active = <1>;
+>> +                    vsync-active = <0>;
+>> +                    pclk-sample = <1>;
+>> +                };
+>> +            };
+>> +
+>> +            port@1 {
+>> +                reg = <1>;
+>> +                vin_from_csi2rx: endpoint {
+>> +                    remote-endpoint = <&csi2rx_to_vin>;
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index bbb8b5c0187b..b8c76b0d7eb3 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -19909,6 +19909,13 @@ M:	Ion Badulescu <ionut@badula.org>
+>>  S:	Odd Fixes
+>>  F:	drivers/net/ethernet/adaptec/starfire*
+>>  
+>> +STARFIVE CAMERA SUBSYSTEM DRIVER
+>> +M:	Jack Zhu <jack.zhu@starfivetech.com>
+>> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
+>> +L:	linux-media@vger.kernel.org
+>> +S:	Maintained
+>> +F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>> +
+>>  STARFIVE DEVICETREES
+>>  M:	Emil Renner Berthing <kernel@esmil.dk>
+>>  S:	Maintained
+> 
