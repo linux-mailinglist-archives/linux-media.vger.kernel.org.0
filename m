@@ -2,294 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74A256E8D3B
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 10:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C816E8D89
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 11:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234154AbjDTIyP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 04:54:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46906 "EHLO
+        id S234091AbjDTJHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 05:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234101AbjDTIxe (ORCPT
+        with ESMTP id S230077AbjDTJGc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 04:53:34 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7B044B0;
-        Thu, 20 Apr 2023 01:51:43 -0700 (PDT)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id A82DF24E248;
-        Thu, 20 Apr 2023 16:51:40 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 16:51:40 +0800
-Received: from [192.168.60.111] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 20 Apr
- 2023 16:51:39 +0800
-Message-ID: <bf265594-3bd1-eba5-7a4a-910e331dcca8@starfivetech.com>
-Date:   Thu, 20 Apr 2023 16:51:39 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 6/8] media: dt-bindings: Add bindings for JH7110 Camera
- Subsystem
-Content-Language: en-US
+        Thu, 20 Apr 2023 05:06:32 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C8AB4;
+        Thu, 20 Apr 2023 02:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681981364; x=1713517364;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=K4PpVKjTdocQBFk4TeJ3uiuK7jYOn6o6gXqcZL/U328=;
+  b=ipFmV8ECejW1gkzCluMLFxWFXZWEX+9zF/CCdLIIuMyI47fTbzrsXSr8
+   /rqAZiirjHGO1gn4zZbcnGPzHnTWvX9H19SAxLwAv3kRZsB0nkaAxfegz
+   xqQi+xs03ihfUpnrfUO+32g8p1blQPgO03M7U13VtBl/t1SphM10/yeuA
+   MEnmcuvNLohYUxzBRwsmyJjBpEEK7f5I8lqduNSyiVANF+rWTHt9Cc1OK
+   ji1J1Vd4JKkE8ykMM4GZxbT/VKEqiZALWGTx/z2xugsmxXkjZnAyctlMg
+   WEkQTa79fwHrUnpLvneQ98RtobalogVDWWRq4fIr723GIGlH4P38K5Kj7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="334506250"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="334506250"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 02:02:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="642075064"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="642075064"
+Received: from czilber-mobl.ger.corp.intel.com (HELO terminus) ([10.214.236.160])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 02:02:41 -0700
+Message-ID: <f862ffc2fd06acf52b6625cfbf7bc7a3dc77e31c.camel@intel.com>
+Subject: Re: [PATCH] uvc: Intel PID enabling UVC Metadata attributes
+From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        "Todor Tomov" <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
-References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
- <20230413035541.62129-7-jack.zhu@starfivetech.com>
- <20230419061540.GB11679@pendragon.ideasonboard.com>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <20230419061540.GB11679@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, evgeni.raikhel@intel.com,
+        demisrael@gmail.com
+Date:   Thu, 20 Apr 2023 12:02:38 +0300
+In-Reply-To: <20230420025027.GC631@pendragon.ideasonboard.com>
+References: <9001ccdec3e3234253cf2f93ea39745ed6f525f1.camel@intel.com>
+         <20230420025027.GC631@pendragon.ideasonboard.com>
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
+I will resend a patch as v3.
 
+On Thu, 2023-04-20 at 05:50 +0300, Laurent Pinchart wrote:
+> Hi Dmitry,
+> =
 
-On 2023/4/19 14:15, Laurent Pinchart wrote:
-> Hi Jack,
-> 
 > Thank you for the patch.
-> 
-> On Thu, Apr 13, 2023 at 11:55:39AM +0800, Jack Zhu wrote:
->> Add the bindings documentation for Starfive JH7110 Camera Subsystem
->> which is used for handing image sensor data.
->> 
->> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
->> ---
->>  .../bindings/media/starfive,jh7110-camss.yaml | 164 ++++++++++++++++++
->>  MAINTAINERS                                   |   7 +
->>  2 files changed, 171 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> 
->> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> new file mode 100644
->> index 000000000000..4cd144f1b845
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> @@ -0,0 +1,164 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Starfive SoC CAMSS ISP
->> +
->> +maintainers:
->> +  - Jack Zhu <jack.zhu@starfivetech.com>
->> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
->> +
->> +description:
->> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC. It
->> +  consists of a VIN controller (Video In Controller, a top-level control until)
->> +  and an ISP.
->> +
->> +properties:
->> +  compatible:
->> +    const: starfive,jh7110-camss
->> +
->> +  reg:
->> +    maxItems: 2
->> +
->> +  reg-names:
->> +    items:
->> +      - const: syscon
->> +      - const: isp
->> +
->> +  clocks:
->> +    maxItems: 7
->> +
->> +  clock-names:
->> +    items:
->> +      - const: apb_func
->> +      - const: wrapper_clk_c
->> +      - const: dvp_inv
->> +      - const: axiwr
->> +      - const: mipi_rx0_pxl
->> +      - const: ispcore_2x
->> +      - const: isp_axi
->> +
->> +  resets:
->> +    maxItems: 6
->> +
->> +  reset-names:
->> +    items:
->> +      - const: wrapper_p
->> +      - const: wrapper_c
->> +      - const: axird
->> +      - const: axiwr
->> +      - const: isp_top_n
->> +      - const: isp_top_axi
->> +
->> +  power-domains:
->> +    items:
->> +      - description: JH7110 ISP Power Domain Switch Controller.
->> +
->> +  interrupts:
->> +    maxItems: 4
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: Input port for receiving DVP data.
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              bus-width:
->> +                const: 8
->> +
->> +              data-shift:
->> +                const: 2
-> 
-> As far as I can tell, those two properties are not handled by the
-> driver. I assume this is because the driver doesn't support the DVP
-> input yet. That's fine, but it makes it a bit hard to review the device
-> tree. Could you provide some information about the DVP hardware
-> interface ? Does it support both BT.656 and sync signals, or just sync
-> signals ? Are the polarities of the clock and h/v sync controllable ?
-> Is the parallel input bus 8-bit wide or are other options supported ?
-> And finally, what are you modelling with data-shift: 2 ?
-> 
+> =
 
-Hello Laurent,
+> On Sun, Jan 29, 2023 at 03:43:38PM +0200, Dmitry Perchanov wrote:
+> > Intel RealSense UVC cameras Metadata support.
+> =
 
-The DVP hardware supports BT.656 and sync signals, can control the
-polarities of h/v sync, supports 8/10/12 bit wide, and data-shift: 2 is
-line 9-2.
+> The subject line should start with "media: uvcvideo:".
+> =
 
-Jack
+> Both the subject line and the body of the commit message should use the
+> imperative mood. For instance,
+> =
 
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Input port for receiving CSI data.
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - reset-names
->> +  - power-domains
->> +  - interrupts
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    isp@19840000 {
->> +        compatible = "starfive,jh7110-camss";
->> +        reg = <0x19840000 0x10000>,
->> +              <0x19870000 0x30000>;
->> +        reg-names = "syscon", "isp";
->> +        clocks = <&ispcrg 0>,
->> +                 <&ispcrg 13>,
->> +                 <&ispcrg 2>,
->> +                 <&ispcrg 12>,
->> +                 <&ispcrg 1>,
->> +                 <&syscrg 51>,
->> +                 <&syscrg 52>;
->> +        clock-names = "apb_func",
->> +                      "wrapper_clk_c",
->> +                      "dvp_inv",
->> +                      "axiwr",
->> +                      "mipi_rx0_pxl",
->> +                      "ispcore_2x",
->> +                      "isp_axi";
->> +        resets = <&ispcrg 0>,
->> +                 <&ispcrg 1>,
->> +                 <&ispcrg 10>,
->> +                 <&ispcrg 11>,
->> +                 <&syscrg 41>,
->> +                 <&syscrg 42>;
->> +        reset-names = "wrapper_p",
->> +                      "wrapper_c",
->> +                      "axird",
->> +                      "axiwr",
->> +                      "isp_top_n",
->> +                      "isp_top_axi";
->> +        power-domains = <&pwrc 5>;
->> +        interrupts = <92>, <87>, <88>, <90>;
->> +
->> +        ports {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +            port@0 {
->> +                reg = <0>;
->> +                vin_from_sc2235: endpoint {
->> +                    remote-endpoint = <&sc2235_to_vin>;
->> +                    bus-width = <8>;
->> +                    data-shift = <2>;
->> +                    hsync-active = <1>;
->> +                    vsync-active = <0>;
->> +                    pclk-sample = <1>;
->> +                };
->> +            };
->> +
->> +            port@1 {
->> +                reg = <1>;
->> +                vin_from_csi2rx: endpoint {
->> +                    remote-endpoint = <&csi2rx_to_vin>;
->> +                };
->> +            };
->> +        };
->> +    };
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index bbb8b5c0187b..b8c76b0d7eb3 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -19909,6 +19909,13 @@ M:	Ion Badulescu <ionut@badula.org>
->>  S:	Odd Fixes
->>  F:	drivers/net/ethernet/adaptec/starfire*
->>  
->> +STARFIVE CAMERA SUBSYSTEM DRIVER
->> +M:	Jack Zhu <jack.zhu@starfivetech.com>
->> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
->> +L:	linux-media@vger.kernel.org
->> +S:	Maintained
->> +F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> +
->>  STARFIVE DEVICETREES
->>  M:	Emil Renner Berthing <kernel@esmil.dk>
->>  S:	Maintained
-> 
+> media: uvcvideo: Enable Intel RealSense metadata for 8 new devices
+> =
+
+> Intel RealSense UVC cameras produce metadata in a vendor-specific format
+> that is already supported by the uvcvideo driver. Enable handling of
+> this metadata for 8 additional RealSense devices.
+> =
+
+Done for v3
+
+> > Co-developed-by: Yu MENG <yu1.meng@intel.com>
+> > Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
+> > Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c | 72 ++++++++++++++++++++++++++++++
+> >  1 file changed, 72 insertions(+)
+> > =
+
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc=
+/uvc_driver.c
+> > index e4bcb5011360..955f67d9a993 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -3000,6 +3000,78 @@ static const struct usb_device_id uvc_ids[] =3D {
+> >  	  .bInterfaceSubClass	=3D 1,
+> >  	  .bInterfaceProtocol	=3D 0,
+> >  	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D410/ASR depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad2,
+> =
+
+> Please keep entries sorted by vendor and product ID in this list. The
+> first four entries from this patch should go before 8086:0b03 that is
+> already in the driver.
+Done for v3.
+> =
+
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D415/ASRC depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad3,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D430/AWG depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad4,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel Fallback USB2 Descriptor */
+> =
+
+> According to the descriptors you've provided (thank you for that), this
+> camera is named "Depth Camera 430". How does it differ from the 0ad4
+> device which you also name 430 right above ?
+This descriptor, 0x0ad6, used to support old firmware.
+That happened that I had this 430 module with outdated fw.
+We notice users that their fw is outdated in SDK.
+We decided to discard it, it still can have streams but w/o metadata.
+Removed 0x0ad6 in v3.
+> =
+
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad6,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D435/AWGC depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b07,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D435i depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b3a,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D405 Depth Camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b5b,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D455 Depth Camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b5c,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> >  	/* Generic USB Video Class */
+> >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+> >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
