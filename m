@@ -2,89 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F2A6E9A29
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 19:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31AC06EA8F6
+	for <lists+linux-media@lfdr.de>; Fri, 21 Apr 2023 13:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230427AbjDTRAh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 13:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40670 "EHLO
+        id S229926AbjDULSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Apr 2023 07:18:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230398AbjDTRAd (ORCPT
+        with ESMTP id S229599AbjDULSJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 13:00:33 -0400
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9328107;
-        Thu, 20 Apr 2023 10:00:14 -0700 (PDT)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1879fc89f5eso434162fac.0;
-        Thu, 20 Apr 2023 10:00:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682010014; x=1684602014;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eC1knULcd6KabTMiS4cXiXXe6gVupFzizQt47kvZr1Q=;
-        b=dF1FwIJ0ou0d3ayYVplx992dWBMKLoq4Tvt/QlVT0RCutuwKfSNFygxfBj+GssEop1
-         SnxMYQO4EncJqYyd4pHDSJt1I0cRBW5g5ZTx+7PivlrMork/InSPfmFmZKzS9qen+wdY
-         KDsGGepgKgicw9JnLrVgs0i6EgpK/UuNgX/N1yxUFYuUU/c8Tj4iMx/pz3wbd8N/hTtw
-         v2w2JKlJlezAxL9LzwhIDmf/EbXcQeQaJmJPkuJ5OrToIrEWlF198Au/YtkCzjagGZQr
-         TYVGIXcORZRkMGXyYrsK2CFHiLTKRVXiQefZ55N/75YpUfi0Qkn3COOBZXHTNGJhzgZT
-         p8Lw==
-X-Gm-Message-State: AAQBX9fnD1iR00FC9MOHGNlA9XZkPJMSAZhp4QUfVv65aexL0U0+sYL2
-        Eec2nQYv0XKv0ChQMP3mxA==
-X-Google-Smtp-Source: AKy350Zkid3K7ZYXAj8/cAuJgUzeJWjBOQsOyR+U1IzfGcxYXk7UsPEh6YBKe1O+NLZ/IWAzO5RuQQ==
-X-Received: by 2002:a05:6871:297:b0:187:7b68:2521 with SMTP id i23-20020a056871029700b001877b682521mr1930680oae.36.1682010013960;
-        Thu, 20 Apr 2023 10:00:13 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id c19-20020a05687093d300b0018b12e3a392sm892173oal.42.2023.04.20.10.00.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Apr 2023 10:00:13 -0700 (PDT)
-Received: (nullmailer pid 3015906 invoked by uid 1000);
-        Thu, 20 Apr 2023 17:00:12 -0000
-Date:   Thu, 20 Apr 2023 12:00:12 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Todor Tomov <todor.too@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Del Regno <angelogioacchino.delregno@somainline.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>, devicetree@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Foss <rfoss@kernel.org>
-Subject: Re: [PATCH] media: dt-bindings: qcom: camss: correct unit address
-Message-ID: <168201000524.3015737.5862969014939069811.robh@kernel.org>
-References: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
+        Fri, 21 Apr 2023 07:18:09 -0400
+X-Greylist: delayed 67 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Apr 2023 04:18:08 PDT
+Received: from ODEDI148698.home (odedi148698.mywhc.ca [144.217.254.35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D16193
+        for <linux-media@vger.kernel.org>; Fri, 21 Apr 2023 04:18:08 -0700 (PDT)
+DKIM-Signature: v=1; c=relaxed/relaxed; h=content-type:mime-version:content-transfer-encoding:content-description:subject:to:from:date:reply-to:message-id;
+ d=a2ict.com; s=default; a=rsa-sha256;
+ bh=FQE3y/+3GQQzdAQHGLO+y57Gs24Zx9iAkvAV5kT0Bhk=;
+ b=fNCQRe99eMfEG3rPdJ7CuIN4GWkklpxJhhWzpqAO2PXzpuJUdGw6CQergY+AXn1v+
+ xklAj2mLVh5eT+lnqyh320GpzlRa4eOe6IsqMTbQY4PuI5ZdH2h1CeDHuPMqxcDG2kh
+ B/g7Tpi9dA6aQ2xFJ3YWKf5/ZRE9KRlZQG9TXcM=;
+Received: from [51.89.94.142] ([51.89.94.142]) by home with
+ MailEnable ESMTPA; Thu, 20 Apr 2023 18:29:15 +0000
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: ich bin Edwin Castro
+To:     linux-media@vger.kernel.org
+From:   "Mr. Edwin Castro" <admin@a2ict.com>
+Date:   Thu, 20 Apr 2023 11:29:14 -0700
+Reply-To: charityhome_edwin@yahoo.com
+Message-ID: <31A9497EEED24FE2B3A3D8F831FF542F.MAI@home>
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        HK_NAME_MR_MRS,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,NIXSPAM_IXHASH,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0000]
+        *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: a2ict.com]
+        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  1.0 HK_NAME_MR_MRS No description available.
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  2.2 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Mein Name ist Edwin Castro, ich habe den Powerball-Jackpot gewonnen und ich=
+ spende die Summe von 2,8 Millionen Dollar an f=FCnf gl=FCckliche Menschen =
+auf der ganzen Welt...
 
-On Thu, 20 Apr 2023 09:24:42 +0200, Krzysztof Kozlowski wrote:
-> Match unit-address to first reg entry.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml | 2 +-
->  Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml | 2 +-
->  Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml  | 2 +-
->  Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml  | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-
-Acked-by: Rob Herring <robh@kernel.org>
-
+Kontaktieren Sie mich unter meiner E-Mail:charityhome_edwin@yahoo.com f=FCr=
+ weitere Einzelheiten.
