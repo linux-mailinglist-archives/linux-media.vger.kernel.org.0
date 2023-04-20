@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D91F6E97E5
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 17:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 723C46E97FA
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 17:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbjDTPCr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 20 Apr 2023 11:02:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51528 "EHLO
+        id S234162AbjDTPFX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 20 Apr 2023 11:05:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233564AbjDTPCq (ORCPT
+        with ESMTP id S233945AbjDTPFV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 11:02:46 -0400
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7D54C2D;
-        Thu, 20 Apr 2023 08:02:44 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-54fb615ac3dso46562897b3.2;
-        Thu, 20 Apr 2023 08:02:44 -0700 (PDT)
+        Thu, 20 Apr 2023 11:05:21 -0400
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656824C2B;
+        Thu, 20 Apr 2023 08:05:20 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id bz21so3095998ljb.11;
+        Thu, 20 Apr 2023 08:05:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682002963; x=1684594963;
+        d=1e100.net; s=20221208; t=1682003118; x=1684595118;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AxUhM/jxNN72AyF4iUkssSBmkhq9B+Vz0NtwH/Pd3xU=;
-        b=Eais+KtZIngFzb1BXiCMNbZC11S2zSduGMaaHaZlwp8DNv+MhKhTCAsydAs7EoXqcn
-         GGBjnCagY30Q2AwhoM5KIkvRLIs5xrVKnI5xQ2xXObJcPkk8RYdQHgedwDF2hx5quUTo
-         p3UPsQkQrVXHo5EQm3hoJiYsMhBe/nNTjUL4xuCM5pbHz3WEg/p+F6268/ezYK2GRpuS
-         EdMudgrQ5HDmAl8qjLwl7/9MLZO98opufuYqydVLpWAXvw9dTPsUoqFlX32tctLlP+Ax
-         O7rfJInW1u2tnr+zoZBQ7mkmITBrXCXF87/VPtXE66KfLqs5Y27zGGGTKbqel5IuxGdt
-         2XzQ==
-X-Gm-Message-State: AAQBX9czBfFgh8TeJA3dBCXFV3GDkv8oXsZrENZH/zluaZ+qFZcTM6nk
-        URRQmC7r917YlCJ7NvAi8uDTLX3TYnvHwWVV
-X-Google-Smtp-Source: AKy350Zkz4Uq1LqrKcVS8O+aFTyFEAyhA8ED9qfgJIN58AX3xUq9tZbZpRwAogkRzm2g+UbKR25GhQ==
-X-Received: by 2002:a81:988f:0:b0:54f:8371:aa5b with SMTP id p137-20020a81988f000000b0054f8371aa5bmr5806122ywg.18.1682002963130;
-        Thu, 20 Apr 2023 08:02:43 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id c134-20020a814e8c000000b00555abba6ff7sm378869ywb.113.2023.04.20.08.02.42
+        bh=ZjATNR9xN0TX4Afa/FkjvELVtb7InkL6+l1hWMyUq0g=;
+        b=fAq935yICpqrS6jDC1E70+yL0+BmY2H3CIZnvJvtlu9q4rL8T1FvzzD+mXcuADClbD
+         xGRpepubspPTwC98atYcyHnGVSaeSaIzC+y1P7UQEWSsrnkQ+s2i/U5iC1VcJXN3PXtH
+         vkng/gVwSt/NknS6Ptbxvt998vhPc3fXkILTV2IAb+DUR2hnufs3m0UDMaVz6eQZy0Z0
+         rqG+FyvESyK51RFSE5FFcaRXHVLkv7zgCwYkgFmauqtJFU8GXsNyQI4664hqivAKLP5L
+         CVWEWw8iyOenXRBGhUAu5xuiGelsiMJd+ThJG3s90XgvuIubeennsdu4JMhBJBKflwjp
+         9RYw==
+X-Gm-Message-State: AAQBX9dz5QwIVYksiDmeGSOTFE5qrBG1mfbu5VGbzK3cuLjBsU1jbE9v
+        kwj1uGYqm4uoJnFBSHKHE8exytZEMDDSvde8
+X-Google-Smtp-Source: AKy350ZosUFxFu/czTLm6Sg1KVq/Xxzqi8n05Tja5cNiAkPG/og5OimOTxWkdyzgDZwp/U3vOO8stg==
+X-Received: by 2002:a05:651c:201e:b0:2a8:e765:16e5 with SMTP id s30-20020a05651c201e00b002a8e76516e5mr1747727ljo.25.1682003118087;
+        Thu, 20 Apr 2023 08:05:18 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id g15-20020a2e938f000000b002a8aadcf15bsm269363ljh.120.2023.04.20.08.05.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 08:02:42 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-54f6a796bd0so44779517b3.12;
-        Thu, 20 Apr 2023 08:02:42 -0700 (PDT)
-X-Received: by 2002:a81:d93:0:b0:552:b601:c814 with SMTP id
- 141-20020a810d93000000b00552b601c814mr6145766ywn.24.1682002962377; Thu, 20
- Apr 2023 08:02:42 -0700 (PDT)
+        Thu, 20 Apr 2023 08:05:14 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2a8b082d6feso5721981fa.2;
+        Thu, 20 Apr 2023 08:05:14 -0700 (PDT)
+X-Received: by 2002:a19:700a:0:b0:4e9:d8ba:169 with SMTP id
+ h10-20020a19700a000000b004e9d8ba0169mr496300lfc.1.1682003114061; Thu, 20 Apr
+ 2023 08:05:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com> <20230411120810.368437-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230411120810.368437-6-biju.das.jz@bp.renesas.com>
+References: <20230411120810.368437-1-biju.das.jz@bp.renesas.com> <20230411120810.368437-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230411120810.368437-7-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Apr 2023 17:02:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXAp=makAvusxDC_JRtPtjkr__a-vd9mEc6FjDkP76Vbw@mail.gmail.com>
-Message-ID: <CAMuHMdXAp=makAvusxDC_JRtPtjkr__a-vd9mEc6FjDkP76Vbw@mail.gmail.com>
-Subject: Re: [PATCH v7 5/8] arm64: dts: renesas: r9a07g044: Add DU node
+Date:   Thu, 20 Apr 2023 17:04:59 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVuC9T35G=Dn2jCyBkJm4Eopgv9KQ-SpyVx+KiX1fe=NA@mail.gmail.com>
+Message-ID: <CAMuHMdVuC9T35G=Dn2jCyBkJm4Eopgv9KQ-SpyVx+KiX1fe=NA@mail.gmail.com>
+Subject: Re: [PATCH v7 6/8] arm64: dts: renesas: r9a07g054: Add DU node
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -76,8 +76,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 2:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Add DU node to RZ/G2L SoC DTSI.
+Hi Biju,
+
+On Tue, Apr 11, 2023 at 2:12 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Add DU node to RZ/V2L SoC DTSI.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
@@ -85,6 +87,34 @@ On Tue, Apr 11, 2023 at 2:08 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
 >  * New patch.
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+> @@ -677,6 +677,20 @@ fcpvd: fcp@10880000 {
+>                         resets = <&cpg R9A07G054_LCDC_RESET_N>;
+>                 };
+>
+> +               du: display@10890000 {
+> +                       compatible = "renesas,r9a07g054-du";
+
+I think you have to make your mind up about using a fallback compatible
+value or not. As the VSP has one, I think the DU should have one, too.
+
+> +                       reg = <0 0x10890000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD R9A07G054_LCDC_CLK_A>,
+> +                                <&cpg CPG_MOD R9A07G054_LCDC_CLK_P>,
+> +                                <&cpg CPG_MOD R9A07G054_LCDC_CLK_D>;
+> +                       clock-names = "aclk", "pclk", "vclk";
+> +                       power-domains = <&cpg>;
+> +                       resets = <&cpg R9A07G054_LCDC_RESET_N>;
+> +                       renesas,vsps = <&vspd 0>;
+> +                       status = "disabled";
+> +               };
+> +
+>                 cpg: clock-controller@11010000 {
+>                         compatible = "renesas,r9a07g054-cpg";
+>                         reg = <0 0x11010000 0 0x10000>;
 
 Gr{oetje,eeting}s,
 
