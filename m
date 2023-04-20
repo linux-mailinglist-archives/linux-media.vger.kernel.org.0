@@ -2,94 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB8B66E95DE
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 15:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEEFE6E962C
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 15:46:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbjDTN30 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 20 Apr 2023 09:29:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40470 "EHLO
+        id S231574AbjDTNqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 09:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjDTN3Y (ORCPT
+        with ESMTP id S229547AbjDTNqi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 09:29:24 -0400
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1EA44BB;
-        Thu, 20 Apr 2023 06:29:23 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id n17so2214986ybq.2;
-        Thu, 20 Apr 2023 06:29:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681997362; x=1684589362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        Thu, 20 Apr 2023 09:46:38 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AE705B88
+        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 06:46:37 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4ec8399e963so574254e87.1
+        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 06:46:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681998395; x=1684590395;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SwYnTl+Plx0PSrLU1IU0gj4WvioW389t1+c4+HFYYy8=;
-        b=aMuaIBESkhd6cIqKp/fUvPBHTl9zYc2UsO5fhhQlZTudA8e2eojbh6/xi70ASvHJ9K
-         yj2X5OPDY5LFDHRu3k/0jrflMxMoAZrZqOBlNkvlf3ovhsyWpz+zg5b7CdkJax5ZKqUx
-         oiqNYR6HNW1AgQjBIx0ewPxPU6RQK9+ZV1+2YKrzglbGMgsNZRXTpw9Bz9H/Tk8/zj0J
-         BnF//Icr3/rYhdBCKbgXqJaAPOoLyARhwONENLg3p423ZJ5+Q0xcleRrtgloajeYuCjB
-         hjGmkuTYp4hARvtjK7vmL6K4wD4+wA5rgSJwHDmIBuQmlchU4xiqVQMZDg92qfuLGG3u
-         rGpQ==
-X-Gm-Message-State: AAQBX9eWcey0svecW4gR6Wz4izjmk4BEYIMP7zuiS6aNxiqCQVltp1l0
-        E+OkZMsLLvdnJFNkM4ZtMJRC97Ou52ZFddOM
-X-Google-Smtp-Source: AKy350ZObBBjrEaGjs6J/nRBACRz90Tm63SgDNyyAOgOpPqPJ7UYPFqP/iwu9wLmV6crB5Lu3FuvnA==
-X-Received: by 2002:a25:a047:0:b0:b92:588e:7360 with SMTP id x65-20020a25a047000000b00b92588e7360mr1209438ybh.50.1681997362639;
-        Thu, 20 Apr 2023 06:29:22 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id a3-20020a256603000000b00b8ed4bee6absm293468ybc.48.2023.04.20.06.29.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 06:29:22 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-54fa9da5e5bso41922437b3.1;
-        Thu, 20 Apr 2023 06:29:22 -0700 (PDT)
-X-Received: by 2002:a0d:d146:0:b0:54f:d7f7:9d61 with SMTP id
- t67-20020a0dd146000000b0054fd7f79d61mr815807ywd.14.1681997362050; Thu, 20 Apr
- 2023 06:29:22 -0700 (PDT)
+        bh=PIOo9/wELSNnnvyGjg119XABuEmbX1ppy/v2wZYamQ4=;
+        b=W00iS5HC5IApfOHcl8GinYtik0Xmy62cw0dPZDst2Lo/Sm+XM1Q75kRANQBmjaQQy5
+         O/YSrjG9AnvizTuxmfw80KAc6hNCSqyEBZcbh9GnLj4IWP/69WlUUawXQIR67ngjkBFz
+         fp4Z8iU2r3vPiD9QiNMuNsaGREXsw1lIOf8H0CMt5IxJySSwF1HO8+Rf2U0dEmR9lkun
+         4m5q+vx4+qj8/qwUixpk2Tt0/z3cms7NzUk1HtS2dQobcbcEEirupBvdRCqI+lcH+OBf
+         WdPK0oc5aJC1tHPcgVZaUzAPQKloGL9ti/Rlfjnp1eyzUOSz/jxxfnP6k2xCbXUSOT87
+         dBqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681998395; x=1684590395;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PIOo9/wELSNnnvyGjg119XABuEmbX1ppy/v2wZYamQ4=;
+        b=H7ip6W4yzJf2+CezB6tY6ArvVWtbbduTrMKaFTtMUUnlRocOhWpy2b4Dugsbp7ZL91
+         Uy2RvI3iwmlBK7ZjdkcYeS+3bOSlmyJZ8iyuAZI+UvBIupz41owRCRqTBnpIl3wsvujg
+         Q+qgcMdbJRnVOl4r+XT1lQF/9px9lVkP2ZgBeZiKe44UgNORuD+ch3yA1/1JU0mlxoAK
+         rWsT7sCtgW/17xGjMgpW/jlF/CfXmGmu8hO1PYXdk8srxz6ExIhBi4r55qa/s5sqkNgs
+         XMZR24OMY/TsEmvTibHJotwdyrQ8wKVXZoCVxL7hBWiDpCBq82oYndpGYa8ogtRow4aE
+         eCaQ==
+X-Gm-Message-State: AAQBX9fnQpBoJ6jgwdK8nP8IZz1GOAiKJqVnjL82lB9HM2bDrTY4+cZ9
+        H5l/UfH89XwcUmtBjJLVP2ixlTrT0cB3zTPzy5s=
+X-Google-Smtp-Source: AKy350YcxnEFRIZuJaBgTZcdhF83ns55d35RTcO8E5MzACFal4l2tNzP1o4d3kOAuVQ5YoEm7gtnEtNuHuQezXPKKkg=
+X-Received: by 2002:ac2:4293:0:b0:4ed:bb8c:5047 with SMTP id
+ m19-20020ac24293000000b004edbb8c5047mr405315lfh.4.1681998395372; Thu, 20 Apr
+ 2023 06:46:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230411100346.299768-1-biju.das.jz@bp.renesas.com> <20230411100346.299768-9-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230411100346.299768-9-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Apr 2023 15:29:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV7p0BZEp4NCZCRKkxuRCYDHHEN+udwb5wuRgT+tMWxBw@mail.gmail.com>
-Message-ID: <CAMuHMdV7p0BZEp4NCZCRKkxuRCYDHHEN+udwb5wuRgT+tMWxBw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] arm64: dts: renesas: rzg2lc-smarc: Link DSI with ADV7535
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Received: by 2002:a05:651c:215:b0:2a8:cf83:9f5d with HTTP; Thu, 20 Apr 2023
+ 06:46:34 -0700 (PDT)
+Reply-To: bsmyatee@gmail.com
+From:   Grace Colbert <borismayor49@gmail.com>
+Date:   Thu, 20 Apr 2023 13:46:34 +0000
+Message-ID: <CADUYTALLAph=NhKUkkZ3NXzopWH0NowdRHzN=BOBj0ANqVHong@mail.gmail.com>
+Subject: from Grace Colbert
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 12:04 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Enable DSI and ADV7535 and link DSI with ADV7535 on RZ/G2LC SMARC EVK.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2:
->  * New patch
+Good morning from Republic of Lome Togo my name is Grace Colbert I am
+an orphan girl I'll share my troubles if you reply my email ,I have no
+mother no father No sister no brother .
+When you reply me i tell you the most beautiful part of myself and
+your help is needed to carry on my inheritancy to your country.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.5.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks
+Grace Colbert
