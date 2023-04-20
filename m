@@ -2,44 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6106D6E98C2
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 17:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AD946E99D1
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 18:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233581AbjDTPuO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 11:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47114 "EHLO
+        id S232025AbjDTQp3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 12:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232190AbjDTPuK (ORCPT
+        with ESMTP id S230350AbjDTQp2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 11:50:10 -0400
+        Thu, 20 Apr 2023 12:45:28 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D4019BD
-        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 08:50:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6636A2D62
+        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 09:45:26 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7FCA9DE;
-        Thu, 20 Apr 2023 17:49:58 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C86B19DE;
+        Thu, 20 Apr 2023 18:45:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682005799;
-        bh=6iauqVBS8+niI3edePDmuo/4blxnMkwoKXBw1+3iUNw=;
+        s=mail; t=1682009117;
+        bh=b1btqUi1ZcaHxVX9UrJCow+yTKol4gFyQHjFB94SaXQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AsS97UdTLcTDrURloV0bQ7coEbGzAIopeZfjc7FjI3P9QxTmpF7ArIPWQ0999cH38
-         7pVqfPfv8LYay6yAp3MXazRtDQlG1SWI5Sm4N02tRuVK38ho2yVQettFRwR/s6WzmR
-         El0L+M1+z7KaiUn6aNfm7wV6JRqIMPU1EjfdjIOA=
-Date:   Thu, 20 Apr 2023 18:50:19 +0300
+        b=id8yjGYk+OpLSIX0IlBifX3bZH3iMJZKNwPV08o9Y0XJ7ZbZGqqFgk4Ozb4QfxwNH
+         07Nw5UK7pP0ytiijhtwiBJeqPjr/Q4WU66sLisYrwtUNfUbowGi2moerw4i5SG64cF
+         d7MGwqQ9B2Uc0F5U8+xQ5s7JMy3cIV9ee1xjpKH8=
+Date:   Thu, 20 Apr 2023 19:45:37 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     bingbu.cao@intel.com
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, hdegoede@redhat.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com, daniel.h.kang@intel.com
-Subject: Re: [RFC PATCH 00/14] Intel IPU6 and IPU6 input system drivers
-Message-ID: <20230420155019.GA21943@pendragon.ideasonboard.com>
-References: <20230413100429.919622-1-bingbu.cao@intel.com>
+To:     Vaishnav Achath <vaishnav.a@ti.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH] media: Accept non-subdev sinks in
+ v4l2_create_fwnode_links_to_pad()
+Message-ID: <20230420164537.GD21943@pendragon.ideasonboard.com>
+References: <20230324103529.8704-1-laurent.pinchart@ideasonboard.com>
+ <4cd24628-fafd-e280-200c-0c443e25cfa9@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230413100429.919622-1-bingbu.cao@intel.com>
+In-Reply-To: <4cd24628-fafd-e280-200c-0c443e25cfa9@ti.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -49,130 +47,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Hi Vaishnav,
 
-Thank you for the patches.
+On Thu, Apr 13, 2023 at 06:51:23PM +0530, Vaishnav Achath wrote:
+> Hi Laurent,
+> 
+> Thank you for the patch, sorry for the delay in response,
+> 
+> On 24/03/23 16:05, Laurent Pinchart wrote:
+> > The v4l2_create_fwnode_links_to_pad() helper requires the sink pad
+> > passed to it to belong to a subdev. This requirement can be lifted
+> > easily. Make the function usable for non-subdev sinks, which allows
+> > using it with video_device sinks.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-mc.c | 15 ++++++---------
+> >  include/media/v4l2-mc.h           |  8 ++++----
+> >  2 files changed, 10 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
+> > index b01474717dca..bf0c18100664 100644
+> > --- a/drivers/media/v4l2-core/v4l2-mc.c
+> > +++ b/drivers/media/v4l2-core/v4l2-mc.c
+> > @@ -313,14 +313,11 @@ int v4l2_create_fwnode_links_to_pad(struct v4l2_subdev *src_sd,
+> >  				    struct media_pad *sink, u32 flags)
+> >  {
+> >  	struct fwnode_handle *endpoint;
+> > -	struct v4l2_subdev *sink_sd;
+> >  
+> >  	if (!(sink->flags & MEDIA_PAD_FL_SINK) ||
+> >  	    !is_media_entity_v4l2_subdev(sink->entity))
+> 
+> should we drop the second check here also, i.e
+> 
+> !is_media_entity_v4l2_subdev(sink->entity)
+> 
+> to accept non-subdev sinks? is my understanding correct?
 
-On Thu, Apr 13, 2023 at 06:04:15PM +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
-> 
-> This patch series adds a driver for Intel IPU6 input system.
-> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
-> device which can be found in some Intel Client Platforms. User can use
-> IPU6 to capture images from MIPI camera sensors.
-> 
-> IPU6 has its own firmware which exposes ABIs to driver, and communicates
-> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
-> the driver sets up a page table to allow IPU6 DMA to access the system
-> memory.
-> 
-> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+You're absolutely right. The patch has been merged already I'm afraid.
+Would you like to submit a fix, or should I do so ? In the latter case,
+can I include a Reported-by tag with your name ?
 
-I had a look through the series, and it's a bit difficult to understand
-how the different pieces interact with each other. Would it be possible
-to provide some high-level documentation for the driver design, as well
-as a high-level view of the hardware (and firmware) components ? It
-would help the review process. Documentation/driver-api/media/drivers/
-would be a good location for that.
-
-> ---
-> TODOs:
->   - Add support for multiplexed streams
->   - Add firmware CSI2 lanes configuration verification and documentation
-> 
-> ---
-> 
-> Bingbu Cao (13):
->   media: intel/ipu6: add Intel IPU6 PCI device driver
->   media: intel/ipu6: add IPU virtual bus driver
->   media: intel/ipu6: add IPU6 buttress interface driver
->   media: intel/ipu6: CPD parsing for get firmware components
->   media: intel/ipu6: add IPU6 DMA mapping API and MMU table
->   media: intel/ipu6: add syscom interfaces between firmware and driver
->   media: intel/ipu6: input system ABI between firmware and driver
->   media: intel/ipu6: add IPU6 CSI2 receiver v4l2 sub-device
->   media: intel/ipu6: add the CSI2 DPHY implementation
->   media: intel/ipu6: add input system driver
->   media: intel/ipu6: input system video capture nodes
->   media: add Kconfig and Makefile for IPU6
->   MAINTAINERS: add maintainers for Intel IPU6 input system driver
-> 
->  MAINTAINERS                                   |   10 +
->  drivers/media/pci/Kconfig                     |    1 +
->  drivers/media/pci/intel/Makefile              |    3 +-
->  drivers/media/pci/intel/ipu6/Kconfig          |   15 +
->  drivers/media/pci/intel/ipu6/Makefile         |   23 +
->  drivers/media/pci/intel/ipu6/ipu6-bus.c       |  263 ++++
->  drivers/media/pci/intel/ipu6/ipu6-bus.h       |   69 +
->  drivers/media/pci/intel/ipu6/ipu6-buttress.c  |  916 ++++++++++++
->  drivers/media/pci/intel/ipu6/ipu6-buttress.h  |  109 ++
->  drivers/media/pci/intel/ipu6/ipu6-cpd.c       |  359 +++++
->  drivers/media/pci/intel/ipu6/ipu6-cpd.h       |  107 ++
->  drivers/media/pci/intel/ipu6/ipu6-dma.c       |  497 ++++++
->  drivers/media/pci/intel/ipu6/ipu6-dma.h       |   19 +
->  drivers/media/pci/intel/ipu6/ipu6-fw-com.c    |  417 ++++++
->  drivers/media/pci/intel/ipu6/ipu6-fw-com.h    |   47 +
->  drivers/media/pci/intel/ipu6/ipu6-fw-isys.c   |  566 +++++++
->  drivers/media/pci/intel/ipu6/ipu6-fw-isys.h   |  574 +++++++
->  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  575 +++++++
->  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |   75 +
->  .../media/pci/intel/ipu6/ipu6-isys-dwc-phy.c  |  549 +++++++
->  .../media/pci/intel/ipu6/ipu6-isys-jsl-phy.c  |  245 +++
->  .../media/pci/intel/ipu6/ipu6-isys-mcd-phy.c  |  735 +++++++++
->  drivers/media/pci/intel/ipu6/ipu6-isys-phy.h  |   24 +
->  .../media/pci/intel/ipu6/ipu6-isys-queue.c    |  869 +++++++++++
->  .../media/pci/intel/ipu6/ipu6-isys-queue.h    |   97 ++
->  .../media/pci/intel/ipu6/ipu6-isys-subdev.c   |  309 ++++
->  .../media/pci/intel/ipu6/ipu6-isys-subdev.h   |   70 +
->  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 1132 ++++++++++++++
->  .../media/pci/intel/ipu6/ipu6-isys-video.h    |  120 ++
->  drivers/media/pci/intel/ipu6/ipu6-isys.c      | 1326 +++++++++++++++++
->  drivers/media/pci/intel/ipu6/ipu6-isys.h      |  190 +++
->  drivers/media/pci/intel/ipu6/ipu6-mmu.c       |  833 +++++++++++
->  drivers/media/pci/intel/ipu6/ipu6-mmu.h       |   65 +
->  .../intel/ipu6/ipu6-platform-buttress-regs.h  |  231 +++
->  .../intel/ipu6/ipu6-platform-isys-csi2-reg.h  |  187 +++
->  .../media/pci/intel/ipu6/ipu6-platform-regs.h |  177 +++
->  drivers/media/pci/intel/ipu6/ipu6-platform.h  |   31 +
->  drivers/media/pci/intel/ipu6/ipu6.c           |  969 ++++++++++++
->  drivers/media/pci/intel/ipu6/ipu6.h           |  344 +++++
->  39 files changed, 13147 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/pci/intel/ipu6/Kconfig
->  create mode 100644 drivers/media/pci/intel/ipu6/Makefile
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-bus.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-bus.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-dma.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-dma.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-jsl-phy.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-mcd-phy.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-phy.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-regs.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6.h
+> >  		return -EINVAL;
+> >  
+> > -	sink_sd = media_entity_to_v4l2_subdev(sink->entity);
+> > -
+> >  	fwnode_graph_for_each_endpoint(dev_fwnode(src_sd->dev), endpoint) {
+> >  		struct fwnode_handle *remote_ep;
+> >  		int src_idx, sink_idx, ret;
+> > @@ -340,7 +337,7 @@ int v4l2_create_fwnode_links_to_pad(struct v4l2_subdev *src_sd,
+> >  		 * ask the sink to verify it owns the remote endpoint,
+> >  		 * and translate to a sink pad.
+> >  		 */
+> > -		sink_idx = media_entity_get_fwnode_pad(&sink_sd->entity,
+> > +		sink_idx = media_entity_get_fwnode_pad(sink->entity,
+> >  						       remote_ep,
+> >  						       MEDIA_PAD_FL_SINK);
+> >  		fwnode_handle_put(remote_ep);
+> > @@ -362,17 +359,17 @@ int v4l2_create_fwnode_links_to_pad(struct v4l2_subdev *src_sd,
+> >  		if (media_entity_find_link(src, sink))
+> >  			continue;
+> >  
+> > -		dev_dbg(sink_sd->dev, "creating link %s:%d -> %s:%d\n",
+> > +		dev_dbg(src_sd->dev, "creating link %s:%d -> %s:%d\n",
+> >  			src_sd->entity.name, src_idx,
+> > -			sink_sd->entity.name, sink_idx);
+> > +			sink->entity->name, sink_idx);
+> >  
+> >  		ret = media_create_pad_link(&src_sd->entity, src_idx,
+> > -					    &sink_sd->entity, sink_idx, flags);
+> > +					    sink->entity, sink_idx, flags);
+> >  		if (ret) {
+> > -			dev_err(sink_sd->dev,
+> > +			dev_err(src_sd->dev,
+> >  				"link %s:%d -> %s:%d failed with %d\n",
+> >  				src_sd->entity.name, src_idx,
+> > -				sink_sd->entity.name, sink_idx, ret);
+> > +				sink->entity->name, sink_idx, ret);
+> >  
+> >  			fwnode_handle_put(endpoint);
+> >  			return ret;
+> > diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
+> > index c181685923d5..b39586dfba35 100644
+> > --- a/include/media/v4l2-mc.h
+> > +++ b/include/media/v4l2-mc.h
+> > @@ -87,17 +87,17 @@ int v4l_vb2q_enable_media_source(struct vb2_queue *q);
+> >  
+> >  /**
+> >   * v4l2_create_fwnode_links_to_pad - Create fwnode-based links from a
+> > - *                                   source subdev to a sink subdev pad.
+> > + *                                   source subdev to a sink pad.
+> >   *
+> >   * @src_sd: pointer to a source subdev
+> > - * @sink:  pointer to a subdev sink pad
+> > + * @sink:  pointer to a sink pad
+> >   * @flags: the link flags
+> >   *
+> >   * This function searches for fwnode endpoint connections from a source
+> >   * subdevice to a single sink pad, and if suitable connections are found,
+> >   * translates them into media links to that pad. The function can be
+> > - * called by the sink subdevice, in its v4l2-async notifier subdev bound
+> > - * callback, to create links from a bound source subdevice.
+> > + * called by the sink, in its v4l2-async notifier bound callback, to create
+> > + * links from a bound source subdevice.
+> >   *
+> >   * The @flags argument specifies the link flags. The caller shall ensure that
+> >   * the flags are valid regardless of the number of links that may be created.
 
 -- 
 Regards,
