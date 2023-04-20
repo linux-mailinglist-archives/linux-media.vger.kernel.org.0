@@ -2,91 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15A966E8E17
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 11:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8D396E8F95
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 12:11:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234119AbjDTJa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 05:30:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47264 "EHLO
+        id S234228AbjDTKLQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 06:11:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234103AbjDTJa5 (ORCPT
+        with ESMTP id S234188AbjDTKKv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 05:30:57 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC24270D
-        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 02:30:54 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3f173af665fso3223005e9.3
-        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 02:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681983053; x=1684575053;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJasTvAcPZpWbq9JNTQ2VqxZ4zHS2XJZmrHpLxOmkQc=;
-        b=jIfusFf2HqrSTuL87+CELYhCA+JFUVc4Czwt2r16AzzEc7P8GfXDV+vvK2mpSP3/xH
-         C0viR/hEHXg/PmqCg55y93ADyYqpXowJ19lFcWIHt/P3VgrszLZE+RBEhEtyQLtnkQUz
-         uRZlZz1oqZmUBHaazs7cz/4NcukPD4cftlCwE2nF45/8v9oR/JBxawlyEpZtlPLOT+9g
-         taXkXivEPJ9+voOintsMKe+04Zwio6DrM1nozjqJvpRp0GuUH/D+rlr9+tEB+Enrl7Gz
-         77jRvOpPtmnNhG9arQDQIDgl5oLb3JGTvVTRoYvgZi8o8fGDtidS4aCuey6XNyMbegU5
-         xk1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681983053; x=1684575053;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJasTvAcPZpWbq9JNTQ2VqxZ4zHS2XJZmrHpLxOmkQc=;
-        b=EHBvPtg3NDmVF3jHrBJCyHmxuwQ1I83qGVs9yBjQJbFgrXNXODttUhntweBYy3q1VK
-         Uyas5IvndXMicm3pmhvPcnRHSf5KFcBy8/GApSzNt/Ipb5sdc+JAGmmuRhUpvFn3xt65
-         O/2XFp2ThO1rqW0YbZFs9QHGPcPuAfiitSXDx7kg18xzCngp5Y1TTXSPzJQqRu22TnpJ
-         XgEBQ+EhT1aFR9JH0zn09ykDNJHcjrVwrozVpQu95O3hZtc96YI+42We7J5X1hNRkTIv
-         ckdITV7vPGi++hUQGEnEGRBxrflgmFGc3nifLzm2O07vezREIusHebB99JQrHqEdyjTY
-         vMnw==
-X-Gm-Message-State: AAQBX9cUc94mRs7CrcboS8IqaCnUbdF6BgVkM52q7UX8M2DvYr+fJIGd
-        LfXRpH4ytxO5FmPv6jnEKsnceg==
-X-Google-Smtp-Source: AKy350Z6A2EaVwWFJQRezHo7tTFtyB+KRDV/NyuM7EHBwxbwKzGciwnvTAcBAS+l4KmQZJze3Qsdag==
-X-Received: by 2002:a5d:484b:0:b0:2f2:a6e0:b2c with SMTP id n11-20020a5d484b000000b002f2a6e00b2cmr918515wrs.7.1681983053126;
-        Thu, 20 Apr 2023 02:30:53 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id e29-20020a5d595d000000b002fddcb73162sm1447889wri.71.2023.04.20.02.30.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 02:30:52 -0700 (PDT)
-Message-ID: <978f953c-4c00-6cfb-0955-b13114936541@linaro.org>
-Date:   Thu, 20 Apr 2023 10:30:51 +0100
+        Thu, 20 Apr 2023 06:10:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2148E7D94
+        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 03:07:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06C465AA;
+        Thu, 20 Apr 2023 12:07:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1681985252;
+        bh=7VbRrUkKpKf94gG9ezLTXpDwJLdve48gc1qbHGCQ+PI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=AtLc8u09prnDNF+/46fDUrAPNq7jwZEnewWFpwekt3aUXOyDkzwR3gRYQ78G0DSus
+         3IxlTq5e19bGg4pwwisT9Hl2mU4XzJloZjxfPCHH2xqc6hNxOk5IxziVPfRDB3eTje
+         Ov9Rh8ZH3NfvaO+EOHwTE3byq60ZG+pXfVkJcctA=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] media: uvcvideo: Don't expose unsupported formats to userspace
+Date:   Thu, 20 Apr 2023 13:07:50 +0300
+Message-Id: <20230420100750.10463-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: dt-bindings: qcom: camss: correct unit address
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Del Regno <angelogioacchino.delregno@somainline.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/04/2023 08:24, Krzysztof Kozlowski wrote:
-> Match unit-address to first reg entry.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+When the uvcvideo driver encounters a format descriptor with an unknown
+format GUID, it creates a corresponding struct uvc_format instance with
+the fcc field set to 0. Since commit 50459f103edf ("media: uvcvideo:
+Remove format descriptions"), the driver relies on the V4L2 core to
+provide the format description string, which the V4L2 core can't do
+without a valid 4CC. This triggers a WARN_ON.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+As a format with a zero 4CC can't be selected, it is unusable for
+applications. Ignore the format completely without creating a uvc_format
+instance, which fixes the warning.
+
+Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index de64c9d789fd..25b8199f4e82 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -251,14 +251,17 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		/* Find the format descriptor from its GUID. */
+ 		fmtdesc = uvc_format_by_guid(&buffer[5]);
+ 
+-		if (fmtdesc != NULL) {
+-			format->fcc = fmtdesc->fcc;
+-		} else {
++		if (!fmtdesc) {
++			/*
++			 * Unknown video formats are not fatal errors, the
++			 * caller will skip this descriptor.
++			 */
+ 			dev_info(&streaming->intf->dev,
+ 				 "Unknown video format %pUl\n", &buffer[5]);
+-			format->fcc = 0;
++			return 0;
+ 		}
+ 
++		format->fcc = fmtdesc->fcc;
+ 		format->bpp = buffer[21];
+ 
+ 		/*
+@@ -689,6 +692,8 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+ 				&interval, buffer, buflen);
+ 			if (ret < 0)
+ 				goto error;
++			if (!ret)
++				break;
+ 
+ 			frame += format->nframes;
+ 			format++;
+-- 
+Regards,
+
+Laurent Pinchart
+
