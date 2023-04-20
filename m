@@ -2,103 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E1F6E8E0C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 11:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15A966E8E17
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 11:31:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233846AbjDTJ2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 05:28:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46146 "EHLO
+        id S234119AbjDTJa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 05:30:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjDTJ2P (ORCPT
+        with ESMTP id S234103AbjDTJa5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 05:28:15 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7587FC;
-        Thu, 20 Apr 2023 02:28:07 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzcv-3yyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4505:1fdc::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4Q2C4f2QsLzyRn;
-        Thu, 20 Apr 2023 12:28:02 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1681982883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ckb8t6/WapnglDBmmVksyEjbtPBBshg0TJm9lgZhoFU=;
-        b=oJDqzhu2oAmUO9YL6KWANtjrl7uxxhB07r9fvS4ZmvmojcnYUXApvt+PgMnHUh/1fDg6Fi
-        /zN+K+ldDjeYZX1EwoVyNezaICdICk9y7jCQyghuFxA/R4jGljC79L8/mlfQ1eGEMHDW/z
-        R5vg2Fk44miSSeWpgBSH9YEXtqFUYJU=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1681982883; a=rsa-sha256; cv=none;
-        b=cxB7MWsGF/SDUJOGDHaOGRku0863tErIhgR/EvWlRKlwyKy6C0oCj2JuckIJQbzfkpdkQi
-        BBXgeg0gFeq2dFbCkviRP73BcP3oyiP0kuT/71iR5h9mQq9LlmnczwHQJkkRRL2AFJLcSV
-        9WeacDWcrzaUh1iAJU7wlHVdNNp4c/c=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1681982883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ckb8t6/WapnglDBmmVksyEjbtPBBshg0TJm9lgZhoFU=;
-        b=hmO4FVYvTadImZ4riRQJrSSvtvsMwPlXCk4z8hqCsTz6U1TouNpRi6egh64ebBizmBkmQK
-        4EkrnD/kCSrc09ZnXKLELZXJQck33/TjIgN9/uugx5XiQ/3tvyWEffeNcu/iHQ4kJMAj39
-        DhLU1NSs6iwwpvqAdIDzy6aWwNN7juQ=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4D411634C91;
-        Thu, 20 Apr 2023 12:24:19 +0300 (EEST)
-Date:   Thu, 20 Apr 2023 12:24:18 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dmitry Perchanov <dmitry.perchanov@intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        evgeni.raikhel@intel.com, demisrael@gmail.com
-Subject: Re: [PATCH v3] media: uvcvideo: Enable Intel RealSense metadata for
- devices.
-Message-ID: <ZEEEwt34bfmNEN99@valkosipuli.retiisi.eu>
-References: <5587a4f1a0a7f3e2bd0ce886bb4ee3bcbf8f522a.camel@intel.com>
+        Thu, 20 Apr 2023 05:30:57 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC24270D
+        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 02:30:54 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3f173af665fso3223005e9.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 02:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1681983053; x=1684575053;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZJasTvAcPZpWbq9JNTQ2VqxZ4zHS2XJZmrHpLxOmkQc=;
+        b=jIfusFf2HqrSTuL87+CELYhCA+JFUVc4Czwt2r16AzzEc7P8GfXDV+vvK2mpSP3/xH
+         C0viR/hEHXg/PmqCg55y93ADyYqpXowJ19lFcWIHt/P3VgrszLZE+RBEhEtyQLtnkQUz
+         uRZlZz1oqZmUBHaazs7cz/4NcukPD4cftlCwE2nF45/8v9oR/JBxawlyEpZtlPLOT+9g
+         taXkXivEPJ9+voOintsMKe+04Zwio6DrM1nozjqJvpRp0GuUH/D+rlr9+tEB+Enrl7Gz
+         77jRvOpPtmnNhG9arQDQIDgl5oLb3JGTvVTRoYvgZi8o8fGDtidS4aCuey6XNyMbegU5
+         xk1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681983053; x=1684575053;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZJasTvAcPZpWbq9JNTQ2VqxZ4zHS2XJZmrHpLxOmkQc=;
+        b=EHBvPtg3NDmVF3jHrBJCyHmxuwQ1I83qGVs9yBjQJbFgrXNXODttUhntweBYy3q1VK
+         Uyas5IvndXMicm3pmhvPcnRHSf5KFcBy8/GApSzNt/Ipb5sdc+JAGmmuRhUpvFn3xt65
+         O/2XFp2ThO1rqW0YbZFs9QHGPcPuAfiitSXDx7kg18xzCngp5Y1TTXSPzJQqRu22TnpJ
+         XgEBQ+EhT1aFR9JH0zn09ykDNJHcjrVwrozVpQu95O3hZtc96YI+42We7J5X1hNRkTIv
+         ckdITV7vPGi++hUQGEnEGRBxrflgmFGc3nifLzm2O07vezREIusHebB99JQrHqEdyjTY
+         vMnw==
+X-Gm-Message-State: AAQBX9cUc94mRs7CrcboS8IqaCnUbdF6BgVkM52q7UX8M2DvYr+fJIGd
+        LfXRpH4ytxO5FmPv6jnEKsnceg==
+X-Google-Smtp-Source: AKy350Z6A2EaVwWFJQRezHo7tTFtyB+KRDV/NyuM7EHBwxbwKzGciwnvTAcBAS+l4KmQZJze3Qsdag==
+X-Received: by 2002:a5d:484b:0:b0:2f2:a6e0:b2c with SMTP id n11-20020a5d484b000000b002f2a6e00b2cmr918515wrs.7.1681983053126;
+        Thu, 20 Apr 2023 02:30:53 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id e29-20020a5d595d000000b002fddcb73162sm1447889wri.71.2023.04.20.02.30.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Apr 2023 02:30:52 -0700 (PDT)
+Message-ID: <978f953c-4c00-6cfb-0955-b13114936541@linaro.org>
+Date:   Thu, 20 Apr 2023 10:30:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5587a4f1a0a7f3e2bd0ce886bb4ee3bcbf8f522a.camel@intel.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: dt-bindings: qcom: camss: correct unit address
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Del Regno <angelogioacchino.delregno@somainline.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
-
-On Thu, Apr 20, 2023 at 12:06:55PM +0300, Dmitry Perchanov wrote:
-> Intel RealSense UVC Depth cameras produce metadata in a
-> vendor-specific format that is already supported by the uvcvideo driver.
-> Enable handling of this metadata for 7 additional RealSense devices.
+On 20/04/2023 08:24, Krzysztof Kozlowski wrote:
+> Match unit-address to first reg entry.
 > 
-> Co-developed-by: Yu MENG <yu1.meng@intel.com>
-> Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
-> Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thanks for the update.
-
-Is the D4XX format on these devices the same that's documented in
-Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst ? I.e. there are
-no additional fields or differences, and the version of the format is the
-same?
-
-The format documentation doesn't say which version number even the current
-devices use (just refers to "xxx").
-
--- 
-Kind regards,
-
-Sakari Ailus
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
