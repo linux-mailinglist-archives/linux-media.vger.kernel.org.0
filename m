@@ -2,153 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5498A6E907F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 12:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6746E9290
+	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 13:28:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234969AbjDTKmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 06:42:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52044 "EHLO
+        id S234710AbjDTL2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 07:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234068AbjDTKlw (ORCPT
+        with ESMTP id S234313AbjDTL1s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 06:41:52 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8BE083DE
-        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 03:40:30 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4edb26f762dso464001e87.3
-        for <linux-media@vger.kernel.org>; Thu, 20 Apr 2023 03:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1681987229; x=1684579229;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jvpctlVTJ1U3NkaamvHUx4lltTx2+8ORxLeM8FtUVpM=;
-        b=ApAKhT1sM3KPSUG0xc4B8WNojVMTwaVEy8yQ0NtoSlWtHiLV508ALD+W2+LyBqkcmV
-         BJ10MPqeCcGHLEYrixfR5Hg/+TB2IA++Cih2ntgQVHQ8VZCSEk0+SLy89+kqMERRDlyG
-         G/4KymO6c6wq/ahstnZVmmVqEKiB3X977c8LhhO1uz2lN2huNAT+OBUQDkpse6jKeIjh
-         GAjCG3uiTdspE5kMf2hrxiEbnzsS6WJ1z4GArqBzeGh0cQBtVl8OhG/sHFug+9sGHurp
-         Yg89E7oKGLrdvwis6NpIH7dZmkjfzc+b+C40/JVB+FLSypcrPXIyHEQV7de46Rc1if5B
-         myjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681987229; x=1684579229;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvpctlVTJ1U3NkaamvHUx4lltTx2+8ORxLeM8FtUVpM=;
-        b=kpOunURgqGbhXlao8S4K5Ud8TbzzNdtvElzb6VHYmPLjxrP4eFgZ1YSQcOTHu3ujen
-         H5Ceurpnfk3dEgpc1sBaCJ4ehLyJqVmAm68Arc2VzT5EsJE7r1fmNg3TbpsMr1glOGSh
-         yp93bdhM8QoKFgoDxW/+nP0qczssiYEzQLyHjhuSdl7s+M5YPIesW89cJBgTsgb6kTjW
-         idi3UdEZYMVDKY+RG4RYslWVuwYsCgYEyjkYscHZMozPTHgjcCZ+Tt1EVd0YwAiREhWD
-         qqE0Ok3ix9dPZZeXCuDHUG/EkP2yxSq3okiAxfRCuVZiflhiy6tepObBV4Apk4vaXK+2
-         ojbQ==
-X-Gm-Message-State: AAQBX9dPYow1MBhlDBOVwtdnsOUgQp+t4lU5uBZg7202lPyHnOTSX/0/
-        3U8vAEHgYK+8FWPmi6D++tZJTw==
-X-Google-Smtp-Source: AKy350bo4obzA3arKwwe6MWk7x6ej3rKRw0ia25dayIgHfP2h0gbpHYkQFjPBSqTrtkH/QImfQa61g==
-X-Received: by 2002:a19:a40a:0:b0:4eb:5305:a70f with SMTP id q10-20020a19a40a000000b004eb5305a70fmr272344lfc.50.1681987228751;
-        Thu, 20 Apr 2023 03:40:28 -0700 (PDT)
-Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
-        by smtp.gmail.com with ESMTPSA id d25-20020ac25459000000b004eae73a0530sm176472lfn.39.2023.04.20.03.40.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Apr 2023 03:40:28 -0700 (PDT)
-Message-ID: <bb28a19d-a6a4-89a2-1d7b-99146220d923@linaro.org>
-Date:   Thu, 20 Apr 2023 12:40:25 +0200
+        Thu, 20 Apr 2023 07:27:48 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 877A01FCA;
+        Thu, 20 Apr 2023 04:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681990018; x=1713526018;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=b+bn65UgUBu2kgw7EEFORx23vyge/baidPoo8gqQ1DI=;
+  b=brZ03mSG+e7cUL541Wq7IQ7XrEr5FL6iYRuq3yAlFR3QqM4nBxSSqOhh
+   G7ivAux6mVuZx9+wYImBUFEDjpUT8YyahtIKToVvlaJ9Oa4NQ56/4MJ7C
+   ap0MZdgwgrBHRi4jmAp97gZaLtZZiyPgvu8Hsi7+PxJCnQyFRCS9aZGq8
+   MlgWQNyPjljA3KVzDXRXWNDwt1IVGeM9bg55cH/O9Fz1LHU0hGgHlEp9K
+   e+5QScl2WaRvr1zNtyes0bnIdnF85kd1ZDtva97We3tiA8qzzvclMxdiU
+   0S4Mp9P5qa1JGI6vAWc+t/3LzsU3/8RTcZFSp2Z6ucJHRPY4lEtKLri2l
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="347569850"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="347569850"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 04:26:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10685"; a="1021552325"
+X-IronPort-AV: E=Sophos;i="5.99,212,1677571200"; 
+   d="scan'208";a="1021552325"
+Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([10.214.236.160])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2023 04:26:55 -0700
+Message-ID: <7fe1b7ab73842ad8ee430cb171b6a59e3d6003bb.camel@intel.com>
+Subject: Re: [PATCH v3] media: uvcvideo: Enable Intel RealSense metadata for
+ devices.
+From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, linux-kernel@vger.kernel.org,
+        evgeni.raikhel@intel.com, demisrael@gmail.com
+Date:   Thu, 20 Apr 2023 14:26:53 +0300
+In-Reply-To: <ZEEEwt34bfmNEN99@valkosipuli.retiisi.eu>
+References: <5587a4f1a0a7f3e2bd0ce886bb4ee3bcbf8f522a.camel@intel.com>
+         <ZEEEwt34bfmNEN99@valkosipuli.retiisi.eu>
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] media: dt-bindings: qcom: camss: correct unit address
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Del Regno <angelogioacchino.delregno@somainline.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230420072442.36308-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
+
+On Thu, 2023-04-20 at 12:24 +0300, Sakari Ailus wrote:
+> Hi Dmitry,
+> =
+
+> On Thu, Apr 20, 2023 at 12:06:55PM +0300, Dmitry Perchanov wrote:
+> > Intel RealSense UVC Depth cameras produce metadata in a
+> > vendor-specific format that is already supported by the uvcvideo driver.
+> > Enable handling of this metadata for 7 additional RealSense devices.
+> > =
+
+> > Co-developed-by: Yu MENG <yu1.meng@intel.com>
+> > Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
+> > Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+> =
+
+> Thanks for the update.
+> =
+
+> Is the D4XX format on these devices the same that's documented in
+> Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst ? I.e. there a=
+re
+> no additional fields or differences, and the version of the format is the
+> same?
+We verified the document and found it generally correct.
+Although, we expanded number of fields and I can update this document.
+> =
+
+> The format documentation doesn't say which version number even the current
+> devices use (just refers to "xxx").
+The document compatible with all D4xx/D5xx devices so far.
+We dropped all obsolete incompatible cameras from support.
+> =
 
 
-On 20.04.2023 09:24, Krzysztof Kozlowski wrote:
-> Match unit-address to first reg entry.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Should I submit another patch with extended structures?
 
-Konrad
->  Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml | 2 +-
->  Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml | 2 +-
->  Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml  | 2 +-
->  Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml  | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> index 12ec3e1ea869..abd444e12d05 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
-> @@ -155,7 +155,7 @@ examples:
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      #include <dt-bindings/clock/qcom,gcc-msm8916.h>
->  
-> -    camss: camss@1b00000 {
-> +    camss: camss@1b0ac00 {
->        compatible = "qcom,msm8916-camss";
->  
->        clocks = <&gcc GCC_CAMSS_TOP_AHB_CLK>,
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> index 6aeb3d6d02d5..db2604802d51 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> @@ -221,7 +221,7 @@ examples:
->      #include <dt-bindings/clock/qcom,gcc-msm8996.h>
->      #include <dt-bindings/clock/qcom,mmcc-msm8996.h>
->  
-> -    camss: camss@a00000 {
-> +    camss: camss@a34000 {
->        compatible = "qcom,msm8996-camss";
->  
->        clocks = <&mmcc CAMSS_TOP_AHB_CLK>,
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> index b28c8e17f158..2f23baf32b61 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
-> @@ -227,7 +227,7 @@ examples:
->      #include <dt-bindings/clock/qcom,gcc-sdm660.h>
->      #include <dt-bindings/clock/qcom,mmcc-sdm660.h>
->  
-> -    camss: camss@ca00000 {
-> +    camss: camss@ca00020 {
->        compatible = "qcom,sdm660-camss";
->  
->        clocks = <&mmcc CAMSS_AHB_CLK>,
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> index f9a003882f84..8f5c9aff37fb 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-> @@ -219,7 +219,7 @@ examples:
->        #address-cells = <2>;
->        #size-cells = <2>;
->  
-> -      camss: camss@a00000 {
-> +      camss: camss@acb3000 {
->          compatible = "qcom,sdm845-camss";
->  
->          clocks = <&clock_camcc CAM_CC_CAMNOC_AXI_CLK>,
+Regards,
+Dmitry P.
+
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
