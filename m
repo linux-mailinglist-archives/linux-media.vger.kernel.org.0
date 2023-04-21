@@ -2,83 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E92746EA4CD
-	for <lists+linux-media@lfdr.de>; Fri, 21 Apr 2023 09:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 320776EA4FE
+	for <lists+linux-media@lfdr.de>; Fri, 21 Apr 2023 09:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbjDUHbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Apr 2023 03:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
+        id S231300AbjDUHiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Apr 2023 03:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230189AbjDUHbC (ORCPT
+        with ESMTP id S229818AbjDUHiW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Apr 2023 03:31:02 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325BD2728
-        for <linux-media@vger.kernel.org>; Fri, 21 Apr 2023 00:30:52 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9505214c47fso207438966b.1
-        for <linux-media@vger.kernel.org>; Fri, 21 Apr 2023 00:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682062251; x=1684654251;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TXD0SvfVpb5ArVlwxwukJNvZ7FQ4i6U8HJTH0x40wOc=;
-        b=jHa4yP8uRXfKtQYslv7gA8gGzGt6bHpcNBBVQkD9GcwARGlxayyqhdRiIBBQY9H1Bb
-         SyZU4yixxQM+XsojFJjtucU3i3wen2yRTp6zX48UroM+P9SpyNM7Goe7igAPHzmRXAec
-         5oYIBMyA43zod8w/yMsgwjaU3x/F93FJSjXiodloLojrzOAMmINH5JkXL5uSsn1Tkikb
-         tBe3WAOiF+rJFvyDRe/d0fYqAQNwa+8nDuoAGBeogng7SGfB6kMOa6BEvIAEsfJAdpmt
-         t5pAhDO4F5E3UKc4ZJ+0e/BrjMttO6ouKWwQ0fMnyy5VbXMympEy2ttY8yJgRLOJO18k
-         0V0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682062251; x=1684654251;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TXD0SvfVpb5ArVlwxwukJNvZ7FQ4i6U8HJTH0x40wOc=;
-        b=RIF0bs+W4CTjpchHOLQ+Uc7N1Je33OiDIp33uDjRKDyb/78BCwy+DTdGnwMFyEcGrC
-         nfjFQfgUAZzZQrLbO02d/ILzeoNspXFRj6fPpJ71cVgHmKhpti0xYHUXzNpZIn4ogVCM
-         8PNkW+J9ugfLFairB5muuu4L9sgPdL6rWGfG9gESm8KDOLOtSt/AyzZl5SKLEnKFDEw4
-         UXKfMWjxH6FgvDFJFHAMAwDbkqGB81TOWQqD0la/9jak2pHC9dYdRIDOTjQOIkvjDen3
-         0TXsLuBD8TvyXN2woxWMyK9jrmyekVpZgqbKGc+feTgV1nVck97+5jKxgwq8RWk83Ycl
-         M4Xw==
-X-Gm-Message-State: AAQBX9d3N1702X1fjkld8rLbA1OGs/k1pNMPx7Xh5vznynNVzRaffIfc
-        8Ou+olgMrGsES+6Wd7k6/Ihflg==
-X-Google-Smtp-Source: AKy350YiW/RgBcdrDWvcsi4/QmLqcZmY+jKO98eibRooGmPHFN7cNE5Nwwltck2kC0aIMnW0VwZMow==
-X-Received: by 2002:a17:907:7851:b0:94f:3b29:e0a5 with SMTP id lb17-20020a170907785100b0094f3b29e0a5mr1216357ejc.20.1682062251073;
-        Fri, 21 Apr 2023 00:30:51 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:668b:1e57:3caa:4d06? ([2a02:810d:15c0:828:668b:1e57:3caa:4d06])
-        by smtp.gmail.com with ESMTPSA id w27-20020a17090633db00b0094ed0370f8fsm1734575eja.147.2023.04.21.00.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Apr 2023 00:30:50 -0700 (PDT)
-Message-ID: <3adc1c05-b707-6caf-874e-dfef065c8ab8@linaro.org>
-Date:   Fri, 21 Apr 2023 09:30:49 +0200
+        Fri, 21 Apr 2023 03:38:22 -0400
+Received: from smtp.gentoo.org (dev.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 435D686BA;
+        Fri, 21 Apr 2023 00:38:21 -0700 (PDT)
+Message-ID: <b4aea4b5-d86a-1604-c646-346ea7b59476@gentoo.org>
+Date:   Fri, 21 Apr 2023 09:38:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH net-next 2/6] dt-bindings: net: brcm,unimac-mdio: Add
- asp-v2.0
-Content-Language: en-US
-To:     Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        bcm-kernel-feedback-list@broadcom.com
-Cc:     justin.chen@broadcom.com, f.fainelli@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
-        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        richardcochran@gmail.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-References: <1681863018-28006-1-git-send-email-justinpopo6@gmail.com>
- <1681863018-28006-3-git-send-email-justinpopo6@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1681863018-28006-3-git-send-email-justinpopo6@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Matthias Schwarzott <zzam@gentoo.org>
+Subject: Re: [PATCH] media: ov5693: Simplify an error message
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <928f2f70de241d0fa66801b46d736ad0f881eb72.1681576102.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-GB
+In-Reply-To: <928f2f70de241d0fa66801b46d736ad0f881eb72.1681576102.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,30 +41,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/04/2023 02:10, Justin Chen wrote:
-> From: Justin Chen <justin.chen@broadcom.com>
+Am 15.04.23 um 18:28 schrieb Christophe JAILLET:
+> dev_err_probe() already display the error code. There is no need to
+> duplicate it explicitly in the error message.
 > 
-> The ASP 2.0 Ethernet controller uses a brcm unimac.
-> 
-> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->  Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>   drivers/media/i2c/ov5693.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> index 0be426ee1e44..6684810fcbf0 100644
-> --- a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> +++ b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> @@ -22,6 +22,8 @@ properties:
->        - brcm,genet-mdio-v3
->        - brcm,genet-mdio-v4
->        - brcm,genet-mdio-v5
-> +      - brcm,asp-v2.0-mdio
-> +      - brcm,asp-v2.1-mdio
+> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+> index e3c3bed69ad6..d23786afd754 100644
+> --- a/drivers/media/i2c/ov5693.c
+> +++ b/drivers/media/i2c/ov5693.c
+> @@ -404,8 +404,8 @@ static int ov5693_read_reg(struct ov5693_device *ov5693, u32 addr, u32 *value)
+>   	ret = i2c_transfer(client->adapter, msg, 2);
+>   	if (ret < 0)
 
-Same concerns as on previous patch.
+i2c_transfer returns the number of transmitted messages. So I think the 
+values 0 <= ret < 2 also need to be handled.
 
-Best regards,
-Krzysztof
+>   		return dev_err_probe(&client->dev, ret,
+> -				     "Failed to read register 0x%04x: %d\n",
+> -				     addr & OV5693_REG_ADDR_MASK, ret);
+> +				     "Failed to read register 0x%04x\n",
+> +				     addr & OV5693_REG_ADDR_MASK);
+>   
+>   	*value = 0;
+>   	for (i = 0; i < len; ++i) {
 
