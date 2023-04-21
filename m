@@ -2,162 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C44E6E9BE1
-	for <lists+linux-media@lfdr.de>; Thu, 20 Apr 2023 20:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A1F6EA1E3
+	for <lists+linux-media@lfdr.de>; Fri, 21 Apr 2023 04:51:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbjDTSr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Apr 2023 14:47:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54302 "EHLO
+        id S233734AbjDUCvN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Apr 2023 22:51:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231704AbjDTSrY (ORCPT
+        with ESMTP id S233699AbjDUCvG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Apr 2023 14:47:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E55C30C5;
-        Thu, 20 Apr 2023 11:47:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 251D664B47;
-        Thu, 20 Apr 2023 18:47:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA34C433D2;
-        Thu, 20 Apr 2023 18:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682016442;
-        bh=gIDrAb2DLZxHW/UfFYvFg8ZkNoELTe4cNyI1YhHhsUc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qc+6ooEQtzPf4HhwXsVsY5wZMyL8TlT4I4maWGru69JSD+ChHQZATlXR2f+XdVQan
-         eobkKFtfxAgi/DnoXUt3pRJerjXWRpc3k2jC2jhV6Kn9Ka757+APzQAuikfZC13LYM
-         zmPdSARFhZC4GX8iKVUTb6ILSy1f/psLW3JeOElO0+c6aBQH1xHYfXIkriUegRURXd
-         6gGkNZfw9f2k0oIQauZteFrauOYWiS1oVzkpQXjKi7jsU0mv9qNce1GdPdBaVXeZc+
-         FCvPX5O/9imZKrZInVHCejqUYHTUdKtIYYRKQy4yrptyeYSpou9z8R1f8/nbSo8hWV
-         njLrbmk4WGM7Q==
-Date:   Thu, 20 Apr 2023 20:47:16 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Thu, 20 Apr 2023 22:51:06 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCD86EB9;
+        Thu, 20 Apr 2023 19:51:01 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-247122e9845so1180197a91.0;
+        Thu, 20 Apr 2023 19:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682045460; x=1684637460;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67LgqNT8XF4vwy6yP32eHkU2I1u0Y3vukwyzktySQbU=;
+        b=ZiAbVoUZ8IJAvox8IcFlDfaPh+VjoBXLmk6VAgIov93QLpk2pLax3y6rXcov36Ldwu
+         vpOMojneq8Km6ua5QR8wSfoPVEPpscDPScZeepJ7zfN+3badZWA3SHeJXMjD2pwdkhGb
+         vPeMUQ7KlKoxz1V2kEeNA2ueeYAYmySfRamPHAPEckyonnguEcP0WtfyngHomfQ4alcJ
+         1PYEaUKSL9FghM7WlQernDRjNWvawyRwvBLatXB/MZENORCKFR+W2Zp7opGS1hMYGR1H
+         Xj4v9NlzxiP+br94U+xXJp6izZ/+DT1OvWx7LelKejYjbPDhd3qUUJipzuxJ03KHGBV+
+         pUsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682045460; x=1684637460;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=67LgqNT8XF4vwy6yP32eHkU2I1u0Y3vukwyzktySQbU=;
+        b=cj6ug0K2Lj0LvW3pZooOj8/iE/SHIVL+3D4EKcEjcwc2OFR0+jUpTSr+UoCzbeHPSE
+         Dk3Z1IjIqeYoy8TLjaXs2lrj47vtid2NcwxocdbToeiuFVXVQUcfj0qNT/jq+wo7qhdB
+         LIFWTRLgvoF40umkhVHhbL1o38UNQrxUPWUNwpGkkglPUEwwoxqfsusGcgPicJ68tiEA
+         wKoeyVsLwez0UOjeFcEgwUusK9R9M3QlZstjLTv9N7VPKx0yji1arfVi8VSG2Wox9lqS
+         hV5V94F/iJC8jb0jLsETWcYRDJBS8vcOjFyyTcAgNM+3ox/AT65Gd7uXMN33DXQbsgL5
+         TbSg==
+X-Gm-Message-State: AAQBX9cREaDSwj1V+Afk1hvHmFEzmUILZvfo+QDaFjDJCfQeu9jBcWwi
+        LnyOfHEfO7sthaoJbDZ+5OI=
+X-Google-Smtp-Source: AKy350ZYr+N8r41JuwzmIMgGzxWuOG+gKGnToOJFJc5nn8AIZ3wgdSVHFaVF8j1iwe2ohapy4B4hgw==
+X-Received: by 2002:a17:90a:d14f:b0:24b:6349:4f87 with SMTP id t15-20020a17090ad14f00b0024b63494f87mr1686085pjw.6.1682045460086;
+        Thu, 20 Apr 2023 19:51:00 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170902b70400b001a681d123a0sm1717302pls.297.2023.04.20.19.50.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 19:50:59 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+From:   Tejun Heo <tj@kernel.org>
+To:     jiangshanlai@gmail.com
+Cc:     linux-kernel@vger.kernel.org, kernel-team@meta.com,
+        Tejun Heo <tj@kernel.org>, Ming Qian <ming.qian@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v10 5/8] dt-bindings: media: add TI DS90UB960 FPD-Link
- III Deserializer
-Message-ID: <ZEGItAqsvNGQm1l+@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230222132907.594690-1-tomi.valkeinen@ideasonboard.com>
- <20230222132907.594690-6-tomi.valkeinen@ideasonboard.com>
- <ZD6VwpRya6SGBAt5@shikoro>
- <b85a2198-dffd-6c1e-53ea-61bc4d14ce2a@ideasonboard.com>
+        linux-media@vger.kernel.org
+Subject: [PATCH 05/22] media: amphion: Use alloc_ordered_workqueue() to create ordered workqueues
+Date:   Thu, 20 Apr 2023 16:50:29 -1000
+Message-Id: <20230421025046.4008499-6-tj@kernel.org>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230421025046.4008499-1-tj@kernel.org>
+References: <20230421025046.4008499-1-tj@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DLSvPqhBVl0l+K0b"
-Content-Disposition: inline
-In-Reply-To: <b85a2198-dffd-6c1e-53ea-61bc4d14ce2a@ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+BACKGROUND
+==========
 
---DLSvPqhBVl0l+K0b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When multiple work items are queued to a workqueue, their execution order
+doesn't match the queueing order. They may get executed in any order and
+simultaneously. When fully serialized execution - one by one in the queueing
+order - is needed, an ordered workqueue should be used which can be created
+with alloc_ordered_workqueue().
 
-Hi Tomi,
+However, alloc_ordered_workqueue() was a later addition. Before it, an
+ordered workqueue could be obtained by creating an UNBOUND workqueue with
+@max_active==1. This originally was an implementation side-effect which was
+broken by 4c16bd327c74 ("workqueue: restore WQ_UNBOUND/max_active==1 to be
+ordered"). Because there were users that depended on the ordered execution,
+5c0338c68706 ("workqueue: restore WQ_UNBOUND/max_active==1 to be ordered")
+made workqueue allocation path to implicitly promote UNBOUND workqueues w/
+@max_active==1 to ordered workqueues.
 
-> How does this sound:
->=20
-> - If "i2c-alias-pool" is present in the DT data of the device passed to
-> i2c_atr_new(), i2c_atr_new() will parse the property. i2c-atr.c will expo=
-rt
-> functions to get a new alias and to release a previously reserved alias. =
-The
-> driver can use those functions in attach/detach_client() callbacks. In ot=
-her
-> words, the alias pool management wouldn't be fully automatic inside the
-> i2c-atr, but it would provide helpers for the driver to do the common wor=
-k.
->=20
-> - If "i2c-alias-pool" is not present, i2c-atr.c will behave as it does no=
-w,
-> and expects the driver to manage the aliases.
+While this has worked okay, overloading the UNBOUND allocation interface
+this way creates other issues. It's difficult to tell whether a given
+workqueue actually needs to be ordered and users that legitimately want a
+min concurrency level wq unexpectedly gets an ordered one instead. With
+planned UNBOUND workqueue updates to improve execution locality and more
+prevalence of chiplet designs which can benefit from such improvements, this
+isn't a state we wanna be in forever.
 
-So, how does a driver manage the aliases without a pool of available
-addresses? I can't imagine another way right now.
+This patch series audits all callsites that create an UNBOUND workqueue w/
+@max_active==1 and converts them to alloc_ordered_workqueue() as necessary.
 
-In general, your above proposal sounds good to me. With my lack of
-imagination regarding a different alias handling, I could also see that
-i2c-atr already provides the alias to the attach callback. But if you
-teach me another way of alias handling, then I could agree that your
-proposal makes sense as is.
+WHAT TO LOOK FOR
+================
 
-And yes, the "i2c-alias-pool" is definately optional.
+The conversions are from
 
-Happy hacking,
+  alloc_workqueue(WQ_UNBOUND | flags, 1, args..)
 
-   Wolfram
+to
 
+  alloc_ordered_workqueue(flags, args...)
 
---DLSvPqhBVl0l+K0b
-Content-Type: application/pgp-signature; name="signature.asc"
+which don't cause any functional changes. If you know that fully ordered
+execution is not ncessary, please let me know. I'll drop the conversion and
+instead add a comment noting the fact to reduce confusion while conversion
+is in progress.
 
------BEGIN PGP SIGNATURE-----
+If you aren't fully sure, it's completely fine to let the conversion
+through. The behavior will stay exactly the same and we can always
+reconsider later.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRBiLAACgkQFA3kzBSg
-KbYJ1A/7BDFTBE8y9ItDYSASswnWFWHIO5wp/eXJwlpgBYacveFxf/APz0H9A34I
-BKLFU2j5vsI4sPZgaJRo9rsju5/wEQlokVgMcOaFXEeiNf6LJ2CtVUrVa7TaBTkX
-zb8eMQ5EmPQwX9d4/XJ/Jc8bPGiLMhQ0SrNW21g3ZVA++ZFzrRqAZQDicPAuT3c8
-li159KDrPg4X5bhIAfOf2zgqr+1eBFQdlY11zDZ5bMBSbJHUb4vjX2Zogtzl7Xx/
-8CziRiUJmSiNtSUTpBACic4X8rbU/rCn5lgr+811389JvnOPZtcmfg1fLqL4Wj9i
-29Wxyc0+mGs8Hg74aDuAn6kpeT7VLzLUuH2EhcrpqY4B8lP2pCKQmMnVt0ZXrdBc
-J24ia/JEQ7+Ua3lqFn4pni7Pk34/juwq0LS2hqF9vKM2r5Z4/KZ5izZxxyU9c3Xe
-FWSRP8xWwA+H7ewtmFPrcGVRV9EVrZj/twpJn8KxvvFdFqJjHYdCUIkkcpuFN3MF
-yo0qVBp4aOvyQkzn+eyRNvFXkL0xGYJxeU1OouuUDMM3k75hUflAN9JUZfrTaMNP
-RPFhsTBcEgELPM7LLJqV9UqSsG/oAbC1eFV9fMoGRzcWNrd21XDb/TfPz11uGM6v
-R0a8dVjmmZU9OJMOcYYp9HebKFHBJrTQZoNE1syC7Kxj6+lg1xc=
-=qWqp
------END PGP SIGNATURE-----
+As there are follow-up workqueue core changes, I'd really appreciate if the
+patch can be routed through the workqueue tree w/ your acks. Thanks.
 
---DLSvPqhBVl0l+K0b--
+Signed-off-by: Tejun Heo <tj@kernel.org>
+Cc: Ming Qian <ming.qian@nxp.com>
+Cc: Shijie Qin <shijie.qin@nxp.com>
+Cc: Zhou Peng <eagle.zhou@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+---
+ drivers/media/platform/amphion/vpu_core.c | 2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
+index f9ec1753f7c8..57d56c680c07 100644
+--- a/drivers/media/platform/amphion/vpu_core.c
++++ b/drivers/media/platform/amphion/vpu_core.c
+@@ -254,7 +254,7 @@ static int vpu_core_register(struct device *dev, struct vpu_core *core)
+ 	if (vpu_core_is_exist(vpu, core))
+ 		return 0;
+ 
+-	core->workqueue = alloc_workqueue("vpu", WQ_UNBOUND | WQ_MEM_RECLAIM, 1);
++	core->workqueue = alloc_ordered_workqueue("vpu", WQ_MEM_RECLAIM);
+ 	if (!core->workqueue) {
+ 		dev_err(core->dev, "fail to alloc workqueue\n");
+ 		return -ENOMEM;
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 6773b885597c..a48edb445eea 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -740,7 +740,7 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 	inst->fh.ctrl_handler = &inst->ctrl_handler;
+ 	file->private_data = &inst->fh;
+ 	inst->state = VPU_CODEC_STATE_DEINIT;
+-	inst->workqueue = alloc_workqueue("vpu_inst", WQ_UNBOUND | WQ_MEM_RECLAIM, 1);
++	inst->workqueue = alloc_ordered_workqueue("vpu_inst", WQ_MEM_RECLAIM);
+ 	if (inst->workqueue) {
+ 		INIT_WORK(&inst->msg_work, vpu_inst_run_work);
+ 		ret = kfifo_init(&inst->msg_fifo,
+-- 
+2.40.0
+
