@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59CED6EAE4F
-	for <lists+linux-media@lfdr.de>; Fri, 21 Apr 2023 17:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD4076EAEF4
+	for <lists+linux-media@lfdr.de>; Fri, 21 Apr 2023 18:23:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232248AbjDUPwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Apr 2023 11:52:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
+        id S231636AbjDUQXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Apr 2023 12:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231858AbjDUPwF (ORCPT
+        with ESMTP id S229947AbjDUQXW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Apr 2023 11:52:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5627125A2
-        for <linux-media@vger.kernel.org>; Fri, 21 Apr 2023 08:52:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6FCC064EEB
-        for <linux-media@vger.kernel.org>; Fri, 21 Apr 2023 15:52:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65AB7C433D2;
-        Fri, 21 Apr 2023 15:52:01 +0000 (UTC)
-Message-ID: <52fb6582-f571-561c-5168-1d1bfc88dbc7@xs4all.nl>
-Date:   Fri, 21 Apr 2023 17:51:59 +0200
+        Fri, 21 Apr 2023 12:23:22 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD35869B
+        for <linux-media@vger.kernel.org>; Fri, 21 Apr 2023 09:23:19 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pptXa-006x1n-2F; Fri, 21 Apr 2023 16:23:18 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pptXX-009pe0-Ao; Fri, 21 Apr 2023 16:23:15 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.5] Add Tegra20 parallel video input capture (#91488)
+Date:   Fri, 21 Apr 2023 16:23:14 +0000
+Message-Id: <20230421162315.2343426-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <52fb6582-f571-561c-5168-1d1bfc88dbc7@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Luca Ceresoli <luca.ceresoli@bootlin.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.5] Add Tegra20 parallel video input capture
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -44,61 +46,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 423f331364bfbcd1212b78ac9052894ff5213ac9:
+From: builder@linuxtv.org
 
-  media: platform: mtk-mdp3: work around unused-variable warning (2023-04-18 12:40:29 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/52fb6582-f571-561c-5168-1d1bfc88dbc7@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/299677/
+Build time: 00:24:37
+Link: https://lore.kernel.org/linux-media/52fb6582-f571-561c-5168-1d1bfc88dbc7@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Fri 21 Apr 2023 03:19:33 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.5a
+Summary: got 2/20 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 92c0da47cc120dbea90421191e5610e943ab394e:
+Error/warnings:
 
-  staging: media: tegra-video: add support for Tegra20 parallel input (2023-04-21 17:16:45 +0200)
+patches/0001-dt-bindings-display-tegra-add-Tegra20-VIP.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
 
-----------------------------------------------------------------
-Luca Ceresoli (20):
-      dt-bindings: display: tegra: add Tegra20 VIP
-      dt-bindings: display: tegra: vi: add 'vip' property and example
-      staging: media: tegra-video: improve documentation of tegra_video_format fields
-      staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
-      staging: media: tegra-video: fix typos in comment
-      staging: media: tegra-video: improve error messages
-      staging: media: tegra-video: slightly simplify cleanup on errors
-      staging: media: tegra-video: move private struct declaration to C file
-      staging: media: tegra-video: move tegra210_csi_soc to C file
-      staging: media: tegra-video: remove unneeded include
-      staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
-      staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
-      staging: media: tegra-video: move default format to soc-specific data
-      staging: media: tegra-video: move MIPI calibration calls from VI to CSI
-      staging: media: tegra-video: add a per-soc enable/disable op
-      staging: media: tegra-video: move syncpt init/free to a per-soc op
-      staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
-      staging: media: tegra-video: add hooks for planar YUV and H/V flip
-      staging: media: tegra-video: add H/V flip controls
-      staging: media: tegra-video: add support for Tegra20 parallel input
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1974506
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
 
- Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml  |  59 ++++
- Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml |  41 +++
- MAINTAINERS                                                             |   3 +
- drivers/staging/media/tegra-video/Kconfig                               |   1 +
- drivers/staging/media/tegra-video/Makefile                              |   2 +
- drivers/staging/media/tegra-video/csi.c                                 |  48 ++++
- drivers/staging/media/tegra-video/csi.h                                 |   4 -
- drivers/staging/media/tegra-video/tegra20.c                             | 661 +++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/tegra-video/tegra210.c                            |  90 ++++++
- drivers/staging/media/tegra-video/vi.c                                  | 222 +++++----------
- drivers/staging/media/tegra-video/vi.h                                  |  71 +++--
- drivers/staging/media/tegra-video/video.c                               |   5 +
- drivers/staging/media/tegra-video/video.h                               |   2 +-
- drivers/staging/media/tegra-video/vip.c                                 | 290 +++++++++++++++++++
- drivers/staging/media/tegra-video/vip.h                                 |  68 +++++
- 15 files changed, 1380 insertions(+), 187 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
- create mode 100644 drivers/staging/media/tegra-video/tegra20.c
- create mode 100644 drivers/staging/media/tegra-video/vip.c
- create mode 100644 drivers/staging/media/tegra-video/vip.h
+patches/0020-staging-media-tegra-video-add-support-for-Tegra20-pa.patch:
+
+   checkpatch.pl:
+	$ cat patches/0020-staging-media-tegra-video-add-support-for-Tegra20-pa.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:54: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:103: CHECK: Prefer using the BIT macro
+	-:134: CHECK: Prefer using the BIT macro
+
+
+Error #512 when building PDF docs
+
