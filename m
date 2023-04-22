@@ -2,75 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 231106EB899
-	for <lists+linux-media@lfdr.de>; Sat, 22 Apr 2023 12:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 180D66EB914
+	for <lists+linux-media@lfdr.de>; Sat, 22 Apr 2023 14:11:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbjDVKjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Apr 2023 06:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53370 "EHLO
+        id S229625AbjDVMLB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Apr 2023 08:11:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbjDVKjR (ORCPT
+        with ESMTP id S229632AbjDVMLA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Apr 2023 06:39:17 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA75D1981
-        for <linux-media@vger.kernel.org>; Sat, 22 Apr 2023 03:39:15 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1a52667955dso33424805ad.1
-        for <linux-media@vger.kernel.org>; Sat, 22 Apr 2023 03:39:15 -0700 (PDT)
+        Sat, 22 Apr 2023 08:11:00 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A2F1FC8
+        for <linux-media@vger.kernel.org>; Sat, 22 Apr 2023 05:10:58 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4ec816d64afso11560275e87.1
+        for <linux-media@vger.kernel.org>; Sat, 22 Apr 2023 05:10:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682159955; x=1684751955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VwFMHD30sqUe/T7ly/CJPme7mMd8qDj0hDd4kicbgfQ=;
-        b=ewG2D7wdS60JREzAvKokBNWOZ7UcwGBzs908jvdjHMrHYP29OwKPg+EVXSR4yNUfnn
-         fty/BawtqqosvAmOT6sFTxbv+1W46qp3nSFjYCvQZ0ncwAEKiNg0fAPlqyWNYkw3jwJ8
-         T8p/cJyO/phS3fq38f4z75mTQD16C2swRQ10s=
+        d=linaro.org; s=google; t=1682165457; x=1684757457;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XPnDF9DYM/NKDMLhSe3+ERdFQloF9vFQjHlbD109zt0=;
+        b=NC5nBS9GOvTeZcG3repZOpLz3E9YKYGLizrTJ2BDD6eW2BTL5jfSVdgabcYuNCLjOM
+         WW2VZxrSQwIsAWjCKE6SO2ClAaEFixljd6fDlSz7co1Y5txHKiZQk7/OnkyRzhDsTtyd
+         LNvdoleCD+nUJhT75ncZESs6aeJZFlRArFHnCIWcM/oMaGx4+Ad25QFcSXC7CLrj0kdS
+         SeYw4klaP90YhSK1A3kHYr4+q9dSqZLfRDw3l+ZMHlSl+RDIAHCjFh8+9/0PtUUXviQS
+         9VQPGAtrSIVBRgk/Eef6z8+zsXhlygFTpsx7eh5naCThMLNbLdZ25/wgZKzu+CW/wmzl
+         rZpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682159955; x=1684751955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VwFMHD30sqUe/T7ly/CJPme7mMd8qDj0hDd4kicbgfQ=;
-        b=YcNl9veSTsIZ3axaBBUl6N5Y/SS7Puzwa9if/6JthHaGHD7LW9DfUuKUu5aZhML2LF
-         CX5yA038CX98zM4Pzeio3ATi98YVJ0nLyc+7E7MH62OPSvhXOexm/wtiP/nV1eB8e8o6
-         kVZgYid+xUblCVWaget3XkiQzvUQxPbIitWQDB6V2ACV2CgNHo5cPfi+PJpZznvVwQt/
-         +Hp60MES0ZzpxLNt4xJLSaOl4uVZVuevAOqENOK5ntBR1xnI6XePjQykvX5Wb65P+GfQ
-         QW94Bq44oFl9a3EErv51SKY+R5XNglb2bg9sixrh+1JuoPWS1R6hKAxwiXeiS1DUU4ky
-         vpWQ==
-X-Gm-Message-State: AAQBX9c5znCuNr4d3C63ZHppTEJQvImIKDF8sKsva+kADKIWfz3dm+bi
-        OxqtZ18rMBe3mcxk/SSWdVbwog==
-X-Google-Smtp-Source: AKy350ZFr/ruuyY8q22yZySnT8vteG7lqkSxAD4UjnYogF8dD+F+Bkmuc4hJmjU41ovyHJpko1ErlQ==
-X-Received: by 2002:a17:902:c94c:b0:1a5:2fbd:d094 with SMTP id i12-20020a170902c94c00b001a52fbdd094mr10186859pla.9.1682159955385;
-        Sat, 22 Apr 2023 03:39:15 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:c5d6:106b:dcb1:8d57])
-        by smtp.gmail.com with ESMTPSA id ls17-20020a17090b351100b0023a9564763bsm5627694pjb.29.2023.04.22.03.39.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Apr 2023 03:39:14 -0700 (PDT)
-From:   Pin-yen Lin <treapking@chromium.org>
-To:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        linux-mediatek@lists.infradead.org (moderated list:ARM/Mediatek SoC
-        support),
-        linux-kernel@vger.kernel.org (open list:ARM/Mediatek SoC support),
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC
-        support), Pin-yen Lin <treapking@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: mediatek: vcodec: Only apply 4K frame sizes on decoder formats
-Date:   Sat, 22 Apr 2023 18:39:05 +0800
-Message-ID: <20230422103905.1995271-1-treapking@chromium.org>
-X-Mailer: git-send-email 2.40.0.634.g4ca3ef3211-goog
+        d=1e100.net; s=20221208; t=1682165457; x=1684757457;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XPnDF9DYM/NKDMLhSe3+ERdFQloF9vFQjHlbD109zt0=;
+        b=SkidW2LFlBoqdD8ykwsjQWaaq63RwBF8EBsy60XCAdq1hIZqmBze1TietaICgAp64n
+         QklsrHyeWlkd0kiDXtfiSduDXNCV/s/+R+kskjx5ITFBHmrWC20Jy2wMChKRS9/5kdYF
+         uCPaCpxvKJckR3YWBFarUr2DuEHSNgs/p+ZLuW0qsK+n2KWq+7iomfm+vh0EYX5j8IYH
+         qpbBdeD9Ie7VsGpkXYpK4DnTYFqg1wbLIxNpvAFXgqenCR2UQl09W5R4T4yG1mrEi+X7
+         Qx0cUSPfkYDzze5BS24ukE81nyJeph+juZ6tm8cDtd8Y4YoJNVzrOCvGKqmetkKjbfkV
+         AzBQ==
+X-Gm-Message-State: AAQBX9eRItvlj3p9ogMkkCky7CwR/SHoswUra5gDzfaVMm4+Rg7lhFYd
+        8yAEYNr4JY2xxkcsdpjKmksPlg==
+X-Google-Smtp-Source: AKy350b+41OQZx0jt34QgFSz8mpHAcQA7Q4IfXLOTt1Aty4YMRkKmMvzXO8PsN8Eud0T9Lm1G0kumw==
+X-Received: by 2002:a05:6512:3e16:b0:4eb:41ac:e33 with SMTP id i22-20020a0565123e1600b004eb41ac0e33mr3783203lfv.19.1682165457203;
+        Sat, 22 Apr 2023 05:10:57 -0700 (PDT)
+Received: from [192.168.1.101] (abyj144.neoplus.adsl.tpnet.pl. [83.9.29.144])
+        by smtp.gmail.com with ESMTPSA id m12-20020a056512014c00b004eed4c80b55sm866517lfo.156.2023.04.22.05.10.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Apr 2023 05:10:56 -0700 (PDT)
+Message-ID: <01d06e66-9535-cb4c-6ea8-102f8b16f8b8@linaro.org>
+Date:   Sat, 22 Apr 2023 14:10:55 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: msm8998: add hdmi cec pinctrl nodes
+Content-Language: en-US
+To:     Arnaud Vrac <avrac@freebox.fr>, Rob Clark <robdclark@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sean Paul <sean@poorly.run>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        devicetree@vger.kernel.org
+References: <20230418-msm8998-hdmi-cec-v1-0-176479fb2fce@freebox.fr>
+ <20230418-msm8998-hdmi-cec-v1-4-176479fb2fce@freebox.fr>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230418-msm8998-hdmi-cec-v1-4-176479fb2fce@freebox.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,31 +85,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When VCODEC_CAPABILITY_4K_DISABLED is not set in dec_capability, skip
-formats that are not MTK_FMT_DEC so only decoder formats is updated in
-mtk_init_vdec_params.
 
-Fixes: e25528e1dbe5 ("media: mediatek: vcodec: Use 4K frame size when supported by stateful decoder")
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
 
- .../media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c   | 3 +++
- 1 file changed, 3 insertions(+)
+On 18.04.2023 20:10, Arnaud Vrac wrote:
+> HDMI is not enabled yet on msm8998 so the pinctrl nodes are not
+> used.
+> 
+> Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
+> ---
+Are they supposed to be identical?
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-index 29991551cf61..0fbd030026c7 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-@@ -584,6 +584,9 @@ static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
- 
- 	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) {
- 		for (i = 0; i < num_supported_formats; i++) {
-+			if (mtk_video_formats[i].type != MTK_FMT_DEC)
-+				continue;
-+
- 			mtk_video_formats[i].frmsize.max_width =
- 				VCODEC_DEC_4K_CODED_WIDTH;
- 			mtk_video_formats[i].frmsize.max_height =
--- 
-2.40.0.634.g4ca3ef3211-goog
-
+Konrad
+>  arch/arm64/boot/dts/qcom/msm8998.dtsi | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+> index b150437a83558..fb4aa376ef117 100644
+> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+> @@ -1312,6 +1312,20 @@ blsp2_i2c6_sleep: blsp2-i2c6-sleep-state {
+>  				drive-strength = <2>;
+>  				bias-pull-up;
+>  			};
+> +
+> +			hdmi_cec_default: hdmi-cec-default-state {
+> +				pins = "gpio31";
+> +				function = "hdmi_cec";
+> +				drive-strength = <2>;
+> +				bias-pull-up;
+> +			};
+> +
+> +			hdmi_cec_sleep: hdmi-cec-sleep-state {
+> +				pins = "gpio31";
+> +				function = "hdmi_cec";
+> +				drive-strength = <2>;
+> +				bias-pull-up;
+> +			};
+>  		};
+>  
+>  		remoteproc_mss: remoteproc@4080000 {
+> 
