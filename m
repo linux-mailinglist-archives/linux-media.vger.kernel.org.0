@@ -2,93 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E0C6EB972
-	for <lists+linux-media@lfdr.de>; Sat, 22 Apr 2023 15:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C18A36EBAF2
+	for <lists+linux-media@lfdr.de>; Sat, 22 Apr 2023 21:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbjDVNuJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Apr 2023 09:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43626 "EHLO
+        id S229696AbjDVTN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Apr 2023 15:13:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjDVNuH (ORCPT
+        with ESMTP id S229500AbjDVTNz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Apr 2023 09:50:07 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869AA1BEB;
-        Sat, 22 Apr 2023 06:50:05 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id 4fb4d7f45d1cf-506bfe81303so4536514a12.1;
-        Sat, 22 Apr 2023 06:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682171404; x=1684763404;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WFcPcfg308BxIs2D12U44N+18aoFFJxwabh2xPhsPSk=;
-        b=ZRWs3JpD4Cp5/pHGbDd0vrTAVGX7MoGwPJIJGgfDW35EVVzY7pVHO1cr+CMew4W30p
-         LssfreTk3/208zOZke8KMcbc5fRWXdHA1gLcffdeonmQ1cUm09zZdb7Qax14xXqktigh
-         QxVFZlPxVn+VDM9CKTWGq2LYuxR3RzYjFrprgWqmNAwY/xi4H8xNsc+kt0VKUI+/YJis
-         qEI1pzNybL5k5euRWSNV8a+Zk0eVTMAXFwkhC0Ved4lMSY7As7fGXewYKgf18p+dGQsc
-         OWQWry1WTSwtalqKuUvjPaulrvkzhckKJWomjmsPu5aIEGm3MfwYgVjIgZ9AR3G3sIm1
-         gFYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682171404; x=1684763404;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WFcPcfg308BxIs2D12U44N+18aoFFJxwabh2xPhsPSk=;
-        b=YHtdifYPr278Wus8Jc+cYsuOrZjDGWe//gWavURvo2GnS9R1L/aRvE2JUcqZ6wkKOA
-         y0ZOCA1VCyZtXOtrgLstzJ15jABFFTg64pLhV0iBhZUuyhhO1gFxQDWf9Sqa9jUEG6qS
-         /wp6Fb9pizTEKTxL0OafhG1UGpoZx+lWHDtnouP5tTWfTaxf9mBZKaQCrddgj98Klf3t
-         XPJ2acbJpkuOZC/Whavn9eYNfA9JLEyoDWO/8tm1ztg/U8mSI5b8kEGABCjCBscVFSEV
-         TTL1tkbvZt3WrZ8AGcG0/CPsJPA9wUtPPy4STpUnJIcaGI7vWYZRukwUmgFms7nnmFDP
-         BI7A==
-X-Gm-Message-State: AAQBX9dXR9NKae4d9v4NVWtsAEXk99ZivEGy5yoJOGvcFv77i/9/Qnnd
-        /y6MFtbnC4GofUpaPSVF/3k=
-X-Google-Smtp-Source: AKy350agXYSrpjkbP6WbEUuG++nS8/psneQ03hXKL+jNOlMEImcYh4gHMeo5CK525yNYdOAzt8ZgwA==
-X-Received: by 2002:aa7:da41:0:b0:506:8660:77a3 with SMTP id w1-20020aa7da41000000b00506866077a3mr8228114eds.37.1682171403662;
-        Sat, 22 Apr 2023 06:50:03 -0700 (PDT)
-Received: from [192.168.50.244] (83.11.224.11.ipv4.supernova.orange.pl. [83.11.224.11])
-        by smtp.gmail.com with ESMTPSA id v2-20020aa7d802000000b004ad601533a3sm2846990edq.55.2023.04.22.06.50.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Apr 2023 06:50:03 -0700 (PDT)
-Message-ID: <5818b5be-f9cc-8009-e2a4-1049d84a944d@gmail.com>
-Date:   Sat, 22 Apr 2023 15:50:01 +0200
+        Sat, 22 Apr 2023 15:13:55 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA01193;
+        Sat, 22 Apr 2023 12:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682190834; x=1713726834;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NMbAIgoL1EbZiIobpYsvn1zflbdPN5yfsrJDkxCjPlc=;
+  b=et5ljHVhsGc/HTJquCgwI5xHZrBXISXkdbS5OOqciA4fWVoZEfYvVJYT
+   CW7Ru0XnV81XqDMvmLeAy8RLgyR3JwGGKu84s60ZIDBumCl5voIHUy7R9
+   fZqQolJhgMX0nGUXwk15ebgjbTNXN9QFw81vFV7OCFjhiB93gjdvwd3F7
+   i16eoAS+m1EV83eUADOjq7q7msIiPP7ecmIGKFI4m4hsdXbaOq6L0p2PC
+   PIoCPkqJ0PMUTT2QUHAL2mnrrxG5qsk5lYDzX6R/bBzGkrILTFs3Zt2nM
+   sb0Z4JzrBYuHZAibEW59zOX2t5n0YdFxjCxjiNNzjNdTTCmkzddyl+TiY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="346209985"
+X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
+   d="scan'208";a="346209985"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 12:13:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="761926731"
+X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
+   d="scan'208";a="761926731"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 22 Apr 2023 12:13:51 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pqIgA-000hSC-37;
+        Sat, 22 Apr 2023 19:13:50 +0000
+Date:   Sun, 23 Apr 2023 03:13:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning:
+ unused variable 'mtk_mdp_comp_dt_ids'
+Message-ID: <202304230332.itoWhpOB-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-From:   Artur Weber <aweber.kernel@gmail.com>
-Subject: Re: [PATCH v2 12/12] ARM: dts: exynos: Add Samsung Galaxy Tab 3 8.0
- boards
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Olof Johansson <olof@lixom.net>, soc@kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-phy@lists.infradead.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-References: <20230416133422.1949-1-aweber.kernel@gmail.com>
- <20230416133422.1949-13-aweber.kernel@gmail.com>
- <9aba4c1d-93f3-7613-6fb5-0591a281ec0a@linaro.org>
-Content-Language: en-US
-In-Reply-To: <9aba4c1d-93f3-7613-6fb5-0591a281ec0a@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,39 +65,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Mauro,
 
-thank you for the review.
+FYI, the error/warning still remains.
 
-On 16/04/2023 20:26, Krzysztof Kozlowski wrote:
-> On 16/04/2023 15:34, Artur Weber wrote:
-> [...]
->> +
->> +		backlight: backlight@2c {
->> +			compatible = "ti,lp8556";
-> 
-> You need to convert bindings to DT schema first. I don't accept any new
-> usages of TXT bindings anymore, sorry.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2caeeb9d4a1bccd923b7918427f9e9ef7151ddd8
+commit: 2023a99811110aebba9eee4aa09ef7bd21a8a249 media: platform: rename mediatek/mtk-jpeg/ to mediatek/jpeg/
+date:   1 year, 1 month ago
+config: hexagon-randconfig-r016-20230423 (https://download.01.org/0day-ci/archive/20230423/202304230332.itoWhpOB-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2023a99811110aebba9eee4aa09ef7bd21a8a249
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2023a99811110aebba9eee4aa09ef7bd21a8a249
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/mediatek/jpeg/ drivers/media/platform/mediatek/mdp/
 
-I'll be taking a look at the conversion (will likely submit it as a
-separate patchset, since I've been looking into some minor driver-side
-changes there as well...), although I have one question - who should I
-list as the bindings maintainer ("maintainers" field in YAML format)? Is
-this someone specific for that subsystem, or the author of the driver,
-or someone else? (It's worth noting that there isn't a maintainer listed
-for the lp855x driver in the MAINTAINERS file.)
-Documentation/devicetree/bindings/writing-schema.rst doesn't really
-mention anything about this.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304230332.itoWhpOB-lkp@intel.com/
 
->> +&bus_acp {
-> 
-> Order label/phandle overrides by name, so acp before dmc.
-> 
+All warnings (new ones prefixed by >>):
 
-Out of curiosity - should I order the children of the / node or the
-pinctrl nodes by name as well?
+>> drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning: unused variable 'mtk_mdp_comp_dt_ids' [-Wunused-const-variable]
+   static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
+                                    ^
+   1 warning generated.
 
-Best regards
-Artur Weber
 
+vim +/mtk_mdp_comp_dt_ids +31 drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
+
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  30  
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08 @31  static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  32  	{
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  33  		.compatible = "mediatek,mt8173-mdp-rdma",
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  34  		.data = (void *)MTK_MDP_RDMA
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  35  	}, {
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  36  		.compatible = "mediatek,mt8173-mdp-rsz",
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  37  		.data = (void *)MTK_MDP_RSZ
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  38  	}, {
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  39  		.compatible = "mediatek,mt8173-mdp-wdma",
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  40  		.data = (void *)MTK_MDP_WDMA
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  41  	}, {
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  42  		.compatible = "mediatek,mt8173-mdp-wrot",
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  43  		.data = (void *)MTK_MDP_WROT
+55d80506c5f7c3 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  44  	},
+55d80506c5f7c3 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  45  	{ },
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  46  };
+c8eb2d7e8202fd drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  47  
+
+:::::: The code at line 31 was first introduced by commit
+:::::: c8eb2d7e8202fd9cb912f5d33cc34ede66dcb24a [media] media: Add Mediatek MDP Driver
+
+:::::: TO: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
