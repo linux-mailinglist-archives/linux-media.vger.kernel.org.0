@@ -2,212 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2834A6EC87C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 11:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B12266ECA56
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 12:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231262AbjDXJMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 05:12:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49594 "EHLO
+        id S231190AbjDXKcZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 06:32:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbjDXJMA (ORCPT
+        with ESMTP id S231494AbjDXKcC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 05:12:00 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1A8E76;
-        Mon, 24 Apr 2023 02:11:59 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68EB79DE;
-        Mon, 24 Apr 2023 11:11:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682327507;
-        bh=JttGT14krNRj5WYQKdQI7bhCw/cOBk/ZkWpXFncAIpg=;
+        Mon, 24 Apr 2023 06:32:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E527F197;
+        Mon, 24 Apr 2023 03:31:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F7EC62039;
+        Mon, 24 Apr 2023 10:31:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D255C433EF;
+        Mon, 24 Apr 2023 10:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682332290;
+        bh=x7upwBQlHFbyVO10snwIsBPKLyhD5ZgCsg/hqg0Fzws=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hWWKK+BZL+C7MgV3YcFmIMKYEnjNsg7Mf91X2aIHJlyrWt1QJwBvoloZEgVMQFTBA
-         R2nj+k83UMoPtkEQZK6h/dxUYGD7HyiTygZPC1362dh8z4SR5hmpqGqs0ZCNDlxQAG
-         lzLvjaLi1g6T9atDtnceUCksIvN9SEFQMzvA4fcY=
-Date:   Mon, 24 Apr 2023 12:12:09 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com,
-        slongerbeam@gmail.com, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, rmfrfs@gmail.com, kernel@pengutronix.de,
-        linux-imx@nxp.com, kernel@puri.sm, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: Unstage the imx8mq-mipi-csi2 driver
-Message-ID: <20230424091209.GC14888@pendragon.ideasonboard.com>
-References: <20230424082945.2580298-1-martin.kepplinger@puri.sm>
+        b=YXrXHm4H7y2rbNZv61Li6W13Os9LmazFAJPMufxRuLGrjs1es5kJFqjFOxI3KvnUZ
+         6JCCwP+xT72qWf0xVb9eQNHEb8PE0b1nRF0d5aGlHG/eHeOoJHPagu7IbNsGBB60oq
+         A33Eq31rT3tRkK4SMtjQWBTs4teNK10oZaOGLccYwb74oOSDqPdJJVc3/KFpiMtPup
+         jgd7LRSfZCE93qL4+iAIvUtSGgO/SKIdemo6gZD+W+zwkAvsi7fIFO9sPYTKv8rtTr
+         muODtrdRGAieA9W3kMe6sFHo9WLvQ0pi4tJOGMtePUSYyn44Igy9qgfgvBvfsAVQyH
+         rKhlKVojNBDVw==
+Date:   Mon, 24 Apr 2023 12:31:26 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v11 1/7] i2c: add I2C Address Translator (ATR) support
+Message-ID: <ZEZafj6j+EurGWJ7@sai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>, Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20230421101833.345984-1-tomi.valkeinen@ideasonboard.com>
+ <20230421101833.345984-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gg+RkDq5qENt1R+b"
 Content-Disposition: inline
-In-Reply-To: <20230424082945.2580298-1-martin.kepplinger@puri.sm>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230421101833.345984-2-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
 
-Thank you for the patch.
+--gg+RkDq5qENt1R+b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 24, 2023 at 10:29:45AM +0200, Martin Kepplinger wrote:
-> The imx8mq-mipi-csi2 mipi receiver driver is used and maintained. There
+On Fri, Apr 21, 2023 at 01:18:27PM +0300, Tomi Valkeinen wrote:
+> From: Luca Ceresoli <luca@lucaceresoli.net>
+>=20
+> An ATR is a device that looks similar to an i2c-mux: it has an I2C
+> slave "upstream" port and N master "downstream" ports, and forwards
+> transactions from upstream to the appropriate downstream port. But it
+> is different in that the forwarded transaction has a different slave
+> address. The address used on the upstream bus is called the "alias"
+> and is (potentially) different from the physical slave address of the
+> downstream chip.
+>=20
+> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
+> implementing ATR features in a device driver. The helper takes care or
+> adapter creation/destruction and translates addresses at each transaction.
+>=20
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-s/mipi/MIPI CSI-2/
+This looks good to me. Dunno if the DT folks want the binding as a
+seperate patch, but this is good to go as far as I am concerned.
+Everything else can be fixed incrementally, I think. Also, this can go
+in via the media-tree, there shouldn't be any conflicts.
 
-> is no reason to keep it in staging. The accompanying CSI bridge driver that
-> uses it is in drivers/media/platform/nxp as well.
-> 
-> One TODO is to get rid of csi_state's "state" and "lock" variables. Especially
-> make sure suspend/resume is working without them. That can very well be worked
-> on from the new location.
-> 
-> Add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi receiver driver.
-> It shares the CSI Bridge driver with the one from imx7 and imx8mm so the
-> sections overlap a bit.
->
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> ---
->  MAINTAINERS                                         | 13 +++++++++++++
->  drivers/media/platform/nxp/Kconfig                  | 11 +++++++++++
->  drivers/media/platform/nxp/Makefile                 |  1 +
->  .../imx => media/platform/nxp}/imx8mq-mipi-csi2.c   |  0
->  drivers/staging/media/imx/Kconfig                   | 12 +-----------
->  drivers/staging/media/imx/Makefile                  |  2 --
->  6 files changed, 26 insertions(+), 13 deletions(-)
->  rename drivers/{staging/media/imx => media/platform/nxp}/imx8mq-mipi-csi2.c (100%)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f50945bb7d1b..fcd48408fc1f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12919,6 +12919,19 @@ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->  F:	drivers/media/platform/nxp/imx-mipi-csis.c
->  F:	drivers/media/platform/nxp/imx7-media-csi.c
->  
-> +MEDIA DRIVERS FOR FREESCALE IMX8MQ
-> +M:	Martin Kepplinger <martin.kepplinger@puri.sm>
-> +R:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +R:	Purism Kernel Team <kernel@puri.sm>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/admin-guide/media/imx7.rst
-> +F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> +F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> +F:	drivers/media/platform/nxp/imx7-media-csi.c
-> +F:	drivers/media/platform/nxp/imx8mq-mipi-csi.c
-> +
+Acked-by: Wolfram Sang <wsa@kernel.org>
 
-I'm not sure overlaps will be properly supported by all tools. I'd
-rather avoid them. You can either
+Thanks for keeping at it!
 
-- Add this driver to the existing "MEDIA DRIVERS FOR FREESCALE IMX7"
-  section (possibly renaming it to 'IMX7/8'), and add yourself as a
-  maintainer to that section if desired.
 
-- Create a new section as you're doing here, with just the CSI-2
-  receiver driver in it.
+--gg+RkDq5qENt1R+b
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Additionally, I'd rename the "MEDIA DRIVERS FOR FREESCALE IMX" entry to
-"MEDIA DRIVERS FOR FREESCALE IMX5/6". This could be done in a separate
-patch though.
+-----BEGIN PGP SIGNATURE-----
 
->  MEDIA DRIVERS FOR HELENE
->  M:	Abylay Ospan <aospan@netup.ru>
->  L:	linux-media@vger.kernel.org
-> diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
-> index a0ca6b297fb8..efa985ec8a5f 100644
-> --- a/drivers/media/platform/nxp/Kconfig
-> +++ b/drivers/media/platform/nxp/Kconfig
-> @@ -28,6 +28,17 @@ config VIDEO_IMX_MIPI_CSIS
->  	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
->  	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
->  
-> +config VIDEO_IMX8MQ_MIPI_CSI2
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRGWnoACgkQFA3kzBSg
+Kbadfw//Y5SeRe83SMCFfpkidD2u1G3YuWrzp5+GfMLCDyKxRKiziZtnzyRmC9xQ
+rknOTHe9KssAk6mJkoYnm8PHC+7CPjpL6hzu8Z4R3dPnTF9dmvGH2JpDxXCB4KMX
+ksU+S5GlitAoUIprvpeMfSMTUSxaayuJwUtpjMxJ1XjV89WiBFh871ElOZPqLgYs
+/vTVRF1FWle5DZK2TGtlHTM2HKXFxBkFDpyQ2cJOBU5symGs5ZqjgUHNrCc01ydy
+DzWqtoSAVXfGQU0JOglKJB3Ws6bcR29svYZNYVAQJ6jpvPRNiDXP3wdL1/aSIaUo
+AU++kmwLFXYImSAVQcb3rnYI+Ld7ivzNYu9FLHmeN9kmw6upmQqms0wZ6z78y8Xl
+e4E+E1zOli61eEQzm3mzq54SDDo6CmNqetH7D77srWlGl+gMNysB5DKrU1vjnry6
+CXNldRTM6axfuAC9mUVfWQLHny6dQtbnLkOyWWTcJZthW3HhsyVJ3RhfGgGQ+Kth
+Kuw28Uczq7B45lCVoOML4B0lozIj+kHjh7n9f6gFukiBzwlsJhxlhsyp1fG17Bx4
+qd9dHAe1louLLL0NmgTnsp9M1KUf/sYMUrssBTrBOkDT94BLv4GHcd7WvW2SPTvX
+GhLsjgE5ubGMnXv++80IfjNu9EW3egEorgHjAgXJtMBOGRi+3zs=
+=VN/1
+-----END PGP SIGNATURE-----
 
-VIDEO_IMX8MQ_MIPI_CSI2 goes before VIDEO_IMX_MIPI_CSIS in alphabetical
-order.
-
-> +	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
-> +	depends on ARCH_MXC || COMPILE_TEST
-> +	depends on VIDEO_DEV
-> +	select MEDIA_CONTROLLER
-> +	select V4L2_FWNODE
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  Video4Linux2 driver for the MIPI CSI-2 receiver found on the i.MX8MQ
-> +	  SoC. The i.MX8MQ CSI Bridge is the same as on i.MX7.
-
-Drop the second sentence, it's irrelevant here.
-
-> +
->  source "drivers/media/platform/nxp/imx8-isi/Kconfig"
->  
->  # mem2mem drivers
-> diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
-> index b8e672b75fed..4d90eb713652 100644
-> --- a/drivers/media/platform/nxp/Makefile
-> +++ b/drivers/media/platform/nxp/Makefile
-> @@ -5,6 +5,7 @@ obj-y += imx-jpeg/
->  obj-y += imx8-isi/
->  
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
->  obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
->  obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
->  obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> similarity index 100%
-> rename from drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> rename to drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
-> index 21fd79515042..5b393e29d29e 100644
-> --- a/drivers/staging/media/imx/Kconfig
-> +++ b/drivers/staging/media/imx/Kconfig
-> @@ -15,7 +15,7 @@ config VIDEO_IMX_MEDIA
->  	  driver for the i.MX5/6 SOC.
->  
->  if VIDEO_IMX_MEDIA
-> -menu "i.MX5/6/7/8 Media Sub devices"
-> +menu "i.MX5/6 Media Sub devices"
->  
->  config VIDEO_IMX_CSI
-
-I'm tempted to merge the VIDEO_IMX_MEDIA and VIDEO_IMX_CSI Kconfig
-symbols. I'll send a patch to do so.
-
->  	tristate "i.MX5/6 Camera Sensor Interface driver"
-> @@ -25,13 +25,3 @@ config VIDEO_IMX_CSI
->  	  A video4linux camera sensor interface driver for i.MX5/6.
->  endmenu
->  endif
-> -
-> -config VIDEO_IMX8MQ_MIPI_CSI2
-> -	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
-> -	depends on ARCH_MXC || COMPILE_TEST
-> -	depends on VIDEO_DEV
-> -	select MEDIA_CONTROLLER
-> -	select V4L2_FWNODE
-> -	select VIDEO_V4L2_SUBDEV_API
-> -	help
-> -	  V4L2 driver for the MIPI CSI-2 receiver found in the i.MX8MQ SoC.
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index 906a422aa656..b69951deff9a 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -13,5 +13,3 @@ obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> -
-> -obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
-
--- 
-Regards,
-
-Laurent Pinchart
+--gg+RkDq5qENt1R+b--
