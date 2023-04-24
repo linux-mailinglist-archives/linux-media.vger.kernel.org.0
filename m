@@ -2,148 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34F6E6ED563
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 21:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E5846ED567
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 21:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232229AbjDXTdO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 15:33:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
+        id S232405AbjDXThR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 24 Apr 2023 15:37:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231937AbjDXTdN (ORCPT
+        with ESMTP id S229798AbjDXThP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 15:33:13 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F859E55
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 12:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682364792; x=1713900792;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FZIJChs0f+L1u3nuLpV9kZ0EpvxdUBq8sFjjoHmf5Os=;
-  b=JGcN+LySqW4cFG/dOdnZb+FN2luG81z/lAkHVyepmuPeeR0nkthcAVle
-   2NA59YRmQ3j6/7ah0+jTwALdGd6Y+z6N/HwIAQ1H+NPBK5qa9wAQel9r6
-   4She1tP5RMsBctvdwZDZKPPb6avDwa98Ly4PiwU0SQG0UBwwBD6WWKQVJ
-   Q1x6udeyWqUI+rdnK9pqXL2L3iXwzT+/Zph2A4z/+ehpjVDP6+/OUCEMW
-   ZzLfcQIg65DeTwIbeVbpmNbooaPfwbcfeNyNIdZ76S5jGdSW3VgBaMhv+
-   r9mRgzHUjZnSXhElpW0x/ZfY7NvZNVo2DanBiHILQRGMXPg11E++0X8Ey
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326153019"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="326153019"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 12:33:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="804755764"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="804755764"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 12:33:09 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1203B11FAD0;
-        Mon, 24 Apr 2023 22:33:06 +0300 (EEST)
-Date:   Mon, 24 Apr 2023 22:33:06 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hverkuil@xs4all.nl, Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 03/18] media: v4l: async: Simplify async sub-device
- fwnode matching
-Message-ID: <ZEbZcvaAp7ExU7KA@kekkonen.localdomain>
-References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-4-sakari.ailus@linux.intel.com>
- <dpw2fvycehgud3ijdzppy24bep2a54ceceksmifetczikdmgeq@ok4vru42ocvy>
- <ZDkz/DcjzayyokAQ@kekkonen.localdomain>
- <ZEbWdoATJN2JoK9B@oden.dyn.berto.se>
+        Mon, 24 Apr 2023 15:37:15 -0400
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50CFF5596;
+        Mon, 24 Apr 2023 12:37:14 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-b992e28c141so5884936276.0;
+        Mon, 24 Apr 2023 12:37:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682365033; x=1684957033;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GZol4aEZCkmHs4ejc2LNc9FEqv9LZk1pju+lVxytN+s=;
+        b=lc5vN4yo0zDeUasfcdRjFaKNyWBieWqeNOmep5frIrHqynr/QwiL4ATDE0Aq5LI3cX
+         zQzXTPp7Eh6cPxgag6XbKHzaM+9qLh+5cfwgVCbPZVog+RGwmAZL/3bp9kCHi772YfcY
+         nBPZ73tOBmvxlPIqZtoReaehpRyC9fnlr3R2Ymshhz7wVjBxpynE8a1QuuMXbQbl1O56
+         NFo4Ih8EOtvEdD2S2nhJeR5Isuuh2JvUALtcO0EiEyGgMmN3NMgFUesixxeaHr4LS3+d
+         ktYSRkIfNbh8iJWIkveEEXuZQ52J96Qpc62c307DonOeuP24xGz0lTEIQVy5JB7U+kyq
+         vIYg==
+X-Gm-Message-State: AC+VfDyFp1RjYo45KgYPZwH2qTcaonvoIUkg3M4uzk9cNpCD6BC3C5ZA
+        OP1ioJfKedGOnL0ROBkC0MA2Ph3O9bQyhw==
+X-Google-Smtp-Source: ACHHUZ4xNY++x32fGVy8DGJyETJvQ/ZYNHqro/Tk08jYihjXy/cx7a+sJ4ampNDx4gjUjUMnAt7WyQ==
+X-Received: by 2002:a25:5344:0:b0:b99:9c3d:7d22 with SMTP id h65-20020a255344000000b00b999c3d7d22mr2555846ybb.27.1682365033136;
+        Mon, 24 Apr 2023 12:37:13 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id u44-20020a25ab2f000000b00b999ed81794sm803519ybi.0.2023.04.24.12.37.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Apr 2023 12:37:12 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-54fc6949475so54805787b3.3;
+        Mon, 24 Apr 2023 12:37:12 -0700 (PDT)
+X-Received: by 2002:a81:488e:0:b0:552:f3d5:c156 with SMTP id
+ v136-20020a81488e000000b00552f3d5c156mr8701161ywa.13.1682365032620; Mon, 24
+ Apr 2023 12:37:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZEbWdoATJN2JoK9B@oden.dyn.berto.se>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230307163041.3815-1-wsa+renesas@sang-engineering.com>
+ <20230307163041.3815-6-wsa+renesas@sang-engineering.com> <CAMuHMdVQiMbupkCYhZ86WHND25E==iA1DyVwGf2rg32zJLcV2g@mail.gmail.com>
+ <ZEbVyhjKs15Rj+5h@sai>
+In-Reply-To: <ZEbVyhjKs15Rj+5h@sai>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 24 Apr 2023 21:37:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW9F4adqsWj7BpvTSGMamPdM-OM+oY_nM0-xTMnuaFr-A@mail.gmail.com>
+Message-ID: <CAMuHMdW9F4adqsWj7BpvTSGMamPdM-OM+oY_nM0-xTMnuaFr-A@mail.gmail.com>
+Subject: Re: [PATCH 05/11] media: renesas: fdp1: remove R-Car H3 ES1.* handling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Wolfram,
 
-On Mon, Apr 24, 2023 at 09:20:22PM +0200, Niklas Söderlund wrote:
-> Hi Sakari,
-> 
-> On 2023-04-14 14:07:40 +0300, Sakari Ailus wrote:
-> > Hi Jacopo,
-> > 
-> > On Thu, Apr 13, 2023 at 06:50:04PM +0200, Jacopo Mondi wrote:
-> > > Hi Sakari
-> > > 
-> > > On Thu, Mar 30, 2023 at 02:58:38PM +0300, Sakari Ailus wrote:
-> > > > V4L2 async sub-device matching originally used the device nodes only.
-> > > > Endpoint nodes were taken into use instead as using the device nodes was
-> > > > problematic for it was in some cases ambiguous which link might have been
-> > > > in question.
-> > > >
-> > > > There is however no need to use endpoint nodes on both sides, as the async
-> > > > sub-device's fwnode can always be trivially obtained using
-> > > > fwnode_graph_get_remote_endpoint() when needed while what counts is
-> > > > whether or not the link is between two device nodes, i.e. the device nodes
-> > > > match.
-> > > >
-> > > 
-> > > As you know I'm a bit debated.
-> > > 
-> > > Strict endpoint-matching requires one subdev to be registed per each
-> > > endpoint, and this is tedious for drivers that have to register a
-> > > subdev for each of its endpoints
-> > > 
-> > > Allowing a subdev to be matched multiple times on different endpoints
-> > > gives a way for lazy drivers to take a shortcut and simplify their
-> > > topologies to a single subdev, when they would actually need more.
-> > 
-> > I'd say this is really about interface design, not being "lazy". It depends
-> > on the sub-device. Ideally the framework should be also as easy for drivers
-> > drivers to use as possible.
-> > 
-> > What is not supported, though, is multiple sub-devices with a single device
-> > node. Do we need that? At least I don't think I came across a driver that
-> > would.
-> 
-> If I understand you correctly about multiple sub-device from a single 
-> device node, this exists today. The ADV748x driver have a single device 
-> node in DT and register multiple sub-devices, one for each source 
-> endpoint.
-> 
-> The ADV748x have two CSI-2 transmitters, one 4-lane and one 1-lane as 
-> well as two different video capture "ports" one HDMI and one CVBS. Both 
-> capture ports can be active at the same time and routed internally 
-> inside the ADV748x to the two different CSI-2 transmitters.
-> 
-> In order todo this the ADV748x register multiple subdevices and modifies 
-> the fwnode to be the endpoint instead of the device node. So the change 
-> in this patch for ADV748x driver would break that driver.
+On Mon, Apr 24, 2023 at 9:17â€¯PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > > -#define FD1_IP_H3_ES1                  0x02010101
+>
+> ...
+>
+> > Apparently 0x02010101 is also used on (at least) R-Car M2-W ES1.0,
+> > causing the following annoying (but further harmless?) messages
+> > during boot:
+> >
+> >     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+> >     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
+>
+> Hmm, that means before my removal patch, Gen2 has been incorrectly
+> defined as H3 ES1?
 
-Ah, indeed. I guess I'll need to support that case as well then. It doesn't
-seem to be troublesome to implement, but I'm tempted making it a special
-case: every other driver would apparently be fine matching with device
-fwnode whereas doing endpoint-to-endpoint matching adds complexity to the
-drivers. This patch removes about 100 lines of rather ugly code largely
-from v4l2-async.
+Indeed, but the driver doesn't seem to do anything with the detected
+version, except for printing a debug or error message.
 
-There are other issues in the set with connection-subdev relations, I'll
-post v2 to address those as well.
+> > Note that the R-Car Gen2 documentation states the register's contents
+> > are all zeroes.  But that value would trigger the error message, too.
+>
+> Bad, but well...
+>
+> > Sorry for not noticing before. Apparently I never booted a kernel
+> > with this patch on koelsch...
+>
+> We could re-add this version and just let it print "FDP1 Initial
+> Version" or something? I could test this on my Lager board.
+
+I plan to test it on a few other boards, too...
+Just wanted to let you know ASAP...
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Kind regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
