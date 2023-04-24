@@ -2,103 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9997F6ECAD8
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 13:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 731A56ECB2B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 13:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbjDXLBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 07:01:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45050 "EHLO
+        id S230513AbjDXLTY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 24 Apr 2023 07:19:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231249AbjDXLBY (ORCPT
+        with ESMTP id S229522AbjDXLTY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 07:01:24 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AC835A9;
-        Mon, 24 Apr 2023 04:01:20 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1932B9DE;
-        Mon, 24 Apr 2023 13:01:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682334068;
-        bh=Dge9CpuzYlCmb1f/D/o+Nlsl3C6MkM0cjJz+ChrCDMc=;
-        h=Date:Subject:From:To:References:In-Reply-To:From;
-        b=X5QTDvZOlH5vPmODcDAabiMKFORtv3QBwylKImoQNN9/s0dxL0aEcYleIqs8EVZQN
-         xz+aTvM7iIt6231Rx+G/9l1e0H8tYxfgiwlmne5gJEn0pLDDjr8re4ZYQ0vpPE3nDC
-         rVjB6pVV8L80s4/U+LvDcVwmfT+WNe4KzP86VUmQ=
-Message-ID: <30e4656f-63d9-a79c-c1d9-23d0a16cf184@ideasonboard.com>
-Date:   Mon, 24 Apr 2023 14:01:13 +0300
+        Mon, 24 Apr 2023 07:19:24 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B40926A3;
+        Mon, 24 Apr 2023 04:19:22 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 371C724E083;
+        Mon, 24 Apr 2023 19:19:21 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 24 Apr
+ 2023 19:19:21 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 24 Apr
+ 2023 19:19:20 +0800
+Message-ID: <14c06503-621f-2477-7b15-b17f1890ecfe@starfivetech.com>
+Date:   Mon, 24 Apr 2023 19:19:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v11 1/7] i2c: add I2C Address Translator (ATR) support
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v4 0/8] Add StarFive Camera Subsystem driver
 Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     Wolfram Sang <wsa@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20230421101833.345984-1-tomi.valkeinen@ideasonboard.com>
- <20230421101833.345984-2-tomi.valkeinen@ideasonboard.com>
- <ZEZafj6j+EurGWJ7@sai>
- <f9be2c5d-1303-1b91-c672-7e5a476277e7@ideasonboard.com>
-In-Reply-To: <f9be2c5d-1303-1b91-c672-7e5a476277e7@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Robert Foss <rfoss@kernel.org>,
+        "Todor Tomov" <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <20230413035541.62129-1-jack.zhu@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/04/2023 13:51, Tomi Valkeinen wrote:
-> On 24/04/2023 13:31, Wolfram Sang wrote:
->> On Fri, Apr 21, 2023 at 01:18:27PM +0300, Tomi Valkeinen wrote:
->>> From: Luca Ceresoli <luca@lucaceresoli.net>
->>>
->>> An ATR is a device that looks similar to an i2c-mux: it has an I2C
->>> slave "upstream" port and N master "downstream" ports, and forwards
->>> transactions from upstream to the appropriate downstream port. But it
->>> is different in that the forwarded transaction has a different slave
->>> address. The address used on the upstream bus is called the "alias"
->>> and is (potentially) different from the physical slave address of the
->>> downstream chip.
->>>
->>> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
->>> implementing ATR features in a device driver. The helper takes care or
->>> adapter creation/destruction and translates addresses at each 
->>> transaction.
->>>
->>> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>
->> This looks good to me. Dunno if the DT folks want the binding as a
->> seperate patch, but this is good to go as far as I am concerned.
+
+
+On 2023/4/13 11:55, Jack Zhu wrote:
+> Hi,
 > 
-> Ah, right. I'll resend with the DT bindings separate.
+> This patch series adds support for the StarFive Camera Subsystem
+> found on StarFive JH7110 SoC.
+> 
+> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+> Camera sensor using V4L2 subdev interface in the kernel is supported.
+> 
+> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+> GStreamer 1.18.5 with v4l2src plugin is supported.
+> 
+> Changes since v3:
+> Patch 1:
+> - Modified port@0 and port@1 properties.
+> - Extended the port@0 example with appropriate properties.
+> - Added 'port@0' for 'required'
+> Patch 2:
+> - Modified spelling errors.
+> Patch 3:
+> - Merged patch 5 into the patch with an explanation for compatible in
+>   commit msg.
+> Patch 6:
+> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
+>   label.
+> - Modified Code Style for getting sys_rst and p_rst.
+> - Renamed clk_name to name and modified the relevant code.
+> Patch 9:
+> - Added static for stfcamss_get_mem_res function.
+> - Added static for isp_close function.
+> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
+> - Dropped unused variables.
+> 
+>   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+> 
 
-Also, looks like I forgot to remove the namespaces for export symbols.
+Hello everyone,
 
-  Tomi
+From the current review status, the patches related to the CSI module
+have 'reviewed-by' tags. I would like to know if it is okay to add
+patches 1-5 from this series to a PR first.
 
+Thank you!
+
+Jack
+
+> Changes since v2:
+> - Rebased on v6.3-rc1.
+> Patch 1:
+> - Modified spelling errors.
+> - Added port@0.
+> - Modified '$ref' of port.
+> - Added 'ports' to 'required'.
+> - Dropped 'stfcamss' label in example.
+> - Added port@0 in example.
+> - Added MAINTAINERS file.
+> Patch 2:
+> - Split this patch into three new patches.
+> - Modified compatible property.
+> - Replaced clock names with the existing names.
+> - Modified 'bus-type' and 'clock-lanes'
+> - Added port@2 - port@4
+> - Dropped 'csi2rx' label in example.
+> Patch 3:
+> - Updated rst and dot file as three pipelines were deleted.
+> Patch 4:
+> - Split this patch into three new patches.
+> - Dropped .s_power() and .get_fmt().
+> - Dropped CSI-2 DT support.
+> - Dropped v4l2_device_register_subdev_nodes().
+> - Used assigned-clock-rates in DT to set clk value.
+> - Modified 'compatible' field.
+> Patch 5:
+> - Deleted three pipelines. 
+> - Modified 'stfcamss_clocks'/'stfcamss_resets' struct.
+> - Dropped stfcamss_find_sensor() function.
+> - Removed redundant code from stfcamss_of_parse_endpoint_node().
+> - Modified spelling errors.
+> - Rewrote stfcamss_reg_media_subdev_node() function.
+> - Modified stfcamss_subdev_notifier_bound().
+> - Modified stfcamss_probe() function.
+> - Dropped stfcamss_suspend() and stfcamss_resume().
+> - Dropped dev_info() in stfcamss_remove() function.
+> - Added 'stf_' prefix for enum subdev_type.
+> - Moved all includes to the top in stf_camss.h file.
+> - Dropped unused fields in stfcamss struct.
+> - Replaced Custom logging macros with regular macros.
+> - Rewrote register read and write functions.
+> - Used lowercase for all hex constants.
+> - Used macro to name registers.
+> - Dropped unused ioctl and stf_isp_ioctl.h file.
+> 
+>   v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
+> 
+> Changes since v1:
+> - Deleted starfive,jh7110-mipi-csi2.yaml.
+> - Converted cdns,csi2rx.txt to cdns,csi2rx.yaml and added ‘resets’
+>   properties.
+> - Added ‘cdns,csi2rx.yaml’ in ‘CADENCE MIPI-CSI2 BRIDGES’ entry.
+> - The following contents were modified in starfive,jh7110-camss.yaml:
+>   dropped quotes from ’id’ and ‘schema’; dropped ‘|’ for ‘description’;
+>   corrected the wrong or redundant words: ‘a ISP’, ‘PD ISP’;
+>   dropped ‘minItems’ for ‘reg’, ‘clocks’, ‘resets’ and ‘interrupts’;
+>   dropped the '_clk' and 'rst_' prefix about the 'clock-names' and
+>   'reset-names';
+>   changed ‘endpoint@1’ to ‘endpoint’; updated examples;
+> - Updated Subject for some patches.
+> - Merged patch 6, 7, 8, 9, 10, 11 into one patch.
+> 
+> Jack Zhu (8):
+>   media: dt-bindings: cadence-csi2rx: Convert to DT schema
+>   media: dt-bindings: cadence-csi2rx: Add resets property
+>   media: cadence: Add operation on reset
+>   media: cadence: Add support for external dphy
+>   media: cadence: Add support for JH7110 SoC
+>   media: dt-bindings: Add bindings for JH7110 Camera Subsystem
+>   media: admin-guide: Add starfive_camss.rst for Starfive Camera
+>     Subsystem
+>   media: starfive: Add Starfive Camera Subsystem driver
+> 
+>  .../admin-guide/media/starfive_camss.rst      |   57 +
+>  .../media/starfive_camss_graph.dot            |   16 +
+>  .../admin-guide/media/v4l-drivers.rst         |    1 +
+>  .../devicetree/bindings/media/cdns,csi2rx.txt |  100 --
+>  .../bindings/media/cdns,csi2rx.yaml           |  201 +++
+>  .../bindings/media/starfive,jh7110-camss.yaml |  164 +++
+>  MAINTAINERS                                   |   10 +
+>  drivers/media/platform/Kconfig                |    1 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/cadence/cdns-csi2rx.c  |  107 +-
+>  drivers/media/platform/starfive/Kconfig       |   18 +
+>  drivers/media/platform/starfive/Makefile      |   14 +
+>  drivers/media/platform/starfive/stf_camss.c   |  477 +++++++
+>  drivers/media/platform/starfive/stf_camss.h   |  150 +++
+>  drivers/media/platform/starfive/stf_common.h  |   18 +
+>  drivers/media/platform/starfive/stf_isp.c     |  737 +++++++++++
+>  drivers/media/platform/starfive/stf_isp.h     |  999 +++++++++++++++
+>  .../media/platform/starfive/stf_isp_hw_ops.c  |  715 +++++++++++
+>  drivers/media/platform/starfive/stf_video.c   |  989 ++++++++++++++
+>  drivers/media/platform/starfive/stf_video.h   |   89 ++
+>  drivers/media/platform/starfive/stf_vin.c     | 1138 +++++++++++++++++
+>  drivers/media/platform/starfive/stf_vin.h     |  174 +++
+>  .../media/platform/starfive/stf_vin_hw_ops.c  |  211 +++
+>  23 files changed, 6272 insertions(+), 115 deletions(-)
+>  create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+>  create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
+>  delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>  create mode 100644 drivers/media/platform/starfive/Kconfig
+>  create mode 100644 drivers/media/platform/starfive/Makefile
+>  create mode 100644 drivers/media/platform/starfive/stf_camss.c
+>  create mode 100644 drivers/media/platform/starfive/stf_camss.h
+>  create mode 100644 drivers/media/platform/starfive/stf_common.h
+>  create mode 100644 drivers/media/platform/starfive/stf_isp.c
+>  create mode 100644 drivers/media/platform/starfive/stf_isp.h
+>  create mode 100644 drivers/media/platform/starfive/stf_isp_hw_ops.c
+>  create mode 100644 drivers/media/platform/starfive/stf_video.c
+>  create mode 100644 drivers/media/platform/starfive/stf_video.h
+>  create mode 100644 drivers/media/platform/starfive/stf_vin.c
+>  create mode 100644 drivers/media/platform/starfive/stf_vin.h
+>  create mode 100644 drivers/media/platform/starfive/stf_vin_hw_ops.c
+> 
